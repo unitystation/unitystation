@@ -14,7 +14,7 @@ namespace Items.Weapons
 	{
 		[SerializeField]
 		[Tooltip("Explosion prefab")]
-		private ExplosionPrefab explosionPrefab = null;
+		private ExplosionComponent explosionPrefab = null;
 
 		[SerializeField]
 		[Tooltip("If the fuse is precise or has a degree of error equal to fuselength / 4")]

@@ -50,7 +50,7 @@ public class ObjectLayer : Layer
 		return resistance;
 	}
 
-	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
+	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
 									  CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null)
 	{
 		//Targeting windoors here
@@ -74,7 +74,7 @@ public class ObjectLayer : Layer
 		return true;
 	}
 
-	public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
+	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
 	{
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
@@ -95,7 +95,7 @@ public class ObjectLayer : Layer
 		return true;
 	}
 
-	public override bool IsSpaceAt(Vector3Int position, bool isServer)
+	public bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
 		return IsAtmosPassableAt(position, position, isServer);
 	}

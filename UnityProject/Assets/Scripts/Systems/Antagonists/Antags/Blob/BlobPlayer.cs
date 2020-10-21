@@ -8,6 +8,7 @@ using Light2D;
 using Mirror;
 using UnityEngine;
 using TMPro;
+using Random = UnityEngine.Random;
 
 namespace Blob
 {
@@ -48,7 +49,9 @@ namespace Blob
 		private TMP_Text resourceText;
 		private TMP_Text numOfBlobTilesText;
 
-		public int damage = 100;
+		public int playerDamage = 20;
+		public int objectDamage = 50;
+		public int layerDamage = 40;
 		public AttackType attackType = AttackType.Melee;
 		public DamageType damageType = DamageType.Brute;
 
@@ -80,6 +83,10 @@ namespace Blob
 		private int maxBiomass = 100;
 
 		[SerializeField]
+		[Tooltip("If true then there will be announcements when blob is close to destroying station, after the initial biohazard.")]
+		private bool isBlobGamemode = true;
+
+		[SerializeField]
 		private bool endRoundWhenKilled = false;
 
 		[SerializeField]
@@ -99,6 +106,9 @@ namespace Blob
 
 		[SerializeField]
 		private LightSprite overmindLight = null;
+
+		[SerializeField]
+		private GameObject overmindSprite = null;
 
 		public bool clickCoords = true;
 
@@ -124,7 +134,7 @@ namespace Blob
 		};
 
 		[SyncVar(hook = nameof(SyncResources))]
-		private int resources = 20;
+		private int resources = 0;
 
 		[SyncVar(hook = nameof(SyncHealth))]
 		private float health = 400;
@@ -135,6 +145,8 @@ namespace Blob
 		private int numOfBlobTiles = 1;
 
 		private int maxCount = 0;
+
+		private int maxNonSpaceCount = 0;
 
 		private Color color = Color.green;//new Color(154, 205, 50);
 
@@ -149,8 +161,21 @@ namespace Blob
 			registerPlayer = GetComponent<RegisterPlayer>();
 			playerScript = GetComponent<PlayerScript>();
 
+			if (playerScript == null && (!TryGetComponent(out playerScript) || playerScript == null))
+			{
+				Debug.LogError("Playerscript was null on blob and couldnt be found.");
+				return;
+			}
+
 			playerScript.mind.ghost = playerScript;
 			playerScript.mind.body = playerScript;
+
+			var name = $"Overmind {Random.Range(1, 1001)}";
+
+			playerScript.characterSettings.Name = name;
+			playerScript.playerName = name;
+
+			playerScript.IsBlob = true;
 
 			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform);
 
@@ -200,7 +225,6 @@ namespace Blob
 
 		private void OnDisable()
 		{
-			Death();
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
@@ -223,13 +247,19 @@ namespace Blob
 
 			//Count number of blob tiles
 			numOfNonSpaceBlobTiles = nonSpaceBlobTiles.Count;
+			numOfBlobTiles = blobTiles.Count;
 
-			if (numOfNonSpaceBlobTiles > maxCount)
+			if (numOfBlobTiles > maxCount)
 			{
-				maxCount = numOfNonSpaceBlobTiles;
+				maxCount = numOfBlobTiles;
 			}
 
-			if (!halfWay && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 2)
+			if (numOfNonSpaceBlobTiles > maxNonSpaceCount)
+			{
+				maxNonSpaceCount = numOfNonSpaceBlobTiles;
+			}
+
+			if (isBlobGamemode && !halfWay && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 2)
 			{
 				halfWay = true;
 
@@ -240,7 +270,7 @@ namespace Blob
 				SoundManager.PlayNetworked("Notice1");
 			}
 
-			if (!nearlyWon && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
+			if (isBlobGamemode && !nearlyWon && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
 			{
 				nearlyWon = true;
 
@@ -289,6 +319,14 @@ namespace Blob
 			overmindLightObject.SetActive(true);
 			overmindLight.Color = color;
 			overmindLight.Color.a = 0.2f;
+			overmindSprite.layer = 29;
+			playerScript.IsBlob = true;
+		}
+
+		[TargetRpc]
+		private void TargetRpcTurnOffBlob(NetworkConnection target)
+		{
+			playerScript.IsBlob = false;
 		}
 
 		#region teleport
@@ -516,7 +554,7 @@ namespace Blob
 			{
 				if(player.IsDead) continue;
 
-				player.ApplyDamage(gameObject, damage, attackType, damageType);
+				player.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
 				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb");
 
@@ -535,7 +573,7 @@ namespace Blob
 				{
 					if(npcComponent.IsDead) continue;
 
-					npcComponent.ApplyDamage(gameObject, damage, attackType, damageType);
+					npcComponent.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
 					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb");
 
@@ -549,7 +587,7 @@ namespace Blob
 
 				if (hit.TryGetComponent<Integrity>(out var component) && !component.Resistances.Indestructable)
 				{
-					component.ApplyDamage(damage, attackType, damageType);
+					component.ApplyDamage(objectDamage, attackType, damageType, true);
 
 					Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
 
@@ -572,7 +610,7 @@ namespace Blob
 			if (metaTileMap != null && !MatrixManager.IsPassableAt(pos, true))
 			{
 				//Cell pos is unused var
-				metaTileMap.ApplyDamage(Vector3Int.zero, damage,
+				metaTileMap.ApplyDamage(Vector3Int.zero, layerDamage,
 					pos, attackType);
 
 				PlayAttackEffect(pos);
@@ -954,6 +992,9 @@ namespace Blob
 					"The biohazard has been contained."),
 				MatrixManager.MainStationMatrix);
 
+			playerScript.IsBlob = false;
+			TargetRpcTurnOffBlob(connectionToClient);
+
 			//Make blob into ghost
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 
@@ -961,6 +1002,8 @@ namespace Blob
 			{
 				GameManager.Instance.EndRound();
 			}
+
+			Destroy(this);
 		}
 
 		#endregion
@@ -1000,6 +1043,9 @@ namespace Blob
 			yield return WaitFor.Seconds(180f);
 
 			Chat.AddGameWideSystemMsgToChat("The blob has consumed the station, we are all but goo now.");
+
+			Chat.AddGameWideSystemMsgToChat($"At its biggest the blob had {maxCount} tiles controlled" +
+			                                $" but only had {maxNonSpaceCount} non-space tiles which counted to victory.");
 
 			GameManager.Instance.EndRound();
 		}
@@ -1132,6 +1178,16 @@ namespace Blob
 				if (factoryBlob.Key == null) continue;
 
 				factoryBlob.Value.Remove(null);
+
+				var spores = factoryBlob.Value;
+
+				foreach (var spore in spores)
+				{
+					if (spore.GetComponent<LivingHealthBehaviour>().IsDead)
+					{
+						factoryBlob.Value.Remove(spore);
+					}
+				}
 
 				//Create max of three spore
 				if (factoryBlob.Value.Count >= 3) continue;

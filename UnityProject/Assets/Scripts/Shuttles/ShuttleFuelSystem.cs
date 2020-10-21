@@ -35,6 +35,11 @@ namespace Systems.Shuttles
 
 		public override void UpdateMe()
 		{
+			if (Connector == null)
+			{
+				Logger.LogError($"{nameof(Connector)} was null on {this}!");
+				return;
+			}
 
 			if (Connector.canister != null)
 			{

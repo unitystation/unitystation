@@ -2,6 +2,19 @@
 ---
 
 
+* 2020/10/20: Refactored hostile environment to allow for multiple problems by [ThatDan123](https://github.com/ThatDan123) in PR #[5362](https://github.com/unitystation/unitystation/pull/5362)
+* 2020/10/20: Blobs now do more damage to objects and walls by [ThatDan123](https://github.com/ThatDan123) in PR #[5362](https://github.com/unitystation/unitystation/pull/5362)
+* 2020/10/19: Fixed blob chat on client by [ThatDan123](https://github.com/ThatDan123) in PR #[5349](https://github.com/unitystation/unitystation/pull/5349)
+* 2020/10/19: Fixed blob tile count by [ThatDan123](https://github.com/ThatDan123) in PR #[5349](https://github.com/unitystation/unitystation/pull/5349)
+* 2020/10/19: Blobs now ignore damage deflection by [ThatDan123](https://github.com/ThatDan123) in PR #[5349](https://github.com/unitystation/unitystation/pull/5349)
+* 2020/10/19: removes unneeded tile map Collider from outpost by [Bod9001](https://github.com/Bod9001) in PR #[5344](https://github.com/unitystation/unitystation/pull/5344)
+* 2020/10/19: you can walk across multiple tables now by [Bod9001](https://github.com/Bod9001) in PR #[5344](https://github.com/unitystation/unitystation/pull/5344)
+* 2020/10/19: Adds the wizard's fireball spell. ONI'SOMA! by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5341](https://github.com/unitystation/unitystation/pull/5341)
+* 2020/10/19: Blobs now have names by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
+* 2020/10/19: Rebalanced blob damage by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
+* 2020/10/19: Blob can no longer see ghosts by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
+* 2020/10/19: Stops blob hearing all chat, speaking in ghost chat by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
+* 2020/10/19: Made it possible to properly place chairs that you picked up back down. by [PetMudstone](https://github.com/PetMudstone) in PR #[5340](https://github.com/unitystation/unitystation/pull/5340)
 * 2020/10/19: Properly made the Suffering Bastard drink makeable. by [PetMudstone](https://github.com/PetMudstone) in PR #[5339](https://github.com/unitystation/unitystation/pull/5339)
 * 2020/10/19: misc fallstation fixes (sec timers, door switches, wiring) by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5338](https://github.com/unitystation/unitystation/pull/5338)
 * 2020/10/18: Added overlays to blob core and node by [ThatDan123](https://github.com/ThatDan123) in PR #[5333](https://github.com/unitystation/unitystation/pull/5333)

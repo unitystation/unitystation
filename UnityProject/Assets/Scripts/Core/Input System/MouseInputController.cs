@@ -98,6 +98,7 @@ public class MouseInputController : MonoBehaviour
 	void LateUpdate()
 	{
 		CheckMouseInput();
+		CheckCursorTexture();
 	}
 
 	public virtual void CheckMouseInput()
@@ -326,6 +327,12 @@ public class MouseInputController : MonoBehaviour
 		bool ctrlClick = KeyboardInputManager.IsControlPressed();
 		if (!ctrlClick)
 		{
+			if (UIActionManager.Instance.IsAiming)
+			{
+				UIActionManager.Instance.AimClicked(MouseWorldPosition);
+				return true;
+			}
+
 			var handApplyTargets =
 				MouseUtils.GetOrderedObjectsUnderMouse();
 
@@ -587,4 +594,76 @@ public class MouseInputController : MonoBehaviour
 			playerDirectional.FaceDirection(Orientation.From(dir));
 		}
 	}
+
+	#region Cursor Textures
+
+	[Header("Examine Cursor Settings")]
+	[SerializeField]
+	private Texture2D examineCursor = default;
+	[SerializeField]
+	private Vector2 cursorOffset = Vector2.zero;
+
+	private bool isShowingExamineCursor = false;
+	private static Texture2D currentCursorTexture = null;
+	private static Vector2 currentCursorOffset = Vector2.zero;
+
+	/// <summary>
+	/// Sets the cursor's texture to the given texture.
+	/// </summary>
+	/// <param name="texture">The texture to use.</param>
+	/// <param name="offset">The offset the texture should have. Used for aligning the texture to the click point.
+	/// Relative to the texture size so 512x512 would mean a supplied vector of 128x128
+	/// results in the texture's top left quadrant being the hotspot.</param>
+	public static void SetCursorTexture(Texture2D texture, Vector2 offset)
+	{
+		if (currentCursorTexture == texture) return;
+
+		Cursor.SetCursor(texture, offset, CursorMode.Auto);
+		currentCursorTexture = texture;
+		currentCursorOffset = offset;
+	}
+
+	/// <summary>
+	/// Sets the cursor's texture to the given texture.
+	/// </summary>
+	/// <param name="texture">The texture to use.</param>
+	/// <param name="centerTexture">If true, centers the texture relative to the click point. Else, top left is the click point.</param>
+	public static void SetCursorTexture(Texture2D texture, bool centerTexture = true)
+	{
+		var hotspot = Vector2.zero;
+		if (centerTexture)
+		{
+			hotspot = new Vector2(texture.height / 2, texture.width / 2);
+		}
+
+		SetCursorTexture(texture, hotspot);
+	}
+
+	/// <summary>
+	/// Sets the cursor back to the system default.
+	/// </summary>
+	public static void ResetCursorTexture()
+	{
+		if (currentCursorTexture == null) return;
+
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+		currentCursorTexture = null;
+		currentCursorOffset = Vector2.zero;
+	}
+
+	private void CheckCursorTexture()
+	{
+		if (isShowingExamineCursor == false && KeyboardInputManager.IsShiftPressed())
+		{
+			Cursor.SetCursor(examineCursor, cursorOffset, CursorMode.Auto);
+			isShowingExamineCursor = true;
+		}
+		else if (isShowingExamineCursor && KeyboardInputManager.IsShiftPressed() == false)
+		{
+			Cursor.SetCursor(currentCursorTexture, currentCursorOffset, CursorMode.Auto);
+			isShowingExamineCursor = false;
+		}
+	}
+
+	#endregion Cursor Textures
 }

@@ -225,13 +225,7 @@ namespace Systems.MobAIs
 
 		private void ServerDoLerpAnimation(Vector2 dir)
 		{
-			var angleOfDir = Vector3.Angle(dir, transform.up);
-			if (dir.x < 0f)
-			{
-				angleOfDir = -angleOfDir;
-			}
-
-			directional.FaceDirection(new Orientation((int)angleOfDir));
+			directional.FaceDirection(Orientation.From(dir));
 
 			Pause = true;
 			isAttacking = true;

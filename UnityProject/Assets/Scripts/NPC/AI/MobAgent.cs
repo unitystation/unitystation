@@ -257,15 +257,9 @@ namespace Systems.MobAIs
 					OnPushSolid(dest);
 				}
 
-				var angleOfDir = Vector2.Angle(dirToMove, transform.up);
-				if (dirToMove.x < 0f)
-				{
-					angleOfDir = -angleOfDir;
-				}
-
 				if (directional != null)
 				{
-					directional.FaceDirection(new Orientation((int)angleOfDir));
+					directional.FaceDirection(Orientation.From(dirToMove));
 				}
 			}
 		}

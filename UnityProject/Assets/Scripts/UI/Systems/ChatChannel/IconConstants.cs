@@ -19,6 +19,7 @@
 				{ChatChannel.Service, ""}, //fa-bitcoin HODL
 				{ChatChannel.Syndicate, ""}, //fa-bomb
 				{ChatChannel.Security, ""}, //fa-crosshairs
-				{ChatChannel.Ghost, ""} //fa-snapchat-ghost
+				{ChatChannel.Ghost, ""}, //fa-snapchat-ghost
+				{ChatChannel.Blob, ""} //fa-snapchat-ghost
 			};
 	}
