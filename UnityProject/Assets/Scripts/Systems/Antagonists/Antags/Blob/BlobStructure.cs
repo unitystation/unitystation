@@ -42,5 +42,10 @@ namespace Blob
 		{
 			integrity = GetComponent<Integrity>();
 		}
+
+		private void OnDisable()
+		{
+			integrity.OnWillDestroyServer.RemoveAllListeners();
+		}
 	}
 }
