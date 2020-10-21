@@ -35,10 +35,12 @@ namespace Systems.Electricity.NodeModules
 		public bool isOnForInterface = false;
 
 		public ResistanceSourceModule ResistanceSourceModule { get; private set; }
+		public TransformerModule TTransformerModule { get; private set; }
 
 		private void Awake()
 		{
 			ResistanceSourceModule = GetComponent<ResistanceSourceModule>();
+			TTransformerModule = GetComponent<TransformerModule>();
 		}
 
 		public override void BroadcastSetUpMessage(ElectricalNodeControl Node)

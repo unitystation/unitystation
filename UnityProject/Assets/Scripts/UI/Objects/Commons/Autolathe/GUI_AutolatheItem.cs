@@ -37,7 +37,10 @@ namespace UI.Objects
 
 			foreach (var element in Elements)
 			{
-				((NetUIElement<string>)element).SetValueServer(GetName(element));
+				if (element as NetUIElement<string> != null)
+				{
+					(element as NetUIElement<string>).SetValueServer(GetName(element));
+				}
 			}
 		}
 

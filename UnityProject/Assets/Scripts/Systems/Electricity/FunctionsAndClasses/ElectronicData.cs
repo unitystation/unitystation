@@ -10,8 +10,8 @@ public class ElectronicData  { //to Store data about the electrical device
 	/// Stores for each supply how is the supply connected to that Device.
 	/// Supply > Resistance > connections
 	/// </summary>
-	public Dictionary<ElectricalOIinheritance,Dictionary<Resistance, HashSet<IntrinsicElectronicData>>>
-	ResistanceToConnectedDevices = new Dictionary<ElectricalOIinheritance, Dictionary<Resistance, HashSet<IntrinsicElectronicData>>>();
+	public Dictionary<SupplyBool,Dictionary<Resistance, HashSet<IntrinsicElectronicData>>>
+	ResistanceToConnectedDevices = new Dictionary<SupplyBool, Dictionary<Resistance, HashSet<IntrinsicElectronicData>>>();
 
 	public Dictionary<ElectricalOIinheritance, ElectronicSupplyData> SupplyDependent = new Dictionary<ElectricalOIinheritance, ElectronicSupplyData>();
 	/// <summary>
@@ -28,4 +28,24 @@ public class ElectronicData  { //to Store data about the electrical device
 	public bool ChangeToOff;
 
 	public float CurrentStoreValue; //I'm lazy and it's cheaper than making a key value And putting it into a hash set
+}
+
+
+public class SupplyBool : IEquatable<ElectricalOIinheritance>
+{
+	public bool RequiresUpdate = false;
+	public ElectricalOIinheritance Data;
+
+	public bool Equals(ElectricalOIinheritance other)
+	{
+		return Data == other;
+	}
+
+	public void Pool()
+	{
+		RequiresUpdate = false;
+		Data = null;
+		ElectricalPool.PooledSupplyBool.Add(this);
+	}
+
 }

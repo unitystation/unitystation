@@ -117,11 +117,11 @@ namespace Objects.Engineering
 				connectedDepartmentBatteries.Clear();
 				foreach (var device in electricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices)
 				{
-					if (device.Key.InData.Categorytype != PowerTypeCategory.DepartmentBattery) continue;
+					if (device.Key.Data.InData.Categorytype != PowerTypeCategory.DepartmentBattery) continue;
 
-					if (!connectedDepartmentBatteries.Contains(device.Key.GetComponent<DepartmentBattery>()))
+					if (!connectedDepartmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()))
 					{
-						connectedDepartmentBatteries.Add(device.Key.GetComponent<DepartmentBattery>());
+						connectedDepartmentBatteries.Add(device.Key.Data.GetComponent<DepartmentBattery>());
 					}
 				}
 			}

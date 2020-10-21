@@ -1097,6 +1097,7 @@ namespace TileManagement
 			if (direction.x == 0 && direction.y == 0)
 			{
 				direction = (To.Value - origin).normalized;
+				distance = (To.Value - origin).magnitude;
 			}
 
 			// var Beginning = (new Vector3((float) origin.x, (float) origin.y, 0).ToWorld(PresentMatrix));
@@ -1177,8 +1178,10 @@ namespace TileManagement
 
 			bool LeftFaceHit = true;
 
-			while (Math.Abs(RelativeX) < Mathf.Abs(Relativetarget.x) ||
-			       Math.Abs(RelativeY) < Mathf.Abs(Relativetarget.y))
+
+
+			while (Math.Abs((xSteps + gridOffsetx + stepX) * vexinvX) < distance ||
+			       Math.Abs((ySteps + gridOffsety + stepY) * vexinvY) < distance)
 				//for (int Ai = 0; Ai < 6; Ai++)
 			{
 				//if (xBuildUp > yBuildUp)

@@ -504,7 +504,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				continue;
 			}
-			AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag);
+			StartCoroutine(AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag));
 			break;
 		}
 	}
