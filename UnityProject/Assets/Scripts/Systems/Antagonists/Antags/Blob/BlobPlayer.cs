@@ -770,7 +770,7 @@ namespace Blob
 
 		private void PlayAttackEffect(Vector3 worldPos)
 		{
-			var result = Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform.parent);
+			var result = Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform);
 
 			if (!result.Successful) return;
 
