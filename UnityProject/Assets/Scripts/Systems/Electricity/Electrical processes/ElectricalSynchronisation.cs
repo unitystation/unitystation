@@ -564,7 +564,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		foreach (var Device in Devices.Data
 			.ResistanceToConnectedDevices)
 		{
-			if (ReactiveSuppliesSet.Contains(Device.Key.InData.Categorytype))
+			if (ReactiveSuppliesSet.Contains(Device.Key.Data.InData.Categorytype))
 			{
 				Counting++;
 			}

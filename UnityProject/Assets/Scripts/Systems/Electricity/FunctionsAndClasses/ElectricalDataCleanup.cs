@@ -8,7 +8,8 @@ public static class ElectricalDataCleanup
 		//Logger.Log ("CleanConnectedDevices" + Thiswire, Category.Electrical);
 		foreach (var IsConnectedTo in Thiswire.InData.Data.ResistanceToConnectedDevices)
 		{
-			IsConnectedTo.Key.connectedDevices.Remove(Thiswire.InData);
+			IsConnectedTo.Key.Data.connectedDevices.Remove(Thiswire.InData);
+			IsConnectedTo.Key.Pool();
 		}
 		Thiswire.InData.Data.ResistanceToConnectedDevices.Clear();
 	}
@@ -18,7 +19,21 @@ public static class ElectricalDataCleanup
 		//Logger.Log ("CleanConnectedDevicesFromPower" + Thiswire, Category.Electrical);
 		foreach (var IsConnectedTo in Thiswire.connectedDevices)
 		{
-			IsConnectedTo.Data.ResistanceToConnectedDevices.Remove(Thiswire);
+			SupplyBool supplyBool = null;
+			foreach (var KeysValleys in IsConnectedTo.Data.ResistanceToConnectedDevices)
+			{
+				if (KeysValleys.Key.Data == Thiswire)
+				{
+					supplyBool = KeysValleys.Key;
+					break;
+				}
+			}
+			if (supplyBool != null)
+			{
+				IsConnectedTo.Data.ResistanceToConnectedDevices.Remove(supplyBool);
+				supplyBool.Pool();
+			}
+
 		}
 		Thiswire.connectedDevices.Clear();
 	}
@@ -29,6 +44,10 @@ public static class ElectricalDataCleanup
 		{
 			Object.Data.CurrentInWire = 0;
 			Object.Data.ActualVoltage = 0;
+			foreach (var IsConnectedTo in Object.Data.ResistanceToConnectedDevices)
+			{
+				IsConnectedTo.Key.Pool();
+			}
 			Object.Data.ResistanceToConnectedDevices.Clear();
 			//Object.connectedDevices.Clear();//#
 			if (Object.Data.connections.Count > 0)
@@ -174,6 +193,10 @@ public static class ElectricalDataCleanup
 					Object.Data.CurrentInWire = 0;
 					Object.Data.ActualVoltage = 0;
 					Object.Data.EstimatedResistance = 0;
+					foreach (var IsConnectedTo in Object.Data.ResistanceToConnectedDevices)
+					{
+						IsConnectedTo.Key.Pool();
+					}
 					Object.Data.ResistanceToConnectedDevices.Clear();
 					//Object.connectedDevices.Clear();#
 				}
@@ -194,6 +217,10 @@ public static class ElectricalDataCleanup
 				if (SourceInstance == Object.Present)
 				{
 					CleanConnectedDevicesFromPower(Object.Present);
+					foreach (var IsConnectedTo in Object.Data.ResistanceToConnectedDevices)
+					{
+						IsConnectedTo.Key.Pool();
+					}
 					Object.Data.ResistanceToConnectedDevices.Clear();
 				}
 

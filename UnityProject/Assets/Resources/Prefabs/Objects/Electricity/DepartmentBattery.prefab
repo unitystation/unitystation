@@ -287,11 +287,11 @@ MonoBehaviour:
   InternalResistance: 0
   PreviousProducingWatts: 0
   ProducingWatts: 0
-  MaximumCurrentSupport: 8
+  MaximumCurrentSupport: 20
   MinimumSupportVoltage: 216
   StandardSupplyingVoltage: 240
-  CapacityMax: 432000
-  CurrentCapacity: 432000
+  CapacityMax: 3456000
+  CurrentCapacity: 3456000
   ExtraChargeCutOff: 240
   IncreasedChargeVoltage: 241
   StandardChargeNumber: 6
@@ -311,7 +311,6 @@ MonoBehaviour:
   VoltageAtChargePort: 0
   VoltageAtSupplyPort: 0
   isOnForInterface: 0
-  ResistanceSourceModule: {fileID: 1899468008703458127}
 --- !u!114 &8556410435183048791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +376,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -398,7 +399,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &-6614577757191591987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,6 +476,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -557,6 +558,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -638,6 +640,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -719,6 +722,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
