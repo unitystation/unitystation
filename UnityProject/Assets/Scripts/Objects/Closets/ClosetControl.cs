@@ -484,14 +484,15 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	{
 		// Is the player trying to put something in the closet?
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) 
-			&& interaction.HandObject.GetComponent<Emag>().EmagHasCharges())
+			&& interaction.HandObject.TryGetComponent<Emag>(out var emag) 
+			&& emag.EmagHasCharges())
 		{
 			if (IsClosed && !isEmagged)
 			{
 				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, gameObject);
 				//ServerHandleContentsOnStatusChange(false);
 				isEmagged = true;
-				interaction.HandObject.GetComponent<Emag>().UseCharge(interaction);
+				emag.UseCharge(interaction);
 				
 				//SyncStatus(statusSync, ClosetStatus.Open);
 				BreakLock();

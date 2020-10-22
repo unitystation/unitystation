@@ -93,10 +93,11 @@ namespace Objects
 				Chat.AddActionMsgToChat(interaction.Performer, restockMessage, restockMessage);
 			}
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)  
-			&& interaction.HandObject.GetComponent<Emag>().EmagHasCharges())
+				&& interaction.HandObject.TryGetComponent<Emag>(out var emag) 
+				&& emag.EmagHasCharges())
 			{
 				isEmagged = true;
-				interaction.HandObject.GetComponent<Emag>().UseCharge(interaction);
+				emag.UseCharge(interaction);
 			}
 		}
 
