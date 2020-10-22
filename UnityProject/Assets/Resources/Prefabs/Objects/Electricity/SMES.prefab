@@ -363,13 +363,13 @@ MonoBehaviour:
   MaximumCurrentSupport: 8
   MinimumSupportVoltage: 2700
   StandardSupplyingVoltage: 3000
-  CapacityMax: 1800000
-  CurrentCapacity: 1800000
+  CapacityMax: 18000000
+  CurrentCapacity: 18000000
   ExtraChargeCutOff: 3000
   IncreasedChargeVoltage: 3010
   StandardChargeNumber: 1
   ChargeSteps: 0.1
-  MaxChargingMultiplier: 1.5
+  MaxChargingMultiplier: 7.5
   ChargingMultiplier: 0.1
   CanCharge: 1
   Cansupport: 1
@@ -384,7 +384,6 @@ MonoBehaviour:
   VoltageAtChargePort: 0
   VoltageAtSupplyPort: 0
   isOnForInterface: 0
-  ResistanceSourceModule: {fileID: 1502216706390324168}
 --- !u!114 &114705152130084640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,8 +399,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   indicatorUpdatePeriod: 5
-  ElectricalNodeControl: {fileID: 2683382063024116834}
-  BatterySupplyingModule: {fileID: 2504760058904090374}
 --- !u!1 &1610444276709522
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +446,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -555,6 +553,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -658,6 +657,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -761,6 +761,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

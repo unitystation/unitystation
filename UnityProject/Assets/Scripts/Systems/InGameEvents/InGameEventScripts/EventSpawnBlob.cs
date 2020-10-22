@@ -21,7 +21,7 @@ public class EventSpawnBlob : EventScriptBase
 
 	private void InfectRandomPerson()
 	{
-		var player = PlayerList.Instance.InGamePlayers.Where(p => !p.Script.IsDeadOrGhost).PickRandom();
+		var player = PlayerList.Instance.InGamePlayers.Where(p => !p.Script.IsDeadOrGhost && p.GameObject.GetComponent<BlobStarter>() == null && p.GameObject.GetComponent<BlobPlayer>() == null).PickRandom();
 
 		player.GameObject.AddComponent<BlobStarter>();
 

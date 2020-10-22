@@ -146,4 +146,21 @@ public class ElectricalPool
 			return (new ElectricalSynchronisation.QEntry());
 		}
 	}
+
+	public static List<SupplyBool> PooledSupplyBool
+		= new List<SupplyBool>();
+
+	public static SupplyBool GetSupplyBool()
+	{
+		if (PooledSupplyBool.Count > 0)
+		{
+			var QEntry = PooledSupplyBool[0];
+			PooledSupplyBool.RemoveAt(0);
+			return (QEntry);
+		}
+		else
+		{
+			return (new SupplyBool());
+		}
+	}
 }

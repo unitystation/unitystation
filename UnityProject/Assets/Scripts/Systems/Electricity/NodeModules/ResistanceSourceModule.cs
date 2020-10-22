@@ -84,18 +84,21 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 	{
 		foreach (var Supplie in ControllingNode.Node.InData.Data.ResistanceToConnectedDevices)
 		{
-			foreach (var _Resistance in Supplie.Value)
+			if (Supplie.Key.RequiresUpdate)
 			{
+				foreach (var _Resistance in Supplie.Value)
+				{
+					//TODO THIS was requested by source
+					var Wrap = ElectricalPool.GetResistanceWrap();
+					Wrap.Strength = 1;
+					//RR.Ohms = 240;*/
+					Wrap.resistance = _Resistance.Key;
+					ControllingNode.Node.InData.ResistanceInput(Wrap, Supplie.Key.Data, ComingFromDevice);
+				}
 
-				var Wrap = ElectricalPool.GetResistanceWrap();
-				Wrap.Strength = 1;
-				//RR.Ohms = 240;*/
-				Wrap.resistance = _Resistance.Key;
-
-				ControllingNode.Node.InData.ResistanceInput(Wrap, Supplie.Key, ComingFromDevice);
+				ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supplie.Key.Data.InData.ControllingDevice);
+				Supplie.Key.RequiresUpdate = false;
 			}
-
-			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
 		}
 	}
 
@@ -116,7 +119,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 			//		Connections.Value
 			//);
 			//}
-			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
+			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supplie.Key.Data.InData.ControllingDevice);
 		}
 	}
 

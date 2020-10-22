@@ -46,6 +46,7 @@ public class SpriteHandler : MonoBehaviour
 	private Color? setColour = null;
 
 	[SerializeField] private List<Color> palette = new List<Color>();
+	public List<Color> Palette => palette;
 
 	private bool Initialised;
 
@@ -567,6 +568,13 @@ public class SpriteHandler : MonoBehaviour
 		else if (image != null)
 		{
 			image.sprite = value;
+
+			if (palette != null && palette.Count == 8)
+			{
+				List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+				image.material.SetVectorArray("_ColorPalette", pal);
+				image.material.SetInt("_IsPaletted", 1);
+			}
 			if (value == null)
 			{
 				image.enabled = false;
@@ -613,6 +621,11 @@ public class SpriteHandler : MonoBehaviour
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		image = GetComponent<Image>();
+		if (image != null)
+		{
+			// unity doesn't support property blocks on ui renderers, so this is a workaround
+			image.material = Instantiate(image.material);
+		}
 	}
 
 	private void TryInit()

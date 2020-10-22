@@ -19,11 +19,56 @@ namespace Systems.Electricity.FunctionsAndClasses
 			Battery.PullLastDeductedTime = 0;
 		}
 
+		public static bool IsAtVoltageThreshold(BatterySupplyingModule Battery)
+		{
+			if (Battery.TTransformerModule != null)
+			{
+				bool highSide = false;
+				bool lowSide = false;
+				foreach (var CanConnectTo in Battery.ControllingNode.Node.InData.CanConnectTo)
+				{
+					if (Battery.TTransformerModule.HighsideConnections.Contains(CanConnectTo))
+					{
+						highSide = true;
+					}
+
+					if (Battery.TTransformerModule.LowsideConnections.Contains(CanConnectTo))
+					{
+						lowSide = true;
+					}
+				}
+
+				if (highSide && lowSide)
+				{
+					Logger.LogError("You have a connection from a battery Transformer combo that is the high side of the transformer and the low side of the transformer, " +
+					                 "It's presumed that the charging port would be on the opposite side of the Transformer" +
+					                "I could fix this but currently it's not used anywhere so just telling you it won't work properly");
+				}
+
+				if (highSide) //Outputs to highside
+				{
+					return Battery.VoltageAtSupplyPort < Battery.MinimumSupportVoltage &&  Battery.VoltageAtChargePort*Battery.TTransformerModule.TurnRatio < Battery.MinimumSupportVoltage;
+				}
+
+				if (lowSide) //Outputs to lowSide
+				{
+					return Battery.VoltageAtSupplyPort < Battery.MinimumSupportVoltage &&  (Battery.VoltageAtChargePort*(1/Battery.TTransformerModule.TurnRatio))
+						< Battery.MinimumSupportVoltage;
+				}
+
+				Logger.LogError("No side was found for Transformer battery combo falling back to default Calculation");
+			}
+
+			return Battery.VoltageAtSupplyPort < Battery.MinimumSupportVoltage &&  Battery.VoltageAtChargePort < Battery.MinimumSupportVoltage;
+
+		}
+
 		public static void PowerUpdateCurrentChange(BatterySupplyingModule Battery)
 		{
 			if (Battery.Cansupport) //Denotes capacity to Provide current
 			{
-				if (Battery.ToggleCansupport && Battery.VoltageAtSupplyPort < Battery.MinimumSupportVoltage) // Battery.ToggleCansupport denotes Whether at the current time it is allowed to provide current
+				//NOTE This assumes that the voltage will be same on either side
+				if (Battery.ToggleCansupport && (IsAtVoltageThreshold(Battery))) // Battery.ToggleCansupport denotes Whether at the current time it is allowed to provide current
 				{
 					if (Battery.CurrentCapacity > 0)
 					{
