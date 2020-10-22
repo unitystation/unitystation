@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Atmospheric Technician
   m_EditorClassIdentifier: 
   jobType: 3
+  isCrewmember: 1
+  lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 47bc21f43740b4d9e87e1c41cf07a658, type: 2}
   limit: 3
   priority: 99
   allowedAccess: 04000000220000001a0000003100000020000000
+  spells: []
   progress: 12
   choiceColor: {r: 1, g: 0.9607843, b: 0.8, a: 1}
   previewSprite: {fileID: 21300000, guid: 648e2cfb29ab83b4eaad1ec72201b96d, type: 3}
@@ -34,3 +37,7 @@ MonoBehaviour:
     you have a big responsibility. \r\n\r\nNot sure what to do? Try to make atmos
     an impenetrable fort. Breathe to make sure the air isn\u2019t toxic. Do not leak
     plasma into the station. Make a disposals pipe ride.\r"
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 1

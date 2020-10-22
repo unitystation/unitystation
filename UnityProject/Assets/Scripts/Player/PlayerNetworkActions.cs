@@ -449,6 +449,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRespawnPlayer()
 	{
+		// Don't allow spectators to spawn themselves as a mob, to help prevent metagaming.
+		// Only allow admins to spawn spectators.
+		if (playerScript.mind.IsSpectator) return;
+
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
 			ServerRespawnPlayer();

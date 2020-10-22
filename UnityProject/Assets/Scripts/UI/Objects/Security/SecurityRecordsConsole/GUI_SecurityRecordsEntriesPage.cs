@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
+using Systems;
 using Objects.Security;
 
 namespace UI.Objects.Security
@@ -27,7 +28,7 @@ namespace UI.Objects.Security
 		/// </summary>
 		private void ResetList()
 		{
-			List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
+			List<SecurityRecord> records = CrewManifestManager.Instance.SecurityRecords;
 
 			currentRecords.Clear();
 			for (int i = 0; i < records.Count; i++)
@@ -91,7 +92,7 @@ namespace UI.Objects.Security
 
 		public void NewRecord()
 		{
-			List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
+			List<SecurityRecord> records = CrewManifestManager.Instance.SecurityRecords;
 			SecurityRecord record = new SecurityRecord();
 			records.Add(record);
 			ResetList();
