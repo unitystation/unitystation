@@ -20,7 +20,7 @@ public class ChatInputContext : IChatInputContext
 			}
 
 			// Player is blob?
-			if (PlayerManager.LocalPlayerScript.IsBlob)
+			if (PlayerManager.LocalPlayerScript.IsPlayerSemiGhost)
 			{
 				return ChatChannel.Blob;
 			}

@@ -207,7 +207,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 		if (GetComponent<BlobPlayer>() != null)
 		{
-			IsBlob = true;
+			IsPlayerSemiGhost = true;
 		}
 	}
 
@@ -226,7 +226,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
 
-			if (IsGhost && !IsBlob)
+			if (IsGhost && !IsPlayerSemiGhost)
 			{
 				//stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
@@ -237,7 +237,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 
 			}
-			else if(!IsBlob)
+			else if(!IsPlayerSemiGhost)
 			{
 				UIManager.LinkUISlots();
 				//play the spawn sound
@@ -292,7 +292,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	}
 
 	[HideInInspector]
-	public bool IsBlob;
+	//If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
+	public bool IsPlayerSemiGhost;
 
 	public object Chat { get; internal set; }
 
@@ -325,7 +326,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (IsDeadOrGhost && !IsBlob)
+		if (IsDeadOrGhost && !IsPlayerSemiGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
@@ -339,7 +340,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			return ghostTransmitChannels | ghostReceiveChannels;
 		}
 
-		if (IsBlob)
+		if (IsPlayerSemiGhost)
 		{
 			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
 			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;

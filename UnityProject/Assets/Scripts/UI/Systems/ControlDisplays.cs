@@ -68,7 +68,8 @@ public class ControlDisplays : MonoBehaviour
 			yield return WaitFor.EndOfFrame;
 		}
 
-		if (PlayerManager.LocalPlayerScript.IsBlob)
+		//TODO: make better system for handling lots of different UIs
+		if (PlayerManager.LocalPlayerScript.IsPlayerSemiGhost)
 		{
 			BlobUI();
 			PlayerManager.LocalPlayerScript.GetComponent<BlobPlayer>()?.TurnOnClientLight();

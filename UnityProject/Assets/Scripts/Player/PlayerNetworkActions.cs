@@ -723,7 +723,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		if (!playerScript.IsGhost || playerScript.IsBlob)//admin turns into ghost
+		if (!playerScript.IsGhost || playerScript.IsPlayerSemiGhost)//admin turns into ghost
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
