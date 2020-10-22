@@ -509,17 +509,18 @@ public partial class Chat : MonoBehaviour
 	/// <param name="side">side this is being called from</param>
 	public static void AddExamineMsg(GameObject recipient, string message, NetworkSide side)
 	{
-		if (side == NetworkSide.Client)
+		switch(side)
 		{
-			AddExamineMsgToClient(message);
-		}
-		else if (side == NetworkSide.Server)
-		{
-			AddExamineMsgFromServer(recipient, message);
-		}
-		else
-		{
-			Debug.Assert(false, "Unknown Network Side");
+			case NetworkSide.Client:
+				AddExamineMsgToClient(message);
+				break;
+
+			case NetworkSide.Server:
+				AddExamineMsgFromServer(recipient, message);
+				break;
+			default:
+				Debug.Assert(false, "Unknown Network Side");
+				break;
 		}
 	}
 
