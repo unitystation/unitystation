@@ -571,14 +571,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		//body might be in a container, reentering should still be allowed in that case
-		if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
+		if (body.pushPull != null && body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
 		{
 			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Health, body);
 			return;
 		}
+
 		playerScript.mind.StopGhosting();
 		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
-		return;
 	}
 
 	/// <summary>
@@ -723,7 +723,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		if (!playerScript.IsGhost)//admin turns into ghost
+		if (!playerScript.IsGhost || playerScript.IsPlayerSemiGhost)//admin turns into ghost
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
