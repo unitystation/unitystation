@@ -605,7 +605,7 @@ namespace Blob
 
 				player.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
-				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb", posOveride: worldPos);
+				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
 
 				PlayAttackEffect(pos);
 
@@ -624,7 +624,7 @@ namespace Blob
 
 					npcComponent.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
-					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb", posOveride: worldPos);
+					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
 
 					PlayAttackEffect(pos);
 
