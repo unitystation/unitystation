@@ -62,7 +62,7 @@ public class GUI_DevCloner : MonoBehaviour
 				Debug.Assert(palette != null, "Palette must not be null on paletteable objects.");
 				MaterialPropertyBlock block = new MaterialPropertyBlock();
 				renderer.GetPropertyBlock(block);
-				List<Vector4> pal = palette.ConvertAll((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+				List<Vector4> pal = palette.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
 				block.SetVectorArray("_ColorPalette", pal);
 				block.SetInt("_IsPaletted", 1);
 				renderer.SetPropertyBlock(block);

@@ -563,7 +563,7 @@ public class SpriteHandler : MonoBehaviour
 			var palette = getPaletteOrNull();
 			if (palette != null && palette.Count == 8)
 			{
-				List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+				List<Vector4> pal = palette.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
 				block.SetVectorArray("_ColorPalette", pal);
 				block.SetInt("_IsPaletted", 1);
 			}
@@ -580,7 +580,7 @@ public class SpriteHandler : MonoBehaviour
 
 			if (palette != null && palette.Count == 8)
 			{
-				List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+				List<Vector4> pal = palette.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
 				image.material.SetVectorArray("_ColorPalette", pal);
 				image.material.SetInt("_IsPaletted", 1);
 			}
