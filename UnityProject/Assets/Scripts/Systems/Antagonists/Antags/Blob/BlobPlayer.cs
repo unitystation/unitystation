@@ -212,7 +212,7 @@ namespace Blob
 				Debug.LogError("Failed to spawn blob core for player!");
 				return;
 			}
-			
+
 			TargetRpcTurnOnClientLight(connectionToClient);
 
 			blobCore = result.GameObject;
@@ -423,18 +423,12 @@ namespace Blob
 		{
 			TurnOnClientLight();
 			playerScript.IsPlayerSemiGhost = true;
-<<<<<<< Updated upstream
-			PlayerManager.LocalPlayerScript.IsPlayerSemiGhost = true;
-=======
-			playerScript.IsBlob = true;
-
 			var uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
 			uiBlob.blobPlayer = this;
 			uiBlob.controller = GetComponent<BlobMouseInputController>();
 			healthText = uiBlob.healthText;
 			resourceText = uiBlob.resourceText;
 			numOfBlobTilesText = uiBlob.numOfBlobTilesText;
->>>>>>> Stashed changes
 		}
 
 		public void TurnOnClientLight()
