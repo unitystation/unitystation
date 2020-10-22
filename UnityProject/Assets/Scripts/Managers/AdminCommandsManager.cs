@@ -62,14 +62,14 @@ namespace AdminCommands
 
 			string msg;
 
-			if (Chat.OOCMute)
+			if (Chat.Instance.OOCMute)
 			{
-				Chat.OOCMute = false;
+				Chat.Instance.OOCMute = false;
 				msg = "OOC has been unmuted";
 			}
 			else
 			{
-				Chat.OOCMute = true;
+				Chat.Instance.OOCMute = true;
 				msg = "OOC has been muted";
 			}
 

@@ -5,6 +5,7 @@ using Tilemaps.Behaviours.Meta;
 using DiscordWebhook;
 using DatabaseAPI;
 using Systems.MobAIs;
+using System.Text;
 
 /// <summary>
 /// The Chat API
@@ -36,7 +37,7 @@ public partial class Chat : MonoBehaviour
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
-	public static bool OOCMute = false;
+	public bool OOCMute = false;
 
 	/// <summary>
 	/// Set the scene based chat relay at the start of every round
@@ -53,7 +54,7 @@ public partial class Chat : MonoBehaviour
 	public static void InvokeChatEvent(ChatEvent chatEvent)
 	{
 		var channels = chatEvent.channels;
-		string discordMessage = "";
+		StringBuilder discordMessageBuilder = new StringBuilder();
 
 		// There could be multiple channels we need to send a message for each.
 		// We do this on the server side so that local chans can be validated correctly
@@ -66,11 +67,12 @@ public partial class Chat : MonoBehaviour
 
 			chatEvent.channels = channel;
 			Instance.addChatLogServer.Invoke(chatEvent);
-			discordMessage += $"[{channel}] ";
+			discordMessageBuilder.Append($"[{channel}] ");
 		}
 
-		discordMessage += $"\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n";
+		discordMessageBuilder.Append($"\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
 
+		string discordMessage = discordMessageBuilder.ToString();
 		//Sends All Chat messages to a discord webhook
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, "");
 	}
@@ -116,7 +118,7 @@ public partial class Chat : MonoBehaviour
 				chatEvent.speaker = "[Admin] " + chatEvent.speaker;
 			}
 
-			if (OOCMute && !isAdmin) return;
+			if (Instance.OOCMute && !isAdmin) return;
 
 			Instance.addChatLogServer.Invoke(chatEvent);
 
@@ -399,14 +401,16 @@ public partial class Chat : MonoBehaviour
 	{
 		if (!IsServer()) return;
 
+		BodyPartType effectiveHitZone = hitZone;
+
 		var player = victim.Player();
 		if (player == null)
 		{
-			hitZone = BodyPartType.None;
+			effectiveHitZone = BodyPartType.None;
 		}
 
 		var message =
-			$"{victim.ExpensiveName()} has been hit by {item.Item()?.ArticleName ?? item.name}{InTheZone(hitZone)}";
+			$"{victim.ExpensiveName()} has been hit by {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
@@ -505,13 +509,17 @@ public partial class Chat : MonoBehaviour
 	/// <param name="side">side this is being called from</param>
 	public static void AddExamineMsg(GameObject recipient, string message, NetworkSide side)
 	{
-		switch (side)
+		switch(side)
 		{
 			case NetworkSide.Client:
 				AddExamineMsgToClient(message);
 				break;
+
 			case NetworkSide.Server:
 				AddExamineMsgFromServer(recipient, message);
+				break;
+			default:
+				Debug.Assert(false, "Unknown Network Side");
 				break;
 		}
 	}
