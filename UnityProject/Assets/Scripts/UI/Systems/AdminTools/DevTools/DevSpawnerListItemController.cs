@@ -34,7 +34,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	void Awake()
 	{
 		// unity doesn't support property blocks on ui renderers, so this is a workaround
-		//image.material = Instantiate(image.material);
+		image.material = Instantiate(image.material);
 	}
 
 	private void OnEnable()
