@@ -31,14 +31,13 @@ public class GUI_Spawner : NetTab
 		SpawnedObjectList.OnObjectChange.AddListener( ( newObject, elementName, element ) =>
 		{
 			var netElement = (NetUIElement<string>) element;
-			switch ( elementName )
+			if (elementName == "MobName")
 			{
-				case "MobName":
-					netElement.Value = newObject.ExpensiveName();
-					break;
-				case "MobIcon":
-					netElement.Value = newObject.NetId().ToString();
-					break;
+				netElement.Value = newObject.ExpensiveName();
+			}
+			else if (elementName == "MobIcon")
+			{
+				netElement.Value = newObject.NetId().ToString();
 			}
 		} );
 
