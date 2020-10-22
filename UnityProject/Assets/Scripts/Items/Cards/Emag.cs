@@ -29,9 +29,14 @@ public class Emag : NetworkBehaviour, IServerSpawn
     private string OutOfChargesSFX = "Sparks04";
 
     #region SyncVarFuncs
+        void Awake()
+        {
+            EnsureInit();
+        }
+
         private void EnsureInit()
         {
-            if(spriteHandler != null)
+            if(spriteHandler == null)
             {
                 charges = startCharges;
                 spriteHandler = gameObject.transform.Find("Charges").GetComponent<SpriteHandler>();
@@ -46,25 +51,20 @@ public class Emag : NetworkBehaviour, IServerSpawn
             }
         }
 
-        void Awake()
-        {
-            EnsureInit();
-        }
-
         public override void OnStartClient()
         {
             EnsureInit();
-            SyncCharges(charges);
+            SyncCharges(Charges, charges);
             base.OnStartClient();
         }
         
-        public void OnSpawnServer(SpawnInfo n)
+        public void OnSpawnServer(SpawnInfo info)
         {
-            SyncCharges(startCharges);
+            SyncCharges(startCharges, startCharges);
         }
     #endregion
 
-    private void SyncCharges(int newCharges)
+    private void SyncCharges(int oldCharges, int newCharges)
     {
         EnsureInit();
         charges = newCharges;
@@ -93,7 +93,7 @@ public class Emag : NetworkBehaviour, IServerSpawn
                 UpdateManager.Add(RegenerateCharge, rechargeTimeInSeconds);
             }
 
-            SyncCharges(Charges-1);
+            SyncCharges(Charges, Charges-1);
             if(Charges > 0)
             {
                 spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
@@ -112,7 +112,7 @@ public class Emag : NetworkBehaviour, IServerSpawn
     {
         if(Charges < startCharges)
         {
-            SyncCharges(Charges+1);
+            SyncCharges(Charges, Charges+1);
             spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
         }
         if(Charges >= startCharges)
