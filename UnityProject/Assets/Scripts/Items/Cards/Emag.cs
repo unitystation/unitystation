@@ -6,7 +6,7 @@ using Mirror;
 /// <summary>
 /// Emag charges handler
 /// </summary>
-public class Emag : NetworkBehaviour
+public class Emag : NetworkBehaviour, IServerSpawn
 {
 	private SpriteHandler spriteHandler;
 
@@ -18,7 +18,9 @@ public class Emag : NetworkBehaviour
     [SerializeField]
     public float rechargeTimeInSeconds = 10f;
 
+    [SyncVar(hook=nameof(SyncCharges))]
     private int charges;
+
 	/// <summary>
 	/// Number of charges left on emag
 	/// </summary>
@@ -26,18 +28,47 @@ public class Emag : NetworkBehaviour
 
     private string OutOfChargesSFX = "Sparks04";
 
-    private void Awake()
-    {
-        charges = startCharges;
-        spriteHandler = gameObject.transform.Find("Charges").GetComponent<SpriteHandler>();
-    }
-
-    public void OnDisable()
-    {
-        if (isServer)
+    #region SyncVarFuncs
+        private void EnsureInit()
         {
-            UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RegenerateCharge);
+            if(spriteHandler != null)
+            {
+                charges = startCharges;
+                spriteHandler = gameObject.transform.Find("Charges").GetComponent<SpriteHandler>();
+            }
         }
+
+        public void OnDisable()
+        {
+            if (isServer)
+            {
+                UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RegenerateCharge);
+            }
+        }
+
+        void Awake()
+        {
+            EnsureInit();
+        }
+
+        public override void OnStartClient()
+        {
+            EnsureInit();
+            SyncCharges(charges);
+            base.OnStartClient();
+        }
+        
+        public void OnSpawnServer(SpawnInfo n)
+        {
+            SyncCharges(startCharges);
+        }
+    #endregion
+
+    private void SyncCharges(int newCharges)
+    {
+        EnsureInit();
+        charges = newCharges;
+
     }
 
     ///<summary>
@@ -54,7 +85,6 @@ public class Emag : NetworkBehaviour
 	/// </summary>
     public bool UseCharge(HandApply interaction) 
     {
-        Logger.Log(spriteHandler.name);
         if(Charges > 0)
         {
             //if this is the first charge taken off, add recharge loop
@@ -63,7 +93,7 @@ public class Emag : NetworkBehaviour
                 UpdateManager.Add(RegenerateCharge, rechargeTimeInSeconds);
             }
 
-            charges -= 1;
+            SyncCharges(Charges-1);
             if(Charges > 0)
             {
                 spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
@@ -82,7 +112,7 @@ public class Emag : NetworkBehaviour
     {
         if(Charges < startCharges)
         {
-            charges += 1;
+            SyncCharges(Charges+1);
             spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
         }
         if(Charges >= startCharges)
