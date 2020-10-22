@@ -483,7 +483,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		// Is the player trying to put something in the closet?
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) && Validations.EmagHasCharges(interaction.HandObject))
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) 
+			&& interaction.HandObject.GetComponent<Emag>().EmagHasCharges())
 		{
 			if (IsClosed && !isEmagged)
 			{

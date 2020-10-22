@@ -59,7 +59,8 @@ namespace Doors
 		{
 			this.interaction = interaction;
 
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) && Validations.EmagHasCharges(interaction.HandObject))
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) 
+			&& interaction.HandObject.GetComponent<Emag>().EmagHasCharges())
 			{
 				TryEmag(interaction);
 			}

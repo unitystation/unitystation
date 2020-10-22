@@ -6,7 +6,7 @@ using Mirror;
 /// <summary>
 /// Emag charges handler
 /// </summary>
-public class Emag : NetworkBehaviour, IServerSpawn
+public class Emag : NetworkBehaviour, IServerSpawn, IExaminable
 {
 	private SpriteHandler spriteHandler;
 
@@ -71,6 +71,13 @@ public class Emag : NetworkBehaviour, IServerSpawn
 
     }
 
+    public string Examine(Vector3 worldPos)
+    {
+        string desc = "It's a card with a magnetic strip attached to some circuitry. ";
+        desc += string.Format("The charge indicator shows {0}/{1}", Charges.ToString(), startCharges.ToString());
+        return desc;
+    }
+
     ///<summary>
     ///Used to scale charges if starting charges > 3 so it will show proper pips
     ///</summary>
@@ -79,6 +86,14 @@ public class Emag : NetworkBehaviour, IServerSpawn
         int output = Mathf.CeilToInt(((float)Charges/(float)startCharges)*3f) - 1;
         return output;
     }
+
+	/// <summary>
+	/// Checks if the Emag has charges
+	/// </summary>
+	public bool EmagHasCharges()
+	{
+		return Charges > 0;
+	}
 
 	/// <summary>
 	/// Uses one charge from the emag, returns true if successful
