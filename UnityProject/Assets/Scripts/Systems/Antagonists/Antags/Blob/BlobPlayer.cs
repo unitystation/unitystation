@@ -76,6 +76,8 @@ namespace Blob
 		private float factoryTimer = 0f;
 		private float healthTimer = 0f;
 
+		private string overmindName;
+
 		[SerializeField]
 		private float econModifier = 1f;
 
@@ -198,10 +200,10 @@ namespace Blob
 			playerScript.mind.ghost = playerScript;
 			playerScript.mind.body = playerScript;
 
-			var name = $"Overmind {Random.Range(1, 1001)}";
+			overmindName = $"Overmind {Random.Range(1, 1001)}";
 
-			playerScript.characterSettings.Name = name;
-			playerScript.playerName = name;
+			playerScript.characterSettings.Name = overmindName;
+			playerScript.playerName = overmindName;
 
 			playerScript.IsPlayerSemiGhost = true;
 
@@ -225,6 +227,7 @@ namespace Blob
 			nonSpaceBlobTiles.Add(blobCore);
 
 			structure.location = pos;
+			structure.overmindName = overmindName;
 			SetLightAndColor(structure);
 
 			//Make core act like node
@@ -609,7 +612,7 @@ namespace Blob
 			}
 
 			var hits = matrix.Get<RegisterTile>(local, ObjectType.Object, true)
-				.Where( hit => hit != null && !hit.IsPassable(true) && hit.GetComponent<BlobStructure>() == null);
+				.Where( hit => hit != null && !hit.IsPassable(true) && (!hit.TryGetComponent<BlobStructure>(out var structure) || structure.overmindName != overmindName));
 
 			foreach (var hit in hits)
 			{
@@ -647,7 +650,8 @@ namespace Blob
 
 			//Do check to see if the impassable thing is a friendly blob, as it will be the only object left
 			var hitsSecond = matrix.Get<RegisterTile>(local, ObjectType.Object, true)
-				.Where(hit => hit != null && hit.GetComponent<BlobStructure>() != null);
+				.Where(hit => hit != null && hit.TryGetComponent<BlobStructure>(out var structure) && structure != null
+				&& structure.overmindName == overmindName);
 
 			if (hitsSecond.Any())
 			{
