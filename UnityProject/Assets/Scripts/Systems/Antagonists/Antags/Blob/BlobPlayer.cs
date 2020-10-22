@@ -565,6 +565,7 @@ namespace Blob
 			var structure = result.GameObject.GetComponent<BlobStructure>();
 
 			structure.location = worldPos;
+			structure.overmindName = overmindName;
 			SetLightAndColor(structure);
 
 			AddNonSpaceBlob(result.GameObject);
@@ -840,6 +841,7 @@ namespace Blob
 
 			Despawn.ServerSingle(originalBlob.gameObject);
 			var structure = result.GameObject.GetComponent<BlobStructure>();
+			structure.overmindName = overmindName;
 			SetLightAndColor(structure);
 			blobTiles[worldPos] = structure;
 			AddNonSpaceBlob(result.GameObject);
@@ -912,6 +914,7 @@ namespace Blob
 					Chat.AddExamineMsgFromServer(gameObject, $"You grow a {blobConstructs} blob.");
 
 					var structure = result.GameObject.GetComponent<BlobStructure>();
+					structure.overmindName = overmindName;
 
 					switch (blobConstructs)
 					{
