@@ -34,7 +34,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	void Awake()
 	{
 		// unity doesn't support property blocks on ui renderers, so this is a workaround
-		image.material = Instantiate(image.material);
+		//image.material = Instantiate(image.material);
 	}
 
 	private void OnEnable()
@@ -115,16 +115,21 @@ public class DevSpawnerListItemController : MonoBehaviour
 			SpriteRenderer curRend = cursorObject.GetComponent<SpriteRenderer>();
 			curRend.sprite = image.sprite;
 
+			curRend.material = prefab.GetComponentInChildren<SpriteRenderer>().sharedMaterial;
+			MaterialPropertyBlock block = new MaterialPropertyBlock();
+			curRend.GetPropertyBlock(block);
 			if (isPaletted)
 			{
-				curRend.material = prefab.GetComponentInChildren<SpriteRenderer>().sharedMaterial;
-				MaterialPropertyBlock block = new MaterialPropertyBlock();
-				curRend.GetPropertyBlock(block);
+				Debug.Assert(palette != null, "Palette must not be null on paletteable objects.");
 				List<Vector4> pal = palette.ConvertAll((Color c) => new Vector4(c.r, c.g, c.b, c.a));
 				block.SetVectorArray("_ColorPalette", pal);
 				block.SetInt("_IsPaletted", 1);
-				curRend.SetPropertyBlock(block);
 			}
+			else
+			{
+				block.SetInt("_IsPaletted", 0);
+			}
+			curRend.SetPropertyBlock(block);
 
 			UIManager.IsMouseInteractionDisabled = true;
 			escapeKeyTarget.enabled = true;
@@ -139,16 +144,22 @@ public class DevSpawnerListItemController : MonoBehaviour
 		isPaletted = false;
 		//image.material.SetInt("_IsPaletted", 0);
 
-		ClothingV2 prefabClothing = prefab.GetComponent<ClothingV2>();
-		if (prefabClothing != null)
+		if (prefab.TryGetComponent<ItemAttributesV2>(out ItemAttributesV2 prefabAttributes))
 		{
-			palette = prefabClothing.GetPaletteOrNull();
-			if (palette != null)
+			ItemsSprites sprites = prefabAttributes.ItemSprites;
+			if (sprites.IsPaletted)
 			{
+				palette = sprites.Palette;
+				Debug.Assert(palette != null, "Palette must not be null on paletteable objects.");
+
 				isPaletted = true;
 				image.material.SetInt("_IsPaletted", 1);
 				image.material.SetColorArray("_ColorPalette", palette.ToArray());
 				palette = new List<Color>(image.material.GetColorArray("_ColorPalette"));
+			}
+			else
+			{
+				palette = null;
 			}
 		}
 
@@ -156,8 +167,6 @@ public class DevSpawnerListItemController : MonoBehaviour
 		{
 			image.material.SetInt("_IsPaletted", 0);
 		}
-
-
 	}
 
 	/// <summary>

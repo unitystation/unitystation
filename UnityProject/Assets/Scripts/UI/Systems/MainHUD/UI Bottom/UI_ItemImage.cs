@@ -90,8 +90,7 @@ public class UI_ItemImage
 			var color = handler.CurrentColor;
 			image.color = color;
 
-			// I don't have any idea what is happening here or how to test it
-			// set palleted and color palette
+			// Configure the shader to use palette if item uses it
 			var itemAttrs = item.GetComponent<ItemAttributesV2>();
 			if (itemAttrs.ItemSprites.IsPaletted)
 			{
