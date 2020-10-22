@@ -11,14 +11,24 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 2b0e502c644e91e49986501da0dda7bb,
+      objectReference: {fileID: 11400000, guid: c54a74cc5c50f204b9ae369968f291ad,
         type: 2}
+    - target: {fileID: 3387519317821303440, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8697867551168045643, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 5c13bd3d6ff597a4487df94a04bfbb09,
+      objectReference: {fileID: 21300000, guid: 6586e64806bdb6940bf834f1d716588f,
         type: 3}
+    - target: {fileID: 8697867551168045643, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8810445946256199959, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: m_Name
@@ -100,7 +110,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
       value: 
-      objectReference: {fileID: 11400000, guid: 2b0e502c644e91e49986501da0dda7bb,
+      objectReference: {fileID: 11400000, guid: c54a74cc5c50f204b9ae369968f291ad,
         type: 2}
     - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}

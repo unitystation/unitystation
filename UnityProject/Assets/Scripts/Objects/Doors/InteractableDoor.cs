@@ -59,9 +59,11 @@ namespace Doors
 		{
 			this.interaction = interaction;
 
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) 
+				&& interaction.HandObject.TryGetComponent<Emag>(out var emag) 
+				&& emag.EmagHasCharges())
 			{
-				TryEmag();
+				TryEmag(emag, interaction);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
@@ -99,13 +101,14 @@ namespace Doors
 			Controller.MobTryOpen(performer);
 		}
 
-		public void TryEmag()
+		public void TryEmag(Emag emag, HandApply interaction)
 		{
 			if (Controller == null) return;
 
 			if (Controller.IsClosed)
 			{
 				Controller.isEmagged = true;
+				emag.UseCharge(interaction);
 				TryOpen(interaction.Performer);
 			}
 		}
