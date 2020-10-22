@@ -212,6 +212,8 @@ namespace Blob
 				Debug.LogError("Failed to spawn blob core for player!");
 				return;
 			}
+			
+			TargetRpcTurnOnClientLight(connectionToClient);
 
 			blobCore = result.GameObject;
 
@@ -236,20 +238,11 @@ namespace Blob
 
 			//Block escape shuttle from leaving station when it arrives
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(true);
-
-			TargetRpcTurnOnClientLight(connectionToClient);
 		}
 
 		private void OnEnable()
 		{
 			UpdateManager.Add(PeriodicUpdate, 1f);
-
-			var uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
-			uiBlob.blobPlayer = this;
-			uiBlob.controller = GetComponent<BlobMouseInputController>();
-			healthText = uiBlob.healthText;
-			resourceText = uiBlob.resourceText;
-			numOfBlobTilesText = uiBlob.numOfBlobTilesText;
 		}
 
 		private void OnDisable()
@@ -430,7 +423,18 @@ namespace Blob
 		{
 			TurnOnClientLight();
 			playerScript.IsPlayerSemiGhost = true;
+<<<<<<< Updated upstream
 			PlayerManager.LocalPlayerScript.IsPlayerSemiGhost = true;
+=======
+			playerScript.IsBlob = true;
+
+			var uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
+			uiBlob.blobPlayer = this;
+			uiBlob.controller = GetComponent<BlobMouseInputController>();
+			healthText = uiBlob.healthText;
+			resourceText = uiBlob.resourceText;
+			numOfBlobTilesText = uiBlob.numOfBlobTilesText;
+>>>>>>> Stashed changes
 		}
 
 		public void TurnOnClientLight()
@@ -603,7 +607,7 @@ namespace Blob
 
 				player.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
-				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb");
+				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb", posOveride: worldPos);
 
 				PlayAttackEffect(pos);
 
@@ -622,7 +626,7 @@ namespace Blob
 
 					npcComponent.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
-					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb");
+					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb", posOveride: worldPos);
 
 					PlayAttackEffect(pos);
 
@@ -638,7 +642,7 @@ namespace Blob
 
 					if (!autoExpanding)
 					{
-						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
+						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", worldPos, gameObject);
 					}
 
 					PlayAttackEffect(pos);
