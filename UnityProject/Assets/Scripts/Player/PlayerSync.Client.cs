@@ -239,7 +239,7 @@ public partial class PlayerSync
 		for (int i = 0; i < pushPulls.Count; i++)
 		{
 			var pushPull = pushPulls[i];
-			if (pushPull && pushPull.gameObject != gameObject && pushPull.IsSolidClient)
+			if (pushPull && pushPull.gameObject != gameObject && pushPull.CanPushClient(worldTile, direction))
 			{
 				//					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
 				if (pushPull.TryPredictivePush(worldTile, direction))

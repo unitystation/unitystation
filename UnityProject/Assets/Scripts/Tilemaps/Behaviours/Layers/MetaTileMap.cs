@@ -245,27 +245,26 @@ namespace TileManagement
 		}
 
 		public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
-			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+				CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+				List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false)
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
 			return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context, excludeLayers,
-				       excludeTiles) &&
-			       _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) ||
+				       excludeTiles, ignoreObjects) &&
+			       _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects) ||
 			       _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context, excludeLayers,
-				       excludeTiles) &&
-			       _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles);
+				       excludeTiles, ignoreObjects) &&
+			       _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects);
 		}
-
 
 		private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
-			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false)
 		{
-			if (ObjectLayer.IsPassableAt(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles) ==
-			    false)
+			if (ignoreObjects == false &&
+					ObjectLayer.IsPassableAt(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles) == false)
 			{
 				return false;
 			}
