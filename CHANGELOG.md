@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/10/22: Add charges to Emags by [Skrimble](https://github.com/Skrimble) in PR #[5376](https://github.com/unitystation/unitystation/pull/5376)
 * 2020/10/22: Fixes being unable to dispose of yourself, and unable to drag disposal intakes. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5373](https://github.com/unitystation/unitystation/pull/5373)
 * 2020/10/22: Fixed blob aghost by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
 * 2020/10/22: Fixed blob attack effect not being played on client by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
