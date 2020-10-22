@@ -311,6 +311,15 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetPaletteOfCurrentSprite(List<Color> newPalette, bool Network = true)
 	{
+		bool paletted = isPaletted();
+
+		Debug.Assert(!(paletted && newPalette == null), "Paletted sprites should never have palette set to null");
+
+		if (!paletted)
+		{
+			newPalette = null;
+		}
+
 		palette = newPalette;
 		PushTexture(false);
 		if (Network)
@@ -575,6 +584,11 @@ public class SpriteHandler : MonoBehaviour
 				image.material.SetVectorArray("_ColorPalette", pal);
 				image.material.SetInt("_IsPaletted", 1);
 			}
+			else
+			{
+				image.material.SetInt("_IsPaletted", 0);
+			}
+
 			if (value == null)
 			{
 				image.enabled = false;
