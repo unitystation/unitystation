@@ -121,6 +121,8 @@ namespace AdminCommands
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
 
+			GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by admin.
+
 			VideoPlayerMessage.Send(VideoType.RestartRound);
 			GameManager.Instance.EndRound();
 
