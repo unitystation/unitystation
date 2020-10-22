@@ -74,7 +74,7 @@ public class Emag : NetworkBehaviour, IServerSpawn, IExaminable
     public string Examine(Vector3 worldPos)
     {
         string desc = "It's a card with a magnetic strip attached to some circuitry. ";
-        desc += string.Format("The charge indicator shows {0}/{1}", Charges.ToString(), startCharges.ToString());
+        desc += "The charge indicator shows " + Charges.ToString() + "/"  + startCharges.ToString();
         return desc;
     }
 
