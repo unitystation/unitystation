@@ -2024,6 +2024,7 @@ MonoBehaviour:
   warningColor: {r: 1, g: 0.41568628, b: 0.4, a: 1}
   blobColor: {r: 0, g: 1, b: 0, a: 0}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  OOCMute: 0
 --- !u!114 &114720228895401702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2052,8 +2053,8 @@ MonoBehaviour:
   thresholdMarkerBottom: {fileID: 9002736259520338227}
   thresholdMarkerTop: {fileID: 2121891336962855131}
   adminHelpChat: {fileID: 7497176922575414754}
-  mentorHelpChat: {fileID: 0}
-  helpSelectionPanel: {fileID: 0}
+  mentorHelpChat: {fileID: 6606784681276729967}
+  helpSelectionPanel: {fileID: 2084901304325690054}
   entryPool: {fileID: 4984957583611271286}
 --- !u!114 &4984957583611271286
 MonoBehaviour:
@@ -3238,7 +3239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8464879443585168234
 RectTransform:
   m_ObjectHideFlags: 0
