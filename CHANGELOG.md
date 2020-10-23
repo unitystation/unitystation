@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/10/23: Add the banning admin in job & normal ban json, not used within game. by [craftxbox](https://github.com/craftxbox) in PR #[5122](https://github.com/unitystation/unitystation/pull/5122)
 * 2020/10/23: Blobs can now fight each other, may the best blob win by [ThatDan123](https://github.com/ThatDan123) in PR #[5384](https://github.com/unitystation/unitystation/pull/5384)
 * 2020/10/23: Fixed blob attack message position by [ThatDan123](https://github.com/ThatDan123) in PR #[5384](https://github.com/unitystation/unitystation/pull/5384)
 * 2020/10/23: Fixed blobs unable to build structures by [ThatDan123](https://github.com/ThatDan123) in PR #[5384](https://github.com/unitystation/unitystation/pull/5384)
