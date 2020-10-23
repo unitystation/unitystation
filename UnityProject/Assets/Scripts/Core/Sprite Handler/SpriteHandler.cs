@@ -565,7 +565,7 @@ public class SpriteHandler : MonoBehaviour
 			{
 				PaletteSet = true;
 				var palette = getPaletteOrNull();
-				if (palette == null && palette.Count == 8)
+				if (palette != null && palette.Count == 8)
 				{
 					MaterialPropertyBlock block = new MaterialPropertyBlock();
 					spriteRenderer.GetPropertyBlock(block);
