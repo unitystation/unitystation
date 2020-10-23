@@ -39,6 +39,13 @@ namespace Core.Directionals
 		protected override void Awake()
 		{
 			base.Awake();
+			EnsureInit();
+		}
+
+		private void EnsureInit()
+		{
+			if (Directional != null) return;
+
 			Directional = GetComponent<Directional>();
 		}
 
@@ -160,6 +167,13 @@ namespace Core.Directionals
 
 		private bool IsPassableAtSide(Vector2Int sideToCross, PassableSides sides)
 		{
+			EnsureInit();
+			if (Directional == null)
+			{
+				Logger.LogError($"No {nameof(Directional)} component found on {this}?");
+				return false;
+			}
+
 			if (sideToCross == Vector2Int.zero) return true;
 
 			// TODO: figure out a better way or at least use some data structure.
