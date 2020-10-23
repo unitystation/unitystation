@@ -118,7 +118,121 @@ def add_trait_to_full(full, trait, trait_name, default, inheritance,
         trait = F"\t{trait}\n"
         full = full + trait
 
-    return full,trait
+    return full, trait
+
+def initialize_data():
+    data = {}
+    data['name'] = ''
+    data['namename'] = ''
+    data['description'] = ''
+    data['seed_packet_name'] = ''
+    data['plantname'] = ''
+    data['lifespan'] = ''
+    data['endurance'] = ''
+    data['production'] = ''
+    data['plant_yield'] = ''
+    data['potency'] = ''
+    data['weed_growth_rate'] = ''
+    data['weed_resistance'] = ''
+
+    data['species'] = ''
+
+    data['growing_sprites_folder'] = ''
+    data['grown_sprite'] = ''
+    data['dead_sprite'] = ''
+    data['genes'] = ''
+    data['mutates_into'] = ''
+    data['chemical_content'] = ''
+    return data
+
+def continue_process_burer(line, data):
+    if 'production' in line:
+        data['production'] = line
+
+    elif 'yield' in line:
+        plant_yield = line
+        data['plant_yield'] = plant_yield.replace('yield', 'plant_yield')
+    elif 'potency' in line:
+        data['potency'] = line
+
+    elif 'growing_icon' in line:
+        growing_sprites_folder = line
+        growing_sprites_folder = growing_sprites_folder.replace(
+            "icons/obj/hydroponics/", '')
+        data['growing_sprites_folder'] = growing_sprites_folder.replace(
+            ".dmi", '')
+    elif 'icon_grow' in line:
+        grown_sprite = line
+        data['grown_sprite'] = grown_sprite.replace('icon_grow',
+                                                    'Grown_Sprite')
+    elif 'icon_dead' in line:
+        dead_sprite = line
+        data['dead_sprite'] = dead_sprite.replace('icon_dead', 'dead_Sprite')
+
+    elif 'genes' in line:
+        data['genes'] = genes_replace(line)
+
+    elif 'mutatelist' in line:
+        data['mutates_into'] = mutates_replace(line)
+
+    elif 'reagents_add' in line:
+        # print(line)
+        data['chemical_content'] = chemical_replace(line)
+
+    elif 'species' in line:
+        data['species'] = line
+
+def process_burer(line, data):
+    # print(line)
+    line = line.split('//')[0]
+    if not 'desc' not in line:
+        line = line.replace('"', "'")
+
+    # print(line)
+    if '/obj/item/seeds/' in line and all(substr not in line for substr in
+                                          ('list(', '=', ',', ')')):
+        name = line
+        name = name.replace("/obj/item/seeds/", '')
+        data['topline'] = name
+        name = name.replace("/", '_')
+        name = name.replace("seed = ", '')
+
+        data['name'] = F"name = '{name}'"
+        # display_name = display_name.replace('(','')
+        # display_name = display_name.replace(')','')
+        # display_name = display_name.replace(' ','')
+        # display_name = display_name.replace(' ','')
+
+    elif 'plantname' in line:
+        data['namename'] = line
+        # description = description.replace("'",'"')
+
+    elif 'desc' in line:
+        description = line
+        data['description'] = description.replace('desc', 'Description')
+        # description = descriptionreplace("'", '"')
+
+    elif 'icon_state' in line:
+        data['seed_packet_name'] = line
+
+        # materials = materials.replace('MAT_GLASS', 'Glass')
+        # materials = materials.replace('MAT_GLASS', 'Glass')
+
+    elif 'plantname' in line:
+        data['plantname'] = line
+        # print(category)
+        # category = category.replace('list (','[')
+        # category = category.replace('list(','[')
+        # category = category.replace(')',']')
+        # prereq_ids = prereq_ids.replace('(','[')
+
+    elif 'lifespan' in line:
+        data['lifespan'] = line
+    elif 'endurance' in line:
+        data['endurance'] = line
+
+    else:
+        continue_process_burer(line, data)
 
 
 def burer_piopes(burer, text_buffer, inherent):
@@ -126,111 +240,35 @@ def burer_piopes(burer, text_buffer, inherent):
     inheritance_default = {}
     topline = ''
     tl_naem = ''
-
     full = ''
-    name = ''
-    namename = ''
-    description = ''
-    seed_packet_name = ''
-    plantname = ''
-    lifespan = ''
-    endurance = ''
-    production = ''
-    plant_yield = ''
-    potency = ''
-    weed_growth_rate = ''
-    weed_resistance = ''
 
-    species = ''
+    data = initialize_data()
 
-    growing_sprites_folder = ''
-    grown_sprite = ''
-    dead_sprite = ''
-    genes = ''
-    mutates_into = ''
-    chemical_content = ''
-
-    #print(burer)
+    # print(burer)
     for line in burer:
-        #print(line)
-        line = line.split('//')[0]
-        if not 'desc' in line:
-            line = line.replace('"',"'")
+        process_burer(line, data)
 
-        #print(line)
-        if '/obj/item/seeds/' in line and all(substr not in line for substr in
-                ('list(', '=', ',', ')')):
-            name = line
-            name = name.replace("/obj/item/seeds/",'')
-            topline = name
-            name = name.replace("/",'_')
-            name = name.replace("seed = ",'')
+    name = data['name']
+    namename = data['namename']
+    description = data['description']
+    seed_packet_name = data['seed_packet_name']
+    plantname = data['plantname']
+    lifespan = data['lifespan']
+    endurance = data['endurance']
+    production = data['production']
+    plant_yield = data['plant_yield']
+    potency = data['potency']
+    weed_growth_rate = data['weed_growth_rate']
+    weed_resistance = data['weed_resistance']
 
-            name = F"name = '{name}'"
-            #display_name = display_name.replace('(','')
-            #display_name = display_name.replace(')','')
-            #display_name = display_name.replace(' ','')
-            #display_name = display_name.replace(' ','')
+    species = data['species']
 
-        elif 'plantname' in line:
-            namename = line
-            #description = description.replace("'",'"')
-
-        elif 'desc' in line:
-            description = line
-            description = description.replace('desc','Description')
-            #description = description.replace("'",'"')
-
-        elif 'icon_state' in line:
-            seed_packet_name = line
-
-            #materials = materials.replace('MAT_GLASS','Glass')
-            #materials = materials.replace('MAT_GLASS','Glass')
-
-        elif 'plantname'  in line:
-            plantname = line
-            #print(category)
-##            category = category.replace('list (','[')
-##            category = category.replace('list(','[')
-##            category = category.replace(')',']')
-            #prereq_ids = prereq_ids.replace('(','[')
-
-        elif 'lifespan'  in line:
-            lifespan = line
-        elif 'endurance'  in line:
-            endurance = line
-        elif 'production'  in line:
-            production = line
-
-        elif 'yield'  in line:
-            plant_yield = line
-            plant_yield = plant_yield.replace('yield','plant_yield')
-        elif 'potency'  in line:
-            potency = line
-
-        elif 'growing_icon'  in line:
-            growing_sprites_folder = line
-            growing_sprites_folder = growing_sprites_folder.replace("icons/obj/hydroponics/",'')
-            growing_sprites_folder = growing_sprites_folder.replace(".dmi",'')
-        elif 'icon_grow'  in line:
-            grown_sprite = line
-            grown_sprite = grown_sprite.replace('icon_grow','Grown_Sprite')
-        elif 'icon_dead'  in line:
-            dead_sprite = line
-            dead_sprite = dead_sprite.replace('icon_dead','dead_Sprite')
-
-        elif 'genes' in line:
-            genes = genes_replace(line)
-
-        elif 'mutatelist' in line:
-            mutates_into = mutates_replace(line)
-
-        elif 'reagents_add' in line:
-            #print(line)
-            chemical_content = chemical_replace(line)
-
-        elif 'species' in line:
-            species = line
+    growing_sprites_folder = data['growing_sprites_folder']
+    grown_sprite = data['grown_sprite']
+    dead_sprite = data['dead_sprite']
+    genes = data['genes']
+    mutates_into = data['mutates_into']
+    chemical_content = data['chemical_content']
 
     if "/" not in topline:
         inheritance = True
@@ -238,16 +276,15 @@ def burer_piopes(burer, text_buffer, inherent):
         inheritance = False
         inheritance_default = inherent[topline.split('/')[0]]
 
-
     if name:
-        #print(name,'yooooooooooooooooo')
+        # print(name,'yooooooooooooooooo')
         class_name = name_replace(name)
         if inheritance:
             inherent[class_name] = {}
             tl_naem = class_name
         class_name = F"class {class_name}():\n"
         full = class_name
-        #print(class_name)
+        # print(class_name)
 
         name = F"\t{name}\n"
         full = full + name
@@ -307,7 +344,6 @@ def burer_piopes(burer, text_buffer, inherent):
     if species:
         species = F"\t{species}\n"
         full = full + species
-
 
 ##    name = ''
 ##    Description = ''
