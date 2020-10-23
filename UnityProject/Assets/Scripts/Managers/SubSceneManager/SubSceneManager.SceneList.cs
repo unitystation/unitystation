@@ -261,7 +261,10 @@ public partial class SubSceneManager
 			SceneName = pickedScene,
 			SceneType = SceneType.AdditionalScenes
 		});
+		
 		PokeClientSubScene.SendToAll(pickedScene);
+
+		WizardLoaded = true;
 	}
 
 	#endregion
