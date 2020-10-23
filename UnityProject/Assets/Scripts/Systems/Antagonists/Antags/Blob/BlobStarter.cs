@@ -16,6 +16,8 @@ namespace Blob
 
 		public bool bypass = false;
 
+		public bool bypass2 = false;
+
 		private BlobStates state = BlobStates.Start;
 
 		private BlobBody bodyPart = BlobBody.Stomach;
@@ -31,6 +33,8 @@ namespace Blob
 		private const float TimeToMiddle = 60f;
 
 		private const float TimeToEnd = 240f;
+
+		private bool lastMsg;
 
 		private List<string> GenericMiddlePhrases = new List<string>
 		{
@@ -98,6 +102,11 @@ namespace Blob
 			{
 				FormBlob();
 				return;
+			}
+
+			if (bypass2)
+			{
+				state = BlobStates.End;
 			}
 
 			CheckState();
@@ -209,6 +218,10 @@ namespace Blob
 				FormBlob();
 				return;
 			}
+
+			if(lastMsg) return;
+
+			lastMsg = true;
 
 			string message;
 

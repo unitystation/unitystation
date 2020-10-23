@@ -121,7 +121,7 @@ namespace Antagonists
 			return spawnedAntag;
 		}
 
-		private void ServerFinishAntag(Antagonist chosenAntag, ConnectedPlayer connectedPlayer, GameObject spawnedPlayer)
+		public void ServerFinishAntag(Antagonist chosenAntag, ConnectedPlayer connectedPlayer, GameObject spawnedPlayer)
 		{
 			var spawnedAntag = SetAntagDetails(chosenAntag, connectedPlayer);
 			ActiveAntags.Add(spawnedAntag);

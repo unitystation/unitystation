@@ -20,10 +20,11 @@ MonoBehaviour:
     enemies, so the crew has no choice but to destroy the wizard! Accomplish this
     by beating the wizard's brains in with anything on hand.
   canRespawn: 0
-  minPlayers: 1
-  antagRatio: 1
-  minAntags: 0
-  requiresMinAntags: 0
+  minPlayers: 20
+  antagRatio: 0.05
+  minAntags: 1
+  maxAntags: 1
+  requiresMinAntags: 1
   teamGameMode: 0
   midRoundAntags: 0
   allocateJobsToAntags: 0

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Mime
   m_EditorClassIdentifier: 
   jobType: 27
+  isCrewmember: 1
+  lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 32366ae8deadc49b19966a38033bd6a3, type: 2}
   limit: 1
   priority: 99
@@ -40,3 +42,4 @@ MonoBehaviour:
     m_keys:
     - vowOfSilence
     m_values: 01
+  isTargeteable: 1

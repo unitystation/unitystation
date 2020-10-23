@@ -25,6 +25,7 @@ public class ElectricalMagazine : MagazineBehaviour
 	public void AddCharge()
 	{
 		int Ammo = Mathf.RoundToInt(magazineSize * ((float) battery.Watts / (float) battery.MaxWatts));
+		Ammo = Mathf.Clamp(Ammo, 0, magazineSize);
 		ServerSetAmmoRemains(Ammo);
 	}
 }

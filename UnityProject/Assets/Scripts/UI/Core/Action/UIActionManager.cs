@@ -31,12 +31,18 @@ public class UIActionManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Returns true if an action that is aimable is active.
+	/// </summary>
+	public bool IsAiming => HasActiveAction && ActiveAction.ActionData.IsAimable;
 
 	public UIAction UIAction;
 	public List<UIAction> PooledUIAction = new List<UIAction>();
 
 	public Dictionary<IActionGUI, UIAction> DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
 
+	public UIAction ActiveAction { get; set; }
+	public bool HasActiveAction => ActiveAction != null;
 
 	/// <summary>
 	/// Set the action button visibility, locally (clientside)
@@ -96,12 +102,15 @@ public class UIActionManager : MonoBehaviour
 	/// <summary>
 	/// Sets the sprite of the action button.
 	/// </summary>
-	public static void SetSpriteSO(IActionGUI iActionGUI, SpriteDataSO sprite, bool networked = true)
+	public static void SetSpriteSO(IActionGUI iActionGUI, SpriteDataSO sprite, bool networked = true, List<Color> palette = null)
 	{
+		Debug.Assert(!(sprite.IsPalette && palette == null), "Paletted sprites should never be set without a palette");
+
 		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
 			var _UIAction = Instance.DicIActionGUI[iActionGUI];
-			_UIAction.IconFront.SetSpriteSO(sprite, Network: networked);
+			_UIAction.IconFront.SetSpriteSO(sprite, Network: networked);		
+			_UIAction.IconFront.SetPaletteOfCurrentSprite(palette);
 		}
 		else
 		{
@@ -200,6 +209,12 @@ public class UIActionManager : MonoBehaviour
 	}
 
 	#region Events
+
+	public void AimClicked(Vector3 clickPosition)
+	{
+		if (HasActiveAction == false) return;
+		ActiveAction.RunActionWithClick(clickPosition);
+	}
 
 	public void OnRoundEnd()
 	{

@@ -61,7 +61,7 @@
 		}
 
 
-		public override bool IsPassableTo( Vector3Int to, bool isServer )
+		public override bool IsPassableTo(Vector3Int leavingTo, bool isServer, GameObject context = null)
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
@@ -71,7 +71,7 @@
 
 				// Returns false if player is bumping door from the restricted direction
 				var position = isServer? LocalPositionServer : LocalPositionClient;
-				var direction = to - position;
+				var direction = leavingTo - position;
 
 				//Use Directional component if it exists
 				var tryGetDir = GetComponent<Directional>();
@@ -108,13 +108,13 @@
 			return true;
 		}
 
-		public override bool IsPassable( Vector3Int from, bool isServer )
+		public override bool IsPassable( Vector3Int from, bool isServer, GameObject context = null)
 		{
 			// Entering and leaving is the same check
 			return IsPassableTo( from, isServer );
 		}
 
-		public override bool IsPassable(bool isServer)
+		public override bool IsPassable(bool isServer, GameObject context = null)
 		{
 			return !isClosed;
 		}

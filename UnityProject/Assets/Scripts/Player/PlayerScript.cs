@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using Audio.Managers;
+using Blob;
 using Objects;
 
 public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
@@ -203,6 +204,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		ItemStorage = GetComponent<ItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
+
+		if (GetComponent<BlobPlayer>() != null)
+		{
+			IsPlayerSemiGhost = true;
+		}
 	}
 
 	public void Init()
@@ -220,7 +226,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
 
-			if (IsGhost)
+			if (IsGhost && !IsPlayerSemiGhost)
 			{
 				//stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
@@ -231,12 +237,22 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 
 			}
-			else
+			else if(!IsPlayerSemiGhost)
 			{
 				UIManager.LinkUISlots();
 				//play the spawn sound
 				SoundAmbientManager.PlayAudio("ambigen8");
 				//Hide ghosts
+				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+				Camera2DFollow.followControl.cam.cullingMask = mask;
+			}
+			else
+			{
+				//stop the crit notification and change overlay to ghost mode
+				SoundManager.Stop("Critstate");
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+				//show ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
@@ -275,6 +291,10 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		}
 	}
 
+	[HideInInspector]
+	//If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
+	public bool IsPlayerSemiGhost;
+
 	public object Chat { get; internal set; }
 
 	public bool IsInReach(GameObject go, bool isServer, float interactDist = interactionDistance)
@@ -306,7 +326,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (IsDeadOrGhost)
+		if (IsDeadOrGhost && !IsPlayerSemiGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
@@ -318,6 +338,19 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				return ghostTransmitChannels;
 			}
 			return ghostTransmitChannels | ghostReceiveChannels;
+		}
+
+		if (IsPlayerSemiGhost)
+		{
+			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
+			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+
+			if (transmitOnly)
+			{
+				return blobTransmitChannels;
+			}
+
+			return blobTransmitChannels | blobReceiveChannels;
 		}
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)

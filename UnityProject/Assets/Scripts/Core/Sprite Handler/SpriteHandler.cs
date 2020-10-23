@@ -46,6 +46,7 @@ public class SpriteHandler : MonoBehaviour
 	private Color? setColour = null;
 
 	[SerializeField] private List<Color> palette = new List<Color>();
+	public List<Color> Palette => palette;
 
 	private bool PaletteSet = false;
 
@@ -145,7 +146,7 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = SubCataloguePage;
 		if (isSubCatalogueChanged)
 		{
-			SetSpriteSO(SubCatalogue[SubCataloguePage], Network: true);
+			SetSpriteSO(SubCatalogue[SubCataloguePage]);
 		}
 		else
 		{
@@ -312,6 +313,15 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetPaletteOfCurrentSprite(List<Color> newPalette, bool Network = true)
 	{
+		bool paletted = isPaletted();
+
+		Debug.Assert(!(paletted && newPalette == null), "Paletted sprites should never have palette set to null");
+
+		if (!paletted)
+		{
+			newPalette = null;
+		}
+
 		palette = newPalette;
 		PushTexture(false);
 		if (Network)
@@ -396,7 +406,7 @@ public class SpriteHandler : MonoBehaviour
 				Logger.LogError("Was unable to find A NetworkBehaviour for ",
 					Category.SpriteHandler);
 				return;
-			};
+			}
 
 			NetworkIdentity = NetID.netIdentity;
 			if (NetworkIdentity == null)
@@ -546,16 +556,16 @@ public class SpriteHandler : MonoBehaviour
 
 	private void SetImageSprite(Sprite value)
 	{
+		List<Color> paletteOrNull;
 		if (spriteRenderer != null)
 		{
 			spriteRenderer.enabled = true;
 			spriteRenderer.sprite = value;
-
 			if (isPaletted() && PaletteSet == false)
 			{
 				PaletteSet = true;
 				var palette = getPaletteOrNull();
-				if (palette == null && palette.Count == 4)
+				if (palette == null && palette.Count == 8)
 				{
 					MaterialPropertyBlock block = new MaterialPropertyBlock();
 					spriteRenderer.GetPropertyBlock(block);
@@ -564,7 +574,6 @@ public class SpriteHandler : MonoBehaviour
 					block.SetInt("_IsPaletted", 1);
 					spriteRenderer.SetPropertyBlock(block);
 				}
-
 			}
 			else if (PaletteSet)
 			{
@@ -578,6 +587,19 @@ public class SpriteHandler : MonoBehaviour
 		else if (image != null)
 		{
 			image.sprite = value;
+			paletteOrNull = getPaletteOrNull();
+
+			if (paletteOrNull != null && paletteOrNull.Count == 8)
+			{
+				List<Vector4> pal = paletteOrNull.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
+				image.material.SetVectorArray("_ColorPalette", pal);
+				image.material.SetInt("_IsPaletted", 1);
+			}
+			else
+			{
+				image.material.SetInt("_IsPaletted", 0);
+			}
+
 			if (value == null)
 			{
 				image.enabled = false;
@@ -624,6 +646,11 @@ public class SpriteHandler : MonoBehaviour
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		image = GetComponent<Image>();
+		if (image != null)
+		{
+			// unity doesn't support property blocks on ui renderers, so this is a workaround
+			image.material = Instantiate(image.material);
+		}
 	}
 
 	private void TryInit()

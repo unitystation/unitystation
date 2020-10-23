@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Objects.Security;
+using Systems;
 
 namespace UI.Items.PDA
 {
@@ -11,8 +12,6 @@ namespace UI.Items.PDA
 
 		[SerializeField]
 		private EmptyItemList crewManifestTemplate = null;
-
-		private List<SecurityRecord> storedRecords;
 
 		public void OnPageActivated()
 		{
@@ -26,17 +25,19 @@ namespace UI.Items.PDA
 		}
 
 		/// <summary>
-		/// Generates new Entries for the manifest, making sure to update it just incase it changed
+		/// Generates new entries for the manifest.
 		/// </summary>
 		private void GenerateEntries()
 		{
-			storedRecords = SecurityRecordsManager.Instance.SecurityRecords;
-			crewManifestTemplate.Clear();
-			crewManifestTemplate.AddItems(storedRecords.Count);
-			for (int i = 0; i < storedRecords.Count; i++)
+			List<CrewManifestEntry> crewManifest = CrewManifestManager.Instance.CrewManifest;
+			crewManifestTemplate.AddItems(crewManifest.Count);
+			for (int i = 0; i < crewManifest.Count; i++)
 			{
-				crewManifestTemplate.Entries[i].GetComponent<GUI_PDAManifestTemplate>()
-					.ReInit(storedRecords[i].EntryName, storedRecords[i].Occupation.DisplayName);
+				DynamicEntry dynamicEntry = crewManifestTemplate.Entries[i];
+				var entry = dynamicEntry.GetComponent<GUI_PDAManifestTemplate>();
+				CrewManifestEntry record = crewManifest[i];
+				Occupation occupation = OccupationList.Instance.Get(record.JobType);
+				entry.ReInit(record.Name, occupation != null ? occupation.DisplayName : "[Redacted]");
 			}
 		}
 

@@ -49,6 +49,34 @@ public class GUI_DevCloner : MonoBehaviour
 		ToState(State.SELECTING);
 	}
 
+	private void CheckAndApplyPalette(ref SpriteRenderer renderer)
+	{
+		bool isPaletted = false;
+
+		if (toClone.TryGetComponent(out ItemAttributesV2 prefabAttributes))
+		{
+			ItemsSprites sprites = prefabAttributes.ItemSprites;
+			if (sprites.IsPaletted)
+			{
+				List<Color> palette = sprites.Palette;
+				Debug.Assert(palette != null, "Palette must not be null on paletteable objects.");
+				MaterialPropertyBlock block = new MaterialPropertyBlock();
+				renderer.GetPropertyBlock(block);
+				List<Vector4> pal = palette.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
+				block.SetVectorArray("_ColorPalette", pal);
+				block.SetInt("_IsPaletted", 1);
+				renderer.SetPropertyBlock(block);
+
+				isPaletted = true;
+			}
+		}
+
+		if (!isPaletted)
+		{
+			renderer.material.SetInt("_IsPaletted", 0);
+		}
+	}
+
 	private void ToState(State newState)
 	{
 		if (newState == state)
@@ -74,7 +102,9 @@ public class GUI_DevCloner : MonoBehaviour
 			UIManager.IsMouseInteractionDisabled = true;
 			//just chosen to be spawned on the map. Put our object under the mouse cursor
 			cursorObject = Instantiate(cursorPrefab, transform.root);
-			cursorObject.GetComponent<SpriteRenderer>().sprite = toClone.GetComponentInChildren<SpriteRenderer>().sprite;
+			SpriteRenderer cursorRenderer = cursorObject.GetComponent<SpriteRenderer>();
+			cursorRenderer.sprite = toClone.GetComponentInChildren<SpriteRenderer>().sprite;
+			CheckAndApplyPalette(ref cursorRenderer);
 			lightingSystem.enabled = false;
 		}
 		else if (newState == State.INACTIVE)

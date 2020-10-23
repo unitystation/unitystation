@@ -10,7 +10,7 @@ public interface IPushable
 	/// <param name="followMode">flag used when object is following its puller
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
-	bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false);
+	bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false, GameObject context = null);
 	bool PredictivePush(Vector2Int target, float speed = Single.NaN, bool followMode = false);
 
 	/// <summary>

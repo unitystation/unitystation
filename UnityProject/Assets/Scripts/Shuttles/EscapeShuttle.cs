@@ -144,8 +144,9 @@ public class EscapeShuttle : NetworkBehaviour
 	[HideInInspector]
 	public bool blockRecall;
 
-	[HideInInspector]
-	public bool hostileEnvironment;
+	public bool hostileEnvironment => hostileEnvironmentCounter >= 1;
+
+	private int hostileEnvironmentCounter = 0;
 
 	private void Start()
 	{
@@ -599,11 +600,21 @@ public class EscapeShuttle : NetworkBehaviour
 		mm.AutopilotTo( currentDestination.Position );
 	}
 
-	public void SetHostileEnvironment(bool toggle)
+	public void SetHostileEnvironment(bool activateHostileEnviro)
 	{
-		hostileEnvironment = toggle;
+		if (activateHostileEnviro)
+		{
+			hostileEnvironmentCounter += 1;
+			return;
+		}
 
-		if (toggle) return;
+		if(hostileEnvironmentCounter > 1)
+		{
+			hostileEnvironmentCounter -= 1;
+			return;
+		}
+
+		hostileEnvironmentCounter = 0;
 
 		if(Status != EscapeShuttleStatus.DockedStation) return;
 

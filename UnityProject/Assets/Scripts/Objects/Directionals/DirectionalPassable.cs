@@ -1,105 +1,230 @@
 ﻿using System;
 using UnityEngine;
+using NaughtyAttributes;
 
-/// <summary>
-/// Allows only some sides of an objects's tile to be passable. Useful for things such as directional windows, disposal intakes.
-/// Must be the sole RegisterTile-derived component on the object, else it is glitchy.
-/// </summary>
-[RequireComponent(typeof(Directional))]
-public class DirectionalPassable : RegisterObject
+namespace Core.Directionals
 {
-	[Header("Set which sides are passable when in orientation Down")]
-	public bool PassableUp;
-	public bool PassableDown;
-	public bool PassableLeft;
-	public bool PassableRight;
-
-	bool passableOnAll = false;
-	public bool PassableOnAll => passableOnAll;
-
-	public Directional Directional { get; private set; }
-
-	#region RegisterObject Overrides
-
-	protected override void Awake()
+	/// <summary>
+	/// Allows only some sides of an objects's tile to be passable. Useful for things such as directional windows, disposal intakes.
+	/// Must be the sole RegisterTile-derived component on the object, else it is glitchy.
+	/// </summary>
+	[RequireComponent(typeof(Directional))]
+	public class DirectionalPassable : RegisterObject
 	{
-		base.Awake();
-		Directional = GetComponent<Directional>();
-	}
+		[InfoBox("Set Passable or Atmos Passable checked if any side is passable by default, or any atmos passable side", EInfoBoxType.Normal)]
+		[Header("Overrides")]
+		[SerializeField]
+		private bool isLeavableOnAll = default;
+		[SerializeField]
+		private bool isEnterableOnAll = default;
+		[SerializeField]
+		private bool isAtmosPassableOnAll = default;
 
-	public override bool IsPassableTo(Vector3Int to, bool isServer)
-	{
-		return CheckPassable(to);
-	}
+		[Header("Set which sides are passable when in orientation Down")]
+		[SerializeField]
+		private PassableSides leavableSides;
+		[SerializeField]
+		private PassableSides enterableSides;
+		[SerializeField]
+		private PassableSides atmosphericPassableSides;
 
-	public override bool IsPassable(Vector3Int from, bool isServer)
-	{
-		return CheckPassable(from);
-	}
+		public Directional Directional { get; private set; }
 
-	#endregion RegisterObject Overrides
+		public bool IsLeavableOnAll => isLeavableOnAll;
+		public bool IsEnterableOnAll => isEnterableOnAll;
+		public bool IsAtmosPassableOnAll => isAtmosPassableOnAll;
 
-	public void AllowPassableOnAllSides()
-	{
-		passableOnAll = true;
-		Passable = true;
-	}
+		#region RegisterObject Overrides
 
-	public void DenyPassableOnAllSides()
-	{
-		passableOnAll = false;
-		Passable = false;
-	}
-
-	public void AllowPassableAtSetSides()
-	{
-		passableOnAll = false;
-		Passable = true;
-	}
-
-	bool CheckPassable(Vector3Int sideVector)
-	{
-		// If passable on all, can be passable on any side.
-		if (PassableOnAll) return true;
-		// If not passable, cannot be passed on any side.
-		if (!Passable) return false;
-
-		Vector2Int sideToCross = (sideVector - LocalPosition).To2Int();
-		bool result = IsPassableAtSide(sideToCross);
-		return result;
-	}
-
-	bool IsPassableAtSide(Vector2Int sideToCross)
-	{
-		// TODO Consider using some data structure
-		switch (Directional.CurrentDirection.AsEnum())
+		protected override void Awake()
 		{
-			case OrientationEnum.Up:
-				if (sideToCross == Vector2Int.up) return PassableDown;
-				else if (sideToCross == Vector2Int.down) return PassableUp;
-				else if (sideToCross == Vector2Int.left) return PassableRight;
-				else if (sideToCross == Vector2Int.right) return PassableLeft;
-				break;
-			case OrientationEnum.Down:
-				if (sideToCross == Vector2Int.up) return PassableUp;
-				else if (sideToCross == Vector2Int.down) return PassableDown;
-				else if (sideToCross == Vector2Int.left) return PassableLeft;
-				else if (sideToCross == Vector2Int.right) return PassableRight;
-				break;
-			case OrientationEnum.Left:
-				if (sideToCross == Vector2Int.up) return PassableLeft;
-				else if (sideToCross == Vector2Int.down) return PassableRight;
-				else if (sideToCross == Vector2Int.left) return PassableDown;
-				else if (sideToCross == Vector2Int.right) return PassableUp;
-				break;
-			case OrientationEnum.Right:
-				if (sideToCross == Vector2Int.up) return PassableRight;
-				else if (sideToCross == Vector2Int.down) return PassableLeft;
-				else if (sideToCross == Vector2Int.left) return PassableUp;
-				else if (sideToCross == Vector2Int.right) return PassableDown;
-				break;
+			base.Awake();
+			EnsureInit();
 		}
 
-		return false;
+		private void EnsureInit()
+		{
+			if (Directional != null) return;
+
+			Directional = GetComponent<Directional>();
+		}
+
+		public override bool IsPassable(bool isServer, GameObject context = null)
+		{
+			if (!Passable) return false;
+			if (context == gameObject || context == null) return true;
+
+			return Passable;
+		}
+
+		public override bool IsPassable(Vector3Int enteringFrom, bool isServer, GameObject context = null)
+		{
+			if (!Passable) return false;
+			if (IsEnterableOnAll) return true;
+			if (context == gameObject || context == null) return true;
+
+			return IsPassableAtSide(GetSideFromVector(enteringFrom), enterableSides);
+		}
+
+		public override bool IsPassableTo(Vector3Int leavingTo, bool isServer, GameObject context = null)
+		{
+			if (!Passable) return false;
+			if (IsLeavableOnAll) return true;
+			if (context == gameObject || context == null) return true;
+
+			return IsPassableAtSide(GetSideFromVector(leavingTo), leavableSides);
+		}
+
+		public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
+		{
+			if (!AtmosPassable) return false;
+			if (IsAtmosPassableOnAll) return true;
+
+			return IsPassableAtSide(GetSideFromVector(enteringFrom), atmosphericPassableSides);
+		}
+
+		#endregion RegisterObject Overrides
+
+		/// <summary>
+		/// Sets all sides for this object as passable for the given pass type.
+		/// </summary>
+		public void AllowPassableOnAllSides(PassType passType)
+		{
+			switch (passType)
+			{
+				case PassType.Entering:
+					isEnterableOnAll = true;
+					Passable = true;
+					break;
+				case PassType.Leaving:
+					isLeavableOnAll = true;
+					Passable = true;
+					break;
+				case PassType.Atmospheric:
+					isAtmosPassableOnAll = true;
+					AtmosPassable = true;
+					break;
+				default:
+					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Direction);
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Sets all sides for this object as impassable for the given pass type.
+		/// </summary>
+		public void DenyPassableOnAllSides(PassType passType)
+		{
+			switch (passType)
+			{
+				case PassType.Entering:
+					isEnterableOnAll = false;
+					Passable = false;
+					break;
+				case PassType.Leaving:
+					isLeavableOnAll = false;
+					Passable = false;
+					break;
+				case PassType.Atmospheric:
+					isAtmosPassableOnAll = false;
+					AtmosPassable = false;
+					break;
+				default:
+					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Direction);
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Sets only the sides defined as passable for the given pass type.
+		/// </summary>
+		public void AllowPassableAtSetSides(PassType passType)
+		{
+			switch (passType)
+			{
+				case PassType.Entering:
+					isEnterableOnAll = false;
+					Passable = true;
+					break;
+				case PassType.Leaving:
+					isLeavableOnAll = false;
+					Passable = true;
+					break;
+				case PassType.Atmospheric:
+					isAtmosPassableOnAll = false;
+					AtmosPassable = true;
+					break;
+				default:
+					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Direction);
+					break;
+			}
+		}
+
+		private Vector2Int GetSideFromVector(Vector3Int vector)
+		{
+			return (vector - LocalPosition).To2Int();
+		}
+
+		private bool IsPassableAtSide(Vector2Int sideToCross, PassableSides sides)
+		{
+			EnsureInit();
+			if (Directional == null)
+			{
+				Logger.LogError($"No {nameof(Directional)} component found on {this}?");
+				return false;
+			}
+
+			if (sideToCross == Vector2Int.zero) return true;
+
+			// TODO: figure out a better way or at least use some data structure.
+			switch (Directional.CurrentDirection.AsEnum())
+			{
+				case OrientationEnum.Up:
+					if (sideToCross == Vector2Int.up) return sides.Down;
+					else if (sideToCross == Vector2Int.down) return sides.Up;
+					else if (sideToCross == Vector2Int.left) return sides.Right;
+					else if (sideToCross == Vector2Int.right) return sides.Left;
+					break;
+				case OrientationEnum.Down:
+					if (sideToCross == Vector2Int.up) return sides.Up;
+					else if (sideToCross == Vector2Int.down) return sides.Down;
+					else if (sideToCross == Vector2Int.left) return sides.Left;
+					else if (sideToCross == Vector2Int.right) return sides.Right;
+					break;
+				case OrientationEnum.Left:
+					if (sideToCross == Vector2Int.up) return sides.Left;
+					else if (sideToCross == Vector2Int.down) return sides.Right;
+					else if (sideToCross == Vector2Int.left) return sides.Down;
+					else if (sideToCross == Vector2Int.right) return sides.Up;
+					break;
+				case OrientationEnum.Right:
+					if (sideToCross == Vector2Int.up) return sides.Right;
+					else if (sideToCross == Vector2Int.down) return sides.Left;
+					else if (sideToCross == Vector2Int.left) return sides.Up;
+					else if (sideToCross == Vector2Int.right) return sides.Down;
+					break;
+				default:
+					Logger.LogWarning("Unknown orientation. Returning false.", Category.Direction);
+					break;
+			}
+
+			return false;
+		}
+
+		[Serializable]
+		public struct PassableSides
+		{
+			public bool Up;
+			public bool Down;
+			public bool Left;
+			public bool Right;
+		}
+	}
+
+	public enum PassType
+	{
+		Entering,
+		Leaving,
+		Atmospheric,
 	}
 }

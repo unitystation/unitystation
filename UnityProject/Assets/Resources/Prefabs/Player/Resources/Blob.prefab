@@ -62,6 +62,7 @@ MonoBehaviour:
   visibleName: ' '
   RTT: 0
   RcsMode: 0
+  IsBlob: 0
 --- !u!114 &4504212478988223552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.05
   blobCorePrefab: {fileID: 2295760805495773599, guid: 6900836707b2b9b44b1d402b18158c31,
     type: 3}
   blobNodePrefab: {fileID: 8328666627165077003, guid: 78595bed3a93a2c459820c745204ed51,
@@ -246,13 +247,16 @@ MonoBehaviour:
   nodeBlobCost: 50
   factoryBlobCost: 60
   moveCoreCost: 80
-  damage: 100
+  playerDamage: 20
+  objectDamage: 50
+  layerDamage: 50
   attackType: 0
   damageType: 0
   numOfTilesForVictory: 400
   BlobRemoveMode: 0
   econModifier: 1
   maxBiomass: 100
+  isBlobGamemode: 1
   endRoundWhenKilled: 0
   endRoundWhenBlobVictory: 1
   rapidExpand: 0
@@ -260,6 +264,7 @@ MonoBehaviour:
   buildDistanceLimit: 4
   overmindLightObject: {fileID: 6777920429691229453}
   overmindLight: {fileID: 4711685050884406599}
+  overmindSprite: {fileID: 7320126117105815585}
   clickCoords: 1
 --- !u!114 &448360181673478972
 MonoBehaviour:
@@ -276,6 +281,8 @@ MonoBehaviour:
   MaxClickDuration: 1
   MouseDragDeadzone: 0.2
   AimApplyInterval: 0.01
+  examineCursor: {fileID: 0}
+  cursorOffset: {x: 0, y: 0}
   placeOther: 0
   blobConstructs: 0
 --- !u!1 &6777920429691229453
@@ -295,7 +302,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6724187335295023059
 Transform:
   m_ObjectHideFlags: 0

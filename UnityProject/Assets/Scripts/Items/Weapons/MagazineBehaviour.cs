@@ -77,7 +77,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		//set to max ammo on initialization
 		clientAmmoRemains = -1;
-		if (!isClip && !isCell)
+		if (!isClip)
 		{
 			InitLists();
 		}
@@ -267,11 +267,9 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 	public void UpdateProjectile()
 	{
-		if (!isClip && !isCell)
-		{
+		if (isClip || isCell) return;
 		ProjectilesFired = containedProjectilesFired[0];
 		Projectile = containedBullets[0];
-		}
 	}
 
 	public String Examine(Vector3 pos)

@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using Objects.Security;
+using Systems;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.
@@ -31,14 +32,9 @@ public static class PlayerSpawn
 
 		// TODO: add a nice cutscene/animation for the respawn transition
 		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null);
-		if (newPlayer)
+		if (newPlayer != null && occupation.IsCrewmember)
 		{
-			if (occupation.JobType != JobType.SYNDICATE &&
-				occupation.JobType != JobType.WIZARD &&
-				occupation.JobType != JobType.AI)
-			{
-				SecurityRecordsManager.Instance.AddRecord(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
-			}
+			CrewManifestManager.Instance.AddMember(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
 		}
 
 		if (SpawnEvent != null)
@@ -70,24 +66,18 @@ public static class PlayerSpawn
 	/// <param name="forMind"></param>
 	public static void ServerRespawnPlayer(Mind forMind)
 	{
-		if (forMind.IsSpectator)
-			return;
-
 		//get the settings from the mind
-		var occupation = forMind.occupation;
 		var oldBody = forMind.GetCurrentMob();
-		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
-		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
+		var player = oldBody.Player();
 		var oldGhost = forMind.ghost;
-		forMind.stepType = GetStepType(forMind.body);
+		forMind.stepType = GetStepType(player.Script);
 
-		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null);
+		ServerSpawnInternal(player.Connection, forMind.occupation, player.CharacterSettings, forMind, willDestroyOldBody: oldGhost != null);
 
 		if (oldGhost)
 		{
 			Despawn.ServerSingle(oldGhost.gameObject);
 		}
-
 	}
 
 	/// <summary>
@@ -110,13 +100,6 @@ public static class PlayerSpawn
 		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false);
 	}
 
-	//Jobs that should always use their own spawn points regardless of current round time
-	private static readonly ReadOnlyCollection<JobType> NEVER_SPAWN_ARRIVALS_JOBS = new ReadOnlyCollection<JobType>(new List<JobType>
-		{
-			JobType.AI,
-			JobType.SYNDICATE,
-			JobType.WIZARD
-		});
 	//Time to start spawning players at arrivals
 	private static readonly DateTime ARRIVALS_SPAWN_TIME = new DateTime().AddHours(12).AddMinutes(2);
 
@@ -145,7 +128,7 @@ public static class PlayerSpawn
 		{
 			Transform spawnTransform;
 			//Spawn normal location for special jobs or if less than 2 minutes passed
-			if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME || NEVER_SPAWN_ARRIVALS_JOBS.Contains(occupation.JobType))
+			if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME || occupation.LateSpawnIsArrivals == false)
 			{
 				 spawnTransform = GetSpawnForJob(occupation.JobType);
 			}
@@ -518,6 +501,11 @@ public static class PlayerSpawn
 
 	private static StepType GetStepType(PlayerScript player)
 	{
+		if (player == null || player.Equipment == null)
+		{
+			return StepType.Barefoot;
+		}
+
 		if (player.Equipment.GetClothingItem(NamedSlot.outerwear)?.gameObject.GetComponent<StepChanger>() != null)
 		{
 			return StepType.Suit;

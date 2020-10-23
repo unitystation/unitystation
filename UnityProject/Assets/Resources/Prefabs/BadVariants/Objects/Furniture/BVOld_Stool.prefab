@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -103,7 +104,7 @@ GameObject:
   - component: {fileID: -7256631520227740812}
   - component: {fileID: 8293386201010365792}
   m_Layer: 23
-  m_Name: Stool
+  m_Name: BVOld_Stool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,6 +169,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  passableExclusionsToThis: []
 --- !u!114 &114377328424748032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1f386f82014aa4ba117d2289c3d540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabVariant: {fileID: 1011433845357754, guid: 4e1fcaa387aec5b4dbe43c9c71ab5cb6,
+  prefabVariant: {fileID: 7978696986387520845, guid: 5615206684c0a714997f9e856ba438ce,
     type: 3}
 --- !u!114 &8293386201010365792
 MonoBehaviour:

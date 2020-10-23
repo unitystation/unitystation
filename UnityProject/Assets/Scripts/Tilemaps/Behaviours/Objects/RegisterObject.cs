@@ -1,4 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Blob;
 using UnityEngine;
 using Mirror;
 
@@ -15,6 +18,8 @@ public class RegisterObject : RegisterTile
 
 	private bool initialAtmosPassable;
 	private bool initialPassable;
+
+	[SerializeField] private List<PassableExclusionTrait> passableExclusionsToThis;
 
 	protected override void Awake()
 	{
@@ -40,19 +45,40 @@ public class RegisterObject : RegisterTile
 		Passable = initialPassable;
 	}
 
-	public override bool IsPassable(Vector3Int from, bool isServer)
+	public override bool IsPassable(Vector3Int enteringFrom, bool isServer, GameObject context = null)
 	{
+		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
+		if (CheckPassableExclusions(context)) return true;
+
+		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
+	}
+
+	public override bool IsPassable(bool isServer, GameObject context = null)
+	{
+		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
+		if (CheckPassableExclusions(context)) return true;
+
 		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
 	}
 
-	public override bool IsPassable(bool isServer)
-	{
-		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
-	}
-
-	public override bool IsAtmosPassable(Vector3Int from, bool isServer)
+	public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{
 		return AtmosPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
+	}
+
+	private bool CheckPassableExclusions(GameObject context)
+	{
+		if (context != null && context.TryGetComponent<PassableExclusionHolder>(out var passableExclusionsMono) && passableExclusionsMono != null)
+		{
+			foreach (var exclusion in passableExclusionsToThis)
+			{
+				if(!passableExclusionsMono.passableExclusions.Contains(exclusion)) continue;
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	#region UI Mouse Actions

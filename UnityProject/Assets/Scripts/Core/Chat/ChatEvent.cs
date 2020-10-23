@@ -30,7 +30,8 @@ public enum ChatChannel
 	[Description("")] 	Combat 		= 1 << 16,
 	[Description("")]	Warning		= 1 << 17,
 	[Description("")]	Action		= 1 << 18,
-	[Description("")]	Admin		= 1 << 19
+	[Description("")]	Admin		= 1 << 19,
+	[Description("")]	Blob		= 1 << 20
 }
 
 /// <summary>
@@ -56,7 +57,7 @@ public enum ChatModifier
 	State = 1 << 22, // Silicon speaking
 	Query = 1 << 23, // Silicon querying
 	ColdlyState = 1 << 24, // Automated Announcer speaking
-	
+
 	//Speech mutations, these should happen before drunk, stutter and that kind of thing!
 	Canadian = 1 << 11,
 	French = 1 << 12,

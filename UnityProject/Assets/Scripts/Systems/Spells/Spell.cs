@@ -40,14 +40,14 @@ namespace Systems.Spells
 
 		public virtual void CallActionClient()
 		{
-			//in the future: clientside cast info like cast click position
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index);
+			UIAction action = UIActionManager.Instance.DicIActionGUI[this];
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
 		}
 
-		public void CallActionServer(ConnectedPlayer SentByPlayer)
+		public void CallActionServer(ConnectedPlayer SentByPlayer, Vector3 clickPosition)
 		{
 			if (ValidateCast(SentByPlayer) &&
-				CastSpellServer(SentByPlayer))
+				CastSpellServer(SentByPlayer, clickPosition))
 			{
 				AfterCast(SentByPlayer);
 			}
@@ -93,6 +93,11 @@ namespace Systems.Spells
 			{
 				UIActionManager.SetCooldown(this, SpellData.CooldownTime, sentByPlayer.GameObject);
 			}
+		}
+
+		public virtual bool CastSpellServer(ConnectedPlayer caster, Vector3 clickPosition)
+		{
+			return CastSpellServer(caster);
 		}
 
 		/// <returns>false if it was aborted for some reason</returns>

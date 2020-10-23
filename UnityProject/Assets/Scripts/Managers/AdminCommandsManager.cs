@@ -62,14 +62,14 @@ namespace AdminCommands
 
 			string msg;
 
-			if (Chat.OOCMute)
+			if (Chat.Instance.OOCMute)
 			{
-				Chat.OOCMute = false;
+				Chat.Instance.OOCMute = false;
 				msg = "OOC has been unmuted";
 			}
 			else
 			{
-				Chat.OOCMute = true;
+				Chat.Instance.OOCMute = true;
 				msg = "OOC has been muted";
 			}
 
@@ -120,6 +120,8 @@ namespace AdminCommands
 		public void CmdEndRound(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
+
+			GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by admin.
 
 			VideoPlayerMessage.Send(VideoType.RestartRound);
 			GameManager.Instance.EndRound();

@@ -92,9 +92,12 @@ namespace Objects
 				Inventory.ServerDespawn(interaction.HandSlot);
 				Chat.AddActionMsgToChat(interaction.Performer, restockMessage, restockMessage);
 			}
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)  
+				&& interaction.HandObject.TryGetComponent<Emag>(out var emag) 
+				&& emag.EmagHasCharges())
 			{
 				isEmagged = true;
+				emag.UseCharge(interaction);
 			}
 		}
 

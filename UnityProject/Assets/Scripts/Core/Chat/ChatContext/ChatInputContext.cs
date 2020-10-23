@@ -19,6 +19,12 @@ public class ChatInputContext : IChatInputContext
 				return ChatChannel.None;
 			}
 
+			// Player is blob?
+			if (PlayerManager.LocalPlayerScript.IsPlayerSemiGhost)
+			{
+				return ChatChannel.Blob;
+			}
+
 			// Player is some spooky ghost?
 			if (PlayerManager.LocalPlayerScript.IsDeadOrGhost)
 			{
