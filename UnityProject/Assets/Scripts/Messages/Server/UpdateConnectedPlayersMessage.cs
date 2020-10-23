@@ -69,6 +69,9 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 			if (PlayerList.Instance.IsAdmin(c.UserId))
 			{
 				tag = "<color=blue>[Admin]</color>";
+			} else if (PlayerList.Instance.IsMentor(c.UserId))
+			{
+				tag = "<color=green>[Mentor]</color>";
 			}
 
 			prepareConnectedPlayers.Add(new ClientConnectedPlayer

@@ -152,4 +152,17 @@ public abstract class ServerMessage : GameMessageBase
 			}
 		}
 	}
+
+	public void SendToMentors()
+	{
+		var mentors = PlayerList.Instance.GetAllMentors();
+
+		foreach (var mentor in mentors)
+		{
+			if (PlayerList.Instance.ContainsConnection(mentor.Connection))
+			{
+				mentor.Connection.Send(this, 0);
+			}
+		}
+	}
 }

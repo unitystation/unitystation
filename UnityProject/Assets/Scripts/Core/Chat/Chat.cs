@@ -33,6 +33,7 @@ public partial class Chat : MonoBehaviour
 	private Action<ChatEvent> addChatLogServer;
 	private Action<string, ChatChannel> addChatLogClient;
 	private Action<string> addAdminPriv;
+	private Action<string> addMentorPriv;
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
@@ -42,12 +43,13 @@ public partial class Chat : MonoBehaviour
 	/// Set the scene based chat relay at the start of every round
 	/// </summary>
 	public static void RegisterChatRelay(ChatRelay relay, Action<ChatEvent> serverChatMethod,
-		Action<string, ChatChannel> clientChatMethod, Action<string> adminMethod)
+		Action<string, ChatChannel> clientChatMethod, Action<string> adminMethod, Action<string> mentorMethod)
 	{
 		Instance.chatRelay = relay;
 		Instance.addChatLogServer = serverChatMethod;
 		Instance.addChatLogClient = clientChatMethod;
 		Instance.addAdminPriv = adminMethod;
+		Instance.addMentorPriv = mentorMethod;
 	}
 
 	public static void InvokeChatEvent(ChatEvent chatEvent)
@@ -114,6 +116,8 @@ public partial class Chat : MonoBehaviour
 			if (isAdmin)
 			{
 				chatEvent.speaker = "[Admin] " + chatEvent.speaker;
+			} else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId)){
+				chatEvent.speaker = "[Mentor]" + chatEvent.speaker;
 			}
 
 			if (OOCMute && !isAdmin) return;
@@ -531,6 +535,11 @@ public partial class Chat : MonoBehaviour
 	public static void AddAdminPrivMsg(string message)
 	{
 		Instance.addAdminPriv.Invoke(message);
+	}
+
+	public static void AddMentorPrivMsg(string message)
+	{
+		Instance.addMentorPriv.Invoke(message);
 	}
 
 	/// <summary>

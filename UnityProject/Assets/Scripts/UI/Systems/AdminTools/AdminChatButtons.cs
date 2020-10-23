@@ -7,10 +7,12 @@ namespace AdminTools
 	public class AdminChatButtons : MonoBehaviour
 	{
 		public GUI_Notification adminNotification = null;
+		public GUI_Notification mentorNotification = null;
 		public GUI_Notification playerNotification = null;
 		public GUI_Notification prayerNotification = null;
 		[SerializeField] private AdminChatWindows adminChatWindows = null;
 		[SerializeField] private Button adminChatButton = null;
+		[SerializeField] private Button mentorChatButton = null;
 		[SerializeField] private Button playerChatButton = null;
 		[SerializeField] private Button prayerWindowButton = null;
 		// Ignore default color warning
@@ -39,6 +41,7 @@ namespace AdminTools
 		void ToggleButtons(AdminChatWindow selectedWindow)
 		{
 			adminChatButton.image.color = unSelectedColor;
+			mentorChatButton.image.color = unSelectedColor;
 			playerChatButton.image.color = unSelectedColor;
 			prayerWindowButton.image.color = unSelectedColor;
 
@@ -46,6 +49,9 @@ namespace AdminTools
 			{
 				case AdminChatWindow.AdminPlayerChat:
 					playerChatButton.image.color = selectedColor;
+					break;
+				case AdminChatWindow.MentorPlayerChat:
+					mentorChatButton.image.color = selectedColor;
 					break;
 				case AdminChatWindow.AdminToAdminChat:
 					adminChatButton.image.color = selectedColor;
@@ -59,6 +65,7 @@ namespace AdminTools
 		public void ClearAllNotifications()
 		{
 			adminNotification.ClearAll();
+			mentorNotification.ClearAll();
 			playerNotification.ClearAll();
 			prayerNotification.ClearAll();
 		}
@@ -91,6 +98,19 @@ namespace AdminTools
 					Amount = n.Value,
 					Key = n.Key,
 					TargetWindow = AdminChatWindow.AdminPlayerChat
+				});
+			}
+
+			foreach (var n in mentorNotification.notifications)
+			{
+				if (PlayerList.Instance.GetByUserID(n.Key) == null
+				    || PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
+
+				update.notificationEntries.Add(new AdminChatNotificationEntry
+				{
+					Amount = n.Value,
+					Key = n.Key,
+					TargetWindow = AdminChatWindow.MentorPlayerChat
 				});
 			}
 

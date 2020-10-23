@@ -25,6 +25,8 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Transform thresholdMarkerBottom = null;
 	[SerializeField] private Transform thresholdMarkerTop = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
+	[SerializeField] private MentorHelpChat mentorHelpChat = null;
+	[SerializeField] private GameObject helpSelectionPanel = null;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
@@ -242,6 +244,12 @@ public class ChatUI : MonoBehaviour
 	{
 		adminHelpChat.gameObject.SetActive(true);
 		adminHelpChat.AddChatEntry(message);
+	}
+
+	public void AddMentorPrivEntry(string message)
+	{
+		mentorHelpChat.gameObject.SetActive(true);
+		mentorHelpChat.AddChatEntry(message);
 	}
 
 	void SetEntryTransform(GameObject entry)
@@ -822,6 +830,22 @@ public class ChatUI : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Opens a panel to select whether admin or mentor help is needed
+	/// </summary>
+	public void OnHelpButton()
+	{
+		CloseChatWindow();
+		if (helpSelectionPanel.gameObject.activeInHierarchy)
+		{
+			helpSelectionPanel.gameObject.SetActive(false);
+		}
+		else
+		{
+			helpSelectionPanel.gameObject.SetActive(true);
+		}
+	}
+
+	/// <summary>
 	/// Opens the admin help window to talk to the admins
 	/// </summary>
 	public void OnAdminHelpButton()
@@ -834,6 +858,24 @@ public class ChatUI : MonoBehaviour
 		else
 		{
 			adminHelpChat.gameObject.SetActive(true);
+			helpSelectionPanel.gameObject.SetActive(false);
+		}
+	}
+
+	/// <summary>
+	/// Opens the mentor help window to talk to the mentors
+	/// </summary>
+	public void OnMentorHelpButton()
+	{
+		CloseChatWindow();
+		if (mentorHelpChat.gameObject.activeInHierarchy)
+		{
+			mentorHelpChat.gameObject.SetActive(false);
+		}
+		else
+		{
+			mentorHelpChat.gameObject.SetActive(true);
+			helpSelectionPanel.gameObject.SetActive(false);
 		}
 	}
 }

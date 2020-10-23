@@ -34,7 +34,7 @@ public class ChatRelay : NetworkBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-			Chat.RegisterChatRelay(Instance, AddToChatLogServer, AddToChatLogClient, AddPrivMessageToClient);
+			Chat.RegisterChatRelay(Instance, AddToChatLogServer, AddToChatLogClient, AddAdminPrivMessageToClient, AddMentorPrivMessageToClient);
 		}
 		else
 		{
@@ -177,11 +177,19 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private void AddPrivMessageToClient(string message)
+	private void AddAdminPrivMessageToClient(string message)
 	{
 		trySendingTTS(message);
 
 		ChatUI.Instance.AddAdminPrivEntry(message);
+	}
+
+	[Client]
+	private void AddMentorPrivMessageToClient(string message)
+	{
+		trySendingTTS(message);
+
+		ChatUI.Instance.AddMentorPrivEntry(message);
 	}
 
 	[Client]
