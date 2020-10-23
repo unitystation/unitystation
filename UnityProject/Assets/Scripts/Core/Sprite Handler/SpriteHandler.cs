@@ -47,6 +47,8 @@ public class SpriteHandler : MonoBehaviour
 
 	[SerializeField] private List<Color> palette = new List<Color>();
 
+	private bool PaletteSet = false;
+
 	private bool Initialised;
 
 	private NetworkIdentity NetworkIdentity;
@@ -548,21 +550,30 @@ public class SpriteHandler : MonoBehaviour
 		{
 			spriteRenderer.enabled = true;
 			spriteRenderer.sprite = value;
-			MaterialPropertyBlock block = new MaterialPropertyBlock();
-			spriteRenderer.GetPropertyBlock(block);
-			var palette = getPaletteOrNull();
-			if (palette != null && palette.Count == 8)
-			{
-				List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
-				block.SetVectorArray("_ColorPalette", pal);
-				block.SetInt("_IsPaletted", 1);
-			}
-			else
-			{
-				block.SetInt("_IsPaletted", 0);
-			}
 
-			spriteRenderer.SetPropertyBlock(block);
+			if (isPaletted() && PaletteSet == false)
+			{
+				PaletteSet = true;
+				var palette = getPaletteOrNull();
+				if (palette == null && palette.Count == 4)
+				{
+					MaterialPropertyBlock block = new MaterialPropertyBlock();
+					spriteRenderer.GetPropertyBlock(block);
+					List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+					block.SetVectorArray("_ColorPalette", pal);
+					block.SetInt("_IsPaletted", 1);
+					spriteRenderer.SetPropertyBlock(block);
+				}
+
+			}
+			else if (PaletteSet)
+			{
+				PaletteSet = false;
+				MaterialPropertyBlock block = new MaterialPropertyBlock();
+				spriteRenderer.GetPropertyBlock(block);
+				block.SetInt("_IsPaletted", 0);
+				spriteRenderer.SetPropertyBlock(block);
+			}
 		}
 		else if (image != null)
 		{
@@ -679,18 +690,20 @@ public class SpriteHandler : MonoBehaviour
 
 	public void UpdateMe()
 	{
-		timeElapsed += Time.deltaTime;
-		if (PresentSpriteSet.Variance.Count > variantIndex &&
-		    timeElapsed >= PresentFrame.secondDelay)
+		timeElapsed += UpdateManager.CashedDeltaTime;
+		if (timeElapsed >= PresentFrame.secondDelay)
 		{
-			animationIndex++;
-			if (animationIndex >= PresentSpriteSet.Variance[variantIndex].Frames.Count)
+			if (PresentSpriteSet.Variance.Count > variantIndex)
 			{
-				animationIndex = 0;
+				animationIndex++;
+				if (animationIndex >= PresentSpriteSet.Variance[variantIndex].Frames.Count)
+				{
+					animationIndex = 0;
+				}
+				var frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
+				SetSprite(frame);
 			}
 
-			var frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
-			SetSprite(frame);
 		}
 
 		if (!isAnimation)

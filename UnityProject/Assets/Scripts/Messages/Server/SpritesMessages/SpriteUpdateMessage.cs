@@ -111,10 +111,10 @@ public class SpriteUpdateMessage : ServerMessage
 				if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '`')
 				{
 					Color TheColour = Color.white;
-					TheColour.r = (SerialiseData[Scanning + 1] / 255f);
-					TheColour.g = (SerialiseData[Scanning + 2] / 255f);
-					TheColour.b = (SerialiseData[Scanning + 3] / 255f);
-					TheColour.a = (SerialiseData[Scanning + 4] / 255f);
+					TheColour.r = ((int)SerialiseData[Scanning + 1] / 255f);
+					TheColour.g = ((int)SerialiseData[Scanning + 2] / 255f);
+					TheColour.b = ((int)SerialiseData[Scanning + 3] / 255f);
+					TheColour.a = ((int)SerialiseData[Scanning + 4] / 255f);
 					Scanning = Scanning + 4;
 					SP.SetColor(TheColour, false);
 					Scanning++;
