@@ -362,10 +362,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 						var slots = itemStorage.GetItemSlots();
 						if (slots == null)
 						{
-							if (!CustomNetworkManager.Instance._isServer)
-							{
-								Chat.AddExamineMsgFromServer(interaction.Performer, "It's already empty!");
-							}
+
+							Chat.AddExamineMsgFromServer(interaction.Performer, "It's already empty!");
+
 
 							return;
 						}
@@ -376,10 +375,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 							PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 							.ItemStorageNetID, interaction.WorldPositionTarget);
 
-						if (!CustomNetworkManager.Instance._isServer)
-						{
-							Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
-						}
+						
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
+
 					}
 
 					break;
