@@ -30,6 +30,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isClip: 0
+  Projectile: {fileID: 0}
+  ProjectilesFired: 1
+  isCell: 0
+  containedProjectilesFired: 
+  containedBullets: []
   ammoType: 14
   magazineSize: 12
   battery: {fileID: 2318848754024261209}
@@ -54,8 +59,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d7971ed10d754f34e943e38d3a4a4d8a,
+      objectReference: {fileID: 21300000, guid: 3f09419e9e9cbd6408bb911b6e58e234,
         type: 3}
+    - target: {fileID: 2885341641989622235, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3091929310079895539, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -114,7 +124,7 @@ PrefabInstance:
     - target: {fileID: 3097138933977987719, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: m_Name
-      value: Magazine_FusionCells
+      value: BVOld_Magazine_FusionCells
       objectReference: {fileID: 0}
     - target: {fileID: 3129732272286336819, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
@@ -167,7 +177,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 69bb729a658f2a04d8eb0ad9675e12d9,
+      objectReference: {fileID: 11400000, guid: 3be44749a60f3134c9b3e038e909a185,
         type: 2}
     m_RemovedComponents:
     - {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba, type: 3}

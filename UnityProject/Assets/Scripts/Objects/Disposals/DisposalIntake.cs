@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Core.Directionals;
 using Systems.Disposals;
 
 namespace Objects.Disposals
@@ -112,7 +113,7 @@ namespace Objects.Disposals
 			if (FloorPlatingExposed()) baseString = base.Examine().TrimEnd('.') + " and";
 
 			if (IsOperating) return $"{baseString} is currently flushing its contents.";
-			else return $"{baseString} is ready for use.";
+			else return $"{baseString} is {(MachineSecured ? "ready" : "not ready")} for use.";
 		}
 
 		#endregion Interactions
@@ -184,14 +185,12 @@ namespace Objects.Disposals
 
 		void DenyEntry()
 		{
-			// TODO: Figure out a way to exclude this object from directional passable checks
-			// before we can re-enable this line, else we cannot move the object.
-			//directionalPassable.DenyPassableOnAllSides();
+			directionalPassable.DenyPassableOnAllSides(PassType.Entering);
 		}
 
 		void AllowEntry()
 		{
-			directionalPassable.AllowPassableAtSetSides();
+			directionalPassable.AllowPassableAtSetSides(PassType.Entering);
 		}
 	}
 }

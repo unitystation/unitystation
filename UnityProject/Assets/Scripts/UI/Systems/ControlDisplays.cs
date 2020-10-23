@@ -2,6 +2,7 @@
 using System.Collections;
 using Audio.Managers;
 using Audio.Containers;
+using Blob;
 using DatabaseAPI;
 using JetBrains.Annotations;
 using ServerInfo;
@@ -67,7 +68,13 @@ public class ControlDisplays : MonoBehaviour
 			yield return WaitFor.EndOfFrame;
 		}
 
-		if (PlayerManager.LocalPlayerScript.playerHealth == null)
+		//TODO: make better system for handling lots of different UIs
+		if (PlayerManager.LocalPlayerScript.IsPlayerSemiGhost)
+		{
+			BlobUI();
+			PlayerManager.LocalPlayerScript.GetComponent<BlobPlayer>()?.TurnOnClientLight();
+		}
+		else if (PlayerManager.LocalPlayerScript.playerHealth == null)
 		{
 			GhostUI();
 		}

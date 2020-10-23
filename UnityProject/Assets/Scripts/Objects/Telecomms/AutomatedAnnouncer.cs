@@ -56,24 +56,30 @@ namespace Objects.Telecomms
 			string commonMessage = $"{playerName} has signed up as {playerOccupation.DisplayName}.";
 			string deptMessage = $"{playerName}, {playerOccupation.DisplayName}, is the department head.";
 
+			// Get the channel of the newly joined head from their occupation.
 			if (channelFromJob.ContainsKey(playerOccupation.JobType))
 			{
 				BroadcastCommMsg(channelFromJob[playerOccupation.JobType], deptMessage);
 			}
 
+			// Announce the arrival on the CentComm channel if is a CentComm occupation.
 			if (JobCategories.CentCommJobs.Contains(playerOccupation.JobType))
 			{
 				chatChannels = ChatChannel.CentComm;
 			}
 
-			switch (playerOccupation.JobType)
+			if (playerOccupation.JobType == JobType.AI)
 			{
-				case JobType.AI:
-					commonMessage = $"{player.ExpensiveName()} has been bluespace-beamed into the AI core!";
-					break;
-				case JobType.SYNDICATE:
-					chatChannels = ChatChannel.Syndicate;
-					break;
+				commonMessage = $"{player.ExpensiveName()} has been bluespace-beamed into the AI core!";
+			}
+			else if (playerOccupation.JobType == JobType.SYNDICATE)
+			{
+				chatChannels = ChatChannel.Syndicate;
+			}
+			else if (playerOccupation.IsCrewmember == false)
+			{
+				// Don't announce non-crewmembers like wizards, fugitives at all (they don't have their own chat channel).
+				return;
 			}
 
 			BroadcastCommMsg(chatChannels, commonMessage);

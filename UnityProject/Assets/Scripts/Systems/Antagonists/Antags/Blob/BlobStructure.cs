@@ -38,9 +38,16 @@ namespace Blob
 		[HideInInspector]
 		public Vector3Int location;
 
+		public string overmindName;
+
 		private void Start()
 		{
 			integrity = GetComponent<Integrity>();
+		}
+
+		private void OnDisable()
+		{
+			integrity.OnWillDestroyServer.RemoveAllListeners();
 		}
 	}
 }

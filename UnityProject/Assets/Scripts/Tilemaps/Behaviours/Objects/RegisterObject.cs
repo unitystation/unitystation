@@ -45,21 +45,23 @@ public class RegisterObject : RegisterTile
 		Passable = initialPassable;
 	}
 
-	public override bool IsPassable(Vector3Int from, bool isServer, GameObject context = null)
+	public override bool IsPassable(Vector3Int enteringFrom, bool isServer, GameObject context = null)
 	{
+		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
 		if (CheckPassableExclusions(context)) return true;
 
-		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
+		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
 	}
 
 	public override bool IsPassable(bool isServer, GameObject context = null)
 	{
+		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
 		if (CheckPassableExclusions(context)) return true;
 
 		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
 	}
 
-	public override bool IsAtmosPassable(Vector3Int from, bool isServer)
+	public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{
 		return AtmosPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
 	}

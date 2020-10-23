@@ -406,7 +406,7 @@ public partial class Chat
 	{
 		if (PlayerManager.PlayerScript == null) return false;
 		if (!PlayerManager.PlayerScript.IsGhost) return false;
-		if (Instance.GhostHearAll && !PlayerManager.PlayerScript.IsBlob) return false;
+		if (Instance.GhostHearAll && !PlayerManager.PlayerScript.IsPlayerSemiGhost) return false;
 
 		if (NetworkIdentity.spawned.ContainsKey(originator))
 		{

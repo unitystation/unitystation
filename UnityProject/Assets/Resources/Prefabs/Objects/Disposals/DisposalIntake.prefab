@@ -17,11 +17,26 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   AtmosPassable: 1
-  Passable: 1
-  PassableUp: 0
-  PassableDown: 1
-  PassableLeft: 0
-  PassableRight: 0
+  Passable: 0
+  passableExclusionsToThis: []
+  isLeavableOnAll: 1
+  isEnterableOnAll: 0
+  isAtmosPassableOnAll: 1
+  leavableSides:
+    Up: 0
+    Down: 0
+    Left: 0
+    Right: 0
+  enterableSides:
+    Up: 0
+    Down: 1
+    Left: 0
+    Right: 0
+  atmosphericPassableSides:
+    Up: 0
+    Down: 0
+    Left: 0
+    Right: 0
 --- !u!114 &1627647419430524646
 MonoBehaviour:
   m_ObjectHideFlags: 0

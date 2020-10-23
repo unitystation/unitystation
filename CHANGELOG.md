@@ -2,6 +2,20 @@
 ---
 
 
+* 2020/10/23: Blobs can now fight each other, may the best blob win by [ThatDan123](https://github.com/ThatDan123) in PR #[5384](https://github.com/unitystation/unitystation/pull/5384)
+* 2020/10/23: Fixed blob attack message position by [ThatDan123](https://github.com/ThatDan123) in PR #[5384](https://github.com/unitystation/unitystation/pull/5384)
+* 2020/10/23: Fixed blobs unable to build structures by [ThatDan123](https://github.com/ThatDan123) in PR #[5384](https://github.com/unitystation/unitystation/pull/5384)
+* 2020/10/23: Added new sprites for the R550c by schwick and new sprites for the laser carbine and disabler pistol by Toriate. by [PetMudstone](https://github.com/PetMudstone) in PR #[5386](https://github.com/unitystation/unitystation/pull/5386)
+* 2020/10/22: Add charges to Emags by [Skrimble](https://github.com/Skrimble) in PR #[5376](https://github.com/unitystation/unitystation/pull/5376)
+* 2020/10/22: Fixes being unable to dispose of yourself, and unable to drag disposal intakes. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5373](https://github.com/unitystation/unitystation/pull/5373)
+* 2020/10/22: Fixed blob aghost by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
+* 2020/10/22: Fixed blob attack effect not being played on client by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
+* 2020/10/22: Stopped blob attack messages from auto expand by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
+* 2020/10/22: Prohibited blobs from constructing node, factory and resources blobs on normal space blob tiles by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
+* 2020/10/22: Fixed Blob tile count not decreasing when blob tiles are killed by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
+* 2020/10/22: Fixed multiple blob sharing the UI updates by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
+* 2020/10/22: Fixed blob sound being global by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
+* 2020/10/22: Fixed blobs rejoining having wrong UI by [ThatDan123](https://github.com/ThatDan123) in PR #[5372](https://github.com/unitystation/unitystation/pull/5372)
 * 2020/10/21: makes it so syndicate and Wizard scenes  spawningon by [Bod9001](https://github.com/Bod9001) in PR #[5377](https://github.com/unitystation/unitystation/pull/5377)
 * 2020/10/21: fixes lathes UI and exprefab UI by [Bod9001](https://github.com/Bod9001) in PR #[5377](https://github.com/unitystation/unitystation/pull/5377)
 * 2020/10/21: fixes situations where power would bug out by [Bod9001](https://github.com/Bod9001) in PR #[5377](https://github.com/unitystation/unitystation/pull/5377)

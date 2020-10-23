@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems;
 using Objects.Security;
 
 namespace UI.Objects.Security
@@ -254,7 +255,7 @@ namespace UI.Objects.Security
 
 		public void DeleteRecord()
 		{
-			SecurityRecordsManager.Instance.SecurityRecords.Remove(record);
+			CrewManifestManager.Instance.SecurityRecords.Remove(record);
 			securityRecordsTab.OpenRecords();
 		}
 

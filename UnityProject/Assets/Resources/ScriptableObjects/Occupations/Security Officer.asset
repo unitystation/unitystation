@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Security Officer
   m_EditorClassIdentifier: 
   jobType: 33
+  isCrewmember: 1
+  lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: edd8a849bc01744e18bfc104f6f0da85, type: 2}
   limit: 5
   priority: 99
   allowedAccess: 060000001a0000001b0000003100000043000000440000002300000022000000
+  spells: []
   progress: 80
   choiceColor: {r: 1, g: 0.93333334, b: 0.93333334, a: 1}
   previewSprite: {fileID: 21300000, guid: 3099496e4ac7b5d4686f21ffeb66c55a, type: 3}
@@ -36,3 +39,7 @@ MonoBehaviour:
     sure what to do? Patrol the station, man the strategic outposts, attend the security
     desk to receive and register reports. Investigate said reports and emit arrest
     warrants when needed. Instruct assistants to \u201Cpick up that can.\u201D\r"
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 1

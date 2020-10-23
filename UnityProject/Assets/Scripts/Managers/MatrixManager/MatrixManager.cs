@@ -550,7 +550,9 @@ public partial class MatrixManager : MonoBehaviour
 			}
 		}
 
-		if (GetPushableAt(worldOrigin, dir, bumper.gameObject, isServer).Count > 0)
+		bool isPassable = IsPassableAt(worldOrigin, targetPos, isServer, includingPlayers: true, context: bumper.gameObject);
+		// Only push if not passable, e.g. for directional windows being pushed from parallel
+		if (!isPassable && GetPushableAt(worldOrigin, dir, bumper.gameObject, isServer).Count > 0)
 		{
 			return BumpType.Push;
 		}
@@ -560,7 +562,7 @@ public partial class MatrixManager : MonoBehaviour
 			return BumpType.ClosedDoor;
 		}
 
-		if (!IsPassableAt(worldOrigin, targetPos, isServer, includingPlayers: true, context: bumper.gameObject))
+		if (!isPassable)
 		{
 			return BumpType.Blocked;
 		}
@@ -707,10 +709,10 @@ public partial class MatrixManager : MonoBehaviour
 
 		foreach (PushPull pushPull in GetAt<PushPull>(worldTarget, isServer))
 		{
-			PushPull pushable = pushPull;
+			if (pushPull == null || pushPull.gameObject == pusher) continue;
 
-			if (pushPull && pushPull.gameObject != pusher &&
-			    (isServer ? pushPull.IsSolidServer : pushPull.IsSolidClient))
+			PushPull pushable = pushPull;
+			if (isServer ? pushPull.CanPushServer(worldTarget, dir) : pushPull.CanPushClient(worldTarget, dir))
 			{
 				// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
 				// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players

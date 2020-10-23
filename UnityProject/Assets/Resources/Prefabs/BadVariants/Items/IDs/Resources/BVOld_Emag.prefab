@@ -24,12 +24,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 5c13bd3d6ff597a4487df94a04bfbb09,
+      objectReference: {fileID: 21300000, guid: 6586e64806bdb6940bf834f1d716588f,
         type: 3}
+    - target: {fileID: 2368154560039706197, guid: dd36cfd4f55a00d4ab4190d869297198,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2462507587837783305, guid: dd36cfd4f55a00d4ab4190d869297198,
         type: 3}
       propertyPath: m_Name
-      value: Emag
+      value: BVOld_Emag
       objectReference: {fileID: 0}
     - target: {fileID: 2467717211471614077, guid: dd36cfd4f55a00d4ab4190d869297198,
         type: 3}
@@ -119,11 +124,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7bd446a263971f646931da98f793fdc1,
         type: 2}
+    - target: {fileID: 2648414749016687211, guid: dd36cfd4f55a00d4ab4190d869297198,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: c54a74cc5c50f204b9ae369968f291ad,
+        type: 2}
     - target: {fileID: 8604842513916024462, guid: dd36cfd4f55a00d4ab4190d869297198,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 2b0e502c644e91e49986501da0dda7bb,
+      objectReference: {fileID: 11400000, guid: c54a74cc5c50f204b9ae369968f291ad,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd36cfd4f55a00d4ab4190d869297198, type: 3}

@@ -272,21 +272,22 @@ namespace Objects.Disposals
 		// TODO This was copied from somewhere. Where?
 		void StartStoringPlayer(MouseDrop interaction)
 		{
-			List<LayerType> excludeObjects = new List<LayerType>() { LayerType.Objects };
 			Vector3Int targetObjectLocalPosition = interaction.TargetObject.RegisterTile().LocalPosition;
 			Vector3Int targetObjectWorldPos = interaction.TargetObject.WorldPosServer().CutToInt();
 
-			if (!interaction.UsedObject.RegisterTile().Matrix.IsPassableAt(targetObjectLocalPosition, true, excludeLayers: excludeObjects))
+			// We check if there's nothing in the way, like another player or a directional window.
+			if (interaction.UsedObject.RegisterTile().Matrix.IsPassableAt(targetObjectLocalPosition, true, context: gameObject) == false)
 			{
 				return;
 			}
 
+			// Runs when the progress action is complete.
 			void StoringPlayer()
 			{
 				PlayerScript playerScript;
 				if (interaction.UsedObject.TryGetComponent(out playerScript))
 				{
-					if (playerScript.registerTile.Matrix.IsPassableAt(targetObjectLocalPosition, true, excludeLayers: excludeObjects))
+					if (playerScript.registerTile.Matrix.IsPassableAt(targetObjectLocalPosition, true, context: gameObject))
 					{
 						playerScript.PlayerSync.SetPosition(targetObjectWorldPos);
 					}
