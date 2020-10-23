@@ -364,7 +364,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 						{
 							if (!CustomNetworkManager.Instance._isServer)
 							{
-								Chat.AddExamineMsgToClient("It's already empty!");
+								Chat.AddExamineMsgFromServer(interaction.Performer, "It's already empty!");
 							}
 
 							return;
@@ -378,7 +378,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 						if (!CustomNetworkManager.Instance._isServer)
 						{
-							Chat.AddExamineMsgToClient($"You start dumping out the {gameObject.ExpensiveName()}.");
+							Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
 						}
 					}
 
