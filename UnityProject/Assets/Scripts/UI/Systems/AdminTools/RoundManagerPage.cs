@@ -57,6 +57,7 @@ public class RoundManagerPage : AdminPage
 	private void EndRound()
 	{
 		ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdEndRound");
+		adminTools.ClosePanel(); // We close the panel immediately after, so it is not open when new round starts.
 	}
 
 	public void ToggleLavaLand()

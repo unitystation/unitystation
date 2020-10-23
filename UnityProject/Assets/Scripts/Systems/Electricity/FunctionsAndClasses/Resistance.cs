@@ -14,8 +14,6 @@ public class Resistance
 [System.Serializable]
 public class ResistanceWrap
 {
-
-
 	public Resistance resistance;
 
 	public float Strength = 1;
@@ -146,7 +144,7 @@ public class VIRResistances
 
 	public override string ToString()
 	{
-		return string.Format(Resistance().ToString() + "[" + string.Join(",", ResistanceSources) + "]" );
+		return string.Format(Resistance().ToString()  + "[" + string.Join(",", ResistanceSources) + "]" );
 	}
 
 	public void Pool()

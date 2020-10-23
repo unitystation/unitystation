@@ -102,7 +102,7 @@ namespace Objects.Disposals
 			if (FloorPlatingExposed()) baseString = base.Examine().TrimEnd('.') + " and";
 
 			if (IsOperating) return $"{baseString} is currently ejecting its contents.";
-			else return $"{baseString} is ready for use.";
+			else return $"{baseString} is {(MachineSecured ? "ready" : "not ready")} for use.";
 		}
 
 		#endregion Interactions

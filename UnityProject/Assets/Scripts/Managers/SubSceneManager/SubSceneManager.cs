@@ -76,6 +76,20 @@ public partial class SubSceneManager : NetworkBehaviour
 			Instance.AddObserverToAllObjects(connectedPlayer.Connection, sceneContext);
 		}
 	}
+
+	//TODO Update mirror
+	public static void ManuallyLoadScene(string ToLoad)
+	{
+		foreach (var ReadyLoaded in Instance.clientLoadedSubScenes)
+		{
+			if (ReadyLoaded.SceneName == ToLoad)
+			{
+				return;
+			}
+
+		}
+		Instance.StartCoroutine(Instance.LoadSubScene(ToLoad));
+	}
 }
 
 public enum SceneType

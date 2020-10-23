@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Research Director
   m_EditorClassIdentifier: 
   jobType: 30
+  isCrewmember: 1
+  lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 49c23d4c9071a46f58d7d5d30d42248d, type: 2}
   limit: 1
   priority: 2
   allowedAccess: 1a0000002200000025000000310000003e0000003f00000042000000400000004a000000500000004d00000026000000
+  spells: []
   progress: 5
   choiceColor: {r: 1, g: 0.8666667, b: 1, a: 1}
   previewSprite: {fileID: 21300000, guid: 2117f39b59bf1be4c827b031933af5af, type: 3}
@@ -25,3 +28,7 @@ MonoBehaviour:
   descriptionShort: "\u2022 Supersive your researchers\n\u2022 Keep robots from going
     rogue\n\u2022 Advocate for SCIENCE!"
   descriptionLong: 
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 1

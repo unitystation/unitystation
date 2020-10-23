@@ -7,8 +7,6 @@ using Weapons.Projectiles;
 
 public class GunElectrical : Gun
 {
-	public GameObject Projectile;
-
 	public List<GameObject> firemodeProjectiles = new List<GameObject>();
 
 	public List<string> firemodeFiringSound = new List<string>();
@@ -18,6 +16,17 @@ public class GunElectrical : Gun
 	private int currentFiremode = 0;
 
 	public int countFiremode = 1;
+
+	public override void OnSpawnServer(SpawnInfo info)
+	{
+		base.OnSpawnServer(info);
+		UpdateFiremode();
+	}
+
+	public void OnSpawnClient(SpawnInfo info)
+	{
+		UpdateFiremode();
+	}
 
 	public override bool Interact(HandActivate interaction)
 	{

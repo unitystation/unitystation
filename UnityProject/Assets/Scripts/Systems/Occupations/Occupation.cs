@@ -19,6 +19,16 @@ public class Occupation : ScriptableObject
 	private JobType jobType = JobType.NULL;
 	public JobType JobType => jobType;
 
+	[Tooltip("Whether this is a crew role (to add to crew manifest, security records etc)")]
+	[SerializeField]
+	private bool isCrewmember = true;
+	public bool IsCrewmember => isCrewmember;
+
+	[Tooltip("Whether a late spawn should arrive on the arrivals shuttle or their unique spawn point")]
+	[SerializeField]
+	private bool lateSpawnIsArrivals = true;
+	public bool LateSpawnIsArrivals => lateSpawnIsArrivals;
+
 	[FormerlySerializedAs("InventoryPopulator")]
 	[SerializeField]
 	[Tooltip("Populator to use to populate the player's inventory" +

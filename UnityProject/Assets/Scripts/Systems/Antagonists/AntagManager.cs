@@ -86,13 +86,25 @@ namespace Antagonists
 			ServerFinishAntag(chosenAntag, connectedPlayer, spawnedPlayer);
 		}
 
-		public void ServerRespawnAsAntag(ConnectedPlayer connectedPlayer, Antagonist antagonist)
+		public IEnumerator ServerRespawnAsAntag(ConnectedPlayer connectedPlayer, Antagonist antagonist)
 		{
 			var antagOccupation = antagonist.AntagOccupation;
 
 			if (antagOccupation != null)
 			{
 				connectedPlayer.Script.mind.occupation = antagonist.AntagOccupation;
+			}
+
+			if (antagonist.AntagJobType == JobType.SYNDICATE)
+			{
+				yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+				yield return WaitFor.EndOfFrame;
+			}
+
+			if (antagonist.AntagJobType == JobType.WIZARD)
+			{
+				yield return StartCoroutine(SubSceneManager.Instance.LoadWizard());
+				yield return WaitFor.EndOfFrame;
 			}
 
 			PlayerSpawn.ServerRespawnPlayer(connectedPlayer.Script.mind);
