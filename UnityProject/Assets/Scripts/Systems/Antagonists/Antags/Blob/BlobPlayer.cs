@@ -76,6 +76,8 @@ namespace Blob
 		private float factoryTimer = 0f;
 		private float healthTimer = 0f;
 
+		private string overmindName;
+
 		[SerializeField]
 		private float econModifier = 1f;
 
@@ -198,10 +200,10 @@ namespace Blob
 			playerScript.mind.ghost = playerScript;
 			playerScript.mind.body = playerScript;
 
-			var name = $"Overmind {Random.Range(1, 1001)}";
+			overmindName = $"Overmind {Random.Range(1, 1001)}";
 
-			playerScript.characterSettings.Name = name;
-			playerScript.playerName = name;
+			playerScript.characterSettings.Name = overmindName;
+			playerScript.playerName = overmindName;
 
 			playerScript.IsPlayerSemiGhost = true;
 
@@ -213,6 +215,8 @@ namespace Blob
 				return;
 			}
 
+			TargetRpcTurnOnClientLight(connectionToClient);
+
 			blobCore = result.GameObject;
 
 			var pos = blobCore.GetComponent<CustomNetTransform>().ServerPosition;
@@ -223,6 +227,7 @@ namespace Blob
 			nonSpaceBlobTiles.Add(blobCore);
 
 			structure.location = pos;
+			structure.overmindName = overmindName;
 			SetLightAndColor(structure);
 
 			//Make core act like node
@@ -236,20 +241,11 @@ namespace Blob
 
 			//Block escape shuttle from leaving station when it arrives
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(true);
-
-			TargetRpcTurnOnClientLight(connectionToClient);
 		}
 
 		private void OnEnable()
 		{
 			UpdateManager.Add(PeriodicUpdate, 1f);
-
-			var uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
-			uiBlob.blobPlayer = this;
-			uiBlob.controller = GetComponent<BlobMouseInputController>();
-			healthText = uiBlob.healthText;
-			resourceText = uiBlob.resourceText;
-			numOfBlobTilesText = uiBlob.numOfBlobTilesText;
 		}
 
 		private void OnDisable()
@@ -430,7 +426,12 @@ namespace Blob
 		{
 			TurnOnClientLight();
 			playerScript.IsPlayerSemiGhost = true;
-			PlayerManager.LocalPlayerScript.IsPlayerSemiGhost = true;
+			var uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
+			uiBlob.blobPlayer = this;
+			uiBlob.controller = GetComponent<BlobMouseInputController>();
+			healthText = uiBlob.healthText;
+			resourceText = uiBlob.resourceText;
+			numOfBlobTilesText = uiBlob.numOfBlobTilesText;
 		}
 
 		public void TurnOnClientLight()
@@ -564,6 +565,7 @@ namespace Blob
 			var structure = result.GameObject.GetComponent<BlobStructure>();
 
 			structure.location = worldPos;
+			structure.overmindName = overmindName;
 			SetLightAndColor(structure);
 
 			AddNonSpaceBlob(result.GameObject);
@@ -603,7 +605,7 @@ namespace Blob
 
 				player.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
-				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb");
+				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
 
 				PlayAttackEffect(pos);
 
@@ -611,7 +613,7 @@ namespace Blob
 			}
 
 			var hits = matrix.Get<RegisterTile>(local, ObjectType.Object, true)
-				.Where( hit => hit != null && !hit.IsPassable(true) && hit.GetComponent<BlobStructure>() == null);
+				.Where( hit => hit != null && !hit.IsPassable(true) && (!hit.TryGetComponent<BlobStructure>(out var structure) || structure.overmindName != overmindName));
 
 			foreach (var hit in hits)
 			{
@@ -622,7 +624,7 @@ namespace Blob
 
 					npcComponent.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
-					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb");
+					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
 
 					PlayAttackEffect(pos);
 
@@ -638,7 +640,7 @@ namespace Blob
 
 					if (!autoExpanding)
 					{
-						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
+						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", worldPos, gameObject);
 					}
 
 					PlayAttackEffect(pos);
@@ -649,7 +651,8 @@ namespace Blob
 
 			//Do check to see if the impassable thing is a friendly blob, as it will be the only object left
 			var hitsSecond = matrix.Get<RegisterTile>(local, ObjectType.Object, true)
-				.Where(hit => hit != null && hit.GetComponent<BlobStructure>() != null);
+				.Where(hit => hit != null && hit.TryGetComponent<BlobStructure>(out var structure) && structure != null
+				&& structure.overmindName == overmindName);
 
 			if (hitsSecond.Any())
 			{
@@ -838,6 +841,7 @@ namespace Blob
 
 			Despawn.ServerSingle(originalBlob.gameObject);
 			var structure = result.GameObject.GetComponent<BlobStructure>();
+			structure.overmindName = overmindName;
 			SetLightAndColor(structure);
 			blobTiles[worldPos] = structure;
 			AddNonSpaceBlob(result.GameObject);
@@ -910,6 +914,7 @@ namespace Blob
 					Chat.AddExamineMsgFromServer(gameObject, $"You grow a {blobConstructs} blob.");
 
 					var structure = result.GameObject.GetComponent<BlobStructure>();
+					structure.overmindName = overmindName;
 
 					switch (blobConstructs)
 					{

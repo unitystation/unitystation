@@ -297,7 +297,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="customAttackVerb">If you want to override the attack verb then pass the verb here</param>
 	/// <param name="attackedTile">If attacking a particular tile, the layer tile being attacked</param>
 	public static void AddAttackMsgToChat(GameObject attacker, GameObject victim,
-		BodyPartType hitZone = BodyPartType.None, GameObject item = null, string customAttackVerb = "", LayerTile attackedTile = null)
+		BodyPartType hitZone = BodyPartType.None, GameObject item = null, string customAttackVerb = "", LayerTile attackedTile = null, Vector3 posOverride = new Vector3())
 	{
 		string attackVerb;
 		string attack;
@@ -381,12 +381,19 @@ public partial class Chat : MonoBehaviour
 		var messageOthers = $"{attackerName} has {attackVerb} {victimNameOthers}{InTheZone(hitZone)}{attack}!";
 		var message = $"You {attackVerb} {victimName}{InTheZone(hitZone)}{attack}!";
 
+		var pos = attacker.WorldPosServer();
+
+		if (posOverride != Vector3.zero)
+		{
+			pos = posOverride;
+		}
+
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
 			message = message,
 			messageOthers = messageOthers,
-			position = attacker.WorldPosServer(),
+			position = pos,
 			speaker = attacker.name,
 			originator = attacker
 		});
