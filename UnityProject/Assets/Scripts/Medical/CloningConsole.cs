@@ -62,22 +62,21 @@ public class CloningConsole : MonoBehaviour, IServerSpawn
 	/// </summary>
 	public void ServerToggleLock()
 	{
-		if(scanner && scanner.IsClosed && scanner.RelatedAPC && scanner.Powered)
+		if(!Inoperable() && scanner.IsClosed)
 		{
 			scanner.ServerToggleLocked();
 			scanner.statusString = scanner.IsLocked ? "Scanner locked." : "Scanner unlocked.";
 		}
-		else {
-			if(!scanner) scanner.statusString = "Scanner not found.";
-			else if(!scanner.RelatedAPC) scanner.statusString = "Scanner not connected to APC.";
-			else if(!scanner.Powered) scanner.statusString = "Voltage too low.";
+		else 
+		{
+			if(Inoperable()) UpdateInoperableStatus();
 			else if(!scanner.IsClosed) scanner.statusString = "Scanner is not closed.";
 		}
 	}
 
 	public void Scan()
 	{
-		if (scanner && scanner.occupant && scanner.RelatedAPC && scanner.Powered)
+		if (!Inoperable() && scanner.occupant)
 		{
 			var mob = scanner.occupant;
 			var mobID = scanner.occupant.mobID;
@@ -100,12 +99,23 @@ public class CloningConsole : MonoBehaviour, IServerSpawn
 			CreateRecord(mob, playerScript);
 			scanner.statusString = "Subject successfully scanned.";
 		}
-		else {
-			if(!scanner) scanner.statusString = "Scanner not found.";
-			else if(!scanner.RelatedAPC) scanner.statusString = "Scanner not connected to APC.";
-			else if(!scanner.Powered) scanner.statusString = "Voltage too low.";
+		else 
+		{
+			if(Inoperable()) UpdateInoperableStatus();
 			else if(!scanner.occupant) scanner.statusString = "Scanner is empty.";
 		}
+	}
+
+	private bool Inoperable() 
+	{
+		return !(scanner && scanner.RelatedAPC && scanner.Powered);
+	}
+
+	private void UpdateInoperableStatus()
+	{
+		if(!scanner) scanner.statusString = "Scanner not found.";
+		else if(!scanner.RelatedAPC) scanner.statusString = "Scanner not connected to APC.";
+		else if(!scanner.Powered) scanner.statusString = "Voltage too low.";
 	}
 
 	public void ServerTryClone(CloningRecord record)
