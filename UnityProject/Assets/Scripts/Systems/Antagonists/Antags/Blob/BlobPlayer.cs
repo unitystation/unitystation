@@ -1307,6 +1307,8 @@ namespace Blob
 			var coreCache = core.ServerPosition;
 
 			core.SetPosition(node.ServerPosition);
+			blobTiles[node.ServerPosition] = blobCore.GetComponent<BlobStructure>();
+			blobTiles[coreCache] = oldNode;
 			node.SetPosition(coreCache);
 
 			ResetArea(blobCore);
@@ -1331,6 +1333,8 @@ namespace Blob
 			var coreCache = core.ServerPosition;
 
 			core.SetPosition(normal.ServerPosition);
+			blobTiles[normal.ServerPosition] = blobCore.GetComponent<BlobStructure>();
+			blobTiles[coreCache] = oldNormal;
 			normal.SetPosition(coreCache);
 
 			ResetArea(blobCore);
@@ -1467,6 +1471,10 @@ namespace Blob
 				{
 					//Nodes produce 1.5 resources to make up for no expansion
 					numResource += nodeBlobs.Count * 1.5f;
+					coreIncome = 4;
+				}
+				else if (currentStrain.strainType == StrainTypes.RegenerativeMateria)
+				{
 					coreIncome = 4;
 				}
 
