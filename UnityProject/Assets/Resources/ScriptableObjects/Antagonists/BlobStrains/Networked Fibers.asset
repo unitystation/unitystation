@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: Networked Fibers
   m_EditorClassIdentifier: 
   strainName: Networked Fibers
-  strainDesc: 
+  strainDesc: 'The overmind has decided to micromanage everything.
+
+
+    Can only
+    expand manually (by clicking). Can only expand next to core. Manual expansion
+    near your Core moves the core to that tile. Core regenerates health 2.5 times
+    faster than other chemical types. Nodes and core produce extra resources instead
+    of producing Blob Tiles. Remember you can alt+click on a blob tile to remove
+    it, in case you get stuck.'
   playerDamages:
   - damageDone: 20
     damageType: 0
@@ -44,3 +52,4 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   color: {r: 0.80392164, g: 0.75294125, b: 0.6901961, a: 1}
+  strainType: 6

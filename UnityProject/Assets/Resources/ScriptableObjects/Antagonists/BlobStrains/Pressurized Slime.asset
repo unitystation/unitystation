@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pressurized Slime
   m_EditorClassIdentifier: 
   strainName: Pressurized Slime
-  strainDesc: 
+  strainDesc: Filled with water, this blob isnt afraid to get you wet.
   playerDamages:
   - damageDone: 15
     damageType: 0
@@ -46,3 +46,4 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   color: {r: 0.6666667, g: 0.6666667, b: 0.73333335, a: 1}
+  strainType: 7

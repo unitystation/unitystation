@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Debris Devourer
   m_EditorClassIdentifier: 
   strainName: Debris Devourer
-  strainDesc: 
+  strainDesc: Eats everything in its path, items, objects and humanoids. Can reactively
+    throw debris at attacking beings.
   playerDamages:
   - damageDone: 20
     damageType: 0
@@ -42,3 +43,4 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   color: {r: 0.54509807, g: 0.0627451, b: 0, a: 1}
+  strainType: 2

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cryogenic Poison
   m_EditorClassIdentifier: 
   strainName: Cryogenic Poison
-  strainDesc: 
+  strainDesc: Will inject its victims with poison before consuming them.
   playerDamages:
   - damageDone: 20
     damageType: 0
@@ -42,3 +42,4 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   color: {r: 0.54509807, g: 0.6509804, b: 0.91372555, a: 1}
+  strainType: 1

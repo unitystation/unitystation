@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Regenerative Materia
   m_EditorClassIdentifier: 
   strainName: Regenerative Materia
-  strainDesc: 
+  strainDesc: Blob core health regenerative abilities are extreme and produce an
+    extra resource.
   playerDamages:
   - damageDone: 5
     damageType: 0
@@ -44,3 +45,4 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   color: {r: 0.7843138, g: 0.64705884, b: 0.86274517, a: 1}
+  strainType: 9

@@ -26,6 +26,8 @@ namespace Blob
 		public Armor armor;
 
 		public Color color;
+
+		public StrainTypes strainType;
 	}
 
 	[Serializable]
@@ -34,5 +36,23 @@ namespace Blob
 		public int damageDone;
 
 		public DamageType damageType;
+	}
+
+	public enum StrainTypes
+	{
+		BlazingOil,
+		CryogenicPoison,
+		DebrisDevourer,
+		ElectromagneticWeb,
+		EnergizedJelly,
+		ExplosiveLattice,
+		NetworkedFibers,
+		PressurizedSlime,
+		ReactiveSpines,
+		RegenerativeMateria,
+		ReplicatingFoam,
+		ShiftingFragments,
+		SynchronousMesh,
+		DistributedNeurons
 	}
 }

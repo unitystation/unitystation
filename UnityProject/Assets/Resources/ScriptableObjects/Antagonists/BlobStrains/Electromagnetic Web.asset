@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Electromagnetic Web
   m_EditorClassIdentifier: 
   strainName: Electromagnetic Web
-  strainDesc: 
+  strainDesc: Localised electromagnetic pulses are emitted through the web of connected
+    blob, keep electronics away.
   playerDamages:
   - damageDone: 5
     damageType: 0
@@ -44,3 +45,4 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   color: {r: 0.5137255, g: 0.92549026, b: 0.92549026, a: 1}
+  strainType: 3

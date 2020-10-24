@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Explosive Lattice
   m_EditorClassIdentifier: 
   strainName: Explosive Lattice
-  strainDesc: 
+  strainDesc: Blob has adpated to become a bomb itself, and has become immune to
+    explosions. Be careful of fires.
   playerDamages:
   - damageDone: 20
     damageType: 0
@@ -42,3 +43,4 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   color: {r: 0.54509807, g: 0.14509805, b: 0, a: 1}
+  strainType: 5

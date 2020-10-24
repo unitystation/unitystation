@@ -75,6 +75,7 @@ namespace Blob
 		private float econTimer = 0f;
 		private float factoryTimer = 0f;
 		private float healthTimer = 0f;
+		private float rerollTimer = 0f;
 
 		private string overmindName;
 
@@ -174,6 +175,7 @@ namespace Blob
 
 		private int numOfNonSpaceBlobTiles = 1;
 
+		//Amount of free strain rerolls
 		public int StrainRerolls
 		{
 			get { return strainRerolls; }
@@ -187,6 +189,7 @@ namespace Blob
 
 		private int strainRerolls = 1;
 
+		//Needed to run the Rpc on client
 		public int StrainIndex
 		{
 			get { return strainIndex; }
@@ -299,6 +302,7 @@ namespace Blob
 			econTimer += 1f;
 			factoryTimer += 1f;
 			healthTimer += 1f;
+			rerollTimer += 1f;
 
 			//Force overmind back to blob if camera moves too far
 			if (!teleportCheck && !victory && !ValidateAction(playerSync.ServerPosition, true) && blobCore != null)
@@ -363,6 +367,13 @@ namespace Blob
 						"Confirmed outbreak of level 5 biohazard aboard the station. All personnel must contain the outbreak."),
 					MatrixManager.MainStationMatrix);
 				SoundManager.PlayNetworked("Outbreak5");
+			}
+
+			if (rerollTimer > 300f)
+			{
+				rerollTimer = 0f;
+
+				StrainRerolls += 1;
 			}
 
 			BiomassTick();
@@ -466,7 +477,15 @@ namespace Blob
 		public void TurnOnClientLight()
 		{
 			overmindLightObject.SetActive(true);
-			overmindLight.Color = clientCurrentStrain.color;
+
+			var colour = Color.green;
+
+			if (clientCurrentStrain != null)
+			{
+				colour = clientCurrentStrain.color;
+			}
+
+			overmindLight.Color = colour;
 			overmindLight.Color.a = 0.2f;
 			overmindSprite.layer = 29;
 		}
@@ -506,6 +525,16 @@ namespace Blob
 		private void TargetRpcSyncStrainIndex(NetworkConnection target, int newVar)
 		{
 			clientCurrentStrain = blobStrains[newVar];
+			uiBlob.UpdateStrainInfo();
+			TurnOnClientLight();
+		}
+
+		[TargetRpc]
+		private void TargetRpcForceStrainReset(NetworkConnection target)
+		{
+			var strains = blobStrains.Where(s => s != clientCurrentStrain);
+			uiBlob.randomStrains = strains.PickRandom(4).ToList();
+
 			uiBlob.UpdateStrainInfo();
 		}
 
@@ -1235,6 +1264,8 @@ namespace Blob
 
 		private void AutoExpandBlob()
 		{
+
+
 			//Node auto expand logic
 			foreach (var node in nodeBlobs.Shuffle())
 			{
@@ -1468,24 +1499,42 @@ namespace Blob
 		[Command]
 		public void CmdChangeStrain(int newStrainIndex)
 		{
-			if (resources < adaptStrainCost)
+			if (StrainRerolls > 0)
 			{
-				Chat.AddExamineMsgFromServer(gameObject, "Not enough resources to readapt");
-				return;
+				StrainRerolls -= 1;
+			}
+			else
+			{
+				if (resources < adaptStrainCost)
+				{
+					Chat.AddExamineMsgFromServer(gameObject, "Not enough resources to readapt");
+					return;
+				}
+
+				resources -= adaptStrainCost;
 			}
 
-			Chat.AddExamineMsgFromServer(gameObject, $"You readapt and mutate into the {blobStrains[newStrainIndex]} strain");
+			Chat.AddExamineMsgFromServer(gameObject, $"You readapt and mutate into the {blobStrains[newStrainIndex].strainName} strain");
 
-			resources -= adaptStrainCost;
 			currentStrain = blobStrains[newStrainIndex];
 			StrainIndex = newStrainIndex;
 			UpdateBlobStrain();
+
+			TargetRpcForceStrainReset(connectionToClient);
 		}
 
 		[Command]
 		public void CmdRandomiseStrains()
 		{
+			if (resources < rerollStrainsCost)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "Not enough resources to randomise strains");
+				return;
+			}
+
 			resources -= rerollStrainsCost;
+
+			TargetRpcForceStrainReset(connectionToClient);
 		}
 
 		#endregion

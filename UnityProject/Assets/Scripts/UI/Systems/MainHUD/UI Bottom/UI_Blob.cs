@@ -28,7 +28,7 @@ public class UI_Blob : MonoBehaviour
 
 	public int? clickedStrainIndex = null;
 
-	private List<BlobStrain> randomStrains = new List<BlobStrain>();
+	public List<BlobStrain> randomStrains = new List<BlobStrain>();
 
 	[SerializeField]
 	private List<StrainButton> randomStrainsButtons = new List<StrainButton>();
@@ -277,20 +277,7 @@ public class UI_Blob : MonoBehaviour
 
 	public void GetRandomStrains()
 	{
-		if(int.TryParse(resourceText.text, out var result)) return;
-
-		if (result < blobPlayer.rerollStrainsCost)
-		{
-			Chat.AddExamineMsgToClient("Not enough resources to randomise strains");
-			return;
-		}
-
 		blobPlayer.CmdRandomiseStrains();
-
-		var strains = blobPlayer.blobStrains.Where(s => s != blobPlayer.clientCurrentStrain);
-		randomStrains = strains.PickRandom(4).ToList();
-
-		ResetButtons();
 	}
 
 	public void SetActiveButton(int buttonClicked)
