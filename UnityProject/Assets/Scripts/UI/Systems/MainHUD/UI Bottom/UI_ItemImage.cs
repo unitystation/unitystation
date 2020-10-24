@@ -95,6 +95,7 @@ public class UI_ItemImage
 			if (itemAttrs.ItemSprites.IsPaletted)
 			{
 				image.material.SetInt("_IsPaletted", 1);
+				image.material.SetInt("_PaletteSize", itemAttrs.ItemSprites.Palette.Count);
 				image.material.SetColorArray("_ColorPalette", itemAttrs.ItemSprites.Palette.ToArray());
 			}
 			else

@@ -9,6 +9,7 @@ Shader "Stencil/Unlit background masked" {
 	Properties{
 		_MainTex("Base (RGB) Trans (A)", 2D) = "white" {}
 		[PerRendererData] _IsPaletted("Is Paletted", Int) = 0
+		[PerRendererData] _PaletteSize("Palette Size", Int) = 8
 	}
 
 		SubShader{
@@ -53,7 +54,7 @@ Shader "Stencil/Unlit background masked" {
 	float4 _ObjectFovMaskTransformation;
 	float4 _MainTex_ST;
 
-	float4 _ColorPalette[8];
+	float4 _ColorPalette[256];
 	int _IsPaletted;
 
 	v2f vert(appdata_t v)
@@ -77,8 +78,8 @@ Shader "Stencil/Unlit background masked" {
 
 		if (_IsPaletted)
 		{
-			int paletteIndexA = min(textureSample.r, 0.99) * 8;
-			int paletteIndexB = min(textureSample.g, 0.99) * 8;
+			int paletteIndexA = min(textureSample.r * _PaletteSize, _PaletteSize-1);
+			int paletteIndexB = min(textureSample.g * _PaletteSize, _PaletteSize-1);
 			final = lerp(_ColorPalette[paletteIndexA], _ColorPalette[paletteIndexB], textureSample.b) * i.color;
 		}
 		else

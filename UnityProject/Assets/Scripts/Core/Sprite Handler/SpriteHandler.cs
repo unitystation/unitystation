@@ -565,13 +565,14 @@ public class SpriteHandler : MonoBehaviour
 			{
 				PaletteSet = true;
 				var palette = getPaletteOrNull();
-				if (palette != null && palette.Count == 8)
+				if (palette != null && palette.Count > 0 && palette.Count <= 256)
 				{
 					MaterialPropertyBlock block = new MaterialPropertyBlock();
 					spriteRenderer.GetPropertyBlock(block);
 					List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
 					block.SetVectorArray("_ColorPalette", pal);
 					block.SetInt("_IsPaletted", 1);
+					block.SetInt("_PaletteSize", pal.Count);
 					spriteRenderer.SetPropertyBlock(block);
 				}
 			}
@@ -594,6 +595,7 @@ public class SpriteHandler : MonoBehaviour
 				List<Vector4> pal = paletteOrNull.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
 				image.material.SetVectorArray("_ColorPalette", pal);
 				image.material.SetInt("_IsPaletted", 1);
+				image.material.SetInt("_PaletteSize", pal.Count);
 			}
 			else
 			{
