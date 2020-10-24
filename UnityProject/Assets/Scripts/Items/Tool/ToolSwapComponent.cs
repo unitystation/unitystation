@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 namespace Items
 {
 	/// <summary>
 	/// Allows an item to change traits when it is activated. For example, the Jaws of Life.
 	/// </summary>
-	public class ToolSwapComponent : MonoBehaviour, IExaminable, IInteractable<HandActivate>
+	public class ToolSwapComponent : NetworkBehaviour, IExaminable, IInteractable<HandActivate>
 	{
 		[Tooltip("The initial state the tool is in.")]
 		[SerializeField]
@@ -22,6 +23,7 @@ namespace Items
 		private ItemAttributesV2 itemAttributes;
 		private SpriteHandler spriteHandler;
 
+		[SyncVar(hook = nameof(SyncState))]
 		private int currentStateIndex = 0;
 		public ToolState CurrentState => states[currentStateIndex];
 
@@ -48,26 +50,39 @@ namespace Items
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			foreach (ItemTrait trait in CurrentState.traits)
+			if (currentStateIndex + 1 < states.Count)
 			{
-				itemAttributes.RemoveTrait(trait);
+				currentStateIndex++;
 			}
-
-			// Cycle though the list, keeping in check the size of said list.
-			currentStateIndex++;
-			if (currentStateIndex >= states.Count)
+			else
 			{
 				currentStateIndex = 0;
-			}
-
-			foreach (ItemTrait trait in CurrentState.traits)
-			{
-				itemAttributes.AddTrait(trait);
 			}
 
 			spriteHandler.ChangeSprite(CurrentState.spriteIndex);
 			SoundManager.PlayNetworkedAtPos(CurrentState.changeSound, interaction.PerformerPlayerScript.WorldPos);
 			Chat.AddExamineMsgFromServer(interaction.Performer, CurrentState.changeMessage);
+		}
+
+		private void SyncState(int oldStateIndex, int newStateIndex)
+		{
+			currentStateIndex = newStateIndex;
+			SetTraitState(oldStateIndex, newStateIndex);
+		}
+
+		private void SetTraitState(int oldStateIndex, int newStateIndex)
+		{
+			// Remove the current traits as part of the old state.
+			foreach (ItemTrait trait in states[oldStateIndex].traits)
+			{
+				itemAttributes.RemoveTrait(trait);
+			}
+
+			// Add the new traits from the new state.
+			foreach (ItemTrait trait in states[newStateIndex].traits)
+			{
+				itemAttributes.AddTrait(trait);
+			}
 		}
 
 		[Serializable]
