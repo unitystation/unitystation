@@ -78,6 +78,17 @@ namespace Antagonists
 			return objSB.ToString();
 		}
 
+		public string GetObjectiveSummary()
+		{
+			StringBuilder objSB = new StringBuilder("\r\n", 200);
+			var objectiveList = Objectives.ToList();
+			for (int i = 0; i < objectiveList.Count; i++)
+			{
+				objSB.AppendLine($"{i+1}. {objectiveList[i].Description}");
+			}
+			return objSB.ToString();
+		}
+
 		/// <summary>
 		/// Returns a string with the status of all objectives for this antag
 		/// </summary>
