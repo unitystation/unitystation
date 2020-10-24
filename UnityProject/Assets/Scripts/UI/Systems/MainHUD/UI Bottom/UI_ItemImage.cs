@@ -87,8 +87,15 @@ public class UI_ItemImage
 			image.sprite = sprite;
 
 			// set color
-			var color = handler.CurrentColor;
-			image.color = color;
+			if (forcedColor != null)
+			{
+				image.color = forcedColor.GetValueOrDefault(Color.white);
+			}
+			else
+			{
+				var color = handler.CurrentColor;
+				image.color = color;
+			}
 
 			// Configure the shader to use palette if item uses it
 			var itemAttrs = item.GetComponent<ItemAttributesV2>();
@@ -115,12 +122,6 @@ public class UI_ItemImage
 						image.color = newColor;
 					}
 				}
-			}
-
-			bool forceColor = color != null;
-			if (forceColor)
-			{
-				image.color = forcedColor.GetValueOrDefault(Color.white);
 			}
 
 			image.enabled = !hidden;
@@ -231,6 +232,7 @@ public class UI_ItemImage
 				if (handler != null)
 				{
 					handler.OnSpriteChanged -= OnHandlerSpriteChanged;
+					handler.OnColorChanged -= OnHandlerColorChanged;
 				}
 
 				handler = value;
@@ -239,11 +241,12 @@ public class UI_ItemImage
 				if (handler)
 				{
 					handler.OnSpriteChanged += OnHandlerSpriteChanged;
+					handler.OnColorChanged += OnHandlerColorChanged;
 				}
 			}
 		}
 
-        private void OnHandlerSpriteChanged(Sprite sprite)
+		private void OnHandlerColorChanged(Color newColor)
 		{
 			if (!UIImage)
 			{
@@ -251,6 +254,22 @@ public class UI_ItemImage
 				// this happens when item is moved in container
 				// and player close this container
 				handler.OnSpriteChanged -= OnHandlerSpriteChanged;
+				handler.OnColorChanged -= OnHandlerColorChanged;
+				return;
+			}
+
+			UIImage.color = newColor;
+		}
+
+		private void OnHandlerSpriteChanged(Sprite sprite)
+		{
+			if (!UIImage)
+			{
+				// looks like image was deleted from scene
+				// this happens when item is moved in container
+				// and player close this container
+				handler.OnSpriteChanged -= OnHandlerSpriteChanged;
+				handler.OnColorChanged -= OnHandlerColorChanged;
 				return;
 			}
 

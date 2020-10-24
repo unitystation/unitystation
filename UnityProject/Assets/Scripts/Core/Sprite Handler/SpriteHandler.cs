@@ -69,6 +69,11 @@ public class SpriteHandler : MonoBehaviour
 	public event System.Action<Sprite> OnSpriteChanged;
 
 	/// <summary>
+	/// Invoke when sprite handler has changed color of sprite
+	/// </summary>
+	public event System.Action<Color> OnColorChanged;
+
+	/// <summary>
 	/// The amount of SubCatalogues defined for this SpriteHandler.
 	/// </summary>
 	public int CatalogueCount => SubCatalogue.Count;
@@ -538,6 +543,8 @@ public class SpriteHandler : MonoBehaviour
 		{
 			image.color = value;
 		}
+
+		OnColorChanged?.Invoke(value);
 	}
 
 	private void UpdateImageColor()
