@@ -83,7 +83,7 @@ namespace Blob
 		private float econModifier = 1f;
 
 		[SerializeField]
-		private int maxBiomass = 100;
+		private float maxBiomass = 100f;
 
 		[SerializeField]
 		[Tooltip("If true then there will be announcements when blob is close to destroying station, after the initial biohazard.")]
@@ -136,7 +136,7 @@ namespace Blob
 			new Vector3Int(-1, 0, 0)
 		};
 
-		public int Resources
+		public float Resources
 		{
 			get { return resources; }
 			set
@@ -147,7 +147,7 @@ namespace Blob
 			}
 		}
 
-		private int resources = 0;
+		private float resources = 0;
 
 		public float Health
 		{
@@ -272,6 +272,7 @@ namespace Blob
 			//Set up death detection
 			coreHealth = blobCore.GetComponent<Integrity>();
 			coreHealth.OnWillDestroyServer.AddListener(Death);
+			SubscribeToDamage(structure);
 
 			//Block escape shuttle from leaving station when it arrives
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(true);
@@ -498,9 +499,9 @@ namespace Blob
 		}
 
 		[TargetRpc]
-		private void TargetRpcSyncResources(NetworkConnection target, int newVar)
+		private void TargetRpcSyncResources(NetworkConnection target, float newVar)
 		{
-			uiBlob.resourceText.text = newVar.ToString();
+			uiBlob.resourceText.text = Mathf.FloorToInt(newVar).ToString();
 		}
 
 		[TargetRpc]
@@ -568,6 +569,8 @@ namespace Blob
 			PlaceBlobOrAttack(worldPos);
 		}
 
+		//return value only used by auto expand, return true if blob is already there so can be removed
+		//from the coords that need expanding to. Return false in all other cases
 		private bool PlaceBlobOrAttack(Vector3Int worldPos, bool autoExpanding = false)
 		{
 			if (!ValidateAction(worldPos)) return false;
@@ -601,11 +604,35 @@ namespace Blob
 				return true;
 			}
 
+			return TryExpand(worldPos, autoExpanding);
+		}
+
+		/// <summary>
+		/// Try to expand blob, doesnt do a passable check!
+		/// </summary>
+		/// <param name="worldPos"></param>
+		/// <param name="autoExpanding"></param>
+		/// <returns></returns>
+		private bool TryExpand(Vector3Int worldPos, bool autoExpanding = false)
+		{
+			if (currentStrain.strainType == StrainTypes.NetworkedFibers && !ValidateNextToCore(worldPos))
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You can only expand next to the core, due to the current strain");
+				return false;
+			}
+
 			//See if theres blob already there
 			if (blobTiles.ContainsKey(worldPos))
 			{
 				if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
 				{
+					if (currentStrain.strainType == StrainTypes.NetworkedFibers)
+					{
+						//Move core to normal blob when networked fibers strain
+						MoveCoreToNormalBlob(blob);
+						return true;
+					}
+
 					//Cant place normal blob where theres normal blob
 					return true;
 				}
@@ -642,7 +669,7 @@ namespace Blob
 
 			AddNonSpaceBlob(result.GameObject);
 
-			structure.GetComponent<Integrity>().OnWillDestroyServer.AddListener(BlobTileDeath);
+			SubscribeToDamage(structure);
 
 			if (newPosition)
 			{
@@ -857,6 +884,28 @@ namespace Blob
 			return true;
 		}
 
+		/// <summary>
+		/// Check to see if pos is next to core position
+		/// </summary>
+		/// <param name="worldPos"></param>
+		/// <param name="noMsg"></param>
+		/// <returns></returns>
+		private bool ValidateNextToCore(Vector3 worldPos)
+		{
+			var pos = worldPos.RoundToInt();
+
+			var corePos = blobCore.WorldPosServer();
+
+			foreach (var offSet in coords)
+			{
+				if (pos == offSet + corePos)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		#endregion
 
 		#region Effects
@@ -920,10 +969,15 @@ namespace Blob
 			Chat.AddExamineMsgFromServer(gameObject, msg);
 
 			Despawn.ServerSingle(originalBlob.gameObject);
+
 			var structure = result.GameObject.GetComponent<BlobStructure>();
 			structure.overmindName = overmindName;
+
 			SetStrainData(structure);
 			SetLightAndColor(structure);
+
+			SubscribeToDamage(structure);
+
 			blobTiles[worldPos] = structure;
 			AddNonSpaceBlob(result.GameObject);
 		}
@@ -1021,6 +1075,7 @@ namespace Blob
 					structure.location = worldPos;
 					SetStrainData(structure);
 					SetLightAndColor(structure);
+					SubscribeToDamage(structure);
 
 					blobTiles[worldPos] = structure;
 					AddNonSpaceBlob(result.GameObject);
@@ -1258,13 +1313,36 @@ namespace Blob
 			ResetArea(oldNode.gameObject);
 		}
 
+		/// <summary>
+		/// Switches a node into a core
+		/// </summary>
+		/// <param name="oldNode"></param>
+		public void MoveCoreToNormalBlob(BlobStructure oldNormal)
+		{
+			if (!oldNormal.isNormal)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "Can only move the core to a normal blob");
+				return;
+			}
+
+			var core = blobCore.GetComponent<CustomNetTransform>();
+			var normal = oldNormal.GetComponent<CustomNetTransform>();
+
+			var coreCache = core.ServerPosition;
+
+			core.SetPosition(normal.ServerPosition);
+			normal.SetPosition(coreCache);
+
+			ResetArea(blobCore);
+		}
+
 		#endregion
 
 		#region AutoExpand
 
 		private void AutoExpandBlob()
 		{
-
+			if(currentStrain.strainType == StrainTypes.NetworkedFibers) return;
 
 			//Node auto expand logic
 			foreach (var node in nodeBlobs.Shuffle())
@@ -1301,6 +1379,9 @@ namespace Blob
 		{
 			var pos = node.GetComponent<CustomNetTransform>().ServerPosition;
 			var structNode = node.GetComponent<BlobStructure>();
+
+			if(!structNode.isCore && !structNode.isNode) return;
+
 			structNode.expandCoords = GenerateCoords(pos);
 			structNode.healthPulseCoords = structNode.expandCoords;
 			structNode.location = pos;
@@ -1379,16 +1460,26 @@ namespace Blob
 				//Remove null if possible
 				resourceBlobs.Remove(null);
 
+				float numResource = resourceBlobs.Count;
+				var coreIncome = 3;
+
+				if (currentStrain.strainType == StrainTypes.NetworkedFibers)
+				{
+					//Nodes produce 1.5 resources to make up for no expansion
+					numResource += nodeBlobs.Count * 1.5f;
+					coreIncome = 4;
+				}
+
 				//One biomass for each resource node
-				var newBiomass = Mathf.RoundToInt((resourceBlobs.Count + 3) * econModifier); //Base income of three
+				var newBiomass = (numResource + coreIncome) * econModifier; //Base income of three
 
 				AddToResources(newBiomass);
 			}
 		}
 
-		private int AddToResources(int newBiomass)
+		private float AddToResources(float newBiomass)
 		{
-			var used = 0;
+			var used = 0f;
 
 			//Reset to max if over
 			if (Resources >= maxBiomass)
@@ -1452,13 +1543,24 @@ namespace Blob
 			{
 				if(node == null) continue;
 
+				var healthToRestore = node.isCore ? 3f : 1f;
+
+				if (currentStrain.strainType == StrainTypes.NetworkedFibers && node.isCore)
+				{
+					healthToRestore *= 2.5f;
+				}
+				else if (currentStrain.strainType == StrainTypes.RegenerativeMateria && node.isCore)
+				{
+					healthToRestore *= 10f;
+				}
+
 				foreach (var healthPulseTarget in node.healthPulseCoords)
 				{
 					if (blobTiles.TryGetValue(healthPulseTarget.To3Int(), out var blob) && blob != null)
 					{
 						if(blob.integrity == null) continue;
 
-						blob.integrity.RestoreIntegrity(node.isCore ? 3 : 1);
+						blob.integrity.RestoreIntegrity(healthToRestore);
 					}
 				}
 			}
@@ -1535,6 +1637,156 @@ namespace Blob
 			resources -= rerollStrainsCost;
 
 			TargetRpcForceStrainReset(connectionToClient);
+		}
+
+		#endregion
+
+		#region Ondamage
+
+		private void SubscribeToDamage(BlobStructure structure)
+		{
+			structure.integrity.OnWillDestroyServer.AddListener(BlobTileDeath);
+
+			structure.integrity.OnApplyDamage.AddListener(OnDamageReceived);
+		}
+
+		private void OnDamageReceived(DamageInfo info)
+		{
+			switch (currentStrain.strainType)
+			{
+				case StrainTypes.ReactiveSpines:
+					// Attacks nearby area when hit with melee attacks
+					AttackAllSides(info);
+					break;
+				case StrainTypes.BlazingOil:
+					// Emit burst of flame
+					EmitFlame(info);
+					break;
+				case StrainTypes.PressurizedSlime:
+					// Releases water when hit
+					SetAllSidesSlippy(info);
+					break;
+				case StrainTypes.ReplicatingFoam:
+					// Expands when burned
+					ExpandWhenBurnt(info);
+					break;
+				case StrainTypes.ShiftingFragments:
+					// When damaged always swaps positions with a nearby blob
+					SwapPositionWithBlob(info);
+					break;
+				case StrainTypes.SynchronousMesh:
+					// Spreads Damage Between Nearby Blobs
+					SpreadDamageOut(info);
+					break;
+				default:
+					return;
+			}
+		}
+
+		private void AttackAllSides(DamageInfo info)
+		{
+			var pos = info.AttackedIntegrity.gameObject.WorldPosServer();
+
+			foreach (var offset in coords)
+			{
+				TryAttack(offset + pos, true);
+			}
+		}
+
+		private void SetAllSidesSlippy(DamageInfo info)
+		{
+			var registerObject = info.AttackedIntegrity.gameObject.GetComponent<RegisterObject>();
+			var pos = registerObject.WorldPositionServer;
+
+			foreach (var offset in coords)
+			{
+				registerObject.Matrix.MetaDataLayer.MakeSlipperyAt(offset + pos);
+			}
+		}
+
+		private void ExpandWhenBurnt(DamageInfo info)
+		{
+			if(info.DamageType != DamageType.Burn || info.AttackType != AttackType.Fire) return;
+
+			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
+
+			foreach (var offset in coords)
+			{
+				PlaceBlobOrAttack(offset + pos, true);
+			}
+		}
+
+		private void SwapPositionWithBlob(DamageInfo info)
+		{
+			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
+
+			foreach (var offset in coords)
+			{
+				//Dont swap with self
+				if (offset == Vector3Int.zero || !blobTiles.TryGetValue(offset + pos, out var blobStructure)) continue;
+
+				if(blobStructure == null) continue;
+
+				var first = info.AttackedIntegrity.GetComponent<CustomNetTransform>();
+				var second = blobStructure.GetComponent<CustomNetTransform>();
+
+				var posCache = pos + offset;
+
+				first.SetPosition(second.ServerPosition);
+				second.SetPosition(posCache);
+
+				//If moved to node or core refresh areas
+				ResetArea(first.gameObject);
+
+				if(!blobStructure.isCore && !blobStructure.isNode) return;
+
+				ResetArea(second.gameObject);
+				return;
+			}
+		}
+
+		private void SpreadDamageOut(DamageInfo info)
+		{
+			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
+
+			List<Integrity> blobIntegrities = new List<Integrity>();
+
+			//Add self
+			blobIntegrities.Add(info.AttackedIntegrity);
+
+			foreach (var offset in coords)
+			{
+				//Dont swap with self
+				if (offset == Vector3Int.zero || !blobTiles.TryGetValue(offset + pos, out var blobStructure)) continue;
+
+				if(blobStructure == null) continue;
+
+				blobIntegrities.Add(blobStructure.integrity);
+			}
+
+			if(blobIntegrities.Count == 1) return;
+
+			var damage = info.Damage / blobIntegrities.Count;
+
+			//Distribute damage
+			foreach (var blob in blobIntegrities)
+			{
+				blob.ApplyDamage(damage, info.AttackType, info.DamageType, triggerEvent: false);
+			}
+
+			//Heal self back up
+			info.AttackedIntegrity.RestoreIntegrity(damage * blobIntegrities.Count - 1);
+		}
+
+		private void EmitFlame(DamageInfo info)
+		{
+			var registerObject = info.AttackedIntegrity.gameObject.GetComponent<RegisterObject>();
+			var pos = registerObject.WorldPositionServer;
+
+			foreach (var offset in coords)
+			{
+				registerObject.Matrix.ReactionManager.ExposeHotspotWorldPosition((offset + pos).To2Int(), 3200, 0.02f);
+			}
 		}
 
 		#endregion
