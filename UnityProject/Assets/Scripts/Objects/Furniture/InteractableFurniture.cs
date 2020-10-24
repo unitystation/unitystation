@@ -32,26 +32,26 @@ namespace Objects
 		{
 			//start with the default HandApply WillInteract logic.
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
-				.Any(pm => pm.IsBuckled))
-			{
-				return false;
-			}
+			
 			//only care about interactions targeting us
 			if (interaction.TargetObject != gameObject) return false;
 			//only try to interact if the user has a wrench, screwdriver in their hand
-			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) { return false; }
+			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
+
 			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.TargetObject != gameObject) return;
-			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
+			if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, NetworkSide.Server)
+					.Any(pm => pm.IsBuckled))
 			{
-				ToolUtils.ServerPlayToolSound(interaction);
-				Disassemble(interaction);
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You cannot deconstruct this while it is occupied!");
+				return;
 			}
+
+			ToolUtils.ServerPlayToolSound(interaction);
+			Disassemble(interaction);
 		}
 
 		[Server]
