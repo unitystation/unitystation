@@ -40,7 +40,7 @@ namespace Blob
 
 		public string overmindName;
 
-		private void Start()
+		private void OnEnable()
 		{
 			integrity = GetComponent<Integrity>();
 		}

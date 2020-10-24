@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using DatabaseAPI;
 using Light2D;
 using Mirror;
@@ -41,19 +42,18 @@ namespace Blob
 
 		private float refundPercentage = 0.4f;
 
-		public BlobVariants blobVariants;
+		public List<BlobStrain> blobStrains = new List<BlobStrain>();
+
+		private BlobStrain currentStrain;
 
 		private GameObject blobCore;
 		private Integrity coreHealth;
-		private TMP_Text healthText;
-		private TMP_Text resourceText;
-		private TMP_Text numOfBlobTilesText;
+		private UI_Blob uiBlob;
 
-		public int playerDamage = 20;
-		public int objectDamage = 50;
 		public int layerDamage = 50;
-		public AttackType attackType = AttackType.Melee;
-		public DamageType damageType = DamageType.Brute;
+
+		public int adaptStrainCost = 40;
+		public int rerollStrainsCost = 20;
 
 		private PlayerSync playerSync;
 		private RegisterPlayer registerPlayer;
@@ -75,6 +75,7 @@ namespace Blob
 		private float econTimer = 0f;
 		private float factoryTimer = 0f;
 		private float healthTimer = 0f;
+		private float rerollTimer = 0f;
 
 		private string overmindName;
 
@@ -82,7 +83,7 @@ namespace Blob
 		private float econModifier = 1f;
 
 		[SerializeField]
-		private int maxBiomass = 100;
+		private float maxBiomass = 100f;
 
 		[SerializeField]
 		[Tooltip("If true then there will be announcements when blob is close to destroying station, after the initial biohazard.")]
@@ -135,7 +136,7 @@ namespace Blob
 			new Vector3Int(-1, 0, 0)
 		};
 
-		public int Resources
+		public float Resources
 		{
 			get { return resources; }
 			set
@@ -146,7 +147,7 @@ namespace Blob
 			}
 		}
 
-		private int resources = 0;
+		private float resources = 0;
 
 		public float Health
 		{
@@ -174,13 +175,41 @@ namespace Blob
 
 		private int numOfNonSpaceBlobTiles = 1;
 
+		//Amount of free strain rerolls
+		public int StrainRerolls
+		{
+			get { return strainRerolls; }
+			set
+			{
+				strainRerolls = value;
+
+				TargetRpcSyncStrainRerolls(connectionToClient, strainRerolls);
+			}
+		}
+
+		private int strainRerolls = 1;
+
+		//Needed to run the Rpc on client
+		public int StrainIndex
+		{
+			get { return strainIndex; }
+			set
+			{
+				strainIndex = value;
+
+				TargetRpcSyncStrainIndex(connectionToClient, strainIndex);
+			}
+		}
+
+		private int strainIndex;
+
+		public BlobStrain clientCurrentStrain;
+
 		private int numOfBlobTiles = 1;
 
 		private int maxCount = 0;
 
 		private int maxNonSpaceCount = 0;
-
-		private Color color = Color.green;//new Color(154, 205, 50);
 
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
@@ -228,6 +257,11 @@ namespace Blob
 
 			structure.location = pos;
 			structure.overmindName = overmindName;
+
+			currentStrain = blobStrains.PickRandom();
+			StrainIndex = blobStrains.IndexOf(currentStrain);
+
+			SetStrainData(structure);
 			SetLightAndColor(structure);
 
 			//Make core act like node
@@ -238,6 +272,7 @@ namespace Blob
 			//Set up death detection
 			coreHealth = blobCore.GetComponent<Integrity>();
 			coreHealth.OnWillDestroyServer.AddListener(Death);
+			SubscribeToDamage(structure);
 
 			//Block escape shuttle from leaving station when it arrives
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(true);
@@ -268,6 +303,7 @@ namespace Blob
 			econTimer += 1f;
 			factoryTimer += 1f;
 			healthTimer += 1f;
+			rerollTimer += 1f;
 
 			//Force overmind back to blob if camera moves too far
 			if (!teleportCheck && !victory && !ValidateAction(playerSync.ServerPosition, true) && blobCore != null)
@@ -332,6 +368,13 @@ namespace Blob
 						"Confirmed outbreak of level 5 biohazard aboard the station. All personnel must contain the outbreak."),
 					MatrixManager.MainStationMatrix);
 				SoundManager.PlayNetworked("Outbreak5");
+			}
+
+			if (rerollTimer > 300f)
+			{
+				rerollTimer = 0f;
+
+				StrainRerolls += 1;
 			}
 
 			BiomassTick();
@@ -426,18 +469,24 @@ namespace Blob
 		{
 			TurnOnClientLight();
 			playerScript.IsPlayerSemiGhost = true;
-			var uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
+			uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
 			uiBlob.blobPlayer = this;
 			uiBlob.controller = GetComponent<BlobMouseInputController>();
-			healthText = uiBlob.healthText;
-			resourceText = uiBlob.resourceText;
-			numOfBlobTilesText = uiBlob.numOfBlobTilesText;
 		}
 
+		//Client Side
 		public void TurnOnClientLight()
 		{
 			overmindLightObject.SetActive(true);
-			overmindLight.Color = color;
+
+			var colour = Color.green;
+
+			if (clientCurrentStrain != null)
+			{
+				colour = clientCurrentStrain.color;
+			}
+
+			overmindLight.Color = colour;
 			overmindLight.Color.a = 0.2f;
 			overmindSprite.layer = 29;
 		}
@@ -450,21 +499,44 @@ namespace Blob
 		}
 
 		[TargetRpc]
-		private void TargetRpcSyncResources(NetworkConnection target, int newVar)
+		private void TargetRpcSyncResources(NetworkConnection target, float newVar)
 		{
-			resourceText.text = newVar.ToString();
+			uiBlob.resourceText.text = Mathf.FloorToInt(newVar).ToString();
 		}
 
 		[TargetRpc]
 		private void TargetRpcSyncHealth(NetworkConnection target, float newVar)
 		{
-			healthText.text = newVar.ToString();
+			uiBlob.healthText.text = newVar.ToString();
 		}
 
 		[TargetRpc]
 		private void TargetRpcSyncNumOfBlobTiles(NetworkConnection target, int newVar)
 		{
-			numOfBlobTilesText.text = newVar.ToString();
+			uiBlob.numOfBlobTilesText.text = newVar.ToString();
+		}
+
+		[TargetRpc]
+		private void TargetRpcSyncStrainRerolls(NetworkConnection target, int newVar)
+		{
+			uiBlob.strainRerollsText.text = newVar.ToString();
+		}
+
+		[TargetRpc]
+		private void TargetRpcSyncStrainIndex(NetworkConnection target, int newVar)
+		{
+			clientCurrentStrain = blobStrains[newVar];
+			uiBlob.UpdateStrainInfo();
+			TurnOnClientLight();
+		}
+
+		[TargetRpc]
+		private void TargetRpcForceStrainReset(NetworkConnection target)
+		{
+			var strains = blobStrains.Where(s => s != clientCurrentStrain);
+			uiBlob.randomStrains = strains.PickRandom(4).ToList();
+
+			uiBlob.UpdateStrainInfo();
 		}
 
 		#endregion
@@ -497,6 +569,8 @@ namespace Blob
 			PlaceBlobOrAttack(worldPos);
 		}
 
+		//return value only used by auto expand, return true if blob is already there so can be removed
+		//from the coords that need expanding to. Return false in all other cases
 		private bool PlaceBlobOrAttack(Vector3Int worldPos, bool autoExpanding = false)
 		{
 			if (!ValidateAction(worldPos)) return false;
@@ -530,11 +604,35 @@ namespace Blob
 				return true;
 			}
 
+			return TryExpand(worldPos, autoExpanding);
+		}
+
+		/// <summary>
+		/// Try to expand blob, doesnt do a passable check!
+		/// </summary>
+		/// <param name="worldPos"></param>
+		/// <param name="autoExpanding"></param>
+		/// <returns></returns>
+		private bool TryExpand(Vector3Int worldPos, bool autoExpanding = false)
+		{
+			if (currentStrain.strainType == StrainTypes.NetworkedFibers && !ValidateNextToCore(worldPos))
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You can only expand next to the core, due to the current strain");
+				return false;
+			}
+
 			//See if theres blob already there
 			if (blobTiles.ContainsKey(worldPos))
 			{
 				if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
 				{
+					if (currentStrain.strainType == StrainTypes.NetworkedFibers)
+					{
+						//Move core to normal blob when networked fibers strain
+						MoveCoreToNormalBlob(blob);
+						return true;
+					}
+
 					//Cant place normal blob where theres normal blob
 					return true;
 				}
@@ -566,11 +664,12 @@ namespace Blob
 
 			structure.location = worldPos;
 			structure.overmindName = overmindName;
+			SetStrainData(structure);
 			SetLightAndColor(structure);
 
 			AddNonSpaceBlob(result.GameObject);
 
-			structure.GetComponent<Integrity>().OnWillDestroyServer.AddListener(BlobTileDeath);
+			SubscribeToDamage(structure);
 
 			if (newPosition)
 			{
@@ -603,7 +702,10 @@ namespace Blob
 			{
 				if(player.IsDead) continue;
 
-				player.ApplyDamage(gameObject, playerDamage, attackType, damageType);
+				foreach (var playerDamage in currentStrain.playerDamages)
+				{
+					player.ApplyDamage(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
+				}
 
 				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
 
@@ -622,7 +724,10 @@ namespace Blob
 				{
 					if(npcComponent.IsDead) continue;
 
-					npcComponent.ApplyDamage(gameObject, playerDamage, attackType, damageType);
+					foreach (var npcDamage in currentStrain.playerDamages)
+					{
+						npcComponent.ApplyDamage(gameObject, npcDamage.damageDone, AttackType.Melee, npcDamage.damageType);
+					}
 
 					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
 
@@ -636,7 +741,10 @@ namespace Blob
 
 				if (hit.TryGetComponent<Integrity>(out var component) && !component.Resistances.Indestructable)
 				{
-					component.ApplyDamage(objectDamage, attackType, damageType, true);
+					foreach (var objectDamage in currentStrain.objectDamages)
+					{
+						component.ApplyDamage(objectDamage.damageDone, AttackType.Melee, objectDamage.damageType, true);
+					}
 
 					if (!autoExpanding)
 					{
@@ -663,8 +771,7 @@ namespace Blob
 			if (metaTileMap != null && !MatrixManager.IsPassableAt(pos, true))
 			{
 				//Cell pos is unused var
-				metaTileMap.ApplyDamage(Vector3Int.zero, layerDamage,
-					pos, attackType);
+				metaTileMap.ApplyDamage(Vector3Int.zero, layerDamage, pos);
 
 				PlayAttackEffect(pos);
 
@@ -777,6 +884,28 @@ namespace Blob
 			return true;
 		}
 
+		/// <summary>
+		/// Check to see if pos is next to core position
+		/// </summary>
+		/// <param name="worldPos"></param>
+		/// <param name="noMsg"></param>
+		/// <returns></returns>
+		private bool ValidateNextToCore(Vector3 worldPos)
+		{
+			var pos = worldPos.RoundToInt();
+
+			var corePos = blobCore.WorldPosServer();
+
+			foreach (var offSet in coords)
+			{
+				if (pos == offSet + corePos)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		#endregion
 
 		#region Effects
@@ -840,9 +969,15 @@ namespace Blob
 			Chat.AddExamineMsgFromServer(gameObject, msg);
 
 			Despawn.ServerSingle(originalBlob.gameObject);
+
 			var structure = result.GameObject.GetComponent<BlobStructure>();
 			structure.overmindName = overmindName;
+
+			SetStrainData(structure);
 			SetLightAndColor(structure);
+
+			SubscribeToDamage(structure);
+
 			blobTiles[worldPos] = structure;
 			AddNonSpaceBlob(result.GameObject);
 		}
@@ -938,7 +1073,9 @@ namespace Blob
 					Despawn.ServerSingle(blob.gameObject);
 
 					structure.location = worldPos;
+					SetStrainData(structure);
 					SetLightAndColor(structure);
+					SubscribeToDamage(structure);
 
 					blobTiles[worldPos] = structure;
 					AddNonSpaceBlob(result.GameObject);
@@ -1170,10 +1307,37 @@ namespace Blob
 			var coreCache = core.ServerPosition;
 
 			core.SetPosition(node.ServerPosition);
+			blobTiles[node.ServerPosition] = blobCore.GetComponent<BlobStructure>();
+			blobTiles[coreCache] = oldNode;
 			node.SetPosition(coreCache);
 
 			ResetArea(blobCore);
 			ResetArea(oldNode.gameObject);
+		}
+
+		/// <summary>
+		/// Switches a node into a core
+		/// </summary>
+		/// <param name="oldNode"></param>
+		public void MoveCoreToNormalBlob(BlobStructure oldNormal)
+		{
+			if (!oldNormal.isNormal)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "Can only move the core to a normal blob");
+				return;
+			}
+
+			var core = blobCore.GetComponent<CustomNetTransform>();
+			var normal = oldNormal.GetComponent<CustomNetTransform>();
+
+			var coreCache = core.ServerPosition;
+
+			core.SetPosition(normal.ServerPosition);
+			blobTiles[normal.ServerPosition] = blobCore.GetComponent<BlobStructure>();
+			blobTiles[coreCache] = oldNormal;
+			normal.SetPosition(coreCache);
+
+			ResetArea(blobCore);
 		}
 
 		#endregion
@@ -1182,6 +1346,8 @@ namespace Blob
 
 		private void AutoExpandBlob()
 		{
+			if(currentStrain.strainType == StrainTypes.NetworkedFibers) return;
+
 			//Node auto expand logic
 			foreach (var node in nodeBlobs.Shuffle())
 			{
@@ -1217,6 +1383,9 @@ namespace Blob
 		{
 			var pos = node.GetComponent<CustomNetTransform>().ServerPosition;
 			var structNode = node.GetComponent<BlobStructure>();
+
+			if(!structNode.isCore && !structNode.isNode) return;
+
 			structNode.expandCoords = GenerateCoords(pos);
 			structNode.healthPulseCoords = structNode.expandCoords;
 			structNode.location = pos;
@@ -1295,16 +1464,30 @@ namespace Blob
 				//Remove null if possible
 				resourceBlobs.Remove(null);
 
+				float numResource = resourceBlobs.Count;
+				var coreIncome = 3;
+
+				if (currentStrain.strainType == StrainTypes.NetworkedFibers)
+				{
+					//Nodes produce 1.5 resources to make up for no expansion
+					numResource += nodeBlobs.Count * 1.5f;
+					coreIncome = 4;
+				}
+				else if (currentStrain.strainType == StrainTypes.RegenerativeMateria)
+				{
+					coreIncome = 4;
+				}
+
 				//One biomass for each resource node
-				var newBiomass = Mathf.RoundToInt((resourceBlobs.Count + 3) * econModifier); //Base income of three
+				var newBiomass = (numResource + coreIncome) * econModifier; //Base income of three
 
 				AddToResources(newBiomass);
 			}
 		}
 
-		private int AddToResources(int newBiomass)
+		private float AddToResources(float newBiomass)
 		{
-			var used = 0;
+			var used = 0f;
 
 			//Reset to max if over
 			if (Resources >= maxBiomass)
@@ -1334,11 +1517,12 @@ namespace Blob
 		{
 			if (blobStructure.lightSprite != null)
 			{
-				blobStructure.lightSprite.Color = color;
+				//TODO needs networking
+				blobStructure.lightSprite.Color = currentStrain.color;
 				blobStructure.lightSprite.Color.a = 0.2f;
 			}
 
-			blobStructure.spriteHandler.SetColor(color);
+			blobStructure.spriteHandler.SetColor(currentStrain.color);
 		}
 
 		#endregion
@@ -1367,15 +1551,249 @@ namespace Blob
 			{
 				if(node == null) continue;
 
+				var healthToRestore = node.isCore ? 3f : 1f;
+
+				if (currentStrain.strainType == StrainTypes.NetworkedFibers && node.isCore)
+				{
+					healthToRestore *= 2.5f;
+				}
+				else if (currentStrain.strainType == StrainTypes.RegenerativeMateria && node.isCore)
+				{
+					healthToRestore *= 10f;
+				}
+
 				foreach (var healthPulseTarget in node.healthPulseCoords)
 				{
 					if (blobTiles.TryGetValue(healthPulseTarget.To3Int(), out var blob) && blob != null)
 					{
 						if(blob.integrity == null) continue;
 
-						blob.integrity.RestoreIntegrity(node.isCore ? 3 : 1);
+						blob.integrity.RestoreIntegrity(healthToRestore);
 					}
 				}
+			}
+		}
+
+		#endregion
+
+		#region Strain
+
+		private void SetStrainData(BlobStructure blobStructure)
+		{
+			if (blobStructure.integrity == null) return;
+
+			if (currentStrain.customArmor)
+			{
+				blobStructure.integrity.Armor = currentStrain.armor;
+			}
+
+			if (currentStrain.customResistances)
+			{
+				blobStructure.integrity.Resistances = currentStrain.resistances;
+			}
+		}
+
+		private void UpdateBlobStrain()
+		{
+			var blobs = blobTiles;
+
+			foreach (var blob in blobs)
+			{
+				if(blob.Value == null) continue;
+
+				SetStrainData(blob.Value);
+				SetLightAndColor(blob.Value);
+			}
+		}
+
+		[Command]
+		public void CmdChangeStrain(int newStrainIndex)
+		{
+			if (StrainRerolls > 0)
+			{
+				StrainRerolls -= 1;
+			}
+			else
+			{
+				if (resources < adaptStrainCost)
+				{
+					Chat.AddExamineMsgFromServer(gameObject, "Not enough resources to readapt");
+					return;
+				}
+
+				resources -= adaptStrainCost;
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You readapt and mutate into the {blobStrains[newStrainIndex].strainName} strain");
+
+			currentStrain = blobStrains[newStrainIndex];
+			StrainIndex = newStrainIndex;
+			UpdateBlobStrain();
+
+			TargetRpcForceStrainReset(connectionToClient);
+		}
+
+		[Command]
+		public void CmdRandomiseStrains()
+		{
+			if (resources < rerollStrainsCost)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "Not enough resources to randomise strains");
+				return;
+			}
+
+			resources -= rerollStrainsCost;
+
+			TargetRpcForceStrainReset(connectionToClient);
+		}
+
+		#endregion
+
+		#region Ondamage
+
+		private void SubscribeToDamage(BlobStructure structure)
+		{
+			structure.integrity.OnWillDestroyServer.AddListener(BlobTileDeath);
+
+			structure.integrity.OnApplyDamage.AddListener(OnDamageReceived);
+		}
+
+		private void OnDamageReceived(DamageInfo info)
+		{
+			switch (currentStrain.strainType)
+			{
+				case StrainTypes.ReactiveSpines:
+					// Attacks nearby area when hit with melee attacks
+					AttackAllSides(info);
+					break;
+				case StrainTypes.BlazingOil:
+					// Emit burst of flame
+					EmitFlame(info);
+					break;
+				case StrainTypes.PressurizedSlime:
+					// Releases water when hit
+					SetAllSidesSlippy(info);
+					break;
+				case StrainTypes.ReplicatingFoam:
+					// Expands when burned
+					ExpandWhenBurnt(info);
+					break;
+				case StrainTypes.ShiftingFragments:
+					// When damaged always swaps positions with a nearby blob
+					SwapPositionWithBlob(info);
+					break;
+				case StrainTypes.SynchronousMesh:
+					// Spreads Damage Between Nearby Blobs
+					SpreadDamageOut(info);
+					break;
+				default:
+					return;
+			}
+		}
+
+		private void AttackAllSides(DamageInfo info)
+		{
+			var pos = info.AttackedIntegrity.gameObject.WorldPosServer();
+
+			foreach (var offset in coords)
+			{
+				TryAttack(offset + pos, true);
+			}
+		}
+
+		private void SetAllSidesSlippy(DamageInfo info)
+		{
+			var registerObject = info.AttackedIntegrity.gameObject.GetComponent<RegisterObject>();
+			var pos = registerObject.WorldPositionServer;
+
+			foreach (var offset in coords)
+			{
+				registerObject.Matrix.MetaDataLayer.MakeSlipperyAt(offset + pos);
+			}
+		}
+
+		private void ExpandWhenBurnt(DamageInfo info)
+		{
+			if(info.DamageType != DamageType.Burn || info.AttackType != AttackType.Fire) return;
+
+			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
+
+			foreach (var offset in coords)
+			{
+				PlaceBlobOrAttack(offset + pos, true);
+			}
+		}
+
+		private void SwapPositionWithBlob(DamageInfo info)
+		{
+			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
+
+			foreach (var offset in coords)
+			{
+				//Dont swap with self
+				if (offset == Vector3Int.zero || !blobTiles.TryGetValue(offset + pos, out var blobStructure)) continue;
+
+				if(blobStructure == null) continue;
+
+				var first = info.AttackedIntegrity.GetComponent<CustomNetTransform>();
+				var second = blobStructure.GetComponent<CustomNetTransform>();
+
+				var posCache = pos + offset;
+
+				first.SetPosition(second.ServerPosition);
+				second.SetPosition(posCache);
+
+				//If moved to node or core refresh areas
+				ResetArea(first.gameObject);
+
+				if(!blobStructure.isCore && !blobStructure.isNode) return;
+
+				ResetArea(second.gameObject);
+				return;
+			}
+		}
+
+		private void SpreadDamageOut(DamageInfo info)
+		{
+			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
+
+			List<Integrity> blobIntegrities = new List<Integrity>();
+
+			//Add self
+			blobIntegrities.Add(info.AttackedIntegrity);
+
+			foreach (var offset in coords)
+			{
+				//Dont swap with self
+				if (offset == Vector3Int.zero || !blobTiles.TryGetValue(offset + pos, out var blobStructure)) continue;
+
+				if(blobStructure == null) continue;
+
+				blobIntegrities.Add(blobStructure.integrity);
+			}
+
+			if(blobIntegrities.Count == 1) return;
+
+			var damage = info.Damage / blobIntegrities.Count;
+
+			//Distribute damage
+			foreach (var blob in blobIntegrities)
+			{
+				blob.ApplyDamage(damage, info.AttackType, info.DamageType, triggerEvent: false);
+			}
+
+			//Heal self back up
+			info.AttackedIntegrity.RestoreIntegrity(damage * blobIntegrities.Count - 1);
+		}
+
+		private void EmitFlame(DamageInfo info)
+		{
+			var registerObject = info.AttackedIntegrity.gameObject.GetComponent<RegisterObject>();
+			var pos = registerObject.WorldPositionServer;
+
+			foreach (var offset in coords)
+			{
+				registerObject.Matrix.ReactionManager.ExposeHotspotWorldPosition((offset + pos).To2Int(), 3200, 0.02f);
 			}
 		}
 
@@ -1390,24 +1808,5 @@ namespace Blob
 		Factory,
 		Strong,
 		Reflective
-	}
-
-	public class BlobVariants
-	{
-		public string name;
-
-		public List<Damages> damages = new List<Damages>();
-
-		public List<Resistances> resistanceses = new List<Resistances>();
-
-		public Color color;
-	}
-
-	[Serializable]
-	public class Damages
-	{
-		public int damageDone;
-
-		public DamageType damageType;
 	}
 }
