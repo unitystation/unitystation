@@ -90,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: itemSprites.Palette.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: initialName
       value: shoes
       objectReference: {fileID: 0}
@@ -187,7 +192,7 @@ PrefabInstance:
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: palette.Array.size
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}

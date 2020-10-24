@@ -112,7 +112,7 @@ Shader "UI/Palettable UI"
 					if (_IsPaletted)
 					{
 						int paletteIndexA = min(textureSample.r * _PaletteSize, _PaletteSize-1);
-						int paletteIndexB = min(textureSample.g * _PaletteSize, _paletteSize-1);
+						int paletteIndexB = min(textureSample.g * _PaletteSize, _PaletteSize-1);
 						final = lerp(_ColorPalette[paletteIndexA], _ColorPalette[paletteIndexB], textureSample.b) * IN.color;
 					}
 					else

@@ -48,7 +48,10 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private List<Color> palette = new List<Color>();
 	public List<Color> Palette => palette;
 
-	private bool PaletteSet = false;
+	/// <summary>
+	/// false if the palette has not been configured for the current spriteSO. true otherwise
+	/// </summary>
+	private bool paletteSet = false;
 
 	private bool Initialised;
 
@@ -164,6 +167,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (NewspriteDataSO != PresentSpriteSet)
 		{
+			paletteSet = false;
 			PresentSpriteSet = NewspriteDataSO;
 			PushTexture(Network);
 			if (Network)
@@ -256,6 +260,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (palette == null) return;
 		palette = null;
+		paletteSet = false;
 
 		if (Network)
 		{
@@ -274,6 +279,7 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
+		
 
 		if (Network)
 		{
@@ -322,6 +328,7 @@ public class SpriteHandler : MonoBehaviour
 			newPalette = null;
 		}
 
+		paletteSet = false;
 		palette = newPalette;
 		PushTexture(false);
 		if (Network)
@@ -554,52 +561,65 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+	private void SetPaletteOnSpriteRenderer()
+	{
+		paletteSet = true;
+		var palette = getPaletteOrNull();
+		if (palette != null && palette.Count > 0 && palette.Count <= 256)
+		{
+			MaterialPropertyBlock block = new MaterialPropertyBlock();
+			spriteRenderer.GetPropertyBlock(block);
+			List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+			block.SetVectorArray("_ColorPalette", pal);
+			block.SetInt("_IsPaletted", 1);
+			block.SetInt("_PaletteSize", pal.Count);
+			spriteRenderer.SetPropertyBlock(block);
+		}
+		else
+		{
+			MaterialPropertyBlock block = new MaterialPropertyBlock();
+			spriteRenderer.GetPropertyBlock(block);
+			block.SetInt("_IsPaletted", 0);
+			spriteRenderer.SetPropertyBlock(block);
+		}
+	}
+
+	private void SetPaletteOnImage()
+	{
+		List<Color>paletteOrNull = getPaletteOrNull();
+
+		if (paletteOrNull != null && palette.Count > 0 && palette.Count <= 256)
+		{
+			List<Vector4> pal = paletteOrNull.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
+			image.material.SetVectorArray("_ColorPalette", pal);
+			image.material.SetInt("_IsPaletted", 1);
+			image.material.SetInt("_PaletteSize", pal.Count);
+		}
+		else
+		{
+			image.material.SetInt("_IsPaletted", 0);
+		}
+	}
+
 	private void SetImageSprite(Sprite value)
 	{
-		List<Color> paletteOrNull;
 		if (spriteRenderer != null)
 		{
 			spriteRenderer.enabled = true;
 			spriteRenderer.sprite = value;
-			if (isPaletted() && PaletteSet == false)
+
+			if (!paletteSet)
 			{
-				PaletteSet = true;
-				var palette = getPaletteOrNull();
-				if (palette != null && palette.Count > 0 && palette.Count <= 256)
-				{
-					MaterialPropertyBlock block = new MaterialPropertyBlock();
-					spriteRenderer.GetPropertyBlock(block);
-					List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
-					block.SetVectorArray("_ColorPalette", pal);
-					block.SetInt("_IsPaletted", 1);
-					block.SetInt("_PaletteSize", pal.Count);
-					spriteRenderer.SetPropertyBlock(block);
-				}
-			}
-			else if (PaletteSet)
-			{
-				PaletteSet = false;
-				MaterialPropertyBlock block = new MaterialPropertyBlock();
-				spriteRenderer.GetPropertyBlock(block);
-				block.SetInt("_IsPaletted", 0);
-				spriteRenderer.SetPropertyBlock(block);
+				SetPaletteOnSpriteRenderer();
 			}
 		}
 		else if (image != null)
 		{
 			image.sprite = value;
-			paletteOrNull = getPaletteOrNull();
 
-			if (paletteOrNull != null && paletteOrNull.Count == 8)
+			if (!paletteSet)
 			{
-				List<Vector4> pal = paletteOrNull.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
-				image.material.SetVectorArray("_ColorPalette", pal);
-				image.material.SetInt("_IsPaletted", 1);
-				image.material.SetInt("_PaletteSize", pal.Count);
-			}
-			else
-			{
-				image.material.SetInt("_IsPaletted", 0);
+				SetPaletteOnImage();
 			}
 
 			if (value == null)
@@ -704,7 +724,10 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool isPaletted()
 	{
-		if (PresentSpriteSet == null) return false;
+		if (PresentSpriteSet == null)
+		{
+			return false;
+		}
 
 		return PresentSpriteSet.IsPalette;
 	}

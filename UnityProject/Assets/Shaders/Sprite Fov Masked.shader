@@ -56,6 +56,7 @@ Shader "Stencil/Unlit background masked" {
 
 	float4 _ColorPalette[256];
 	int _IsPaletted;
+	int _PaletteSize;
 
 	v2f vert(appdata_t v)
 	{
