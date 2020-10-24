@@ -26,9 +26,10 @@ Color = function (hexOrObject) {
     } else {
         obj = LinearColorInterpolator.convertHexToRgb(hexOrObject);
     }
-    this.r = parseInt(obj.r);
-    this.g = parseInt(obj.g);
-    this.b = parseInt(obj.b);
+    console.log(obj.r);
+    this.r = parseInt(obj.r, 10);
+    this.g = parseInt(obj.g, 10);
+    this.b = parseInt(obj.b, 10);
 };
 Color.prototype.asRgbCss = function () {
     return "rgb(" + this.r + ", " + this.g + ", " + this.b + ")";
@@ -77,8 +78,8 @@ Color.prototype.toRendered = function (paletteSize) {
 
 Color.prototype.toLogical = function (paletteSize) {
     // console.log(paletteSize);
-    var indexA = Math.floor(Math.min(this.r / 255.0, .99) * paletteSize);
-    var indexB = Math.floor(Math.min(this.g / 255.0, .99) * paletteSize);
+    var indexA = Math.floor(Math.min(this.r / 255.0 * paletteSize, paletteSize-1));
+    var indexB = Math.floor(Math.min(this.g / 255.0 * paletteSize, paletteSize-1));
     // console.log("indexA: "+ indexA);
     // console.log("indexB: "+ indexB);
     var interp = this.b / 255.0;
@@ -389,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function startDrawing(event) {
-        if (event.button == 0) {
+        if (event.button === 0) {
             mark = setInterval(function () {
                 var pos = mouse;
                 if (
@@ -439,7 +440,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         var blue = image.getIntComponent2(x, y);
                         var alpha = image.getAlphaComponent(x, y);
 
-                        if (alpha == 0) continue;
+                        if (alpha === 0) continue;
 
                         var col = new Color({ r: red, g: green, b: blue });
                         var pos = {
