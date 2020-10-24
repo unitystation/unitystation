@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8891796486152224138}
   - component: {fileID: 83192708151968013}
+  - component: {fileID: 8607606167011331107}
   m_Layer: 12
-  m_Name: sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,18 +72,39 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 16
   m_SortingOrder: 11
-  m_Sprite: {fileID: 6807561051830816593, guid: eb4067810ddd56042a86b585a3c3a61b,
+  m_Sprite: {fileID: -4684753402657003168, guid: eb4067810ddd56042a86b585a3c3a61b,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8607606167011331107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3392343644113499114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 49f85f817f5354b4d97881f0f98cf821, type: 2}
+  - {fileID: 11400000, guid: 49f85f817f5354b4d97881f0f98cf821, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 49f85f817f5354b4d97881f0f98cf821, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &4826224059160213873
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +418,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  passableExclusionsToThis: []
 --- !u!114 &4859363408336224435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,7 +549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 8607606167011331107}
   spriteRend: {fileID: 83192708151968013}
   aliveSpriteIndex: 0
   deadSpriteIndex: 1
