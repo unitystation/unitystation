@@ -247,7 +247,7 @@ namespace Weapons
 			//anyway so client cannot exceed that firing rate no matter what. If we validate firing rate server
 			//side at the moment of interaction, it will reject client's shots because of lag between server / client
 			//firing countdown
-			if (CurrentMagazine.Projectile != null && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
+			if (CurrentMagazine.containedBullets[0] != null && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 			{
 				if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
 				{
@@ -265,7 +265,7 @@ namespace Weapons
 				return false;
 			}
 
-			if (CurrentMagazine.Projectile != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
+			if (CurrentMagazine.containedBullets[0] != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 			{
 				if (WeaponType == WeaponType.Burst)
 				{
@@ -456,7 +456,6 @@ namespace Weapons
 					var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
 					Inventory.ServerTransfer(fromSlot, magSlot);
 					queuedLoadMagNetID = NetId.Invalid;
-					CurrentMagazine.UpdateProjectile();
 				}
 			}
 		}
@@ -539,7 +538,7 @@ namespace Weapons
 				}
 
 
-				if (CurrentMagazine == null || CurrentMagazine.ServerAmmoRemains <= 0 || CurrentMagazine.Projectile == null)
+				if (CurrentMagazine == null || CurrentMagazine.ServerAmmoRemains <= 0 || CurrentMagazine.containedBullets[0] == null)
 				{
 					Logger.LogTrace("Player tried to shoot when there was no ammo.", Category.Exploits);
 					Logger.LogWarning("A shot was attempted when there is no ammo.", Category.Firearms);
@@ -642,7 +641,7 @@ namespace Weapons
 
 			if (isSuicideShot)
 			{
-				GameObject bullet = Spawn.ClientPrefab(CurrentMagazine.Projectile.name,
+				GameObject bullet = Spawn.ClientPrefab(CurrentMagazine.containedBullets[0].name,
 					shooter.transform.position, parent: shooter.transform.parent).GameObject;
 				var b = bullet.GetComponent<Projectile>();
 				b.Suicide(shooter, this, damageZone);
@@ -651,7 +650,7 @@ namespace Weapons
 			{
 				for (int n = 0; n < CurrentMagazine.ProjectilesFired; n++)
 				{
-					GameObject Abullet = Spawn.ClientPrefab(CurrentMagazine.Projectile.name,
+					GameObject Abullet = Spawn.ClientPrefab(CurrentMagazine.containedBullets[0].name,
 						shooter.transform.position, parent: shooter.transform.parent).GameObject;
 					var A = Abullet.GetComponent<Projectile>();
 					var finalDirectionOverride = CalcDirection(finalDirection, n);

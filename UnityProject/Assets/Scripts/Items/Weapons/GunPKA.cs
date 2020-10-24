@@ -32,7 +32,7 @@ public class GunPKA : Gun
 		allowRecharge = false;
 		yield return WaitFor.Seconds(rechargeTime);
 		CurrentMagazine.ServerSetAmmoRemains(1);
-		CurrentMagazine.LoadProjectile(CurrentMagazine.Projectile, CurrentMagazine.ProjectilesFired);
+		CurrentMagazine.LoadProjectile(Projectile, 1);
 		SoundManager.PlayNetworkedAtPos("ReloadKinetic", gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 		allowRecharge = true;
 	}
