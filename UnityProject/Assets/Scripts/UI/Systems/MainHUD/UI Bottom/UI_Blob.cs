@@ -12,6 +12,8 @@ public class UI_Blob : MonoBehaviour
 
 	public TMP_Text numOfBlobTilesText = null;
 
+	public TMP_Text strainRerollsText = null;
+
 	[SerializeField]
 	private GameObject overlayNode = null;
 	[SerializeField]

@@ -41,19 +41,18 @@ namespace Blob
 
 		private float refundPercentage = 0.4f;
 
-		public BlobVariants blobVariants;
+		public List<BlobStrain> BlobStrains = new List<BlobStrain>();
+
+		private BlobStrain currentStrain;
 
 		private GameObject blobCore;
 		private Integrity coreHealth;
 		private TMP_Text healthText;
 		private TMP_Text resourceText;
 		private TMP_Text numOfBlobTilesText;
+		private TMP_Text strainRerollsText;
 
-		public int playerDamage = 20;
-		public int objectDamage = 50;
 		public int layerDamage = 50;
-		public AttackType attackType = AttackType.Melee;
-		public DamageType damageType = DamageType.Brute;
 
 		private PlayerSync playerSync;
 		private RegisterPlayer registerPlayer;
@@ -174,6 +173,32 @@ namespace Blob
 
 		private int numOfNonSpaceBlobTiles = 1;
 
+		public int StrainRerolls
+		{
+			get { return strainRerolls; }
+			set
+			{
+				strainRerolls = value;
+
+				TargetRpcSyncStrainRerolls(connectionToClient, strainRerolls);
+			}
+		}
+
+		private int strainRerolls = 1;
+
+		public string StrainName
+		{
+			get { return strainName; }
+			set
+			{
+				strainName = value;
+
+				TargetRpcSyncStrainRerolls(connectionToClient, strainName);
+			}
+		}
+
+		private string strainName = "";
+
 		private int numOfBlobTiles = 1;
 
 		private int maxCount = 0;
@@ -228,6 +253,11 @@ namespace Blob
 
 			structure.location = pos;
 			structure.overmindName = overmindName;
+
+			currentStrain = BlobStrains.PickRandom();
+			color = currentStrain.color;
+
+			SetStrainData(structure);
 			SetLightAndColor(structure);
 
 			//Make core act like node
@@ -432,6 +462,7 @@ namespace Blob
 			healthText = uiBlob.healthText;
 			resourceText = uiBlob.resourceText;
 			numOfBlobTilesText = uiBlob.numOfBlobTilesText;
+			strainRerollsText = uiBlob.strainRerollsText;
 		}
 
 		public void TurnOnClientLight()
@@ -465,6 +496,18 @@ namespace Blob
 		private void TargetRpcSyncNumOfBlobTiles(NetworkConnection target, int newVar)
 		{
 			numOfBlobTilesText.text = newVar.ToString();
+		}
+
+		[TargetRpc]
+		private void TargetRpcSyncStrainRerolls(NetworkConnection target, int newVar)
+		{
+			strainRerollsText.text = newVar.ToString();
+		}
+
+		[TargetRpc]
+		private void TargetRpcSyncStrainName(NetworkConnection target, int newVar)
+		{
+			strainRerollsText.text = newVar.ToString();
 		}
 
 		#endregion
@@ -566,6 +609,7 @@ namespace Blob
 
 			structure.location = worldPos;
 			structure.overmindName = overmindName;
+			SetStrainData(structure);
 			SetLightAndColor(structure);
 
 			AddNonSpaceBlob(result.GameObject);
@@ -603,7 +647,10 @@ namespace Blob
 			{
 				if(player.IsDead) continue;
 
-				player.ApplyDamage(gameObject, playerDamage, attackType, damageType);
+				foreach (var playerDamage in currentStrain.playerDamages)
+				{
+					player.ApplyDamage(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
+				}
 
 				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
 
@@ -622,7 +669,10 @@ namespace Blob
 				{
 					if(npcComponent.IsDead) continue;
 
-					npcComponent.ApplyDamage(gameObject, playerDamage, attackType, damageType);
+					foreach (var npcDamage in currentStrain.playerDamages)
+					{
+						npcComponent.ApplyDamage(gameObject, npcDamage.damageDone, AttackType.Melee, npcDamage.damageType);
+					}
 
 					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
 
@@ -636,7 +686,10 @@ namespace Blob
 
 				if (hit.TryGetComponent<Integrity>(out var component) && !component.Resistances.Indestructable)
 				{
-					component.ApplyDamage(objectDamage, attackType, damageType, true);
+					foreach (var objectDamage in currentStrain.objectDamages)
+					{
+						component.ApplyDamage(objectDamage.damageDone, AttackType.Melee, objectDamage.damageType, true);
+					}
 
 					if (!autoExpanding)
 					{
@@ -663,8 +716,7 @@ namespace Blob
 			if (metaTileMap != null && !MatrixManager.IsPassableAt(pos, true))
 			{
 				//Cell pos is unused var
-				metaTileMap.ApplyDamage(Vector3Int.zero, layerDamage,
-					pos, attackType);
+				metaTileMap.ApplyDamage(Vector3Int.zero, layerDamage, pos);
 
 				PlayAttackEffect(pos);
 
@@ -842,6 +894,7 @@ namespace Blob
 			Despawn.ServerSingle(originalBlob.gameObject);
 			var structure = result.GameObject.GetComponent<BlobStructure>();
 			structure.overmindName = overmindName;
+			SetStrainData(structure);
 			SetLightAndColor(structure);
 			blobTiles[worldPos] = structure;
 			AddNonSpaceBlob(result.GameObject);
@@ -938,6 +991,7 @@ namespace Blob
 					Despawn.ServerSingle(blob.gameObject);
 
 					structure.location = worldPos;
+					SetStrainData(structure);
 					SetLightAndColor(structure);
 
 					blobTiles[worldPos] = structure;
@@ -1330,6 +1384,7 @@ namespace Blob
 
 		#region Light/Color
 
+		//TODO needs networking
 		private void SetLightAndColor(BlobStructure blobStructure)
 		{
 			if (blobStructure.lightSprite != null)
@@ -1380,6 +1435,45 @@ namespace Blob
 		}
 
 		#endregion
+
+		#region Strain
+
+		private void SetStrainData(BlobStructure blobStructure)
+		{
+			if (currentStrain.customArmor)
+			{
+				blobStructure.integrity.Armor = currentStrain.armor;
+			}
+
+			if (currentStrain.customResistances)
+			{
+				blobStructure.integrity.Resistances = currentStrain.resistances;
+			}
+		}
+
+		private void UpdateBlobStrain()
+		{
+			var blobs = blobTiles;
+
+			foreach (var blob in blobs)
+			{
+				if(blob.Value == null) continue;
+
+				SetStrainData(blob.Value);
+				SetLightAndColor(blob.Value);
+			}
+		}
+
+		[Command]
+		public void CmdChangeStrain()
+		{
+			var strains = BlobStrains.Where(s => s != currentStrain);
+
+			currentStrain = strains.PickRandom();
+			UpdateBlobStrain();
+		}
+
+		#endregion
 	}
 
 	public enum BlobConstructs
@@ -1392,22 +1486,8 @@ namespace Blob
 		Reflective
 	}
 
-	public class BlobVariants
+	public struct StrainData
 	{
-		public string name;
-
-		public List<Damages> damages = new List<Damages>();
-
-		public List<Resistances> resistanceses = new List<Resistances>();
-
-		public Color color;
-	}
-
-	[Serializable]
-	public class Damages
-	{
-		public int damageDone;
-
-		public DamageType damageType;
+		string strainName
 	}
 }
