@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Synchronous Mesh
   m_EditorClassIdentifier: 
   strainName: Synchronous Mesh
+  strainDesc: 
   playerDamages:
   - damageDone: 17
     damageType: 0
@@ -28,7 +29,7 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
-  customArmor: 0
+  customArmor: 1
   armor:
     Melee: 0
     Bullet: 0
@@ -40,4 +41,4 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
-  color: {r: 0.39607847, g: 0.6784314, b: 0.63529414, a: 0}
+  color: {r: 0.39607847, g: 0.6784314, b: 0.63529414, a: 1}

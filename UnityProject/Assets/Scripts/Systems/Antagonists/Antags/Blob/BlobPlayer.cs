@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using DatabaseAPI;
 using Light2D;
 using Mirror;
@@ -41,18 +42,18 @@ namespace Blob
 
 		private float refundPercentage = 0.4f;
 
-		public List<BlobStrain> BlobStrains = new List<BlobStrain>();
+		public List<BlobStrain> blobStrains = new List<BlobStrain>();
 
 		private BlobStrain currentStrain;
 
 		private GameObject blobCore;
 		private Integrity coreHealth;
-		private TMP_Text healthText;
-		private TMP_Text resourceText;
-		private TMP_Text numOfBlobTilesText;
-		private TMP_Text strainRerollsText;
+		private UI_Blob uiBlob;
 
 		public int layerDamage = 50;
+
+		public int adaptStrainCost = 40;
+		public int rerollStrainsCost = 20;
 
 		private PlayerSync playerSync;
 		private RegisterPlayer registerPlayer;
@@ -186,26 +187,26 @@ namespace Blob
 
 		private int strainRerolls = 1;
 
-		public string StrainName
+		public int StrainIndex
 		{
-			get { return strainName; }
+			get { return strainIndex; }
 			set
 			{
-				strainName = value;
+				strainIndex = value;
 
-				TargetRpcSyncStrainRerolls(connectionToClient, strainName);
+				TargetRpcSyncStrainIndex(connectionToClient, strainIndex);
 			}
 		}
 
-		private string strainName = "";
+		private int strainIndex;
+
+		public BlobStrain clientCurrentStrain;
 
 		private int numOfBlobTiles = 1;
 
 		private int maxCount = 0;
 
 		private int maxNonSpaceCount = 0;
-
-		private Color color = Color.green;//new Color(154, 205, 50);
 
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
@@ -254,8 +255,8 @@ namespace Blob
 			structure.location = pos;
 			structure.overmindName = overmindName;
 
-			currentStrain = BlobStrains.PickRandom();
-			color = currentStrain.color;
+			currentStrain = blobStrains.PickRandom();
+			StrainIndex = blobStrains.IndexOf(currentStrain);
 
 			SetStrainData(structure);
 			SetLightAndColor(structure);
@@ -456,19 +457,16 @@ namespace Blob
 		{
 			TurnOnClientLight();
 			playerScript.IsPlayerSemiGhost = true;
-			var uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
+			uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
 			uiBlob.blobPlayer = this;
 			uiBlob.controller = GetComponent<BlobMouseInputController>();
-			healthText = uiBlob.healthText;
-			resourceText = uiBlob.resourceText;
-			numOfBlobTilesText = uiBlob.numOfBlobTilesText;
-			strainRerollsText = uiBlob.strainRerollsText;
 		}
 
+		//Client Side
 		public void TurnOnClientLight()
 		{
 			overmindLightObject.SetActive(true);
-			overmindLight.Color = color;
+			overmindLight.Color = clientCurrentStrain.color;
 			overmindLight.Color.a = 0.2f;
 			overmindSprite.layer = 29;
 		}
@@ -483,31 +481,32 @@ namespace Blob
 		[TargetRpc]
 		private void TargetRpcSyncResources(NetworkConnection target, int newVar)
 		{
-			resourceText.text = newVar.ToString();
+			uiBlob.resourceText.text = newVar.ToString();
 		}
 
 		[TargetRpc]
 		private void TargetRpcSyncHealth(NetworkConnection target, float newVar)
 		{
-			healthText.text = newVar.ToString();
+			uiBlob.healthText.text = newVar.ToString();
 		}
 
 		[TargetRpc]
 		private void TargetRpcSyncNumOfBlobTiles(NetworkConnection target, int newVar)
 		{
-			numOfBlobTilesText.text = newVar.ToString();
+			uiBlob.numOfBlobTilesText.text = newVar.ToString();
 		}
 
 		[TargetRpc]
 		private void TargetRpcSyncStrainRerolls(NetworkConnection target, int newVar)
 		{
-			strainRerollsText.text = newVar.ToString();
+			uiBlob.strainRerollsText.text = newVar.ToString();
 		}
 
 		[TargetRpc]
-		private void TargetRpcSyncStrainName(NetworkConnection target, int newVar)
+		private void TargetRpcSyncStrainIndex(NetworkConnection target, int newVar)
 		{
-			strainRerollsText.text = newVar.ToString();
+			clientCurrentStrain = blobStrains[newVar];
+			uiBlob.UpdateStrainInfo();
 		}
 
 		#endregion
@@ -1384,16 +1383,16 @@ namespace Blob
 
 		#region Light/Color
 
-		//TODO needs networking
 		private void SetLightAndColor(BlobStructure blobStructure)
 		{
 			if (blobStructure.lightSprite != null)
 			{
-				blobStructure.lightSprite.Color = color;
+				//TODO needs networking
+				blobStructure.lightSprite.Color = currentStrain.color;
 				blobStructure.lightSprite.Color.a = 0.2f;
 			}
 
-			blobStructure.spriteHandler.SetColor(color);
+			blobStructure.spriteHandler.SetColor(currentStrain.color);
 		}
 
 		#endregion
@@ -1440,6 +1439,8 @@ namespace Blob
 
 		private void SetStrainData(BlobStructure blobStructure)
 		{
+			if (blobStructure.integrity == null) return;
+
 			if (currentStrain.customArmor)
 			{
 				blobStructure.integrity.Armor = currentStrain.armor;
@@ -1465,12 +1466,26 @@ namespace Blob
 		}
 
 		[Command]
-		public void CmdChangeStrain()
+		public void CmdChangeStrain(int newStrainIndex)
 		{
-			var strains = BlobStrains.Where(s => s != currentStrain);
+			if (resources < adaptStrainCost)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "Not enough resources to readapt");
+				return;
+			}
 
-			currentStrain = strains.PickRandom();
+			Chat.AddExamineMsgFromServer(gameObject, $"You readapt and mutate into the {blobStrains[newStrainIndex]} strain");
+
+			resources -= adaptStrainCost;
+			currentStrain = blobStrains[newStrainIndex];
+			StrainIndex = newStrainIndex;
 			UpdateBlobStrain();
+		}
+
+		[Command]
+		public void CmdRandomiseStrains()
+		{
+			resources -= rerollStrainsCost;
 		}
 
 		#endregion
@@ -1484,10 +1499,5 @@ namespace Blob
 		Factory,
 		Strong,
 		Reflective
-	}
-
-	public struct StrainData
-	{
-		string strainName
 	}
 }

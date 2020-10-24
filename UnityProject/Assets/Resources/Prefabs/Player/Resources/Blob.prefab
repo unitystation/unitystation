@@ -62,7 +62,7 @@ MonoBehaviour:
   visibleName: ' '
   RTT: 0
   RcsMode: 0
-  IsBlob: 0
+  IsPlayerSemiGhost: 0
 --- !u!114 &4504212478988223552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,11 +247,22 @@ MonoBehaviour:
   nodeBlobCost: 50
   factoryBlobCost: 60
   moveCoreCost: 80
-  playerDamage: 20
-  objectDamage: 50
+  blobStrains:
+  - {fileID: 11400000, guid: f65542ec8550ab94d9f0c7e63fb3df0a, type: 2}
+  - {fileID: 11400000, guid: 9a5cc5097c5a2cd42986374c677c1bd6, type: 2}
+  - {fileID: 11400000, guid: 846243978cad03a45aecf05b05413b35, type: 2}
+  - {fileID: 11400000, guid: 9022b9b880cbfb642a69c0899cc6b31d, type: 2}
+  - {fileID: 11400000, guid: 979b560dc603d5a4fbf0a64fefd64279, type: 2}
+  - {fileID: 11400000, guid: ba169a532202dd3459a7388ca8f9e56a, type: 2}
+  - {fileID: 11400000, guid: d703763d07af5b74981351150ec02c47, type: 2}
+  - {fileID: 11400000, guid: 3be0592b8ceed114bac93b453ef499c0, type: 2}
+  - {fileID: 11400000, guid: 9c6dbe099a3fdd346b2f04e03c7cb01d, type: 2}
+  - {fileID: 11400000, guid: 8dd001b694055044eb7467206d19da9d, type: 2}
+  - {fileID: 11400000, guid: 126a96c278327cc42bb072a2f2748f5b, type: 2}
+  - {fileID: 11400000, guid: e1a16efe026248748a28bd82febc1734, type: 2}
+  - {fileID: 11400000, guid: a4cfc9b2c245499419d4e0d4000ab90a, type: 2}
+  - {fileID: 11400000, guid: da7f34d9e10e1594f8bfac00fee1213d, type: 2}
   layerDamage: 50
-  attackType: 0
-  damageType: 0
   numOfTilesForVictory: 400
   BlobRemoveMode: 0
   econModifier: 1

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Debris Devourer
   m_EditorClassIdentifier: 
   strainName: Debris Devourer
+  strainDesc: 
   playerDamages:
   - damageDone: 20
     damageType: 0
@@ -40,4 +41,4 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
-  color: {r: 0.54509807, g: 0.0627451, b: 0, a: 0}
+  color: {r: 0.54509807, g: 0.0627451, b: 0, a: 1}

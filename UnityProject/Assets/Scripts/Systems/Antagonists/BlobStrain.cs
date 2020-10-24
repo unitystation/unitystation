@@ -10,6 +10,9 @@ namespace Blob
 	{
 		public string strainName;
 
+		[TextArea(15,20)]
+		public string strainDesc;
+
 		public List<Damages> playerDamages = new List<Damages>();
 
 		public List<Damages> objectDamages = new List<Damages>();
