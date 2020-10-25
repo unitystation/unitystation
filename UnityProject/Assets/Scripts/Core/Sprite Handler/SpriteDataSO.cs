@@ -49,6 +49,27 @@ public class SpriteDataSO : ScriptableObject
 		}
 	}
 
+	public void UpdateIDLocation()
+	{
+		if (setID == -1)
+		{
+			if (SpriteCatalogue.Instance == null)
+			{
+				Resources.LoadAll<SpriteCatalogue>("ScriptableObjects/SOs singletons");
+			}
+
+			if (!SpriteCatalogue.Instance.Catalogue.Contains(this))
+			{
+
+				SpriteCatalogue.Instance.AddToCatalogue(this);
+			}
+
+			setID = SpriteCatalogue.Instance.Catalogue.IndexOf(this);
+			EditorUtility.SetDirty(this);
+			EditorUtility.SetDirty( SpriteCatalogue.Instance);
+		}
+	}
+
 	IEnumerator EditorSave()
 	{
 		yield return new Unity.EditorCoroutines.Editor.EditorWaitForSeconds(3);

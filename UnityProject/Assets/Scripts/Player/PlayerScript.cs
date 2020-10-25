@@ -454,13 +454,15 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		if (PlayerList.Instance.IsAntag(gameObject))
 		{
-			return $"<color=yellow>Name: {characterSettings.Name}\r\n" +
-				   $"Acc: {characterSettings.Username}\r\n" +
-				   $"Antag: True</color>";
+			return $"<color=yellow>Name: {characterSettings.Name}\n" +
+				   $"Acc: {characterSettings.Username}\n" +
+				   $"Antag: True \n" +
+				   "Objectives : "+ mind.GetAntag().GetObjectiveSummary() + "</color>";
+
 		}
 
-		return $"Name: {characterSettings.Name}\r\n" +
-			   $"Acc: {characterSettings.Username}\r\n" +
+		return $"Name: {characterSettings.Name}\n" +
+			   $"Acc: {characterSettings.Username}\n" +
 			   $"Antag: False";
 	}
 }

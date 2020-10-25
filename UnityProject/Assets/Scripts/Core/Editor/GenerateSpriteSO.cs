@@ -27,7 +27,9 @@ public class GenerateSpriteSO : EditorWindow
 	[MenuItem("Tools/Convert Json Sprites")]
 	public static void ConvertJsonSprites()
 	{
-		spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>("Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
+		spriteCatalogue =
+			AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
+				"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
 		ToSeve.Clear();
 		ToDel.Clear();
 		DirSearch_ex3(Application.dataPath + "/SpriteJsonToSO");
@@ -42,11 +44,33 @@ public class GenerateSpriteSO : EditorWindow
 			AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
 			Seve.Value.Awake();
 		}
+
 		ToSeve.Clear();
 		ToDel.Clear();
 		AssetDatabase.SaveAssets();
 	}
 
+
+	[MenuItem("Tools/Reset SO index")]
+	public static void Reset()
+	{
+		AssetDatabase.StartAssetEditing();
+		var AAA = FindAssetsByType<SpriteCatalogue>();
+		foreach (var AA in AAA)
+		{
+			AA.Catalogue = new List<SpriteDataSO>();
+			EditorUtility.SetDirty(AA);
+		}
+
+		var SOs = FindAssetsByType<SpriteDataSO>();
+		foreach (var SO in SOs)
+		{
+			SO.setID = -1;
+			SO.UpdateIDLocation();
+		}
+		AssetDatabase.StopAssetEditing();
+		AssetDatabase.SaveAssets();
+	}
 
 	[MenuItem("Tools/GenerateSpriteSO")]
 	public static void Generate()
@@ -70,11 +94,11 @@ public class GenerateSpriteSO : EditorWindow
 		{
 			//foreach (var Sprite in SH.Sprites)
 			//{
-				//var SO = PullOutSO(Sprite.Texture);
-				//if (SH.SubCatalogue.Contains(SO) == false)
-				//{
-					//SH.SubCatalogue.Add(SO);
-				//}
+			//var SO = PullOutSO(Sprite.Texture);
+			//if (SH.SubCatalogue.Contains(SO) == false)
+			//{
+			//SH.SubCatalogue.Add(SO);
+			//}
 			//}
 
 			var SR = SH.GetComponent<SpriteRenderer>();
@@ -95,7 +119,6 @@ public class GenerateSpriteSO : EditorWindow
 				Logger.Log(GetRoot(SH.gameObject).name + "Not root apparently");
 			}
 		}
-
 
 
 		return;
@@ -448,8 +471,6 @@ public class GenerateSpriteSO : EditorWindow
 
 				foreach (var S in hasTT)
 				{
-
-
 					prefabComponents.Add(S);
 				}
 			}
