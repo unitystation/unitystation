@@ -605,7 +605,6 @@ namespace Weapons
 
 				return;
 			}
-			//TODO: If this is not our gun, simply display the shot, don't run any other logic
 			if (shooter == PlayerManager.LocalPlayer)
 			{
 				//this is our gun so we need to update our predictions
@@ -624,34 +623,31 @@ namespace Weapons
 					};
 				}
 				Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
+
+				if (CurrentMagazine == null)
+				{
+					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this} on this client?");
+				}
+				else
+				{
+					//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
+					CurrentMagazine.ExpendAmmo();
+				}
 			}
 
-			if (CurrentMagazine == null)
-			{
-				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this} on this client?");
-			}
-			else
-			{
-				//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
-				CurrentMagazine.ExpendAmmo();
-			}
-
-			//display the effects of the shot
-
-			//get the bullet prefab being shot
-
+			MagazineBehaviour magazine = ammoPrefab.GetComponent<MagazineBehaviour>();
 			if (isSuicideShot)
 			{
-				GameObject bullet = Spawn.ClientPrefab(CurrentMagazine.Projectile.name,
+				GameObject bullet = Spawn.ClientPrefab(magazine.Projectile.name,
 					shooter.transform.position, parent: shooter.transform.parent).GameObject;
 				var b = bullet.GetComponent<Projectile>();
 				b.Suicide(shooter, this, damageZone);
 			}
 			else
 			{
-				for (int n = 0; n < CurrentMagazine.ProjectilesFired; n++)
+				for (int n = 0; n < magazine.ProjectilesFired; n++)
 				{
-					GameObject Abullet = Spawn.ClientPrefab(CurrentMagazine.Projectile.name,
+					GameObject Abullet = Spawn.ClientPrefab(magazine.Projectile.name,
 						shooter.transform.position, parent: shooter.transform.parent).GameObject;
 					var A = Abullet.GetComponent<Projectile>();
 					var finalDirectionOverride = CalcDirection(finalDirection, n);
