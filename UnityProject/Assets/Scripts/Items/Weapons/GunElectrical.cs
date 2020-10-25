@@ -61,8 +61,15 @@ public class GunElectrical : Gun
 	{
 		if (countFiremode != 1)
 		{
-			CurrentMagazine.Projectile = firemodeProjectiles[currentFiremode];
 			FiringSound = firemodeFiringSound[currentFiremode];
+		}
+		if (countFiremode != 1 && isServer)
+		{
+			for (int n = 0; n != CurrentMagazine.containedBullets.Count;)
+				{
+					CurrentMagazine.containedBullets[n] = firemodeProjectiles[currentFiremode];
+
+				}
 		}
 	}
 

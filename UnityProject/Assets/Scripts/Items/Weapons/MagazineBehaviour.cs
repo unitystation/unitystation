@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Tracks the ammo in a magazine. Note that if you are referencing the ammo count stored in this
@@ -39,9 +40,11 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	///	Whether this can be used to reload other (internal or external) magazines.
 	/// </summary>
 	public bool isClip = false;
-	public GameObject Projectile;
-	public int ProjectilesFired = 1;
 	public bool isCell = false;
+
+	[SerializeField, FormerlySerializedAs("Projectile")]
+	private GameObject initalProjectile;
+	public int ProjectilesFired = 1;
 
 	[HideInInspector]
 	public List<int> containedProjectilesFired = new List<int>();
@@ -91,7 +94,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		containedProjectilesFired.Clear();
 		for (int i = magazineSize + 1; i != 0; i--)
 		{
-			containedBullets.Add(Projectile);
+			containedBullets.Add(initalProjectile);
 			containedProjectilesFired.Add(ProjectilesFired);
 		}
 	}
@@ -168,7 +171,6 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 					{
 						containedBullets.RemoveAt(0); //remove shot projectile
 						containedProjectilesFired.RemoveAt(0);
-						UpdateProjectile(); //sets the projectile that will be fired next
 					}
 				}
 				if (isClip && serverAmmoRemains == 0)
@@ -202,13 +204,11 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		clip.ExpendAmmo(toTransfer);
 		if (!isClip && !isCell)
 		{
-			for (int i = toTransfer;i != 0;i--)
+			for (int i = 0;i != toTransfer;i++)
 			{
-				containedBullets.Add(clip.Projectile);
+				containedBullets.Add(clip.containedBullets[i]);
 				containedProjectilesFired.Add(clip.ProjectilesFired);
 			}
-			UpdateProjectile();	//sets the projectile that will be fired next
-								//this is here in the case that we had no ammo loaded, so the 0th entry was changed
 		}
 		ServerSetAmmoRemains(serverAmmoRemains + toTransfer);
 
@@ -263,13 +263,6 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		double currentRNG = RNGContents[clientAmmoRemains];
 		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
 		return currentRNG;
-	}
-
-	public void UpdateProjectile()
-	{
-		if (isClip || isCell) return;
-		ProjectilesFired = containedProjectilesFired[0];
-		Projectile = containedBullets[0];
 	}
 
 	public String Examine(Vector3 pos)
