@@ -302,10 +302,10 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool offLinePlayersTo = false)
+	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool includeOffline  = false)
 	{
 		var newone = loggedIn.ToList();
-		if (offLinePlayersTo)
+		if (includeOffline)
 		{
 			newone.AddRange(loggedOff);
 		}
