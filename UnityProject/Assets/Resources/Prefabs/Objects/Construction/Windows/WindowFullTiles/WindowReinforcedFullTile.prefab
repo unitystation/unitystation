@@ -46,6 +46,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  passableExclusionsToThis: []
 --- !u!1001 &3475978088997710883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56,6 +57,11 @@ PrefabInstance:
     - target: {fileID: 1223838958160137227, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
       propertyPath: isInitiallyNotPushable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1589379618128903529, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2029713811664008157, guid: c80393b4412660b41937e05425ceb921,
@@ -162,6 +168,7 @@ PrefabInstance:
     - {fileID: 4026046569720328804, guid: c80393b4412660b41937e05425ceb921, type: 3}
     - {fileID: 8808186602529976540, guid: c80393b4412660b41937e05425ceb921, type: 3}
     - {fileID: 787922446905566612, guid: c80393b4412660b41937e05425ceb921, type: 3}
+    - {fileID: 1589379618128903529, guid: c80393b4412660b41937e05425ceb921, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c80393b4412660b41937e05425ceb921, type: 3}
 --- !u!1 &7946366853500351780 stripped
 GameObject:

@@ -18,6 +18,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  passableExclusionsToThis: []
 --- !u!114 &7431892531360401419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +134,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WindowPlastitaniumFullTile
       objectReference: {fileID: 0}
+    - target: {fileID: 4811040299159149250, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4913797670289714080, guid: 422afccc119081a4fa895bc72e8ecd78,
         type: 3}
       propertyPath: isInitiallyNotPushable
@@ -161,6 +167,7 @@ PrefabInstance:
     - {fileID: 7139832653136909775, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
     - {fileID: 3383985568769546103, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
     - {fileID: 6784075479398023743, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
+    - {fileID: 4811040299159149250, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
 --- !u!1 &6397275954408119094 stripped
 GameObject:
