@@ -29,14 +29,13 @@ MonoBehaviour:
   FiringSound: ShootKinetic
   FireRate: 1
   MaxRecoilVariance: 0
-  Projectile: {fileID: 1560634355228308, guid: 904d4b4cb2c22314b82de3393f1cb254, type: 3}
-  ProjectilesFired: 1
   ProjectileVelocity: 20
   CameraRecoilConfig:
     Distance: 0
     RecoilDuration: 0
     RecoveryDuration: 0
   WeaponType: 1
+  Projectile: {fileID: 1560634355228308, guid: 904d4b4cb2c22314b82de3393f1cb254, type: 3}
   rechargeTime: 2
 --- !u!1001 &326958216201229889
 PrefabInstance:
@@ -179,6 +178,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 4206346965545160429, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
     - {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+    - {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
 --- !u!1 &4132242788693647151 stripped
 GameObject:
