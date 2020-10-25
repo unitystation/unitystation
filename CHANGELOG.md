@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/10/25: fix gun projectiles and sounds for other clients by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5411](https://github.com/unitystation/unitystation/pull/5411)
 * 2020/10/24: Adds blob strains, some with custom abilities by [ThatDan123](https://github.com/ThatDan123) in PR #[5404](https://github.com/unitystation/unitystation/pull/5404)
 * 2020/10/24: Fixed deconstructing disposal pipes, added distant explosion sounds by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5401](https://github.com/unitystation/unitystation/pull/5401)
 * 2020/10/24: Updates BoxStation. Fixes atmospherics, wiring in engineering and adds a few mobs by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5391](https://github.com/unitystation/unitystation/pull/5391)
