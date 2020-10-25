@@ -9,6 +9,9 @@ using ScriptableObjects;
 
 public class EventSpawnBlob : EventScriptBase
 {
+	[SerializeField]
+	private Antagonist blobAntag;
+
 	public override void OnEventStart()
 	{
 		if (!FakeEvent)
@@ -21,7 +24,14 @@ public class EventSpawnBlob : EventScriptBase
 
 	private void InfectRandomPerson()
 	{
-		var player = PlayerList.Instance.InGamePlayers.Where(p => !p.Script.IsDeadOrGhost && p.GameObject.GetComponent<BlobStarter>() == null && p.GameObject.GetComponent<BlobPlayer>() == null).PickRandom();
+		var player = PlayerList.Instance.InGamePlayers
+			.Where(p => !p.Script.IsDeadOrGhost
+			            && PlayerList.HasAntagEnabled(p, blobAntag)
+			            && PlayerList.Instance.CheckJobBanState(p.UserId, JobType.BLOB)
+			            && p.GameObject.GetComponent<BlobStarter>() == null
+			            && p.GameObject.GetComponent<BlobPlayer>() == null).PickRandom();
+
+		if(player == null) return;
 
 		player.GameObject.AddComponent<BlobStarter>();
 
