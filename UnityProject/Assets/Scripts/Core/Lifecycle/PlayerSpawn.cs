@@ -67,12 +67,16 @@ public static class PlayerSpawn
 	public static void ServerRespawnPlayer(Mind forMind)
 	{
 		//get the settings from the mind
+		var occupation = forMind.occupation;
 		var oldBody = forMind.GetCurrentMob();
+		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
+		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
+
 		var player = oldBody.Player();
 		var oldGhost = forMind.ghost;
 		forMind.stepType = GetStepType(player.Script);
 
-		ServerSpawnInternal(player.Connection, forMind.occupation, player.CharacterSettings, forMind, willDestroyOldBody: oldGhost != null);
+		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null);
 
 		if (oldGhost)
 		{
