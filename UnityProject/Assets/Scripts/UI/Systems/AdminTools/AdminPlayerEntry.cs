@@ -50,13 +50,13 @@ namespace AdminTools
 				displayName.fontStyle = FontStyle.Normal;
 			}
 
-			if (PlayerData.isOnline)
+			if (PlayerData.ipAddress == "")
 			{
-				offlineNot.SetActive(false);
+				offlineNot.SetActive(true);
 			}
 			else
 			{
-				offlineNot.SetActive(true);
+				offlineNot.SetActive(false);
 			}
 
 			if (disableInteract)

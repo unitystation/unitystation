@@ -792,7 +792,7 @@ public partial class PlayerList
 		if (!adminUsers.Contains(adminId)) return;
 
 		ConnectedPlayer adminPlayer = PlayerList.Instance.GetByUserID(adminId);
-		List<ConnectedPlayer> players = GetAllByUserID(userToKick);
+		List<ConnectedPlayer> players = GetAllByUserID(userToKick, true);
 		if (players.Count != 0)
 		{
 			foreach (var p in players)
@@ -902,7 +902,7 @@ public partial class PlayerList
 	public void ProcessJobBanRequest(string adminId, string userToJobBan, string reason, bool isPerma, int banMinutes, JobType jobType, bool kickAfter = false, bool ghostAfter = false)
 	{
 		if (!adminUsers.Contains(adminId)) return;
-		
+
 		ConnectedPlayer adminPlayer = PlayerList.Instance.GetByUserID(adminId);
 		List<ConnectedPlayer> players = GetAllByUserID(userToJobBan);
 		if (players.Count != 0)

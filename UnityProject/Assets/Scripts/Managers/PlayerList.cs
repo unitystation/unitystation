@@ -12,7 +12,7 @@ public partial class PlayerList : NetworkBehaviour
 {
 	//ConnectedPlayer list, server only
 	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
-	private List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
+	public List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
 
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
@@ -302,9 +302,15 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public List<ConnectedPlayer> GetAllByUserID(string byUserID)
+	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool offLinePlayersTo = false)
 	{
-		return loggedIn.FindAll(player => player.UserId == byUserID);
+		var newone = loggedIn.ToList();
+		if (offLinePlayersTo)
+		{
+			newone.AddRange(loggedOff);
+		}
+
+ 		return newone.FindAll(player => player.UserId == byUserID);
 	}
 
 	private ConnectedPlayer getInternal(Func<ConnectedPlayer, bool> condition)
