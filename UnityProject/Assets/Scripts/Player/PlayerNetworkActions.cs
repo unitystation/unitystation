@@ -73,9 +73,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				offHand = NamedSlot.leftHand;
 				break;
 			default:
-				Logger.LogError($"{playerScript.playerName} has an invalid activeHand! Found: {activeHand}", Category.Inventory);
+				Logger.LogError($"{playerScript.playerName} has an invalid activeHand! Found: {activeHand}",
+					Category.Inventory);
 				return null;
 		}
+
 		var pu = itemStorage.GetNamedItemSlot(offHand).Item;
 		return pu?.gameObject;
 	}
@@ -103,8 +105,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void SyncEquipSprite(string slotName, GameObject Item)
 	{
-		NamedSlot enumA = (NamedSlot)Enum.Parse(typeof(NamedSlot), slotName);
-		equipment.SetReference((int)enumA, Item);
+		NamedSlot enumA = (NamedSlot) Enum.Parse(typeof(NamedSlot), slotName);
+		equipment.SetReference((int) enumA, Item);
 	}
 
 	/// <summary>
@@ -124,7 +126,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerScript.playerMove.Unbuckle();
 			}
 		}
-		else if (playerScript.playerHealth.FireStacks > 0) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
+		else if (playerScript.playerHealth.FireStacks > 0
+		) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
 		{
 			if (!playerScript.registerTile.IsLayingDown)
 			{
@@ -169,15 +172,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
 		{
 			if (playerScript.playerSprites != null &&
-				playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+			    playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
 			{
 				if (cuffsClothingItem != null &&
-					cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+				    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
 				{
 					restraintOverlay.ServerBeginUnCuffAttempt();
 				}
 			}
-		}else if (playerScript.playerMove.IsTrapped) // Check if trapped.
+		}
+		else if (playerScript.playerMove.IsTrapped) // Check if trapped.
 		{
 			playerScript.PlayerSync.TryEscapeContainer();
 		}
@@ -200,13 +204,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Inventory.ServerDrop(slot);
 	}
 
+
 	/// <summary>
 	/// Request to drop alls item from ItemStorage, send an item slot net id of
 	/// one of the slots on the item storage
 	/// </summary>
 	/// <param name="itemSlotID"></param>
 	[Command]
-	public void CmdDropAllItems(uint itemSlotID)
+	public void CmdDropAllItems(uint itemSlotID, Vector3 Target)
 	{
 		var netInstance = NetworkIdentity.spawned[itemSlotID];
 		if (netInstance == null) return;
@@ -220,9 +225,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var validateSlot = itemStorage.GetIndexedItemSlot(0);
 		if (validateSlot.RootPlayer() != playerScript.registerTile) return;
 
+
+		Vector2? possibleTarget = null;
+		if (Target != TransformState.HiddenPos)
+		{
+			if (Validations.IsInReach(PlayerManager.PlayerScript.registerTile.WorldPosition, Target))
+			{
+				if (MatrixManager.IsPassableAt(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
+				{
+					possibleTarget = (Target - PlayerManager.PlayerScript.registerTile.WorldPosition);
+				}
+			}
+		}
+
 		foreach (var item in slots)
 		{
-			Inventory.ServerDrop(item);
+			Inventory.ServerDrop(item, possibleTarget);
 		}
 	}
 
@@ -242,17 +260,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		//disrobe each slot, taking .2s per each occupied slot
 		//calculate time
-		var occupiedSlots = itemStorage.GetItemSlots().Count(slot => slot.NamedSlot != NamedSlot.handcuffs && !slot.IsEmpty);
+		var occupiedSlots = itemStorage.GetItemSlots()
+			.Count(slot => slot.NamedSlot != NamedSlot.handcuffs && !slot.IsEmpty);
 		if (occupiedSlots == 0) return;
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var timeTaken = occupiedSlots * .4f;
+
 		void ProgressComplete()
-		{ var victimsHealth = toDisrobe.GetComponent < PlayerHealth >();
+		{
+			var victimsHealth = toDisrobe.GetComponent<PlayerHealth>();
 			foreach (var itemSlot in itemStorage.GetItemSlots())
 			{
 				//skip slots which have special uses
 				if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
-						// cancels out of the loop if player gets up
+				// cancels out of the loop if player gets up
 				if (!victimsHealth.IsCrit) break;
 
 				Inventory.ServerDrop(itemSlot);
@@ -276,7 +297,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerThrow(slot, worldTargetVector,
-			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType)aim);
+			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
 	}
 
 	[Command]
@@ -285,10 +306,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		if (playerScript.playerSprites != null &&
-			playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+		    playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
 		{
 			if (cuffsClothingItem != null &&
-				cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+			    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
 			{
 				restraintOverlay.ServerBeginUnCuffAttempt();
 			}
@@ -358,7 +379,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void UpdateInventorySlots()
 	{
 		if (this == null || itemStorage == null || playerScript == null
-			|| playerScript.mind == null || playerScript.mind.body == null)
+		    || playerScript.mind == null || playerScript.mind.body == null)
 		{
 			return;
 		}
@@ -421,8 +442,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
-												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
-												|| playerScript.playerHealth.IsCardiacArrest)
+		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
+		                                        || playerScript.playerHealth.IsCardiacArrest)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -508,6 +529,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				continue;
 			}
+
 			StartCoroutine(AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag));
 			break;
 		}
@@ -543,7 +565,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Only force to ghost if the mind belongs in to that body
 		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null && playerScript.mind.bodyMobID == currentMobID)
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
+		    playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
@@ -554,7 +577,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	///
 	[Command]
-	public void CmdGhostCheck()//specific check for if you want value returned
+	public void CmdGhostCheck() //specific check for if you want value returned
 	{
 		GhostEnterBody();
 	}
@@ -566,11 +589,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (playerScript.mind.IsSpectator) return;
 
-		if(playerScript.mind.ghostLocked) return;
+		if (playerScript.mind.ghostLocked) return;
 
-		if (!playerScript.IsGhost )
+		if (!playerScript.IsGhost)
 		{
-			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
+			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody",
+				Category.Health, body);
 			return;
 		}
 
@@ -614,8 +638,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			LayerTile tile = interactableTiles.LayerTileAt(mousePos);
 			pointedName = tile.DisplayName;
 		}
+
 		Effect.PlayParticleDirectional(gameObject, mousePos);
-		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {pointedName}.", $"{playerScript.gameObject.name} points at {pointTarget.name}.");
+		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {pointedName}.",
+			$"{playerScript.gameObject.name} points at {pointTarget.name}.");
 	}
 
 	[Command]
@@ -661,7 +687,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		PDANotesNetworkHandler noteNetworkScript = pdaObject.GetComponent<PDANotesNetworkHandler>();
 		noteNetworkScript.SetServerString(newMsg);
 		noteNetworkScript.UpdatePlayer(gameObject);
-
 	}
 
 	[Command]
@@ -693,7 +718,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (handItem == null) return;
 		if (handItem.gameObject != handLabeler) return;
 
-		Chat.AddExamineMsgFromServer(gameObject, "You set the " + handLabeler.Item().InitialName.ToLower() + "s text to '" + label + "'.");
+		Chat.AddExamineMsgFromServer(gameObject,
+			"You set the " + handLabeler.Item().InitialName.ToLower() + "s text to '" + label + "'.");
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
 
@@ -713,6 +739,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	//admin only commands
+
 	#region Admin
 
 	[Command]
@@ -731,7 +758,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
-		else if (playerScript.IsGhost)//back to player
+		else if (playerScript.IsGhost) //back to player
 		{
 			if (playerScript.mind.IsSpectator) return;
 
@@ -771,6 +798,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			return;
 		}
+
 		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 	}
 

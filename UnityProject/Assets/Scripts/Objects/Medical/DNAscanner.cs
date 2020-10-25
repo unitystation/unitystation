@@ -25,6 +25,7 @@ namespace Objects.Medical
 		public Sprite closedPoweredSprite;
 		public Sprite[] closedPoweredWithOccupant;
 		public float animSpeed = 0.1f;
+		public Objects.Engineering.APC RelatedAPC;
 
 		private CancellationTokenSource cancelOccupiedAnim = new CancellationTokenSource();
 
@@ -32,6 +33,7 @@ namespace Objects.Medical
 		{
 			base.OnStartClient();
 			SyncPowered(powered, powered);
+			RelatedAPC = GetComponent<APCPoweredDevice>().RelatedAPC;
 		}
 
 		public override void OnSpawnServer(SpawnInfo info)
@@ -39,6 +41,7 @@ namespace Objects.Medical
 			base.OnSpawnServer(info);
 			statusString = "Ready to scan.";
 			SyncPowered(powered, powered);
+			RelatedAPC = GetComponent<APCPoweredDevice>().RelatedAPC;
 		}
 
 		protected override void ServerHandleContentsOnStatusChange(bool willClose)
@@ -158,6 +161,7 @@ namespace Objects.Medical
 
 		public void StateUpdate(PowerStates State)
 		{
+			RelatedAPC = GetComponent<APCPoweredDevice>().RelatedAPC;
 			if (State == PowerStates.Off || State == PowerStates.LowVoltage)
 			{
 				SyncPowered(powered, false);

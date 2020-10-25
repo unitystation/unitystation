@@ -12,7 +12,6 @@ namespace Weapons
 	/// </summary>
 	public class ShootMessage : ServerMessage
 	{
-
 		/// <summary>
 		/// GameObject of the player performing the shot
 		/// </summary>
@@ -20,7 +19,7 @@ namespace Weapons
 		/// <summary>
 		/// Weapon being used to perform the shot
 		/// </summary>
-		public uint Projectile;
+		public uint Weapon;
 		/// <summary>
 		/// Direction of shot, originating from Shooter)
 		/// </summary>
@@ -49,7 +48,7 @@ namespace Weapons
 			//Not even spawned don't show bullets
 			if (PlayerManager.LocalPlayer == null) return;
 
-			LoadMultipleObjects(new [] { Shooter, Projectile });
+			LoadMultipleObjects(new uint[] { Shooter, Weapon });
 
 			Gun wep = NetworkObjects[1].GetComponent<Gun>();
 			if (wep == null)
@@ -75,7 +74,7 @@ namespace Weapons
 		{
 			var msg = new ShootMessage
 			{
-				Projectile = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				Direction = direction,
 				DamageZone = damageZone,
 				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
@@ -93,7 +92,7 @@ namespace Weapons
 		public override void Deserialize(NetworkReader reader)
 		{
 			base.Deserialize(reader);
-			Projectile = reader.ReadUInt32();
+			Weapon = reader.ReadUInt32();
 			Direction = reader.ReadVector2();
 			DamageZone = (BodyPartType)reader.ReadUInt32();
 			Shooter = reader.ReadUInt32();
@@ -103,7 +102,7 @@ namespace Weapons
 		public override void Serialize(NetworkWriter writer)
 		{
 			base.Serialize(writer);
-			writer.WriteUInt32(Projectile);
+			writer.WriteUInt32(Weapon);
 			writer.WriteVector2(Direction);
 			writer.WriteInt32((int)DamageZone);
 			writer.WriteUInt32(Shooter);

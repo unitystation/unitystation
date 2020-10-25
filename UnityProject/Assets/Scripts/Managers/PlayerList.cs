@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Antagonists;
 using UnityEngine;
 using Mirror;
+using UI.CharacterCreator;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
@@ -471,6 +473,26 @@ public partial class PlayerList : NetworkBehaviour
 	public void ClearReadyPlayers()
 	{
 		ReadyPlayers.Clear();
+	}
+
+	public static bool HasAntagEnabled(AntagPrefsDict antagPrefs, Antagonist antag)
+	{
+		return !antag.ShowInPreferences ||
+		       (antagPrefs.ContainsKey(antag.AntagName) && antagPrefs[antag.AntagName]);
+	}
+
+	public static bool HasAntagEnabled(ConnectedPlayer connectedPlayer, Antagonist antag)
+	{
+		if (connectedPlayer.CharacterSettings == null)
+		{
+			if (connectedPlayer.Script.characterSettings == null) return false;
+
+			connectedPlayer.CharacterSettings = connectedPlayer.Script.characterSettings;
+		}
+
+		return !antag.ShowInPreferences ||
+		       (connectedPlayer.CharacterSettings.AntagPreferences.ContainsKey(antag.AntagName)
+		        && connectedPlayer.CharacterSettings.AntagPreferences[antag.AntagName]);
 	}
 }
 

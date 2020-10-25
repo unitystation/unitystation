@@ -51,13 +51,8 @@ namespace AdminTools
 			);
 
 			var newString = "";
-			for (int i = 0; i < lines.Length && i < 3; i++)
+			for (int i = 0; i < lines.Length; i++)
 			{
-				if (lines[i].Length > 20)
-				{
-					lines[i] = lines[i].Substring(0, 20) + "..";
-				}
-
 				if (i == lines.Length - 1)
 				{
 					newString += lines[i];

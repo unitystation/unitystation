@@ -12,9 +12,7 @@ namespace Objects.Disposals
 	{
 		[SerializeField]
 		[Tooltip("Seconds required to cut the welds of the disposal pipe.")]
-		float seconds = 3;
-
-		TileApply deconstructInteraction;
+		private float seconds = 3;
 
 		#region Interactions
 
@@ -27,22 +25,22 @@ namespace Objects.Disposals
 
 		public override void ServerPerformInteraction(TileApply interaction)
 		{
-			deconstructInteraction = interaction;
+			if (VerboseDisposalMachineExists(interaction)) return;
 
-			TryWeld();
+			Weld(interaction);
 		}
 
 		#endregion Interactions
 
 		#region Deconstruction
 
-		bool VerboseDisposalMachineExists()
+		private bool VerboseDisposalMachineExists(TileApply interaction)
 		{
-			Matrix matrix = deconstructInteraction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
+			Matrix matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
 
-			if ((deconstructInteraction.BasicTile as DisposalPipe).PipeType == DisposalPipeType.Terminal)
+			if ((interaction.BasicTile as DisposalPipe).PipeType == DisposalPipeType.Terminal)
 			{
-				DisposalMachine disposalMachine = matrix.GetFirst<DisposalMachine>(deconstructInteraction.TargetCellPos, true);
+				DisposalMachine disposalMachine = matrix.GetFirst<DisposalMachine>(interaction.TargetCellPos, true);
 				if (disposalMachine != null && disposalMachine.MachineAttachedOrGreater)
 				{
 					string machineName = disposalMachine.name;
@@ -53,7 +51,7 @@ namespace Objects.Disposals
 					}
 
 					Chat.AddExamineMsgFromServer(
-							deconstructInteraction.Performer,
+							interaction.Performer,
 							$"The {machineName} must be removed before you can cut the disposal pipe welds!");
 					return true;
 				}
@@ -62,37 +60,30 @@ namespace Objects.Disposals
 			return false;
 		}
 
-		void TryWeld()
-		{
-			if (VerboseDisposalMachineExists()) return;
-
-			Weld();
-		}
-
-		void Weld()
+		private void Weld(TileApply interaction)
 		{
 			ToolUtils.ServerUseToolWithActionMessages(
-					deconstructInteraction, seconds,
+					interaction, seconds,
 					"You start slicing the welds that secure the disposal pipe...",
-					$"{deconstructInteraction.Performer.ExpensiveName()} starts cutting the disposal pipe welds...",
+					$"{interaction.Performer.ExpensiveName()} starts cutting the disposal pipe welds...",
 					"You cut the disposal pipe welds.",
-					$"{deconstructInteraction.Performer.ExpensiveName()} cuts the disposal pipe welds.",
-					() => DeconstructPipe()
+					$"{interaction.Performer.ExpensiveName()} cuts the disposal pipe welds.",
+					() => DeconstructPipe(interaction)
 			);
 		}
 
-		void DeconstructPipe()
+		private void DeconstructPipe(TileApply interaction)
 		{
-			DisposalPipe pipe = deconstructInteraction.BasicTile as DisposalPipe;
+			DisposalPipe pipe = interaction.BasicTile as DisposalPipe;
 
 			// Despawn pipe tile
-			var matrix = MatrixManager.AtPoint(deconstructInteraction.WorldPositionTarget.NormalizeTo3Int(), true).Matrix;
-			matrix.RemoveUnderFloorTile(deconstructInteraction.TargetCellPos, pipe);
+			var matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget.NormalizeTo3Int(), true).Matrix;
+			matrix.RemoveUnderFloorTile(interaction.TargetCellPos, pipe);
 
 			// Spawn pipe GameObject
-			if (deconstructInteraction.BasicTile.SpawnOnDeconstruct == null) return;
+			if (interaction.BasicTile.SpawnOnDeconstruct == null) return;
 
-			var spawn = Spawn.ServerPrefab(deconstructInteraction.BasicTile.SpawnOnDeconstruct, deconstructInteraction.WorldPositionTarget);
+			var spawn = Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget);
 			if (!spawn.Successful) return;
 
 			if (!spawn.GameObject.TryGetComponent(out Directional directional)) return;

@@ -7,6 +7,24 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5515713039983384973, guid: ecd41b6b41a13764ba625359f786f79c,
+        type: 3}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 5515713039983384973, guid: ecd41b6b41a13764ba625359f786f79c,
+        type: 3}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.data[1]
+      value: 
+      objectReference: {fileID: 5515713039983384973, guid: ecd41b6b41a13764ba625359f786f79c,
+        type: 3}
     - target: {fileID: 4387776157011116229, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: PresentSpriteSet
