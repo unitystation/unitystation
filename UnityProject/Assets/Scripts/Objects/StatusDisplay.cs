@@ -58,6 +58,19 @@ namespace Objects.Wallmounts
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
 
+		private AccessRestrictions accessRestrictions;
+		public AccessRestrictions AccessRestrictions
+		{
+			get
+			{
+				if (accessRestrictions == null)
+				{
+					accessRestrictions = GetComponent<AccessRestrictions>();
+				}
+				return accessRestrictions;
+			}
+		}
+
 		public void AddSlave(object SlaveObject)
 		{
 		}
@@ -228,20 +241,30 @@ namespace Objects.Wallmounts
 				{
 					if (channel == StatusDisplayChannel.DoorTimer)
 					{
-						currentTimerSeconds += 60;
-						if (currentTimerSeconds > 600)
+						if (AccessRestrictions == null || AccessRestrictions.CheckAccess(interaction.Performer))
 						{
-							currentTimerSeconds = 1;
-						}
+							currentTimerSeconds += 60;
+							if (currentTimerSeconds > 600)
+							{
+								currentTimerSeconds = 1;
+							}
 
-						if (!countingDown)
-						{
-							StartCoroutine(TickTimer());
+							if (countingDown == false)
+							{
+								StartCoroutine(TickTimer());
+							}
+							else
+							{
+								OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
+							}
 						}
 						else
 						{
-							OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
+							Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
+							// Play sound
+							SoundManager.PlayNetworkedAtPos("AccessDenied", gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 						}
+						
 					}
 					else
 					{
@@ -417,7 +440,16 @@ namespace Objects.Wallmounts
 
 		private void ContextMenuOptionClicked(ContextMenuApply interaction)
 		{
-			InteractionUtils.RequestInteract(interaction, this);
+			if (!AccessRestrictions || AccessRestrictions.CheckAccess(interaction.Performer))
+			{
+				InteractionUtils.RequestInteract(interaction, this);
+			}
+			else
+			{
+				Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
+				// Play sound
+				SoundManager.PlayNetworkedAtPos("AccessDenied", gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+			}
 		}
 
 		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
