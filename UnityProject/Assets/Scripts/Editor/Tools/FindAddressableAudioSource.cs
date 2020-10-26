@@ -1,9 +1,7 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using System.CodeDom;
+﻿using AddressableReferences;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Remoting;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,19 +17,19 @@ namespace Assets.Scripts.Editor.Tools
 	/// <summary>
 	/// Tool that allows to find all game object that has a component with fields of a specific type.
 	/// </summary>
-	public class FindEmptyProperty : EditorWindow
+	public class FindAddressableAudioSource : EditorWindow
 	{
 		private string propertyTypeToFind = "AddressableReferences.AddressableAudioSource,Assets";
 		private List<ComponentField> objectsWithSearchedType = new List<ComponentField>();
 		private bool nullOnly = false;
 		private Vector2 scrollPosition;
 
-		[MenuItem("Tools/Find field by type")]
+		[MenuItem("Tools/Find AddressableAudioSource")]
 		private static void Init()
 		{
 			// Get existing open window or if none, make a new one:
-			FindEmptyProperty window = (FindEmptyProperty)GetWindow(typeof(FindEmptyProperty));
-			window.titleContent.text = "Find field by type";
+			FindAddressableAudioSource window = (FindAddressableAudioSource)GetWindow(typeof(FindAddressableAudioSource));
+			window.titleContent.text = "Find AddressableAudioSource";
 			window.Show();
 		}
 
@@ -54,11 +52,20 @@ namespace Assets.Scripts.Editor.Tools
 				{
 					FieldInfo[] fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-					IEnumerable<FieldInfo> fieldInfos = fields.Where(p => p.FieldType == typeToFind);
+					List<FieldInfo> fieldInfos = fields.Where(p => p.FieldType == typeToFind).ToList();
 
-					if ((fieldInfos.Count() > 0) && nullOnly)
+					if (nullOnly && fieldInfos.Count > 0)
 					{
-						fieldInfos = fieldInfos.Where(p => p.GetValue(component) != null);
+						List<FieldInfo> notNullFieldInfos = new List<FieldInfo>();
+						foreach(FieldInfo fieldInfo in fieldInfos)
+						{
+							AddressableAudioSource addressableAudioSource = (AddressableAudioSource)fieldInfo.GetValue(component);
+
+							if ((addressableAudioSource.AssetReference == null) || (string.IsNullOrEmpty(addressableAudioSource.AssetReference.AssetGUID)))
+								notNullFieldInfos.Add(fieldInfo);
+						}
+
+						fieldInfos = notNullFieldInfos;
 					}
 
 					foreach (FieldInfo fieldInfo in fieldInfos)
@@ -110,7 +117,13 @@ namespace Assets.Scripts.Editor.Tools
 			scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
 			foreach (ComponentField componentField in objectsWithSearchedType)
-				EditorGUILayout.LabelField($"{componentField.GameObject.name} ({componentField.Component.name}) - {componentField.Field}");
+			{
+				GUIContent guiContent = new GUIContent($"{componentField.GameObject.name} ({componentField.Component.name}) - {componentField.Field}");
+				if (EditorGUILayout.DropdownButton(guiContent, FocusType.Passive))
+				{
+					Selection.activeObject = PrefabUtility.LoadPrefabContents(AssetDatabase.GetAssetPath(componentField.GameObject));
+				}
+			}
 
 			EditorGUILayout.EndScrollView();
 		}

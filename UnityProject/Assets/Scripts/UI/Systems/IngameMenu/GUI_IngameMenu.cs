@@ -7,9 +7,13 @@ using UnityEngine.SceneManagement;
 using ServerInfo;
 using DatabaseAPI;
 using UnityEngine.UI;
+using AddressableReferences;
 
 public class GUI_IngameMenu : MonoBehaviour
 {
+	[SerializeField]
+	private AddressableAudioSource clickSound = null;
+
 	/// <summary>
 	/// Menu window that will be deactivated when closing the menu.
 	/// </summary>
@@ -72,8 +76,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// <param name="nextMenuPanel">Menu panel to open</param>
 	public void OpenMenuPanel(GameObject nextMenuPanel)
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound, string.Empty);
 		Logger.Log("Opening " + nextMenuPanel.name + " menu", Category.UI);
 		nextMenuPanel.SetActive(true);
 	}
@@ -83,8 +86,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// </summary>
 	public void OpenMenuPanel()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound, string.Empty);
 		Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 		menuWindow.SetActive(true);
 		if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(true);
@@ -106,8 +108,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// <param name="thisPanel">The menu panel to close.</param>
 	public void CloseMenuPanel(GameObject thisPanel)
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound, string.Empty);
 		Logger.Log("Closing " + thisPanel.name + " menu", Category.UI);
 		thisPanel.SetActive(false);
 	}
@@ -117,8 +118,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// </summary>
 	public void CloseMenuPanel()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound, string.Empty);
 		Logger.Log($"Closing {menuWindow.name} menu", Category.UI);
 		HideAllMenus();
 	}
@@ -131,8 +131,7 @@ public class GUI_IngameMenu : MonoBehaviour
 
 	public void InitiateRestartVote()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound, string.Empty);
 
 		if (PlayerManager.PlayerScript == null) return;
 		if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
@@ -151,8 +150,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	public void LogoutConfirmYesButton()
 	{
 		EventManager.Broadcast(EVENT.RoundEnded);
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound, string.Empty);
 		HideAllMenus();
 		StopNetworking();
 		SceneManager.LoadScene("Lobby");
@@ -166,8 +164,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	}
 	public void ExitConfirmYesButton()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound, string.Empty);
 		StopNetworking();
 		// Either shutdown the application or stop the editor
 #if UNITY_EDITOR

@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using AddressableReferences;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Unitystation.Options
 {
-    public class ZoomButtons : MonoBehaviour
+	public class ZoomButtons : MonoBehaviour
     {
         [SerializeField]
         private GameObject panel = null;
@@ -21,6 +20,9 @@ namespace Unitystation.Options
                 return camZoomHandler;
             }
         }
+
+		[SerializeField]
+		private AddressableAudioSource clickSound = null;
 
         void Start()
         {
@@ -58,23 +60,20 @@ namespace Unitystation.Options
 
         public void OnZoomIn()
         {
-			// JESTER
-			//SoundManager.Play("Click01");
+			SoundManager.Play(clickSound, string.Empty);
 			CamZoomHandler.IncreaseZoomLevel();
 
         }
 
         public void OnZoomOut()
         {
-			// JESTER
-			//SoundManager.Play("Click01");
+			SoundManager.Play(clickSound, string.Empty);
 			CamZoomHandler.DecreaseZoomLevel();
         }
 
         public void OpenOptionsMenu()
         {
-			// JESTER
-			//SoundManager.Play("Click01");
+			SoundManager.Play(clickSound, string.Empty);
 			OptionsMenu.Instance.Open();
         }
 
