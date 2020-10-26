@@ -136,8 +136,11 @@ namespace AdminTools
 			}
 			HiddenButtons.Clear();
 
-			var buttons = playerEntries;//Grabs fresh list of all the possible buttons
-
+			//Grabs fresh list of all the possible buttons
+			// TODO: encapsulate this adminPlayerList search more generic so that it can better be used across different admin systems
+			var buttons = playerEntries.Count > 0 
+				? playerEntries 
+				: gameObject.transform.parent.parent.parent.GetComponent<GUI_AdminTools>().GetPlayerEntries();
 			var Searchtext = searchBar.SearchText();
 
 			for (int i = 0; i < buttons.Count; i++)
