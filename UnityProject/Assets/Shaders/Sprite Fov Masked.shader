@@ -79,8 +79,8 @@ Shader "Stencil/Unlit background masked" {
 
 		if (_IsPaletted)
 		{
-			int paletteIndexA = min(textureSample.r * _PaletteSize, _PaletteSize-1);
-			int paletteIndexB = min(textureSample.g * _PaletteSize, _PaletteSize-1);
+			int paletteIndexA = floor(textureSample.r * (_PaletteSize-1));
+			int paletteIndexB = floor(textureSample.g * (_PaletteSize-1));
 			final = lerp(_ColorPalette[paletteIndexA], _ColorPalette[paletteIndexB], textureSample.b) * i.color;
 		}
 		else

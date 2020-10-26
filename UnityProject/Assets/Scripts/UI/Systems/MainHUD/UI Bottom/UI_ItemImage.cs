@@ -246,7 +246,7 @@ public class UI_ItemImage
 
         private void OnHandlerSpriteChanged(Sprite sprite)
 		{
-			if (!UIImage)
+			if (UIImage == false)
 			{
 				// looks like image was deleted from scene
 				// this happens when item is moved in container

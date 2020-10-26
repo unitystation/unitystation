@@ -165,7 +165,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 			}
 		}
 
-		if (!isPaletted)
+		if (isPaletted == false)
 		{
 			image.material.SetInt("_IsPaletted", 0);
 		}

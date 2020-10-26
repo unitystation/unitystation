@@ -59,7 +59,7 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 			circle.sprite = menuItem.BackgroundSprite;
 		}
 
-		if (!topLevel)
+		if (topLevel == false)
 		{
 			title.text = menuItem.Label;
 		}
@@ -85,7 +85,7 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	{
 		//if (eventData.pointerEnter != gameObject) return;
 
-		if (!isTopLevel)
+		if (isTopLevel == false)
 		{
 			isSelected = false;
 			circle.color = defaultColour;

@@ -45,13 +45,14 @@ public class SpriteHandler : MonoBehaviour
 
 	private Color? setColour = null;
 
+	[Tooltip("The palette that is applied to the Sprite Renderer, if the Present Sprite Set is paletted.")]
 	[SerializeField] private List<Color> palette = new List<Color>();
 	public List<Color> Palette => palette;
 
 	/// <summary>
 	/// false if the palette has not been configured for the current spriteSO. true otherwise
 	/// </summary>
-	private bool paletteSet = false;
+	private bool isPaletteSet = false;
 
 	private bool Initialised;
 
@@ -127,7 +128,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		get
 		{
-			return CurrentSprite == null || !gameObject.activeInHierarchy;
+			return CurrentSprite == null || gameObject.activeInHierarchy == false;
 		}
 	}
 
@@ -167,7 +168,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (NewspriteDataSO != PresentSpriteSet)
 		{
-			paletteSet = false;
+			isPaletteSet = false;
 			PresentSpriteSet = NewspriteDataSO;
 			PushTexture(Network);
 			if (Network)
@@ -244,7 +245,7 @@ public class SpriteHandler : MonoBehaviour
 		if (setColour == value) return;
 
 		setColour = value;
-		if (!HasImageComponent())
+		if (HasImageComponent() == false)
 		{
 			GetImageComponent();
 		}
@@ -260,7 +261,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (palette == null) return;
 		palette = null;
-		paletteSet = false;
+		isPaletteSet = false;
 
 		if (Network)
 		{
@@ -321,14 +322,14 @@ public class SpriteHandler : MonoBehaviour
 	{
 		bool paletted = isPaletted();
 
-		Debug.Assert(!(paletted && newPalette == null), "Paletted sprites should never have palette set to null");
+		Debug.Assert((paletted && newPalette == null) == false, "Paletted sprites should never have palette set to null");
 
-		if (!paletted)
+		if (paletted == false)
 		{
 			newPalette = null;
 		}
 
-		paletteSet = false;
+		isPaletteSet = false;
 		palette = newPalette;
 		PushTexture(false);
 		if (Network)
@@ -563,7 +564,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private void SetPaletteOnSpriteRenderer()
 	{
-		paletteSet = true;
+		isPaletteSet = true;
 		var palette = getPaletteOrNull();
 		if (palette != null && palette.Count > 0 && palette.Count <= 256)
 		{
@@ -586,7 +587,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private void SetPaletteOnImage()
 	{
-		List<Color>paletteOrNull = getPaletteOrNull();
+		List<Color> paletteOrNull = getPaletteOrNull();
 
 		if (paletteOrNull != null && palette.Count > 0 && palette.Count <= 256)
 		{
@@ -608,7 +609,7 @@ public class SpriteHandler : MonoBehaviour
 			spriteRenderer.enabled = true;
 			spriteRenderer.sprite = value;
 
-			if (!paletteSet)
+			if (isPaletteSet == false)
 			{
 				SetPaletteOnSpriteRenderer();
 			}
@@ -617,7 +618,7 @@ public class SpriteHandler : MonoBehaviour
 		{
 			image.sprite = value;
 
-			if (!paletteSet)
+			if (isPaletteSet == false)
 			{
 				SetPaletteOnImage();
 			}
@@ -734,7 +735,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private List<Color> getPaletteOrNull()
 	{
-		if (!isPaletted())
+		if (isPaletted() == false)
 			return null;
 
 		return palette;
@@ -758,7 +759,7 @@ public class SpriteHandler : MonoBehaviour
 
 		}
 
-		if (!isAnimation)
+		if (isAnimation == false)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
@@ -816,12 +817,12 @@ public class SpriteHandler : MonoBehaviour
 		}
 #endif
 
-		if (turnOn && !isAnimation)
+		if (turnOn && isAnimation == false)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			isAnimation = true;
 		}
-		else if (!turnOn && isAnimation)
+		else if (turnOn == false && isAnimation)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			animationIndex = 0;
@@ -853,9 +854,9 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool EditorTryToggleAnimationState(bool turnOn)
 	{
-		if (Application.isEditor && !Application.isPlaying)
+		if (Application.isEditor && Application.isPlaying == false)
 		{
-			if (turnOn && !isAnimation)
+			if (turnOn && isAnimation == false)
 			{
 				if (this.gameObject.scene.path != null && this.gameObject.scene.path.Contains("Scenes") == false &&
 				    EditorAnimating == null)
@@ -868,7 +869,7 @@ public class SpriteHandler : MonoBehaviour
 					return true;
 				}
 			}
-			else if (!turnOn && isAnimation)
+			else if (turnOn == false && isAnimation)
 			{
 				isAnimation = false;
 			}
