@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/10/27: Added forcewall spell, spell books, random initial spells, wizard garb functionality. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5426](https://github.com/unitystation/unitystation/pull/5426)
 * 2020/10/27: fix: access restrictions for brig timers by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5423](https://github.com/unitystation/unitystation/pull/5423)
 * 2020/10/26: search added to admin player manager by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5422](https://github.com/unitystation/unitystation/pull/5422)
 * 2020/10/26: Admins now can see disconnected players and banned them by [Bod9001](https://github.com/Bod9001) in PR #[5416](https://github.com/unitystation/unitystation/pull/5416)
