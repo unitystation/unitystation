@@ -1743,6 +1743,8 @@ namespace Blob
 				var posCache = pos + offset;
 
 				first.SetPosition(second.ServerPosition);
+				blobTiles[second.ServerPosition] = first.GetComponent<BlobStructure>();
+				blobTiles[posCache] = blobStructure;
 				second.SetPosition(posCache);
 
 				//If moved to node or core refresh areas
