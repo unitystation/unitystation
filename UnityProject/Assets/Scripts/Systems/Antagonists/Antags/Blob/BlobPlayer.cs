@@ -1582,6 +1582,9 @@ namespace Blob
 		{
 			if (blobStructure.integrity == null) return;
 
+			blobStructure.integrity.Armor = blobStructure.initialArmor;
+			blobStructure.integrity.Resistances = blobStructure.initialResistances;
+
 			if (currentStrain.customArmor)
 			{
 				blobStructure.integrity.Armor = currentStrain.armor;
