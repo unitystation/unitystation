@@ -1202,8 +1202,6 @@ namespace Blob
 
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(false);
 
-			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Blue);
-
 			Chat.AddSystemMsgToChat(
 				string.Format(CentComm.BioHazardReportTemplate,
 					"The biohazard has been contained."),
