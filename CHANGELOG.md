@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/10/27: fix: access restrictions for brig timers by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5423](https://github.com/unitystation/unitystation/pull/5423)
 * 2020/10/26: search added to admin player manager by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5422](https://github.com/unitystation/unitystation/pull/5422)
 * 2020/10/26: Admins now can see disconnected players and banned them by [Bod9001](https://github.com/Bod9001) in PR #[5416](https://github.com/unitystation/unitystation/pull/5416)
 * 2020/10/25: fix gun projectiles and sounds for other clients by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5411](https://github.com/unitystation/unitystation/pull/5411)
