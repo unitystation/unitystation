@@ -5,9 +5,6 @@ using System.Linq;
 using Blob;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Weapons;
-using Objects.Wallmounts;
-using Blob;
 
 /// <summary>
 /// Main entry point for handling all input events
