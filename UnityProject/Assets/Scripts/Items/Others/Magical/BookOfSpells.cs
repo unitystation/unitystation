@@ -30,6 +30,7 @@ namespace Items.Magical
 
 		public int Points => points;
 		public SpellBookData Data => data;
+		public bool IsRegistered => registeredPlayerScript != null;
 
 		private void Awake()
 		{
@@ -103,12 +104,13 @@ namespace Items.Magical
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 			// Return true to stop NetTab interaction.
-			return isForWizardsOnly && !IsWizard(interaction.Performer);
+			return IsRegistered || (isForWizardsOnly && !IsWizard(interaction.Performer));
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "You're not a wizard, Harry!");
+			Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"The {gameObject.ExpensiveName()} does not recognise you as its owner and refuses to open!");
 		}
 
 		#endregion Interaction
@@ -120,10 +122,7 @@ namespace Items.Magical
 
 		private bool IsWizard(GameObject player)
 		{
-			var mind = GetMind(player);
-			var antagonist = mind.GetAntag().Antagonist;
-
-			return mind.IsAntag && antagonist is Antagonists.Wizard;
+			return GetMind(player).IsOfAntag<Antagonists.Wizard>();
 		}
 	}
 }

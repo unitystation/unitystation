@@ -6,6 +6,7 @@ using DiscordWebhook;
 using UI.CharacterCreator;
 using UnityEngine;
 using UnityEngine.Serialization;
+using NaughtyAttributes;
 
 namespace GameModes
 {
@@ -114,16 +115,6 @@ namespace GameModes
 		/// </summary>
 		public bool MidRoundAntags => midRoundAntags;
 
-		[FormerlySerializedAs("chooseAntagsBeforeJobs")]
-		[Tooltip("Should antags be allocated a job? If true, will choose antags after allocating jobs.")]
-		[SerializeField]
-		private bool allocateJobsToAntags = false;
-		/// <summary>
-		/// Should antags be allocated a job?
-		/// If true, will choose antags after allocating jobs.
-		/// </summary>
-		public bool AllocateJobsToAntags => allocateJobsToAntags;
-
 		[Tooltip("The possible antagonists for this game mode")]
 		[SerializeField]
 		private List<Antagonist> possibleAntags = null;
@@ -132,8 +123,18 @@ namespace GameModes
 		/// </summary>
 		public List<Antagonist> PossibleAntags => possibleAntags;
 
+		[FormerlySerializedAs("chooseAntagsBeforeJobs")]
+		[Tooltip("Should antags be allocated a job? If true, will choose antags after allocating jobs.")]
+		[SerializeField, BoxGroup("Job Allocation")]
+		private bool allocateJobsToAntags = false;
+		/// <summary>
+		/// Should antags be allocated a job?
+		/// If true, will choose antags after allocating jobs.
+		/// </summary>
+		public bool AllocateJobsToAntags => allocateJobsToAntags;
+
 		[Tooltip("The JobTypes that cannot be chosen as antagonists for this game mode")]
-		[SerializeField]
+		[SerializeField, BoxGroup("Job Allocation"), ShowIf(nameof(AllocateJobsToAntags))]
 		private List<JobType> nonAntagJobTypes = new List<JobType>
 		{
 			JobType.CAPTAIN,
