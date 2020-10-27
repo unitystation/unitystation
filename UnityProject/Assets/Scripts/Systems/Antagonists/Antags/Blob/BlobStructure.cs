@@ -48,6 +48,7 @@ namespace Blob
 		private void OnDisable()
 		{
 			integrity.OnWillDestroyServer.RemoveAllListeners();
+			integrity.OnApplyDamage.RemoveAllListeners();
 		}
 	}
 }

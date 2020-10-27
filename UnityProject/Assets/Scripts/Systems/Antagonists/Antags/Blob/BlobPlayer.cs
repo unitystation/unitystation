@@ -1653,6 +1653,8 @@ namespace Blob
 
 		private void SubscribeToDamage(BlobStructure structure)
 		{
+			if(!CustomNetworkManager.IsServer) return;
+
 			structure.integrity.OnWillDestroyServer.AddListener(BlobTileDeath);
 
 			structure.integrity.OnApplyDamage.AddListener(OnDamageReceived);
