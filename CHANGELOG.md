@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/10/27: Fixed minor issues with blob by [ThatDan123](https://github.com/ThatDan123) in PR #[5428](https://github.com/unitystation/unitystation/pull/5428)
 * 2020/10/27: Added forcewall spell, spell books, random initial spells, wizard garb functionality. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5426](https://github.com/unitystation/unitystation/pull/5426)
 * 2020/10/27: fix: access restrictions for brig timers by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5423](https://github.com/unitystation/unitystation/pull/5423)
 * 2020/10/26: search added to admin player manager by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5422](https://github.com/unitystation/unitystation/pull/5422)
