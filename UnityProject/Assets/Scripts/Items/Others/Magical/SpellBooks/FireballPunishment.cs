@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
+using Systems.Explosions;
 
 namespace Items.Others.Magical
 {
@@ -13,7 +14,15 @@ namespace Items.Others.Magical
 
 		public override void Punish(ConnectedPlayer player)
 		{
-			Spawn.ServerPrefab(explosionPrefab, player.Script.WorldPos);
+			GameObject explosionObject = Spawn.ServerPrefab(explosionPrefab, player.Script.WorldPos).GameObject;
+			if (explosionObject.TryGetComponent<ExplosionComponent>(out var explosion))
+			{
+				explosion.Explode(MatrixManager.AtPoint(player.Script.WorldPos, true).Matrix);
+			}
+			else
+			{
+				Logger.LogError($"No explosion component found on {explosionObject}! Was the right prefab assigned?");
+			}
 		}
 	}
 }
