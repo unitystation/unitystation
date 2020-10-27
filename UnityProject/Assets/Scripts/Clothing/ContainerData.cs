@@ -41,7 +41,7 @@ public class ContainerData : BaseClothData
 		folderpath = folderpath.Substring(folderpath.IndexOf("Resources", StringComparison.Ordinal) + "Resources".Length);
 		foreach (var PCDObj in Resources.LoadAll<ContainerData>(folderpath))
 		{
-			if (!DataPCD.Contains(PCDObj))
+			if (DataPCD.Contains(PCDObj) == false)
 			{
 				DataPCD.Add(PCDObj);
 			}
