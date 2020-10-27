@@ -1716,7 +1716,7 @@ namespace Blob
 
 		private void ExpandWhenBurnt(DamageInfo info)
 		{
-			if(info.DamageType != DamageType.Burn || info.AttackType != AttackType.Fire) return;
+			if(info.DamageType != DamageType.Burn && info.AttackType != AttackType.Fire) return;
 
 			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
 
@@ -1785,7 +1785,7 @@ namespace Blob
 			}
 
 			//Heal self back up
-			info.AttackedIntegrity.RestoreIntegrity(damage * blobIntegrities.Count - 1);
+			info.AttackedIntegrity.RestoreIntegrity(damage * (blobIntegrities.Count - 1));
 		}
 
 		private void EmitFlame(DamageInfo info)
