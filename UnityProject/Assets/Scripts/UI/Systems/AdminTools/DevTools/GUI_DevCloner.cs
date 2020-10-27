@@ -64,6 +64,7 @@ public class GUI_DevCloner : MonoBehaviour
 				renderer.GetPropertyBlock(block);
 				List<Vector4> pal = palette.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
 				block.SetVectorArray("_ColorPalette", pal);
+				block.SetInt("_PaletteSize", pal.Count);
 				block.SetInt("_IsPaletted", 1);
 				renderer.SetPropertyBlock(block);
 

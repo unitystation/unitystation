@@ -36,11 +36,11 @@ public class GUI_DevSpawner : MonoBehaviour
     /// </summary>
     void Update()
     {
-	    if (searchBox.isFocused && !isFocused)
+	    if (searchBox.isFocused && isFocused == false)
 	    {
 		    InputFocus();
 	    }
-	    else if (!searchBox.isFocused && isFocused)
+	    else if (searchBox.isFocused == false && isFocused)
 	    {
 		    InputUnfocus();
 	    }

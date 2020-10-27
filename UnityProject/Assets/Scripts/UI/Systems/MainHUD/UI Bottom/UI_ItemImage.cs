@@ -95,6 +95,7 @@ public class UI_ItemImage
 			if (itemAttrs.ItemSprites.IsPaletted)
 			{
 				image.material.SetInt("_IsPaletted", 1);
+				image.material.SetInt("_PaletteSize", itemAttrs.ItemSprites.Palette.Count);
 				image.material.SetColorArray("_ColorPalette", itemAttrs.ItemSprites.Palette.ToArray());
 			}
 			else
@@ -245,7 +246,7 @@ public class UI_ItemImage
 
         private void OnHandlerSpriteChanged(Sprite sprite)
 		{
-			if (!UIImage)
+			if (UIImage == false)
 			{
 				// looks like image was deleted from scene
 				// this happens when item is moved in container

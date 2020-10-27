@@ -21,6 +21,7 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	private bool isTopLevel;
 	public List<RadialButton> childButtons = new List<RadialButton>();
 	private static readonly int IsPaletted = Shader.PropertyToID("_IsPaletted");
+	private static readonly int PaletteSize = Shader.PropertyToID("_PaletteSize");
 	private static readonly int ColorPalette = Shader.PropertyToID("_ColorPalette");
 
 	private void Awake()
@@ -45,6 +46,7 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 		if (palette != null)
 		{
 			icon.material.SetInt(IsPaletted, 1);
+			icon.material.SetInt(PaletteSize, palette.Count);
 			icon.material.SetColorArray(ColorPalette, menuItem.palette.ToArray());
 		}
 		else
@@ -57,7 +59,7 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 			circle.sprite = menuItem.BackgroundSprite;
 		}
 
-		if (!topLevel)
+		if (topLevel == false)
 		{
 			title.text = menuItem.Label;
 		}
@@ -83,7 +85,7 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	{
 		//if (eventData.pointerEnter != gameObject) return;
 
-		if (!isTopLevel)
+		if (isTopLevel == false)
 		{
 			isSelected = false;
 			circle.color = defaultColour;
