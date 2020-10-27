@@ -66,7 +66,7 @@ namespace Antagonists
 		/// </summary>
 		public string GetObjectivesForPlayer()
 		{
-			StringBuilder objSB = new StringBuilder($"</i><size=26>You are a <b>{Antagonist.AntagName}</b>!</size>\n", 200);
+			StringBuilder objSB = new StringBuilder($"</i><size=60><color=red>You are a <b>{Antagonist.AntagName}</b>!</color></size>\n", 200);
 			var objectiveList = Objectives.ToList();
 			objSB.AppendLine("Your objectives are:");
 			for (int i = 0; i < objectiveList.Count; i++)
