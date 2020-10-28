@@ -1202,8 +1202,6 @@ namespace Blob
 
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(false);
 
-			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Blue);
-
 			Chat.AddSystemMsgToChat(
 				string.Format(CentComm.BioHazardReportTemplate,
 					"The biohazard has been contained."),
@@ -1581,6 +1579,9 @@ namespace Blob
 		private void SetStrainData(BlobStructure blobStructure)
 		{
 			if (blobStructure.integrity == null) return;
+
+			blobStructure.integrity.Armor = blobStructure.initialArmor;
+			blobStructure.integrity.Resistances = blobStructure.initialResistances;
 
 			if (currentStrain.customArmor)
 			{

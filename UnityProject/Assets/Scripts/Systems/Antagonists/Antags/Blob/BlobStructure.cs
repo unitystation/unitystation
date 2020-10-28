@@ -40,15 +40,29 @@ namespace Blob
 
 		public string overmindName;
 
+		[HideInInspector]
+		public Armor initialArmor;
+
+		[HideInInspector]
+		public Resistances initialResistances;
+
+		private bool initialSet;
+
 		private void OnEnable()
 		{
 			integrity = GetComponent<Integrity>();
+
+			if(initialSet) return;
+
+			initialSet = true;
+			initialArmor = integrity.Armor;
+			initialResistances = integrity.Resistances;
 		}
 
 		private void OnDisable()
 		{
 			if(integrity == null) return;
-			
+
 			integrity.OnWillDestroyServer.RemoveAllListeners();
 			integrity.OnApplyDamage.RemoveAllListeners();
 		}
