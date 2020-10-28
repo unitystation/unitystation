@@ -22,7 +22,7 @@ namespace Blob
 		public LightSprite lightSprite = null;
 
 		public SpriteHandler spriteHandler = null;
-
+		
 		[HideInInspector]
 		public Integrity integrity;
 
@@ -52,7 +52,7 @@ namespace Blob
 		{
 			integrity = GetComponent<Integrity>();
 
-			if(initialSet) return;
+			if(initialSet || integrity == null) return;
 
 			initialSet = true;
 			initialArmor = integrity.Armor;

@@ -1444,6 +1444,8 @@ namespace Blob
 
 				if (!result.Successful) continue;
 
+				result.GameObject.GetComponent<BlobStructure>().overmindName = overmindName;
+
 				factoryBlob.Value.Add(result.GameObject);
 			}
 		}
