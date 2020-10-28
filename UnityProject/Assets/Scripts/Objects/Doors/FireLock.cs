@@ -14,13 +14,16 @@ namespace Doors
 
 		public void SetMaster(ISetMultitoolMaster Imaster)
 		{
-			if (fireAlarm)
+			FireAlarm newFireAlarm = (Imaster as Component)?.gameObject.GetComponent<FireAlarm>();
+			if (newFireAlarm == null) return; // Might try to add firelock to something that is not a firealarm e.g. APC
+
+			if (fireAlarm != null)
 			{
 				fireAlarm.FireLockList.Remove(this);
 			}
-			fireAlarm = (Imaster as Component)?.gameObject.GetComponent<FireAlarm>();
-			fireAlarm.FireLockList.Add(this);
 
+			fireAlarm = newFireAlarm;
+			fireAlarm.FireLockList.Add(this);
 		}
 
 		public override void TryClose()

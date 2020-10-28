@@ -115,7 +115,7 @@ namespace Systems.Mob
 		{
 			if (spriteHandler == null)
 			{
-				Logger.LogError($"SpriteHandler missing on {gameObject}!");
+				Logger.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!");
 				return;
 			}
 
@@ -129,7 +129,7 @@ namespace Systems.Mob
 		{
 			if (spriteHandler == null)
 			{
-				Logger.LogError($"SpriteHandler missing on {gameObject}!");
+				Logger.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!");
 				return;
 			}
 

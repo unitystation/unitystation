@@ -462,8 +462,18 @@ public partial class PlayerList
 	/// <returns></returns>
 	private List<JobBanEntry> ClientAskingAboutJobBans(ConnectedPlayer connPlayer)
 	{
+		if (connPlayer.Equals(ConnectedPlayer.Invalid))
+		{
+			Logger.LogError($"Attempted to check job-ban for invalid player.");
+			return default;
+		}
+
+		string playerUserID = connPlayer.UserId;
+		string playerAddress = connPlayer.Connection.address;
+		string playerClientID = connPlayer.ClientId;
+
 		//jobbanlist checking:
-		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(playerUserID, playerAddress, playerClientID);
 
 		if (jobBanPlayerEntry == null)
 		{
