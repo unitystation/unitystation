@@ -43,6 +43,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 	void InitServerCache()
 	{
+		livingHealthBehaviour.EnsureInit(); //Was getting called before initialisation
 		overallHealthCache = livingHealthBehaviour.OverallHealth;
 		consciousStateCache = livingHealthBehaviour.ConsciousState;
 		isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
