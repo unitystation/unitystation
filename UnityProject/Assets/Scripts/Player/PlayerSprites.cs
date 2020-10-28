@@ -247,6 +247,28 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Enables the electrocuted overlay for the player's mob.
+	/// </summary>
+	/// <param name="time">If provided and greater than zero, how long until the electrocuted overlay is disabled.</param>
+	public void EnableElectrocutedOverlay(float time = -1)
+	{
+		electrocutedOverlay.StartOverlay(directional.CurrentDirection);
+
+		if (time > 0)
+		{
+			StartCoroutine(StopElectrocutedOverlayAfter(time));
+		}
+	}
+
+	/// <summary>
+	/// Disables the electrocuted overlay for the player's mob.
+	/// </summary>
+	public void DisableElectrocutedOverlay()
+	{
+		electrocutedOverlay.StopOverlay();
+	}
+
 	private void UpdateElectrocutionOverlay(Orientation currentFacing)
 	{
 		if (electrocutedOverlay.OverlayActive)
@@ -410,5 +432,11 @@ public class PlayerSprites : MonoBehaviour
 		// Enable or disable based on hide flag
 		var isVisible = !hideClothingFlags.HasFlag(hideFlag);
 		clothes[name].gameObject.SetActive(isVisible);
+	}
+
+	private IEnumerator StopElectrocutedOverlayAfter(float seconds)
+	{
+		yield return WaitFor.Seconds(seconds);
+		DisableElectrocutedOverlay();
 	}
 }

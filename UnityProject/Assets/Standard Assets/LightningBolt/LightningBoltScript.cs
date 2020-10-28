@@ -3,8 +3,11 @@
 // (c) 2016 Digital Ruby, LLC
 // Source code may be used for personal or commercial projects.
 // Source code may NOT be redistributed or sold.
+//
+// Standard Asset Unitystation changes: make Random static, add event after lightning trigger.
 // 
 
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -86,7 +89,9 @@ namespace DigitalRuby.LightningBolt
         /// </summary>
         [HideInInspector]
         [System.NonSerialized]
-        public System.Random RandomGenerator = new System.Random();
+        public static System.Random RandomGenerator = new System.Random(); // Standard Asset edit: make static
+
+		public event Action LightningTriggered; // Standard Asset edit: add action
 
         private LineRenderer lineRenderer;
         private List<KeyValuePair<Vector3, Vector3>> segments = new List<KeyValuePair<Vector3, Vector3>>();
@@ -336,6 +341,8 @@ namespace DigitalRuby.LightningBolt
             startIndex = 0;
             GenerateLightningBolt(start, end, Generations, Generations, 0.0f);
             UpdateLineRenderer();
+
+			LightningTriggered?.Invoke();
         }
 
         /// <summary>
