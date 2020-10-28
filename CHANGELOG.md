@@ -2,6 +2,8 @@
 ---
 
 
+* 2020/10/28: Fixed when dead blob would error on spawn, blob will no longer spawn if host is dead by [ThatDan123](https://github.com/ThatDan123) in PR #[5431](https://github.com/unitystation/unitystation/pull/5431)
+* 2020/10/28: Fixed being able to attack own spores by [ThatDan123](https://github.com/ThatDan123) in PR #[5431](https://github.com/unitystation/unitystation/pull/5431)
 * 2020/10/28: Fixed blob strain switching not defaulting to original resistances and armor by [ThatDan123](https://github.com/ThatDan123) in PR #[5429](https://github.com/unitystation/unitystation/pull/5429)
 * 2020/10/27: Fixed minor issues with blob by [ThatDan123](https://github.com/ThatDan123) in PR #[5428](https://github.com/unitystation/unitystation/pull/5428)
 * 2020/10/27: Added forcewall spell, spell books, random initial spells, wizard garb functionality. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5426](https://github.com/unitystation/unitystation/pull/5426)
