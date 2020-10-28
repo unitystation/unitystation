@@ -13,10 +13,6 @@ namespace Systems.Spells.Wizard
 
 		private TeleportSpell teleport;
 
-		[Tooltip("Assign the teleport window prefab here")]
-		[SerializeField]
-		private GameObject teleportWindowPrefab = default;
-
 		private TeleportWindow TeleportWindow => UIManager.TeleportWindow;
 
 		private void Awake()

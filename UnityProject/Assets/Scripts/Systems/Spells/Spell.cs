@@ -226,6 +226,30 @@ namespace Systems.Spells
 				return false;
 			}
 
+			if (SpellData is WizardSpellData data && data.RequiresWizardGarb && CheckWizardGarb(caster.Script.Equipment) == false)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		private bool CheckWizardGarb(Equipment casterEquipment)
+		{
+			var outerwear = casterEquipment.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
+			if (outerwear.IsEmpty || outerwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+			{
+				Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your robe!</color>");
+				return false;
+			}
+
+			var headwear = casterEquipment.ItemStorage.GetNamedItemSlot(NamedSlot.head);
+			if (headwear.IsEmpty || headwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+			{
+				Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your hat!</color>");
+				return false;
+			}
+
 			return true;
 		}
 

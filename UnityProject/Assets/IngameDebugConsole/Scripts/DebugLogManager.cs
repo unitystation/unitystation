@@ -373,7 +373,7 @@ namespace IngameDebugConsole
 			// Check if this entry is a duplicate (i.e. has been received before)
 			int logEntryIndex;
 			bool isEntryInCollapsedEntryList = collapsedLogEntriesMap.TryGetValue(logEntry, out logEntryIndex);
-			if (!isEntryInCollapsedEntryList)
+			if (isEntryInCollapsedEntryList == false)
 			{
 				// It is not a duplicate,
 				// add it to the list of unique debug entries
@@ -425,7 +425,7 @@ namespace IngameDebugConsole
 				infoEntryCountText.text = infoEntryCount.ToString();
 
 				// If debug popup is visible, notify it of the new debug entry
-				if (!isLogWindowVisible)
+				if (isLogWindowVisible == false)
 					popupManager.NewInfoLogArrived();
 			}
 			else if (logType == LogType.Warning)
@@ -434,7 +434,7 @@ namespace IngameDebugConsole
 				warningEntryCountText.text = warningEntryCount.ToString();
 
 				// If debug popup is visible, notify it of the new debug entry
-				if (!isLogWindowVisible)
+				if (isLogWindowVisible == false)
 					popupManager.NewWarningLogArrived();
 			}
 			else
@@ -443,7 +443,7 @@ namespace IngameDebugConsole
 				errorEntryCountText.text = errorEntryCount.ToString();
 
 				// If debug popup is visible, notify it of the new debug entry
-				if (!isLogWindowVisible)
+				if (isLogWindowVisible == false)
 					popupManager.NewErrorLogArrived();
 			}
 		}

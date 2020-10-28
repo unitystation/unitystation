@@ -145,6 +145,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: initialName
       value: wizard robe
       objectReference: {fileID: 0}
@@ -153,6 +158,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A magnificent, gem-lined robe that seems to radiate power.
       objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ea4f719e6cbcb664e99411fdcd0d7dc7,
+        type: 2}
     - target: {fileID: 7325966862900394647, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: PresentSpriteSet

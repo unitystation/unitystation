@@ -1032,7 +1032,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			// On fire?
 			if (FireStacks > 0)
 			{
-				healthDescription= "on fire!";
+				healthDescription = "on fire!";
 			}
 			healthString += healthDescription;
 

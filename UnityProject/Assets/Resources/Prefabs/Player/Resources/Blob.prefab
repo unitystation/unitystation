@@ -263,6 +263,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a4cfc9b2c245499419d4e0d4000ab90a, type: 2}
   - {fileID: 11400000, guid: da7f34d9e10e1594f8bfac00fee1213d, type: 2}
   layerDamage: 50
+  adaptStrainCost: 40
+  rerollStrainsCost: 20
   numOfTilesForVictory: 400
   BlobRemoveMode: 0
   econModifier: 1
@@ -277,6 +279,7 @@ MonoBehaviour:
   overmindLight: {fileID: 4711685050884406599}
   overmindSprite: {fileID: 7320126117105815585}
   clickCoords: 1
+  clientCurrentStrain: {fileID: 0}
 --- !u!114 &448360181673478972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,7 +287,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4390267312333422610}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e025e2b4c0b09d4094b50b2443876e1, type: 3}
   m_Name: 

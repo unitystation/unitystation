@@ -46,9 +46,18 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		livingHealthBehaviour.EnsureInit(); //Was getting called before initialisation
 		overallHealthCache = livingHealthBehaviour.OverallHealth;
 		consciousStateCache = livingHealthBehaviour.ConsciousState;
-		isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
-		temperatureCache = livingHealthBehaviour.respiratorySystem.temperature;
-		pressureCache = livingHealthBehaviour.respiratorySystem.pressure;
+
+		if (livingHealthBehaviour.respiratorySystem != null)
+		{
+			isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
+			temperatureCache = livingHealthBehaviour.respiratorySystem.temperature;
+			pressureCache = livingHealthBehaviour.respiratorySystem.pressure;
+		}
+		else
+		{
+			Logger.LogWarning($"No {nameof(livingHealthBehaviour.respiratorySystem)} found on {this}. Is this intended?");
+		}
+
 		UpdateBloodCaches();
 		if (livingHealthBehaviour.brainSystem != null)
 		{
