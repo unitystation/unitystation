@@ -481,7 +481,7 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
 		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
-		int[] excludeList = null)
+		int[] excludeList = null, List<LayerType> excludeLayers = null)
 	{
 		// Gets the list of Matrixes to actually check
 		MatrixInfo[] includeList = excludeList != null
@@ -490,7 +490,8 @@ public partial class MatrixManager : MonoBehaviour
 
 		return AllMatchInternal(mat =>
 			mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat), isServer,
-				collisionType: collisionType, includingPlayers: includingPlayers, context: context), includeList);
+				collisionType: collisionType, includingPlayers: includingPlayers, context: context, excludeLayers: excludeLayers),
+				includeList);
 	}
 
 	/// <summary>

@@ -847,12 +847,12 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		if (success)
 		{
 			if (IsBeingPulled && //Break pull only if pushable will end up far enough
-					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledBy.registerTile.WorldPositionServer, target)))
+					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledBy.registerTile.WorldPositionServer, target, true)))
 			{
 				StopFollowing();
 			}
 			if (IsPullingSomethingServer && //Break pull only if pushable will end up far enough
-					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target)))
+					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target, true)))
 			{
 				ReleaseControl();
 			}

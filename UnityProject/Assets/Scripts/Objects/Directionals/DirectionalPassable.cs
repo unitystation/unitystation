@@ -51,33 +51,32 @@ namespace Core.Directionals
 
 		public override bool IsPassable(bool isServer, GameObject context = null)
 		{
-			if (!Passable) return false;
-			if (context == gameObject || context == null) return true;
+			if (context == gameObject) return true;
 
 			return Passable;
 		}
 
 		public override bool IsPassable(Vector3Int enteringFrom, bool isServer, GameObject context = null)
 		{
-			if (!Passable) return false;
+			if (false == Passable) return false;
 			if (IsEnterableOnAll) return true;
-			if (context == gameObject || context == null) return true;
+			if (context == gameObject) return true;
 
 			return IsPassableAtSide(GetSideFromVector(enteringFrom), enterableSides);
 		}
 
 		public override bool IsPassableTo(Vector3Int leavingTo, bool isServer, GameObject context = null)
 		{
-			if (!Passable) return false;
+			if (false == Passable) return false;
 			if (IsLeavableOnAll) return true;
-			if (context == gameObject || context == null) return true;
+			if (context == gameObject) return true;
 
 			return IsPassableAtSide(GetSideFromVector(leavingTo), leavableSides);
 		}
 
 		public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 		{
-			if (!AtmosPassable) return false;
+			if (false == AtmosPassable) return false;
 			if (IsAtmosPassableOnAll) return true;
 
 			return IsPassableAtSide(GetSideFromVector(enteringFrom), atmosphericPassableSides);

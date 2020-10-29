@@ -369,7 +369,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 							return;
 						}
 						if (PlayerManager.PlayerScript == null) return;
-						if (Validations.IsInReach(PlayerManager.PlayerScript.registerTile.WorldPosition ,interaction.WorldPositionTarget) == false) return;
+						if (Validations.IsInReachDistance(PlayerManager.PlayerScript.registerTile.WorldPosition ,interaction.WorldPositionTarget) == false) return;
 						if (MatrixManager.IsPassableAt( interaction.WorldPositionTarget.RoundToInt(), CustomNetworkManager.Instance._isServer) == false) return;
 
 							PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
