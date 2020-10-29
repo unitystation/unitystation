@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using global::Chemistry;
+using Chemistry;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -9,7 +9,7 @@ using Chemistry.Components;
 
 namespace Tests.Chemistry
 {
-	public class ReactionContainerFixture
+	public class ReagentContainerFixture
 	{
 		private static ReagentContainer GetContainer(int maxCapacity, ReagentMix contents)
 		{
@@ -36,11 +36,11 @@ namespace Tests.Chemistry
 
 		private static IEnumerable AdditionTestData()
 		{
-			var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			var a = ScriptableObject.CreateInstance<Reagent>();
 			a.Name = "a";
-			var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			var b = ScriptableObject.CreateInstance<Reagent>();
 			b.Name = "b";
-			var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			var c = ScriptableObject.CreateInstance<Reagent>();
 			c.Name = "c";
 
 			//Test adding without overflow
@@ -125,11 +125,11 @@ namespace Tests.Chemistry
 
 		private static IEnumerable RemovalTestData()
 		{
-			var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			var a = ScriptableObject.CreateInstance<Reagent>();
 			a.Name = "a";
-			var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			var b = ScriptableObject.CreateInstance<Reagent>();
 			b.Name = "b";
-			var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			var c = ScriptableObject.CreateInstance<Reagent>();
 			c.Name = "c";
 
 			yield return new object[]
