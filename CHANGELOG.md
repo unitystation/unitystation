@@ -2,6 +2,14 @@
 ---
 
 
+* 2020/10/28: Fixed when dead blob would error on spawn, blob will no longer spawn if host is dead by [ThatDan123](https://github.com/ThatDan123) in PR #[5431](https://github.com/unitystation/unitystation/pull/5431)
+* 2020/10/28: Fixed being able to attack own spores by [ThatDan123](https://github.com/ThatDan123) in PR #[5431](https://github.com/unitystation/unitystation/pull/5431)
+* 2020/10/28: Fixed blob strain switching not defaulting to original resistances and armor by [ThatDan123](https://github.com/ThatDan123) in PR #[5429](https://github.com/unitystation/unitystation/pull/5429)
+* 2020/10/27: Fixed minor issues with blob by [ThatDan123](https://github.com/ThatDan123) in PR #[5428](https://github.com/unitystation/unitystation/pull/5428)
+* 2020/10/27: Added forcewall spell, spell books, random initial spells, wizard garb functionality. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5426](https://github.com/unitystation/unitystation/pull/5426)
+* 2020/10/27: fix: access restrictions for brig timers by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5423](https://github.com/unitystation/unitystation/pull/5423)
+* 2020/10/26: search added to admin player manager by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5422](https://github.com/unitystation/unitystation/pull/5422)
+* 2020/10/26: Admins now can see disconnected players and banned them by [Bod9001](https://github.com/Bod9001) in PR #[5416](https://github.com/unitystation/unitystation/pull/5416)
 * 2020/10/25: fix gun projectiles and sounds for other clients by [JustinTrotter](https://github.com/JustinTrotter) in PR #[5411](https://github.com/unitystation/unitystation/pull/5411)
 * 2020/10/24: Adds blob strains, some with custom abilities by [ThatDan123](https://github.com/ThatDan123) in PR #[5404](https://github.com/unitystation/unitystation/pull/5404)
 * 2020/10/24: Fixed deconstructing disposal pipes, added distant explosion sounds by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5401](https://github.com/unitystation/unitystation/pull/5401)

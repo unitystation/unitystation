@@ -45,10 +45,14 @@ public class SpriteHandler : MonoBehaviour
 
 	private Color? setColour = null;
 
+	[Tooltip("The palette that is applied to the Sprite Renderer, if the Present Sprite Set is paletted.")]
 	[SerializeField] private List<Color> palette = new List<Color>();
 	public List<Color> Palette => palette;
 
-	private bool PaletteSet = false;
+	/// <summary>
+	/// false if the palette has not been configured for the current spriteSO. true otherwise
+	/// </summary>
+	private bool isPaletteSet = false;
 
 	private bool Initialised;
 
@@ -124,7 +128,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		get
 		{
-			return CurrentSprite == null || !gameObject.activeInHierarchy;
+			return CurrentSprite == null || gameObject.activeInHierarchy == false;
 		}
 	}
 
@@ -164,6 +168,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (NewspriteDataSO != PresentSpriteSet)
 		{
+			isPaletteSet = false;
 			PresentSpriteSet = NewspriteDataSO;
 			PushTexture(Network);
 			if (Network)
@@ -240,7 +245,7 @@ public class SpriteHandler : MonoBehaviour
 		if (setColour == value) return;
 
 		setColour = value;
-		if (!HasImageComponent())
+		if (HasImageComponent() == false)
 		{
 			GetImageComponent();
 		}
@@ -256,6 +261,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (palette == null) return;
 		palette = null;
+		isPaletteSet = false;
 
 		if (Network)
 		{
@@ -274,6 +280,7 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
+		
 
 		if (Network)
 		{
@@ -315,13 +322,14 @@ public class SpriteHandler : MonoBehaviour
 	{
 		bool paletted = isPaletted();
 
-		Debug.Assert(!(paletted && newPalette == null), "Paletted sprites should never have palette set to null");
+		Debug.Assert((paletted && newPalette == null) == false, "Paletted sprites should never have palette set to null");
 
-		if (!paletted)
+		if (paletted == false)
 		{
 			newPalette = null;
 		}
 
+		isPaletteSet = false;
 		palette = newPalette;
 		PushTexture(false);
 		if (Network)
@@ -554,50 +562,65 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+	private void SetPaletteOnSpriteRenderer()
+	{
+		isPaletteSet = true;
+		var palette = getPaletteOrNull();
+		if (palette != null && palette.Count > 0 && palette.Count <= 256)
+		{
+			MaterialPropertyBlock block = new MaterialPropertyBlock();
+			spriteRenderer.GetPropertyBlock(block);
+			List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+			block.SetVectorArray("_ColorPalette", pal);
+			block.SetInt("_IsPaletted", 1);
+			block.SetInt("_PaletteSize", pal.Count);
+			spriteRenderer.SetPropertyBlock(block);
+		}
+		else
+		{
+			MaterialPropertyBlock block = new MaterialPropertyBlock();
+			spriteRenderer.GetPropertyBlock(block);
+			block.SetInt("_IsPaletted", 0);
+			spriteRenderer.SetPropertyBlock(block);
+		}
+	}
+
+	private void SetPaletteOnImage()
+	{
+		List<Color> paletteOrNull = getPaletteOrNull();
+
+		if (paletteOrNull != null && palette.Count > 0 && palette.Count <= 256)
+		{
+			List<Vector4> pal = paletteOrNull.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
+			image.material.SetVectorArray("_ColorPalette", pal);
+			image.material.SetInt("_IsPaletted", 1);
+			image.material.SetInt("_PaletteSize", pal.Count);
+		}
+		else
+		{
+			image.material.SetInt("_IsPaletted", 0);
+		}
+	}
+
 	private void SetImageSprite(Sprite value)
 	{
-		List<Color> paletteOrNull;
 		if (spriteRenderer != null)
 		{
 			spriteRenderer.enabled = true;
 			spriteRenderer.sprite = value;
-			if (isPaletted() && PaletteSet == false)
+
+			if (isPaletteSet == false)
 			{
-				PaletteSet = true;
-				var palette = getPaletteOrNull();
-				if (palette != null && palette.Count == 8)
-				{
-					MaterialPropertyBlock block = new MaterialPropertyBlock();
-					spriteRenderer.GetPropertyBlock(block);
-					List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
-					block.SetVectorArray("_ColorPalette", pal);
-					block.SetInt("_IsPaletted", 1);
-					spriteRenderer.SetPropertyBlock(block);
-				}
-			}
-			else if (PaletteSet)
-			{
-				PaletteSet = false;
-				MaterialPropertyBlock block = new MaterialPropertyBlock();
-				spriteRenderer.GetPropertyBlock(block);
-				block.SetInt("_IsPaletted", 0);
-				spriteRenderer.SetPropertyBlock(block);
+				SetPaletteOnSpriteRenderer();
 			}
 		}
 		else if (image != null)
 		{
 			image.sprite = value;
-			paletteOrNull = getPaletteOrNull();
 
-			if (paletteOrNull != null && paletteOrNull.Count == 8)
+			if (isPaletteSet == false)
 			{
-				List<Vector4> pal = paletteOrNull.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
-				image.material.SetVectorArray("_ColorPalette", pal);
-				image.material.SetInt("_IsPaletted", 1);
-			}
-			else
-			{
-				image.material.SetInt("_IsPaletted", 0);
+				SetPaletteOnImage();
 			}
 
 			if (value == null)
@@ -702,14 +725,17 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool isPaletted()
 	{
-		if (PresentSpriteSet == null) return false;
+		if (PresentSpriteSet == null)
+		{
+			return false;
+		}
 
 		return PresentSpriteSet.IsPalette;
 	}
 
 	private List<Color> getPaletteOrNull()
 	{
-		if (!isPaletted())
+		if (isPaletted() == false)
 			return null;
 
 		return palette;
@@ -733,7 +759,7 @@ public class SpriteHandler : MonoBehaviour
 
 		}
 
-		if (!isAnimation)
+		if (isAnimation == false)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
@@ -791,12 +817,12 @@ public class SpriteHandler : MonoBehaviour
 		}
 #endif
 
-		if (turnOn && !isAnimation)
+		if (turnOn && isAnimation == false)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			isAnimation = true;
 		}
-		else if (!turnOn && isAnimation)
+		else if (turnOn == false && isAnimation)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			animationIndex = 0;
@@ -828,9 +854,9 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool EditorTryToggleAnimationState(bool turnOn)
 	{
-		if (Application.isEditor && !Application.isPlaying)
+		if (Application.isEditor && Application.isPlaying == false)
 		{
-			if (turnOn && !isAnimation)
+			if (turnOn && isAnimation == false)
 			{
 				if (this.gameObject.scene.path != null && this.gameObject.scene.path.Contains("Scenes") == false &&
 				    EditorAnimating == null)
@@ -843,7 +869,7 @@ public class SpriteHandler : MonoBehaviour
 					return true;
 				}
 			}
-			else if (!turnOn && isAnimation)
+			else if (turnOn == false && isAnimation)
 			{
 				isAnimation = false;
 			}

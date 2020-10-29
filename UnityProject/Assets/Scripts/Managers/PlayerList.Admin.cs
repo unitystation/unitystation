@@ -462,8 +462,18 @@ public partial class PlayerList
 	/// <returns></returns>
 	private List<JobBanEntry> ClientAskingAboutJobBans(ConnectedPlayer connPlayer)
 	{
+		if (connPlayer.Equals(ConnectedPlayer.Invalid))
+		{
+			Logger.LogError($"Attempted to check job-ban for invalid player.");
+			return default;
+		}
+
+		string playerUserID = connPlayer.UserId;
+		string playerAddress = connPlayer.Connection.address;
+		string playerClientID = connPlayer.ClientId;
+
 		//jobbanlist checking:
-		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(playerUserID, playerAddress, playerClientID);
 
 		if (jobBanPlayerEntry == null)
 		{
@@ -792,7 +802,7 @@ public partial class PlayerList
 		if (!adminUsers.Contains(adminId)) return;
 
 		ConnectedPlayer adminPlayer = PlayerList.Instance.GetByUserID(adminId);
-		List<ConnectedPlayer> players = GetAllByUserID(userToKick);
+		List<ConnectedPlayer> players = GetAllByUserID(userToKick, true);
 		if (players.Count != 0)
 		{
 			foreach (var p in players)
@@ -902,7 +912,7 @@ public partial class PlayerList
 	public void ProcessJobBanRequest(string adminId, string userToJobBan, string reason, bool isPerma, int banMinutes, JobType jobType, bool kickAfter = false, bool ghostAfter = false)
 	{
 		if (!adminUsers.Contains(adminId)) return;
-		
+
 		ConnectedPlayer adminPlayer = PlayerList.Instance.GetByUserID(adminId);
 		List<ConnectedPlayer> players = GetAllByUserID(userToJobBan);
 		if (players.Count != 0)
