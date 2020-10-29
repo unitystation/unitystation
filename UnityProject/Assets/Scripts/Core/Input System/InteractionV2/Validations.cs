@@ -221,7 +221,7 @@ public static class Validations
 
 		var playerObjBehavior = playerScript.pushPull;
 
-		if (false == CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick))
+		if (CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick == false))
 		{
 			return false;
 		}
