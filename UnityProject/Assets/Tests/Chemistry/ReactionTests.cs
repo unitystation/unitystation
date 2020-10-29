@@ -15,7 +15,7 @@ namespace Tests.Chemistry
 		{
 			reaction.Apply(null, mix);
 
-			Assert.True(mix == result);
+			Assert.True(mix.ContentEquals(result));
 		}
 
 

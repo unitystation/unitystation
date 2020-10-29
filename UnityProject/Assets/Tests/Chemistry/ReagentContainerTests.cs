@@ -9,7 +9,7 @@ using Chemistry.Components;
 
 namespace Tests.Chemistry
 {
-	public class ReagentContainerFixture
+	public class ReagentContainerTests
 	{
 		private static ReagentContainer GetContainer(int maxCapacity, ReagentMix contents)
 		{
