@@ -589,7 +589,7 @@ namespace Weapons
 		/// <param name="damageZone">targeted damage zone</param>
 		/// <param name="isSuicideShot">if this is a suicide shot (aimed at shooter)</param>
 		public void DisplayShot(GameObject shooter, Vector2 finalDirection,
-			BodyPartType damageZone, bool isSuicideShot, GameObject proj, int quantity)
+			BodyPartType damageZone, bool isSuicideShot, GameObject projectile, int quantity)
 		{
 			if (!MatrixManager.IsInitialized) return;
 
@@ -641,7 +641,7 @@ namespace Weapons
 
 			if (isSuicideShot)
 			{
-				GameObject bullet = Spawn.ClientPrefab(proj.name,
+				GameObject bullet = Spawn.ClientPrefab(projectile.name,
 					shooter.transform.position, parent: shooter.transform.parent).GameObject;
 				var b = bullet.GetComponent<Projectile>();
 				b.Suicide(shooter, this, damageZone);
@@ -650,7 +650,7 @@ namespace Weapons
 			{
 				for (int n = 0; n < quantity; n++)
 				{
-					GameObject Abullet = Spawn.ClientPrefab(proj.name,
+					GameObject Abullet = Spawn.ClientPrefab(projectile.name,
 						shooter.transform.position, parent: shooter.transform.parent).GameObject;
 					var A = Abullet.GetComponent<Projectile>();
 					var finalDirectionOverride = CalcDirection(finalDirection, n);

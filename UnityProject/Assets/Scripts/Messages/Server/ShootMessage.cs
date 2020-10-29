@@ -32,7 +32,13 @@ namespace Weapons
 		/// If the shot is aimed at the shooter
 		/// </summary>
 		public bool IsSuicideShot;
-		public uint Proj;
+		/// <summary>
+		/// the projectile being shot
+		/// </summary>
+		public Guid Projectile;
+		/// <summary>
+		/// the amount of projectiles to spawn when procesing the shot
+		/// </summary>
 		public int Quantity;
 
 		///To be run on client
@@ -50,17 +56,24 @@ namespace Weapons
 			//Not even spawned don't show bullets
 			if (PlayerManager.LocalPlayer == null) return;
 
-			LoadMultipleObjects(new uint[] { Shooter, Weapon, Proj });
+			LoadMultipleObjects(new uint[] { Shooter, Weapon});
 
 			Gun wep = NetworkObjects[1].GetComponent<Gun>();
 			if (wep == null)
 			{
 				return;
 			}
+
+			if (!ClientScene.prefabs.TryGetValue(Projectile, out var prefab))
+			{
+				Logger.LogError($"Couldn't cast {Projectile}; it is probably missing {nameof(NetworkIdentity)} component.", Category.Firearms);
+				return;
+			}
+
 			//only needs to run on the clients other than the shooter
 			if (!wep.isServer && PlayerManager.LocalPlayer.gameObject != NetworkObjects[0])
 			{
-				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, NetworkObjects[2], Quantity);
+				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, prefab, Quantity);
 			}
 		}
 
@@ -72,8 +85,17 @@ namespace Weapons
 		/// <param name="shooter">gameobject of player making the shot</param>
 		/// <param name="isSuicide">if the shooter is shooting themselves</param>
 		/// <returns></returns>
-		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, GameObject proj, int quantity)
+		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, GameObject projectile, int quantity)
 		{
+			Guid assetID;
+			if (projectile.TryGetComponent<NetworkIdentity>(out var networkIdentity))
+			{
+				assetID = networkIdentity.assetId;
+			}
+			else
+			{
+				Logger.LogError($"{projectile} doesn't have a network identity!", Category.NetMessage);
+			}
 			var msg = new ShootMessage
 			{
 				Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
@@ -81,7 +103,7 @@ namespace Weapons
 				DamageZone = damageZone,
 				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				IsSuicideShot = isSuicide,
-				Proj = proj ? proj.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				Projectile = assetID,
 				Quantity = quantity
 			};
 			msg.SendToAll();
@@ -101,7 +123,7 @@ namespace Weapons
 			DamageZone = (BodyPartType)reader.ReadUInt32();
 			Shooter = reader.ReadUInt32();
 			IsSuicideShot = reader.ReadBoolean();
-			Proj = reader.ReadUInt32();
+			Projectile = reader.ReadGuid();
 			Quantity = reader.ReadInt32();
 		}
 
@@ -113,7 +135,7 @@ namespace Weapons
 			writer.WriteInt32((int)DamageZone);
 			writer.WriteUInt32(Shooter);
 			writer.WriteBoolean(IsSuicideShot);
-			writer.WriteUInt32(Proj);
+			writer.WriteGuid(Projectile);
 			writer.WriteInt32(Quantity);
 		}
 	}
