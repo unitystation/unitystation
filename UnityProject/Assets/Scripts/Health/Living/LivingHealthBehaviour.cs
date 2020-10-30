@@ -154,7 +154,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		{
 			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
 		}
-		
+
 		UpdateManager.Add(PeriodicUpdate, 1f);
 	}
 
@@ -164,12 +164,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
 		}
-				
+
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 	}
 
 	/// Add any missing systems:
-	private void EnsureInit()
+	public void EnsureInit()
 	{
 		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
@@ -342,7 +342,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public void ApplyDamage(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType)
 	{
-	
+
 		foreach (var bodyPart in BodyParts)
 		{
 			ApplyDamageToBodypart(damagedBy, damage / BodyParts.Count, attackType, damageType, bodyPart.Type);
@@ -1032,7 +1032,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			// On fire?
 			if (FireStacks > 0)
 			{
-				healthDescription= "on fire!";
+				healthDescription = "on fire!";
 			}
 			healthString += healthDescription;
 

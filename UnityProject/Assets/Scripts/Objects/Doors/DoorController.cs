@@ -299,7 +299,8 @@ namespace Doors
 
 		public void Close()
 		{
-			if (gameObject == null) return; // probably destroyed by a shuttle crash
+			// Check if this is null... it is possible for this to be null in Unity - gameObject reference can generate an NRE.
+			if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
 			if (Time.time < delayStartTime + inputDelay) return;
 
 			delayStartTime = Time.time;

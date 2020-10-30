@@ -70,6 +70,7 @@ public class UpdateManager : MonoBehaviour
 		public readonly Dictionary<Action, NamedAction> ActionDictionary = new Dictionary<Action, NamedAction>(128);
 	}
 
+
 	private void Awake()
 	{
 		if (instance != null)
@@ -248,9 +249,9 @@ public class UpdateManager : MonoBehaviour
 	private void Update()
 	{
 		CashedDeltaTime = Time.deltaTime;
-		for (int i = updateActions.Count; i > 0; i--)
+		for (int i = updateActions.Count; i >= 0; i--)
 		{
-			if (i > 0 && i < updateActions.Count)
+			if (i < updateActions.Count)
 			{
 				if (Profile)
 				{
@@ -299,9 +300,9 @@ public class UpdateManager : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		for (int i = fixedUpdateActions.Count; i > 0; i--)
+		for (int i = fixedUpdateActions.Count; i >= 0; i--)
 		{
-			if (i > 0 && i < fixedUpdateActions.Count)
+			if (i < fixedUpdateActions.Count)
 			{
 				fixedUpdateActions[i].Invoke();
 			}
@@ -310,9 +311,9 @@ public class UpdateManager : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		for (int i = lateUpdateActions.Count; i > 0; i--)
+		for (int i = lateUpdateActions.Count; i >= 0; i--)
 		{
-			if (i > 0 && i < lateUpdateActions.Count)
+			if (i < lateUpdateActions.Count)
 			{
 				lateUpdateActions[i].Invoke();
 			}

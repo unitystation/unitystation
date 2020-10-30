@@ -23,7 +23,7 @@ namespace Objects.Construction
 		/// </summary>
 		[NonSerialized]
 		public UnityEvent OnAnchoredChange = new UnityEvent();
-		public bool IsAnchored => !objectBehaviour.IsPushable;
+		public bool IsAnchored => objectBehaviour != null && !objectBehaviour.IsPushable;
 
 		[SerializeField]
 		[Tooltip("Whether the object will state if it is secured or unsecured upon examination.")]
@@ -52,7 +52,15 @@ namespace Objects.Construction
 			{
 				objectName = attributes.InitialName;
 			}
-			else objectName = gameObject.ExpensiveName();
+			else
+			{
+				objectName = gameObject.ExpensiveName();
+			}
+
+			if (objectBehaviour == null)
+			{
+				Logger.LogWarning($"{nameof(objectBehaviour)} was not found on {this}!");
+			}
 		}
 
 		#region Interactions
@@ -77,7 +85,11 @@ namespace Objects.Construction
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			if (stateSecuredStatus) return IsAnchored ? "It is anchored in place." : "It is currently not anchored.";
+			if (stateSecuredStatus)
+			{
+				return IsAnchored ? "It is anchored in place." : "It is currently not anchored.";
+			}
+
 			return default;
 		}
 
