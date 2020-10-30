@@ -10,7 +10,7 @@ public class XenomorphFood : Edible
 	[SerializeField]
 	private int killTime = 400;
 	[SerializeField]
-	private GameObject larvae = null; 
+	private GameObject larvae = null;
 	private string Name => itemAttributes.ArticleName;
 	private static readonly StandardProgressActionConfig ProgressConfig
 		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
@@ -20,8 +20,8 @@ public class XenomorphFood : Edible
 		if (eater == null)
 		{
 			// todo: implement non-player eating
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(Sound, eater.WorldPos);
 			Despawn.ServerSingle(gameObject);
 			return;
 		}
@@ -50,8 +50,8 @@ public class XenomorphFood : Edible
 	}
 	public override void Eat(PlayerScript eater, PlayerScript feeder)
 	{
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(Sound, eater.WorldPos, sourceObj: eater.gameObject);
 
 		eater.playerHealth.Metabolism.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));
 		Pregnancy(eater.playerHealth);

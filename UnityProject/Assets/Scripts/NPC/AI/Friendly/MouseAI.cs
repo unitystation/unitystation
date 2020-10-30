@@ -1,3 +1,4 @@
+using AddressableReferences;
 using UnityEngine;
 
 namespace NPC
@@ -16,6 +17,7 @@ namespace NPC
 		private GameObject deadMouse = null;
 
 		private MobMood mood;
+		[SerializeField] private AddressableAudioSource MouseSqueek = null;
 
 		protected override void Awake()
 		{
@@ -57,13 +59,13 @@ namespace NPC
 
 		private void Squeak()
 		{
-			// JESTER
-			/*
+			// JESTE_R
+
 			SoundManager.PlayNetworkedAtPos(
-				"MouseSqueek",
+				MouseSqueek,
 				gameObject.transform.position,
 				Random.Range(.6f, 1.2f));
-			*/
+
 
 			Chat.AddActionMsgToChat(
 				gameObject,

@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -103,8 +103,8 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 			Chat.AddActionMsgToChat(interaction.Performer, $"Your book slams into {victimName}'s head, and not much else.",
 			$"{performerName}'s book slams into {victimName}'s head, and not much else.");
 
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos("GenericHit", interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 		}
 		else  //Heal a bodypart if possible.
 		{
@@ -132,8 +132,8 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 				$"A flash of light from your book thwacking {victimName} heals some of {victimName}'s  wounds.",
 				$"A flash of light from {performerName}'s book thwacking {victimName} heals some of {victimName}'s wounds.");
 
-				// JESTER
-				//SoundManager.PlayNetworkedAtPos("PunchMiss", interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.PunchMiss, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 			}
 
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 namespace NPC
@@ -23,6 +24,9 @@ namespace NPC
 		private LayerMask mobMask;
 		private string dogName;
 
+
+		[SerializeField] private AddressableAudioSource Bark = null;
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -39,12 +43,11 @@ namespace NPC
 
 		private void SingleBark(GameObject barked = null)
 		{
-			// JESTER
-			/*
-			SoundManager.PlayNetworkedAtPos("Bark",
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(Bark,
 				gameObject.transform.position,
 				Random.Range(.8F, 1.3F));
-			*/
+
 
 			if (barked != null)
 			{

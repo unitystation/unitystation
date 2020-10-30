@@ -5,6 +5,7 @@ using Mirror;
 using ScriptableObjects;
 using UnityEngine;
 using Systems.Atmospherics;
+using AddressableReferences;
 using Doors;
 
 namespace Objects.Wallmounts
@@ -34,6 +35,8 @@ namespace Objects.Wallmounts
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
 
+		[SerializeField] private AddressableAudioSource FireAlarmAudio = null;
+
 		public void AddSlave(object SlaveObject)
 		{
 		}
@@ -55,8 +58,8 @@ namespace Objects.Wallmounts
 			{
 				activated = true;
 				stateSync = FireAlarmState.TopLightSpriteAlert;
-				// JESTER
-				// SoundManager.PlayNetworkedAtPos("FireAlarm", metaNode.Position);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(FireAlarmAudio, metaNode.Position);
 				StartCoroutine(SwitchCoolDown());
 				foreach (var firelock in FireLockList)
 				{

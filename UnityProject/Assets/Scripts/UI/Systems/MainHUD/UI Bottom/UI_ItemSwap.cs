@@ -34,8 +34,8 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 			return;
 		}
 
-		// JESTER
-		//SoundManager.Play("Click01");
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		//if there is an item in this slot, try interacting.
 		if (itemSlot.Item != null)
 		{

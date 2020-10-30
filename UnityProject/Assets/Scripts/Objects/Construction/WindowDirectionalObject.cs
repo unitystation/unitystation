@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
@@ -10,7 +11,7 @@ public class WindowDirectionalObject : NetworkBehaviour
 {
 	private RegisterObject registerObject;
 	private ObjectBehaviour objectBehaviour;
-	
+
 	//PM: Objects below don't have to be shards or rods, but it's more convenient for me to put "shards" and "rods" in the variable names.
 
 	[Header("Destroyed variables.")]
@@ -25,17 +26,16 @@ public class WindowDirectionalObject : NetworkBehaviour
 
 	[Tooltip("Drops this when broken with force.")]
 	public GameObject rodsOnDestroy;
-	
+
 	[Tooltip("Drops this count when destroyed.")]
 	public int minCountOfRodsOnDestroy;
 
 	[Tooltip("Drops this count when destroyed.")]
 	public int maxCountOfRodsOnDestroy;
-	
+
 	[Tooltip("Sound when destroyed.")]
 	public string soundOnDestroy;
-
-
+	[SerializeField] public AddressableAudioSource SoundOnDestroy = null;
 
 	private void Start()
 	{
@@ -49,11 +49,11 @@ public class WindowDirectionalObject : NetworkBehaviour
 	{
 		Spawn.ServerPrefab(shardsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfShardsOnDestroy, maxCountOfShardsOnDestroy + 1),
 			scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
-			
+
 		Spawn.ServerPrefab(rodsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfRodsOnDestroy, maxCountOfRodsOnDestroy + 1),
 			scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
 
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SoundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
 	}
 }

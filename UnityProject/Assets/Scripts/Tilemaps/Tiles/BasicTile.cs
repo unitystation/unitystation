@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
@@ -109,7 +110,9 @@ public abstract class BasicTile : LayerTile
 
 	[SerializeField] private string soundOnHit = default;
 
-	public string SoundOnHit => soundOnHit;
+	//public string SoundOnHit => soundOnHit;
+
+	[SerializeField] public AddressableAudioSource SoundOnHit = null;
 
 	public override void RefreshTile(Vector3Int position, ITilemap tilemap)
 	{

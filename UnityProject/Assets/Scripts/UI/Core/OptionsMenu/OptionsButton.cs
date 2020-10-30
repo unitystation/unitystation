@@ -20,8 +20,8 @@ namespace Unitystation.Options
 
         public void OnPointerDown(PointerEventData data)
         {
-			// JESTER
-			//SoundManager.Play("Click01");
+
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			OptionsMenu.Instance.ToggleButtonOn(this);
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,6 +15,12 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 		{ Level.Extreme, new List<string>(){ "ext1", "ext2", "ext3", "ext4" } },
 
 	};
+
+	public List<AddressableAudioSource> Low = new List<AddressableAudioSource>();
+	public List<AddressableAudioSource> Mid = new List<AddressableAudioSource>();
+	public List<AddressableAudioSource> High = new List<AddressableAudioSource>();
+	public List<AddressableAudioSource> Extreme = new List<AddressableAudioSource>();
+
 	System.Random RNG = new System.Random();
 	private RegisterPlayer registerPlayer;
 	private enum Level
@@ -62,26 +69,26 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 		if (node  == null) return;
 		if (node.RadiationNode.RadiationLevel > 1000)
 		{
-			PlaySound(Noise[Level.Extreme][RNG.Next(0,3)]);
+			PlaySound(Extreme[RNG.Next(0,3)]);
 		}
 		else if (node.RadiationNode.RadiationLevel > 500)
 		{
-			PlaySound(Noise[Level.High][RNG.Next(0,3)]);
+			PlaySound(High[RNG.Next(0,3)]);
 		}
 		else if (node.RadiationNode.RadiationLevel > 100)
 		{
-			PlaySound(Noise[Level.Mid][RNG.Next(0,3)]);
+			PlaySound(Mid[RNG.Next(0,3)]);
 		}
 		else if (node.RadiationNode.RadiationLevel > 20)
 		{
-			PlaySound(Noise[Level.Low][RNG.Next(0,3)]);
+			PlaySound(Low[RNG.Next(0,3)]);
 		}
 	}
 
-	private void PlaySound(string sound)
+	private void PlaySound(AddressableAudioSource sound)
 	{
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos(sound, registerItem.WorldPositionServer, sourceObj: gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(sound, registerItem.WorldPositionServer, sourceObj: gameObject);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)

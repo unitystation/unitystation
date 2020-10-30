@@ -66,8 +66,8 @@ public class GUI_PlayerJobs : MonoBehaviour
 		{
 			return; // Disallowing picking a job while another job has been selected.
 		}
-		// JESTER
-		// SoundManager.Play("Click01");
+		// JESTE_R
+		SoundManager.Play(SingletonSOSounds.Instance.Click01, string.Empty);
 		screen_Jobs.SetActive(false);
 		footer.SetActive(false);
 		waitMessage.SetActive(true);
@@ -78,8 +78,8 @@ public class GUI_PlayerJobs : MonoBehaviour
 
 	private void ShowJobSelection()
 	{
-		// JESTER
-		// SoundManager.Play("Click01");
+		// JESTE_R
+		SoundManager.Play(SingletonSOSounds.Instance.Click01, string.Empty);
 		screen_Jobs.SetActive(true);
 		footer.SetActive(true);
 		waitMessage.SetActive(false);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.Explosions;
+using AddressableReferences;
 
 namespace InGameEvents
 {
@@ -33,6 +34,8 @@ namespace InGameEvents
 		[SerializeField]
 		private int maxTimeBetweenMeteors = 10;
 
+		[SerializeField] private AddressableAudioSource Meteors = null;
+
 		public override void OnEventStart()
 		{
 			stationMatrix = MatrixManager.MainStationMatrix;
@@ -43,8 +46,8 @@ namespace InGameEvents
 
 				CentComm.MakeAnnouncementNoSound(CentComm.CentCommAnnounceTemplate, text);
 
-				// JESTER
-				// SoundManager.PlayNetworked("Meteors");
+				// JESTE_R
+				SoundManager.PlayNetworked(Meteors);
 			}
 
 			if (FakeEvent) return;

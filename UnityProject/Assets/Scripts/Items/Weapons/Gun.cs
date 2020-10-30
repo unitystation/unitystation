@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
@@ -106,6 +107,8 @@ namespace Weapons
 		[FormerlySerializedAs("FireingSound"), Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
 		public string FiringSound;
 
+		[SerializeField] private AddressableAudioSource firingSound = null;
+
 		/// <summary>
 		/// The amount of times per second this weapon can fire
 		/// </summary>
@@ -161,6 +164,10 @@ namespace Weapons
 		private RegisterTile registerTile;
 		private ItemStorage itemStorage;
 		private ItemSlot magSlot;
+
+		[SerializeField] private AddressableAudioSource OutOfAmmoAlarm = null;
+		[SerializeField] private AddressableAudioSource EmptyGunClick = null;
+
 
 
 		#region Init Logic
@@ -657,8 +664,8 @@ namespace Weapons
 					A.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
 			}
-			// JESTER
-			// SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
+			// JESTE_R
+			SoundManager.PlayAtPosition(firingSound,"", shooter.transform.position, shooter);
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
 
@@ -756,14 +763,14 @@ namespace Weapons
 
 		private void OutOfAmmoSFX()
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(OutOfAmmoAlarm, transform.position, sourceObj: serverHolder);
 		}
 
 		private void PlayEmptySFX()
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(EmptyGunClick, transform.position, sourceObj: serverHolder);
 		}
 
 		#endregion

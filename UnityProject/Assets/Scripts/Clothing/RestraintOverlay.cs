@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 /// <summary>
@@ -10,6 +11,8 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	//TODO Different colored overlays for different restraints
 	[SerializeField]
 	private List<Sprite> handCuffOverlays = new List<Sprite>();
+
+	[SerializeField] private AddressableAudioSource Handcuffs = null;
 
 	[SerializeField] private SpriteRenderer spriteRend = null;
 	private IEnumerator uncuffCoroutine;
@@ -95,7 +98,9 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
 			thisPlayerScript.playerName + " has removed their cuffs");
 
-		// JESTER SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(Handcuffs, thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
+
 	}
 
 	private bool CanUncuff()

@@ -69,8 +69,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		BasicTile basicTile, Vector3 worldPosition)
 	{
 		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage < basicTile.damageDeflection? 0: damage, attackType));
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
 		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
 		{
 			data.RemoveTileDamage(Layer.LayerType);

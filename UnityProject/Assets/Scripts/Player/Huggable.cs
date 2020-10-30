@@ -1,3 +1,4 @@
+using AddressableReferences;
 using UnityEngine;
 
 /// <summary>
@@ -5,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
+	[SerializeField] private AddressableAudioSource ThudSwoosh = null;
+
 	private HandApply interaction;
 	private string performerName;
 	private string targetName;
@@ -42,11 +45,9 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 			Hug();
 		}
 
-		// JESTER
-		/*
-		SoundManager.PlayNetworkedAtPos(
-				"ThudSwoosh", interaction.TargetObject.WorldPosServer(), Random.Range(0.8f, 1.2f), sourceObj: interaction.TargetObject);
-		*/
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(ThudSwoosh, interaction.TargetObject.WorldPosServer(), Random.Range(0.8f, 1.2f), sourceObj: interaction.TargetObject);
+
 	}
 
 	// TODO Consider moving this into its own component, or merging Huggable, this and CPRable into

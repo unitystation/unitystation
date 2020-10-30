@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ using UnityEngine;
 public class DrinkableContainer : Consumable
 {
 	public string sound = "Slurp";
+	[SerializeField] private AddressableAudioSource Sound = null;
 
 	private ReagentContainer container;
 	private ItemAttributesV2 itemAttributes;
@@ -76,10 +78,10 @@ public class DrinkableContainer : Consumable
 		DoDrinkEffects(eater, drinkAmount);
 
 		// Play sound
-		if (item && !string.IsNullOrEmpty(sound))
+		if (item && !string.IsNullOrEmpty(Sound.Path))
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(Sound, eater.WorldPos, sourceObj: eater.gameObject);
 		}
 	}
 

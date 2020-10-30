@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Explosions;
+using AddressableReferences;
 
 namespace Items.Weapons
 {
@@ -38,6 +39,9 @@ namespace Items.Weapons
 		//this object's registerObject
 		private RegisterItem registerItem;
 		private ObjectBehaviour objectBehaviour;
+
+		[SerializeField] private AddressableAudioSource armbomb = null;
+
 
 		private void Start()
 		{
@@ -159,8 +163,8 @@ namespace Items.Weapons
 
 		private void PlayPinSFX(Vector3 position)
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("armbomb", position, sourceObj: gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(armbomb, position, sourceObj: gameObject);
 		}
 
 		private void UpdateTimer(bool timerRunning)

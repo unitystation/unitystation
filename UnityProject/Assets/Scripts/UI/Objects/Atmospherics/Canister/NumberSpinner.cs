@@ -1,4 +1,5 @@
 using System;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 
@@ -7,11 +8,7 @@ using Mirror;
 /// </summary>
 public class NumberSpinner : NetUIStringElement
 {
-
-
 	public int InitialValue = 9999;
-
-
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
 	public DigitSpinner Ones;
@@ -23,6 +20,8 @@ public class NumberSpinner : NetUIStringElement
 	public DigitSpinner HundredThousands;
 
 	public IntEvent OnValueChange = new IntEvent();
+
+	[SerializeField] private AddressableAudioSource Tick = null;
 
 	/// <summary>
 	/// Invoked when the value synced between client / server is updated.
@@ -131,8 +130,8 @@ public class NumberSpinner : NetUIStringElement
 		targetValue = newValue;
 		if (!muteSounds && tickCooldown <= 0)
 		{
-			// JESTER
-			//SoundManager.Play("Tick", 0.15f, pan: -0.3f);
+			// JESTE_R
+			SoundManager.Play(Tick,string.Empty, 0.15f, pan: -0.3f);
 			tickCooldown = MIN_SECONDS_PER_TICK;
 		}
 

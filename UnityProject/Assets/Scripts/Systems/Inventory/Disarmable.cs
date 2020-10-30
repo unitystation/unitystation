@@ -1,3 +1,4 @@
+using AddressableReferences;
 using UnityEngine;
 
 /// <summary>
@@ -5,6 +6,9 @@ using UnityEngine;
 /// </summary>
 public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
+	[SerializeField] private AddressableAudioSource PunchMiss = null;
+	[SerializeField] private AddressableAudioSource ThudSwoosh = null;
+
 	// This is based off the alien/humanoid/attack_hand disarm code of TGStation's codebase.
 	// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
 
@@ -50,8 +54,8 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 		}
 		else
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos("PunchMiss", interactionWorldPosition, sourceObj: target);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.PunchMiss, interactionWorldPosition, sourceObj: target);
 
 			Chat.AddCombatMsgToChat(
 					gameObject,
@@ -66,8 +70,8 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 		var targetRegister = target.GetComponent<RegisterPlayer>();
 		targetRegister.ServerStun(KNOCKDOWN_STUN_TIME, false);
 
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("ThudSwoosh", interactionWorldPosition, sourceObj: target);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ThudSwoosh, interactionWorldPosition, sourceObj: target);
 		Chat.AddCombatMsgToChat(
 				gameObject,
 				$"You knock {targetName} down!",
@@ -91,8 +95,8 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 			Inventory.ServerDrop(rightHandSlot);
 		}
 
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("ThudSwoosh", interactionWorldPosition, sourceObj: target);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ThudSwoosh, interactionWorldPosition, sourceObj: target);
 		Chat.AddCombatMsgToChat(
 				gameObject,
 				$"You successfully disarm {targetName}!",

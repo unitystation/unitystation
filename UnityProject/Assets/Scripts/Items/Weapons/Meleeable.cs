@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
@@ -19,6 +20,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 
 	[SerializeField]
 	private string butcherSound = "BladeSlice";
+	[SerializeField] private AddressableAudioSource ButcherSound = null;
 
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles regardless of intent
@@ -144,8 +146,8 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 				{
 					LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 					victimHealth.Harvest();
-					// JESTER
-					// SoundManager.PlayNetworkedAtPos(butcherSound, victim.RegisterTile().WorldPositionServer);
+					// JESTE_R
+					SoundManager.PlayNetworkedAtPos(ButcherSound, victim.RegisterTile().WorldPositionServer);
 				}
 
 				var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)

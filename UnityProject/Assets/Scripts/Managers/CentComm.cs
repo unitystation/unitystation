@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using Initialisation;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -21,6 +22,9 @@ public class CentComm : MonoBehaviour
 	public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
 	[NonSerialized] public string CommandStatusString;
 	[NonSerialized] public string EscapeShuttleTimeString;
+
+	[SerializeField] private AddressableAudioSource Welcome = null;
+	[SerializeField] private AddressableAudioSource InterceptMessage = null;
 
 	public void UpdateStatusDisplay(StatusDisplayChannel channel, string text)
 	{
@@ -115,8 +119,8 @@ public class CentComm : MonoBehaviour
 		//Generic AI welcome message
 		//this sound will feel just like home once we have the proper job allocation.
 		//it plays as soon as the round starts.
-		// JESTER
-		//SoundManager.PlayNetworked("Welcome");
+		// JESTE_R
+		SoundManager.PlayNetworked(Welcome);
 		//Wait some time after the round has started
 		yield return WaitFor.Seconds(60f);
 
@@ -171,8 +175,8 @@ public class CentComm : MonoBehaviour
 	}
 	private void SendAntagUpdate()
 	{
-		// JESTER
-		//SoundManager.PlayNetworked("InterceptMessage");
+		// JESTE_R
+		SoundManager.PlayNetworked(InterceptMessage);
 		MakeAnnouncement(CentCommAnnounceTemplate,
 			string.Format(InitialUpdateTemplate,AntagInitialUpdate+"\n\n"+AlertLevelStrings[AlertLevelString.UpToBlue]),
 			UpdateSound.alert);

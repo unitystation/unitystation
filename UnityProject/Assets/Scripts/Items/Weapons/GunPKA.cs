@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Weapons;
 
 public class GunPKA : Gun
 {
+
+	[SerializeField] private AddressableAudioSource ReloadKinetic = null;
+
 
 	bool allowRecharge = true;
 	public float rechargeTime = 2.0f;
@@ -31,8 +35,8 @@ public class GunPKA : Gun
 		allowRecharge = false;
 		yield return WaitFor.Seconds(rechargeTime);
 		CurrentMagazine.ExpendAmmo(-1);
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos("ReloadKinetic", gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(ReloadKinetic, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 		allowRecharge = true;
 	}
 }

@@ -46,8 +46,8 @@ public class UI_StorageHandler : MonoBehaviour
 			CloseStorageUI();
 			CurrentOpenStorage = itemStorage;
 			PopulateInventorySlots();
-			// JESTER
-			//SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
+
+			SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Rustle,"", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
 		}
 	}
 

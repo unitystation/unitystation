@@ -28,8 +28,8 @@ public class ControlIntent : TooltipMonoBehaviour
 	{
 		Logger.Log("Intent Button", Category.UI);
 
-		// JESTER
-		//SoundManager.Play("Click01");
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		UIManager.CurrentIntent = (Intent)selectedIntent;
 

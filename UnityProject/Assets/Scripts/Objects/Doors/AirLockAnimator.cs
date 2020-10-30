@@ -1,4 +1,5 @@
 using System.Collections;
+using AddressableReferences;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -22,6 +23,10 @@ namespace Doors
 
 		public Sprite[] overlaySprites;
 
+
+		[SerializeField] private AddressableAudioSource AccessDeniedAudio = null;
+		[SerializeField] private AddressableAudioSource TripleBeep = null;
+
 		//animations
 		public override void AccessDenied(bool skipAnimation)
 		{
@@ -31,8 +36,8 @@ namespace Doors
 				return;
 			}
 			doorController.isPerformingAction = true;
-			// JESTER
-			// SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
+			// JESTE_R
+			SoundManager.PlayAtPosition(AccessDeniedAudio, "",transform.position, gameObject);
 
 			// check if door uses a simple denied animation (flashes 1 frame on and off)
 			if (doorController.useSimpleDeniedAnimation)
@@ -62,8 +67,8 @@ namespace Doors
 			}
 
 			doorController.isPerformingAction = true;
-			// JESTER
-			// SoundManager.PlayAtPosition("TripleBeep", transform.position, gameObject, polyphonic: true, isGlobal: true);
+			// JESTE_R
+			SoundManager.PlayAtPosition(TripleBeep,"", transform.position, gameObject, polyphonic: true, isGlobal: true);
 			StartCoroutine(PlayPressureWarnAnim());
 		}
 

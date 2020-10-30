@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,8 +65,8 @@ public class GUI_PlayerOptions : MonoBehaviour
 
 	public void BtnOk()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		// JESTE_R
+		SoundManager.Play(SingletonSOSounds.Instance.Click01,string.Empty);
 		if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
 		{
 			return;

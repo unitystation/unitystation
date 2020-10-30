@@ -59,6 +59,7 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 	}
 
 	// Serverside only - play glass crunching sound when stepped on
+	//TODO Colliders have been removed needs to be updated
 	public void OnTriggerEnter2D(Collider2D coll)
 	{
 		if (!isServer)
@@ -69,8 +70,8 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 		//8 = Players layer
 		if (coll.gameObject.layer == 8)
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("GlassStep", coll.transform.position, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			// JESTER //TODO Colliders have been removed needs to be updated to New physics
+			//SoundManager.PlayNetworkedAtPos("GlassStep", coll.transform.position, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 		}
 	}
 }

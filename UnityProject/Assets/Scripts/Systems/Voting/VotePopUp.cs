@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
@@ -47,8 +48,8 @@ public class VotePopUp : MonoBehaviour
 
 	public void VoteYes()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		// JESTE_R
+		SoundManager.Play(SingletonSOSounds.Instance.Click01, string.Empty);
 		if (PlayerManager.PlayerScript != null)
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(true);
@@ -62,8 +63,8 @@ public class VotePopUp : MonoBehaviour
 
 	public void VoteNo()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		// JESTE_R
+		SoundManager.Play(SingletonSOSounds.Instance.Click01, string.Empty);
 		if (PlayerManager.PlayerScript != null)
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(false);
@@ -76,8 +77,8 @@ public class VotePopUp : MonoBehaviour
 
 	public void AdminVeto()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		// JESTE_R
+		SoundManager.Play(SingletonSOSounds.Instance.Click01, string.Empty);
 		if (PlayerManager.PlayerScript != null)
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote(ServerData.UserID, PlayerList.Instance.AdminToken);

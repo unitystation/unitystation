@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,8 @@ using UnityEngine.UI;
 
 public class ControlTabs : MonoBehaviour
 {
+	[SerializeField] private AddressableAudioSource Click01 = null;
+
 	private static GameObject FingerPrefab;
 	private static GameObject TabHeaderPrefab;
 	public Transform TabStorage;
@@ -313,8 +316,8 @@ public class ControlTabs : MonoBehaviour
 
 		if (click)
 		{
-			// JESTER
-			//SoundManager.Play("Click01");
+			// JESTE_R
+			SoundManager.Play(Click01, string.Empty);
 		}
 	}
 

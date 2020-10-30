@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Objects;
@@ -15,6 +16,8 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public List<Poster> OfficialPosters = new List<Poster>();
 	public List<Poster> ContrabandPosters = new List<Poster>();
 	public List<Poster> OtherPosters = new List<Poster>();
+
+	[SerializeField] private AddressableAudioSource PosterRipped = null;
 
 	public override void OnStartClient()
 	{
@@ -135,8 +138,8 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		Chat.AddLocalMsgToChat(interaction.Performer.ExpensiveName() +
 		                       " rips the poster in a single, decisive motion!", pos, gameObject);
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("PosterRipped", pos, sourceObj: gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(PosterRipped, pos, sourceObj: gameObject);
 
 		SyncPosterType(posterVariant, Posters.Ripped);
 	}

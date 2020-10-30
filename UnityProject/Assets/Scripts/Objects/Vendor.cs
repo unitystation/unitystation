@@ -2,6 +2,7 @@
 using Objects;
 using System.Collections.Generic;
 using Systems.Electricity;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -33,6 +34,10 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 
 	[Tooltip("Sound when object vends from vendor")]
 	public string VendingSound = "MachineVend";
+
+	[SerializeField] private AddressableAudioSource vendingSound = null;
+
+
 
 	[Header("Text messages")]
 	[SerializeField]
@@ -202,8 +207,8 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 		Chat.AddLocalMsgToChat($"{itemNameStr} was dispensed from the vending machine", gameObject);
 
 		// Play vending sound
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), Random.Range(.75f, 1.1f), sourceObj: gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(vendingSound, gameObject.WorldPosServer(), Random.Range(.75f, 1.1f), sourceObj: gameObject);
 
 		//Ejecting in direction
 		if (EjectObjects && EjectDirection != EjectDirection.None &&

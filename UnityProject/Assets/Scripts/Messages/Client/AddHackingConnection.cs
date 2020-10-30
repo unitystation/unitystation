@@ -22,8 +22,8 @@ public class AddHackingConnection : ClientMessage
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanAddConnection(playerScript, connectionToAdd))
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos("Wiremend#", playerScript.WorldPos); 
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Wiremend, playerScript.WorldPos);
 			hackingProcess.AddNodeConnection(connectionToAdd);
 			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
 		}

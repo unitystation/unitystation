@@ -1,4 +1,5 @@
 using System.Collections;
+using AddressableReferences;
 using UnityEngine;
 
 namespace NPC
@@ -9,6 +10,11 @@ namespace NPC
 	/// </summary>
 	public class CatAI : GenericFriendlyAI
 	{
+		[SerializeField] private AddressableAudioSource AudioMeow = null;
+		[SerializeField] private AddressableAudioSource CatHiss = null;
+		[SerializeField] private AddressableAudioSource AudioPurr = null;
+
+
 		private bool isLayingDown = false;
 		private ConeOfSight coneOfSight;
 		private LayerMask mobMask;
@@ -98,8 +104,8 @@ namespace NPC
 
 		private void Purr(GameObject purred = null)
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("Purr", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(AudioPurr, gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
 
 			if (purred != null)
 			{
@@ -116,8 +122,8 @@ namespace NPC
 
 		private void Meow(GameObject meowed = null)
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos("Meow#", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(AudioMeow, gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
 
 			if (meowed != null)
 			{
@@ -134,8 +140,8 @@ namespace NPC
 
 		private void Hiss(GameObject hissed = null)
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("CatHiss", gameObject.WorldPosServer(), Random.Range(.9f, 1f));
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(CatHiss, gameObject.WorldPosServer(), Random.Range(.9f, 1f));
 
 			if (hissed != null)
 			{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Chemistry.Components;
@@ -26,13 +27,15 @@ public class FireExtinguisher : NetworkBehaviour,
 	private float TravelTime => 1f / travelDistance;
 
 	bool safety = true;
-	private DateTime clientLastInteract = DateTime.Now;	
+	private DateTime clientLastInteract = DateTime.Now;
 
 	private enum SpriteState
 	{
 		SafetyOn = 0,
 		SafetyOff = 1
 	}
+	[SerializeField] private AddressableAudioSource Extinguish = null;
+
 
 	public void Awake()
 	{
@@ -81,8 +84,8 @@ public class FireExtinguisher : NetworkBehaviour,
 
 		Effect.PlayParticleDirectional(this.gameObject, interaction.TargetVector);
 
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1, sourceObj: interaction.Performer);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(Extinguish, startPos, 1, sourceObj: interaction.Performer);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
 	}

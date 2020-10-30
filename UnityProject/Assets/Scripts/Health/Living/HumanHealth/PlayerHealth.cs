@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using UnityEngine;
 
 /// <summary>
@@ -51,6 +52,10 @@ public class PlayerHealth : LivingHealthBehaviour
 	private ItemStorage itemStorage;
 
 	private bool init = false;
+
+
+	[SerializeField] private AddressableAudioSource SmallElectricShock = null;
+	[SerializeField] private AddressableAudioSource Sparks = null;
 
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
@@ -340,8 +345,8 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 	{
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos("SmallElectricShock#", registerPlayer.WorldPosition);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SmallElectricShock, registerPlayer.WorldPosition);
 
 		Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 	}
@@ -349,17 +354,15 @@ public class PlayerHealth : LivingHealthBehaviour
 	protected override void PainfulElectrocution(Electrocution electrocution, float shockPower)
 	{
 		// TODO: Add sparks VFX at shockSourcePos.
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(Sparks, electrocution.ShockSourcePos);
 
 		Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
 		// Slip is essentially a yelp SFX.
 
-		// JESTER
-		/*
-		SoundManager.PlayNetworkedAtPos("Slip", registerPlayer.WorldPosition,
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
 				UnityEngine.Random.Range(0.4f, 1.2f), sourceObj: gameObject);
-		*/
+
 
 		string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
 				" gives you a small electric shock!";
@@ -373,8 +376,8 @@ public class PlayerHealth : LivingHealthBehaviour
 
 		PlayerMove.allowInput = false;
 		// TODO: Add sparks VFX at shockSourcePos.
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(Sparks, electrocution.ShockSourcePos);
 
 		StartCoroutine(ElectrocutionSequence());
 
@@ -410,11 +413,10 @@ public class PlayerHealth : LivingHealthBehaviour
 													  // TODO: Add sparks VFX at shockSourcePos.
 		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
 
-		// JESTER
-		/*
-		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
 				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
-		*/
+
 
 		yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);
 		RpcToggleElectrocutedOverlay();

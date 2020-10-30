@@ -29,8 +29,8 @@ using UnityEngine.EventSystems;
 		{
 			if (clickSound)
 			{
-			// JESTER
-			//SoundManager.Play("Click01");
+
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 		selImg.sprite = selectorSprites[(int)curSelect];
 			UIManager.DamageZone = curSelect;

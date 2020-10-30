@@ -18,8 +18,8 @@ namespace Construction.Conveyors
 
 		public void TryBuildBelt(int direction)
 		{
-			// JESTER
-			//SoundManager.Play("Click01");
+			// JESTE_R
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			CloseWindow();
 			RequestConveyorBuildMessage.Send(entry, materials, (ConveyorBelt.ConveyorDirection)direction);
 		}

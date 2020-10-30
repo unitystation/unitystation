@@ -209,7 +209,7 @@ namespace Items.PDA
 				sourceObject = gameObject;
 			}
 
-			// JESTER
+			// JESTE_R
 			//SoundManager.PlayNetworkedAtPos(soundName, sourceObject.AssumedWorldPosServer(), sourceObj: sourceObject);
 		}
 
@@ -218,7 +218,7 @@ namespace Items.PDA
 			var player = GetPlayerByParentInventory();
 			if (player == null) return;
 
-			// JESTER
+			// JESTE_R
 			//SoundManager.PlayNetworkedForPlayerAtPos(player, player.AssumedWorldPosServer(), soundName, sourceObj: player);
 		}
 

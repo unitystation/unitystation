@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 public class ItemBreakable : MonoBehaviour
@@ -13,6 +14,7 @@ public class ItemBreakable : MonoBehaviour
 	public GameObject brokenItem;
 
 	public string soundOnBreak;
+	[SerializeField] private AddressableAudioSource SoundOnBreak = null;
 
 	// Start is called before the first frame update
 	void Awake()
@@ -32,8 +34,8 @@ public class ItemBreakable : MonoBehaviour
 	}
 	private void ChangeState()
 	{
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos(soundOnBreak, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SoundOnBreak, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 		Spawn.ServerPrefab(brokenItem, gameObject.AssumedWorldPosServer());
 		Despawn.ServerSingle(gameObject);
 	}

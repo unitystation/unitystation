@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Pipes;
@@ -21,6 +22,10 @@ namespace Objects.Atmospherics
 
 		[SyncVar(hook = nameof(SyncObjectProperties))]
 		PipeObjectSettings newPipe;
+
+
+		[SerializeField] private AddressableAudioSource PosterCreate = null;
+
 
 		public enum PipeLayer
 		{
@@ -90,8 +95,8 @@ namespace Objects.Atmospherics
 		{
 			MachineOperating = true;
 			UpdateSprite();
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("PosterCreate", objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(PosterCreate, objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
 			yield return WaitFor.Seconds(DISPENSING_TIME);
 			MachineOperating = false;
 			UpdateSprite();

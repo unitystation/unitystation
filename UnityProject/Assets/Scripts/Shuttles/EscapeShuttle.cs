@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +10,10 @@ using UnityEngine.Serialization;
 
 public class EscapeShuttle : NetworkBehaviour
 {
+
+	[SerializeField] private AddressableAudioSource HyperSpaceProgress = null;
+	[SerializeField] private AddressableAudioSource HyperSpaceBegin = null;
+	[SerializeField] private AddressableAudioSource HyperSpaceEnd = null;
 	public MatrixInfo MatrixInfo => mm.MatrixInfo;
 	private MatrixMove mm;
 
@@ -285,8 +290,8 @@ public class EscapeShuttle : NetworkBehaviour
 					Status = EscapeShuttleStatus.DockedCentcom;
 					if (Status == EscapeShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
 					{
-						// JESTER
-						//SoundManager.PlayAtPosition("HyperSpaceEnd", transform.position, gameObject);
+						// JESTE_R
+						SoundManager.PlayAtPosition(HyperSpaceEnd, string.Empty, transform.position, gameObject);
 					}
 				}
 			}
@@ -536,8 +541,8 @@ public class EscapeShuttle : NetworkBehaviour
 
 	public void SendShuttle()
 	{
-		// JESTER
-		//SoundManager.PlayAtPosition("HyperSpaceBegin", transform.position, gameObject);
+		// JESTE_R
+		SoundManager.PlayAtPosition(HyperSpaceBegin, string.Empty, transform.position, gameObject);
 
 		StartCoroutine(WaitForShuttleLaunch());
 	}
@@ -546,8 +551,8 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		yield return WaitFor.Seconds(7f);
 
-		// JESTER
-		//SoundManager.PlayAtPosition("HyperSpaceProgress", transform.position, gameObject);
+		// JESTE_R
+		SoundManager.PlayAtPosition(HyperSpaceProgress, string.Empty, transform.position, gameObject);
 
 		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
 

@@ -47,8 +47,7 @@ public class ChangeLogHandler : MonoBehaviour
 
     public void CloseWindow()
     {
-		// JESTER
-		//SoundManager.Play("Click01");
+	    SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		window.SetActive(false);
     }
 }

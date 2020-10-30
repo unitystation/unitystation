@@ -5,6 +5,7 @@ using Mirror;
 using ScriptableObjects;
 using UnityEngine;
 using Systems.Electricity;
+using AddressableReferences;
 using Random = UnityEngine.Random;
 
 public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerLifecycle, ISetMultitoolSlave
@@ -51,6 +52,9 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	[SerializeField]
 	private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
 	public MultitoolConnectionType ConType  => conType;
+
+
+	[SerializeField] private AddressableAudioSource GlassStep = null;
 
 	public void SetMaster(ISetMultitoolMaster Imaster)
 	{
@@ -385,8 +389,8 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		{
 
 			ServerChangeLightState(LightMountState.MissingBulb);
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("GlassStep", pos, sourceObj: gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(GlassStep, pos, sourceObj: gameObject);
 		}
 		else
 		{

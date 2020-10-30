@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using Items.Others;
 using UnityEngine;
 
@@ -26,6 +27,9 @@ namespace NPC
 
 		private int currentLaidEggs;
 		private MobMood mood;
+
+		[SerializeField] private AddressableAudioSource EatFood = null;
+
 
 		protected override void Awake()
 		{
@@ -95,14 +99,14 @@ namespace NPC
 			Inventory.ServerConsume(interaction.HandSlot, 1);
 			mood.OnFoodEaten();
 
-			// JESTER
-			/*
+			// JESTE_R
+
 			SoundManager.PlayNetworkedAtPos(
-				"EatFood",
+				EatFood,
 				gameObject.RegisterTile().WorldPosition,
 				1f,
 				sourceObj: gameObject);
-			*/
+
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer,

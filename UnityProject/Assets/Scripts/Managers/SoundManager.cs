@@ -28,7 +28,7 @@ public class SoundManager : MonoBehaviour
 	private GameObject soundSpawnPrefab = null;
 
 	/// <summary>
-	/// Library of AddressableAudioSource.  Might be loaded or not. 
+	/// Library of AddressableAudioSource.  Might be loaded or not.
 	/// </summary>
 	/// <remarks>Always use GetAddressableAudioSourceFromCache if you want a loaded version</remarks>
 	[HideInInspector]
@@ -183,6 +183,21 @@ public class SoundManager : MonoBehaviour
 	/// If more than one sound is specified, one will be picked at random.
 	/// </summary>
 	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
+	/// TODO Make this not so weird
+	public static async void PlayNetworked(AddressableAudioSource addressableAudioSources, float pitch = -1,
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+	{
+		var Toplay = new List<AddressableAudioSource>();
+		Toplay.Add(addressableAudioSources);
+		PlayNetworked(Toplay, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+	}
+
+	/// <summary>
+	/// Play sound for all clients.
+	/// If more than one sound is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
 	public static async void PlayNetworked(List<AddressableAudioSource> addressableAudioSources, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
@@ -298,6 +313,17 @@ public class SoundManager : MonoBehaviour
 		PlayNetworkedAtPos(addressableAudioSources, worldPos, audioSourceParameters, polyphonic, global, sourceObj, shakeParameters);
 	}
 
+	public static async void PlayNetworkedForPlayer(GameObject recipient,
+		AddressableAudioSource addressableAudioSources, float? pitch = null,
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
+	{
+		var Toplay = new List<AddressableAudioSource>();
+		Toplay.Add(addressableAudioSources);
+		PlayNetworkedForPlayer(recipient, Toplay, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange,
+			sourceObj);
+	}
+
 	/// <summary>
 	/// Play sound for particular player.
 	/// ("Doctor, there are voices in my head!")
@@ -398,6 +424,17 @@ public class SoundManager : MonoBehaviour
 		Instance.PlaySource(soundSpawn, polyphonic, true, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
+
+	public static async void Play(AddressableAudioSource addressableAudioSources, string soundSpawnToken,
+		float volume, float pitch = -1, float time = 0, bool oneShot = false,
+		float pan = 0)
+	{
+		var Toplay = new List<AddressableAudioSource>();
+		Toplay.Add(addressableAudioSources);
+		Play(Toplay, soundSpawnToken, volume, pitch, time, oneShot, pan);
+	}
+
+
 	/// <summary>
 	/// Play sound locally.
 	/// If more than one is specified, one will be picked at random.
@@ -433,7 +470,7 @@ public class SoundManager : MonoBehaviour
 	/// <remarks>
 	///		If Global is true, the sound may still be muffled if the source is configured with the muffled mixer.
 	/// </remarks>
-	public static async void Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken, bool polyphonic = false, bool global = true)
+	public static async void Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken = "", bool polyphonic = false, bool global = true)
 	{
 		Play(new List<AddressableAudioSource>() { addressableAudioSource }, soundSpawnToken, polyphonic, global);
 	}
@@ -662,6 +699,6 @@ public class SoundManager : MonoBehaviour
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
 			return Instance.SoundSpawns[soundSpawnToken].IsPlaying;
 		else
-			return false;		
+			return false;
 	}
 }

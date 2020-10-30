@@ -179,8 +179,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public void OnCharacterButton()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		characterCustomization.SetActive(true);
 	}
 
@@ -189,8 +188,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	/// </summary>
 	public void OnReadyButton()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		SetReady(!isReady);
 		TryShowAdminPanel();
 	}
@@ -200,8 +199,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	/// </summary>
 	public void OnJoinButton()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		UIManager.Display.SetScreenForJobSelect();
 	}
 

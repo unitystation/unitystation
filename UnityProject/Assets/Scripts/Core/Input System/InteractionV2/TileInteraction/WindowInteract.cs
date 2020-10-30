@@ -1,3 +1,5 @@
+using AddressableReferences;
+using Assets.Scripts.Messages.Server.SoundMessages;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +8,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WindowInteract", menuName = "Interaction/TileInteraction/WindowInteract")]
 public class WindowInteract : TileInteraction
 {
+	[SerializeField] private AddressableAudioSource GlassKnock = null;
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -28,8 +31,17 @@ public class WindowInteract : TileInteraction
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You knock on the {interaction.BasicTile.DisplayName}.", $"{interaction.Performer.ExpensiveName()} knocks on the {interaction.BasicTile.DisplayName}.");
-			// JESTER
-			//SoundManager.GlassknockAtPosition(interaction.WorldPositionTarget, interaction.Performer);
+			// JESTE_R
+			System.Random random = new System.Random();
+			;
+
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters
+			{
+				Pitch = (float) (random.NextDouble() * (0.5D) + 0.7d)
+			};
+
+			SoundManager.PlayNetworkedAtPos(GlassKnock, interaction.WorldPositionTarget, audioSourceParameters, true, false, interaction.Performer);
+
 		}
 		else
 		{

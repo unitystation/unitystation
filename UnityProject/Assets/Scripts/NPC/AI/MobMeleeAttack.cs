@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -40,6 +41,7 @@ public class MobMeleeAttack : MobFollow
 	private bool lerping;
 	private bool isAttacking = false;
 
+	[SerializeField] private AddressableAudioSource BladeSlice = null;
 
 	public override void OnEnable()
 	{
@@ -210,8 +212,8 @@ public class MobMeleeAttack : MobFollow
 			healthBehaviour.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
 				defaultTarget.Randomize());
 			Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position, sourceObj: gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(BladeSlice, transform.position, sourceObj: gameObject);
 		}
 	}
 

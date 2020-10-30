@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ using UnityEngine.UI;
 public class UI_HeartMonitor : TooltipMonoBehaviour
 {
 	public override string Tooltip => "health";
-
+	[SerializeField] private AddressableAudioSource Critstate = null;
 	public int critStart;
 	private int currentSprite = 0;
 	public int deathStart;
@@ -118,8 +119,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		if (overallHealthCache <= 30 &&
 			overallHealthCache > 0)
 		{
-			// JESTER
-			//SoundManager.Stop("Critstate");
+			SoundManager.Stop("Critstate");
 			CurrentSpriteSet = 4;
 			pulseImg.sprite = StatesSprites[4].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.injured);
@@ -127,8 +127,9 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		if (overallHealthCache <= 0 &&
 			overallHealthCache < 15)
 		{
-			// JESTER
-			//SoundManager.Play("Critstate");
+
+			// JESTE_R
+			SoundManager.Play(Critstate,"Critstate");
 			CurrentSpriteSet = 5;
 			pulseImg.sprite = StatesSprites[5].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.unconscious);

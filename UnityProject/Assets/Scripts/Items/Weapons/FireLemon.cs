@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using Mirror;
 using Systems.Explosions;
+using AddressableReferences;
 
 namespace Items.Weapons
 {
@@ -51,6 +52,9 @@ namespace Items.Weapons
 		private float finalDamage;
 
 		private float finalRadius;
+
+
+		[SerializeField] private AddressableAudioSource sizzle = null;
 
 		///Getting Grownfood so we can get the potency of the plant, and calculates damage/radius.
 		private void Awake()
@@ -182,8 +186,8 @@ namespace Items.Weapons
 
 		private void PlayPinSFX(Vector3 position)
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("sizzle", position, sourceObj: gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(sizzle, position, sourceObj: gameObject);
 		}
 
 		private void UpdateTimer(bool timerRunning)

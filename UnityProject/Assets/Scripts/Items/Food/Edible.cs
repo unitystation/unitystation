@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Items;
@@ -14,6 +15,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 	public GameObject leavings;
 
 	public string sound = "EatFood";
+	[SerializeField] public AddressableAudioSource Sound = null;
 
 	private static readonly StandardProgressActionConfig ProgressConfig
 		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
@@ -62,8 +64,8 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		if (eater == null)
 		{
 			// todo: implement non-player eating
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(Sound, item.WorldPosition);
 			if (leavings != null)
 			{
 				Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent);
@@ -101,8 +103,8 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 
 	public virtual void Eat(PlayerScript eater, PlayerScript feeder)
 	{
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(Sound, eater.WorldPos, sourceObj: eater.gameObject);
 
 		eater.playerHealth.Metabolism
 			.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));

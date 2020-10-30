@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -61,8 +62,8 @@ public class VersionCheck : MonoBehaviour
 
 	public void DownloadButton()
 	{
-		// JESTER
-		//SoundManager.Play("Click01", 1, 1, 0);
+		// JESTE_R
+		SoundManager.Play(SingletonSOSounds.Instance.Click01, String.Empty, 1, 1, 0);
 
 		Application.OpenURL("http://doobly.izz.moe/unitystation/");
 		Application.Quit();
@@ -70,8 +71,8 @@ public class VersionCheck : MonoBehaviour
 
 	public void CheckAgain()
 	{
-		// JESTER
-		//SoundManager.Play("Click01", 1, 1, 0);
+		// JESTE_R
+		SoundManager.Play(SingletonSOSounds.Instance.Click01, String.Empty, 1, 1, 0);
 		errorWindow.SetActive(false);
 		StartCoroutine(CheckVersion());
 	}

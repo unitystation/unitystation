@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 /// <summary>
@@ -37,6 +38,8 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 	[SerializeField]
 	private string sound = "Handcuffs";
 
+	[SerializeField] private AddressableAudioSource Sound = null;
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -68,8 +71,8 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			.ServerStartProgress(target.RegisterTile(), applyTime, performer);
 		if (bar != null)
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos(sound, target.transform.position, sourceObj: target.gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(Sound, target.transform.position, sourceObj: target.gameObject);
 			Chat.AddActionMsgToChat(performer,
 				$"You begin restraining {target.ExpensiveName()}...",
 				$"{performer.ExpensiveName()} begins restraining {target.ExpensiveName()}...");

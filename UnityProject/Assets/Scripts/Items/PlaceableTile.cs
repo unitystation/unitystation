@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
@@ -23,6 +24,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 	[SerializeField]
 	private string placeSound = null;
+	[SerializeField] private AddressableAudioSource PlaceSound = null;
 
 	[SerializeField]
 	private static readonly StandardProgressActionConfig ProgressConfig
@@ -112,8 +114,8 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 				interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTile);
 				interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 				Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
-				// JESTER
-				//SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(PlaceSound, targetPosition);
 			}
 
 			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)

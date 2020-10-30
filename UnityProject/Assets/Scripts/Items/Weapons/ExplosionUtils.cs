@@ -20,8 +20,16 @@ namespace Systems.Explosions
 		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance)
 		{
 			string sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos(sndName, worldPosition, -1f, true, true, shakeIntensity, (int)shakeDistance);
+			if (sndName == "Explosion1")
+			{
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Explosion1, worldPosition, -1f, true, true, shakeIntensity, (int)shakeDistance);
+			}
+			else
+			{
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Explosion2, worldPosition, -1f, true, true, shakeIntensity, (int)shakeDistance);
+			}
+			// JESTE_R
+
 		}
 	}
 }

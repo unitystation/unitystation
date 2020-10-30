@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1970426f563a405b967dafb0e8340b15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sound: ClownHonk
+  HornSound:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/ClownHonk.prefab
+    AssetReference:
+      m_AssetGUID: 5186a0e4861c4ba49b9fe0155a09bb4e
+      m_SubObjectName: 
+    Asset: {fileID: 0}
   Cooldown: 0.2
   CritChance: 0.1
   CritDamage: 5

@@ -154,7 +154,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		{
 			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
 		}
-		
+
 		UpdateManager.Add(PeriodicUpdate, 1f);
 	}
 
@@ -164,7 +164,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
 		}
-				
+
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 	}
 
@@ -342,7 +342,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public void ApplyDamage(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType)
 	{
-	
+
 		foreach (var bodyPart in BodyParts)
 		{
 			ApplyDamageToBodypart(damagedBy, damage / BodyParts.Count, attackType, damageType, bodyPart.Type);
@@ -884,8 +884,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	protected virtual void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
 		// TODO: Add sparks VFX at shockSourcePos.
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
 
 		float damage = shockPower;
 		ApplyDamage(null, damage, AttackType.Internal, DamageType.Burn);

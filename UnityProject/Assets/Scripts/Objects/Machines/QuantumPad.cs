@@ -6,6 +6,7 @@ using Mirror;
 using System.Linq;
 using Gateway;
 using Systems.Scenes;
+using AddressableReferences;
 
 namespace Objects.Science
 {
@@ -59,6 +60,9 @@ namespace Objects.Science
 		/// Temp until shuttle landings possible
 		/// </summary>
 		public bool IsLavaLandBase2Connector;
+
+		[SerializeField] private AddressableAudioSource StealthOff = null;
+
 
 		[Server]
 		private void ServerSync(bool newVar)
@@ -173,8 +177,8 @@ namespace Objects.Science
 			foreach (ObjectBehaviour player in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true))
 			{
 				Chat.AddLocalMsgToChat(message, travelCoord, gameObject);
-				// JESTER
-				// SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
+				// JESTE_R
+				SoundManager.PlayNetworkedForPlayer(player.gameObject, StealthOff); //very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, travelCoord);
 				somethingTeleported = true;
 			}

@@ -24,8 +24,8 @@ public class ControlWalkRun : TooltipMonoBehaviour
 	{
 		Logger.Log("RunWalk Button", Category.UI);
 
-		// JESTER
-		//SoundManager.Play("Click01");
+		// JESTE_R
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		if (!running)
 		{

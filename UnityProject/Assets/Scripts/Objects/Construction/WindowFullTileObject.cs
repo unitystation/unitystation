@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
@@ -21,12 +22,13 @@ public class WindowFullTileObject : NetworkBehaviour, ICheckedInteractable<HandA
 
 	public GameObject matsOnDeconstruct;
 	[Tooltip("Quantity of mats when deconstructed.")]
-	
+
 	public int countOfMatsOnDissasemle;
 	[Tooltip("Sound on deconstruction.")]
-	
+
 	public string soundOnDeconstruct;
-	
+
+	[SerializeField] private AddressableAudioSource SoundOnDeconstruct = null;
 	//PM: Objects below don't have to be shards or rods, but it's more convenient for me to put "shards" and "rods" in the variable names.
 
 	[Header("Destroyed variables.")]
@@ -38,20 +40,20 @@ public class WindowFullTileObject : NetworkBehaviour, ICheckedInteractable<HandA
 
 	[Tooltip("Drops this count when destroyed.")]
 	public int maxCountOfShardsOnDestroy;
-	
+
 	[Tooltip("Drops this when broken with force.")]
 	public GameObject rodsOnDestroy;
-	
+
 	[Tooltip("Drops this count when destroyed.")]
 	public int minCountOfRodsOnDestroy;
 
 	[Tooltip("Drops this count when destroyed.")]
 	public int maxCountOfRodsOnDestroy;
-	
+
 	[Tooltip("Sound when destroyed.")]
 	public string soundOnDestroy;
 
-
+	[SerializeField] private AddressableAudioSource SoundOnDestroy = null;
 
 	private void Start()
 	{
@@ -65,12 +67,12 @@ public class WindowFullTileObject : NetworkBehaviour, ICheckedInteractable<HandA
 	{
 		Spawn.ServerPrefab(shardsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfShardsOnDestroy, maxCountOfShardsOnDestroy + 1),
 			scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
-			
+
 		Spawn.ServerPrefab(rodsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfRodsOnDestroy, maxCountOfRodsOnDestroy + 1),
 			scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
 
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SoundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -161,8 +163,8 @@ public class WindowFullTileObject : NetworkBehaviour, ICheckedInteractable<HandA
 	private void Disassemble(HandApply interaction)
 	{
 		Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDissasemle);
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SoundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
 		Despawn.ServerSingle(gameObject);
 	}
 

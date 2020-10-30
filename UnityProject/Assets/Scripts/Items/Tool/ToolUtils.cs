@@ -1,4 +1,5 @@
 using System;
+using AddressableReferences;
 using UnityEngine;
 using Items;
 using Random = UnityEngine.Random;
@@ -162,44 +163,44 @@ public static class ToolUtils
 	{
 		if (tool == null) return;
 
-		string soundName = null;
+		AddressableAudioSource soundName = null;
 
 		if (tool.TryGetComponent(out ToolSwapComponent toolSwap))
 		{
-			soundName = toolSwap.CurrentState.usingSound;
+			soundName = toolSwap.CurrentState.UsingSound;
 		}
 		else if (tool.TryGetComponent(out ItemAttributesV2 itemAttrs))
 		{
 			if (itemAttrs.HasTrait(CommonTraits.Instance.Crowbar))
 			{
-				soundName = "Crowbar";
+				soundName = SingletonSOSounds.Instance.Crowbar;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Screwdriver))
 			{
-				soundName = "screwdriver#";
+				soundName = SingletonSOSounds.Instance.screwdriver;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Wirecutter))
 			{
-				soundName = "WireCutter";
+				soundName = SingletonSOSounds.Instance.WireCutter;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Wrench))
 			{
-				soundName = "Wrench";
+				soundName = SingletonSOSounds.Instance.Wrench;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Welder))
 			{
-				soundName = "Weld";
+				soundName = SingletonSOSounds.Instance.Weld;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Shovel))
 			{
-				soundName = "Shovel";
+				soundName = SingletonSOSounds.Instance.Shovel;
 			}
 		}
 
 		if (soundName != null)
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f), sourceObj: owner);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f), sourceObj: owner);
 		}
 	}
 

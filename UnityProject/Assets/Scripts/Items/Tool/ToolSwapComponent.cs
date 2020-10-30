@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 namespace Items
@@ -13,12 +14,12 @@ namespace Items
 		[Tooltip("The initial state the tool is in.")]
 		[SerializeField]
 		private int initialStateIndex = 0;
-		
+
 		[Tooltip("The tool states which this item will be able to represent via a HandActivate toggle in-game. " +
 				"Effectively, you'll want this list to be at least 2 entries large.")]
 		[SerializeField]
 		private List<ToolState> states = default;
-		
+
 		private ItemAttributesV2 itemAttributes;
 		private SpriteHandler spriteHandler;
 
@@ -66,8 +67,8 @@ namespace Items
 			}
 
 			spriteHandler.ChangeSprite(CurrentState.spriteIndex);
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos(CurrentState.changeSound, interaction.PerformerPlayerScript.WorldPos);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(CurrentState.ChangeSound, interaction.PerformerPlayerScript.WorldPos);
 			Chat.AddExamineMsgFromServer(interaction.Performer, CurrentState.changeMessage);
 		}
 
@@ -77,9 +78,11 @@ namespace Items
 			public string ExamineMessage;
 			public string changeMessage;
 			public string changeSound;
+			public AddressableAudioSource ChangeSound;
 			public int spriteIndex;
 			public ItemTrait[] traits;
 			public string usingSound;
+			public AddressableAudioSource UsingSound;
 		}
 	}
 }

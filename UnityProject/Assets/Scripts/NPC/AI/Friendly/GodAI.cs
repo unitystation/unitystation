@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 namespace NPC
@@ -6,6 +7,8 @@ namespace NPC
 	public class GodAI : GenericFriendlyAI
 	{
 		public List<string> GenericSounds = new List<string>();
+
+		public List<AddressableAudioSource> genericSounds = new List<AddressableAudioSource>();
 
 		/// <summary>
 		/// Changes Time that a sound has the chance to play
@@ -20,7 +23,7 @@ namespace NPC
 
 		private void PlaySound()
 		{
-			if (IsDead || IsUnconscious || GenericSounds.Count <= 0)
+			if (IsDead || IsUnconscious || genericSounds.Count <= 0)
 			{
 				return;
 			}
@@ -29,14 +32,13 @@ namespace NPC
 				return;
 			}
 			{
-				// JESTER
-				/*
+				// JESTE_R
 				SoundManager.PlayNetworkedAtPos(
-					GenericSounds.PickRandom(),
+					genericSounds.PickRandom(),
 					transform.position,
 					Random.Range(0.9f, 1.1f),
 					sourceObj: gameObject);
-				*/
+
 			}
 			Invoke(nameof(PlaySound), PlaySoundTime);
 		}

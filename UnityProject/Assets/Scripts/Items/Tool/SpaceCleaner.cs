@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Chemistry.Components;
@@ -9,6 +10,9 @@ using Chemistry.Components;
 public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 {
 	public int travelDistance = 6;
+
+	[SerializeField] private AddressableAudioSource Spray2 = null;
+
 
 	private float travelTime => 1f / travelDistance;
 
@@ -49,8 +53,8 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1, sourceObj: interaction.Performer);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(Spray2, startPos, 1, sourceObj: interaction.Performer);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
 	}

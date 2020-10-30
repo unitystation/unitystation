@@ -1,4 +1,5 @@
 using System.Collections;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 
@@ -7,7 +8,9 @@ using Mirror;
 /// </summary>
 public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
 {
-	public string Sound;
+	[SerializeField] private AddressableAudioSource HornSound = null;
+
+
 	public float Cooldown = 0.2f;
 
 	//todo: emit HONK particles
@@ -34,8 +37,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthBehaviour targetHealth )
 	{
 		yield return WaitFor.Seconds( 0.02f );
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5, sourceObj: GetHonkSoundObject());
+		SoundManager.PlayNetworkedAtPos( HornSound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5, sourceObj: GetHonkSoundObject());
 
 		targetHealth.ApplyDamageToBodypart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
@@ -82,8 +84,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 
 	private void ClassicHonk()
 	{
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetHonkSoundObject());
+		SoundManager.PlayNetworkedAtPos( HornSound, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetHonkSoundObject());
 	}
 
 	/// <summary>
@@ -106,7 +107,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	}
 
 	/// <summary>
-	/// Is called to find the object where the honk sound is played. 
+	/// Is called to find the object where the honk sound is played.
 	/// </summary>
 	/// <returns>The GameObject where the sound for the Honk should be played.
 	/// If the horn is in an inventory, the container in which it is located is returned. </returns>

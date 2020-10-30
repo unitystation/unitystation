@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AddressableReferences;
 using UnityEngine;
 using Objects.Disposals;
 
@@ -26,6 +27,9 @@ namespace Systems.Disposals
 
 		Vector3Int NextPipeVector => currentPipeOutputSide.VectorInt.To3Int();
 		Vector3Int NextPipeLocalPosition => currentPipeLocalPos + NextPipeVector;
+
+		[SerializeField] private AddressableAudioSource DisposalEjectionHiss = null;
+
 
 		/// <summary>
 		/// Create a new disposal instance.
@@ -153,8 +157,8 @@ namespace Systems.Disposals
 		{
 			TryDamageTileFromEjection(NextPipeLocalPosition);
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("DisposalEjectionHiss", worldPos);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(DisposalEjectionHiss, worldPos);
 			TransferContainerToVector(NextPipeVector);
 			virtualContainer.EjectContentsAndThrow(currentPipeOutputSide.Vector);
 			DespawnContainerAndFinish();
