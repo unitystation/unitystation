@@ -311,14 +311,16 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	}
 
 	/// The smart way:
-	///  <inheritdoc cref="IsInReach(Vector3,float)"/>
+	///  <inheritdoc cref="IsInReach(Vector3, bool, float, GameObject)"/>
 	public bool IsInReach(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance, GameObject context=null)
 	{
 		return Validations.IsInReach(registerTile, otherObject, isServer, interactDist, context: context);
 	}
 	///     Checks if the player is within reach of something
 	/// <param name="otherPosition">The position of whatever we are trying to reach</param>
+	/// <param name="isServer">True if being executed on server, false otherwise</param>
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
+	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
 	public bool IsInReach(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance, GameObject context = null)
 	{
 		return Validations.IsInReach(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, isServer, interactDist, context: context);

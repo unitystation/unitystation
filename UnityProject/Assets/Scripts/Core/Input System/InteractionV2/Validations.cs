@@ -221,7 +221,7 @@ public static class Validations
 
 		var playerObjBehavior = playerScript.pushPull;
 
-		if (CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick == false))
+		if (CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick) == false)
 		{
 			return false;
 		}
@@ -396,6 +396,7 @@ public static class Validations
 	/// <param name="fromWorldPos">One position of the interaction</param>
 	/// <param name="interactDist">The Other position of the interaction</param>
 	/// <param name="isServer">Whether or not this call is occurring on the server</param>
+	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist and there is no blockage. False otherwise.</returns>
 	public static bool IsInReach(Vector3 fromWorldPos, Vector3 toWorldPos, bool isServer, float interactDist = PlayerScript.interactionDistance, GameObject context = null)
 	{
@@ -425,8 +426,9 @@ public static class Validations
 	/// </summary>
 	/// <param name="from"></param>
 	/// <param name="to"></param>
-	/// <param name="isServer"></param>
+	/// <param name="isServer">Whether or not this call is occurring on the server</param>
 	/// <param name="interactDist"></param>
+	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
 	/// <returns></returns>
 	public static bool IsInReach(RegisterTile from, RegisterTile to, bool isServer, float interactDist = PlayerScript.interactionDistance, GameObject context = null)
 	{
