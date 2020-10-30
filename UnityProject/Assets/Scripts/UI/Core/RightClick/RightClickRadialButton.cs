@@ -9,6 +9,7 @@ namespace UI.Core.RightClick
 	public class RightClickRadialButton : RadialItem<RightClickRadialButton>, IPointerEnterHandler, IPointerClickHandler
 	{
 		private static readonly int IsPaletted = Shader.PropertyToID("_IsPaletted");
+		private static readonly int PaletteSize = Shader.PropertyToID("_PaletteSize");
 		private static readonly int ColorPalette = Shader.PropertyToID("_ColorPalette");
 
 		[SerializeField]
@@ -66,6 +67,7 @@ namespace UI.Core.RightClick
 		    if (palette != null)
 		    {
 			    icon.material.SetInt(IsPaletted, 1);
+			    icon.material.SetInt(PaletteSize, palette.Count);
 			    icon.material.SetColorArray(ColorPalette, palette.ToArray());
 		    }
 		    else
