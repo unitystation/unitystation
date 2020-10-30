@@ -374,6 +374,29 @@ namespace Chemistry
 			return GetEnumerator();
 		}
 
+		public bool ContentEquals (ReagentMix b)
+		{
+			if (ReferenceEquals(this, null) || ReferenceEquals(b, null))
+			{
+				return ReferenceEquals(this, null) && ReferenceEquals(b, null);
+			}
+
+			if (Temperature != b.Temperature)
+			{
+				return false;
+			}
+
+			foreach (var reagent in this.Concat(b))
+			{
+				if (b[reagent.Key] != this[reagent.Key])
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		public override string ToString()
 		{
 			return "Temperature > " + Temperature + " reagents > " + "{" + string.Join(",", reagents.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";;
