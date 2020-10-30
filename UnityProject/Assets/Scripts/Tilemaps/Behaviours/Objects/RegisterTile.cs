@@ -761,6 +761,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		return true;
 	}
 
+	public virtual bool IsReachableThrough(Vector3Int reachingFrom, bool isServer, GameObject context = null)
+	{
+		return false;
+	}
+
 	///<summary> Is it passable when approaching from outside? </summary>
 	public virtual bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{

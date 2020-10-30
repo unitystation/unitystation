@@ -16,6 +16,9 @@ public class RegisterObject : RegisterTile
 	[SyncVar]
 	public bool Passable = true;
 
+	[Tooltip("If true, this object won't block players from interacting with other objects")]
+	public bool ReachableThrough = false;
+
 	private bool initialAtmosPassable;
 	private bool initialPassable;
 
@@ -64,6 +67,11 @@ public class RegisterObject : RegisterTile
 	public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{
 		return AtmosPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
+	}
+
+	public override bool IsReachableThrough(Vector3Int reachingFrom, bool isServer, GameObject context = null)
+	{
+		return ReachableThrough || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
 	}
 
 	private bool CheckPassableExclusions(GameObject context)

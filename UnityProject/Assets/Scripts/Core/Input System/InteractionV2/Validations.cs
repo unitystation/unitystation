@@ -414,8 +414,9 @@ public static class Validations
 			return true;
 		}
 
-		bool result = MatrixManager.IsPassableAt(worldPosAInt, worldPosBInt, true, CollisionType.Airborne, context: context,
-			includingPlayers: true, excludeLayers: new List<LayerType> { LayerType.Walls, LayerType.Windows, LayerType.Grills });
+		bool result = MatrixManager.IsPassableAt(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Airborne,
+			context: context, includingPlayers: false, isReach: true,
+			excludeLayers: new List<LayerType> { LayerType.Walls, LayerType.Windows, LayerType.Grills });
 
 		return result;
 	}
