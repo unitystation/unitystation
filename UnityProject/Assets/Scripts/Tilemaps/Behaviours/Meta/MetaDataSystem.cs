@@ -105,10 +105,13 @@ public class MetaDataSystem : SubsystemBehaviour
 	{
 		BoundsInt bounds = metaTileMap.GetBounds();
 
+		var watch = new Stopwatch();
+		watch.Start();
 		foreach (Vector3Int position in bounds.allPositionsWithin)
 		{
 			FindRoomAt(position);
 		}
+		Logger.LogFormat("Created rooms in {0}ms", Category.TileMaps, watch.ElapsedMilliseconds);
 	}
 
 	private void FindRoomAt(Vector3Int position)
@@ -133,6 +136,10 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void CreateRoom(Vector3Int origin)
 	{
+		if (metaDataLayer.Get(origin).RoomNumber != -1)
+		{
+			return;
+		}
 		var roomPositions = new HashSet<Vector3Int>();
 		var freePositions = new UniqueQueue<Vector3Int>();
 
