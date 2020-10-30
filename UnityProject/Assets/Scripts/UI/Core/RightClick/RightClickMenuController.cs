@@ -216,7 +216,7 @@ namespace UI.Core.RightClick
 			    ActionRadial[i].ChangeItem(actions[i]);
 		    }
 
-		    ActionRadial.UpdateRotation(index % ItemRadial.ShownItemsCount, ItemRadial);
+		    ActionRadial.UpdateRotation(index, ItemRadial);
 	    }
 
 	    private void OnClickItem(PointerEventData eventData, RightClickRadialButton button)

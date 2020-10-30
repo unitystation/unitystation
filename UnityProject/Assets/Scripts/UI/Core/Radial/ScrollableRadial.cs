@@ -68,7 +68,7 @@ namespace UI.Core.Radial
 		    var isScrollable = itemCount > ShownItemsCount;
 		    upperMask.localEulerAngles = new Vector3(0, 0, ArcMeasure - 360);
 		    SetupItem(LowerMaskItem, 0, Vector3.zero, isScrollable);
-		    SetupItem(UpperMaskItem, ShownItemsCount, new Vector3(0, 0 , ShownItemsCount * ItemArcMeasure), isScrollable);
+		    SetupItem(UpperMaskItem, ShownItemsCount, Vector3.zero, isScrollable);
 		    for (var i = 2; i < Math.Max(2 + ShownItemsCount, Count); i++)
 		    {
 			    InitItem(i);
@@ -88,28 +88,12 @@ namespace UI.Core.Radial
 
 		    var shownItems = ShownItemsCount;
 		    var delta = newIndex - CurrentIndex;
-
-		    void ChangeUnmaskedIndices(float angle, int startIndex, int indexModifier)
-		    {
-			    var unfilled = Mathf.Sign(delta) * (ArcMeasure - 360);
-			    var posDelta = Math.Abs(delta);
-			    var rotation = angle * (1 + posDelta / shownItems) + unfilled;
-			    // Rotate the changed unmasked items around the masks and set their new index
-			    for (var i = 0; i < Math.Min(posDelta, shownItems - 1); i++)
-			    {
-				    var itemIndex = (startIndex + i) % (shownItems - 1) + 2;
-				    Items[itemIndex].transform.Rotate(Vector3.back, rotation);
-				    Items[itemIndex].Index = startIndex + i + indexModifier;
-				    OnIndexChanged?.Invoke(Items[itemIndex]);
-			    }
-		    }
-
 		    float rotate;
 
 		    if (delta > 0)
 		    {
 			    rotate = ItemArcMeasure;
-			    ChangeUnmaskedIndices(rotate, CurrentIndex, shownItems + delta / shownItems);
+			    ChangeUnmaskedIndices(rotate, CurrentIndex, shownItems);
 		    }
 		    else
 		    {
@@ -123,6 +107,24 @@ namespace UI.Core.Radial
 		    OnIndexChanged?.Invoke(LowerMaskItem);
 		    OnIndexChanged?.Invoke(UpperMaskItem);
 		    CurrentIndex = newIndex;
+
+		    void ChangeUnmaskedIndices(float angle, int startIndex, int indexOffset)
+		    {
+			    var posDelta = Math.Abs(delta);
+			    var itemCount = shownItems - 1;
+			    var changeCount = Math.Min(posDelta, itemCount);
+			    var rotation = itemCount * angle;
+			    // The idea here is to counter-rotate only the changed unmasked items so that we only need to update
+			    // those items and not the whole radial
+			    for (var i = 0; i < changeCount; i++)
+			    {
+				    var radialIndex = (startIndex + i) % itemCount + 2;
+				    var item = Items[radialIndex];
+				    item.transform.Rotate(Vector3.forward, rotation);
+				    item.Index = startIndex + i + indexOffset;
+				    OnIndexChanged?.Invoke(item);
+			    }
+		    }
 	    }
 
 	    public override void RotateRadial(float rotation)
@@ -134,7 +136,7 @@ namespace UI.Core.Radial
 
 		    TotalRotation -= rotation;
 
-		    ChangeIndex(Math.Min(MaxIndex, (int)(TotalRotation / ItemArcMeasure)));
+		    ChangeIndex(Math.Min(MaxIndex, (int)(TotalRotation / ItemArcMeasure + 0.01)));
 
 		    if (TotalRotation >= MaxIndexAngle)
 		    {
