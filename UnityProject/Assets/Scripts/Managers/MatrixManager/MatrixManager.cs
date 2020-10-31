@@ -776,7 +776,7 @@ public partial class MatrixManager : MonoBehaviour
 		return !IsPassableAt(worldTarget, isServer) && !IsAtmosPassableAt(worldTarget, isServer);
 	}
 
-	///Cross-matrix edition of <see crIsPassableAtef="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
 	///<inheritdoc cref="Matrix.(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsPassableAt(Vector3Int worldTarget, bool isServer, bool includingPlayers = true)
 	{
