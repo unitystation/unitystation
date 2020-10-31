@@ -391,6 +391,11 @@ PrefabInstance:
       propertyPath: PlayerLightData.Colour.a
       value: 0.78431374
       objectReference: {fileID: 0}
+    - target: {fileID: 5815709732216442137, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abe9c13902b62ce449fdfec99db8f554, type: 3}
 --- !u!4 &111658406 stripped
@@ -428,7 +433,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8082954268645528609}
-  m_RootOrder: 43
+  m_RootOrder: 44
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &160494700
 MonoBehaviour:
@@ -1115,6 +1120,11 @@ PrefabInstance:
         type: 3}
       propertyPath: PlayerLightData.Colour.a
       value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815709732216442137, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abe9c13902b62ce449fdfec99db8f554, type: 3}
@@ -1873,6 +1883,111 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8412706953933598370, guid: 93dbd338c6220214c926ec72a2c9c6b2,
     type: 3}
   m_PrefabInstance: {fileID: 642783357}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &699097590
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8082954268645528609}
+    m_Modifications:
+    - target: {fileID: 3504494269177408609, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: sceneId
+      value: 2879899616
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.673584
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.0263672
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 43
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546095837535277525, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_Name
+      value: Lantern (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785860645983738381, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.89413494
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785860645983738381, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.9339623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785860645983738381, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.14538093
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785860645983738381, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: Color.a
+      value: 0.54509807
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815709732216442137, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: abe9c13902b62ce449fdfec99db8f554, type: 3}
+--- !u!4 &699097591 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3541449163993279649, guid: abe9c13902b62ce449fdfec99db8f554,
+    type: 3}
+  m_PrefabInstance: {fileID: 699097590}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &709160153
 PrefabInstance:
@@ -3097,6 +3212,11 @@ PrefabInstance:
         type: 3}
       propertyPath: PlayerLightData.Colour.a
       value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815709732216442137, guid: abe9c13902b62ce449fdfec99db8f554,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abe9c13902b62ce449fdfec99db8f554, type: 3}
@@ -15563,6 +15683,7 @@ Transform:
   - {fileID: 1731897233}
   - {fileID: 630087562}
   - {fileID: 1334028061}
+  - {fileID: 699097591}
   - {fileID: 160494699}
   m_Father: {fileID: 5748139787505685872}
   m_RootOrder: 4
