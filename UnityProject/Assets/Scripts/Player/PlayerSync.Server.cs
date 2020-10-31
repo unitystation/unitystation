@@ -49,7 +49,7 @@ public partial class PlayerSync
 
     private RegisterPlayer registerPlayer;
 
-    private static bool step;
+    private bool step;
 
     public float SpeedServer
     {

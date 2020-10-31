@@ -1,12 +1,11 @@
-﻿using System;
+﻿using AddressableReferences;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AddressableReferences;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -15,7 +14,7 @@ using UnityEngine.AddressableAssets;
 [CustomPropertyDrawer(typeof(AddressableAudioSource))]
 public class AddressableReferencePropertyDrawer : PropertyDrawer
 {
-	public const int Height = 24;
+	private const int Height = 24;
 
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{

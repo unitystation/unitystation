@@ -28,7 +28,7 @@ namespace AddressableReferences
 		{
 			if ((AssetReference == null) && (!string.IsNullOrWhiteSpace(Path)))
 			{
-				return !(Asset == null);
+				return Asset != null;
 			}
 
 			if (IsNotValidKey) return false;

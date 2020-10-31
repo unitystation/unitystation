@@ -82,7 +82,7 @@ namespace Assets.Scripts.Editor.Tools
 
 		void OnGUI()
 		{
-			EditorGUILayout.HelpBox("Choose the name of the type you want to find\n\nYou can use the syntax described in .NET Type.GetType(string) documentation\n\nEx.: AddressableReferences.AddressableAudioSource,Assets for the type AddressableAudioSource, in namespace AddressableReferences in assembly Assets.", MessageType.Info); ;
+			EditorGUILayout.HelpBox("Choose the name of the type you want to find\n\nYou can use the syntax described in .NET Type.GetType(string) documentation\n\nEx.: AddressableReferences.AddressableAudioSource,Assets for the type AddressableAudioSource, in namespace AddressableReferences in assembly Assets.", MessageType.Info);
 			propertyTypeToFind = EditorGUILayout.TextField(propertyTypeToFind);
 
 			EditorGUILayout.Separator();

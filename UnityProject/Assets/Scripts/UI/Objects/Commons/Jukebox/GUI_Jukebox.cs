@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Objects;
+using System.Threading.Tasks;
 
 namespace UI.Objects
 {
@@ -31,7 +32,7 @@ namespace UI.Objects
 			}
 		}
 
-		public async void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public async Task OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 		{
 			labelTrack.Value = jukeboxController.TrackPosition;
 			labelSong.Value = await jukeboxController.GetSongNameAsync();

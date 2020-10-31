@@ -66,7 +66,7 @@ public class GameObjectToPrefab : EditorWindow
 
 	void OnGUI()
 	{
-		EditorGUILayout.HelpBox("Choose the GameObject that contains the childs you want to convert to prefabs", MessageType.Info); ;
+		EditorGUILayout.HelpBox("Choose the GameObject that contains the childs you want to convert to prefabs", MessageType.Info);
 		parentObject = (GameObject)EditorGUILayout.ObjectField(parentObject, typeof(GameObject), true);
 
 		EditorGUILayout.Separator();

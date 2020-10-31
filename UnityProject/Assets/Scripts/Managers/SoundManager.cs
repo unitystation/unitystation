@@ -55,7 +55,7 @@ public class SoundManager : MonoBehaviour
 	/// <remarks>
 	/// Musics are identified in Addressable groups with a special label "Music"
 	/// </remarks>
-	private async void AddMusicsToLibraryAsync()
+	private async Task AddMusicsToLibraryAsync()
 	{
 		// We build the library of musics location (by a special Label that identifies them).
 		IList<IResourceLocation> resourceLocations = await Addressables.LoadResourceLocationsAsync("Music", typeof(GameObject)).Task;
@@ -183,8 +183,7 @@ public class SoundManager : MonoBehaviour
 	/// If more than one sound is specified, one will be picked at random.
 	/// </summary>
 	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
-	/// TODO Make this not so weird
-	public static async void PlayNetworked(AddressableAudioSource addressableAudioSources, float pitch = -1,
+	public static async Task PlayNetworked(AddressableAudioSource addressableAudioSources, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
@@ -198,7 +197,7 @@ public class SoundManager : MonoBehaviour
 	/// If more than one sound is specified, one will be picked at random.
 	/// </summary>
 	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
-	public static async void PlayNetworked(List<AddressableAudioSource> addressableAudioSources, float pitch = -1,
+	public static async Task PlayNetworked(List<AddressableAudioSource> addressableAudioSources, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
@@ -313,7 +312,7 @@ public class SoundManager : MonoBehaviour
 		PlayNetworkedAtPos(addressableAudioSources, worldPos, audioSourceParameters, polyphonic, global, sourceObj, shakeParameters);
 	}
 
-	public static async void PlayNetworkedForPlayer(GameObject recipient,
+	public static async Task PlayNetworkedForPlayer(GameObject recipient,
 		AddressableAudioSource addressableAudioSources, float? pitch = null,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
@@ -332,7 +331,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="recipient">The player that will receive the sound</param>
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="pitch">The pitch variation of the sound.  Null for default pitch.</param>
-	public static async void PlayNetworkedForPlayer(GameObject recipient, List<AddressableAudioSource> addressableAudioSources, float? pitch = null,
+	public static async Task PlayNetworkedForPlayer(GameObject recipient, List<AddressableAudioSource> addressableAudioSources, float? pitch = null,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
@@ -366,7 +365,7 @@ public class SoundManager : MonoBehaviour
 	/// If more than one is specified, one will be picked at random.
 	/// </summary>
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
-	public static async void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos, List<AddressableAudioSource> addressableAudioSources,
+	public static async Task PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos, List<AddressableAudioSource> addressableAudioSources,
 		float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
@@ -402,7 +401,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
-	public static async void Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
+	public static async Task Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
 	{
 		Play(new List<AddressableAudioSource>() { addressableAudioSource }, soundSpawnToken, audioSourceParameters, polyphonic);
 	}
@@ -415,17 +414,17 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
-	public static async void Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
+	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
 	{
 		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);
 		SoundSpawn soundSpawn = Instance.GetNewSoundSpawn(addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 
-		Instance.PlaySource(soundSpawn, polyphonic, true, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
+		Instance.PlaySource(soundSpawn, polyphonic, forceMixer: audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
 
-	public static async void Play(AddressableAudioSource addressableAudioSources, string soundSpawnToken,
+	public static async Task Play(AddressableAudioSource addressableAudioSources, string soundSpawnToken,
 		float volume, float pitch = -1, float time = 0, bool oneShot = false,
 		float pan = 0)
 	{
@@ -441,7 +440,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
-	public static async void Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, float volume, float pitch = -1, float time = 0, bool oneShot = false,
+	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, float volume, float pitch = -1, float time = 0, bool oneShot = false,
 		float pan = 0)
 	{
 		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);
@@ -470,7 +469,7 @@ public class SoundManager : MonoBehaviour
 	/// <remarks>
 	///		If Global is true, the sound may still be muffled if the source is configured with the muffled mixer.
 	/// </remarks>
-	public static async void Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken = "", bool polyphonic = false, bool global = true)
+	public static async Task Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken = "", bool polyphonic = false, bool global = true)
 	{
 		Play(new List<AddressableAudioSource>() { addressableAudioSource }, soundSpawnToken, polyphonic, global);
 	}
@@ -486,7 +485,7 @@ public class SoundManager : MonoBehaviour
 	/// <remarks>
 	///		If Global is true, the sound may still be muffled if the source is configured with the muffled mixer.
 	/// </remarks>
-	public static async void Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, bool polyphonic = false, bool global = true)
+	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, bool polyphonic = false, bool global = true)
 	{
 		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);
 		Instance.PlaySource(Instance.GetNewSoundSpawn(addressableAudioSource.AudioSource, soundSpawnToken), polyphonic, global);
@@ -556,7 +555,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="addressableAudioSources">Sound to be played.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
-	public static async void PlayAtPosition(AddressableAudioSource addressableAudioSource, string soundSpawnToken, Vector3 worldPos, bool polyphonic = false,
+	public static async Task PlayAtPosition(AddressableAudioSource addressableAudioSource, string soundSpawnToken, Vector3 worldPos, bool polyphonic = false,
 		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = null)
 	{
 		PlayAtPosition(new List<AddressableAudioSource>() { addressableAudioSource }, soundSpawnToken, worldPos, polyphonic, isGlobal, netId, audioSourceParameters);
@@ -568,7 +567,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="soundSpawnToken">The token that identifies the SoundSpawn uniquely among the server and all clients </param>
-	public static async void PlayAtPosition(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, Vector3 worldPos, bool polyphonic = false,
+	public static async Task PlayAtPosition(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, Vector3 worldPos, bool polyphonic = false,
 		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = null)
 	{
 		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);

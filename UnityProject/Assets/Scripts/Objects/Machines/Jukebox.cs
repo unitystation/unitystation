@@ -170,7 +170,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
-	private async void CheckSongFinished()
+	private async Task CheckSongFinished()
 	{
 		// Check if the jukebox is in play mode and if the sound is finished playing.
 		// We didn't use "AudioSource.isPlaying" here because of a racing condition between PlayNetworkAtPos latency and Update.
@@ -187,7 +187,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		//}
 	}
 
-	public async void Play()
+	public async Task Play()
 	{
 		// Too much damage stops the jukebox from being able to play
 		if (integrity.integrity > integrity.initialIntegrity / 2)
@@ -291,7 +291,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		}
 	}
 
-	private async void UpdateGUIAsync()
+	private async Task UpdateGUIAsync()
 	{
 		List<ElementValue> valuesToSend = new List<ElementValue>();
 		valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes(TrackPosition) });
