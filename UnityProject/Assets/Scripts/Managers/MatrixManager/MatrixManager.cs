@@ -706,8 +706,39 @@ public partial class MatrixManager : MonoBehaviour
 	/// Empty list if no pushables.</returns>
 	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool isServer)
 	{
-		Vector3Int worldTarget = worldOrigin + dir.To3Int();
 		List<PushPull> result = new List<PushPull>();
+
+		// Get pushables the player is pushing "inside" from
+		foreach (PushPull pushPull in GetAt<PushPull>(worldOrigin, isServer))
+		{
+			if (pushPull == null || pushPull.gameObject == pusher) continue;
+
+			PushPull pushable = pushPull;
+			if (isServer ? pushPull.CanPushServer(worldOrigin, dir) : pushPull.CanPushClient(worldOrigin, dir))
+			{
+				// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
+				// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
+				PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
+				if (playerMove && playerMove.IsBuckled)
+				{
+					PushPull buckledPushPull = playerMove.BuckledObject.GetComponent<PushPull>();
+
+					if (buckledPushPull)
+						pushable = buckledPushPull;
+				}
+
+				if (isServer
+					? pushable.CanPushServer(worldOrigin, Vector2Int.RoundToInt(dir))
+					: pushable.CanPushClient(worldOrigin, Vector2Int.RoundToInt(dir))
+				)
+				{
+					result.Add(pushable);
+				}
+			}
+		}
+
+
+		Vector3Int worldTarget = worldOrigin + dir.To3Int();
 
 		foreach (PushPull pushPull in GetAt<PushPull>(worldTarget, isServer))
 		{
