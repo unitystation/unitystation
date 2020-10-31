@@ -76,8 +76,8 @@ namespace AdminTools
 	{
 		None,
 		AdminPlayerChat,
-		MentorPlayerChat,
 		AdminToAdminChat,
+		MentorPlayerChat,
 		PrayerWindow
 	}
 }

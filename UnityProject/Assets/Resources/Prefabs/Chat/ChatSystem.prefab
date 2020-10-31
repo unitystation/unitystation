@@ -2642,8 +2642,8 @@ GameObject:
   - component: {fileID: 8495767232389582695}
   - component: {fileID: 7070253565243770748}
   - component: {fileID: 3016244016471633048}
-  - component: {fileID: 1919809357331493648}
   - component: {fileID: 6606784681276729967}
+  - component: {fileID: 1919809357331493648}
   m_Layer: 5
   m_Name: MentorHelpWindow
   m_TagString: Untagged
@@ -2743,6 +2743,19 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.3019608}
   m_EffectDistance: {x: 1, y: -3}
   m_UseGraphicAlpha: 1
+--- !u!114 &6606784681276729967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372460474164192003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0147d9bc313d3749b5be7d978695841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chatScroll: {fileID: 5260647674039047719}
 --- !u!114 &1919809357331493648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2788,19 +2801,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &6606784681276729967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372460474164192003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0147d9bc313d3749b5be7d978695841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chatScroll: {fileID: 5260647674039047719}
 --- !u!1 &1513596670141448216
 GameObject:
   m_ObjectHideFlags: 0
@@ -3093,7 +3093,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1812009658759690882}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3104,7 +3104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.35, y: -31}
+  m_AnchoredPosition: {x: -0.34999847, y: -31.000008}
   m_SizeDelta: {x: 599.8, y: 527.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5260647674039047719
@@ -3239,7 +3239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8464879443585168234
 RectTransform:
   m_ObjectHideFlags: 0
