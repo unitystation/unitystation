@@ -142,7 +142,7 @@ public class SoundManager : MonoBehaviour
 	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
 	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(List<AddressableAudioSource> addressableAudioSources)
 	{
-		return await EnsureAddressableAudioSourceFromCache(addressableAudioSources);
+		return await EnsureAddressableAudioSourceFromCache(addressableAudioSources).ConfigureAwait(false);
 	}
 
 	private void OnEnable()
@@ -257,7 +257,7 @@ public class SoundManager : MonoBehaviour
 	public static async Task<string> PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources, Vector3 worldPos, AudioSourceParameters audioSourceParameters,
 			bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
 	{
-		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);
+		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources).ConfigureAwait(false);
 
 		if (Global)
 		{

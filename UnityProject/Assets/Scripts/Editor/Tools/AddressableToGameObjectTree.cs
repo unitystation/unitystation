@@ -59,19 +59,6 @@ namespace Assets.Scripts.Editor.Tools
 			// List of all prefabs exactly at path (without their file name)
 			List<string> prefabsAtPath = assetsPaths.Where(p => string.Join("/", p.Split('/').Reverse().Skip(1).Reverse()).Equals(path) && p.Contains(".prefab")).ToList();
 
-			//if (prefabsAtPath.Count > 0)
-			//{
-			//	AssetReferenceLibrary library = (AssetReferenceLibrary)gameObject.AddComponent(typeof(AssetReferenceLibrary));
-			//	library.AssetReferences = new List<AssetReference>();
-
-			//	// Seriously, that's the only way I found to list all prefabs in a given path.		
-			//	foreach (string prefabPath in prefabsAtPath)
-			//	{
-			//		library.AssetReferences.Add(new AssetReference(AssetDatabase.AssetPathToGUID(prefabPath)));
-			//		Debug.Log($"Adding reference to {prefabPath}");
-			//	}
-			//}
-
 			string[] subFolders = AssetDatabase.GetSubFolders(path);
 
 			foreach (string subFolder in subFolders)
@@ -95,7 +82,7 @@ namespace Assets.Scripts.Editor.Tools
 
 			EditorGUILayout.Separator();
 
-			EditorGUILayout.HelpBox("Choose the GameObject that contains the tree of Asset References", MessageType.Info); ;
+			EditorGUILayout.HelpBox("Choose the GameObject that contains the tree of Asset References", MessageType.Info);
 			rootObject = (GameObject)EditorGUILayout.ObjectField(rootObject, typeof(GameObject), true);
 
 			EditorGUILayout.Separator();

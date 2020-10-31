@@ -33,7 +33,6 @@ public class WindowInteract : TileInteraction
 				$"You knock on the {interaction.BasicTile.DisplayName}.", $"{interaction.Performer.ExpensiveName()} knocks on the {interaction.BasicTile.DisplayName}.");
 			// JESTE_R
 			System.Random random = new System.Random();
-			;
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters
 			{
@@ -41,7 +40,6 @@ public class WindowInteract : TileInteraction
 			};
 
 			SoundManager.PlayNetworkedAtPos(GlassKnock, interaction.WorldPositionTarget, audioSourceParameters, true, false, interaction.Performer);
-
 		}
 		else
 		{

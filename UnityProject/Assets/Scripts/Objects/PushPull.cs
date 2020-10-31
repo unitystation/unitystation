@@ -1019,6 +1019,9 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 			case ApprovalState.None:
 				Logger.LogTraceFormat( "Finished lerp, waiting for server approval...", Category.PushPull );
 				break;
+			default:
+				Logger.LogError("Unhandled ApprovalState");
+				break;
 		}
 	}
 

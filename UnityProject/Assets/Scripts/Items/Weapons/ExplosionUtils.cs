@@ -22,11 +22,11 @@ namespace Systems.Explosions
 			string sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
 			if (sndName == "Explosion1")
 			{
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Explosion1, worldPosition, -1f, true, true, shakeIntensity, (int)shakeDistance);
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Explosion1, worldPosition, -1f, true, true, shakeIntensity, shakeDistance);
 			}
 			else
 			{
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Explosion2, worldPosition, -1f, true, true, shakeIntensity, (int)shakeDistance);
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Explosion2, worldPosition, -1f, true, true, shakeIntensity, shakeDistance);
 			}
 			// JESTE_R
 

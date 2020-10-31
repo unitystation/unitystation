@@ -170,7 +170,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
-	private async Task CheckSongFinished()
+	private void CheckSongFinished()
 	{
 		// Check if the jukebox is in play mode and if the sound is finished playing.
 		// We didn't use "AudioSource.isPlaying" here because of a racing condition between PlayNetworkAtPos latency and Update.
@@ -295,8 +295,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		List<ElementValue> valuesToSend = new List<ElementValue>();
 		valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes(TrackPosition) });
-		valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(await GetSongNameAsync()) });
-		valuesToSend.Add(new ElementValue() { Id = "TextArtist", Value = Encoding.UTF8.GetBytes(await GetArtistNameAsync()) });
+		valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(await GetSongNameAsync().ConfigureAwait(false)) });
+		valuesToSend.Add(new ElementValue() { Id = "TextArtist", Value = Encoding.UTF8.GetBytes(await GetArtistNameAsync().ConfigureAwait(false)) });
 		valuesToSend.Add(new ElementValue() { Id = "ImagePlayStop", Value = Encoding.UTF8.GetBytes(PlayStopButtonPrefabImage) });
 
 		// Update all UI currently opened.
