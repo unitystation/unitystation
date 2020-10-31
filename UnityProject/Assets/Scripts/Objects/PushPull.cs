@@ -747,7 +747,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 
-		bool success = Pushable.Push(dir, speed, true, gameObject);
+		bool success = Pushable.Push(dir, speed, true, context: gameObject);
 		if (success)
 		{
 			// Pulling a directional component should change it's orientation to match the one that pulls it
@@ -842,17 +842,17 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 
-		bool success = Pushable.Push(dir, speed);
+		bool success = Pushable.Push(dir, speed, context: gameObject);
 		Vector3Int target = from + dir.To3Int();
 		if (success)
 		{
 			if (IsBeingPulled && //Break pull only if pushable will end up far enough
-					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledBy.registerTile.WorldPositionServer, target, true)))
+					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledBy.registerTile.WorldPositionServer, target, true, context: gameObject)))
 			{
 				StopFollowing();
 			}
 			if (IsPullingSomethingServer && //Break pull only if pushable will end up far enough
-					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target, true)))
+					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target, true, context: gameObject)))
 			{
 				ReleaseControl();
 			}
