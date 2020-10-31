@@ -482,6 +482,37 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		// Locking/Unlocking by alt clicking
+		if (interaction.IsAltClick)
+		{
+			if(IsLockable && AccessRestrictions != null && ClosetStatus.Equals(ClosetStatus.Closed))
+			{
+				// Default CheckAccess will check for the ID slot first
+				// so the default AltClick interaction will prioritize
+				// the ID slot, only when that would fail the hand
+				// will be checked, alternatively the user can also
+				// just click the locker with the ID inhand.
+				if (AccessRestrictions.CheckAccess(interaction.Performer))
+				{
+
+					if (isLocked)
+					{
+						SyncLocked(isLocked, false);
+						Chat.AddExamineMsg(interaction.Performer, $"You unlock the {closetName}.");
+					}
+					else
+					{
+						SyncLocked(isLocked, true);
+						Chat.AddExamineMsg(interaction.Performer, $"You lock the {closetName}.");
+					}
+
+				}
+			}
+
+			// Alt clicking is the locker's only alt click behaviour.
+			return;
+		}
+
 		// Is the player trying to put something in the closet?
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) 
 			&& interaction.HandObject.TryGetComponent<Emag>(out var emag) 
@@ -551,7 +582,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		}
 				
 		// player trying to unlock locker?
-		if (IsLockable && AccessRestrictions != null)
+		if (IsLockable && AccessRestrictions != null && ClosetStatus.Equals(ClosetStatus.Closed))
 		{
 			// player trying to open lock by card?
 			if (AccessRestrictions.CheckAccessCard(interaction.HandObject))
@@ -559,10 +590,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				if (isLocked)
 				{
 					SyncLocked(isLocked, false);
+					Chat.AddExamineMsg(interaction.Performer, $"You unlock the {closetName}.");
 				}
 				else
 				{
 					SyncLocked(isLocked, true);
+					Chat.AddExamineMsg(interaction.Performer, $"You lock the {closetName}.");
 				}
 			}
 			// player with access can unlock just by click
@@ -571,6 +604,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				if (isLocked)
 				{
 					SyncLocked(isLocked, false);
+					Chat.AddExamineMsg(interaction.Performer, $"You unlock the {closetName}.");
 				}
 			}
 		}
