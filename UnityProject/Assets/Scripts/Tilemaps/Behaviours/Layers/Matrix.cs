@@ -145,7 +145,9 @@ public class Matrix : MonoBehaviour
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer, bool includingPlayers = true,
-		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null, bool ignoreObjects = false)
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null, bool ignoreObjects = false,
+		bool onlyExcludeLayerOnDestination = false
+		)
 	{
 		return IsPassableAt(position, position, isServer, context: context, includingPlayers: includingPlayers,
 			excludeLayers: excludeLayers, excludeTiles: excludeTiles, ignoreObjects: ignoreObjects);
@@ -171,11 +173,12 @@ public class Matrix : MonoBehaviour
 	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
-			bool isReach = false)
+			bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 	{
 		return MetaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType,
 			inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers,
-			excludeTiles: excludeTiles, ignoreObjects: ignoreObjects, isReach: isReach);
+			excludeTiles: excludeTiles, ignoreObjects: ignoreObjects, isReach: isReach,
+			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int position, bool isServer)
