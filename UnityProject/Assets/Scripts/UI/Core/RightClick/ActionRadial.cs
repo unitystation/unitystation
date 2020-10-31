@@ -22,7 +22,24 @@ namespace UI.Core.RightClick
         private int actionArcMeasure = default;
 
         private RectTransform startBorder;
+
         private RectTransform endBorder;
+
+        private ParentConstraint parentConstraint;
+
+        private ParentConstraint ParentConstraint
+        {
+	        get
+	        {
+		        if (parentConstraint != null)
+		        {
+			        return parentConstraint;
+		        }
+
+		        parentConstraint = GetComponent<ParentConstraint>();
+		        return parentConstraint;
+	        }
+        }
 
         private T InitOrGet<T>(ref T obj, T prefab) where T : Component
         {
@@ -35,16 +52,9 @@ namespace UI.Core.RightClick
             return obj;
         }
 
-        public RectTransform StartBorder => InitOrGet(ref startBorder, borderPrefab);
+        private RectTransform StartBorder => InitOrGet(ref startBorder, borderPrefab);
 
-        public RectTransform EndBorder => InitOrGet(ref endBorder, borderPrefab);
-
-        public ParentConstraint ParentConstraint { get; private set; }
-
-        public void Awake()
-        {
-	        ParentConstraint = GetComponent<ParentConstraint>();
-        }
+        private RectTransform EndBorder => InitOrGet(ref endBorder, borderPrefab);
 
         public void LateUpdate()
         {

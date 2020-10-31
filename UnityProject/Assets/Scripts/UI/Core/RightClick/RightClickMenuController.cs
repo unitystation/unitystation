@@ -120,17 +120,8 @@ namespace UI.Core.RightClick
 		    ActionRadial.SetActive(false);
 	    }
 
-	    public bool IsPlayerInRange(Vector3 worldPosition, bool followWorldPosition)
-	    {
-			    if (followWorldPosition == false)
-			    {
-				    return true;
-			    }
-			    var player = PlayerManager.PlayerScript.registerTile;
-			    var playerPos = player.WorldPositionClient;
-			    var delta = playerPos.To2Int() - worldPosition.To2Int();
-			    return Math.Abs(delta.x) <= 1 && Math.Abs(delta.y) <= 1;
-	    }
+	    private bool IsPlayerInRange(Vector3 worldPosition, bool followWorldPosition) =>
+		    followWorldPosition == false || Validations.IsInReach(PlayerManager.PlayerScript.registerTile.WorldPosition, worldPosition);
 
 	    private void OnBeginDragEvent(PointerEventData pointerEvent)
 	    {
