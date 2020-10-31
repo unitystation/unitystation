@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UI.Core.Radial;
@@ -11,6 +12,9 @@ namespace UI.Core.RightClick
 
 		[SerializeField]
 		private CanvasRenderer nextArrow = default;
+
+		[SerializeField]
+		private RectTransform background = default;
 
 		[SerializeField]
 		private TMP_Text itemLabel = default;
@@ -29,6 +33,12 @@ namespace UI.Core.RightClick
 			var roundedRotation = Mathf.Round(TotalRotation);
 			previousArrow.SetActive(roundedRotation > 0);
 			nextArrow.SetActive(roundedRotation < Mathf.Round(MaxIndex * ItemArcMeasure));
+		}
+
+		public void LateUpdate()
+		{
+			background.rotation = Quaternion.identity;
+			itemLabel.transform.rotation = Quaternion.identity;
 		}
 
 		public void ChangeLabel(string text) => itemLabel.SetText(text);

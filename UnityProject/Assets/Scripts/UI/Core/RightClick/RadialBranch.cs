@@ -1,4 +1,5 @@
 using UI.Core.Radial;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,6 +42,12 @@ namespace UI.Core.RightClick
 		{
 			Origin = GetComponent<RectTransform>();
 			Camera = Camera.main;
+		}
+
+		public float PositionToBranchAngle(Vector3 position)
+		{
+			var relativePosition = position - LineToRadial.position;
+			return Mathf.Rad2Deg * Mathf.Atan2(relativePosition.y, relativePosition.x);
 		}
 
 		public void UpdateDirection()

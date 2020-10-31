@@ -111,6 +111,7 @@ namespace UI.Core.RightClick
 			    }
 		    }
 		    ItemRadial.transform.localPosition = radialBranch.MenuPosition;
+		    UpdateItemRadialRotation();
 
 		    this.SetActive(true);
 		    ItemRadial.SetActive(true);
@@ -298,6 +299,7 @@ namespace UI.Core.RightClick
 		    ItemRadial.transform.localPosition = radialBranch.MenuPosition;
 		    ItemRadial.UpdateArrows();
 		    radialBranch.UpdateRadialLineSize(ActionRadial, ItemRadial.transform.position);
+		    UpdateItemRadialRotation();
 
 		    if (IsAnyPointerDown() == false)
 		    {
@@ -310,6 +312,13 @@ namespace UI.Core.RightClick
 		    {
 			    this.SetActive(false);
 		    }
+	    }
+
+	    private void UpdateItemRadialRotation()
+	    {
+		    var angle = radialBranch.PositionToBranchAngle(ItemRadial.transform.position);
+		    angle -= Math.Min(Items.Count, ItemRadial.MaxShownItems) * ItemRadial.ItemArcMeasure / 2;
+		    ItemRadial.transform.localEulerAngles = new Vector3(0, 0, angle);
 	    }
 
 	    private void SnapToNearestItem()
