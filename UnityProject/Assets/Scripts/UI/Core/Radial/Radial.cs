@@ -72,7 +72,7 @@ namespace UI.Core.Radial
 
 	    protected T ItemPrefab => itemPrefab;
 
-	    protected int MaxShownItems => maxShownItems;
+	    public int MaxShownItems => maxShownItems;
 
 	    public int ShownItemsCount => Math.Min(TotalItemCount, MaxShownItems);
 

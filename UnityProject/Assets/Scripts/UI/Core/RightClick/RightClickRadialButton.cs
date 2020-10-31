@@ -12,6 +12,14 @@ namespace UI.Core.RightClick
 		private static readonly int PaletteSize = Shader.PropertyToID("_PaletteSize");
 		private static readonly int ColorPalette = Shader.PropertyToID("_ColorPalette");
 
+		private static readonly ColorBlock DisabledColors = new ColorBlock
+		{
+			normalColor = Color.clear,
+			highlightedColor = Color.clear,
+			selectedColor = Color.clear,
+			disabledColor = Color.clear
+		};
+
 		[SerializeField]
 		private Image icon = default;
 
@@ -24,17 +32,44 @@ namespace UI.Core.RightClick
 		[SerializeField]
 		private RectTransform divider = default;
 
+		private Image mask;
+
 		private RightClickButton button;
 
-		public void SetInteractable(bool value) => button.interactable = value;
+		private ColorBlock buttonColors = ColorBlock.defaultColorBlock;
 
-		private Image Mask { get; set; }
+		private T InternalGetComponent<T>(ref T obj)
+		{
+			if (obj == null)
+			{
+				obj = GetComponent<T>();
+			}
 
-	    protected void Awake()
-	    {
-		    Mask = GetComponent<Image>();
-		    button = GetComponent<RightClickButton>();
-	    }
+			return obj;
+		}
+
+
+		private Image Mask
+		{
+			get => InternalGetComponent(ref mask);
+			set => mask = value;
+		}
+
+		private RightClickButton Button
+		{
+			get => InternalGetComponent(ref button);
+			set => button = value;
+		}
+
+		private ColorBlock ButtonColors
+		{
+			get => buttonColors;
+			set
+			{
+				buttonColors = value;
+				Button.colors = value;
+			}
+		}
 
 	    public override void Setup(Radial<RightClickRadialButton> parent, int index)
 	    {
@@ -45,7 +80,9 @@ namespace UI.Core.RightClick
 	        iconTransform.localScale = new Vector3(Radial.Scale, Radial.Scale, 1f);
 	    }
 
-	    public void SetDividerActive(bool active) => divider.SetActive(active);
+		public void SetInteractable(bool value) => Button.interactable = value;
+
+		public void SetDividerActive(bool active) => divider.SetActive(active);
 
 	    public void LateUpdate()
 	    {
@@ -54,12 +91,13 @@ namespace UI.Core.RightClick
 
 	    public void ChangeItem(RightClickMenuItem itemInfo)
 	    {
+		    Mask.raycastTarget = true;
 		    Mask.color = itemInfo.BackgroundColor;
-		    var colors = button.colors;
+		    var colors = ButtonColors;
 		    colors.highlightedColor = CalculateHighlight(itemInfo.BackgroundColor);
 		    colors.selectedColor = colors.highlightedColor;
 		    colors.disabledColor = colors.normalColor;
-		    button.colors = colors;
+		    ButtonColors = colors;
 		    icon.canvasRenderer.SetColor(iconFadedColor);
 		    icon.color = itemInfo.IconColor;
 		    icon.sprite = itemInfo.IconSprite;
@@ -76,6 +114,17 @@ namespace UI.Core.RightClick
 		    }
 	    }
 
+	    public void RemoveItem()
+	    {
+		    // Dragging needs to be able to set button interactivity and its disabled color needs to be the same as the
+		    // normal color. Using this to disable the button and set transparency. ChangeItem will reactivate it.
+		    Mask.raycastTarget = false;
+		    Button.colors = DisabledColors;
+		    icon.color = Color.clear;
+		    icon.sprite = null;
+	    }
+
+
 	    private Color CalculateHighlight(Color original)
 	    {
 		    return new Color(CalcChannel(original.r), CalcChannel(original.g), CalcChannel(original.b), 1f);
@@ -87,13 +136,13 @@ namespace UI.Core.RightClick
 
 	    public void ResetState()
 	    {
-		    button.ResetState();
+		    Button.ResetState();
 		    icon.CrossFadeColor(iconFadedColor, 0, true, true);
 	    }
 
 	    public void FadeOut(BaseEventData eventData)
 	    {
-		    button.OnDeselect(eventData);
+		    Button.OnDeselect(eventData);
 		    icon.CrossFadeColor(iconFadedColor, iconFadeDuration, false, true);
 	    }
 
@@ -111,7 +160,7 @@ namespace UI.Core.RightClick
 			    return;
 		    }
 		    icon.CrossFadeColor(Color.white, iconFadeDuration, false, true);
-		    button.OnPointerEnter(eventData);
+		    Button.OnPointerEnter(eventData);
 		    Radial.Invoke(PointerEventType.PointerEnter, eventData, this);
 	    }
 

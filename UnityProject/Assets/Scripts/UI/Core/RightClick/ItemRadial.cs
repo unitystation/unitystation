@@ -19,6 +19,8 @@ namespace UI.Core.RightClick
 		{
 			base.Setup(itemCount);
 			itemLabel.SetText(string.Empty);
+			previousArrow.transform.SetAsLastSibling();
+			nextArrow.transform.SetAsLastSibling();
 			UpdateArrows();
 		}
 

@@ -57,7 +57,7 @@ public class RightClickableResult
 	public RightClickableResult AddAdminElement(string optionName, Action action,
 		string nameOverride = null, Sprite spriteOverride = null)
 	{
-		AddElement(RightClickableElement.FromOptionName(optionName, action, new Color(1f, 0f, 0f, 0.3f), nameOverride, spriteOverride));
+		AddElement(RightClickableElement.FromOptionName(optionName, action, new Color(1f, 0f, 0f, 0.5f), nameOverride, spriteOverride));
 		return this;
 	}
 

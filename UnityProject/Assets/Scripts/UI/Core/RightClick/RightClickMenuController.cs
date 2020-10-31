@@ -95,10 +95,9 @@ namespace UI.Core.RightClick
 			    return;
 		    }
 
-		    this.SetActive(true);
 		    Items = items;
 		    radialBranch.Setup(worldPosition, itemRadialPrefab.OuterRadius, itemRadialPrefab.Scale, followWorldPosition);
-		    ItemRadial.Setup(items.Count);
+		    ItemRadial.Setup(Math.Max(items.Count, ItemRadial.MaxShownItems));
 		    foreach (var item in ItemRadial)
 		    {
 			    var index = item.Index;
@@ -106,8 +105,15 @@ namespace UI.Core.RightClick
 			    {
 				    item.ChangeItem(items[index]);
 			    }
+			    else
+			    {
+				    item.RemoveItem();
+			    }
 		    }
 		    ItemRadial.transform.localPosition = radialBranch.MenuPosition;
+
+		    this.SetActive(true);
+		    ItemRadial.SetActive(true);
 
 		    ActionRadial.Setup(0);
 		    ActionRadial.SetActive(false);
@@ -202,12 +208,15 @@ namespace UI.Core.RightClick
 
 		    var item = Items[index];
 		    ItemRadial.ChangeLabel(item.Label);
+		    var itemRadialPosition = ItemRadial.transform.position;
 		    var actions = item.SubMenus;
 		    if (actions == null)
 		    {
 			    ActionRadial.SetActive(false);
+			    radialBranch.UpdateRadialLineSize(ActionRadial, itemRadialPosition);
 			    return;
 		    }
+
 
 		    ActionRadial.SetActive(true);
 		    ActionRadial.Setup(actions.Count);
@@ -217,6 +226,7 @@ namespace UI.Core.RightClick
 		    }
 
 		    ActionRadial.UpdateRotation(index, ItemRadial);
+		    radialBranch.UpdateRadialLineSize(ActionRadial, itemRadialPosition);
 	    }
 
 	    private void OnClickItem(PointerEventData eventData, RightClickRadialButton button)
@@ -287,6 +297,7 @@ namespace UI.Core.RightClick
 		    radialBranch.UpdateDirection();
 		    ItemRadial.transform.localPosition = radialBranch.MenuPosition;
 		    ItemRadial.UpdateArrows();
+		    radialBranch.UpdateRadialLineSize(ActionRadial, ItemRadial.transform.position);
 
 		    if (IsAnyPointerDown() == false)
 		    {
@@ -295,7 +306,7 @@ namespace UI.Core.RightClick
 
 		    // Deactivate the menu if there was a mouse click outside of the menu.
 		    var mousePos = CommonInput.mousePosition;
-		    if (ItemRadial.IsPositionWithinRadial(mousePos, true) == false && ActionRadial.IsPositionWithinRadial(mousePos) == false)
+		    if (ItemRadial.IsPositionWithinRadial(mousePos) == false && ActionRadial.IsPositionWithinRadial(mousePos) == false)
 		    {
 			    this.SetActive(false);
 		    }
@@ -334,6 +345,12 @@ namespace UI.Core.RightClick
 		    }
 
 		    return false;
+	    }
+
+	    private void OnDisable()
+	    {
+		    ItemRadial.SetActive(false);
+		    ActionRadial.SetActive(false);
 	    }
 	}
 }

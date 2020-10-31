@@ -20,7 +20,7 @@ using UI.Core.RightClick;
 /// </summary>
 public class RightClickManager : MonoBehaviour
 {
-	public static readonly Color ButtonColor = new Color(0.2f, 0.5f, 0.7f, 0.3f);
+	public static readonly Color ButtonColor = new Color(0.3f, 0.55f, 0.72f, 0.5f);
 
 	[Tooltip("Ordering to use for right click options.")]
 	public RightClickOptionOrder rightClickOptionOrder;

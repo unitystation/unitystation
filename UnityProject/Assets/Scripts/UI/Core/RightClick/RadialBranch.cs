@@ -1,4 +1,4 @@
-using System;
+using UI.Core.Radial;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,6 +59,23 @@ namespace UI.Core.RightClick
 			SetScale();
 		}
 
+		public void UpdateRadialLineSize(IRadial radial, Vector2 position)
+		{
+			var linePosition = Vector3.MoveTowards(LineToRadial.position, position, lineSize.x / 2);
+			if (radial.IsPositionWithinRadial(linePosition, false))
+			{
+				var radialSize = radial.OuterRadius - radial.InnerRadius;
+				var size = lineSize;
+				size.x -= radialSize;
+				LineToRadial.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
+			}
+			else
+			{
+				LineToRadial.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, lineSize.x);
+			}
+			LineToRadial.ForceUpdateRectTransforms();
+		}
+
 		public void Setup(Vector3 worldPosition, int radius, float scale, bool followWorldPosition)
 		{
 			FollowWorldPosition = followWorldPosition;
@@ -72,6 +89,9 @@ namespace UI.Core.RightClick
 			{
 				UpdateDirection();
 			}
+
+			LineToRadial.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, lineSize.x);
+			LineToRadial.ForceUpdateRectTransforms();
 		}
 
 		private void BuildBranch(int radius, float scale)
