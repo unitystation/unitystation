@@ -33,6 +33,18 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource ThudSwoosh = null;
    public AddressableAudioSource Sparks = null;
    public AddressableAudioSource Rustle = null;
+   public AddressableAudioSource BreakStone = null;
+
+   public AddressableAudioSource AnnouncementNotice = null;
+   public AddressableAudioSource AnnouncementAnnounce = null;
+   public AddressableAudioSource AnnouncementAlert = null;
+
+
+   public AddressableAudioSource ShuttleCalled = null;
+   public AddressableAudioSource ShuttleRecalled = null;
+
+
+
 
 
 }

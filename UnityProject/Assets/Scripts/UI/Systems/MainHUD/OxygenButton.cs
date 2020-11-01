@@ -42,8 +42,7 @@ public class OxygenButton : TooltipMonoBehaviour
 			return;
 		}
 
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		if (IsInternalsEnabled)
 		{

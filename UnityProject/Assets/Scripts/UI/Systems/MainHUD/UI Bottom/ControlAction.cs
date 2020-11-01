@@ -59,8 +59,8 @@ public class ControlAction : MonoBehaviour
 			Throw();
 		}
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(currentSlot.NamedSlot);
-		// JESTER
-		//SoundManager.Play("Click01");
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log("Drop Button", Category.UI);
 	}
 
@@ -88,8 +88,8 @@ public class ControlAction : MonoBehaviour
 
 			// Enable throw
 			Logger.Log("Throw Button Enabled", Category.UI);
-			// JESTER
-			//SoundManager.Play("Click01");
+
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			UIManager.IsThrow = true;
 			throwImage.sprite = throwSprites[1];
 		}

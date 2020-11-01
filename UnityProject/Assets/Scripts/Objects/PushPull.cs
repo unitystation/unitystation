@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -166,6 +167,9 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	[Tooltip("The sound to play when pushed/pulled")]
     [SerializeField]
 	private string pushPullSound = null;
+
+	[SerializeField] private AddressableAudioSource PushPullSound = null;
+
 
 	[Tooltip("A minimum delay for the sound to be played again (in milliseconds)")]
 	[SerializeField]
@@ -371,8 +375,8 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
-				// JESTER
-				// SoundManager.PlayNetworkedAtPos( "Rustle#", pullable.transform.position , sourceObj: pullableObject);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.Rustle, pullable.transform.position , sourceObj: pullableObject);
 
 				PulledObjectServer = pullable;
 
@@ -710,13 +714,12 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 			}
 
 			// If there is a sound to be played
-			if (!string.IsNullOrWhiteSpace(pushPullSound) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
+			if (!string.IsNullOrWhiteSpace(PushPullSound.Path) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
 			{
-				// JESTER
-				/*
-				SoundManager.PlayNetworkedAtPos(pushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance), sourceObj: gameObject);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(PushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance), sourceObj: gameObject);
 				lastPlayedSoundTime = Time.time * 1000;
-				*/
+
 			}
 
 			pushTarget = target;

@@ -413,8 +413,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					// JESTER
-					//SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
+					// JESTE_R
+					SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 				}
 
 				break;

@@ -420,8 +420,8 @@ public class GUI_Hacking : NetTab
 		HackingNode inputNode = wireUI.EndNode.HackNode;
 
 		outputNode.RemoveConnectedNode(inputNode);
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("Wirecut#", PlayerManager.LocalPlayerScript.WorldPos);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.WireCutter, PlayerManager.LocalPlayerScript.WorldPos);
 
 		//If we're on client, network to the server the changes we made.
 		if (!IsServer)

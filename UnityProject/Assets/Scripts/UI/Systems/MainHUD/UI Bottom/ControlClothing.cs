@@ -29,8 +29,7 @@ public class ControlClothing : TooltipMonoBehaviour
 
 	public void RolloutEquipmentMenu()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		if (isOpen)
 		{

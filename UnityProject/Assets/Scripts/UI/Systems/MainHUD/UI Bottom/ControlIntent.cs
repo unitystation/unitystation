@@ -39,8 +39,8 @@ public class ControlIntent : TooltipMonoBehaviour
 	public void CycleIntent(bool cycleLeft = true)
 	{
 		Logger.Log("Intent cycling " + (cycleLeft ? "left" : "right"), Category.UI);
-		// JESTER
-		//SoundManager.Play("Click01");
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		int intent = (int)UIManager.CurrentIntent;
 		intent += (cycleLeft ? 1 : -1);

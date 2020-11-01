@@ -94,8 +94,8 @@ public class UI_StorageHandler : MonoBehaviour
 	{
 		if (PlayerManager.LocalPlayer != null)
 		{
-			// JESTER
-			//SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
+			// JESTE_R
+			SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Rustle,"", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
 		}
 		CurrentOpenStorage = null;
 		otherPlayerStorage.SetActive(false);

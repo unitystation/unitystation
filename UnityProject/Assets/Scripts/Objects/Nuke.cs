@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using AddressableReferences;
 using Audio.Managers;
 using UnityEngine;
 using Mirror;
@@ -44,6 +45,8 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>,IAdminInfo
 	private bool isTimerTicking = false;
 
 	public bool IsTimerTicking => isTimerTicking;
+	[SerializeField] private AddressableAudioSource TimerTick = null;
+
 
 	private int currentTimerSeconds;
 	public int CurrentTimerSeconds
@@ -284,8 +287,8 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>,IAdminInfo
 		while (CurrentTimerSeconds > 0)
 		{
 			CurrentTimerSeconds -= 1;
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos("TimerTick", gameObject.AssumedWorldPosServer());
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(TimerTick, gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(1);
 		}
 		Detonate();

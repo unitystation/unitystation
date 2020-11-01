@@ -26,6 +26,8 @@ public class CentComm : MonoBehaviour
 	[SerializeField] private AddressableAudioSource Welcome = null;
 	[SerializeField] private AddressableAudioSource InterceptMessage = null;
 
+	[SerializeField] private AddressableAudioSource Commandreport = null;
+
 	public void UpdateStatusDisplay(StatusDisplayChannel channel, string text)
 	{
 		if (channel == StatusDisplayChannel.EscapeShuttle)
@@ -38,6 +40,9 @@ public class CentComm : MonoBehaviour
 		}
 		OnStatusDisplayUpdate.Invoke(channel);
 	}
+
+
+
 
 	public AlertLevel CurrentAlertLevel = AlertLevel.Green;
 
@@ -263,10 +268,10 @@ public class CentComm : MonoBehaviour
 
 		Chat.AddSystemMsgToChat(string.Format(CentCommAnnounceTemplate, CommandNewReportString), MatrixManager.MainStationMatrix);
 
-		// JESTER
-		//SoundManager.PlayNetworked(UpdateTypes[type], 1f);
-		// JESTER
-		//SoundManager.PlayNetworked("Commandreport");
+		// JESTE_R
+		PlayAnnouncementSound(type);
+		// JESTE_R
+		SoundManager.PlayNetworked(Commandreport);
 	}
 
 	/// <summary>
@@ -275,15 +280,15 @@ public class CentComm : MonoBehaviour
 	/// <param name="template">String that will be the header of the annoucement. We have a couple ready to use </param>
 	/// <param name="text">String that will be the message body</param>
 	/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
-	public static void MakeAnnouncement( string template, string text, UpdateSound type )
+	public static void MakeAnnouncement( string template, string text,UpdateSound type)
 	{
 		if ( text.Trim() == string.Empty )
 		{
 			return;
 		}
 
-		// JESTER
-		//SoundManager.PlayNetworked( UpdateTypes[type] );
+		// JESTE_R
+		PlayAnnouncementSound(type);
 		Chat.AddSystemMsgToChat(string.Format( template, text ), MatrixManager.MainStationMatrix);
 	}
 
@@ -315,8 +320,8 @@ public class CentComm : MonoBehaviour
 
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) ),
 			MatrixManager.MainStationMatrix);
-		// JESTER
-		//SoundManager.PlayNetworked("ShuttleCalled");
+		// JESTE_R
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleCalled);
 	}
 
 	/// <summary>
@@ -326,8 +331,27 @@ public class CentComm : MonoBehaviour
 	{
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) ),
 			MatrixManager.MainStationMatrix);
-		// JESTER
-		//SoundManager.PlayNetworked("ShuttleRecalled");
+		// JESTE_R
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleRecalled);
+	}
+
+	public static void PlayAnnouncementSound( UpdateSound type )
+	{
+		switch (type)
+		{
+			case UpdateSound.notice:
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementNotice, 1f);
+				break;
+			case UpdateSound.announce:
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementAnnounce, 1f);
+				break;
+			case UpdateSound.alert:
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementAlert, 1f);
+				break;
+			default:
+				Logger.LogError("No sound has been set for level " + type );
+				break;
+		}
 	}
 
 	private string StationObjectiveReport()
