@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for the game
 title: ''
-labels: 'Type: Bug'
+labels: 'Type: Feature'
 assignees: ''
 
 ---

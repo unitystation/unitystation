@@ -2,7 +2,7 @@
 name: Bug report
 about: Report a bug to developers
 title: ''
-labels: 'Type: Feature'
+labels: 'Type: Bug'
 assignees: ''
 
 ---
