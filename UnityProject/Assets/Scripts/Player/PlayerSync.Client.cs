@@ -230,12 +230,14 @@ public partial class PlayerSync
 	/// <param name="direction">Direction you're pushing</param>
 	private void PredictiveBumpInteract(Vector3Int worldTile, Vector2Int direction)
 	{
+		Vector3Int worldOrigin = worldTile - (Vector3Int)direction;
+
 		if (!Validations.CanInteract(playerScript, NetworkSide.Client, allowCuffed: true))
 		{
 			return;
 		}
 		// Is the object pushable (iterate through all of the objects at the position):
-		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile, false);
+		List<PushPull> pushPulls = MatrixManager.GetPushableAt(worldOrigin, direction, gameObject, false, true);
 		for (int i = 0; i < pushPulls.Count; i++)
 		{
 			var pushPull = pushPulls[i];

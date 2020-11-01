@@ -721,10 +721,18 @@ public partial class PlayerSync
 		{
 			return;
 		}
-		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject, isServer: true);
+
+		Vector2Int twoIntDirection = direction.To2Int();
+
+		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, twoIntDirection, gameObject, true, true);
 		if (pushables.Count > 0)
 		{
-			pushables[0].TryPush(direction.To2Int());
+			foreach ( PushPull pushable in pushables)
+			{
+
+				pushable.TryPush(twoIntDirection);
+				break;
+			}
 		}
 	}
 
