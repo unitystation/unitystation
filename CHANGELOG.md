@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/10/31: Fixes up directional signs so that the evac and cargo signs are now place-able prefabs. Adjusts sign placement on FallStation, Square, Outpost, adds directional signs to Box. Also connects HoP line's front shutters on FallStation to the door button. by [Akbadain29](https://github.com/Akbadain29) in PR #[5441](https://github.com/unitystation/unitystation/pull/5441)
 * 2020/10/29: Adds Wizard Asteroid Spawn Scene. by [Akbadain29](https://github.com/Akbadain29) in PR #[5432](https://github.com/unitystation/unitystation/pull/5432)
 * 2020/10/28: Fixed when dead blob would error on spawn, blob will no longer spawn if host is dead by [ThatDan123](https://github.com/ThatDan123) in PR #[5431](https://github.com/unitystation/unitystation/pull/5431)
 * 2020/10/28: Fixed being able to attack own spores by [ThatDan123](https://github.com/ThatDan123) in PR #[5431](https://github.com/unitystation/unitystation/pull/5431)

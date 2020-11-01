@@ -51,12 +51,13 @@ public class ObjectLayer : Layer
 	}
 
 	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer, CollisionType collisionType = CollisionType.Player,
-			bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null)
+			bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
 	{
 		//Targeting windoors here
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(origin) : ClientObjects.Get(origin) )
 		{
-			if (!t.IsPassableTo(to, isServer, context) && (!context || t.gameObject != context))
+			if (t.IsPassableTo(to, isServer, context) == false
+				&& (context == null|| t.gameObject != context))
 			{
 				//Can't get outside the tile because windoor doesn't allow us
 				return false;
@@ -65,7 +66,11 @@ public class ObjectLayer : Layer
 
 		foreach ( RegisterTile o in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
-			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin, isServer, context) && (!context || o.gameObject != context))
+			if ((inclPlayers || o.ObjectType != ObjectType.Player)
+				&& o.IsPassable(origin, isServer, context) == false
+				&& (context == null|| o.gameObject != context)
+				&& (isReach == false || o.IsReachableThrough(origin, isServer, context) == false)
+				)
 			{
 				return false;
 			}

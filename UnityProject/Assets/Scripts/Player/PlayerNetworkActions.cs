@@ -229,7 +229,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Vector2? possibleTarget = null;
 		if (Target != TransformState.HiddenPos)
 		{
-			if (Validations.IsInReach(PlayerManager.PlayerScript.registerTile.WorldPosition, Target))
+			if (Validations.IsInReach(PlayerManager.PlayerScript.registerTile.WorldPosition, Target, false))
 			{
 				if (MatrixManager.IsPassableAt(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
 				{

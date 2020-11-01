@@ -221,7 +221,7 @@ public static class Validations
 
 		var playerObjBehavior = playerScript.pushPull;
 
-		if (!CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick))
+		if (CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick) == false)
 		{
 			return false;
 		}
@@ -343,7 +343,7 @@ public static class Validations
 			//Use the smart range check which works better on moving matrices
 			if (regTarget != null)
 			{
-				result = IsInReach(playerScript.registerTile, regTarget, side == NetworkSide.Server);
+				result = IsInReach(playerScript.registerTile, regTarget, side == NetworkSide.Server, context: target);
 			}
 			else
 			{
@@ -352,28 +352,74 @@ public static class Validations
 				//note: we use transform position for both player and target (rather than registered position) because
 				//registered position and transform positions can be out of sync with each other esp. on moving matrices
 				if (playerScript == null || target == null) return false;
-				result = IsInReach(playerScript.transform.position, target.transform.position);
+				result = IsInReach(playerScript.transform.position, target.transform.position, side == NetworkSide.Server, context: target);
 			}
 
 		}
 		else
 		{
 			//use target vector based range check
-			result = IsInReach((Vector3) targetVector);
+			Vector3 playerWorldPos = playerScript.WorldPos;
+			result = IsInReach(playerWorldPos, playerWorldPos + (Vector3)targetVector, side == NetworkSide.Server, context: target);
 		}
 
 		return result;
 	}
 
-	public static bool IsInReach( Vector3 targetVector, float interactDist = PlayerScript.interactionDistance )
+	/// <summary>
+	/// Checks if a delta vector is within interaction distance
+	/// </summary>
+	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
+	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
+	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
+	public static bool IsInReachDistance( Vector3 targetVector, float interactDist = PlayerScript.interactionDistance )
 	{
 		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
 	}
 
-	public static bool IsInReach(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance)
+	/// <summary>
+	/// Checks if a delta vector is within interaction distance
+	/// </summary>
+	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
+	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
+	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
+	public static bool IsInReachDistance(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance)
 	{
 		var targetVector = fromWorldPos - toWorldPos;
-		return IsInReach( targetVector );
+		return IsInReachDistance(targetVector, interactDist: interactDist);
+	}
+
+
+	/// <summary>
+	/// Checks if two position vectors are is within interaction distance AND also there is no blocking element between them
+	/// </summary>
+	/// <param name="fromWorldPos">One position of the interaction</param>
+	/// <param name="interactDist">The Other position of the interaction</param>
+	/// <param name="isServer">Whether or not this call is occurring on the server</param>
+	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
+	/// <returns>true if the x and y distance of interaction are less than interactDist and there is no blockage. False otherwise.</returns>
+	public static bool IsInReach(Vector3 fromWorldPos, Vector3 toWorldPos, bool isServer, float interactDist = PlayerScript.interactionDistance, GameObject context = null)
+	{
+		return IsInReachDistance(fromWorldPos, toWorldPos, interactDist: interactDist)
+			&& IsNotBlocked(fromWorldPos, toWorldPos, isServer: isServer, context: context);
+	}
+
+	private static bool IsNotBlocked(Vector3 worldPosA, Vector3 worldPosB, bool isServer, GameObject context = null)
+	{
+		Vector3Int worldPosAInt = Vector3Int.RoundToInt(worldPosA);
+		Vector3Int worldPosBInt = Vector3Int.RoundToInt(worldPosB);
+
+		if (worldPosAInt == worldPosBInt)
+		{
+			return true;
+		}
+
+		bool result = MatrixManager.IsPassableAt(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Airborne,
+			context: context, includingPlayers: false, isReach: true,
+			excludeLayers: new List<LayerType> { LayerType.Walls, LayerType.Windows, LayerType.Grills },
+			onlyExcludeLayerOnDestination: true);
+
+		return result;
 	}
 
 
@@ -382,20 +428,19 @@ public static class Validations
 	/// </summary>
 	/// <param name="from"></param>
 	/// <param name="to"></param>
-	/// <param name="isServer"></param>
+	/// <param name="isServer">Whether or not this call is occurring on the server</param>
 	/// <param name="interactDist"></param>
+	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
 	/// <returns></returns>
-	public static bool IsInReach(RegisterTile from, RegisterTile to, bool isServer, float interactDist = PlayerScript.interactionDistance)
+	public static bool IsInReach(RegisterTile from, RegisterTile to, bool isServer, float interactDist = PlayerScript.interactionDistance, GameObject context = null)
 	{
 		if ( isServer )
 		{
-			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionServer, to.LocalPositionServer, interactDist) ||
-			       IsInReach(from.WorldPositionServer, to.WorldPositionServer, interactDist);
+			return from.Matrix == to.Matrix && IsInReach(from.WorldPositionServer, to.WorldPositionServer, isServer, interactDist, context: context);
 		}
 		else
 		{
-			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionClient, to.LocalPositionClient, interactDist) ||
-			       IsInReach(from.WorldPositionClient, to.WorldPositionClient, interactDist);
+			return from.Matrix == to.Matrix && IsInReach(from.WorldPositionClient, to.WorldPositionClient, isServer, interactDist, context: context);
 		}
 	}
 
@@ -423,9 +468,9 @@ public static class Validations
 		return CanApply(player.GetComponent<PlayerScript>(), target, side, allowSoftCrit, reachRange, targetVector, targetRegisterTile, isPlayerClick);
 	}
 
-	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state)
+	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state, GameObject context = null)
 	{
-		return ps.IsInReach(state.WorldPosition, true) || ps.IsInReach(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f);
+		return ps.IsInReach(state.WorldPosition, true) || ps.IsInReach(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f, context: context);
 	}
 
 	/// <summary>

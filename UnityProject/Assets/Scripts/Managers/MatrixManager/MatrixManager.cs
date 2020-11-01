@@ -481,7 +481,7 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
 		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
-		int[] excludeList = null)
+		int[] excludeList = null, List<LayerType> excludeLayers = null, bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 	{
 		// Gets the list of Matrixes to actually check
 		MatrixInfo[] includeList = excludeList != null
@@ -490,7 +490,9 @@ public partial class MatrixManager : MonoBehaviour
 
 		return AllMatchInternal(mat =>
 			mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat), isServer,
-				collisionType: collisionType, includingPlayers: includingPlayers, context: context), includeList);
+				collisionType: collisionType, includingPlayers: includingPlayers, context: context,
+				excludeLayers: excludeLayers, isReach: isReach, onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination),
+				includeList);
 	}
 
 	/// <summary>
@@ -693,26 +695,16 @@ public partial class MatrixManager : MonoBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Checks if there are any pushables at the specified target which can be pushed from the current position.
-	/// </summary>
-	/// <param name="worldOrigin">position pushing from</param>
-	/// <param name="dir">direction to push</param>
-	/// <param name="pusher">gameobject of the thing attempting the push, only used to prevent itself from being able to push itself</param>
-	/// <returns>each pushable other than pusher at worldTarget for which it is possible to actually move it
-	/// when pushing from worldOrigin (i.e. if it's against a wall and you try to push against the wall, that pushable would be excluded).
-	/// Empty list if no pushables.</returns>
-	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool isServer)
+	/// Gets pushables residing on one tile
+	/// <see cref="MatrixManager.GetPushableAt(Vector3Int, Vector2Int, GameObject, bool)"/>
+	private static void GetPushablesOneTile(ref List<PushPull> pushableList, Vector3Int pushableLocation, Vector2Int dir, GameObject pusher, bool isServer)
 	{
-		Vector3Int worldTarget = worldOrigin + dir.To3Int();
-		List<PushPull> result = new List<PushPull>();
-
-		foreach (PushPull pushPull in GetAt<PushPull>(worldTarget, isServer))
+		foreach (PushPull pushPull in GetAt<PushPull>(pushableLocation, isServer))
 		{
 			if (pushPull == null || pushPull.gameObject == pusher) continue;
 
 			PushPull pushable = pushPull;
-			if (isServer ? pushPull.CanPushServer(worldTarget, dir) : pushPull.CanPushClient(worldTarget, dir))
+			if (isServer ? pushPull.CanPushServer(pushableLocation, dir) : pushPull.CanPushClient(pushableLocation, dir))
 			{
 				// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
 				// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
@@ -726,14 +718,35 @@ public partial class MatrixManager : MonoBehaviour
 				}
 
 				if (isServer
-					? pushable.CanPushServer(worldTarget, Vector2Int.RoundToInt(dir))
-					: pushable.CanPushClient(worldTarget, Vector2Int.RoundToInt(dir))
+					? pushable.CanPushServer(pushableLocation, Vector2Int.RoundToInt(dir))
+					: pushable.CanPushClient(pushableLocation, Vector2Int.RoundToInt(dir))
 				)
 				{
-					result.Add(pushable);
+					pushableList.Add(pushable);
 				}
 			}
 		}
+	}
+
+	/// <summary>
+	/// Checks if there are any pushables int the specified direction which can be pushed from the current position.
+	/// </summary>
+	/// <param name="worldOrigin">position pushing from</param>
+	/// <param name="dir">direction to push</param>
+	/// <param name="pusher">gameobject of the thing attempting the push, only used to prevent itself from being able to push itself</param>
+	/// <returns>each pushable other than pusher at worldTarget for which it is possible to actually move it
+	/// when pushing from worldOrigin (i.e. if it's against a wall and you try to push against the wall, that pushable would be excluded).
+	/// Empty list if no pushables.</returns>
+	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool isServer)
+	{
+		List<PushPull> result = new List<PushPull>();
+
+		// Get pushables the pusher is pushing "inside" from
+		GetPushablesOneTile(ref result, worldOrigin, dir, pusher, isServer);
+
+		// Get pushables the pusher is pushing into in the destination space
+		Vector3Int worldTarget = worldOrigin + dir.To3Int();
+		GetPushablesOneTile(ref result, worldTarget, dir, pusher, isServer);
 
 		return result;
 	}
@@ -764,7 +777,7 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsPassableAt(Vector3Int worldTarget, bool isServer, bool includingPlayers = true)
 	{
 		return AllMatchInternal(mat =>
