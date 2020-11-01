@@ -1,7 +1,12 @@
 ---
 name: Bug report
 about: Report a bug to developers
+title: ''
+labels: 'Type: Feature'
+assignees: ''
+
 ---
+
 <!-- Make sure to search existing issues first to avoid duplicates. -->
 
 ## Environment
@@ -18,4 +23,4 @@ about: Report a bug to developers
 
 1. 
 2. 
-3. 
+3.

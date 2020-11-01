@@ -1,7 +1,12 @@
 ---
 name: Feature request
 about: Suggest an idea for the game
+title: ''
+labels: 'Type: Bug'
+assignees: ''
+
 ---
+
 <!-- Make sure to search existing issues first to avoid duplicates. -->
 
 ### Description
