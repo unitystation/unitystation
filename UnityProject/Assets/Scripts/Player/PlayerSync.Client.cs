@@ -230,7 +230,6 @@ public partial class PlayerSync
 	/// <param name="direction">Direction you're pushing</param>
 	private void PredictiveBumpInteract(Vector3Int worldTile, Vector2Int direction)
 	{
-		Vector3Int worldOrigin = worldTile - (Vector3Int)direction;
 		Vector3Int localOrigin = MatrixManager.Instance.WorldToLocalInt(worldTile, MatrixManager.AtPoint(worldTile, isServer).Matrix);
 
 		if (!Validations.CanInteract(playerScript, NetworkSide.Client, allowCuffed: true))
