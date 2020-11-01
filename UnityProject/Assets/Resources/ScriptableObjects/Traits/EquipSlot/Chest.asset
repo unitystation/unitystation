@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
-  m_Name: HumanChestPopulator
+  m_Script: {fileID: 11500000, guid: 4ccfe138752d4b66bcb7c56a0c9769c7, type: 3}
+  m_Name: Chest
   m_EditorClassIdentifier: 
-  Contents:
-  - {fileID: 2744469315531546719, guid: 2443cb16b69bb824f9e8f5d54d0a8f28, type: 3}
-  MergeMode: 0
+  traitDescription: Items with this trait can be equipped as clothing on one's Chest.
+    HEALTHv2

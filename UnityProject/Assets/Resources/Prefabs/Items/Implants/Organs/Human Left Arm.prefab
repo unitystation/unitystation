@@ -22,14 +22,15 @@ MonoBehaviour:
   bloodReagentStoredMax: 20
   bodyPartType: 2
   limbSpriteData: {fileID: 11400000, guid: 47ce1199e6a946842a2a987e048e4340, type: 2}
-  limbOverlaySpriteData: {fileID: 0}
-  implantPreventsBleeding: 1
+  limbOverlaySpriteData: {fileID: 11400000, guid: 13fa3e7a251a7b54aa67fd153c616ab7,
+    type: 2}
+  implantPreventsBleeding: 0
   walkingSpeed: 1
   runningSpeed: 1
   crawlingSpeed: 0.3
   armEfficiency: 1
   legEfficiency: 0.4
-  canHoldItems: 1
+  canHoldItems: 0
 --- !u!1001 &249905224086132571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37,6 +38,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: variantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 47ce1199e6a946842a2a987e048e4340,
+        type: 2}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 13fa3e7a251a7b54aa67fd153c616ab7,
+        type: 2}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -106,7 +129,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6f10522908349504886bbb75debfbdb1,
+      objectReference: {fileID: 21300000, guid: 222c24fb2cec6c44fbcdedd812f8b7c5,
         type: 3}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -121,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialDescription
-      value: Need a hand? Haha.
+      value: Your pulling my arm!
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
