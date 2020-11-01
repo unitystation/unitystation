@@ -92,7 +92,7 @@ public partial class MatrixManager : MonoBehaviour
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		ResetMatrixManager();
-		if (!newScene.name.Equals("Lobby"))
+		if (newScene.name.Equals("Lobby") == false)
 		{
 			IsInitialized = false;
 			StartCoroutine(WaitForLoad());
@@ -121,12 +121,12 @@ public partial class MatrixManager : MonoBehaviour
 
 		var matrixInfo = CreateMatrixInfoFromMatrix(matrixToRegister, Instance.ActiveMatrices.Count);
 
-		if (!Instance.ActiveMatrices.Contains(matrixInfo))
+		if (Instance.ActiveMatrices.Contains(matrixInfo) == false)
 		{
 			Instance.ActiveMatrices.Add(matrixInfo);
 		}
 
-		if (!Instance.MovableMatrices.Contains(matrixInfo) && matrixInfo.MatrixMove != null)
+		if (Instance.MovableMatrices.Contains(matrixInfo) == false && matrixInfo.MatrixMove != null)
 		{
 			Instance.MovableMatrices.Add(matrixInfo);
 		}
@@ -199,7 +199,7 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			MatrixInfo mat = Instance.ActiveMatrices[i];
 			if (mat.Matrix == Instance.spaceMatrix) continue;
-			if (!mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer))
+			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
 				return mat;
 			}
@@ -453,7 +453,7 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
-			if (!mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat), isServer))
+			if (mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
 				return false;
 			}
@@ -468,7 +468,7 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
-			if (!mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer))
+			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
 				return false;
 			}
@@ -521,7 +521,7 @@ public partial class MatrixManager : MonoBehaviour
 
 
 		bool hasHelpIntent = false;
-		if (bumper.gameObject == PlayerManager.LocalPlayer && !isServer)
+		if (bumper.gameObject == PlayerManager.LocalPlayer && isServer == false)
 		{
 			//locally predict based on our set intent.
 			hasHelpIntent = UIManager.CurrentIntent == Intent.Help;
@@ -545,7 +545,7 @@ public partial class MatrixManager : MonoBehaviour
 				{
 					return BumpType.Swappable;
 				}
-				else if (!bumper.PlayerScript.pushPull.IsPullingSomething)
+				else if (bumper.PlayerScript.pushPull.IsPullingSomething == false)
 				{
 					return BumpType.Swappable;
 				}
@@ -554,7 +554,7 @@ public partial class MatrixManager : MonoBehaviour
 
 		bool isPassable = IsPassableAt(worldOrigin, targetPos, isServer, includingPlayers: true, context: bumper.gameObject);
 		// Only push if not passable, e.g. for directional windows being pushed from parallel
-		if (!isPassable && GetPushableAt(worldOrigin, dir, bumper.gameObject, isServer).Count > 0)
+		if (isPassable == false && GetPushableAt(worldOrigin, dir, bumper.gameObject, isServer).Count > 0)
 		{
 			return BumpType.Push;
 		}
@@ -564,7 +564,7 @@ public partial class MatrixManager : MonoBehaviour
 			return BumpType.ClosedDoor;
 		}
 
-		if (!isPassable)
+		if (isPassable == false)
 		{
 			return BumpType.Blocked;
 		}
@@ -601,7 +601,7 @@ public partial class MatrixManager : MonoBehaviour
 		var originDoorList = GetAt<InteractableDoor>(worldOrigin, isServer);
 		foreach (InteractableDoor originDoor in originDoorList)
 		{
-			if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
+			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer) == false)
 				return originDoor;
 		}
 
@@ -610,7 +610,7 @@ public partial class MatrixManager : MonoBehaviour
 		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
 		foreach (InteractableDoor targetDoor in targetDoorList)
 		{
-			if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
+			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer) == false)
 				return targetDoor;
 		}
 
@@ -626,7 +626,7 @@ public partial class MatrixManager : MonoBehaviour
 		var originDoorList = GetAt<DoorMasterController>(worldOrigin, isServer);
 		foreach (DoorMasterController originDoor in originDoorList)
 		{
-			if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
+			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer) == false)
 				return originDoor;
 		}
 
@@ -635,7 +635,7 @@ public partial class MatrixManager : MonoBehaviour
 		var targetDoorList = GetAt<DoorMasterController>(targetPos, isServer);
 		foreach (DoorMasterController targetDoor in targetDoorList)
 		{
-			if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
+			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer) == false)
 				return targetDoor;
 		}
 
@@ -655,7 +655,7 @@ public partial class MatrixManager : MonoBehaviour
 			Vector3Int position = WorldToLocalInt(worldPosition, mat);
 			MetaDataNode node = mat.MetaDataLayer.Get(position, false);
 
-			if (node.Exists && !node.IsSpace)
+			if (node.Exists && node.IsSpace == false)
 			{
 				return node;
 			}
@@ -671,7 +671,10 @@ public partial class MatrixManager : MonoBehaviour
 	/// </summary>
 	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos)
 	{
-		if (!CustomNetworkManager.IsServer) return;
+		if (CustomNetworkManager.IsServer == false) 
+		{
+			return;
+		}
 
 		var matrixInfo = AtPoint(worldPos, true);
 		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
@@ -773,7 +776,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static bool IsTotallyImpassable(Vector3Int worldTarget, bool isServer)
 	{
-		return !IsPassableAt(worldTarget, isServer) && !IsAtmosPassableAt(worldTarget, isServer);
+		return IsPassableAt(worldTarget, isServer) == false && IsAtmosPassableAt(worldTarget, isServer) == false;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
@@ -845,7 +848,7 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		for (var i = 0; i < matrixInfos.Length; i++)
 		{
-			if (!condition(matrixInfos[i]))
+			if (condition(matrixInfos[i]) == false)
 			{
 				return false;
 			}
@@ -1063,7 +1066,7 @@ public partial class MatrixManager : MonoBehaviour
 
 //		return matrix.MetaTileMap.LocalToWorld( localPos );
 
-		if (!matrix.MatrixMove)
+		if (matrix.MatrixMove == null)
 		{
 			return localPos + matrix.Offset;
 		}
@@ -1093,7 +1096,7 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 
-		if (!matrix.MatrixMove)
+		if (matrix.MatrixMove == null)
 		{
 			return worldPos - matrix.Offset;
 		}
@@ -1168,7 +1171,7 @@ public partial class MatrixManager : MonoBehaviour
 			floorDecals[i].TryClean();
 		}
 
-		if (!IsSpaceAt(worldPosInt, true) && makeSlippery)
+		if (IsSpaceAt(worldPosInt, true) == false && makeSlippery)
 		{
 			// Create a WaterSplat Decal (visible slippery tile)
 			EffectsFactory.WaterSplat(worldPosInt);
@@ -1180,7 +1183,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static Transform GetDefaultParent( Vector3? position, bool isServer )
 	{
-		if (!position.HasValue)
+		if (position.HasValue == false)
 		{
 			return MainStationMatrix.ObjectParent;
 		}

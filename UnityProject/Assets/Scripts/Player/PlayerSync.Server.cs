@@ -721,10 +721,16 @@ public partial class PlayerSync
 		{
 			return;
 		}
-		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject, isServer: true);
+		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject, true);
 		if (pushables.Count > 0)
 		{
-			pushables[0].TryPush(direction.To2Int());
+			Vector3Int localOrigin = MatrixManager.Instance.WorldToLocalInt(worldOrigin, MatrixManager.AtPoint(worldOrigin, isServer).Matrix);
+			PushPull firstPushable = pushables.Find(p => p.registerTile.IsPassable(localOrigin, isServer: true) == false);
+
+			if (firstPushable != null)
+			{
+				firstPushable.TryPush(direction.To2Int());
+			}
 		}
 	}
 
