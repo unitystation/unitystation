@@ -1,42 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9208043995734634376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825408889243318330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  properties: []
-  maxHealth: 100
-  efficiency: 1
-  isBloodReagentConsumed: 1
-  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  bloodReagentConsumed: 0.15
-  bloodReagentStoreAmount: 0.01
-  bloodReagentStoredMax: 20
-  bodyPartType: 6
-  limbSpriteData: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176, type: 2}
-  limbOverlaySpriteData: {fileID: 0}
-  implantPreventsBleeding: 1
-  walkingSpeed: 1.5
-  runningSpeed: 3
-  crawlingSpeed: 0.1
-  armEfficiency: 0.1
-  legEfficiency: 1
-  canHoldItems: 0
---- !u!1001 &249905224086132571
+--- !u!1001 &7464378722896875326
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: requiredReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c,
+        type: 2}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: isBloodReagentConsumed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: limbSpriteData
+      value: 
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
+        type: 2}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: bodyPartType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: limbOverlaySpriteData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: implantPreventsBleeding
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
+        type: 2}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -45,7 +53,7 @@ PrefabInstance:
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_Name
-      value: Human Left Leg
+      value: Human Chest
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -106,7 +114,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 403a3aabbddb21648a5bfdce837e11a8,
+      objectReference: {fileID: 21300000, guid: 37b233584f435ca40a077f430f53d386,
         type: 3}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -116,30 +124,38 @@ PrefabInstance:
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialName
-      value: Human Left Leg
+      value: Human Male Chest
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialDescription
-      value: Somones leg.
+      value: A disembodied chest, looks to be male
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialSize
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 52f30f2b2a48cc640ae154fe039ae31f,
+      objectReference: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c,
         type: 2}
-    m_RemovedComponents:
-    - {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: throwDamage
+      value: 7.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: canConnectToTank
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: hitDamage
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
---- !u!1 &4825408889243318330 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 249905224086132571}
-  m_PrefabAsset: {fileID: 0}

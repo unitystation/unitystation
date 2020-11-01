@@ -10,6 +10,8 @@ namespace HealthV2
 		Chest,
 		LeftArm,
 		RightArm,
+		LeftHand,
+		RightHand,
 		LeftLeg,
 		RightLeg,
 		Buttocks,
@@ -56,7 +58,5 @@ namespace HealthV2
 				bodyPartSprites.UpdateSpritesOnImplantRemoved(implant);
 			}
 		}
-
 	}
-
 }
