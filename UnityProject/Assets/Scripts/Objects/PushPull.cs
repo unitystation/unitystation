@@ -924,6 +924,10 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 
+		// TODO: check if there is anything in the pushable's location that can't leave in the opposite direction due to the pushable.
+		// If there is, then pushable can not be pushed.
+		// This prevents e.g., unsecured directional windows in the same square as a canister from being pushed through the canister.
+
 		return true;
 	}
 

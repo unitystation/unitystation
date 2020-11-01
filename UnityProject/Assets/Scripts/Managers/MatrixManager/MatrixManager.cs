@@ -554,7 +554,7 @@ public partial class MatrixManager : MonoBehaviour
 
 		bool isPassable = IsPassableAt(worldOrigin, targetPos, isServer, includingPlayers: true, context: bumper.gameObject);
 		// Only push if not passable, e.g. for directional windows being pushed from parallel
-		if (isPassable == false && GetPushableAt(worldOrigin, dir, bumper.gameObject, isServer).Count > 0)
+		if (isPassable == false && GetPushableAt(worldOrigin, dir, bumper.gameObject, isServer, true).Count > 0)
 		{
 			return BumpType.Push;
 		}
@@ -700,15 +700,39 @@ public partial class MatrixManager : MonoBehaviour
 
 	/// Gets pushables residing on one tile
 	/// <see cref="MatrixManager.GetPushableAt(Vector3Int, Vector2Int, GameObject, bool)"/>
-	private static void GetPushablesOneTile(ref List<PushPull> pushableList, Vector3Int pushableLocation, Vector2Int dir, GameObject pusher, bool isServer)
+	private static void GetPushablesOneTile(ref List<PushPull> pushableList, Vector3Int pushableLocation, Vector2Int dir, GameObject pusher, bool isServer,
+		bool ignoreNonBlockable, bool isLeaving)
 	{
+		Vector3Int localPushableLocation = Instance.WorldToLocalInt(pushableLocation, AtPoint(pushableLocation, isServer).Matrix);
 		foreach (PushPull pushPull in GetAt<PushPull>(pushableLocation, isServer))
 		{
 			if (pushPull == null || pushPull.gameObject == pusher) continue;
 
+			if (ignoreNonBlockable)
+			{
+				if (isLeaving)
+				{
+					// ignore nonblocking pushables on tile we're leaving
+					if (pushPull.registerTile.IsPassableTo(localPushableLocation + (Vector3Int)dir, isServer: isServer))
+					{
+						continue;
+					}
+				}
+				else
+				{
+					// ignore nonblocking pushables on tile we're entering
+					if (pushPull.registerTile.IsPassable(pushableLocation - (Vector3Int)dir,isServer: isServer))
+					{
+						continue;
+					}
+				}
+			}
+
 			PushPull pushable = pushPull;
 			if (isServer ? pushPull.CanPushServer(pushableLocation, dir) : pushPull.CanPushClient(pushableLocation, dir))
 			{
+
+
 				// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
 				// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
 				PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
@@ -737,19 +761,20 @@ public partial class MatrixManager : MonoBehaviour
 	/// <param name="worldOrigin">position pushing from</param>
 	/// <param name="dir">direction to push</param>
 	/// <param name="pusher">gameobject of the thing attempting the push, only used to prevent itself from being able to push itself</param>
+	/// <param name="ignoreNonBlockable">true if only objects that block the indicated movement should be included</param>
 	/// <returns>each pushable other than pusher at worldTarget for which it is possible to actually move it
 	/// when pushing from worldOrigin (i.e. if it's against a wall and you try to push against the wall, that pushable would be excluded).
 	/// Empty list if no pushables.</returns>
-	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool isServer)
+	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool isServer, bool ignoreNonBlockable)
 	{
 		List<PushPull> result = new List<PushPull>();
 
 		// Get pushables the pusher is pushing "inside" from
-		GetPushablesOneTile(ref result, worldOrigin, dir, pusher, isServer);
+		GetPushablesOneTile(ref result, worldOrigin, dir, pusher, isServer, ignoreNonBlockable, true);
 
 		// Get pushables the pusher is pushing into in the destination space
 		Vector3Int worldTarget = worldOrigin + dir.To3Int();
-		GetPushablesOneTile(ref result, worldTarget, dir, pusher, isServer);
+		GetPushablesOneTile(ref result, worldTarget, dir, pusher, isServer, ignoreNonBlockable, false);
 
 		return result;
 	}
