@@ -72,7 +72,7 @@ public class UI_ItemImage
 		ClearAll();
 		//determine the sprites to display based on the new item
 		var spriteHandlers = item.GetComponentsInChildren<SpriteHandler>(includeInactive: true);
-		spriteHandlers = spriteHandlers.Where(x => x.CurrentSprite != null && x != Highlight.instance.spriteRenderer).ToArray();
+		spriteHandlers = spriteHandlers.Where(x => x != Highlight.instance.spriteRenderer).ToArray();
 
 		foreach (var handler in spriteHandlers)
 		{
@@ -273,7 +273,7 @@ public class UI_ItemImage
 				return;
 			}
 
-			if (sprite)
+			if (sprite && handler.gameObject.activeInHierarchy)
 			{
 				UIImage.gameObject.SetActive (true);
 				UIImage.sprite = sprite;
