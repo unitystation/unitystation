@@ -187,14 +187,16 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 			newSkinColor = tempSkinColor;
 		}
 
-		SetupBodySprite(Variant.Torso, "body_torso", newSkinColor);
+
+
+		/*SetupBodySprite(Variant.Torso, "body_torso", newSkinColor);
 		SetupBodySprite(Variant.LegRight, "body_rightleg", newSkinColor);
 		SetupBodySprite(Variant.LegLeft, "body_leftleg", newSkinColor);
 		SetupBodySprite(Variant.ArmRight, "body_rightarm", newSkinColor);
 		SetupBodySprite(Variant.ArmLeft, "body_leftarm", newSkinColor);
 		SetupBodySprite(Variant.Head, "body_head", newSkinColor);
 		SetupBodySprite(Variant.HandRight, "body_right_hand", newSkinColor);
-		SetupBodySprite(Variant.HandLeft, "body_left_hand", newSkinColor);
+		SetupBodySprite(Variant.HandLeft, "body_left_hand", newSkinColor);*/
 
 		Color? newEyeColor = null;
 		if (ColorUtility.TryParseHtmlString(ThisCharacter.EyeColor, out var tempEyeColor))
@@ -232,6 +234,21 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 		foreach (ClothingItem c in clothes.Values)
 		{
 			c.Direction = direction;
+
+			//TODO: This needs to be optimized and clothing data could be removed from limbs.
+			if (c.name == "body_leftleg")
+			{
+				if(c.Direction.Degrees == 180)
+				{
+				c.transform.GetComponent<SpriteRenderer>().sortingOrder = 2;
+				}
+				else
+				{
+				c.transform.GetComponent<SpriteRenderer>().sortingOrder = 1;
+				}
+				
+			}
+		
 		}
 
 		//TODO: Reimplement player fire sprites.
