@@ -20,9 +20,10 @@ MonoBehaviour:
   bloodReagentConsumed: 0.15
   bloodReagentStoreAmount: 0.01
   bloodReagentStoredMax: 20
-  bodyPartType: 7
+  bodyPartType: 9
   limbSpriteData: {fileID: 0}
   limbOverlaySpriteData: {fileID: 0}
+  implantPreventsBleeding: 1
   heartRateDelta: 10
   maxHeartRate: 200
   heartStrength: 100
@@ -41,7 +42,7 @@ PrefabInstance:
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_Name
-      value: Heart
+      value: Human Heart
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}

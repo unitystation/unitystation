@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
+﻿using HealthV2;
 using UnityEngine;
 
 /// <summary>
@@ -22,6 +19,8 @@ public class BodyPartSprites : MonoBehaviour
 	[SerializeField]
 	[Tooltip("The sprites that will be used when there is no limbs installed.")]
 	private SpriteDataSO noLimbSpriteData;
+
+	public CharacterSettings ThisCharacter;
 
 
 	public void UpdateSpritesForImplant(ImplantBase implant)
