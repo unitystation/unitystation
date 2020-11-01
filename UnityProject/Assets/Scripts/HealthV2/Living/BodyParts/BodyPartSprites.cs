@@ -27,12 +27,13 @@ public class BodyPartSprites : MonoBehaviour
 	{
 		if (implant.LimbSpriteData)
 		{
-			baseSpriteHandler.SetSpriteSO(implant.LimbSpriteData);
+			
+			baseSpriteHandler.SetSpriteSO(implant.LimbSpriteData, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
 		}
 
 		if (implant.LimbOverlaySpriteData)
 		{
-			baseOverlaySpriteHandler.SetSpriteSO(implant.LimbOverlaySpriteData);
+			baseOverlaySpriteHandler.SetSpriteSO(implant.LimbOverlaySpriteData, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
 		}
 
 	}
