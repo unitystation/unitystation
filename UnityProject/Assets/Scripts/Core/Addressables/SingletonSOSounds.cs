@@ -39,9 +39,16 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource AnnouncementAnnounce = null;
    public AddressableAudioSource AnnouncementAlert = null;
 
+   public AddressableAudioSource ShuttleDocked = null;
 
    public AddressableAudioSource ShuttleCalled = null;
    public AddressableAudioSource ShuttleRecalled = null;
+
+   public AddressableAudioSource Deconstruct = null;
+   public AddressableAudioSource GlassHit = null;
+   public AddressableAudioSource wood3 = null;
+
+   public AddressableAudioSource AccessDenied = null;
 
 
 

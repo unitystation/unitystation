@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 namespace Objects.Disposals
@@ -15,6 +16,9 @@ namespace Objects.Disposals
 
 		public bool IsOperating { get; private set; }
 		public bool ServerHasContainers => receivedContainers.Count > 0;
+
+		[SerializeField] private AddressableAudioSource DisposalMachineBuzzer = null;
+
 
 		private enum SpriteState
 		{
@@ -135,8 +139,8 @@ namespace Objects.Disposals
 			{
 				// Outlet orifice opens...
 				SetOutletOperating(true);
-				// JESTER
-				// SoundManager.PlayNetworkedAtPos("DisposalMachineBuzzer", registerObject.WorldPositionServer, sourceObj: gameObject);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(DisposalMachineBuzzer, registerObject.WorldPositionServer, sourceObj: gameObject);
 				yield return WaitFor.Seconds(EJECTION_DELAY);
 
 				// Outlet orifice open. Release the charge.

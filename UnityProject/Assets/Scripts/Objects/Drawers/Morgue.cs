@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using AddressableReferences;
+using UnityEngine;
 
 namespace Objects.Drawers
 {
@@ -33,6 +35,10 @@ namespace Objects.Drawers
 		private bool buzzerEnabled = ALARM_SYSTEM_ENABLED;
 		private bool alarmBroken = false;
 		private bool alarmRunning = false;
+
+		[SerializeField] private AddressableAudioSource OutOfAmmoAlarm = null;
+		[SerializeField] private AddressableAudioSource Pop = null;
+		[SerializeField] private AddressableAudioSource SnapCracklePop1 = null;
 
 		#region Interactions
 
@@ -125,16 +131,16 @@ namespace Objects.Drawers
 					$"You wave the {interaction.HandObject.name.ToLower()} over the {name.ToLower()}'s electrical panel. " +
 					"The status panel flickers and the buzzer makes sickly popping noises. You can smell smoke...",
 					"You can smell caustic smoke from somewhere...");
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("SnapCracklePop1", DrawerWorldPosition, sourceObj: gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(SnapCracklePop1, DrawerWorldPosition, sourceObj: gameObject);
 			StartCoroutine(PlayEmagAnimation());
 		}
 
 		private void ToggleBuzzer()
 		{
 			buzzerEnabled = !buzzerEnabled;
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("Pop", DrawerWorldPosition, sourceObj: gameObject);
+			// JESTE_R
+			 SoundManager.PlayNetworkedAtPos(Pop, DrawerWorldPosition, sourceObj: gameObject);
 			StartCoroutine(PlayAlarm());
 		}
 
@@ -159,8 +165,8 @@ namespace Objects.Drawers
 			alarmRunning = true;
 			while (consciousnessPresent && buzzerEnabled && !alarmBroken)
 			{
-				// JESTER
-				// SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", DrawerWorldPosition, sourceObj: gameObject);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(OutOfAmmoAlarm, DrawerWorldPosition, sourceObj: gameObject);
 				yield return WaitFor.Seconds(ALARM_PERIOD);
 				if (drawerState == DrawerState.Open) break;
 				UpdateCloseState();

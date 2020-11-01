@@ -41,6 +41,8 @@ namespace NPC
 		private ConeOfSight coneOfSight;
 		private SimpleAnimal simpleAnimal;
 
+		[SerializeField] private AddressableAudioSource bite = null;
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -343,15 +345,15 @@ namespace NPC
 				null,
 				verb);
 
-			// JESTER
-			/*
+			// JESTE_R
+
 			SoundManager.PlayNetworkedAtPos(
-				"bite",
+				bite,
 				player.gameObject.RegisterTile().WorldPositionServer,
 				1f,
 				true,
 				player.gameObject);
-			*/
+
 
 			if (success)
 			{

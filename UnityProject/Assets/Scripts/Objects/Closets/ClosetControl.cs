@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
@@ -36,7 +37,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[Tooltip("Time to breakout or resist out of closet")]
 	[SerializeField]
 	private float breakoutTime = 120f;
-	
+
 	[Tooltip("Type of material to drop when destroyed")]
 	public GameObject matsOnDestroy;
 
@@ -57,6 +58,11 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[Tooltip("Name of sound to play when emagged")]
 	[SerializeField]
 	private string soundOnEscape = "Rustle 1";
+
+
+	[SerializeField] private AddressableAudioSource SoundOnEscape = null;
+	[SerializeField] private AddressableAudioSource SoundOnEmag = null;
+	[SerializeField] private AddressableAudioSource SoundOnOpenOrClose = null;
 
 	[Tooltip("Sprite to show when door is open.")]
 	[SerializeField]
@@ -332,8 +338,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[Server]
 	public void ServerToggleClosed(bool? nowClosed = null)
 	{
-		// JESTER
-		// SoundManager.PlayNetworkedAtPos(soundOnOpenOrClose, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+		// JESTE_R
+		SoundManager.PlayNetworkedAtPos(SoundOnOpenOrClose, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 		ServerSetIsClosed(nowClosed.GetValueOrDefault(!IsClosed));
 	}
 
@@ -369,7 +375,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	/// </summary>
 	public void BreakLock()
 	{
-		//Disable the lock and hide its light 
+		//Disable the lock and hide its light
 		if (IsLockable)
 		{
 			SyncLocked(isLocked, false);
@@ -390,9 +396,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	public void ServerWeld()
 	{
 		if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
-	
+
 		SyncIsWelded(isWelded, !isWelded);
-		
+
 	}
 
 	private void SyncIsWelded(bool _wasWelded, bool _isWelded)
@@ -488,11 +494,11 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		{
 			if (IsClosed && !isEmagged)
 			{
-				// JESTER
-				// SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, gameObject);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(SoundOnEmag, registerTile.WorldPositionServer, 1f, gameObject);
 				//ServerHandleContentsOnStatusChange(false);
 				isEmagged = true;
-				
+
 				//SyncStatus(statusSync, ClosetStatus.Open);
 				BreakLock();
 			}
@@ -545,10 +551,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 					interaction.Performer,
 					$"Can\'t open {closetName}");
 				}
-	
+
 			}
 		}
-				
+
 		// player trying to unlock locker?
 		if (IsLockable && AccessRestrictions != null)
 		{
@@ -577,7 +583,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	public void PlayerTryEscaping(GameObject player)
 	{
-		// First, try to just open the closet. 
+		// First, try to just open the closet.
 		if (!isLocked && !isWelded)
 		{
 			ServerToggleClosed();
@@ -589,7 +595,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 			void ProgressFinishAction()
 			{
-				//TODO: Add some sound here. 
+				//TODO: Add some sound here.
 				ServerToggleClosed();
 				BreakLock();
 
@@ -598,8 +604,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				{
 					ServerTryWeld();
 				}
-				// JESTER
-				// SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(SoundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 				Chat.AddActionMsgToChat(performer, $"You successfully broke out of {target.ExpensiveName()}.",
 					$"{performer.ExpensiveName()} successfully breaks out of {target.ExpensiveName()}.");
 			}
@@ -608,8 +614,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				.ServerStartProgress(target.RegisterTile(), breakoutTime, performer);
 			if (bar != null)
 			{
-				// JESTER
-				// SoundManager.PlayNetworkedAtPos(soundOnEscape, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(SoundOnEscape, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 				Chat.AddActionMsgToChat(performer,
 					$"You begin breaking out of {target.ExpensiveName()}...",
 					$"{performer.ExpensiveName()} begins breaking out of {target.ExpensiveName()}...");

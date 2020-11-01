@@ -187,8 +187,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					// The punch missed.
 					string victimName = victim.Player()?.Name;
-					// JESTER
-					// SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position, sourceObj: gameObject);
+					// JESTE_R
+					SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.PunchMiss, transform.position, sourceObj: gameObject);
 
 					Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
 						$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 namespace Objects.Drawers
@@ -21,6 +22,9 @@ namespace Objects.Drawers
 		}
 
 		private AccessRestrictions accessRestrictions;
+
+		[SerializeField] private AddressableAudioSource Microwave = null;
+
 
 		private const float BURNING_DURATION = 1.5f; // In seconds - timed to the Ding SFX.
 
@@ -98,8 +102,8 @@ namespace Objects.Drawers
 		{
 			OnStartPlayerCremation();
 			StartCoroutine(PlayIncineratingAnim());
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("Microwave", DrawerWorldPosition, sourceObj: gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(Microwave, DrawerWorldPosition, sourceObj: gameObject);
 			DestroyItems();
 		}
 

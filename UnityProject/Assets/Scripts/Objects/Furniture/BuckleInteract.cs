@@ -63,8 +63,7 @@ namespace Objects
 		/// </summary>
 		public void BucklePlayer(PlayerScript playerScript)
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("Click01", gameObject.WorldPosServer(), sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Click01, gameObject.WorldPosServer(), sourceObj: gameObject);
 
 			playerScript.playerMove.ServerBuckle(gameObject, OnUnbuckle);
 
@@ -87,8 +86,8 @@ namespace Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer(), sourceObj: gameObject);
+
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Click01, interaction.TargetObject.WorldPosServer(), sourceObj: gameObject);
 
 			Unbuckle();
 		}

@@ -96,8 +96,8 @@ namespace Doors
 			}
 
 			doorController.isPerformingAction = true;
-			// JESTER
-			// SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
+			// JESTE_R
+			SoundManager.PlayAtPosition(SingletonSOSounds.Instance.AccessDenied,"", transform.position, gameObject);
 			StartCoroutine(PlayDeniedAnim());
 		}
 

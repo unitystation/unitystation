@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 
@@ -41,6 +42,12 @@ namespace Objects.Drawers
 		protected CustomNetTransform trayTransform;
 		protected ObjectBehaviour trayBehaviour;
 		protected SpriteHandler traySpriteHandler;
+
+		[SerializeField] private AddressableAudioSource BinOpen = null;
+		[SerializeField] private AddressableAudioSource BinClose = null;
+
+
+
 
 		[SerializeField]
 		[Tooltip("The corresponding tray that the drawer will spawn.")]
@@ -201,8 +208,8 @@ namespace Objects.Drawers
 			EjectItems();
 			EjectPlayers();
 
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("BinOpen", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(BinOpen, DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 			SetDrawerState(DrawerState.Open);
 		}
 
@@ -214,8 +221,8 @@ namespace Objects.Drawers
 			GatherItems();
 			if (storePlayers) GatherPlayers();
 
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("BinClose", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(BinClose, DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 			SetDrawerState(DrawerState.Shut);
 		}
 

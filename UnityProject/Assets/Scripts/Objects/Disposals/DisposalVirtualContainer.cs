@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 namespace Objects.Disposals
@@ -23,6 +24,8 @@ namespace Objects.Disposals
 		public int ContentsCount => containedItems.Count + containedObjects.Count + containedPlayers.Count;
 		public bool HasContents => ContentsCount > 0;
 
+
+		[SerializeField] private AddressableAudioSource Clang = null;
 		void Awake()
 		{
 			Matrix = gameObject.RegisterTile().Matrix;
@@ -252,8 +255,8 @@ namespace Objects.Disposals
 			if (disposalMachine == null)
 			{
 				// Must be in the disposal pipes
-				// JESTER
-				// SoundManager.PlayNetworkedAtPos("Clang", ContainerWorldPosition);
+				// JESTE_R
+				SoundManager.PlayNetworkedAtPos(Clang, ContainerWorldPosition);
 			}
 			else if (disposalMachine.TryGetComponent(out DisposalBin disposalBin))
 			{

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 
@@ -37,6 +38,8 @@ namespace Alien
 		private RegisterObject registerObject;
 		private ObjectAttributes objectAttributes;
 		public EggState State => currentState;
+		[SerializeField] private AddressableAudioSource squish = null;
+
 
 
 		public void Awake()
@@ -162,14 +165,14 @@ namespace Alien
 		{
 			StopAllCoroutines();
 
-			// JESTER
-			/*
+			// JESTE_R
+
 			SoundManager.PlayNetworkedAtPos(
-				"squish",
+				squish,
 				gameObject.RegisterTile().WorldPositionServer,
 				1f,
 				global: false);
-			*/
+
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer.gameObject,

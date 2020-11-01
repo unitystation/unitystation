@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Electricity.Inheritance;
 using Systems.Electricity;
+using AddressableReferences;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -47,6 +48,9 @@ namespace Objects.Engineering
 
 		[SerializeField][FormerlySerializedAs("NetTabType")]
 		private NetTabType netTabType;
+
+		[SerializeField] private AddressableAudioSource APCPowerOff = null;
+
 
 		/// <summary>
 		/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
@@ -465,8 +469,8 @@ namespace Objects.Engineering
 
 			if (State != APCState.Critical) yield break;
 
-			// JESTER
-			// SoundManager.PlayNetworkedAtPos("APCPowerOff", gameObject.WorldPosServer());
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(APCPowerOff, gameObject.WorldPosServer());
 		}
 	}
 }

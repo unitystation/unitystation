@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using Gateway;
 using Systems.Electricity;
+using AddressableReferences;
 
 namespace Objects
 {
@@ -72,6 +73,10 @@ namespace Objects
 		[SyncVar(hook = nameof(SyncState))]
 		private bool isOn = false;
 
+
+		[SerializeField] private AddressableAudioSource StealthOff = null;
+		[SerializeField] private AddressableAudioSource Machinehum4 = null;
+
 		private void SyncState(bool oldVar, bool newVar)
 		{
 			isOn = newVar;
@@ -102,8 +107,8 @@ namespace Objects
 				if (timeElapsedServerSound > SoundLength && isOn)
 				{
 					DetectPlayer();
-					// JESTER
-					// SoundManager.PlayNetworkedAtPos("machinehum4", Position + Vector3Int.up);
+					// JESTE_R
+					 SoundManager.PlayNetworkedAtPos(Machinehum4, Position + Vector3Int.up);
 					timeElapsedServerSound = 0;
 				}
 			}
@@ -225,8 +230,8 @@ namespace Objects
 			{
 				var coord = new Vector2(Position.x, Position.y);
 				Chat.AddLocalMsgToChat(Message, coord, gameObject);
-				// JESTER
-				// SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
+				// JESTE_R
+				 SoundManager.PlayNetworkedForPlayer(player.gameObject, StealthOff); //very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, TeleportTargetCoord);
 			}
 

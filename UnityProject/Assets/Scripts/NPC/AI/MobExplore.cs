@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using NaughtyAttributes;
 using Objects.Construction;
 
@@ -45,6 +46,8 @@ public class MobExplore : MobAgent
 	private InteractableTiles _interactableTiles = null;
 	// Position at which an action is performed
 	protected Vector3Int actionPosition;
+
+	[SerializeField] private AddressableAudioSource EatFood = null;
 
 	private InteractableTiles interactableTiles
 	{
@@ -189,8 +192,8 @@ public class MobExplore : MobAgent
 			}
 
 			// Send the sound to all nearby clients
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos("EatFood", transform.position, null, false, false, gameObject);
+			// JESTE_R
+			SoundManager.PlayNetworkedAtPos(EatFood, transform.position, null, false, false, gameObject);
 
 			Despawn.ServerSingle(food.gameObject);
 			FoodEatenEvent?.Invoke();
