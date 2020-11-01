@@ -22,7 +22,7 @@ namespace UI.Objects.Atmospherics
 		public NumberSpinner ExternalPressureDial;
 		public NumberSpinner ReleasePressureDial;
 		public NetWheel ReleasePressureWheel;
-		
+
 		public GameObject EditReleasePressurePopup;
 		public Image XButton;
 		public NetLabel ConnectionStatus;
@@ -407,21 +407,23 @@ namespace UI.Objects.Atmospherics
 				GasMix totalGas = canisterGas + tankGas;
 				float[] totalGases = totalGas.Gases;
 
+				bool emptyTotal = true;
 				//while: canister has greater pressure than external tank AND tank isn't full
 				while (canisterTank.ServerInternalPressure >= externalTank.ServerInternalPressure &&
-					   updatedTankMoles <= externalTank.MaximumMoles)
+					   updatedTankMoles <= externalTank.MaximumMoles && emptyTotal)
 				{
+					emptyTotal = true;
 					//iterate through gases and distribute between the canister and external tank
 					for (int i = 0; i < totalGases.Length; i++)
 					{
 						if (totalGases[i] > 0f && updatedTankMoles <= externalTank.MaximumMoles)
 						{
+							emptyTotal = false;
 							totalGases[i] -= 0.02f;
 							updatedCanisterGases[i] += 0.01f;
 							updatedTankGases[i] += 0.01f;
 							updatedTankMoles += 0.01f;
 						}
-
 					}
 				}
 				//add remaining gases to the canister values
