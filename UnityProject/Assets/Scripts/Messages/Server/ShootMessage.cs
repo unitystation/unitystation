@@ -64,7 +64,7 @@ namespace Weapons
 				return;
 			}
 
-			if (!ClientScene.prefabs.TryGetValue(Projectile, out var prefab))
+			if (!ClientScene.prefabs.TryGetValue(Projectile, out var Prefab))
 			{
 				Logger.LogError($"Couldn't cast {Projectile}; it is probably missing {nameof(NetworkIdentity)} component.", Category.Firearms);
 				return;
@@ -73,7 +73,7 @@ namespace Weapons
 			//only needs to run on the clients other than the shooter
 			if (!wep.isServer && PlayerManager.LocalPlayer.gameObject != NetworkObjects[0])
 			{
-				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, prefab, Quantity);
+				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, Prefab, Quantity);
 			}
 		}
 

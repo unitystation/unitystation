@@ -552,14 +552,23 @@ namespace Weapons
 					return;
 				}
 
+				GameObject toShoot = CurrentMagazine.containedBullets[0];
+				int quantity = CurrentMagazine.containedProjectilesFired[0];
+
+				if (toShoot == null || quantity == null)
+				{
+					Logger.LogError("Shot was attempted but no projectile or quantity was found to use", Category.Firearms);
+					return;
+				}
+
 				//perform the actual server side shooting, creating the bullet that does actual damage
-				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide, CurrentMagazine.containedBullets[0], CurrentMagazine.containedProjectilesFired[0]);
+				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide, toShoot, quantity);
 
 				//trigger a hotspot caused by gun firing
 				shooterRegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(nextShot.shooter.TileWorldPosition(), 3200, 0.005f);
 
 				//tell all the clients to display the shot
-				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide, CurrentMagazine.containedBullets[0], CurrentMagazine.containedProjectilesFired[0]);
+				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide, toShoot, quantity);
 
 				//kickback
 				shooterScript.pushPull.Pushable.NewtonianMove((-nextShot.finalDirection).NormalizeToInt());
