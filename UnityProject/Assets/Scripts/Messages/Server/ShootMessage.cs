@@ -35,7 +35,7 @@ namespace Weapons
 		/// <summary>
 		/// the projectile being shot
 		/// </summary>
-		public Guid Projectile;
+		public string Projectile;
 		/// <summary>
 		/// the amount of projectiles to spawn when procesing the shot
 		/// </summary>
@@ -64,16 +64,10 @@ namespace Weapons
 				return;
 			}
 
-			if (!ClientScene.prefabs.TryGetValue(Projectile, out var Prefab))
-			{
-				Logger.LogError($"Couldn't cast {Projectile}; it is probably missing {nameof(NetworkIdentity)} component.", Category.Firearms);
-				return;
-			}
-
 			//only needs to run on the clients other than the shooter
 			if (!wep.isServer && PlayerManager.LocalPlayer.gameObject != NetworkObjects[0])
 			{
-				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, Prefab, Quantity);
+				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, Projectile, Quantity);
 			}
 		}
 
@@ -85,17 +79,8 @@ namespace Weapons
 		/// <param name="shooter">gameobject of player making the shot</param>
 		/// <param name="isSuicide">if the shooter is shooting themselves</param>
 		/// <returns></returns>
-		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, GameObject projectile, int quantity)
+		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, string projectile, int quantity)
 		{
-			Guid assetID;
-			if (projectile.TryGetComponent<NetworkIdentity>(out var networkIdentity))
-			{
-				assetID = networkIdentity.assetId;
-			}
-			else
-			{
-				Logger.LogError($"{projectile} doesn't have a network identity!", Category.NetMessage);
-			}
 			var msg = new ShootMessage
 			{
 				Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
@@ -103,7 +88,7 @@ namespace Weapons
 				DamageZone = damageZone,
 				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				IsSuicideShot = isSuicide,
-				Projectile = assetID,
+				Projectile = projectile,
 				Quantity = quantity
 			};
 			msg.SendToAll();
@@ -123,7 +108,7 @@ namespace Weapons
 			DamageZone = (BodyPartType)reader.ReadUInt32();
 			Shooter = reader.ReadUInt32();
 			IsSuicideShot = reader.ReadBoolean();
-			Projectile = reader.ReadGuid();
+			Projectile = reader.ReadString();
 			Quantity = reader.ReadInt32();
 		}
 
@@ -135,7 +120,7 @@ namespace Weapons
 			writer.WriteInt32((int)DamageZone);
 			writer.WriteUInt32(Shooter);
 			writer.WriteBoolean(IsSuicideShot);
-			writer.WriteGuid(Projectile);
+			writer.WriteString(Projectile);
 			writer.WriteInt32(Quantity);
 		}
 	}
