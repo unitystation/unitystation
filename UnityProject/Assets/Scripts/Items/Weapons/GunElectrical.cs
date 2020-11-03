@@ -40,6 +40,7 @@ public class GunElectrical : Gun
 			currentFiremode += 1;
 		}
 		UpdateFiremode();
+        Chat.AddExamineMsgToClient($"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
 		return true;
 	}
 

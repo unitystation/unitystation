@@ -43,14 +43,26 @@ MonoBehaviour:
   FiringSound: 
   FireRate: 0
   MaxRecoilVariance: 0
-  Projectile: {fileID: 0}
-  ProjectilesFired: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
     Distance: 0
     RecoilDuration: 0
     RecoveryDuration: 0
   WeaponType: 0
+--- !u!114 &3353337338252429816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8150840225578731674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a50b8b03989f386c90e3ac8b88f94c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setRestriction: 0
+  allowClumsy: 0
 --- !u!1001 &8150967651737613344
 PrefabInstance:
   m_ObjectHideFlags: 0

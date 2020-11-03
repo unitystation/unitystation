@@ -12,6 +12,7 @@ namespace Weapons
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(ItemStorage))]
+	[RequireComponent(typeof(GunTrigger))]
 	public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
 		IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 	{
@@ -161,6 +162,8 @@ namespace Weapons
 		private ItemStorage itemStorage;
 		private ItemSlot magSlot;
 
+		private GunTrigger gunTrigger;
+
 
 		#region Init Logic
 
@@ -171,8 +174,12 @@ namespace Weapons
 			itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
 			registerTile = GetComponent<RegisterTile>();
-
+			gunTrigger = GetComponent<GunTrigger>();
 			queuedShots = new Queue<QueuedShot>();
+			if (gunTrigger == null || magSlot == null || itemStorage == null)
+			{
+				Debug.LogWarning($"{gameObject.name} missing components, may cause issues");
+			}
 		}
 
 		private void OnEnable()
@@ -340,7 +347,7 @@ namespace Weapons
 			}
 
 			//enqueue the shot (will be processed in Update)
-			ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
+			gunTrigger.TriggerPull(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
 		}
 
 
@@ -555,7 +562,7 @@ namespace Weapons
 				GameObject toShoot = CurrentMagazine.containedBullets[0];
 				int quantity = CurrentMagazine.containedProjectilesFired[0];
 
-				if (toShoot == null || quantity == null)
+				if (toShoot == null)
 				{
 					Logger.LogError("Shot was attempted but no projectile or quantity was found to use", Category.Firearms);
 					return;
