@@ -607,6 +607,7 @@ namespace Weapons
 		public void DisplayShot(GameObject shooter, Vector2 finalDirection,
 			BodyPartType damageZone, bool isSuicideShot, string projectile, int quantity)
 		{
+			Debug.Log(projectile);
 			if (!MatrixManager.IsInitialized) return;
 
 			//if this is our gun (or server), last check to ensure we really can shoot
