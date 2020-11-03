@@ -2,6 +2,9 @@
 ---
 
 
+* 2020/11/3: fix pkas by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5418](https://github.com/unitystation/unitystation/pull/5418)
+* 2020/11/3: adds id locks for weapons by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5418](https://github.com/unitystation/unitystation/pull/5418)
+* 2020/11/3: adds clown clumsy behaviour with guns by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5418](https://github.com/unitystation/unitystation/pull/5418)
 * 2020/11/3: adjusted high pop and medium pop maps by [Bod9001](https://github.com/Bod9001) in PR #[5482](https://github.com/unitystation/unitystation/pull/5482)
 * 2020/11/3: made nuclear operatives more likely by [Bod9001](https://github.com/Bod9001) in PR #[5482](https://github.com/unitystation/unitystation/pull/5482)
 * 2020/11/1: Drinking glass icon fixes by [Macoron](https://github.com/Macoron) in PR #[5456](https://github.com/unitystation/unitystation/pull/5456)
