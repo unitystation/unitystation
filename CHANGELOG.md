@@ -2,6 +2,8 @@
 ---
 
 
+* 2020/11/3: adjusted high pop and medium pop maps by [Bod9001](https://github.com/Bod9001) in PR #[5482](https://github.com/unitystation/unitystation/pull/5482)
+* 2020/11/3: made nuclear operatives more likely by [Bod9001](https://github.com/Bod9001) in PR #[5482](https://github.com/unitystation/unitystation/pull/5482)
 * 2020/11/1: Drinking glass icon fixes by [Macoron](https://github.com/Macoron) in PR #[5456](https://github.com/unitystation/unitystation/pull/5456)
 * 2020/10/31: Fixes up directional signs so that the evac and cargo signs are now place-able prefabs. Adjusts sign placement on FallStation, Square, Outpost, adds directional signs to Box. Also connects HoP line's front shutters on FallStation to the door button. by [Akbadain29](https://github.com/Akbadain29) in PR #[5441](https://github.com/unitystation/unitystation/pull/5441)
 * 2020/10/29: Adds Wizard Asteroid Spawn Scene. by [Akbadain29](https://github.com/Akbadain29) in PR #[5432](https://github.com/unitystation/unitystation/pull/5432)
