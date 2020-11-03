@@ -477,6 +477,12 @@ public partial class MatrixManager : MonoBehaviour
 		return true;
 	}
 
+	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlocked(Vector3Int, bool, RegisterTile)"/>
+	public static bool HasAnyDepartureBlocked(Vector3Int to, bool isServer, RegisterTile context)
+	{
+		return AnyMatchInternal(mat => mat.Matrix.HasAnyDepartureBlocked(WorldToLocalInt(to, mat), isServer, context));
+	}
+
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
