@@ -9,7 +9,7 @@ assignees: ''
 
 <!-- Make sure to search existing issues first to avoid duplicates. -->
 
-## Environment
+### Environment
 - Game Version: 
 - OS Version: 
 
@@ -23,4 +23,4 @@ assignees: ''
 
 1. 
 2. 
-3.
+3. 
