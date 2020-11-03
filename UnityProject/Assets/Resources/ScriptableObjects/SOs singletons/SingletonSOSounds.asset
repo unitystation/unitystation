@@ -1,0 +1,238 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 178de069200678949bf36edfcd3574f7, type: 3}
+  m_Name: SingletonSOSounds
+  m_EditorClassIdentifier: 
+  ClownHonk:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/ClownHonk.prefab
+    AssetReference:
+      m_AssetGUID: 5186a0e4861c4ba49b9fe0155a09bb4e
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Click01:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/UI/Click01.prefab
+    AssetReference:
+      m_AssetGUID: ee20a4f05fde27045a6128bc1f624896
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Explosion1:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Explosion/Explosion1.prefab
+    AssetReference:
+      m_AssetGUID: d788b3438be99d4439ddcec28af4ae57
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Explosion2:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Explosion/Explosion2.prefab
+    AssetReference:
+      m_AssetGUID: 663447cd5878f9541abf9416e607027d
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Notice1:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Notice1.prefab
+    AssetReference:
+      m_AssetGUID: 563815786dc2f6743960ec066c18e954
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Smash:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/smash.prefab
+    AssetReference:
+      m_AssetGUID: 2d4b80f3abb000741a0766dff1d1feb1
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Bwoink:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/UI/Bwoink.prefab
+    AssetReference:
+      m_AssetGUID: d9411dfaef2b8ff46a861f08a4c87ea9
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Crowbar:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Crowbar.prefab
+    AssetReference:
+      m_AssetGUID: 3bf1b889b71e8d448998f81f92d30542
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  screwdriver:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/screwdriver1.prefab
+    AssetReference:
+      m_AssetGUID: d968866c1ca337b4e9068ebba94d9df1
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  WireCutter:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/WireCutter.prefab
+    AssetReference:
+      m_AssetGUID: 8cf3b1c8285b89b4b8580e5f99226b89
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Wrench:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Wrench.prefab
+    AssetReference:
+      m_AssetGUID: 760b82a478c471a45a5b612460fe76f0
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Weld:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Weld.prefab
+    AssetReference:
+      m_AssetGUID: 382946a80fefa70468a4bf292ca5ac24
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Shovel:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Shovel.prefab
+    AssetReference:
+      m_AssetGUID: 57b3cc528f483b445a9f3456cb490361
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Slip:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Slip.prefab
+    AssetReference:
+      m_AssetGUID: 8715c51c0b7dee34b84e8fb45be1337d
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Bodyfall:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Bodyfall.prefab
+    AssetReference:
+      m_AssetGUID: 753e708024cdfd94989fde3746ca6e5a
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  GenericHit:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/GenericHit.prefab
+    AssetReference:
+      m_AssetGUID: 40544c5b6358db3429d2142202f3ac8f
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Wiremend:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/wiring/Wiremend1.prefab
+    AssetReference:
+      m_AssetGUID: 929d9888edd83494db808f65c760e2b4
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  PunchMiss:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/PunchMiss.prefab
+    AssetReference:
+      m_AssetGUID: 10cffb6d2b7d3d846b9005f5cbaf0a62
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  ThudSwoosh:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/ThudSwoosh.prefab
+    AssetReference:
+      m_AssetGUID: 865296e4e9f357444827cea7891c94b6
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Sparks:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Sparks01.prefab
+    AssetReference:
+      m_AssetGUID: beeba0ba50c31d5429f4caf8e1c76299
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Rustle:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Rustle01.prefab
+    AssetReference:
+      m_AssetGUID: 4027727f84c9a6745b94f801dccd640a
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  BreakStone:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/BreakStone.prefab
+    AssetReference:
+      m_AssetGUID: a604cc2583f2bab459ec67e3293cc8e1
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  AnnouncementNotice:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Notice1.prefab
+    AssetReference:
+      m_AssetGUID: 563815786dc2f6743960ec066c18e954
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  AnnouncementAnnounce:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Notice2.prefab
+    AssetReference:
+      m_AssetGUID: 56259c31ed0ceb849911d70aafb54029
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  AnnouncementAlert:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/AI/Announce.prefab
+    AssetReference:
+      m_AssetGUID: 5e851013d95855f4f90696997698c9bb
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  ShuttleDocked:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/AI/ShuttleDocked.prefab
+    AssetReference:
+      m_AssetGUID: 39785efbc19236e4584aa109452ae738
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  ShuttleCalled:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/AI/ShuttleCalled.prefab
+    AssetReference:
+      m_AssetGUID: fa0ffc01e77c4aa4b930a06d01384b3d
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  ShuttleRecalled:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/AI/ShuttleRecalled.prefab
+    AssetReference:
+      m_AssetGUID: a042fe9638121a747bef2589f5e2c26d
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Deconstruct:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/Deconstruct.prefab
+    AssetReference:
+      m_AssetGUID: 60b1ad3a8be62e646bdedadba207e5d1
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  GlassHit:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/GlassHit.prefab
+    AssetReference:
+      m_AssetGUID: 9ec95f776ded0ec43838105cde13ab67
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  wood3:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/footsteps/wood/wood3.prefab
+    AssetReference:
+      m_AssetGUID: a3497eeca83e4864680bad7d7ed65c29
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  AccessDenied:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/AccessDenied.prefab
+    AssetReference:
+      m_AssetGUID: c87bbed1acb54e44d8613a5331cbb901
+      m_SubObjectName: 
+    Asset: {fileID: 0}

@@ -15,37 +15,38 @@ using UnityEngine.AddressableAssets;
 public class AddressableReferencePropertyDrawer : PropertyDrawer
 {
 	private const int Height = 24;
-
+	private const int x = 40;
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{
 		EditorGUI.BeginProperty(position, label, property);
-
-		EditorGUI.LabelField(new Rect(position.x, position.y * (Height * 0), position.width, Height), label);
+		float width = position.width - x;
+		EditorGUI.LabelField(new Rect(x, position.y * (Height * 0), width, Height), label);
 		string labelText = label.text;
-		EditorGUI.indentLevel++;
-		
-        EditorGUI.BeginChangeCheck();
+		position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+
+		//EditorGUI.indentLevel++;
+		EditorGUI.BeginChangeCheck();
         var Path = property.FindPropertyRelative("Path");
 		var AssetReference = property.FindPropertyRelative("AssetReference");
 
-		EditorGUI.PropertyField(new Rect(position.x, position.y + (Height * 1), position.width, Height), property.FindPropertyRelative("SetLoadSetting"), new GUIContent("Dispose Mode"));
+		EditorGUI.PropertyField(new Rect(x, position.y + (Height * 1), width, Height), property.FindPropertyRelative("SetLoadSetting"), new GUIContent("Dispose Mode"));
 
         EditorGUI.BeginDisabledGroup(true);
-		EditorGUI.PropertyField(new Rect(position.x, position.y + (Height * 2), position.width, Height), Path, new GUIContent("Addressable Path"));
+		EditorGUI.PropertyField(new Rect(x, position.y + (Height * 2), width, Height), Path, new GUIContent("Addressable Path"));
         EditorGUI.EndDisabledGroup();
 
-        UnityEngine.Object oldAssetReference = AssetReference.objectReferenceValue;
+        //UnityEngine.Object oldAssetReference = AssetReference.objectReferenceValue;
 
-        EditorGUI.PropertyField(new Rect(position.x, position.y + (Height * 3), position.width, Height), AssetReference, new GUIContent("AssetReference"));
+        EditorGUI.PropertyField(new Rect(x, position.y + (Height * 3), width, Height), AssetReference, new GUIContent("AssetReference"));
 
         // Drag & Drop of AssetReference doesn't seem to trigger EndChangeCheck.  So, we verify it manually.
-        if (EditorGUI.EndChangeCheck() || oldAssetReference != AssetReference.objectReferenceValue)
+        if (EditorGUI.EndChangeCheck())
 		{
 			var m_AssetRefObject = SerializedPropertyExtensions.GetActualObjectForSerializedProperty<AssetReference>(AssetReference, fieldInfo, ref labelText);
 			Path.stringValue = AddressableAssetSettingsDefaultObject.Settings.FindAssetEntry(m_AssetRefObject.AssetGUID).address;
 		}
 
-		EditorGUI.indentLevel--;
+		//EditorGUI.indentLevel--;
 
 		property.serializedObject.ApplyModifiedProperties();
 		EditorGUI.EndProperty();
