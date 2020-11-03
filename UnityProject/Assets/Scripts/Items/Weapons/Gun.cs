@@ -12,6 +12,7 @@ namespace Weapons
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(ItemStorage))]
+	[RequireComponent(typeof(GunTrigger))]
 	public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
 		IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 	{
@@ -161,6 +162,8 @@ namespace Weapons
 		private ItemStorage itemStorage;
 		private ItemSlot magSlot;
 
+		private GunTrigger gunTrigger;
+
 
 		#region Init Logic
 
@@ -171,8 +174,12 @@ namespace Weapons
 			itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
 			registerTile = GetComponent<RegisterTile>();
-
+			gunTrigger = GetComponent<GunTrigger>();
 			queuedShots = new Queue<QueuedShot>();
+			if (gunTrigger == null || magSlot == null || itemStorage == null)
+			{
+				Debug.LogWarning($"{gameObject.name} missing components, may cause issues");
+			}
 		}
 
 		private void OnEnable()
@@ -247,7 +254,7 @@ namespace Weapons
 			//anyway so client cannot exceed that firing rate no matter what. If we validate firing rate server
 			//side at the moment of interaction, it will reject client's shots because of lag between server / client
 			//firing countdown
-			if (CurrentMagazine.Projectile != null && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
+			if (CurrentMagazine.containedBullets.Count == 0 && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 			{
 				if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
 				{
@@ -265,7 +272,7 @@ namespace Weapons
 				return false;
 			}
 
-			if (CurrentMagazine.Projectile != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
+			if (CurrentMagazine.containedBullets[0] != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 			{
 				if (WeaponType == WeaponType.Burst)
 				{
@@ -319,7 +326,7 @@ namespace Weapons
 			}
 
 			var dir = ApplyRecoil(interaction.TargetVector.normalized);
-			DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide);
+			DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
 		}
 
 		//nothing to rollback
@@ -340,7 +347,7 @@ namespace Weapons
 			}
 
 			//enqueue the shot (will be processed in Update)
-			ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
+			gunTrigger.TriggerPull(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
 		}
 
 
@@ -456,7 +463,6 @@ namespace Weapons
 					var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
 					Inventory.ServerTransfer(fromSlot, magSlot);
 					queuedLoadMagNetID = NetId.Invalid;
-					CurrentMagazine.UpdateProjectile();
 				}
 			}
 		}
@@ -539,7 +545,7 @@ namespace Weapons
 				}
 
 
-				if (CurrentMagazine == null || CurrentMagazine.ServerAmmoRemains <= 0 || CurrentMagazine.Projectile == null)
+				if (CurrentMagazine == null || CurrentMagazine.ServerAmmoRemains <= 0 || CurrentMagazine.containedBullets[0] == null)
 				{
 					Logger.LogTrace("Player tried to shoot when there was no ammo.", Category.Exploits);
 					Logger.LogWarning("A shot was attempted when there is no ammo.", Category.Firearms);
@@ -553,14 +559,23 @@ namespace Weapons
 					return;
 				}
 
+				GameObject toShoot = CurrentMagazine.containedBullets[0];
+				int quantity = CurrentMagazine.containedProjectilesFired[0];
+
+				if (toShoot == null)
+				{
+					Logger.LogError("Shot was attempted but no projectile or quantity was found to use", Category.Firearms);
+					return;
+				}
+
 				//perform the actual server side shooting, creating the bullet that does actual damage
-				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide);
+				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide, toShoot.name, quantity);
 
 				//trigger a hotspot caused by gun firing
 				shooterRegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(nextShot.shooter.TileWorldPosition(), 3200, 0.005f);
 
 				//tell all the clients to display the shot
-				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
+				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide, toShoot.name, quantity);
 
 				//kickback
 				shooterScript.pushPull.Pushable.NewtonianMove((-nextShot.finalDirection).NormalizeToInt());
@@ -590,8 +605,9 @@ namespace Weapons
 		/// <param name="damageZone">targeted damage zone</param>
 		/// <param name="isSuicideShot">if this is a suicide shot (aimed at shooter)</param>
 		public void DisplayShot(GameObject shooter, Vector2 finalDirection,
-			BodyPartType damageZone, bool isSuicideShot)
+			BodyPartType damageZone, bool isSuicideShot, string projectile, int quantity)
 		{
+			Debug.Log(projectile);
 			if (!MatrixManager.IsInitialized) return;
 
 			//if this is our gun (or server), last check to ensure we really can shoot
@@ -605,6 +621,7 @@ namespace Weapons
 
 				return;
 			}
+			//TODO: If this is not our gun, simply display the shot, don't run any other logic
 			if (shooter == PlayerManager.LocalPlayer)
 			{
 				//this is our gun so we need to update our predictions
@@ -623,31 +640,34 @@ namespace Weapons
 					};
 				}
 				Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
-
-				if (CurrentMagazine == null)
-				{
-					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this} on this client?");
-				}
-				else
-				{
-					//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
-					CurrentMagazine.ExpendAmmo();
-				}
 			}
 
-			MagazineBehaviour magazine = ammoPrefab.GetComponent<MagazineBehaviour>();
+			if (CurrentMagazine == null)
+			{
+				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this} on this client?");
+			}
+			else
+			{
+				//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
+				CurrentMagazine.ExpendAmmo();
+			}
+
+			//display the effects of the shot
+
+			//get the bullet prefab being shot
+
 			if (isSuicideShot)
 			{
-				GameObject bullet = Spawn.ClientPrefab(magazine.Projectile.name,
+				GameObject bullet = Spawn.ClientPrefab(projectile,
 					shooter.transform.position, parent: shooter.transform.parent).GameObject;
 				var b = bullet.GetComponent<Projectile>();
 				b.Suicide(shooter, this, damageZone);
 			}
 			else
 			{
-				for (int n = 0; n < magazine.ProjectilesFired; n++)
+				for (int n = 0; n < quantity; n++)
 				{
-					GameObject Abullet = Spawn.ClientPrefab(magazine.Projectile.name,
+					GameObject Abullet = Spawn.ClientPrefab(projectile,
 						shooter.transform.position, parent: shooter.transform.parent).GameObject;
 					var A = Abullet.GetComponent<Projectile>();
 					var finalDirectionOverride = CalcDirection(finalDirection, n);

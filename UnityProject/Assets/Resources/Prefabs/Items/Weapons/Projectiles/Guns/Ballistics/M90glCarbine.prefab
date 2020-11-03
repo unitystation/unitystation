@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -148,6 +149,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -215,6 +217,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3c925fcb059eb654e8954470589c49d0,
         type: 2}
+    - target: {fileID: 3383358116270698800, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: setRestriction
+      value: 36
+      objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: ammoType

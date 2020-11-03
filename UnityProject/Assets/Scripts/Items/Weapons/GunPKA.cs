@@ -11,17 +11,7 @@ public class GunPKA : Gun
 	public float rechargeTime = 2.0f;
 	public override void ServerPerformInteraction(AimApply interaction)
 	{
-		var isSuicide = false;
-		if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-		    (WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
-		{
-			isSuicide = interaction.IsAimingAtSelf;
-			AllowSuicide = isSuicide;
-		}
-
-		//enqueue the shot (will be processed in Update)
-		ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
-
+		base.ServerPerformInteraction(interaction);
 		if (allowRecharge)
 		{
 			StartCoroutine(StartCooldown());
@@ -32,7 +22,7 @@ public class GunPKA : Gun
 		allowRecharge = false;
 		yield return WaitFor.Seconds(rechargeTime);
 		CurrentMagazine.ServerSetAmmoRemains(1);
-		CurrentMagazine.LoadProjectile(CurrentMagazine.Projectile, CurrentMagazine.ProjectilesFired);
+		CurrentMagazine.LoadProjectile(Projectile, 1);
 		SoundManager.PlayNetworkedAtPos("ReloadKinetic", gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 		allowRecharge = true;
 	}

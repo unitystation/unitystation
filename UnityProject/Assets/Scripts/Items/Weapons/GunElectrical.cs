@@ -40,6 +40,7 @@ public class GunElectrical : Gun
 			currentFiremode += 1;
 		}
 		UpdateFiremode();
+        Chat.AddExamineMsgToClient($"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
 		return true;
 	}
 
@@ -61,7 +62,7 @@ public class GunElectrical : Gun
 	{
 		if (countFiremode != 1)
 		{
-			CurrentMagazine.Projectile = firemodeProjectiles[currentFiremode];
+			CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
 			FiringSound = firemodeFiringSound[currentFiremode];
 		}
 	}
