@@ -43,7 +43,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	public bool isCell = false;
 
 	[SerializeField, FormerlySerializedAs("Projectile")]
-	private GameObject initalProjectile;
+	public GameObject initalProjectile;
 	public int ProjectilesFired = 1;
 
 	[HideInInspector]
@@ -92,7 +92,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		containedBullets.Clear();
 		containedProjectilesFired.Clear();
-		for (int i = magazineSize + 1; i != 0; i--)
+		for (int i = magazineSize; i != 0; i--)
 		{
 			containedBullets.Add(initalProjectile);
 			containedProjectilesFired.Add(ProjectilesFired);
@@ -204,9 +204,9 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		clip.ExpendAmmo(toTransfer);
 		if (!isClip && !isCell)
 		{
-			for (int i = 0;i != toTransfer;i++)
+			for (int i = toTransfer;i != 0;i--)
 			{
-				containedBullets.Add(clip.containedBullets[i]);
+				containedBullets.Add(clip.initalProjectile);
 				containedProjectilesFired.Add(clip.ProjectilesFired);
 			}
 		}
