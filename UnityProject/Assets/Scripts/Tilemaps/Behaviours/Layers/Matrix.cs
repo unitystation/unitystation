@@ -182,6 +182,13 @@ public class Matrix : MonoBehaviour
 			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
 	}
 
+
+	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlocked(Vector3Int, bool, RegisterTile)"/>
+	public bool HasAnyDepartureBlocked(Vector3Int to, bool isServer, RegisterTile context)
+	{
+		return MetaTileMap.HasAnyDepartureBlocked(to, isServer, context);
+	}
+
 	public bool IsAtmosPassableAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsAtmosPassableAt(position, isServer);

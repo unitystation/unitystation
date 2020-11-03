@@ -741,10 +741,22 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 
-		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
+		Vector3Int intDir = Vector3Int.RoundToInt((Vector2)dir);
+		Vector3Int target = from + intDir;
 		if (MatrixManager.IsPassableAt(from, target, isServer: true, includingPlayers: false, context: gameObject) == false) //non-solid things can be pushed to player tile
 		{
 			return false;
+		}
+
+
+		// If the pushable may prevent leaving in the opposite direction, make sure
+		// there are no items in that square that would collide in the opposite direction
+		if (registerTile.IsPassableTo(-intDir, true) == false)
+		{
+			if (MatrixManager.HasAnyDepartureBlocked(from - intDir, true, registerTile))
+			{
+				return false;
+			}
 		}
 
 		bool success = Pushable.Push(dir, speed, true, context: gameObject);
@@ -775,6 +787,17 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		if (IsBeingPulledClient == false || isNotPushable || Pushable == null)
 		{
 			return false;
+		}
+
+		Vector3Int intDir = target - from;
+		// If the pushable may prevent leaving in the opposite direction, make sure
+		// there are no items in that square that would collide in the opposite direction
+		if (registerTile.IsPassableTo(-intDir, false) == false)
+		{
+			if (MatrixManager.HasAnyDepartureBlocked(from - intDir, false, registerTile))
+			{
+				return false;
+			}
 		}
 
 		bool success = Pushable.PredictivePush(target.To2Int(), speed, true);
@@ -917,16 +940,26 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 
+		// If the pusher can't reach the pushee, assume there is a wall in the way.
+		Vector3Int intDir = Vector3Int.RoundToInt((Vector2)dir);
+
 		// If the pushable's movement in that direction is obstructed, then it can't be pushed.
-		Vector3Int target = pusherPos + Vector3Int.RoundToInt((Vector2)dir);
-		if (MatrixManager.IsPassableAt(pusherPos, target, isServer: serverSide, includingPlayers: IsSolidClient, context: gameObject) == false) //non-solid things can be pushed to player tile
+		Vector3Int target = pusherPos + intDir;
+		if (MatrixManager.IsPassableAt(pusherPos, target, isServer: serverSide, includingPlayers: IsSolidClient, //non-solid things can be pushed to player tile
+			context: gameObject) == false) 
 		{
 			return false;
 		}
 
-		// TODO: check if there is anything in the pushable's location that can't leave in the opposite direction due to the pushable.
-		// If there is, then pushable can not be pushed.
-		// This prevents e.g., unsecured directional windows in the same square as a canister from being pushed through the canister.
+		// If the pushable may prevent leaving in the opposite direction, make sure
+		// there are no items in that square that would collide in the opposite direction
+		if (registerTile.IsPassableTo(-intDir, serverSide) == false)
+		{
+			if (MatrixManager.HasAnyDepartureBlocked(pusherPos - intDir, serverSide, registerTile))
+			{
+				return false;
+			}
+		}
 
 		return true;
 	}
@@ -942,12 +975,25 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		{
 			return false;
 		}
-		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
+
+		Vector3Int intDir = Vector3Int.RoundToInt((Vector2)dir);
+		Vector3Int target = from + intDir;
 		if (MatrixManager.IsPassableAt(from, target, isServer: false, context: gameObject) == false ||
 				MatrixManager.IsNoGravityAt(target, isServer: false))
 		{ //not allowing predictive push into space
 			return false;
 		}
+
+		// If the pushable may prevent leaving in the opposite direction, make sure
+		// there are no items in that square that would collide in the opposite direction
+		if (registerTile.IsPassableTo(-intDir, false) == false)
+		{
+			if (MatrixManager.HasAnyDepartureBlocked(from - intDir, isServer, registerTile))
+			{
+				return false;
+			}
+		}
+
 
 		bool success = Pushable.PredictivePush(target.To2Int(), speed);
 		if (success)

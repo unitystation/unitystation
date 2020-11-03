@@ -723,12 +723,19 @@ public partial class PlayerSync
 		}
 
 		Vector2Int twoIntDirection = direction.To2Int();
+		Vector3Int pushableLocation = worldOrigin + (Vector3Int)twoIntDirection;
 
 		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, twoIntDirection, gameObject, true, true);
 		if (pushables.Count > 0)
 		{
 			foreach ( PushPull pushable in pushables)
 			{
+				// if player can't reach, player can't push
+				if (MatrixManager.IsPassableAt(worldOrigin, pushableLocation, isServer: true, includingPlayers: false, 
+						context: pushable.gameObject, isReach: true) == false)
+				{
+					continue;
+				}
 
 				pushable.TryPush(twoIntDirection);
 				break;
