@@ -190,7 +190,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSlideItem(Vector3Int destination)
 	{
-		if (playerScript.IsInReach(destination, true) == false)
+		if (playerScript.IsInReach(destination, true) == false
+			|| playerScript.pushPull.PulledObjectServer == null)
 		{
 			return;
 		}
