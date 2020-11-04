@@ -54,7 +54,7 @@ namespace Weapons
 		/// <summary>
 		/// The current magazine for this weapon, null means empty
 		/// </summary>
-		public virtual MagazineBehaviour CurrentMagazine =>
+		public MagazineBehaviour CurrentMagazine =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<MagazineBehaviour>() : null;
 
 		/// <summary>
@@ -159,7 +159,7 @@ namespace Weapons
 
 		private RegisterTile registerTile;
 		private ItemStorage itemStorage;
-		public ItemSlot magSlot;
+		private ItemSlot magSlot;
 
 
 		#region Init Logic
