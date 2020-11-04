@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/11/4: Added a couple more transformations for the null rod. by [PetMudstone](https://github.com/PetMudstone) in PR #[5493](https://github.com/unitystation/unitystation/pull/5493)
 * 2020/11/3: fix pkas by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5418](https://github.com/unitystation/unitystation/pull/5418)
 * 2020/11/3: adds id locks for weapons by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5418](https://github.com/unitystation/unitystation/pull/5418)
 * 2020/11/3: adds clown clumsy behaviour with guns by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5418](https://github.com/unitystation/unitystation/pull/5418)
