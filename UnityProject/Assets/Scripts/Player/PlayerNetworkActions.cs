@@ -187,6 +187,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	[Command]
+	public void CmdSlideItem(Vector3Int destination)
+	{
+		if (playerScript.IsInReach(destination, true) == false)
+		{
+			return;
+		}
+		PushPull pushPull = playerScript.pushPull.PulledObjectServer;
+		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
+		Vector2Int dir = (Vector2Int)(destination - origin);
+		pushPull.TryPush(dir);
+	}
+
 	/// <summary>
 	/// Server handling of the request to drop an item from a client
 	/// </summary>

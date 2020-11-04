@@ -17,7 +17,7 @@ public class RegisterObject : RegisterTile
 	public bool Passable = true;
 
 	[Tooltip("If true, this object won't block players from interacting with other objects")]
-	public bool ReachableThrough = false;
+	public bool ReachableThrough = true;
 
 	private bool initialAtmosPassable;
 	private bool initialPassable;

@@ -748,15 +748,9 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 
-
-		// If the pushable may prevent leaving in the opposite direction, make sure
-		// there are no items in that square that would collide in the opposite direction
-		if (registerTile.IsPassableTo(-intDir, true) == false)
+		if (IsBlockedFromInside(from, intDir, true))
 		{
-			if (MatrixManager.HasAnyDepartureBlocked(from - intDir, true, registerTile))
-			{
-				return false;
-			}
+			return false;
 		}
 
 		bool success = Pushable.Push(dir, speed, true, context: gameObject);
@@ -782,6 +776,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 
 		return success;
 	}
+
 	private bool TryPredictiveFollow(Vector3Int from, Vector3Int target, float speed = Single.NaN)
 	{
 		if (IsBeingPulledClient == false || isNotPushable || Pushable == null)
@@ -790,14 +785,10 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		}
 
 		Vector3Int intDir = target - from;
-		// If the pushable may prevent leaving in the opposite direction, make sure
-		// there are no items in that square that would collide in the opposite direction
-		if (registerTile.IsPassableTo(-intDir, false) == false)
+
+		if (IsBlockedFromInside(from, intDir, false))
 		{
-			if (MatrixManager.HasAnyDepartureBlocked(from - intDir, false, registerTile))
-			{
-				return false;
-			}
+			return false;
 		}
 
 		bool success = Pushable.PredictivePush(target.To2Int(), speed, true);
@@ -951,17 +942,51 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 
-		// If the pushable may prevent leaving in the opposite direction, make sure
-		// there are no items in that square that would collide in the opposite direction
-		if (registerTile.IsPassableTo(-intDir, serverSide) == false)
+		if (IsBlockedFromInside(pusherPos, intDir, serverSide))
 		{
-			if (MatrixManager.HasAnyDepartureBlocked(pusherPos - intDir, serverSide, registerTile))
-			{
-				return false;
-			}
+			return false;
 		}
 
 		return true;
+	}
+
+	/// <summary>
+	/// Returns true iff this can't move in a direction from a locationn because something in the same square would block departure.
+	/// </summary>
+	/// <param name="from">starting location of movement</param>
+	/// <param name="dir">direction of hypoothetical movement</param>
+	/// <param name="serverSide">true iff this code is running on server</param>
+	/// <returns></returns>
+	public bool IsBlockedFromInside(Vector3Int from, Vector3Int dir, bool serverSide)
+	{
+		// If the pushable may prevent leaving in the opposite direction, make sure
+		// there are no items in that square that would collide in the opposite direction
+
+		if (dir.x == 0 || dir.y == 0)
+		{
+			// orthogonal movement
+			if (registerTile.IsPassableTo(-dir, serverSide) == false
+				&& MatrixManager.HasAnyDepartureBlocked(from - dir, serverSide, registerTile))
+			{
+				return true;
+			}
+		}
+		else
+		{
+			// diagonal movement
+			Vector3Int horizontalDir = dir * Vector3Int.right;
+			Vector3Int verticalDir = dir * Vector3Int.up;
+
+			if (registerTile.IsPassableTo(-horizontalDir, serverSide) == false
+				&& registerTile.IsPassableTo(-verticalDir, serverSide) == false
+				&& MatrixManager.HasAnyDepartureBlocked(from-horizontalDir, serverSide, registerTile)
+				&& MatrixManager.HasAnyDepartureBlocked(from - verticalDir, serverSide, registerTile))
+			{
+				return true;
+			}
+
+		}
+		return false;
 	}
 
 	public bool TryPredictivePush(Vector3Int from, Vector2Int dir, float speed = Single.NaN)
@@ -984,16 +1009,10 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 
-		// If the pushable may prevent leaving in the opposite direction, make sure
-		// there are no items in that square that would collide in the opposite direction
-		if (registerTile.IsPassableTo(-intDir, false) == false)
+		if (IsBlockedFromInside(from, intDir, false))
 		{
-			if (MatrixManager.HasAnyDepartureBlocked(from - intDir, isServer, registerTile))
-			{
-				return false;
-			}
+			return false;
 		}
-
 
 		bool success = Pushable.PredictivePush(target.To2Int(), speed);
 		if (success)
