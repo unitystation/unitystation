@@ -33,11 +33,19 @@ namespace Weapons
 		/// </summary>
 		public bool IsSuicideShot;
 		/// <summary>
+<<<<<<< HEAD
 		/// Name of the projectile
 		/// </summary>
 		public string ProjectileName;
 		/// <summary>
 		/// Amount of projectiles
+=======
+		/// the projectile being shot
+		/// </summary>
+		public string Projectile;
+		/// <summary>
+		/// the amount of projectiles to spawn when procesing the shot
+>>>>>>> 28649a770abafcb46971e4de457e0b6632e2cde9
 		/// </summary>
 		public int Quantity;
 
@@ -56,17 +64,22 @@ namespace Weapons
 			//Not even spawned don't show bullets
 			if (PlayerManager.LocalPlayer == null) return;
 
-			LoadMultipleObjects(new uint[] { Shooter, Weapon });
+			LoadMultipleObjects(new uint[] { Shooter, Weapon});
 
 			Gun wep = NetworkObjects[1].GetComponent<Gun>();
 			if (wep == null)
 			{
 				return;
 			}
+
 			//only needs to run on the clients other than the shooter
 			if (!wep.isServer && PlayerManager.LocalPlayer.gameObject != NetworkObjects[0])
 			{
+<<<<<<< HEAD
 				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, ProjectileName, Quantity);
+=======
+				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, Projectile, Quantity);
+>>>>>>> 28649a770abafcb46971e4de457e0b6632e2cde9
 			}
 		}
 
@@ -78,7 +91,11 @@ namespace Weapons
 		/// <param name="shooter">gameobject of player making the shot</param>
 		/// <param name="isSuicide">if the shooter is shooting themselves</param>
 		/// <returns></returns>
+<<<<<<< HEAD
 		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, string projectileName, int quantity)
+=======
+		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, string projectile, int quantity)
+>>>>>>> 28649a770abafcb46971e4de457e0b6632e2cde9
 		{
 			var msg = new ShootMessage
 			{
@@ -87,7 +104,11 @@ namespace Weapons
 				DamageZone = damageZone,
 				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				IsSuicideShot = isSuicide,
+<<<<<<< HEAD
 				ProjectileName = projectileName,
+=======
+				Projectile = projectile,
+>>>>>>> 28649a770abafcb46971e4de457e0b6632e2cde9
 				Quantity = quantity
 			};
 			msg.SendToAll();
@@ -107,7 +128,11 @@ namespace Weapons
 			DamageZone = (BodyPartType)reader.ReadUInt32();
 			Shooter = reader.ReadUInt32();
 			IsSuicideShot = reader.ReadBoolean();
+<<<<<<< HEAD
 			ProjectileName = reader.ReadString();
+=======
+			Projectile = reader.ReadString();
+>>>>>>> 28649a770abafcb46971e4de457e0b6632e2cde9
 			Quantity = reader.ReadInt32();
 		}
 
@@ -119,7 +144,11 @@ namespace Weapons
 			writer.WriteInt32((int)DamageZone);
 			writer.WriteUInt32(Shooter);
 			writer.WriteBoolean(IsSuicideShot);
+<<<<<<< HEAD
 			writer.WriteString(ProjectileName);
+=======
+			writer.WriteString(Projectile);
+>>>>>>> 28649a770abafcb46971e4de457e0b6632e2cde9
 			writer.WriteInt32(Quantity);
 		}
 	}

@@ -16,14 +16,14 @@ MonoBehaviour:
   description: Syndicate forces are approaching the station in an attempt to destroy
     it!
   canRespawn: 0
-  minPlayers: 10
+  minPlayers: 5
   antagRatio: 0.2
-  minAntags: 2
+  minAntags: 1
   maxAntags: 100
   requiresMinAntags: 1
   teamGameMode: 1
   midRoundAntags: 0
-  allocateJobsToAntags: 0
   possibleAntags:
   - {fileID: 11400000, guid: 4bc36e6d8aa946c4081073eabc2472eb, type: 2}
+  allocateJobsToAntags: 0
   nonAntagJobTypes: 060000001600000017000000230000002100000011000000

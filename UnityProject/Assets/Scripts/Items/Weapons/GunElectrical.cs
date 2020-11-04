@@ -36,6 +36,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		{
 			currentFiremode++;
 		}
+		Chat.AddExamineMsgToClient($"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
 	}
 
 	public void UpdateFiremode(int oldValue, int newState)

@@ -13,24 +13,18 @@ public class GunPKA : Gun
 	public override void OnSpawnServer(SpawnInfo info)
 	{
 		base.OnSpawnServer(info);
-		CurrentMagazine.Projectile = Projectile;
+		CurrentMagazine.containedBullets[0] = Projectile;
 		CurrentMagazine.ServerSetAmmoRemains(1);
 	}
 
 	public override bool WillInteract(AimApply interaction, NetworkSide side)
 	{
-		CurrentMagazine.Projectile = Projectile;
+		CurrentMagazine.containedBullets[0] = Projectile;
 		return base.WillInteract(interaction, side);
 	}
 	public override void ServerPerformInteraction(AimApply interaction)
 	{
-		var isSuicide = false;
-		if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-		    (WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
-		{
-			isSuicide = interaction.IsAimingAtSelf;
-			AllowSuicide = isSuicide;
-		}
+		base.ServerPerformInteraction(interaction);
 		if (allowRecharge)
 		{
 			//enqueue the shot (will be processed in Update)
@@ -43,7 +37,7 @@ public class GunPKA : Gun
 		allowRecharge = false;
 		yield return WaitFor.Seconds(rechargeTime);
 		CurrentMagazine.ServerSetAmmoRemains(1);
-		CurrentMagazine.LoadProjectile(CurrentMagazine.Projectile, CurrentMagazine.ProjectilesFired);
+		CurrentMagazine.LoadProjectile(Projectile, 1);
 		SoundManager.PlayNetworkedAtPos("ReloadKinetic", gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 		allowRecharge = true;
 	}
