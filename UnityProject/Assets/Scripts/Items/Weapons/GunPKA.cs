@@ -13,29 +13,15 @@ public class GunPKA : Gun
 	public override void OnSpawnServer(SpawnInfo info)
 	{
 		base.OnSpawnServer(info);
-		SetAmmo();
-	}
-
-	public override void OnStartClient()
-	{
-		StartCoroutine(WaitForInitialisation());
-	}
-
-	private IEnumerator WaitForInitialisation()
-	{
-		while (CurrentMagazine == null)
-		{
-			yield return new WaitForSeconds(2);;
-		}
-		SetAmmo();
-	}
-
-	private void SetAmmo()
-	{
 		CurrentMagazine.Projectile = Projectile;
 		CurrentMagazine.ServerSetAmmoRemains(1);
 	}
 
+	public override bool WillInteract(AimApply interaction, NetworkSide side)
+	{
+		CurrentMagazine.Projectile = Projectile;
+		return base.WillInteract(interaction, side);
+	}
 	public override void ServerPerformInteraction(AimApply interaction)
 	{
 		var isSuicide = false;
