@@ -191,7 +191,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSlideItem(Vector3Int destination)
 	{
 		if (playerScript.IsInReach(destination, true) == false
-			|| playerScript.pushPull.PulledObjectServer == null)
+			|| playerScript.pushPull.PulledObjectServer == null
+			|| playerScript.IsGhost
+			|| playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 		{
 			return;
 		}
