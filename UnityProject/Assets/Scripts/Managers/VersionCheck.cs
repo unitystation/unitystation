@@ -62,7 +62,6 @@ public class VersionCheck : MonoBehaviour
 
 	public void DownloadButton()
 	{
-		// JESTE_R
 		SoundManager.Play(SingletonSOSounds.Instance.Click01, String.Empty, 1, 1, 0);
 
 		Application.OpenURL("http://doobly.izz.moe/unitystation/");

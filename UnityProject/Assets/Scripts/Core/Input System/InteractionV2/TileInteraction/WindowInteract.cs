@@ -31,7 +31,6 @@ public class WindowInteract : TileInteraction
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You knock on the {interaction.BasicTile.DisplayName}.", $"{interaction.Performer.ExpensiveName()} knocks on the {interaction.BasicTile.DisplayName}.");
-			// JESTE_R
 			System.Random random = new System.Random();
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters

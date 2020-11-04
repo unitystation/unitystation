@@ -43,7 +43,6 @@ namespace NPC
 
 		private void SingleBark(GameObject barked = null)
 		{
-			// JESTE_R
 			SoundManager.PlayNetworkedAtPos(Bark,
 				gameObject.transform.position,
 				Random.Range(.8F, 1.3F));

@@ -294,6 +294,13 @@ MonoBehaviour:
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
   pushPullSound: 
+  PushPullSound:
+    SetLoadSetting: 0
+    Path: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+    Asset: {fileID: 0}
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -349,6 +356,13 @@ MonoBehaviour:
   isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
+  ButcherSound:
+    SetLoadSetting: 0
+    Path: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+    Asset: {fileID: 0}
 --- !u!114 &114536369792164230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,6 +518,15 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+  hasFoodPrefereces: 0
+  foodPreferences: []
+  EatFood:
+    SetLoadSetting: 0
+    Path: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+    Asset: {fileID: 0}
 --- !u!114 &159138128674865030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,16 +541,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobName: Ian
   knockedDownRotation: -180
-  enableStress: 0
-  initialStressLevel: 0
-  pettingDecreaseStress: 0
-  pettingCooldown: -1
-  foodAffectsStress: 0
-  foodPreferences: []
-  timeBetweenFoodCheck: 300
   minTimeBetweenRandomActions: 15
   maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 0
   allowedToGiveCommands: 0600000016000000
+  Bark:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/NPC/Bark.prefab
+    AssetReference:
+      m_AssetGUID: 9062bc57fc0addc4f87f42680ecb49e1
+      m_SubObjectName: 
+    Asset: {fileID: 0}
 --- !u!114 &1698261190327922250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,6 +622,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -620,7 +645,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300004, guid: e521117653fea244c9645316be5ec3a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

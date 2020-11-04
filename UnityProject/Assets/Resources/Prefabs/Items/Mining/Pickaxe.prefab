@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462d967aee8e4662964d700de16a6740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickaxe:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/pickaxe1.prefab
+    AssetReference:
+      m_AssetGUID: ad8e101211665d14eac369850422b165
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  BreakStone:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/BreakStone.prefab
+    AssetReference:
+      m_AssetGUID: a604cc2583f2bab459ec67e3293cc8e1
+      m_SubObjectName: 
+    Asset: {fileID: 0}
 --- !u!1001 &2654578771155042347
 PrefabInstance:
   m_ObjectHideFlags: 0

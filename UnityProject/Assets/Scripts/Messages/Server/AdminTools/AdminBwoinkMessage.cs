@@ -10,7 +10,6 @@ public class AdminBwoinkMessage : ServerMessage
 
 	public override void Process()
 	{
-		// JESTE_R
 		SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
 		Chat.AddAdminPrivMsg(Message);
 	}
