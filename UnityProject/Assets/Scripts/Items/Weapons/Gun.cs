@@ -54,7 +54,7 @@ namespace Weapons
 		/// <summary>
 		/// The current magazine for this weapon, null means empty
 		/// </summary>
-		public MagazineBehaviour CurrentMagazine =>
+		public virtual MagazineBehaviour CurrentMagazine =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<MagazineBehaviour>() : null;
 
 		/// <summary>
@@ -159,7 +159,7 @@ namespace Weapons
 
 		private RegisterTile registerTile;
 		private ItemStorage itemStorage;
-		private ItemSlot magSlot;
+		public ItemSlot magSlot;
 
 
 		#region Init Logic
@@ -230,7 +230,7 @@ namespace Weapons
 
 		#region Interaction
 
-		public bool WillInteract(AimApply interaction, NetworkSide side)
+		public virtual bool WillInteract(AimApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (CurrentMagazine == null)
@@ -319,7 +319,7 @@ namespace Weapons
 			}
 
 			var dir = ApplyRecoil(interaction.TargetVector.normalized);
-			DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide);
+			DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.Projectile.name, CurrentMagazine.ProjectilesFired);
 		}
 
 		//nothing to rollback
@@ -554,13 +554,13 @@ namespace Weapons
 				}
 
 				//perform the actual server side shooting, creating the bullet that does actual damage
-				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide);
+				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide, CurrentMagazine.Projectile.name, CurrentMagazine.ProjectilesFired);
 
 				//trigger a hotspot caused by gun firing
 				shooterRegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(nextShot.shooter.TileWorldPosition(), 3200, 0.005f);
 
 				//tell all the clients to display the shot
-				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
+				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, gameObject, nextShot.isSuicide, CurrentMagazine.Projectile.name, CurrentMagazine.ProjectilesFired);
 
 				//kickback
 				shooterScript.pushPull.Pushable.NewtonianMove((-nextShot.finalDirection).NormalizeToInt());
@@ -590,21 +590,24 @@ namespace Weapons
 		/// <param name="damageZone">targeted damage zone</param>
 		/// <param name="isSuicideShot">if this is a suicide shot (aimed at shooter)</param>
 		public void DisplayShot(GameObject shooter, Vector2 finalDirection,
-			BodyPartType damageZone, bool isSuicideShot)
+			BodyPartType damageZone, bool isSuicideShot, string projectileName, int quantity)
 		{
 			if (!MatrixManager.IsInitialized) return;
 
 			//if this is our gun (or server), last check to ensure we really can shoot
-			if ((isServer || PlayerManager.LocalPlayer == shooter) &&
-				CurrentMagazine.ClientAmmoRemains <= 0)
+			if (isServer || PlayerManager.LocalPlayer == shooter)
 			{
-				if (isServer)
+				if (CurrentMagazine.ClientAmmoRemains <= 0)
 				{
-					Logger.LogTrace("Server rejected shot - out of ammo", Category.Firearms);
+					if (isServer)
+					{
+						Logger.LogTrace("Server rejected shot - out of ammo", Category.Firearms);
+					}
+					return;
 				}
-
-				return;
+				CurrentMagazine.ExpendAmmo();
 			}
+
 			if (shooter == PlayerManager.LocalPlayer)
 			{
 				//this is our gun so we need to update our predictions
@@ -623,31 +626,20 @@ namespace Weapons
 					};
 				}
 				Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
-
-				if (CurrentMagazine == null)
-				{
-					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this} on this client?");
-				}
-				else
-				{
-					//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
-					CurrentMagazine.ExpendAmmo();
-				}
 			}
 
-			MagazineBehaviour magazine = ammoPrefab.GetComponent<MagazineBehaviour>();
 			if (isSuicideShot)
 			{
-				GameObject bullet = Spawn.ClientPrefab(magazine.Projectile.name,
+				GameObject bullet = Spawn.ClientPrefab(projectileName,
 					shooter.transform.position, parent: shooter.transform.parent).GameObject;
 				var b = bullet.GetComponent<Projectile>();
 				b.Suicide(shooter, this, damageZone);
 			}
 			else
 			{
-				for (int n = 0; n < magazine.ProjectilesFired; n++)
+				for (int n = 0; n < quantity; n++)
 				{
-					GameObject Abullet = Spawn.ClientPrefab(magazine.Projectile.name,
+					GameObject Abullet = Spawn.ClientPrefab(projectileName,
 						shooter.transform.position, parent: shooter.transform.parent).GameObject;
 					var A = Abullet.GetComponent<Projectile>();
 					var finalDirectionOverride = CalcDirection(finalDirection, n);

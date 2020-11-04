@@ -32,6 +32,14 @@ namespace Weapons
 		/// If the shot is aimed at the shooter
 		/// </summary>
 		public bool IsSuicideShot;
+		/// <summary>
+		/// Name of the projectile
+		/// </summary>
+		public string ProjectileName;
+		/// <summary>
+		/// Amount of projectiles
+		/// </summary>
+		public int Quantity;
 
 		///To be run on client
 		public override void Process()
@@ -58,7 +66,7 @@ namespace Weapons
 			//only needs to run on the clients other than the shooter
 			if (!wep.isServer && PlayerManager.LocalPlayer.gameObject != NetworkObjects[0])
 			{
-				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot);
+				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, ProjectileName, Quantity);
 			}
 		}
 
@@ -70,7 +78,7 @@ namespace Weapons
 		/// <param name="shooter">gameobject of player making the shot</param>
 		/// <param name="isSuicide">if the shooter is shooting themselves</param>
 		/// <returns></returns>
-		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide)
+		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, string projectileName, int quantity)
 		{
 			var msg = new ShootMessage
 			{
@@ -78,7 +86,9 @@ namespace Weapons
 				Direction = direction,
 				DamageZone = damageZone,
 				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
-				IsSuicideShot = isSuicide
+				IsSuicideShot = isSuicide,
+				ProjectileName = projectileName,
+				Quantity = quantity
 			};
 			msg.SendToAll();
 			return msg;
@@ -97,6 +107,8 @@ namespace Weapons
 			DamageZone = (BodyPartType)reader.ReadUInt32();
 			Shooter = reader.ReadUInt32();
 			IsSuicideShot = reader.ReadBoolean();
+			ProjectileName = reader.ReadString();
+			Quantity = reader.ReadInt32();
 		}
 
 		public override void Serialize(NetworkWriter writer)
@@ -107,6 +119,8 @@ namespace Weapons
 			writer.WriteInt32((int)DamageZone);
 			writer.WriteUInt32(Shooter);
 			writer.WriteBoolean(IsSuicideShot);
+			writer.WriteString(ProjectileName);
+			writer.WriteInt32(Quantity);
 		}
 	}
 

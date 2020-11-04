@@ -9,6 +9,33 @@ public class GunPKA : Gun
 
 	bool allowRecharge = true;
 	public float rechargeTime = 2.0f;
+
+	public override void OnSpawnServer(SpawnInfo info)
+	{
+		base.OnSpawnServer(info);
+		SetAmmo();
+	}
+
+	public override void OnStartClient()
+	{
+		StartCoroutine(WaitForInitialisation());
+	}
+
+	private IEnumerator WaitForInitialisation()
+	{
+		while (CurrentMagazine == null)
+		{
+			yield return new WaitForSeconds(2);;
+		}
+		SetAmmo();
+	}
+
+	private void SetAmmo()
+	{
+		CurrentMagazine.Projectile = Projectile;
+		CurrentMagazine.ServerSetAmmoRemains(1);
+	}
+
 	public override void ServerPerformInteraction(AimApply interaction)
 	{
 		var isSuicide = false;
@@ -18,12 +45,10 @@ public class GunPKA : Gun
 			isSuicide = interaction.IsAimingAtSelf;
 			AllowSuicide = isSuicide;
 		}
-
-		//enqueue the shot (will be processed in Update)
-		ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
-
 		if (allowRecharge)
 		{
+			//enqueue the shot (will be processed in Update)
+			ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
 			StartCoroutine(StartCooldown());
 		}
 	}
