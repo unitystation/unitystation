@@ -17,17 +17,6 @@ public class GunElectrical : Gun
 
 	public int countFiremode = 1;
 
-	public override void OnSpawnServer(SpawnInfo info)
-	{
-		base.OnSpawnServer(info);
-		UpdateFiremode();
-	}
-
-	public void OnSpawnClient(SpawnInfo info)
-	{
-		UpdateFiremode();
-	}
-
 	public override bool Interact(HandActivate interaction)
 	{
 		if (countFiremode == 1) return false;
@@ -60,11 +49,8 @@ public class GunElectrical : Gun
 
 	public void UpdateFiremode()
 	{
-		if (countFiremode != 1)
-		{
-			CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
-			FiringSound = firemodeFiringSound[currentFiremode];
-		}
+		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
+		FiringSound = firemodeFiringSound[currentFiremode];
 	}
 
 	public override String Examine(Vector3 pos)

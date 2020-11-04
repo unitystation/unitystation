@@ -254,7 +254,7 @@ namespace Weapons
 			//anyway so client cannot exceed that firing rate no matter what. If we validate firing rate server
 			//side at the moment of interaction, it will reject client's shots because of lag between server / client
 			//firing countdown
-			if (CurrentMagazine.containedBullets.Count == 0 && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
+			if (CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 			{
 				if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
 				{
@@ -621,7 +621,7 @@ namespace Weapons
 
 				return;
 			}
-			//TODO: If this is not our gun, simply display the shot, don't run any other logic
+
 			if (shooter == PlayerManager.LocalPlayer)
 			{
 				//this is our gun so we need to update our predictions
@@ -641,21 +641,23 @@ namespace Weapons
 				}
 				Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 			}
-
-			if (CurrentMagazine == null)
+	
+			if (shooter == PlayerManager.LocalPlayer || isServer)
 			{
-				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this} on this client?");
-			}
-			else
-			{
-				//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
-				CurrentMagazine.ExpendAmmo();
+				if (CurrentMagazine == null)
+				{
+					// we only care about a null magazine if it is the server or the shooter who has said null mag
+					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this} on this client?");	
+				}
+				else
+				{
+					//we also only want to update our ammo count if we are the shooter or the server
+					//as other clients wont need this information
+					CurrentMagazine.ExpendAmmo();
+				}
 			}
 
 			//display the effects of the shot
-
-			//get the bullet prefab being shot
-
 			if (isSuicideShot)
 			{
 				GameObject bullet = Spawn.ClientPrefab(projectile,
