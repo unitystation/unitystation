@@ -38,9 +38,13 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	public PushPull parentContainer {
 		get => _parentContainer;
 		set {
-			if (value == this)
+			if (this == null) // is possible, Unity
 			{
-				Logger.LogError(gameObject.name + " tried to set parentContainer to itself!", Category.Transform);
+				Logger.LogWarning($"{gameObject} is null, and yet it tried to set a {nameof(parentContainer)}.", Category.Transform);
+			}
+			else if (value == this)
+			{
+				Logger.LogError($"{gameObject} tried to set {nameof(parentContainer)} to itself!", Category.Transform);
 				return;
 			}
 

@@ -636,7 +636,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (interactableTiles)
 		{
 			LayerTile tile = interactableTiles.LayerTileAt(mousePos);
-			pointedName = tile.DisplayName;
+			if (tile != null) // null if space
+			{
+				pointedName = tile.DisplayName;
+			}
 		}
 
 		Effect.PlayParticleDirectional(gameObject, mousePos);
