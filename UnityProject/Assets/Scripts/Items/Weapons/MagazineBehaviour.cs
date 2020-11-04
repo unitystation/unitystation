@@ -18,7 +18,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	(server thinks we've only shot once when we've already shot thrice). So instead
 	we keep our own private ammo count (clientAmmoRemains) and only sync it up with the server when we need it
 	*/
-	[SyncVar(hook = "SyncServerAmmo")]
+	[SyncVar(hook = nameof(SyncServerAmmo))]
 	private int serverAmmoRemains;
 	private int clientAmmoRemains;
 
@@ -164,7 +164,8 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			}
 			else
 			{
-				SyncServerAmmo(serverAmmoRemains, serverAmmoRemains - amount);
+				var remaining = serverAmmoRemains - amount;
+				SyncServerAmmo(remaining, remaining);
 				if (!isClip && !isCell)
 				{
 					for (int i = amount;i != 0;i--)
@@ -190,7 +191,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	[Server]
 	public void ServerSetAmmoRemains(int remaining)
 	{
-		SyncServerAmmo(serverAmmoRemains, remaining);
+		SyncServerAmmo(remaining, remaining);
 	}
 	/// <summary>
 	/// Loads as much ammo as possible from the given clip. Returns reloading message.

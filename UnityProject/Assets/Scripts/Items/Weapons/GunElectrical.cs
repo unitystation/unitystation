@@ -1,63 +1,56 @@
 using System;
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Weapons;
-using Weapons.Projectiles;
+using Mirror;
 
-public class GunElectrical : Gun
+
+public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 {
 	public List<GameObject> firemodeProjectiles = new List<GameObject>();
-
 	public List<string> firemodeFiringSound = new List<string>();
-
 	public List<string> firemodeName = new List<string>();
 
+	[SyncVar(hook = nameof(UpdateFiremode))]
 	private int currentFiremode = 0;
 
-	public int countFiremode = 1;
-
-	public override bool Interact(HandActivate interaction)
+	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
-		if (countFiremode == 1) return false;
-		if (countFiremode - 1 == currentFiremode )
-		{
-		currentFiremode = 0;
-		}
-		else
-		{
-			currentFiremode += 1;
-		}
-		UpdateFiremode();
-        Chat.AddExamineMsgToClient($"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
-		return true;
+		return DefaultWillInteract.Default(interaction, side);
 	}
 
-	public void ServerInteract(HandActivate interaction)
-	{
-
-		if (countFiremode - 1 == currentFiremode )
-		{
-			currentFiremode = 0;
-		}
-		else
-		{
-			currentFiremode += 1;
-		}
-		UpdateFiremode();
-	}
-
-	public void UpdateFiremode()
+	public override bool WillInteract(AimApply interaction, NetworkSide side)
 	{
 		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
+		return base.WillInteract(interaction, side);
+	}
+
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		if (firemodeProjectiles.Count <= 1)
+			return;
+		if (currentFiremode == firemodeProjectiles.Count - 1)
+			currentFiremode = 0;
+		else
+		{
+			currentFiremode++;
+		}
+		Chat.AddExamineMsgToClient($"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
+	}
+
+	public void UpdateFiremode(int oldValue, int newState)
+	{
+		currentFiremode = newState;
 		FiringSound = firemodeFiringSound[currentFiremode];
+		//TODO: change sprite here
 	}
 
 	public override String Examine(Vector3 pos)
 	{
 		string returnstring = WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")";
 
-		if (countFiremode != 1) {
+		if (firemodeProjectiles.Count > 1) {
 			returnstring += "\nIt is set to " + firemodeName[currentFiremode] + " mode.";
 		}
 
