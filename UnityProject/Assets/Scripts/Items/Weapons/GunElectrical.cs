@@ -22,7 +22,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 
 	public override bool WillInteract(AimApply interaction, NetworkSide side)
 	{
-		CurrentMagazine.Projectile = firemodeProjectiles[currentFiremode];
+		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
 		return base.WillInteract(interaction, side);
 	}
 

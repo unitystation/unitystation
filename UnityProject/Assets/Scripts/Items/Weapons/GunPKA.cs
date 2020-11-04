@@ -24,11 +24,10 @@ public class GunPKA : Gun
 	}
 	public override void ServerPerformInteraction(AimApply interaction)
 	{
-		base.ServerPerformInteraction(interaction);
 		if (allowRecharge)
 		{
 			//enqueue the shot (will be processed in Update)
-			ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
+			base.ServerPerformInteraction(interaction);
 			StartCoroutine(StartCooldown());
 		}
 	}
