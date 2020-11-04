@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothData: {fileID: 0}
+  clothData: {fileID: 11400000, guid: eac21e8e93bf196439e7e796264cf08f, type: 2}
   variantType: 0
   hidesSlots: 0
   hideClothingFlags: 0
@@ -221,7 +221,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: ed946b910c993490a8fc6dbcce8d23e2,
+      objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
         type: 2}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
@@ -279,12 +279,6 @@ PrefabInstance:
       propertyPath: hitSound
       value: BladeSlice
       objectReference: {fileID: 0}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
-        type: 2}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
