@@ -84,7 +84,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		{
 			InitLists();
 		}
-		serverAmmoRemains = magazineSize;
+		SyncServerAmmo(magazineSize, magazineSize);
 		SetupRNG();
 	}
 
@@ -108,7 +108,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		magazineSize = newSize;
 		clientAmmoRemains = -1;
-		serverAmmoRemains = newSize;
+		SyncServerAmmo(newSize, newSize);
 		SetupRNG();
 	}
 
@@ -164,7 +164,8 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			}
 			else
 			{
-				serverAmmoRemains -= amount;
+				var remaining = serverAmmoRemains - amount;
+				SyncServerAmmo(remaining, remaining);
 				if (!isClip && !isCell)
 				{
 					for (int i = amount;i != 0;i--)
@@ -190,7 +191,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	[Server]
 	public void ServerSetAmmoRemains(int remaining)
 	{
-		serverAmmoRemains = remaining;
+		SyncServerAmmo(remaining, remaining);
 	}
 	/// <summary>
 	/// Loads as much ammo as possible from the given clip. Returns reloading message.
