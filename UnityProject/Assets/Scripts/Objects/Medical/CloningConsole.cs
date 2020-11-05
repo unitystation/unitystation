@@ -62,21 +62,30 @@ namespace Objects.Medical
 		/// </summary>
 		public void ServerToggleLock()
 		{
-			if (!Inoperable() && scanner.IsClosed)
+			if (Inoperable())
+			{
+				UpdateInoperableStatus();
+				return;
+			}
+			if (scanner.IsClosed)
 			{
 				scanner.ServerToggleLocked();
 				scanner.statusString = scanner.IsLocked ? "Scanner locked." : "Scanner unlocked.";
 			}
-			else 
+			else
 			{
-				if(Inoperable()) UpdateInoperableStatus();
-				else if(!scanner.IsClosed) scanner.statusString = "Scanner is not closed.";
+				scanner.statusString = "Scanner is not closed.";
 			}
 		}
 
 		public void Scan()
 		{
-			if (!Inoperable() && scanner.occupant)
+			if (Inoperable())
+			{
+				UpdateInoperableStatus();
+				return;
+			}
+			if (scanner.occupant)
 			{
 				var mob = scanner.occupant;
 				var mobID = scanner.occupant.mobID;
@@ -99,23 +108,23 @@ namespace Objects.Medical
 				CreateRecord(mob, playerScript);
 				scanner.statusString = "Subject successfully scanned.";
 			}
-			else 
+			else
 			{
-				if (Inoperable()) UpdateInoperableStatus();
-				else if (!scanner.occupant) scanner.statusString = "Scanner is empty.";
+				scanner.statusString = "Scanner is empty.";
 			}
 		}
 
-		private bool Inoperable() 
+		private bool Inoperable()
 		{
 			return !(scanner && scanner.RelatedAPC && scanner.Powered);
 		}
 
 		private void UpdateInoperableStatus()
 		{
-			if (!scanner) scanner.statusString = "Scanner not found.";
-			else if (!scanner.RelatedAPC) scanner.statusString = "Scanner not connected to APC.";
-			else if (!scanner.Powered) scanner.statusString = "Voltage too low.";
+			if (!scanner.RelatedAPC)
+				scanner.statusString = "Scanner not connected to APC.";
+			else if (!scanner.Powered)
+				scanner.statusString = "Voltage too low.";
 		}
 
 		public void ServerTryClone(CloningRecord record)
