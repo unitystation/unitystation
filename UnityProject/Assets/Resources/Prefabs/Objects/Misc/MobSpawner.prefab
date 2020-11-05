@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -134,6 +135,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  passableExclusionsToThis: []
 --- !u!114 &114928563535158040
 MonoBehaviour:
   m_ObjectHideFlags: 0
