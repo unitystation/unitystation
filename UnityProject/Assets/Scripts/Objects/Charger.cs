@@ -122,6 +122,11 @@ namespace Objects
 		private void AddCharge()
 		{
 			battery.Watts += ChargingWatts;
+			
+			if (battery.Watts > battery.MaxWatts)
+			{
+				battery.Watts = battery.MaxWatts;
+			}
 
 			if (electricalMagazine != null)
 			{
