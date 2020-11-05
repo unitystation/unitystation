@@ -160,7 +160,7 @@ namespace Weapons
 
 		private RegisterTile registerTile;
 		private ItemStorage itemStorage;
-		private ItemSlot magSlot;
+		public ItemSlot magSlot;
 
 		private GunTrigger gunTrigger;
 
