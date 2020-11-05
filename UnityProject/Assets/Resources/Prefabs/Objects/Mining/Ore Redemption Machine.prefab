@@ -62,27 +62,6 @@ MonoBehaviour:
     type: 3}
   canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
---- !u!114 &7207538277679673550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7537901516811143965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue:
-  - {fileID: 11400000, guid: e417ffb4aabe13546b3bfdf8bcabdd56, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: e417ffb4aabe13546b3bfdf8bcabdd56, type: 2}
-  pushTextureOnStartUp: 1
-  variantIndex: 0
-  palette: []
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
 --- !u!1001 &2473681083921268590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90,11 +69,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 83141582606814714, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83141582606814714, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83141582606814714, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300014, guid: 7cd232d70698e2d4b856d70b22d3f223,
+      objectReference: {fileID: 21300000, guid: 7cd232d70698e2d4b856d70b22d3f223,
         type: 3}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -176,17 +170,17 @@ PrefabInstance:
       propertyPath: exportCost
       value: 600
       objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e417ffb4aabe13546b3bfdf8bcabdd56,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &1735666357076621607 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
-    type: 3}
-  m_PrefabInstance: {fileID: 2473681083921268590}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7537901516811143965 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}
   m_PrefabInstance: {fileID: 2473681083921268590}
   m_PrefabAsset: {fileID: 0}

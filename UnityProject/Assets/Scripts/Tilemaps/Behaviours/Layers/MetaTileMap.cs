@@ -271,6 +271,12 @@ namespace TileManagement
 
 		}
 
+		/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlocked(Vector3Int, bool, RegisterTile)"/>
+		public bool HasAnyDepartureBlocked(Vector3Int to, bool isServer, RegisterTile context)
+		{
+			return ObjectLayer.HasAnyDepartureBlocked(to, isServer, context);
+		}
+
 		private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false, bool isReach = false)

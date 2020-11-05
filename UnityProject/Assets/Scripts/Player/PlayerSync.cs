@@ -411,6 +411,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	private bool didWiggle = false;
 
+	[Client]
 	public void TryEscapeContainer()
 	{
 		if (Camera2DFollow.followControl.target.TryGetComponent(out ClosetControl closet))

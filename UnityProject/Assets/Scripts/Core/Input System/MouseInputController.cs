@@ -315,6 +315,13 @@ public class MouseInputController : MonoBehaviour
 		}
 	}
 
+	private void TrySlide()
+	{
+		if (PlayerManager.PlayerScript.IsGhost || PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+			return;
+		PlayerManager.PlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
+	}
+
 	private bool CheckClick()
 	{
 		ChangeDirection();
@@ -348,6 +355,13 @@ public class MouseInputController : MonoBehaviour
 				var handAppliables = posHandApply.HandObject.GetComponents<IBaseInteractable<PositionalHandApply>>()
 					.Where(c => c != null && (c as MonoBehaviour).enabled);
 				if (InteractionUtils.ClientCheckAndTrigger(handAppliables, posHandApply) != null) return true;
+			}
+
+			// If we're dragging something, try to move it.
+			if (PlayerManager.LocalPlayerScript.pushPull.IsPullingSomethingClient)
+			{
+				TrySlide();
+				return false;
 			}
 		}
 

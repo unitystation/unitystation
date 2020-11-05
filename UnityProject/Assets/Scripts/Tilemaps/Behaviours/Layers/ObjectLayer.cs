@@ -79,6 +79,28 @@ public class ObjectLayer : Layer
 		return true;
 	}
 
+	/// <summary>
+	/// Returns whether anything in the same square as some particular object, moving out to a particular destination
+	/// would be blocked by that object
+	/// </summary>
+	/// <param name="to">destination of hypothetical movement</param>
+	/// <param name="isServer">Whether or not being run on server</param>
+	/// <param name="context">the object in question.</param>
+	/// <returns></returns>
+	public bool HasAnyDepartureBlocked(Vector3Int to, bool isServer, RegisterTile context)
+	{
+		foreach (RegisterTile o in isServer ? ServerObjects.Get(context.LocalPositionServer) : ClientObjects.Get(context.LocalPositionClient) )
+		{
+			if (o.IsPassable(isServer,context.gameObject) == false
+				&& context.IsPassableTo(to, isServer, o.gameObject) == false)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
 	{
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
