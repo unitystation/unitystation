@@ -194,8 +194,9 @@ GameObject:
   - component: {fileID: 5673662740140621782}
   - component: {fileID: 2710858971378784501}
   - component: {fileID: 8454985859412744612}
+  - component: {fileID: -8384030658910320487}
   m_Layer: 12
-  m_Name: NPC_Chicken_White
+  m_Name: BVOld_NPC_Chicken_White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -316,6 +317,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
   passableExclusionsToThis: []
 --- !u!114 &114386898746361270
 MonoBehaviour:
@@ -649,6 +651,18 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 3511150969832926499}
+--- !u!114 &-8384030658910320487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0

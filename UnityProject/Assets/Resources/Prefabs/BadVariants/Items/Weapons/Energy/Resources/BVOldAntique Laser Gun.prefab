@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -97,9 +98,22 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: d876447fb4123ef4f8f6d359f9206a70, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
+--- !u!114 &-9019536320705276289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6494520623657242347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3510444784868631258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,7 +196,7 @@ PrefabInstance:
     - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Name
-      value: Antique Laser Gun
+      value: BVOldAntique Laser Gun
       objectReference: {fileID: 0}
     - target: {fileID: 7710870028303749509, guid: c456c86d5736aee499478a158376781e,
         type: 3}
@@ -276,6 +290,12 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
+--- !u!1 &6494520623657242347 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510444784868631258}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6499448772516230047 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,

@@ -77,6 +77,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -130,13 +131,18 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   IsLockable: 0
   playerLimit: 3
+  breakoutTime: 120
   matsOnDestroy: {fileID: 0}
   matsDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
   soundOnEmag: grillehit
+  soundOnEscape: Rustle 1
   doorOpened: {fileID: 21300000, guid: c8be939fc9d5380449139202a740b1f2, type: 3}
   spriteRenderer: {fileID: 3918525054062759918}
+  lockOverlay: {fileID: 0}
   isEmagged: 0
+  weldOverlay: {fileID: 0}
+  weldSprite: {fileID: 0}
 --- !u!114 &-797998084699582951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +191,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
   closetType: 1
 --- !u!114 &5934102971753303936
 MonoBehaviour:
@@ -210,6 +218,18 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5614616759820270132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179535571258370003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6476388597975867802
 PrefabInstance:
   m_ObjectHideFlags: 0

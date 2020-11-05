@@ -30,8 +30,9 @@ GameObject:
   - component: {fileID: 4452164170430897786}
   - component: {fileID: 7532131944986048403}
   - component: {fileID: 3550290558606807488}
+  - component: {fileID: -3870548931579748680}
   m_Layer: 12
-  m_Name: NPC_Runtime
+  m_Name: BVOld_NPC_Runtime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,6 +153,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
   passableExclusionsToThis: []
 --- !u!114 &114582363912736342
 MonoBehaviour:
@@ -456,6 +458,18 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 8310562289488482199}
+--- !u!114 &-3870548931579748680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5258005088007752283
 GameObject:
   m_ObjectHideFlags: 0

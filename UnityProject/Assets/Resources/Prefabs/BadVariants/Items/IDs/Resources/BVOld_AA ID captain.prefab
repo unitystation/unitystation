@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &578065847980411200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195281558999754955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3655493137558078914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -336,7 +348,7 @@ PrefabInstance:
     - target: {fileID: 2462507587837783305, guid: dd36cfd4f55a00d4ab4190d869297198,
         type: 3}
       propertyPath: m_Name
-      value: AA ID captain
+      value: BVOld_AA ID captain
       objectReference: {fileID: 0}
     - target: {fileID: 2467717211471614077, guid: dd36cfd4f55a00d4ab4190d869297198,
         type: 3}
@@ -418,3 +430,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd36cfd4f55a00d4ab4190d869297198, type: 3}
+--- !u!1 &1195281558999754955 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2462507587837783305, guid: dd36cfd4f55a00d4ab4190d869297198,
+    type: 3}
+  m_PrefabInstance: {fileID: 3655493137558078914}
+  m_PrefabAsset: {fileID: 0}

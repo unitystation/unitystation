@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: -6753860294144900953}
   - component: {fileID: 3918369873534462626}
   - component: {fileID: -7736176027130130300}
+  - component: {fileID: 4662524052233145674}
   m_Layer: 11
   m_Name: BVOld_BarDrobe
   m_TagString: Untagged
@@ -258,6 +259,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114947365864617716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,6 +427,18 @@ MonoBehaviour:
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
   conType: 1
+--- !u!114 &4662524052233145674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

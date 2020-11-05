@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-171041045880473474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7471269844102940582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5891626827952249044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26,7 +38,7 @@ PrefabInstance:
     - target: {fileID: 3921521694364753778, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: m_Name
-      value: DetectiveArmorVest
+      value: BVOld_DetectiveArmorVest
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
@@ -102,3 +114,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e606c25f8104ffa4e94b68151182a216, type: 3}
+--- !u!1 &7471269844102940582 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3921521694364753778, guid: e606c25f8104ffa4e94b68151182a216,
+    type: 3}
+  m_PrefabInstance: {fileID: 5891626827952249044}
+  m_PrefabAsset: {fileID: 0}

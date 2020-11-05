@@ -22,8 +22,9 @@ GameObject:
   - component: {fileID: 8092307194694442929}
   - component: {fileID: 3091514175836004911}
   - component: {fileID: -6633791470238628955}
+  - component: {fileID: 5911403500579573154}
   m_Layer: 10
-  m_Name: VendingRestock
+  m_Name: BVOld_VendingRestock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -195,7 +196,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -216,7 +219,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &-7908911030363389922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,22 +268,6 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    RightHand:
-      Texture: {fileID: 2800000, guid: 0bb13942a6abaab4a8a61f4cd580cbf9, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 0bb13942a6abaab4a8a61f4cd580cbf9, type: 3}
-      - {fileID: 21300002, guid: 0bb13942a6abaab4a8a61f4cd580cbf9, type: 3}
-      - {fileID: 21300004, guid: 0bb13942a6abaab4a8a61f4cd580cbf9, type: 3}
-      - {fileID: 21300006, guid: 0bb13942a6abaab4a8a61f4cd580cbf9, type: 3}
-      EquippedData: {fileID: 4900000, guid: 0a0cee3d2ef856644b1ecc87fe0f3650, type: 3}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 0}
     SpriteRightHand: {fileID: 11400000, guid: 76f19c1ff5b2c3b4a9a1ea30fffc60b3, type: 2}
@@ -309,7 +295,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!114 &-6633791470238628955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +305,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5911403500579573154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266178104534119887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &267804334718447221
@@ -368,6 +365,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

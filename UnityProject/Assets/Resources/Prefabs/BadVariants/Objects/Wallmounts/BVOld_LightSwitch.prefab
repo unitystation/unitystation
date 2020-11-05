@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 114330810423114948}
   - component: {fileID: 8711263746210110711}
   - component: {fileID: -2046554790018608125}
+  - component: {fileID: 8839530272673320547}
   m_Layer: 19
   m_Name: BVOld_LightSwitch
   m_TagString: Untagged
@@ -184,6 +185,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &4336187224331491966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,5 +360,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8839530272673320547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014236108730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

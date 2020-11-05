@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: -2934526323519094174}
   - component: {fileID: 8386195029513753312}
   - component: {fileID: -5886089061326209906}
+  - component: {fileID: -1206752160885769520}
   m_Layer: 23
   m_Name: BVOld_chairs_bar
   m_TagString: Untagged
@@ -285,6 +286,7 @@ MonoBehaviour:
   objectType: 0
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
   passableExclusionsToThis: []
 --- !u!114 &909463862082034201
 MonoBehaviour:
@@ -473,5 +475,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1206752160885769520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8325475169279047993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

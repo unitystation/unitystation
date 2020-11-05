@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -98,10 +99,11 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 26530f2a792c75d4b8cb7bbedb14a8ba, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 26530f2a792c75d4b8cb7bbedb14a8ba, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 3ffc5b68322b39e4da52ec7df4bfd1ea, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 3ffc5b68322b39e4da52ec7df4bfd1ea, type: 3}
 --- !u!1 &1538438828928774
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,8 +124,9 @@ GameObject:
   - component: {fileID: 114503800418262852}
   - component: {fileID: 4140865936920749299}
   - component: {fileID: -4592294357686397601}
+  - component: {fileID: 7560971641345234973}
   m_Layer: 11
-  m_Name: vending_104
+  m_Name: BVOld_vending_104
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,6 +207,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent: []
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0
@@ -225,6 +229,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114548594117427474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,7 +288,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -303,7 +311,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114503800418262852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,16 +353,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 3
   isSelfPowered: 0
   wattusage: 0.01
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
+--- !u!114 &7560971641345234973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538438828928774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

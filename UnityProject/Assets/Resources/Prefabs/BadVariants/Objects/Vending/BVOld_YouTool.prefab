@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 2621353704256442992}
   - component: {fileID: -4754010924819303601}
   - component: {fileID: 8471499164680309566}
+  - component: {fileID: 7579050979502744125}
   m_Layer: 11
   m_Name: BVOld_YouTool
   m_TagString: Untagged
@@ -337,6 +338,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114337553390059262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,3 +493,15 @@ MonoBehaviour:
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
   conType: 1
+--- !u!114 &7579050979502744125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771454506785624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114876689548865824}
   - component: {fileID: 8501056774758602355}
   - component: {fileID: 8705481116926788787}
+  - component: {fileID: -2055559517117370984}
   m_Layer: 11
   m_Name: BVOld_ArcadeMachine
   m_TagString: Untagged
@@ -167,6 +168,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &7478891196200289026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,5 +302,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2055559517117370984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
