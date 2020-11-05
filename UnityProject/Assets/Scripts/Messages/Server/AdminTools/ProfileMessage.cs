@@ -43,9 +43,13 @@ public class ProfileMessage : ServerMessage
 
 	private static List<ProfileEntryData> GetAllProfiles()
 	{
-		var info = new DirectoryInfo("Profiles");
-		var fileInfo = info.GetFiles();
 		var profileList = new List<ProfileEntryData>();
+		var info = new DirectoryInfo("Profiles");
+
+		if (!info.Exists)
+			return profileList;
+
+		var fileInfo = info.GetFiles();
 		foreach (var file in fileInfo)
 		{
 			var entry = new ProfileEntryData();
