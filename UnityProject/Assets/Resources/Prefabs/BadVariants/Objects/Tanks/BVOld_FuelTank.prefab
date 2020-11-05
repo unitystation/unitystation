@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: -2029180449850996923}
   - component: {fileID: 5354952563464335}
   - component: {fileID: -2127529729460597781}
+  - component: {fileID: 8447599224312222320}
   m_Layer: 11
   m_Name: BVOld_FuelTank
   m_TagString: Untagged
@@ -129,6 +130,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114077234577922880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +318,18 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &8447599224312222320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677789019931390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1754091207019976
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -102,8 +103,9 @@ GameObject:
   - component: {fileID: -2234183320136273726}
   - component: {fileID: -8126535781423591139}
   - component: {fileID: -6035604790917528140}
+  - component: {fileID: 6608835851067749159}
   m_Layer: 11
-  m_Name: vending_190
+  m_Name: BVOld_vending_190
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114982929168440566
@@ -201,6 +204,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
@@ -240,6 +244,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114102298114621054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +303,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -318,7 +326,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114665692247917754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,16 +388,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 3
   isSelfPowered: 0
   wattusage: 0.01
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
+--- !u!114 &6608835851067749159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854253567727558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

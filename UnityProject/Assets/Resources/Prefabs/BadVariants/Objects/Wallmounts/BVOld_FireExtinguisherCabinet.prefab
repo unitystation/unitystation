@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -127,8 +128,9 @@ GameObject:
   - component: {fileID: 9199521041031586661}
   - component: {fileID: 2610629250522052754}
   - component: {fileID: 3261650338922183168}
+  - component: {fileID: -669373911209210674}
   m_Layer: 19
-  m_Name: FireExtinguisherCabinet
+  m_Name: BVOld_FireExtinguisherCabinet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,10 +208,6 @@ MonoBehaviour:
   syncInterval: 0.1
   IsClosed: 1
   spriteHandler: {fileID: 3499148093344054675}
-  spriteClosed: {fileID: 21300000, guid: 1492454c1f9a5c5429d3711b134401d0, type: 3}
-  spriteOpenedEmpty: {fileID: 21300000, guid: 72f3160d203064a47a9c8977f2ba6d55, type: 3}
-  spriteOpenedOccupied: {fileID: 21300000, guid: 80f663137c3e2744b9c01da90bedacc9,
-    type: 3}
 --- !u!114 &114838689195169320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +226,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114185868468834516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,5 +392,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-669373911209210674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014202525198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

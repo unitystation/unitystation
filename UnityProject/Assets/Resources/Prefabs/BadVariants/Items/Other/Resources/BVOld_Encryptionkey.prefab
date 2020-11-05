@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -104,8 +105,9 @@ GameObject:
   - component: {fileID: 8856671591219409022}
   - component: {fileID: -8023692734810667622}
   - component: {fileID: 4974567565614456384}
+  - component: {fileID: 1283189776041572502}
   m_Layer: 10
-  m_Name: Encryptionkey
+  m_Name: BVOld_Encryptionkey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -289,6 +291,7 @@ MonoBehaviour:
   syndicateSprite: {fileID: 21300000, guid: 7f0a7e771115d3f4a8643ea77539c6b8, type: 3}
   srvsecSprite: {fileID: 21300000, guid: a70e977729c2c3a4590cf5aa623babb5, type: 3}
   centCommPlusSprite: {fileID: 0}
+  srvmedSprite: {fileID: 0}
   type: 1
 --- !u!114 &114386789575497412
 MonoBehaviour:
@@ -318,7 +321,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -339,7 +344,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114187653547998928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,18 +393,6 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    RightHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 0}
     SpriteRightHand: {fileID: 0}
@@ -428,7 +420,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!114 &4974567565614456384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,5 +430,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1283189776041572502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599349953373750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

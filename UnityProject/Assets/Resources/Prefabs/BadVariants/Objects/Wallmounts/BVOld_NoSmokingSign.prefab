@@ -20,8 +20,9 @@ GameObject:
   - component: {fileID: 114696512283264994}
   - component: {fileID: -837520135671368095}
   - component: {fileID: -4838470104161916397}
+  - component: {fileID: -3924456193070683379}
   m_Layer: 19
-  m_Name: NoSmokingSign
+  m_Name: BVOld_NoSmokingSign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,6 +87,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114984355352443168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directional: {fileID: 0}
 --- !u!114 &114072800527799734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +131,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
 --- !u!114 &114474886915912808
@@ -143,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114425968640280296
 MonoBehaviour:
@@ -156,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114691281576881648
@@ -172,7 +181,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -193,7 +204,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114696512283264994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,9 +252,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
+--- !u!114 &-3924456193070683379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609320383952464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1771045921581124
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +310,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

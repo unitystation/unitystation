@@ -66,6 +66,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -90,6 +91,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &478940285749014473
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -145,6 +147,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -195,8 +198,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: fc136714dbce57d4cad672e40699b9a0, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &492998437866873883
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +226,7 @@ GameObject:
   - component: {fileID: 3997893427699254148}
   - component: {fileID: -3825119850302252834}
   - component: {fileID: 6520513280515795341}
+  - component: {fileID: 5750086518159395223}
   m_Layer: 11
   m_Name: BVOld_SecurityRecords_Console
   m_TagString: Untagged
@@ -289,6 +295,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &523872058597329049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,8 +325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8cac74219314e4e8ba276ffc22f95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenFrames: 0.2
-  screenGlow: {fileID: 492260991595978983}
+  spriteHandler: {fileID: 0}
+  ScreenGlow: {fileID: 0}
 --- !u!114 &6930270276971121339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,18 +341,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
   wattusage: 145
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 2
   conType: 1
 --- !u!114 &3023104479544448774
 MonoBehaviour:
@@ -519,6 +525,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5750086518159395223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492998437866873883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &493082733683129681
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,6 +583,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

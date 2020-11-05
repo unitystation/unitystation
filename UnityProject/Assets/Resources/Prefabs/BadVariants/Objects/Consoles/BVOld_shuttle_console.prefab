@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -97,8 +98,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 815203b91ae5c604a9ee9de3735d313e, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1413862099450234
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,6 +123,7 @@ GameObject:
   - component: {fileID: -7468014590377915809}
   - component: {fileID: -8835139924105123612}
   - component: {fileID: 8372793552177383676}
+  - component: {fileID: -7877303301306129493}
   m_Layer: 11
   m_Name: BVOld_shuttle_console
   m_TagString: Untagged
@@ -187,6 +191,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114489178862107254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,6 +369,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7877303301306129493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413862099450234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1529566477441902
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,6 +427,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

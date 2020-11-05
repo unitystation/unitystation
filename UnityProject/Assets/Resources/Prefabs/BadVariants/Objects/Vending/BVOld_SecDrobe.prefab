@@ -22,8 +22,9 @@ GameObject:
   - component: {fileID: 6810634282263841819}
   - component: {fileID: 2097531752595157706}
   - component: {fileID: 3022235343383175088}
+  - component: {fileID: -110155260824687173}
   m_Layer: 11
-  m_Name: SecDrobe
+  m_Name: BVOld_SecDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,6 +156,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 4947898699112671526, guid: 6920da5d154527242970c7c2f00fcd16, type: 3}
@@ -227,6 +229,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114947365864617716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,7 +288,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -305,7 +311,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114472266138859352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,19 +386,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 3
   isSelfPowered: 0
   wattusage: 0.01
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
+--- !u!114 &-110155260824687173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +456,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -492,7 +508,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: cea388363c34fe34286fd073c319cebd, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: cea388363c34fe34286fd073c319cebd, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 071f58d5f3d68ca40bdcb62f7c00bef8, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 071f58d5f3d68ca40bdcb62f7c00bef8, type: 3}

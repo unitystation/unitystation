@@ -25,8 +25,9 @@ GameObject:
   - component: {fileID: 8587603746953740326}
   - component: {fileID: -7278014346398554385}
   - component: {fileID: 6337640886809552984}
+  - component: {fileID: 3589761795688576877}
   m_Layer: 19
-  m_Name: APC
+  m_Name: BVOld_APC
   m_TagString: APC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,6 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &3892757361480040570
@@ -115,15 +117,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  PowerMachinery: 1
-  PowerLights: 1
-  PowerEnvironment: 1
-  BatteryCharging: 0
-  CashOfConnectedDevices: 0
-  Current: 0
-  ElectricalNodeControl: {fileID: 3643045761793170736}
-  ResistanceSourceModule: {fileID: 7309201818092580452}
-  NetTabType: 6
+  powerMachinery: 1
+  powerLights: 1
+  powerEnvironment: 1
+  netTabType: 6
   criticalSprites:
   - {fileID: 21300000, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
   - {fileID: 21300004, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
@@ -142,8 +139,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
   - {fileID: 21300002, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
   screenDisplay: {fileID: 212786810316391690}
-  ConnectedDevices: []
-  ConnectedDepartmentBatteries: []
+  connectedDevices: []
+  connectedDepartmentBatteries: []
+  conType: 1
+  multiMaster: 1
 --- !u!114 &114840369580293110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +161,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114809207030236184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directional: {fileID: 0}
 --- !u!114 &5337989651947616586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +203,7 @@ MonoBehaviour:
       SupplyingCurrent: 0
       InternalResistance: 0
       SupplyingVoltage: 0
+      ProducingWatts: 0
       ChangeToOff: 0
       CurrentStoreValue: 0
     DestroyQueueing: 0
@@ -227,9 +230,6 @@ MonoBehaviour:
     ResistanceAvailable: 1
   EditorResistance: 0
   NotEditorResistanceset: 1
-  RR:
-    Ohms: 0
-    ResistanceAvailable: 1
   ReactionTo:
     ConnectingDevice: 9
     DirectionReaction: 0
@@ -290,6 +290,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
 --- !u!114 &114168478660762876
@@ -306,6 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114619189916669420
 MonoBehaviour:
@@ -337,7 +341,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -358,7 +364,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &-7278014346398554385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,9 +396,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
+--- !u!114 &3589761795688576877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1670300920953744
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +455,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -537,6 +552,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

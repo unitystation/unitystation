@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 4941744328973670436}
   - component: {fileID: 8772865639506659438}
   - component: {fileID: 7400212208718163096}
+  - component: {fileID: 5146755088055673414}
   m_Layer: 18
   m_Name: BVOld_TDirectionalWindow
   m_TagString: Untagged
@@ -385,3 +386,15 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 4657582524142884668}
+--- !u!114 &5146755088055673414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

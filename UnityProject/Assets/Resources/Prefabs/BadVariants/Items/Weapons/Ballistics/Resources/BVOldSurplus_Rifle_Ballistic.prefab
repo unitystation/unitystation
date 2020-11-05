@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -117,8 +118,21 @@ MonoBehaviour:
   syncInterval: 0.1
   clothData: {fileID: 11400000, guid: 3a3fee0c989e9fb41a6aa909ffd71fdc, type: 2}
   variantType: 0
+  hidesSlots: 0
   hideClothingFlags: 0
   SpriteDataSO: []
+--- !u!114 &-4880194606217478664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661405798750022295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2998735065845834439
 PrefabInstance:
   m_ObjectHideFlags: 0

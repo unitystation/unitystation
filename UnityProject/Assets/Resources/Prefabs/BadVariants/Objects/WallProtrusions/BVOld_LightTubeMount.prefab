@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 21
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -102,8 +103,9 @@ GameObject:
   - component: {fileID: -8775636696312819921}
   - component: {fileID: 114197525563370534}
   - component: {fileID: 4347738222806098176}
+  - component: {fileID: -96136016314409142}
   m_Layer: 13
-  m_Name: LightTubeMount
+  m_Name: BVOld_LightTubeMount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,6 +187,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114413268325490614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +276,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114197525563370534}
+        m_TargetAssemblyTypeName: 
         m_MethodName: EditorDirectionChange
         m_Mode: 1
         m_Arguments:
@@ -310,18 +315,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 220
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 2400
+  minimumWorkingVoltage: 220
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 2400
   deviceType: 1
   isSelfPowered: 0
   wattusage: 30
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 2
   conType: 1
 --- !u!114 &-8775636696312819921
 MonoBehaviour:
@@ -358,8 +361,6 @@ MonoBehaviour:
   EmergencyColour: {r: 1, g: 0, b: 0, a: 0.33333334}
   relatedLightSwitch: {fileID: 0}
   InitialState: 1
-  glassShard: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
-    type: 3}
   mLightRendererObject: {fileID: 0}
   isWithoutSwitch: 0
   spriteRenderer: {fileID: 212685610322283746}
@@ -386,6 +387,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-96136016314409142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4425836223823806458
@@ -434,6 +447,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -456,7 +470,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 21
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300002, guid: 1f8fe2981d2d3bb4f8643d0bed83b580, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

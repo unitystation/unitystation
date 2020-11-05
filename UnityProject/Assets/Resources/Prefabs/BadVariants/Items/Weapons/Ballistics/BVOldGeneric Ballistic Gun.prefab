@@ -28,9 +28,6 @@ MonoBehaviour:
   FiringSound: ShootGun01
   FireRate: 3
   MaxRecoilVariance: 0
-  Projectile: {fileID: 1011412119081755325, guid: f1e541b806000994b970a77f497619ca,
-    type: 3}
-  ProjectilesFired: 1
   ProjectileVelocity: 20
   CameraRecoilConfig:
     Distance: 0
@@ -54,6 +51,18 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: db8446be2958d46af9535e986cb7d8fb,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+--- !u!114 &4438619546122266027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7425590482768185424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7426269584660608234
 PrefabInstance:
   m_ObjectHideFlags: 0

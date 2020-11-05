@@ -102,6 +102,18 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+--- !u!114 &3763577994304507691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6507000735928756314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3520465010449138795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -295,6 +307,12 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
+--- !u!1 &6507000735928756314 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3520465010449138795}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6511642736210826542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,

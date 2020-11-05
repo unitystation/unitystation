@@ -48,6 +48,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -104,6 +105,7 @@ GameObject:
   - component: {fileID: -7570124691323909634}
   - component: {fileID: 4542191098420167764}
   - component: {fileID: 3882926883204867479}
+  - component: {fileID: 62211057881911640}
   m_Layer: 11
   m_Name: BVOld_Closet_Locker_Cargo
   m_TagString: Untagged
@@ -202,13 +204,18 @@ MonoBehaviour:
   lockLight: {fileID: 527029311709513977}
   IsLockable: 1
   playerLimit: 3
+  breakoutTime: 120
   matsOnDestroy: {fileID: 0}
   matsDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
   soundOnEmag: grillehit
+  soundOnEscape: Rustle 1
   doorOpened: {fileID: 21300000, guid: c69cedc51d9f0c641b5f14f02c2bb1ae, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
+  lockOverlay: {fileID: 0}
   isEmagged: 0
+  weldOverlay: {fileID: 0}
+  weldSprite: {fileID: 0}
 --- !u!114 &7172996459588766801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +258,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 0
+  passableExclusionsToThis: []
   closetType: 0
 --- !u!114 &114688112107947502
 MonoBehaviour:
@@ -364,6 +373,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &62211057881911640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615565101381030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1660108514398418
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +432,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -522,6 +544,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -544,7 +567,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 75d1bec09df0e5f4c96b13c538121bf0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -604,6 +627,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

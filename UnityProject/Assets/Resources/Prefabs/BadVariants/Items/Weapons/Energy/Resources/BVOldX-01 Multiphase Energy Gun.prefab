@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -97,9 +98,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 44e54af7ec604c14ebab1fd3191371ab, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &6924189343609244811
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +149,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -197,9 +200,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: cf54f15234f80044b8d9a989aad9992f, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &7432434736507954781
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +251,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -297,9 +302,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 44e54af7ec604c14ebab1fd3191371ab, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &7529218331017813773
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +353,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -397,9 +404,22 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 44e54af7ec604c14ebab1fd3191371ab, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
+--- !u!114 &6425898858353959492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7775365065952118728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8874767744086271104
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,6 +467,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -497,9 +518,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 44e54af7ec604c14ebab1fd3191371ab, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1001 &103885858032102393
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -592,7 +614,7 @@ PrefabInstance:
     - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Name
-      value: X-01 Multiphase Energy Gun
+      value: BVOldX-01 Multiphase Energy Gun
       objectReference: {fileID: 0}
     - target: {fileID: 7710870028303749509, guid: c456c86d5736aee499478a158376781e,
         type: 3}
@@ -686,6 +708,12 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
+--- !u!1 &7775365065952118728 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+    type: 3}
+  m_PrefabInstance: {fileID: 103885858032102393}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7778885839524379324 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
