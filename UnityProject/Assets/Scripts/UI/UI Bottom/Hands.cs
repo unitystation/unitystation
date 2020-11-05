@@ -229,7 +229,6 @@ public class Hands : MonoBehaviour
 		// Is there an item to equip?
 		if (CurrentSlot.Item == null)
 		{
-			Logger.Log("!CurrentSlot.IsFull");
 			return;
 		}
 

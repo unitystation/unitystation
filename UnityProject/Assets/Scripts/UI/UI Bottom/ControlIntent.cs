@@ -23,13 +23,15 @@ public class ControlIntent : TooltipMonoBehaviour
 	[SerializeField] private string startRunningMessage = "You start running";
 	[SerializeField] private string startWalkingMessage = "You start walking";
 
+	public bool running { get; set; } = true;
+
 	private void Start()
 	{
 		SetIntent(Intent.Help);
 		helpIntentIcon.SetActive(true);
 		harmIntentIcon.SetActive(false);
 
-		runWalkBorder.SetActive(UIManager.WalkRun.running);
+		runWalkBorder.SetActive(running);
 	}
 
 	#region OnClick listeners
@@ -90,8 +92,7 @@ public class ControlIntent : TooltipMonoBehaviour
 		Logger.Log("OnClickRunWalk", Category.UI);
 		SoundManager.Play("Click01");
 		
-		bool running = !UIManager.WalkRun.running;
-		UIManager.WalkRun.running = running;
+		running = !running;
 		runWalkBorder.SetActive(running);
 		
 		Chat.AddExamineMsgToClient(running ? startRunningMessage : startWalkingMessage);

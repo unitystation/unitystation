@@ -402,7 +402,7 @@ public class ChatUI : MonoBehaviour
 		UIManager.IsInputFocus = false;
 		chatInputWindow.SetActive(false);
 		EventManager.Broadcast(EVENT.ChatUnfocused);
-		//background.SetActive(false);
+		background.SetActive(false);
 		UIManager.PreventChatInput = false;
 
 		// if doesn't clear input next opening can be by OOC or other hotkey
@@ -795,7 +795,7 @@ public class ChatUI : MonoBehaviour
 		UpdateInputLabel();
 	}
 
-	private ChatChannel GetAvailableChannels()
+	public ChatChannel GetAvailableChannels()
 	{
 		if (PlayerManager.LocalPlayerScript == null)
 		{

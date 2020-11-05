@@ -402,7 +402,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			pendingActions = new Queue<PlayerAction>();
 			UpdatePredictedState();
-			predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
+			predictedSpeedClient = UIManager.Intent.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
 		}
 	}
 

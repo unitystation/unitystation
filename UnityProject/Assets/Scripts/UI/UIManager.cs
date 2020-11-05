@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public Hands hands;
 	public ControlIntent intentControl;
 	public ControlInternals internalControls;
+	public PlayerExaminationWindowUI playerExaminationWindow;
 	public PlayerHealthUI playerHealthUI;
 	public PlayerListUI playerListUIControl;
 	public Text toolTip;
@@ -33,7 +34,6 @@ public class UIManager : MonoBehaviour, IInitialise
 	[Tooltip("Text displaying the game's version number.")]
 	public Text versionDisplay;
 	public GUI_Info infoWindow;
-	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
 	public BuildMenu buildMenu;
 	public ZoneSelector zoneSelector;
@@ -137,6 +137,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	}
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
+
+	public static PlayerExaminationWindowUI PlayerExaminationWindow => Instance.playerExaminationWindow;
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
 
 	public static Hands Hands => Instance.hands;
@@ -148,7 +150,6 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static UIDragAndDrop UiDragAndDrop => Instance.uiDragAndDrop;
 
-	public static ControlWalkRun WalkRun => Instance.walkRunControl;
 
 	public static ControlDisplays Display => Instance.displayControl;
 	public static ControlClothing ControlClothing => Instance.controlClothing;

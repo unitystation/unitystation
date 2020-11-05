@@ -36,6 +36,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[SerializeField]
 	private bool initiallyHidden = false;
 
+	[Tooltip("Placeholder image that will be disabled when there is an item in slot")]
+	[SerializeField]
+	private Image placeholderImage = null;
+
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
 	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributesV2>().ArticleName;
 
@@ -179,6 +183,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		if (!nullItem)
 		{
 			image.ShowItem(item, color);
+			if(placeholderImage)
+				placeholderImage.color = new Color(1, 1, 1, 0);
 
 			//determine if we should show an amount
 			var stack = item.GetComponent<Stackable>();
@@ -221,8 +227,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			amountText.enabled = false;
 		}
-
-
+		if(placeholderImage)
+		{
+			placeholderImage.color = Color.white;
+		}
 	}
 
 	public void Reset()
@@ -231,6 +239,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		if (amountText)
 		{
 			amountText.enabled = false;
+		}
+		if(placeholderImage)
+		{
+			placeholderImage.color = Color.white;
 		}
 
 		ControlTabs.CheckTabClose();
@@ -334,16 +346,20 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			amountText.enabled = false;
 		}
-		else if (!hidden && amountText)
+		else if (!hidden)
 		{
 			//show if we have something stackable.
-			if (itemSlot?.ItemObject != null)
+			if (amountText && itemSlot?.ItemObject != null)
 			{
 				var stack = itemSlot.ItemObject.GetComponent<Stackable>();
 				if (stack != null && stack.Amount > 1)
 				{
 					amountText.enabled = true;
 				}
+			}
+			if(Item && placeholderImage)
+			{
+				placeholderImage.color = new Color(1,1,1,0);
 			}
 		}
 	}

@@ -103,11 +103,13 @@ public class ChatEntry : MonoBehaviour
 	{
 		string[] splitted = msg.Split('|');
 
+		// if message is not sent by player
 		if(splitted.Length == 1)
 		{
 			visibleText.text = msg;
 
 		}
+		// if message is sent by player
 		else if (splitted.Length >= 2)
 		{
 			string playerName = splitted[0];

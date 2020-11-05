@@ -25,10 +25,20 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 	public Image pulseImg;
 
+	[SerializeField] private Image bgImage;
+
 	[SerializeField]
 	public List<Spritelist> StatesSprites;
+
+	[SerializeField] private Sprite[] statesBgImages;
+
 	private int CurrentSpriteSet = 0;
 	private float timeWait;
+	private float blinkTimer;
+
+	[Tooltip("Time between monitor bg blinks")]
+	[SerializeField]
+	private float criticalBlinkingTime = 0.5f;
 	private float overallHealthCache = 100;
 
 
@@ -57,6 +67,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 		CheckHealth();
 		timeWait += Time.deltaTime;
+		blinkTimer += Time.deltaTime;
 		if (timeWait > 0.05f)
 		{
 			if (currentSprite != 27)
@@ -75,6 +86,22 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 				}
 			}
 		}
+
+		if(blinkTimer >= criticalBlinkingTime)
+		{
+			blinkTimer = 0;
+			// blinking bg when state is Crit
+			if (CurrentSpriteSet == 4)
+			{
+				CurrentSpriteSet = 5;
+				bgImage.sprite = statesBgImages[CurrentSpriteSet];
+			}
+			else if(CurrentSpriteSet == 5)
+			{
+				CurrentSpriteSet = 4;
+				bgImage.sprite = statesBgImages[CurrentSpriteSet];
+			}
+		}
 	}
 
 	private void CheckHealth()
@@ -87,65 +114,51 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 		if (overallHealthCache >= 100)
 		{
-			SoundManager.Stop("Critstate");
 			CurrentSpriteSet = 0;
-			pulseImg.sprite = StatesSprites[0].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.normal);
 		}
-		if (overallHealthCache >= 70)
+		else if (overallHealthCache >= 67)
 		{
 			CurrentSpriteSet = 1;
-			SoundManager.Stop("Critstate");
-			pulseImg.sprite = StatesSprites[1].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.normal);
 		}
-		if (overallHealthCache <= 70 &&
-			overallHealthCache > 50)
+		else if (overallHealthCache <= 66 &&
+			overallHealthCache > 33)
 		{
-			SoundManager.Stop("Critstate");
 			CurrentSpriteSet = 2;
-			pulseImg.sprite = StatesSprites[2].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.injured);
 		}
-		if (overallHealthCache <= 50 &&
-			overallHealthCache > 30)
-		{
-			SoundManager.Stop("Critstate");
-			CurrentSpriteSet = 3;
-			pulseImg.sprite = StatesSprites[3].SP[currentSprite];
-			overlayCrits.SetState(OverlayState.injured);
-		}
-		if (overallHealthCache <= 30 &&
+		else if (overallHealthCache <= 33 &&
 			overallHealthCache > 0)
 		{
-			SoundManager.Stop("Critstate");
-			CurrentSpriteSet = 4;
-			pulseImg.sprite = StatesSprites[4].SP[currentSprite];
+			CurrentSpriteSet = 3;
 			overlayCrits.SetState(OverlayState.injured);
 		}
-		if (overallHealthCache <= 0 &&
+		else if (overallHealthCache <= 0 &&
 			overallHealthCache < 15)
 		{
-			SoundManager.Play("Critstate");
-			CurrentSpriteSet = 5;
-			pulseImg.sprite = StatesSprites[5].SP[currentSprite];
+			CurrentSpriteSet = 3;
 			overlayCrits.SetState(OverlayState.unconscious);
 		}
-
-		if (overallHealthCache <= -15 &&
+		else if (overallHealthCache <= -15 &&
 			overallHealthCache > -100)
 		{
-			CurrentSpriteSet = 6;
-			pulseImg.sprite = StatesSprites[6].SP[currentSprite];
+			// crit state has 2 sprite sets (blinking)
+			// so next state is 6 instead of 5
+			CurrentSpriteSet = 4;
 			overlayCrits.SetState(OverlayState.crit);
 		}
-
-		if (overallHealthCache <= -100)
+		else if (overallHealthCache <= -100)
 		{
-			SoundManager.Stop("Critstate");
-			CurrentSpriteSet = 7;
-			pulseImg.sprite = StatesSprites[7].SP[currentSprite];
+			CurrentSpriteSet = 6;
 			overlayCrits.SetState(OverlayState.death);
 		}
+
+		// crit state has 2 sprite sets (blinking)
+		if (CurrentSpriteSet != 4 && CurrentSpriteSet != 5)
+			SoundManager.Stop("Critstate");
+
+		pulseImg.sprite = StatesSprites[CurrentSpriteSet].SP[currentSprite];
+		bgImage.sprite = statesBgImages[CurrentSpriteSet];
 	}
 }

@@ -88,7 +88,11 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 		RightArm = 1 << 6,
 		Groin = 1 << 7,
 		LeftLeg = 1 << 8,
-		RightLeft = 1 << 9
+		RightLeg = 1 << 9,
+		RightHand = 1 << 10,
+		LeftHand = 1 << 11,
+		LeftFoot = 1 << 12,
+		RightFoot = 1 << 13
 	}
 
 	private readonly Dictionary<BodyPartsCovered, BodyPartType> bodyParts = new Dictionary<BodyPartsCovered, BodyPartType> ()
@@ -102,7 +106,11 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 		{BodyPartsCovered.RightArm, BodyPartType.RightArm},
 		{BodyPartsCovered.Groin, BodyPartType.Groin},
 		{BodyPartsCovered.LeftLeg, BodyPartType.LeftLeg},
-		{BodyPartsCovered.RightLeft, BodyPartType.RightLeg},
+		{BodyPartsCovered.RightLeg, BodyPartType.RightLeg},
+		{BodyPartsCovered.LeftHand, BodyPartType.LeftHand},
+		{BodyPartsCovered.RightHand, BodyPartType.RightHand},
+		{BodyPartsCovered.LeftFoot, BodyPartType.LeftFoot},
+		{BodyPartsCovered.RightFoot, BodyPartType.RightFoot},
 	};
 
 }
