@@ -33,6 +33,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	{
 		if (firemodeUsage[currentFiremode] > battery.Watts) 
 		{
+			base.PlayEmptySFX();
 			return false;
 		}
 		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];

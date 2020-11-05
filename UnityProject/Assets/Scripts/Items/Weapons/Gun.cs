@@ -762,7 +762,7 @@ namespace Weapons
 			SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
 		}
 
-		private void PlayEmptySFX()
+		public void PlayEmptySFX()
 		{
 			SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
 		}
