@@ -51,7 +51,7 @@ jobs:
   #       with:
   #         name: ${{ steps.getManualLicenseFile.outputs.filePath }}
   #         path: ${{ steps.getManualLicenseFile.outputs.filePath }}
-  
+
   # Perform unit testing
   performTest:
     name: Unit testing on ${{ matrix.unityVersion }}
@@ -70,7 +70,7 @@ jobs:
       # Checkout repository (required to test local actions)
       - name: Checkout repository
         uses: actions/checkout@v2.0.0
-      
+
       # Cache the library directory to speed up builds
     #  - name: Cache library directory
     #    uses: actions/cache@v1.1.0
@@ -97,9 +97,7 @@ jobs:
           license="${license//$'\n'/'%0A'}"
           license="${license//$'\r'/'%0D'}"
           echo "::set-env name=UNITY_LICENSE::$license"
-      # Delete unity version file (test runner will crash otherwise)
-      - name: Delete ProjectVersion.txt
-        run: sudo rm ./${{ matrix.projectPath }}/ProjectSettings/ProjectVersion.txt        
+
       # Run tests - only edit mode supported
       - name: Run tests
         uses: webbertakken/unity-test-runner@v1.6
@@ -109,19 +107,19 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
-          
+
       # Install dotnet
       - name: Installing dotnet
         if: always()
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '2.1.202'
-          
+
       # Do the report magic
       - name: Generate .html report
         run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
         if: always()
-        
+
       # Upload test results
       - name: Upload Test Results
         if: always()
