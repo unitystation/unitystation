@@ -11,14 +11,14 @@
 
 _Unitystation has been active since late 2016_
 
-Visit us on Steam:  
+Visit us on Steam:
 [<img src="https://user-images.githubusercontent.com/7613738/35184899-b6a0aa8e-fdfb-11e7-91a8-bad8f19937b4.jpg" width="300">](http://store.steampowered.com/app/801140/Unitystation/)
 
-See project updates on Patreon:  
+See project updates on Patreon:
 [<img src="https://vignette.wikia.nocookie.net/everyone-else-is-a-returnee/images/6/68/Patreon.png/revision/latest?cb=20161230133220&format=original" width="150">](https://www.patreon.com/unitystation)
 
 ## Talk to us
-Please join us on Discord:  
+Please join us on Discord:
 [<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/H6EunER)
 
 ## Feel like getting involved?
@@ -38,7 +38,8 @@ All code before [commit 44695c862d6d84cfc99354d6dfba1f0b70f20407 on 2017/03/12 a
 _If you have committed code to this repository before this time, please contact us if you want your code distributed under GNU AGPL v3 instead_
 (Including tools unless their readme specifies otherwise.)
 
-See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE) and [GPLv3.txt](https://github.com/unitystation/unitystation/blob/develop/docs/GPLv3.txt) for more details.  
+See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE) and [GPLv3.txt](https://github.com/unitystation/unitystation/blob/develop/docs/GPLv3.txt) for more details.
 ![cc-by-nd](http://forthebadge.com/images/badges/cc-by-nd.svg)
 
 All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
+
