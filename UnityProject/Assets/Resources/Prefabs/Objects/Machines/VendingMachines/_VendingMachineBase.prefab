@@ -66,7 +66,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -91,7 +90,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &7115020877522690343
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -226,7 +224,7 @@ PrefabInstance:
     - target: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Name
-      value: _VendingMachineBase
+      value: VendingMachineBase
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -265,11 +263,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8ade787e30e7d584e86292842339b32b,
         type: 2}
-    - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      propertyPath: ReachableThrough
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialName
