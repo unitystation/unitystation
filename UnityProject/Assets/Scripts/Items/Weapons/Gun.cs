@@ -578,13 +578,13 @@ namespace Weapons
 				//tell all the clients to display the shot
 				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide, toShoot.name, quantity);
 
-				if (!isSuppressed)
+				if (isSuppressed == false && nextShot.isSuicide == false)
 				{
 					Chat.AddActionMsgToChat(
 					serverHolder,
 					$"You fire your {gameObject.ExpensiveName()}",
 					$"{serverHolder.ExpensiveName()} fires their {gameObject.ExpensiveName()}");
-				}
+				}			
 
 
 				//kickback
