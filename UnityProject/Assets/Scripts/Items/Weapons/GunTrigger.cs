@@ -27,7 +27,6 @@ namespace Weapons
             (job != JobType.CLOWN && !allowClumsy || job == JobType.CLOWN && allowClumsy)))
             {
     			gun.ServerShoot(shotBy , target, damageZone, isSuicideShot);
-                return;
             }
             else if (setRestriction == JobType.NULL && (job == JobType.CLOWN && !allowClumsy))
             {
