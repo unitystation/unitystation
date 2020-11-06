@@ -184,5 +184,10 @@ PrefabInstance:
       propertyPath: firemodeProjectiles.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9107503913382923326, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: firemodeUsage.Array.data[0]
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a6abc720c22574468cb49e878c0119a, type: 3}
