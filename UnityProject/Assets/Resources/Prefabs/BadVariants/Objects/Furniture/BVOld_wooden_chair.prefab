@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 6830089732404172710}
   - component: {fileID: -4125858894873895098}
   - component: {fileID: -1442809630732524517}
+  - component: {fileID: 415244805082760762}
   m_Layer: 23
   m_Name: BVOld_wooden_chair
   m_TagString: Untagged
@@ -174,6 +175,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
   passableExclusionsToThis: []
 --- !u!114 &114840956348795048
 MonoBehaviour:
@@ -422,6 +424,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &415244805082760762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568171546625408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5276609779432803648
 GameObject:
   m_ObjectHideFlags: 0

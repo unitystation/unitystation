@@ -66,12 +66,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5076580856386662130, guid: f65f1f0bd0295df468272b3d767985a7,
         type: 3}
-    - target: {fileID: 942046851822298982, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
-        type: 2}
     - target: {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_IsActive
@@ -220,17 +214,17 @@ PrefabInstance:
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: firemodeProjectiles.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: firemodeFiringSound.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: firemodeName.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -268,7 +262,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 1581563359143746140, guid: 89f916fe2ec00a748bb6533ddef5dde6,
+      objectReference: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}

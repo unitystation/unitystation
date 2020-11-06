@@ -340,13 +340,6 @@ public class MouseInputController : MonoBehaviour
 				return true;
 			}
 
-			// If we're dragging something, try to move it, don't do anything else
-			if (PlayerManager.LocalPlayerScript.pushPull.IsPullingSomethingClient)
-			{
-				TrySlide();	
-				return false;
-			}
-
 			var handApplyTargets =
 				MouseUtils.GetOrderedObjectsUnderMouse();
 
@@ -362,6 +355,13 @@ public class MouseInputController : MonoBehaviour
 				var handAppliables = posHandApply.HandObject.GetComponents<IBaseInteractable<PositionalHandApply>>()
 					.Where(c => c != null && (c as MonoBehaviour).enabled);
 				if (InteractionUtils.ClientCheckAndTrigger(handAppliables, posHandApply) != null) return true;
+			}
+
+			// If we're dragging something, try to move it.
+			if (PlayerManager.LocalPlayerScript.pushPull.IsPullingSomethingClient)
+			{
+				TrySlide();
+				return false;
 			}
 		}
 

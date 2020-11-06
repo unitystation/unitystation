@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: -8848506015550652699}
   - component: {fileID: -7256631520227740812}
   - component: {fileID: 8293386201010365792}
+  - component: {fileID: 2600512809777159727}
   m_Layer: 23
   m_Name: BVOld_Stool
   m_TagString: Untagged
@@ -169,6 +170,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
   passableExclusionsToThis: []
 --- !u!114 &114377328424748032
 MonoBehaviour:
@@ -344,5 +346,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2600512809777159727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733406564780334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

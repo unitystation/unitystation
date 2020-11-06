@@ -22,8 +22,9 @@ GameObject:
   - component: {fileID: 6583049513569107849}
   - component: {fileID: -175933217164935847}
   - component: {fileID: 2961900794887764151}
+  - component: {fileID: -8283406329069465910}
   m_Layer: 10
-  m_Name: Scrubber
+  m_Name: BVOld_Scrubber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -370,6 +371,18 @@ MonoBehaviour:
   MMinimumPressure: 90
   MaxInternalPressure: 10000
   MaxTransferMoles: 100
+--- !u!114 &-8283406329069465910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011763452766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3223271260076572928
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,6 +430,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

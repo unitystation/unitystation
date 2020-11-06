@@ -20,8 +20,9 @@ GameObject:
   - component: {fileID: 114712713531201044}
   - component: {fileID: 6277538734889710698}
   - component: {fileID: 5932629110566897951}
+  - component: {fileID: 4507612562385821742}
   m_Layer: 11
-  m_Name: vending_69
+  m_Name: BVOld_vending_69
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,6 +103,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent: []
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0
@@ -123,6 +125,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114805206030907492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +184,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -201,7 +207,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114712713531201044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,19 +249,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 3
   isSelfPowered: 0
   wattusage: 0.01
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
+--- !u!114 &4507612562385821742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566295957001540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1640601255468836
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,6 +320,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -371,7 +387,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 3dcfcc699a5c62146987bba42536efea, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 3dcfcc699a5c62146987bba42536efea, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 930306ef6eda7ce45b8606eb2d64c7f8, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 930306ef6eda7ce45b8606eb2d64c7f8, type: 3}

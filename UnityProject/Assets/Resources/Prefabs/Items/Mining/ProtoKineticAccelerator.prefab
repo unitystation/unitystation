@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  ammoPrefab: {fileID: 6264992622563169082, guid: 272cdf93d39c0fa499a321d2f9c03aff,
+  ammoPrefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
     type: 3}
   casingPrefabOverride: {fileID: 0}
   allowMagazineRemoval: 1
@@ -49,12 +49,6 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 942046851822298982, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
-        type: 2}
     - target: {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_IsActive

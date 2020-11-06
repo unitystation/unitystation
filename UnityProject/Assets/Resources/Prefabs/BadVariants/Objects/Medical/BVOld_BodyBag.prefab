@@ -22,8 +22,9 @@ GameObject:
   - component: {fileID: 7759675923938615605}
   - component: {fileID: 1803236228575155476}
   - component: {fileID: 445015834766676625}
+  - component: {fileID: -7189298878204651877}
   m_Layer: 11
-  m_Name: BodyBag
+  m_Name: BVOld_BodyBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &5190175475481606144
@@ -119,10 +121,18 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   IsLockable: 0
   playerLimit: 2
-  metalDroppedOnDestroy: 0
+  breakoutTime: 120
+  matsOnDestroy: {fileID: 0}
+  matsDroppedOnDestroy: 0
   soundOnOpenOrClose: zip
+  soundOnEmag: Grillehit
+  soundOnEscape: Rustle 1
   doorOpened: {fileID: 21300000, guid: c4c8e4f0eae328d4abb69b55a4a37752, type: 3}
   spriteRenderer: {fileID: 7293602500519226833}
+  lockOverlay: {fileID: 0}
+  isEmagged: 0
+  weldOverlay: {fileID: 0}
+  weldSprite: {fileID: 0}
 --- !u!114 &3454878196567402495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +189,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
+  passableExclusionsToThis: []
   closetType: 2
 --- !u!114 &1469759712343314486
 MonoBehaviour:
@@ -208,7 +220,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -229,7 +243,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &5549330274845593174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +302,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7189298878204651877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529109779100470021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4715760299441447869
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,6 +360,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -447,6 +473,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

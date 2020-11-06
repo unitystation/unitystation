@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -105,8 +106,9 @@ GameObject:
   - component: {fileID: 261989671655673698}
   - component: {fileID: 8682245658674900977}
   - component: {fileID: 844826813724251149}
+  - component: {fileID: 4314881335538357381}
   m_Layer: 18
-  m_Name: LeftWinDoor
+  m_Name: BVOld_LeftWinDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114424348708298150
@@ -206,11 +209,13 @@ MonoBehaviour:
   DoorSpriteOffset: 2
   weldOverlay: {fileID: 0}
   weldSprite: {fileID: 0}
+  isEmagged: 0
   doorType: 15
   damageOnClose: 0
   damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 1
+  conType: 7
   isPerformingAction: 0
   isWindowedDoor: 1
   useSimpleLightAnimation: 0
@@ -221,6 +226,7 @@ MonoBehaviour:
   pressureLevel: 0
   openingDirection: 0
   spriteRenderer: {fileID: 0}
+  BlockAutoClose: 0
 --- !u!114 &5741721080410768198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 1
 --- !u!114 &114320171668943648
 MonoBehaviour:
@@ -317,7 +324,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 150
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 20
     Bullet: 20
@@ -338,7 +347,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 150
 --- !u!114 &114317237157285656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +398,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
 --- !u!114 &8682245658674900977
@@ -417,6 +428,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
+--- !u!114 &4314881335538357381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797280918088156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

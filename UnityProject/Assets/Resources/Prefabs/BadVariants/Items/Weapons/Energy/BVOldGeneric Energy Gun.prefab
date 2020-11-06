@@ -46,9 +46,6 @@ MonoBehaviour:
   FiringSound: ShootLaser
   FireRate: 5
   MaxRecoilVariance: 0
-  Projectile: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
-    type: 3}
-  ProjectilesFired: 1
   ProjectileVelocity: 20
   CameraRecoilConfig:
     Distance: 0
@@ -68,6 +65,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BatteryitemStorage: {fileID: -5387393567893094126}
+--- !u!114 &-774967455407792312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7680527389759007793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7680081105192390795
 PrefabInstance:
   m_ObjectHideFlags: 0

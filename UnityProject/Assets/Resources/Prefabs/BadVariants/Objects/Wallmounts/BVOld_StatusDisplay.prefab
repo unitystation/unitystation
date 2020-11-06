@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -97,8 +98,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1902605791976452
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,8 +123,9 @@ GameObject:
   - component: {fileID: 6226961470391180522}
   - component: {fileID: 4643582710993647438}
   - component: {fileID: 1018200297410081314}
+  - component: {fileID: 2942378087881801677}
   m_Layer: 19
-  m_Name: StatusDisplay
+  m_Name: BVOld_StatusDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -193,6 +197,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 0
+  passableExclusionsToThis: []
 --- !u!114 &114081409450008146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +339,7 @@ MonoBehaviour:
   openEmpty: {fileID: 21300000, guid: dd877a0b53912f6448b02714240bd9b2, type: 3}
   openCabled: {fileID: 21300000, guid: ffe91d76691c7b240a3c58915e2b3594, type: 3}
   closedOff: {fileID: 21300000, guid: 04bf384246499214baf7542e07b7019e, type: 3}
-  joeNews: {fileID: 11400000, guid: abc107b07aff37a49bd5ffa19b917355, type: 2}
+  joeNews: {fileID: 0}
   doorControllers: []
   centComm: {fileID: 0}
   currentTimerSeconds: 0
@@ -378,6 +384,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2942378087881801677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902605791976452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &338521062070775593
@@ -498,6 +516,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.21226418, g: 0.60002, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -563,6 +582,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -613,5 +633,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: a7c271a87131ccb4ebe3f6e410c10b53, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
