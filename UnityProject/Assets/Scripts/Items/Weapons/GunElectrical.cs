@@ -51,7 +51,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		{
 			currentFiremode++;
 		}
-		Chat.AddExamineMsgToClient($"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
+		Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
 	}
 
 	public override void ServerPerformInteraction(AimApply interaction)

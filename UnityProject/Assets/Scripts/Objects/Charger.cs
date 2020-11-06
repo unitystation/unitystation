@@ -77,7 +77,7 @@ namespace Objects
 				SetSprite(SpriteState.Idle);
 				_APCPoweredDevice.Resistance = 99999;
 			}
-			else if (ChargingSlot.Item == null && interaction.UsedObject != null)
+			else if (ChargingSlot.Item == null && interaction.UsedObject != null && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.InternalBattery))
 			{
 				var _object = interaction.UsedObject.GetComponent<InternalBattery>();
 				if (_object == null) return;
