@@ -38,13 +38,11 @@ namespace Weapons
 	            shotBy,
 			    "You fumble up and shoot yourself!",
 			    $"{shotBy.ExpensiveName()} fumbles up and shoots themself!");
-                return;
                 }
                 else
                 {
             	    gun.ServerShoot(shotBy , target, damageZone, isSuicideShot);
                 }
-                return;
             }
             else if (setRestriction == JobType.NULL && (job != JobType.CLOWN && allowClumsy))
             {
@@ -53,7 +51,6 @@ namespace Weapons
 				shotBy,
 				"You somehow shoot yourself in the face! How the hell?!",
 				$"{shotBy.ExpensiveName()} somehow manages to shoot themself in the face!");
-                return;
             }
             else
             {
