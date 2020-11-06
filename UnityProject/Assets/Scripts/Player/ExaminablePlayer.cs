@@ -8,6 +8,10 @@ namespace Assets.Scripts.Player
 	public class ExaminablePlayer : MonoBehaviour, IExaminable
 	{
 		private const string LILAC_COLOR = "#b495bf";
+
+		/// <summary>
+		/// string that will be returned if value cannot be found while examining other player
+		/// </summary>
 		private const string UNKNOWN_VALUE = "?";
 
 		private InteractableStorage interactableStorage;
@@ -19,7 +23,11 @@ namespace Assets.Scripts.Player
 		public InteractableStorage InteractableStorage => interactableStorage;
 		public string VisibleName => script.visibleName;
 
-		private bool isFaceVisible => script.ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsOccupied;
+		/// <summary>
+		/// Check if player is wearing a mask
+		/// </summary>
+		/// <returns>true if player don't wear mask</returns>
+		private bool isFaceVisible => script.ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty;
 
 		private void Awake()
 		{
@@ -56,7 +64,7 @@ namespace Assets.Scripts.Player
 				// send message to enable examination window
 				PlayerExaminationMessage.Send(SentByPlayer, this, true);
 
-				//stop observing when it becomes unobservable
+				//stop observing when target player is too far away
 				var relationship = RangeRelationship.Between(
 					SentByPlayer,
 					gameObject,
@@ -107,11 +115,11 @@ namespace Assets.Scripts.Player
 				return UNKNOWN_VALUE;
 
 			if (isFaceVisible)
-				// TODO: get race
-				return script.characterSettings.SkinTone;
+				// TODO: get player race
+				return "HUMAN";
 			else if (TryFindPlayerSecurityRecord(script.characterSettings.Name, out SecurityRecord securityRecord))
 			{
-				return securityRecord.characterSettings.SkinTone;
+				return securityRecord.Species;
 			}
 
 			return UNKNOWN_VALUE;
@@ -151,10 +159,10 @@ namespace Assets.Scripts.Player
 
 			return UNKNOWN_VALUE;
 		}
-
+		
 		public string GetPlayerStatusString()
 		{
-			// TODO
+			// TODO: GetPlayerStatusString
 			return "TODO";
 		}
 
@@ -165,7 +173,8 @@ namespace Assets.Scripts.Player
 		{
 			string result = "";
 
-			if(isFaceVisible)
+			// ';' is used to divide sentences to lines
+			if (isFaceVisible)
 				result += "face is visible;";
 
 			return result;

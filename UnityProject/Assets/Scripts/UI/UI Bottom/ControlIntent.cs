@@ -18,6 +18,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	[SerializeField] private GameObject helpIntentIcon;
 	[SerializeField] private GameObject harmIntentIcon;
 	[SerializeField] private GameObject runWalkBorder;
+	[SerializeField] private GameObject helpWindow;
 	[Header("Message settings")]
 	[SerializeField] private string restMessage = "You try to lie down.";
 	[SerializeField] private string startRunningMessage = "You start running";
@@ -117,7 +118,7 @@ public class ControlIntent : TooltipMonoBehaviour
 		Logger.Log("OnClickHelp", Category.UI);
 		SoundManager.Play("Click01");
 
-		// TODO: Open help window
+		helpWindow.SetActive(!helpWindow.activeSelf);
 	}
 
 	#endregion

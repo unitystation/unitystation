@@ -6,12 +6,13 @@ using UnityEngine.UI;
 
 public class PlayerExaminationWindowUI : WindowDrag
 {
-	[SerializeField] private GameObject expandedView;
-	[Space]
 	[SerializeField] private Text playerName;
 	[SerializeField] private Text playerRace;
 	[SerializeField] private Text playerJob;
 	[SerializeField] private Text playerStatus;
+	[Space]
+	[SerializeField] private GameObject expandedView;
+	[SerializeField] private Text additionalInformationsText;
 
 	private PlayerExaminationWindowSlot[] examinationSlotsUI;
 
@@ -25,7 +26,7 @@ public class PlayerExaminationWindowUI : WindowDrag
 	{
 		// find all slots
 		examinationSlotsUI = GetComponentsInChildren<PlayerExaminationWindowSlot>();
-        gameObject.SetActive(false);
+		gameObject.SetActive(false);
 	}
 
 	/// <summary>
@@ -37,6 +38,8 @@ public class PlayerExaminationWindowUI : WindowDrag
 		playerRace.text = string.Empty;
 		playerJob.text = string.Empty;
 		playerStatus.text = string.Empty;
+
+		additionalInformationsText.text = string.Empty;
 
 		if (CurrentOpenStorage != null)
 		{
@@ -63,6 +66,8 @@ public class PlayerExaminationWindowUI : WindowDrag
 	/// </summary>
 	public void OnClickExit()
 	{
+		SoundManager.Play("Click01");
+
 		Reset();
 	}
 
@@ -71,6 +76,8 @@ public class PlayerExaminationWindowUI : WindowDrag
 	/// </summary>
 	public void OnClickExpandCollapse()
 	{
+		SoundManager.Play("Click01");
+
 		expandedView.SetActive(!expandedView.activeSelf);
 	}
 
@@ -90,13 +97,17 @@ public class PlayerExaminationWindowUI : WindowDrag
 		currentEquipment = itemStorage.gameObject.GetComponent<Equipment>();
 
 		UpdateStorageUI();
-
+		
 		playerName.text = visibleName;
 		playerRace.text = race;
 		playerJob.text = job;
 		playerStatus.text = status;
 
-		// TODO: AdditionalInformations
+		// display additional informations
+		if (additionalInformations.Length > 0)
+		{
+			additionalInformationsText.text = additionalInformations.Replace(";", "\n");
+		}
 
 		// add listeners
 		foreach (var slotUI in examinationSlotsUI)
@@ -109,7 +120,7 @@ public class PlayerExaminationWindowUI : WindowDrag
 	}
 
 	/// <summary>
-	/// Update window content. usually called on player inventory update
+	/// Update ui inventory slots
 	/// </summary>
 	public void UpdateStorageUI(bool test = false)
 	{
