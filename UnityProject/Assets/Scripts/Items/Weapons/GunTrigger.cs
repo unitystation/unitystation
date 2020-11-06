@@ -27,24 +27,35 @@ namespace Weapons
             (job != JobType.CLOWN && !allowClumsy || job == JobType.CLOWN && allowClumsy)))
             {
     			gun.ServerShoot(shotBy , target, damageZone, isSuicideShot);
-                    return;
             }
-            else if (setRestriction == JobType.NULL && (job == JobType.CLOWN && !allowClumsy || job != JobType.CLOWN && allowClumsy))
+            else if (setRestriction == JobType.NULL && (job == JobType.CLOWN && !allowClumsy))
             {
                 int chance = rnd.Next(0 ,2);
                 if (chance == 0)
                 {
-    		    	gun.ServerShoot(shotBy , target, damageZone, true);
-                    return;
-
+    		   	gun.ServerShoot(shotBy , target, damageZone, true);
+                Chat.AddActionMsgToChat(
+	            shotBy,
+			    "You fumble up and shoot yourself!",
+			    $"{shotBy.ExpensiveName()} fumbles up and shoots themself!");
                 }
                 else
                 {
             	    gun.ServerShoot(shotBy , target, damageZone, isSuicideShot);
-                    return;
                 }
             }
-            Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} displays \'User authentication failed\'");
+            else if (setRestriction == JobType.NULL && (job != JobType.CLOWN && allowClumsy))
+            {
+    		   	gun.ServerShoot(shotBy , target, damageZone, true);
+                Chat.AddActionMsgToChat(
+				shotBy,
+				"You somehow shoot yourself in the face! How the hell?!",
+				$"{shotBy.ExpensiveName()} somehow manages to shoot themself in the face!");
+            }
+            else
+            {
+                Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} displays \'User authentication failed\'");
+            }
        }
     }
 }

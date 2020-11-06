@@ -37,7 +37,14 @@ public class GunPKA : Gun
 		yield return WaitFor.Seconds(rechargeTime);
 		CurrentMagazine.ServerSetAmmoRemains(1);
 		CurrentMagazine.LoadProjectile(Projectile, 1);
-		SoundManager.PlayNetworkedAtPos("ReloadKinetic", gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+		if (isSuppressed)
+		{
+			Chat.AddExamineMsgFromServer(serverHolder, $"Your {gameObject.ExpensiveName()} silently recharges");
+		}
+		else
+		{
+			SoundManager.PlayNetworkedAtPos("ReloadKinetic", gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+		}
 		allowRecharge = true;
 	}
 }
