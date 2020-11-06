@@ -44,7 +44,7 @@ public partial class GameManager
 	public RoundState CurrentRoundState
 	{
 		get => currentRoundState;
-		private set
+		set
 		{
 			currentRoundState = value;
 			Logger.LogFormat("CurrentRoundState is now {0}!", Category.Round, value);
