@@ -37,7 +37,7 @@ public class DevCloneMessage : ClientMessage
 			{
 				Spawn.ServerClone(NetworkObject, WorldPosition);
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-					$"{admin.ExpensiveName()} spawned a clone of {NetworkObject} at {WorldPosition}", AdminId);
+					$"{admin.Player().Username} spawned a clone of {NetworkObject} at {WorldPosition}", AdminId);
 			}
 		}
 	}

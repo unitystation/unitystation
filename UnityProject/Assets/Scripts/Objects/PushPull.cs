@@ -40,7 +40,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		set {
 			if (this == null) // is possible, Unity
 			{
-				Logger.LogWarning($"{gameObject} is null, and yet it tried to set a {nameof(parentContainer)}.", Category.Transform);
+				Logger.LogWarning("GameObject is null, and yet it tried to set a parentContainer.", Category.Transform);
 			}
 			else if (value == this)
 			{
