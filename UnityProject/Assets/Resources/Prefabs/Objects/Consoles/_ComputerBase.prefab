@@ -274,7 +274,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+  m_Sprite: {fileID: 21300008, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -409,7 +409,7 @@ PrefabInstance:
     - target: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Name
-      value: ComputerBase
+      value: _ComputerBase
       objectReference: {fileID: 0}
     - target: {fileID: 3231522615107545618, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -539,6 +539,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5caf4067de7298f408771832d3670a44,
         type: 2}
+    - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: ReachableThrough
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialName
