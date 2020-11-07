@@ -734,30 +734,19 @@ public partial class MatrixManager : MonoBehaviour
 				}
 			}
 
+			// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
+			// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
 			PushPull pushable = pushPull;
-			if (isServer ? pushPull.CanPushServer(pushableLocation, dir) : pushPull.CanPushClient(pushableLocation, dir))
+			PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
+			if (playerMove && playerMove.IsBuckled)
 			{
+				PushPull buckledPushPull = playerMove.BuckledObject.GetComponent<PushPull>();
 
-
-				// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
-				// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
-				PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
-				if (playerMove && playerMove.IsBuckled)
-				{
-					PushPull buckledPushPull = playerMove.BuckledObject.GetComponent<PushPull>();
-
-					if (buckledPushPull)
-						pushable = buckledPushPull;
-				}
-
-				if (isServer
-					? pushable.CanPushServer(pushableLocation, Vector2Int.RoundToInt(dir))
-					: pushable.CanPushClient(pushableLocation, Vector2Int.RoundToInt(dir))
-				)
-				{
-					pushableList.Add(pushable);
-				}
+				if (buckledPushPull)
+					pushable = buckledPushPull;
 			}
+
+			pushableList.Add(pushable);
 		}
 	}
 
