@@ -376,10 +376,15 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			// Execute server-side OnSpawn hooks for mapped objects
 			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
-			foreach (var s in iServerSpawns)
-			{
-				s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
-			}
+			MappedOnSpawnServer(iServerSpawns);
+		}
+	}
+
+	public void MappedOnSpawnServer(IEnumerable<IServerSpawn> iServerSpawns)
+	{
+		foreach (var s in iServerSpawns)
+		{
+			s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
 		}
 	}
 
