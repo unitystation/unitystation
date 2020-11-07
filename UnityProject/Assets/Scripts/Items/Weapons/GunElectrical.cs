@@ -35,15 +35,23 @@ public class GunElectrical : Gun
 		return DefaultWillInteract.Default(interaction, side);
 	}
 
+	public override bool WillInteract(AimApply interaction, NetworkSide side)
+	{
+		if (firemodeUsage[currentFiremode] > battery.Watts) 
+		{
+			PlayEmptySFX();
+		}
+		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
+		currentElectricalMag.toRemove = firemodeUsage[currentFiremode];
+		return base.WillInteract(interaction, side); 
+	}
+
 	public void ClientPredictInteraction(AimApply interaction)
 	{
 		if (firemodeUsage[currentFiremode] > battery.Watts) 
 		{
-			base.PlayEmptySFX();
 			return;
 		}
-		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
-		currentElectricalMag.toRemove = firemodeUsage[currentFiremode];
 		base.ClientPredictInteraction(interaction);
 	}
 
