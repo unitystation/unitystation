@@ -1,12 +1,12 @@
-# Automation actions that run on every push and pr. Meant to help us to keep the thing cool because we're cool like that.
+# Runs on every push and pr. Meant to help us to keep the thing cool because we're cool like that.
 
-name: Auto helpers
+name: PR helpers
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request_target:
-    branches: [ develop ]
-    
+    branches: [develop]
+
 jobs:
   autohelpers:
     runs-on: ubuntu-latest
@@ -16,7 +16,7 @@ jobs:
         with:
           CONFLICT_LABEL_NAME: "Status: Merge Conflicts"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+
       - name: auto labeler
         if: ${{ github.event_name == 'pull_request_target' }}
         uses: actions/labeler@v3-preview

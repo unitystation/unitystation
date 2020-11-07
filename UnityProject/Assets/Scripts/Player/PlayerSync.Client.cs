@@ -245,7 +245,7 @@ public partial class PlayerSync
 			{
 
 				// if player can't reach, player can't push
-				if (MatrixManager.IsPassableAt(worldOrigin, worldTile, isServer: false, includingPlayers: false, 
+				if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, worldTile, isServer: false, includingPlayers: false, 
 						context: pushPull.gameObject, isReach: true) == false)
 				{
 					continue;
@@ -282,7 +282,7 @@ public partial class PlayerSync
 
 		Vector3Int target3int = target.To3Int();
 
-		if (!followMode && !MatrixManager.IsPassableAt(target3int, target3int, false)) //might have issues with windoors
+		if (!followMode && !MatrixManager.IsPassableAtAllMatrices(target3int, target3int, false)) //might have issues with windoors
 		{
 			return false;
 		}

@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: -4418713798417396037}
   - component: {fileID: -4645053612199088232}
   - component: {fileID: 701965655903352632}
+  - component: {fileID: 7751939214412334914}
   m_Layer: 18
   m_Name: BVOld_RDirectionalWindow
   m_TagString: Untagged
@@ -370,3 +371,15 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 6756608583569161190}
+--- !u!114 &7751939214412334914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -258,6 +258,7 @@ MonoBehaviour:
   - ShootLaser
   firemodeName:
   - Kill
+  firemodeUsage: 53000000
 --- !u!1 &6227234703256324225
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,18 +610,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
---- !u!1 &4454405483554457966 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
-    type: 3}
-  m_PrefabInstance: {fileID: 5533974169584468468}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4450321759764526106 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
-    type: 3}
-  m_PrefabInstance: {fileID: 5533974169584468468}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &942046851822298982 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -4477014874976573806, guid: da85b7a590e7c8444af73629fcb5dd22,
@@ -633,3 +622,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &4450321759764526106 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4454405483554457966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}

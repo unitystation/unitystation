@@ -144,13 +144,15 @@ public class Matrix : MonoBehaviour
 		OnConfigLoaded?.Invoke(matrixInfo);
 	}
 
-	public bool IsPassableAt(Vector3Int position, bool isServer, bool includingPlayers = true,
+	/// <inheritdoc cref="IsPassableAtOneMatrix(Vector3Int, Vector3Int, bool, CollisionType, bool, GameObject, List{LayerType}, List{TileType}, bool, bool, bool)"/>
+	public bool IsPassableAtOneMatrixOneTile(Vector3Int position, bool isServer, bool includingPlayers = true,
 		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null, bool ignoreObjects = false,
 		bool onlyExcludeLayerOnDestination = false
 		)
 	{
-		return IsPassableAt(position, position, isServer, context: context, includingPlayers: includingPlayers,
-			excludeLayers: excludeLayers, excludeTiles: excludeTiles, ignoreObjects: ignoreObjects);
+		return IsPassableAtOneMatrix(position, position, isServer, context: context, includingPlayers: includingPlayers,
+			excludeLayers: excludeLayers, excludeTiles: excludeTiles, ignoreObjects: ignoreObjects,
+			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
 	}
 
 	/// <summary>
@@ -159,7 +161,7 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
-		return IsPassableAt(position, position, isServer) &&
+		return IsPassableAtOneMatrix(position, position, isServer) &&
 		       GetFirst<LivingHealthBehaviour>(position, isServer) == null;
 	}
 
@@ -171,22 +173,22 @@ public class Matrix : MonoBehaviour
 	/// <param name="isReach">True if we're seeing if an object can be reached through</param>
 	/// <param name="onlyExcludeLayerOnDestination">false if every involved tile should have the layers excluded, true if only the destination tile</param>
 	/// <returns></returns>
-	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool isServer,
+	public bool IsPassableAtOneMatrix(Vector3Int origin, Vector3Int position, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
 			bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 	{
-		return MetaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType,
+		return MetaTileMap.IsPassableAtOneTileMap(origin, position, isServer, collisionType: collisionType,
 			inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers,
 			excludeTiles: excludeTiles, ignoreObjects: ignoreObjects, isReach: isReach,
 			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
 	}
 
 
-	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlocked(Vector3Int, bool, RegisterTile)"/>
-	public bool HasAnyDepartureBlocked(Vector3Int to, bool isServer, RegisterTile context)
+	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
+	public bool HasAnyDepartureBlockedOneMatrix(Vector3Int to, bool isServer, RegisterTile context)
 	{
-		return MetaTileMap.HasAnyDepartureBlocked(to, isServer, context);
+		return MetaTileMap.ObjectLayer.HasAnyDepartureBlockedByRegisterTile(to, isServer, context);
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int position, bool isServer)

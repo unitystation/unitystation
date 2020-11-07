@@ -50,13 +50,13 @@ public class ObjectLayer : Layer
 		return resistance;
 	}
 
-	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer, CollisionType collisionType = CollisionType.Player,
+	public bool IsPassableAtOnThisLayer(Vector3Int origin, Vector3Int to, bool isServer, CollisionType collisionType = CollisionType.Player,
 			bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
 	{
 		//Targeting windoors here
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(origin) : ClientObjects.Get(origin) )
 		{
-			if (t.IsPassableTo(to, isServer, context) == false
+			if (t.IsPassableFromInside(to, isServer, context) == false
 				&& (context == null|| t.gameObject != context))
 			{
 				//Can't get outside the tile because windoor doesn't allow us
@@ -67,7 +67,7 @@ public class ObjectLayer : Layer
 		foreach ( RegisterTile o in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
 			if ((inclPlayers || o.ObjectType != ObjectType.Player)
-				&& o.IsPassable(origin, isServer, context) == false
+				&& o.IsPassableFromOutside(origin, isServer, context) == false
 				&& (context == null|| o.gameObject != context)
 				&& (isReach == false || o.IsReachableThrough(origin, isServer, context) == false)
 				)
@@ -87,12 +87,12 @@ public class ObjectLayer : Layer
 	/// <param name="isServer">Whether or not being run on server</param>
 	/// <param name="context">the object in question.</param>
 	/// <returns></returns>
-	public bool HasAnyDepartureBlocked(Vector3Int to, bool isServer, RegisterTile context)
+	public bool HasAnyDepartureBlockedByRegisterTile(Vector3Int to, bool isServer, RegisterTile context)
 	{
 		foreach (RegisterTile o in isServer ? ServerObjects.Get(context.LocalPositionServer) : ClientObjects.Get(context.LocalPositionClient) )
 		{
 			if (o.IsPassable(isServer,context.gameObject) == false
-				&& context.IsPassableTo(to, isServer, o.gameObject) == false)
+				&& context.IsPassableFromInside(to, isServer, o.gameObject) == false)
 			{
 				return true;
 			}

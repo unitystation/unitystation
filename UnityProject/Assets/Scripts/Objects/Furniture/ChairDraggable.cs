@@ -29,7 +29,7 @@ namespace Objects
 			return pna && interaction.Performer == interaction.TargetObject
 					   && interaction.DroppedObject == gameObject
 					   && pna.GetActiveHandItem() == null
-					   && ps.IsInReach(cnt.RegisterTile, side == NetworkSide.Server);
+					   && ps.IsRegisterTileReachable(cnt.RegisterTile, side == NetworkSide.Server);
 		}
 
 		public void ServerPerformInteraction(MouseDrop interaction)

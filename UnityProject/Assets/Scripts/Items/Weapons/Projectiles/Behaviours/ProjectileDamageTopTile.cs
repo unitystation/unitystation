@@ -23,7 +23,7 @@ namespace Weapons.Projectiles.Behaviours
 			foreach (var layer in layers)
 			{
 				if(layerType.CheckType(layer.LayerType) == false) continue;
-
+				if (damageData == null) return true;
 				if (layer.TilemapDamage.ApplyDamage(damageData.Damage, damageData.AttackType, worldPosition) <= 0) continue;
 
 				return true;

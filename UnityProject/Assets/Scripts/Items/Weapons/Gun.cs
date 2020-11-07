@@ -160,10 +160,11 @@ namespace Weapons
 
 		private RegisterTile registerTile;
 		private ItemStorage itemStorage;
-		private ItemSlot magSlot;
+		public ItemSlot magSlot;
 
 		private GunTrigger gunTrigger;
 
+		public bool isSuppressed;
 
 		#region Init Logic
 
@@ -577,6 +578,15 @@ namespace Weapons
 				//tell all the clients to display the shot
 				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide, toShoot.name, quantity);
 
+				if (isSuppressed == false && nextShot.isSuicide == false)
+				{
+					Chat.AddActionMsgToChat(
+					serverHolder,
+					$"You fire your {gameObject.ExpensiveName()}",
+					$"{serverHolder.ExpensiveName()} fires their {gameObject.ExpensiveName()}");
+				}			
+
+
 				//kickback
 				shooterScript.pushPull.Pushable.NewtonianMove((-nextShot.finalDirection).NormalizeToInt());
 
@@ -762,7 +772,7 @@ namespace Weapons
 			SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
 		}
 
-		private void PlayEmptySFX()
+		public void PlayEmptySFX()
 		{
 			SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
 		}

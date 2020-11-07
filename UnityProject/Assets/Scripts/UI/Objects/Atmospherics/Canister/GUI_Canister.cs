@@ -140,6 +140,7 @@ namespace UI.Objects.Atmospherics
 				yield return WaitFor.EndOfFrame;
 			}
 			//set the tab color and label based on the provider
+			canister = Provider.GetComponent<Canister>();
 			BG.color = canister.UIBGTint;
 			InnerPanelBG.color = canister.UIInnerPanelTint;
 			LabelText.text = "Contains " + canister.ContentsName;

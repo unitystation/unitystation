@@ -193,7 +193,7 @@ namespace Doors
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
 			if (CustomNetworkManager.IsServer && IsClosed && !registerTile.OneDirectionRestricted && !ignorePassableChecks)
 			{
-				if (!MatrixManager.IsPassableAt(registerTile.WorldPositionServer, registerTile.WorldPositionServer,
+				if (!MatrixManager.IsPassableAtAllMatrices(registerTile.WorldPositionServer, registerTile.WorldPositionServer,
 					isServer: true, includingPlayers: true, context: this.gameObject))
 				{
 					//something is in the way, open back up

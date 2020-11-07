@@ -121,7 +121,7 @@ public abstract class BasicTile : LayerTile
 	/// It will return the default Passable bool unless an exception is avalaible in PassableException
 	/// </summary>
 	/// <param name="colliderType"></param>
-	/// <returns>IsPassable</returns>
+	/// <returns>IsPassableFromOutside</returns>
 	public bool IsPassable(CollisionType colliderType, Vector3Int origin, MetaTileMap metaTileMap)
 	{
 		if (this.LayerType == LayerType.Tables)

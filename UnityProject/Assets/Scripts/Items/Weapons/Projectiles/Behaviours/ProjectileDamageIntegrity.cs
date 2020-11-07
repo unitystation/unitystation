@@ -28,7 +28,7 @@ namespace Weapons.Projectiles.Behaviours
 			var coll = hit.CollisionHit.GameObject;
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
-
+			if (damageData == null) return true;
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
 			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);

@@ -132,7 +132,7 @@ namespace Systems.MobAIs
 					{
 						continue;
 					}
-					if (registerObject.Matrix.IsPassableAt(checkTile, true))
+					if (registerObject.Matrix.IsPassableAtOneMatrixOneTile(checkTile, true))
 					{
 						nudgeDir = testDir;
 						break;

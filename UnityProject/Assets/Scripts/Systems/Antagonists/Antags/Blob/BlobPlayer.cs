@@ -768,7 +768,7 @@ namespace Blob
 			}
 
 			//Check for walls, windows and grills
-			if (metaTileMap != null && !MatrixManager.IsPassableAt(pos, true))
+			if (metaTileMap != null && !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true))
 			{
 				//Cell pos is unused var
 				metaTileMap.ApplyDamage(Vector3Int.zero, layerDamage, pos);

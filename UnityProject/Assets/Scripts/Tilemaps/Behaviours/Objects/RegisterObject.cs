@@ -48,7 +48,7 @@ public class RegisterObject : RegisterTile
 		Passable = initialPassable;
 	}
 
-	public override bool IsPassable(Vector3Int enteringFrom, bool isServer, GameObject context = null)
+	public override bool IsPassableFromOutside(Vector3Int enteringFrom, bool isServer, GameObject context = null)
 	{
 		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
 		if (CheckPassableExclusions(context)) return true;

@@ -26,7 +26,7 @@ public class PlaceItemAsObject  : MonoBehaviour, ICheckedInteractable<Positional
 		}
 
 		var vector = interaction.WorldPositionTarget.RoundToInt();
-		if (!MatrixManager.IsPassableAt(vector, vector, false))
+		if (!MatrixManager.IsPassableAtAllMatrices(vector, vector, false))
 		{
 			return false;
 		}
