@@ -6,7 +6,7 @@ using Weapons;
 using Mirror;
 using Weapons.Projectiles;
 
-public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
+public class GunElectrical : Gun
 {
 	public List<GameObject> firemodeProjectiles = new List<GameObject>();
 	public List<string> firemodeFiringSound = new List<string>();
@@ -21,24 +21,30 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	public Battery battery =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<Battery>() : null;
 
-	public ElectricalMagazine currentelmag =>
+	public ElectricalMagazine currentElectricalMag =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<ElectricalMagazine>() : null;
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+  	  UpdateFiremode(currentFiremode, 0);
+  	  base.OnSpawnServer(info);
+	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
 		return DefaultWillInteract.Default(interaction, side);
 	}
 
-	public override bool WillInteract(AimApply interaction, NetworkSide side)
+	public void ClientPredictInteraction(AimApply interaction)
 	{
 		if (firemodeUsage[currentFiremode] > battery.Watts) 
 		{
 			base.PlayEmptySFX();
-			return false;
+			return;
 		}
 		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
-		currentelmag.toRemove = firemodeUsage[currentFiremode];
-		return base.WillInteract(interaction, side);
+		currentElectricalMag.toRemove = firemodeUsage[currentFiremode];
+		base.ClientPredictInteraction(interaction);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -46,10 +52,12 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		if (firemodeProjectiles.Count <= 1)
 			return;
 		if (currentFiremode == firemodeProjectiles.Count - 1)
-			currentFiremode = 0;
+		{
+			UpdateFiremode(currentFiremode, 0);
+		}
 		else
 		{
-			currentFiremode++;
+			UpdateFiremode(currentFiremode, currentFiremode + 1);
 		}
 		Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
 	}
