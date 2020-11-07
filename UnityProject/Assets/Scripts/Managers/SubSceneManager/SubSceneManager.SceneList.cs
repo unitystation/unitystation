@@ -219,7 +219,7 @@ public partial class SubSceneManager
 	public IEnumerator LoadSyndicate()
 	{
 		if (SyndicateLoaded) yield break;
-		var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();;
+		var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
 
 		foreach (var syndicateData in additionalSceneList.SyndicateScenes)
 		{
