@@ -24,7 +24,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 
 		// Must be constructing the rack somewhere empty
 		var vector = interaction.WorldPositionTarget.RoundToInt();
-		if (!MatrixManager.IsPassableAt(vector, vector, false))
+		if (!MatrixManager.IsPassableAtAllMatrices(vector, vector, false))
 		{
 			return false;
 		}

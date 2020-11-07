@@ -540,7 +540,7 @@ public class MouseInputController : MonoBehaviour
 			Vector3Int position = MouseWorldPosition.CutToInt();
 			if (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 			{
-				if (PlayerManager.LocalPlayerScript.IsInReach(position, false))
+				if (PlayerManager.LocalPlayerScript.IsPositionReachable(position, false))
 				{
 					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
 					//remove hidden wallmounts

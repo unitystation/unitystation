@@ -102,7 +102,7 @@ public class SpawnDestination
 	/// <returns></returns>
 	public static bool IsTotallyImpassable(Vector3Int tileWorldPosition)
 	{
-		return!MatrixManager.IsPassableAt(tileWorldPosition,true)
+		return!MatrixManager.IsPassableAtAllMatricesOneTile(tileWorldPosition,true)
 		      &&!MatrixManager.IsAtmosPassableAt(tileWorldPosition,true);
 	}
 

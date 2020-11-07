@@ -207,7 +207,7 @@ namespace Objects.Disposals
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if (!Validations.IsInReach(
+			if (!Validations.IsReachableByRegisterTiles(
 					interaction.Performer.RegisterTile(),
 					interaction.UsedObject.RegisterTile(),
 					side == NetworkSide.Server)) return false;
@@ -276,7 +276,7 @@ namespace Objects.Disposals
 			Vector3Int targetObjectWorldPos = interaction.TargetObject.WorldPosServer().CutToInt();
 
 			// We check if there's nothing in the way, like another player or a directional window.
-			if (interaction.UsedObject.RegisterTile().Matrix.IsPassableAt(targetObjectLocalPosition, true, context: gameObject) == false)
+			if (interaction.UsedObject.RegisterTile().Matrix.IsPassableAtOneMatrixOneTile(targetObjectLocalPosition, true, context: gameObject) == false)
 			{
 				return;
 			}
@@ -287,7 +287,7 @@ namespace Objects.Disposals
 				PlayerScript playerScript;
 				if (interaction.UsedObject.TryGetComponent(out playerScript))
 				{
-					if (playerScript.registerTile.Matrix.IsPassableAt(targetObjectLocalPosition, true, context: gameObject))
+					if (playerScript.registerTile.Matrix.IsPassableAtOneMatrixOneTile(targetObjectLocalPosition, true, context: gameObject))
 					{
 						playerScript.PlayerSync.SetPosition(targetObjectWorldPos);
 					}

@@ -422,7 +422,7 @@ public class ControlTabs : MonoBehaviour
 		{
 			return;
 		}
-		if (!PlayerManager.LocalPlayerScript || !PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation(), false))
+		if (!PlayerManager.LocalPlayerScript || !PlayerManager.LocalPlayerScript.IsPositionReachable(UITileList.GetListedItemsLocation(), false))
 		{
 			Instance.HideTab(ClientTabType.ItemList);
 			return;

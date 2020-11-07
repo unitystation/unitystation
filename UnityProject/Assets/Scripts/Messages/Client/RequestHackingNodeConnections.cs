@@ -19,7 +19,7 @@ public class RequestHackingNodeConnections : ClientMessage
 
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
 		var hackObject = NetworkObjects[1];
-		if (playerScript.IsInReach(hackObject, true, context: hackObject))
+		if (playerScript.IsGameObjectReachable(hackObject, true, context: hackObject))
 		{
 
 			HackingProcessBase hackProcess = hackObject.GetComponent<HackingProcessBase>();

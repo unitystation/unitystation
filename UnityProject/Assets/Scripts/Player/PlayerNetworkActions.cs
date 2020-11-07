@@ -190,7 +190,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSlideItem(Vector3Int destination)
 	{
-		if (playerScript.IsInReach(destination, true) == false
+		if (playerScript.IsPositionReachable(destination, true) == false
 			|| playerScript.pushPull.PulledObjectServer == null
 			|| playerScript.IsGhost
 			|| playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
@@ -245,9 +245,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Vector2? possibleTarget = null;
 		if (Target != TransformState.HiddenPos)
 		{
-			if (Validations.IsInReach(PlayerManager.PlayerScript.registerTile.WorldPosition, Target, false))
+			if (Validations.IsReachableByPositions(PlayerManager.PlayerScript.registerTile.WorldPosition, Target, false))
 			{
-				if (MatrixManager.IsPassableAt(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
 				{
 					possibleTarget = (Target - PlayerManager.PlayerScript.registerTile.WorldPosition);
 				}
