@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Mirror;
 
 
 namespace Weapons
@@ -21,7 +20,6 @@ namespace Weapons
             gun = GetComponent<Gun>();
         }
 
-        [Server]
         public void TriggerPull(GameObject shotBy, Vector2 target,
 			BodyPartType damageZone, bool isSuicideShot)
         {
