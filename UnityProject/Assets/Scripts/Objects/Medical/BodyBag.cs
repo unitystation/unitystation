@@ -27,7 +27,7 @@ namespace Objects.Medical
 				|| interaction.Performer != interaction.TargetObject
 				|| interaction.DroppedObject != gameObject
 				|| pna.GetActiveHandItem() != null
-				|| !ps.IsInReach(cnt.RegisterTile, side == NetworkSide.Server))
+				|| !ps.IsRegisterTileReachable(cnt.RegisterTile, side == NetworkSide.Server))
 			{
 				return false;
 			}

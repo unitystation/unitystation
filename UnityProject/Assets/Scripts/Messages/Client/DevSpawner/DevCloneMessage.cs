@@ -33,7 +33,7 @@ public class DevCloneMessage : ClientMessage
 		else
 		{
 			LoadNetworkObject(ToClone);
-			if (MatrixManager.IsPassableAt(WorldPosition.RoundToInt(), true))
+			if (MatrixManager.IsPassableAtAllMatricesOneTile(WorldPosition.RoundToInt(), true))
 			{
 				Spawn.ServerClone(NetworkObject, WorldPosition);
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(

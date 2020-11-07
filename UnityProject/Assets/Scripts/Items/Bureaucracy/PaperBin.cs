@@ -133,7 +133,7 @@ namespace Items.Bureaucracy
 
 			var ps = interaction.Performer.GetComponent<PlayerScript>();
 			var cnt = GetComponent<CustomNetTransform>();
-			if (!ps || !cnt || !ps.IsInReach(cnt.RegisterTile, side == NetworkSide.Server))
+			if (!ps || !cnt || !ps.IsRegisterTileReachable(cnt.RegisterTile, side == NetworkSide.Server))
 			{
 				return false;
 			}

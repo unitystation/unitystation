@@ -164,7 +164,7 @@ namespace Systems.MobAIs
 				Vector3Int.RoundToInt(coneOfSight.GetFurthestPositionInSight(refPoint + (Vector3)oppositeDir,
 					LayerTypeSelection.Windows | LayerTypeSelection.Walls, doorAndObstacleMask, oppositeDir, 20f, 10));
 
-			if (!MatrixManager.IsPassableAt(tryGetGoalPos, true))
+			if (!MatrixManager.IsPassableAtAllMatricesOneTile(tryGetGoalPos, true))
 			{
 				// Not passable! Try to find an adjacent tile:
 				for (int y = 1; y > -2; y--)
@@ -177,7 +177,7 @@ namespace Systems.MobAIs
 						checkPos.x += x;
 						checkPos.y += y;
 
-						if (MatrixManager.IsPassableAt(checkPos, true))
+						if (MatrixManager.IsPassableAtAllMatricesOneTile(checkPos, true))
 						{
 							var hit = MatrixManager.Linecast(refPoint + (checkPos - refPoint).normalized, LayerTypeSelection.None
 								, doorAndObstacleMask, (Vector3)checkPos);
@@ -235,7 +235,7 @@ namespace Systems.MobAIs
 			if (dirDegrees > 0f)
 			{
 				//Test the tile to the left:
-				if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.left), true))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(Vector3Int.RoundToInt(doorWorldPos + Vector3.left), true))
 				{
 					return Vector2.left;
 				}
@@ -243,7 +243,7 @@ namespace Systems.MobAIs
 			else
 			{
 				//Test the tile to the right:
-				if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.right), true))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(Vector3Int.RoundToInt(doorWorldPos + Vector3.right), true))
 				{
 					return Vector2.right;
 				}
@@ -253,7 +253,7 @@ namespace Systems.MobAIs
 			if (Mathf.Abs(dirDegrees) > 45f)
 			{
 				//Test the tile up:
-				if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.up), true))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(Vector3Int.RoundToInt(doorWorldPos + Vector3.up), true))
 				{
 					return Vector2.up;
 				}
@@ -261,7 +261,7 @@ namespace Systems.MobAIs
 			else
 			{
 				//Test the tile down:
-				if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.down), true))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(Vector3Int.RoundToInt(doorWorldPos + Vector3.down), true))
 				{
 					return Vector2.down;
 				}

@@ -387,7 +387,7 @@ namespace Doors
 				return;
 			}
 
-			if (MatrixManager.IsPassableAt(
+			if (MatrixManager.IsPassableAtAllMatrices(
 				registerTile.WorldPositionServer,
 				registerTile.WorldPositionServer,
 				isServer: true,

@@ -27,7 +27,7 @@ namespace Items.Atmospherics
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
 			if (interaction.HandObject == null) return false;
-			if (Validations.IsInReach(interaction.PerformerPlayerScript.WorldPos, interaction.WorldPositionTarget,
+			if (Validations.IsReachableByPositions(interaction.PerformerPlayerScript.WorldPos, interaction.WorldPositionTarget,
 				side == NetworkSide.Server) == false) return false;
 			return true;
 		}

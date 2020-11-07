@@ -227,7 +227,7 @@ public partial class PlayerSync
 		Vector3Int origin = ServerPosition;
 		Vector3Int pushGoal = origin + direction.To3Int();
 
-		if (!ignorePassable && !MatrixManager.IsPassableAt(origin, pushGoal, isServer: true, includingPlayers: !followMode))
+		if (!ignorePassable && !MatrixManager.IsPassableAtAllMatrices(origin, pushGoal, isServer: true, includingPlayers: !followMode))
 		{
 			return false;
 		}
@@ -602,7 +602,7 @@ public partial class PlayerSync
 	{
 		if (pushable && pushable.TryGetComponent(out PushPull pushPull))
 		{
-			if (Validations.CanInteract(playerScript, NetworkSide.Server) || pushPull && !playerScript.IsInReach(pushPull.registerTile, true))
+			if (Validations.CanInteract(playerScript, NetworkSide.Server) || pushPull && !playerScript.IsRegisterTileReachable(pushPull.registerTile, true))
 			{
 				questionablePushables.Add(pushPull);
 				Logger.LogWarningFormat("Added questionable {0}", Category.PushPull, pushPull);
@@ -731,7 +731,7 @@ public partial class PlayerSync
 			foreach ( PushPull pushable in pushables)
 			{
 				// if player can't reach, player can't push
-				if (MatrixManager.IsPassableAt(worldOrigin, pushableLocation, isServer: true, includingPlayers: false, 
+				if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, pushableLocation, isServer: true, includingPlayers: false, 
 						context: pushable.gameObject, isReach: true) == false)
 				{
 					continue;
@@ -849,7 +849,7 @@ public partial class PlayerSync
 		{
 			var worldOrigin = ServerPosition;
 			var worldTarget = worldOrigin + serverState.WorldImpulse.RoundToInt();
-			if (registerPlayer.IsSlippingServer && MatrixManager.IsPassableAt(worldOrigin, worldTarget, true))
+			if (registerPlayer.IsSlippingServer && MatrixManager.IsPassableAtAllMatrices(worldOrigin, worldTarget, true))
 			{
 				Logger.LogFormat("Letting stunned {0} fly onto {1}", Category.Movement, gameObject.name, worldTarget);
 				return;

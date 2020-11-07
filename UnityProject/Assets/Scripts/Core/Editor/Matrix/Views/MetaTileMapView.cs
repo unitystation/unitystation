@@ -94,7 +94,7 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
 		{
-			if (!source.IsPassableAt(position, false))
+			if (source.IsPassableAtOneTileMap(position, position, false) == false)
 			{
 				GizmoUtils.DrawCube(position, Color.blue);
 			}
