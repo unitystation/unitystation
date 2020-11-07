@@ -520,7 +520,7 @@ public partial class PlayerSync
 
 		//we only lerp back if the client thinks it's passable  but server does not...if client
 		//thinks it's not passable and server thinks it's passable, then it's okay to let the client continue
-		if (!isClientBump && serverBump != BumpType.None && serverBump != BumpType.Swappable)
+		if (isClientBump == false && serverBump != BumpType.None && serverBump != BumpType.Swappable)
 		{
 			Logger.LogWarningFormat("isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, serverBump != BumpType.None);
 			RollbackPosition();
@@ -730,6 +730,12 @@ public partial class PlayerSync
 		{
 			foreach ( PushPull pushable in pushables)
 			{
+				// whether or not we actually manage to push it, make sure we aren't pulling it!
+				if (pushPull.PulledObjectServer == pushable)
+				{
+					pushPull.ServerStopPulling();
+				}
+
 				// if player can't reach, player can't push
 				if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, pushableLocation, isServer: true, includingPlayers: false, 
 						context: pushable.gameObject, isReach: true) == false)
@@ -737,8 +743,11 @@ public partial class PlayerSync
 					continue;
 				}
 
-				pushable.TryPush(twoIntDirection);
-				break;
+				// Try pushables until we get one that moves
+				if (pushable.TryPush(twoIntDirection))
+				{
+					break;
+				}
 			}
 		}
 	}

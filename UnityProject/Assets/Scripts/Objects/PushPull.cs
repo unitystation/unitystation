@@ -993,6 +993,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		return false;
 	}
 
+	[Client]
 	public bool TryPredictivePush(Vector3Int from, Vector2Int dir, float speed = Single.NaN)
 	{
 		if (isNotPushable || CanPredictPush == false || Pushable == null || isAllowedDir(dir) == false)
