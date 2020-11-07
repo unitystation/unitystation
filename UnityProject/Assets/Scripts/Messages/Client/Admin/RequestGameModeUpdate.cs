@@ -21,13 +21,13 @@ public class RequestGameModeUpdate : ClientMessage
 		{
 			if (GameManager.Instance.NextGameMode != NextGameMode)
 			{
-				Logger.Log(admin.ExpensiveName() + $" with uid: {Userid}, has updated the next game mode with {NextGameMode}", Category.Admin);
+				Logger.Log(admin.Player().Username + $" with uid: {Userid}, has updated the next game mode with {NextGameMode}", Category.Admin);
 				GameManager.Instance.NextGameMode = NextGameMode;
 			}
 
 			if (GameManager.Instance.SecretGameMode != IsSecret)
 			{
-				Logger.Log(admin.ExpensiveName() + $" with uid: {Userid}, has set the IsSecret GameMode flag to {IsSecret}", Category.Admin);
+				Logger.Log(admin.Player().Username + $" with uid: {Userid}, has set the IsSecret GameMode flag to {IsSecret}", Category.Admin);
 				GameManager.Instance.SecretGameMode = IsSecret;
 			}
 		}

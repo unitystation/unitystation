@@ -131,7 +131,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public void ClientPredictInteraction(HandApply interaction)
 	{
-		if ( interaction.Performer.GetComponent<PlayerScript>().IsInReach( this.gameObject, false ))
+		if ( interaction.Performer.GetComponent<PlayerScript>().IsGameObjectReachable( this.gameObject, false ))
 		{
 			//Predictive disappear only if item is within normal range
 			gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
@@ -149,7 +149,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		//we validated, but object may only be in extended range
 		var cnt = GetComponent<CustomNetTransform>();
 		var ps = interaction.Performer.GetComponent<PlayerScript>();
-		var extendedRangeOnly = !ps.IsInReach(cnt.RegisterTile, true);
+		var extendedRangeOnly = !ps.IsRegisterTileReachable(cnt.RegisterTile, true);
 
 		//if it's in extended range only, then we will nudge it if it is stationary
 		//or pick it up if it is floating.
@@ -212,7 +212,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	private static bool CanReachFloating(PlayerScript ps, TransformState state)
 	{
-		return ps.IsInReach(state.WorldPosition, true) || ps.IsInReach(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f);
+		return ps.IsPositionReachable(state.WorldPosition, true) || ps.IsPositionReachable(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f);
 	}
 
 	/// <summary>

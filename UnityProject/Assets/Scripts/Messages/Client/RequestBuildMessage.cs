@@ -27,7 +27,7 @@ public class RequestBuildMessage : ClientMessage
 		if (!entry.CanBuildWith(hasConstructionMenu)) return;
 
 		//check if the space to construct on is passable
-		if (!MatrixManager.IsPassableAt((Vector3Int) SentByPlayer.GameObject.TileWorldPosition(), true, includingPlayers: false))
+		if (!MatrixManager.IsPassableAtAllMatricesOneTile((Vector3Int) SentByPlayer.GameObject.TileWorldPosition(), true, includingPlayers: false))
 		{
 			Chat.AddExamineMsg(SentByPlayer.GameObject, "It won't fit here.");
 			return;

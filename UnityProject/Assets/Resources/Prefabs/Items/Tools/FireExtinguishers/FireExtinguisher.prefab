@@ -2360,6 +2360,62 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+  LifetimeByEmitterSpeedModule:
+    enabled: 0
+    m_Curve:
+      serializedVersion: 2
+      minMaxState: 1
+      scalar: 1
+      minScalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: -0.8
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 0.2
+          inSlope: -0.8
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    m_Range: {x: 0, y: 1}
   ForceModule:
     enabled: 0
     x:
@@ -3798,7 +3854,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 3
     type: 1
     collisionMode: 1
@@ -4950,11 +5006,11 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4973,7 +5029,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_RenderMode: 1
   m_SortMode: 0
@@ -4992,6 +5048,8 @@ ParticleSystemRenderer:
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
+  m_FreeformStretching: 0
+  m_RotateWithStretchDirection: 1
   m_VertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
@@ -5013,15 +5071,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   travelDistance: 6
-  reagentContainer: {fileID: 5035609469445439989}
-  registerItem: {fileID: 7800578374368079781}
-  pickupable: {fileID: 7800624420709097799}
   reagentsPerUse: 5
-  spriteRenderer: {fileID: 7914790827377032573}
-  spriteSync: 0
-  spriteList:
-  - {fileID: 21300000, guid: 65bae883a79671342ba887b2c584674c, type: 3}
-  - {fileID: 21300000, guid: ea2cd872d96348440a1d6a65e802dc62, type: 3}
+  reagentContainer: {fileID: 5035609469445439989}
 --- !u!114 &4726338998964873127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5300,36 +5351,6 @@ GameObject:
 --- !u!4 &7910266627795891021 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 7914790827376915075}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7800624420709097799 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 7914790827376915075}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7800578374368079781 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 7914790827376915075}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!212 &8008699943347289445 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 7914790827376915075}
   m_PrefabAsset: {fileID: 0}

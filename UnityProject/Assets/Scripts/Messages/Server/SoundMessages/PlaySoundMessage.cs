@@ -47,7 +47,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			{
 				if (isPositionProvided
 				 && PlayerManager.LocalPlayerScript
-				 && !PlayerManager.LocalPlayerScript.IsInReach(Position, false, ShakeParameters.ShakeRange))
+				 && !PlayerManager.LocalPlayerScript.IsPositionReachable(Position, false, ShakeParameters.ShakeRange))
 				{
 					//Don't shake if local player is out of range
 					return;

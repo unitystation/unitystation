@@ -268,7 +268,7 @@ public class StandardProgressAction : IProgressAction
 		        playerScript.playerDirectional.CurrentDirection != initialDirection) &&
 		       !playerScript.PlayerSync.IsMoving &&
 		       //make sure we're still in range
-		       Validations.IsInReachDistance(playerScript.registerTile.WorldPositionServer,
+		       Validations.IsInReachDistanceByPositions(playerScript.registerTile.WorldPositionServer,
 			       startProgressInfo.Target.TargetWorldPosition);
 			;
 	}

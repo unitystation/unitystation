@@ -325,7 +325,7 @@ namespace Systems.MobAIs
 					}
 
 					var dir = path[node].position - Vector2Int.RoundToInt(transform.localPosition);
-					if (!registerTile.Matrix.IsPassableAt(registerTile.LocalPositionServer + (Vector3Int)dir, true, context: gameObject))
+					if (!registerTile.Matrix.IsPassableAtOneMatrixOneTile(registerTile.LocalPositionServer + (Vector3Int)dir, true, context: gameObject))
 					{
 						var dC = registerTile.Matrix.GetFirst<DoorController>(
 							registerTile.LocalPositionServer + (Vector3Int)dir, true);
@@ -432,7 +432,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			if (matrix.IsPassableAt(checkPos, true, context: gameObject))
+			if (matrix.IsPassableAtOneMatrixOneTile(checkPos, true, context: gameObject))
 			{
 				node.nodeType = PathFinding.NodeType.Open;
 				return;

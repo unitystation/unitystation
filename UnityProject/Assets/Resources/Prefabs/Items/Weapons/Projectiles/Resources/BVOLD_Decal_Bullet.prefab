@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4726396450817676}
   - component: {fileID: 346758045872954344}
+  - component: {fileID: 1379889972456191129}
   m_Layer: 15
-  m_Name: Decal_Bullet
+  m_Name: BVOLD_Decal_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,6 +43,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13a7ceb0b04f4b95be674bb7cc7bdd5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1379889972456191129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1230737790073880
@@ -91,6 +104,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -113,7 +127,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 21
   m_SortingOrder: 45
   m_Sprite: {fileID: 21300006, guid: 1d903a94191af724dabe37413d0553db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -141,6 +155,7 @@ MonoBehaviour:
   NetworkThis: 0
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 1791bb70a0c29eb4990c91f1d26e4443, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []

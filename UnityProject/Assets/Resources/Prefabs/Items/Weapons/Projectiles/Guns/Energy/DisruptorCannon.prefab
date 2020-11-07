@@ -370,6 +370,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: firemodeUsage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 3165278197359677262, guid: 4605e0bb6efee89469ccd86940705bdd,
@@ -438,6 +443,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 141087819969772048, guid: 744f742f4f95f5c4c8eb2015d1bfe1bb,
         type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeUsage.Array.data[1]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeUsage.Array.data[2]
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeUsage.Array.data[0]
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet

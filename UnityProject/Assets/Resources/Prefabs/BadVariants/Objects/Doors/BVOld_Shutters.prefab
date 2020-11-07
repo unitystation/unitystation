@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 6040070739731804246}
   - component: {fileID: -3103581084641498480}
   - component: {fileID: 4718596184309582841}
+  - component: {fileID: 190665051643712603}
   m_Layer: 17
   m_Name: BVOld_Shutters
   m_TagString: Untagged
@@ -247,6 +248,7 @@ MonoBehaviour:
   DoorSpriteOffset: 0
   weldOverlay: {fileID: 0}
   weldSprite: {fileID: 0}
+  isEmagged: 0
   doorType: 16
   damageOnClose: 1
   damageClosed: 90
@@ -263,6 +265,7 @@ MonoBehaviour:
   pressureLevel: 0
   openingDirection: 1
   spriteRenderer: {fileID: 0}
+  BlockAutoClose: 0
 --- !u!114 &6040070739731804246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +309,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &190665051643712603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1000014037698914
@@ -354,6 +369,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -376,7 +392,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 18
+  m_SortingLayer: 20
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9357df457aba141c5983326814664ee2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

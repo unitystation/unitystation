@@ -61,7 +61,7 @@ public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, 
 			return true;
 		}
 
-		if (!ps.IsInReach(cnt.RegisterTile, side == NetworkSide.Server))
+		if (!ps.IsRegisterTileReachable(cnt.RegisterTile, side == NetworkSide.Server))
 		{
 
 			return false;

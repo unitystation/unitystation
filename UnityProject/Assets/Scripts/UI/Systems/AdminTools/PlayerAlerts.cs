@@ -167,10 +167,10 @@ namespace AdminTools
 
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{admin.ExpensiveName()} BRUTALLY GIBBED player {perp.ExpensiveName()} for a " +
-			                                                                         $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
-			                                                                         $"{alertEntry.roundTime}", adminId);
+			ConnectedPlayer perpPlayer = perp.Player();
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+					$"{admin.Player().Username} BRUTALLY GIBBED player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
+			        $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: {alertEntry.roundTime}", adminId);
 
 			playerScript.playerHealth.ServerGibPlayer();
 
@@ -186,10 +186,10 @@ namespace AdminTools
 
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{admin.ExpensiveName()} is talking to or monitoring player {perp.ExpensiveName()} for a " +
-			                                                                         $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
-			                                                                         $"{alertEntry.roundTime}", adminId);
+			ConnectedPlayer perpPlayer = perp.Player();
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+					$"{admin.Player().Username} is talking to or monitoring player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
+			        $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: {alertEntry.roundTime}", adminId);
 
 			alertEntry.takenCareOf = true;
 			ServerSendEntryToAllAdmins(alertEntry);

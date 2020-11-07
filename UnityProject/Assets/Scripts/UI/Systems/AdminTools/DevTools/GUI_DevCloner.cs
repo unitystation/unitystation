@@ -190,7 +190,7 @@ public class GUI_DevCloner : MonoBehaviour
 			{
 				Vector3Int position = cursorObject.transform.position.RoundToInt();
 				position.z = 0;
-				if (MatrixManager.IsPassableAt(position, false))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(position, false))
 				{
 					if (CustomNetworkManager.IsServer)
 					{
