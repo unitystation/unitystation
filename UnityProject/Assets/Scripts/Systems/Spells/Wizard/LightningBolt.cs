@@ -100,11 +100,11 @@ namespace Systems.Spells.Wizard
 			ElectricalArcSettings arcSettings = new ElectricalArcSettings(
 					arcEffect, originatingObject, targetObject, default, targetPosition, arcs, duration);
 
-			if (targetObject.TryGetComponent<PlayerSprites>(out var playerSprites))
+			if (targetObject != null && targetObject.TryGetComponent<PlayerSprites>(out var playerSprites))
 			{
 				playerSprites.EnableElectrocutedOverlay(duration + 1);
 			}
-			else if (targetObject.TryGetComponent<MobSprite>(out var mobSprites))
+			else if (targetObject != null && targetObject.TryGetComponent<MobSprite>(out var mobSprites))
 			{
 				mobSprites.EnableElectrocutedOverlay(duration + 1);
 			}

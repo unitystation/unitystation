@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 222946214041701798}
   - component: {fileID: 114055117178974294}
   - component: {fileID: 114385320989314586}
-  - component: {fileID: 7023724558607761392}
+  - component: {fileID: 4742926445127727782}
   m_Layer: 5
   m_Name: TabMagicMirror
   m_TagString: Untagged
@@ -109,16 +109,16 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &7023724558607761392
+--- !u!114 &4742926445127727782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1502172408805726}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 665a6b12c66a37e4a85772682d6ba514, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b07b8295aa31d1448049cd05cd09c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Hidden: 0
@@ -131,9 +131,10 @@ MonoBehaviour:
       m_Calls: []
   Provider: {fileID: 0}
   ProviderRegisterTile: {fileID: 0}
-  Type: 31
-  chargesLabel: {fileID: 0}
-  dynamicList: {fileID: 0}
+  Type: 32
+  inputField: {fileID: 8514528037926767295}
+  wizardFirstNames: {fileID: 11400000, guid: 4b3a8019fc6e37948b37b76ac221c253, type: 2}
+  wizardLastNames: {fileID: 11400000, guid: 2854c54aab158134f9ebb1ad2f982199, type: 2}
 --- !u!1 &1718948510130994
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +146,7 @@ GameObject:
   - component: {fileID: 224950370593069080}
   - component: {fileID: 222877028515050584}
   - component: {fileID: 114673774271609302}
+  - component: {fileID: 3025772491468754618}
   m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
@@ -192,14 +194,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9245283, g: 0.9946092, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300004, guid: b7efae2541864dc43a74b5d5e576f9a3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b7efae2541864dc43a74b5d5e576f9a3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -209,6 +211,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3025772491468754618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718948510130994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 0
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 3ce47bba9f0da4b43a0bbd89210486f3, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &90488914039723378
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,15 +370,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.62105274, b: 1, a: 0.68235296}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bde4f7b40d29d0706bb52ac59b2b753f, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: eed5ad0e0d96a8bb49df87b5a035a621, type: 3}
+  m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -436,9 +457,9 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: MakeAnAnnouncement
+      - m_Target: {fileID: 4742926445127727782}
+        m_TargetAssemblyTypeName: GUI_MagicMirror, Assets
+        m_MethodName: SetName
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -569,7 +590,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7023724558607761392}
+      - m_Target: {fileID: 4742926445127727782}
         m_TargetAssemblyTypeName: NetTab, Assets
         m_MethodName: CloseTab
         m_Mode: 1
@@ -764,13 +785,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6304661425774125343}
   m_TextComponent: {fileID: 1687111561893969012}
   m_Placeholder: {fileID: 0}
-  m_ContentType: 5
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 6
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 4
+  m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -1021,7 +1042,6 @@ GameObject:
   - component: {fileID: 6229655945499366725}
   - component: {fileID: 6209423084553006220}
   - component: {fileID: 693511412802186623}
-  - component: {fileID: 3113074241817171297}
   m_Layer: 5
   m_Name: RandomNameButton
   m_TagString: Untagged
@@ -1070,14 +1090,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.61960787, b: 1, a: 0.68235296}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bde4f7b40d29d0706bb52ac59b2b753f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eed5ad0e0d96a8bb49df87b5a035a621, type: 3}
   m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1130,36 +1150,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3113074241817171297}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: ExecuteClient
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &3113074241817171297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7712789189560901937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ServerMethod:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OpenMenu
+      - m_Target: {fileID: 4742926445127727782}
+        m_TargetAssemblyTypeName: GUI_MagicMirror, Assets
+        m_MethodName: ClientInputRandomName
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

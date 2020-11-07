@@ -1,6 +1,7 @@
 ﻿using System;
 
 using UnityEngine;
+#if UNITY_EDITOR // Preprocessor line added (and corresponding #endif at the end): non-standard change.
 using UnityEditor;
 
 namespace DigitalRuby.LightningBolt
@@ -48,3 +49,4 @@ namespace DigitalRuby.LightningBolt
         }
     }
 }
+#endif

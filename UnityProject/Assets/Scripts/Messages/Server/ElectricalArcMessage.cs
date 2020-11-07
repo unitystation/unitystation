@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 
@@ -9,7 +10,7 @@ namespace Systems.ElectricalArcs
 	/// </summary>
 	public class ElectricalArcMessage : ServerMessage
 	{
-		public GameObject arcEffectPrefab;
+		public Guid prefabAssetID;
 		public GameObject startObject;
 		public GameObject endObject;
 		public Vector3 startPosition;
@@ -26,8 +27,11 @@ namespace Systems.ElectricalArcs
 
 			if (CustomNetworkManager.IsServer == false && PlayerManager.LocalPlayer == null) return;
 
-			var settings = new ElectricalArcSettings(arcEffectPrefab, startObject, endObject, startPosition, endPosition, arcCount, duration);
-			new ElectricalArc().CreateArcs(settings);
+			if (ClientScene.prefabs.TryGetValue(prefabAssetID, out var prefab))
+			{
+				var settings = new ElectricalArcSettings(prefab, startObject, endObject, startPosition, endPosition, arcCount, duration);
+				new ElectricalArc().CreateArcs(settings);
+			}
 		}
 
 		/// <summary>
@@ -35,25 +39,33 @@ namespace Systems.ElectricalArcs
 		/// </summary>
 		public static ElectricalArcMessage SendToAll(ElectricalArcSettings arcSettings)
 		{
-			var msg = new ElectricalArcMessage
+			if (arcSettings.arcEffectPrefab.TryGetComponent<NetworkIdentity>(out var identity))
 			{
-				arcEffectPrefab = arcSettings.arcEffectPrefab,
-				startObject = arcSettings.startObject,
-				endObject = arcSettings.endObject,
-				startPosition = arcSettings.startPosition,
-				endPosition = arcSettings.endPosition,
-				arcCount = arcSettings.arcCount,
-				duration = arcSettings.duration,
-			};
-			msg.SendToAll();
-			return msg;
+				var msg = new ElectricalArcMessage
+				{
+					prefabAssetID = identity.assetId,
+					startObject = arcSettings.startObject,
+					endObject = arcSettings.endObject,
+					startPosition = arcSettings.startPosition,
+					endPosition = arcSettings.endPosition,
+					arcCount = arcSettings.arcCount,
+					duration = arcSettings.duration,
+				};
+				msg.SendToAll();
+				return msg;
+			}
+			else
+			{
+				Logger.LogError($"No {nameof(NetworkIdentity)} found on {arcSettings.arcEffectPrefab}!", Category.NetMessage);
+				return default;
+			}
 		}
 
 		public override void Deserialize(NetworkReader reader)
 		{
 			base.Deserialize(reader);
 
-			arcEffectPrefab = reader.ReadGameObject();
+			prefabAssetID = reader.ReadGuid();
 			startObject = reader.ReadGameObject();
 			endObject = reader.ReadGameObject();
 			startPosition = reader.ReadVector3();
@@ -66,7 +78,7 @@ namespace Systems.ElectricalArcs
 		{
 			base.Serialize(writer);
 
-			writer.WriteGameObject(arcEffectPrefab);
+			writer.WriteGuid(prefabAssetID);
 			writer.WriteGameObject(startObject);
 			writer.WriteGameObject(endObject);
 			writer.WriteVector3(startPosition);
