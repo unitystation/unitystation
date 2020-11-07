@@ -8,7 +8,7 @@ on:
     branches: [develop]
 
 jobs:
-  autohelpers:
+  helpers:
     runs-on: ubuntu-latest
     steps:
       - name: conflicts check
