@@ -312,7 +312,7 @@ namespace Weapons
 			return false;
 		}
 
-		public void ClientPredictInteraction(AimApply interaction)
+		public virtual void ClientPredictInteraction(AimApply interaction)
 		{
 			//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
 			//case 1 - we are beginning a new shot, need to see if we are shooting ourselves

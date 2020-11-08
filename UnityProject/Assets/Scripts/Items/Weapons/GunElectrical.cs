@@ -6,7 +6,7 @@ using Weapons;
 using Mirror;
 using Weapons.Projectiles;
 
-public class GunElectrical : Gun
+public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 {
 	public List<GameObject> firemodeProjectiles = new List<GameObject>();
 	public List<string> firemodeFiringSound = new List<string>();
@@ -24,10 +24,10 @@ public class GunElectrical : Gun
 	public ElectricalMagazine currentElectricalMag =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<ElectricalMagazine>() : null;
 
-	public void OnSpawnServer(SpawnInfo info)
+	public override void OnSpawnServer(SpawnInfo info)
 	{
-  	  UpdateFiremode(currentFiremode, 0);
-  	  base.OnSpawnServer(info);
+		UpdateFiremode(currentFiremode, 0);
+  		base.OnSpawnServer(info);
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -39,14 +39,14 @@ public class GunElectrical : Gun
 	{
 		if (firemodeUsage[currentFiremode] > battery.Watts) 
 		{
-			PlayEmptySFX();
+			base.PlayEmptySFX();
 		}
 		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
 		currentElectricalMag.toRemove = firemodeUsage[currentFiremode];
 		return base.WillInteract(interaction, side); 
 	}
 
-	public void ClientPredictInteraction(AimApply interaction)
+	public override void ClientPredictInteraction(AimApply interaction)
 	{
 		if (firemodeUsage[currentFiremode] > battery.Watts) 
 		{
