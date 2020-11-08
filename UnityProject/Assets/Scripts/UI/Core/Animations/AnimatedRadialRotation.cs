@@ -11,10 +11,6 @@ public class AnimatedRadialRotation : MonoBehaviour
 	[SerializeField]
 	private LeanTweenType tweenType;
 
-	private Action onCompleteDelegate;
-
-	private Action<float> onUpdateDelegate;
-
 	public Action OnCompleteEvent { get; set; }
 
 	private int? TweenID { get; set; }
@@ -37,8 +33,6 @@ public class AnimatedRadialRotation : MonoBehaviour
 	private void Awake()
 	{
 		Radial = GetComponent<IRadial>();
-		onCompleteDelegate = OnComplete;
-		onUpdateDelegate = OnUpdate;
 	}
 
 	public void TweenRotation(float rotation)
@@ -75,8 +69,8 @@ public class AnimatedRadialRotation : MonoBehaviour
 				return;
 			}
 			TweenID = descr
-				.setOnUpdate(onUpdateDelegate)
-				.setOnComplete(onCompleteDelegate)
+				.setOnUpdate(OnUpdate)
+				.setOnComplete(OnComplete)
 				.setEase(tweenType)
 				.id;
 		}
