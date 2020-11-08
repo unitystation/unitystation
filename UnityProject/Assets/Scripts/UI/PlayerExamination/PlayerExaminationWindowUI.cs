@@ -4,7 +4,7 @@ using Assets.Scripts.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerExaminationWindowUI : WindowDrag
+public class PlayerExaminationWindowUI : MonoBehaviour
 {
 	[SerializeField] private Text playerName;
 	[SerializeField] private Text playerRace;
@@ -22,7 +22,7 @@ public class PlayerExaminationWindowUI : WindowDrag
 	public ItemStorage CurrentOpenStorage { get; private set; }
 	private Equipment currentEquipment;
 
-	private void Awake()
+	private void Start()
 	{
 		// find all slots
 		examinationSlotsUI = GetComponentsInChildren<PlayerExaminationWindowSlot>();
@@ -98,16 +98,14 @@ public class PlayerExaminationWindowUI : WindowDrag
 
 		UpdateStorageUI();
 		
+		// display info
 		playerName.text = visibleName;
 		playerRace.text = race;
 		playerJob.text = job;
 		playerStatus.text = status;
 
 		// display additional informations
-		if (additionalInformations.Length > 0)
-		{
-			additionalInformationsText.text = additionalInformations.Replace(";", "\n");
-		}
+		additionalInformationsText.text = additionalInformations;
 
 		// add listeners
 		foreach (var slotUI in examinationSlotsUI)

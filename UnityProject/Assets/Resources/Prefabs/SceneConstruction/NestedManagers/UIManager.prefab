@@ -497,6 +497,7 @@ GameObject:
   - component: {fileID: 1577943520932018060}
   - component: {fileID: 3509520967074441936}
   - component: {fileID: 2384431373398319613}
+  - component: {fileID: 698026218556385749}
   - component: {fileID: 4507496473583589829}
   m_Layer: 5
   m_Name: Player_Examination
@@ -579,14 +580,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e0bc6b59ee2524b916c8c8de5472e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disableDrag: 0
-  resetPositionOnDisable: 0
   playerName: {fileID: 1507958287625426953}
   playerRace: {fileID: 7022882810457551132}
   playerJob: {fileID: 531657821803425691}
   playerStatus: {fileID: 6173455485960692321}
   expandedView: {fileID: 224210957252492000}
   additionalInformationsText: {fileID: 2007252913543257955}
+--- !u!114 &698026218556385749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875518364660620979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14ed3befbaf4893bc7f04d3a44e9639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableDrag: 0
+  resetPositionOnDisable: 0
 --- !u!114 &4507496473583589829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,7 +617,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2384431373398319613}
+        - m_Target: {fileID: 698026218556385749}
           m_TargetAssemblyTypeName: WindowDrag, Assets
           m_MethodName: BeginDrag
           m_Mode: 1
@@ -620,7 +633,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2384431373398319613}
+        - m_Target: {fileID: 698026218556385749}
           m_TargetAssemblyTypeName: WindowDrag, Assets
           m_MethodName: OnDrag
           m_Mode: 1
@@ -10063,7 +10076,7 @@ PrefabInstance:
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Size
-      value: 0
+      value: 0.41528565
       objectReference: {fileID: 0}
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}

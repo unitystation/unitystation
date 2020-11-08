@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Items.PDA;
 using UnityEngine;
 
 namespace Assets.Scripts.Player
@@ -29,10 +30,71 @@ namespace Assets.Scripts.Player
 		/// <returns>true if player don't wear mask</returns>
 		private bool isFaceVisible => script.ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty;
 
+		[Tooltip("Slots from which other players can read ID card data")]
+		[SerializeField]
+		private NamedSlot[] readableIDslots = new NamedSlot[]
+		{
+			NamedSlot.id,
+			NamedSlot.belt,
+			NamedSlot.leftHand,
+			NamedSlot.rightHand
+		};
+
 		private void Awake()
 		{
 			script = GetComponent<PlayerScript>();
 			interactableStorage = GetComponent<InteractableStorage>();
+		}
+
+		/// <summary>
+		/// Try to find security record by player ID
+		/// </summary>
+		/// <param name="ID">player ID</param>
+		/// <param name="securityRecord">player security record if found</param>
+		/// <returns>true if security record exists for provided ID</returns>
+		private bool TryFindPlayerSecurityRecord(string ID, out SecurityRecord securityRecord)
+		{
+			List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
+			foreach (var record in records)
+			{
+				if (record.characterSettings.Name.Equals(ID))
+				{
+					securityRecord = record;
+					return true;
+				}
+			}
+
+			securityRecord = null;
+			return false;
+		}
+
+		/// <summary>
+		/// Try to get player IDcard
+		/// </summary>
+		/// <param name="idCard">player id card if found</param>
+		/// <returns>true if player has id card</returns>
+		private bool TryFindIDCard(out IDCard idCard)
+		{
+			foreach (var slot in readableIDslots)
+			{
+				ItemSlot itemSlot = script.ItemStorage.GetNamedItemSlot(slot);
+				if (itemSlot.IsOccupied)
+				{
+					// if item is ID card
+					if (itemSlot.ItemObject.TryGetComponent<IDCard>(out idCard))
+						return true;
+
+					// if item is PDA and IDCard is not null
+					if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out PDALogic pdaLogic) && pdaLogic.IDCard != null)
+					{
+						idCard = pdaLogic.IDCard;
+						return true;
+					}
+				}
+			}
+
+			idCard = null;
+			return false;
 		}
 
 		/// <summary>
@@ -53,7 +115,6 @@ namespace Assets.Scripts.Player
 
 		public void Examine(GameObject SentByPlayer)
 		{
-			string asd = Examine();
 			var rootStorage = interactableStorage.ItemStorage.GetRootStorage();
 
 			// if player is not inspecting self
@@ -73,7 +134,6 @@ namespace Assets.Scripts.Player
 				);
 				SpatialRelationship.ServerActivate(relationship);
 			}
-			// TODO: remove this
 			else
 				PlayerExaminationMessage.Send(SentByPlayer, this, true);
 		}
@@ -86,40 +146,28 @@ namespace Assets.Scripts.Player
 			PlayerExaminationMessage.Send(cancelled.obj1.gameObject, this, false);
 		}
 
-		/// <summary>
-		/// Try to find security record by player ID
-		/// </summary>
-		/// <param name="ID">player ID</param>
-		/// <param name="securityRecord">player security record if found</param>
-		/// <returns>true if security record exists for provided ID</returns>
-		private bool TryFindPlayerSecurityRecord(string ID, out SecurityRecord securityRecord)
+		public string GetPlayerNameString()
 		{
-			List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
-			foreach (var record in records)
-			{
-				// TODO: check ID
-				if (record.characterSettings.Name.Equals(ID))
-				{
-					securityRecord = record;
-					return true;
-				}
-			}
+			// first try to get name from id
+			if (TryFindIDCard(out IDCard idCard))
+				return idCard.RegisteredName;
 
-			securityRecord = null;
-			return false;
+			// if can't get name from id get visible name
+			return VisibleName;
 		}
 
 		public string GetPlayerRaceString()
 		{
-			if (VisibleName.Equals("Unknown"))
-				return UNKNOWN_VALUE;
-
+			// if face is visible - get race by face
 			if (isFaceVisible)
 				// TODO: get player race
 				return "HUMAN";
-			else if (TryFindPlayerSecurityRecord(script.characterSettings.Name, out SecurityRecord securityRecord))
+			// else - try get race from security records
+			else if (TryFindIDCard(out IDCard idCard))
 			{
-				return securityRecord.Species;
+				string ID = idCard.RegisteredName;
+				if (TryFindPlayerSecurityRecord(ID, out SecurityRecord securityRecord))
+					return securityRecord.Species;
 			}
 
 			return UNKNOWN_VALUE;
@@ -127,39 +175,21 @@ namespace Assets.Scripts.Player
 
 		public string GetPlayerJobString()
 		{
-			NamedSlot[] IDslots = new NamedSlot[]
-			{
-				NamedSlot.id,
-				NamedSlot.belt
-			};
-
 			// search for ID identity
-			foreach (var slot in IDslots)
-			{
-				ItemSlot itemSlot = script.ItemStorage.GetNamedItemSlot(slot);
-
-				// TODO: check if item is ID and get values
-				string ID = script.characterSettings.Name;
-				if (itemSlot.IsOccupied && TryFindPlayerSecurityRecord(ID, out SecurityRecord securityRecord))
-				{
-					return securityRecord.Occupation.JobType.ToString();
-				}
-			}
+			if (TryFindIDCard(out IDCard idCard))
+				return idCard.JobType.ToString();
 
 			// search for face identity
 			if (isFaceVisible)
 			{
-				// TODO: get ID by face
 				string ID = script.characterSettings.Name;
 				if (TryFindPlayerSecurityRecord(ID, out SecurityRecord securityRecord))
-				{
 					return securityRecord.Occupation.JobType.ToString();
-				}
 			}
 
 			return UNKNOWN_VALUE;
 		}
-		
+
 		public string GetPlayerStatusString()
 		{
 			// TODO: GetPlayerStatusString
@@ -173,9 +203,9 @@ namespace Assets.Scripts.Player
 		{
 			string result = "";
 
-			// ';' is used to divide sentences to lines
+			// '\n' is used to divide sentence to lines
 			if (isFaceVisible)
-				result += "face is visible;";
+				result += "face is visible\n";
 
 			return result;
 		}

@@ -9,7 +9,8 @@ public class ChatEntry : MonoBehaviour
 	[SerializeField] private Text senderName = null;
 	[SerializeField] private Text visibleText = null;
 	[SerializeField] private GameObject adminOverlay = null;
-	[SerializeField] private Shadow shadow = null;
+	[SerializeField] private Outline senderNameOutline;
+	[SerializeField] private Outline chatEntryOutline;
 	[SerializeField] private RectTransform messageRectTransform = null;
 	[SerializeField] private ContentSizeFitter messageContentFitter = null;
 	[SerializeField] private LayoutElement layoutElement = null;
@@ -90,7 +91,8 @@ public class ChatEntry : MonoBehaviour
 		isAdminMsg = false;
 		visibleText.text = "";
 		adminOverlay.SetActive(false);
-		shadow.enabled = true;
+		senderNameOutline.enabled = true;
+		chatEntryOutline.enabled = true;
 		stackPosSet = false;
 		stackTimes = 0;
 		stackTimesText.text = "";
@@ -98,7 +100,6 @@ public class ChatEntry : MonoBehaviour
 		layoutElement.minHeight = 20f;
 	}
 
-	// TODO: problem with coloring ooc messages
 	public void SetText(string msg)
 	{
 		string[] splitted = msg.Split('|');
@@ -193,7 +194,8 @@ public class ChatEntry : MonoBehaviour
 
 	void ToggleUIElements(bool enabled)
 	{
-		shadow.enabled = enabled;
+		senderNameOutline.enabled = enabled;
+		chatEntryOutline.enabled = enabled;
 
 		foreach (var t in allText)
 		{
@@ -218,7 +220,8 @@ public class ChatEntry : MonoBehaviour
 
 		if (enabled && isAdminMsg)
 		{
-			shadow.enabled = false;
+			senderNameOutline.enabled = false;
+			chatEntryOutline.enabled = false;
 		}
 	}
 

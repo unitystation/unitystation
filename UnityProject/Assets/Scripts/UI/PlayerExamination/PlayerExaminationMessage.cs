@@ -60,7 +60,7 @@ public class PlayerExaminationMessage : ServerMessage
 		var msg = new PlayerExaminationMessage()
 		{
 			ItemStorage = examinablePlayer.gameObject.NetId(),
-			VisibleName = examinablePlayer.VisibleName,
+			VisibleName = examinablePlayer.GetPlayerNameString(),
 			Race = examinablePlayer.GetPlayerRaceString(),
 			Job = examinablePlayer.GetPlayerJobString(),
 			Status = examinablePlayer.GetPlayerStatusString(),

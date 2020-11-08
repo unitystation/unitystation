@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// TODO
-/// </summary>
 public class PanelHudBottomController : MonoBehaviour
 {
 	public UI_ItemSlot backpackItemSlot;
@@ -17,7 +14,7 @@ public class PanelHudBottomController : MonoBehaviour
 	/// <summary>
 	/// Do player have item in uniform slot
 	/// </summary>
-	public bool isWearingUniform
+	public bool IsWearingUniform
 	{
 		get => _isWearingUniform;
 		set
@@ -134,7 +131,7 @@ public class PanelHudBottomController : MonoBehaviour
 	private void OnUniformSlotUpdate()
 	{
 		ItemSlot uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
-		isWearingUniform = uniform.IsOccupied;
+		IsWearingUniform = uniform.IsOccupied;
 	}
 
 	private void DropItem(UI_ItemSlot itemSlot)
@@ -155,7 +152,7 @@ public class PanelHudBottomController : MonoBehaviour
 	/// <param name="slot">pocket you want to iteract with (value range: 1 to 3)</param>
 	public void TryInteractWithPocket(int slot)
 	{
-		if (!isWearingUniform && slot != 1)
+		if (!IsWearingUniform && slot != 1)
 			return;
 
 		UI_ItemSlot pocket = slot == 1 ? pocketOneItemSlot : slot == 2 ? pocketTwoItemSlot : pocketThreeItemSlot;
@@ -177,14 +174,14 @@ public class PanelHudBottomController : MonoBehaviour
 			}
 
 			// if second pocket is empty - try to interact
-			if (isWearingUniform && pocketTwoItemSlot.ItemSlot.IsEmpty)
+			if (IsWearingUniform && pocketTwoItemSlot.ItemSlot.IsEmpty)
 			{
 				TryInteractWithPocket(2);
 				return;
 			}
 
 			// if third pocket is empty - try to interact
-			if (isWearingUniform && pocketThreeItemSlot.ItemSlot.IsEmpty)
+			if (IsWearingUniform && pocketThreeItemSlot.ItemSlot.IsEmpty)
 			{
 				TryInteractWithPocket(3);
 				return;
