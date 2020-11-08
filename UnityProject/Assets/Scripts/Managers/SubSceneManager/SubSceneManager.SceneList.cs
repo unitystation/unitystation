@@ -3,6 +3,8 @@ using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
+using UnityEngine;
+using System.Linq;
 
 //The scene list on the server
 public partial class SubSceneManager
@@ -217,26 +219,18 @@ public partial class SubSceneManager
 	public IEnumerator LoadSyndicate()
 	{
 		if (SyndicateLoaded) yield break;
+		var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
 
 		foreach (var syndicateData in additionalSceneList.SyndicateScenes)
 		{
-			if (syndicateData.DependentScene == null || syndicateData.SyndicateSceneName == null) continue;
+			if (syndicateData.DependentScene == null || syndicateData.SyndicateSceneName == null)
+				continue;
+			if (syndicateData.DependentScene != serverChosenMainStation)
+				continue;
 
-			if (syndicateData.DependentScene != serverChosenMainStation) continue;
-
-			yield return StartCoroutine(LoadSubScene(syndicateData.SyndicateSceneName));
-
-			loadedScenesList.Add(new SceneInfo
-			{
-				SceneName = syndicateData.SyndicateSceneName,
-				SceneType = SceneType.AdditionalScenes
-			});
-			PokeClientSubScene.SendToAll( syndicateData.SyndicateSceneName);
-			yield break;
+			pickedMap = syndicateData.SyndicateSceneName;
+			break;
 		}
-
-		var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
-
 		yield return StartCoroutine(LoadSubScene(pickedMap));
 
 		loadedScenesList.Add(new SceneInfo
@@ -244,8 +238,26 @@ public partial class SubSceneManager
 			SceneName = pickedMap,
 			SceneType = SceneType.AdditionalScenes
 		});
+
 		PokeClientSubScene.SendToAll( pickedMap);
+		yield return StartCoroutine(RunOnSpawnServer(pickedMap));
 		SyndicateLoaded = true;
+	}
+
+	private IEnumerator RunOnSpawnServer(string map)
+	{
+		if (GameManager.Instance.CurrentRoundState == RoundState.Started) // the game started long ago!
+		{
+			yield return new WaitForEndOfFrame(); //let the matrix initialize first
+			var loadedScene = SceneManager.GetSceneByName(map);
+
+			var rootObjects = loadedScene.GetRootGameObjects();
+			foreach (var matrix in rootObjects) //different matrix of a scene, ex: syndie outpost and shuttle
+			{
+				var iserverspawnlist = matrix.GetComponentsInChildren<IServerSpawn>();
+				GameManager.Instance.MappedOnSpawnServer(iserverspawnlist);
+			}
+		}
 	}
 
 	public IEnumerator LoadWizard()
@@ -261,9 +273,9 @@ public partial class SubSceneManager
 			SceneName = pickedScene,
 			SceneType = SceneType.AdditionalScenes
 		});
-		
-		PokeClientSubScene.SendToAll(pickedScene);
 
+		PokeClientSubScene.SendToAll(pickedScene);
+		yield return StartCoroutine(RunOnSpawnServer(pickedScene));
 		WizardLoaded = true;
 	}
 

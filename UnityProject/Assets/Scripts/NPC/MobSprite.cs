@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Mirror;
 using Core.Directionals;
 using Effects.Overlays;
@@ -172,12 +173,50 @@ namespace Systems.Mob
 			burningOverlay.StartOverlay(directional.CurrentDirection);
 		}
 
+		/// <summary>
+		/// Enable the electrocuted overlay for the player's mob.
+		/// </summary>
+		/// <param name="time">If provided and greater than zero, how long until the electrocuted overlay is disabled.</param>
+		public void EnableElectrocutedOverlay(float time = -1)
+		{
+			if (electrocutedOverlay == null)
+			{
+				AddOverlayGameObjects();
+			}
+
+			if (time > 0)
+			{
+				StartCoroutine(StopElectrocutedOverlayAfter(time));
+			}
+
+			electrocutedOverlay.StartOverlay(directional.CurrentDirection);
+		}
+
+		/// <summary>
+		/// Disables the electrocuted overlay for the mob.
+		/// </summary>
+		public void DisableElectrocutedOverlay()
+		{
+			if (electrocutedOverlay == null)
+			{
+				return;
+			}
+
+			electrocutedOverlay.StopOverlay();
+		}
+
 		private void OnDirectionChange(Orientation newDirection)
 		{
 			if (burningOverlay != null && burningOverlay.OverlayActive)
 			{
 				SetBurningOverlay();
 			}
+		}
+
+		private IEnumerator StopElectrocutedOverlayAfter(float seconds)
+		{
+			yield return WaitFor.Seconds(seconds);
+			DisableElectrocutedOverlay();
 		}
 	}
 }

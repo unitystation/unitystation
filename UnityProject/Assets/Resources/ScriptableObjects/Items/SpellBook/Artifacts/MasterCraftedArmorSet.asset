@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edcc64391453d39409ee8e6748da1c12, type: 3}
-  m_Name: ArtifactMasterCraftedArmorSet
+  m_Name: MasterCraftedArmorSet
   m_EditorClassIdentifier: 
-  name: Mastercrafted Armor Set
   description: A magic-gem-encrusted spacesuit, it functions the same as normal wizard
     robes, plus being space-worthy and armored. Minor slowdown. Now you can cast
     spells in space and low temperature places!
   note: 
   cost: 2
   conflictsWith: []
+  name: Mastercrafted Armor Set
   artifacts:
   - {fileID: 6089415035173653314, guid: 3c2174c97dde5fe4e96883550087346e, type: 3}
   - {fileID: 2296210649548077806, guid: 10ee508b1e1242542b833c8e3aff88bd, type: 3}

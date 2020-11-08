@@ -34,7 +34,7 @@ jobs:
           git commit -m "misc: update Changelog" -a
       - name: Push changes
         if: ${{ steps.pr2changelog.outputs.generated_changelog == 1}}
-        uses: ad-m/github-push-action@0.6.0
+        uses: ad-m/github-push-action@v0.6.0
         with:
           branch: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}

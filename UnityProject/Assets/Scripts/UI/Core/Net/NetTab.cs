@@ -40,6 +40,7 @@ public enum NetTabType
 	Mixer = 29,
 	SpellBook = 30,
 	TeleportScroll = 31,
+	MagicMirror = 32,
 
 	//add your tabs here
 }

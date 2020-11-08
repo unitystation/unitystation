@@ -53,7 +53,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 			SoundManager.PlayNetworkedAtPos("PunchMiss", interactionWorldPosition, sourceObj: target);
 
 			Chat.AddCombatMsgToChat(
-					gameObject,
+					performer,
 					$"You fail to disarm {targetName}!",
 					$"{performerName} attempts to disarm {targetName}!");
 			Chat.AddExamineMsgFromServer(target, $"{performerName} attempts to disarm you!");
@@ -67,7 +67,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 
 		SoundManager.PlayNetworkedAtPos("ThudSwoosh", interactionWorldPosition, sourceObj: target);
 		Chat.AddCombatMsgToChat(
-				gameObject,
+				performer,
 				$"You knock {targetName} down!",
 				$"{performerName} knocks {targetName} down!");
 		Chat.AddExamineMsgFromServer(target, $"{performerName} knocks you down!");
@@ -91,7 +91,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 
 		SoundManager.PlayNetworkedAtPos("ThudSwoosh", interactionWorldPosition, sourceObj: target);
 		Chat.AddCombatMsgToChat(
-				gameObject,
+				performer,
 				$"You successfully disarm {targetName}!",
 				$"{performerName} disarms {targetName}!");
 		Chat.AddExamineMsgFromServer(target, $"{performerName} disarms you!");
