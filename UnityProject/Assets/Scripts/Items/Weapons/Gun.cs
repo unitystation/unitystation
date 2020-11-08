@@ -327,7 +327,7 @@ namespace Weapons
 			}
 
 			var dir = ApplyRecoil(interaction.TargetVector.normalized);
-			DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
+			gunTrigger.TriggerPullClient(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
 		}
 
 		//nothing to rollback
