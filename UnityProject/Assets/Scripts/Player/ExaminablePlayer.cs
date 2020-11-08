@@ -115,8 +115,6 @@ namespace Assets.Scripts.Player
 
 		public void Examine(GameObject SentByPlayer)
 		{
-			var rootStorage = interactableStorage.ItemStorage.GetRootStorage();
-
 			// if player is not inspecting self
 			if (SentByPlayer != gameObject)
 			{

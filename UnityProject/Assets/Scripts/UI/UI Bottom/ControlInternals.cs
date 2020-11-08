@@ -56,6 +56,9 @@ public class ControlInternals : TooltipMonoBehaviour
 					mask.color = activeAirFlowTankColor;
 					mask.enabled = true;
 					break;
+				default:
+					Logger.LogError("currentState is out of range. <1; 5>");
+					break;
 			}
 		}
 	}

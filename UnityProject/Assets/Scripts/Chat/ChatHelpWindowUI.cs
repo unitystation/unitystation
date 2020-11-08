@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +24,7 @@ public class ChatHelpWindowUI : WindowDrag
 		// get all chat channels
 		ChatChannel[] allChannels = (ChatChannel[])Enum.GetValues(typeof(ChatChannel));
 
-		string newContent = string.Empty;
+		StringBuilder newContent = new StringBuilder();
 		// start from 4 to skip 'None', 'Examine', 'Local', 'OOC'
 		for (int i = 4; i < allChannels.Length; i++)
 		{
@@ -31,12 +32,12 @@ public class ChatHelpWindowUI : WindowDrag
 			// player have access to this channel
 			if (chatChannels.HasFlag(channel))
 			{
-				newContent += GetChannelEntry(channel);
+				newContent.Append(GetChannelEntry(channel));
 			}
 
 		}
 
-		channelsText.text = newContent;
+		channelsText.text = newContent.ToString();
 	}
 
 	/// <summary>

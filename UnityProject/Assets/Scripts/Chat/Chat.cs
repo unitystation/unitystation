@@ -35,7 +35,8 @@ public partial class Chat : MonoBehaviour
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
-	public static bool isOnRightSide = false;
+	// TODO: flip side
+	//public static bool isOnRightSide = false;
 
 	public static bool OOCMute = false;
 

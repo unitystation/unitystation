@@ -347,6 +347,9 @@ public class UIManager : MonoBehaviour, IInitialise
 					FormatKeybind(keyCombo.MainKey)
 				);
 				break;
+			default:
+				Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}");
+				break;
 		}
 	}
 
