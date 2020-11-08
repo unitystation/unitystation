@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerExaminationMessage : ServerMessage
 {
 	public string VisibleName;
-	public string Race;
+	public string Species;
 	public string Job;
 	public string Status;
 
@@ -31,7 +31,7 @@ public class PlayerExaminationMessage : ServerMessage
 
 		var itemStorage = storageObject.GetComponent<ItemStorage>();
 		if(Observed)
-			UIManager.PlayerExaminationWindow.ExaminePlayer(itemStorage, VisibleName, Race, Job, Status, AdditionalInformations);
+			UIManager.PlayerExaminationWindow.ExaminePlayer(itemStorage, VisibleName, Species, Job, Status, AdditionalInformations);
 		else
 			UIManager.PlayerExaminationWindow.CloseWindow();
 	}
@@ -39,13 +39,13 @@ public class PlayerExaminationMessage : ServerMessage
 	/// <summary>
 	/// Informs the recipient that they can now show/hide the player examination UI
 	/// </summary>
-	public static void Send(GameObject recipient, ItemStorage itemStorage, string visibleName, string race, string job, string status, string additionalInformations, bool observed)
+	public static void Send(GameObject recipient, ItemStorage itemStorage, string visibleName, string species, string job, string status, string additionalInformations, bool observed)
 	{
 		var msg = new PlayerExaminationMessage()
 		{
 			ItemStorage = itemStorage.gameObject.NetId(),
 			VisibleName = visibleName,
-			Race = race,
+			Species = species,
 			Job = job,
 			Status = status,
 			AdditionalInformations = additionalInformations,
@@ -61,7 +61,7 @@ public class PlayerExaminationMessage : ServerMessage
 		{
 			ItemStorage = examinablePlayer.gameObject.NetId(),
 			VisibleName = examinablePlayer.GetPlayerNameString(),
-			Race = examinablePlayer.GetPlayerRaceString(),
+			Species = examinablePlayer.GetPlayerSpeciesString(),
 			Job = examinablePlayer.GetPlayerJobString(),
 			Status = examinablePlayer.GetPlayerStatusString(),
 			AdditionalInformations = examinablePlayer.GetAdditionalInformations(),

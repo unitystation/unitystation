@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerExaminationWindowUI : MonoBehaviour
 {
 	[SerializeField] private Text playerName;
-	[SerializeField] private Text playerRace;
+	[SerializeField] private Text playerSpecies;
 	[SerializeField] private Text playerJob;
 	[SerializeField] private Text playerStatus;
 	[Space]
@@ -35,7 +35,7 @@ public class PlayerExaminationWindowUI : MonoBehaviour
 	private void Reset()
 	{
 		playerName.text = string.Empty;
-		playerRace.text = string.Empty;
+		playerSpecies.text = string.Empty;
 		playerJob.text = string.Empty;
 		playerStatus.text = string.Empty;
 
@@ -86,10 +86,10 @@ public class PlayerExaminationWindowUI : MonoBehaviour
 	/// </summary>
 	/// <param name="itemStorage">reference to player item storage</param>
 	/// <param name="visibleName">player's visible name</param>
-	/// <param name="race">player's race</param>
+	/// <param name="species">player's species</param>
 	/// <param name="job">player's job</param>
 	/// <param name="status">player's status</param>
-	public void ExaminePlayer(ItemStorage itemStorage, string visibleName, string race, string job, string status, string additionalInformations)
+	public void ExaminePlayer(ItemStorage itemStorage, string visibleName, string species, string job, string status, string additionalInformations)
 	{
 		Reset();
 
@@ -100,7 +100,7 @@ public class PlayerExaminationWindowUI : MonoBehaviour
 		
 		// display info
 		playerName.text = visibleName;
-		playerRace.text = race;
+		playerSpecies.text = species;
 		playerJob.text = job;
 		playerStatus.text = status;
 

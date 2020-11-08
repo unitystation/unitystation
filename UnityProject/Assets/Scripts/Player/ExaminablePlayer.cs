@@ -154,13 +154,13 @@ namespace Assets.Scripts.Player
 			return VisibleName;
 		}
 
-		public string GetPlayerRaceString()
+		public string GetPlayerSpeciesString()
 		{
-			// if face is visible - get race by face
+			// if face is visible - get species by face
 			if (isFaceVisible)
-				// TODO: get player race
+				// TODO: get player species
 				return "HUMAN";
-			// else - try get race from security records
+			// else - try get species from security records
 			else if (TryFindIDCard(out IDCard idCard))
 			{
 				string ID = idCard.RegisteredName;
