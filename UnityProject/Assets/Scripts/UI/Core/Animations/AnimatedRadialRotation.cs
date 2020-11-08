@@ -68,7 +68,13 @@ public class AnimatedRadialRotation : MonoBehaviour
 		}
 		else
 		{
-			TweenID = LeanTween.value(0, rotation, duration)
+			var descr = LeanTween.value(gameObject, 0, rotation, duration);
+			if (descr == null)
+			{
+				Logger.LogError($"Unable to create LeanTween description for {nameof(AnimatedRadialRotation)}.");
+				return;
+			}
+			TweenID = descr
 				.setOnUpdate(onUpdateDelegate)
 				.setOnComplete(onCompleteDelegate)
 				.setEase(tweenType)
