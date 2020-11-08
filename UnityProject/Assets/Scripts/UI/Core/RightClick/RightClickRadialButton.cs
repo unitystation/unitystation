@@ -48,18 +48,9 @@ namespace UI.Core.RightClick
 			return obj;
 		}
 
+		private Image Mask => InternalGetComponent(ref mask);
 
-		private Image Mask
-		{
-			get => InternalGetComponent(ref mask);
-			set => mask = value;
-		}
-
-		private RightClickButton Button
-		{
-			get => InternalGetComponent(ref button);
-			set => button = value;
-		}
+		private RightClickButton Button => InternalGetComponent(ref button);
 
 		private ColorBlock ButtonColors
 		{
@@ -71,100 +62,105 @@ namespace UI.Core.RightClick
 			}
 		}
 
-	    public override void Setup(Radial<RightClickRadialButton> parent, int index)
-	    {
-		    base.Setup(parent, index);
-	        Mask.fillAmount = 1f / 360f * parent.ItemArcMeasure;
-	        var iconTransform = icon.transform;
-	        iconTransform.localPosition = Radial.ItemCenter;
-	        iconTransform.localScale = new Vector3(Radial.Scale, Radial.Scale, 1f);
-	    }
+		public override void Setup(Radial<RightClickRadialButton> parent, int index)
+		{
+			base.Setup(parent, index);
+			Mask.fillAmount = 1f / 360f * parent.ItemArcMeasure;
+			var iconTransform = icon.rectTransform;
+			iconTransform.localPosition = Radial.ItemCenter;
+			iconTransform.localScale = Vector3.one;
+		}
 
 		public void SetInteractable(bool value) => Button.interactable = value;
 
 		public void SetDividerActive(bool active) => divider.SetActive(active);
 
-	    public void LateUpdate()
-	    {
-		    icon.transform.rotation = Quaternion.identity;
-	    }
+		public void LateUpdate()
+		{
+			icon.transform.rotation = Quaternion.identity;
+		}
 
-	    public void ChangeItem(RightClickMenuItem itemInfo)
-	    {
-		    Mask.raycastTarget = true;
-		    Mask.color = itemInfo.BackgroundColor;
-		    var colors = ButtonColors;
-		    colors.highlightedColor = CalculateHighlight(itemInfo.BackgroundColor);
-		    colors.selectedColor = colors.highlightedColor;
-		    colors.disabledColor = colors.normalColor;
-		    ButtonColors = colors;
-		    icon.canvasRenderer.SetColor(iconFadedColor);
-		    icon.color = itemInfo.IconColor;
-		    icon.sprite = itemInfo.IconSprite;
-		    var palette = itemInfo.palette;
-		    if (palette != null)
-		    {
-			    icon.material.SetInt(IsPaletted, 1);
-			    icon.material.SetInt(PaletteSize, palette.Count);
-			    icon.material.SetColorArray(ColorPalette, palette.ToArray());
-		    }
-		    else
-		    {
-			    icon.material.SetInt(IsPaletted, 0);
-		    }
-	    }
+		public void ChangeItem(RightClickMenuItem itemInfo)
+		{
+			Mask.raycastTarget = true;
+			Mask.color = itemInfo.BackgroundColor;
+			var colors = ButtonColors;
+			colors.highlightedColor = CalculateHighlight(itemInfo.BackgroundColor);
+			colors.selectedColor = colors.highlightedColor;
+			colors.disabledColor = colors.normalColor;
+			ButtonColors = colors;
+			icon.canvasRenderer.SetColor(iconFadedColor);
+			icon.color = itemInfo.IconColor;
+			icon.sprite = itemInfo.IconSprite;
+			var palette = itemInfo.palette;
+			if (palette != null)
+			{
+				icon.material.SetInt(IsPaletted, 1);
+				icon.material.SetInt(PaletteSize, palette.Count);
+				icon.material.SetColorArray(ColorPalette, palette.ToArray());
+			}
+			else
+			{
+				icon.material.SetInt(IsPaletted, 0);
+			}
+		}
 
-	    public void RemoveItem()
-	    {
-		    // Dragging needs to be able to set button interactivity and its disabled color needs to be the same as the
-		    // normal color. Using this to disable the button and set transparency. ChangeItem will reactivate it.
-		    Mask.raycastTarget = false;
-		    Button.colors = DisabledColors;
-		    icon.color = Color.clear;
-		    icon.sprite = null;
-	    }
+		public void RemoveItem()
+		{
+			// Dragging needs to be able to set button interactivity and its disabled color needs to be the same as the
+			// normal color. Using this to disable the button and set transparency. ChangeItem will reactivate it.
+			Mask.raycastTarget = false;
+			Button.colors = DisabledColors;
+			icon.color = Color.clear;
+			icon.sprite = null;
+		}
 
 
-	    private Color CalculateHighlight(Color original)
-	    {
-		    return new Color(CalcChannel(original.r), CalcChannel(original.g), CalcChannel(original.b), 1f);
+		private Color CalculateHighlight(Color original)
+		{
+			return new Color(CalcChannel(original.r), CalcChannel(original.g), CalcChannel(original.b), 1f);
 
-		    float CalcChannel(float channel) => channel >= 0.5f
-			    ? Mathf.Lerp(channel, 0, (channel - 0.5f) * 0.5f)
-			    : Mathf.Lerp(channel, 1, (0.5f - channel) * 0.5f);
-	    }
+			float CalcChannel(float channel) => channel >= 0.5f
+				? Mathf.Lerp(channel, 0, (channel - 0.5f) * 0.5f)
+				: Mathf.Lerp(channel, 1, (0.5f - channel) * 0.5f);
+		}
 
-	    public void ResetState()
-	    {
-		    Button.ResetState();
-		    icon.CrossFadeColor(iconFadedColor, 0, true, true);
-	    }
+		public void ResetState()
+		{
+			Button.ResetState();
+			icon.CrossFadeColor(iconFadedColor, 0, true, true);
+		}
 
-	    public void FadeOut(BaseEventData eventData)
-	    {
-		    Button.OnDeselect(eventData);
-		    icon.CrossFadeColor(iconFadedColor, iconFadeDuration, false, true);
-	    }
+		public void FadeOut(BaseEventData eventData)
+		{
+			Button.OnDeselect(eventData);
+			icon.CrossFadeColor(iconFadedColor, iconFadeDuration, false, true);
+		}
 
-	    public void OnPointerEnter(PointerEventData eventData)
-	    {
-		    var selected = Radial.Selected;
-		    if (selected != this)
-		    {
+		public void ScaleIcon(float scale)
+		{
+			icon.rectTransform.localScale = new Vector2(scale, scale);
+		}
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			var selected = Radial.Selected;
+			if (selected != this)
+			{
 				selected.OrNull()?.FadeOut(eventData);
 				Radial.Selected = this;
-		    }
+			}
 
-		    if (eventData.dragging)
-		    {
-			    return;
-		    }
-		    icon.CrossFadeColor(Color.white, iconFadeDuration, false, true);
-		    Button.OnPointerEnter(eventData);
-		    Radial.Invoke(PointerEventType.PointerEnter, eventData, this);
-	    }
+			if (eventData.dragging || Button.interactable == false)
+			{
+				return;
+			}
+			icon.CrossFadeColor(Color.white, iconFadeDuration, false, true);
+			Button.OnPointerEnter(eventData);
+			Radial.Invoke(PointerEventType.PointerEnter, eventData, this);
+		}
 
-	    public void OnPointerClick(PointerEventData eventData) =>
+		public void OnPointerClick(PointerEventData eventData) =>
 			Radial.Invoke(PointerEventType.PointerClick, eventData, this);
 	}
 }

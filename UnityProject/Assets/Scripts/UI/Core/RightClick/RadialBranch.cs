@@ -44,12 +44,20 @@ namespace UI.Core.RightClick
 			Camera = Camera.main;
 		}
 
+		/// <summary>
+		/// Converts the given position to the branch angle.
+		/// </summary>
+		/// <param name="position"></param>
+		/// <returns></returns>
 		public float PositionToBranchAngle(Vector3 position)
 		{
 			var relativePosition = position - LineToRadial.position;
 			return Mathf.Rad2Deg * Mathf.Atan2(relativePosition.y, relativePosition.x);
 		}
 
+		/// <summary>
+		/// Updates the direction of the branch based on the quadrant the origin is currently located in.
+		/// </summary>
 		public void UpdateDirection()
 		{
 			if (FollowWorldPosition)
@@ -66,6 +74,11 @@ namespace UI.Core.RightClick
 			SetScale();
 		}
 
+		/// <summary>
+		/// Adjusts the size of the angled branch line towards the radial.
+		/// </summary>
+		/// <param name="radial"></param>
+		/// <param name="position"></param>
 		public void UpdateRadialLineSize(IRadial radial, Vector2 position)
 		{
 			var linePosition = Vector3.MoveTowards(LineToRadial.position, position, lineSize.x / 2);
@@ -116,7 +129,7 @@ namespace UI.Core.RightClick
 			var originWidth = Origin.rect.width / 2;
 			LineFromOrigin.localPosition = new Vector3(-originWidth, 0, 0);
 
-			// Copy the line previous line and use it as the angled branch.
+			// Copy the previous line and use it as the angled branch.
 			LineToRadial = Instantiate(LineFromOrigin, Origin);
 			LineToRadial.pivot = Vector2.zero;
 			LineToRadial.localPosition = new Vector3(-(originWidth + lineSize.x), lineSize.y / 2, 0);

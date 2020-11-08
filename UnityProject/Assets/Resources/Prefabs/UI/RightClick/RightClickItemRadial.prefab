@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 8998279615968136674}
   - component: {fileID: 3666160938026413989}
   - component: {fileID: 1052139543341611835}
+  - component: {fileID: 2951742535600077843}
   m_Layer: 5
   m_Name: PreviousArrow
   m_TagString: Untagged
@@ -213,7 +214,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -125, y: -12}
-  m_SizeDelta: {x: 36, y: 36}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3666160938026413989
 CanvasRenderer:
@@ -253,6 +254,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2951742535600077843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506928308031711291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713c6d09a6ae3b34191e10a4425d7345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.175
+  scaleStart: {x: 1, y: 1, z: 1}
+  scaleEnd: {x: 1.4, y: 1.4, z: 1}
+  tweenType: 28
 --- !u!1 &2584951186263737265
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +281,7 @@ GameObject:
   - component: {fileID: 4880736457663479261}
   - component: {fileID: 3346122059586808383}
   - component: {fileID: 9060144719699650913}
+  - component: {fileID: 1156100514673360259}
   m_Layer: 5
   m_Name: NextArrow
   m_TagString: Untagged
@@ -288,7 +306,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -125, y: 12}
-  m_SizeDelta: {x: 36, y: 36}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3346122059586808383
 CanvasRenderer:
@@ -328,6 +346,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1156100514673360259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2584951186263737265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713c6d09a6ae3b34191e10a4425d7345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.175
+  scaleStart: {x: 1, y: 1, z: 1}
+  scaleEnd: {x: 1.4, y: 1.4, z: 1}
+  tweenType: 28
 --- !u!1 &5224849642242732236
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,6 +584,7 @@ GameObject:
   - component: {fileID: 5457052060183506644}
   - component: {fileID: 7864490826961940268}
   - component: {fileID: 1429854986883380546}
+  - component: {fileID: 2711002846470240702}
   m_Layer: 5
   m_Name: RightClickItemRadial
   m_TagString: Untagged
@@ -612,8 +647,8 @@ MonoBehaviour:
   arcMeasure: 360
   lowerMask: {fileID: 7360659337893182502}
   upperMask: {fileID: 7746989757741798222}
-  previousArrow: {fileID: 3666160938026413989}
-  nextArrow: {fileID: 3346122059586808383}
+  previousArrow: {fileID: 2951742535600077843}
+  nextArrow: {fileID: 1156100514673360259}
   background: {fileID: 8892981489456394894}
   itemLabel: {fileID: 344888277810257935}
 --- !u!114 &7864490826961940268
@@ -630,6 +665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedFactor: 0.08
   dragThreshold: 0
+  deltaClamp: 5
 --- !u!114 &1429854986883380546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,6 +680,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scrollCount: 4
   fullRadius: 1
+--- !u!114 &2711002846470240702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7740222803606294160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fff12cc4e3fca340a95c372cd183b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.15
+  tweenType: 14
 --- !u!1001 &4975887033321713892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -826,11 +876,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.38431373
-      objectReference: {fileID: 0}
-    - target: {fileID: -169104232741821399, guid: 8d3571c5e4b6da94689066d472152d4b,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -169104232741821399, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}

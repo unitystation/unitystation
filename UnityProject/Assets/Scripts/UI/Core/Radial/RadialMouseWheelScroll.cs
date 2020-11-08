@@ -17,9 +17,7 @@ namespace UI.Core.Radial
 
 		private IRadial RadialUI { get; set; }
 
-		public Action<PointerEventData> OnBeginScrollEvent { get; set; }
-
-		public Action<PointerEventData> OnEndScrollEvent { get; set; }
+		public Action<PointerEventData> OnScrollEvent { get; set; }
 
 		public void Awake()
 		{
@@ -28,24 +26,25 @@ namespace UI.Core.Radial
 
 		public void OnScroll(PointerEventData eventData)
 		{
-			if (RadialUI.IsPositionWithinRadial(eventData.position, fullRadius) == false || eventData.dragging)
+			if (eventData.scrollDelta == Vector2.zero || eventData.dragging || RadialUI.IsPositionWithinRadial(eventData.position, fullRadius) == false)
 			{
 				return;
 			}
 
-			OnBeginScrollEvent?.Invoke(eventData);
+			var scrollDelta = eventData.scrollDelta;
+			var delta = RadialUI.ItemArcMeasure * scrollCount;
 
-			var scrollDelta = eventData.scrollDelta.y;
-			if (scrollDelta < 0)
+			if (scrollDelta.y < 0)
 			{
-				RadialUI.RotateRadial(RadialUI.ItemArcMeasure * scrollCount);
+				scrollDelta.y = delta;
 			}
-			else if (scrollDelta > 0)
+			else
 			{
-				RadialUI.RotateRadial(-RadialUI.ItemArcMeasure * scrollCount);
+				scrollDelta.y = -delta;
 			}
 
-			OnEndScrollEvent?.Invoke(eventData);
+			eventData.scrollDelta = scrollDelta;
+			OnScrollEvent?.Invoke(eventData);
 		}
 	}
 }

@@ -19,338 +19,265 @@ namespace UI.Core.RightClick
 		private RightClickOption pickUpOption = default;
 
 		[SerializeField]
-	    private RadialBranch radialBranch = default;
+		private RadialBranch radialBranch = default;
 
-	    [SerializeField]
-	    private ItemRadial itemRadialPrefab = default;
+		[SerializeField]
+		private ItemRadial itemRadialPrefab = default;
 
-	    [SerializeField]
-	    private ActionRadial actionRadialPrefab = default;
+		[SerializeField]
+		private ActionRadial actionRadialPrefab = default;
 
-	    [SerializeField]
-	    private AnimationCurve snapCurve = default;
+		private ItemRadial itemRadial;
 
-	    [SerializeField]
-	    private float snapTime = default;
+		private ActionRadial actionRadial;
 
-	    private ItemRadial itemRadial;
+		private List<RightClickMenuItem> Items { get; set; }
 
-	    private ActionRadial actionRadial;
+		private ItemRadial ItemRadial
+		{
+			get
+			{
+				if (itemRadial != null)
+				{
+					return itemRadial;
+				}
 
-	    private List<RightClickMenuItem> Items { get; set; }
+				itemRadial = Instantiate(itemRadialPrefab, transform);
+				var radialDrag = itemRadial.GetComponent<RadialDrag>();
+				if (radialDrag != null)
+				{
+					radialDrag.OnBeginDragEvent = OnBeginDragEvent;
+					radialDrag.OnEndDragEvent = _ => ItemRadial.TweenRotation(ItemRadial.NearestItemAngle);
+				}
+				var radialScrollWheel = itemRadial.GetComponent<RadialMouseWheelScroll>();
+				if (radialScrollWheel != null)
+				{
+					radialScrollWheel.OnScrollEvent = OnScrollEvent;
+				}
+				itemRadial.OnIndexChanged = OnIndexChanged;
+				itemRadial.RadialEvents.AddListener(PointerEventType.PointerEnter, OnHoverItem);
+				itemRadial.RadialEvents.AddListener(PointerEventType.PointerClick, OnClickItem);
 
-	    private float SnapStartTime { get; set; }
+				return itemRadial;
+			}
+		}
 
-	    private float SnapRotation { get; set; }
+		private ActionRadial ActionRadial
+		{
+			get
+			{
+				if (actionRadial != null)
+				{
+					return actionRadial;
+				}
 
-	    private ItemRadial ItemRadial
-	    {
-		    get
-		    {
-			    if (itemRadial != null)
-			    {
-				    return itemRadial;
-			    }
+				actionRadial = Instantiate(actionRadialPrefab, transform);
+				actionRadial.SetConstraintSource(ItemRadial.RotationParent);
+				actionRadial.RadialEvents.AddListener(PointerEventType.PointerClick, OnClickAction);
+				return actionRadial;
+			}
+		}
 
-			    itemRadial = Instantiate(itemRadialPrefab, transform);
-			    var radialDrag = itemRadial.GetComponent<RadialDrag>();
-			    if (radialDrag != null)
-			    {
-				    radialDrag.OnBeginDragEvent = OnBeginDragEvent;
-					radialDrag.OnEndDragEvent = OnEndDragEvent;
-			    }
-			    var radialScrollWheel = itemRadial.GetComponent<RadialMouseWheelScroll>();
-			    if (radialScrollWheel != null)
-			    {
-				    radialScrollWheel.OnEndScrollEvent = OnEndScrollEvent;
-			    }
-			    itemRadial.OnIndexChanged = OnIndexChanged;
-			    itemRadial.RadialEvents.AddListener(PointerEventType.PointerEnter, OnHoverItem);
-			    itemRadial.RadialEvents.AddListener(PointerEventType.PointerClick, OnClickItem);
-			    return itemRadial;
-		    }
-	    }
+		public void SetupMenu(List<RightClickMenuItem> items, Vector3 worldPosition, bool followWorldPosition)
+		{
+			Items = items;
+			radialBranch.Setup(worldPosition, itemRadialPrefab.OuterRadius, itemRadialPrefab.Scale, followWorldPosition);
+			ItemRadial.Setup(Math.Max(items.Count, ItemRadial.MaxShownItems));
+			foreach (var item in ItemRadial)
+			{
+				var index = item.Index;
+				if (index < items.Count)
+				{
+					item.ChangeItem(items[index]);
+				}
+				else
+				{
+					item.RemoveItem();
+				}
+			}
+			ItemRadial.transform.localPosition = radialBranch.MenuPosition;
+			UpdateItemRadialRotation();
 
-	    private ActionRadial ActionRadial
-	    {
-		    get
-		    {
-			    if (actionRadial != null)
-			    {
-				    return actionRadial;
-			    }
+			this.SetActive(true);
+			ItemRadial.SetActive(true);
 
-			    actionRadial = Instantiate(actionRadialPrefab, transform);
-			    actionRadial.SetConstraintSource(ItemRadial.RotationParent);
-			    actionRadial.RadialEvents.AddListener(PointerEventType.PointerClick, OnClickAction);
-			    return actionRadial;
-		    }
-	    }
+			ActionRadial.Setup(0);
+			ActionRadial.SetActive(false);
+		}
 
-	    public void SetupMenu(List<RightClickMenuItem> items, Vector3 worldPosition, bool followWorldPosition)
-	    {
-		    if (IsPlayerInRange(worldPosition, followWorldPosition) == false)
-		    {
-			    this.SetActive(false);
-			    return;
-		    }
+		private void OnBeginDragEvent(PointerEventData pointerEvent)
+		{
+			ItemRadial.Selected.OrNull()?.FadeOut(pointerEvent);
+			OnBeginRotation();
+		}
 
-		    Items = items;
-		    radialBranch.Setup(worldPosition, itemRadialPrefab.OuterRadius, itemRadialPrefab.Scale, followWorldPosition);
-		    ItemRadial.Setup(Math.Max(items.Count, ItemRadial.MaxShownItems));
-		    foreach (var item in ItemRadial)
-		    {
-			    var index = item.Index;
-			    if (index < items.Count)
-			    {
-				    item.ChangeItem(items[index]);
-			    }
-			    else
-			    {
-				    item.RemoveItem();
-			    }
-		    }
-		    ItemRadial.transform.localPosition = radialBranch.MenuPosition;
-		    UpdateItemRadialRotation();
+		private void OnScrollEvent(PointerEventData pointerEvent)
+		{
+			if (ItemRadial.IsRotationValid(pointerEvent.scrollDelta.y) == false)
+			{
+				return;
+			}
 
-		    this.SetActive(true);
-		    ItemRadial.SetActive(true);
+			ItemRadial.Selected.OrNull()?.ResetState();
+			OnBeginRotation();
+			ItemRadial.TweenRotation(pointerEvent.scrollDelta.y);
+		}
 
-		    ActionRadial.Setup(0);
-		    ActionRadial.SetActive(false);
-	    }
+		private void OnBeginRotation()
+		{
+			ItemRadial.ChangeLabel(string.Empty);
+			ActionRadial.SetActive(false);
 
-	    private bool IsPlayerInRange(Vector3 worldPosition, bool followWorldPosition) =>
-		    followWorldPosition == false || Validations.IsInReach(PlayerManager.PlayerScript.registerTile.WorldPosition, worldPosition);
+			foreach (var button in ItemRadial)
+			{
+				button.SetInteractable(false);
+			}
+		}
 
-	    private void OnBeginDragEvent(PointerEventData pointerEvent)
-	    {
-		    ItemRadial.Selected.OrNull()?.FadeOut(pointerEvent);
-		    ItemRadial.ChangeLabel(string.Empty);
-		    ActionRadial.SetActive(false);
-		    SnapRotation = 0;
-		    foreach (var button in ItemRadial)
-		    {
-			    button.SetInteractable(false);
-		    }
-	    }
+		private void OnIndexChanged(RightClickRadialButton button)
+		{
+			var index = button.Index;
+			if (index > Items.Count)
+			{
+				return;
+			}
+			var itemInfo = Items[index];
+			button.ChangeItem(itemInfo);
+		}
 
-	    private void OnEndDragEvent(PointerEventData pointerEvent)
-	    {
-		    foreach (var button in ItemRadial)
-		    {
-			    button.SetInteractable(true);
-		    }
-		    SnapRotation = ItemRadial.NearestItemAngle;
-		    SnapStartTime = Time.time;
-		    var item = ItemRadial.Selected;
-		    if (item != null && item.IsRaycastLocationValid(pointerEvent.position, null))
-		    {
-			    pointerEvent.dragging = false;
-			    item.OnPointerEnter(pointerEvent);
-		    }
-		    else
-		    {
-			    ItemRadial.Selected = null;
-		    }
-	    }
+		private void OnHoverItem(PointerEventData eventData, RightClickRadialButton button)
+		{
+			var index = button.Index;
+			if (eventData.dragging || index > Items.Count)
+			{
+				return;
+			}
 
-	    private void OnEndScrollEvent(PointerEventData pointerEvent)
-	    {
-		    var item = ItemRadial.Selected;
-		    if (item == null)
-		    {
-			    return;
-		    }
+			var item = Items[index];
+			ItemRadial.ChangeLabel(item.Label);
+			var itemRadialPosition = ItemRadial.transform.position;
+			var actions = item.SubMenus;
+			if (actions == null)
+			{
+				ActionRadial.SetActive(false);
+				radialBranch.UpdateRadialLineSize(ActionRadial, itemRadialPosition);
+				return;
+			}
 
-		    ItemRadial.ChangeLabel(string.Empty);
-		    ActionRadial.SetActive(false);
-		    SnapRotation = ItemRadial.NearestItemAngle;
-		    SnapStartTime = Time.time;
-		    if (item.IsRaycastLocationValid(pointerEvent.position, null))
-		    {
-			    pointerEvent.scrollDelta = Vector2.zero;
-			    item.OnPointerEnter(pointerEvent);
-		    }
-		    else
-		    {
-			    item.ResetState();
-			    ItemRadial.Selected = null;
-		    }
-	    }
+			ActionRadial.SetActive(true);
+			ActionRadial.Setup(actions.Count);
+			for (var i = 0; i < actions.Count; i++)
+			{
+				ActionRadial[i].ChangeItem(actions[i]);
+			}
 
-	    private void OnIndexChanged(RightClickRadialButton button)
-	    {
-		    var index = button.Index;
-		    if (index > Items.Count)
-		    {
-			    return;
-		    }
-		    var itemInfo = Items[index];
-		    button.ChangeItem(itemInfo);
-	    }
+			ActionRadial.UpdateRotation(index, ItemRadial);
+			radialBranch.UpdateRadialLineSize(ActionRadial, itemRadialPosition);
+		}
 
-	    private void OnHoverItem(PointerEventData eventData, RightClickRadialButton button)
-	    {
-		    var index = button.Index;
-		    if (eventData.dragging || index > Items.Count)
-		    {
-			    return;
-		    }
+		private void OnClickItem(PointerEventData eventData, RightClickRadialButton button)
+		{
+			var subItems = Items[button.Index]?.SubMenus;
 
-		    var item = Items[index];
-		    ItemRadial.ChangeLabel(item.Label);
-		    var itemRadialPosition = ItemRadial.transform.position;
-		    var actions = item.SubMenus;
-		    if (actions == null)
-		    {
-			    ActionRadial.SetActive(false);
-			    radialBranch.UpdateRadialLineSize(ActionRadial, itemRadialPosition);
-			    return;
-		    }
+			if (subItems == null)
+			{
+				return;
+			}
 
+			// Copern: Not a preferable method of doing this but the original RightClickMenuItem wasn't really
+			// designed for this. Also need to switch this to use keybinds.
+			if (KeyboardInputManager.IsShiftPressed())
+			{
+				DoAction(examineOption);
+			}
+			else if (KeyboardInputManager.IsControlPressed())
+			{
+				DoAction(pullOption);
+			}
+			else
+			{
+				DoAction(pickUpOption);
+			}
 
-		    ActionRadial.SetActive(true);
-		    ActionRadial.Setup(actions.Count);
-		    for (var i = 0; i < actions.Count; i++)
-		    {
-			    ActionRadial[i].ChangeItem(actions[i]);
-		    }
+			void DoAction(RightClickOption option)
+			{
+				foreach (var item in subItems)
+				{
+					if (item.Label != option.label)
+					{
+						continue;
+					}
+					item.Action();
+					this.SetActive(option.keepMenuOpen);
+					return;
+				}
+			}
+		}
 
-		    ActionRadial.UpdateRotation(index, ItemRadial);
-		    radialBranch.UpdateRadialLineSize(ActionRadial, itemRadialPosition);
-	    }
+		private void OnClickAction(PointerEventData eventData, RightClickRadialButton button)
+		{
+			if (ItemRadial.Selected == null)
+			{
+				return;
+			}
 
-	    private void OnClickItem(PointerEventData eventData, RightClickRadialButton button)
-	    {
-		    var subItems = Items[button.Index]?.SubMenus;
+			var itemIndex = ItemRadial.Selected.Index;
+			var actionIndex = button.Index;
+			var actionMenu = Items[itemIndex]?.SubMenus?[actionIndex];
+			if (actionMenu == null)
+			{
+				return;
+			}
+			actionMenu.Action();
+			this.SetActive(actionMenu.keepMenuOpen);
+		}
 
-		    if (subItems == null)
-		    {
-			    return;
-		    }
+		public void Update()
+		{
+			radialBranch.UpdateDirection();
+			ItemRadial.transform.localPosition = radialBranch.MenuPosition;
+			ItemRadial.UpdateArrows();
+			radialBranch.UpdateRadialLineSize(ActionRadial, ItemRadial.transform.position);
+			UpdateItemRadialRotation();
 
-		    // Copern: Not a preferable method of doing this but the original RightClickMenuItem wasn't really
-		    // designed for this.
-		    if (KeyboardInputManager.IsShiftPressed())
-		    {
-			    DoAction(examineOption);
-		    }
-		    else if (KeyboardInputManager.IsControlPressed())
-		    {
-			    DoAction(pullOption);
-		    }
-		    else
-		    {
-			    DoAction(pickUpOption);
-		    }
+			if (IsAnyPointerDown() == false)
+			{
+				return;
+			}
 
-		    void DoAction(RightClickOption option)
-		    {
-			    foreach (var item in subItems)
-			    {
-				    if (item.Label != option.label)
-				    {
-					    continue;
-				    }
-				    item.Action();
-				    this.SetActive(option.keepMenuOpen);
-				    return;
-			    }
-		    }
-	    }
+			// Deactivate the menu if there was a mouse click outside of the menu.
+			var mousePos = CommonInput.mousePosition;
+			if (ItemRadial.IsPositionWithinRadial(mousePos) == false && ActionRadial.IsPositionWithinRadial(mousePos) == false)
+			{
+				this.SetActive(false);
+			}
+		}
 
-	    private void OnClickAction(PointerEventData eventData, RightClickRadialButton button)
-	    {
-		    if (ItemRadial.Selected == null)
-		    {
-			    return;
-		    }
+		private void UpdateItemRadialRotation()
+		{
+			var angle = radialBranch.PositionToBranchAngle(ItemRadial.transform.position);
+			angle -= Math.Min(Items.Count, ItemRadial.MaxShownItems) * ItemRadial.ItemArcMeasure / 2;
+			ItemRadial.transform.localEulerAngles = new Vector3(0, 0, angle);
+		}
 
-		    var itemIndex = ItemRadial.Selected.Index;
-		    var actionIndex = button.Index;
-		    var actionMenu = Items[itemIndex]?.SubMenus?[actionIndex];
-		    if (actionMenu == null)
-		    {
-			    return;
-		    }
-		    actionMenu.Action();
-		    this.SetActive(actionMenu.keepMenuOpen);
-	    }
+		private bool IsAnyPointerDown()
+		{
+			for (var i = 0; i < 3; i++)
+			{
+				if (CommonInput.GetMouseButtonDown(i))
+				{
+					return true;
+				}
+			}
 
-	    public void Update()
-	    {
-		    if (IsPlayerInRange(radialBranch.WorldPosition, radialBranch.FollowWorldPosition) == false)
-		    {
-			    this.SetActive(false);
-			    return;
-		    }
-		    SnapToNearestItem();
-		    radialBranch.UpdateDirection();
-		    ItemRadial.transform.localPosition = radialBranch.MenuPosition;
-		    ItemRadial.UpdateArrows();
-		    radialBranch.UpdateRadialLineSize(ActionRadial, ItemRadial.transform.position);
-		    UpdateItemRadialRotation();
+			return false;
+		}
 
-		    if (IsAnyPointerDown() == false)
-		    {
-			    return;
-		    }
-
-		    // Deactivate the menu if there was a mouse click outside of the menu.
-		    var mousePos = CommonInput.mousePosition;
-		    if (ItemRadial.IsPositionWithinRadial(mousePos) == false && ActionRadial.IsPositionWithinRadial(mousePos) == false)
-		    {
-			    this.SetActive(false);
-		    }
-	    }
-
-	    private void UpdateItemRadialRotation()
-	    {
-		    var angle = radialBranch.PositionToBranchAngle(ItemRadial.transform.position);
-		    angle -= Math.Min(Items.Count, ItemRadial.MaxShownItems) * ItemRadial.ItemArcMeasure / 2;
-		    ItemRadial.transform.localEulerAngles = new Vector3(0, 0, angle);
-	    }
-
-	    private void SnapToNearestItem()
-	    {
-		    // Snap Rotation is set to zero on drag. The equality check here is to keep it from rotating while dragging.
-		    if (SnapRotation.Equals(0))
-		    {
-			    return;
-		    }
-
-		    var currentSnapTime = Time.time - SnapStartTime;
-		    var eval = currentSnapTime > 0 ? currentSnapTime / snapTime : 0;
-		    var change = SnapRotation * snapCurve.Evaluate(eval);
-		    ItemRadial.RotateRadial(change);
-		    if (currentSnapTime <= snapTime)
-		    {
-			    SnapRotation -= change;
-		    }
-		    else
-		    {
-			    SnapRotation = 0;
-		    }
-	    }
-
-	    private bool IsAnyPointerDown()
-	    {
-		    for (var i = 0; i < 3; i++)
-		    {
-			    if (CommonInput.GetMouseButtonDown(i))
-			    {
-				    return true;
-			    }
-		    }
-
-		    return false;
-	    }
-
-	    private void OnDisable()
-	    {
-		    ItemRadial.SetActive(false);
-		    ActionRadial.SetActive(false);
-	    }
+		private void OnDisable()
+		{
+			// These need to be disabled for the next time the controller is reactivated
+			ItemRadial.SetActive(false);
+			ActionRadial.SetActive(false);
+		}
 	}
 }
