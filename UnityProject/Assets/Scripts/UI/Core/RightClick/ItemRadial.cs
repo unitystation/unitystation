@@ -80,7 +80,6 @@ namespace UI.Core.RightClick
 				{
 					extraRotation = TotalRotation - currentValue;
 				}
-				Logger.Log($"TotalRotation = {TotalRotation} currentValue = {currentValue} newValue = {extraRotation}");
 				RotationAnimator.TweenRotation(extraRotation);
 			}
 			else
