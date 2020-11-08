@@ -202,7 +202,7 @@ namespace Systems.Mob
 				return;
 			}
 
-			burningOverlay.StopOverlay();
+			electrocutedOverlay.StopOverlay();
 		}
 
 		private void OnDirectionChange(Orientation newDirection)
