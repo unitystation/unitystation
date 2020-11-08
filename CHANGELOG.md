@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/11/8: Added lightning bolt spell and the magic mirror. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5561](https://github.com/unitystation/unitystation/pull/5561)
 * 2020/11/6: Added antags sounds for round start by [Macoron](https://github.com/Macoron) in PR #[5524](https://github.com/unitystation/unitystation/pull/5524)
 * 2020/11/5: Added new sprites for the ore redemption machine and mining vendor by Ghommie. by [PetMudstone](https://github.com/PetMudstone) in PR #[5505](https://github.com/unitystation/unitystation/pull/5505)
 * 2020/11/5: Added new sprites for pens by TetraZeta. by [PetMudstone](https://github.com/PetMudstone) in PR #[5500](https://github.com/unitystation/unitystation/pull/5500)
