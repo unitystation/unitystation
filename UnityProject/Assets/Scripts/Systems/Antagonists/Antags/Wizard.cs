@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using NaughtyAttributes;
 using Systems.Spells;
 using ScriptableObjects.Systems.Spells;
+using ScriptableObjects;
 
 namespace Antagonists
 {
@@ -15,15 +17,46 @@ namespace Antagonists
 		[SerializeField]
 		private int startingSpellCount = 1;
 
+		[SerializeField, BoxGroup("Starting Name")]
+		private bool assignRandomNameOnSpawn = true;
+		[SerializeField, BoxGroup("Starting Name")]
+		private StringList wizardFirstNames = default;
+		[SerializeField, BoxGroup("Starting Name")]
+		private StringList wizardLastNames = default;
+
 		public int StartingSpellCount => startingSpellCount;
 
 		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
-			var newPlayer = PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, AntagOccupation,
+			GameObject newPlayer = PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, AntagOccupation,
 					spawnRequest.CharacterSettings);
-			GiveRandomSpells(newPlayer.Player());
+			ConnectedPlayer player = newPlayer.Player();
+
+			GiveRandomSpells(player);
+
+			if (assignRandomNameOnSpawn)
+			{
+				player.Script.SetPermanentName(GetRandomWizardName());
+			}
+
+			SetPapers(player);
 
 			return newPlayer;
+		}
+
+		public string GetRandomWizardName()
+		{
+			return $"{wizardFirstNames.GetRandom()} {wizardLastNames.GetRandom()}";
+		}
+
+		public static string GetIdentityPaperText(ConnectedPlayer player)
+		{
+			return $"<size=36>CERTIFICATE OF IDENTITY</size>\n\n\n" +
+					$"This slip is to certify that the bearer,\n" +
+					$"<u><b>{player.Script.playerName}</b></u>\n" +
+					"is a member of the Wizard Federation.\n\n\n\n\n\n\n\n\n\n\n\n" +
+					"Signed: <u><i>Tarkhol Mintizheth</i></u>, Wizard Fedaration Chief Recruiter\n\n" +
+					"<size=16>This certificate remains property of the Wizard Federation</size>";
 		}
 
 		private void GiveRandomSpells(ConnectedPlayer player)
@@ -39,6 +72,35 @@ namespace Antagonists
 			playerMsg.RemoveLast(", ").Append(".");
 
 			Chat.AddExamineMsgFromServer(player.GameObject, playerMsg.ToString());
+		}
+
+		private void SetPapers(ConnectedPlayer player)
+		{
+			ItemSlot idSlot = player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.id);
+			if (idSlot.IsOccupied && idSlot.ItemObject.TryGetComponent<Paper>(out var papersPlease))
+			{
+				papersPlease.SetServerString(GetIdentityPaperText(player));
+			}
+
+			ItemSlot storage02 = player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage02);
+			if (storage02.IsOccupied && storage02.ItemObject.TryGetComponent<Paper>(out var helpPaper))
+			{
+				helpPaper.SetServerString(
+						"<align=\"center\"><size=32><b>Wizard 101</b></size></align>\n" +
+						"- Use the magic mirror to change your name.\n" +
+						"- Avoid the Whizzamazon drop-pod that falls when you purchase an artifact!\n" +
+						"- Some spells require wizard garb to cast. Prevent the crew taking them off you.\n" +
+						"- On your first mission, act defensively.\n" +
+						"- Spells cannot currently be upgraded, so only purchase a spell once.\n" +
+						"- Once you teleport to the station, you cannot return.\n" +
+						"- The Blink spell has a small chance to send you into space if you use it while near space.\n" +
+						"- The wizard staff does not serve a meaningful purpose, but it does look great on you!\n" +
+						"\n<size=28><b>Known Issues</b></size>\n" +
+						"- The artifact Whizamazon drop-pods do not display the landing target reticule. Watch out!\n" +
+						"- Unfortunately, you will lose your action spells if you disconnect from the game or are respawned.\n" +
+						"- LesserSummonGuns spell animation does not work. Cosmetic only.\n" +
+						"Good luck!");
+			}
 		}
 
 		private IEnumerable<SpellData> GetRandomWizardSpells()

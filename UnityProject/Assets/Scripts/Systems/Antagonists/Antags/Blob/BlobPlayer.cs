@@ -231,8 +231,7 @@ namespace Blob
 
 			overmindName = $"Overmind {Random.Range(1, 1001)}";
 
-			playerScript.characterSettings.Name = overmindName;
-			playerScript.playerName = overmindName;
+			playerScript.SetPermanentName(overmindName);
 
 			playerScript.IsPlayerSemiGhost = true;
 

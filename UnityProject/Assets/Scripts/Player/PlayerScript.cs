@@ -266,6 +266,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		playerName = value;
 		gameObject.name = value;
+		RefreshVisibleName();
 	}
 
 	public bool IsHidden => !PlayerSync.ClientState.Active;
@@ -324,6 +325,16 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	public bool IsPositionReachable(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance, GameObject context = null)
 	{
 		return Validations.IsReachableByPositions(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, isServer, interactDist, context: context);
+	}
+
+	/// <summary>
+	/// Sets the IC name for this player and refreshes the visible name. Name will be kept if respawned.
+	/// </summary>
+	/// <param name="newName">The new name to give to the player.</param>
+	public void SetPermanentName(string newName)
+	{
+		characterSettings.Name = newName;
+		playerName = newName;
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)

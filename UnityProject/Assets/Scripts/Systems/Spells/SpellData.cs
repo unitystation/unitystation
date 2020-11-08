@@ -117,6 +117,11 @@ namespace ScriptableObjects.Systems.Spells
 		{
 			var spellObject = Instantiate(SpellImplementation, player.gameObject.transform);
 			var spellComponent = spellObject.GetComponent<Spell>();
+			if (spellComponent == null)
+			{
+				Logger.LogError($"No spell component found on {spellObject} for {this}!");
+				return default;
+			}
 			spellComponent.SpellData = this;
 			return spellComponent;
 		}
