@@ -88,7 +88,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundAddressablePath = addressableAudioSource.Path,
+				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -125,7 +125,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundAddressablePath = addressableAudioSource.Path,
+				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -163,7 +163,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundAddressablePath = addressableAudioSource.Path,
+				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,

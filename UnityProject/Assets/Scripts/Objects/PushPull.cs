@@ -714,7 +714,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 			}
 
 			// If there is a sound to be played
-			if (!string.IsNullOrWhiteSpace(PushPullSound.Path) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
+			if (!string.IsNullOrWhiteSpace(PushPullSound.AssetAddress) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
 			{
 				// JESTE_R
 				SoundManager.PlayNetworkedAtPos(PushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance), sourceObj: gameObject);

@@ -159,7 +159,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 						SoundManager.PlayNetworkedAtPos(integrity.SoundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 					}
 					else if (isWeapon && weaponStats != null &&
-				    	     weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.SoundOnHit.Path != "")
+				    	     weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.SoundOnHit.AssetAddress != "")
 					{
 						// JESTE_R
 						SoundManager.PlayNetworkedAtPos(integrity.SoundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);

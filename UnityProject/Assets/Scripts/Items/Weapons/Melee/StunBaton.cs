@@ -13,9 +13,6 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 	/// <summary>
 	/// Sound played when turning this baton on/off
 	/// </summary>
-	[SerializeField]
-	private string soundToggle = null;
-
 	[SerializeField] private AddressableAudioSource SoundToggle = null;
 	/// <summary>
 	/// Sprite to be shown when the baton is on
@@ -70,7 +67,6 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		// JESTE_R
 		SoundManager.PlayNetworkedAtPos(SoundToggle, interaction.Performer.AssumedWorldPosServer(), sourceObj: interaction.Performer);
 
 		ToggleState();

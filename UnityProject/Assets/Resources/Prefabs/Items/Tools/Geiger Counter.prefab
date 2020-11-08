@@ -12,6 +12,106 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1344cf947a63b044a52d1273b36fb7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Low:
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Low/low1.prefab
+    AssetReference:
+      m_AssetGUID: 3cde101d05c3f6d4a9e1b5e1a015856e
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Low/low2.prefab
+    AssetReference:
+      m_AssetGUID: c8a2d20f75e8d2042ba3e7f3cfd46195
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Low/low3.prefab
+    AssetReference:
+      m_AssetGUID: 200d3c3ba96cbc841920ce311226294c
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Low/low4.prefab
+    AssetReference:
+      m_AssetGUID: 7b6664443e4eb3f4fb9924f3cb1d13d2
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Mid:
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Medium/med2.prefab
+    AssetReference:
+      m_AssetGUID: 31b591eaf240696459b0be37366c38e0
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Medium/med1.prefab
+    AssetReference:
+      m_AssetGUID: 8e3f02e70f351ce428736e138091762e
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Medium/med4.prefab
+    AssetReference:
+      m_AssetGUID: b19084213d9f1a3428f164ec880e6be2
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Medium/med3.prefab
+    AssetReference:
+      m_AssetGUID: d44d64e2188d84441b1b5196389f10dd
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  High:
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/High/high1.prefab
+    AssetReference:
+      m_AssetGUID: e4570151fa081554fb72770c6471b629
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/High/high3.prefab
+    AssetReference:
+      m_AssetGUID: 962e83c1aa5d31149a3f8e31d5ccd9f4
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/High/high2.prefab
+    AssetReference:
+      m_AssetGUID: bec97685b39240149adc78b9389836c2
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/High/high1.prefab
+    AssetReference:
+      m_AssetGUID: e4570151fa081554fb72770c6471b629
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  Extreme:
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Extreme!/ext2.prefab
+    AssetReference:
+      m_AssetGUID: 496d77e9095d7b14ea7a660eb8696c2f
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Extreme!/ext1.prefab
+    AssetReference:
+      m_AssetGUID: 991580414cb747943a8ebb61eebeaabd
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Extreme!/ext4.prefab
+    AssetReference:
+      m_AssetGUID: c1e8f66592af6ac4aa170b2d1259a59c
+      m_SubObjectName: 
+    Asset: {fileID: 0}
+  - SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/GeigerCounter/Extreme!/ext3.prefab
+    AssetReference:
+      m_AssetGUID: f33ea28db217f0d4299cf5fd090f6cdf
+      m_SubObjectName: 
+    Asset: {fileID: 0}
 --- !u!1001 &3904705344237945467
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using AddressableReferences;
+﻿using System;
+using AddressableReferences;
 using Assets.Scripts.Messages.Server.SoundMessages;
 using Mirror;
 using System.Collections.Generic;
@@ -47,7 +48,12 @@ public class SoundManager : MonoBehaviour
 	/// Thats useful for interrupting playing sounds, and preventing a sound to play over itself.
 	/// Key is a Guid representing the token of the current playing sound.
 	/// </remarks>
-	private Dictionary<string, SoundSpawn> SoundSpawns = new Dictionary<string, SoundSpawn>();
+	public Dictionary<string, SoundSpawn> SoundSpawns = new Dictionary<string, SoundSpawn>();
+
+	/// <summary>
+	/// Dictionary of all sounds that have finished playing and are cashed for Quick playing
+	/// </summary>
+	public Dictionary<string, List<SoundSpawn>> NonplayingSounds = new Dictionary<string, List<SoundSpawn>>();
 
 	/// <summary>
 	/// Adds all musics to the music library.
@@ -114,11 +120,18 @@ public class SoundManager : MonoBehaviour
 	private static async Task<AddressableAudioSource> EnsureAddressableAudioSourceFromCache(List<AddressableAudioSource> addressableAudioSources)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		AddressableAudioSource addressableAudioSourceFromCache = Instance.SoundsLibrary.FirstOrDefault(p => p.Path == addressableAudioSource.Path);
-
+		AddressableAudioSource addressableAudioSourceFromCache = null;
+		lock (Instance.SoundsLibrary)
+		{
+			addressableAudioSourceFromCache = Instance.SoundsLibrary.FirstOrDefault(p => p.AssetAddress == addressableAudioSource.AssetAddress);
+		}
 		if (addressableAudioSourceFromCache == null)
 		{
-			Instance.SoundsLibrary.Add(addressableAudioSource);
+			lock (Instance.SoundsLibrary)
+			{
+				Instance.SoundsLibrary.Add(addressableAudioSource);
+			}
+
 		}
 
 		// Ensure it's loaded and valid
@@ -127,7 +140,7 @@ public class SoundManager : MonoBehaviour
 
 		if (!gameObject.TryGetComponent(out audioSource))
 		{
-			Logger.LogError($"AddressableAudioSource in SoundManager doesn't contain an AudioSource: {addressableAudioSource.Path}", Category.Addressables);
+			Logger.LogError($"AddressableAudioSource in SoundManager doesn't contain an AudioSource: {addressableAudioSource.AssetAddress}", Category.Addressables);
 			return null;
 		}
 
@@ -142,7 +155,8 @@ public class SoundManager : MonoBehaviour
 	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
 	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(List<AddressableAudioSource> addressableAudioSources)
 	{
-		return await EnsureAddressableAudioSourceFromCache(addressableAudioSources).ConfigureAwait(false);
+		var addressableAudioSource =  await EnsureAddressableAudioSourceFromCache(addressableAudioSources);
+		return addressableAudioSource;
 	}
 
 	private void OnEnable()
@@ -167,15 +181,33 @@ public class SoundManager : MonoBehaviour
 	/// <param name="audioSource">The AudioSource to copy</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	/// <returns>The SoundSpawn to be played</returns>
-	private SoundSpawn GetNewSoundSpawn(AudioSource audioSource, string soundSpawnToken)
+	private SoundSpawn GetNewSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource, string soundSpawnToken)
 	{
 		// The position doesn't matter at this point, but we need to provide one.
 		GameObject soundSpawnObject = Instantiate(Instance.soundSpawnPrefab, Vector3.zero, Quaternion.identity);
 		SoundSpawn soundSpawn = soundSpawnObject.GetComponent<SoundSpawn>();
 		soundSpawn.SetAudioSource(audioSource);
-		soundSpawn.Token = soundSpawnToken;
-		SoundSpawns.Add(soundSpawn.Token, soundSpawn);
+		soundSpawn.assetAddress = addressableAudioSource.AssetAddress;
+		if (soundSpawnToken != string.Empty)
+		{
+			soundSpawn.Token = soundSpawnToken;
+			SoundSpawns[soundSpawn.Token] = soundSpawn;
+		}
+
 		return soundSpawn;
+	}
+
+
+	private SoundSpawn GetSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource,
+		string soundSpawnToken)
+	{
+		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress))
+		{
+			var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
+			NonplayingSounds[addressableAudioSource.AssetAddress].RemoveAt(0);
+			return ToReturn;
+		}
+		return  GetNewSoundSpawn( addressableAudioSource,  audioSource,soundSpawnToken);
 	}
 
 	/// <summary>
@@ -278,6 +310,11 @@ public class SoundManager : MonoBehaviour
 	public static void PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos, float pitch = -1,
 		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool global = true, GameObject sourceObj = null)
 	{
+		if (addressableAudioSource.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning("Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
 		PlayNetworkedAtPos(new List<AddressableAudioSource>() { addressableAudioSource }, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, global, sourceObj);
 	}
 
@@ -403,6 +440,11 @@ public class SoundManager : MonoBehaviour
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
 	public static async Task Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
 	{
+		if (addressableAudioSource.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning("Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
 		Play(new List<AddressableAudioSource>() { addressableAudioSource }, soundSpawnToken, audioSourceParameters, polyphonic);
 	}
 
@@ -417,7 +459,7 @@ public class SoundManager : MonoBehaviour
 	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
 	{
 		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);
-		SoundSpawn soundSpawn = Instance.GetNewSoundSpawn(addressableAudioSource.AudioSource, soundSpawnToken);
+		SoundSpawn soundSpawn = Instance.GetSoundSpawn(addressableAudioSource,addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 
 		Instance.PlaySource(soundSpawn, polyphonic, forceMixer: audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
@@ -428,9 +470,12 @@ public class SoundManager : MonoBehaviour
 		float volume, float pitch = -1, float time = 0, bool oneShot = false,
 		float pan = 0)
 	{
-		var Toplay = new List<AddressableAudioSource>();
-		Toplay.Add(addressableAudioSources);
-		Play(Toplay, soundSpawnToken, volume, pitch, time, oneShot, pan);
+		if (addressableAudioSources.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning("Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
+		Play(new List<AddressableAudioSource>() { addressableAudioSources } , soundSpawnToken, volume, pitch, time, oneShot, pan);
 	}
 
 
@@ -444,7 +489,7 @@ public class SoundManager : MonoBehaviour
 		float pan = 0)
 	{
 		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);
-		SoundSpawn soundSpawn = Instance.GetNewSoundSpawn(addressableAudioSource.AudioSource, soundSpawnToken);
+		SoundSpawn soundSpawn = Instance.GetSoundSpawn(addressableAudioSource,addressableAudioSource.AudioSource, soundSpawnToken);
 
 		if (pitch > 0)
 		{
@@ -471,6 +516,11 @@ public class SoundManager : MonoBehaviour
 	/// </remarks>
 	public static async Task Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken = "", bool polyphonic = false, bool global = true)
 	{
+		if (addressableAudioSource.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning("Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
 		Play(new List<AddressableAudioSource>() { addressableAudioSource }, soundSpawnToken, polyphonic, global);
 	}
 
@@ -488,7 +538,8 @@ public class SoundManager : MonoBehaviour
 	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken, bool polyphonic = false, bool global = true)
 	{
 		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);
-		Instance.PlaySource(Instance.GetNewSoundSpawn(addressableAudioSource.AudioSource, soundSpawnToken), polyphonic, global);
+		var sound = Instance.GetSoundSpawn(addressableAudioSource,addressableAudioSource.AudioSource, soundSpawnToken);
+		Instance.PlaySource(sound, polyphonic, global);
 	}
 
 	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true, bool forceMixer = false)
@@ -519,6 +570,11 @@ public class SoundManager : MonoBehaviour
 		bool isGlobal = false,
 		AudioSourceParameters audioSourceParameters = null)
 	{
+		if (addressableAudioSource.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning("Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
 		PlayAtPosition(new List<AddressableAudioSource>() { addressableAudioSource },
 			soundSpawnToken, worldPos, sourceObj, polyphonic, isGlobal, audioSourceParameters);
 	}
@@ -571,7 +627,7 @@ public class SoundManager : MonoBehaviour
 		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = null)
 	{
 		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);
-		SoundSpawn soundSpawn = Instance.GetNewSoundSpawn(addressableAudioSource.AudioSource, soundSpawnToken);
+		SoundSpawn soundSpawn = Instance.GetSoundSpawn(addressableAudioSource,addressableAudioSource.AudioSource, soundSpawnToken);
 
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 

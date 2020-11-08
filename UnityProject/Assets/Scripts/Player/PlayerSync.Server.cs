@@ -1022,7 +1022,7 @@ public partial class PlayerSync
                     return;
                 }
 
-                await SoundManager.PlayNetworkedAtPos(
+	            SoundManager.PlayNetworkedAtPos(
                     floorTileTypes.AddressableAudioSources,
                     worldPos,
                     audioSourceParameters,

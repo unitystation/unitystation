@@ -7,15 +7,6 @@ using Random = UnityEngine.Random;
 
 public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServerInventoryMove
 {
-	private Dictionary<GeigerCounter.Level, List<string>> Noise = new Dictionary<Level, List<string>>()
-	{
-		{ Level.Low, new List<string>(){ "low1", "low2", "low3", "low4" } },
-		{ Level.Mid, new List<string>(){ "med1", "med2", "med3", "med4" } },
-		{ Level.High, new List<string>(){ "high1", "high2", "high3", "high4" } },
-		{ Level.Extreme, new List<string>(){ "ext1", "ext2", "ext3", "ext4" } },
-
-	};
-
 	public List<AddressableAudioSource> Low = new List<AddressableAudioSource>();
 	public List<AddressableAudioSource> Mid = new List<AddressableAudioSource>();
 	public List<AddressableAudioSource> High = new List<AddressableAudioSource>();
@@ -23,13 +14,6 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 
 	System.Random RNG = new System.Random();
 	private RegisterPlayer registerPlayer;
-	private enum Level
-	{
-		Low,
-		Mid,
-		High,
-		Extreme
-	}
 
 	private RegisterItem registerItem = null;
 
@@ -87,7 +71,6 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 
 	private void PlaySound(AddressableAudioSource sound)
 	{
-		// JESTE_R
 		SoundManager.PlayNetworkedAtPos(sound, registerItem.WorldPositionServer, sourceObj: gameObject);
 	}
 

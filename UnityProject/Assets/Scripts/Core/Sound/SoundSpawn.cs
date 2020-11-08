@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// A sound spawn is an instance of a currently playing sound.
@@ -13,7 +15,8 @@ public class SoundSpawn: MonoBehaviour
 	public bool IsPlaying = false;
 	private bool monitor = false;
 
-	
+	public string assetAddress = "";
+
 	/// <summary>
 	/// The Unique Token of the SoundSpawn.  Keep it to retrieve the playing sound.
 	/// </summary>
@@ -69,8 +72,19 @@ public class SoundSpawn: MonoBehaviour
 		{
 			IsPlaying = false;
 			monitor = false;
+
+			if (Token != string.Empty)
+			{
+				SoundManager.Instance.SoundSpawns.Remove(Token);
+			}
+
+			if (SoundManager.Instance.NonplayingSounds.ContainsKey(assetAddress) == false)
+			{
+				SoundManager.Instance.NonplayingSounds[assetAddress] = new List<SoundSpawn>();
+			}
+			SoundManager.Instance.NonplayingSounds[assetAddress].Add(this);
 		}
-	}		
+	}
 
 	public void SetAudioSource(AudioSource sourceToCopy)
 	{

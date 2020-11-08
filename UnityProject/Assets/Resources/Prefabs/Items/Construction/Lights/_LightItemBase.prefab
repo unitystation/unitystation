@@ -16,6 +16,13 @@ MonoBehaviour:
   integrityHealth: 50
   brokenItem: {fileID: 0}
   soundOnBreak: GlassStep
+  SoundOnBreak:
+    SetLoadSetting: 0
+    Path: Assets/Sounds/Prefabs/Effects/GlassStep.prefab
+    AssetReference:
+      m_AssetGUID: 215a9061e25f2794bac3cc1f883ab0a2
+      m_SubObjectName: 
+    Asset: {fileID: 0}
 --- !u!1001 &6943237300451850614
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -78,7 +78,7 @@ public class DrinkableContainer : Consumable
 		DoDrinkEffects(eater, drinkAmount);
 
 		// Play sound
-		if (item && !string.IsNullOrEmpty(Sound.Path))
+		if (item && !string.IsNullOrEmpty(Sound.AssetAddress))
 		{
 			// JESTE_R
 			SoundManager.PlayNetworkedAtPos(Sound, eater.WorldPos, sourceObj: eater.gameObject);
