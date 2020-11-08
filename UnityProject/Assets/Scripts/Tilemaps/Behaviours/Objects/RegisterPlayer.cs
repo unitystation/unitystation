@@ -82,7 +82,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		return isServer ? !IsBlockingServer : !IsBlockingClient;
 	}
 
-	public override bool IsPassable(Vector3Int from, bool isServer, GameObject context = null)
+	public override bool IsPassableFromOutside(Vector3Int from, bool isServer, GameObject context = null)
 	{
 		return IsPassable(isServer);
 	}

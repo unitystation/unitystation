@@ -477,15 +477,15 @@ public partial class MatrixManager : MonoBehaviour
 		return true;
 	}
 
-	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlocked(Vector3Int, bool, RegisterTile)"/>
-	public static bool HasAnyDepartureBlocked(Vector3Int to, bool isServer, RegisterTile context)
+	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
+	public static bool HasAnyDepartureBlockedAnyMatrix(Vector3Int to, bool isServer, RegisterTile context)
 	{
-		return AnyMatchInternal(mat => mat.Matrix.HasAnyDepartureBlocked(WorldToLocalInt(to, mat), isServer, context));
+		return AnyMatchInternal(mat => mat.Matrix.HasAnyDepartureBlockedOneMatrix(WorldToLocalInt(to, mat), isServer, context));
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
-	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
+	public static bool IsPassableAtAllMatrices(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
 		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
 		int[] excludeList = null, List<LayerType> excludeLayers = null, bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 	{
@@ -495,7 +495,7 @@ public partial class MatrixManager : MonoBehaviour
 			: Instance.ActiveMatrices.ToArray();
 
 		return AllMatchInternal(mat =>
-			mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat), isServer,
+			mat.Matrix.IsPassableAtOneMatrix(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat), isServer,
 				collisionType: collisionType, includingPlayers: includingPlayers, context: context,
 				excludeLayers: excludeLayers, isReach: isReach, onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination),
 				includeList);
@@ -558,7 +558,7 @@ public partial class MatrixManager : MonoBehaviour
 			}
 		}
 
-		bool isPassable = IsPassableAt(worldOrigin, targetPos, isServer, includingPlayers: true, context: bumper.gameObject);
+		bool isPassable = IsPassableAtAllMatrices(worldOrigin, targetPos, isServer, includingPlayers: true, context: bumper.gameObject);
 		// Only push if not passable, e.g. for directional windows being pushed from parallel
 		if (isPassable == false && GetPushableAt(worldOrigin, dir, bumper.gameObject, isServer, true).Count > 0)
 		{
@@ -607,7 +607,7 @@ public partial class MatrixManager : MonoBehaviour
 		var originDoorList = GetAt<InteractableDoor>(worldOrigin, isServer);
 		foreach (InteractableDoor originDoor in originDoorList)
 		{
-			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer) == false)
+			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableFromInside(localTarget, isServer) == false)
 				return originDoor;
 		}
 
@@ -616,7 +616,7 @@ public partial class MatrixManager : MonoBehaviour
 		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
 		foreach (InteractableDoor targetDoor in targetDoorList)
 		{
-			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer) == false)
+			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassableFromOutside(localOrigin, isServer) == false)
 				return targetDoor;
 		}
 
@@ -632,7 +632,7 @@ public partial class MatrixManager : MonoBehaviour
 		var originDoorList = GetAt<DoorMasterController>(worldOrigin, isServer);
 		foreach (DoorMasterController originDoor in originDoorList)
 		{
-			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer) == false)
+			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableFromInside(localTarget, isServer) == false)
 				return originDoor;
 		}
 
@@ -641,7 +641,7 @@ public partial class MatrixManager : MonoBehaviour
 		var targetDoorList = GetAt<DoorMasterController>(targetPos, isServer);
 		foreach (DoorMasterController targetDoor in targetDoorList)
 		{
-			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer) == false)
+			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassableFromOutside(localOrigin, isServer) == false)
 				return targetDoor;
 		}
 
@@ -719,7 +719,7 @@ public partial class MatrixManager : MonoBehaviour
 				if (isLeaving)
 				{
 					// ignore nonblocking pushables on tile we're leaving
-					if (pushPull.registerTile.IsPassableTo(localPushableLocation + (Vector3Int)dir, isServer: isServer))
+					if (pushPull.registerTile.IsPassableFromInside(localPushableLocation + (Vector3Int)dir, isServer: isServer))
 					{
 						continue;
 					}
@@ -727,37 +727,26 @@ public partial class MatrixManager : MonoBehaviour
 				else
 				{
 					// ignore nonblocking pushables on tile we're entering
-					if (pushPull.registerTile.IsPassable(pushableLocation - (Vector3Int)dir,isServer: isServer))
+					if (pushPull.registerTile.IsPassableFromOutside(pushableLocation - (Vector3Int)dir,isServer: isServer))
 					{
 						continue;
 					}
 				}
 			}
 
+			// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
+			// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
 			PushPull pushable = pushPull;
-			if (isServer ? pushPull.CanPushServer(pushableLocation, dir) : pushPull.CanPushClient(pushableLocation, dir))
+			PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
+			if (playerMove && playerMove.IsBuckled)
 			{
+				PushPull buckledPushPull = playerMove.BuckledObject.GetComponent<PushPull>();
 
-
-				// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
-				// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
-				PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
-				if (playerMove && playerMove.IsBuckled)
-				{
-					PushPull buckledPushPull = playerMove.BuckledObject.GetComponent<PushPull>();
-
-					if (buckledPushPull)
-						pushable = buckledPushPull;
-				}
-
-				if (isServer
-					? pushable.CanPushServer(pushableLocation, Vector2Int.RoundToInt(dir))
-					: pushable.CanPushClient(pushableLocation, Vector2Int.RoundToInt(dir))
-				)
-				{
-					pushableList.Add(pushable);
-				}
+				if (buckledPushPull)
+					pushable = buckledPushPull;
 			}
+
+			pushableList.Add(pushable);
 		}
 	}
 
@@ -807,15 +796,15 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static bool IsTotallyImpassable(Vector3Int worldTarget, bool isServer)
 	{
-		return IsPassableAt(worldTarget, isServer) == false && IsAtmosPassableAt(worldTarget, isServer) == false;
+		return IsPassableAtAllMatricesOneTile(worldTarget, isServer) == false && IsAtmosPassableAt(worldTarget, isServer) == false;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
 	///<inheritdoc cref="Matrix.(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsPassableAt(Vector3Int worldTarget, bool isServer, bool includingPlayers = true)
+	public static bool IsPassableAtAllMatricesOneTile(Vector3Int worldTarget, bool isServer, bool includingPlayers = true)
 	{
 		return AllMatchInternal(mat =>
-			mat.Matrix.IsPassableAt(WorldToLocalInt(worldTarget, mat), isServer, includingPlayers: includingPlayers));
+			mat.Matrix.IsPassableAtOneMatrixOneTile(WorldToLocalInt(worldTarget, mat), isServer, includingPlayers: includingPlayers));
 	}
 
 	/// <summary>

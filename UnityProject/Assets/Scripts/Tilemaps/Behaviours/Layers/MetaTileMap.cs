@@ -239,19 +239,14 @@ namespace TileManagement
 			return (damage - RemainingDamage);
 		}
 
-		public bool IsPassableAt(Vector3Int position, bool isServer)
-		{
-			return IsPassableAt(position, position, isServer);
-		}
-
-		public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
+		public bool IsPassableAtOneTileMap(Vector3Int origin, Vector3Int to, bool isServer,
 				CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
 				List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
 				bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 		{
 			if (origin.x == to.x || origin.y == to.y)
 			{
-				return _IsPassableAt(origin, to, isServer, collisionType, inclPlayers, context, excludeLayers,
+				return IsPassableAtOrthogonal(origin, to, isServer, collisionType, inclPlayers, context, excludeLayers,
 					   excludeTiles, ignoreObjects, isReach: isReach);
 			}
 			else
@@ -261,28 +256,25 @@ namespace TileManagement
 
 				List<LayerType> diagonalExcludes = onlyExcludeLayerOnDestination ? null : excludeLayers;
 
-				return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context, diagonalExcludes,
+				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonal(origin, toX, isServer, collisionType, inclPlayers, context, diagonalExcludes,
 						   excludeTiles, ignoreObjects, isReach: isReach) &&
-					   _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach: isReach) ||
-					   _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context, diagonalExcludes,
+					   IsPassableAtOrthogonal(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach: isReach);
+
+				bool isPassableIfVerticalFirst = IsPassableAtOrthogonal(origin, toY, isServer, collisionType, inclPlayers, context, diagonalExcludes,
 						   excludeTiles, ignoreObjects, isReach: isReach) &&
-					   _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach: isReach);
+					   IsPassableAtOrthogonal(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach: isReach);
+
+				return isPassableIfHorizontalFirst || isPassableIfVerticalFirst;
 			}
 
 		}
 
-		/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlocked(Vector3Int, bool, RegisterTile)"/>
-		public bool HasAnyDepartureBlocked(Vector3Int to, bool isServer, RegisterTile context)
-		{
-			return ObjectLayer.HasAnyDepartureBlocked(to, isServer, context);
-		}
-
-		private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
+		private bool IsPassableAtOrthogonal(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false, bool isReach = false)
 		{
 			if (ignoreObjects == false &&
-					ObjectLayer.IsPassableAt(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles, isReach: isReach) == false)
+					ObjectLayer.IsPassableAtOnThisLayer(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles, isReach: isReach) == false)
 			{
 				return false;
 			}

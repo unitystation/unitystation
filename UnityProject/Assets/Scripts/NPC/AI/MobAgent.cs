@@ -293,7 +293,7 @@ namespace Systems.MobAIs
 					var checkPos = curPos;
 					checkPos.x += x;
 					checkPos.y += y;
-					var passable = registerObj.Matrix.IsPassableAt(checkPos, true);
+					var passable = registerObj.Matrix.IsPassableAtOneMatrixOneTile(checkPos, true);
 
 					//Record the passable observation:
 					if (!passable)

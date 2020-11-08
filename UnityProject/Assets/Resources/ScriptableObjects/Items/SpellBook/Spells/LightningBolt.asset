@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f46fbaf230eb28d45baade2d17e5f92f, type: 3}
-  m_Name: SpellTeleport
+  m_Name: LightningBolt
   m_EditorClassIdentifier: 
-  name: Teleport
-  description: Instantly teleports a space wizard to any location he pleases, as
-    long as it is within range (the same matrix).
+  description: Fire a lightning bolt at your foes! It will jump between targets,
+    but can't knock them down.
   note: 
-  cost: 2
+  cost: 1
   conflictsWith: []
-  spell: {fileID: 11400000, guid: 6869a5f7da49b8047ad59e04972fcf2a, type: 2}
+  spell: {fileID: 11400000, guid: f5d5399c9e7826a4fa95c9d5ee93799b, type: 2}
