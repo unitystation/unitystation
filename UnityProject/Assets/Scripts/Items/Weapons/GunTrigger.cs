@@ -62,8 +62,8 @@ namespace Weapons
         public void TriggerPullClient(GameObject shotBy, Vector2 target,
 			BodyPartType damageZone, bool isSuicideShot, string proj, int quant)
         {
-            JobType job = PlayerList.Instance.Get(shotBy).Job;
-            if (PlayerList.Instance.Get(shotBy).Job == setRestriction || (setRestriction == JobType.NULL && 
+            JobType job = PlayerManager.LocalPlayer.Player().Job;
+            if (job == setRestriction || (setRestriction == JobType.NULL && 
             (job != JobType.CLOWN && allowNonClumsy || job == JobType.CLOWN && allowClumsy)))
             {
                 gun.DisplayShot(shotBy, target, damageZone, isSuicideShot, proj, quant);
