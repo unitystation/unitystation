@@ -186,7 +186,7 @@ namespace Systems.Mob
 
 			if (time > 0)
 			{
-				StopElectrocutedOverlayAfter(time);
+				StartCoroutine(StopElectrocutedOverlayAfter(time));
 			}
 
 			electrocutedOverlay.StartOverlay(directional.CurrentDirection);
