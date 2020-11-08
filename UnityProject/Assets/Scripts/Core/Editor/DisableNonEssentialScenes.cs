@@ -5,7 +5,11 @@ using UnityEngine;
 using System.Linq;
 using System.IO;
 
-public class FastIterationMode
+/// <summary>
+/// This editor tool allows to disable some scenes from build
+/// It will drasticly improve build time
+/// </summary>
+public class DisableNonEssentialScenes : EditorWindow
 {
 	private static List<string> AdditionalScenesToRemove = new List<string>()
 	{
@@ -13,16 +17,50 @@ public class FastIterationMode
 		"Fallstation Syndicate"
 	};
 
-	[MenuItem("Debug/Remove non-essential scenes")]
-	public static void SetupFastIterationMode()
+	private string mainStation = "TestStation";
+	private bool removeAwaySites = true;
+	private bool removeAsteroids = true;
+	private bool removeLavaLand = true;
+	private bool removeAdditionalScenes = true;
+
+	[MenuItem("Tools/Remove non-essential scenes", priority = 100)]
+	public static void ShowWindow()
+	{
+		var window = GetWindow<DisableNonEssentialScenes>();
+		window.Show();
+	}
+
+	private void OnGUI()
+	{
+		GUILayout.Label("Main station:");
+		mainStation = GUILayout.TextField(mainStation);
+		removeAwaySites = GUILayout.Toggle(removeAwaySites, "Remove away sites");
+		removeAsteroids = GUILayout.Toggle(removeAsteroids, "Remove asteroids");
+		removeLavaLand = GUILayout.Toggle(removeLavaLand, "Remove LavaLand");
+		removeAdditionalScenes = GUILayout.Toggle(removeAdditionalScenes, "Remove Additional Scenes (unsafe for some scenes)");
+
+		if (GUILayout.Button("Disable scenes"))
+		{
+			StartDisablingScenes();
+		}
+	}
+
+	public void StartDisablingScenes()
 	{
 		// remove all stations except TestStation
-		RemoveAllStations(exceptStation: "TestStation");
+		RemoveAllStations(exceptStation: mainStation);
 
-		LeaveOneAsteroid();
-		LeaveOneAwaySite();
-		DisableLavaland();
-		DisableAdditionalScenes();
+		if (removeAsteroids)
+			LeaveOneAsteroid();
+
+		if (removeAwaySites)
+			LeaveOneAwaySite();
+
+		if (removeLavaLand)
+			DisableLavaland();
+
+		if (removeAdditionalScenes)
+			DisableAdditionalScenes();
 
 		// make sure that editor saved all changes above
 		AssetDatabase.SaveAssets();
@@ -33,7 +71,7 @@ public class FastIterationMode
 	/// Disable additional scenes in build settings
 	/// May cause unexpected behaviour on certain stations/gamemodes
 	/// </summary>
-	private static void DisableAdditionalScenes()
+	private void DisableAdditionalScenes()
 	{
 		var currentScenes = EditorBuildSettings.scenes;
 		var additionalMaps = currentScenes.Where((scene) =>
@@ -53,7 +91,7 @@ public class FastIterationMode
 	/// <summary>
 	/// Disable LavaLand in json config and build-settings
 	/// </summary>
-	private static void DisableLavaland()
+	private void DisableLavaland()
 	{
 		// Disable LavaLand in config file
 		var path = Path.Combine(Application.streamingAssetsPath, "config", "gameConfig.json");
@@ -73,7 +111,7 @@ public class FastIterationMode
 	/// <summary>
 	/// Disable all away sites subscenes, except first one
 	/// </summary>
-	private static void LeaveOneAwaySite()
+	private void LeaveOneAwaySite()
 	{
 		// get scriptable object with list of all away sites
 		var awayWorldsSO = Resources.LoadAll<AwayWorldListSO>("").FirstOrDefault();
@@ -125,7 +163,7 @@ public class FastIterationMode
 	/// Remove all stations from build settings, station scriptable object and json configuration
 	/// </summary>
 	/// <param name="exceptStation">One station to leave in rotation</param>
-	private static void RemoveAllStations(string exceptStation)
+	private void RemoveAllStations(string exceptStation)
 	{
 		var exceptStations = new List<string> { exceptStation };
 
