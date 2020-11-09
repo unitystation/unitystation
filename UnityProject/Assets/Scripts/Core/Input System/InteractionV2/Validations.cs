@@ -372,9 +372,9 @@ public static class Validations
 	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
 	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
-	public static bool IsInReachDistanceByDelta(Vector3 targetVector, float interactDist = PlayerScript.interactionDistance, bool targetIsOnWall = false)
+	public static bool IsInReachDistanceByDelta(Vector3 targetVector, float interactDist = PlayerScript.interactionDistance, bool targetCanBeReachedOneExtraTile = false)
 	{
-		if (targetIsOnWall)
+		if (targetCanBeReachedOneExtraTile)
 		{
 			interactDist += 1f;
 		}
@@ -391,7 +391,7 @@ public static class Validations
 	public static bool IsInReachDistanceByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance, bool targetCanBeReachedOneExtraTile = false)
 	{
 		var targetVector = fromWorldPos - toWorldPos;
-		return IsInReachDistanceByDelta(targetVector, interactDist: interactDist, targetIsOnWall: targetCanBeReachedOneExtraTile);
+		return IsInReachDistanceByDelta(targetVector, interactDist: interactDist, targetCanBeReachedOneExtraTile: targetCanBeReachedOneExtraTile);
 	}
 
 
