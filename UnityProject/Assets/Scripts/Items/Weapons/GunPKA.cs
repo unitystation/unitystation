@@ -22,6 +22,7 @@ public class GunPKA : Gun
 		CurrentMagazine.containedBullets[0] = Projectile;
 		return base.WillInteract(interaction, side);
 	}
+
 	public override void ServerPerformInteraction(AimApply interaction)
 	{
 		if (allowRecharge)
