@@ -136,30 +136,6 @@ public class Equipment : NetworkBehaviour
 		return obscuredSlots.HasFlag(ItemSlot.GetFlaggedSlot(namedSlot));
 	}
 
-	/// <summary>
-	/// Gets name and jobtype from ID card worn in ID slot if any.
-	/// </summary>
-	/// <param name="namedSlot"></param>
-	/// <returns></returns>
-	public String GetIdentityFromID()
-	{
-		IDCard card = null;
-		var tryGetItem = ItemSlot.GetNamed(ItemStorage, NamedSlot.id).Item;
-		if (tryGetItem != null)
-		{
-			card = tryGetItem.GetComponent<IDCard>();
-		}
-		//Logger.Log("ID Card: " + (card != null ? card.ToString() : "null"));
-		if (card != null)
-		{
-			return card.RegisteredName + " " + (card.Occupation ? $" ({card.Occupation.DisplayName})" : "");
-		}
-		else
-		{
-			return "";
-		}
-	}
-
 	#region Examination
 
 	public string Examine()

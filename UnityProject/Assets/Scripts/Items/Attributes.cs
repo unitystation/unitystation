@@ -8,7 +8,7 @@ using Mirror;
 
 [RequireComponent(typeof(Integrity))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn
+public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 {
 
 	[Tooltip("Display name of this item when spawned.")]
@@ -78,11 +78,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		base.OnStartClient();
 	}
 
-
-	public virtual void OnSpawnServer(SpawnInfo info)
+	public override void OnStartServer()
 	{
 		SyncArticleName(articleName, initialName);
 		SyncArticleDescription(articleDescription, initialDescription);
+		base.OnStartServer();
 	}
 
 	private void SyncArticleName(string oldName, string newName)
