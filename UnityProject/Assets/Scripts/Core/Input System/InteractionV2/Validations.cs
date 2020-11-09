@@ -140,12 +140,12 @@ public static class Validations
 	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false, bool isPlayerClick = true)
 	{
 		if (playerScript == null) return false;
-		if (isPlayerClick && !CanInteractByCoolDownState(playerScript.gameObject)) return false;
+		if (isPlayerClick && CanInteractByCoolDownState(playerScript.gameObject) == false) return false;
 
-		if ((!allowCuffed && playerScript.playerMove.IsCuffed) ||
+		if ((allowCuffed == false && playerScript.playerMove.IsCuffed) ||
 		    playerScript.IsGhost ||
-		    !playerScript.playerMove.allowInput ||
-		    !CanInteractByConsciousState(playerScript.playerHealth, allowSoftCrit, side))
+		    playerScript.playerMove.allowInput == false||
+		    CanInteractByConsciousState(playerScript.playerHealth, allowSoftCrit, side) == false)
 		{
 			return false;
 		}
@@ -156,12 +156,12 @@ public static class Validations
 	//Monitors the interaction rate of a player. If its too fast we return false
 	private static bool CanInteractByCoolDownState(GameObject playerObject)
 	{
-		if (!playersMaxClick.ContainsKey(playerObject))
+		if (playersMaxClick.ContainsKey(playerObject) == false)
 		{
 			playersMaxClick.Add(playerObject, 0);
 		}
 
-		if (!playerCoolDown.ContainsKey(playerObject))
+		if (playerCoolDown.ContainsKey(playerObject) == false)
 		{
 			playerCoolDown.Add(playerObject, DateTime.Now);
 			return true;
@@ -287,7 +287,7 @@ public static class Validations
 			}
 		}
 
-		if (!result && side == NetworkSide.Server && Logger.LogLevel >= LogLevel.Trace)
+		if (result == false && side == NetworkSide.Server && Logger.LogLevel >= LogLevel.Trace)
 		{
 			Vector3 worldPosition = Vector3.zero;
 			bool isFloating = false;
@@ -372,9 +372,9 @@ public static class Validations
 	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
 	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
-	public static bool IsInReachDistanceByDelta(Vector3 targetVector, float interactDist = PlayerScript.interactionDistance, bool targetIsOnWall = false)
+	public static bool IsInReachDistanceByDelta(Vector3 targetVector, float interactDist = PlayerScript.interactionDistance, bool targetCanBeReachedOneExtraTile = false)
 	{
-		if (targetIsOnWall)
+		if (targetCanBeReachedOneExtraTile)
 		{
 			interactDist += 1f;
 		}
@@ -388,10 +388,10 @@ public static class Validations
 	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
 	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
-	public static bool IsInReachDistanceByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance, bool targetIsOnWall = false)
+	public static bool IsInReachDistanceByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance, bool targetCanBeReachedOneExtraTile = false)
 	{
 		var targetVector = fromWorldPos - toWorldPos;
-		return IsInReachDistanceByDelta(targetVector, interactDist: interactDist, targetIsOnWall: targetIsOnWall);
+		return IsInReachDistanceByDelta(targetVector, interactDist: interactDist, targetCanBeReachedOneExtraTile: targetCanBeReachedOneExtraTile);
 	}
 
 
@@ -407,9 +407,11 @@ public static class Validations
 	{
 		if (IsNotBlocked(fromWorldPos, toWorldPos, isServer: isServer, context: context))
 		{
-			bool targetIsOnWall = MatrixManager.IsWallAt(toWorldPos.RoundToInt(), isServer);
+			Vector3Int toWorldPosInt = toWorldPos.RoundToInt();
+			bool targetIsOnWall = MatrixManager.IsWallAtAnyMatrix(toWorldPosInt, isServer);
+			bool targetIsOnWindow = MatrixManager.IsWindowAtAnyMatrix(toWorldPosInt, isServer);
 
-			return IsInReachDistanceByPositions(fromWorldPos, toWorldPos, interactDist: interactDist, targetIsOnWall: targetIsOnWall);
+			return IsInReachDistanceByPositions(fromWorldPos, toWorldPos, interactDist: interactDist, targetCanBeReachedOneExtraTile: targetIsOnWall || targetIsOnWindow);
 		}
 
 		return false;
@@ -634,12 +636,12 @@ public static class Validations
 			Logger.LogError("Cannot put item to slot because the item is null", Category.Inventory);
 			return false;
 		}
-		if (!CanInteract(playerScript.gameObject, side, true))
+		if (CanInteract(playerScript.gameObject, side, true) == false)
 		{
 			Logger.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
 			return false;
 		}
-		if (!CanFit(itemSlot, toCheck, side, ignoreOccupied, examineRecipient))
+		if (CanFit(itemSlot, toCheck, side, ignoreOccupied, examineRecipient) == false)
 		{
 			Logger.LogTraceFormat("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
 				toCheck.name, itemSlot);

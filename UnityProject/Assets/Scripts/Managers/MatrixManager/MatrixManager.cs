@@ -901,14 +901,19 @@ public partial class MatrixManager : MonoBehaviour
 		return AnyMatchInternal(condition, Instance.ActiveMatrices.ToArray());
 	}
 
-	public static bool IsTableAt(Vector3Int worldTarget, bool isServer)
+	public static bool IsTableAtAnyMatrix(Vector3Int worldTarget, bool isServer)
 	{
 		return AnyMatchInternal(mat => mat.Matrix.IsTableAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
-	public static bool IsWallAt(Vector3Int worldTarget, bool isServer)
+	public static bool IsWallAtAnyMatrix(Vector3Int worldTarget, bool isServer)
 	{
 		return AnyMatchInternal(mat => mat.Matrix.IsWallAt(WorldToLocalInt(worldTarget, mat), isServer));
+	}
+
+	public static bool IsWindowAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	{
+		return AnyMatchInternal(mat => mat.Matrix.IsWindowAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
 	/// <Summary>
