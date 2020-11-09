@@ -372,8 +372,13 @@ public static class Validations
 	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
 	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
-	public static bool IsInReachDistanceByDelta( Vector3 targetVector, float interactDist = PlayerScript.interactionDistance )
+	public static bool IsInReachDistanceByDelta(Vector3 targetVector, float interactDist = PlayerScript.interactionDistance, bool targetIsOnWall = false)
 	{
+		if (targetIsOnWall)
+		{
+			interactDist += 1f;
+		}
+
 		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
 	}
 
@@ -383,10 +388,10 @@ public static class Validations
 	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
 	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
-	public static bool IsInReachDistanceByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance)
+	public static bool IsInReachDistanceByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance, bool targetIsOnWall = false)
 	{
 		var targetVector = fromWorldPos - toWorldPos;
-		return IsInReachDistanceByDelta(targetVector, interactDist: interactDist);
+		return IsInReachDistanceByDelta(targetVector, interactDist: interactDist, targetIsOnWall: targetIsOnWall);
 	}
 
 
@@ -400,8 +405,15 @@ public static class Validations
 	/// <returns>true if the x and y distance of interaction are less than interactDist and there is no blockage. False otherwise.</returns>
 	public static bool IsReachableByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, bool isServer, float interactDist = PlayerScript.interactionDistance, GameObject context = null)
 	{
-		return IsInReachDistanceByPositions(fromWorldPos, toWorldPos, interactDist: interactDist)
-			&& IsNotBlocked(fromWorldPos, toWorldPos, isServer: isServer, context: context);
+		if (IsNotBlocked(fromWorldPos, toWorldPos, isServer: isServer, context: context))
+		{
+			bool targetIsOnWall = MatrixManager.IsWallAt(toWorldPos.RoundToInt(), isServer);
+
+			return IsInReachDistanceByPositions(fromWorldPos, toWorldPos, interactDist: interactDist, targetIsOnWall: targetIsOnWall);
+		}
+
+		return false;
+		
 	}
 
 	private static bool IsNotBlocked(Vector3 worldPosA, Vector3 worldPosB, bool isServer, GameObject context = null)
