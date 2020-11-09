@@ -766,7 +766,7 @@ namespace TileManagement
 						? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
 						: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
 					{
-						if (!o.IsPassable(isServer))
+						if (o.IsPassable(isServer) == false)
 						{
 							return false;
 						}
@@ -796,7 +796,7 @@ namespace TileManagement
 						if (o is RegisterObject)
 						{
 							PushPull pushPull = o.GetComponent<PushPull>();
-							if (pushPull == null && !o.IsPassable(isServer))
+							if (pushPull == null && o.IsPassable(isServer) == false)
 							{
 								return false;
 							}
@@ -829,7 +829,7 @@ namespace TileManagement
 						? ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
 						: ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position))
 					{
-						if (!o.IsPassable(isServer))
+						if (o.IsPassable(isServer) == false)
 						{
 							bool isExcluded = false;
 							for (var index = 0; index < context.Length; index++)
@@ -841,7 +841,7 @@ namespace TileManagement
 								}
 							}
 
-							if (!isExcluded)
+							if (isExcluded == false)
 							{
 								return false;
 							}
@@ -1128,7 +1128,7 @@ namespace TileManagement
 				}
 			}
 
-			if (!Layers.ContainsKey(tile.LayerType))
+			if (Layers.ContainsKey(tile.LayerType) == false)
 			{
 				Logger.LogErrorFormat($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
 				return;

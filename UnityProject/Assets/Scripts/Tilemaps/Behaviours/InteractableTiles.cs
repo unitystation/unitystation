@@ -425,7 +425,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			OrientationEnum orientation = OrientationEnum.Down;
 			Vector3Int PlaceDirection = PlayerManager.LocalPlayerScript.WorldPos - tilePos;
 			bool isWallBlocked = false;
-			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
+			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAtAnyMatrix(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
 			{
 				if (PlaceDirection.x > 0)
 				{
@@ -438,7 +438,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			}
 			else
 			{
-				if (PlaceDirection.y != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(0, PlaceDirection.y > 0 ? 1 : -1, 0), true))
+				if (PlaceDirection.y != 0 && !MatrixManager.IsWallAtAnyMatrix(tilePos + new Vector3Int(0, PlaceDirection.y > 0 ? 1 : -1, 0), true))
 				{
 					if (PlaceDirection.y > 0)
 					{
@@ -455,7 +455,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 				}
 			}
 
-			if (!MatrixManager.IsWallAt(tilePos, false) || isWallBlocked)
+			if (!MatrixManager.IsWallAtAnyMatrix(tilePos, false) || isWallBlocked)
 			{
 				if (instanceActive)
 				{

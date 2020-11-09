@@ -24,7 +24,7 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 		{
 			return;
 		}
-		if (!MatrixManager.IsWallAt(roundTargetWorldPosition, true))
+		if (!MatrixManager.IsWallAtAnyMatrix(roundTargetWorldPosition, true))
 		{
 			return;
 		}
@@ -34,7 +34,7 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 
 		//is there a wall in the direction of the new wallmount? taking into account diagonal clicking
 		var tileInFront = roundTargetWorldPosition + new Vector3Int(PlaceDirection.x, 0, 0);
-		if (!MatrixManager.IsWallAt(tileInFront, true))
+		if (!MatrixManager.IsWallAtAnyMatrix(tileInFront, true))
 		{
 			if (PlaceDirection.x > 0)
 			{
@@ -48,7 +48,7 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 		else
 		{
 			tileInFront = roundTargetWorldPosition + new Vector3Int(0, PlaceDirection.y, 0);
-			if (!MatrixManager.IsWallAt(tileInFront, true))
+			if (!MatrixManager.IsWallAtAnyMatrix(tileInFront, true))
 			{
 				if (PlaceDirection.y > 0)
 				{
