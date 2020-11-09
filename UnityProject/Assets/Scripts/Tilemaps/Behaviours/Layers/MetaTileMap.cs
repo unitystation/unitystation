@@ -263,7 +263,7 @@ namespace TileManagement
 				// If doubleMidpoint has an odd component, then the midpoint is actually the border between two tiles.
 				// Either of these tiles are acceptable as a midpoint to check for passability.
 
-				if (Mathf.Abs(doubleMidPoint.x) % 2 == 1  || Mathf.Abs(doubleMidPoint.y) % 2 == 1)
+				if (doubleMidPoint.x % 2 != 0  || doubleMidPoint.y % 2 != 0)
 				{
 					Vector3 offset = Vector3.one * 0.1f;
 					Vector3Int lowerMidpoint = (unroundedMidpoint - offset).RoundToInt(); // FloorToInt
@@ -291,7 +291,7 @@ namespace TileManagement
 				Vector3Int midPoint = unroundedMidpoint.RoundToInt();
 
 				bool passableToMidpoint = IsPassableAtOneTileMap(origin, midPoint, isServer,
-						collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach, false);
+						collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach);
 
 				bool passableFromMidpoint = IsPassableAtOneTileMap(midPoint, to, isServer,
 						collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach, onlyExcludeLayerOnDestination);
