@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 912b3b0b4c7367e4290eb56900508145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wizardFirstNames: {fileID: 11400000, guid: 4b3a8019fc6e37948b37b76ac221c253, type: 2}
-  wizardLastNames: {fileID: 11400000, guid: 2854c54aab158134f9ebb1ad2f982199, type: 2}
   paperPrefab: {fileID: 8734328976324889014, guid: d3c71176f32c1274b929f3a88695a795,
     type: 3}
 --- !u!114 &7441945920298257138
@@ -141,6 +139,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b7efae2541864dc43a74b5d5e576f9a3,
         type: 3}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1618464505
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
 --- !u!1 &532740209742371087 stripped

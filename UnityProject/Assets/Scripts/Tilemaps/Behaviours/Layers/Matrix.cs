@@ -216,6 +216,11 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.HasTile(position, LayerType.Walls);
 	}
 
+	public bool IsWindowAt(Vector3Int position, bool isServer)
+	{
+		return MetaTileMap.HasTile(position, LayerType.Windows);
+	}
+
 	public bool IsEmptyAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsEmptyAt(position, isServer);
@@ -246,7 +251,7 @@ public class Matrix : MonoBehaviour
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!MetaTileMap.IsNoGravityAt(pos, isServer))
+			if (MetaTileMap.IsNoGravityAt(pos, isServer) == false)
 			{
 				return false;
 			}
@@ -260,7 +265,7 @@ public class Matrix : MonoBehaviour
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!MetaTileMap.IsEmptyAt(context, pos, isServer))
+			if (MetaTileMap.IsEmptyAt(context, pos, isServer) == false)
 			{
 				return false;
 			}

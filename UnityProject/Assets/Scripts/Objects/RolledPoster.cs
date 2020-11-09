@@ -70,7 +70,7 @@ namespace Items
 				return false;
 			}
 
-			if (!MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), side == NetworkSide.Server))
+			if (!MatrixManager.IsWallAtAnyMatrix(interaction.WorldPositionTarget.RoundToInt(), side == NetworkSide.Server))
 			{
 				return false;
 			}
