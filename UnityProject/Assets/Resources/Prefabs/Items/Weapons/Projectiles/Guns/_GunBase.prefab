@@ -30,6 +30,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setRestriction: 0
   allowClumsy: 0
+  allowNonClumsy: 1
 --- !u!114 &4644871529314044369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +65,7 @@ MonoBehaviour:
     RecoilDuration: 0
     RecoveryDuration: 0
   WeaponType: 0
+  isSuppressed: 0
 --- !u!1001 &8150967651737613344
 PrefabInstance:
   m_ObjectHideFlags: 0

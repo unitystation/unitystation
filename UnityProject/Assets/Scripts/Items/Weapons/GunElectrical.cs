@@ -21,8 +21,14 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	public Battery battery =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<Battery>() : null;
 
-	public ElectricalMagazine currentelmag =>
+	public ElectricalMagazine currentElectricalMag =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<ElectricalMagazine>() : null;
+
+	public override void OnSpawnServer(SpawnInfo info)
+	{
+		UpdateFiremode(currentFiremode, 0);
+  		base.OnSpawnServer(info);
+	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
@@ -34,11 +40,19 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		if (firemodeUsage[currentFiremode] > battery.Watts) 
 		{
 			base.PlayEmptySFX();
-			return false;
 		}
 		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
-		currentelmag.toRemove = firemodeUsage[currentFiremode];
-		return base.WillInteract(interaction, side);
+		currentElectricalMag.toRemove = firemodeUsage[currentFiremode];
+		return base.WillInteract(interaction, side); 
+	}
+
+	public override void ClientPredictInteraction(AimApply interaction)
+	{
+		if (firemodeUsage[currentFiremode] > battery.Watts) 
+		{
+			return;
+		}
+		base.ClientPredictInteraction(interaction);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -46,10 +60,12 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		if (firemodeProjectiles.Count <= 1)
 			return;
 		if (currentFiremode == firemodeProjectiles.Count - 1)
-			currentFiremode = 0;
+		{
+			UpdateFiremode(currentFiremode, 0);
+		}
 		else
 		{
-			currentFiremode++;
+			UpdateFiremode(currentFiremode, currentFiremode + 1);
 		}
 		Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
 	}
