@@ -91,12 +91,11 @@ namespace Antagonists
 						"- Avoid the Whizzamazon drop-pod that falls when you purchase an artifact!\n" +
 						"- Some spells require wizard garb to cast. Prevent the crew taking them off you.\n" +
 						"- On your first mission, act defensively.\n" +
-						"- Spells cannot currently be upgraded, so only purchase a spell once.\n" +
 						"- Once you teleport to the station, you cannot return.\n" +
 						"- The Blink spell has a small chance to send you into space if you use it while near space.\n" +
 						"- The wizard staff does not serve a meaningful purpose, but it does look great on you!\n" +
 						"\n<size=28><b>Known Issues</b></size>\n" +
-						"- The artifact Whizamazon drop-pods do not display the landing target reticule. Watch out!\n" +
+						"- The artifact Whizzamazon drop-pods do not display the landing target reticule. Watch out!\n" +
 						"- Unfortunately, you will lose your action spells if you disconnect from the game or are respawned.\n" +
 						"- LesserSummonGuns spell animation does not work. Cosmetic only.\n" +
 						"Good luck!");
