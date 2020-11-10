@@ -165,23 +165,20 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 	public void SyncIDCardType(IDCardType oldCardType, IDCardType cardType)
 	{
 		idCardType = cardType;
-		switch (idCardType)
+		if (idCardType == IDCardType.standard)
 		{
-			case IDCardType.standard:
-				spriteRenderer.sprite = standardSprite;
-				break;
-			case IDCardType.command:
-				spriteRenderer.sprite = commandSprite;
-				break;
-			case IDCardType.captain:
-				spriteRenderer.sprite = captainSprite;
-				break;
+			spriteRenderer.sprite = standardSprite;
 		}
-
+		else if (idCardType == IDCardType.command)
+		{
+			spriteRenderer.sprite = commandSprite;
+		}
+		else if (idCardType == IDCardType.captain)
+		{
+			spriteRenderer.sprite = captainSprite;
+		}
 		pickupable.RefreshUISlotImage();
-
 	}
-
 
 	/// <summary>
 	/// Checks if this id card has the indicated access.
