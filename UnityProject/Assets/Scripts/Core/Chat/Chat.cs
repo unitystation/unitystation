@@ -417,7 +417,7 @@ public partial class Chat : MonoBehaviour
 		}
 
 		var message =
-			$"{victim.ExpensiveName()} has been hit by {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
+			$"{victim.ExpensiveName()} has been hit by a {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
