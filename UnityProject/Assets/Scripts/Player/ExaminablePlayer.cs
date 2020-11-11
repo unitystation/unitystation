@@ -134,8 +134,6 @@ namespace Assets.Scripts.Player
 				);
 				SpatialRelationship.ServerActivate(relationship);
 			}
-			else
-				PlayerExaminationMessage.Send(SentByPlayer, this, true);
 		}
 
 		private void ServerOnObservationEndedd(RangeRelationship cancelled)
