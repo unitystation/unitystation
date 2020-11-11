@@ -92,8 +92,8 @@ namespace Objects
 				Inventory.ServerDespawn(interaction.HandSlot);
 				Chat.AddActionMsgToChat(interaction.Performer, restockMessage, restockMessage);
 			}
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)  
-				&& interaction.HandObject.TryGetComponent<Emag>(out var emag) 
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
+				&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
 				&& emag.EmagHasCharges())
 			{
 				isEmagged = true;
@@ -200,8 +200,7 @@ namespace Objects
 			vendorItem.Stock--;
 
 			// State sucsess message to chat
-			var itemNameStr = TextUtils.UppercaseFirst(spawnedItem.ExpensiveName());
-			Chat.AddLocalMsgToChat($"{itemNameStr} was dispensed from the vending machine", gameObject);
+			Chat.AddLocalMsgToChat($"The {spawnedItem.ExpensiveName()} was dispensed from the vending machine", gameObject);
 
 			// Play vending sound
 			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), Random.Range(.75f, 1.1f), sourceObj: gameObject);

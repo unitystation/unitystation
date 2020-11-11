@@ -41,7 +41,7 @@ public class DrinkableContainer : Consumable
 		var reagentUnits = container.ReagentMixTotal;
 		if (reagentUnits <= 0f)
 		{
-			Chat.AddExamineMsgFromServer(eater.gameObject, $"{gameObject.ExpensiveName()} is empty.");
+			Chat.AddExamineMsgFromServer(eater.gameObject, $"The {gameObject.ExpensiveName()} is empty.");
 			return;
 		}
 
