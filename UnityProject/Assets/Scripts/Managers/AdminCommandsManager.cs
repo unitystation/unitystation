@@ -368,6 +368,7 @@ namespace AdminCommands
 			runningProfile = true;
 
 			Directory.CreateDirectory("Profiles");
+			Profiler.SetAreaEnabled(ProfilerArea.Memory, true);
 			Profiler.logFile = "Profiles/" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
 			Profiler.enableBinaryLog = true;
 			Profiler.enabled = true;

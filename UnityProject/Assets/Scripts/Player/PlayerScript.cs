@@ -424,15 +424,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		{
 			SyncVisibleName("Unknown", "Unknown");
 		}
-
-		// ...but if ID card is in belt slot, override with ID card data.
-		string idname = Equipment.GetIdentityFromID();
-		if (!String.Equals(idname, ""))
-		{
-			SyncVisibleName(idname, idname);
-		}
-
-
 	}
 
 	//Tooltips inspector bar

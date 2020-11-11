@@ -244,63 +244,6 @@ namespace TileManagement
 				List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
 				bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 		{
-
-			int xDiff = Mathf.Abs(origin.x - to.x);
-			int yDiff = Mathf.Abs(origin.y - to.y);
-
-			// Allow for checking manhattan distance 2 for reaching to walls
-			if (Mathf.Max(xDiff, yDiff) == 2)
-			{
-				// IF at least one is 2 distance, get the midpoint square,
-				// check isPassable from origin to midpoint and midpoint to destination
-
-				Vector3Int doubleMidPoint = origin + to;
-				Vector3 unroundedMidpoint = (Vector3)doubleMidPoint * 0.5f;
-
-				// If we're only excluding on destination, don't ignore anything going to midpoint
-				List<LayerType> excludeLayersToMidpoint = onlyExcludeLayerOnDestination ? null : excludeLayers;
-
-				// If doubleMidpoint has an odd component, then the midpoint is actually the border between two tiles.
-				// Either of these tiles are acceptable as a midpoint to check for passability.
-
-				if (doubleMidPoint.x % 2 != 0  || doubleMidPoint.y % 2 != 0)
-				{
-					Vector3 offset = Vector3.one * 0.1f;
-					Vector3Int lowerMidpoint = (unroundedMidpoint - offset).RoundToInt(); // FloorToInt
-					Vector3Int upperMidpoint = (unroundedMidpoint + offset).RoundToInt(); // CeilToInt
-
-
-					bool passableToLowerMidpoint = IsPassableAtOneTileMap(origin, lowerMidpoint, isServer,
-						collisionType, inclPlayers, context, excludeLayersToMidpoint, excludeTiles, ignoreObjects, isReach);
-
-					bool passableFromLowerMidpoint = IsPassableAtOneTileMap(lowerMidpoint, to, isServer,
-							collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach, onlyExcludeLayerOnDestination);
-
-					bool passableToUpperMidpoint = IsPassableAtOneTileMap(origin, upperMidpoint, isServer,
-						collisionType, inclPlayers, context, excludeLayersToMidpoint, excludeTiles, ignoreObjects, isReach);
-
-					bool passableFromUpperMidpoint = IsPassableAtOneTileMap(upperMidpoint, to, isServer,
-							collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach, onlyExcludeLayerOnDestination);
-
-					return (passableToLowerMidpoint && passableFromLowerMidpoint)
-						|| (passableToUpperMidpoint && passableFromUpperMidpoint);
-				}
-
-				// the midpoint is right on top of a tile, just round and check for two-step passability. This might be orthogonal or diagonal.
-				// Just recur. Will go to "typical situation" blocks below.
-				Vector3Int midPoint = unroundedMidpoint.RoundToInt();
-
-				bool passableToMidpoint = IsPassableAtOneTileMap(origin, midPoint, isServer,
-						collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach);
-
-				bool passableFromMidpoint = IsPassableAtOneTileMap(midPoint, to, isServer,
-						collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach, onlyExcludeLayerOnDestination);
-
-				return passableToMidpoint && passableFromMidpoint;
-			}
-
-
-			// We are dealing with a more ~typical situation~.
 			// Simple case: orthogonal travel
 			if (origin.x == to.x || origin.y == to.y)
 			{
