@@ -12,9 +12,13 @@ public class PlayerHealthUI : MonoBehaviour
 	public GameObject oxygenAlert;
 	public UI_TemperatureAlert temperatureAlert;
 	public GameObject hungerAlert;
-	public Button oxygenButton;
 	public UI_HeartMonitor heartMonitor;
 	public List<DamageMonitorListener> bodyPartListeners = new List<DamageMonitorListener>();
+
+	[Tooltip("0-None; 1-Light; 2-LightModerate; 3-Moderate; 4-Bad; 5-Critical; 6-Max")]
+	public Color[] damageMonitorColors = new Color[7];
+	public Color disabledBodyPartColor;
+	public Color destroyedBodyPartColor;
 	public GameObject baseBody;
 	public GameObject alertsBox;
 
@@ -31,7 +35,7 @@ public class PlayerHealthUI : MonoBehaviour
 		for (int i = 0; i < childrenList.Length; i++)
 		{
 			var children = childrenList[i].gameObject;
-			if(children == gameObject)
+			if (children == gameObject)
 			{
 				continue;
 			}
@@ -42,7 +46,6 @@ public class PlayerHealthUI : MonoBehaviour
 
 	private void EnableAlwaysVisible()
 	{
-		oxygenButton.gameObject.SetActive(true);
 		heartMonitor.gameObject.SetActive(true);
 		for (int i = 0; i < bodyPartListeners.Count; i++)
 		{
@@ -55,7 +58,7 @@ public class PlayerHealthUI : MonoBehaviour
 
 	void SetSpecificVisibility(bool value, GameObject UIelement)
 	{
-		if(UIelement.activeInHierarchy != value)
+		if (UIelement.activeInHierarchy != value)
 		{
 			UIelement.SetActive(value);
 		}
@@ -68,14 +71,9 @@ public class PlayerHealthUI : MonoBehaviour
 			return;
 		}
 
-		if (humanUI && !oxygenButton.gameObject.activeInHierarchy)
-		{
-			EnableAlwaysVisible();
-		}
-
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			if(humanUI)
+			if (humanUI)
 			{
 				DisableAll();
 			}
@@ -83,7 +81,7 @@ public class PlayerHealthUI : MonoBehaviour
 		}
 
 
-		if(!PlayerManager.LocalPlayerScript.IsGhost && !humanUI)
+		if (!PlayerManager.LocalPlayerScript.IsGhost && !humanUI)
 		{
 			EnableAlwaysVisible();
 		}
@@ -110,7 +108,7 @@ public class PlayerHealthUI : MonoBehaviour
 		}
 
 
-		if(temperature > 260 && temperature < 360)
+		if (temperature > 260 && temperature < 360)
 		{
 			SetSpecificVisibility(false, temperatureAlert.gameObject);
 		}
@@ -134,17 +132,6 @@ public class PlayerHealthUI : MonoBehaviour
 
 		SetSpecificVisibility(false, toxinAlert);
 		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
-
-		if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
-		{
-			oxygenButton.interactable = true;
-		}
-
-		if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
-		{
-			EventManager.Broadcast(EVENT.DisableInternals);
-			oxygenButton.interactable = false;
-		}
 	}
 
 	/// <summary>
@@ -159,35 +146,40 @@ public class PlayerHealthUI : MonoBehaviour
 			{
 				continue;
 			}
-			Sprite sprite;
-			switch (bodyPart.Severity)
+			if (bodyPartListeners[i] != null)
 			{
-				case DamageSeverity.None:
-					sprite = bodyPart.BlueDamageMonitorIcon;
-					break;
-				case DamageSeverity.Light:
-					sprite = bodyPart.GreenDamageMonitorIcon;
-					break;
-				case DamageSeverity.LightModerate:
-					sprite = bodyPart.YellowDamageMonitorIcon;
-					break;
-				case DamageSeverity.Moderate:
-					sprite = bodyPart.OrangeDamageMonitorIcon;
-					break;
-				case DamageSeverity.Bad:
-					sprite = bodyPart.DarkOrangeDamageMonitorIcon;
-					break;
-				case DamageSeverity.Critical:
-					sprite = bodyPart.RedDamageMonitorIcon;
-					break;
-				case DamageSeverity.Max:
-				default:
-					sprite = bodyPart.GrayDamageMonitorIcon;
-					break;
-			}
-			if (sprite != null && bodyPartListeners[i] != null && bodyPartListeners[i].image != null)
-			{
-				bodyPartListeners[i].image.sprite = sprite;
+				Color damageColor;
+				Color bodyPartColor = Color.white;
+				switch (bodyPart.Severity)
+				{
+					case DamageSeverity.None:
+						damageColor = damageMonitorColors[0];
+						break;
+					case DamageSeverity.Light:
+						damageColor = damageMonitorColors[1];
+						break;
+					case DamageSeverity.LightModerate:
+						damageColor = damageMonitorColors[2];
+						break;
+					case DamageSeverity.Moderate:
+						damageColor = damageMonitorColors[3];
+						break;
+					case DamageSeverity.Bad:
+						damageColor = damageMonitorColors[4];
+						break;
+					case DamageSeverity.Critical:
+						damageColor = damageMonitorColors[5];
+						bodyPartColor = disabledBodyPartColor;
+						break;
+					case DamageSeverity.Max:
+					default:
+						damageColor = damageMonitorColors[6];
+						bodyPartColor = destroyedBodyPartColor;
+						break;
+				}
+				
+				bodyPartListeners[i].SetDamageColor(damageColor);
+				bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
 			}
 		}
 	}

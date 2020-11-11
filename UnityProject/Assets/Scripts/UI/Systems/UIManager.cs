@@ -22,7 +22,10 @@ public class UIManager : MonoBehaviour, IInitialise
 	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;
 	public ControlDisplays displayControl;
 	public ControlClothing controlClothing;
+	public PanelHudBottomController panelHudBottomController;
 	public Hands hands;
+	public ControlInternals internalControls;
+	public PlayerExaminationWindowUI playerExaminationWindow;
 	public ControlIntent intentControl;
 	public PlayerHealthUI playerHealthUI;
 	public PlayerListUI playerListUIControl;
@@ -33,7 +36,6 @@ public class UIManager : MonoBehaviour, IInitialise
 	public Text versionDisplay;
 	public GUI_Info infoWindow;
 	public TeleportWindow teleportWindow;
-	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
 	public BuildMenu buildMenu;
 	public ZoneSelector zoneSelector;
@@ -138,16 +140,18 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
+	
+	public static PlayerExaminationWindowUI PlayerExaminationWindow => Instance.playerExaminationWindow;
 
 	public static Hands Hands => Instance.hands;
 
 	public static ControlIntent Intent => Instance.intentControl;
 
+	public static ControlInternals Internals => Instance.internalControls;
+
 	public static ControlAction Action => Instance.actionControl;
 
 	public static UIDragAndDrop UiDragAndDrop => Instance.uiDragAndDrop;
-
-	public static ControlWalkRun WalkRun => Instance.walkRunControl;
 
 	public static ControlDisplays Display => Instance.displayControl;
 	public static ControlClothing ControlClothing => Instance.controlClothing;
@@ -310,6 +314,55 @@ public class UIManager : MonoBehaviour, IInitialise
 			pingUpdate = 0f;
 			pingDisplay.text = $"ping: {(NetworkTime.rtt * 1000):0}ms";
 		}
+	}
+
+	public static void UpdateKeybindText(KeyAction keyAction, KeybindManager.KeyCombo keyCombo)
+	{
+		switch (keyAction)
+		{
+			case KeyAction.OpenBackpack:
+				Instance.panelHudBottomController.SetBackPackKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.OpenPDA:
+				Instance.panelHudBottomController.SetPDAKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.OpenBelt:
+				Instance.panelHudBottomController.SetBeltKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.PocketOne:
+				Instance.panelHudBottomController.SetPocketOneKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.PocketTwo:
+				Instance.panelHudBottomController.SetPocketTwoKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.PocketThree:
+				Instance.panelHudBottomController.SetPocketThreeKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			default:
+				Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}");
+				break;
+		}
+	}
+
+	private static string FormatKeybind(KeyCode key)
+	{
+		string result = key.ToString();
+		if (result.StartsWith("Alpha"))
+			return result[result.Length - 1].ToString();
+
+		return key.ToString();
 	}
 
 	public static void ToggleTTS(bool activeState)

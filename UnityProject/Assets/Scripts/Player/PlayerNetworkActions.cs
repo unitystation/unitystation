@@ -220,6 +220,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Inventory.ServerDrop(slot);
 	}
 
+	/// <summary>
+	/// Server handling of the request to drop an item from a client (any slot)
+	/// </summary>
+	[Command]
+	public void CmdDropItemWithoutValidations(NamedSlot equipSlot)
+	{
+		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+		Inventory.ServerDrop(slot);
+	}
+
 
 	/// <summary>
 	/// Request to drop alls item from ItemStorage, send an item slot net id of

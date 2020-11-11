@@ -198,6 +198,17 @@ public class ChatRelay : NetworkBehaviour
 
 		if (channels != ChatChannel.None)
 		{
+			// replace action messages with chat bubble
+			if(channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) || channels.HasFlag(ChatChannel.Examine))
+			{
+				string cleanMessage = Regex.Replace(message, "<.*?>", string.Empty);
+				if(cleanMessage.StartsWith("You"))
+				{
+					ChatBubbleManager.ShowAChatBubble(PlayerManager.LocalPlayerScript.transform, Regex.Replace(message, "<.*?>", string.Empty));
+					return;
+				}
+			}
+
 			ChatUI.Instance.AddChatEntry(message);
 		}
 	}
