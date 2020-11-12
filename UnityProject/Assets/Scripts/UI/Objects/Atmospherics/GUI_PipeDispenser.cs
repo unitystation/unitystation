@@ -21,15 +21,7 @@ namespace UI.Objects.Atmospherics
 		[SerializeField] List<NetToggle> colorToggles;
 		[SerializeField] List<NetPage> categoryPages;
 #pragma warning restore 0649
-
-		[SerializeField] Color color0;
-		[SerializeField] Color color1;
-		[SerializeField] Color color2;
-		[SerializeField] Color color3;
-		[SerializeField] Color color4;
-		[SerializeField] Color color5;
-		[SerializeField] Color color6;
-		[SerializeField] Color color7;		
+		[SerializeField] List<Color> colors;		
 
 		int currentCategoryNumber = 0;
 		int[] previousCategoryPages;
@@ -99,20 +91,7 @@ namespace UI.Objects.Atmospherics
 
 		Color GetColorFromNumber(int colorNumber)
 		{
-			// These colors may need tweaking, as the objects are usually already
-			// dark in nature and so may end up a bit darker than anticipated.
-			switch (colorNumber)
-			{
-				case 0: return color0; //white
-				case 1: return color1; //red
-				case 2: return color2; //green
-				case 3: return color3;	//blue
-				case 4: return color4; //yellow
-				case 5: return color5; //cyan
-				case 6: return color6; //orange
-				case 7: return color7; //purple
-				default: return color0; //white again
-			}
+			return colors[colorNumber];
 		}
 
 		PipeDispenser.PipeLayer GetLayerFromNumber(int layerNumber)
