@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5632578609949331691
+--- !u!1 &6372791401607104734
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,43 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5630492256413423177}
-  - component: {fileID: 5743384637971348397}
+  - component: {fileID: 5225341087861531935}
+  - component: {fileID: 8821256232498714057}
   m_Layer: 0
-  m_Name: SoundManager
+  m_Name: AssetManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5630492256413423177
+--- !u!4 &5225341087861531935
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5632578609949331691}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1466.5907, y: 1598.2742, z: 0}
+  m_GameObject: {fileID: 6372791401607104734}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5743384637971348397
+--- !u!114 &8821256232498714057
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5632578609949331691}
+  m_GameObject: {fileID: 6372791401607104734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d935ea8480c849ad9b03708ffaa3ef6e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ea78979c8bda86468285a1c8ce0d8a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultMixer: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7, type: 2}
-  MuffledMixer: {fileID: 7689869653675604508, guid: 94208a0928046438d9b8a00796e7a5a7,
-    type: 2}
-  soundSpawnPrefab: {fileID: 5183459834456824715, guid: 17cfbaeba72d0ce4ea3f3945cf0f567e,
-    type: 3}
+  _assetLoadingPopupManager: {fileID: 0}

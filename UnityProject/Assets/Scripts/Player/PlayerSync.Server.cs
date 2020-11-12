@@ -588,7 +588,9 @@ public partial class PlayerSync
 		if (!playerScript.IsGhost)
 		{
 			playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
-			SoundManager.FootstepAtPosition(nextState.WorldPosition, playerScript.mind.stepType, gameObject);
+
+			//Jester
+			//SoundManager.FootstepAtPosition(nextState.WorldPosition, playerScript.mind.stepType, gameObject);
 		}
 
 		return nextState;
@@ -737,7 +739,7 @@ public partial class PlayerSync
 				}
 
 				// if player can't reach, player can't push
-				if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, pushableLocation, isServer: true, includingPlayers: false, 
+				if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, pushableLocation, isServer: true, includingPlayers: false,
 						context: pushable.gameObject, isReach: true) == false)
 				{
 					continue;

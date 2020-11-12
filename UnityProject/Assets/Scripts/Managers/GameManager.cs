@@ -454,7 +454,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
 			{
-				SoundManager.Instance.PlayRandomRoundEndSound();
+				//JESTER
+				//SoundManager.Instance.PlayRandomRoundEndSound();
 			}
 		}
 	}

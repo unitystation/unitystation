@@ -1,5 +1,8 @@
-﻿using Mirror;
+﻿using AddressableReferences;
+using Mirror;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Messages.Server.SoundMessages
@@ -9,11 +12,12 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class PlaySoundMessage : ServerMessage
 	{
-		public string SoundName;
+		public string SoundAddressablePath;
 		public Vector3 Position;
 		///Allow this one to sound polyphonically
 		public bool Polyphonic;
 		public uint TargetNetId;
+		public string SoundSpawnToken;
 
 		// Allow to perform a camera shake effect along with the sound.
 		public ShakeParameters ShakeParameters { get; set; }
@@ -23,9 +27,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override void Process()
 		{
-			if (string.IsNullOrEmpty(SoundName))
+			if (string.IsNullOrEmpty(SoundAddressablePath))
 			{
-				Logger.LogError(ToString() + " has no SoundName!", Category.Audio);
+				Logger.LogError(ToString() + " has no Addressable Path!", Category.Audio);
 				return;
 			}
 
@@ -34,15 +38,18 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			if (AudioSourceParameters == null)
 				AudioSourceParameters = new AudioSourceParameters();
 
+			// Recompose a list of a single AddressableAudioSoure from its primart key (Guid)
+			List<AddressableAudioSource> addressableAudioSources = new List<AddressableAudioSource>() { new AddressableAudioSource(SoundAddressablePath) };
+
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(SoundName, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioSourceParameters );
+				SoundManager.PlayAtPosition(addressableAudioSources, SoundSpawnToken, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioSourceParameters );
 			}
 			else
 			{
-				SoundManager.Play(SoundName, AudioSourceParameters, Polyphonic);
+				SoundManager.Play(addressableAudioSources, SoundSpawnToken, AudioSourceParameters, Polyphonic);
 			}
-		
+
 			if (ShakeParameters != null && ShakeParameters.ShakeGround)
 			{
 				if (isPositionProvided
@@ -57,7 +64,11 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			}
 		}
 
-		public static PlaySoundMessage SendToNearbyPlayers(string sndName, Vector3 pos,
+		/// <summary>
+		/// Send a sound to be played to all nearby players
+		/// </summary>
+		/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
+		public static string SendToNearbyPlayers(AddressableAudioSource addressableAudioSource, Vector3 pos,
 			bool polyphonic = false,
 			GameObject sourceObj = null,
 			ShakeParameters shakeParameters = null,
@@ -73,21 +84,28 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 				}
 			}
 
+			string soundSpawnToken = Guid.NewGuid().ToString();
+
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundName = sndName,
+				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
 				ShakeParameters = shakeParameters,
-				AudioSourceParameters = audioSourceParameters
+				AudioSourceParameters = audioSourceParameters,
+				SoundSpawnToken = soundSpawnToken
 			};
 
 			msg.SendToNearbyPlayers(pos);
-			return msg;
+			return soundSpawnToken;
 		}
 
-		public static PlaySoundMessage SendToAll(string sndName, Vector3 pos,
+		/// <summary>
+		/// Send a sound to be played to all clients
+		/// </summary>
+		/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
+		public static string SendToAll(AddressableAudioSource addressableAudioSource, Vector3 pos,
 			bool polyphonic = false,
 			GameObject sourceObj = null,
 			ShakeParameters shakeParameters = null,
@@ -103,22 +121,29 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 				}
 			}
 
+			string soundSpawnToken = Guid.NewGuid().ToString();
+
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundName = sndName,
+				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
 				ShakeParameters = shakeParameters,
-				AudioSourceParameters = audioSourceParameters
+				AudioSourceParameters = audioSourceParameters,
+				SoundSpawnToken = soundSpawnToken
 			};
 
 			msg.SendToAll();
 
-			return msg;
+			return soundSpawnToken;
 		}
 
-		public static PlaySoundMessage Send(GameObject recipient, string sndName, Vector3 pos,
+		/// <summary>
+		/// Send a sound to be played to a specific client
+		/// </summary>
+		/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
+		public static string Send(GameObject recipient, AddressableAudioSource addressableAudioSource, Vector3 pos,
 			bool polyphonic = false,
 			GameObject sourceObj = null,
 			ShakeParameters shakeParameters = null,
@@ -134,46 +159,51 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 				}
 			}
 
+			string soundSpawnToken = Guid.NewGuid().ToString();
+
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundName = sndName,
+				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
 				ShakeParameters = shakeParameters,
-				AudioSourceParameters = audioSourceParameters
+				AudioSourceParameters = audioSourceParameters,
+				SoundSpawnToken = soundSpawnToken
 			};
 
 			msg.SendTo(recipient);
 
-			return msg;
+			return soundSpawnToken;
 		}
 
 		public override string ToString()
 		{
 			string audioSourceParametersValue = (AudioSourceParameters == null) ? "Null" : AudioSourceParameters.ToString();
 			string shakeParametersValue = (ShakeParameters == null) ? "Null" : ShakeParameters.ToString();
-			return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
+			return $"{nameof(SoundAddressablePath)}: {SoundAddressablePath}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
 		}
 
 		public override void Serialize(NetworkWriter writer)
 		{
-			writer.WriteString(SoundName);
+			writer.WriteString(SoundAddressablePath);
 			writer.WriteVector3(Position);
 			writer.WriteBoolean(Polyphonic);
 			writer.WriteUInt32(TargetNetId);
 			writer.WriteString(JsonConvert.SerializeObject(ShakeParameters));
 			writer.WriteString(JsonConvert.SerializeObject(AudioSourceParameters));
+			writer.WriteString(SoundSpawnToken);
 		}
 
 		public override void Deserialize(NetworkReader reader)
 		{
-			SoundName = reader.ReadString();
+			SoundAddressablePath = reader.ReadString();
 			Position = reader.ReadVector3();
 			Polyphonic = reader.ReadBoolean();
 			TargetNetId = reader.ReadUInt32();
 			ShakeParameters = JsonConvert.DeserializeObject<ShakeParameters>(reader.ReadString());
 			AudioSourceParameters = JsonConvert.DeserializeObject<AudioSourceParameters>(reader.ReadString());
+			SoundSpawnToken = reader.ReadString();
 		}
 	}
 }
