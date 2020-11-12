@@ -165,6 +165,11 @@ public class UIActionManager : MonoBehaviour
 
 			_UIAction.CooldownOpacity.localScale = Vector3Int.one; // Enable opacity.
 			_UIAction.CooldownOpacity.LeanScaleY(0f, cooldown);
+
+			if (cooldown > 5)
+			{
+				Instance.StartCoroutine(Instance.CooldownCountdown(_UIAction, cooldown));
+			}
 		}
 		else
 		{
@@ -297,6 +302,19 @@ public class UIActionManager : MonoBehaviour
 		EventManager.RemoveHandler(EVENT.RoundStarted, RoundStarted);
 		EventManager.RemoveHandler(EVENT.GhostSpawned, GhostSpawned);
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, PlayerRejoined);
+	}
+
+	private IEnumerator CooldownCountdown(UIAction action, float cooldown)
+	{
+		while ((cooldown -= Time.deltaTime) > 0)
+		{
+			if (action == null || action.CooldownNumber == null) yield break;
+
+			action.CooldownNumber.text = Mathf.CeilToInt(cooldown).ToString();
+			yield return WaitFor.EndOfFrame;
+		}
+
+		action.CooldownNumber.text = default;
 	}
 
 	#endregion Events

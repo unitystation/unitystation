@@ -242,17 +242,22 @@ public class Mind
 		}
 	}
 
-	public bool HasSpell(SpellData spellData)
+	public Spell GetSpellInstance(SpellData spellData)
 	{
 		foreach (Spell spell in Spells)
 		{
 			if (spell.SpellData == spellData)
 			{
-				return true;
+				return spell;
 			}
 		}
 
-		return false;
+		return default;
+	}
+
+	public bool HasSpell(SpellData spellData)
+	{
+		return GetSpellInstance(spellData) != null;
 	}
 
 	public void SetProperty(string key, object value)

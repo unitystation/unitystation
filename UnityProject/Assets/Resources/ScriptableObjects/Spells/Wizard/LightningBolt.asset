@@ -15,7 +15,7 @@ MonoBehaviour:
   actionType: 1
   activeSpriteIndex: 1
   callOnClient: 0
-  callOnServer: 0
+  callOnServer: 1
   actionName: Lightning Bolt
   description: Fire a lightning bolt at your foes! It will jump between targets,
     but can't knock them down.
@@ -33,20 +33,22 @@ MonoBehaviour:
   cursorOffset: {x: 0, y: 0}
   spellImplementation: {fileID: 7469762742606550612, guid: f6c9a8484d2ff8f4f8d32b0f887baa23,
     type: 3}
-  stillRechargingMessage: The spell is still recharging!
   chargeType: 0
   cooldownTime: 10
   startingCharges: 10
+  castSound: Sparks#
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 2
+  invocationMessage: P'WAH, UNLIM'TED P'WAH!
+  invocationMessageSelf: 
   summonType: 0
   summonObjects: []
   summonTiles: []
   summonPosition: 1
   summonLifespan: 10
-  affectedMessage: 
-  castSound: Sparks#
-  invocationType: 2
-  invocationMessage: P'WAH, UNLIM'TED P'WAH!
-  range: 0
-  invocationMessageSelf: 
   replaceExisting: 0
   requireWizardGarb: 0
+  tierCount: 5
+  cooldownModifierPC: 20

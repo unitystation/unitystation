@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8018868, g: 0.60903776, b: 0.24586153, a: 1}
+  m_Color: {r: 0.5568628, g: 0.42411834, b: 0.26330546, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -359,6 +359,7 @@ GameObject:
   - component: {fileID: 1046222549043700539}
   - component: {fileID: 9067825656556894261}
   - component: {fileID: 7947948444534444760}
+  - component: {fileID: 3401432581251160953}
   m_Layer: 0
   m_Name: TeleportScrollEntry
   m_TagString: Untagged
@@ -408,7 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7725491, g: 0.74509805, b: 0.47450984, a: 1}
+  m_Color: {r: 0.80784315, g: 0.74509805, b: 0.47450984, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -438,3 +439,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destinationLabel: {fileID: 7043767399217298467}
+--- !u!114 &3401432581251160953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4408045721196297002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.5568628, g: 0.42352942, b: 0.2627451, a: 1}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1

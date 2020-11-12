@@ -238,9 +238,15 @@ public class NetTab : Tab
 			}
 		}
 	}
+
 	public void CloseTab()
 	{
 		ControlTabs.CloseTab(Type, Provider);
+	}
+
+	public void ServerCloseTabFor(ConnectedPlayer player)
+	{
+		TabUpdateMessage.Send(player.GameObject, Provider, Type, TabAction.Close);
 	}
 }
 

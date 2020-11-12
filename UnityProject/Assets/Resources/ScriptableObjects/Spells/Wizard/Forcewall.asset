@@ -15,7 +15,7 @@ MonoBehaviour:
   actionType: 0
   activeSpriteIndex: 1
   callOnClient: 0
-  callOnServer: 0
+  callOnServer: 1
   actionName: Forcewall
   description: Create a magical barrier that only you can pass through.
   Sprites:
@@ -31,20 +31,22 @@ MonoBehaviour:
   cursorOffset: {x: 0, y: 0}
   spellImplementation: {fileID: 7469762742606550612, guid: c43de705dc38be447bee54f87e9f95fe,
     type: 3}
-  stillRechargingMessage: The spell is still recharging!
   chargeType: 0
   cooldownTime: 10
   startingCharges: 10
+  castSound: Forcewall
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 2
+  invocationMessage: TARCOL MINTI ZHER!
+  invocationMessageSelf: 
   summonType: 0
   summonObjects: []
   summonTiles: []
   summonPosition: 1
   summonLifespan: 50
-  affectedMessage: 
-  castSound: Forcewall
-  invocationType: 2
-  invocationMessage: TARCOL MINTI ZHER!
-  range: 0
-  invocationMessageSelf: 
   replaceExisting: 0
   requireWizardGarb: 0
+  tierCount: 5
+  cooldownModifierPC: 15
