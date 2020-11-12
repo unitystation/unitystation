@@ -5,15 +5,16 @@ using UnityEngine;
 public class Artifact : MonoBehaviour, IServerSpawn,
 	ICheckedInteractable<HandApply>
 {
-	[SerializeField]
-	private ArtifactEffectsCollection possibleEffects = null;
-
 	private ArtifactEffect currentEffect = null;
 	private ArtifactTrigger currentTrigger;
 
+	private void Awake()
+	{
+		currentEffect = GetComponent<ArtifactEffect>();
+	}
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		ServerSelectRandomEffect();
 		ServerSelectRandomTrigger();
 	}
 
@@ -23,30 +24,6 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 		var allTriggers = System.Enum.GetValues(typeof(ArtifactTrigger));
 		var triggerIndex = Random.Range(0, allTriggers.Length);
 		currentTrigger = (ArtifactTrigger) allTriggers.GetValue(triggerIndex);
-	}
-
-	public void ServerSelectRandomEffect()
-	{
-		// check that possible effects are valid
-		if (possibleEffects && possibleEffects.Effects != null)
-		{
-			var allEffects = possibleEffects.Effects;
-			if (allEffects.Length > 0)
-			{
-				// select random effect
-				var effectIndex = Random.Range(0, allEffects.Length);
-				var selectedEffect = allEffects[effectIndex];
-
-				// check that this effect is valid
-				if (!selectedEffect)
-				{
-					Logger.LogError($"{possibleEffects} SO has invalid effect at index {effectIndex}!");
-					return;
-				}
-
-				currentEffect = selectedEffect;
-			}
-		}
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -61,7 +38,13 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 		{
 			if (currentTrigger == ArtifactTrigger.TOUCH)
 			{
-				currentEffect?.DoEffectTouch(this, interaction.Performer);
+				currentEffect?.DoEffectTouch(interaction.Performer);
+			}
+			else
+			{
+				// print message that nothing happen
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"You touch {gameObject.ExpensiveName()}, but nothing happen. Maybe you need to activate it somehow...");
 			}
 		}
 	}
