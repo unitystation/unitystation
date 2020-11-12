@@ -22,11 +22,20 @@ namespace UI.Objects.Atmospherics
 		[SerializeField] List<NetPage> categoryPages;
 #pragma warning restore 0649
 
+		[SerializeField] Color color0;
+		[SerializeField] Color color1;
+		[SerializeField] Color color2;
+		[SerializeField] Color color3;
+		[SerializeField] Color color4;
+		[SerializeField] Color color5;
+		[SerializeField] Color color6;
+		[SerializeField] Color color7;		
+
 		int currentCategoryNumber = 0;
 		int[] previousCategoryPages;
 
 		PipeDispenser.PipeLayer pipeLayer = PipeDispenser.PipeLayer.LayerTwo;
-		Color pipeColor = Color.white;
+		Color pipeColor;
 
 		PipeDispenser pipeDispenser;
 
@@ -94,13 +103,15 @@ namespace UI.Objects.Atmospherics
 			// dark in nature and so may end up a bit darker than anticipated.
 			switch (colorNumber)
 			{
-				case 0: return Color.white;
-				case 1: return Color.red;
-				case 2: return Color.green;
-				case 3: return Color.blue;
-				case 4: return Color.yellow;
-				case 5: return Color.cyan;
-				default: return Color.grey;
+				case 0: return color0; //white
+				case 1: return color1; //red
+				case 2: return color2; //green
+				case 3: return color3;	//blue
+				case 4: return color4; //yellow
+				case 5: return color5; //cyan
+				case 6: return color6; //orange
+				case 7: return color7; //purple
+				default: return color0; //white again
 			}
 		}
 

@@ -647,7 +647,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		string pointedName = pointTarget.name;
+		string pointedName = pointTarget.ExpensiveName();
 		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
 		if (interactableTiles)
 		{
@@ -657,10 +657,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				pointedName = tile.DisplayName;
 			}
 		}
+		var livinghealthbehavior = pointTarget.GetComponent<LivingHealthBehaviour>();
+		var preposition = "";
+		if (livinghealthbehavior == null)
+			preposition = "the ";
 
 		Effect.PlayParticleDirectional(gameObject, mousePos);
-		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {pointedName}.",
-			$"{playerScript.gameObject.name} points at {pointTarget.name}.");
+		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {preposition}{pointedName}.",
+			$"{playerScript.gameObject.ExpensiveName()} points at {preposition}{pointedName}.");
 	}
 
 	[Command]
