@@ -24,7 +24,17 @@ namespace UI.Objects.Atmospherics
 		{"N2",Gas.Nitrogen},
 		{"PLS",Gas.Plasma},
 		{"CO2",Gas.CarbonDioxide},
-		{"NO2",Gas.NitrousOxide},
+		{"N2O",Gas.NitrousOxide},
+		{"H2",Gas.Hydrogen},
+		{"H2O",Gas.WaterVapor},
+		{"BZ",Gas.BZ},
+		{"MIAS",Gas.Miasma},
+		{"NO2",Gas.Nitryl},
+		{"TRIT",Gas.Tritium},
+		{"HN",Gas.HyperNoblium},
+		{"STIM",Gas.Stimulum},
+		{"PLX",Gas.Pluoxium},
+		{"FRE",Gas.Freon},
 	};
 
 
