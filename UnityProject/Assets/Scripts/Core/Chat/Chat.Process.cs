@@ -195,7 +195,7 @@ public partial class Chat
 			// /me message
 			channels = ChatChannel.Local;
 			speaker = AddMsgColor(channels, speaker);
-			message = $"<i><b>{speaker}</b>| {message}</i>";
+			message = $"<b>{speaker}</b>| <i>{message}</i>";
 			return message;
 		}
 

@@ -42,6 +42,8 @@ namespace Assets.Scripts.Player
 			NamedSlot.rightHand
 		};
 
+		[SerializeField] private float maxInteractionDistance = 3;
+
 		private void Awake()
 		{
 			script = GetComponent<PlayerScript>();
@@ -117,8 +119,8 @@ namespace Assets.Scripts.Player
 
 		public void Examine(GameObject SentByPlayer)
 		{
-			// if player is not inspecting self
-			if (SentByPlayer != gameObject)
+			// if player is not inspecting self and distance is not too big
+			if (SentByPlayer != gameObject && Vector3.Distance(SentByPlayer.WorldPosServer(), gameObject.WorldPosServer()) <= maxInteractionDistance)
 			{
 				// start itemslot observation
 				interactableStorage.ItemStorage.ServerAddObserverPlayer(SentByPlayer);
@@ -129,7 +131,7 @@ namespace Assets.Scripts.Player
 				var relationship = RangeRelationship.Between(
 					SentByPlayer,
 					gameObject,
-					PlayerScript.interactionDistance,
+					maxInteractionDistance,
 					ServerOnObservationEndedd
 				);
 				SpatialRelationship.ServerActivate(relationship);
