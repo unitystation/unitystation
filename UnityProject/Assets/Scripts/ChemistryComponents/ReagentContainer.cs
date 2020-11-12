@@ -348,8 +348,7 @@ namespace Chemistry.Components
 			}
 			else
 			{
-				Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!",
-					(Vector3)worldPos, gameObject);
+				Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!", gameObject);
 			}
 		}
 
