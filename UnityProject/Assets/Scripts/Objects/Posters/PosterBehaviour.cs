@@ -135,7 +135,7 @@ namespace Objects
 			}
 
 			Chat.AddLocalMsgToChat(interaction.Performer.ExpensiveName() +
-								   " rips the poster in a single, decisive motion!", pos, gameObject);
+								   " rips the poster in a single, decisive motion!", interaction.Performer);
 			SoundManager.PlayNetworkedAtPos("PosterRipped", pos, sourceObj: gameObject);
 
 			SyncPosterType(posterVariant, Posters.Ripped);

@@ -20,7 +20,7 @@ public partial class Chat
 	private struct DestroyChatMessage
 	{
 		public string Message;
-		public Vector2Int WorldPosition;
+		public Vector2 WorldPosition;
 	}
 
 	public Color oocColor;
@@ -356,7 +356,7 @@ public partial class Chat
 
 //			int averageX = 0;
 //			int averageY = 0;
-			Vector2Int lastPos = Vector2Int.zero;
+			var lastPos = Vector2.zero;
 			int count = 1;
 
 			while (messageQueue.TryDequeue(out DestroyChatMessage msg))

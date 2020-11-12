@@ -310,7 +310,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		Profiler.BeginSample("DefaultBurnUp");
 		registerTile.TileChangeManager.UpdateOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
-		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject.TileWorldPosition());
+		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject);
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		Despawn.ServerSingle(gameObject);
 		Profiler.EndSample();
@@ -321,13 +321,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (info.DamageType == DamageType.Brute)
 		{
-			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got smashed to pieces.", gameObject.TileWorldPosition());
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got smashed to pieces.", gameObject);
 			Despawn.ServerSingle(gameObject);
 		}
 		//TODO: Other damage types (acid)
 		else
 		{
-			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got destroyed.", gameObject.TileWorldPosition());
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got destroyed.", gameObject);
 			Despawn.ServerSingle(gameObject);
 		}
 	}
