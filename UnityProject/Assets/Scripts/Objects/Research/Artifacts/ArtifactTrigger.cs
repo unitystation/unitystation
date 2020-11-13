@@ -4,5 +4,6 @@ using UnityEngine;
 
 public enum ArtifactTrigger
 {
+	ALWAYS_ACTIVE,
 	TOUCH
 }

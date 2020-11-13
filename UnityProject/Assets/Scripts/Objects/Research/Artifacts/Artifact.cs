@@ -5,17 +5,49 @@ using UnityEngine;
 public class Artifact : MonoBehaviour, IServerSpawn,
 	ICheckedInteractable<HandApply>
 {
+	public bool ForceTrigger = false;
+	[ConditionalField(nameof(ForceTrigger))]
+	public ArtifactTrigger ForcedTrigger;
+
+	public float EffectTimeout = 10f;
+
 	private ArtifactEffect currentEffect = null;
 	private ArtifactTrigger currentTrigger;
+	private float lastActivationTime;
+
+	public bool UnderTimeout
+	{
+		get
+		{
+			// check that timeout has passed
+			return Time.time - lastActivationTime < EffectTimeout;
+		}
+	}
 
 	private void Awake()
 	{
 		currentEffect = GetComponent<ArtifactEffect>();
 	}
 
+	private void Update()
+	{
+		if (currentTrigger == ArtifactTrigger.ALWAYS_ACTIVE)
+		{
+			TryActivateAura();
+		}
+	}
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		ServerSelectRandomTrigger();
+		// select trigger for artifact
+		if (!ForceTrigger)
+		{
+			ServerSelectRandomTrigger();
+		}
+		else
+		{
+			currentTrigger = ForcedTrigger;
+		}
 	}
 
 	public void ServerSelectRandomTrigger()
@@ -26,6 +58,7 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 		currentTrigger = (ArtifactTrigger) allTriggers.GetValue(triggerIndex);
 	}
 
+	#region Touch Activation
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		return DefaultWillInteract.Default(interaction, side);
@@ -38,7 +71,7 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 		{
 			if (currentTrigger == ArtifactTrigger.TOUCH)
 			{
-				currentEffect?.DoEffectTouch(interaction.Performer);
+				TryActivateByTouch(interaction.Performer);
 			}
 			else
 			{
@@ -46,6 +79,25 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 				Chat.AddExamineMsgFromServer(interaction.Performer,
 					$"You touch {gameObject.ExpensiveName()}, but nothing happen. Maybe you need to activate it somehow...");
 			}
+		}
+	}
+
+	public void TryActivateByTouch(GameObject performer)
+	{
+		if (!UnderTimeout)
+		{
+			currentEffect?.DoEffectTouch(performer);
+			lastActivationTime = Time.time;
+		}
+	}
+	#endregion
+
+	public void TryActivateAura()
+	{
+		if (!UnderTimeout)
+		{
+			currentEffect?.DoEffectAura();
+			lastActivationTime = Time.time;
 		}
 	}
 }
