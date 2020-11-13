@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/11/13: Added instant Summons spell and book. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5610](https://github.com/unitystation/unitystation/pull/5610)
 * 2020/11/13: Adds basic maint areas to SquareStation, racks and items still need to be added. by [Akbadain29](https://github.com/Akbadain29) in PR #[5608](https://github.com/unitystation/unitystation/pull/5608)
 * 2020/11/9: Can use objects on walls and windows from an extra tile away by [Ruzihm](https://github.com/Ruzihm) in PR #[5570](https://github.com/unitystation/unitystation/pull/5570)
 * 2020/11/8: Added lightning bolt spell and the magic mirror. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5561](https://github.com/unitystation/unitystation/pull/5561)
