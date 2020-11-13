@@ -2,17 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class ArtifactSprite
+{
+	public SpriteDataSO idleSprite;
+	public SpriteDataSO activeSprite;
+}
+
 public class Artifact : MonoBehaviour, IServerSpawn,
 	ICheckedInteractable<HandApply>
 {
+	[SerializeField]
+	private SpriteHandler spriteHandler = null;
+
 	public bool ForceTrigger = false;
 	[ConditionalField(nameof(ForceTrigger))]
 	public ArtifactTrigger ForcedTrigger;
+
+	public ArtifactSprite[] RandomSprites;
 
 	public float EffectTimeout = 10f;
 
 	private ArtifactEffect currentEffect = null;
 	private ArtifactTrigger currentTrigger;
+	private ArtifactSprite currentSprite;
+
+	private Coroutine animationCoroutine;
 	private float lastActivationTime;
 
 	public bool UnderTimeout
@@ -54,6 +69,9 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 		{
 			currentTrigger = ForcedTrigger;
 		}
+
+		// select random sprite
+		ServerSelectRandomSprite();
 	}
 
 	public void ServerSelectRandomTrigger()
@@ -64,7 +82,13 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 		currentTrigger = (ArtifactTrigger) allTriggers.GetValue(triggerIndex);
 	}
 
-	#region Touch Activation
+	public void ServerSelectRandomSprite()
+	{
+		currentSprite = RandomSprites.PickRandom();
+		spriteHandler?.SetSpriteSO(currentSprite.idleSprite);
+	}
+
+	#region Interactions
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		return DefaultWillInteract.Default(interaction, side);
@@ -87,23 +111,47 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 			}
 		}
 	}
+	#endregion
 
 	public void TryActivateByTouch(GameObject performer)
 	{
 		if (!UnderTimeout)
 		{
 			currentEffect?.DoEffectTouch(performer);
+			PlayActivationAnimation();
+
 			lastActivationTime = Time.time;
 		}
 	}
-	#endregion
 
 	public void TryActivateAura()
 	{
 		if (!UnderTimeout)
 		{
 			currentEffect?.DoEffectAura();
+			PlayActivationAnimation();
+
 			lastActivationTime = Time.time;
+		}
+	}
+
+	public void PlayActivationAnimation()
+	{
+		if (animationCoroutine != null)
+			StopCoroutine(animationCoroutine);
+		StartCoroutine(ActivationAnimationRoutine());
+	}
+
+	private IEnumerator ActivationAnimationRoutine()
+	{
+		if (spriteHandler && currentSprite != null)
+		{
+			// set animation sprite
+			spriteHandler.SetSpriteSO(currentSprite.activeSprite);
+			// wait for animation to play (just random time)
+			yield return WaitFor.Seconds(1f);
+			// return back to idle state
+			spriteHandler.SetSpriteSO(currentSprite.idleSprite);
 		}
 	}
 }
