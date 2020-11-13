@@ -7,13 +7,6 @@ public class BodyPartBehaviour : MonoBehaviour
 	private float burnDamage;
 	public float BruteDamage { get { return bruteDamage; } set { bruteDamage = Mathf.Clamp(value, 0, 200); } }
 	public float BurnDamage { get { return burnDamage; } set { burnDamage = Mathf.Clamp(value, 0, 200); } }
-	public Sprite BlueDamageMonitorIcon;
-	public Sprite GreenDamageMonitorIcon;
-	public Sprite YellowDamageMonitorIcon;
-	public Sprite OrangeDamageMonitorIcon;
-	public Sprite DarkOrangeDamageMonitorIcon;
-	public Sprite RedDamageMonitorIcon;
-	public Sprite GrayDamageMonitorIcon;
 	public int MaxDamage = 200;
 	public BodyPartType Type;
 	public bool isBleeding = false;
