@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 public class ChatEntry : MonoBehaviour
 {
+	[SerializeField] private Text senderName = null;
 	[SerializeField] private Text visibleText = null;
 	[SerializeField] private GameObject adminOverlay = null;
-	[SerializeField] private Shadow shadow = null;
-	[SerializeField] private RectTransform rectTransform = null;
-	[SerializeField] private ContentSizeFitter contentFitter = null;
+	[SerializeField] private Outline senderNameOutline;
+	[SerializeField] private Outline chatEntryOutline;
+	[SerializeField] private RectTransform messageRectTransform = null;
+	[SerializeField] private ContentSizeFitter messageContentFitter = null;
 	[SerializeField] private LayoutElement layoutElement = null;
 	[SerializeField] private List<Text> allText = new List<Text>();
 	[SerializeField] private List<Image> allImages = new List<Image>();
@@ -89,7 +91,8 @@ public class ChatEntry : MonoBehaviour
 		isAdminMsg = false;
 		visibleText.text = "";
 		adminOverlay.SetActive(false);
-		shadow.enabled = true;
+		senderNameOutline.enabled = true;
+		chatEntryOutline.enabled = true;
 		stackPosSet = false;
 		stackTimes = 0;
 		stackTimesText.text = "";
@@ -99,18 +102,39 @@ public class ChatEntry : MonoBehaviour
 
 	public void SetText(string msg)
 	{
-		visibleText.text = msg;
-		ToggleUIElements(true);
+		string[] splitted = msg.Split('|');
+
+		// if message is not sent by player
+		if(splitted.Length == 1)
+		{
+			visibleText.text = msg;
+
+		}
+		// if message is sent by player
+		else if (splitted.Length >= 2)
+		{
+			string playerName = splitted[0];
+
+			string clearPlayerName = System.Text.RegularExpressions.Regex.Replace(playerName, "<.*?>", string.Empty);
+			string msgContext = splitted[1].Substring(1); // skip first char - '|'
+			string message = $"<color=#00000000>{clearPlayerName}</color>   {msgContext}";
+
+			senderName.text = playerName;
+			visibleText.text = message;
+		}
+		// TODO: else - log
+
 		StartCoroutine(UpdateMinHeight());
+		ToggleUIElements(true);
 	}
 
 	IEnumerator UpdateMinHeight()
 	{
-		contentFitter.enabled = true;
+		messageContentFitter.enabled = true;
 		yield return WaitFor.EndOfFrame;
-		layoutElement.minHeight = rectTransform.rect.height / 2;
+		layoutElement.minHeight = messageRectTransform.rect.height / 2;
 		yield return WaitFor.EndOfFrame;
-		contentFitter.enabled = false;
+		messageContentFitter.enabled = false;
 	}
 
 	public void OnChatFocused()
@@ -170,26 +194,34 @@ public class ChatEntry : MonoBehaviour
 
 	void ToggleUIElements(bool enabled)
 	{
-		shadow.enabled = enabled;
+		senderNameOutline.enabled = enabled;
+		chatEntryOutline.enabled = enabled;
 
 		foreach (var t in allText)
 		{
+			if(t == null)
+				continue;
 			t.enabled = enabled;
 		}
 
 		foreach (var i in allImages)
 		{
+			if(i == null)
+				continue;
 			i.enabled = enabled;
 		}
 
 		foreach (var b in allButtons)
 		{
+			if(b == null)
+				continue;
 			b.enabled = enabled;
 		}
 
 		if (enabled && isAdminMsg)
 		{
-			shadow.enabled = false;
+			senderNameOutline.enabled = false;
+			chatEntryOutline.enabled = false;
 		}
 	}
 

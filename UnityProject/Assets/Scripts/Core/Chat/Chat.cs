@@ -496,6 +496,18 @@ public partial class Chat : MonoBehaviour
 		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg);
 	}
 
+	/// <inheritdoc cref="AddExamineMsgFromServer(GameObject, string)"/>
+	public static void AddExamineMsgFromServer(ConnectedPlayer recipient, string msg)
+	{
+		if (recipient == null || recipient.Equals(ConnectedPlayer.Invalid))
+		{
+			Logger.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
+			return;
+		}
+
+		AddExamineMsgFromServer(recipient.GameObject, msg);
+	}
+
 	/// <summary>
 	/// Used on the client for examine messages.
 	/// Use client side only!
