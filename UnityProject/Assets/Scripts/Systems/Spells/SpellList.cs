@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace ScriptableObjects.Systems.Spells
 
 		public GameObject DefaultImplementation;
 
+		[ReorderableList]
 		public List<SpellData> Spells = new List<SpellData>();
 
 		public SpellData FromIndex(short index)
