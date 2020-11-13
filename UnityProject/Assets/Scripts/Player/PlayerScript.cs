@@ -99,6 +99,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		Init();
 		waitTimeForRTTUpdate = 0f;
+		UIManager.Internals.SetupListeners();
+		UIManager.Instance.panelHudBottomController.SetupListeners();
 		isUpdateRTT = true;
 	}
 

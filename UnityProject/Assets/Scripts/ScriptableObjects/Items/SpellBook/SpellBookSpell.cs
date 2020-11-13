@@ -18,6 +18,6 @@ namespace ScriptableObjects.Items.SpellBook
 		public float Cooldown => spell.CooldownTime;
 		public string Incantation => spell.InvocationMessage;
 		public bool RequiresWizardGarb => spell.RequiresWizardGarb;
-		public SpellData Spell => spell;
+		public WizardSpellData Spell => spell;
 	}
 }

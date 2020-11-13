@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -69,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 9
   m_SortingOrder: 40
   m_Sprite: {fileID: 21300000, guid: 38e961c17f3bc8e46b29b0bb601179f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -117,6 +118,7 @@ MonoBehaviour:
   syncInterval: 0.1
   clothData: {fileID: 11400000, guid: 3a3fee0c989e9fb41a6aa909ffd71fdc, type: 2}
   variantType: 0
+  hidesSlots: 0
   hideClothingFlags: 0
   SpriteDataSO: []
 --- !u!1001 &5300130788311338973
@@ -180,6 +182,18 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
+        type: 2}
+    - target: {fileID: 4046247594122168686, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b1f5fada98485ee41aa1af7623eb34f0,
+        type: 2}
+    - target: {fileID: 4046247594122168686, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 416b67690671f314f92316d467f43fa4,
         type: 2}
     - target: {fileID: 4340141381537666384, guid: f0c995ee924eb904dae952cd56a8c1d6,
         type: 3}

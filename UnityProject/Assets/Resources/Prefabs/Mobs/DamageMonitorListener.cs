@@ -5,14 +5,14 @@ using UnityEngine.UI;
 public class DamageMonitorListener : MonoBehaviour
 {
 	public BodyPartType bodyPartType;
-	[HideInInspector]
-	public Image image;
-	private Sprite initSprite;
+
+	[SerializeField] private Image bodyPartImage;
+	[SerializeField] private Image damageMaskImage;
 
 	private void Awake()
 	{
-		image = GetComponent<Image>();
-		initSprite = image.sprite;
+		if(damageMaskImage == null)
+			Logger.LogWarning($"Missing reference on {name}.DamageMonitorListener.{nameof(damageMaskImage)}", Category.UI);
 	}
 
 	private void OnEnable()
@@ -33,9 +33,23 @@ public class DamageMonitorListener : MonoBehaviour
 
 	public void Reset()
 	{
-		if (image != null)
-		{
-			image.sprite = initSprite;
-		}
+		SetDamageColor(new Color());
+		SetBodyPartColor(Color.white);
+	}
+
+	public void SetBodyPartColor(Color color)
+	{
+		if(bodyPartImage == null)
+			return;
+
+		bodyPartImage.color = color;
+	}
+
+	public void SetDamageColor(Color color)
+	{
+		if (damageMaskImage == null)
+			return;
+		
+		damageMaskImage.color = color;
 	}
 }

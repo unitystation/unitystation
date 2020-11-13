@@ -97,8 +97,17 @@ namespace DatabaseAPI
 			        req = UnityWebRequest.Get("http://ipinfo.io/ip");
 			        yield return req.SendWebRequest();
 			        publicIP = Regex.Replace(req.downloadHandler.text, @"\t|\n|\r", "");
-		        }
-	        }
+		        } else if(response.errorCode == 901){
+					Logger.Log("Hub API returned unauthorized credentials, aborting HUB connection", Category.DatabaseAPI);
+		        	yield break;
+				} else{
+					Logger.Log("Hub API returned error code "+response.errorCode+", aborting HUB connection\n"+response.errorMsg, Category.DatabaseAPI);
+		        	yield break;
+				}
+	        } else{
+				Logger.Log("Hub API returned error, aborting HUB connection", Category.DatabaseAPI);
+		        yield break;
+			}
 
             var status = new ServerStatus();
             status.ServerName = config.ServerName;

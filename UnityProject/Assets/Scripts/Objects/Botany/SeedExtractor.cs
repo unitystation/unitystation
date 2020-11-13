@@ -66,7 +66,7 @@ namespace Objects.Botany
 			Inventory.ServerDespawn(grownFood.gameObject);
 			if (foodToBeProcessed.Count == 0)
 			{
-				Chat.AddLocalMsgToChat("The seed extractor finishes processing", (Vector2Int)registerObject.WorldPosition, this.gameObject);
+				Chat.AddLocalMsgToChat("The seed extractor finishes processing", gameObject);
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace Objects.Botany
 			netTransform.AppearAtPositionServer(spawnPos);
 
 			//Notify chat
-			Chat.AddLocalMsgToChat($"{seedPacket.gameObject.ExpensiveName()} was dispensed from the seed extractor", gameObject.RegisterTile().WorldPosition.To2Int(), gameObject);
+			Chat.AddLocalMsgToChat($"{seedPacket.gameObject.ExpensiveName()} was dispensed from the seed extractor", gameObject);
 
 			//Remove spawned entry from list
 			seedPackets.Remove(seedPacket);
@@ -124,7 +124,7 @@ namespace Objects.Botany
 						$"{interaction.Performer.name} places the {foodAtributes.name} into the seed extractor");
 				if (foodToBeProcessed.Count == 0 && currentState != PowerStates.Off)
 				{
-					Chat.AddLocalMsgToChat("The seed extractor begins processing", (Vector2Int)registerObject.WorldPosition, this.gameObject);
+					Chat.AddLocalMsgToChat("The seed extractor begins processing", gameObject);
 				}
 				foodToBeProcessed.Enqueue(grownFood);
 				return;
@@ -156,12 +156,12 @@ namespace Objects.Botany
 				//Any state other than off
 				if (currentState == PowerStates.Off)
 				{
-					Chat.AddLocalMsgToChat("The seed extractor begins processing", (Vector2Int)registerObject.WorldPosition, this.gameObject);
+					Chat.AddLocalMsgToChat("The seed extractor begins processing", gameObject);
 				}
 				//Off state
 				else if (newState == PowerStates.Off)
 				{
-					Chat.AddLocalMsgToChat("The seed extractor shuts down!", (Vector2Int)registerObject.WorldPosition, this.gameObject);
+					Chat.AddLocalMsgToChat("The seed extractor shuts down!", gameObject);
 				}
 			}
 			currentState = newState;

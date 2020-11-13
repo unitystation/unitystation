@@ -66,6 +66,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -90,6 +91,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &9130202135194877776
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -209,6 +211,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7f6813fe44dae6449977fd4a4ed8eef3,
         type: 2}
+    - target: {fileID: 931388571632054408, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      propertyPath: visibleName
+      value: beam
+      objectReference: {fileID: 0}
     - target: {fileID: 1766684164047083533, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       propertyPath: damageData

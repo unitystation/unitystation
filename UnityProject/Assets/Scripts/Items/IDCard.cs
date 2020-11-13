@@ -9,7 +9,7 @@ using WebSocketSharp;
 /// <summary>
 ///     ID card properties
 /// </summary>
-public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
+public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInteractable<HandActivate>
 {
 
 	[Tooltip("Sprite to use when the card is a normal card")]
@@ -83,7 +83,12 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 		}
 		initialized = false;
 	}
-
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		Chat.AddActionMsgToChat(interaction.Performer,
+			$"You show the {itemAttributes.ArticleName}",
+			$"{interaction.Performer.ExpensiveName()} shows you: {itemAttributes.ArticleName}");
+	}
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		if (!initialized && autoInitOnPickup)

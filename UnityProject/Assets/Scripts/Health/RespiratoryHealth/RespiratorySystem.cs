@@ -163,7 +163,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		{
 			if (Random.value < 0.1)
 			{
-				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{gameObject.name} gasps");
+				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{gameObject.ExpensiveName()} gasps");
 			}
 
 			if (oxygenPressure > 0)

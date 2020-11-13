@@ -220,6 +220,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Inventory.ServerDrop(slot);
 	}
 
+	/// <summary>
+	/// Server handling of the request to drop an item from a client (any slot)
+	/// </summary>
+	[Command]
+	public void CmdDropItemWithoutValidations(NamedSlot equipSlot)
+	{
+		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+		Inventory.ServerDrop(slot);
+	}
+
 
 	/// <summary>
 	/// Request to drop alls item from ItemStorage, send an item slot net id of
@@ -647,7 +657,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		string pointedName = pointTarget.name;
+		string pointedName = pointTarget.ExpensiveName();
 		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
 		if (interactableTiles)
 		{
@@ -657,10 +667,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				pointedName = tile.DisplayName;
 			}
 		}
+		var livinghealthbehavior = pointTarget.GetComponent<LivingHealthBehaviour>();
+		var preposition = "";
+		if (livinghealthbehavior == null)
+			preposition = "the ";
 
 		Effect.PlayParticleDirectional(gameObject, mousePos);
-		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {pointedName}.",
-			$"{playerScript.gameObject.name} points at {pointTarget.name}.");
+		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {preposition}{pointedName}.",
+			$"{playerScript.gameObject.ExpensiveName()} points at {preposition}{pointedName}.");
 	}
 
 	[Command]
