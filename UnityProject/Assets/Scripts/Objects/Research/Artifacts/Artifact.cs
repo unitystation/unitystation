@@ -31,6 +31,12 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 
 	private void Update()
 	{
+		if (!CustomNetworkManager.IsServer)
+		{
+			return;
+		}
+
+		// check if artifact is always active and just emits aura
 		if (currentTrigger == ArtifactTrigger.ALWAYS_ACTIVE)
 		{
 			TryActivateAura();
