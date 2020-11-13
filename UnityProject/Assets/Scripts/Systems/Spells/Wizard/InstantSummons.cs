@@ -77,7 +77,7 @@ namespace Systems.Spells.Wizard
 			}
 		}
 
-		private bool TryAddMark()
+		private void TryAddMark()
         {
 			ItemStorage playerStorage = caster.Script.ItemStorage;
 
@@ -85,25 +85,20 @@ namespace Systems.Spells.Wizard
 			if (activeHand.IsOccupied)
 			{
 				AddMark(activeHand.Item);
-				return true;
 			}
 
 			ItemSlot leftHand = playerStorage.GetNamedItemSlot(NamedSlot.leftHand);
 			if (leftHand != activeHand && leftHand.IsOccupied)
 			{
 				AddMark(leftHand.Item);
-				return true;
 			}
 			ItemSlot rightHand = playerStorage.GetNamedItemSlot(NamedSlot.rightHand);
 			if (rightHand != activeHand && rightHand.IsOccupied)
 			{
 				AddMark(rightHand.Item);
-				return true;
 			}
 
 			Chat.AddExamineMsgFromServer(caster, "You aren't holding anything that can be marked for recall!");
-
-			return false;
 		}
 
 		private void AddMark(Pickupable item)
