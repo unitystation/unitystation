@@ -62,6 +62,7 @@ namespace Doors
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
 
+		public DoorSwitch connectedDoorSwitch;
 		public void SetMaster(ISetMultitoolMaster Imaster)
 		{
 			var doorSwitch = (Imaster as DoorSwitch);
@@ -347,7 +348,7 @@ namespace Doors
 
 				return;
 			}
-			
+
 			if (isHackable)
 			{
 				hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnShouldOpen, originator);
