@@ -63,6 +63,10 @@ namespace UI.SpellBook
 				spellBook.SpawnArtifacts(artifactEntry);
 				ServerCloseTabFor(spellBook.GetLastReader()); // We close tab so that the player is aware of the dropping pod.
 			}
+			else if (entry is SpellBookRitual ritualEntry)
+			{
+				spellBook.CastRitual(ritualEntry);
+			}
 
 			RefreshCategory();
 			UpdatePoints();
