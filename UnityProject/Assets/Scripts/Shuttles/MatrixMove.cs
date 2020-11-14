@@ -177,6 +177,9 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// </summary>
 	public bool Initialized => clientStarted && receivedInitialState;
 
+	[Tooltip("Disable the ability for players to use a shuttleconsole to control this matrix")]
+	public bool NoConsole = false;
+
 	public override void OnStartClient()
 	{
 		StartCoroutine(WaitForMatrixManager());
