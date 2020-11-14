@@ -27,7 +27,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	[Tooltip("Whether the container can be locked.")]
 	[SerializeField]
-	private bool IsLockable = false;
+	public bool IsLockable = false;
 
 	[Tooltip("Max amount of players that can fit in it at once.")]
 	[SerializeField]

@@ -6,9 +6,17 @@ using Systems.Electricity;
 using Doors;
 using Lighting;
 using Objects;
+using Objects.Shuttles;
 using Objects.Wallmounts;
 using UnityEditor;
 using UnityEngine;
+
+
+//Unsuported map custom edits, will be lost once the object is replaced:
+//Ancient temple and palace has a custom chair with a different sprites
+//There's a custom bottle with universal enzyme
+//Headsets don't have encryption keys and the mapper has to include them manually
+//DarkJungle invisible walls
 
 [ExecuteInEditMode]
 public class BVOld_checker : MonoBehaviour
@@ -53,7 +61,8 @@ public class BVOld_checker : MonoBehaviour
 		{
 			foreach (var door in doorSwitch.DoorControllers)
 			{
-				door.connectedDoorSwitch = doorSwitch;
+				if(door != null)
+					door.connectedDoorSwitch = doorSwitch;
 			}
 		}
 
@@ -65,6 +74,7 @@ public class BVOld_checker : MonoBehaviour
 			bvoChecker.RunReplacer(onlyPrintDebugLogs);
 		}
 
+		Debug.Log("Fiished bvold replacement loop");
 	}
 
 
@@ -72,6 +82,7 @@ public class BVOld_checker : MonoBehaviour
 	{
 		if (HITALL)
 		{
+			Debug.Log("Running bvold replacement");
 			HITALL = false;
 			PrepareStuff();
 		}
@@ -85,10 +96,12 @@ public class BVOld_checker : MonoBehaviour
 		var reportString = "";
 		foreach (var modification in propertyModifications)
 		{
-			var stringList = new List<string>() //if the modification is one of these, we can ignore it as it is expected
-												//note: some stuff is really random, like permabrig APC having 'selfdestruct' marked as modified, but still being equal to the original apc prefab
+			var stringList = new List<string>()
+				//if the modification is one of these, we can ignore it as it is expected
+				//note: some stuff is really random, like permabrig APC having 'selfdestruct' marked as modified, but still being equal to the original apc prefab
+				//in some cases, the variable change references to something that doesnt exist, for example, shutters trying to toggle "IsOpened" on, IsOpened no longer exists
 			{
-				"m_Name", "LocalPosition", "LocalRotation", "LocalEulerAngles", "sceneId", "hitMe", "RootOrder",
+				"m_Name", "LocalPosition", "LocalRotation", "LocalEulerAngles", "sceneId", "SceneId", "hitMe", "RootOrder",
 				"InitialDirection", "initialDirection", "LocalScale", "RelatedAPC", "SelfPowered", "relatedSwitch", "ChangeDirectionWithMatrix",
 				"relatedLightSwitch", "Offset", "Size", "AssetId", "Sprite", "isWithoutSwitch", "snapToGridOnStart", "listOfLights",
 				"ConnectedDevices", "connectedDevices", "layer", "Anchor", "Pivot", "AdvancedControlToScript", "ignorePassableChecks",
@@ -96,8 +109,12 @@ public class BVOld_checker : MonoBehaviour
 				"Vendor", "access", "restricted", "HullColor", "IsClosed", "isClosed", "HITALL", "IsActive", "initialDescription", "initialName",
 				"draggerMustBeAdjacent", "DisableSyncing", "initialContents", "_Enabled", "m_Materials", "m_Mesh", "shadow", "prefabChildrenOrientation",
 				"StateUpdateOnClient", "syncInterval", "StateUpdateOnClient", "m_AutoTiling", "EjectObjects", "EjectDirection", "m_IsTrigger", "willHighlight",
-				"PowerMachinery", "IsDirty", "Resistances", "SelfPowerLights", "preventStartUpCache", "generalSwitchControllers", "ConnectedDepartmentBatteries", "connectedDepartmentBatteries",
-				"SelfDestruct"
+				"PowerMachinery", "isDirty", "IsDirty", "Resistances", "SelfPowerLights", "preventStartUpCache", "generalSwitchControllers", "ConnectedDepartmentBatteries", "connectedDepartmentBatteries",
+				"SelfDestruct", "FireLockList", "fireAlarm", "channel", "onEditorDirectionChange", "direction", "ShuttleMatrixMove", "InitialState", "Armor.Melee", "Armor.Bomb", "IsOpened",
+				"OneDirectionRestricted", "EncryptionKey", "IsAutomatic", "IncludeAccessDenied", "initialReagentMix", "m_UsedByEffector", "DoesntRequirePower", "isOn", "PowerCut",
+				"MinDistance", "MaxDistance", "butcherResults", "State", "TriggeringObjects", "IsFixedMatrix", "isWindowedDoor", "Current", "EncryptionKey", "radius", "m_Flip",
+				"Down", "Left", "Up", "Right", "IsLockable", "m_Color"
+
 
 			};
 			var specialModification = false;
@@ -116,8 +133,13 @@ public class BVOld_checker : MonoBehaviour
 				reportString += $"//{modification.propertyPath}//";
 			}
 		}
-		if(reportString != "")
+
+		if (reportString != "")
+		{
 			Debug.Log($"{gameObject.name} has special {reportString}");
+		}
+
+
 
 		if (replacementePrefab == null)
 		{
@@ -134,6 +156,34 @@ public class BVOld_checker : MonoBehaviour
 
 		var newObject = PrefabUtility.InstantiatePrefab(replacementePrefab) as GameObject;
 
+
+		var shuttleConsole = gameObject.GetComponent<ShuttleConsole>();
+		var newshuttleConsole = newObject.GetComponent<ShuttleConsole>();
+		if (shuttleConsole != null)
+		{
+			newshuttleConsole.ShuttleMatrixMove = shuttleConsole.ShuttleMatrixMove;
+		}
+
+		var fireLock = gameObject.GetComponent<FireLock>();
+		var newfireLock = newObject.GetComponent<FireLock>();
+		if (fireLock != null)
+		{
+			newfireLock.fireAlarm = fireLock.fireAlarm;
+			fireLock.fireAlarm.FireLockList.Remove(fireLock);
+			fireLock.fireAlarm.FireLockList.Add(newfireLock);
+		}
+
+		var fireAlarm = gameObject.GetComponent<FireAlarm>();
+		var newfireAlarm = newObject.GetComponent<FireAlarm>();
+		if (fireAlarm != null)
+		{
+			foreach (var linkedFireLock in fireAlarm.FireLockList)
+			{
+				newfireAlarm.FireLockList.Add(linkedFireLock);
+				linkedFireLock.fireAlarm = newfireAlarm;
+			}
+
+		}
 
 		var mouseDraggable = gameObject.GetComponent<MouseDraggable>();
 		var newmouseDraggable = newObject.GetComponent<MouseDraggable>();
@@ -238,6 +288,7 @@ public class BVOld_checker : MonoBehaviour
 		if (closetControl != null)
 		{
 			newclosetControl.initialContents = closetControl.initialContents;
+			newclosetControl.IsLockable = closetControl.IsLockable;
 		}
 
 		var registerDoor = gameObject.GetComponent<RegisterDoor>();
@@ -304,12 +355,15 @@ public class BVOld_checker : MonoBehaviour
 		{
 			newvendor.EjectDirection = vendor.EjectDirection;
 			newvendor.EjectObjects = vendor.EjectObjects;
+			newvendor.DoesntRequirePower = vendor.DoesntRequirePower;
 		}
 
 		var integrity = gameObject.GetComponent<Integrity>();
 		var newIntegrity = newObject.GetComponent<Integrity>();
 		if (integrity)
 		{
+			newIntegrity.Armor.Melee = integrity.Armor.Melee;
+			newIntegrity.Armor.Bomb = integrity.Armor.Bomb;
 			newIntegrity.Resistances.LavaProof = integrity.Resistances.LavaProof;
 			newIntegrity.Resistances.FireProof = integrity.Resistances.FireProof;
 			newIntegrity.Resistances.Flammable = integrity.Resistances.Flammable;
