@@ -181,7 +181,7 @@ namespace DiscordWebhook
 					break;
 				}
 
-				msg += queue.Dequeue() + "\n";
+				msg += queue.Dequeue();
 			}
 
 			var payLoad = new JsonPayloadContent()
@@ -262,7 +262,7 @@ namespace DiscordWebhook
 					logToSend = logToSend.Substring(0, 1950);
 				}
 
-				logToSend = $"```\n{logToSend}\n```\n";
+				logToSend = $"```\n{logToSend}```";
 
 				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, logToSend, "");
 			}
