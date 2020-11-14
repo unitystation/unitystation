@@ -24,7 +24,7 @@ namespace Items.Bureaucracy
 		private bool allowOnlyOneReader = false;
 
 		[Tooltip("The possible strings that could be chosen to display to the reader when a page is considered read.")]
-		[SerializeField]
+		[SerializeField, ReorderableList]
 		private string[] remarks = default;
 
 		private readonly Dictionary<ConnectedPlayer, int> readerProgress = new Dictionary<ConnectedPlayer, int>();
