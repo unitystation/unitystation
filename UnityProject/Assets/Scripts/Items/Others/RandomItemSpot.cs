@@ -53,6 +53,8 @@ namespace Items
 
 				if (pool == null)
 				{
+					// didn't spawned anything - just destroy spawner
+					Despawn.ServerSingle(gameObject);
 					return;
 				}
 
@@ -83,10 +85,11 @@ namespace Items
 			}
 
 			var maxAmt = Random.Range(1, item.MaxAmount+1);
+			var worldPos = gameObject.RegisterTile().WorldPositionServer;
 
 			Spawn.ServerPrefab(
 				item.Prefab,
-				gameObject.RegisterTile().WorldPositionServer,
+				worldPos,
 				count: maxAmt,
 				scatterRadius: spread);
 		}
