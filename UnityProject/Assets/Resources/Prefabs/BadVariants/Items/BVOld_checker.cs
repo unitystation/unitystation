@@ -136,7 +136,8 @@ public class BVOld_checker : MonoBehaviour
 
 		if (reportString != "")
 		{
-			Debug.Log($"{gameObject.name} has special {reportString}");
+			Debug.Log($"{gameObject.name} has an unsupported custom change: {reportString}");
+			return;
 		}
 
 
