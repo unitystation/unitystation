@@ -4,6 +4,7 @@ using UnityEngine;
 using Systems.Spells;
 using ScriptableObjects.Systems.Spells;
 using ScriptableObjects.Items.SpellBook;
+using InGameEvents;
 
 namespace Items.Magical
 {
@@ -113,6 +114,27 @@ namespace Items.Magical
 					}
 				}
 			}
+		}
+
+		public void CastRitual(SpellBookRitual ritualEntry)
+		{
+			if (ritualEntry.Cost > Points) return;
+
+			ConnectedPlayer player = GetLastReader();
+
+			if (ritualEntry.InvocationMessage != default)
+			{
+				Chat.AddChatMsgToChat(player, ritualEntry.InvocationMessage, ChatChannel.Local);
+			}
+
+			if (ritualEntry.CastSound != default)
+			{
+				SoundManager.PlayNetworkedAtPos(ritualEntry.CastSound, player.Script.WorldPos, sourceObj: player.GameObject);
+			}
+
+			InGameEventsManager.Instance.TriggerSpecificEvent(ritualEntry.EventIndex, ritualEntry.EventType, announceEvent: false);
+
+			points -= ritualEntry.Cost;
 		}
 
 		#region Interaction

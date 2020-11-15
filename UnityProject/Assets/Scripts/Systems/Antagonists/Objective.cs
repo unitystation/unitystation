@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -86,5 +87,56 @@ namespace Antagonists
 		/// Defines how to check the completion of the objective.
 		/// </summary>
 		protected abstract bool CheckCompletion();
+
+		/// <summary>
+		/// Checks through all the storage recursively
+		/// </summary>
+		protected bool CheckStorageFor(string name, int count)
+		{
+			return CheckStorage(Owner.body.ItemStorage, default, name) >= count;
+		}
+
+		/// <inheritdoc cref="CheckStorageFor(string, int)"/>
+		protected bool CheckStorageFor(Type component, int count)
+		{
+			return CheckStorage(Owner.body.ItemStorage, component, default) >= count;
+		}
+
+		private int CheckStorage(ItemStorage itemStorage, Type component, string name)
+		{
+			int count = 0;
+			foreach (var slot in itemStorage.GetItemSlots())
+			{
+				count += CheckSlot(slot, component, name);
+			}
+
+			return count;
+		}
+
+		private int CheckSlot(ItemSlot slot, Type component, string name)
+		{
+			if (slot.IsEmpty) return 0;
+
+			//Check if current Item is the one we need
+			if (slot.ItemObject.TryGetComponent(component, out _) ||
+					slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == name)
+			{
+				//If stackable count stack
+				if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
+				{
+					return stackable.Amount;
+				}
+
+				return 1;
+			}
+
+			//Check to see if this item has storage, and do checks on that
+			if (slot.ItemObject.TryGetComponent<ItemStorage>(out var itemStorage))
+			{
+				return CheckStorage(itemStorage, component, name);
+			}
+
+			return 0;
+		}
 	}
 }
