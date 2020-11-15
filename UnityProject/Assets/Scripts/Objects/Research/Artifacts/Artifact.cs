@@ -15,7 +15,7 @@ public class Artifact : MonoBehaviour, IServerSpawn, IServerDespawn,
 	/// <summary>
 	/// Set of all artifacts on scenes. Useful to get list of all existing artifacts.
 	/// </summary>
-	public static HashSet<Artifact> ServerSpawnedArtifacts = new HashSet<Artifact>();
+	public readonly static HashSet<Artifact> ServerSpawnedArtifacts = new HashSet<Artifact>();
 
 	[SerializeField]
 	private SpriteHandler spriteHandler = null;
@@ -32,7 +32,7 @@ public class Artifact : MonoBehaviour, IServerSpawn, IServerDespawn,
 	private ArtifactTrigger currentTrigger;
 	private ArtifactSprite currentSprite;
 
-	private Coroutine animationCoroutine;
+	private Coroutine animationCoroutine = null;
 	private float lastActivationTime;
 
 	public bool UnderTimeout
@@ -162,7 +162,7 @@ public class Artifact : MonoBehaviour, IServerSpawn, IServerDespawn,
 	{
 		if (animationCoroutine != null)
 			StopCoroutine(animationCoroutine);
-		StartCoroutine(ActivationAnimationRoutine());
+		animationCoroutine = StartCoroutine(ActivationAnimationRoutine());
 	}
 
 	private IEnumerator ActivationAnimationRoutine()
