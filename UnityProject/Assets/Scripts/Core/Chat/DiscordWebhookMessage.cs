@@ -181,7 +181,7 @@ namespace DiscordWebhook
 					break;
 				}
 
-				msg += queue.Dequeue();
+				msg += queue.Dequeue() + "\n";
 			}
 
 			var payLoad = new JsonPayloadContent()
