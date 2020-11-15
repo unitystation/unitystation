@@ -30,7 +30,7 @@ namespace InGameEvents
 
 			survivorAntag.AddObjective(objective);
 			SpawnGuns();
-			survivorAntag.RemoveObjective(objective); // remove lest we reuse survivor antag for other events like SummonMagic
+			survivorAntag.RemoveObjective(objective); // remove lest we reuse survivor antag for other events
 		}
 
 		protected override void HandlePlayer(ConnectedPlayer player)
@@ -45,6 +45,7 @@ namespace InGameEvents
 
 		private void SetAsAntagSurvivor(ConnectedPlayer player)
 		{
+			Chat.AddExamineMsgFromServer(player, "<color='red'><size=60>You are the survivalist!</size></color>");
 			AntagManager.Instance.ServerFinishAntag(survivorAntag, player, player.GameObject);
 		}
 	}

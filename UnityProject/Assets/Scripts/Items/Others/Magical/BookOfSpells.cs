@@ -133,6 +133,8 @@ namespace Items.Magical
 			}
 
 			InGameEventsManager.Instance.TriggerSpecificEvent(ritualEntry.EventIndex, ritualEntry.EventType, announceEvent: false);
+
+			points -= ritualEntry.Cost;
 		}
 
 		#region Interaction
