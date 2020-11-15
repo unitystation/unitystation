@@ -9,9 +9,14 @@ public class ArtifactSprite
 	public SpriteDataSO activeSprite;
 }
 
-public class Artifact : MonoBehaviour, IServerSpawn,
+public class Artifact : MonoBehaviour, IServerSpawn, IServerDespawn,
 	ICheckedInteractable<HandApply>
 {
+	/// <summary>
+	/// Set of all artifacts on scenes. Useful to get list of all existing artifacts.
+	/// </summary>
+	public static HashSet<Artifact> ServerSpawnedArtifacts = new HashSet<Artifact>();
+
 	[SerializeField]
 	private SpriteHandler spriteHandler = null;
 
@@ -72,6 +77,24 @@ public class Artifact : MonoBehaviour, IServerSpawn,
 
 		// select random sprite
 		ServerSelectRandomSprite();
+
+		// add it to spawned artifacts registry
+		if (!ServerSpawnedArtifacts.Contains(this))
+			ServerSpawnedArtifacts.Add(this);
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		// remove it from global artifacts registry
+		if (ServerSpawnedArtifacts.Contains(this))
+			ServerSpawnedArtifacts.Remove(this);
+	}
+
+	private void OnDestroy()
+	{
+		// remove it from global artifacts registry
+		if (ServerSpawnedArtifacts.Contains(this))
+			ServerSpawnedArtifacts.Remove(this);
 	}
 
 	public void ServerSelectRandomTrigger()
