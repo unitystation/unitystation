@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sound: ClownHonk
+  AddressableAudioSource:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/ClownHonk.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   Cooldown: 0.2
   CritChance: 0.1
   CritDamage: 5

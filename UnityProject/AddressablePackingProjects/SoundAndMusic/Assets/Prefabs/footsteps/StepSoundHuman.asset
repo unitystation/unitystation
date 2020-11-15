@@ -1,0 +1,1581 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9af299356a35a48a838cc470d44aad, type: 3}
+  m_Name: StepSoundHuman
+  m_EditorClassIdentifier: 
+  StepTypes:
+  - StepType: 1
+    FloorTileTypes:
+    - FloorTileType: 0
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot1.prefab
+        AssetReference:
+          m_AssetGUID: 8c6fd703f21bf3943b16058a59a923b0
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot2.prefab
+        AssetReference:
+          m_AssetGUID: b7c6292b8ef2b404a9ae2f2417333f4a
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot3.prefab
+        AssetReference:
+          m_AssetGUID: 37528296d713c5e4ca96d525e03da60e
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot4.prefab
+        AssetReference:
+          m_AssetGUID: d6a10a9fb3f390f47bd93646bd6e32d4
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot5.prefab
+        AssetReference:
+          m_AssetGUID: 28af2a189bd41a44bacadc1f773c86f8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 1
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid1.prefab
+        AssetReference:
+          m_AssetGUID: adabac85e8a76304a897878469cc86b8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid2.prefab
+        AssetReference:
+          m_AssetGUID: f1d4a5cda78cbe643ae71f1e33b1dd57
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid3.prefab
+        AssetReference:
+          m_AssetGUID: 02566327d9e009c498b65c2520925176
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid4.prefab
+        AssetReference:
+          m_AssetGUID: e6a3bd1e816485c478c5825953b154c5
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid5.prefab
+        AssetReference:
+          m_AssetGUID: 27c9ced4c0041804988e705bf4c9de0c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 2
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot1.prefab
+        AssetReference:
+          m_AssetGUID: dcfb3076ce79e0f4ab4802c16d7c1963
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot2.prefab
+        AssetReference:
+          m_AssetGUID: 1ec06be2efc701f40bd2be2cdc91dee4
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot3.prefab
+        AssetReference:
+          m_AssetGUID: 4a1a68cae0dae1647916e342c6f443e6
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot4.prefab
+        AssetReference:
+          m_AssetGUID: c5e3da75808b784469b094d7370be230
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot5.prefab
+        AssetReference:
+          m_AssetGUID: 4c0e461b3c421bf4197957d5296af636
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 3
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk1.prefab
+        AssetReference:
+          m_AssetGUID: fa029a645691dc24f8b37bc6e5bf9cc1
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk2.prefab
+        AssetReference:
+          m_AssetGUID: cf79cd2c33d63c94b8faa9edcc5ca903
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk3.prefab
+        AssetReference:
+          m_AssetGUID: 73f5adb67a02e9743b4e08566eb03011
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk4.prefab
+        AssetReference:
+          m_AssetGUID: ba9c23a5f53ecd947ad6a3b7f881ed71
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk5.prefab
+        AssetReference:
+          m_AssetGUID: fa697dbdcb4128a49aec45f343e83d38
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 4
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass4.prefab
+        AssetReference:
+          m_AssetGUID: cf829f09dd524e8498fa5850e1a9e3ce
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass2.prefab
+        AssetReference:
+          m_AssetGUID: 6147014aee361ea47a21fecc8af95d3b
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass3.prefab
+        AssetReference:
+          m_AssetGUID: eab9793c76164ec4098adc0c11f210e7
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass4.prefab
+        AssetReference:
+          m_AssetGUID: cf829f09dd524e8498fa5850e1a9e3ce
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 5
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava1.prefab
+        AssetReference:
+          m_AssetGUID: eec2676b40225ab42b1849b28ec7e06b
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava2.prefab
+        AssetReference:
+          m_AssetGUID: 6b2aaa55d1226c5448396370d0925248
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava3.prefab
+        AssetReference:
+          m_AssetGUID: e1bfc25cffe9b4044a45cbc2aaf59162
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 6
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot1.prefab
+        AssetReference:
+          m_AssetGUID: 8c6fd703f21bf3943b16058a59a923b0
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot2.prefab
+        AssetReference:
+          m_AssetGUID: b7c6292b8ef2b404a9ae2f2417333f4a
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot3.prefab
+        AssetReference:
+          m_AssetGUID: 37528296d713c5e4ca96d525e03da60e
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot4.prefab
+        AssetReference:
+          m_AssetGUID: d6a10a9fb3f390f47bd93646bd6e32d4
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/hardbarefoot5.prefab
+        AssetReference:
+          m_AssetGUID: 28af2a189bd41a44bacadc1f773c86f8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 7
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/woodbarefoot1.prefab
+        AssetReference:
+          m_AssetGUID: 5e28c594fff6fa84f9f8f21f4736ad83
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/woodbarefoot2.prefab
+        AssetReference:
+          m_AssetGUID: 2f1f55b3f9823db4eb7c3346a09390ee
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/woodbarefoot3.prefab
+        AssetReference:
+          m_AssetGUID: 3206d54c808da9d4cb20b19e2b0ad1c5
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/woodbarefoot4.prefab
+        AssetReference:
+          m_AssetGUID: eb10b36cab803e942823b3ac13602df8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/woodbarefoot5.prefab
+        AssetReference:
+          m_AssetGUID: 4208d9b4bde397d429eff9482834bfa6
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 8
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid1.prefab
+        AssetReference:
+          m_AssetGUID: adabac85e8a76304a897878469cc86b8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid2.prefab
+        AssetReference:
+          m_AssetGUID: f1d4a5cda78cbe643ae71f1e33b1dd57
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid3.prefab
+        AssetReference:
+          m_AssetGUID: 02566327d9e009c498b65c2520925176
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid4.prefab
+        AssetReference:
+          m_AssetGUID: e6a3bd1e816485c478c5825953b154c5
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid5.prefab
+        AssetReference:
+          m_AssetGUID: 27c9ced4c0041804988e705bf4c9de0c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 9
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water1.prefab
+        AssetReference:
+          m_AssetGUID: 1449d9f9613c6744ba0fab564ca2b64f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water3.prefab
+        AssetReference:
+          m_AssetGUID: bfac5ce2618953c4db1821af242e12e8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water3.prefab
+        AssetReference:
+          m_AssetGUID: bfac5ce2618953c4db1821af242e12e8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water4.prefab
+        AssetReference:
+          m_AssetGUID: d507384b20a01a342a12ebc12cda23c9
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 10
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+  - StepType: 2
+    FloorTileTypes:
+    - FloorTileType: 0
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw1.prefab
+        AssetReference:
+          m_AssetGUID: d0899a73e049d4849ace046520b8a780
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw2.prefab
+        AssetReference:
+          m_AssetGUID: eb6603c1191938142b7b10a050a3fe12
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw3.prefab
+        AssetReference:
+          m_AssetGUID: 07cb05cb2a6bcb94c998604eb4dd45e3
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw4.prefab
+        AssetReference:
+          m_AssetGUID: 7b62eef5a02607040bc88a1712778318
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 1
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw1.prefab
+        AssetReference:
+          m_AssetGUID: d0899a73e049d4849ace046520b8a780
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw2.prefab
+        AssetReference:
+          m_AssetGUID: eb6603c1191938142b7b10a050a3fe12
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw3.prefab
+        AssetReference:
+          m_AssetGUID: 07cb05cb2a6bcb94c998604eb4dd45e3
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw4.prefab
+        AssetReference:
+          m_AssetGUID: 7b62eef5a02607040bc88a1712778318
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 2
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot1.prefab
+        AssetReference:
+          m_AssetGUID: dcfb3076ce79e0f4ab4802c16d7c1963
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot2.prefab
+        AssetReference:
+          m_AssetGUID: 1ec06be2efc701f40bd2be2cdc91dee4
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot3.prefab
+        AssetReference:
+          m_AssetGUID: 4a1a68cae0dae1647916e342c6f443e6
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot5.prefab
+        AssetReference:
+          m_AssetGUID: 4c0e461b3c421bf4197957d5296af636
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpetbarefoot5.prefab
+        AssetReference:
+          m_AssetGUID: 4c0e461b3c421bf4197957d5296af636
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 3
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk2.prefab
+        AssetReference:
+          m_AssetGUID: cf79cd2c33d63c94b8faa9edcc5ca903
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk2.prefab
+        AssetReference:
+          m_AssetGUID: cf79cd2c33d63c94b8faa9edcc5ca903
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk3.prefab
+        AssetReference:
+          m_AssetGUID: 73f5adb67a02e9743b4e08566eb03011
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk4.prefab
+        AssetReference:
+          m_AssetGUID: ba9c23a5f53ecd947ad6a3b7f881ed71
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk5.prefab
+        AssetReference:
+          m_AssetGUID: fa697dbdcb4128a49aec45f343e83d38
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 4
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass1.prefab
+        AssetReference:
+          m_AssetGUID: 6d641d4ecb0c7a247b2d892d83e85de8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass2.prefab
+        AssetReference:
+          m_AssetGUID: 6147014aee361ea47a21fecc8af95d3b
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass3.prefab
+        AssetReference:
+          m_AssetGUID: eab9793c76164ec4098adc0c11f210e7
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass4.prefab
+        AssetReference:
+          m_AssetGUID: cf829f09dd524e8498fa5850e1a9e3ce
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 5
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava1.prefab
+        AssetReference:
+          m_AssetGUID: eec2676b40225ab42b1849b28ec7e06b
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava2.prefab
+        AssetReference:
+          m_AssetGUID: 6b2aaa55d1226c5448396370d0925248
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava3.prefab
+        AssetReference:
+          m_AssetGUID: e1bfc25cffe9b4044a45cbc2aaf59162
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 6
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw1.prefab
+        AssetReference:
+          m_AssetGUID: d0899a73e049d4849ace046520b8a780
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw2.prefab
+        AssetReference:
+          m_AssetGUID: eb6603c1191938142b7b10a050a3fe12
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw3.prefab
+        AssetReference:
+          m_AssetGUID: 07cb05cb2a6bcb94c998604eb4dd45e3
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/hardclaw4.prefab
+        AssetReference:
+          m_AssetGUID: 7b62eef5a02607040bc88a1712778318
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 7
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/woodclaw1.prefab
+        AssetReference:
+          m_AssetGUID: 9c7410f6154361a48aa7519c1f6dab19
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/woodclaw2.prefab
+        AssetReference:
+          m_AssetGUID: ad0e2ad90932ffe4280cccf4ee6e4dea
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/claw/woodclaw3.prefab
+        AssetReference:
+          m_AssetGUID: d1782b75facf5a84b8945dfa7ce84dfe
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 8
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid1.prefab
+        AssetReference:
+          m_AssetGUID: adabac85e8a76304a897878469cc86b8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid2.prefab
+        AssetReference:
+          m_AssetGUID: f1d4a5cda78cbe643ae71f1e33b1dd57
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid3.prefab
+        AssetReference:
+          m_AssetGUID: 02566327d9e009c498b65c2520925176
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid4.prefab
+        AssetReference:
+          m_AssetGUID: e6a3bd1e816485c478c5825953b154c5
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid5.prefab
+        AssetReference:
+          m_AssetGUID: 27c9ced4c0041804988e705bf4c9de0c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 9
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water1.prefab
+        AssetReference:
+          m_AssetGUID: 1449d9f9613c6744ba0fab564ca2b64f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water2.prefab
+        AssetReference:
+          m_AssetGUID: 2194fe77eb1f48a4e98d65f9b5a7c3fe
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water3.prefab
+        AssetReference:
+          m_AssetGUID: bfac5ce2618953c4db1821af242e12e8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water4.prefab
+        AssetReference:
+          m_AssetGUID: d507384b20a01a342a12ebc12cda23c9
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 10
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+  - StepType: 3
+    FloorTileTypes:
+    - FloorTileType: 0
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/floor1.prefab
+        AssetReference:
+          m_AssetGUID: 210e0f309380f7447a0f74a0b2b4c0a9
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/floor2.prefab
+        AssetReference:
+          m_AssetGUID: 14f320482ba9b7f42a74f0b2f1c94af7
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/floor3.prefab
+        AssetReference:
+          m_AssetGUID: 782945800efb5e94faf47c9bdc67940c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/floor4.prefab
+        AssetReference:
+          m_AssetGUID: 155b2766c59b2f541b5cf4ce6faab49f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/floor/floor5.prefab
+        AssetReference:
+          m_AssetGUID: 46cead4f25cc86c4ca3f7983a5ac0848
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 1
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid1.prefab
+        AssetReference:
+          m_AssetGUID: adabac85e8a76304a897878469cc86b8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid2.prefab
+        AssetReference:
+          m_AssetGUID: f1d4a5cda78cbe643ae71f1e33b1dd57
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid3.prefab
+        AssetReference:
+          m_AssetGUID: 02566327d9e009c498b65c2520925176
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid4.prefab
+        AssetReference:
+          m_AssetGUID: e6a3bd1e816485c478c5825953b154c5
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid5.prefab
+        AssetReference:
+          m_AssetGUID: 27c9ced4c0041804988e705bf4c9de0c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 2
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpet1.prefab
+        AssetReference:
+          m_AssetGUID: 4e5910b216230e24db6cb67c4d65fcab
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpet2.prefab
+        AssetReference:
+          m_AssetGUID: 4437b6313b382e94189b0713f210404f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpet3.prefab
+        AssetReference:
+          m_AssetGUID: ec3fe362d64bd9945b6f8e8cf21817d2
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpet3.prefab
+        AssetReference:
+          m_AssetGUID: ec3fe362d64bd9945b6f8e8cf21817d2
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/carpet/carpet5.prefab
+        AssetReference:
+          m_AssetGUID: ca78b7f4a03751144831113b7fc6a685
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 3
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk1.prefab
+        AssetReference:
+          m_AssetGUID: fa029a645691dc24f8b37bc6e5bf9cc1
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk2.prefab
+        AssetReference:
+          m_AssetGUID: cf79cd2c33d63c94b8faa9edcc5ca903
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk3.prefab
+        AssetReference:
+          m_AssetGUID: 73f5adb67a02e9743b4e08566eb03011
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk4.prefab
+        AssetReference:
+          m_AssetGUID: ba9c23a5f53ecd947ad6a3b7f881ed71
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/catwalk/catwalk5.prefab
+        AssetReference:
+          m_AssetGUID: fa697dbdcb4128a49aec45f343e83d38
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 4
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass1.prefab
+        AssetReference:
+          m_AssetGUID: 6d641d4ecb0c7a247b2d892d83e85de8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass2.prefab
+        AssetReference:
+          m_AssetGUID: 6147014aee361ea47a21fecc8af95d3b
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass3.prefab
+        AssetReference:
+          m_AssetGUID: eab9793c76164ec4098adc0c11f210e7
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/grass/grass4.prefab
+        AssetReference:
+          m_AssetGUID: cf829f09dd524e8498fa5850e1a9e3ce
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 5
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava1.prefab
+        AssetReference:
+          m_AssetGUID: eec2676b40225ab42b1849b28ec7e06b
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava2.prefab
+        AssetReference:
+          m_AssetGUID: 6b2aaa55d1226c5448396370d0925248
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava3.prefab
+        AssetReference:
+          m_AssetGUID: e1bfc25cffe9b4044a45cbc2aaf59162
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 6
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/plating/plating1.prefab
+        AssetReference:
+          m_AssetGUID: 6a2efe6f3e259cd47ac5ffc73ede8dcc
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/plating/plating2.prefab
+        AssetReference:
+          m_AssetGUID: 6ce9b44a3cf91794b93101c0a83619d1
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/plating/plating3.prefab
+        AssetReference:
+          m_AssetGUID: ed8db049b7dd3394898afb143da0a01a
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/plating/plating4.prefab
+        AssetReference:
+          m_AssetGUID: f03ecebd66e1e394495493ca8a0323f2
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/plating/plating5.prefab
+        AssetReference:
+          m_AssetGUID: d2a6f00c3222f6f42aae6692c3bedf70
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 7
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/wood1.prefab
+        AssetReference:
+          m_AssetGUID: bb73795dccc099c499323304b03972c4
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/wood2.prefab
+        AssetReference:
+          m_AssetGUID: 9ac0a3513fcff174eb6540415531628c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/wood3.prefab
+        AssetReference:
+          m_AssetGUID: a3497eeca83e4864680bad7d7ed65c29
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/wood4.prefab
+        AssetReference:
+          m_AssetGUID: 8a58d6698c117d246917f61bd957c78d
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/wood/wood5.prefab
+        AssetReference:
+          m_AssetGUID: ec4b86c1e9edb204ca17f886edfa59fc
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 8
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid1.prefab
+        AssetReference:
+          m_AssetGUID: adabac85e8a76304a897878469cc86b8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid2.prefab
+        AssetReference:
+          m_AssetGUID: f1d4a5cda78cbe643ae71f1e33b1dd57
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid3.prefab
+        AssetReference:
+          m_AssetGUID: 02566327d9e009c498b65c2520925176
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid4.prefab
+        AssetReference:
+          m_AssetGUID: e6a3bd1e816485c478c5825953b154c5
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/asteroid/asteroid5.prefab
+        AssetReference:
+          m_AssetGUID: 27c9ced4c0041804988e705bf4c9de0c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 9
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water1.prefab
+        AssetReference:
+          m_AssetGUID: 1449d9f9613c6744ba0fab564ca2b64f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water2.prefab
+        AssetReference:
+          m_AssetGUID: 2194fe77eb1f48a4e98d65f9b5a7c3fe
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water3.prefab
+        AssetReference:
+          m_AssetGUID: bfac5ce2618953c4db1821af242e12e8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water4.prefab
+        AssetReference:
+          m_AssetGUID: d507384b20a01a342a12ebc12cda23c9
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 10
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+  - StepType: 4
+    FloorTileTypes:
+    - FloorTileType: 0
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep1.prefab
+        AssetReference:
+          m_AssetGUID: d1fc88b0e2e9c6949a02478be085b868
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep2.prefab
+        AssetReference:
+          m_AssetGUID: 980a8d00c5afaf74baa2a406cb79305f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep3.prefab
+        AssetReference:
+          m_AssetGUID: 7700c78013f8be44889d6b732881344d
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep4.prefab
+        AssetReference:
+          m_AssetGUID: 903e3148f82bdbe43aaa1518155eb417
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep5.prefab
+        AssetReference:
+          m_AssetGUID: 80f8d9e1e20befc43bd491834a4a4eaa
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 1
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep1.prefab
+        AssetReference:
+          m_AssetGUID: d1fc88b0e2e9c6949a02478be085b868
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep2.prefab
+        AssetReference:
+          m_AssetGUID: 980a8d00c5afaf74baa2a406cb79305f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep3.prefab
+        AssetReference:
+          m_AssetGUID: 7700c78013f8be44889d6b732881344d
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep4.prefab
+        AssetReference:
+          m_AssetGUID: 903e3148f82bdbe43aaa1518155eb417
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep5.prefab
+        AssetReference:
+          m_AssetGUID: 80f8d9e1e20befc43bd491834a4a4eaa
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 2
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep1.prefab
+        AssetReference:
+          m_AssetGUID: d1fc88b0e2e9c6949a02478be085b868
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep2.prefab
+        AssetReference:
+          m_AssetGUID: 980a8d00c5afaf74baa2a406cb79305f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep3.prefab
+        AssetReference:
+          m_AssetGUID: 7700c78013f8be44889d6b732881344d
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep4.prefab
+        AssetReference:
+          m_AssetGUID: 903e3148f82bdbe43aaa1518155eb417
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep5.prefab
+        AssetReference:
+          m_AssetGUID: 80f8d9e1e20befc43bd491834a4a4eaa
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 3
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep1.prefab
+        AssetReference:
+          m_AssetGUID: d1fc88b0e2e9c6949a02478be085b868
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep2.prefab
+        AssetReference:
+          m_AssetGUID: 980a8d00c5afaf74baa2a406cb79305f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep3.prefab
+        AssetReference:
+          m_AssetGUID: 7700c78013f8be44889d6b732881344d
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep4.prefab
+        AssetReference:
+          m_AssetGUID: 903e3148f82bdbe43aaa1518155eb417
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep5.prefab
+        AssetReference:
+          m_AssetGUID: 80f8d9e1e20befc43bd491834a4a4eaa
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 4
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep1.prefab
+        AssetReference:
+          m_AssetGUID: d1fc88b0e2e9c6949a02478be085b868
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep2.prefab
+        AssetReference:
+          m_AssetGUID: 980a8d00c5afaf74baa2a406cb79305f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep3.prefab
+        AssetReference:
+          m_AssetGUID: 7700c78013f8be44889d6b732881344d
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep4.prefab
+        AssetReference:
+          m_AssetGUID: 903e3148f82bdbe43aaa1518155eb417
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep5.prefab
+        AssetReference:
+          m_AssetGUID: 80f8d9e1e20befc43bd491834a4a4eaa
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 5
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep1.prefab
+        AssetReference:
+          m_AssetGUID: d1fc88b0e2e9c6949a02478be085b868
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep2.prefab
+        AssetReference:
+          m_AssetGUID: 980a8d00c5afaf74baa2a406cb79305f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep3.prefab
+        AssetReference:
+          m_AssetGUID: 7700c78013f8be44889d6b732881344d
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep4.prefab
+        AssetReference:
+          m_AssetGUID: 903e3148f82bdbe43aaa1518155eb417
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep5.prefab
+        AssetReference:
+          m_AssetGUID: 80f8d9e1e20befc43bd491834a4a4eaa
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 6
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep1.prefab
+        AssetReference:
+          m_AssetGUID: d1fc88b0e2e9c6949a02478be085b868
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep2.prefab
+        AssetReference:
+          m_AssetGUID: 980a8d00c5afaf74baa2a406cb79305f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep3.prefab
+        AssetReference:
+          m_AssetGUID: 7700c78013f8be44889d6b732881344d
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep4.prefab
+        AssetReference:
+          m_AssetGUID: 903e3148f82bdbe43aaa1518155eb417
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep5.prefab
+        AssetReference:
+          m_AssetGUID: 80f8d9e1e20befc43bd491834a4a4eaa
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 7
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep1.prefab
+        AssetReference:
+          m_AssetGUID: d1fc88b0e2e9c6949a02478be085b868
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep2.prefab
+        AssetReference:
+          m_AssetGUID: 980a8d00c5afaf74baa2a406cb79305f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep3.prefab
+        AssetReference:
+          m_AssetGUID: 7700c78013f8be44889d6b732881344d
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep4.prefab
+        AssetReference:
+          m_AssetGUID: 903e3148f82bdbe43aaa1518155eb417
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/hardsuit/suitstep5.prefab
+        AssetReference:
+          m_AssetGUID: 80f8d9e1e20befc43bd491834a4a4eaa
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 8
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava1.prefab
+        AssetReference:
+          m_AssetGUID: eec2676b40225ab42b1849b28ec7e06b
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava2.prefab
+        AssetReference:
+          m_AssetGUID: 6b2aaa55d1226c5448396370d0925248
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava3.prefab
+        AssetReference:
+          m_AssetGUID: e1bfc25cffe9b4044a45cbc2aaf59162
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 9
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water1.prefab
+        AssetReference:
+          m_AssetGUID: 1449d9f9613c6744ba0fab564ca2b64f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water2.prefab
+        AssetReference:
+          m_AssetGUID: 2194fe77eb1f48a4e98d65f9b5a7c3fe
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water3.prefab
+        AssetReference:
+          m_AssetGUID: bfac5ce2618953c4db1821af242e12e8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water4.prefab
+        AssetReference:
+          m_AssetGUID: d507384b20a01a342a12ebc12cda23c9
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 10
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+  - StepType: 5
+    FloorTileTypes:
+    - FloorTileType: 0
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy1.prefab
+        AssetReference:
+          m_AssetGUID: f8ce6a03e0467524c8623fe5a32ebf81
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy2.prefab
+        AssetReference:
+          m_AssetGUID: 7a23afdd96bdac445b362227446971ae
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 1
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy1.prefab
+        AssetReference:
+          m_AssetGUID: f8ce6a03e0467524c8623fe5a32ebf81
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy2.prefab
+        AssetReference:
+          m_AssetGUID: 7a23afdd96bdac445b362227446971ae
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 2
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy1.prefab
+        AssetReference:
+          m_AssetGUID: f8ce6a03e0467524c8623fe5a32ebf81
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy2.prefab
+        AssetReference:
+          m_AssetGUID: 7a23afdd96bdac445b362227446971ae
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 3
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy1.prefab
+        AssetReference:
+          m_AssetGUID: f8ce6a03e0467524c8623fe5a32ebf81
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy2.prefab
+        AssetReference:
+          m_AssetGUID: 7a23afdd96bdac445b362227446971ae
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 4
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy1.prefab
+        AssetReference:
+          m_AssetGUID: f8ce6a03e0467524c8623fe5a32ebf81
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy2.prefab
+        AssetReference:
+          m_AssetGUID: 7a23afdd96bdac445b362227446971ae
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 5
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy2.prefab
+        AssetReference:
+          m_AssetGUID: 7a23afdd96bdac445b362227446971ae
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy2.prefab
+        AssetReference:
+          m_AssetGUID: 7a23afdd96bdac445b362227446971ae
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 6
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy1.prefab
+        AssetReference:
+          m_AssetGUID: f8ce6a03e0467524c8623fe5a32ebf81
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy2.prefab
+        AssetReference:
+          m_AssetGUID: 7a23afdd96bdac445b362227446971ae
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 7
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy1.prefab
+        AssetReference:
+          m_AssetGUID: f8ce6a03e0467524c8623fe5a32ebf81
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/heavy/heavy2.prefab
+        AssetReference:
+          m_AssetGUID: 7a23afdd96bdac445b362227446971ae
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 8
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava1.prefab
+        AssetReference:
+          m_AssetGUID: eec2676b40225ab42b1849b28ec7e06b
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava2.prefab
+        AssetReference:
+          m_AssetGUID: 6b2aaa55d1226c5448396370d0925248
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/lava/lava3.prefab
+        AssetReference:
+          m_AssetGUID: e1bfc25cffe9b4044a45cbc2aaf59162
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 9
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water1.prefab
+        AssetReference:
+          m_AssetGUID: 1449d9f9613c6744ba0fab564ca2b64f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water2.prefab
+        AssetReference:
+          m_AssetGUID: 2194fe77eb1f48a4e98d65f9b5a7c3fe
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water3.prefab
+        AssetReference:
+          m_AssetGUID: bfac5ce2618953c4db1821af242e12e8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water4.prefab
+        AssetReference:
+          m_AssetGUID: d507384b20a01a342a12ebc12cda23c9
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 10
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+  - StepType: 6
+    FloorTileTypes:
+    - FloorTileType: 0
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 1
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 2
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 3
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 4
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 5
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 6
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 7
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 8
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 9
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water1.prefab
+        AssetReference:
+          m_AssetGUID: 1449d9f9613c6744ba0fab564ca2b64f
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water2.prefab
+        AssetReference:
+          m_AssetGUID: 2194fe77eb1f48a4e98d65f9b5a7c3fe
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water3.prefab
+        AssetReference:
+          m_AssetGUID: bfac5ce2618953c4db1821af242e12e8
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/water/water4.prefab
+        AssetReference:
+          m_AssetGUID: d507384b20a01a342a12ebc12cda23c9
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+    - FloorTileType: 10
+      AddressableAudioSources:
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep1.prefab
+        AssetReference:
+          m_AssetGUID: 022468a1573d74e41bdfaccd11500037
+          m_SubObjectName: 
+        Asset: {fileID: 0}
+      - SetLoadSetting: 0
+        Path: Assets/Sounds/Prefabs/footsteps/clownstep/clownstep2.prefab
+        AssetReference:
+          m_AssetGUID: 6ac36ce116f7a0f4798c96e684a9d10c
+          m_SubObjectName: 
+        Asset: {fileID: 0}
