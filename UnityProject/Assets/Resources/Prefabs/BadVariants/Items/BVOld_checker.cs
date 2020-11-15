@@ -166,42 +166,48 @@ public class BVOld_checker : MonoBehaviour
 
 		var shuttleConsole = gameObject.GetComponent<ShuttleConsole>();
 		var newshuttleConsole = newObject.GetComponent<ShuttleConsole>();
-		if (shuttleConsole != null)
+		if (shuttleConsole && newshuttleConsole)
 		{
 			newshuttleConsole.ShuttleMatrixMove = shuttleConsole.ShuttleMatrixMove;
 		}
 
 		var fireLock = gameObject.GetComponent<FireLock>();
 		var newfireLock = newObject.GetComponent<FireLock>();
-		if (fireLock != null)
+		if (fireLock && newfireLock)
 		{
 			newfireLock.fireAlarm = fireLock.fireAlarm;
-			fireLock.fireAlarm.FireLockList.Remove(fireLock);
-			fireLock.fireAlarm.FireLockList.Add(newfireLock);
+			if (fireLock.fireAlarm)
+			{
+				fireLock.fireAlarm.FireLockList.Remove(fireLock);
+				fireLock.fireAlarm.FireLockList.Add(newfireLock);
+			}
 		}
 
 		var fireAlarm = gameObject.GetComponent<FireAlarm>();
 		var newfireAlarm = newObject.GetComponent<FireAlarm>();
-		if (fireAlarm != null)
+		if (fireAlarm && newfireAlarm)
 		{
 			foreach (var linkedFireLock in fireAlarm.FireLockList)
 			{
-				newfireAlarm.FireLockList.Add(linkedFireLock);
-				linkedFireLock.fireAlarm = newfireAlarm;
+				if (linkedFireLock != null)
+				{
+					newfireAlarm.FireLockList.Add(linkedFireLock);
+					linkedFireLock.fireAlarm = newfireAlarm;
+				}
 			}
 
 		}
 
 		var mouseDraggable = gameObject.GetComponent<MouseDraggable>();
 		var newmouseDraggable = newObject.GetComponent<MouseDraggable>();
-		if (mouseDraggable != null && newmouseDraggable != null)
+		if (mouseDraggable && newmouseDraggable)
 		{
 			newmouseDraggable.shadow = mouseDraggable.shadow;
 		}
 
 		var customNetTransform = gameObject.GetComponent<CustomNetTransform>();
 		var newcustomNetTransform = newObject.GetComponent<CustomNetTransform>();
-		if (customNetTransform != null)
+		if (customNetTransform && newcustomNetTransform)
 		{
 			newcustomNetTransform.snapToGridOnStart = customNetTransform.snapToGridOnStart;
 		}
@@ -209,7 +215,7 @@ public class BVOld_checker : MonoBehaviour
 		var apcPoweredDevice = gameObject.GetComponent<APCPoweredDevice>();
 		var newLightPoweredDevice = newObject.GetComponent<APCPoweredDevice>();
 
-		if (apcPoweredDevice != null)
+		if (apcPoweredDevice && newLightPoweredDevice)
 		{
 			newLightPoweredDevice.AdvancedControlToScript = apcPoweredDevice.AdvancedControlToScript;
 			if (apcPoweredDevice.IsSelfPowered)
@@ -228,7 +234,7 @@ public class BVOld_checker : MonoBehaviour
 
 			var lightSource = gameObject.GetComponent<LightSource>();
 			var newLightSource = newObject.GetComponent<LightSource>();
-			if (lightSource != null)
+			if (lightSource && newLightSource)
 			{
 				if (lightSource.isWithoutSwitch)
 					newLightSource.isWithoutSwitch = true;
@@ -247,22 +253,26 @@ public class BVOld_checker : MonoBehaviour
 
 		var apc = gameObject.GetComponent<Objects.Engineering.APC>();
 		var newAPC = newObject.GetComponent<Objects.Engineering.APC>();
-		if (apc != null)
+		if (apc && newAPC)
 		{
 			foreach (var device in apc.ConnectedDevices)
 			{
-				newAPC.ConnectedDevices.Add(device);
-				device.RelatedAPC = newAPC;
+				if (device != null)
+				{
+					newAPC.ConnectedDevices.Add(device);
+					device.RelatedAPC = newAPC;
+				}
 			}
 			foreach (var battery in apc.ConnectedDepartmentBatteries)
 			{
-				newAPC.ConnectedDepartmentBatteries.Add(battery);
+				if(battery != null)
+					newAPC.ConnectedDepartmentBatteries.Add(battery);
 			}
 		}
 
 		var lightSwitch = gameObject.GetComponent<LightSwitchV2>();
 		var newlightSwitch = newObject.GetComponent<LightSwitchV2>();
-		if (lightSwitch != null)
+		if (lightSwitch && newlightSwitch)
 		{
 			foreach (var light in lightSwitch.listOfLights)
 			{
@@ -276,14 +286,14 @@ public class BVOld_checker : MonoBehaviour
 
 		var directional = gameObject.GetComponent<Directional>();
 		var newDirectional = newObject.GetComponent<Directional>();
-		if (directional != null && newDirectional != null)
+		if (directional && newDirectional)
 		{
 			newDirectional.InitialDirection = directional.InitialDirection;
 			newDirectional.ChangeDirectionWithMatrix = directional.ChangeDirectionWithMatrix;
 
 			var directionalRotatesParent = gameObject.GetComponent<DirectionalRotatesParent>();
 			var newdirectionalRotatesParent = newObject.GetComponent<DirectionalRotatesParent>();
-			if (directionalRotatesParent != null)
+			if (directionalRotatesParent && newdirectionalRotatesParent)
 			{
 				newdirectionalRotatesParent.prefabChildrenOrientation = directionalRotatesParent.prefabChildrenOrientation;
 			}
@@ -291,7 +301,7 @@ public class BVOld_checker : MonoBehaviour
 
 		var closetControl = gameObject.GetComponent<ClosetControl>();
 		var newclosetControl = newObject.GetComponent<ClosetControl>();
-		if (closetControl != null)
+		if (closetControl && newclosetControl)
 		{
 			newclosetControl.initialContents = closetControl.initialContents;
 			newclosetControl.IsLockable = closetControl.IsLockable;
@@ -299,18 +309,18 @@ public class BVOld_checker : MonoBehaviour
 
 		var registerDoor = gameObject.GetComponent<RegisterDoor>();
 		var newregisterDoor = newObject.GetComponent<RegisterDoor>();
-		if (registerDoor != null)
+		if (registerDoor && newregisterDoor)
 		{
 			newregisterDoor.IsClosed = registerDoor.IsClosed;
 		}
 
 		var doorController = gameObject.GetComponent<DoorController>();
 		var newDoorController = newObject.GetComponent<DoorController>();
-		if (doorController != null)
+		if (doorController && newDoorController)
 		{
 			newDoorController.connectedDoorSwitch = doorController.connectedDoorSwitch;
 			newDoorController.ignorePassableChecks = doorController.ignorePassableChecks;
-			if (newDoorController.connectedDoorSwitch != null)
+			if (newDoorController.connectedDoorSwitch)
 			{
 				newDoorController.connectedDoorSwitch.DoorControllers.Remove(doorController);
 				newDoorController.connectedDoorSwitch.DoorControllers.Add(newDoorController);
@@ -319,7 +329,7 @@ public class BVOld_checker : MonoBehaviour
 
 		var doorSwitch = gameObject.GetComponent<DoorSwitch>();
 		var newdoorSwitch = newObject.GetComponent<DoorSwitch>();
-		if (doorSwitch != null)
+		if (doorSwitch && newdoorSwitch)
 		{
 			newdoorSwitch.restricted = doorSwitch.restricted;
 			newdoorSwitch.access = doorSwitch.access;
@@ -332,14 +342,14 @@ public class BVOld_checker : MonoBehaviour
 
 		var accessRestriction = gameObject.GetComponent<AccessRestrictions>();
 		var newaccessRestriction = newObject.GetComponent<AccessRestrictions>();
-		if (accessRestriction != null)
+		if (accessRestriction && newaccessRestriction)
 		{
 			newaccessRestriction.restriction = accessRestriction.restriction;
 		}
 
 		var objectAttributes = gameObject.GetComponent<ObjectAttributes>();
 		var newObjectAttributes = newObject.GetComponent<ObjectAttributes>();
-		if(objectAttributes != null && newObjectAttributes != null)
+		if(objectAttributes && newObjectAttributes)
 		{
 			newObjectAttributes.initialName = objectAttributes.InitialName;
 			newObjectAttributes.initialDescription = objectAttributes.InitialDescription;
@@ -347,7 +357,7 @@ public class BVOld_checker : MonoBehaviour
 
 		var generalSwitch = gameObject.GetComponent<GeneralSwitch>();
 		var newgeneralSwitch = newObject.GetComponent<GeneralSwitch>();
-		if (generalSwitch != null)
+		if (generalSwitch && newgeneralSwitch)
 		{
 			foreach (var controlledObject in generalSwitch.generalSwitchControllers)
 			{
@@ -357,7 +367,7 @@ public class BVOld_checker : MonoBehaviour
 
 		var vendor = gameObject.GetComponent<Vendor>();
 		var newvendor = newObject.GetComponent<Vendor>();
-		if (vendor != null)
+		if (vendor && newvendor)
 		{
 			newvendor.EjectDirection = vendor.EjectDirection;
 			newvendor.EjectObjects = vendor.EjectObjects;
@@ -366,7 +376,7 @@ public class BVOld_checker : MonoBehaviour
 
 		var integrity = gameObject.GetComponent<Integrity>();
 		var newIntegrity = newObject.GetComponent<Integrity>();
-		if (integrity)
+		if (integrity && newIntegrity)
 		{
 			newIntegrity.Armor.Melee = integrity.Armor.Melee;
 			newIntegrity.Armor.Bomb = integrity.Armor.Bomb;
