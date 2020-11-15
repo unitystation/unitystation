@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Systems.Electricity;
 using Doors;
 using Lighting;
@@ -99,7 +100,7 @@ public class BVOld_checker : MonoBehaviour
 
 		//Before replacing this object we have to make sure we know all the changes that it contains inside the map
 		var propertyModifications = PrefabUtility.GetPropertyModifications(gameObject).ToList();
-		var reportString = "";
+		StringBuilder bld = new StringBuilder();
 		foreach (var modification in propertyModifications)
 		{
 			var stringList = new List<string>()
@@ -133,16 +134,15 @@ public class BVOld_checker : MonoBehaviour
 				}
 				specialModification = true;
 			}
-
 			if (specialModification)
 			{
-				reportString += $"//{modification.propertyPath}//";
+				bld.Append($"//{modification.propertyPath}//");
 			}
 		}
 
-		if (reportString != "")
+		if (bld.Length > 0)
 		{
-			Debug.Log($"{gameObject.name} has an unsupported custom change: {reportString}");
+			Debug.Log($"{gameObject.name} has an unsupported custom change: {bld}");
 			return;
 		}
 
