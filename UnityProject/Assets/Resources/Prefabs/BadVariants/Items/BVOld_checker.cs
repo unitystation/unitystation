@@ -71,6 +71,12 @@ public class BVOld_checker : MonoBehaviour
 		BVOld_checker[] components = FindObjectsOfType<BVOld_checker>();
 		foreach (var bvoChecker in components)
 		{
+			var doWeHaveTwo = bvoChecker.GetComponents<BVOld_checker>();
+			if (doWeHaveTwo.Length > 1)
+			{
+				Debug.Log($"Two BVOld_checker detected in {bvoChecker.gameObject.name}");
+				continue;
+			}
 			bvoChecker.RunReplacer(onlyPrintDebugLogs);
 		}
 
@@ -113,7 +119,7 @@ public class BVOld_checker : MonoBehaviour
 				"SelfDestruct", "FireLockList", "fireAlarm", "channel", "onEditorDirectionChange", "direction", "ShuttleMatrixMove", "InitialState", "Armor.Melee", "Armor.Bomb", "IsOpened",
 				"OneDirectionRestricted", "EncryptionKey", "IsAutomatic", "IncludeAccessDenied", "initialReagentMix", "m_UsedByEffector", "DoesntRequirePower", "isOn", "PowerCut",
 				"MinDistance", "MaxDistance", "butcherResults", "State", "TriggeringObjects", "IsFixedMatrix", "isWindowedDoor", "Current", "EncryptionKey", "radius", "m_Flip",
-				"Down", "Left", "Up", "Right", "IsLockable", "m_Color"
+				"Down", "Left", "Up", "Right", "IsLockable", "m_Color", "onlyPrintDebugLogs"
 
 
 			};
@@ -188,7 +194,7 @@ public class BVOld_checker : MonoBehaviour
 
 		var mouseDraggable = gameObject.GetComponent<MouseDraggable>();
 		var newmouseDraggable = newObject.GetComponent<MouseDraggable>();
-		if (mouseDraggable != null)
+		if (mouseDraggable != null && newmouseDraggable != null)
 		{
 			newmouseDraggable.shadow = mouseDraggable.shadow;
 		}
@@ -270,9 +276,8 @@ public class BVOld_checker : MonoBehaviour
 
 		var directional = gameObject.GetComponent<Directional>();
 		var newDirectional = newObject.GetComponent<Directional>();
-		if (directional != null)
+		if (directional != null && newDirectional != null)
 		{
-
 			newDirectional.InitialDirection = directional.InitialDirection;
 			newDirectional.ChangeDirectionWithMatrix = directional.ChangeDirectionWithMatrix;
 
@@ -334,7 +339,7 @@ public class BVOld_checker : MonoBehaviour
 
 		var objectAttributes = gameObject.GetComponent<ObjectAttributes>();
 		var newObjectAttributes = newObject.GetComponent<ObjectAttributes>();
-		if(objectAttributes != null)
+		if(objectAttributes != null && newObjectAttributes != null)
 		{
 			newObjectAttributes.initialName = objectAttributes.InitialName;
 			newObjectAttributes.initialDescription = objectAttributes.InitialDescription;

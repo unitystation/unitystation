@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 0}
 --- !u!1001 &6002652729236543633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -138,7 +141,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: BVOldCompact_Combat_Shotgun_Ballistic
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 8aa9c1617fcf44905b26d836feca524f, type: 3}
 --- !u!1 &2618338097683306550 stripped
 GameObject:

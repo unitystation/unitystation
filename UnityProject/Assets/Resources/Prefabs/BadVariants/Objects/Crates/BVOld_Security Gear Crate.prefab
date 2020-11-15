@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5158516142822041439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9073449133375561819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7457402688169680230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89,6 +77,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: BVOld_Security Gear Crate
       objectReference: {fileID: 0}
+    - target: {fileID: 3809108981937397978, guid: d059b46ee78dde84b963769ba89d24cc,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 8898622964154730421, guid: 2ddd540cb32301549aa9c9be8616f5d6,
+        type: 3}
     - target: {fileID: 5717013532534068480, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
       propertyPath: m_Sprite
@@ -116,11 +110,6 @@ PrefabInstance:
       propertyPath: exportName
       value: Security Gear Crate
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: d059b46ee78dde84b963769ba89d24cc, type: 3}
---- !u!1 &9073449133375561819 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1915535976018001213, guid: d059b46ee78dde84b963769ba89d24cc,
-    type: 3}
-  m_PrefabInstance: {fileID: 7457402688169680230}
-  m_PrefabAsset: {fileID: 0}

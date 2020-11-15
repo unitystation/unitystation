@@ -14,18 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &7523856587962869102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20384307089368758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6680040381946182821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33,6 +21,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5105268294874282972, guid: 45d5212210f77468d9d791c1f922bdc6,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 8560762587041295364, guid: a8b7436d80686f9448b83d34621b9e6d,
+        type: 3}
     - target: {fileID: 6696760418087675751, guid: 45d5212210f77468d9d791c1f922bdc6,
         type: 3}
       propertyPath: m_LocalPosition.x

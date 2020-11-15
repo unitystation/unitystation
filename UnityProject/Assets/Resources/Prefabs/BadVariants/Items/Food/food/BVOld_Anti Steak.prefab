@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 0}
 --- !u!1001 &5644599335221489733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122,7 +125,8 @@ PrefabInstance:
       propertyPath: NutrientsHealAmount
       value: -50
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
 --- !u!1 &1509451577185357509 stripped
 GameObject:

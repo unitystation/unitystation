@@ -19,18 +19,6 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   SpriteDataSO: []
---- !u!114 &-2717201804522401369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 833599923311740508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7826540942288047628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,6 +97,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 281b21add084733448db245b3d4c8070,
         type: 2}
+    - target: {fileID: 4438619546122266027, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 3814654046910142495, guid: ab8d1f5a3e841a043bc60cdf2f5d9495,
+        type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialTraits.Array.size
