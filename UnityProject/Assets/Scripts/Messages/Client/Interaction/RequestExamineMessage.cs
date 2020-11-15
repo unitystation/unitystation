@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Assets.Scripts.Player;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
@@ -42,21 +43,27 @@ public class RequestExamineMessage : ClientMessage
 		for (int i = 0; i < examinables.Length; i++)
 		{
 			examinable = examinables[i];
-
-			var examinableMsg = examinable.Examine(mousePosition);
-			if (string.IsNullOrEmpty(examinableMsg))
-				continue;
-
-			msg += examinableMsg;
-
-			if (i != examinables.Length - 1)
+			// don't send text message target is player - instead send PlayerExaminationMessage
+			if (examinable is ExaminablePlayer examinablePlayer)
+				examinablePlayer.Examine(SentByPlayer.GameObject);
+			else
 			{
-				msg += "\n";
+				var examinableMsg = examinable.Examine(mousePosition);
+				if (string.IsNullOrEmpty(examinableMsg))
+					continue;
+
+				msg += examinableMsg;
+
+				if (i != examinables.Length - 1)
+				{
+					msg += "\n";
+				}
 			}
 		}
 
 		// Send the message.
-		Chat.AddExamineMsgFromServer(SentByPlayer.GameObject, msg);
+		if (msg.Length > 0)
+			Chat.AddExamineMsgFromServer(SentByPlayer.GameObject, msg);
 	}
 
 	public static void Send(uint targetNetId)
@@ -78,4 +85,3 @@ public class RequestExamineMessage : ClientMessage
 		msg.Send();
 	}
 }
-

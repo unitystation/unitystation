@@ -102,7 +102,7 @@ public partial class Chat : MonoBehaviour
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
 			speaker = (player == null) ? sentByPlayer.Username : player.name,
-			position = (player == null) ? TransformState.HiddenPos : player.WorldPos,
+			position = (player == null) ? TransformState.HiddenPos : player.gameObject.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByPlayer.GameObject
 		};
@@ -248,7 +248,7 @@ public partial class Chat : MonoBehaviour
 			speaker = originator.name,
 			message = originatorMessage,
 			messageOthers = othersMessage,
-			position = originator.WorldPosServer(),
+			position = originator.AssumedWorldPosServer(),
 			originator = originator
 		});
 	}
@@ -281,7 +281,7 @@ public partial class Chat : MonoBehaviour
 			message = originatorMsg,
 			messageOthers = othersMsg,
 			speaker = originator.name,
-			position = originator.WorldPosServer(),
+			position = originator.AssumedWorldPosServer(),
 			originator = originator
 		});
 	}
@@ -381,7 +381,7 @@ public partial class Chat : MonoBehaviour
 		var messageOthers = $"{attackerName} has {attackVerb} {victimNameOthers}{InTheZone(hitZone)}{attack}!";
 		var message = $"You {attackVerb} {victimName}{InTheZone(hitZone)}{attack}!";
 
-		var pos = attacker.WorldPosServer();
+		var pos = attacker.AssumedWorldPosServer();
 
 		if (posOverride != Vector3.zero)
 		{
@@ -417,12 +417,12 @@ public partial class Chat : MonoBehaviour
 		}
 
 		var message =
-			$"{victim.ExpensiveName()} has been hit by {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
+			$"{victim.ExpensiveName()} has been hit by a {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
 			message = message,
-			position = victim.WorldPosServer(),
+			position = victim.AssumedWorldPosServer(),
 			originator = victim
 		});
 	}
@@ -434,14 +434,14 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message"></param>
 	/// <param name="postfix">Common, amount agnostic postfix</param>
 	/// <param name="worldPos"></param>
-	public static void AddLocalDestroyMsgToChat(string message, string postfix, Vector2Int worldPos)
+	public static void AddLocalDestroyMsgToChat(string message, string postfix, GameObject destroyedObject)
 	{
 		if (!messageQueueDict.ContainsKey(postfix))
 		{
 			messageQueueDict.Add(postfix, new UniqueQueue<DestroyChatMessage>());
 		}
 
-		messageQueueDict[postfix].Enqueue(new DestroyChatMessage { Message = message, WorldPosition = worldPos });
+		messageQueueDict[postfix].Enqueue(new DestroyChatMessage { Message = message, WorldPosition = destroyedObject.AssumedWorldPosServer() });
 
 		if (composeMessageHandle == null)
 		{
@@ -479,10 +479,9 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="originator">The object (i.e. vending machine) that said message</param>
-	public static void AddLocalMsgToChat(string message, GameObject originator)
+	public static void AddLocalMsgToChat(string message, GameObject originator, string speakerName = null)
 	{
-		if (!IsServer()) return;
-		AddLocalMsgToChat(message, originator.WorldPosServer(), originator);
+		AddLocalMsgToChat(message, originator.AssumedWorldPosServer(), originator, speakerName);
 	}
 
 	/// <summary>
@@ -495,6 +494,18 @@ public partial class Chat : MonoBehaviour
 	{
 		if (!IsServer()) return;
 		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg);
+	}
+
+	/// <inheritdoc cref="AddExamineMsgFromServer(GameObject, string)"/>
+	public static void AddExamineMsgFromServer(ConnectedPlayer recipient, string msg)
+	{
+		if (recipient == null || recipient.Equals(ConnectedPlayer.Invalid))
+		{
+			Logger.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
+			return;
+		}
+
+		AddExamineMsgFromServer(recipient.GameObject, msg);
 	}
 
 	/// <summary>

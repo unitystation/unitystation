@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionType: 1
   activeSpriteIndex: 1
-  callOnClient: 1
+  callOnClient: 0
   callOnServer: 1
   actionName: Fireball
   description: This spell fires an explosive fireball at a target.
@@ -32,20 +32,22 @@ MonoBehaviour:
   cursorOffset: {x: 16, y: 16}
   spellImplementation: {fileID: 7469762742606550612, guid: 3d671a1669b7fc344b720f8b6456eea7,
     type: 3}
-  stillRechargingMessage: The spell is still recharging!
   chargeType: 0
   cooldownTime: 6
   startingCharges: 10
+  castSound: Fireball
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 2
+  invocationMessage: ONI'SOMA!
+  invocationMessageSelf: 
   summonType: 0
   summonObjects: []
   summonTiles: []
   summonPosition: 1
   summonLifespan: 10
-  affectedMessage: 
-  castSound: Fireball
-  invocationType: 2
-  invocationMessage: ONI'SOMA!
-  range: 0
-  invocationMessageSelf: 
   replaceExisting: 0
   requireWizardGarb: 0
+  tierCount: 5
+  cooldownModifierPC: 15

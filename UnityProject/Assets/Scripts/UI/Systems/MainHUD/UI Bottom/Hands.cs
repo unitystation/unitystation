@@ -1,12 +1,35 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
+// TODO: check if hands are dismembered
 public class Hands : MonoBehaviour
 {
-	public Transform selector;
-	public RectTransform selectorRect;
-	public Transform rightHand;
-	public Transform leftHand;
+	[Header("Gameobject references")]
+	/// <summary>
+	/// active when left hand is used
+	/// </summary>
+	public GameObject leftHandSelector;
+	/// <summary>
+	/// active when right hand is used
+	/// </summary>
+	public GameObject rightHandSelector;
+	[SerializeField] private Image leftHandImage;
+	[SerializeField] private Image rightHandImage;
+	[SerializeField] private RectTransform handsArrowRectR;
+	[SerializeField] private RectTransform handsArrowRectL;
+	// public Transform rightHand;
+	// public Transform leftHand;
+
+	[Header("Asset references")]
+	/// <summary>
+	/// sprite that will be displayed in leftHandImage or rightHandImage (depending on which hand is used) when hand is used
+	/// </summary>
+	[SerializeField] private Sprite usedHandSprite;
+	/// <summary>
+	/// sprite that will be displayed in leftHandImage or rightHandImage (depending on which hand is used) when hand isn't used
+	/// </summary>
+	[SerializeField] private Sprite unusedHandSprite;
 	/// <summary>
 	/// Active slot
 	/// </summary>
@@ -23,6 +46,7 @@ public class Hands : MonoBehaviour
 	/// True iff right hand is active hand
 	/// </summary>
 	public bool IsRight { get; private set; }
+	public bool UsingBothHands { get; private set; }
 	public bool hasSwitchedHands;
 
 	private void Start()
@@ -51,31 +75,94 @@ public class Hands : MonoBehaviour
 		{
 			if (right)
 			{
-				if (right != IsRight)
+				if (right != IsRight || UsingBothHands)
 				{
 					hasSwitchedHands = true;
 				}
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(NamedSlot.rightHand);
 				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = NamedSlot.rightHand;
-				selector.SetParent(rightHand, false);
+
+				rightHandImage.sprite = usedHandSprite;
+				leftHandImage.sprite = unusedHandSprite;
 			}
 			else
 			{
-				if (right != IsRight)
+				if (right != IsRight || UsingBothHands)
 				{
 					hasSwitchedHands = true;
 				}
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(NamedSlot.leftHand);
 				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = NamedSlot.leftHand;
-				selector.SetParent(leftHand, false);
+
+				rightHandImage.sprite = unusedHandSprite;
+				leftHandImage.sprite = usedHandSprite;
+			}
+			
+			// If player was using both hands - flip images back
+			if (UsingBothHands)
+			{
+				UsingBothHands = false;
+				FlipHandsNArrows();
 			}
 
+			// activate correct selector
+			rightHandSelector.SetActive(right);
+			leftHandSelector.SetActive(!right);
+
 			IsRight = right;
-			var pos = selectorRect.anchoredPosition;
-			pos.x = 0f;
-			selectorRect.anchoredPosition = pos;
-			selector.SetAsFirstSibling();
 		}
+	}
+
+	/// <summary>
+	/// OnClick listener for "use_both_hands_button"
+	/// </summary>
+	public void UseBothHands()
+	{
+		if (isValidPlayer())
+		{
+			UsingBothHands = !UsingBothHands;
+			if (UsingBothHands)
+			{
+				hasSwitchedHands = true;
+
+				FlipHandsNArrows();
+
+				// TODO: use 2 hands
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(NamedSlot.rightHand);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = NamedSlot.rightHand;
+
+				rightHandImage.sprite = usedHandSprite;
+				leftHandImage.sprite = usedHandSprite;
+
+				// activate correct selector
+				rightHandSelector.SetActive(UsingBothHands);
+				leftHandSelector.SetActive(UsingBothHands);
+			}
+			else
+			{
+				FlipHandsNArrows();
+				SetHand(IsRight);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Flip hand & hand arrow sprites
+	/// </summary>
+	private void FlipHandsNArrows()
+	{
+		Vector3 localScaleRight = rightHandImage.transform.localScale;
+		Vector3 localScaleLeft = leftHandImage.transform.localScale;
+
+		int mult = UsingBothHands ? 1 : -1;
+		// flip hands
+		rightHandImage.transform.localScale = new Vector3(mult * -Mathf.Abs(localScaleRight.x), localScaleRight.y, localScaleRight.z);
+		leftHandImage.transform.localScale = new Vector3(mult * Mathf.Abs(localScaleLeft.x), localScaleLeft.y, localScaleLeft.z);
+
+		// flip arrows
+		Vector3 arrowScale = new Vector3(mult * -Mathf.Abs(handsArrowRectR.localScale.x), handsArrowRectR.localScale.y, handsArrowRectR.localScale.z);
+		handsArrowRectL.localScale = arrowScale;
+		handsArrowRectR.localScale = arrowScale;
 	}
 
 	/// <summary>
@@ -89,7 +176,7 @@ public class Hands : MonoBehaviour
 			{
 				if (CurrentSlot.Item == null)
 				{
-					if(itemSlot.Item != null)
+					if (itemSlot.Item != null)
 					{
 						Inventory.ClientRequestTransfer(itemSlot.ItemSlot, CurrentSlot.ItemSlot);
 						return true;
@@ -97,7 +184,7 @@ public class Hands : MonoBehaviour
 				}
 				else
 				{
-					if(itemSlot.Item == null)
+					if (itemSlot.Item == null)
 					{
 						Inventory.ClientRequestTransfer(CurrentSlot.ItemSlot, itemSlot.ItemSlot);
 						return true;
@@ -115,7 +202,7 @@ public class Hands : MonoBehaviour
 	public void Activate()
 	{
 
-		if(!isValidPlayer())
+		if (!isValidPlayer())
 		{
 			return;
 		}
@@ -134,15 +221,14 @@ public class Hands : MonoBehaviour
 	public void Equip()
 	{
 		// Is the player allowed to interact? (not a ghost)
-		if(!isValidPlayer())
+		if (!isValidPlayer())
 		{
 			return;
 		}
 
 		// Is there an item to equip?
-		if(CurrentSlot.Item == null)
+		if (CurrentSlot.Item == null)
 		{
-			Logger.Log("!CurrentSlot.IsFull");
 			return;
 		}
 

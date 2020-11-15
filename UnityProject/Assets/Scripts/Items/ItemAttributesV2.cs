@@ -188,10 +188,9 @@ public class ItemAttributesV2 : Attributes
 		base.OnStartClient();
 	}
 
-	public override void OnSpawnServer(SpawnInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		SyncSize(size, initialSize);
-		base.OnSpawnServer(info);
 	}
 
 	#endregion Lifecycle

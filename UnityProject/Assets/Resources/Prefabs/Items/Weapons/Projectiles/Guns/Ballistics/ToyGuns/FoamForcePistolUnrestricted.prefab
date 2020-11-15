@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2631772894204804294, guid: cc4e10396fbb2f0419dc449ac6772323,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2666790930770459654, guid: cc4e10396fbb2f0419dc449ac6772323,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,7 +70,18 @@ PrefabInstance:
     - target: {fileID: 2671155854797570418, guid: cc4e10396fbb2f0419dc449ac6772323,
         type: 3}
       propertyPath: m_Name
-      value: FoamForcePistol
+      value: FoamForcePistolUnrestricted
       objectReference: {fileID: 0}
+    - target: {fileID: 3569100845156782155, guid: cc4e10396fbb2f0419dc449ac6772323,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928553733766895851, guid: cc4e10396fbb2f0419dc449ac6772323,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3c41ffc5238c6e64d8d2d4e7324abe66,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc4e10396fbb2f0419dc449ac6772323, type: 3}

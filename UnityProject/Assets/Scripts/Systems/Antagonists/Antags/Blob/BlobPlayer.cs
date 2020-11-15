@@ -747,7 +747,7 @@ namespace Blob
 
 					if (!autoExpanding)
 					{
-						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", worldPos, gameObject);
+						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
 					}
 
 					PlayAttackEffect(pos);

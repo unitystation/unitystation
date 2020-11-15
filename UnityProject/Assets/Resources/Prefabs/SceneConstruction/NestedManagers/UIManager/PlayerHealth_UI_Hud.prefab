@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -149,6 +151,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -255,6 +259,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -329,6 +335,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -374,7 +382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8810361100758709964
 RectTransform:
   m_ObjectHideFlags: 0
@@ -423,6 +431,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -531,6 +541,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -577,10 +589,10 @@ RectTransform:
   m_Father: {fileID: 6850120542485404431}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 122.82, y: -161.40001}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8121724566522154339
 MonoBehaviour:
@@ -621,6 +633,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -685,7 +699,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 0
-  image: {fileID: 0}
+  bodyPartImage: {fileID: 0}
+  damageMaskImage: {fileID: 0}
 --- !u!222 &8229765059450718089
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -709,6 +724,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -773,7 +790,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 5
-  image: {fileID: 0}
+  bodyPartImage: {fileID: 0}
+  damageMaskImage: {fileID: 0}
 --- !u!222 &8229642070851634649
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -797,6 +815,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -871,7 +891,6 @@ MonoBehaviour:
   oxygenAlert: {fileID: 8152784201530871151}
   temperatureAlert: {fileID: 7702911561610958023}
   hungerAlert: {fileID: 4075127223319410258}
-  oxygenButton: {fileID: 8121622239159964365}
   heartMonitor: {fileID: 8121562571424472627}
   bodyPartListeners:
   - {fileID: 8121640966308975201}
@@ -880,6 +899,16 @@ MonoBehaviour:
   - {fileID: 8121536647366503317}
   - {fileID: 8121399478634362141}
   - {fileID: 8122214810755754363}
+  damageMonitorColors:
+  - {r: 1, g: 1, b: 1, a: 0}
+  - {r: 0.14901961, g: 0.47058824, b: 0.14901961, a: 1}
+  - {r: 1, g: 0.6827926, b: 0, a: 1}
+  - {r: 1, g: 0.43164754, b: 0, a: 1}
+  - {r: 0.4433962, g: 0, b: 0, a: 1}
+  - {r: 0.6698113, g: 0.02850261, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  disabledBodyPartColor: {r: 0, g: 0, b: 0, a: 1}
+  destroyedBodyPartColor: {r: 1, g: 1, b: 1, a: 0}
   baseBody: {fileID: 5335150533535898624}
   alertsBox: {fileID: 8443465681814041511}
   humanUI: 0
@@ -906,6 +935,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -997,6 +1028,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1054,6 +1087,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8121743522674786263}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OxygenSelect
         m_Mode: 1
         m_Arguments:
@@ -1115,7 +1149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 2
-  image: {fileID: 0}
+  bodyPartImage: {fileID: 0}
+  damageMaskImage: {fileID: 0}
 --- !u!222 &8230265497409049339
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1139,6 +1174,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1203,7 +1240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 3
-  image: {fileID: 0}
+  bodyPartImage: {fileID: 0}
+  damageMaskImage: {fileID: 0}
 --- !u!222 &8230082097160177521
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1227,6 +1265,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1291,7 +1331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 4
-  image: {fileID: 0}
+  bodyPartImage: {fileID: 0}
+  damageMaskImage: {fileID: 0}
 --- !u!222 &8229675391376021187
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1315,6 +1356,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1379,7 +1422,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 1
-  image: {fileID: 0}
+  bodyPartImage: {fileID: 0}
+  damageMaskImage: {fileID: 0}
 --- !u!222 &8230305474068443865
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1403,6 +1447,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1434,7 +1480,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8232011286406930733
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1474,6 +1520,7 @@ MonoBehaviour:
   mjrDmgStart: 262
   overlayCrits: {fileID: 0}
   pulseImg: {fileID: 8122080334011333961}
+  bgImage: {fileID: 0}
   StatesSprites:
   - SP:
     - {fileID: 21300000, guid: f269a437687e5744bb862816188dfd27, type: 3}
@@ -1707,6 +1754,8 @@ MonoBehaviour:
     - {fileID: 21300050, guid: 7843fe07151708f4eaf8580265f77006, type: 3}
     - {fileID: 21300052, guid: 7843fe07151708f4eaf8580265f77006, type: 3}
     - {fileID: 21300054, guid: 7843fe07151708f4eaf8580265f77006, type: 3}
+  statesBgImages: []
+  criticalBlinkingTime: 0.5
 --- !u!222 &8230224773817265075
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1730,6 +1779,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1871,6 +1922,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

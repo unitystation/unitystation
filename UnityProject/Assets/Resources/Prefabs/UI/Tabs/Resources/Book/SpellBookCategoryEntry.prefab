@@ -335,6 +335,7 @@ GameObject:
   - component: {fileID: 9067825656556894261}
   - component: {fileID: 6672753809048824889}
   - component: {fileID: 458008223534699840}
+  - component: {fileID: 1444919911948742778}
   m_Layer: 0
   m_Name: SpellBookCategoryEntry
   m_TagString: Untagged
@@ -445,3 +446,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &1444919911948742778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4408045721196297002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.4627451, g: 0.33333334, b: 0.10980392, a: 1}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1

@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be48ef09efcb47f3b8d706239572ce59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visibleName: bolt
   distance: 4
   maskData: {fileID: 11400000, guid: b3e8cb63acff04f4d9bad4da9027eb40, type: 2}
 --- !u!114 &-8693131252183625486
@@ -68,6 +69,7 @@ MonoBehaviour:
   layersToHit:
     serializedVersion: 2
     m_Bits: 547314432
+  LayerTypeSelection: 22
 --- !u!114 &9003359558003690106
 MonoBehaviour:
   m_ObjectHideFlags: 0

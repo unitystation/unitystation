@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2012077503420599238}
   - component: {fileID: 1965035279695912169}
   - component: {fileID: 25109427711390098}
-  - component: {fileID: 236542306696305431}
+  - component: {fileID: 5051139916854151087}
   m_Layer: 5
   m_Name: ActivateButton
   m_TagString: Untagged
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 236542306696305431}
+      - m_Target: {fileID: 5051139916854151087}
         m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
         m_MethodName: ExecuteClient
         m_Mode: 1
@@ -149,7 +149,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &236542306696305431
+--- !u!114 &5051139916854151087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,14 +158,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 143221192669343957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3084558283647659022}
-        m_TargetAssemblyTypeName: UI.SpellBook.GUI_SpellBookSpellEntry, Assets
+        m_TargetAssemblyTypeName: UI.SpellBook.GUI_SpellBookEntry, Assets
         m_MethodName: Activate
         m_Mode: 1
         m_Arguments:
@@ -454,7 +454,7 @@ MonoBehaviour:
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Cooldown: 999'
@@ -828,6 +828,7 @@ GameObject:
   - component: {fileID: 3084558283647659022}
   - component: {fileID: 6683267918210929033}
   - component: {fileID: 3801817535997714661}
+  - component: {fileID: 5442690352943460274}
   m_Layer: 0
   m_Name: SpellBookSpellEntry
   m_TagString: Untagged
@@ -913,6 +914,7 @@ MonoBehaviour:
   descriptionLabel: {fileID: 190754550414455846}
   noteLabel: {fileID: 3638198222146601708}
   buttonLabel: {fileID: 7791914165738167608}
+  button: {fileID: 5051139916854151087}
 --- !u!114 &6683267918210929033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -953,6 +955,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &5442690352943460274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4408045721196297002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.4627451, g: 0.33333334, b: 0.10980392, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &5251043481533608920
 GameObject:
   m_ObjectHideFlags: 0

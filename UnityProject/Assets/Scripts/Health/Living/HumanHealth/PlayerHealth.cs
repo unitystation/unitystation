@@ -203,7 +203,7 @@ public class PlayerHealth : LivingHealthBehaviour
 					descriptor = "their";
 				}
 
-				Chat.AddLocalMsgToChat($"<b>{playerName}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", (Vector3)registerPlayer.WorldPositionServer, gameObject);
+				Chat.AddLocalMsgToChat($"<b>{playerName}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", gameObject);
 			}
 
 			PlayerDeathMessage.Send(gameObject);

@@ -40,7 +40,10 @@ public class GunPKA : Gun
 		CurrentMagazine.LoadProjectile(Projectile, 1);
 		if (isSuppressed)
 		{
-			Chat.AddExamineMsgFromServer(serverHolder, $"Your {gameObject.ExpensiveName()} silently recharges");
+			if (serverHolder != null)
+			{
+				Chat.AddExamineMsgFromServer(serverHolder, $"The {gameObject.ExpensiveName()} silently recharges");
+			}
 		}
 		else
 		{

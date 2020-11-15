@@ -372,13 +372,8 @@ public static class Validations
 	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
 	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
-	public static bool IsInReachDistanceByDelta(Vector3 targetVector, float interactDist = PlayerScript.interactionDistance, bool targetCanBeReachedOneExtraTile = false)
+	public static bool IsInReachDistanceByDelta(Vector3 targetVector, float interactDist = PlayerScript.interactionDistance)
 	{
-		if (targetCanBeReachedOneExtraTile)
-		{
-			interactDist += 1f;
-		}
-
 		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
 	}
 
@@ -388,10 +383,10 @@ public static class Validations
 	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
 	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
-	public static bool IsInReachDistanceByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance, bool targetCanBeReachedOneExtraTile = false)
+	public static bool IsInReachDistanceByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance)
 	{
 		var targetVector = fromWorldPos - toWorldPos;
-		return IsInReachDistanceByDelta(targetVector, interactDist: interactDist, targetCanBeReachedOneExtraTile: targetCanBeReachedOneExtraTile);
+		return IsInReachDistanceByDelta(targetVector, interactDist: interactDist);
 	}
 
 
@@ -408,10 +403,8 @@ public static class Validations
 		if (IsNotBlocked(fromWorldPos, toWorldPos, isServer: isServer, context: context))
 		{
 			Vector3Int toWorldPosInt = toWorldPos.RoundToInt();
-			bool targetIsOnWall = MatrixManager.IsWallAtAnyMatrix(toWorldPosInt, isServer);
-			bool targetIsOnWindow = MatrixManager.IsWindowAtAnyMatrix(toWorldPosInt, isServer);
-
-			return IsInReachDistanceByPositions(fromWorldPos, toWorldPos, interactDist: interactDist, targetCanBeReachedOneExtraTile: targetIsOnWall || targetIsOnWindow);
+	
+			return IsInReachDistanceByPositions(fromWorldPos, toWorldPos, interactDist: interactDist);
 		}
 
 		return false;

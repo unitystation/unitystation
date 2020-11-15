@@ -25,9 +25,13 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Transform thresholdMarkerBottom = null;
 	[SerializeField] private Transform thresholdMarkerTop = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
+	[SerializeField] private RectTransform safeArenaRect;
+
+	public RectTransform SafeArenaRect => safeArenaRect;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
+	private int selectedVoiceLevel;
 
 	/// <summary>
 	/// Latest parsed input from input field
@@ -312,6 +316,11 @@ public class ChatUI : MonoBehaviour
 		RefreshChannelPanel();
 	}
 
+	public void OnVoiceLevelChanged(float newLevel)
+	{
+		selectedVoiceLevel = Mathf.RoundToInt(newLevel);
+	}
+
 	public void OnClickSend()
 	{
 		parsedInput = Chat.ParsePlayerInput(InputFieldChat.text, chatContext);
@@ -326,6 +335,11 @@ public class ChatUI : MonoBehaviour
 
 	private void PlayerSendChat(string sendMessage)
 	{
+		if(selectedVoiceLevel == -1)
+			sendMessage = "#" + sendMessage;
+		if(selectedVoiceLevel == 1)
+			sendMessage = sendMessage.ToUpper();
+
 		// Selected channels already masks all unavailable channels in it's get method
 		chatFilter.Send(sendMessage, SelectedChannels);
 		// The filter can be skipped / replaced by calling the following method instead:
@@ -781,7 +795,7 @@ public class ChatUI : MonoBehaviour
 		UpdateInputLabel();
 	}
 
-	private ChatChannel GetAvailableChannels()
+	public ChatChannel GetAvailableChannels()
 	{
 		if (PlayerManager.LocalPlayerScript == null)
 		{

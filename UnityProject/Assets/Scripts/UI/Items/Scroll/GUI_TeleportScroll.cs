@@ -41,7 +41,7 @@ namespace UI.Scroll
 			scroll.TeleportTo(destination);
 
 			UpdateChargesCount();
-			CloseTab(); // TODO: does not close clientside.
+			ServerCloseTabFor(scroll.GetLastReader());
 		}
 
 		private void GenerateEntries()
