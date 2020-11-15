@@ -94,6 +94,7 @@ namespace Initialisation
 		ServerInfoUI,
 		CustomNetworkManager,
 		ServerInfoUILobby,
+		Addressables
 	}
 
 	public interface IInitialise
