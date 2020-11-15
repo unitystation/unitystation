@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 7190773224479098488, guid: f6b4337f71037664e83de378d446ca98,
+    type: 3}
 --- !u!114 &2737424279687211233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4939,7 +4943,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 18
+  m_SortingLayer: 19
   m_SortingOrder: 0
   m_RenderMode: 1
   m_SortMode: 0

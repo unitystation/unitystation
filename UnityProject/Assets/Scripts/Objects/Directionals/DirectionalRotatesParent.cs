@@ -12,7 +12,7 @@ public class DirectionalRotatesParent : MonoBehaviour
 {
 	[Tooltip("Direction that the children of the root of this prefab are facing in.")]
 	[SerializeField]
-	private OrientationEnum prefabChildrenOrientation = OrientationEnum.Down;
+	public OrientationEnum prefabChildrenOrientation = OrientationEnum.Down;
 
 	public OrientationEnum MappedOrientation
 	{

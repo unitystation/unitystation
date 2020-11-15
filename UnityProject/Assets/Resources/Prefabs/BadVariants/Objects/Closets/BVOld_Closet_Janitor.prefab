@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -391668011
-  m_SortingLayer: 9
+  m_SortingLayer: 7
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1b53fff83f3342a4690fe06b168f15e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -183,7 +183,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -391668011
-  m_SortingLayer: 9
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8ee5ee76aed095b45afc5f7f4f4b8a84, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -369,6 +369,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
   closetType: 0
 --- !u!114 &114301095212362376
@@ -482,6 +483,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 644452268438443875, guid: 1c994b643c4713a46b842815dd9faaf1,
+    type: 3}
 --- !u!1 &8887770509024495738
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +556,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 18
+  m_SortingLayer: 19
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 69840ffd73e1ff04d9a13ad3beb8a641, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

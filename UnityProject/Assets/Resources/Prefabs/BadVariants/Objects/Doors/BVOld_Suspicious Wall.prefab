@@ -185,6 +185,7 @@ MonoBehaviour:
   ignorePassableChecks: 0
   IsAutomatic: 0
   conType: 7
+  connectedDoorSwitch: {fileID: 0}
   isPerformingAction: 0
   isWindowedDoor: 0
   useSimpleLightAnimation: 0
@@ -421,3 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 1626197849799790230, guid: e3fb07aeead92a74091216ef8df2c338,
+    type: 3}

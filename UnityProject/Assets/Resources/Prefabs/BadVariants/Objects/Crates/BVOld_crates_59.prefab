@@ -368,6 +368,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
   closetType: 1
 --- !u!114 &114829380719981106
@@ -481,3 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 2055870341812660288, guid: 42bdfe2e83a9b184385867c7ccc527c2,
+    type: 3}

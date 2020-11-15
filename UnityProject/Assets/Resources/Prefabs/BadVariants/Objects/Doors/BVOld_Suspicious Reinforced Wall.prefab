@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2725329857805393574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7559400922104186197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8913890249428372373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,6 +93,12 @@ PrefabInstance:
       propertyPath: initialName
       value: reinforced wall
       objectReference: {fileID: 0}
+    - target: {fileID: 4318512446359757272, guid: 6758ee1e3731dd6419af3471a3e3db4c,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 2057434539693897599, guid: ad3ad861919b88a479eacc3d06e05fd5,
+        type: 3}
     - target: {fileID: 6980610262621646763, guid: 6758ee1e3731dd6419af3471a3e3db4c,
         type: 3}
       propertyPath: spritePath
@@ -117,9 +111,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6758ee1e3731dd6419af3471a3e3db4c, type: 3}
---- !u!1 &7559400922104186197 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1395021743432191680, guid: 6758ee1e3731dd6419af3471a3e3db4c,
-    type: 3}
-  m_PrefabInstance: {fileID: 8913890249428372373}
-  m_PrefabAsset: {fileID: 0}

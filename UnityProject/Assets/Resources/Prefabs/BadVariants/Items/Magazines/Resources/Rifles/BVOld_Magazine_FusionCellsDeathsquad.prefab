@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 0}
 --- !u!1001 &2011288378558049865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89,7 +92,8 @@ PrefabInstance:
       propertyPath: magazineSize
       value: 200
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7611108735335614973, guid: 65ed747e8d0f44242ba0c8eacae5e478, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 65ed747e8d0f44242ba0c8eacae5e478, type: 3}
 --- !u!1 &1271333933859612166 stripped
 GameObject:

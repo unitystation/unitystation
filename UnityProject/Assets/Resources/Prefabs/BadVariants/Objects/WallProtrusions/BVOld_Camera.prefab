@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 18
+  m_SortingLayer: 19
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300048, guid: 9a0b93c92ce12554e976d346f6bd4d48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -223,6 +223,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &114399886108331892
 MonoBehaviour:
@@ -368,3 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 6966868441258359322, guid: c21551dd992a57349973e4b5af103ca6,
+    type: 3}

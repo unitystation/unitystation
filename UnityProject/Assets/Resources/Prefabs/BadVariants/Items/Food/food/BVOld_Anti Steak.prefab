@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4397913486718984880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509451577185357509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5644599335221489733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2f2cef49a34913b45bc26400d98026c0,
         type: 2}
+    - target: {fileID: 2872286060574949022, guid: f5b3ac01c1928bf4ab03433000e00ca2,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 7376456917191928854, guid: 2f8cb9998dfedc044ae5b62918037b96,
+        type: 3}
     - target: {fileID: 6365546268732952028, guid: f5b3ac01c1928bf4ab03433000e00ca2,
         type: 3}
       propertyPath: m_Sprite
@@ -122,11 +116,6 @@ PrefabInstance:
       propertyPath: NutrientsHealAmount
       value: -50
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
---- !u!1 &1509451577185357509 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2,
-    type: 3}
-  m_PrefabInstance: {fileID: 5644599335221489733}
-  m_PrefabAsset: {fileID: 0}

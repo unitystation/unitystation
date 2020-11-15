@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 9
   m_SortingOrder: 41
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -102,6 +102,22 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+--- !u!114 &2164772793952523820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426160498802093876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 2124207949847323391, guid: f984960cf940f5242bd90a33f3c8c35a,
+    type: 3}
 --- !u!114 &3508800220695291675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,18 +144,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b1d7b1bd436fdbb4e9abbada2fa13c74, type: 3}
   - {fileID: 21300000, guid: 94d7c578ae1ded747b82b4f50359108c, type: 3}
   - {fileID: 21300000, guid: 942b263c48de8274da3e98a50884124a, type: 3}
---- !u!114 &2164772793952523820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5426160498802093876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2828652761953900756
 PrefabInstance:
   m_ObjectHideFlags: 0
