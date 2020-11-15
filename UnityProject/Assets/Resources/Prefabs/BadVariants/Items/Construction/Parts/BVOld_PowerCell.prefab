@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7615201495219832387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2527188313238870147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+    type: 3}
 --- !u!114 &8088796813384842390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,18 +31,6 @@ MonoBehaviour:
   Watts: 90000
   MaxWatts: 90000
   InternalResistance: 240
---- !u!114 &7615201495219832387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2527188313238870147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3836882353491758496
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +101,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 9
   m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: 2b929a4cd34be4f478dd7ba2c83e5090, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

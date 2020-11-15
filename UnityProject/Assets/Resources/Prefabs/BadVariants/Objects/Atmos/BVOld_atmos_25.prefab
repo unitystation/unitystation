@@ -125,6 +125,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &114179000841655036
 MonoBehaviour:
@@ -232,6 +233,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 5694824375743189310, guid: fc22382b9c8128544a03bb441fd8ad6f,
+    type: 3}
 --- !u!1 &1842100756337960
 GameObject:
   m_ObjectHideFlags: 0
