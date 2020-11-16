@@ -212,6 +212,16 @@ PrefabInstance:
       propertyPath: EffectTimeout
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 6004809496483065080, guid: c86f63f8057a7394b86caf74c060ba96,
+        type: 3}
+      propertyPath: ForceTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6004809496483065080, guid: c86f63f8057a7394b86caf74c060ba96,
+        type: 3}
+      propertyPath: ForcedTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c86f63f8057a7394b86caf74c060ba96, type: 3}
 --- !u!1 &3178852600329845549 stripped
