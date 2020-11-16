@@ -34,7 +34,7 @@ public class TelepaticArtifactEffect : ArtifactEffect
 
 	private void IndocrinateMessageArea()
 	{
-		// get effect shape around player
+		// get effect shape around artifact
 		var objCenter = gameObject.AssumedWorldPosServer().RoundToInt();
 		var shape = EffectShape.CreateEffectShape(EffectShapeType.Square, objCenter, auraRadius);
 
