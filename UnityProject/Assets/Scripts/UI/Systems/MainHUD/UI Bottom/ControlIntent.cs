@@ -12,6 +12,10 @@ public enum Intent
 
 public class ControlIntent : TooltipMonoBehaviour
 {
+
+	public Sprite[] sprites;
+	[SerializeField] private Image thisImg;
+
 	public override string Tooltip => "intent";
 
 	[Header("GameObject references")]
@@ -92,10 +96,10 @@ public class ControlIntent : TooltipMonoBehaviour
 	{
 		Logger.Log("OnClickRunWalk", Category.UI);
 		SoundManager.Play("Click01");
-		
+
 		running = !running;
 		runWalkBorder.SetActive(running);
-		
+
 		Chat.AddExamineMsgToClient(running ? startRunningMessage : startWalkingMessage);
 	}
 
@@ -145,14 +149,28 @@ public class ControlIntent : TooltipMonoBehaviour
 		//if (thisImg != null) thisImg.sprite = sprites[intent];
 	}
 
+
+	//OnClick method
+	//The selected intent can be passed from a button in the UI
+	public void IntentButton(int selectedIntent)
+	{
+		Logger.Log("Intent Button", Category.UI);
+
+		SoundManager.Play("Click01");
+
+		UIManager.CurrentIntent = (Intent) selectedIntent;
+
+		thisImg.sprite = sprites[selectedIntent];
+	}
+
 	//Hotkey method
 	public void SetIntent(Intent intent)
 	{
 		UIManager.CurrentIntent = intent;
 
-		// if (thisImg != null)
-		// {
-		// 	thisImg.sprite = sprites[(int)intent];
-		// }
+		if (thisImg != null)
+		{
+		 	thisImg.sprite = sprites[(int)intent];
+		}
 	}
 }

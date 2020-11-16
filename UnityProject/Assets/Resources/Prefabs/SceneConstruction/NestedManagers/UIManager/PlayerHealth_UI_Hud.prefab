@@ -904,11 +904,11 @@ MonoBehaviour:
   - {r: 0.14901961, g: 0.47058824, b: 0.14901961, a: 1}
   - {r: 1, g: 0.6827926, b: 0, a: 1}
   - {r: 1, g: 0.43164754, b: 0, a: 1}
-  - {r: 0.4433962, g: 0, b: 0, a: 1}
-  - {r: 0.6698113, g: 0.02850261, b: 0, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
-  disabledBodyPartColor: {r: 0, g: 0, b: 0, a: 1}
-  destroyedBodyPartColor: {r: 1, g: 1, b: 1, a: 0}
+  - {r: 0.6698113, g: 0.02850261, b: 0, a: 1}
+  - {r: 0.44313726, g: 0, b: 0, a: 1}
+  disabledBodyPartColor: {r: 0.42352942, g: 0.42352942, b: 0.42352942, a: 1}
+  destroyedBodyPartColor: {r: 0, g: 0, b: 0, a: 1}
   baseBody: {fileID: 5335150533535898624}
   alertsBox: {fileID: 8443465681814041511}
   humanUI: 0

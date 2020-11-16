@@ -122,8 +122,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 		if (string.IsNullOrWhiteSpace(displayName)) displayName = "error";
 
 		UIManager.SetToolTip =
-			displayName.First().ToString().ToUpper() + displayName.Substring(1) +
-			(string.IsNullOrEmpty(articleDescription) ? "" : $" ({ articleDescription })");
+			displayName.First().ToString().ToUpper() + displayName.Substring(1);
 	}
 
 	public void OnHoverEnd()
