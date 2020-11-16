@@ -14,10 +14,10 @@ public class TelepaticArtifactEffect : ArtifactEffect
 	public string[] Messages;
 	public string[] DrasticMessages;
 
-	public override void DoEffectTouch(GameObject touchSource)
+	public override void DoEffectTouch(HandApply touchSource)
 	{
 		base.DoEffectTouch(touchSource);
-		Indocrinate(touchSource);
+		Indocrinate(touchSource.Performer);
 	}
 
 	public override void DoEffectAura()

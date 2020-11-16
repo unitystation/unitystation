@@ -124,23 +124,23 @@ public class Artifact : MonoBehaviour, IServerSpawn, IServerDespawn,
 		{
 			if (currentTrigger == ArtifactTrigger.TOUCH)
 			{
-				TryActivateByTouch(interaction.Performer);
+				TryActivateByTouch(interaction);
 			}
 			else
 			{
 				// print message that nothing happen
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-					$"You touch {gameObject.ExpensiveName()}, but nothing happen. Maybe you need to activate it somehow...");
+					$"You touch {gameObject.ExpensiveName()}, but nothing happens. Maybe you need to activate it somehow...");
 			}
 		}
 	}
 	#endregion
 
-	public void TryActivateByTouch(GameObject performer)
+	public void TryActivateByTouch(HandApply interaction)
 	{
 		if (!UnderTimeout)
 		{
-			currentEffect?.DoEffectTouch(performer);
+			currentEffect?.DoEffectTouch(interaction);
 			PlayActivationAnimation();
 
 			lastActivationTime = Time.time;
