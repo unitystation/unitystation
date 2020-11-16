@@ -27,7 +27,7 @@ public class BVOld_checker : MonoBehaviour
 	public bool onlyPrintDebugLogs = true;
 
 	public GameObject replacementePrefab;
-
+#if Unity_Editor
 	void Start()
 	{
 
@@ -395,4 +395,5 @@ public class BVOld_checker : MonoBehaviour
 
 		DestroyImmediate(gameObject);
 	}
+#endif
 }
