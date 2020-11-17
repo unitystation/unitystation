@@ -13,7 +13,7 @@ public class ArtifactEffect : NetworkBehaviour
 	/// Usually effect will be applied to this player.
 	/// </summary>
 	/// <param name="touchSource">Player GameObject that touched artifact</param>
-	public virtual void DoEffectTouch(GameObject touchSource)
+	public virtual void DoEffectTouch(HandApply touchSource)
 	{
 
 	}
