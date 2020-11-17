@@ -115,7 +115,7 @@ public partial class Chat : MonoBehaviour
 
 			if (isAdmin)
 			{
-				chatEvent.speaker = "[Admin] " + chatEvent.speaker;
+				chatEvent.speaker = "<color=red>[Admin]</color> " + chatEvent.speaker;
 			}
 
 			if (Instance.OOCMute && !isAdmin) return;
