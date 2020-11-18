@@ -14,10 +14,10 @@ public class TelepaticArtifactEffect : ArtifactEffect
 	public string[] Messages;
 	public string[] DrasticMessages;
 
-	public override void DoEffectTouch(GameObject touchSource)
+	public override void DoEffectTouch(HandApply touchSource)
 	{
 		base.DoEffectTouch(touchSource);
-		Indocrinate(touchSource);
+		Indocrinate(touchSource.Performer);
 	}
 
 	public override void DoEffectAura()
@@ -34,7 +34,7 @@ public class TelepaticArtifactEffect : ArtifactEffect
 
 	private void IndocrinateMessageArea()
 	{
-		// get effect shape around player
+		// get effect shape around artifact
 		var objCenter = gameObject.AssumedWorldPosServer().RoundToInt();
 		var shape = EffectShape.CreateEffectShape(EffectShapeType.Square, objCenter, auraRadius);
 

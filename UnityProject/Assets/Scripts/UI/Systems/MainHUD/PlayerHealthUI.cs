@@ -148,36 +148,36 @@ public class PlayerHealthUI : MonoBehaviour
 			}
 			if (bodyPartListeners[i] != null)
 			{
-				Color damageColor;
+				Color damageColor = Color.clear;
 				Color bodyPartColor = Color.white;
 				switch (bodyPart.Severity)
 				{
 					case DamageSeverity.None:
-						damageColor = damageMonitorColors[0];
+						bodyPartColor = damageMonitorColors[0];
 						break;
 					case DamageSeverity.Light:
-						damageColor = damageMonitorColors[1];
+						bodyPartColor = damageMonitorColors[1];
 						break;
 					case DamageSeverity.LightModerate:
-						damageColor = damageMonitorColors[2];
+						bodyPartColor = damageMonitorColors[2];
 						break;
 					case DamageSeverity.Moderate:
-						damageColor = damageMonitorColors[3];
+						bodyPartColor = damageMonitorColors[3];
 						break;
 					case DamageSeverity.Bad:
-						damageColor = damageMonitorColors[4];
+						bodyPartColor = damageMonitorColors[4];
 						break;
 					case DamageSeverity.Critical:
-						damageColor = damageMonitorColors[5];
-						bodyPartColor = disabledBodyPartColor;
+						bodyPartColor = damageMonitorColors[5];
+						damageColor = disabledBodyPartColor;
 						break;
 					case DamageSeverity.Max:
 					default:
-						damageColor = damageMonitorColors[6];
-						bodyPartColor = destroyedBodyPartColor;
+						bodyPartColor = damageMonitorColors[6];
+						damageColor = destroyedBodyPartColor;
 						break;
 				}
-				
+
 				bodyPartListeners[i].SetDamageColor(damageColor);
 				bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
 			}
