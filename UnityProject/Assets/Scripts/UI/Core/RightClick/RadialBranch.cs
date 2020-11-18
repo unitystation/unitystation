@@ -79,7 +79,7 @@ namespace UI.Core.RightClick
 		/// </summary>
 		/// <param name="radial"></param>
 		/// <param name="position"></param>
-		public void UpdateRadialLineSize(IRadial radial, Vector2 position)
+		public void UpdateLineSize(IRadial radial, Vector2 position)
 		{
 			var linePosition = Vector3.MoveTowards(LineToRadial.position, position, lineSize.x / 2);
 			if (radial.IsPositionWithinRadial(linePosition, false))

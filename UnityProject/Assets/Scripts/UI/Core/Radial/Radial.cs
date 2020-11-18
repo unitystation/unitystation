@@ -13,7 +13,7 @@ namespace UI.Core.Radial
 		private T itemPrefab = default;
 
 		[SerializeField]
-		private int maxShownItems = 8;
+		protected int maxShownItems = 8;
 
 		[SerializeField]
 		private int outerRadius = default;
@@ -52,7 +52,7 @@ namespace UI.Core.Radial
 			set => arcMeasure = Math.Max(1, Math.Min(value, 360));
 		}
 
-		public int MaxShownItems
+		public virtual int MaxShownItems
 		{
 			get => maxShownItems;
 			set => maxShownItems = value;
@@ -77,6 +77,8 @@ namespace UI.Core.Radial
 		public float Scale => transform.localScale.x;
 
 		protected T ItemPrefab => itemPrefab;
+
+		protected virtual float RaycastableArcMeasure => ArcMeasure;
 
 		public int ShownItemsCount => Math.Min(TotalItemCount, MaxShownItems);
 
@@ -148,7 +150,7 @@ namespace UI.Core.Radial
 		public bool IsPositionWithinRadial(Vector2 position, bool fullRadius)
 		{
 			var rotation = transform.eulerAngles.z;
-			return IsPositionValid(position, rotation, rotation + ArcMeasure, ArcMeasure, fullRadius);
+			return IsPositionValid(position, rotation, rotation + RaycastableArcMeasure, RaycastableArcMeasure, fullRadius);
 		}
 
 		private bool IsPositionValid(Vector2 position, float lowerBound, float upperBound, float checkAngle, bool fullRadius = false)

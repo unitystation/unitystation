@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
@@ -16,30 +17,13 @@ namespace UI.Core.RightClick
 		[SerializeField]
 		private Transform background = default;
 
-		[Tooltip("Set the arc measure for each item in the action radial.")]
-		[Range(1, 180)]
-		[SerializeField]
-		private int actionArcMeasure = default;
-
 		private RectTransform startBorder;
 
 		private RectTransform endBorder;
 
 		private ParentConstraint parentConstraint;
 
-		private ParentConstraint ParentConstraint
-		{
-			get
-			{
-				if (parentConstraint != null)
-				{
-					return parentConstraint;
-				}
-
-				parentConstraint = GetComponent<ParentConstraint>();
-				return parentConstraint;
-			}
-		}
+		private ParentConstraint ParentConstraint => this.GetComponentByRef(ref parentConstraint);
 
 		private T InitOrGet<T>(ref T obj, T prefab) where T : Component
 		{
@@ -63,7 +47,7 @@ namespace UI.Core.RightClick
 
 		public override void Setup(int itemCount)
 		{
-			ArcMeasure = itemCount * actionArcMeasure;
+			ArcMeasure = itemCount * (360 / MaxShownItems);
 			base.Setup(itemCount);
 			radialMask.fillAmount = (1f / 360f) * ArcMeasure;
 			StartBorder.localPosition = new Vector3(0, -.5f, 0);
@@ -75,10 +59,22 @@ namespace UI.Core.RightClick
 			}
 		}
 
-		public void UpdateRotation(int index, IRadial radial)
+		public void SetupWithActions(IList<RightClickMenuItem> actions)
 		{
-			var buttonAngle = index * radial.ItemArcMeasure;
-			var zOffset = buttonAngle + (radial.ItemArcMeasure * 0.5f - ShownItemsCount * 0.5f * ItemArcMeasure);
+			this.SetActive(true);
+			Setup(actions.Count);
+			Selected.OrNull()?.ResetState();
+
+			for (var i = 0; i < actions.Count; i++)
+			{
+				Items[i].ChangeItem(actions[i]);
+			}
+		}
+
+		public void UpdateRotation(int index, float angle)
+		{
+			var buttonAngle = index * angle;
+			var zOffset = buttonAngle + (angle * 0.5f - ShownItemsCount * 0.5f * ItemArcMeasure);
 			ParentConstraint.SetRotationOffset(0, new Vector3(0, 0, zOffset));
 		}
 

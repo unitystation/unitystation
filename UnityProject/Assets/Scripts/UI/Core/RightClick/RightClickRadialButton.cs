@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -24,10 +25,10 @@ namespace UI.Core.RightClick
 		private Image icon = default;
 
 		[SerializeField]
-		private Color iconFadedColor = default;
+		private TMP_Text altLabel = default;
 
 		[SerializeField]
-		private float iconFadeDuration = default;
+		private ColorBlock colors = ColorBlock.defaultColorBlock;
 
 		[SerializeField]
 		private RectTransform divider = default;
@@ -36,31 +37,9 @@ namespace UI.Core.RightClick
 
 		private RightClickButton button;
 
-		private ColorBlock buttonColors = ColorBlock.defaultColorBlock;
+		private Image Mask => this.GetComponentByRef(ref mask);
 
-		private T InternalGetComponent<T>(ref T obj)
-		{
-			if (obj == null)
-			{
-				obj = GetComponent<T>();
-			}
-
-			return obj;
-		}
-
-		private Image Mask => InternalGetComponent(ref mask);
-
-		private RightClickButton Button => InternalGetComponent(ref button);
-
-		private ColorBlock ButtonColors
-		{
-			get => buttonColors;
-			set
-			{
-				buttonColors = value;
-				Button.colors = value;
-			}
-		}
+		private RightClickButton Button => this.GetComponentByRef(ref button);
 
 		public override void Setup(Radial<RightClickRadialButton> parent, int index)
 		{
@@ -69,27 +48,55 @@ namespace UI.Core.RightClick
 			var iconTransform = icon.rectTransform;
 			iconTransform.localPosition = Radial.ItemCenter;
 			iconTransform.localScale = Vector3.one;
+			var altLabelTransform = altLabel.transform;
+			altLabelTransform.localPosition = Radial.ItemCenter;
+			altLabelTransform.localScale = Vector3.one;
 		}
 
-		public void SetInteractable(bool value) => Button.interactable = value;
+		public void SetInteractable(bool value)
+		{
+			if (mask.raycastTarget)
+			{
+				Button.interactable = value;
+				Mask.canvasRenderer.SetColor(colors.normalColor * colors.colorMultiplier);
+			}
+		}
 
 		public void SetDividerActive(bool active) => divider.SetActive(active);
 
 		public void LateUpdate()
 		{
 			icon.transform.rotation = Quaternion.identity;
+			altLabel.transform.rotation = Quaternion.identity;
 		}
 
 		public void ChangeItem(RightClickMenuItem itemInfo)
 		{
 			Mask.raycastTarget = true;
 			Mask.color = itemInfo.BackgroundColor;
-			var colors = ButtonColors;
+			// Due to the way Unity handles selectables and transitions, we will handle the transitions ourselves instead.
+			var colors = this.colors;
 			colors.highlightedColor = CalculateHighlight(itemInfo.BackgroundColor);
 			colors.selectedColor = colors.highlightedColor;
-			colors.disabledColor = colors.normalColor;
-			ButtonColors = colors;
-			icon.canvasRenderer.SetColor(iconFadedColor);
+			colors.disabledColor = Color.clear;
+			this.colors = colors;
+			// Temporary solution for actions that currently do not have an icon or have the default question mark icon.
+			if (itemInfo.IconSprite == null || itemInfo.IconSprite.name == "question_mark")
+			{
+				icon.SetActive(false);
+				altLabel.SetActive(true);
+				altLabel.SetText(itemInfo.Label);
+			}
+			else
+			{
+				SetupIcon(itemInfo);
+			}
+		}
+
+		private void SetupIcon(RightClickMenuItem itemInfo)
+		{
+			icon.SetActive(true);
+			altLabel.SetActive(false);
 			icon.color = itemInfo.IconColor;
 			icon.sprite = itemInfo.IconSprite;
 			var palette = itemInfo.palette;
@@ -105,16 +112,14 @@ namespace UI.Core.RightClick
 			}
 		}
 
-		public void RemoveItem()
+		public void DisableItem()
 		{
-			// Dragging needs to be able to set button interactivity and its disabled color needs to be the same as the
-			// normal color. Using this to disable the button and set transparency. ChangeItem will reactivate it.
 			Mask.raycastTarget = false;
-			Button.colors = DisabledColors;
+			Mask.canvasRenderer.SetColor(colors.disabledColor * colors.colorMultiplier);
 			icon.color = Color.clear;
 			icon.sprite = null;
+			altLabel.SetText(string.Empty);
 		}
-
 
 		private Color CalculateHighlight(Color original)
 		{
@@ -128,13 +133,13 @@ namespace UI.Core.RightClick
 		public void ResetState()
 		{
 			Button.ResetState();
-			icon.CrossFadeColor(iconFadedColor, 0, true, true);
+			Mask.canvasRenderer.SetColor(colors.normalColor * colors.colorMultiplier);
 		}
 
 		public void FadeOut(BaseEventData eventData)
 		{
 			Button.OnDeselect(eventData);
-			icon.CrossFadeColor(iconFadedColor, iconFadeDuration, false, true);
+			Mask.CrossFadeColor(colors.normalColor * colors.colorMultiplier, colors.fadeDuration, false, true);
 		}
 
 		public void ScaleIcon(float scale)
@@ -155,7 +160,7 @@ namespace UI.Core.RightClick
 			{
 				return;
 			}
-			icon.CrossFadeColor(Color.white, iconFadeDuration, false, true);
+			Mask.CrossFadeColor(colors.highlightedColor * colors.colorMultiplier, colors.fadeDuration, false, true);
 			Button.OnPointerEnter(eventData);
 			Radial.Invoke(PointerEventType.PointerEnter, eventData, this);
 		}

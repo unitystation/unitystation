@@ -16,7 +16,12 @@ public class ReversibleObjectScale : MonoBehaviour
 
 	private AnimationDirection Direction { get; set; } = AnimationDirection.None;
 
-	private int TweenID { get; set; }
+	private int? TweenID { get; set; }
+
+	public void TweenScale(bool forward)
+	{
+		TweenScale(forward ? AnimationDirection.Forward : AnimationDirection.Backward);
+	}
 
 	public void TweenScale(AnimationDirection direction)
 	{
@@ -38,14 +43,14 @@ public class ReversibleObjectScale : MonoBehaviour
 			tweenDirection = -1f;
 		}
 
-		if (TweenID != 0)
+		if (TweenID.HasValue)
 		{
-			var descr = LeanTween.descr(TweenID);
-			if (descr != null && LeanTween.isTweening(TweenID))
+			var descr = LeanTween.descr(TweenID.Value);
+			if (descr != null && LeanTween.isTweening(TweenID.Value))
 			{
 				timePassed = descr.passed;
 			}
-			LeanTween.cancel(TweenID);
+			LeanTween.cancel(TweenID.Value);
 		}
 
 		Direction = direction;
@@ -59,9 +64,10 @@ public class ReversibleObjectScale : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (TweenID != 0)
+		if (TweenID.HasValue)
 		{
-			LeanTween.cancel(TweenID);
+			LeanTween.cancel(TweenID.Value);
+			TweenID = null;
 		}
 
 		transform.localScale = scaleStart;

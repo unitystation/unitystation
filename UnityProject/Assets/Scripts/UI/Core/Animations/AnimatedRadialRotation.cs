@@ -11,6 +11,10 @@ public class AnimatedRadialRotation : MonoBehaviour
 	[SerializeField]
 	private LeanTweenType tweenType;
 
+	private Action<float> onUpdateDelegate;
+
+	private Action onCompleteDelegate;
+
 	public Action OnCompleteEvent { get; set; }
 
 	private int? TweenID { get; set; }
@@ -33,11 +37,13 @@ public class AnimatedRadialRotation : MonoBehaviour
 	private void Awake()
 	{
 		Radial = GetComponent<IRadial>();
+		onCompleteDelegate = OnComplete;
+		onUpdateDelegate = OnUpdate;
 	}
 
 	public void TweenRotation(float rotation)
 	{
-		if (gameObject.activeSelf == false || rotation > -0.01f && rotation < 0.01f)
+		if (gameObject.activeSelf == false || Mathf.Abs(rotation) < 0.01f)
 		{
 			return;
 		}
@@ -45,32 +51,27 @@ public class AnimatedRadialRotation : MonoBehaviour
 		if (TweenID.HasValue)
 		{
 			var descr = LeanTween.descr(TweenID.Value);
-			if (descr != null)
+			if (descr == null)
 			{
-				var value = descr.to.x;
-				descr.setTo(new Vector3(value + rotation, 0f, 0f));
-				if (Mathf.Sign(rotation) != Mathf.Sign(value))
-				{
-					descr.setTime(duration);
-					descr.setPassed(0);
-				}
-				else
-				{
-					descr.setTime(descr.time + Mathf.Min(duration, duration / (value / rotation)));
-				}
+				return;
+			}
+			var value = descr.to.x;
+			descr.setTo(new Vector3(value + rotation, 0f, 0f));
+			var durationDelta = duration * (Mathf.Abs(rotation) / 360);
+			if (Mathf.Sign(rotation) == Mathf.Sign(value + rotation))
+			{
+				descr.setTime(descr.time + durationDelta);
+			}
+			else
+			{
+				descr.setTime(descr.time - durationDelta);
 			}
 		}
 		else
 		{
-			var descr = LeanTween.value(gameObject, 0, rotation, duration);
-			if (descr == null)
-			{
-				Logger.LogError($"Unable to create LeanTween description for {nameof(AnimatedRadialRotation)}.");
-				return;
-			}
-			TweenID = descr
-				.setOnUpdate(OnUpdate)
-				.setOnComplete(OnComplete)
+			TweenID = LeanTween.value(0, rotation, duration)
+				.setOnUpdate(onUpdateDelegate)
+				.setOnComplete(onCompleteDelegate)
 				.setEase(tweenType)
 				.id;
 		}
@@ -85,6 +86,10 @@ public class AnimatedRadialRotation : MonoBehaviour
 		var descr = LeanTween.descr(TweenID.Value);
 		descr.setTo(new Vector3(descr.to.x - value, 0f, 0f));
 		Radial.RotateRadial(value);
+		if (Mathf.Abs(descr.to.x) < 0.01f)
+		{
+			LeanTween.cancel(TweenID.Value, true);
+		}
 	}
 
 	private void OnComplete()
@@ -97,7 +102,7 @@ public class AnimatedRadialRotation : MonoBehaviour
 	{
 		if (TweenID.HasValue)
 		{
-			LeanTween.cancel(TweenID.Value, true);
+			LeanTween.cancel(TweenID.Value);
 			TweenID = null;
 		}
 	}

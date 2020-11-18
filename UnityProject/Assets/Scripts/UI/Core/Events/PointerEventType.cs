@@ -9,6 +9,7 @@
 		BeginDrag,
 		Drag,
 		Drop,
-		EndDrag
+		EndDrag,
+		Scroll
 	}
 }

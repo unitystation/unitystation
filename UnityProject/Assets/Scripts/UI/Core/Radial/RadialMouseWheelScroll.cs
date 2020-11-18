@@ -11,13 +11,25 @@ namespace UI.Core.Radial
 		[SerializeField]
 		private int scrollCount;
 
-		[Tooltip("Whether to scroll when the mouse is inside the full radius of the radial or just between the outer and inner radius of the radial.")]
+		[Tooltip("Whether to scroll when the mouse is inside the full radius of the radial or only inside the annulus.")]
 		[SerializeField]
 		private bool fullRadius;
 
 		private IRadial RadialUI { get; set; }
 
 		public Action<PointerEventData> OnScrollEvent { get; set; }
+
+		public int ScrollCount
+		{
+			get => scrollCount;
+			set => scrollCount = value;
+		}
+
+		public bool FullRadius
+		{
+			get => fullRadius;
+			set => fullRadius = value;
+		}
 
 		public void Awake()
 		{

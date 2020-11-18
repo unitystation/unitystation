@@ -650,6 +650,7 @@ MonoBehaviour:
   previousArrow: {fileID: 2951742535600077843}
   nextArrow: {fileID: 1156100514673360259}
   background: {fileID: 8892981489456394894}
+  itemRing: {fileID: 1935596209873391214}
   itemLabel: {fileID: 344888277810257935}
 --- !u!114 &7864490826961940268
 MonoBehaviour:
@@ -678,7 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b175d82d5712498c82c8263011547e0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollCount: 4
+  scrollCount: 8
   fullRadius: 1
 --- !u!114 &2711002846470240702
 MonoBehaviour:
@@ -995,6 +996,18 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 7243324766535440047, guid: 8d3571c5e4b6da94689066d472152d4b,
     type: 3}
+--- !u!114 &1935596209873391214 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -169104232741821399, guid: 8d3571c5e4b6da94689066d472152d4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7456737122388552263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef8b96895a0ec4ba685178a052544251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8892981489456394894 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2022557600479713481, guid: 8d3571c5e4b6da94689066d472152d4b,

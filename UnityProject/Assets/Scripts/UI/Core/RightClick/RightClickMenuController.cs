@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UI.Core.Radial;
 using UI.Core.Events;
 
 namespace UI.Core.RightClick
@@ -43,21 +42,12 @@ namespace UI.Core.RightClick
 				}
 
 				itemRadial = Instantiate(itemRadialPrefab, transform);
-				var radialDrag = itemRadial.GetComponent<RadialDrag>();
-				if (radialDrag != null)
-				{
-					radialDrag.OnBeginDragEvent = OnBeginDragEvent;
-					radialDrag.OnEndDragEvent = _ => ItemRadial.TweenRotation(ItemRadial.NearestItemAngle);
-				}
-				var radialScrollWheel = itemRadial.GetComponent<RadialMouseWheelScroll>();
-				if (radialScrollWheel != null)
-				{
-					radialScrollWheel.OnScrollEvent = OnScrollEvent;
-				}
+				itemRadial.Drag.OnBeginDragEvent = OnBeginDragEvent;
+				itemRadial.Drag.OnEndDragEvent = _ => ItemRadial.TweenRotation(ItemRadial.NearestItemAngle);
+				itemRadial.MouseWheelScroll.OnScrollEvent = OnScrollEvent;
 				itemRadial.OnIndexChanged = OnIndexChanged;
 				itemRadial.RadialEvents.AddListener(PointerEventType.PointerEnter, OnHoverItem);
 				itemRadial.RadialEvents.AddListener(PointerEventType.PointerClick, OnClickItem);
-
 				return itemRadial;
 			}
 		}
@@ -82,19 +72,7 @@ namespace UI.Core.RightClick
 		{
 			Items = items;
 			radialBranch.Setup(worldPosition, itemRadialPrefab.OuterRadius, itemRadialPrefab.Scale, followWorldPosition);
-			ItemRadial.Setup(Math.Max(items.Count, ItemRadial.MaxShownItems));
-			foreach (var item in ItemRadial)
-			{
-				var index = item.Index;
-				if (index < items.Count)
-				{
-					item.ChangeItem(items[index]);
-				}
-				else
-				{
-					item.RemoveItem();
-				}
-			}
+			ItemRadial.SetupWithItems(items);
 			ItemRadial.transform.localPosition = radialBranch.MenuPosition;
 			UpdateItemRadialRotation();
 
@@ -108,29 +86,15 @@ namespace UI.Core.RightClick
 		private void OnBeginDragEvent(PointerEventData pointerEvent)
 		{
 			ItemRadial.Selected.OrNull()?.FadeOut(pointerEvent);
-			OnBeginRotation();
+			ItemRadial.SetItemsInteractable(false);
+			ActionRadial.SetActive(false);
 		}
 
 		private void OnScrollEvent(PointerEventData pointerEvent)
 		{
-			if (ItemRadial.IsRotationValid(pointerEvent.scrollDelta.y) == false)
+			if (ItemRadial.TryBeginRotation(pointerEvent.scrollDelta.y))
 			{
-				return;
-			}
-
-			ItemRadial.Selected.OrNull()?.ResetState();
-			OnBeginRotation();
-			ItemRadial.TweenRotation(pointerEvent.scrollDelta.y);
-		}
-
-		private void OnBeginRotation()
-		{
-			ItemRadial.ChangeLabel(string.Empty);
-			ActionRadial.SetActive(false);
-
-			foreach (var button in ItemRadial)
-			{
-				button.SetInteractable(false);
+				ActionRadial.SetActive(false);
 			}
 		}
 
@@ -160,19 +124,13 @@ namespace UI.Core.RightClick
 			if (actions == null)
 			{
 				ActionRadial.SetActive(false);
-				radialBranch.UpdateRadialLineSize(ActionRadial, itemRadialPosition);
+				radialBranch.UpdateLineSize(ActionRadial, itemRadialPosition);
 				return;
 			}
 
-			ActionRadial.SetActive(true);
-			ActionRadial.Setup(actions.Count);
-			for (var i = 0; i < actions.Count; i++)
-			{
-				ActionRadial[i].ChangeItem(actions[i]);
-			}
-
-			ActionRadial.UpdateRotation(index, ItemRadial);
-			radialBranch.UpdateRadialLineSize(ActionRadial, itemRadialPosition);
+			ActionRadial.SetupWithActions(actions);
+			ActionRadial.UpdateRotation(index, ItemRadial.ItemArcMeasure);
+			radialBranch.UpdateLineSize(ActionRadial, itemRadialPosition);
 		}
 
 		private void OnClickItem(PointerEventData eventData, RightClickRadialButton button)
@@ -237,7 +195,7 @@ namespace UI.Core.RightClick
 			radialBranch.UpdateDirection();
 			ItemRadial.transform.localPosition = radialBranch.MenuPosition;
 			ItemRadial.UpdateArrows();
-			radialBranch.UpdateRadialLineSize(ActionRadial, ItemRadial.transform.position);
+			radialBranch.UpdateLineSize(ActionRadial, ItemRadial.transform.position);
 			UpdateItemRadialRotation();
 
 			if (IsAnyPointerDown() == false)

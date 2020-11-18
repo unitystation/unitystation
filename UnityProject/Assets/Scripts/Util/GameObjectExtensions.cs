@@ -26,6 +26,18 @@ public static class GameObjectExtensions
 		component.OrNull()?.gameObject.SetActive(active);
 
 	/// <summary>
+	/// Returns the existing component stored in the reference. If the reference is null, it will get the component from
+	/// the object, set the reference, and return it. Prefer Awake over this unless you need to be able get a component
+	/// on an instantiated but not yet activated game object.
+	/// </summary>
+	/// <param name="obj">The object to get the component from if the component is null.</param>
+	/// <param name="component">A reference to the component.</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static T GetComponentByRef<T>(this Component obj, ref T component) where T : Component =>
+		component.OrNull() ?? (component = obj.GetComponent<T>());
+
+	/// <summary>
 	/// Creates garbage, use sparingly.
 	///
 	/// Get the tile-aligned (i.e. rounded to vector2int) world position of the specified object using RegisterTile,
