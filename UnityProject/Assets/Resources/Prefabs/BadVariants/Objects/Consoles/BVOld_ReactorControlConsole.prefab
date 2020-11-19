@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1222975611092627117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4917364803346531140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2298757274259383023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9073146935704267297, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 676355976789840720, guid: b64a5d579b668bf4bb49fcad64b80b6a,
+        type: 3}
     - target: {fileID: 234034479120620068, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -203,9 +197,3 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
---- !u!1 &4917364803346531140 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6618935427903119787, guid: 1a85cead3efc3d047b2f84c197e26eff,
-    type: 3}
-  m_PrefabInstance: {fileID: 2298757274259383023}
-  m_PrefabAsset: {fileID: 0}

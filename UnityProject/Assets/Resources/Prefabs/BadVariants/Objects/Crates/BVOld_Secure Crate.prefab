@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4531125489784207336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3603551487888253092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2924871553371889049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,6 +87,12 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3809108981937397978, guid: d059b46ee78dde84b963769ba89d24cc,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 4227563891675702361, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
     - target: {fileID: 4427201325505430292, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
       propertyPath: spriteUnlocked
@@ -143,11 +137,6 @@ PrefabInstance:
       propertyPath: exportName
       value: Secure Crate
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: d059b46ee78dde84b963769ba89d24cc, type: 3}
---- !u!1 &3603551487888253092 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1915535976018001213, guid: d059b46ee78dde84b963769ba89d24cc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2924871553371889049}
-  m_PrefabAsset: {fileID: 0}

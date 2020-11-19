@@ -19,7 +19,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[Tooltip("Contents that will spawn inside every instance of this locker when the" +
 			 " locker spawns.")]
 	[SerializeField]
-	private SpawnableList initialContents = null;
+	public SpawnableList initialContents = null;
 
 	[Tooltip("Lock light status indicator component")]
 	[SerializeField]
@@ -27,7 +27,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	[Tooltip("Whether the container can be locked.")]
 	[SerializeField]
-	private bool IsLockable = false;
+	public bool IsLockable = false;
 
 	[Tooltip("Max amount of players that can fit in it at once.")]
 	[SerializeField]
@@ -36,7 +36,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[Tooltip("Time to breakout or resist out of closet")]
 	[SerializeField]
 	private float breakoutTime = 120f;
-	
+
 	[Tooltip("Type of material to drop when destroyed")]
 	public GameObject matsOnDestroy;
 
@@ -368,7 +368,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	/// </summary>
 	public void BreakLock()
 	{
-		//Disable the lock and hide its light 
+		//Disable the lock and hide its light
 		if (IsLockable)
 		{
 			SyncLocked(isLocked, false);
@@ -389,9 +389,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	public void ServerWeld()
 	{
 		if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
-	
+
 		SyncIsWelded(isWelded, !isWelded);
-		
+
 	}
 
 	private void SyncIsWelded(bool _wasWelded, bool _isWelded)
@@ -514,8 +514,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		}
 
 		// Is the player trying to put something in the closet?
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) 
-			&& interaction.HandObject.TryGetComponent<Emag>(out var emag) 
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
+			&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
 			&& emag.EmagHasCharges())
 		{
 			if (IsClosed && !isEmagged)
@@ -524,7 +524,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				//ServerHandleContentsOnStatusChange(false);
 				isEmagged = true;
 				emag.UseCharge(interaction);
-				
+
 				//SyncStatus(statusSync, ClosetStatus.Open);
 				BreakLock();
 			}
@@ -577,10 +577,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 					interaction.Performer,
 					$"Can\'t open {closetName}");
 				}
-	
+
 			}
 		}
-				
+
 		// player trying to unlock locker?
 		if (IsLockable && AccessRestrictions != null && ClosetStatus.Equals(ClosetStatus.Closed))
 		{
@@ -612,7 +612,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	public void PlayerTryEscaping(GameObject player)
 	{
-		// First, try to just open the closet. 
+		// First, try to just open the closet.
 		if (!isLocked && !isWelded)
 		{
 			ServerToggleClosed();
@@ -624,7 +624,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 			void ProgressFinishAction()
 			{
-				//TODO: Add some sound here. 
+				//TODO: Add some sound here.
 				ServerToggleClosed();
 				BreakLock();
 

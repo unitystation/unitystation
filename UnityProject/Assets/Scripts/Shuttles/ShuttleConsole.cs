@@ -72,7 +72,11 @@ namespace Objects.Shuttles
 					Category.Matrix);
 			}
 
-			if (ShuttleMatrixMove != null)
+			if (ShuttleMatrixMove.IsNotPilotable)
+			{
+				hasNetworkTab.enabled = false;
+			}
+			else if (ShuttleMatrixMove != null)
 			{
 				hasNetworkTab.enabled = true;
 			}

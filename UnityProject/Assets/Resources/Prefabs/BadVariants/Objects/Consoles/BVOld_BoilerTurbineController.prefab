@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5715567554690021794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8139968364419029489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3111376745928128602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9073146935704267297, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 5115779151868333260, guid: 7f6eacde79c191f49b453bd576d1c1ec,
+        type: 3}
     - target: {fileID: 234034479120620068, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -156,9 +150,3 @@ PrefabInstance:
     - {fileID: 2657092281442712949, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
     - {fileID: 9032347336055072273, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
---- !u!1 &8139968364419029489 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6618935427903119787, guid: 1a85cead3efc3d047b2f84c197e26eff,
-    type: 3}
-  m_PrefabInstance: {fileID: 3111376745928128602}
-  m_PrefabAsset: {fileID: 0}

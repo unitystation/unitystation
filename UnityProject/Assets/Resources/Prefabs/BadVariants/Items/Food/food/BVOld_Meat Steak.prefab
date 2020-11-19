@@ -12,18 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 421c3b18959bb624f8fe705eaad88216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-1398609364802511878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6532193109441330816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6128081887975217483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31,6 +19,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -948224366512658475, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 3664851965229280547, guid: 7eeb39ee45a50e543ad74ff71631525c,
+        type: 3}
     - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: nutritionLevel

@@ -14,18 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &-1744656533354112557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728401503887791882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1096294301172380735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33,6 +21,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8180479510140590050, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 3677348334658451422, guid: a3073526fd40c7d42b394e3def74809b,
+        type: 3}
     - target: {fileID: -2585783556006771808, guid: d467e77f959574624aca44efa0e650e2,
         type: 3}
       propertyPath: computerToSpawn

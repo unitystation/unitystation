@@ -105,6 +105,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &114870928894298498
 MonoBehaviour:
@@ -318,6 +319,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 6616220766525010422, guid: c937e0abe85aca9499d09951de736ec6,
+    type: 3}
 --- !u!1 &1865224276101266
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +392,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 21
+  m_SortingLayer: 22
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: bd3225efc525643479b237af41876cf0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -469,7 +474,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 21
+  m_SortingLayer: 22
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300002, guid: 16f408214667adc469ad08e1f9ceacab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

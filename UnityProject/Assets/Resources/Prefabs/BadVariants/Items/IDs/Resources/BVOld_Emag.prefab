@@ -13,18 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 1
---- !u!114 &-8801203671182279735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5260985750374485318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7723201877393858639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,6 +130,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c54a74cc5c50f204b9ae369968f291ad,
         type: 2}
+    - target: {fileID: 7748874420982731322, guid: dd36cfd4f55a00d4ab4190d869297198,
+        type: 3}
+      propertyPath: replacementePrefab
+      value: 
+      objectReference: {fileID: 3848857374701129896, guid: 8d99b1da2dd11f44883e1a6470042394,
+        type: 3}
     - target: {fileID: 8604842513916024462, guid: dd36cfd4f55a00d4ab4190d869297198,
         type: 3}
       propertyPath: PresentSpriteSet

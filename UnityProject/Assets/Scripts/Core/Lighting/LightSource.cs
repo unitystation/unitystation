@@ -23,7 +23,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	[Header("Generates itself if this is null:")]
 	public GameObject mLightRendererObject;
 	[SerializeField]
-	private bool isWithoutSwitch = true;
+	public bool isWithoutSwitch = true;
 	public bool IsWithoutSwitch => isWithoutSwitch;
 	private bool switchState = true;
 	private PowerStates powerState;

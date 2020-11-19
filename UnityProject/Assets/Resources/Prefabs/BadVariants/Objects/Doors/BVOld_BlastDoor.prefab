@@ -255,6 +255,7 @@ MonoBehaviour:
   ignorePassableChecks: 0
   IsAutomatic: 1
   conType: 7
+  connectedDoorSwitch: {fileID: 0}
   isPerformingAction: 0
   isWindowedDoor: 0
   useSimpleLightAnimation: 0
@@ -323,6 +324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac8d86173f4dcf49a20af7bc27d3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HITALL: 0
+  onlyPrintDebugLogs: 1
+  replacementePrefab: {fileID: 6077569209427463650, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
 --- !u!1 &1000014037698914
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +397,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 20
+  m_SortingLayer: 21
   m_SortingOrder: 0
   m_Sprite: {fileID: -23409850456768636, guid: e3ed1efa0a7f4f547a1cb0ad5853e1d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

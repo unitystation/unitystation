@@ -41,6 +41,10 @@ namespace UI.SpellBook
 			{
 				SetArtifactValues(artifactEntry);
 			}
+			else if (entry is SpellBookRitual ritualEntry)
+			{
+				SetRitualValues(ritualEntry);
+			}
 
 			// Enable or disable button interactivity based on affordability.
 			button.SetValueServer(entry.Cost > bookGUI.Points ? "false" : "true");
@@ -73,6 +77,14 @@ namespace UI.SpellBook
 			cooldownLabel.SetValueServer(default);
 			noteLabel.SetValueServer(artifactEntry.Note);
 			buttonLabel.SetValueServer("Summon");
+		}
+
+		private void SetRitualValues(SpellBookRitual ritualEntry)
+		{
+			spellLabel.SetValueServer(ritualEntry.Name);
+			cooldownLabel.SetValueServer(default);
+			noteLabel.SetValueServer(ritualEntry.Note);
+			buttonLabel.SetValueServer("Cast");
 		}
 
 		public void Activate()

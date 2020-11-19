@@ -2,6 +2,9 @@
 ---
 
 
+* 2020/11/17: Adds some more artifacts by [ThatDan123](https://github.com/ThatDan123) in PR #[5632](https://github.com/unitystation/unitystation/pull/5632)
+* 2020/11/15: Renamed "Cutthroat" pistol to Makarov, since that's what it resembles now. by [PetMudstone](https://github.com/PetMudstone) in PR #[5615](https://github.com/unitystation/unitystation/pull/5615)
+* 2020/11/15: Added new Stechkin sprites by schwick. by [PetMudstone](https://github.com/PetMudstone) in PR #[5615](https://github.com/unitystation/unitystation/pull/5615)
 * 2020/11/13: Added instant Summons spell and book. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5610](https://github.com/unitystation/unitystation/pull/5610)
 * 2020/11/13: Adds basic maint areas to SquareStation, racks and items still need to be added. by [Akbadain29](https://github.com/Akbadain29) in PR #[5608](https://github.com/unitystation/unitystation/pull/5608)
 * 2020/11/9: Can use objects on walls and windows from an extra tile away by [Ruzihm](https://github.com/Ruzihm) in PR #[5570](https://github.com/unitystation/unitystation/pull/5570)
