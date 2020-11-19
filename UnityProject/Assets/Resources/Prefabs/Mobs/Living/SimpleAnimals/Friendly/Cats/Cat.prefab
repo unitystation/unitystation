@@ -42,8 +42,7 @@ MonoBehaviour:
   activated: 0
   tickRate: 1
   followTarget: {fileID: 0}
-  spriteHolder: {fileID: 5751403467835134051, guid: a990bc1742ffa46c39c5839d3e7ec915,
-    type: 3}
+  spriteHolder: {fileID: 8081786582678036113}
   targetOtherPlayersWhoGetInWay: 0
   onlyHitTarget: 1
   hitDamage: 70
@@ -185,6 +184,12 @@ PrefabInstance:
 --- !u!1 &2144788095502372098 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7540635897288641467, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 8459564455701055161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8081786582678036113 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 382294827147974696, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
     type: 3}
   m_PrefabInstance: {fileID: 8459564455701055161}
   m_PrefabAsset: {fileID: 0}
