@@ -61,7 +61,6 @@ namespace UI.Core.RightClick
 
 		public void SetupWithActions(IList<RightClickMenuItem> actions)
 		{
-			this.SetActive(true);
 			Setup(actions.Count);
 			Selected.OrNull()?.ResetState();
 
@@ -69,6 +68,7 @@ namespace UI.Core.RightClick
 			{
 				Items[i].ChangeItem(actions[i]);
 			}
+			this.SetActive(true);
 		}
 
 		public void UpdateRotation(int index, float angle)

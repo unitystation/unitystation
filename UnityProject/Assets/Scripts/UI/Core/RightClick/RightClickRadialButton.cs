@@ -7,7 +7,7 @@ using UI.Core.Events;
 
 namespace UI.Core.RightClick
 {
-	public class RightClickRadialButton : RadialItem<RightClickRadialButton>, IPointerEnterHandler, IPointerClickHandler
+	public class RightClickRadialButton : RadialItem<RightClickRadialButton>, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 	{
 		private static readonly int IsPaletted = Shader.PropertyToID("_IsPaletted");
 		private static readonly int PaletteSize = Shader.PropertyToID("_PaletteSize");
@@ -80,7 +80,7 @@ namespace UI.Core.RightClick
 			colors.selectedColor = colors.highlightedColor;
 			colors.disabledColor = Color.clear;
 			this.colors = colors;
-			// Temporary solution for actions that currently do not have an icon or have the default question mark icon.
+			// Temporary solution for items/actions that currently do not have an icon set up or have the default question mark icon.
 			if (itemInfo.IconSprite == null || itemInfo.IconSprite.name == "question_mark")
 			{
 				icon.SetActive(false);
@@ -115,10 +115,15 @@ namespace UI.Core.RightClick
 		public void DisableItem()
 		{
 			Mask.raycastTarget = false;
-			Mask.canvasRenderer.SetColor(colors.disabledColor * colors.colorMultiplier);
+			SetColor(colors.disabledColor, true);
 			icon.color = Color.clear;
 			icon.sprite = null;
 			altLabel.SetText(string.Empty);
+		}
+
+		private void SetColor(Color color, bool instant = false)
+		{
+			Mask.CrossFadeColor(color * colors.colorMultiplier, instant ? 0 : colors.fadeDuration, false, true);
 		}
 
 		private Color CalculateHighlight(Color original)
@@ -133,13 +138,13 @@ namespace UI.Core.RightClick
 		public void ResetState()
 		{
 			Button.ResetState();
-			Mask.canvasRenderer.SetColor(colors.normalColor * colors.colorMultiplier);
+			SetColor(colors.normalColor, true);
 		}
 
 		public void FadeOut(BaseEventData eventData)
 		{
 			Button.OnDeselect(eventData);
-			Mask.CrossFadeColor(colors.normalColor * colors.colorMultiplier, colors.fadeDuration, false, true);
+			SetColor(colors.normalColor);
 		}
 
 		public void ScaleIcon(float scale)
@@ -160,9 +165,14 @@ namespace UI.Core.RightClick
 			{
 				return;
 			}
-			Mask.CrossFadeColor(colors.highlightedColor * colors.colorMultiplier, colors.fadeDuration, false, true);
+			SetColor(colors.highlightedColor);
 			Button.OnPointerEnter(eventData);
 			Radial.Invoke(PointerEventType.PointerEnter, eventData, this);
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			Radial.Invoke(PointerEventType.PointerExit, eventData, this);
 		}
 
 		public void OnPointerClick(PointerEventData eventData) =>

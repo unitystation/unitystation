@@ -90,47 +90,44 @@ namespace UI.Core.Radial
 				return;
 			}
 
-			var shownItems = ShownItemsCount;
 			var delta = newIndex - CurrentIndex;
 
-			ChangeUnmaskedIndices(delta > 0 ? CurrentIndex : newIndex);
-
+			ChangeUnmaskedIndices(Mathf.Abs(delta), delta > 0 ? CurrentIndex : newIndex, newIndex);
 			LowerMaskItem.Index = newIndex;
-			UpperMaskItem.Index = (newIndex + shownItems) % TotalItemCount;
+			UpperMaskItem.Index = (newIndex + ShownItemsCount) % TotalItemCount;
 			OnIndexChanged?.Invoke(LowerMaskItem);
 			OnIndexChanged?.Invoke(UpperMaskItem);
 			CurrentIndex = newIndex;
+		}
 
-			void ChangeUnmaskedIndices(int startIndex)
+		private void ChangeUnmaskedIndices(int delta, int startIndex, int newIndex)
+		{
+			var itemCount = ShownItemsCount - 1;
+			var changeCount = Math.Min(delta, itemCount);
+			var first = newIndex % itemCount;
+
+			// The idea here is to counter-rotate only the changed unmasked items so that we only need to update
+			// those items and not the whole radial.
+			for (var i = 0; i < changeCount; i++)
 			{
-				var posDelta = Math.Abs(delta);
-				var itemCount = shownItems - 1;
-				var changeCount = Math.Min(posDelta, itemCount);
-				var first = newIndex % itemCount;
-
-				// The idea here is to counter-rotate only the changed unmasked items so that we only need to update
-				// those items and not the whole radial.
-				for (var i = 0; i < changeCount; i++)
+				var radialIndex = (startIndex + i) % itemCount;
+				var indexOffset = 0;
+				if (radialIndex > first)
 				{
-					var radialIndex = (startIndex + i) % itemCount;
-					var indexOffset = 0;
-					if (radialIndex > first)
-					{
-						indexOffset = radialIndex - first;
-					}
-					else if (radialIndex < first)
-					{
-						indexOffset = itemCount - first + radialIndex;
-					}
-					radialIndex += 2; // Offset by the masks
-					var item = Items[radialIndex];
-
-					item.Index = newIndex + 1 + indexOffset;
-
-					var itemAngle = (item.Index - newIndex) * ItemArcMeasure;
-					item.transform.eulerAngles = new Vector3(0, 0, LowerMaskItem.transform.eulerAngles.z + itemAngle);
-					OnIndexChanged?.Invoke(item);
+					indexOffset = radialIndex - first;
 				}
+				else if (radialIndex < first)
+				{
+					indexOffset = itemCount - first + radialIndex;
+				}
+				radialIndex += 2; // Offset by the masks
+				var item = Items[radialIndex];
+
+				item.Index = newIndex + 1 + indexOffset;
+
+				var itemAngle = (item.Index - newIndex) * ItemArcMeasure;
+				item.transform.eulerAngles = new Vector3(0, 0, LowerMaskItem.transform.eulerAngles.z + itemAngle);
+				OnIndexChanged?.Invoke(item);
 			}
 		}
 

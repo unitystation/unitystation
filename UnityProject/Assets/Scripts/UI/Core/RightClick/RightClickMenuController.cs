@@ -64,6 +64,7 @@ namespace UI.Core.RightClick
 				actionRadial = Instantiate(actionRadialPrefab, transform);
 				actionRadial.SetConstraintSource(ItemRadial.RotationParent);
 				actionRadial.RadialEvents.AddListener(PointerEventType.PointerClick, OnClickAction);
+				actionRadial.RadialEvents.AddListener(PointerEventType.PointerExit, (eventData, button) => button.FadeOut(eventData));
 				return actionRadial;
 			}
 		}
