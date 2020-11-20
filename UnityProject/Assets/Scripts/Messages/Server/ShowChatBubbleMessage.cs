@@ -24,7 +24,7 @@ public class ShowChatBubbleMessage : ServerMessage
 			target = target.GetComponent<PlayerNetworkActions>().chatBubbleTarget;
 		}
 
-		ChatBubbleManager.ShowAChatBubble(target, Message, ChatModifiers);
+		ChatBubbleManager.ShowAction( Message);
 	}
 
 	public static ShowChatBubbleMessage SendToNearby(GameObject followTransform, string message, bool isPlayerChatBubble = false,

@@ -16,7 +16,7 @@ public class GUI_Paper : NetTab
 	{
 		base.OnEnable();
 		StartCoroutine(WaitForProvider());
-		textField.interactable = false;
+		textField.readOnly = true;
 	}
 
 	IEnumerator WaitForProvider()
@@ -51,12 +51,12 @@ public class GUI_Paper : NetTab
 	{
 		if (!IsPenInHand())
 		{
-			textField.interactable = false;
+			textField.readOnly = true;
 			return;
 		}
 		else
 		{
-			textField.interactable = true;
+			textField.readOnly = false;
 			textField.ActivateInputField();
 		}
 		UIManager.IsInputFocus = true;

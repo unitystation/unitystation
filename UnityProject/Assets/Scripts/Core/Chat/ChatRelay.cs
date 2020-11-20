@@ -199,7 +199,7 @@ public class ChatRelay : NetworkBehaviour
 				string cleanMessage = Regex.Replace(message, "<.*?>", string.Empty);
 				if(cleanMessage.StartsWith("You"))
 				{
-					ChatBubbleManager.ShowAChatBubble(PlayerManager.LocalPlayerScript.transform, Regex.Replace(message, "<.*?>", string.Empty));
+					ChatBubbleManager.ShowAction(Regex.Replace(message, "<.*?>", string.Empty));
 					return;
 				}
 			}
