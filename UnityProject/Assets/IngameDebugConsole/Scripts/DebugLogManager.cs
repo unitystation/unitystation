@@ -287,6 +287,8 @@ namespace IngameDebugConsole
 		/// </summary>
 		private void LateUpdate()
 		{
+			Debug.developerConsoleVisible = false;	//makes the default unity console disappear, rather hacky but unity doesnt give us a way to properly disable it
+
 			if (screenDimensionsChanged)
 			{
 				// Update the recycled list view
