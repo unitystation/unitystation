@@ -82,9 +82,6 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 	/// Display a chat bubble and make it follow a transform target
 	/// </summary>
 	/// <param name="msg">Text to show in the Action</param>
-	/// <param name="followTarget">The transform in the world for the bubble to follow</param>
-	/// <param name="chatModifier">Any chat modifiers that need to be applied</param>
-	[NaughtyAttributes.Button]
 	public static void ShowAction(string msg)
 	{
 

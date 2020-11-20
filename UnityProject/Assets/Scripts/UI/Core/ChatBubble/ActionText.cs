@@ -64,12 +64,6 @@ public class ActionText : MonoBehaviour
 
 	}
 
-	[NaughtyAttributes.Button()]
-	public void Startsdasds()
-	{
-		SetUp("InString");
-	}
-
 	public void Update()
 	{
 		if (DoFade)
@@ -88,13 +82,13 @@ public class ActionText : MonoBehaviour
 			{
 				LeanTween.cancel(this.gameObject);
 				DoFade = false;
-				Zero();
+				Reset();
 			}
 		}
 	}
 
 	[NaughtyAttributes.Button()]
-	public void Zero()
+	public void Reset()
 	{
 		Text.alpha = 1;
 		BackText.alpha = 1;
