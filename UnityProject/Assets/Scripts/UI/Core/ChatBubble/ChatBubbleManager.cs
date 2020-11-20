@@ -25,7 +25,9 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 	}
 
 	private List<ChatBubble> chatBubblePool = new List<ChatBubble>();
+	private List<ActionText> actionPool = new List<ActionText>();
 	[SerializeField] private GameObject chatBubblePrefab = null;
+	[SerializeField] private GameObject ActionPrefab = null;
 	[SerializeField] private int initialPoolSize = 10;
 
 
@@ -74,6 +76,57 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 
 		Instance.GetChatBubbleFromPool().SetupBubble(followTarget, msg, chatModifier);
 	}
+
+
+	/// <summary>
+	/// Display a chat bubble and make it follow a transform target
+	/// </summary>
+	/// <param name="msg">Text to show in the Action</param>
+	public static void ShowAction(string msg)
+	{
+
+		var index = Instance.actionPool.FindIndex(x => x.Text.text == msg);
+
+		if (index != -1)
+		{
+			if (Instance.actionPool[index].gameObject.activeInHierarchy)
+			{
+				Instance.actionPool[index].AddCopy();
+				return;
+			}
+		}
+
+
+		Instance.GetChatBubbleActionText().SetUp(msg);
+	}
+
+
+	ActionText GetChatBubbleActionText()
+	{
+		var index = actionPool.FindIndex(x => !x.gameObject.activeInHierarchy);
+
+		if (index != -1)
+		{
+			return actionPool[index];
+		}
+		else
+		{
+			var newBubble = SpawnNewActionText();
+			actionPool.Add(newBubble);
+			return newBubble;
+		}
+	}
+
+	ActionText SpawnNewActionText()
+	{
+		var obj = Instantiate(ActionPrefab, Vector3.zero, Quaternion.identity);
+		obj.transform.SetParent(transform,
+			false); // Suggestion by compiler, instead of obj.transform.parent = transform;
+		obj.transform.localScale = Vector3.one * 2f;
+		obj.SetActive(false);
+		return obj.GetComponent<ActionText>();
+	}
+
 
 	ChatBubble GetChatBubbleFromPool()
 	{
