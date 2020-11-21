@@ -20,7 +20,7 @@ namespace UI.Objects.Atmospherics
 		{
 			foreach (var INFilter in Filter.CapableFiltering)
 			{
-				if (INFilter.Key == gasName.ToString()) //Checks what button has been pressed  And sets the correct position appropriate
+				if (INFilter.Key == gasName) //Checks what button has been pressed  And sets the correct position appropriate
 				{
 					((NetUIElement<string>)this[INFilter.Key]).SetValueServer("1");
 				}
