@@ -35,6 +35,7 @@ namespace UI.Objects.Atmospherics
 
 		private void Awake()
 		{
+			pipeColor = colors[0];
 			// This assumes that each category page has only the toggles for children
 			// and that the dispensePages are sequential with accordance to category.
 			previousCategoryPages = new int[]
