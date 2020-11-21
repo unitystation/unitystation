@@ -244,7 +244,7 @@ namespace Systems.Atmospherics
 		{
 			float totalInternalEnergy = InternalEnergy + otherGas.InternalEnergy;
 			float totalWholeHeatCapacity = WholeHeatCapacity + otherGas.WholeHeatCapacity;
-			float Newtemperature = totalInternalEnergy / totalWholeHeatCapacity;
+			float newTemperature = totalWholeHeatCapacity == 0 ? 0 : totalInternalEnergy / totalWholeHeatCapacity;
 			float totalVolume = Volume + otherGas.Volume;
 			for (int i = 0; i < Gas.Count; i++)
 			{
@@ -258,8 +258,8 @@ namespace Systems.Atmospherics
 				otherGas.Gases[i] = gas * otherGas.Volume;
 			}
 
-			SetTemperature(Newtemperature);
-			otherGas.SetTemperature(Newtemperature);
+			SetTemperature(newTemperature);
+			otherGas.SetTemperature(newTemperature);
 			return otherGas;
 		}
 
