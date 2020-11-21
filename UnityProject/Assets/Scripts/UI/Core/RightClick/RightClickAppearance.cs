@@ -17,7 +17,7 @@ public class RightClickAppearance : MonoBehaviour
 	public string nameOverride;
 
 	[Tooltip("Background color to show for this object in the right click menu.")]
-	public Color backgroundColor = Color.gray;
+	public Color backgroundColor = RightClickManager.ButtonColor;
 
 	[Tooltip("Icon to show for this object in the right click menu. Leave blank to use" +
 	         " the first SpriteRenderer of this object as the icon.")]
@@ -32,7 +32,7 @@ public class RightClickAppearance : MonoBehaviour
 	/// <param name="subMenus">sub menu items to show underneath this object's menu</param>
 	public RightClickMenuItem AsMenu(List<RightClickMenuItem> subMenus)
 	{
-		var label = nameOverride != null && nameOverride.Trim().Length != 0 ? nameOverride : gameObject.name.Replace("(clone)","");
+		var label = nameOverride != null && nameOverride.Trim().Length != 0 ? nameOverride : gameObject.ExpensiveName();
 		Sprite sprite = null;
 		if (iconOverride == null)
 		{

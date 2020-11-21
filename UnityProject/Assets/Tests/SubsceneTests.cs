@@ -147,7 +147,7 @@ namespace Tests
 			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 			foreach (var scene in scenesPaths)
 			{
-				if (scene.Contains("DevScenes")) continue;
+				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
 
 				var Openedscene = EditorSceneManager.OpenScene(scene);
 				report.AppendLine($"Checking {scene}");
