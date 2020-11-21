@@ -34,8 +34,15 @@ public static class GameObjectExtensions
 	/// <param name="component">A reference to the component.</param>
 	/// <typeparam name="T"></typeparam>
 	/// <returns></returns>
-	public static T GetComponentByRef<T>(this Component obj, ref T component) where T : Component =>
-		component.OrNull() ?? (component = obj.GetComponent<T>());
+	public static T GetComponentByRef<T>(this Component obj, ref T component) where T : Component
+	{
+		if (component != null)
+		{
+			return component;
+		}
+		component = obj.GetComponent<T>();
+		return component;
+	}
 
 	/// <summary>
 	/// Creates garbage, use sparingly.

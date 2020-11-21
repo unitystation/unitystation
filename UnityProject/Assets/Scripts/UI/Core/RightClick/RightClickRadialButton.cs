@@ -75,11 +75,11 @@ namespace UI.Core.RightClick
 			Mask.raycastTarget = true;
 			Mask.color = itemInfo.BackgroundColor;
 			// Due to the way Unity handles selectables and transitions, we will handle the transitions ourselves instead.
-			var colors = this.colors;
-			colors.highlightedColor = CalculateHighlight(itemInfo.BackgroundColor);
-			colors.selectedColor = colors.highlightedColor;
-			colors.disabledColor = Color.clear;
-			this.colors = colors;
+			var colorBlock = colors;
+			colorBlock.highlightedColor = CalculateHighlight(itemInfo.BackgroundColor);
+			colorBlock.selectedColor = colorBlock.highlightedColor;
+			colorBlock.disabledColor = Color.clear;
+			colors = colorBlock;
 			// Temporary solution for items/actions that currently do not have an icon set up or have the default question mark icon.
 			if (itemInfo.IconSprite == null || itemInfo.IconSprite.name == "question_mark")
 			{
