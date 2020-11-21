@@ -244,7 +244,7 @@ namespace Systems.Atmospherics
 		{
 			float totalInternalEnergy = InternalEnergy + otherGas.InternalEnergy;
 			float totalWholeHeatCapacity = WholeHeatCapacity + otherGas.WholeHeatCapacity;
-			float newTemperature = totalWholeHeatCapacity == 0 ? 0 : totalInternalEnergy / totalWholeHeatCapacity;
+			float newTemperature = totalWholeHeatCapacity > 0 ? totalInternalEnergy / totalWholeHeatCapacity : 0;
 			float totalVolume = Volume + otherGas.Volume;
 			for (int i = 0; i < Gas.Count; i++)
 			{
