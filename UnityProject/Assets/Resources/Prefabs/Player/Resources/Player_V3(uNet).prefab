@@ -749,7 +749,6 @@ GameObject:
   - component: {fileID: 114908376472113748}
   - component: {fileID: 6017414943583453005}
   - component: {fileID: 6880295280032021907}
-  - component: {fileID: 4282259093670066203}
   - component: {fileID: 4933264570295522567}
   - component: {fileID: 4111832278435019773}
   - component: {fileID: 7786899671633797224}
@@ -1191,22 +1190,6 @@ MonoBehaviour:
   shadow: {fileID: 21300000, guid: 81f179d61b18a3240a83bd06842e218a, type: 3}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
---- !u!114 &4282259093670066203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameOverride: 
-  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  iconOverride: {fileID: 0}
-  backgroundSprite: {fileID: 0}
 --- !u!114 &4933264570295522567
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,7 +13,8 @@ using Mirror;
 //[RequireComponent(typeof(ActionControlInventory))] removed because the PDA wont need it
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>,
 	IClientInteractable<InventoryApply>,
-	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>,
+	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>,
+	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>,
 	IServerInventoryMove, IClientInventoryMove, IActionGUI
 {
 	/// <summary>
@@ -118,8 +119,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			return false;
 		}
 
-		//can only be opened if it's in the player's top level inventory
-		if (interaction.TargetSlot.ItemStorage.gameObject != PlayerManager.LocalPlayer) return false;
+		//can only be opened if it's in the player's top level inventory or player is alt-clicking
+		if (interaction.TargetSlot.ItemStorage.gameObject != PlayerManager.LocalPlayer && !interaction.IsAltClick) return false;
 
 		if (interaction.UsedObject == null)
 		{
@@ -150,6 +151,37 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (!allowedToInteract) return;
 		Inventory.ServerTransfer(interaction.FromSlot,
 			itemStorage.GetBestSlotFor(((Interaction) interaction).UsedObject));
+	}
+
+	/// <summary>
+	/// Client:
+	/// Allows player to open / close bags in reach using alt-click
+	/// </summary>
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!allowedToInteract) return false;
+		// Use default interaction checks
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		// See which item needs to be stored
+		if (Validations.IsTarget(gameObject, interaction))
+		{
+			// We're the target
+			// If player's hands are empty and alt-click let them open the bag
+			if (interaction.HandObject == null && interaction.IsAltClick) return true;
+		}
+
+		return false;
+	}
+
+	/// <summary>
+	/// Server:
+	/// Allows player to open / close bags in reach using alt-click
+	/// </summary>
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		//Reusing mouse drop logic for efficiency
+		ServerPerformInteraction(MouseDrop.ByLocalPlayer(interaction.TargetObject, interaction.Performer));
 	}
 
 	/// <summary>
@@ -375,7 +407,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 							PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 							.ItemStorageNetID, interaction.WorldPositionTarget);
 
-						
+
 						Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
 
 					}

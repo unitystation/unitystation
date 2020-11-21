@@ -9,7 +9,6 @@ using Objects;
 /// <summary>
 /// Allows closet to be opened / closed / locked
 /// </summary>
-[RequireComponent(typeof(RightClickAppearance))]
 public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, IRightClickable,
 	IServerLifecycle
 {
