@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 2600979117003474479}
   - component: {fileID: 9147428416067222750}
   - component: {fileID: 6685682366329771873}
-  - component: {fileID: 1320320634143343504}
   - component: {fileID: 3521949737454309137}
   - component: {fileID: 7018617827686443207}
   - component: {fileID: 926565080011332082}
@@ -248,22 +247,6 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
---- !u!114 &1320320634143343504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1321968994659816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameOverride: 
-  backgroundColor: {r: 0.3, g: 0.55, b: 0.72, a: 0.5}
-  iconOverride: {fileID: 0}
-  backgroundSprite: {fileID: 0}
 --- !u!114 &3521949737454309137
 MonoBehaviour:
   m_ObjectHideFlags: 0

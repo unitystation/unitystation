@@ -1,6 +1,9 @@
-﻿public enum AnimationDirection
+﻿namespace UI.Core.Animations
 {
-	None,
-	Forward,
-	Backward
+	public enum AnimationDirection
+	{
+		None,
+		Forward,
+		Backward
+	}
 }

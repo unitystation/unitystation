@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using DatabaseAPI;
+using Doors;
 using Objects.Wallmounts;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,7 +21,7 @@ using UI.Core.RightClick;
 /// </summary>
 public class RightClickManager : MonoBehaviour
 {
-	public static readonly Color ButtonColor = new Color(0.3f, 0.55f, 0.72f, 0.5f);
+	public static readonly Color ButtonColor = new Color(0.3f, 0.55f, 0.72f, 0.7f);
 
 	[Tooltip("Ordering to use for right click options.")]
 	public RightClickOptionOrder rightClickOptionOrder;
@@ -293,12 +294,14 @@ public class RightClickManager : MonoBehaviour
 			}
 		}
 
-		// try get sprite
-		SpriteRenderer firstRenderer = forObject.GetComponentInChildren<SpriteRenderer>();
+		// See if this object has an AirLockAnimator then try to get the sprite from that, otherwise try to get the sprite from the first renderer we find
+		var airLockAnimator = forObject.GetComponentInChildren<AirLockAnimator>();
+		var spriteRenderer = airLockAnimator != null ? airLockAnimator.doorbase : forObject.GetComponentInChildren<SpriteRenderer>();
+
 		Sprite sprite = null;
-		if (firstRenderer != null)
+		if (spriteRenderer != null)
 		{
-			sprite = firstRenderer.sprite;
+			sprite = spriteRenderer.sprite;
 		}
 		else
 		{
@@ -307,6 +310,6 @@ public class RightClickManager : MonoBehaviour
 					" on this object.", Category.UI, forObject.name);
 		}
 
-		return RightClickMenuItem.CreateObjectMenuItem(ButtonColor, sprite, null, label, subMenus, firstRenderer.color, palette);
+		return RightClickMenuItem.CreateObjectMenuItem(ButtonColor, sprite, null, label, subMenus, spriteRenderer.color, palette);
 	}
 }

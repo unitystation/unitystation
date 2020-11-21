@@ -100,10 +100,10 @@ GameObject:
   - component: {fileID: 3468170437254342443}
   - component: {fileID: 114193634347157676}
   - component: {fileID: 114519504495500056}
-  - component: {fileID: 17410868912263334}
   - component: {fileID: 107955457563787986}
   - component: {fileID: 7822907302678425537}
   - component: {fileID: -5825847811397951141}
+  - component: {fileID: 8465335936839843417}
   m_Layer: 11
   m_Name: HydroponicsTray
   m_TagString: Untagged
@@ -373,22 +373,6 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &17410868912263334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609685257496530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameOverride: Hydroponics Tray
-  backgroundColor: {r: 0.3, g: 0.55, b: 0.72, a: 0.5}
-  iconOverride: {fileID: 0}
-  backgroundSprite: {fileID: 0}
 --- !u!114 &107955457563787986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,6 +424,22 @@ MonoBehaviour:
     type: 3}
   canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
+--- !u!114 &8465335936839843417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609685257496530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.3, g: 0.55, b: 0.72, a: 0.7}
+  iconOverride: {fileID: 21300000, guid: e6b73cd799c276b4c8c3b001a001e1e5, type: 3}
+  backgroundSprite: {fileID: 0}
 --- !u!1 &1998759520953530410
 GameObject:
   m_ObjectHideFlags: 0

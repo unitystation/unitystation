@@ -1,76 +1,79 @@
 ﻿using UnityEngine;
 
-public class ReversibleObjectScale : MonoBehaviour
+namespace UI.Core.Animations
 {
-	[SerializeField]
-	private float duration;
-
-	[SerializeField]
-	private Vector3 scaleStart;
-
-	[SerializeField]
-	private Vector3 scaleEnd;
-
-	[SerializeField]
-	private LeanTweenType tweenType;
-
-	private AnimationDirection Direction { get; set; } = AnimationDirection.None;
-
-	private int? TweenID { get; set; }
-
-	public void TweenScale(bool forward)
+	public class ReversibleObjectScale : MonoBehaviour
 	{
-		TweenScale(forward ? AnimationDirection.Forward : AnimationDirection.Backward);
-	}
+		[SerializeField]
+		private float duration = 0.1f;
 
-	public void TweenScale(AnimationDirection direction)
-	{
-		if (gameObject.activeSelf == false || Direction == direction)
+		[SerializeField]
+		private Vector3 scaleStart = default;
+
+		[SerializeField]
+		private Vector3 scaleEnd = default;
+
+		[SerializeField]
+		private LeanTweenType tweenType = LeanTweenType.linear;
+
+		private AnimationDirection Direction { get; set; } = AnimationDirection.None;
+
+		private int? TweenID { get; set; }
+
+		public void TweenScale(bool forward)
 		{
-			return;
+			TweenScale(forward ? AnimationDirection.Forward : AnimationDirection.Backward);
 		}
 
-		float timePassed;
-		float tweenDirection;
-		if (direction == AnimationDirection.Forward)
+		public void TweenScale(AnimationDirection direction)
 		{
-			timePassed = 0f;
-			tweenDirection = 1f;
-		}
-		else
-		{
-			timePassed = Direction == AnimationDirection.None ? 0f : 1f;
-			tweenDirection = -1f;
-		}
-
-		if (TweenID.HasValue)
-		{
-			var descr = LeanTween.descr(TweenID.Value);
-			if (descr != null && LeanTween.isTweening(TweenID.Value))
+			if (gameObject.activeSelf == false || Direction == direction)
 			{
-				timePassed = descr.passed;
+				return;
 			}
-			LeanTween.cancel(TweenID.Value);
+
+			float timePassed;
+			float tweenDirection;
+			if (direction == AnimationDirection.Forward)
+			{
+				timePassed = 0f;
+				tweenDirection = 1f;
+			}
+			else
+			{
+				timePassed = Direction == AnimationDirection.None ? 0f : 1f;
+				tweenDirection = -1f;
+			}
+
+			if (TweenID.HasValue)
+			{
+				var descr = LeanTween.descr(TweenID.Value);
+				if (descr != null && LeanTween.isTweening(TweenID.Value))
+				{
+					timePassed = descr.passed;
+				}
+				LeanTween.cancel(TweenID.Value);
+			}
+
+			Direction = direction;
+			TweenID = LeanTween.scale(gameObject, scaleEnd, duration)
+				.setFrom(scaleStart)
+				.setDirection(tweenDirection)
+				.setPassed(timePassed)
+				.setEase(tweenType)
+				.id;
 		}
 
-		Direction = direction;
-		TweenID = LeanTween.scale(gameObject, scaleEnd, duration)
-			.setFrom(scaleStart)
-			.setDirection(tweenDirection)
-			.setPassed(timePassed)
-			.setEase(tweenType)
-			.id;
-	}
-
-	private void OnDisable()
-	{
-		if (TweenID.HasValue)
+		private void OnDisable()
 		{
-			LeanTween.cancel(TweenID.Value);
-			TweenID = null;
-		}
+			if (TweenID.HasValue)
+			{
+				LeanTween.cancel(TweenID.Value);
+				TweenID = null;
+			}
 
-		transform.localScale = scaleStart;
-		Direction = AnimationDirection.None;
+			transform.localScale = scaleStart;
+			Direction = AnimationDirection.None;
+		}
 	}
 }
