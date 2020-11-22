@@ -249,7 +249,6 @@ public class SpriteHandler : MonoBehaviour
 				}
 
 				variantIndex = spriteVariant;
-
 				var Frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 				SetSprite(Frame);
 

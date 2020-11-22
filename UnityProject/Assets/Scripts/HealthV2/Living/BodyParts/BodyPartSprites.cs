@@ -17,6 +17,9 @@ public class BodyPartSprites : MonoBehaviour
 	private SpriteHandler damageOverlaySpriteHandler;
 
 	[SerializeField]
+	public BodyPartType bodyPartType;
+
+	[SerializeField]
 	[Tooltip("The sprites that will be used when there is no limbs installed.")]
 	private SpriteDataSO noLimbSpriteData;
 
@@ -27,7 +30,6 @@ public class BodyPartSprites : MonoBehaviour
 	{
 		if (implant.LimbSpriteData)
 		{
-			
 			baseSpriteHandler.SetSpriteSO(implant.LimbSpriteData, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
 		}
 
