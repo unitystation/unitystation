@@ -1,5 +1,34 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &603473724761143302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2744469315531546719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 215e552740637b64e8619b576b1a2929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  properties: []
+  mtyGenders: 0000000000000000
+  maxHealth: 100
+  efficiency: 1
+  isBloodReagentConsumed: 1
+  isDimorphic: 1
+  gender: 1
+  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  bloodReagentConsumed: 0.15
+  bloodReagentStoreAmount: 0.01
+  bloodReagentStoredMax: 20
+  bodyPartType: 1
+  maleSprite: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234, type: 2}
+  femaleSprite: {fileID: 11400000, guid: ccfebde2cc0de824b80261ac774928d7, type: 2}
+  limbSpriteData: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234, type: 2}
+  limbOverlaySpriteData: {fileID: 0}
+  implantPreventsBleeding: 0
 --- !u!1001 &7464378722896875326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,5 +186,12 @@ PrefabInstance:
       propertyPath: hitDamage
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+--- !u!1 &2744469315531546719 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7464378722896875326}
+  m_PrefabAsset: {fileID: 0}
