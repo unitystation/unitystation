@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System;
-using HealthV2;
 
 [CreateAssetMenu(fileName = "PlayerHealthData", menuName = "ScriptableObjects/PlayerHealthData", order = 1)]
 public class PlayerHealthData : ScriptableObject
@@ -14,52 +13,20 @@ public class PlayerHealthData : ScriptableObject
 }
 
 [System.Serializable]
-public class ObjectList
-{
-	public List<GameObject> Elements = new List<GameObject>();
-}
-
-[System.Serializable]
 public class RaceHealthData
 {
-	public ObjectList Head;
-	public ObjectList Torso;
-	public ObjectList ArmRight;
-	public ObjectList ArmLeft;
-	public ObjectList LegRight;
-	public ObjectList LegLeft;
-
-	public List<CustomisationAllowedSetting> CustomisationSettings = new List<CustomisationAllowedSetting>();
-
-	public BodyTypeSettings bodyTypeSettings = new BodyTypeSettings();
-
-	public List<Color> SkinColours = new List<Color>();
-
-
-	public BloodType BloodType;
-
+	public GameObject Head;
+	public GameObject Eyes;
+	public GameObject Torso;
+	public GameObject ArmRight;
+	public GameObject ArmLeft;
+	public GameObject HandRight;
+	public GameObject HandLeft;
+	public GameObject LegRight;
+	public GameObject LegLeft;
 }
 
 
-[System.Serializable]
-public class CustomisationAllowedSetting
-{
-	public CustomisationGroup CustomisationGroup;
-	public List<PlayerCustomisationData> Blacklist = new List<PlayerCustomisationData>();
-}
-
-[System.Serializable]
-public class BodyTypeSettings
-{
-	public List<BodyTypeName> AvailableBodyTypes = new List<BodyTypeName>();
-}
-
-[System.Serializable]
-public class BodyTypeName
-{
-	public BodyType bodyType;
-	public string Name;
-}
 /*public enum BodyPartSpriteName
 {
 	Null,
