@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1319358683546333188}
+  - component: {fileID: 642005610022177842}
   - component: {fileID: 65185799931316983}
-  - component: {fileID: 253961674678137764}
   m_Layer: 8
   m_Name: HumanBodyPartChest
   m_TagString: Untagged
@@ -32,6 +32,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &642005610022177842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316443453218355798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMaster: {fileID: 0}
+  bodyPartSprites: {fileID: 0}
+  bodyPartType: 1
 --- !u!114 &65185799931316983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,33 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
+  itemStorageStructure: {fileID: 11400000, guid: cd30a2ac1bcd7c5498ea24f3df62fc09,
     type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
+  itemStorageCapacity: {fileID: 11400000, guid: 6f0e29c7be781754896d30e71cf91c39,
     type: 2}
-  itemStoragePopulator: {fileID: 0}
-  UesAddlistPopulater: 1
-  Populater:
-    MergeMode: 0
-    Contents:
-    - {fileID: 8910782054479282841, guid: cc032f91cda505e44b066c36db32760d, type: 3}
---- !u!114 &253961674678137764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1316443453218355798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7763c616bb0554240a552b5d0ff05b3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
-  optionalOrgans: []
-  bodyPartType: 1
-  ItemStorage: {fileID: 0}
-  PlayerSprites: {fileID: 0}
-  PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
-    type: 3}
-  ContainsLimbs: []
+  itemStoragePopulator: {fileID: 11400000, guid: 6851b333d0d549e429f4b395361f75bb,
+    type: 2}
