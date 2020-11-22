@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
-using HealthV2;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,34 +9,6 @@ namespace Lobby
 {
 	public class CharacterCustomization : MonoBehaviour
 	{
-		public GameObject SpriteContainer;
-
-		public CustomisationSubPart customisationSubPart;
-
-		public GameObject ScrollList;
-
-		public GameObject ScrollListBody;
-
-		public List<CustomisationSubPart> OpenCustomisation = new List<CustomisationSubPart>();
-
-		public Dictionary<BodyPart, List<SpriteHandlerNorder>> OpenBodySprites =
-			new Dictionary<BodyPart, List<SpriteHandlerNorder>>();
-
-		public Dictionary<string, BodyPartCustomisationBase> OpenBodyCustomisation =
-			new Dictionary<string, BodyPartCustomisationBase>();
-
-		public Dictionary<BodyPart, List<BodyPart>> ParentDictionary = new Dictionary<BodyPart, List<BodyPart>>();
-
-		public List<GameObject> RootCustomisations = new List<GameObject>();
-
-		public List<BodyTypeName> AvailableBodyTypes = new List<BodyTypeName>();
-
-		public int SelectedBodyType = 0;
-
-		public BodyTypeName ThisBodyType => AvailableBodyTypes[SelectedBodyType];
-
-		public SpriteHandlerNorder BodyPartSpite;
-
 		public InputField characterNameField;
 		public InputField ageField;
 		public Text errorLabel;
@@ -47,19 +17,37 @@ namespace Lobby
 		public Text backpackText;
 		public Text accentText;
 		public Text raceText;
+		public Image hairColor;
+		public Image eyeColor;
+		public Image facialColor;
+		public Image skinColor;
 
-		public PlayerHealthData ThisSetRace = null;
+		public Dropdown hairDropdown;
+		public Dropdown facialHairDropdown;
+		public Dropdown underwearDropdown;
+		public Dropdown socksDropdown;
 
+		public CharacterSprites hairSpriteController;
+		public CharacterSprites facialHairSpriteController;
+		public CharacterSprites underwearSpriteController;
+		public CharacterSprites socksSpriteController;
+		public CharacterSprites eyesSpriteController;
+
+		public CharacterSprites[] skinControllers;
 
 		public CharacterSprites torsoSpriteController;
 		public CharacterSprites headSpriteController;
+		public CharacterSprites RarmSpriteController;
+		public CharacterSprites LarmSpriteController;
+		public CharacterSprites RlegSpriteController;
+		public CharacterSprites LlegSpriteController;
 
+		public CharacterSprites RHandSpriteController;
+		public CharacterSprites LHandSpriteController;
 
 		public PlayerTextureData playerTextureData;
 
-		public CharacterDir currentDir;
-
-		[SerializeField] public List<Color> availableSkinColors = new List<Color>();
+		[SerializeField] public List<string> availableSkinColors = new List<string>();
 		private CharacterSettings currentCharacter;
 
 		public ColorPicker colorPicker;
@@ -68,12 +56,6 @@ namespace Lobby
 
 		public Action onCloseAction;
 
-		public BodyPartDropDownOrgans AdditionalOrgan;
-		public BodyPartDropDownReplaceOrgan ReplacementOrgan;
-
-		public int CurrentSurfaceInt = 0;
-
-		public Color CurrentSurfaceColour = Color.white;
 		/// <summary>
 		/// Empty, blank sprite texture used for selecting null customizations
 		/// (e.g. selecting or scrolling to "None" for hair, facial hair, underwear,
@@ -81,35 +63,24 @@ namespace Lobby
 		/// </summary>
 		public SpriteDataSO BobTheEmptySprite;
 
-		public List<CustomisationStorage> bodyPartCustomisationStorage = new List<CustomisationStorage>();
-		public List<ExternalCustomisation> ExternalCustomisationStorage = new List<ExternalCustomisation>();
-
-
-		public List<SpriteHandlerNorder> SurfaceSprite = new List<SpriteHandlerNorder>();
-
-		public int SelectedSpecies = 0;
-
-
-		public InputField SerialiseData;
-
 		void OnEnable()
 		{
-			LoadSettings(PlayerManager.CurrentCharacterSettings);
+			LoadSettings();
 			colorPicker.gameObject.SetActive(false);
 			colorPicker.onValueChanged.AddListener(OnColorChange);
-			var copyStr = JsonConvert.SerializeObject(currentCharacter);
-			lastSettings = JsonConvert.DeserializeObject<CharacterSettings>(copyStr);
+			var copyStr = JsonUtility.ToJson(currentCharacter);
+			lastSettings = JsonUtility.FromJson<CharacterSettings>(copyStr);
 			DisplayErrorText("");
 
 			//torsoSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Torso);
 			//headSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Head);
-			// RarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmRight);
-			// LarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmLeft);
-			// RlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegRight);
-			// LlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegLeft);
-			// RHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandRight);
-			// LHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandLeft);
-			// eyesSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Eyes);
+			RarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmRight);
+			LarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmLeft);
+			RlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegRight);
+			LlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegLeft);
+			RHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandRight);
+			LHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandLeft);
+			eyesSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Eyes);
 		}
 
 		void OnDisable()
@@ -120,45 +91,11 @@ namespace Lobby
 				onCloseAction.Invoke();
 				onCloseAction = null;
 			}
-			Cleanup();
 		}
 
-		public void Cleanup()
+		private void LoadSettings()
 		{
-
-
-			foreach (var C in OpenCustomisation)
-			{
-				Destroy(C.spriteHandlerNorder.gameObject);
-				Destroy(C.gameObject);
-			}
-
-			ParentDictionary.Clear();
-
-
-			foreach (var OpenBodySprite in OpenBodySprites)
-			{
-				foreach (var BodySprite in OpenBodySprite.Value)
-				{
-					Destroy(BodySprite.gameObject);
-				}
-			}
-
-			foreach (var C in OpenBodyCustomisation)
-			{
-				Destroy(C.Value.gameObject);
-			}
-
-			OpenBodySprites.Clear();
-			OpenBodyCustomisation.Clear();
-			OpenCustomisation.Clear();
-			SurfaceSprite.Clear();
-
-		}
-
-		private void LoadSettings(CharacterSettings inCharacterSettings)
-		{
-			currentCharacter = inCharacterSettings;
+			currentCharacter = PlayerManager.CurrentCharacterSettings;
 			//If we are playing locally offline, init character settings if they're null
 			if (currentCharacter == null)
 			{
@@ -166,214 +103,10 @@ namespace Lobby
 				PlayerManager.CurrentCharacterSettings = currentCharacter;
 			}
 
-			PlayerHealthData SetRace = null;
-			foreach (var Race in RaceSOSingleton.Instance.Races)
-			{
-				if (Race.name == currentCharacter.Species)
-				{
-					SetRace = Race;
-				}
-			}
-
-			if (SetRace == null)
-			{
-				SetRace = RaceSOSingleton.Instance.Races.First();
-			}
-
-			//SelectedSpecies
-			SelectedSpecies = 0;
-			foreach (var Species in RaceSOSingleton.Instance.Races)
-			{
-				if (Species == SetRace)
-				{
-					break;
-				}
-				SelectedSpecies++;
-			}
-
-			AvailableBodyTypes = SetRace.Base.bodyTypeSettings.AvailableBodyTypes;
-			ThisSetRace = SetRace;
-
-			availableSkinColors = SetRace.Base.SkinColours;
-			SetUpSpeciesBody(SetRace);
-			PopulateAllDropdowns(SetRace);
+			PopulateAllDropdowns();
 			DoInitChecks();
 		}
 
-		#region BodyPartsSprites
-		public void SetUpSpeciesBody(PlayerHealthData Race)
-		{
-			BasedBodyPart(Race.Base.Torso);
-			BasedBodyPart(Race.Base.Head);
-			BasedBodyPart(Race.Base.ArmLeft);
-			BasedBodyPart(Race.Base.ArmRight);
-			BasedBodyPart(Race.Base.LegLeft);
-			BasedBodyPart(Race.Base.LegRight);
-		}
-
-		public void BasedBodyPart(GameObject GameObjectBody)
-		{
-			if (GameObjectBody == null) return;
-
-			var Body = GameObjectBody.GetComponent<ItemStorage>();
-			if (Body != null)
-			{
-				foreach (var Organ in Body.Populater.Contents)
-				{
-					var Body_part = Organ.GetComponent<BodyPart>();
-					SetUpBodyPart(Body_part);
-				}
-			}
-
-			var DownOrgans = GameObjectBody.GetComponent<RootBodyPartContainer>();
-			if (DownOrgans != null)
-			{
-				if (DownOrgans.OptionalOrgans.Count > 0)
-				{
-					var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
-					Option.SetUp(this, DownOrgans, "");
-					OpenBodyCustomisation[GameObjectBody.name] = Option;
-				}
-			}
-		}
-
-
-		public void SetUpBodyPart(BodyPart Body_Part, bool addOrganReplacement = true)
-		{
-			//Body_Part.LimbSpriteData;
-
-			//OpenBodyCustomisation[Body_Part.name] = new List<GameObject>();
-			ParentDictionary[Body_Part] = new List<BodyPart>();
-
-			//
-			SetupBodyPartsSprites(Body_Part);
-			if (Body_Part.LobbyCustomisation != null)
-			{
-				var newSprite = Instantiate(Body_Part.LobbyCustomisation, ScrollListBody.transform);
-				newSprite.SetUp(this, Body_Part, ""); //Update path
-				OpenBodyCustomisation[Body_Part.name] = (newSprite);
-			}
-
-			if (Body_Part.OptionalOrgans.Count > 0)
-			{
-				var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
-				Option.SetUp(this, Body_Part, "");
-				OpenBodyCustomisation[Body_Part.name] = (Option);
-			}
-
-			if (addOrganReplacement)
-			{
-				if (Body_Part.OptionalReplacementOrgan.Count > 0)
-				{
-					var Option = Instantiate(ReplacementOrgan, ScrollListBody.transform);
-					Option.SetUp(this, Body_Part, "");
-					OpenBodyCustomisation[Body_Part.name] = (Option);
-				}
-			}
-
-
-
-			//Setup sprite//
-			//OpenBodySprites
-			if (Body_Part?.storage?.Populater?.Contents != null)
-			{
-				foreach (var Organ in Body_Part.storage.Populater.Contents)
-				{
-					var SUbBody_part = Organ.GetComponent<BodyPart>();
-					ParentDictionary[Body_Part].Add(SUbBody_part);
-					SetUpBodyPart(SUbBody_part);
-				}
-			}
-		}
-
-		public void SetupBodyPartsSprites(BodyPart Body_Part)
-		{
-			OpenBodySprites[Body_Part] = new List<SpriteHandlerNorder>();
-			var Sprites = Body_Part.GetBodyTypeSprites(ThisBodyType.bodyType); //Get the correct one
-
-
-
-			if (Sprites != null)
-			{
-				if (Sprites?.Item1?.Orders == null || Sprites.Item1.Orders.Count == 0)
-				{
-					Logger.LogError("Rendering order not specified on " + Body_Part.name);
-				}
-
-
-				int i = 0;
-				foreach (var SpriteData in Sprites.Item2)
-				{
-					var newSprite = Instantiate(BodyPartSpite, SpriteContainer.transform);
-					newSprite.gameObject.transform.localPosition = Vector3.zero;
-					newSprite.SpriteOrder = new SpriteOrder(Sprites.Item1);
-					newSprite.SpriteOrder.Add(i);
-					newSprite.SpriteHandler.SetSpriteSO(SpriteData);
-					OpenBodySprites[Body_Part].Add(newSprite);
-					i++;
-				}
-
-				if (Body_Part.isSurface)
-				{
-					SurfaceSprite.AddRange(OpenBodySprites[Body_Part]);
-				}
-			}
-		}
-
-		public void RemoveBodyPart(BodyPart Body_Part, bool removeBodyCustomisation = true)
-		{
-			if (Body_Part.isSurface)
-			{
-				foreach (var sp in OpenBodySprites[Body_Part])
-				{
-					SurfaceSprite.Remove(sp);
-				}
-
-			}
-
-			foreach (var Keyv in ParentDictionary)
-			{
-				if (Keyv.Value.Contains(Body_Part))
-				{
-					Keyv.Value.Remove(Body_Part);
-				}
-			}
-
-			if (OpenBodySprites.ContainsKey(Body_Part))
-			{
-				foreach (var Sprite in OpenBodySprites[Body_Part])
-				{
-					Destroy(Sprite.gameObject);
-				}
-
-				OpenBodySprites.Remove(Body_Part);
-			}
-
-			if (OpenBodyCustomisation.ContainsKey(Body_Part.name))
-			{
-				//removeBodyCustomisation
-
-				if (removeBodyCustomisation == true &&
-				    OpenBodyCustomisation[Body_Part.name].GetComponent<BodyPartDropDownReplaceOrgan>() == null)
-				{
-					Destroy(OpenBodyCustomisation[Body_Part.name]);
-				}
-
-				OpenBodyCustomisation.Remove(Body_Part.name);
-			}
-
-			if (ParentDictionary.ContainsKey(Body_Part))
-			{
-				foreach (var SubBody_part in ParentDictionary[Body_Part])
-				{
-					RemoveBodyPart(SubBody_part);
-				}
-
-				ParentDictionary.Remove(Body_Part);
-			}
-		}
-
-		#endregion BodyPartsSprites
 		//First time setting up this character etc?
 		private void DoInitChecks()
 		{
@@ -383,65 +116,27 @@ namespace Lobby
 				RollRandomCharacter();
 				SaveData();
 			}
-
-			SetAllDropdowns();
-			RefreshAll();
+			else
+			{
+				SetAllDropdowns();
+				RefreshAll();
+			}
 		}
 
 		private void RefreshAll()
 		{
-			if (ThisSetRace.Base.SkinColours.Count > 0)
-			{
-				ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out CurrentSurfaceColour);
-
-				bool match = false;
-				foreach (var skinColour in ThisSetRace.Base.SkinColours)
-				{
-					if (Math.Abs(skinColour.a - CurrentSurfaceColour.a) < 0.01f
-					    && Math.Abs(skinColour.r - CurrentSurfaceColour.r) < 0.01f
-					    && Math.Abs(skinColour.g - CurrentSurfaceColour.g) < 0.01f
-					    && Math.Abs(skinColour.b - CurrentSurfaceColour.b) < 0.01f)
-					{
-						match = true;
-					}
-				}
-				if (match == false)
-				{
-					CurrentSurfaceColour = ThisSetRace.Base.SkinColours[0];
-				}
-			}
-			else
-			{
-				ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out CurrentSurfaceColour);
-			}
-			SkinColourChange(CurrentSurfaceColour);
-
-			int i = 0;
-			bool Containing = false;
-			foreach (var bodyType in AvailableBodyTypes)
-			{
-				if (bodyType.bodyType == currentCharacter.BodyType)
-				{
-					Containing = true;
-					SelectedBodyType = i;
-					break;
-				}
-
-				i++;
-			}
-
-			if (Containing == false)
-			{
-				currentCharacter.BodyType = AvailableBodyTypes[0].bodyType;
-				SelectedBodyType = 0;
-			}
-
-			RefreshAge();
 			RefreshName();
-			RefreshAccent();
-			RefreshBodyType();
-			RefreshBackpack();
+			RefreshGender();
 			RefreshClothing();
+			RefreshBackpack();
+			RefreshHair();
+			RefreshFacialHair();
+			RefreshUnderwear();
+			RefreshSocks();
+			RefreshEyes();
+			RefreshSkinColor();
+			RefreshAge();
+			RefreshAccent();
 		}
 
 		public void RollRandomCharacter()
@@ -450,20 +145,20 @@ namespace Lobby
 			var changeGender = (UnityEngine.Random.Range(0, 2) == 0);
 			if (changeGender)
 			{
-				//OnGenderChange();
+				OnGenderChange();
 			}
 
 			// Select a random value from each dropdown
-			// hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
-			// facialHairDropdown.value = UnityEngine.Random.Range(0, facialHairDropdown.options.Count - 1);
-			// underwearDropdown.value = UnityEngine.Random.Range(0, underwearDropdown.options.Count - 1);
-			// socksDropdown.value = UnityEngine.Random.Range(0, socksDropdown.options.Count - 1);
+			hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
+			facialHairDropdown.value = UnityEngine.Random.Range(0, facialHairDropdown.options.Count - 1);
+			underwearDropdown.value = UnityEngine.Random.Range(0, underwearDropdown.options.Count - 1);
+			socksDropdown.value = UnityEngine.Random.Range(0, socksDropdown.options.Count - 1);
 
 			// Do gender specific randomisation
-			if (currentCharacter.BodyType == BodyType.Male)
+			if (currentCharacter.Gender == Gender.Male)
 			{
 				currentCharacter.Name = StringManager.GetRandomMaleName();
-				//currentCharacter.FacialHairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+				currentCharacter.FacialHairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
 			}
 			else
 			{
@@ -471,319 +166,104 @@ namespace Lobby
 			}
 
 			// Randomise rest of data
-			// currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			// currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			// currentCharacter.SkinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
+			currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+			currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+			currentCharacter.SkinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
-			//RefreshAll();
+			RefreshAll();
 		}
 
 		//------------------
 		//DROPDOWN BOXES:
 		//------------------
-		private void PopulateAllDropdowns(PlayerHealthData Race)
+		private void PopulateAllDropdowns()
 		{
-			foreach (var customisation in Race.Base.CustomisationSettings)
-			{
-				//customisationSubPart
-				var Customisation = Instantiate(customisationSubPart, ScrollList.transform);
-				OpenCustomisation.Add(Customisation);
-				Customisation.Setup(customisation.CustomisationGroup, this,
-					customisation.CustomisationGroup.SpriteOrder);
-			}
+			PopulateDropdown(CustomisationType.HairStyle, hairDropdown);
+			PopulateDropdown(CustomisationType.FacialHair, facialHairDropdown);
+			PopulateDropdown(CustomisationType.Underwear, underwearDropdown);
+			PopulateDropdown(CustomisationType.Socks, socksDropdown);
 		}
 
-		public void LeftRotate()
+		private void PopulateDropdown(CustomisationType type, Dropdown itemDropdown)
 		{
-			int nextDir = (int) currentDir + 1;
-			if (nextDir > 3)
-			{
-				nextDir = 0;
-			}
+			// Clear out old options
+			itemDropdown.ClearOptions();
 
-			currentDir = (CharacterCustomization.CharacterDir) nextDir;
-			SetRotation();
-		}
+			// Make a list of all available options which can then be passed to the dropdown box
+			var itemOptions = PlayerCustomisationDataSOs.Instance.GetAll(type, currentCharacter.Gender)
+				.Select(pcd => pcd.Name).ToList();
+			itemOptions.Sort();
 
-		public void RightRotate()
-		{
-			int nextDir = (int) currentDir - 1;
-			if (nextDir < 0)
-			{
-				nextDir = 3;
-			}
-
-			currentDir = (CharacterCustomization.CharacterDir) nextDir;
-			SetRotation();
-		}
-
-		public void SetRotation()
-		{
-			int referenceOffset = 0;
-			if (currentDir == CharacterCustomization.CharacterDir.down)
-			{
-				referenceOffset = 0;
-			}
-
-			if (currentDir == CharacterCustomization.CharacterDir.up)
-			{
-				referenceOffset = 1;
-			}
-
-			if (currentDir == CharacterCustomization.CharacterDir.right)
-			{
-				referenceOffset = 2;
-			}
-
-			if (currentDir == CharacterCustomization.CharacterDir.left)
-			{
-				referenceOffset = 3;
-			}
-
-			var Sprites = SpriteContainer.transform.GetComponentsInChildren<SpriteHandlerNorder>();
-
-			var newSprites = Sprites.OrderByDescending(x => x.SpriteOrder.Orders[referenceOffset]).Reverse();
-
-			int i = 0;
-			foreach (var Sprite in newSprites)
-			{
-				(Sprite as SpriteHandlerNorder).gameObject.transform.SetSiblingIndex(i);
-				i++;
-			}
-
-			foreach (var Customisation in OpenCustomisation)
-			{
-				Customisation.SetRotation(referenceOffset);
-			}
-
-			foreach (var PartSpites in OpenBodySprites)
-			{
-				foreach (var PartSpite in PartSpites.Value)
-				{
-					PartSpite.ChangeSpriteVariant(referenceOffset);
-				}
-			}
+			// Ensure "None" is at the top of the option lists
+			itemOptions.Insert(0, "None");
+			itemDropdown.AddOptions(itemOptions);
 		}
 
 		private void SetAllDropdowns()
 		{
-			if (currentCharacter.SerialisedBodyPartCustom == null)
-			{
-				currentCharacter.SerialisedBodyPartCustom = new List<CustomisationStorage>();
-			}
-
-			if (currentCharacter.SerialisedExternalCustom == null)
-			{
-				currentCharacter.SerialisedExternalCustom = new List<ExternalCustomisation>();
-			}
-			bodyPartCustomisationStorage = new List<CustomisationStorage>(currentCharacter.SerialisedBodyPartCustom);
-			ExternalCustomisationStorage = new List<ExternalCustomisation>(currentCharacter.SerialisedExternalCustom);
-			if (bodyPartCustomisationStorage == null)
-			{
-				bodyPartCustomisationStorage = new List<CustomisationStorage>();
-			}
-
-			if (ExternalCustomisationStorage == null)
-			{
-				ExternalCustomisationStorage = new List<ExternalCustomisation>();
-			}
-
-
-			foreach (var Customisation in OpenCustomisation)
-			{
-				ExternalCustomisation MatchedCustomisation = null;
-				foreach (var customisation in ExternalCustomisationStorage)
-				{
-					if (customisation.Key == Customisation.thisCustomisations.name)
-					{
-						MatchedCustomisation = customisation;
-					}
-				}
-
-				if (MatchedCustomisation != null)
-				{
-					Customisation.SetDropdownValue(MatchedCustomisation.SerialisedValue);
-				}
-			}
-
-
-			SetDropDownBody(ThisSetRace.Base.Torso);
-			SetDropDownBody(ThisSetRace.Base.Head);
-			SetDropDownBody(ThisSetRace.Base.ArmLeft);
-			SetDropDownBody(ThisSetRace.Base.ArmRight);
-			SetDropDownBody(ThisSetRace.Base.LegLeft);
-			SetDropDownBody(ThisSetRace.Base.LegRight);
+			SetDropdownValue(hairDropdown, currentCharacter.HairStyleName);
+			SetDropdownValue(facialHairDropdown, currentCharacter.FacialHairName);
+			SetDropdownValue(underwearDropdown, currentCharacter.UnderwearName);
+			SetDropdownValue(socksDropdown, currentCharacter.SocksName);
 		}
 
-
-		public void SetDropDownBody(GameObject GameObjectBody)
+		private void SetDropdownValue(Dropdown itemDropdown, string currentSetting)
 		{
-			if (GameObjectBody == null) return;
+			// Find the index of the setting in the dropdown list which matches the currentSetting
+			int settingIndex = itemDropdown.options.FindIndex(option => option.text == currentSetting);
 
-			var Body = GameObjectBody.GetComponent<ItemStorage>();
-			//currentCharacter.GetDictionary()[GameObjectBody.name]
-			if (OpenBodyCustomisation.ContainsKey(GameObjectBody.name))
+			if (settingIndex != -1)
 			{
-				CustomisationStorage Customisation = null;
-				foreach (var bodyPartCustomisation in bodyPartCustomisationStorage)
-				{
-					if (bodyPartCustomisation.path == GameObjectBody.name)
-					{
-						Customisation = bodyPartCustomisation;
-					}
-				}
-
-				if (Customisation != null)
-				{
-					//Customisation.
-					var TCustomisation = OpenBodyCustomisation[GameObjectBody.name];
-					TCustomisation.Deserialise(Customisation.Data.Replace("@£","\""));
-				}
+				// Make sure FindIndex is successful before changing value
+				itemDropdown.value = settingIndex;
 			}
-
-
-			if (Body != null)
+			else
 			{
-				foreach (var Organ in Body.Populater.Contents)
-				{
-					var Body_part = Organ.GetComponent<BodyPart>();
-					SubSetBodyPart(Body_part, GameObjectBody.name);
-				}
+				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
+				itemDropdown.value = 0;
+				// Needs to be called manually since value is probably already 0, so onValueChanged might not be invoked
+				itemDropdown.onValueChanged.Invoke(0);
 			}
 		}
 
-
-		public void SubSetBodyPart(BodyPart Body_Part, string path)
+		public void DropdownScrollRight(Dropdown dropdown)
 		{
-			path = path + "/" + Body_Part.name;
-			if (OpenBodyCustomisation.ContainsKey(Body_Part.name))
+			// Check if value should wrap around
+			if (dropdown.value < dropdown.options.Count - 1)
 			{
-				CustomisationStorage Customisation = null;
-				foreach (var bodyPartCustomisation in bodyPartCustomisationStorage)
-				{
-					if (bodyPartCustomisation.path == path)
-					{
-						Customisation = bodyPartCustomisation;
-					}
-				}
-
-				if (Customisation != null)
-				{
-					var TCustomisation = OpenBodyCustomisation[Body_Part.name];
-					TCustomisation.Deserialise(Customisation.Data.Replace("@£","\""));
-				}
+				dropdown.value++;
+			}
+			else
+			{
+				dropdown.value = 0;
 			}
 
-			if (Body_Part?.storage?.Populater?.Contents != null)
+			// No need to call Refresh() since it gets called when value changes
+		}
+
+		public void DropdownScrollLeft(Dropdown dropdown)
+		{
+			// Check if value should wrap around
+			if (dropdown.value > 0)
 			{
-				foreach (var Organ in Body_Part.storage.Populater.Contents)
-				{
-					var SUbBody_part = Organ.GetComponent<BodyPart>();
-					SubSetBodyPart(SUbBody_part, path);
-				}
+				dropdown.value--;
 			}
+			else
+			{
+				dropdown.value = dropdown.options.Count - 1;
+			}
+
+			// No need to call Refresh() since it gets called when value changes
 		}
 
 		//------------------
 		//PLAYER ACCOUNTS:
 		//------------------
-		[NaughtyAttributes.Button()]
 		private void SaveData()
 		{
-			ExternalCustomisationStorage.Clear();
-			bodyPartCustomisationStorage.Clear();
-			SaveBodyPart(ThisSetRace.Base.Torso);
-			SaveBodyPart(ThisSetRace.Base.Head);
-			SaveBodyPart(ThisSetRace.Base.ArmLeft);
-			SaveBodyPart(ThisSetRace.Base.ArmRight);
-			SaveBodyPart(ThisSetRace.Base.LegLeft);
-			SaveBodyPart(ThisSetRace.Base.LegRight);
-
-			SaveExternalCustomisations();
-			currentCharacter.SerialisedExternalCustom = new List<ExternalCustomisation>(ExternalCustomisationStorage);
-			;
-			currentCharacter.SerialisedBodyPartCustom = new List<CustomisationStorage>(bodyPartCustomisationStorage);
-			;
-			Logger.Log(JsonConvert.SerializeObject(bodyPartCustomisationStorage));
-			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage));
-
-			PlayerManager.CurrentCharacterSettings = currentCharacter;
 			ServerData.UpdateCharacterProfile(
 				currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
-		}
-
-
-		public void SaveExternalCustomisations()
-		{
-			foreach (var Customisation in OpenCustomisation)
-			{
-				var newExternalCustomisation = new ExternalCustomisation();
-				newExternalCustomisation.Key = Customisation.thisCustomisations.name;
-				newExternalCustomisation.SerialisedValue = Customisation.Serialise();
-				ExternalCustomisationStorage.Add(newExternalCustomisation);
-			}
-		}
-
-		public void SaveBodyPart(GameObject GameObjectBody)
-		{
-			if (GameObjectBody == null) return;
-
-			var Body = GameObjectBody.GetComponent<ItemStorage>();
-			//currentCharacter.GetDictionary()[GameObjectBody.name]
-			if (OpenBodyCustomisation.ContainsKey(GameObjectBody.name))
-			{
-				var NewCustomisationStorage = new CustomisationStorage();
-				NewCustomisationStorage.path = GameObjectBody.name;
-				bodyPartCustomisationStorage.Add(NewCustomisationStorage);
-
-				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[GameObjectBody.name]);
-			}
-
-
-			if (Body != null)
-			{
-				foreach (var Organ in Body.Populater.Contents)
-				{
-					var Body_part = Organ.GetComponent<BodyPart>();
-					SubSaveBodyPart(Body_part, GameObjectBody.name);
-				}
-			}
-		}
-
-
-		public void SaveCustomisations(CustomisationStorage CustomisationStorage,
-			BodyPartCustomisationBase CustomisationObject)
-		{
-			var Customisations = CustomisationObject.GetComponent<BodyPartCustomisationBase>();
-
-			CustomisationStorage.Data = Customisations.Serialise();
-			CustomisationStorage.Data = CustomisationStorage.Data.Replace("\"", "@£");
-
-
-			//CustomisationStorage
-			//SavingDataStorage
-		}
-
-		public void SubSaveBodyPart(BodyPart Body_Part, string path)
-		{
-			path = path + "/" + Body_Part.name;
-			if (OpenBodyCustomisation.ContainsKey(Body_Part.name))
-			{
-				var NewCustomisationStorage = new CustomisationStorage();
-				NewCustomisationStorage.path = path;
-				bodyPartCustomisationStorage.Add(NewCustomisationStorage);
-				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[Body_Part.name]);
-			}
-
-			if (Body_Part?.storage?.Populater?.Contents != null)
-			{
-				foreach (var Organ in Body_Part.storage.Populater.Contents)
-				{
-					var SUbBody_part = Organ.GetComponent<BodyPart>();
-					SubSaveBodyPart(SUbBody_part, path);
-				}
-			}
 		}
 
 		//------------------
@@ -829,7 +309,7 @@ namespace Lobby
 
 		public void RandomNameBtn()
 		{
-			if (currentCharacter.BodyType == BodyType.Male)
+			if (currentCharacter.Gender == Gender.Male)
 			{
 				currentCharacter.Name = TruncateName(StringManager.GetRandomMaleName());
 			}
@@ -861,49 +341,44 @@ namespace Lobby
 		//GENDER:
 		//------------------
 
-		public void OnBodyTypeChange()
+		public void OnGenderChange()
 		{
-			// ThisBodyType
-			// AvailableBodyTypes
-			SelectedBodyType++;
-			if (SelectedBodyType >= AvailableBodyTypes.Count)
+			int gender = (int) currentCharacter.Gender;
+			gender++;
+			if (gender == (int) Gender.Neuter)
 			{
-				SelectedBodyType = 0;
+				gender = 0;
 			}
 
-			RefreshBodyType();
+			currentCharacter.Gender = (Gender) gender;
+
+			// Repopulate underwear and facial hair dropdown boxes
+			PopulateDropdown(CustomisationType.FacialHair, facialHairDropdown);
+			PopulateDropdown(CustomisationType.Underwear, underwearDropdown);
+
+			// Set underwear and facial hair to default setting (None)
+			FacialHairDropdownChange(0);
+			UnderwearDropdownChange(0);
+
+			RefreshGender();
 		}
 
-		private void RefreshBodyType()
+		private void RefreshGender()
 		{
-			genderText.text = ThisBodyType.Name;
-			SurfaceSprite.Clear();
-			var Copy = new Dictionary<BodyPart, List<SpriteHandlerNorder>>(OpenBodySprites);
-			foreach (var KVP in Copy)
+			genderText.text = currentCharacter.Gender.ToString();
+			if (currentCharacter.Gender == Gender.Female)
 			{
-				foreach (var Sprite in KVP.Value)
-				{
-					Destroy(Sprite.gameObject);
-				}
-
-				SetupBodyPartsSprites(KVP.Key);
-
-
+				headSpriteController.sprites.SetSpriteSO(playerTextureData.Female.Head);
+				torsoSpriteController.sprites.SetSpriteSO(playerTextureData.Female.Torso);
+			}
+			else
+			{
+				headSpriteController.sprites.SetSpriteSO(playerTextureData.Male.Head);
+				torsoSpriteController.sprites.SetSpriteSO(playerTextureData.Male.Torso);
 			}
 
-			foreach (var BodyCustomisation in OpenBodyCustomisation)
-			{
-				BodyCustomisation.Value.Refresh();
-			}
-
-			foreach (var Customisation in OpenCustomisation)
-			{
-				Customisation.Refresh();
-			}
-
-			currentCharacter.BodyType = AvailableBodyTypes[SelectedBodyType].bodyType;
-			SkinColourChange(CurrentSurfaceColour);
-			SetRotation();
+			headSpriteController.UpdateSprite();
+			torsoSpriteController.UpdateSprite();
 		}
 
 		//------------------
@@ -922,13 +397,234 @@ namespace Lobby
 			currentCharacter.Age = tryInt;
 			RefreshAge();
 		}
+		//------------------
+		//EYE COLOR:
+		//------------------
 
+		public void OpenEyesColorPicker()
+		{
+			if (!colorPicker.gameObject.activeInHierarchy)
+			{
+				OpenColorPicker(eyeColor.color, EyeColorChange, 182f);
+			}
+		}
+
+		private void EyeColorChange(Color newColor)
+		{
+			currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			RefreshEyes();
+		}
+
+		private void RefreshEyes()
+		{
+			Color setColor = Color.black;
+			ColorUtility.TryParseHtmlString(currentCharacter.EyeColor, out setColor);
+			eyesSpriteController.sprites.SetColor(setColor);
+			eyeColor.color = setColor;
+		}
+
+		//------------------
+		//HAIR:
+		//------------------
+
+		public void HairDropdownChange(int index)
+		{
+			currentCharacter.HairStyleName = hairDropdown.options[index].text;
+			RefreshHair();
+		}
+
+		public void OpenHairColorPicker()
+		{
+			if (!colorPicker.gameObject.activeInHierarchy)
+			{
+				OpenColorPicker(hairColor.color, HairColorChange, 276f);
+			}
+		}
+
+		private void HairColorChange(Color newColor)
+		{
+			hairColor.color = newColor;
+			currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			RefreshHair();
+		}
+
+		private void RefreshHair()
+		{
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.HairStyle,
+				currentCharacter.Gender,
+				currentCharacter.HairStyleName
+			);
+			if (pcd == null)
+			{
+				hairSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
+			}
+			else
+			{
+				hairSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				hairSpriteController.UpdateSprite();
+			}
+
+
+			Color setColor = Color.black;
+			ColorUtility.TryParseHtmlString(currentCharacter.HairColor, out setColor);
+			hairSpriteController.sprites.SetColor(setColor);
+			hairColor.color = setColor;
+		}
+
+		//------------------
+		//FACIAL HAIR:
+		//------------------
+
+		public void FacialHairDropdownChange(int index)
+		{
+			currentCharacter.FacialHairName = facialHairDropdown.options[index].text;
+			RefreshFacialHair();
+		}
+
+		private void RefreshFacialHair()
+		{
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.FacialHair,
+				currentCharacter.Gender,
+				currentCharacter.FacialHairName
+			);
+
+			if (pcd == null)
+			{
+				facialHairSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
+			}
+			else
+			{
+				facialHairSpriteController.image.enabled = true;
+				facialHairSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				facialHairSpriteController.UpdateSprite();
+			}
+
+
+			Color setColor = Color.black;
+			ColorUtility.TryParseHtmlString(currentCharacter.FacialHairColor, out setColor);
+			facialHairSpriteController.sprites.SetColor(setColor);
+			facialColor.color = setColor;
+		}
+
+		public void OpenFacialHairPicker()
+		{
+			if (!colorPicker.gameObject.activeInHierarchy)
+			{
+				OpenColorPicker(facialColor.color, FacialHairColorChange, 64f);
+			}
+		}
+
+		private void FacialHairColorChange(Color newColor)
+		{
+			currentCharacter.FacialHairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			RefreshFacialHair();
+		}
+
+		//------------------
+		//SKIN TONE:
+		//------------------
+		private void RefreshSkinColor()
+		{
+			Color setColor = Color.black;
+			ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out setColor);
+			skinColor.color = setColor;
+			for (int i = 0; i < skinControllers.Length; i++)
+			{
+				skinControllers[i].sprites.SetColor(setColor);
+			}
+		}
+
+		public void SkinToneScrollRight()
+		{
+			int index = availableSkinColors.IndexOf(currentCharacter.SkinTone);
+			index++;
+			if (index == availableSkinColors.Count)
+			{
+				index = 0;
+			}
+
+			currentCharacter.SkinTone = availableSkinColors[index];
+			RefreshSkinColor();
+		}
+
+		public void SkinToneScrollLeft()
+		{
+			int index = availableSkinColors.IndexOf(currentCharacter.SkinTone);
+			index--;
+			if (index < 0)
+			{
+				index = availableSkinColors.Count - 1;
+			}
+
+			currentCharacter.SkinTone = availableSkinColors[index];
+			RefreshSkinColor();
+		}
+
+		//------------------
+		//UNDERWEAR:
+		//------------------
+
+		public void UnderwearDropdownChange(int index)
+		{
+			currentCharacter.UnderwearName = underwearDropdown.options[index].text;
+			RefreshUnderwear();
+		}
+
+		private void RefreshUnderwear()
+		{
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.Underwear,
+				currentCharacter.Gender,
+				currentCharacter.UnderwearName
+			);
+			if (pcd == null)
+			{
+				underwearSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
+			}
+			else
+			{
+				underwearSpriteController.image.enabled = true;
+				underwearSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				underwearSpriteController.UpdateSprite();
+			}
+		}
+
+		//------------------
+		//SOCKS:
+		//------------------
+
+		public void SocksDropdownChange(int index)
+		{
+			currentCharacter.SocksName = socksDropdown.options[index].text;
+			RefreshSocks();
+		}
+
+		private void RefreshSocks()
+		{
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.Socks,
+				currentCharacter.Gender,
+				currentCharacter.SocksName
+			);
+			if (pcd == null)
+			{
+				socksSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
+			}
+			else
+			{
+				socksSpriteController.image.enabled = true;
+				socksSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				socksSpriteController.UpdateSprite();
+			}
+		}
 
 		//------------------
 		//COLOR SELECTOR:
 		//------------------
 
-		public void OpenColorPicker(Color currentColor, Action<Color> _colorChangeEvent, float yPos)
+		private void OpenColorPicker(Color currentColor, Action<Color> _colorChangeEvent, float yPos)
 		{
 			var rectT = colorPicker.gameObject.GetComponent<RectTransform>();
 			var anchoredPos = rectT.anchoredPosition;
@@ -1013,41 +709,6 @@ namespace Lobby
 			accentText.text = currentCharacter.Speech.ToString();
 		}
 
-		public void OnSurfaceColourChange()
-		{
-			if (availableSkinColors.Count > 0)
-			{
-				CurrentSurfaceInt++;
-				if (CurrentSurfaceInt >= availableSkinColors.Count)
-				{
-					CurrentSurfaceInt = 0;
-				}
-
-				CurrentSurfaceColour = availableSkinColors[CurrentSurfaceInt];
-
-			}
-
-			else
-			{
-				OpenColorPicker(CurrentSurfaceColour, SkinColourChange, 32f);
-			}
-
-			SkinColourChange(CurrentSurfaceColour);
-
-
-		}
-
-		public void SkinColourChange(Color color)
-		{
-			CurrentSurfaceColour = color;
-			foreach (var SP in SurfaceSprite)
-			{
-				SP.SpriteHandler.SetColor(CurrentSurfaceColour);
-			}
-
-			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
-		}
-
 		//------------------
 		//RACE PREFERENCE:
 		//------------------
@@ -1055,95 +716,20 @@ namespace Lobby
 
 		public void OnRaceChange()
 		{
-			SelectedSpecies++;
-			if (SelectedSpecies >= RaceSOSingleton.Instance.Races.Count)
+			int race = (int) currentCharacter.Race;
+			race++;
+			if (race == (int)Race.Human)
 			{
-				SelectedSpecies = 0;
+				race = 0;
 			}
 
-			currentCharacter.Species = RaceSOSingleton.Instance.Races[SelectedSpecies].name;
-
-			Cleanup();
-
+			currentCharacter.Race = (Race)race;
 			RefreshRace();
 		}
 
 		private void RefreshRace()
 		{
-			SaveData();
-			raceText.text = currentCharacter.Species.ToString();
-			var SetRace= RaceSOSingleton.Instance.Races[SelectedSpecies];
-			availableSkinColors = SetRace.Base.SkinColours;
-			SetUpSpeciesBody(SetRace);
-			PopulateAllDropdowns(SetRace);
-			DoInitChecks();
-
-			foreach (var BodyCustomisation in OpenBodyCustomisation)
-			{
-				BodyCustomisation.Value.Refresh();
-			}
-
-			foreach (var Customisation in OpenCustomisation)
-			{
-				Customisation.Refresh();
-			}
-
+			raceText.text = currentCharacter.Race.ToString();
 		}
-
-
-		public void InputSerialiseData()
-		{
-			SaveData();
-			SerialiseData.text = JsonConvert.SerializeObject(currentCharacter);
-		}
-
-
-		public void LoadSerialisedData()
-		{
-			var inCharacter = JsonConvert.DeserializeObject<CharacterSettings>(SerialiseData.text);
-			if (inCharacter != null)
-			{
-				currentCharacter = inCharacter;
-				currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
-				Cleanup();
-				LoadSettings(currentCharacter);
-			}
-
-
-		}
-
-
-		public enum CharacterDir
-		{
-			down,
-			left,
-			up,
-			right
-		}
-	}
-
-	public class ExternalCustomisation
-	{
-		public string Key;
-		public CharacterSettings.CustomisationClass SerialisedValue;
-	}
-
-	public class CustomisationStorage
-	{
-		public string path;
-		public string Data;
-	}
-
-	public class DataAndType
-	{
-		public CustomisationType CustomisationType;
-		public string data;
-	}
-
-	public enum CustomisationType
-	{
-		Custom,
-		Replace,
-		Additional
 	}
 }
