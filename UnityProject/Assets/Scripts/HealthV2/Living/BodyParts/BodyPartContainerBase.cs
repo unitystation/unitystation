@@ -1,6 +1,8 @@
 ﻿using System;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
+using System.Collections.Generic;
 
 namespace HealthV2
 {
@@ -28,17 +30,41 @@ namespace HealthV2
 		private ItemStorage storage;
 
 		[SerializeField]
+		[FormerlySerializedAs("bodyPartSprites")]
 		private BodyPartSprites bodyPartSprites;
+
+		[SerializeField]
+		private BodyPartType bodyPartType;
+
+
+		public readonly Dictionary<BodyPartType, BodyPartSprites> bodyparts = new Dictionary<BodyPartType, BodyPartSprites>();
+
+
+
 
 		public event Action<ImplantBase, ImplantBase> ImplantUpdateEvent;
 		void Awake()
 		{
+			foreach (BodyPartSprites b in GetComponentsInParent<BodyPartSprites>())
+			{
+				if(b.bodyPartType.Equals(bodyPartType))
+				{
+					Debug.Log(b);
+				}
+			
+				//TODO: Do we need to add listeners for implant removal
+			}
+
 			storage = GetComponent<ItemStorage>();
 			storage.ServerInventoryItemSlotSet += ImplantAdded;
 
 			if (!healthMaster)
 			{
 				healthMaster = GetComponentInParent<LivingHealthMasterBase>();
+			}
+			if (!bodyPartSprites)
+			{
+				bodyPartSprites = GetComponentInParent<BodyPartSprites>();
 			}
 
 		}

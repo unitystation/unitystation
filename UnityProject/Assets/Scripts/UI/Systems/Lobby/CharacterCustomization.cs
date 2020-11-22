@@ -16,6 +16,7 @@ namespace Lobby
 		public Text clothingText;
 		public Text backpackText;
 		public Text accentText;
+		public Text raceText;
 		public Image hairColor;
 		public Image eyeColor;
 		public Image facialColor;
@@ -706,6 +707,29 @@ namespace Lobby
 		private void RefreshAccent()
 		{
 			accentText.text = currentCharacter.Speech.ToString();
+		}
+
+		//------------------
+		//RACE PREFERENCE:
+		//------------------
+		// This will be a temporal thing until we have proper character traits
+
+		public void OnRaceChange()
+		{
+			int race = (int) currentCharacter.Race;
+			race++;
+			if (race == (int)Race.Human)
+			{
+				race = 0;
+			}
+
+			currentCharacter.Race = (Race)race;
+			RefreshRace();
+		}
+
+		private void RefreshRace()
+		{
+			raceText.text = currentCharacter.Race.ToString();
 		}
 	}
 }
