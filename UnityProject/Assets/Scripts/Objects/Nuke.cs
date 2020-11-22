@@ -62,7 +62,7 @@ namespace Objects.Command
 		public string CurrentCode => currentCode;
 
 		//Nuke code is only populated on the server
-		private int nukeCode;
+		private static int nukeCode;
 		public int NukeCode => nukeCode;
 
 		private void Awake()
@@ -82,7 +82,10 @@ namespace Objects.Command
 		[Server]
 		public void CodeGenerator()
 		{
-			nukeCode = Random.Range(1000, 9999);
+			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound) //midround admin spawned nukes wont change the code
+			{
+				nukeCode = Random.Range(1000, 9999);
+			}
 			//Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
 		}
 
