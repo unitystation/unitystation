@@ -143,7 +143,6 @@ public class ItemSlot
 		this.slotIdentifier = slotIdentifier;
 	}
 
-
 	/// <summary>
 	/// Gets the specified slot from the specified storage. Null if this item storage does not have
 	/// a slot with the given identifier.
@@ -153,6 +152,7 @@ public class ItemSlot
 	/// <returns></returns>
 	public static ItemSlot Get(ItemStorage itemStorage, SlotIdentifier slotIdentifier)
 	{
+
 		if (!itemStorage.HasSlot(slotIdentifier)) return null;
 
 		var instanceID = itemStorage.GetInstanceID();
