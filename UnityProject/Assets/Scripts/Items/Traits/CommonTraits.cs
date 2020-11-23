@@ -64,4 +64,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait RawDurathreadBundle;
 	public ItemTrait Loomable;
 	public ItemTrait WizardGarb;
+	public ItemTrait Suppressor;
 }

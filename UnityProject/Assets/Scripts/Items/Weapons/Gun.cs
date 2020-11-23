@@ -14,7 +14,7 @@ namespace Weapons
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(GunTrigger))]
 	public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
-		IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
+		ICheckedInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 	{
 		//constants for calculating screen shake due to recoil. Currently unused.
 		/*
@@ -108,6 +108,12 @@ namespace Weapons
 		public string FiringSound;
 
 		/// <summary>
+		/// The name of the sound this gun makes when shooting
+		/// </summary>
+		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
+		public string SuppressedSound;
+
+		/// <summary>
 		/// The amount of times per second this weapon can fire
 		/// </summary>
 		[Tooltip("The amount of times per second this weapon can fire")]
@@ -165,6 +171,9 @@ namespace Weapons
 		private GunTrigger gunTrigger;
 
 		public bool isSuppressed;
+		public bool isSuppressible;
+		[SerializeField]
+		private GameObject suppressor;
 
 		#region Init Logic
 
@@ -371,12 +380,39 @@ namespace Weapons
 			return false;
 		}
 
-		public bool Interact(InventoryApply interaction)
+		public void ServerPerformInteraction(InventoryApply interaction)
 		{
-			//only reload if the gun is the target and mag/clip is in hand slot
-			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) && !isSuppressed && isSuppressible)
 			{
-				if (interaction.UsedObject != null)
+				isSuppressed = true;
+				// setting the suppressor var to the gameobject and then spawning that would be better,
+				// however the despawning sets the var to null
+				Despawn.ServerSingle(interaction.UsedObject);
+			}
+			else if (isSuppressed && isSuppressible && interaction.UsedObject == null)
+			{
+				isSuppressed = false;
+				var result = Spawn.ServerPrefab(suppressor);
+				if (result.Successful)
+				{
+				var item = result.GameObject;
+				Inventory.ServerAdd(item, interaction.FromSlot);
+				}
+			}
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
+			//only reload if the gun is the target and mag/clip is in hand slot
+			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot && side == NetworkSide.Client)
+			{
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) || interaction.IsAltClick)
+				{
+					return true;
+				}
+				else if (interaction.UsedObject != null)
 				{
 					MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 					if (mag)
@@ -385,7 +421,6 @@ namespace Weapons
 						return true;
 					}
 				}
-
 			}
 			return false;
 		}
@@ -677,7 +712,14 @@ namespace Weapons
 					A.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
 			}
-			SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
+			if (isSuppressed)
+			{
+				SoundManager.PlayAtPosition(SuppressedSound, shooter.transform.position, shooter);
+			}
+			else
+			{
+				SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
+			}
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
 
