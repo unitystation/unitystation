@@ -712,7 +712,7 @@ namespace Weapons
 					A.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
 			}
-			if (isSuppressed)
+			if (isSuppressed && SuppressedSound != null)
 			{
 				SoundManager.PlayAtPosition(SuppressedSound, shooter.transform.position, shooter);
 			}
