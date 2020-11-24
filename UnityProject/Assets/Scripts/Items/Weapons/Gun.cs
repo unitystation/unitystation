@@ -180,7 +180,7 @@ namespace Weapons
 		/// Enables or disables the behaviour related to applying and removing suppressors from the gun
 		/// </summary>
 		[Tooltip("If suppressors can be applied or removed")]
-		public bool isSuppressible;
+		private bool isSuppressible;
 
 		[SerializeField]
 		private GameObject suppressor;
