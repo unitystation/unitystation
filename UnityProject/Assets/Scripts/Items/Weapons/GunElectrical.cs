@@ -28,7 +28,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		base.OnSpawnServer(info);
 	}
 
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	public override bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
 		return DefaultWillInteract.Default(interaction, side);
 	}
@@ -45,7 +45,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		return base.WillInteract(interaction, side);
 	}
 
-	public void ServerPerformInteraction(HandActivate interaction)
+	public override void ServerPerformInteraction(HandActivate interaction)
 	{
 		if (firemodeProjectiles.Count <= 1)
 			return;
@@ -77,7 +77,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 
 	public override String Examine(Vector3 pos)
 	{
-		string returnstring = WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null ? (Mathf.Floor(battery.Watts / firemodeUsage[currentFiremode]) + " rounds loaded in magazine") : "It's empty!") + ")";
+		string returnstring = WeaponType + " - Fires " + ammoType + " ammunition (" + (battery.Watts != 0 ? (Mathf.Floor(battery.Watts / firemodeUsage[currentFiremode]) + " rounds loaded in magazine") : "It's empty!") + ")";
 
 		if (firemodeProjectiles.Count > 1) {
 			returnstring += "\nIt is set to " + firemodeName[currentFiremode] + " mode.";
