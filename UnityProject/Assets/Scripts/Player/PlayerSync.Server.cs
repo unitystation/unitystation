@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Doors;
+using Items;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;

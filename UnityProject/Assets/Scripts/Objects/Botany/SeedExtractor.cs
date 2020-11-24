@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Systems.Electricity;
 using Systems.Botany;
+using Items;
 using Items.Botany;
 
 namespace Objects.Botany
