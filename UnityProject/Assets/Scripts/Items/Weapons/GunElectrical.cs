@@ -77,7 +77,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 
 	public override String Examine(Vector3 pos)
 	{
-		string returnstring = WeaponType + " - Fires " + ammoType + " ammunition (" + (battery.Watts != 0 ? (Mathf.Floor(battery.Watts / firemodeUsage[currentFiremode]) + " rounds loaded in magazine") : "It's empty!") + ")";
+		string returnstring = WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null ? (Mathf.Floor(battery.Watts / firemodeUsage[currentFiremode]) + " rounds loaded in magazine") : "It's empty!") + ")";
 
 		if (firemodeProjectiles.Count > 1) {
 			returnstring += "\nIt is set to " + firemodeName[currentFiremode] + " mode.";

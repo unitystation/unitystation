@@ -172,8 +172,9 @@ namespace Weapons
 		/// <summary>
 		/// If true, displays a message whenever a gun is shot
 		/// </summary>
-		[SyncVar(hook = nameof(SyncIsSuppressed)), Tooltip("If the gun displays a shooter message")]
-		public bool isSuppressed;
+		[SerializeField, SyncVar(hook = nameof(SyncIsSuppressed)), Tooltip("If the gun displays a shooter message")]
+		private bool isSuppressed;
+		public bool IsSuppressed => isSuppressed;
 
 		/// <summary>
 		/// Enables or disables the behaviour related to applying and removing suppressors from the gun
@@ -318,7 +319,7 @@ namespace Weapons
 
 		public virtual bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
 
 			//try ejecting the mag if external
@@ -331,7 +332,7 @@ namespace Weapons
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
 
 			//only reload if the gun is the target and mag/clip is in hand slot
@@ -529,7 +530,6 @@ namespace Weapons
 				AmmoType ammoType = magazine.ammoType;
 				if (this.ammoType == ammoType)
 				{
-					var hand = UIManager.Hands.CurrentSlot.NamedSlot;
 					return true;
 				}
 				if (this.ammoType != ammoType)

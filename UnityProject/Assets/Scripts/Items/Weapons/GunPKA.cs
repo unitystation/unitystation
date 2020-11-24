@@ -38,7 +38,7 @@ public class GunPKA : Gun
 		yield return WaitFor.Seconds(rechargeTime);
 		CurrentMagazine.ServerSetAmmoRemains(1);
 		CurrentMagazine.LoadProjectile(Projectile, 1);
-		if (isSuppressed)
+		if (IsSuppressed)
 		{
 			if (serverHolder != null)
 			{
