@@ -135,6 +135,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
+	public override void OnStartHost()
+	{
+		AddressableCatalogueManager.LoadHostCatalogues();
+	}
+
+	public override void OnStartClient()
+	{
+		AddressableCatalogueManager.Instance.LoadClientCatalogues();
+	}
+
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnection conn)
 	{

@@ -22,7 +22,7 @@ public class GenerateSpriteSO : EditorWindow
 	public static void GetMusicKeys()
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
-		path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData/StandaloneWindows64"; //Make OS agnostic
+		path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
 		Logger.Log(path);
 		var Files = System.IO.Directory.GetFiles(path);
 		string FoundFile = "";

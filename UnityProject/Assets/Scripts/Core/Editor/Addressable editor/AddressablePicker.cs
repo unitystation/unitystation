@@ -31,10 +31,10 @@ public class AddressablePicker : EditorWindow
 		return  AssetDatabase.LoadAssetAtPath<CatalogueData>("Assets/CachedData/CatalogueData.asset");
 	}
 
-	public static void Refresh()
+	public static string GetCataloguePath()
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
-		path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData/StandaloneWindows64"; //Make OS agnostic
+		path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData/"; //Make OS agnostic
 		Logger.Log(path);
 		var Files = System.IO.Directory.GetFiles(path);
 		string FoundFile = "";
@@ -43,6 +43,10 @@ public class AddressablePicker : EditorWindow
 			//Logger.Log(File);
 			if (File.EndsWith(".json"))
 			{
+				if (FoundFile != "")
+				{
+					Logger.LogError("two catalogues present please only ensure one");
+				}
 				FoundFile = File;
 			}
 		}
@@ -50,9 +54,15 @@ public class AddressablePicker : EditorWindow
 		if (FoundFile == "")
 		{
 			Logger.LogWarning("missing json file");
-			return;
+			return "";
 		}
 
+		return FoundFile;
+	}
+
+	public static void Refresh()
+	{
+		var FoundFile = GetCataloguePath();
 		JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"\"))));
 		var IDs = o1.GetValue("m_InternalIds");
 		var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);

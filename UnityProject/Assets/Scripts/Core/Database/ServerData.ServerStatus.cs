@@ -237,6 +237,14 @@ namespace DatabaseAPI
 
 		//Sends Admin actions to a webhook
 		public string DiscordWebhookErrorLogURL;
+
+		//The Catalogue that the client should load when connecting and the catalogues the server loads on its end
+		//Catalogues as in addressable catalogues with content
+		public List<string> AddressableCatalogues;
+
+		//Built in catalogue content
+		//Such as Lobby music
+		public List<string> LobbyAddressableCatalogues;
 	}
 
     //Used to identify the build and fork of this client/server
