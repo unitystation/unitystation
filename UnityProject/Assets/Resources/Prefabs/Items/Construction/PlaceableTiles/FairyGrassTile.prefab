@@ -13,16 +13,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 60d003740ca847241ba7371b4c983219,
         type: 2}
-    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: waysToPlace.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: waysToPlace.Array.data[0].placeableOn
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: initialName
@@ -42,7 +32,7 @@ PrefabInstance:
     - target: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: m_Name
-      value: TileFairygrass
+      value: FairyGrassTile
       objectReference: {fileID: 0}
     - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
