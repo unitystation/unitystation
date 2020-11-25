@@ -2,6 +2,8 @@
 ---
 
 
+* 2020/11/25: Fixed bug where some floor tile items didn't get used up when you placed them down. by [PetMudstone](https://github.com/PetMudstone) in PR #[5674](https://github.com/unitystation/unitystation/pull/5674)
+* 2020/11/23: Removed ability to fly shuttles and asteroids that shouldn't have been able to be flown around. by [PetMudstone](https://github.com/PetMudstone) in PR #[5668](https://github.com/unitystation/unitystation/pull/5668)
 * 2020/11/17: Adds some more artifacts by [ThatDan123](https://github.com/ThatDan123) in PR #[5632](https://github.com/unitystation/unitystation/pull/5632)
 * 2020/11/15: Renamed "Cutthroat" pistol to Makarov, since that's what it resembles now. by [PetMudstone](https://github.com/PetMudstone) in PR #[5615](https://github.com/unitystation/unitystation/pull/5615)
 * 2020/11/15: Added new Stechkin sprites by schwick. by [PetMudstone](https://github.com/PetMudstone) in PR #[5615](https://github.com/unitystation/unitystation/pull/5615)
