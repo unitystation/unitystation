@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CatalogueData", menuName = "ScriptableObjects/CatalogueData")]
 public class CatalogueData : ScriptableObject
 {
-	public List<string> SoundAndMusic = new List<string>();
+	public CatalogueDictionary Data = new CatalogueDictionary();
 }

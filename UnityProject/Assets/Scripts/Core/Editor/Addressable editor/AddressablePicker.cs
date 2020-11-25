@@ -10,66 +10,103 @@ public class AddressablePicker : EditorWindow
 {
 	private static bool refresh = false;
 
-	private static string[] Options;
+	private static Dictionary<string, string[]> Options;
 
-	public static string[] options
+	public static Dictionary<string, string[]> options
 	{
 		get
 		{
-			if (catalogueData == null || Options == null)
+			if (catalogueData == null || Options.Count == 0)
 			{
 				catalogueData = GetCatalogueData();
-				Options = catalogueData.SoundAndMusic.ToArray();
+				Options = new Dictionary<string, string[]>();
+				foreach (var keyv in catalogueData.Data)
+				{
+					Options[keyv.Key] = keyv.Value.ToArray();
+				}
+
+				if (Options.Count == 0)
+				{
+					Refresh();
+				}
 			}
+
 			return Options;
 		}
 	}
+
 	public static CatalogueData catalogueData = null;
 
 	public static CatalogueData GetCatalogueData()
 	{
-		return  AssetDatabase.LoadAssetAtPath<CatalogueData>("Assets/CachedData/CatalogueData.asset");
+		return AssetDatabase.LoadAssetAtPath<CatalogueData>("Assets/CachedData/CatalogueData.asset");
 	}
 
-	public static string GetCataloguePath()
+	public static List<string> GetCataloguePath()
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
-		path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData/"; //Make OS agnostic
+		path = path + "/AddressablePackingProjects";
 		Logger.Log(path);
-		var Files = System.IO.Directory.GetFiles(path);
-		string FoundFile = "";
-		foreach (var File in Files)
+		var Directories = System.IO.Directory.GetDirectories(path);
+		var FoundFiles = new List<string>();
+		foreach (var Directori in Directories)
 		{
-			//Logger.Log(File);
-			if (File.EndsWith(".json"))
+			var newpath = Directori + "/ServerData";
+			if (System.IO.Directory.Exists(newpath))
 			{
-				if (FoundFile != "")
+				var Files = System.IO.Directory.GetFiles(newpath);
+
+				string FoundFile = "";
+				foreach (var File in Files)
 				{
-					Logger.LogError("two catalogues present please only ensure one");
+					//Logger.Log(File);
+					if (File.EndsWith(".json"))
+					{
+						if (FoundFile != "")
+						{
+							Logger.LogError("two catalogues present please only ensure one");
+						}
+
+						FoundFile = File;
+					}
 				}
-				FoundFile = File;
+
+				if (FoundFile == "")
+				{
+					Logger.LogWarning("missing json file");
+				}
+				else
+				{
+					FoundFiles.Add(FoundFile);
+				}
 			}
 		}
 
-		if (FoundFile == "")
-		{
-			Logger.LogWarning("missing json file");
-			return "";
-		}
-
-		return FoundFile;
+		return FoundFiles;
 	}
+
 
 	public static void Refresh()
 	{
-		var FoundFile = GetCataloguePath();
-		JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"\"))));
-		var IDs = o1.GetValue("m_InternalIds");
-		var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
-		Options = ListIDs.ToArray();
-		catalogueData = AssetDatabase.LoadAssetAtPath<CatalogueData>("Assets/CachedData/CatalogueData.asset");
-		catalogueData.SoundAndMusic = ListIDs.ToList();
+		var FoundFiles = GetCataloguePath();
+		foreach (var FoundFile in FoundFiles)
+		{
+			JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"\"))));
+			var IDs = o1.GetValue("m_InternalIds");
+			var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
+
+			catalogueData = AssetDatabase.LoadAssetAtPath<CatalogueData>("Assets/CachedData/CatalogueData.asset");
+			var flip = new FileInfo(FoundFile);
+			catalogueData.Data[flip.Directory.Parent.Name] = ListIDs.ToList();
+
+		}
+
+		Options = new Dictionary<string, string[]>();
+		foreach (var keyv in catalogueData.Data)
+		{
+			Options[keyv.Key] = keyv.Value.ToArray();
+		}
+
 		EditorUtility.SetDirty(catalogueData);
 	}
-
 }
