@@ -29,6 +29,22 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		string labelText = label.text;
 		position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
+		string AddressableType = "";
+
+		if (property.name == "AddressableAudioSource")
+		{
+			AddressableType = "SoundAndMusic";
+		}
+		else
+		{
+			AddressableType = "SoundAndMusic";
+		}
+
+		bool Refresh = GUILayout.Button("Refresh catalogue");
+		if (Refresh)
+		{
+			AddressablePicker.Refresh();
+		}
 		//EditorGUI.indentLevel++;
 		EditorGUI.BeginChangeCheck();
 		var Path = property.FindPropertyRelative("AssetAddress");
@@ -63,13 +79,13 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		var inint = 0;
 		if (searchString != "")
 		{
-			temarry = (AddressablePicker.options.Where(x =>
+			temarry = (AddressablePicker.options[AddressableType].Where(x =>
 				x.IndexOf(searchString, StringComparison.CurrentCultureIgnoreCase) >= 0)).ToArray();
 			inint = temarry.ToList().IndexOf(Path.stringValue);
 		}
 		else
 		{
-			inint = AddressablePicker.options.ToList().IndexOf(Path.stringValue);
+			inint = AddressablePicker.options[AddressableType].ToList().IndexOf(Path.stringValue);
 		}
 
 		if (inint == -1)
@@ -83,11 +99,11 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		}
 		else
 		{
-			_choiceIndex = EditorGUILayout.Popup(inint, AddressablePicker.options);
+			_choiceIndex = EditorGUILayout.Popup(inint, AddressablePicker.options[AddressableType]);
 		}
 
 
-		bool Refresh = GUILayout.Button("Refresh catalogue");
+
 		EditorGUI.indentLevel--;
 		if (searchString != "")
 		{
@@ -109,7 +125,7 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		}
 		else
 		{
-			Path.stringValue = AddressablePicker.options[_choiceIndex];
+			Path.stringValue = AddressablePicker.options[AddressableType][_choiceIndex];
 		}
 
 		EditorGUI.PropertyField(new Rect(x, position.y + (Height * 3), width, Height), AssetReference,
@@ -129,10 +145,7 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 			}
 		}
 
-		if (Refresh)
-		{
-			AddressablePicker.Refresh();
-		}
+
 
 		//EditorGUI.indentLevel--;
 		searchChange = false;
