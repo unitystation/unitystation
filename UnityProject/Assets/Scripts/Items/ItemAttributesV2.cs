@@ -13,7 +13,7 @@ namespace Items
 	[RequireComponent(typeof(Pickupable))] //Inventory interaction
 	[RequireComponent(typeof(ObjectBehaviour))] //pull and Push
 	[RequireComponent(typeof(RegisterItem))] //Registry with subsistence
-	public class ItemAttributesV2 : Attributes
+	public class ItemAttributesV2 : Attributes, IServerSpawn
 	{
 		[SerializeField]
 		[Tooltip("Initial traits of this item on spawn.")]
@@ -189,7 +189,7 @@ namespace Items
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			SyncSize(size, initialSize);
+			size = initialSize;
 		}
 
 		#endregion Lifecycle
@@ -203,6 +203,7 @@ namespace Items
 		{
 			return traits;
 		}
+
 
 		/// <summary>
 		/// Does it have the given trait?
@@ -295,6 +296,8 @@ namespace Items
 			ClothingV2 clothing = GetComponent<ClothingV2>();
 			if (clothing != null) clothing.AssignPaletteToSprites(this.ItemSprites.Palette);
 		}
+
+
 	}
 
 	public enum SoundItemSettings

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
@@ -62,6 +59,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	[SerializeField]
 	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
+
+	[Server]
+	public void SetExportCost(int value)
+	{
+		exportCost = value;
+	}
 
 	[SyncVar(hook = nameof(SyncArticleDescription))]
 	private string articleDescription;
