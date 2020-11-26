@@ -57,6 +57,7 @@ MonoBehaviour:
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FiringSound: 
+  SuppressedSound: 
   FireRate: 0
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
@@ -66,6 +67,9 @@ MonoBehaviour:
     RecoveryDuration: 0
   WeaponType: 0
   isSuppressed: 0
+  isSuppressible: 0
+  suppressor: {fileID: 5065923221907874056, guid: 557cc8a1b0b8fd7409c7b846fb7f5c12,
+    type: 3}
 --- !u!1001 &8150967651737613344
 PrefabInstance:
   m_ObjectHideFlags: 0

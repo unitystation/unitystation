@@ -36,36 +36,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		spriteRendererSource = null;
 	}
 
-	[Command]
-	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, NamedSlot hand)
-	{
-		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-
-		Gun gun = gunObject.GetComponent<Gun>();
-		uint networkID = magazine.GetComponent<NetworkIdentity>().netId;
-		gun.ServerHandleReloadRequest(networkID);
-	}
-
-	[Command]
-	public void CmdUnloadWeapon(GameObject gunObject)
-	{
-		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-
-		Gun gun = gunObject.GetComponent<Gun>();
-
-		var cnt = gun.CurrentMagazine?.GetComponent<CustomNetTransform>();
-		if (cnt != null)
-		{
-			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.WorldImpulse);
-		} else {
-			Logger.Log("Magazine not found for unload weapon", Category.Firearms);
-		}
-
-		gun.ServerHandleUnloadRequest();
-	}
-
 	/// <summary>
 	/// Perform a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
 	/// if weapon is null.

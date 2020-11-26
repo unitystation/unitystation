@@ -28,7 +28,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		base.OnSpawnServer(info);
 	}
 
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	public override bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
 		return DefaultWillInteract.Default(interaction, side);
 	}
@@ -45,7 +45,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		return base.WillInteract(interaction, side);
 	}
 
-	public void ServerPerformInteraction(HandActivate interaction)
+	public override void ServerPerformInteraction(HandActivate interaction)
 	{
 		if (firemodeProjectiles.Count <= 1)
 			return;
