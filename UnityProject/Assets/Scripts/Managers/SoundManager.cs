@@ -215,7 +215,6 @@ public class SoundManager : MonoBehaviour
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSources);
-		return;
 	}
 
 

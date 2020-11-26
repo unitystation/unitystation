@@ -57,7 +57,7 @@ namespace Assets.Scripts.Editor.Tools
 			Debug.Log($"Adding gameobject {objectName}");
 
 			// List of all prefabs exactly at path (without their file name)
-			List<string> prefabsAtPath = assetsPaths.Where(p => string.Join("/", p.Split('/').Reverse().Skip(1).Reverse()).Equals(path) && p.Contains(".prefab")).ToList();
+			//List<string> prefabsAtPath = assetsPaths.Where(p => string.Join("/", p.Split('/').Reverse().Skip(1).Reverse()).Equals(path) && p.Contains(".prefab")).ToList();
 
 			string[] subFolders = AssetDatabase.GetSubFolders(path);
 

@@ -289,14 +289,13 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 			}
 			else if (arrayIndex >= 0)
 			{
-				if (newObj is IList)
+
+				if (newObj is IList list)
 				{
-					IList list = (IList) newObj;
 					newObj = list[arrayIndex];
 				}
-				else if (newObj is System.Array)
+				else if (newObj is System.Array a)
 				{
-					System.Array a = (System.Array) newObj;
 					newObj = a.GetValue(arrayIndex);
 				}
 			}
