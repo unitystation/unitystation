@@ -102,7 +102,7 @@ public class ControlInternals : TooltipMonoBehaviour
 		if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit)
 			return;
 
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		if (isAirflowEnabled)
 			EventManager.Broadcast(EVENT.DisableInternals);

@@ -350,7 +350,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
 		Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
 		// Slip is essentially a yelp SFX.
-		SoundManager.PlayNetworkedAtPos("Slip", registerPlayer.WorldPosition,
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
 				UnityEngine.Random.Range(0.4f, 1.2f), sourceObj: gameObject);
 
 		string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
@@ -399,7 +399,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		yield return WaitFor.Seconds(timeBeforeDrop); // Instantly dropping to ground looks odd.
 													  // TODO: Add sparks VFX at shockSourcePos.
 		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
-		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
 				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 
 		yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);

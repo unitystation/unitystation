@@ -32,7 +32,7 @@ using UnityEngine.EventSystems;
 
 		public void RolloutEquipmentMenu()
 		{
-			SoundManager.Play("Click01");
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 			if (isOpen)
 			{

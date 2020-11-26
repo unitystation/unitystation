@@ -29,7 +29,7 @@ public class ZoneSelector : TooltipMonoBehaviour
 	{
 		if (clickSound)
 		{
-			SoundManager.Play("Click01");
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 		selImg.sprite = selectorSprites[(int)curSelect];
 		UIManager.DamageZone = curSelect;
@@ -39,7 +39,7 @@ public class ZoneSelector : TooltipMonoBehaviour
 	{
 		if(zones.Length == 0)
 			return;
-		
+
 		if(zones.Length == 1)
 		{
 			SelectAction(zones[0]);

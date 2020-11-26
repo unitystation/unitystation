@@ -47,7 +47,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	public void OnClickIntent()
 	{
 		Logger.Log("OnClickIntent", Category.UI);
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		if (UIManager.CurrentIntent == Intent.Help)
 		{
@@ -71,7 +71,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	public void OnClickRest()
 	{
 		Logger.Log("OnClickRest", Category.UI);
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		Chat.AddExamineMsgToClient(restMessage);
 
@@ -84,7 +84,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	public void OnClickCrafting()
 	{
 		Logger.Log("OnClickCrafting", Category.UI);
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		// TODO: crafting
 	}
@@ -95,7 +95,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	public void OnClickRunWalk()
 	{
 		Logger.Log("OnClickRunWalk", Category.UI);
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		running = !running;
 		runWalkBorder.SetActive(running);
@@ -109,7 +109,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	public void OnClickResist()
 	{
 		Logger.Log("OnClickResist", Category.UI);
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		UIManager.Action.Resist();
 	}
@@ -120,7 +120,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	public void OnClickHelp()
 	{
 		Logger.Log("OnClickHelp", Category.UI);
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		helpWindow.SetActive(!helpWindow.activeSelf);
 	}
@@ -130,7 +130,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	public void CycleIntent(bool cycleLeft = true)
 	{
 		Logger.Log("Intent cycling " + (cycleLeft ? "left" : "right"), Category.UI);
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		int intent = (int)UIManager.CurrentIntent;
 		intent += (cycleLeft ? 1 : -1);
@@ -156,7 +156,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	{
 		Logger.Log("Intent Button", Category.UI);
 
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		UIManager.CurrentIntent = (Intent) selectedIntent;
 

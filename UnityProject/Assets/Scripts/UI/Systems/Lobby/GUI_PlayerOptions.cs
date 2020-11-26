@@ -64,7 +64,7 @@ public class GUI_PlayerOptions : MonoBehaviour
 
 	public void BtnOk()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
 		{
 			return;

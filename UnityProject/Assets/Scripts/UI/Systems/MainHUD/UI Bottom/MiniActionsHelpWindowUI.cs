@@ -8,8 +8,8 @@ public class MiniActionsHelpWindowUI : WindowDrag
 
 	public void OnClickExit()
 	{
-        SoundManager.Play("Click01");
-        
+        SoundManager.Play(SingletonSOSounds.Instance.Click01);
+
 		gameObject.SetActive(false);
 	}
 
@@ -18,7 +18,7 @@ public class MiniActionsHelpWindowUI : WindowDrag
     /// </summary>
 	public void OnClickOption1()
 	{
-        SoundManager.Play("Click01");
+        SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
         ChatUI.Instance.OnAdminHelpButton();
 	}
@@ -28,7 +28,7 @@ public class MiniActionsHelpWindowUI : WindowDrag
     /// </summary>
 	public void OnClickOption2()
 	{
-        SoundManager.Play("Click01");
+        SoundManager.Play(SingletonSOSounds.Instance.Click01);
 	}
 
     /// <summary>
@@ -36,7 +36,7 @@ public class MiniActionsHelpWindowUI : WindowDrag
     /// </summary>
 	public void OnClickOption3()
 	{
-        SoundManager.Play("Click01");
+        SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
         Application.OpenURL(wikiURL);
 	}
