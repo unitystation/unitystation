@@ -11,34 +11,34 @@ public class CatalogLoader : MonoBehaviour
 
     public void LoadCatalog(string catalogURL)
     {
-        Debug.Log("loadCatalog");
+        Logger.Log("loadCatalog");
         AsyncOperationHandle<IResourceLocator> handle = Addressables.LoadContentCatalogAsync(catalogURL);
         handle.Completed += loadCatalogsCompleted;
     }
     void loadCatalogsCompleted(AsyncOperationHandle<IResourceLocator> obj)
     {
-        Debug.Log("loadCatalogsCompleted ==> " + obj.Status);
+	    Logger.Log("loadCatalogsCompleted ==> " + obj.Status);
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
             loadResourceLocation();
         }
         else
         {
-            Debug.LogError("LoadCatalogsCompleted is failed");
+	        Logger.LogError("LoadCatalogsCompleted is failed");
         }
     }
 
     void loadResourceLocation()
     {
-        Debug.Log("loadResourceLocation");
+	    Logger.Log("loadResourceLocation");
         var someList = new List<IResourceLocation>();
         AsyncOperationHandle<IList<IResourceLocation>> handle = Addressables.LoadResourceLocationsAsync(someList);
-        
+
         handle.Completed += locationsLoaded;
     }
     void locationsLoaded(AsyncOperationHandle<IList<IResourceLocation>> obj)
     {
-        Debug.Log("locationsLoaded ==> " + obj.Status);
+	    Logger.Log("locationsLoaded ==> " + obj.Status);
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
             locations = new List<IResourceLocation>(obj.Result);
@@ -46,26 +46,26 @@ public class CatalogLoader : MonoBehaviour
         }
         else
         {
-            Debug.LogError("locationsLoaded is failed");
+	        Logger.LogError("locationsLoaded is failed");
         }
     }
 
     void loadDependency()
     {
-        Debug.Log("loadDependency");
+	    Logger.Log("loadDependency");
         AsyncOperationHandle handle = Addressables.DownloadDependenciesAsync("ReallyDumb");
         handle.Completed += dependencyLoaded;
     }
     void dependencyLoaded(AsyncOperationHandle obj)
     {
-        Debug.Log("dependencyLoaded ==> " + obj.Status);
+	    Logger.Log("dependencyLoaded ==> " + obj.Status);
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
             loadAssets();
         }
         else
         {
-            Debug.LogError("dependencyLoaded is Failed");
+	        Logger.LogError("dependencyLoaded is Failed");
         }
     }
 
