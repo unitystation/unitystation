@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5630309659804796065}
   - component: {fileID: 5695401652550537563}
-  - component: {fileID: 7899159899378619157}
   m_Layer: 0
   m_Name: GlassStep
   m_TagString: SoundFX
@@ -41,8 +40,7 @@ AudioSource:
   m_GameObject: {fileID: 5632085465828803783}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 07bec53a1ea2a49cf94c1bdd0d641906, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.323
@@ -156,19 +154,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &7899159899378619157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5632085465828803783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDirty: 0
-  sceneId: 0
-  serverOnly: 0
-  m_AssetId: 
