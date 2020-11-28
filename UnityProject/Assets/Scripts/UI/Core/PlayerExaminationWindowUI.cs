@@ -71,7 +71,7 @@ public class PlayerExaminationWindowUI : MonoBehaviour
 	/// </summary>
 	public void OnClickExit()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		Reset();
 	}
@@ -81,7 +81,7 @@ public class PlayerExaminationWindowUI : MonoBehaviour
 	/// </summary>
 	public void OnClickExpandCollapse()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		expandedView.SetActive(!expandedView.activeSelf);
 	}

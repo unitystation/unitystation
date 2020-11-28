@@ -86,7 +86,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 83424c71aad512e4fbed745d17cd9909, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
@@ -323,7 +323,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  m_AssetId: 462ac978126b468baa6b4ba377070a17
 --- !u!114 &-345617527643195386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,7 +511,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 8
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 6d66da182248aa04ea885e8df6ffe332, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

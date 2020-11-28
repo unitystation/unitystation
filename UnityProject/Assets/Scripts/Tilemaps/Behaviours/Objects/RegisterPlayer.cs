@@ -187,7 +187,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		}
 
 		ServerStun();
-		SoundManager.PlayNetworkedAtPos("Slip", WorldPositionServer, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, WorldPositionServer, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 		// Let go of pulled items.
 		playerScript.pushPull.ServerStopPulling();
 	}

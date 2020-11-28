@@ -278,7 +278,8 @@ public enum Category
 	SubScenes,
 	Spells,
 	UIAction,
-	Cooldowns
+	Cooldowns,
+	Addressables
 }
 
 [Serializable]
