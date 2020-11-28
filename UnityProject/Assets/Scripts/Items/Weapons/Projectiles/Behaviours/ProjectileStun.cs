@@ -14,6 +14,9 @@ namespace Weapons.Projectiles.Behaviours
 		[Tooltip("Will this stun disarm.")]
 		[SerializeField] private bool willDisarm = true;
 
+		[Tooltip("Will the projectile create a hitmsg")]
+		[SerializeField] private bool doMsg = false;
+
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.shooter = shooter;
@@ -35,7 +38,10 @@ namespace Weapons.Projectiles.Behaviours
 
 			player.ServerStun(stunTime, willDisarm);
 
-			Chat.AddAttackMsgToChat(shooter, coll.gameObject, targetZone, weapon.gameObject);
+			if (doMsg)
+			{
+				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
+			}
 			Logger.LogTraceFormat($"{shooter} stunned {player.gameObject.name} for {stunTime} seconds with {weapon.name}", Category.Firearms);
 
 			return true;
