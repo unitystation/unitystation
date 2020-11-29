@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PanelHudBottomController : MonoBehaviour
@@ -8,7 +9,7 @@ public class PanelHudBottomController : MonoBehaviour
 	public UI_ItemSlot beltItemSlot;
 	public UI_ItemSlot pocketOneItemSlot;
 	public UI_ItemSlot pocketTwoItemSlot;
-	public UI_ItemSlot pocketThreeItemSlot;
+	[FormerlySerializedAs("pocketThreeItemSlot")] public UI_ItemSlot suitStorageSlot;
 
 	private bool _isWearingUniform;
 	/// <summary>
@@ -24,26 +25,63 @@ public class PanelHudBottomController : MonoBehaviour
 			{
 				// restore default settings
 				pocketTwoImage.color = Color.white;
-				pocketThreeImage.color = Color.white;
+				pocketOneImage.color = Color.white;
 
 				pocketTwoImage.raycastTarget = true;
-				pocketThreeImage.raycastTarget = true;
+				pocketOneImage.raycastTarget = true;
+				pocketTwoItemSlot.ItemSlot.IsEnabled = true;
+				pocketOneItemSlot.ItemSlot.IsEnabled = true;
 			}
 			else
 			{
 				// player cannot use slot 2 and 3 without uniform
-				
+
 				// change pocket image color to gray
 				pocketTwoImage.color = greyedPocketColor;
-				pocketThreeImage.color = greyedPocketColor;
+				pocketOneImage.color = greyedPocketColor;
 
 				// drop items from pockets
 				DropItem(pocketTwoItemSlot);
-				DropItem(pocketThreeItemSlot);
+				DropItem(pocketOneItemSlot);
 
 				// disable raycastTarget so player cannot put items back
 				pocketTwoImage.raycastTarget = false;
-				pocketThreeImage.raycastTarget = false;
+				pocketOneImage.raycastTarget = false;
+				pocketTwoItemSlot.ItemSlot.IsEnabled = false;
+				pocketOneItemSlot.ItemSlot.IsEnabled = false;
+			}
+		}
+	}
+
+	private bool _IsWearingXOSuit;
+
+	public bool IsWearingXOSuit
+	{
+		get => _IsWearingXOSuit;
+		set
+		{
+			_IsWearingXOSuit = value;
+			if (_IsWearingXOSuit)
+			{
+				// restore default settings
+				SuitStorageImage.color = Color.white;
+
+				SuitStorageImage.raycastTarget = true;
+				suitStorageSlot.ItemSlot.IsEnabled = true;
+			}
+			else
+			{
+				// player cannot use suitStorage without suit
+
+				// change pocket image color to gray
+				SuitStorageImage.color = greyedPocketColor;
+
+				// drop items from suitStorage
+				DropItem(suitStorageSlot);
+
+				// disable raycastTarget so player cannot put items back
+				SuitStorageImage.raycastTarget = false;
+				suitStorageSlot.ItemSlot.IsEnabled = false;
 			}
 		}
 	}
@@ -56,7 +94,8 @@ public class PanelHudBottomController : MonoBehaviour
 	[SerializeField] private Text pocketTwoKeybindText;
 	[SerializeField] private Text pocketThreeKeybindText;
 	[SerializeField] private Image pocketTwoImage;
-	[SerializeField] private Image pocketThreeImage;
+	[SerializeField] private Image pocketOneImage;
+	[SerializeField] private Image SuitStorageImage;
 	[SerializeField] private Color greyedPocketColor = Color.gray;
 
 	[Header("Message settings")]
@@ -112,8 +151,11 @@ public class PanelHudBottomController : MonoBehaviour
 	{
 		ItemSlot uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
 		uniform.OnSlotContentsChangeClient.AddListener(() => OnUniformSlotUpdate());
-
 		OnUniformSlotUpdate();
+
+		ItemSlot OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
+		OXsuit.OnSlotContentsChangeClient.AddListener(() => OnOXsuitSlotUpdate());
+		OnOXsuitSlotUpdate();
 	}
 
 	/// <summary>
@@ -123,6 +165,9 @@ public class PanelHudBottomController : MonoBehaviour
 	{
 		ItemSlot uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
 		uniform.OnSlotContentsChangeClient.RemoveListener(() => OnUniformSlotUpdate());
+
+		ItemSlot OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
+		OXsuit.OnSlotContentsChangeClient.RemoveListener(() => OnOXsuitSlotUpdate());
 	}
 
 	/// <summary>
@@ -134,11 +179,20 @@ public class PanelHudBottomController : MonoBehaviour
 		IsWearingUniform = uniform.IsOccupied;
 	}
 
+	/// <summary>
+	/// Called when OXsuit slot content has changed
+	/// </summary>
+	private void OnOXsuitSlotUpdate()
+	{
+		ItemSlot OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
+		IsWearingXOSuit = OXsuit.IsOccupied;
+	}
+
 	private void DropItem(UI_ItemSlot itemSlot)
 	{
 		if (itemSlot.ItemSlot.IsEmpty || PlayerManager.LocalPlayerScript.IsGhost)
 			return;
-		
+
 		Logger.Log("Drop pocket item - uniform is null", Category.Inventory);
 
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemWithoutValidations(itemSlot.NamedSlot);
@@ -155,7 +209,20 @@ public class PanelHudBottomController : MonoBehaviour
 		if (!IsWearingUniform && slot != 1)
 			return;
 
-		UI_ItemSlot pocket = slot == 1 ? pocketOneItemSlot : slot == 2 ? pocketTwoItemSlot : pocketThreeItemSlot;
+		UI_ItemSlot pocket = null;// = slot == 1 ? pocketOneItemSlot : slot == 2 ? pocketTwoItemSlot : suitStorageSlot;
+
+		switch (slot)
+		{
+			case 1:
+				pocket = pocketOneItemSlot;
+				break;
+			case 2:
+				pocket = pocketTwoItemSlot;
+				break;
+			case 3:
+				pocket = suitStorageSlot;
+				break;
+		}
 
 		// if hand and pocket are empty
 		if (UIManager.Hands.CurrentSlot.ItemSlot.IsEmpty && pocket.ItemSlot.IsEmpty)
@@ -167,7 +234,7 @@ public class PanelHudBottomController : MonoBehaviour
 		if (UIManager.Hands.CurrentSlot.ItemSlot.IsOccupied && pocket.ItemSlot.IsOccupied)
 		{
 			// if first pocket is empty - try to interact
-			if (pocketOneItemSlot.ItemSlot.IsEmpty)
+			if (IsWearingUniform && pocketOneItemSlot.ItemSlot.IsEmpty)
 			{
 				TryInteractWithPocket(1);
 				return;
@@ -181,7 +248,7 @@ public class PanelHudBottomController : MonoBehaviour
 			}
 
 			// if third pocket is empty - try to interact
-			if (IsWearingUniform && pocketThreeItemSlot.ItemSlot.IsEmpty)
+			if (IsWearingXOSuit && suitStorageSlot.ItemSlot.IsEmpty)
 			{
 				TryInteractWithPocket(3);
 				return;
