@@ -270,7 +270,7 @@ namespace Mirror
         void OnValidate()
         {
 #if UNITY_EDITOR
-            SetupIDs();
+            //SetupIDs();
 #endif
         }
 

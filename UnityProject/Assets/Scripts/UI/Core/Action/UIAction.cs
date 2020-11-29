@@ -67,7 +67,8 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
 	public void ButtonPress()
 	{
-		SoundManager.Play("Click01");
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		if (actionData.IsToggle)
 		{

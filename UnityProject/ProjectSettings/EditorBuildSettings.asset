@@ -26,7 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainStations/TestStation.unity
     guid: 1148f11d329d3a644b72dfb86e365f1a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainStations/PogStation.unity
     guid: 7f3d3cafeec51f449b11bc9938f9f118
   - enabled: 1
@@ -81,6 +81,9 @@ EditorBuildSettings:
     path: Assets/Scenes/AdditionalScenes/SyndicateOutpost.unity
     guid: d4122f727afb2d443ab2e9eed7ca6c6c
   - enabled: 1
+    path: Assets/Scenes/AdditionalScenes/SyndicatePog.unity
+    guid: b09d855b22bda6b47a05e524ac913015
+  - enabled: 1
     path: Assets/Scenes/AdditionalScenes/Fallstation Syndicate.unity
     guid: 167b02a5c0d1009e884929c62f442739
   - enabled: 1
@@ -89,4 +92,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AdditionalScenes/WizardAsteroid.unity
     guid: cb92114c3683f014ca7a2626267ac7b7
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 7ac8cd75382a23042b1a13021adfae5d,
+      type: 2}

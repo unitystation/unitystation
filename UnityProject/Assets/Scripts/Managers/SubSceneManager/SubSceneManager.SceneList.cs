@@ -28,6 +28,11 @@ public partial class SubSceneManager
 		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
 		loadTimer.IncrementLoadBar("Preparing..");
 
+		while (AddressableCatalogueManager.FinishLoaded == false)
+		{
+			yield return null;
+		}
+
 		//Choose and load a mainstation
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
 

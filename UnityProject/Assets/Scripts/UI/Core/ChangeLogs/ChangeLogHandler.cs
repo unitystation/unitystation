@@ -47,7 +47,7 @@ public class ChangeLogHandler : MonoBehaviour
 
     public void CloseWindow()
     {
-        SoundManager.Play("Click01");
+        SoundManager.Play(SingletonSOSounds.Instance.Click01);
         window.SetActive(false);
     }
 }

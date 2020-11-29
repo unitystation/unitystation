@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3830187711496886084
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 363477685169293887, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9bf75f7b0bad2a94fa127060ae0df86a,
+        type: 3}
+    - target: {fileID: 463471654561318103, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 574948493075495267, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: m_Name
+      value: GasMixerFittingFlipped
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961850752556827364, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 44c6e1cebd153de4da2480cc8b7a48ef,
+        type: 2}
+    - target: {fileID: 6017943696034156426, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: pipeObject
+      value: 
+      objectReference: {fileID: 1696477721645150159, guid: 4f17af44773940f48a8a804c27fb1ea1,
+        type: 3}
+    m_RemovedComponents:
+    - {fileID: 463370423983717143, guid: f3c7b7569520f694cb13c4a36184aefb, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: f3c7b7569520f694cb13c4a36184aefb, type: 3}

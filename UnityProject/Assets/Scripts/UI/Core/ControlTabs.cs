@@ -313,7 +313,7 @@ public class ControlTabs : MonoBehaviour
 
 		if (click)
 		{
-			SoundManager.Play("Click01");
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 	}
 

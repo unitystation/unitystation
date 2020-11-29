@@ -102,7 +102,7 @@ public class ItemAttributesV2 : Attributes
 
 	[Tooltip("Sound to be played when we click someone with harm intent")]
 	[SerializeField]
-	private string hitSound = "GenericHit";
+	private string hitSound = "genericHit";
 
 
 	[Tooltip("How to play sounds.")]

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Reflection;
 using Systems.Botany;
 using Items.Botany;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class GenerateSpriteSO : EditorWindow
 {
@@ -15,6 +17,39 @@ public class GenerateSpriteSO : EditorWindow
 	public static Dictionary<string, SpriteDataSO> ToSeve = new Dictionary<string, SpriteDataSO>();
 
 	public static SpriteCatalogue spriteCatalogue;
+
+	[MenuItem("Tools/Get Music keys")]
+	public static void GetMusicKeys()
+	{
+		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
+		path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
+		Logger.Log(path);
+		var Files = System.IO.Directory.GetFiles(path);
+		string FoundFile = "";
+		foreach (var File in Files)
+		{
+			Logger.Log(File);
+			if (File.EndsWith(".json"))
+			{
+				FoundFile = File;
+			}
+		}
+
+		if (FoundFile == "")
+		{
+			Logger.LogWarning("missing json file");
+			return;
+		}
+
+		JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"\"))));
+		var IDs = o1.GetValue("m_InternalIds");
+		var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
+		foreach (var ListID in ListIDs)
+		{
+			Logger.Log(ListID);
+		}
+
+	}
 
 	[MenuItem("Tools/StopAssetEditing")]
 	public static void StopAssetEditing()
@@ -68,6 +103,7 @@ public class GenerateSpriteSO : EditorWindow
 			SO.setID = -1;
 			SO.UpdateIDLocation();
 		}
+
 		AssetDatabase.StopAssetEditing();
 		AssetDatabase.SaveAssets();
 	}

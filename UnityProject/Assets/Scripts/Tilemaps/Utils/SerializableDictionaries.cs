@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -39,5 +40,10 @@ public class ItemDictionary : SerializableDictionary<GameObject, int>
 
 [Serializable]
 public class PropertyDictionary : SerializableDictionary<string, bool>
+{
+}
+
+[Serializable]
+public class CatalogueDictionary : SerializableDictionary<string, List<string>>
 {
 }
