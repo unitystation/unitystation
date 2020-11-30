@@ -24,7 +24,8 @@ namespace Pipes
 			base.TickUpdate();
 			if (canister != null && canister.ValveIsOpen)
 			{
-				canister.GasContainer.GasMix = pipeData.mixAndVolume.EqualiseWithExternal(canister.GasContainer.GasMix);
+				pipeData.mixAndVolume.GetGasMix().MergeGasMix(canister.GasContainer.gasMix);
+				canister.GasContainer.gasMix = pipeData.mixAndVolume.EqualiseWithExternal(canister.GasContainer.gasMix);
 			}
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 		}

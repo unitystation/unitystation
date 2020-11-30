@@ -53,13 +53,13 @@ namespace InGameEvents
 			throw new System.NotImplementedException();
 		}
 
-		public float React(ref GasMix gasMix, Vector3 tilePos)
+		public void React(GasMix gasMix, Vector3 tilePos)
 		{
 			gasMix.AddGas(Gas.Plasma, 1f);
 
 			gasMix.RemoveGas(Gas.Oxygen, 1f);
 
-			return 0f;
+			return;
 		}
 	}
 }

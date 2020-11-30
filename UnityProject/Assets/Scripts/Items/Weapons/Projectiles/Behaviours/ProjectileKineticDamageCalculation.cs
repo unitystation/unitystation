@@ -18,7 +18,7 @@ namespace Weapons.Projectiles.Behaviours
 
 			float pressure = MatrixManager.AtPoint(
 				localPosition.RoundToInt(), true
-			).MetaDataLayer.Get(localPosition.RoundToInt()).GasMix.Pressure;
+			).MetaDataLayer.Get(localPosition.RoundToInt()).gasMix.Pressure;
 
 			return pressure;
 		}

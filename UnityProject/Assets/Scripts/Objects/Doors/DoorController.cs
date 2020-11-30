@@ -527,11 +527,11 @@ namespace Doors
 			var horzPressureDiff = 0.0;
 			if (upMetaNode.IsOccupied == false || downMetaNode.IsOccupied == false)
 			{
-				vertPressureDiff = Math.Abs(upMetaNode.GasMix.Pressure - downMetaNode.GasMix.Pressure);
+				vertPressureDiff = Math.Abs(upMetaNode.gasMix.Pressure - downMetaNode.gasMix.Pressure);
 			}
 			if (leftMetaNode.IsOccupied == false || rightMetaNode.IsOccupied == false)
 			{
-				horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
+				horzPressureDiff = Math.Abs(leftMetaNode.gasMix.Pressure - rightMetaNode.gasMix.Pressure);
 			}
 
 			// Set pressureLevel according to the pressure difference found.

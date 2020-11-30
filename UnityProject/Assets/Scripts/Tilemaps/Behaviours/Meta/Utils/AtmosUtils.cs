@@ -21,7 +21,7 @@ namespace Systems.Atmospherics
 				MetaDataNode neighbor = neighbors[i];
 				if (neighbor != null)
 				{
-					float pressureDifference = node.GasMix.Pressure - neighbor.GasMix.Pressure;
+					float pressureDifference = node.gasMix.Pressure - neighbor.gasMix.Pressure;
 					float absoluteDifference = Mathf.Abs(pressureDifference);
 					if (absoluteDifference > AtmosConstants.MinPressureDifference)
 					{
@@ -57,8 +57,8 @@ namespace Systems.Atmospherics
 						// check if the moles are different. (e.g. CO2 is different from breathing)
 						for (int j = 0; j < Gas.Count; j++)
 						{
-							float moles = node.GasMix.Gases[j];
-							float molesNeighbor = neighbor.GasMix.Gases[j];
+							float moles = node.gasMix.Gases[j];
+							float molesNeighbor = neighbor.gasMix.Gases[j];
 
 							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 							{

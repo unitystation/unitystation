@@ -7,6 +7,7 @@ namespace Systems.Atmospherics
 		public static readonly GasMix Space;
 		public static readonly GasMix Air;
 		public static readonly GasMix Empty;
+		public static readonly GasMix EmptyTile;
 
 		static GasMixes()
 		{
@@ -73,7 +74,9 @@ namespace Systems.Atmospherics
 			gases[Gas.Pluoxium] = 0;
 			gases[Gas.Freon] = 0;
 
-			Empty = GasMix.FromTemperature(gases, Reactions.KOffsetC + 20);
+			EmptyTile = GasMix.FromTemperature(gases, Reactions.KOffsetC + 20);			//With volume
+			Empty = GasMix.FromTemperature(gases, Reactions.KOffsetC + 20, 0);	//Without volume
+
 		}
 	}
 }

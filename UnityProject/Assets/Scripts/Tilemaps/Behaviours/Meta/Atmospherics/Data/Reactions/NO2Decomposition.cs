@@ -11,7 +11,7 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public float React(ref GasMix gasMix, Vector3 tilePos)
+		public void React(GasMix gasMix, Vector3 tilePos)
 		{
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
@@ -33,8 +33,6 @@ namespace Systems.Atmospherics
 					gasMix.SetTemperature((gasMix.Temperature + energyReleased) / newHeatCap);
 				}
 			}
-
-			return 0f;
 		}
 	}
 }

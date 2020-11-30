@@ -52,7 +52,7 @@ namespace Systems.Shuttles
 				{
 					MatrixMove.IsFueled = true;
 				}
-				FuelLevel = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) / 60000;
+				FuelLevel = Connector.canister.GasContainer.gasMix.GetMoles(Gas.Plasma) / 60000;
 			}
 			else
 			{
@@ -72,8 +72,8 @@ namespace Systems.Shuttles
 
 		bool IsFuelledOptimum()
 		{
-			var Plasma = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma);
-			var Oxygen = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Oxygen);
+			var Plasma = Connector.canister.GasContainer.gasMix.GetMoles(Gas.Plasma);
+			var Oxygen = Connector.canister.GasContainer.gasMix.GetMoles(Gas.Oxygen);
 			var Ratio = ((Plasma / Oxygen) / (7f / 3f));
 			//Logger.Log("Ratio > " + Ratio);
 			Ratio = Ratio * 2f;
@@ -115,13 +115,13 @@ namespace Systems.Shuttles
 			if (IsFuelledOptimum())
 			{
 				//Logger.Log("CalculatedMassConsumption > " + CalculatedMassConsumption*MassConsumption);
-				Connector.canister.GasContainer.GasMix = Connector.canister.GasContainer.GasMix.RemoveGasReturn(Gas.Plasma, CalculatedMassConsumption * MassConsumption * (0.7f));
-				Connector.canister.GasContainer.GasMix = Connector.canister.GasContainer.GasMix.RemoveGasReturn(Gas.Oxygen, CalculatedMassConsumption * MassConsumption * (0.3f));
+				Connector.canister.GasContainer.gasMix.RemoveGas(Gas.Plasma, CalculatedMassConsumption * MassConsumption * (0.7f));
+				Connector.canister.GasContainer.gasMix.RemoveGas(Gas.Oxygen, CalculatedMassConsumption * MassConsumption * (0.3f));
 			}
-			else if (Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) > MassConsumption * FuelConsumption)
+			else if (Connector.canister.GasContainer.gasMix.GetMoles(Gas.Plasma) > MassConsumption * FuelConsumption)
 			{
 				//Logger.Log("Full-back > " + (FuelConsumption * MassConsumption));
-				Connector.canister.GasContainer.GasMix = Connector.canister.GasContainer.GasMix.RemoveGasReturn(Gas.Plasma, (MassConsumption * FuelConsumption));
+				Connector.canister.GasContainer.gasMix.RemoveGas(Gas.Plasma, (MassConsumption * FuelConsumption));
 			}
 			else
 			{
@@ -136,7 +136,7 @@ namespace Systems.Shuttles
 			{
 				return (true);
 			}
-			else if (Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) > MassConsumption * FuelConsumption)
+			else if (Connector.canister.GasContainer.gasMix.GetMoles(Gas.Plasma) > MassConsumption * FuelConsumption)
 			{
 				return (true);
 			}

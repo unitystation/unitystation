@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Atmospherics;
 using UnityEngine;
 
 namespace Pipes
@@ -12,7 +13,7 @@ namespace Pipes
 
 		public float MaxInternalPressure = 10000f;
 
-		public float MaxTransferMoles = 100;
+		public float MaxTransferMoles = 10;
 
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
@@ -48,47 +49,46 @@ namespace Pipes
 		{
 			if (SelfSufficient == false)
 			{
-				var PressureDensity = pipeData.mixAndVolume.Density();
-				if (PressureDensity.y > MaxInternalPressure || metaNode.GasMix.Pressure < MMinimumPressure )
+				var pressureDensity = pipeData.mixAndVolume.Density();
+				if (pressureDensity.y > MaxInternalPressure || metaNode.gasMix.Pressure < MMinimumPressure )
 				{
 					return;
 				}
 			}
 			else
 			{
-				if (metaNode.GasMix.Pressure < MMinimumPressure)
+				if (metaNode.gasMix.Pressure < MMinimumPressure)
 				{
 					return;
 				}
 			}
 
-			float Available = 0;
-			if (metaNode.GasMix.Pressure != 0)
+			if (metaNode.gasMix.Pressure == 0)
+				return;
+
+			float available = MMinimumPressure / metaNode.gasMix.Pressure * metaNode.gasMix.Moles;
+
+			if (available < 0)
+				return;
+
+			if (MaxTransferMoles < available)
 			{
-				Available =	((MMinimumPressure / metaNode.GasMix.Pressure) * metaNode.GasMix.Moles);
+				available = MaxTransferMoles;
+			}
+
+			var gasOnNode = metaNode.gasMix;
+			GasMix pipeMix;
+
+			if (SelfSufficient)
+			{
+				pipeMix = GasMix.NewGasMix(GasMixes.Air); //TODO: get some immutable gasmix to avoid GC
 			}
 			else
 			{
-				return;
+				pipeMix = pipeData.mixAndVolume.GetGasMix();
 			}
 
-			if (Available < 0)
-			{
-				return;
-			}
-
-			if (MaxTransferMoles < Available)
-			{
-				Available = MaxTransferMoles;
-			}
-
-			var Gasonnnode = metaNode.GasMix;
-			var TransferringGas = Gasonnnode.RemoveMoles(Available);
-			metaNode.GasMix = Gasonnnode;
-			if (SelfSufficient == false)
-			{
-				pipeData.mixAndVolume.Add(TransferringGas);
-			}
+			GasMix.TransferGas(pipeMix, gasOnNode, available);
 
 			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer, SystemType.AtmosSystem);
 		}

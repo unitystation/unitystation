@@ -92,7 +92,7 @@ namespace Objects.Wallmounts
 		{
 			if (!activated)
 			{
-				if (metaNode.GasMix.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMix.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
+				if (metaNode.gasMix.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.gasMix.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
 				{
 					SendCloseAlerts();
 				}

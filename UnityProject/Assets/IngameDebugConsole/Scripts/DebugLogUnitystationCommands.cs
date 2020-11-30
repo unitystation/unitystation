@@ -405,10 +405,10 @@ namespace IngameDebugConsole
 				foreach (var worldPos in playerScript.WorldPos.BoundsAround().allPositionsWithin)
 				{
 					var localPos = MatrixManager.WorldToLocalInt(worldPos, matrix);
-					var gasMix = matrix.MetaDataLayer.Get(localPos).GasMix;
+					var gasMix = matrix.MetaDataLayer.Get(localPos).gasMix;
 					gasMix.AddGas(Gas.Plasma, 100);
 					gasMix.AddGas(Gas.Oxygen, 100);
-					matrix.ReactionManager.ExposeHotspot(localPos, 1000, .2f);
+					matrix.ReactionManager.ExposeHotspot(localPos);
 				}
 			}
 		}

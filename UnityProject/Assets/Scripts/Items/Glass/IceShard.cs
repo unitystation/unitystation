@@ -43,9 +43,9 @@ public class IceShard : MonoBehaviour
 			posCache = pos;
 		}
 
-		if (metaDataNode.GasMix.Temperature > AtmosDefines.WATER_VAPOR_FREEZE)
+		if (metaDataNode.gasMix.Temperature > AtmosDefines.WATER_VAPOR_FREEZE)
 		{
-			metaDataNode.GasMix.AddGas(Gas.WaterVapor, 2f);
+			metaDataNode.gasMix.AddGas(Gas.WaterVapor, 2f);
 			Despawn.ServerSingle(gameObject);
 		}
 	}

@@ -210,11 +210,11 @@ namespace Pipes
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(tileWorldPosition, true).MetaDataLayer;
 			if (pipeNode != null)
 			{
-				pipeNode.IsOn.GasMix += ToSpill.Item2;
+				GasMix.TransferGas(pipeNode.IsOn.gasMix, ToSpill.Item2, ToSpill.Item2.Moles);
 			}
 			else
 			{
-				matrix.GetMetaDataNode(ZeroedLocation).GasMix += ToSpill.Item2;
+				GasMix.TransferGas(matrix.GetMetaDataNode(ZeroedLocation).gasMix, ToSpill.Item2, ToSpill.Item2.Moles);
 			}
 			metaDataLayer.UpdateSystemsAt(ZeroedLocation, SystemType.AtmosSystem);
 		}

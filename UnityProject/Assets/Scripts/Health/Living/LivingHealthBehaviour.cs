@@ -279,7 +279,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			bodyPartType = BodyPartType.LeftLeg;
 		else if(bodyPartType == BodyPartType.RightFoot)
 			bodyPartType = BodyPartType.RightLeg;
-		
+
 		return bodyPartType;
 	}
 
@@ -512,13 +512,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			SyncFireStacks(fireStacks, fireStacks - 0.1f);
 			//instantly stop burning if there's no oxygen at this location
 			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
-			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
+			if (node.gasMix.GetMoles(Gas.Oxygen) < 1)
 			{
 				SyncFireStacks(fireStacks, 0);
 			}
 
-			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(),
-				BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
 		}
 
 		CalculateRadiationDamage();
