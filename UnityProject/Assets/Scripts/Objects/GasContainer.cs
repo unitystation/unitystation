@@ -12,7 +12,7 @@ namespace Objects.Atmospherics
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
 
-		public GasMix gasMix { get; set; }
+		public GasMix GasMix { get; set; }
 
 		public bool IsVenting { get; private set; } = false;
 
@@ -32,7 +32,7 @@ namespace Objects.Atmospherics
 
 		public Action ServerContainerExplode;
 
-		public float ServerInternalPressure => gasMix.Pressure;
+		public float ServerInternalPressure => GasMix.Pressure;
 		private Vector3Int WorldPosition => gameObject.RegisterTile().WorldPosition;
 		private Vector3Int LocalPosition => gameObject.RegisterTile().LocalPosition;
 
@@ -75,8 +75,8 @@ namespace Objects.Atmospherics
 		private void ExplodeContainer()
 		{
 			var shakeIntensity = (byte)Mathf.Lerp(
-					byte.MinValue, byte.MaxValue / 2, gasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
-			var shakeDistance = Mathf.Lerp(1, 64, gasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
+					byte.MinValue, byte.MaxValue / 2, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
+			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 
 			//release all of our gases at once when destroyed
 			ReleaseContentsInstantly();
@@ -94,7 +94,7 @@ namespace Objects.Atmospherics
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(WorldPosition, true).MetaDataLayer;
 			MetaDataNode node = metaDataLayer.Get(LocalPosition, false);
 
-			GasMix.TransferGas(node.gasMix, gasMix, gasMix.Moles);
+			GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
 			metaDataLayer.UpdateSystemsAt(LocalPosition, SystemType.AtmosSystem);
 		}
 
@@ -106,22 +106,22 @@ namespace Objects.Atmospherics
 			Vector3Int localPosition = transform.localPosition.RoundToInt();
 			MetaDataNode node = metaDataLayer.Get(localPosition, false);
 
-			float deltaPressure = Mathf.Min(gasMix.Pressure, ReleasePressure) - node.gasMix.Pressure;
+			float deltaPressure = Mathf.Min(GasMix.Pressure, ReleasePressure) - node.GasMix.Pressure;
 
 			if (deltaPressure > 0)
 			{
 				float ratio = deltaPressure * Time.deltaTime;
 
-				GasMix.TransferGas(node.gasMix, gasMix, ratio);
+				GasMix.TransferGas(node.GasMix, GasMix, ratio);
 
 				metaDataLayer.UpdateSystemsAt(localPosition, SystemType.AtmosSystem);
 
-				Volume = gasMix.Volume;
-				Temperature = gasMix.Temperature;
+				Volume = GasMix.Volume;
+				Temperature = GasMix.Temperature;
 
 				foreach (Gas gas in Gas.All)
 				{
-					Gases[gas] = gasMix.Gases[gas];
+					Gases[gas] = GasMix.Gases[gas];
 				}
 			}
 		}
@@ -129,7 +129,7 @@ namespace Objects.Atmospherics
 		public void UpdateGasMix()
 		{
 			gasIsInitialised = true;
-			gasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
+			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace Items.Atmospherics
 				var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());
 				if (node != null)
 				{
-					toShow = GetGasMixInfo(node.gasMix);
+					toShow = GetGasMixInfo(node.GasMix);
 				}
 			}
 
@@ -38,7 +38,7 @@ namespace Items.Atmospherics
 			{
 				if (interaction.TargetObject.TryGetComponent(out GasContainer container))
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.gasMix));
+					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
 					return;
 				}
 			}

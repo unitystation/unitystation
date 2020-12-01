@@ -31,7 +31,7 @@ public class GasContainerEditor : Editor
 
 		foreach (Gas gas in Gas.All)
 		{
-			ratios[gas] = container.gasMix.Moles > 0 ? container.Gases[gas] / container.gasMix.Moles : 0;
+			ratios[gas] = container.GasMix.Moles > 0 ? container.Gases[gas] / container.GasMix.Moles : 0;
 		}
 	}
 
@@ -69,17 +69,17 @@ public class GasContainerEditor : Editor
 
 	private void AbsolutSelection()
 	{
-		EditorGUILayout.LabelField("Moles", $"{container.gasMix.Moles}");
-		container.Gases = ShowGasValues(container.gasMix.Gases);
+		EditorGUILayout.LabelField("Moles", $"{container.GasMix.Moles}");
+		container.Gases = ShowGasValues(container.GasMix.Gases);
 
-		pressure = AtmosUtils.CalcPressure(container.Volume, container.gasMix.Moles, container.Temperature);
+		pressure = AtmosUtils.CalcPressure(container.Volume, container.GasMix.Moles, container.Temperature);
 
 		EditorGUILayout.LabelField("Pressure", $"{pressure}");
 	}
 
 	private void RatioSelection()
 	{
-		pressure = EditorGUILayout.FloatField("Pressure", container.gasMix.Pressure);
+		pressure = EditorGUILayout.FloatField("Pressure", container.GasMix.Pressure);
 
 		float moles = AtmosUtils.CalcMoles(pressure, container.Volume, container.Temperature);
 

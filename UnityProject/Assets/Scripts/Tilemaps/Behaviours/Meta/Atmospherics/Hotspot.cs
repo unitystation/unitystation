@@ -18,9 +18,9 @@ namespace Systems.Atmospherics
 
 		public bool Process()
 		{
-			if (PlasmaFireReaction.CanHoldHotspot(node.gasMix))
+			if (PlasmaFireReaction.CanHoldHotspot(node.GasMix))
 			{
-				Reactions.React(node.gasMix);
+				Reactions.React(node.GasMix);
 				return true;
 			}
 			return false;

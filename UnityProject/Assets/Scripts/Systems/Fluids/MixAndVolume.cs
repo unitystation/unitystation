@@ -19,7 +19,7 @@ namespace Pipes
 			get => mix.InternalEnergy + gasMix.InternalEnergy;
 			set
 			{
-				if (WholeHeatCapacity == 0)
+				if (Mathf.Approximately(WholeHeatCapacity, 0))
 				{
 					return;
 				}
@@ -328,7 +328,7 @@ namespace Pipes
 					totalReagents += PipeFunctions.PipeOrNet(pipe).mix.Total;
 				}
 
-				if (totalVolume == 0)
+				if (Mathf.Approximately(totalVolume, 0))
 				{
 					Logger.LogError(" divide by 0 in EqualiseWithMultiple TotalVolume ");
 				}

@@ -236,7 +236,7 @@ namespace Systems.Atmospherics
 				{
 					if (addReaction.TryDequeue(out var addReactionNode))
 					{
-						var gasMix = addReactionNode.metaDataNode.gasMix;
+						var gasMix = addReactionNode.metaDataNode.GasMix;
 
 						addReactionNode.gasReaction.Reaction.React(gasMix, addReactionNode.metaDataNode.Position);
 
@@ -349,7 +349,7 @@ namespace Systems.Atmospherics
 			{
 				Profiler.BeginSample("MarkForAddition");
 				MetaDataNode node = metaDataLayer.Get(localPosition);
-				GasMix gasMix = node.gasMix;
+				GasMix gasMix = node.GasMix;
 
 				if (PlasmaFireReaction.CanHoldHotspot(gasMix))
 				{

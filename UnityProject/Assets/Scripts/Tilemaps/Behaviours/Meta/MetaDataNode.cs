@@ -53,7 +53,7 @@ public class MetaDataNode : IGasMixContainer
 	/// <summary>
 	/// The mixture of gases currently on this node.
 	/// </summary>
-	public GasMix gasMix { get; set; }
+	public GasMix GasMix { get; set; }
 
 	/// <summary>
 	/// The hotspot state of this node - indicates a potential to ignite gases, and
@@ -131,7 +131,7 @@ public class MetaDataNode : IGasMixContainer
 		{
 			neighborList.Add(null);
 		}
-		gasMix = GasMix.NewGasMix(GasMixes.Space);
+		GasMix = GasMix.NewGasMix(GasMixes.Space);
 		this.reactionManager = reactionManager;
 	}
 

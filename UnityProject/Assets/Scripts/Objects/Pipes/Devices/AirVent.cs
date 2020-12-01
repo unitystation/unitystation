@@ -49,16 +49,16 @@ namespace Pipes
 		private void CheckAtmos()
 		{
 			//metaNode.GasMix = pipeData.mixAndVolume.EqualiseWithExternal(metaNode.GasMix);
-			if (metaNode.gasMix.Pressure > MaxOutletPressure)
+			if (metaNode.GasMix.Pressure > MaxOutletPressure)
 			{
 				return;
 			}
 
 			float molesTransferred;
 
-			if (metaNode.gasMix.Pressure != 0)
+			if (metaNode.GasMix.Pressure != 0)
 			{
-				molesTransferred =	((MaxOutletPressure / metaNode.gasMix.Pressure) * metaNode.gasMix.Moles) - metaNode.gasMix.Moles;
+				molesTransferred =	((MaxOutletPressure / metaNode.GasMix.Pressure) * metaNode.GasMix.Moles) - metaNode.GasMix.Moles;
 				if (MaxTransferMoles < molesTransferred)
 				{
 					molesTransferred = MaxTransferMoles;
@@ -87,7 +87,7 @@ namespace Pipes
 					molesTransferred = pipeMix.Moles;
 				}
 			}
-			GasMix.TransferGas(metaNode.gasMix, pipeMix, molesTransferred);
+			GasMix.TransferGas(metaNode.GasMix, pipeMix, molesTransferred);
 			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer, SystemType.AtmosSystem);
 		}
 	}

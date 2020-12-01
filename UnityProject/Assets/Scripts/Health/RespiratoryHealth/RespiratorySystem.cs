@@ -78,8 +78,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		if (!IsEVACompatible())
 		{
-			temperature = node.gasMix.Temperature;
-			pressure = node.gasMix.Pressure;
+			temperature = node.GasMix.Temperature;
+			pressure = node.GasMix.Pressure;
 			CheckPressureDamage();
 		}
 		else
@@ -109,14 +109,14 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		}
 		// if no internal breathing is possible, get the from the surroundings
 		IGasMixContainer container = GetInternalGasMix() ?? node;
-		GasMix gasMix = container.gasMix;
+		GasMix gasMix = container.GasMix;
 
 		float oxygenUsed = HandleBreathing(gasMix);
 
 		if (oxygenUsed > 0)
 		{
 			gasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
-			node.gasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
+			node.GasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
 			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
 			return true;
 		}

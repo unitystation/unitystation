@@ -124,11 +124,11 @@ namespace Systems.Atmospherics
 					{
 						if (!node.IsSpace)
 						{
-							node.gasMix.Copy(meanGasMix);
+							node.GasMix.Copy(meanGasMix);
 						}
 						else
 						{
-							node.gasMix.SetToEmpty();
+							node.GasMix.SetToEmpty();
 						}
 					}
 				}
@@ -156,8 +156,8 @@ namespace Systems.Atmospherics
 					continue;
 				}
 
-				meanGasMix.Volume += node.gasMix.Volume;
-				GasMix.TransferGas(meanGasMix, node.gasMix, node.gasMix.Moles);
+				meanGasMix.Volume += node.GasMix.Volume;
+				GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles);
 
 				if (!node.IsOccupied)
 				{
@@ -166,7 +166,7 @@ namespace Systems.Atmospherics
 				else
 				{
 					//Decay if occupied
-					node.gasMix.SetToEmpty();
+					node.GasMix.SetToEmpty();
 				}
 			}
 
@@ -197,7 +197,7 @@ namespace Systems.Atmospherics
 			{
 				if(!gas.HasOverlay) continue;
 
-				var gasAmount = node.gasMix.GetMoles(gas);
+				var gasAmount = node.GasMix.GetMoles(gas);
 
 				if(gasAmount == 0) continue;
 
@@ -229,7 +229,7 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			var gasMix = node.gasMix;
+			var gasMix = node.GasMix;
 
 			foreach (var gasReaction in GasReactions.All)
 			{

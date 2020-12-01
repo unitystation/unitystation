@@ -160,7 +160,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{node.gasMix.Pressure:0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.Pressure:0.###}", p, false);
 			}
 		}
 	}
@@ -176,7 +176,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{node.gasMix.Temperature:0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.Temperature:0.###}", p, false);
 			}
 		}
 	}
@@ -192,7 +192,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{node.gasMix.Moles:0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.Moles:0.###}", p, false);
 			}
 		}
 	}
@@ -283,7 +283,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{node.gasMix.GetMoles(Gas.Plasma):0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.Plasma):0.###}", p, false);
 			}
 		}
 	}
@@ -299,7 +299,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{node.gasMix.GetMoles(Gas.Oxygen):0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.Oxygen):0.###}", p, false);
 			}
 		}
 	}
@@ -315,7 +315,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{node.gasMix.GetMoles(Gas.CarbonDioxide):0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.CarbonDioxide):0.###}", p, false);
 			}
 		}
 	}

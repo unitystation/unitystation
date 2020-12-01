@@ -50,23 +50,23 @@ namespace Pipes
 			if (SelfSufficient == false)
 			{
 				var pressureDensity = pipeData.mixAndVolume.Density();
-				if (pressureDensity.y > MaxInternalPressure || metaNode.gasMix.Pressure < MMinimumPressure )
+				if (pressureDensity.y > MaxInternalPressure || metaNode.GasMix.Pressure < MMinimumPressure )
 				{
 					return;
 				}
 			}
 			else
 			{
-				if (metaNode.gasMix.Pressure < MMinimumPressure)
+				if (metaNode.GasMix.Pressure < MMinimumPressure)
 				{
 					return;
 				}
 			}
 
-			if (metaNode.gasMix.Pressure == 0)
+			if (metaNode.GasMix.Pressure == 0)
 				return;
 
-			float available = MMinimumPressure / metaNode.gasMix.Pressure * metaNode.gasMix.Moles;
+			float available = MMinimumPressure / metaNode.GasMix.Pressure * metaNode.GasMix.Moles;
 
 			if (available < 0)
 				return;
@@ -76,7 +76,7 @@ namespace Pipes
 				available = MaxTransferMoles;
 			}
 
-			var gasOnNode = metaNode.gasMix;
+			var gasOnNode = metaNode.GasMix;
 			GasMix pipeMix;
 
 			if (SelfSufficient)

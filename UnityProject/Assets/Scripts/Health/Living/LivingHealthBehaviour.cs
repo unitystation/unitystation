@@ -512,7 +512,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			SyncFireStacks(fireStacks, fireStacks - 0.1f);
 			//instantly stop burning if there's no oxygen at this location
 			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
-			if (node.gasMix.GetMoles(Gas.Oxygen) < 1)
+			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 			{
 				SyncFireStacks(fireStacks, 0);
 			}

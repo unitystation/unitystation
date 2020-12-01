@@ -179,7 +179,7 @@ public class ControlInternals : TooltipMonoBehaviour
 	{
 		if (gasContainer != null)
 		{
-			airTankFillImage.fillAmount = gasContainer.gasMix.GetMoles(Gas.Oxygen) / gasContainer.MaximumMoles;
+			airTankFillImage.fillAmount = gasContainer.GasMix.GetMoles(Gas.Oxygen) / gasContainer.MaximumMoles;
 		}
 	}
 
