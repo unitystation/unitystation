@@ -359,7 +359,7 @@ namespace Objects.Atmospherics
 		{
 			if (canisterTier > 0)
 			{
-				GasContainer.GasMix *= Mathf.Pow(10, canisterTier);
+				GasContainer.GasMix.MultiplyGas(Mathf.Pow(10, canisterTier));
 				canisterTierOverlay.ChangeSprite(canisterTier - 1); // Tier 0 has no overlay.
 			}
 		}

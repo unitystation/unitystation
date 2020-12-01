@@ -155,17 +155,11 @@ namespace Systems.Atmospherics
 				{
 					if (node.Hotspot.Process())
 					{
-						if (node.Hotspot.Volume > 0.95 * node.GasMix.Volume)
+						foreach (var neighbor in node.Neighbors)
 						{
-							for (var i = 0; i < node.Neighbors.Length; i++)
+							if (neighbor != null)
 							{
-								MetaDataNode neighbor = node.Neighbors[i];
-
-								if (neighbor != null)
-								{
-									ExposeHotspot(node.Neighbors[i].Position, node.GasMix.Temperature * 0.85f,
-										node.GasMix.Volume / 4);
-								}
+								ExposeHotspot(neighbor.Position);
 							}
 						}
 					}
@@ -244,7 +238,7 @@ namespace Systems.Atmospherics
 					{
 						var gasMix = addReactionNode.metaDataNode.GasMix;
 
-						addReactionNode.gasReaction.Reaction.React(ref gasMix, addReactionNode.metaDataNode.Position);
+						addReactionNode.gasReaction.Reaction.React(gasMix, addReactionNode.metaDataNode.Position);
 
 						if (reactions.TryGetValue(addReactionNode.metaDataNode.Position, out var gasHashSet) &&
 							gasHashSet.Count == 1)
@@ -330,10 +324,9 @@ namespace Systems.Atmospherics
 		}
 
 		/// Same as ExposeHotspot but allows providing a world position and handles the conversion
-		public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition, float temperature, float volume)
+		public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition)
 		{
-			ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)), temperature,
-				volume);
+			ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)));
 		}
 
 		private void RemoveHotspot(MetaDataNode node)
@@ -350,25 +343,19 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		public void ExposeHotspot(Vector3Int localPosition, float temperature, float volume)
+		public void ExposeHotspot(Vector3Int localPosition)
 		{
-			if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
-			{
-				// TODO soh?
-				hotspots[localPosition].Hotspot.UpdateValues(volume * 25, temperature);
-			}
-			else
+			if (!hotspots.ContainsKey(localPosition) || hotspots[localPosition].Hotspot == null)
 			{
 				Profiler.BeginSample("MarkForAddition");
 				MetaDataNode node = metaDataLayer.Get(localPosition);
 				GasMix gasMix = node.GasMix;
 
-				if (gasMix.GetMoles(Gas.Plasma) > 0.5 && gasMix.GetMoles(Gas.Oxygen) > 0.5 &&
-					temperature > Reactions.PlasmaMaintainFire)
+				if (PlasmaFireReaction.CanHoldHotspot(gasMix))
 				{
 					// igniting
 					//addition will be done later in Update
-					hotspotsToAdd.Add(new Hotspot(node, temperature, volume * 25));
+					hotspotsToAdd.Add(new Hotspot(node));
 				}
 
 				Profiler.EndSample();

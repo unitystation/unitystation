@@ -677,7 +677,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// </summary>
 	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos)
 	{
-		if (CustomNetworkManager.IsServer == false) 
+		if (CustomNetworkManager.IsServer == false)
 		{
 			return;
 		}
@@ -812,6 +812,8 @@ public partial class MatrixManager : MonoBehaviour
 	/// </summary>
 	public static bool IsSlipperyAt(Vector3Int worldPos)
 	{
+
+
 		return AnyMatchInternal(mat => mat.MetaDataLayer.IsSlipperyAt(WorldToLocalInt(worldPos, mat)));
 	}
 

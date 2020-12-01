@@ -279,7 +279,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			bodyPartType = BodyPartType.LeftLeg;
 		else if(bodyPartType == BodyPartType.RightFoot)
 			bodyPartType = BodyPartType.RightLeg;
-		
+
 		return bodyPartType;
 	}
 
@@ -517,8 +517,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 				SyncFireStacks(fireStacks, 0);
 			}
 
-			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(),
-				BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
 		}
 
 		CalculateRadiationDamage();

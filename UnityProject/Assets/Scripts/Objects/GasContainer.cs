@@ -94,7 +94,7 @@ namespace Objects.Atmospherics
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(WorldPosition, true).MetaDataLayer;
 			MetaDataNode node = metaDataLayer.Get(LocalPosition, false);
 
-			node.GasMix += GasMix;
+			GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
 			metaDataLayer.UpdateSystemsAt(LocalPosition, SystemType.AtmosSystem);
 		}
 
@@ -110,11 +110,9 @@ namespace Objects.Atmospherics
 
 			if (deltaPressure > 0)
 			{
-				float ratio = deltaPressure / GasMix.Pressure * Time.deltaTime;
+				float ratio = deltaPressure * Time.deltaTime;
 
-				node.GasMix += GasMix * ratio;
-
-				GasMix *= (1 - ratio);
+				GasMix.TransferGas(node.GasMix, GasMix, ratio);
 
 				metaDataLayer.UpdateSystemsAt(localPosition, SystemType.AtmosSystem);
 

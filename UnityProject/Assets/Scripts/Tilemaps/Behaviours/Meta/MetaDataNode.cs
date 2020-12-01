@@ -131,7 +131,7 @@ public class MetaDataNode : IGasMixContainer
 		{
 			neighborList.Add(null);
 		}
-		GasMix = new GasMix(GasMixes.Space);
+		GasMix = GasMix.NewGasMix(GasMixes.Space);
 		this.reactionManager = reactionManager;
 	}
 

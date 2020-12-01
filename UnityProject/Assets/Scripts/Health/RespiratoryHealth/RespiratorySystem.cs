@@ -109,23 +109,19 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		}
 		// if no internal breathing is possible, get the from the surroundings
 		IGasMixContainer container = GetInternalGasMix() ?? node;
-
 		GasMix gasMix = container.GasMix;
-		GasMix breathGasMix = gasMix.RemoveVolume(AtmosConstants.BREATH_VOLUME, true);
 
-		float oxygenUsed = HandleBreathing(breathGasMix);
+		float oxygenUsed = HandleBreathing(gasMix);
 
 		if (oxygenUsed > 0)
 		{
-			breathGasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
+			gasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
 			node.GasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
 			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
+			return true;
 		}
 
-		gasMix += breathGasMix;
-		container.GasMix = gasMix;
-
-		return oxygenUsed > 0;
+		return false;
 	}
 
 	private GasContainer GetInternalGasMix()
@@ -153,9 +149,9 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		return null;
 	}
 
-	private float HandleBreathing(GasMix breathGasMix)
+	private float HandleBreathing(GasMix gasMix)
 	{
-		float oxygenPressure = breathGasMix.GetPressure(Gas.Oxygen);
+		float oxygenPressure = gasMix.GetPressure(Gas.Oxygen);
 
 		float oxygenUsed = 0;
 
@@ -170,7 +166,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			{
 				float ratio = 1 - oxygenPressure / OXYGEN_SAFE_MIN;
 				bloodSystem.OxygenDamage += 1 * ratio;
-				oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen) * ratio;
+				oxygenUsed = gasMix.GetMoles(Gas.Oxygen) * ratio * AtmosConstants.BREATH_VOLUME;
 			}
 			else
 			{
@@ -180,7 +176,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		}
 		else
 		{
-			oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen);
+			oxygenUsed = gasMix.GetMoles(Gas.Oxygen) * AtmosConstants.BREATH_VOLUME;
 			IsSuffocating = false;
 			bloodSystem.OxygenDamage -= 2.5f;
 			breatheCooldown = 4;

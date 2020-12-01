@@ -11,7 +11,7 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public float React(ref GasMix gasMix, Vector3 tilePos)
+		public void React(GasMix gasMix, Vector3 tilePos)
 		{
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
@@ -28,7 +28,7 @@ namespace Systems.Atmospherics
 			if (gasMix.GetMoles(Gas.NitrousOxide) - reactionEfficiency < 0 || gasMix.GetMoles(Gas.Plasma) - 2 * reactionEfficiency < 0 || energyReleased <= 0)
 			{
 				//No reaction
-				return 0f;
+				return;
 			}
 
 			gasMix.AddGas(Gas.BZ, reactionEfficiency);
@@ -37,8 +37,6 @@ namespace Systems.Atmospherics
 			gasMix.RemoveGas(Gas.Plasma, 2 * reactionEfficiency);
 
 			gasMix.SetTemperature(Mathf.Max((gasMix.Temperature * oldHeatCap + energyReleased)/gasMix.WholeHeatCapacity, 2.7f));
-
-			return 0f;
 		}
 	}
 }
