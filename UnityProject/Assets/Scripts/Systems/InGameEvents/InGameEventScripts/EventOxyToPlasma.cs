@@ -58,8 +58,6 @@ namespace InGameEvents
 			gasMix.AddGas(Gas.Plasma, 1f);
 
 			gasMix.RemoveGas(Gas.Oxygen, 1f);
-
-			return;
 		}
 	}
 }

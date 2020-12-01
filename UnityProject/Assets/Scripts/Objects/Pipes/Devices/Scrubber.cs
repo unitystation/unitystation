@@ -13,7 +13,7 @@ namespace Pipes
 
 		public float MaxInternalPressure = 10000f;
 
-		public float MaxTransferMoles = 10;
+		public float MaxTransferMoles = 100;
 
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;

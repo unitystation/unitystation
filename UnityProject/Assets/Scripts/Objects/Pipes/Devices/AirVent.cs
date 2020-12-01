@@ -12,7 +12,7 @@ namespace Pipes
 		public bool SelfSufficient = false;
 
 		// minimum pressure needs to be a little lower because of floating point inaccuracies
-		public float MaxTransferMoles = 10;
+		public float MaxTransferMoles = 100;
 		public float MaxOutletPressure = 110;
 
 		private MetaDataNode metaNode;
