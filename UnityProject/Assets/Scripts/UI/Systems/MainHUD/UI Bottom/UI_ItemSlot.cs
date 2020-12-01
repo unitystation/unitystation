@@ -69,13 +69,18 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	private ItemSlot itemSlot;
 	public Text amountText;
 
+	public Image MoreInventoryImage;
+	public HasSubInventory HasSubInventory;
 	private void Awake()
 	{
 		if (amountText)
 		{
 			amountText.enabled = false;
 		}
-
+		if (MoreInventoryImage)
+		{
+			MoreInventoryImage.enabled = false;
+		}
 		image = new UI_ItemImage(gameObject);
 		hidden = initiallyHidden;
 	}
@@ -198,6 +203,23 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 				//remove the stack display
 				amountText.enabled = false;
 			}
+
+			if (MoreInventoryImage != null)
+			{
+				var Storage = item.GetComponent<InteractableStorage>();
+				if (Storage != null)
+				{
+					HasSubInventory.itemStorage = Storage.ItemStorage;
+					MoreInventoryImage.enabled = true;
+				}
+				else
+				{
+					HasSubInventory.itemStorage = null;
+					MoreInventoryImage.enabled = false;
+				}
+			}
+
+
 		}
 		else
 		{
@@ -231,6 +253,13 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			placeholderImage.color = Color.white;
 		}
+
+		if (MoreInventoryImage)
+		{
+			HasSubInventory.itemStorage = null;
+			MoreInventoryImage.enabled = false;
+		}
+
 	}
 
 	public void Reset()
@@ -244,7 +273,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			placeholderImage.color = Color.white;
 		}
-
+		if (MoreInventoryImage)
+		{
+			HasSubInventory.itemStorage = null;
+			MoreInventoryImage.enabled = false;
+		}
 		ControlTabs.CheckTabClose();
 	}
 
@@ -349,18 +382,36 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		else if (!hidden)
 		{
 			//show if we have something stackable.
-			if (amountText && itemSlot?.ItemObject != null)
+			if ( itemSlot?.ItemObject != null)
 			{
-				var stack = itemSlot.ItemObject.GetComponent<Stackable>();
-				if (stack != null && stack.Amount > 1)
+				if (amountText)
 				{
-					amountText.enabled = true;
+					var stack = itemSlot.ItemObject.GetComponent<Stackable>();
+					if (stack != null && stack.Amount > 1)
+					{
+						amountText.enabled = true;
+					}
+				}
+				if (MoreInventoryImage != null)
+				{
+					var Storage = itemSlot.ItemObject.GetComponent<InteractableStorage>();
+					if (Storage != null)
+					{
+						HasSubInventory.itemStorage = Storage.ItemStorage;
+						MoreInventoryImage.enabled = true;
+					}
+					else
+					{
+						HasSubInventory.itemStorage = null;
+						MoreInventoryImage.enabled = false;
+					}
 				}
 			}
 			if(Item && placeholderImage)
 			{
 				placeholderImage.color = new Color(1,1,1,0);
 			}
+
 		}
 	}
 }
