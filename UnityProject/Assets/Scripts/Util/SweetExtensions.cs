@@ -348,6 +348,17 @@ public static class SweetExtensions
 	}
 
 	/// <summary>
+	/// Removes all KeyValuePairs where each pair matches the given predicate.
+	/// Courtesy of https://www.codeproject.com/Tips/494499/Implementing-Dictionary-RemoveAll.
+	/// </summary>
+	public static void RemoveAll<K, V>(this IDictionary<K, V> dict, Func<K, V, bool> match)
+	{
+		foreach (var key in dict.Keys.ToArray()
+				.Where(key => match(key, dict[key])))
+			dict.Remove(key);
+	}
+
+	/// <summary>
 	/// Enumerate all flags as IEnumerable
 	/// </summary>
 	/// <param name="input"></param>
