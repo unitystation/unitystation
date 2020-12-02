@@ -17,6 +17,8 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource Explosion1 = null;
    public AddressableAudioSource Explosion2 = null;
    public AddressableAudioSource Notice1 = null;
+   public AddressableAudioSource Notice2 = null;
+
    public AddressableAudioSource Smash = null;
    public AddressableAudioSource Bwoink = null;
    public AddressableAudioSource Crowbar = null;
@@ -46,12 +48,21 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
 
    public AddressableAudioSource Deconstruct = null;
    public AddressableAudioSource GlassHit = null;
+
+   public AddressableAudioSource GlassStep = null;
    public AddressableAudioSource wood3 = null;
 
    public AddressableAudioSource AccessDenied = null;
 
 
+   public AddressableAudioSource HyperSpaceEnd;
+   public AddressableAudioSource HyperSpaceBegin;
+   public AddressableAudioSource HyperSpaceProgress;
 
+   public AddressableAudioSource Tick;
+
+   public AddressableAudioSource StealthOff;
+   public AddressableAudioSource Valve;
 
 
 }

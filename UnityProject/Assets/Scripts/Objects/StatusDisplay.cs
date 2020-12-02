@@ -262,9 +262,9 @@ namespace Objects.Wallmounts
 						{
 							Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
 							// Play sound
-							SoundManager.PlayNetworkedAtPos("AccessDenied", gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+							SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 						}
-						
+
 					}
 					else
 					{
@@ -448,7 +448,7 @@ namespace Objects.Wallmounts
 			{
 				Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
 				// Play sound
-				SoundManager.PlayNetworkedAtPos("AccessDenied", gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 			}
 		}
 
