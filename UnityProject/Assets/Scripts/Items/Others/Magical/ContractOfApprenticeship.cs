@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using NaughtyAttributes;
+using ScriptableObjects;
+using ScriptableObjects.Items.SpellBook;
+using Systems.GhostRoles;
+using Systems.Spells;
+
+namespace Items.Magical
+{
+	/// <summary>
+	/// Allows a wizard to spawn an apprentice wizard via a ghost role.
+	/// </summary>
+	public class ContractOfApprenticeship : MonoBehaviour
+	{
+		[SerializeField, Required] private GhostRoleData ghostRole = default;
+		[SerializeField, ReorderableList] private MagicSchool[] schools = default;
+
+		public event Action OnGhostRoleTimeout;
+		public event Action OnApprenticeSpawned;
+
+		public MagicSchool SelectedSchool { get; private set; }
+		public ConnectedPlayer BoundTo { get; private set; }
+		public ConnectedPlayer Apprentice { get; private set; }
+		public bool WasUsed => Apprentice != null;
+
+		private uint createdRoleKey;
+
+		private HasNetworkTabItem netTab;
+
+		private void Awake()
+		{
+			netTab = GetComponent<HasNetworkTabItem>();
+		}
+
+		public void SelectSchool(int schoolIndex)
+		{
+			SelectedSchool = schools[schoolIndex];
+
+			CreateGhostRole();
+		}
+
+		public void CreateGhostRole()
+		{
+			if (GhostRoleManager.Instance.serverAvailableRoles.ContainsKey(createdRoleKey))
+			{
+				Logger.LogWarning("A wizard apprentice ghost role already exists.");
+				return;
+			}
+			else if (WasUsed)
+			{
+				Logger.LogWarning("This contract has already been used. Cannot spawn another apprentice.");
+				return;
+			}
+
+			BoundTo = netTab.LastInteractedPlayer().Player();
+
+			createdRoleKey = GhostRoleManager.Instance.ServerCreateRole(ghostRole);
+			GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKey];
+
+			role.OnPlayerAdded += SpawnApprentice;
+			role.OnTimerExpired += OnGhostRoleTimeout;
+		}
+
+		public void CancelApprenticeship()
+		{
+			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+		}
+
+		private void SpawnApprentice(ConnectedPlayer player)
+		{
+			player.Script.playerNetworkActions.ServerRespawnPlayerAntag(player, "Wizard Apprentice");
+
+			Apprentice = player;
+			OnApprenticeSpawned?.Invoke();
+
+			foreach (SpellBookEntry entry in SelectedSchool.spellEntries)
+			{
+				if (entry is SpellBookSpell spellEntry)
+				{
+					Spell spell = spellEntry.Spell.AddToPlayer(player.Script);
+					player.Script.mind.AddSpell(spell);
+				}
+				else if (entry is SpellBookArtifact spellArtifact)
+				{
+					foreach (GameObject prefab in spellArtifact.Artifacts)
+					{
+						GameObject item = Spawn.ServerPrefab(prefab, player.Script.WorldPos).GameObject;
+						player.Script.ItemStorage.GetBestHandOrSlotFor(item);
+					}
+				}
+			}
+		}
+
+		[Serializable]
+		public class MagicSchool
+		{
+			[SerializeField]
+			public string Name = default;
+			[SerializeField, ReorderableList]
+			public SpellBookEntry[] spellEntries = default;
+		}
+	}
+}

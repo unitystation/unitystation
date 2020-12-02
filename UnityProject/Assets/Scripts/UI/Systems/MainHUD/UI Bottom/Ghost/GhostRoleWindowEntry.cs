@@ -141,9 +141,6 @@ namespace UI.Windows
 		{
 			waitingOnResponseOverlay.SetActive(true);
 
-			// Seems to get stuck after the second overlay - shouldn't need this.
-			waitingOnResponseOverlay.GetComponentInChildren<SpriteHandler>().PushTexture(false);
-
 			yield return WaitFor.Seconds(5);
 
 			waitingOnResponseOverlay.SetActive(false);
