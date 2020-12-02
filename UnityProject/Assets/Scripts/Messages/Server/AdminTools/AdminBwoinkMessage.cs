@@ -10,7 +10,7 @@ public class AdminBwoinkMessage : ServerMessage
 
 	public override void Process()
 	{
-		SoundManager.Play("Bwoink");
+		SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
 		Chat.AddAdminPrivMsg(Message);
 	}
 

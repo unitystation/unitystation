@@ -107,7 +107,7 @@ namespace UI.Systems.Ghost
 			roleBtnAnimating = true;
 
 			Chat.AddExamineMsgToClient($"<size=48>Ghost role <b>{role.Name}</b> is available!</size>");
-			SoundManager.Play("Notice2");
+			SoundManager.Play(SingletonSOSounds.Instance.Notice2);
 			ghostRoleAnimator.TriggerAnimation();
 
 			yield return WaitFor.Seconds(5);

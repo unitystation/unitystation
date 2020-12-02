@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
@@ -93,11 +94,26 @@ namespace Weapons
 		[FormerlySerializedAs("FireingSound"), Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
 		public string FiringSound;
 
+
+		/// <summary>
+		/// The name of the sound this gun makes when shooting
+		/// </summary>
+		[Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
+		public AddressableAudioSource FiringSoundA;
+		//RRTL
+
 		/// <summary>
 		/// The name of the sound this gun makes when shooting
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
 		public string SuppressedSound;
+
+		/// <summary>
+		/// The name of the sound this gun makes when shooting
+		/// </summary>
+		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
+		public AddressableAudioSource SuppressedSoundA;
+		//RRTL
 
 		/// <summary>
 		/// The amount of times per second this weapon can fire
@@ -707,13 +723,13 @@ namespace Weapons
 					A.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
 			}
-			if (isSuppressed && SuppressedSound != null)
+			if (isSuppressed && SuppressedSoundA != null)
 			{
-				SoundManager.PlayAtPosition(SuppressedSound, shooter.transform.position, shooter);
+				SoundManager.PlayAtPosition(SuppressedSoundA, shooter.transform.position, shooter);
 			}
 			else
 			{
-				SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
+				SoundManager.PlayAtPosition(FiringSoundA, shooter.transform.position, shooter);
 			}
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}

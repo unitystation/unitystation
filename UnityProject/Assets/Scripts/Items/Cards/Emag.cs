@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 
@@ -27,6 +28,9 @@ public class Emag : NetworkBehaviour, IServerSpawn, IExaminable
     public int Charges => charges;
 
     private string OutOfChargesSFX = "Sparks04";
+
+    public AddressableAudioSource OutOfChargesSFXA;
+    //RRTL
 
     #region SyncVarFuncs
         void Awake()
@@ -57,7 +61,7 @@ public class Emag : NetworkBehaviour, IServerSpawn, IExaminable
             SyncCharges(Charges, charges);
             base.OnStartClient();
         }
-        
+
         public void OnSpawnServer(SpawnInfo info)
         {
             SyncCharges(startCharges, startCharges);
@@ -96,7 +100,7 @@ public class Emag : NetworkBehaviour, IServerSpawn, IExaminable
 	/// <summary>
 	/// Uses one charge from the emag, returns true if successful
 	/// </summary>
-    public bool UseCharge(HandApply interaction) 
+    public bool UseCharge(HandApply interaction)
     {
         if(Charges > 0)
         {
@@ -111,9 +115,9 @@ public class Emag : NetworkBehaviour, IServerSpawn, IExaminable
             {
                 spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
             }
-            else 
+            else
             {
-                SoundManager.PlayNetworkedForPlayer(recipient:interaction.Performer, sndName:OutOfChargesSFX, sourceObj:gameObject);
+                SoundManager.PlayNetworkedForPlayer(recipient:interaction.Performer, OutOfChargesSFXA, sourceObj:gameObject);
                 spriteHandler.Empty();
             }
             return true;

@@ -336,7 +336,7 @@ namespace Blob
 					string.Format(CentComm.BioHazardReportTemplate,
 						"Caution! Biohazard expanding rapidly. Station structural integrity failing."),
 					MatrixManager.MainStationMatrix);
-				SoundManager.PlayNetworked("Notice1");
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
 			}
 
 			if (isBlobGamemode && !nearlyWon && NumOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
@@ -347,7 +347,7 @@ namespace Blob
 					string.Format(CentComm.BioHazardReportTemplate,
 						"Alert! Station integrity near critical. Biomass sensor levels are off the charts."),
 					MatrixManager.MainStationMatrix);
-				SoundManager.PlayNetworked("Notice1");
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
 			}
 
 			//Blob wins after number of blob tiles reached
