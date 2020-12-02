@@ -13,7 +13,7 @@ namespace Systems.Spells.Wizard
 	public class LightningBolt : Spell
 	{
 		[SerializeField]
-		private GameObject arcEffect;
+		private GameObject arcEffect = default;
 		[Tooltip("How many primary arcs to form from the caster to the target. Also affects how many secondary targets there are.")]
 		[SerializeField, Range(1, 5)]
 		private int arcCount = 3;

@@ -11,26 +11,19 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 {
 	public override string Tooltip => "health";
 
-	public int critStart;
 	private int currentSprite = 0;
-	public int deathStart;
-
-	[Header("Start of sprite positions for anim")] public int fullHealthStart;
-	public int medDmgStart;
-	public int minorDmgStart;
-	public int mjrDmgStart;
 
 	//FIXME doing overlayCrit update based off heart monitor for time being
 	public OverlayCrits overlayCrits;
 
 	public Image pulseImg;
 
-	[SerializeField] private Image bgImage;
+	[SerializeField] private Image bgImage = default;
 
 	[SerializeField]
 	public List<Spritelist> StatesSprites;
 
-	[SerializeField] private Sprite[] statesBgImages;
+	[SerializeField] private Sprite[] statesBgImages = default;
 
 	private int CurrentSpriteSet = 0;
 	private float timeWait;

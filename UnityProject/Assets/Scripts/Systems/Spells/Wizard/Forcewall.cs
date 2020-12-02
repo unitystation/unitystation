@@ -14,7 +14,7 @@ namespace Systems.Spells.Wizard
 		private int lifespan = 50;
 		[Tooltip("Set the trait used to allow the caster to pass through the obstruction. Must be the same as defined on the object.")]
 		[SerializeField]
-		private PassableExclusionTrait exclusionTrait;
+		private PassableExclusionTrait exclusionTrait = default;
 
 		public override void CallActionClient()
 		{

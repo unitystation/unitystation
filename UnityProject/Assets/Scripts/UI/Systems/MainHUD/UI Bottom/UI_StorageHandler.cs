@@ -21,7 +21,7 @@ public class UI_StorageHandler : MonoBehaviour
 
 	private UI_ItemSlot[] otherPlayerSlots;
 
-	[SerializeField] private Text indexedStorageCapacity;
+	[SerializeField] private Text indexedStorageCapacity = default;
 
 	/// <summary>
 	/// Currently opened ItemStorage (like the backpack that's currently being looked in)
@@ -29,7 +29,7 @@ public class UI_StorageHandler : MonoBehaviour
 	public ItemStorage CurrentOpenStorage { get; private set; }
 
 	// holds the currently rendered ui slots linked to the open storage.
-	private List<UI_ItemSlot> currentOpenStorageUISlots = new List<UI_ItemSlot>();
+	private readonly List<UI_ItemSlot> currentOpenStorageUISlots = new List<UI_ItemSlot>();
 
 	void Awake()
 	{
@@ -49,7 +49,7 @@ public class UI_StorageHandler : MonoBehaviour
 			CloseStorageUI();
 			CurrentOpenStorage = itemStorage;
 			PopulateInventorySlots();
-			SoundManager.PlayAtPosition("Rustle", PlayerManager.LocalPlayer.transform.position,
+			SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Rustle, PlayerManager.LocalPlayer.transform.position,
 				PlayerManager.LocalPlayer);
 		}
 	}
@@ -127,7 +127,7 @@ public class UI_StorageHandler : MonoBehaviour
 	{
 		if (PlayerManager.LocalPlayer != null)
 		{
-			SoundManager.PlayAtPosition("Rustle", PlayerManager.LocalPlayer.transform.position,
+			SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Rustle, PlayerManager.LocalPlayer.transform.position,
 				PlayerManager.LocalPlayer);
 		}
 

@@ -57,7 +57,7 @@ namespace Weapons.Projectiles.Behaviours
 		private void CreateHotSpot()
 		{
 			var reactionManager = MatrixManager.AtPoint(currentTileWorldPos, true).ReactionManager;
-			reactionManager.ExposeHotspotWorldPosition(currentTileWorldPos.To2Int(), 3200, 0.02f);
+			reactionManager.ExposeHotspotWorldPosition(currentTileWorldPos.To2Int());
 		}
 	}
 }

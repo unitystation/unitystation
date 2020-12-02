@@ -102,7 +102,7 @@ public class FireExposure
 			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.Position);
 			return;
 		}
-		Update(hotspotNode.Hotspot.Temperature, hotspotNode.Position, atLocalPosition, atWorldPosition, hotspotWorldPosition);
+		Update(hotspotNode.GasMix.Temperature, hotspotNode.Position, atLocalPosition, atWorldPosition, hotspotWorldPosition);
 	}
 
 	/// <summary>
@@ -122,6 +122,6 @@ public class FireExposure
 			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.Position);
 			return null;
 		}
-		return new FireExposure(hotspotNode.Hotspot.Temperature, hotspotNode.Position, atLocalPosition, atWorldPosition, hotspotWorldPosition);
+		return new FireExposure(hotspotNode.GasMix.Temperature, hotspotNode.Position, atLocalPosition, atWorldPosition, hotspotWorldPosition);
 	}
 }

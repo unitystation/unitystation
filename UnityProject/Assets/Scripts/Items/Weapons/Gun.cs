@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
@@ -70,19 +71,6 @@ namespace Weapons
 		public bool MagInternal = false;
 
 		/// <summary>
-		/// The cooldown between full bursts in seconds
-		/// </summary>
-		[HideInInspector, Tooltip("The cooldown between full a burst in seconds")] // will be shown by the code at the very end, if appropriate
-		public double burstCooldown = 3;
-
-		/// <summary>
-		/// The number of allowed shots in a burst
-		/// </summary>
-		[HideInInspector, Tooltip("The number of bullets in a full burst")] // will be shown by the code at the very end, if appropriate
-		public double burstCount = 3;
-		private double currentBurstCount = 0;
-
-		/// <summary>
 		/// If the gun should eject it's magazine automatically (external-magazine-specific)
 		/// </summary>
 		[HideInInspector, Tooltip("If the gun should eject an empty mag automatically")] // will be shown by the code at the very end, if appropriate
@@ -106,11 +94,26 @@ namespace Weapons
 		[FormerlySerializedAs("FireingSound"), Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
 		public string FiringSound;
 
+
+		/// <summary>
+		/// The name of the sound this gun makes when shooting
+		/// </summary>
+		[Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
+		public AddressableAudioSource FiringSoundA;
+		//RRTL
+
 		/// <summary>
 		/// The name of the sound this gun makes when shooting
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
 		public string SuppressedSound;
+
+		/// <summary>
+		/// The name of the sound this gun makes when shooting
+		/// </summary>
+		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
+		public AddressableAudioSource SuppressedSoundA;
+		//RRTL
 
 		/// <summary>
 		/// The amount of times per second this weapon can fire
@@ -180,10 +183,10 @@ namespace Weapons
 		/// Enables or disables the behaviour related to applying and removing suppressors from the gun
 		/// </summary>
 		[SerializeField, Tooltip("If suppressors can be applied or removed")]
-		private bool isSuppressible;
+		private bool isSuppressible = default;
 
 		[SerializeField]
-		private GameObject suppressor;
+		private GameObject suppressor = default;
 
 		#region Init Logic
 
@@ -298,7 +301,6 @@ namespace Weapons
 				{
 					if (interaction.MouseButtonState == MouseButtonState.PRESS)
 					{
-						currentBurstCount = 0;
 						return true;
 					}
 					else
@@ -624,7 +626,7 @@ namespace Weapons
 				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide, toShoot.name, quantity);
 
 				//trigger a hotspot caused by gun firing
-				shooterRegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(nextShot.shooter.TileWorldPosition(), 3200, 0.005f);
+				shooterRegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(nextShot.shooter.TileWorldPosition());
 
 				//tell all the clients to display the shot
 				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide, toShoot.name, quantity);
@@ -721,13 +723,13 @@ namespace Weapons
 					A.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
 			}
-			if (isSuppressed && SuppressedSound != null)
+			if (isSuppressed && SuppressedSoundA != null)
 			{
-				SoundManager.PlayAtPosition(SuppressedSound, shooter.transform.position, shooter);
+				SoundManager.PlayAtPosition(SuppressedSoundA, shooter.transform.position, shooter);
 			}
 			else
 			{
-				SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
+				SoundManager.PlayAtPosition(FiringSoundA, shooter.transform.position, shooter);
 			}
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
@@ -931,12 +933,6 @@ namespace Weapons
 			if (!script.MagInternal) // show exclusive fields depending on whether magazine is internal
 			{
 				script.SmartGun = EditorGUILayout.Toggle("Smart Gun", script.SmartGun);
-			}
-
-			if (script.WeaponType == WeaponType.Burst)
-			{
-				script.burstCooldown = EditorGUILayout.DoubleField("Burst Cooldown", script.burstCooldown);
-				script.burstCount = EditorGUILayout.DoubleField("Burst Count", script.burstCount);
 			}
 		}
 	}

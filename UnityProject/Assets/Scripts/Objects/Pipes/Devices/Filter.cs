@@ -52,7 +52,7 @@ namespace Pipes
 		}
 
 		[SerializeField]
-		private FilterValues initalFilterValue;
+		private FilterValues initalFilterValue = default;
 
 		public int MaxPressure = 9999;
 		private float TransferMoles = 500f;

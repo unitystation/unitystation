@@ -2,6 +2,10 @@
 ---
 
 
+* 2020/12/2: Added directional sprites for Gaggle the goose. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5693](https://github.com/unitystation/unitystation/pull/5693)
+* 2020/12/2: Made the suit storage slot use a whitelist which includes: guns, PDAs, melee weapons, magazines, ammo casings, handcuffs, oxygen tanks, power cells, flashlights, spray bottles, radios, and masks. by [PetMudstone](https://github.com/PetMudstone) in PR #[5694](https://github.com/unitystation/unitystation/pull/5694)
+* 2020/12/1: Suit storage and pockets now Grey out when you're not wearing the appropriate Clothing,  and drop the contents if taken off by [Bod9001](https://github.com/Bod9001) in PR #[5684](https://github.com/unitystation/unitystation/pull/5684)
+* 2020/12/1: Added ghost role system and simple death squad. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5675](https://github.com/unitystation/unitystation/pull/5675)
 * 2020/11/26: adds functional suppressors by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5666](https://github.com/unitystation/unitystation/pull/5666)
 * 2020/11/25: Fixed bug where some floor tile items didn't get used up when you placed them down. by [PetMudstone](https://github.com/PetMudstone) in PR #[5674](https://github.com/unitystation/unitystation/pull/5674)
 * 2020/11/23: Removed ability to fly shuttles and asteroids that shouldn't have been able to be flown around. by [PetMudstone](https://github.com/PetMudstone) in PR #[5668](https://github.com/unitystation/unitystation/pull/5668)

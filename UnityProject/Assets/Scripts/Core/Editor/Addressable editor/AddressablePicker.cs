@@ -8,8 +8,6 @@ using UnityEngine;
 
 public class AddressablePicker : EditorWindow
 {
-	private static bool refresh = false;
-
 	private static Dictionary<string, string[]> Options;
 
 	public static Dictionary<string, string[]> options
@@ -45,16 +43,16 @@ public class AddressablePicker : EditorWindow
 	public static List<string> GetCataloguePath()
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
-		path = path + "/AddressablePackingProjects";
+		path += "/AddressablePackingProjects";
 		Logger.Log(path);
-		var Directories = System.IO.Directory.GetDirectories(path);
+		var Directories = Directory.GetDirectories(path);
 		var FoundFiles = new List<string>();
 		foreach (var Directori in Directories)
 		{
 			var newpath = Directori + "/ServerData";
-			if (System.IO.Directory.Exists(newpath))
+			if (Directory.Exists(newpath))
 			{
-				var Files = System.IO.Directory.GetFiles(newpath);
+				var Files = Directory.GetFiles(newpath);
 
 				string FoundFile = "";
 				foreach (var File in Files)

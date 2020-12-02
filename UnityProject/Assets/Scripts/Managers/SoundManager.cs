@@ -375,16 +375,6 @@ public class SoundManager : MonoBehaviour
 		PlayNetworkedAtPos(addressableAudioSources, worldPos, audioSourceParameters, polyphonic, global, sourceObj, shakeParameters);
 	}
 
-	public static void PlayNetworkedForPlayer(GameObject recipient,
-		string sndName, float? pitch = null,
-		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + sndName);
-		return;
-	}
-
-
 	public static async Task PlayNetworkedForPlayer(GameObject recipient,
 		AddressableAudioSource addressableAudioSources, float? pitch = null,
 		bool polyphonic = false,
@@ -477,12 +467,6 @@ public class SoundManager : MonoBehaviour
 		PlaySoundMessage.Send(recipient, addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
 	}
 
-	public static void Play(string addressableAudioSource, float volume, float pitch = -1, float time = 0, bool oneShot = false,
-		float pan = 0)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSource);
-		return;
-	}
 
 	/// <summary>
 	/// Play a sound locally
@@ -553,13 +537,6 @@ public class SoundManager : MonoBehaviour
 		soundSpawn.AudioSource.volume = volume;
 		soundSpawn.AudioSource.panStereo = pan;
 		Instance.PlaySource(soundSpawn, oneShot);
-	}
-
-	public static void Play(string addressableAudioSource, string soundSpawnToken = "",
-		bool polyphonic = false, bool global = true)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSource);
-		return;
 	}
 
 	/// <summary>
@@ -665,22 +642,27 @@ public class SoundManager : MonoBehaviour
 		PlayAtPosition(addressableAudioSources, soundSpawnToken, worldPos, polyphonic, isGlobal, netId, audioSourceParameters);
 	}
 
-	public static void PlayAtPosition(string addressableAudioSource,
-		Vector3 worldPos, GameObject sourceObj  = null, bool polyphonic = false,
-		bool isGlobal = false, AudioSourceParameters audioSourceParameters = null)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSource);
-		return;
-	}
 
 	/// <summary>
 	/// Play sound locally at given world position.
 	/// </summary>
 	/// <param name="addressableAudioSources">Sound to be played.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
-	public static async Task PlayAtPosition(AddressableAudioSource addressableAudioSource, string soundSpawnToken, Vector3 worldPos, bool polyphonic = false,
-		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = null)
+	public static async Task PlayAtPosition(AddressableAudioSource addressableAudioSource,  Vector3 worldPos, GameObject gameObject = null, string soundSpawnToken ="", bool polyphonic = false,
+		bool isGlobal = false, AudioSourceParameters audioSourceParameters = null)
 	{
+		uint netId = NetId.Empty;
+		if (gameObject != null)
+		{
+			netId = gameObject.NetId();
+			if (netId == NetId.Invalid)
+			{
+				Logger.LogError("Provided Game object for PlayAtPosition  does not have a network identity " + addressableAudioSource.AssetAddress);
+				return;
+			}
+		}
+
+
 		PlayAtPosition(new List<AddressableAudioSource>() { addressableAudioSource }, soundSpawnToken, worldPos, polyphonic, isGlobal, netId, audioSourceParameters);
 	}
 

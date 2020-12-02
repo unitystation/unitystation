@@ -13,15 +13,13 @@ namespace UI.Objects.Atmospherics
 {
 	public class GUI_PipeDispenser : NetTab
 	{
-#pragma warning disable 0649
-		[SerializeField] NetPageSwitcher categorySwitcher;
-		[SerializeField] NetPageSwitcher dispensePageSwitcher;
+		[SerializeField] NetPageSwitcher categorySwitcher = default;
+		[SerializeField] NetPageSwitcher dispensePageSwitcher = default;
 
-		[SerializeField] List<NetToggle> layerToggles;
-		[SerializeField] List<NetToggle> colorToggles;
-		[SerializeField] List<NetPage> categoryPages;
-#pragma warning restore 0649
-		[SerializeField] List<Color> colors;		
+		[SerializeField] List<NetToggle> layerToggles = default;
+		[SerializeField] List<NetToggle> colorToggles = default;
+		[SerializeField] List<NetPage> categoryPages = default;
+		[SerializeField] List<Color> colors = default;
 
 		int currentCategoryNumber = 0;
 		int[] previousCategoryPages;

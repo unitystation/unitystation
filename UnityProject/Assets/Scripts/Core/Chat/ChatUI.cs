@@ -10,9 +10,10 @@ using System.Linq;
 public class ChatUI : MonoBehaviour
 {
 	public static ChatUI Instance;
-	public GameObject chatInputWindow;
-	public Transform content;
-	public GameObject chatEntryPrefab;
+
+	public GameObject chatInputWindow = default;
+	public Transform content = default;
+	public GameObject chatEntryPrefab = default;
 	public int maxLogLength = 90;
 	[SerializeField] private Text chatInputLabel = null;
 	[SerializeField] private RectTransform channelPanel = null;
@@ -25,7 +26,7 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Transform thresholdMarkerBottom = null;
 	[SerializeField] private Transform thresholdMarkerTop = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
-	[SerializeField] private RectTransform safeArenaRect;
+	[SerializeField] private RectTransform safeArenaRect = default;
 
 	public RectTransform SafeArenaRect => safeArenaRect;
 	private bool windowCoolDown = false;

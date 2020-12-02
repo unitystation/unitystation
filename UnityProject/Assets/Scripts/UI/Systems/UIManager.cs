@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UI.Core.Windows;
+using UI.Windows;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -36,6 +37,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public Text versionDisplay;
 	public GUI_Info infoWindow;
 	public TeleportWindow teleportWindow;
+	[SerializeField] private GhostRoleWindow ghostRoleWindow = default;
 	public UI_StorageHandler storageHandler;
 	public BuildMenu buildMenu;
 	public ZoneSelector zoneSelector;
@@ -177,6 +179,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public static GUI_Info InfoWindow => Instance.infoWindow;
 
 	public static TeleportWindow TeleportWindow => Instance.teleportWindow;
+	public static GhostRoleWindow GhostRoleWindow => Instance.ghostRoleWindow;
 
 	private float pingUpdate;
 

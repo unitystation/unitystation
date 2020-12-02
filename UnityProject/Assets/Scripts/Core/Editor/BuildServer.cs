@@ -22,7 +22,7 @@ static class BuildScript
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
 		buildPlayerOptions.options = BuildOptions.Development;
 		BuildPreferences.SetRelease(true);
-        BuildPipeline.BuildPlayer(buildPlayerOptions);
+		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 
 	//IMPORTANT: ALWAYS DO WINDOWS BUILD FIRST IN YOUR BUILD CYCLE:

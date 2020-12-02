@@ -11,14 +11,14 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public float React(ref GasMix gasMix, Vector3 tilePos)
+		public void React(GasMix gasMix, Vector3 tilePos)
 		{
 			if (gasMix.Temperature <= AtmosDefines.WATER_VAPOR_FREEZE)
 			{
 				if (gasMix.GetMoles(Gas.WaterVapor) < 2f)
 				{
 					//Not enough moles to freeze
-					return 0f;
+					return;
 				}
 
 				var numberOfIceToSpawn = Mathf.Floor(gasMix.GetMoles(Gas.WaterVapor) / 2f);
@@ -30,8 +30,6 @@ namespace Systems.Atmospherics
 
 				gasMix.RemoveGas(Gas.WaterVapor, numberOfIceToSpawn * 2f);
 			}
-
-			return 0f;
 		}
 	}
 }

@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: 16ba147fa73ba4049ae5f1560bb6b68c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -134,6 +134,13 @@ MonoBehaviour:
   syncInterval: 0.1
   startCharges: 5
   rechargeTimeInSeconds: 30
+  OutOfChargesSFXA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Sparks04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &5805812536563727567
 PrefabInstance:
   m_ObjectHideFlags: 0

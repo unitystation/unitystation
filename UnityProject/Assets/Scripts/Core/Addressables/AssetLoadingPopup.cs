@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using TMPro;
 
 public class AssetLoadingPopup : MonoBehaviour
 {
-	[SerializeField] private TMPro.TextMeshProUGUI textUGUI;
-	[SerializeField] private Slider loadingSlider;
+	[SerializeField] private TextMeshProUGUI textUGUI = default;
+	[SerializeField] private Slider loadingSlider = default;
 	AsyncOperationHandle handle;
 	public void Setup(AsyncOperationHandle asyncOperationHandle, string path)
 	{

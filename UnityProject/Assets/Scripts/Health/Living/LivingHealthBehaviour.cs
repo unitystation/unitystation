@@ -21,10 +21,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	//damage incurred per tick per fire stack
 	private static readonly float DAMAGE_PER_FIRE_STACK = 0.08f;
 
-	//volume and temp of hotspot exposed by this player when they are on fire
-	private static readonly float BURNING_HOTSPOT_VOLUME = .005f;
-	private static readonly float BURNING_HOTSPOT_TEMPERATURE = 700f;
-
 	/// <summary>
 	/// Invoked when conscious state changes. Provides old state and new state as 1st and 2nd args.
 	/// </summary>
@@ -279,7 +275,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			bodyPartType = BodyPartType.LeftLeg;
 		else if(bodyPartType == BodyPartType.RightFoot)
 			bodyPartType = BodyPartType.RightLeg;
-		
+
 		return bodyPartType;
 	}
 
@@ -517,8 +513,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 				SyncFireStacks(fireStacks, 0);
 			}
 
-			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(),
-				BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
 		}
 
 		CalculateRadiationDamage();
