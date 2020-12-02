@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -14,21 +14,21 @@ public class ControlIntent : TooltipMonoBehaviour
 {
 
 	public Sprite[] sprites;
-	[SerializeField] private Image thisImg;
+	[SerializeField] private Image thisImg = default;
 
 	public override string Tooltip => "intent";
 
 	[Header("GameObject references")]
-	[SerializeField] private GameObject helpIntentIcon;
-	[SerializeField] private GameObject harmIntentIcon;
-	[SerializeField] private GameObject runWalkBorder;
-	[SerializeField] private GameObject helpWindow;
+	[SerializeField] private GameObject helpIntentIcon = default;
+	[SerializeField] private GameObject harmIntentIcon = default;
+	[SerializeField] private GameObject runWalkBorder = default;
+	[SerializeField] private GameObject helpWindow = default;
 	[Header("Message settings")]
 	[SerializeField] private string restMessage = "You try to lie down.";
 	[SerializeField] private string startRunningMessage = "You start running";
 	[SerializeField] private string startWalkingMessage = "You start walking";
 
-	public bool running { get; set; } = true;
+	public bool Running { get; set; } = true;
 
 	private void Start()
 	{
@@ -97,10 +97,10 @@ public class ControlIntent : TooltipMonoBehaviour
 		Logger.Log("OnClickRunWalk", Category.UI);
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
-		running = !running;
-		runWalkBorder.SetActive(running);
+		Running = !Running;
+		runWalkBorder.SetActive(Running);
 
-		Chat.AddExamineMsgToClient(running ? startRunningMessage : startWalkingMessage);
+		Chat.AddExamineMsgToClient(Running ? startRunningMessage : startWalkingMessage);
 	}
 
 	/// <summary>

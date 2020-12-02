@@ -7,11 +7,11 @@ using UnityEngine.Serialization;
 
 namespace AddressableReferences
 {
-		/// <summary>
+	/// <summary>
 	/// Note about this class, Currently if you want a custom AssetReference Like asset reference texture, might have to make a new class this needs to be explored
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	[System.Serializable]
+	[Serializable]
 	public class AddressableReference<T> where T : UnityEngine.Object
 	{
 		public UnLoadSetting SetLoadSetting = UnLoadSetting.KeepLoaded;
@@ -58,7 +58,7 @@ namespace AddressableReferences
 				}
 
 			}
-			catch (Exception e)
+			catch
 			{
 				if (string.IsNullOrEmpty(AssetAddress))
 				{
@@ -207,6 +207,6 @@ namespace AddressableReferences
 		}
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class AddressableTexture : AddressableReference<Texture> { }
 }

@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using Systems.Atmospherics;
 using Chemistry;
 using UnityEngine;
-using Systems.Atmospherics;
 
 namespace Pipes
 {
-	[System.Serializable]
+	[Serializable]
 	public class PipeData
 	{
 		public PipeLayer PipeLayer = PipeLayer.Second;

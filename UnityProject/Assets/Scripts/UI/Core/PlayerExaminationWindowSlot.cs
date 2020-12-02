@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,21 +6,21 @@ using UnityEngine.UI;
 
 public class PlayerExaminationWindowSlot : MonoBehaviour
 {
-    /// <summary>
-    /// Object that will be enabled if slot is obscured
-    /// </summary>
-    [SerializeField]
-    private GameObject obstructedOverlay;
+	/// <summary>
+	/// Object that will be enabled if slot is obscured
+	/// </summary>
+	[SerializeField]
+	private GameObject obstructedOverlay = default;
     /// <summary>
     /// Object that will be enabled when player interacts and slot is obscured
     /// </summary>
     [SerializeField]
-    private GameObject questionMark;
+    private GameObject questionMark = default;
 
-    [System.NonSerialized]
+    [NonSerialized]
     public PlayerExaminationWindowUI parent;
     
-    [SerializeField] private UI_ItemSlot itemSlot;
+    [SerializeField] private UI_ItemSlot itemSlot = default;
     public UI_ItemSlot UI_ItemSlot => itemSlot;
 
     public bool IsObscured => obstructedOverlay.activeSelf;

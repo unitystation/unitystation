@@ -6,15 +6,15 @@ using UnityEngine.UI;
 
 public class ControlInternals : TooltipMonoBehaviour
 {
-	[SerializeField] private Image airTank;
-	[SerializeField] private Image airTankFillImage;
-	[SerializeField] private Image mask;
+	[SerializeField] private Image airTank = default; // TODO: unused and is creating a compiler warning.
+	[SerializeField] private Image airTankFillImage = default;
+	[SerializeField] private Image mask = default;
 
 	[Header("Color settings")]
-	[SerializeField] private Color activeAirFlowTankColor;
+	[SerializeField] private Color activeAirFlowTankColor = default;
 
 	[NonSerialized] private int _currentState = 1;
-	public int currentState
+	public int CurrentState
 	{
 		get => _currentState;
 		set
@@ -93,7 +93,7 @@ public class ControlInternals : TooltipMonoBehaviour
 	/// </summary>
 	public void OxygenSelect()
 	{
-		if (currentState != 4 && currentState != 5)
+		if (CurrentState != 4 && CurrentState != 5)
 			return;
 
 		if (PlayerManager.LocalPlayer == null)
@@ -188,33 +188,33 @@ public class ControlInternals : TooltipMonoBehaviour
 		// Player is wearing neither a tank nor a mask
 		if (!isWearingMask && gasContainer == null)
 		{
-			currentState = 1;
+			CurrentState = 1;
 			if(isAirflowEnabled)
 				EventManager.Broadcast(EVENT.DisableInternals);
 		}
 		// Player is wearing a tank, but no mask.
 		else if (!isWearingMask && gasContainer != null)
 		{
-			currentState = 2;
+			CurrentState = 2;
 			if(isAirflowEnabled)
 				EventManager.Broadcast(EVENT.DisableInternals);
 		}
 		// Player is wearing a mask, but no tank
 		else if (isWearingMask && gasContainer == null)
 		{
-			currentState = 3;
+			CurrentState = 3;
 			if(isAirflowEnabled)
 				EventManager.Broadcast(EVENT.DisableInternals);
 		}
 		// Player is wearing a mask and a tank, but airflow is off
 		else if (isWearingMask && gasContainer != null && !isAirflowEnabled)
 		{
-			currentState = 4;
+			CurrentState = 4;
 		}
 		// Player is wearing a mask and tank, and the airflow is on
 		else if (isWearingMask && gasContainer != null && isAirflowEnabled)
 		{
-			currentState = 5;
+			CurrentState = 5;
 		}
 	}
 }

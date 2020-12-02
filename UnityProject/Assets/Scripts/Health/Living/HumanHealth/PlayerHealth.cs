@@ -109,11 +109,12 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 
-	void EnsureInit()
+	private new void EnsureInit()
 	{
 		if (init) return;
-
 		init = true;
+		base.EnsureInit();
+
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		PlayerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();

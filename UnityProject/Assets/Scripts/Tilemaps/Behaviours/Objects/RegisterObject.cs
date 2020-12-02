@@ -22,7 +22,7 @@ public class RegisterObject : RegisterTile
 	private bool initialAtmosPassable;
 	private bool initialPassable;
 
-	[SerializeField] private List<PassableExclusionTrait> passableExclusionsToThis;
+	[SerializeField] private List<PassableExclusionTrait> passableExclusionsToThis = default;
 
 	protected override void Awake()
 	{

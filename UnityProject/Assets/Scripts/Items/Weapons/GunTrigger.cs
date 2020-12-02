@@ -7,13 +7,13 @@ namespace Weapons
     public class GunTrigger : MonoBehaviour
     {
         [SerializeField]
-        private JobType setRestriction;
+        private JobType setRestriction = default;
         private Gun gun;
+		[SerializeField]
+		private bool allowClumsy = default;
         [SerializeField]
-        private bool allowClumsy;
-        [SerializeField]
-        private bool allowNonClumsy;
-        private System.Random rnd = new System.Random();
+        private bool allowNonClumsy = default;
+        private readonly System.Random rnd = new System.Random();
 
         public void Awake()
         {

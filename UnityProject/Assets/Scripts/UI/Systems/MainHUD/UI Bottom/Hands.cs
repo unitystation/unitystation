@@ -14,10 +14,10 @@ public class Hands : MonoBehaviour
 	/// active when right hand is used
 	/// </summary>
 	public GameObject rightHandSelector;
-	[SerializeField] private Image leftHandImage;
-	[SerializeField] private Image rightHandImage;
-	[SerializeField] private RectTransform handsArrowRectR;
-	[SerializeField] private RectTransform handsArrowRectL;
+	[SerializeField] private Image leftHandImage = default;
+	[SerializeField] private Image rightHandImage = default;
+	[SerializeField] private RectTransform handsArrowRectR = default;
+	[SerializeField] private RectTransform handsArrowRectL = default;
 	// public Transform rightHand;
 	// public Transform leftHand;
 
@@ -25,11 +25,11 @@ public class Hands : MonoBehaviour
 	/// <summary>
 	/// sprite that will be displayed in leftHandImage or rightHandImage (depending on which hand is used) when hand is used
 	/// </summary>
-	[SerializeField] private Sprite usedHandSprite;
+	[SerializeField] private Sprite usedHandSprite = default;
 	/// <summary>
 	/// sprite that will be displayed in leftHandImage or rightHandImage (depending on which hand is used) when hand isn't used
 	/// </summary>
-	[SerializeField] private Sprite unusedHandSprite;
+	[SerializeField] private Sprite unusedHandSprite = default;
 	/// <summary>
 	/// Active slot
 	/// </summary>

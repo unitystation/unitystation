@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ChatHelpWindowUI : WindowDrag
 {
-	[SerializeField] private Text channelsText;
+	[SerializeField] private Text channelsText = default;
 
 	private void OnEnable()
 	{

@@ -70,19 +70,6 @@ namespace Weapons
 		public bool MagInternal = false;
 
 		/// <summary>
-		/// The cooldown between full bursts in seconds
-		/// </summary>
-		[HideInInspector, Tooltip("The cooldown between full a burst in seconds")] // will be shown by the code at the very end, if appropriate
-		public double burstCooldown = 3;
-
-		/// <summary>
-		/// The number of allowed shots in a burst
-		/// </summary>
-		[HideInInspector, Tooltip("The number of bullets in a full burst")] // will be shown by the code at the very end, if appropriate
-		public double burstCount = 3;
-		private double currentBurstCount = 0;
-
-		/// <summary>
 		/// If the gun should eject it's magazine automatically (external-magazine-specific)
 		/// </summary>
 		[HideInInspector, Tooltip("If the gun should eject an empty mag automatically")] // will be shown by the code at the very end, if appropriate
@@ -180,10 +167,10 @@ namespace Weapons
 		/// Enables or disables the behaviour related to applying and removing suppressors from the gun
 		/// </summary>
 		[SerializeField, Tooltip("If suppressors can be applied or removed")]
-		private bool isSuppressible;
+		private bool isSuppressible = default;
 
 		[SerializeField]
-		private GameObject suppressor;
+		private GameObject suppressor = default;
 
 		#region Init Logic
 
@@ -298,7 +285,6 @@ namespace Weapons
 				{
 					if (interaction.MouseButtonState == MouseButtonState.PRESS)
 					{
-						currentBurstCount = 0;
 						return true;
 					}
 					else
@@ -931,12 +917,6 @@ namespace Weapons
 			if (!script.MagInternal) // show exclusive fields depending on whether magazine is internal
 			{
 				script.SmartGun = EditorGUILayout.Toggle("Smart Gun", script.SmartGun);
-			}
-
-			if (script.WeaponType == WeaponType.Burst)
-			{
-				script.burstCooldown = EditorGUILayout.DoubleField("Burst Cooldown", script.burstCooldown);
-				script.burstCount = EditorGUILayout.DoubleField("Burst Count", script.burstCount);
 			}
 		}
 	}

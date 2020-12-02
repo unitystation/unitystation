@@ -9,8 +9,8 @@ public class ChatEntry : MonoBehaviour
 	[SerializeField] private Text senderName = null;
 	[SerializeField] private Text visibleText = null;
 	[SerializeField] private GameObject adminOverlay = null;
-	[SerializeField] private Outline senderNameOutline;
-	[SerializeField] private Outline chatEntryOutline;
+	[SerializeField] private Outline senderNameOutline = default;
+	[SerializeField] private Outline chatEntryOutline = default;
 	[SerializeField] private RectTransform messageRectTransform = null;
 	[SerializeField] private ContentSizeFitter messageContentFitter = null;
 	[SerializeField] private LayoutElement layoutElement = null;

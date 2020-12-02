@@ -14,14 +14,9 @@ namespace Objects.Botany
 		private Queue<GrownFood> foodToBeProcessed;
 		private float processingProgress;
 		private PowerStates currentState = PowerStates.Off;
-		private SeedExtractorUpdateEvent updateEvent = new SeedExtractorUpdateEvent();
-
 
 		//Time it takes to process a single piece of produce
 		private float processingTime = 3f;
-
-		[SerializeField]
-		private RegisterObject registerObject = null;
 
 		[Tooltip("Inventory to store food waiting to be processed")]
 		[SerializeField]
@@ -30,7 +25,7 @@ namespace Objects.Botany
 
 		public bool IsProcessing => foodToBeProcessed.Count != 0;
 		public List<SeedPacket> seedPackets;
-		public SeedExtractorUpdateEvent UpdateEvent => updateEvent;
+		public SeedExtractorUpdateEvent UpdateEvent { get; } = new SeedExtractorUpdateEvent();
 		private void Awake()
 		{
 			networkTab = GetComponent<HasNetworkTab>();
@@ -60,7 +55,7 @@ namespace Objects.Botany
 
 			//Add seed packet to dispenser
 			seedPackets.Add(seedPacket);
-			updateEvent.Invoke();
+			UpdateEvent.Invoke();
 
 			//De-spawn processed food
 			Inventory.ServerDespawn(grownFood.gameObject);
@@ -87,7 +82,7 @@ namespace Objects.Botany
 
 			//Remove spawned entry from list
 			seedPackets.Remove(seedPacket);
-			updateEvent.Invoke();
+			UpdateEvent.Invoke();
 		}
 
 		/// <summary>

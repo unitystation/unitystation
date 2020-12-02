@@ -6,8 +6,8 @@ public class DamageMonitorListener : MonoBehaviour
 {
 	public BodyPartType bodyPartType;
 
-	[SerializeField] private Image bodyPartImage;
-	[SerializeField] private Image damageMaskImage;
+	[SerializeField] private Image bodyPartImage = default;
+	[SerializeField] private Image damageMaskImage = default;
 
 	private void Awake()
 	{

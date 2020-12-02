@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public Text versionDisplay;
 	public GUI_Info infoWindow;
 	public TeleportWindow teleportWindow;
-	[SerializeField] private GhostRoleWindow ghostRoleWindow;
+	[SerializeField] private GhostRoleWindow ghostRoleWindow = default;
 	public UI_StorageHandler storageHandler;
 	public BuildMenu buildMenu;
 	public ZoneSelector zoneSelector;
