@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -33,10 +33,18 @@ public class ControlIntent : TooltipMonoBehaviour
 	private void Start()
 	{
 		SetIntent(Intent.Help);
-		helpIntentIcon.SetActive(true);
-		harmIntentIcon.SetActive(false);
 
-		runWalkBorder.SetActive(running);
+		if (helpIntentIcon == null || harmIntentIcon == null || runWalkBorder == null)
+		{
+			// TODO: wait for UI changes to settle down before refactoring this to reflect the changes.
+			Logger.LogWarning("At least one intent GameObject is unassigned.");
+		}
+		else
+		{
+			helpIntentIcon.SetActive(true);
+			harmIntentIcon.SetActive(false);
+			runWalkBorder.SetActive(Running);
+		}
 	}
 
 	#region OnClick listeners

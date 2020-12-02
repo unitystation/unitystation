@@ -140,8 +140,10 @@ public class PanelHudBottomController : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (PlayerManager.LocalPlayerScript != null)
+		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsGhost == false)
+		{
 			RemoveListeners();
+		}
 	}
 
 	/// <summary>

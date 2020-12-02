@@ -84,8 +84,10 @@ public class ControlInternals : TooltipMonoBehaviour
 		EventManager.RemoveHandler(EVENT.EnableInternals, OnEnableInternals);
 		EventManager.RemoveHandler(EVENT.DisableInternals, OnDisableInternals);
 
-		if (PlayerManager.LocalPlayerScript != null)
+		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsGhost == false)
+		{
 			RemoveListeners();
+		}
 	}
 
 	/// <summary>

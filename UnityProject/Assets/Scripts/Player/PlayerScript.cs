@@ -99,8 +99,13 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		Init();
 		waitTimeForRTTUpdate = 0f;
-		UIManager.Internals.SetupListeners();
-		UIManager.Instance.panelHudBottomController.SetupListeners();
+
+		if (IsGhost == false)
+		{
+			UIManager.Internals.SetupListeners();
+			UIManager.Instance.panelHudBottomController.SetupListeners();
+		}
+		
 		isUpdateRTT = true;
 	}
 
@@ -418,7 +423,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		// TODO: Check inventory for head/mask items that hide face - atm just check you are not wearing a mask.
 		// needs helmet/hideface trait to be added and checked for. This way, we start with a "face name" our characters might know...
-		if (ItemSlot.GetNamed(ItemStorage, NamedSlot.mask).IsEmpty)
+		if (IsGhost || ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty)
 		{
 			SyncVisibleName(playerName, playerName);
 		}

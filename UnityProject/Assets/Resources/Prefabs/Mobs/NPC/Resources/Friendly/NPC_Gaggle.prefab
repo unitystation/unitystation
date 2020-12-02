@@ -43,13 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 200
   Type: 1
   isBleeding: 0
@@ -109,13 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 200
   Type: 0
   isBleeding: 0
@@ -313,6 +299,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &114386898746361270
 MonoBehaviour:
@@ -444,7 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 7406013265401071335}
   spriteRend: {fileID: 4890346600101626888}
   aliveSpriteIndex: 0
   deadSpriteIndex: 1
@@ -554,7 +541,8 @@ MonoBehaviour:
   indexUp: 1
   indexRight: 2
   indexLeft: 3
-  spriteHandlers: []
+  spriteHandlers:
+  - {fileID: 7406013265401071335}
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,6 +553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4152194380817414287}
   - component: {fileID: 4890346600101626888}
+  - component: {fileID: 7406013265401071335}
   m_Layer: 12
   m_Name: Sprite
   m_TagString: Untagged
@@ -624,9 +613,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 16
+  m_SortingLayer: 21
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300004, guid: bda39a2ed699bc34caf7368fac3477b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bda39a2ed699bc34caf7368fac3477b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -637,3 +626,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7406013265401071335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7921138586108671727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 004a1835dfe907b4482420ce65bf12f5, type: 2}
+  - {fileID: 11400000, guid: 2e3231624d8195e4d8e31903daa939cc, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 004a1835dfe907b4482420ce65bf12f5, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
