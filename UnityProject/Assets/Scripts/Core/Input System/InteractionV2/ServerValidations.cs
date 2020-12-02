@@ -51,7 +51,7 @@ public static class ServerValidations
 			if (messagePerformer)
 			{
 				Chat.AddExamineMsg(performer,
-            		$"{blocker.gameObject.ExpensiveName()} is in the way.");
+					$"{blocker.gameObject.ExpensiveName()} is in the way.");
 			}
 			return true;
 		}

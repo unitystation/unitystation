@@ -16,11 +16,11 @@ namespace InGameEvents
 
 		[Tooltip("The antagonist to spawn (survivor).")]
 		[SerializeField, ShowIf(nameof(WillCreateAntags))]
-		private Antagonist survivorAntag;
+		private Antagonist survivorAntag = default;
 
 		[Tooltip("The unique objective to give to each survivor.")]
 		[SerializeField, ShowIf(nameof(WillCreateAntags))]
-		private Objective objective;
+		private Objective objective = default;
 
 		private bool WillCreateAntags => antagChance > 0;
 

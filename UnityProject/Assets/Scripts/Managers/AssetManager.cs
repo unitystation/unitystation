@@ -3,7 +3,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AssetManager : MonoBehaviour
 {
-	[SerializeField] private AssetLoadingPopupManager _assetLoadingPopupManager;
+	[SerializeField] private AssetLoadingPopupManager _assetLoadingPopupManager = default;
 	private static AssetManager _assetManager;
 	private int amountOfAddressablesToLoad = 0;
 

@@ -10,7 +10,7 @@ using ScriptableObjects;
 public class EventSpawnBlob : EventScriptBase
 {
 	[SerializeField]
-	private Antagonist blobAntag;
+	private Antagonist blobAntag = default;
 
 	public override void OnEventStart()
 	{

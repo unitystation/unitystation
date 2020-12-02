@@ -11,11 +11,11 @@ namespace UI.AdminTools
 	public class AdminRespawnPage: AdminPage
 	{
 		[SerializeField][Tooltip("Game object that corresponds to this tab")]
-		private RespawnTab normalJobTab;
+		private RespawnTab normalJobTab = default;
 		[SerializeField][Tooltip("Game object that corresponds to this tab")]
-		private RespawnTab SpecialJobTab;
+		private RespawnTab SpecialJobTab = default;
 		[SerializeField][Tooltip("Game object that corresponds to this tab")]
-		private RespawnTab antagTab;
+		private RespawnTab antagTab = default;
 
 		private RespawnTab activeTab;
 

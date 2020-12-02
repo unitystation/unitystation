@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class PlayerExaminationWindowUI : MonoBehaviour
 {
-	[SerializeField] private Text playerName;
-	[SerializeField] private Text playerSpecies;
-	[SerializeField] private Text playerJob;
-	[SerializeField] private Text playerStatus;
+	[SerializeField] private Text playerName = default;
+	[SerializeField] private Text playerSpecies = default;
+	[SerializeField] private Text playerJob = default;
+	[SerializeField] private Text playerStatus = default;
 	[Space]
-	[SerializeField] private GameObject expandedView;
-	[SerializeField] private Text additionalInformationsText;
+	[SerializeField] private GameObject expandedView = default;
+	[SerializeField] private Text additionalInformationsText = default;
 
 	private PlayerExaminationWindowSlot[] examinationSlotsUI;
 

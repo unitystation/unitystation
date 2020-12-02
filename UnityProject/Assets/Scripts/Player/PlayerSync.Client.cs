@@ -119,7 +119,7 @@ public partial class PlayerSync
 				//RequestMoveMessage.Send(action);
 				BumpType clientBump = CheckSlideAndBump(predictedState, false, ref action);
 
-				action.isRun = UIManager.Intent.running;
+				action.isRun = UIManager.Intent.Running;
 
 				// handle predictions here
 				if(playerScript.RcsMode)

@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class PanelHudBottomController : MonoBehaviour
 {
-	public UI_ItemSlot backpackItemSlot;
-	public UI_ItemSlot PDAItemSlot;
-	public UI_ItemSlot beltItemSlot;
-	public UI_ItemSlot pocketOneItemSlot;
-	public UI_ItemSlot pocketTwoItemSlot;
-	[FormerlySerializedAs("pocketThreeItemSlot")] public UI_ItemSlot suitStorageSlot;
+	public UI_ItemSlot backpackItemSlot = default;
+	public UI_ItemSlot PDAItemSlot = default;
+	public UI_ItemSlot beltItemSlot = default;
+	public UI_ItemSlot pocketOneItemSlot = default;
+	public UI_ItemSlot pocketTwoItemSlot = default;
+	[FormerlySerializedAs("pocketThreeItemSlot")] public UI_ItemSlot suitStorageSlot = default;
 
 	private bool _isWearingUniform;
 	/// <summary>
@@ -87,15 +87,15 @@ public class PanelHudBottomController : MonoBehaviour
 	}
 
 	[Header("UI GameObject references")]
-	[SerializeField] private Text backpackKeybindText;
-	[SerializeField] private Text PDAKeybindText;
-	[SerializeField] private Text beltKeybindText;
-	[SerializeField] private Text pocketOneKeybindText;
-	[SerializeField] private Text pocketTwoKeybindText;
-	[SerializeField] private Text pocketThreeKeybindText;
-	[SerializeField] private Image pocketTwoImage;
-	[SerializeField] private Image pocketOneImage;
-	[SerializeField] private Image SuitStorageImage;
+	[SerializeField] private Text backpackKeybindText = default;
+	[SerializeField] private Text PDAKeybindText = default;
+	[SerializeField] private Text beltKeybindText = default;
+	[SerializeField] private Text pocketOneKeybindText = default;
+	[SerializeField] private Text pocketTwoKeybindText = default;
+	[SerializeField] private Text pocketThreeKeybindText = default;
+	[SerializeField] private Image pocketTwoImage = default;
+	[SerializeField] private Image pocketOneImage = default;
+	[SerializeField] private Image SuitStorageImage = default;
 	[SerializeField] private Color greyedPocketColor = Color.gray;
 
 	[Header("Message settings")]
@@ -140,8 +140,10 @@ public class PanelHudBottomController : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (PlayerManager.LocalPlayerScript != null)
+		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsGhost == false)
+		{
 			RemoveListeners();
+		}
 	}
 
 	/// <summary>

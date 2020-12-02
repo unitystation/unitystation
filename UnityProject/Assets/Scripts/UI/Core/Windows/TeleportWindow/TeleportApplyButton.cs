@@ -8,7 +8,7 @@ public class TeleportApplyButton : MonoBehaviour
 	private int X;
 	private int Y;
 
-	[SerializeField] private TeleportWindow mainWindow;
+	[SerializeField] private TeleportWindow mainWindow = default;
 	[SerializeField] private GameObject XCoordinate = null;
 	[SerializeField] private GameObject YCoordinate = null;
 

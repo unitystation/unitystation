@@ -22,11 +22,11 @@ namespace Core.Directionals
 
 		[Header("Set which sides are passable when in orientation Down")]
 		[SerializeField]
-		private PassableSides leavableSides;
+		private PassableSides leavableSides = default;
 		[SerializeField]
-		private PassableSides enterableSides;
+		private PassableSides enterableSides = default;
 		[SerializeField]
-		private PassableSides atmosphericPassableSides;
+		private PassableSides atmosphericPassableSides = default;
 
 		public Directional Directional { get; private set; }
 

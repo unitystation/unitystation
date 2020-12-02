@@ -8,11 +8,11 @@ using UnityEngine;
 namespace Assets.Scripts.Editor.Tools
 {
 	public class ComponentField
-    {
+	{
 		public GameObject GameObject;
 		public Component Component;
 		public string Field;
-    }
+	}
 
 	/// <summary>
 	/// Tool that allows to find all game object that has a component with fields of a specific type.
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Editor.Tools
 			objectsWithSearchedType.Clear();
 			int counter = 0;
 			foreach(string guid in assetsGuids)
-            {
+			{
 				counter++;
 				EditorUtility.DisplayProgressBar("Searching...", $"{AssetDatabase.GUIDToAssetPath(guid)}", (float)counter / (float)(assetsGuids.Length - 1));
 

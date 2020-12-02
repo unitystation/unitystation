@@ -14,7 +14,6 @@ using UnityEngine.AddressableAssets;
 [CustomPropertyDrawer(typeof(AddressableAudioSource))]
 public class AddressableReferencePropertyDrawer : PropertyDrawer
 {
-	private bool searchChange = false;
 	private string[] temarry;
 	int _choiceIndex = 0;
 	private string searchString = "";
@@ -148,7 +147,6 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 
 
 		//EditorGUI.indentLevel--;
-		searchChange = false;
 		property.serializedObject.ApplyModifiedProperties();
 		EditorGUI.EndProperty();
 	}

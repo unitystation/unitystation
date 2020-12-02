@@ -150,6 +150,13 @@ namespace Objects
 			musics = new List<AudioSource>();
 
 			Transform transformAdminMusic = SoundManager.Instance.transform.Find("AdminMusic");
+
+			if (transformAdminMusic == null)
+			{
+				Logger.LogWarning("Update Jukebox to sound addressables.");
+				return; // stop NRE in foreach
+			}
+
 			foreach (Transform transform in transformAdminMusic)
 			{
 				musics.Add(transform.GetComponent<AudioSource>());

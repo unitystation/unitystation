@@ -16,7 +16,6 @@ namespace AdminTools
 		[SerializeField] private bool showAdminsOnly = false;
 		[SerializeField] private bool disableButtonInteract = false;
 		private float refreshTime = 3f;
-		private float currentCount = 0f;
 
 		private List<GameObject> HiddenButtons = new List<GameObject>();
 		[SerializeField] private AdminSearchBar searchBar = null;
