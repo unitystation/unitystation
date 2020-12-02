@@ -9,35 +9,35 @@ using Unitystation.Options;
 [CustomEditor(typeof(ThemeHandler))]
 public class ThemeHandlerEditor : Editor
 {
-    public override void OnInspectorGUI()
-    {
-        var handler = (ThemeHandler) target;
-        EditorGUI.BeginChangeCheck();
+	public override void OnInspectorGUI()
+	{
+		var handler = (ThemeHandler) target;
+		EditorGUI.BeginChangeCheck();
 
-        SerializedProperty ttype = serializedObject.FindProperty("themeType");
-        EditorGUILayout.PropertyField(ttype, true);
+		SerializedProperty ttype = serializedObject.FindProperty("themeType");
+		EditorGUILayout.PropertyField(ttype, true);
 
-        //Changes the Inspector fields depending on the UIElement selection:
-        handler.targetElement = (UIElement) EditorGUILayout.EnumPopup("UIElement Type", handler.targetElement);
-        if (handler.targetElement == UIElement.Text)
-        {
-            SerializedProperty t = serializedObject.FindProperty("text");
-            if (handler.text == null)
-            {
-                handler.text = handler.GetComponent<Text>();
-            }
-            EditorGUILayout.PropertyField(t, true);
-        }
+		//Changes the Inspector fields depending on the UIElement selection:
+		handler.targetElement = (UIElement) EditorGUILayout.EnumPopup("UIElement Type", handler.targetElement);
+		if (handler.targetElement == UIElement.Text)
+		{
+			SerializedProperty t = serializedObject.FindProperty("text");
+			if (handler.text == null)
+			{
+				handler.text = handler.GetComponent<Text>();
+			}
+			EditorGUILayout.PropertyField(t, true);
+		}
 
-        if (handler.targetElement == UIElement.Image)
-        {
-            SerializedProperty i = serializedObject.FindProperty("image");
-            if (handler.image == null)
-            {
-                handler.image = handler.GetComponent<Image>();
-            }
-            EditorGUILayout.PropertyField(i, true);
-        }
+		if (handler.targetElement == UIElement.Image)
+		{
+			SerializedProperty i = serializedObject.FindProperty("image");
+			if (handler.image == null)
+			{
+				handler.image = handler.GetComponent<Image>();
+			}
+			EditorGUILayout.PropertyField(i, true);
+		}
 
 		if (handler.targetElement == UIElement.TextMeshProUGUI)
 		{
@@ -52,8 +52,8 @@ public class ThemeHandlerEditor : Editor
 		//Add your custom views here
 
 		if (EditorGUI.EndChangeCheck())
-        {
-            serializedObject.ApplyModifiedProperties();
-        }
-    }
+		{
+			serializedObject.ApplyModifiedProperties();
+		}
+	}
 }
