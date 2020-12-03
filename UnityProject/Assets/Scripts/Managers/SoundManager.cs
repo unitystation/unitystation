@@ -185,6 +185,8 @@ public class SoundManager : MonoBehaviour
 	{
 		// The position doesn't matter at this point, but we need to provide one.
 		GameObject soundSpawnObject = Instantiate(Instance.soundSpawnPrefab, Vector3.zero, Quaternion.identity);
+		soundSpawnObject.transform.SetParent(this.gameObject.transform);
+		soundSpawnObject.name = audioSource.name;
 		SoundSpawn soundSpawn = soundSpawnObject.GetComponent<SoundSpawn>();
 		soundSpawn.SetAudioSource(audioSource);
 		soundSpawn.assetAddress = addressableAudioSource.AssetAddress;
