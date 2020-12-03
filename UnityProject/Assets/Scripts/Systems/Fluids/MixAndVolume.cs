@@ -19,7 +19,7 @@ namespace Pipes
 			get => mix.InternalEnergy + gasMix.InternalEnergy;
 			set
 			{
-				if (Mathf.Approximately(WholeHeatCapacity, 0))
+				if (CodeUtilities.IsEqual(WholeHeatCapacity, 0))
 				{
 					return;
 				}
@@ -114,7 +114,7 @@ namespace Pipes
 
 		public Tuple<ReagentMix, GasMix> Take(MixAndVolume inMixAndVolume, bool removeVolume = true)
 		{
-			if (Mathf.Approximately(Volume, 0))
+			if (CodeUtilities.IsEqual(Volume, 0))
 			{
 				Logger.LogError(" divide by 0 in Take ");
 			}
@@ -146,7 +146,7 @@ namespace Pipes
 
 		public void Divide(float divideAmount, bool changeVolume = true)
 		{
-			if (Mathf.Approximately(divideAmount, 0))
+			if (CodeUtilities.IsEqual(divideAmount, 0))
 			{
 				Logger.LogError(" divide by 0 in Divide");
 			}
@@ -284,7 +284,7 @@ namespace Pipes
 			{
 				float totalVolume = Volume + PipeFunctions.PipeOrNet(another).Volume;
 				float totalReagents = mix.Total + PipeFunctions.PipeOrNet(another).mix.Total;
-				if (Mathf.Approximately(totalVolume, 0))
+				if (CodeUtilities.IsEqual(totalVolume, 0))
 				{
 					Logger.LogError(" divide by 0 in EqualiseWith TotalVolume ");
 				}
@@ -328,7 +328,7 @@ namespace Pipes
 					totalReagents += PipeFunctions.PipeOrNet(pipe).mix.Total;
 				}
 
-				if (Mathf.Approximately(totalVolume, 0))
+				if (CodeUtilities.IsEqual(totalVolume, 0))
 				{
 					Logger.LogError(" divide by 0 in EqualiseWithMultiple TotalVolume ");
 				}
