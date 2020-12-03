@@ -37,7 +37,7 @@ namespace Pipes
 		{
 			get
 			{
-				if (Mathf.Approximately(WholeHeatCapacity, 0))
+				if (CodeUtilities.IsEqual(WholeHeatCapacity, 0))
 				{
 					return 0;
 				}
