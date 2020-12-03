@@ -115,21 +115,21 @@ namespace Systems.Atmospherics
 		public static void TransferGas(GasMix target, GasMix source, float molesTransferred)
 		{
 			var sourceStartMoles = source.Moles;
-			if (Mathf.Approximately(molesTransferred, 0) || Mathf.Approximately(sourceStartMoles, 0))
+			if (CodeUtilities.IsEqual(molesTransferred, 0) || CodeUtilities.IsEqual(sourceStartMoles, 0))
 				return;
 			var percentage =  molesTransferred / sourceStartMoles;
 			var targetStartMoles = target.Moles;
 
 			for (int i = 0; i < Gas.Count; i++)
 			{
-				if (Mathf.Approximately(source.Gases[i], 0))
+				if (CodeUtilities.IsEqual(source.Gases[i], 0))
 					continue;
 				var transfer = source.Gases[i] * percentage;
 				target.Gases[i] += transfer;
 				source.Gases[i] -= transfer;
 			}
 
-			if (Mathf.Approximately(target.Temperature, source.Temperature))
+			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
 			{
 				target.RecalculatePressure();
 			}
@@ -141,7 +141,7 @@ namespace Systems.Atmospherics
 				target.SetTemperature(targetTempFinal);
 			}
 
-			if (Mathf.Approximately(percentage, 1)) //transferred everything, source is empty
+			if (CodeUtilities.IsEqual(percentage, 1)) //transferred everything, source is empty
 			{
 				source.SetPressure(0);
 			}
