@@ -227,6 +227,12 @@ public class SoundManager : MonoBehaviour
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
+		if (addressableAudioSources == null || addressableAudioSources.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning("Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
+
 		var Toplay = new List<AddressableAudioSource>();
 		Toplay.Add(addressableAudioSources);
 		PlayNetworked(Toplay, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
@@ -289,6 +295,12 @@ public class SoundManager : MonoBehaviour
 	public static Task<string> PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos, AudioSourceParameters audioSourceParameters,
 		bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
 	{
+		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning("Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return null;
+		}
+
 		return PlayNetworkedAtPos(new List<AddressableAudioSource> { addressableAudioSource }, worldPos, audioSourceParameters, polyphonic, Global, sourceObj, shakeParameters);
 	}
 
@@ -336,7 +348,7 @@ public class SoundManager : MonoBehaviour
 	public static void PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos, float pitch = -1,
 		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool global = true, GameObject sourceObj = null)
 	{
-		if (addressableAudioSource.AssetAddress == string.Empty)
+		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
 		{
 			Logger.LogWarning("Addressable audio sources not set/path is not present, look at log trace for responsible component");
 			return;
@@ -380,6 +392,12 @@ public class SoundManager : MonoBehaviour
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
+		if (addressableAudioSources == null || addressableAudioSources.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning("Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
+
 		var Toplay = new List<AddressableAudioSource>();
 		Toplay.Add(addressableAudioSources);
 		PlayNetworkedForPlayer(recipient, Toplay, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange,
