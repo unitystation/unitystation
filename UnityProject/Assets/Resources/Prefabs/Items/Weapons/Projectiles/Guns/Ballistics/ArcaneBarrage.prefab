@@ -24,10 +24,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4299298391111197786, guid: 8ced4cf7d7fa1804aae55d078ca4785b,
         type: 3}
-    - target: {fileID: 6970262102394163030, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
+    - target: {fileID: 6286671915031241087, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 0
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/GunShots/ShootGun01.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6286671915031241087, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
+        type: 3}
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: Assets/Prefabs/GunShots/ShootHeavySuppressed.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 6970262102394163030, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
         type: 3}
@@ -38,6 +43,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Pew Pew Pew.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970262102394163030, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6970262102394163030, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
         type: 3}
@@ -59,6 +69,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7369367728869334336, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7369367728869334336, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -74,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7369367728869334336, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7369367728869334336, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -86,16 +106,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7369367728869334336, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7369367728869334336, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7369367728869334336, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
         type: 3}
