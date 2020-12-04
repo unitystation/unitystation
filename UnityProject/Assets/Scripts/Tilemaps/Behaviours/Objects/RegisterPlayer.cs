@@ -250,6 +250,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	/// Performs bluespace activity on player if they have slipped on an object
 	/// with bluespace activity or are hit by an object with bluespace acivity and
 	/// has Liquid Contents.
+	/// Assumes max potency if none is given.
 	/// </summary>
 	///
 	public void ServerBluespaceActivity(int potency = 100)
