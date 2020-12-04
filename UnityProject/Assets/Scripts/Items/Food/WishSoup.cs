@@ -18,7 +18,7 @@ public class WishSoup : Edible
 
 	private void Eat(PlayerScript eater, PlayerScript feeder, int nutrition)
 	{
-		SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+		SoundManager.PlayNetworkedAtPos(EatFood, eater.WorldPos, sourceObj: eater.gameObject);
 
 		eater.playerHealth.Metabolism.AddEffect(new MetabolismEffect(nutrition, 0, MetabolismDuration.Food));
 
