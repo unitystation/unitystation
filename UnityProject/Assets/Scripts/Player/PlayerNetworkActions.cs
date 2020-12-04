@@ -557,8 +557,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			StartCoroutine(AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag));
-			break;
+			return;
 		}
+
+		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!");
 	}
 
 

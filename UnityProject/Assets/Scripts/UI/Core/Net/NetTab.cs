@@ -41,6 +41,7 @@ public enum NetTabType
 	SpellBook = 30,
 	TeleportScroll = 31,
 	MagicMirror = 32,
+	ContractOfApprenticeship = 33,
 
 	//add your tabs here
 }

@@ -16,7 +16,7 @@ namespace Systems.GhostRoles
 		/// <summary>Static data pertaining to this specific ghost role.</summary>
 		public readonly GhostRoleData RoleData;
 		/// <summary>The index of the GhostRoleData in the GhostRoleList SO.</summary>
-		public readonly int RoleListIndex; // this one is needed for networking - why we need both?
+		public readonly int RoleListIndex;
 
 		/// <summary> The minimum amount of players this ghost role instance can support.</summary>
 		public int MinPlayers { get; private set; }
@@ -48,13 +48,18 @@ namespace Systems.GhostRoles
 
 		protected IEnumerator TimeoutTimer(float timeRemaining)
 		{
-			if (timeRemaining <= -1) yield break;
+			if (timeRemaining == -1) yield break; // -1 represents indefinite role
 
 			TimeRemaining = timeRemaining;
 			while (TimeRemaining > 0)
 			{
 				TimeRemaining -= Time.deltaTime;
 				yield return WaitFor.EndOfFrame;
+			}
+
+			if (this is GhostRoleServer && TimeRemaining == -2) // -2 represents role prematurely ended
+			{
+				yield break; // Don't invoke OnTimerExpired for premature endings
 			}
 
 			OnTimerExpired?.Invoke();
@@ -119,6 +124,7 @@ namespace Systems.GhostRoles
 			if (totalPlayers == MaxPlayers)
 			{
 				OnMaxPlayersReached?.Invoke();
+				TimeRemaining = -2; // this ghost role is full; kill it
 			}
 		}
 

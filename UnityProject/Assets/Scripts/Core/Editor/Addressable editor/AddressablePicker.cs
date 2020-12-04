@@ -89,7 +89,7 @@ public class AddressablePicker : EditorWindow
 		var FoundFiles = GetCataloguePath();
 		foreach (var FoundFile in FoundFiles)
 		{
-			JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"\"))));
+			JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"/"))));
 			var IDs = o1.GetValue("m_InternalIds");
 			var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
 

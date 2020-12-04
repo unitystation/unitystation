@@ -184,7 +184,13 @@ namespace Systems.GhostRoles
 		[Server]
 		public void ServerRemoveRole(uint key)
 		{
-			serverAvailableRoles[key].TimeRemaining = 0;
+			if (serverAvailableRoles.ContainsKey(key) == false)
+			{
+				Logger.LogWarning("Tried to remove ghost role instance that doesn't or no longer exists.");
+				return;
+			}
+
+			serverAvailableRoles[key].TimeRemaining = -2; // -2 distinguishes from normal timer expiry and an indefinite role
 			GhostRoleUpdateMessage.SendToDead(key);
 			serverAvailableRoles.Remove(key);
 		}

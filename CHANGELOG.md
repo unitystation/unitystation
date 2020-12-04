@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/12/3: Added Contract of Apprenticeship. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5700](https://github.com/unitystation/unitystation/pull/5700)
 * 2020/12/2: Added directional sprites for Gaggle the goose. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5693](https://github.com/unitystation/unitystation/pull/5693)
 * 2020/12/2: Made the suit storage slot use a whitelist which includes: guns, PDAs, melee weapons, magazines, ammo casings, handcuffs, oxygen tanks, power cells, flashlights, spray bottles, radios, and masks. by [PetMudstone](https://github.com/PetMudstone) in PR #[5694](https://github.com/unitystation/unitystation/pull/5694)
 * 2020/12/1: Suit storage and pockets now Grey out when you're not wearing the appropriate Clothing,  and drop the contents if taken off by [Bod9001](https://github.com/Bod9001) in PR #[5684](https://github.com/unitystation/unitystation/pull/5684)

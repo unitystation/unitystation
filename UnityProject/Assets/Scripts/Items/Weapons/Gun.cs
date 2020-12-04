@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using AddressableReferences;
 using Mirror;
 using UnityEditor;
@@ -13,7 +14,6 @@ namespace Weapons
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(ItemStorage))]
-	[RequireComponent(typeof(GunTrigger))]
 	public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>,
 		ICheckedInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 	{
@@ -57,6 +57,17 @@ namespace Weapons
 		/// </summary>
 		public MagazineBehaviour CurrentMagazine =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<MagazineBehaviour>() : null;
+
+		/// <summary>
+		/// The firing pin currently inside the weapon
+		/// </summary>
+		public GunTrigger FiringPin =>
+			pinSlot.Item.GetComponent<GunTrigger>();
+		/// <summary>
+		/// The firing pin to initally spawn within the gun
+		/// </summary>
+		[SerializeField, Tooltip("The firing pin initally inside the gun")]
+		private GameObject pinPrefab = null;
 
 		/// <summary>
 		/// Checks if the weapon should spawn weapon casings
@@ -169,8 +180,10 @@ namespace Weapons
 		private RegisterTile registerTile;
 		private ItemStorage itemStorage;
 		public ItemSlot magSlot;
+		public ItemSlot pinSlot;
 
-		private GunTrigger gunTrigger;
+		// used for clusmy self shooting randomness
+		private System.Random rnd = new System.Random();
 
 		/// <summary>
 		/// If true, displays a message whenever a gun is shot
@@ -196,10 +209,10 @@ namespace Weapons
 			GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.Gun);
 			itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
+			pinSlot = itemStorage.GetIndexedItemSlot(1);
 			registerTile = GetComponent<RegisterTile>();
-			gunTrigger = GetComponent<GunTrigger>();
 			queuedShots = new Queue<QueuedShot>();
-			if (gunTrigger == null || magSlot == null || itemStorage == null)
+			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
 				Debug.LogWarning($"{gameObject.name} missing components, may cause issues");
 			}
@@ -239,6 +252,14 @@ namespace Weapons
 			//populate with a full external mag on spawn
 			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
+
+			if (pinPrefab == null)
+			{
+				Debug.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.");
+				return;
+			}
+
+			Inventory.ServerAdd(Spawn.ServerPrefab(pinPrefab).GameObject, pinSlot);
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)
@@ -247,11 +268,19 @@ namespace Weapons
 			{
 				serverHolder = info.ToPlayer.gameObject;
 				shooterRegisterTile = serverHolder.GetComponent<RegisterTile>();
+				if (FiringPin != null)
+				{
+					FiringPin.UpdatePredictionCanFire(serverHolder);
+				}
 			}
 			else
 			{
 				serverHolder = null;
 				shooterRegisterTile = null;
+				if (FiringPin != null)
+				{
+					FiringPin.ClearPredictionCanFire();
+				}
 			}
 		}
 
@@ -371,7 +400,15 @@ namespace Weapons
 			}
 
 			var dir = ApplyRecoil(interaction.TargetVector.normalized);
-			DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
+
+			if (FiringPin != null)
+			{
+				bool canFire = FiringPin.TriggerPullClient();
+				if (canFire)
+				{
+					DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
+				}
+			}
 		}
 
 		//nothing to rollback
@@ -392,7 +429,53 @@ namespace Weapons
 			}
 
 			//enqueue the shot (will be processed in Update)
-			gunTrigger.TriggerPull(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
+			if (FiringPin != null)
+			{
+				int shotResult = FiringPin.TriggerPull(interaction.Performer);
+
+				switch (shotResult) {
+
+					case 0:
+						// job requirement not met
+						Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} displays \'User authentication failed\'");
+						break;
+
+					case 1:
+						// shooting a clusmy weapon as a non-clusmy person
+						ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, true);
+						Chat.AddActionMsgToChat(interaction.Performer,
+						"You somehow shoot yourself in the face! How the hell?!",
+						$"{interaction.Performer.ExpensiveName()} somehow manages to shoot themself in the face!");
+						break;
+
+					case 2:
+						//just normal Firing
+						ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
+						break;
+
+					case 3:
+						//shooting a non-clusmy weapon as a clusmy person
+						int chance = rnd.Next(0 ,2);
+						if (chance == 0)
+						{
+							ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, true);
+							Chat.AddActionMsgToChat(interaction.Performer,
+							"You fumble up and shoot yourself!",
+							$"{interaction.Performer.ExpensiveName()} fumbles up and shoots themself!");
+						}
+						else
+						{
+							ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
+						}
+						break;
+
+					default:
+						// unexpected behaviour
+						// if this ever runs, somethings gone horribly fucking wrong, good luck.
+						Debug.LogError($"{gameObject.name} returned a unexpected result when calling TriggerPull serverside!");
+						break;
+				}
+			}
 		}
 
 		public virtual void ServerPerformInteraction(HandActivate interaction)
@@ -738,7 +821,7 @@ namespace Weapons
 		{
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 			float angleVariance = iteration/1f;
-			float angleDeviation = Random.Range(-angleVariance, angleVariance);
+			float angleDeviation = UnityEngine.Random.Range(-angleVariance, angleVariance);
 			float newAngle = (angle+ angleDeviation) * Mathf.Deg2Rad;
 			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
 			return vec2;
