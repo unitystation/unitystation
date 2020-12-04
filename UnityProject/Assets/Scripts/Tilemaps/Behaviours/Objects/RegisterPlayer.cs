@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
+using Systems.Teleport;
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(UprightSprites))]
@@ -244,6 +245,19 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			playerScript.playerMove.allowInput = true;
 		}
+	}
+	// <summary>
+	/// Performs bluespace activity (teleports randomly) on player if they have slipped on an object
+	/// with bluespace activity or are hit by an object with bluespace acivity and
+	/// has Liquid Contents.
+	/// Assumes max potency if none is given.
+	/// </summary>
+	///
+	public void ServerBluespaceActivity(int potency = 100)
+	{
+		int maxRange = 11;
+		int potencyStrength = (int)Math.Round((potency * .01f) * maxRange, 0);
+		TeleportUtils.ServerTeleportRandom(playerScript.gameObject, 0, potencyStrength, false, true);
 	}
 }
 

@@ -983,6 +983,11 @@ public partial class PlayerSync
 			if (crossedItem.HasTrait(CommonTraits.Instance.Slippery))
 			{
 				registerPlayer.ServerSlip(slipWhileWalking: true);
+				if (crossedItem.HasTrait(CommonTraits.Instance.BluespaceActivity))
+				{
+					//TODO: Replace call with one that passes in potency once potency is trackable
+					registerPlayer.ServerBluespaceActivity();
+				}
 			}
 		}
 	}
