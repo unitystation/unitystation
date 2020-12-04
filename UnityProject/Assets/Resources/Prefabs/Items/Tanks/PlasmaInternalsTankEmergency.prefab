@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1211233731857413296
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 256375122203596789, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: Gases.Array.data[0]
+      value: 0.748683
+      objectReference: {fileID: 0}
+    - target: {fileID: 256375122203596789, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: Volume
+      value: 0.00600323
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201958457960026097, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 635cb0b4ad5e32041ac2144508689686,
+        type: 2}
+    - target: {fileID: 5276256299885545258, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a348626c16176ed428859f424d74811c,
+        type: 3}
+    - target: {fileID: 5358376608245959106, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5460881431871714422, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_Name
+      value: PlasmaInternalsTankEmergency
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: hitDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 381b7eb888fc4684e8d1d0e846dbb69c,
+        type: 2}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 502be0126d6693c4abbfd86b2e736a7c,
+        type: 2}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: initialName
+      value: emergency plasma internals tank
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 38587331617a9c747832658ce8bee272, type: 3}

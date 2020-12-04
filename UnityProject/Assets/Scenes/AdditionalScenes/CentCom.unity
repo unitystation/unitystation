@@ -976,6 +976,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -1032,6 +1042,16 @@ PrefabInstance:
         type: 3}
       propertyPath: isSelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4236459589172889326, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
@@ -1362,7 +1382,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 10
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -3646,7 +3666,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 10
+  m_SortingLayer: 14
   m_SortingOrder: -5
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -23961,6 +23981,86 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 111175480}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &111332595
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2013970143}
+    m_Modifications:
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 67.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 298
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7787494853668383218, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_Name
+      value: EmergencyOxygenTankDouble
+      objectReference: {fileID: 0}
+    - target: {fileID: 7892145854740960326, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: sceneId
+      value: 1290478855
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 559a6395df37aa249a2e1407680afd35, type: 3}
+--- !u!4 &111332596 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+    type: 3}
+  m_PrefabInstance: {fileID: 111332595}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &112743764
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24801,6 +24901,16 @@ PrefabInstance:
       propertyPath: Resistances.Flammable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6261150146027131255, guid: dde361d656542f048bdeebf4e87dd7d3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25038,6 +25148,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -25507,86 +25627,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8729405225780868290, guid: 3edf81f4a32c4c348bad5bfe43e263fd,
     type: 3}
   m_PrefabInstance: {fileID: 140348020}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &140538863
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2013970143}
-    m_Modifications:
-    - target: {fileID: 3775655333583056072, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_Name
-      value: DoubleEmergencyOxygentank (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 19.020508
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 66.98724
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 267
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887142067703959932, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: sceneId
-      value: 2089741927
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a742cad140c612c47b0e273a69de0eb2, type: 3}
---- !u!4 &140538864 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-    type: 3}
-  m_PrefabInstance: {fileID: 140538863}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &143739198
 PrefabInstance:
@@ -26186,6 +26226,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2299043381161561175, guid: 42bdfe2e83a9b184385867c7ccc527c2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2299043381161561175, guid: 42bdfe2e83a9b184385867c7ccc527c2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7591444875868216610, guid: 42bdfe2e83a9b184385867c7ccc527c2,
         type: 3}
       propertyPath: sceneId
@@ -26657,6 +26707,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -26956,6 +27016,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -27536,6 +27606,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -27745,6 +27825,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -29369,6 +29459,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Can only be opened with Security Access.
       objectReference: {fileID: 0}
+    - target: {fileID: 8655494728068604834, guid: 2ddd540cb32301549aa9c9be8616f5d6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8655494728068604834, guid: 2ddd540cb32301549aa9c9be8616f5d6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8893474267995980143, guid: 2ddd540cb32301549aa9c9be8616f5d6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30859,6 +30959,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SecureLockerBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
@@ -32742,6 +32852,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -33188,7 +33308,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 149917821
-  m_SortingLayer: 5
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -39911,6 +40031,16 @@ PrefabInstance:
       propertyPath: InitialDirection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5233537225329805740, guid: cf93667e32e15bc43b0347cd102fef98,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5233537225329805740, guid: cf93667e32e15bc43b0347cd102fef98,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5458783346195246523, guid: cf93667e32e15bc43b0347cd102fef98,
         type: 3}
       propertyPath: m_Name
@@ -40402,6 +40532,16 @@ PrefabInstance:
         type: 3}
       propertyPath: Resistances.Flammable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6261150146027131255, guid: dde361d656542f048bdeebf4e87dd7d3,
         type: 3}
@@ -41248,6 +41388,16 @@ PrefabInstance:
         type: 3}
       propertyPath: isSelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4236459589172889326, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
@@ -42933,6 +43083,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -43399,6 +43559,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SecureLockerBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
@@ -44881,6 +45051,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -45655,6 +45835,16 @@ PrefabInstance:
         type: 3}
       propertyPath: isSelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4236459589172889326, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
@@ -46825,7 +47015,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 149917821
-  m_SortingLayer: 5
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -48188,6 +48378,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -48489,6 +48689,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -49098,6 +49308,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SecureLockerBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
@@ -50054,6 +50274,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SecureLockerBase
       objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: initialName
@@ -50782,86 +51012,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 698768099}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &703017385
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2013970143}
-    m_Modifications:
-    - target: {fileID: 3775655333583056072, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_Name
-      value: DoubleEmergencyOxygentank (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 11.94
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 67.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 298
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887142067703959932, guid: a742cad140c612c47b0e273a69de0eb2,
-        type: 3}
-      propertyPath: sceneId
-      value: 1733616672
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a742cad140c612c47b0e273a69de0eb2, type: 3}
---- !u!4 &703017386 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3780297609351172540, guid: a742cad140c612c47b0e273a69de0eb2,
-    type: 3}
-  m_PrefabInstance: {fileID: 703017385}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &705098306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51254,7 +51404,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 4
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -52923,6 +53073,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -56058,6 +56218,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -57992,6 +58162,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2013970143}
     m_Modifications:
+    - target: {fileID: 3531933632139088197, guid: c7421df82856d3a47afe645da1854f2a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531933632139088197, guid: c7421df82856d3a47afe645da1854f2a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3630972241782502738, guid: c7421df82856d3a47afe645da1854f2a,
         type: 3}
       propertyPath: m_Name
@@ -59472,6 +59652,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2013970143}
     m_Modifications:
+    - target: {fileID: 4164543352101994574, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4164543352101994574, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4227563891675702361, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
       propertyPath: m_Name
@@ -60733,7 +60923,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 22
+  m_SortingLayer: 26
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -61696,6 +61886,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CartBase
       objectReference: {fileID: 0}
+    - target: {fileID: 4032321265327020768, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032321265327020768, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4704084513949387669, guid: 4325ff5e8c92fee47b53476d3cd97788,
         type: 3}
       propertyPath: sceneId
@@ -61884,7 +62084,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 22
+  m_SortingLayer: 26
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -62495,6 +62695,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -62631,6 +62841,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -62850,6 +63070,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
@@ -64884,6 +65114,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2013970143}
     m_Modifications:
+    - target: {fileID: 3531933632139088197, guid: c7421df82856d3a47afe645da1854f2a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531933632139088197, guid: c7421df82856d3a47afe645da1854f2a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3630972241782502738, guid: c7421df82856d3a47afe645da1854f2a,
         type: 3}
       propertyPath: m_Name
@@ -65762,6 +66002,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Locker_Cargo
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331788439714986528, guid: d4f194faf008b054b99b3297910bae2a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331788439714986528, guid: d4f194faf008b054b99b3297910bae2a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7261662582931614549, guid: d4f194faf008b054b99b3297910bae2a,
         type: 3}
@@ -67444,7 +67694,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 10
+  m_SortingLayer: 14
   m_SortingOrder: -5
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -67942,6 +68192,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Locker_Cargo
       objectReference: {fileID: 0}
+    - target: {fileID: 1331788439714986528, guid: d4f194faf008b054b99b3297910bae2a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331788439714986528, guid: d4f194faf008b054b99b3297910bae2a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7261662582931614549, guid: d4f194faf008b054b99b3297910bae2a,
         type: 3}
       propertyPath: sceneId
@@ -68167,6 +68427,16 @@ PrefabInstance:
         type: 3}
       propertyPath: isSelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4236459589172889326, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
@@ -69316,6 +69586,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -69532,6 +69812,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -70810,6 +71100,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2013970143}
     m_Modifications:
+    - target: {fileID: 4164543352101994574, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4164543352101994574, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4227563891675702361, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
       propertyPath: m_Name
@@ -71076,7 +71376,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 4
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -72119,6 +72419,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -84218,6 +84528,16 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4236459589172889326, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
       propertyPath: m_Name
@@ -86797,6 +87117,16 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4236459589172889326, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
       propertyPath: m_Name
@@ -87200,6 +87530,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2299043381161561175, guid: 42bdfe2e83a9b184385867c7ccc527c2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2299043381161561175, guid: 42bdfe2e83a9b184385867c7ccc527c2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7591444875868216610, guid: 42bdfe2e83a9b184385867c7ccc527c2,
         type: 3}
       propertyPath: sceneId
@@ -87397,6 +87737,16 @@ PrefabInstance:
         type: 3}
       propertyPath: sceneId
       value: 577524805
+      objectReference: {fileID: 0}
+    - target: {fileID: 5233537225329805740, guid: cf93667e32e15bc43b0347cd102fef98,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5233537225329805740, guid: cf93667e32e15bc43b0347cd102fef98,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5458783346195246523, guid: cf93667e32e15bc43b0347cd102fef98,
         type: 3}
@@ -90262,6 +90612,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -90870,6 +91230,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -92170,6 +92540,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2013970143}
     m_Modifications:
+    - target: {fileID: 3531933632139088197, guid: c7421df82856d3a47afe645da1854f2a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531933632139088197, guid: c7421df82856d3a47afe645da1854f2a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3630972241782502738, guid: c7421df82856d3a47afe645da1854f2a,
         type: 3}
       propertyPath: m_Name
@@ -92531,7 +92911,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 10
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -92834,6 +93214,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
@@ -93832,6 +94222,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -94775,6 +95175,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2013970143}
     m_Modifications:
+    - target: {fileID: 3531933632139088197, guid: c7421df82856d3a47afe645da1854f2a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531933632139088197, guid: c7421df82856d3a47afe645da1854f2a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3630972241782502738, guid: c7421df82856d3a47afe645da1854f2a,
         type: 3}
       propertyPath: m_Name
@@ -95347,6 +95757,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SecureLockerBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
@@ -96712,6 +97132,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SecureLockerBase
       objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: initialName
@@ -97097,6 +97527,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -97796,6 +98236,16 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4236459589172889326, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
       propertyPath: m_Name
@@ -98063,6 +98513,86 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
     type: 3}
   m_PrefabInstance: {fileID: 1692158064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1692758061
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2013970143}
+    m_Modifications:
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.020508
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 66.98724
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 267
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7787494853668383218, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: m_Name
+      value: EmergencyOxygenTankDouble
+      objectReference: {fileID: 0}
+    - target: {fileID: 7892145854740960326, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: sceneId
+      value: 3657974696
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 559a6395df37aa249a2e1407680afd35, type: 3}
+--- !u!4 &1692758062 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
+    type: 3}
+  m_PrefabInstance: {fileID: 1692758061}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1692871386
 PrefabInstance:
@@ -98757,6 +99287,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SecureLockerBase
       objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: initialName
@@ -98944,7 +99484,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 4
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -99814,6 +100354,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isSelfPowered
@@ -100024,6 +100574,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Locker_Cargo
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331788439714986528, guid: d4f194faf008b054b99b3297910bae2a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331788439714986528, guid: d4f194faf008b054b99b3297910bae2a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7261662582931614549, guid: d4f194faf008b054b99b3297910bae2a,
         type: 3}
@@ -101568,6 +102128,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -101773,6 +102343,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -101874,6 +102454,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CartBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032321265327020768, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032321265327020768, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4704084513949387669, guid: 4325ff5e8c92fee47b53476d3cd97788,
         type: 3}
@@ -102072,6 +102662,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -103735,6 +104335,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isClosed
@@ -105184,6 +105794,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7248039743809833926, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -108762,7 +109382,7 @@ Transform:
   - {fileID: 1862819082}
   - {fileID: 1138463438}
   - {fileID: 662725103}
-  - {fileID: 140538864}
+  - {fileID: 1692758062}
   - {fileID: 1073805258}
   - {fileID: 360307538}
   - {fileID: 335452081}
@@ -108793,7 +109413,7 @@ Transform:
   - {fileID: 631590880}
   - {fileID: 2010989615}
   - {fileID: 593802549}
-  - {fileID: 703017386}
+  - {fileID: 111332596}
   - {fileID: 201078039}
   - {fileID: 1991002279}
   - {fileID: 93941395}
@@ -109620,6 +110240,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SecureLockerBase
       objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: initialName
@@ -110306,6 +110936,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SecureLockerBase
       objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: initialName
@@ -110355,6 +110995,16 @@ PrefabInstance:
         type: 3}
       propertyPath: isSelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155363834580345593, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4236459589172889326, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
@@ -111928,6 +112578,16 @@ PrefabInstance:
         type: 3}
       propertyPath: Resistances.Flammable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6261150146027131255, guid: dde361d656542f048bdeebf4e87dd7d3,
         type: 3}
