@@ -29,14 +29,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  openSFX:
+  openSFX: stonedoor_openclose
+  closeSFX: stonedoor_openclose
+  openSFXA:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/stonedoor_openclose.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  closeSFX:
+  closeSFXA:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/stonedoor_openclose.prefab
     AssetReference:
