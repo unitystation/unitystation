@@ -247,7 +247,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		}
 	}
 	// <summary>
-	/// Performs bluespace activity on player if they have slipped on an object
+	/// Performs bluespace activity (teleports randomly) on player if they have slipped on an object
 	/// with bluespace activity or are hit by an object with bluespace acivity and
 	/// has Liquid Contents.
 	/// Assumes max potency if none is given.
@@ -257,8 +257,6 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	{
 		int maxRange = 11;
 		int potencyStrength = (int)Math.Round((potency * .01f) * maxRange, 0);
-		Vector3Int randomVector = new Vector3Int(Random.Range(0, potencyStrength), Random.Range(0, potencyStrength), Random.Range(0, potencyStrength));
-		Vector3Int randomPlayerLocation = playerScript.registerTile.WorldPositionServer + randomVector;
 		TeleportUtils.ServerTeleportRandom(playerScript.gameObject, 0, potencyStrength, false, true);
 	}
 }
