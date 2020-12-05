@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcc64391453d39409ee8e6748da1c12, type: 3}
+  m_Name: ArtifactMasterCraftedArmorSet
+  m_EditorClassIdentifier: 
+  description: A magic-gem-encrusted spacesuit, it functions the same as normal wizard
+    robes, plus being space-worthy and armored. Minor slowdown. Now you can cast
+    spells in space and low temperature places!
+  note: 
+  cost: 2
+  conflictsWith: []
+  name: Mastercrafted Armor Set
+  artifacts:
+  - {fileID: 6089415035173653314, guid: 3c2174c97dde5fe4e96883550087346e, type: 3}
+  - {fileID: 2296210649548077806, guid: 10ee508b1e1242542b833c8e3aff88bd, type: 3}
+  - {fileID: 7106618204054676533, guid: faf3ae6d19eb7d6179472f49c1c5e7b3, type: 3}
+  - {fileID: 6373161644663410599, guid: 6e72500983c34734aace337b50b30971, type: 3}
+  - {fileID: 1527266067893101175, guid: 5f8f71237e56b5244a4119555cda299e, type: 3}
+  - {fileID: 6404652678407139925, guid: dce8e376d2eca40eabe3f055b41a021c, type: 3}

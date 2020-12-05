@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2640697783303278930
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 91e8d86ff751b014a9b138a85758b8d9,
+        type: 2}
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c5dd42c85c271064a8402a2e5cc3acb7,
+        type: 2}
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: initialDescription
+      value: A tank with an N2O/O2 gas mix.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: initialName
+      value: anesthetic tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 1496748151134168927, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 927c928d9a5ffa140ad1999f51c2b906,
+        type: 3}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1600028148722177027, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_Name
+      value: AnestheticTank
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702436008630954423, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860068066380525444, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5346c3f88949e1a40bae7f7133a7230c,
+        type: 2}
+    - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: Gases.Array.data[1]
+      value: 1.8342743
+      objectReference: {fileID: 0}
+    - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: Gases.Array.data[4]
+      value: 6.9003654
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 34ecf2817a168de479d040f2ad8b9473, type: 3}

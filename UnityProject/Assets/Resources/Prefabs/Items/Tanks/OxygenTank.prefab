@@ -1,224 +1,115 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8308235027547088867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 132773863777131159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clothData: {fileID: 11400000, guid: 461e93a66d94c2743bb98291d9b5fc1a, type: 2}
-  variantType: 0
-  hideClothingFlags: 0
-  SpriteDataSO: []
---- !u!1001 &3836663719065982
+--- !u!1001 &217722518611474036
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -4874007384897810848, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: Gases.Array.data[1]
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 21992246282985053, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 133441459033252841, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_Name
-      value: OxygenTank
-      objectReference: {fileID: 0}
-    - target: {fileID: 228524490023866549, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 8af1429ca219da24f893aa9ad0584dc6,
-        type: 3}
-    - target: {fileID: 233456954318268608, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: 461e93a66d94c2743bb98291d9b5fc1a,
-        type: 2}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: initialName
-      value: oxygen tank
-      objectReference: {fileID: 0}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: initialDescription
-      value: A tank of oxygen, this one is blue.
-      objectReference: {fileID: 0}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 05f2bfe094c381e4090984c37e91450a, type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 05f2bfe094c381e4090984c37e91450a,
-        type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300002, guid: 05f2bfe094c381e4090984c37e91450a,
-        type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300004, guid: 05f2bfe094c381e4090984c37e91450a,
-        type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300006, guid: 05f2bfe094c381e4090984c37e91450a,
-        type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 6cec5ff2af260cf478b7c80e145902c7, type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: f7ca69f668ae61042a746d13d9e7de4a, type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: f7ca69f668ae61042a746d13d9e7de4a,
-        type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300002, guid: f7ca69f668ae61042a746d13d9e7de4a,
-        type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300004, guid: f7ca69f668ae61042a746d13d9e7de4a,
-        type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300006, guid: f7ca69f668ae61042a746d13d9e7de4a,
-        type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 4f7b572fda2db694ea755c6480de4df4, type: 3}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: initialTraits.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: a88f1555ca8abf643aea180c637f5329,
-        type: 2}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 7d9346d69d1e624469bcf82dea2460ca,
         type: 2}
-    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 443242374c007f849a52d60061669976,
         type: 2}
-    - target: {fileID: 6096760620208494702, guid: cbf90b2e22f389941aaf3912f2b607ee,
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: initialDescription
+      value: A tank of oxygen, this one is blue.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: initialName
+      value: oxygen tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 1496748151134168927, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8af1429ca219da24f893aa9ad0584dc6,
+        type: 3}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1600028148722177027, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_Name
+      value: OxygenTank
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702436008630954423, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860068066380525444, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 84eec8c9524b1694e95c0ca646db3184,
         type: 2}
+    - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: Gases.Array.data[1]
+      value: 17.46928
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cbf90b2e22f389941aaf3912f2b607ee, type: 3}
---- !u!1 &132773863777131159 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 133441459033252841, guid: cbf90b2e22f389941aaf3912f2b607ee,
-    type: 3}
-  m_PrefabInstance: {fileID: 3836663719065982}
-  m_PrefabAsset: {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 34ecf2817a168de479d040f2ad8b9473, type: 3}
