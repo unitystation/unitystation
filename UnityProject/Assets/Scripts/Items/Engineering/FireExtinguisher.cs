@@ -15,8 +15,7 @@ public class FireExtinguisher : NetworkBehaviour,
 	[Range(1, 20)]
 	private int travelDistance = 6;
 
-	[Tooltip("The sound used when spraying the fire extinguisher.")]
-	[SerializeField] private AddressableAudioSource SpraySound = null;
+	[SerializeField] private AddressableAudioSource Extinguish = null;
 
 	[SerializeField]
 	[Range(1, 50)]
@@ -85,7 +84,7 @@ public class FireExtinguisher : NetworkBehaviour,
 
 		Effect.PlayParticleDirectional(this.gameObject, interaction.TargetVector);
 
-		SoundManager.PlayNetworkedAtPos(SpraySound, startPos, 1, sourceObj: interaction.Performer);
+		SoundManager.PlayNetworkedAtPos(Extinguish, startPos, 1, sourceObj: interaction.Performer);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
 	}

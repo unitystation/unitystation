@@ -8,8 +8,7 @@ namespace Objects
 	public class ServiceBell : Pickupable
 	{
 
-		[Tooltip("The sound the bell makes when it rings.")]
-		[SerializeField] private AddressableAudioSource RingSound = null;
+		[SerializeField] private AddressableAudioSource ServiceBellSFX = null;
 
 		public override void ServerPerformInteraction(HandApply interaction)
 		{
@@ -19,7 +18,7 @@ namespace Objects
 				base.ServerPerformInteraction(interaction);
 				return;
 			}
-			SoundManager.PlayNetworkedAtPos(RingSound, interaction.TargetObject.WorldPosServer());
+			SoundManager.PlayNetworkedAtPos(ServiceBellSFX, interaction.TargetObject.WorldPosServer());
 		}
 	}
 }

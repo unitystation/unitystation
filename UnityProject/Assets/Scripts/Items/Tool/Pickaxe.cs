@@ -7,7 +7,7 @@ using AddressableReferences;
 /// </summary>
 public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
-	[SerializeField] private AddressableAudioSource pickaxeSound = null;
+	[SerializeField] private AddressableAudioSource pickaxe = null;
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Construction, true);
 
@@ -39,7 +39,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 				5f, interaction.Performer);
 		if (bar != null)
 		{
-			SoundManager.PlayNetworkedAtPos(pickaxeSound, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+			SoundManager.PlayNetworkedAtPos(pickaxe, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 		}
 	}
 
