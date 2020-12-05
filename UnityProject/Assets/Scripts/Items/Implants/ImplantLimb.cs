@@ -8,7 +8,9 @@ namespace HealthV2
 		LeftLeg,
 		RightLeg,
 		LeftArm,
-		RightArm
+		RightArm,
+		LeftHand,
+		RightHand
 	}
 	public class ImplantLimb : ImplantBase
 	{

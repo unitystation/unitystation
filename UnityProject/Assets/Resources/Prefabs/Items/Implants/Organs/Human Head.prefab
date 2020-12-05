@@ -24,6 +24,38 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 868247c219909d54dadd08b5ceed7287,
         type: 2}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: limbOverlaySpriteData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: isDimorphic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: maleSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: 868247c219909d54dadd08b5ceed7287,
+        type: 2}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: femaleSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ae7b9aed601ac9479212ad6f2560a60,
+        type: 2}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: gender
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: implantPreventsBleeding
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -93,7 +125,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 925145112fb93e64ab9fcce9ec95ddae,
+      objectReference: {fileID: 21300000, guid: 435628dc8190a4d49bf9554f7c1aa8dc,
         type: 3}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}

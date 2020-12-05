@@ -30,6 +30,7 @@ public class CharacterSettings
 	public string SkinTone = "#ffe0d1";
 	public string UnderwearName = "Mankini";
 	public string SocksName = "Knee-High (Freedom)";
+	public Race Race = Race.Human;
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
 

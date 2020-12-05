@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 namespace HealthV2
 {
@@ -29,6 +30,15 @@ namespace HealthV2
 		[Tooltip("Do we consume any reagent in our blood?")]
 		private bool isBloodReagentConsumed = false;
 
+		[SerializeField]
+		[Tooltip("Does the sprite change dependning on Gender?")]
+		private bool isDimorphic = false;
+
+		[SerializeField]
+		[ShowIf(nameof(isDimorphic))]
+		[Tooltip("Bodypart Gender")]
+		private Gender gender = Gender.Male;
+
 		[SerializeField] [Tooltip("What reagent do we use?")]
 		private Chemistry.Reagent requiredReagent;
 
@@ -48,6 +58,17 @@ namespace HealthV2
 
 		[SerializeField]
 		private BodyPartType bodyPartType;
+
+		[SerializeField]
+		[ShowIf(nameof(isDimorphic))]
+		[Tooltip("The MALE visuals of this implant")]
+		private SpriteDataSO maleSprite;
+
+
+		[SerializeField]
+		[ShowIf(nameof(isDimorphic))]
+		[Tooltip("The FEMALE visuals of this implant")]
+		private SpriteDataSO femaleSprite;
 
 		[SerializeField]
 		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents." +
@@ -70,6 +91,24 @@ namespace HealthV2
 			attributes = GetComponent<ItemAttributesV2>();
 			bloodReagentStored = bloodReagentStoredMax; //Organs spawn in oxygenated.
 			health = maxHealth;
+			//If gendered part then set the sprite limb data to it
+			if (isDimorphic)
+			{
+				if(gender == Gender.Male)
+				{
+					limbSpriteData = maleSprite;
+				}
+				else if(gender == Gender.Female)
+				{
+					limbSpriteData = femaleSprite;
+				}
+				else
+				{
+					//TODO: Error log
+				}
+			}
+
+
 		}
 
 		public virtual void ImplantUpdate(LivingHealthMasterBase healthMaster)

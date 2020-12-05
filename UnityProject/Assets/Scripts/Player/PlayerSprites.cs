@@ -17,6 +17,10 @@ public class PlayerSprites : MonoBehaviour
 {
 	#region Inspector fields
 
+	[Tooltip("The body parts for this race.")]
+	[SerializeField]
+	private PlayerHealthData RaceBodyparts;
+
 	[Tooltip("The texture for this race.")]
 	[SerializeField]
 	private PlayerTextureData RaceTexture;
@@ -53,6 +57,10 @@ public class PlayerSprites : MonoBehaviour
 	//TODO: don't use string as the dictionary key
 	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
+	//bodypart for each bodypart
+	//TODO: don't use string as the dictionary key
+	public readonly Dictionary<string, BodyPartSprites> bodyparts = new Dictionary<string, BodyPartSprites>();
+
 	private Directional directional;
 	private PlayerDirectionalOverlay engulfedBurningOverlay;
 	private PlayerDirectionalOverlay partialBurningOverlay;
@@ -79,6 +87,14 @@ public class PlayerSprites : MonoBehaviour
 			// add listener in case clothing was changed
 			c.OnClothingEquipped += OnClothingEquipped;
 		}
+
+		foreach (BodyPartSprites b in GetComponentsInChildren<BodyPartSprites>())
+		{
+			bodyparts[b.name] = b;
+			//TODO: Do we need to add listeners for implant removal
+		}
+
+
 
 		AddOverlayGameObjects();
 
@@ -116,8 +132,30 @@ public class PlayerSprites : MonoBehaviour
 	public void SetupCharacterData(CharacterSettings Character)
 	{
 		ThisCharacter = Character;
-		RaceTexture = Spawn.RaceData["human"];
-		SetupBodySpritesByGender();
+
+		//Fetch Race Health Pack
+
+		if(Character.Race == Race.Human)
+		{
+			//
+		}
+		
+		Instantiate(RaceBodyparts.Base.Head, bodyparts["Head"].transform);
+		Instantiate(RaceBodyparts.Base.Torso, bodyparts["Chest"].transform);
+		Instantiate(RaceBodyparts.Base.ArmLeft, bodyparts["LeftArm"].transform);
+		Instantiate(RaceBodyparts.Base.ArmRight, bodyparts["RightArm"].transform);
+		Instantiate(RaceBodyparts.Base.LegLeft, bodyparts["LeftLeg"].transform);
+		Instantiate(RaceBodyparts.Base.LegRight, bodyparts["RightLeg"].transform);
+
+
+		//RaceBodyparts.Base.LegLeft.GetComponent<ItemStorage>()
+
+
+		//RaceTexture = Spawn.RaceData["human"];
+
+		//Loop through dimrphic body parts 
+		//SetupBodySpritesByGender();
+
 		SetupAllCustomisationSprites();
 		OnDirectionChange(directional.CurrentDirection);
 	}
@@ -162,15 +200,7 @@ public class PlayerSprites : MonoBehaviour
 
 	public void SetupBodySpritesByGender()
 	{
-		SetupAllBodySprites(RaceTexture.Base);
-		if (ThisCharacter.Gender == Gender.Female)
-		{
-			SetupAllBodySprites(RaceTexture.Female);
-		}
-		else
-		{
-			SetupAllBodySprites(RaceTexture.Male);
-		}
+
 	}
 
 	/// <summary>
@@ -184,14 +214,14 @@ public class PlayerSprites : MonoBehaviour
 			newSkinColor = tempSkinColor;
 		}
 
-		SetupBodySprite(Variant.Torso, "body_torso", newSkinColor);
+		/*SetupBodySprite(Variant.Torso, "body_torso", newSkinColor);
 		SetupBodySprite(Variant.LegRight, "body_rightleg", newSkinColor);
 		SetupBodySprite(Variant.LegLeft, "body_leftleg", newSkinColor);
 		SetupBodySprite(Variant.ArmRight, "body_rightarm", newSkinColor);
 		SetupBodySprite(Variant.ArmLeft, "body_leftarm", newSkinColor);
 		SetupBodySprite(Variant.Head, "body_head", newSkinColor);
 		SetupBodySprite(Variant.HandRight, "body_right_hand", newSkinColor);
-		SetupBodySprite(Variant.HandLeft, "body_left_hand", newSkinColor);
+		SetupBodySprite(Variant.HandLeft, "body_left_hand", newSkinColor);*/
 
 		Color? newEyeColor = null;
 		if (ColorUtility.TryParseHtmlString(ThisCharacter.EyeColor, out var tempEyeColor))
@@ -229,6 +259,21 @@ public class PlayerSprites : MonoBehaviour
 		foreach (ClothingItem c in clothes.Values)
 		{
 			c.Direction = direction;
+
+			//TODO: This needs to be optimized and clothing data could be removed from limbs.
+			if (c.name == "body_leftleg")
+			{
+				if(c.Direction.Degrees == 180)
+				{
+				c.transform.GetComponent<SpriteRenderer>().sortingOrder = 2;
+				}
+				else
+				{
+				c.transform.GetComponent<SpriteRenderer>().sortingOrder = 1;
+				}
+				
+			}
+		
 		}
 
 		//TODO: Reimplement player fire sprites.

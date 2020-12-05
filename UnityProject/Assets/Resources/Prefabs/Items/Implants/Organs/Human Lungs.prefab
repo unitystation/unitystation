@@ -20,10 +20,12 @@ MonoBehaviour:
   bloodReagentConsumed: 0.15
   bloodReagentStoreAmount: 0.01
   bloodReagentStoredMax: 20
-  bodyPartType: 7
+  bodyPartType: 9
   limbSpriteData: {fileID: 0}
   limbOverlaySpriteData: {fileID: 0}
   implantPreventsBleeding: 0
+  breatheCooldown: 4
+  reagentSafeMin: 16
 --- !u!1001 &1441624991261802461
 PrefabInstance:
   m_ObjectHideFlags: 0
