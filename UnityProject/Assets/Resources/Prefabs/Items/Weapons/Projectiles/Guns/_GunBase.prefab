@@ -12,28 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+  itemStorageStructure: {fileID: 11400000, guid: ee76ba24a0cd443b1a308dd04cdb3678,
     type: 2}
   itemStorageCapacity: {fileID: 0}
   itemStoragePopulator: {fileID: 0}
---- !u!114 &3353337338252429816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8150840225578731674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a50b8b03989f386c90e3ac8b88f94c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  setRestriction: 0
-  allowClumsy: 0
-  allowNonClumsy: 1
-  PredictionCanFire: 0
 --- !u!114 &4644871529314044369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54,6 +36,7 @@ MonoBehaviour:
   ammoType: 0
   pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
     type: 3}
+  suppressorPrefab: {fileID: 0}
   SpawnsCasing: 1
   MagInternal: 0
   SmartGun: 0
@@ -85,8 +68,6 @@ MonoBehaviour:
   WeaponType: 0
   isSuppressed: 0
   isSuppressible: 0
-  suppressor: {fileID: 5065923221907874056, guid: 557cc8a1b0b8fd7409c7b846fb7f5c12,
-    type: 3}
 --- !u!1001 &8150967651737613344
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,7 +126,7 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: da85b7a590e7c8444af73629fcb5dd22
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
