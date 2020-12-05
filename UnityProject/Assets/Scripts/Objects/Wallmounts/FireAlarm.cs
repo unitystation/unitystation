@@ -6,6 +6,7 @@ using ScriptableObjects;
 using UnityEngine;
 using Systems.Atmospherics;
 using Doors;
+using AddressableReferences;
 
 namespace Objects.Wallmounts
 {
@@ -30,6 +31,7 @@ namespace Objects.Wallmounts
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.FireAlarm;
 		public MultitoolConnectionType ConType => conType;
+		[SerializeField] private AddressableAudioSource FireAlarmSFX = null;
 
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
@@ -55,7 +57,7 @@ namespace Objects.Wallmounts
 			{
 				activated = true;
 				stateSync = FireAlarmState.TopLightSpriteAlert;
-				SoundManager.PlayNetworkedAtPos("FireAlarm", metaNode.Position);
+				SoundManager.PlayNetworkedAtPos(FireAlarmSFX, metaNode.Position);
 				StartCoroutine(SwitchCoolDown());
 				foreach (var firelock in FireLockList)
 				{

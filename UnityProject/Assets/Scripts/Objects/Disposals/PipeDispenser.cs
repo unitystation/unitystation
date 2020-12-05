@@ -3,12 +3,15 @@ using UnityEngine;
 using Mirror;
 using Pipes;
 using Objects.Construction;
+using AddressableReferences;
 
 namespace Objects.Atmospherics
 {
 	public class PipeDispenser : NetworkBehaviour
 	{
 		const float DISPENSING_TIME = 2; // As per sprite sheet JSON file.
+
+		[SerializeField] private AddressableAudioSource PosterCreate = null;
 
 		ObjectBehaviour objectBehaviour;
 		WrenchSecurable securable;
@@ -90,7 +93,7 @@ namespace Objects.Atmospherics
 		{
 			MachineOperating = true;
 			UpdateSprite();
-			SoundManager.PlayNetworkedAtPos("PosterCreate", objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(PosterCreate, objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
 			yield return WaitFor.Seconds(DISPENSING_TIME);
 			MachineOperating = false;
 			UpdateSprite();

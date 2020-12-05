@@ -5,9 +5,12 @@ using Mirror;
 using System.Collections.Generic;
 using Messages.Client;
 using Newtonsoft.Json;
+using AddressableReferences;
 
 public class AddHackingConnection : ClientMessage
 {
+	[SerializeField] private AddressableAudioSource Wiremend = null;
+
 	public uint Player;
 	public uint HackableObject;
 	public string JsonData;
@@ -22,7 +25,7 @@ public class AddHackingConnection : ClientMessage
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanAddConnection(playerScript, connectionToAdd))
 		{
-			SoundManager.PlayNetworkedAtPos("Wiremend#", playerScript.WorldPos); 
+			SoundManager.PlayNetworkedAtPos(Wiremend, playerScript.WorldPos); 
 			hackingProcess.AddNodeConnection(connectionToAdd);
 			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
 		}

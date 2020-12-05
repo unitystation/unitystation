@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Electricity;
+using AddressableReferences;
 using Items;
 
 namespace Objects.Kitchen
@@ -25,6 +26,8 @@ namespace Objects.Kitchen
 		[Range(0, MAX_TIMER_TIME)]
 		[Tooltip("Default time the microwave should reset to when finished (in seconds). Should be set to a value that will cook most items.")]
 		private float DefaultTimerTime = 10;
+
+		[SerializeField] private AddressableAudioSource MicrowaveStart = null;
 
 		[SerializeField]
 		[Tooltip("The looped audio source to play while the microwave is running.")]
@@ -181,7 +184,7 @@ namespace Objects.Kitchen
 		private void StartMicrowave()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			SoundManager.PlayNetworkedAtPos("MicrowaveStart", WorldPosition, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(MicrowaveStart, WorldPosition, sourceObj: gameObject);
 			playAudioLoop = true;
 		}
 

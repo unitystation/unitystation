@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Explosions;
+using AddressableReferences;
 
 namespace Items.Weapons
 {
@@ -19,6 +20,8 @@ namespace Items.Weapons
 		public bool unstableFuse = false;
 		[TooltipAttribute("fuse timer in seconds")]
 		public float fuseLength = 3;
+
+		[SerializeField] private AddressableAudioSource armbomb = null;
 
 		[Tooltip("SpriteHandler used for blinking animation")]
 		public SpriteHandler spriteHandler;
@@ -159,7 +162,7 @@ namespace Items.Weapons
 
 		private void PlayPinSFX(Vector3 position)
 		{
-			SoundManager.PlayNetworkedAtPos("armbomb", position, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(armbomb, position, sourceObj: gameObject);
 		}
 
 		private void UpdateTimer(bool timerRunning)

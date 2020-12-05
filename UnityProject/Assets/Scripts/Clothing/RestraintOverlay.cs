@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AddressableReferences;
 
 /// <summary>
 /// Handles the overlays for the handcuff sprites
@@ -15,6 +16,8 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	private IEnumerator uncuffCoroutine;
 	private float healthCache;
 	private Vector3Int positionCache;
+
+	[SerializeField] private AddressableAudioSource Handcuffs = null;
 
 	[SerializeField]
 	private ActionData actionData = null;
@@ -95,7 +98,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
 			thisPlayerScript.playerName + " has removed their cuffs");
 
-		SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(Handcuffs, thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
 	}
 
 	private bool CanUncuff()

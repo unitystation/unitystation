@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Antagonists;
+using AddressableReferences;
 
 namespace Objects
 {
@@ -11,6 +12,8 @@ namespace Objects
 	public class MagicMirror : MonoBehaviour
 	{
 		private readonly float PRINTING_TIME = 2;
+
+		[SerializeField] private AddressableAudioSource PosterCreate = null;
 
 		[SerializeField]
 		private GameObject paperPrefab = default;
@@ -39,7 +42,7 @@ namespace Objects
 
 		private IEnumerator RunNameSetSequence(ConnectedPlayer player, string newName)
 		{
-			SoundManager.PlayNetworkedAtPos("PosterCreate", gameObject.RegisterTile().WorldPositionServer, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(PosterCreate, gameObject.RegisterTile().WorldPositionServer, sourceObj: gameObject);
 			yield return WaitFor.Seconds(PRINTING_TIME);
 
 			player.Script.SetPermanentName(newName);

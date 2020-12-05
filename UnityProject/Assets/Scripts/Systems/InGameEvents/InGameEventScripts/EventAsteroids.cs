@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.Explosions;
+using AddressableReferences;
 
 namespace InGameEvents
 {
 	public class EventAsteroids : EventScriptBase
 	{
+		[SerializeField] private AddressableAudioSource Meteors = null;
+
 		private MatrixInfo stationMatrix;
 
 		private Queue<Vector3> impactCoords = new Queue<Vector3>();
@@ -43,7 +46,7 @@ namespace InGameEvents
 
 				CentComm.MakeAnnouncementNoSound(CentComm.CentCommAnnounceTemplate, text);
 
-				SoundManager.PlayNetworked("Meteors");
+				SoundManager.PlayNetworked(Meteors);
 			}
 
 			if (FakeEvent) return;

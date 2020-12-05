@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Core.Directionals;
 using Systems.Disposals;
+using AddressableReferences;
 
 namespace Objects.Disposals
 {
@@ -17,6 +18,8 @@ namespace Objects.Disposals
 		DisposalVirtualContainer virtualContainer;
 
 		public bool IsOperating { get; private set; }
+
+		[SerializeField] private AddressableAudioSource DisposalMachineFlush = null;
 
 		private enum SpriteState
 		{
@@ -150,7 +153,7 @@ namespace Objects.Disposals
 			yield return WaitFor.Seconds(FLUSH_DELAY);
 
 			// Intake orifice closed. Release the charge.
-			SoundManager.PlayNetworkedAtPos("DisposalMachineFlush", registerObject.WorldPositionServer, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(DisposalMachineFlush, registerObject.WorldPositionServer, sourceObj: gameObject);
 			DisposalsManager.Instance.NewDisposal(virtualContainer);
 
 			// Restore charge, open orifice.

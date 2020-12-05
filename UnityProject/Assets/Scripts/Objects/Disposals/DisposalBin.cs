@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Disposals;
+using AddressableReferences;
 
 namespace Objects.Disposals
 {
@@ -72,6 +73,10 @@ namespace Objects.Disposals
 		public int ChargePressure => chargePressure;
 		public bool BinCharged => chargePressure >= CHARGED_PRESSURE;
 		public bool ServerHasContents => virtualContainer != null ? virtualContainer.HasContents : false;
+		
+		[SerializeField] private AddressableAudioSource Click = null;
+
+		[SerializeField] private AddressableAudioSource DisposalMachineFlush = null;
 
 		#region Lifecycle
 
@@ -392,7 +397,7 @@ namespace Objects.Disposals
 			}
 
 			// Sound of the bin's air intake flap closing.
-			SoundManager.PlayNetworkedAtPos("Click", registerObject.WorldPositionServer, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(Click, registerObject.WorldPositionServer, sourceObj: gameObject);
 		}
 
 		IEnumerator RunFlushSequence()
@@ -403,7 +408,7 @@ namespace Objects.Disposals
 
 			// Bin orifice closed. Release the charge.
 			chargePressure = 0;
-			SoundManager.PlayNetworkedAtPos("DisposalMachineFlush", registerObject.WorldPositionServer, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(DisposalMachineFlush, registerObject.WorldPositionServer, sourceObj: gameObject);
 			if (virtualContainer != null)
 			{
 				virtualContainer.GetComponent<ObjectBehaviour>().parentContainer = null;

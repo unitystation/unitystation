@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Chemistry.Components;
+using AddressableReferences;
 
 [RequireComponent(typeof(Pickupable))]
 public class FireExtinguisher : NetworkBehaviour,
@@ -13,6 +14,8 @@ public class FireExtinguisher : NetworkBehaviour,
 	[SerializeField]
 	[Range(1, 20)]
 	private int travelDistance = 6;
+
+	[SerializeField] private AddressableAudioSource Extinguish = null;
 
 	[SerializeField]
 	[Range(1, 50)]
@@ -81,7 +84,7 @@ public class FireExtinguisher : NetworkBehaviour,
 
 		Effect.PlayParticleDirectional(this.gameObject, interaction.TargetVector);
 
-		SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1, sourceObj: interaction.Performer);
+		SoundManager.PlayNetworkedAtPos(Extinguish, startPos, 1, sourceObj: interaction.Performer);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
 	}

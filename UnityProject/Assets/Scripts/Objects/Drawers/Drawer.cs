@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using AddressableReferences;
 
 namespace Objects.Drawers
-{
+{	
+
 	/// <summary>
 	/// A generic drawer component designed for multi-tile drawer objects.
 	/// </summary>
@@ -12,6 +14,9 @@ namespace Objects.Drawers
 	[ExecuteInEditMode]
 	public class Drawer : NetworkBehaviour, IServerDespawn, ICheckedInteractable<HandApply>
 	{
+	[SerializeField] private AddressableAudioSource BinOpenSFX = null;
+	[SerializeField] private AddressableAudioSource BinCloseSFX = null;
+
 		protected enum DrawerState
 		{
 			Open = 0,
@@ -201,7 +206,7 @@ namespace Objects.Drawers
 			EjectItems();
 			EjectPlayers();
 
-			SoundManager.PlayNetworkedAtPos("BinOpen", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(BinOpenSFX, DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 			SetDrawerState(DrawerState.Open);
 		}
 
@@ -213,7 +218,7 @@ namespace Objects.Drawers
 			GatherItems();
 			if (storePlayers) GatherPlayers();
 
-			SoundManager.PlayNetworkedAtPos("BinClose", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(BinCloseSFX, DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 			SetDrawerState(DrawerState.Shut);
 		}
 

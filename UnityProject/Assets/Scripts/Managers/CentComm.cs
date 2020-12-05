@@ -7,12 +7,15 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Objects.Wallmounts;
 using Objects.Command;
+using AddressableReferences;
 
 ///------------
 /// CENTRAL COMMAND HQ
 ///------------
 public class CentComm : MonoBehaviour
 {
+	[SerializeField] private AddressableAudioSource Welcome = null;
+
 	public GameManager gameManager;
 
 	[SerializeField][Tooltip("Reference to the paper prefab. Needed to send reports.")]
@@ -119,7 +122,7 @@ public class CentComm : MonoBehaviour
 		//Generic AI welcome message
 		//this sound will feel just like home once we have the proper job allocation.
 		//it plays as soon as the round starts.
-		SoundManager.PlayNetworked("Welcome");
+		SoundManager.PlayNetworked(Welcome);
 		//Wait some time after the round has started
 		yield return WaitFor.Seconds(60f);
 

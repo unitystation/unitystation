@@ -5,11 +5,16 @@ using Systems.Spells;
 using ScriptableObjects.Systems.Spells;
 using ScriptableObjects.Items.SpellBook;
 using InGameEvents;
+using AddressableReferences;
 
 namespace Items.Magical
 {
 	public class BookOfSpells : MonoBehaviour, IExaminable, IServerInventoryMove, ICheckedInteractable<HandActivate>
 	{
+		[SerializeField] private AddressableAudioSource Blind = null;
+
+		[SerializeField] private AddressableAudioSource SummonItemsGeneric = null;
+
 		[Tooltip("If checked, will only be usable by wizards.")]
 		[SerializeField]
 		private bool isForWizardsOnly = false;
@@ -75,7 +80,7 @@ namespace Items.Magical
 		{
 			points -= spellEntry.Cost;
 
-			SoundManager.PlayNetworkedAtPos("Blind", player.Script.WorldPos, sourceObj: player.GameObject);
+			SoundManager.PlayNetworkedAtPos(Blind, player.Script.WorldPos, sourceObj: player.GameObject);
 			Chat.AddChatMsgToChat(player, spellEntry.Incantation, ChatChannel.Local);
 
 			Spell spellInstance = player.Script.mind.GetSpellInstance(spellEntry.Spell);
@@ -100,7 +105,7 @@ namespace Items.Magical
 			if (spawnResult.Successful)
 			{
 				points -= artifactEntry.Cost;
-				SoundManager.PlayNetworkedAtPos("SummonItemsGeneric", playerScript.WorldPos, sourceObj: playerScript.gameObject);
+				SoundManager.PlayNetworkedAtPos(SummonItemsGeneric, playerScript.WorldPos, sourceObj: playerScript.gameObject);
 
 				var closetControl = spawnResult.GameObject.GetComponent<ClosetControl>();
 

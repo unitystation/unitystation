@@ -3,6 +3,7 @@ using Audio.Managers;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
+using AddressableReferences;
 
 namespace Objects.Command
 {
@@ -12,6 +13,8 @@ namespace Objects.Command
 	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo
 	{
 		public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
+
+		[SerializeField] private AddressableAudioSource TimerTick = null;
 
 		private ObjectBehaviour objectBehaviour;
 		private ItemStorage itemNuke;
@@ -284,7 +287,7 @@ namespace Objects.Command
 			while (CurrentTimerSeconds > 0)
 			{
 				CurrentTimerSeconds -= 1;
-				SoundManager.PlayNetworkedAtPos("TimerTick", gameObject.AssumedWorldPosServer());
+				SoundManager.PlayNetworkedAtPos(TimerTick, gameObject.AssumedWorldPosServer());
 				yield return WaitFor.Seconds(1);
 			}
 			Detonate();

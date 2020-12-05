@@ -2,6 +2,7 @@
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
+using AddressableReferences;
 
 namespace Objects.Construction
 {
@@ -51,7 +52,10 @@ namespace Objects.Construction
 		public int maxCountOfRodsOnDestroy;
 
 		[Tooltip("Sound when destroyed.")]
-		public string soundOnDestroy;
+		[SerializeField] private AddressableAudioSource soundOnDestroy = null;
+
+		[Tooltip("Sound when glass is hit.")]
+		[SerializeField] private AddressableAudioSource GlassHit = null;
 
 
 
@@ -87,7 +91,7 @@ namespace Objects.Construction
 
 			return true;
 		}
-		//SoundManager.PlayNetworkedAtPos("GlassHit", exposure.ExposedWorldPosition.To3Int(), Random.Range(0.9f, 1.1f));
+		//SoundManager.PlayNetworkedAtPos(GlassHit, exposure.ExposedWorldPosition.To3Int(), Random.Range(0.9f, 1.1f));
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (interaction.TargetObject != gameObject) return;

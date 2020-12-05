@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using AddressableReferences;
 
 public class GUI_Hacking : NetTab
 {
+	[SerializeField] private AddressableAudioSource Wirecut = null;
+
+	
 	private HackingProcessBase hackProcess;
 	public HackingProcessBase HackProcess => hackProcess;
 
@@ -420,7 +424,7 @@ public class GUI_Hacking : NetTab
 		HackingNode inputNode = wireUI.EndNode.HackNode;
 
 		outputNode.RemoveConnectedNode(inputNode);
-		SoundManager.PlayNetworkedAtPos("Wirecut#", PlayerManager.LocalPlayerScript.WorldPos);
+		SoundManager.PlayNetworkedAtPos(Wirecut, PlayerManager.LocalPlayerScript.WorldPos);
 
 		//If we're on client, network to the server the changes we made.
 		if (!IsServer)
