@@ -15,29 +15,6 @@ MonoBehaviour:
   Watts: 1000
   MaxWatts: 1000
   InternalResistance: 240
---- !u!114 &7397259818368812832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1089748232968454180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4366bd96f24a5244680b41595883f300, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isClip: 0
-  Projectile: {fileID: 0}
-  ProjectilesFired: 1
-  isCell: 1
-  containedProjectilesFired: 
-  containedBullets: []
-  ammoType: 14
-  magazineSize: 20
-  battery: {fileID: 1851616424243757961}
 --- !u!1 &9156308078107356587
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +85,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: 2b929a4cd34be4f478dd7ba2c83e5090, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -223,7 +200,7 @@ PrefabInstance:
     - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
@@ -266,8 +243,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: b50ab381094a3452f97238a079179c37,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 9159554893325135702, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
       propertyPath: PresentSpriteSet
