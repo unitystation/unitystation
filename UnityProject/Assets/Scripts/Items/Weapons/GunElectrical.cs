@@ -33,9 +33,33 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		return DefaultWillInteract.Default(interaction, side);
 	}
 
+	public override bool WillInteract(InventoryApply interaction, NetworkSide side)
+	{
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
+
+		//only reload if the gun is the target and mag/clip is in hand slot
+		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot && side == NetworkSide.Client)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
+			{
+				return true;
+			}
+			else if (interaction.UsedObject != null)
+			{
+				MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+				if (mag && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public override bool WillInteract(AimApply interaction, NetworkSide side)
 	{
-		if (firemodeUsage[currentFiremode] > battery.Watts)
+		if (battery == null || firemodeUsage[currentFiremode] > battery.Watts)
 		{
 			PlayEmptySFX();
 			return false;
@@ -48,7 +72,9 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	public override void ServerPerformInteraction(HandActivate interaction)
 	{
 		if (firemodeProjectiles.Count <= 1)
+		{
 			return;
+		}
 		if (currentFiremode == firemodeProjectiles.Count - 1)
 		{
 			UpdateFiremode(currentFiremode, 0);
@@ -66,6 +92,22 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		if (firemodeUsage[currentFiremode] > battery.Watts) return;
 		base.ServerPerformInteraction(interaction);
 		CurrentMagazine.ServerSetAmmoRemains(battery.Watts / firemodeUsage[currentFiremode]);
+	}
+
+	public override void ServerPerformInteraction(InventoryApply interaction)
+	{
+		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && !MagInternal)
+			{
+				base.RequestUnload(CurrentMagazine);
+			}
+			MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+			if (mag)
+			{
+				base.RequestReload(mag.gameObject);
+			}
+		}
 	}
 
 	public void UpdateFiremode(int oldValue, int newState)

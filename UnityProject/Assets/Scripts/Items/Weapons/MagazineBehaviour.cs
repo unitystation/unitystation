@@ -266,7 +266,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		return currentRNG;
 	}
 
-	public String Examine(Vector3 pos)
+	public virtual String Examine(Vector3 pos)
 	{
 		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0 ? (ServerAmmoRemains.ToString() + " left") : "empty") + ")";
 	}

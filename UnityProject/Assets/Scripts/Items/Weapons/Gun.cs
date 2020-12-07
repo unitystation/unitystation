@@ -372,7 +372,7 @@ namespace Weapons
 			return false;
 		}
 
-		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		public virtual bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
@@ -497,7 +497,7 @@ namespace Weapons
 			}
 		}
 
-		public void ServerPerformInteraction(InventoryApply interaction)
+		public virtual void ServerPerformInteraction(InventoryApply interaction)
 		{
 			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 			{
@@ -569,7 +569,7 @@ namespace Weapons
 				DequeueAndProcessServerShot();
 			}
 
-			if (queuedUnload && queuedShots.Count == 0 && allowMagazineRemoval && !MagInternal)
+			if (queuedUnload && queuedShots.Count == 0 && !MagInternal)
 			{
 				// done processing shot queue,
 				// perform the queued unload action, causing all clients and server to update their version of this Weapon
@@ -839,7 +839,7 @@ namespace Weapons
 		/// handles validation checks and then calls ServerHandleReloadRequest
 		/// </summary>
 		/// <param name="mag"></param>
-		private void RequestReload(GameObject mag)
+		public void RequestReload(GameObject mag)
 		{
 			uint networkID = mag.gameObject.GetComponent<NetworkIdentity>().netId;
 			ServerHandleReloadRequest(networkID);
@@ -893,7 +893,7 @@ namespace Weapons
 		/// Calls InertiaDrop and then passes handling over to ServerHandleUnloadRequest
 		/// </summary>
 		/// <param name="magscript"></param>
-		private void RequestUnload(MagazineBehaviour magscript)
+		public void RequestUnload(MagazineBehaviour magscript)
 		{
 			Logger.LogTrace("Unloading", Category.Firearms);
 			if (magscript != null)
