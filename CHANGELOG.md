@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/12/5: fixed the radius around the player that caused them to accidentally attack themselves by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5707](https://github.com/unitystation/unitystation/pull/5707)
 * 2020/12/3: Added Contract of Apprenticeship. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5700](https://github.com/unitystation/unitystation/pull/5700)
 * 2020/12/2: Added directional sprites for Gaggle the goose. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5693](https://github.com/unitystation/unitystation/pull/5693)
 * 2020/12/2: Made the suit storage slot use a whitelist which includes: guns, PDAs, melee weapons, magazines, ammo casings, handcuffs, oxygen tanks, power cells, flashlights, spray bottles, radios, and masks. by [PetMudstone](https://github.com/PetMudstone) in PR #[5694](https://github.com/unitystation/unitystation/pull/5694)
