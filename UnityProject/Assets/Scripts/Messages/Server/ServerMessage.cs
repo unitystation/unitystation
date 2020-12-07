@@ -164,5 +164,14 @@ public abstract class ServerMessage : GameMessageBase
 				mentor.Connection.Send(this, 0);
 			}
 		}
+		var admins = PlayerList.Instance.GetAllAdmins();
+
+		foreach (var admin in admins)
+		{
+			if (PlayerList.Instance.ContainsConnection(admin.Connection))
+			{
+				admin.Connection.Send(this, 0);
+			}
+		}
 	}
 }

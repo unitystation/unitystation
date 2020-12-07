@@ -179,7 +179,7 @@ namespace AdminTools
 
 		public void OnInputSend(string message)
 		{
-			var mentorMsg = new AdminChatMessage
+			var asmentorMsg = new AdminChatMessage
 			{
 				fromUserid = ServerData.UserID,
 				Message = message,
@@ -187,8 +187,7 @@ namespace AdminTools
 			};
 
 			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
-			RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.uid,
-			msg);
+			RequestMentorBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.uid,msg);
 		}
 	}
 }

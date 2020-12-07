@@ -20,14 +20,19 @@ public class RequestMentorBwoink : ClientMessage
 	void VerifyMentorStatus()
 	{
 		var player = PlayerList.Instance.GetMentor(Userid, MentorToken);
-		if (player != null)
+		if (player == null)
 		{
-			var recipient = PlayerList.Instance.GetAllByUserID(UserToBwoink);
-			foreach (var r in recipient)
-			{
-				MentorBwoinkMessage.Send(r.GameObject, Userid, "<color=red>" + Message + "</color>");
-				UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(Message, UserToBwoink, Userid);
+			player = PlayerList.Instance.GetAdmin(Userid,MentorToken);
+			if(player == null){
+				//theoretically this shouldnt happen, and indicates someone might be tampering with the client.
+				return;
 			}
+		}
+		var recipient = PlayerList.Instance.GetAllByUserID(UserToBwoink);
+		foreach (var r in recipient)
+		{
+			MentorBwoinkMessage.Send(r.GameObject, Userid, "<color=#6400FF>" + Message + "</color>");
+			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(Message, UserToBwoink, Userid);
 		}
 	}
 
