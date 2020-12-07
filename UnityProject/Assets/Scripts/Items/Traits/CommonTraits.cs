@@ -66,4 +66,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait WizardGarb;
 	public ItemTrait Suppressor;
 	public ItemTrait BluespaceActivity;
+	public ItemTrait WeaponCell;
 }
