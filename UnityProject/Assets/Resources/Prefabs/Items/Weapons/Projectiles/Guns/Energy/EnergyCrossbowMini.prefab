@@ -29,6 +29,16 @@ PrefabInstance:
       propertyPath: isSuppressed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 692222134788124967, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: itemStorageCapacity
