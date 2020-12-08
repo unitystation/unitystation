@@ -80,7 +80,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		//set to max ammo on initialization
 		clientAmmoRemains = -1;
-		if (magType != MagType.isClip)
+		if (magType != MagType.Clip)
 		{
 			InitLists();
 		}
@@ -238,7 +238,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 		if (mag == null) return false;
 		if (interaction.UsedObject == null) return false;
-		if (mag.ammoType != ammoType || magType != MagType.isClip) return false;
+		if (mag.ammoType != ammoType || magType != MagType.Clip) return false;
 
 		return true;
 	}
@@ -270,13 +270,13 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0 ? (ServerAmmoRemains.ToString() + " left") : "empty") + ")";
 	}
+}
 
-	public enum MagType
-	{
-		Standard,
-		Clip,
-		Cell
-	}
+public enum MagType
+{
+	Standard,
+	Clip,
+	Cell
 }
 
 public enum AmmoType

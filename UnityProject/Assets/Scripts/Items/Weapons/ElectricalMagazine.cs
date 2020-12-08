@@ -16,7 +16,7 @@ public class ElectricalMagazine : MagazineBehaviour
 
 	public void Awake()
 	{
-		magType == MagType.Cell;
+		magType = MagType.Cell;
 		battery = GetComponent<Battery>();
 	}
 
