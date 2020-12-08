@@ -38,12 +38,9 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	private double[] RNGContents;
 
 	/// <summary>
-	///	Whether this can be used to reload other (internal or external) magazines.
+	///	The type of magazine. This effects various behaviours depending on its setting
 	/// </summary>
-	[HideInInspector]
-	public bool isClip = false;
-	[NonSerialized]
-	public bool isCell = false;
+	public MagType magType;
 
 	[SerializeField, FormerlySerializedAs("Projectile")]
 	public GameObject initalProjectile;
@@ -83,7 +80,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		//set to max ammo on initialization
 		clientAmmoRemains = -1;
-		if (!isClip)
+		if (magType != MagType.isClip)
 		{
 			InitLists();
 		}
@@ -169,7 +166,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			{
 				var remaining = serverAmmoRemains - amount;
 				SyncServerAmmo(remaining, remaining);
-				if (!isClip && !isCell)
+				if (magType == MagType.Standard)
 				{
 					for (int i = amount;i != 0;i--)
 					{
@@ -177,7 +174,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 						containedProjectilesFired.RemoveAt(0);
 					}
 				}
-				if (isClip && serverAmmoRemains == 0)
+				if (magType == MagType.Clip && serverAmmoRemains == 0)
 				{
 					Despawn.ServerSingle(gameObject);
 				}
@@ -206,7 +203,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		int toTransfer = Math.Min(magazineSize - serverAmmoRemains, clip.serverAmmoRemains);
 
 		clip.ExpendAmmo(toTransfer);
-		if (!isClip && !isCell)
+		if (magType == MagType.Standard)
 		{
 			for (int i = toTransfer;i != 0;i--)
 			{
@@ -241,7 +238,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 		if (mag == null) return false;
 		if (interaction.UsedObject == null) return false;
-		if (mag.ammoType != ammoType || !isClip) return false;
+		if (mag.ammoType != ammoType || magType != MagType.isClip) return false;
 
 		return true;
 	}
@@ -274,20 +271,12 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0 ? (ServerAmmoRemains.ToString() + " left") : "empty") + ")";
 	}
 
-	#if UNITY_EDITOR
-	[CustomEditor(typeof(MagazineBehaviour), true)]
-	public class MagEditor : Editor
+	public enum MagType
 	{
-		public override void OnInspectorGUI()
-		{
-			DrawDefaultInspector(); // for other non-HideInInspector fields
-
-			MagazineBehaviour script = (MagazineBehaviour)target;
-
-			script.isClip = EditorGUILayout.Toggle("isClip", script.isClip);
-		}
+		Standard,
+		Clip,
+		Cell
 	}
-#endif
 }
 
 public enum AmmoType

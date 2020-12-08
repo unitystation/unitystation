@@ -16,7 +16,7 @@ public class ElectricalMagazine : MagazineBehaviour
 
 	public void Awake()
 	{
-		isCell = true;
+		magType == MagType.Cell;
 		battery = GetComponent<Battery>();
 	}
 
@@ -43,15 +43,4 @@ public class ElectricalMagazine : MagazineBehaviour
 		double percent = (battery.Watts * 100 / battery.MaxWatts);
 		return $"It seems to be compatible with energy weapons. The charge indicator displays {Math.Round(percent)} percent.";
 	}
-
-	#if UNITY_EDITOR
-	[CustomEditor(typeof(MagazineBehaviour), true)]
-	public class MagEditor : Editor
-	{
-		public override void OnInspectorGUI()
-		{
-			DrawDefaultInspector();
-		}
-	}
-#endif
 }
