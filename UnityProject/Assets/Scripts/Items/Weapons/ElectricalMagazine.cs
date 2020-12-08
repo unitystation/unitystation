@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEditor;
 
 /// <summary>
 /// Gun scripts are strange, This is to make it easy to have a charging Ammo clip
@@ -7,13 +8,15 @@ using UnityEngine;
 [RequireComponent(typeof(Battery))]
 public class ElectricalMagazine : MagazineBehaviour
 {
-
+	[NonSerialized]
 	public Battery battery;
 
+	[NonSerialized]
 	public int toRemove;
 
 	public void Awake()
 	{
+		isCell = true;
 		battery = GetComponent<Battery>();
 	}
 
@@ -40,4 +43,15 @@ public class ElectricalMagazine : MagazineBehaviour
 		double percent = (battery.Watts * 100 / battery.MaxWatts);
 		return $"It seems to be compatible with energy weapons. The charge indicator displays {Math.Round(percent)} percent.";
 	}
+
+	#if UNITY_EDITOR
+	[CustomEditor(typeof(MagazineBehaviour), true)]
+	public class MagEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			DrawDefaultInspector();
+		}
+	}
+#endif
 }

@@ -8,12 +8,13 @@ namespace Objects
 	public class InternalBattery : MonoBehaviour
 	{
 		private ItemSlot InternalBatterySlot;
-		public ItemStorage BatteryitemStorage;
+		private ItemStorage BatteryitemStorage;
 
 		private Battery battery;
 		// Start is called before the first frame update
 		private void Awake()
 		{
+			BatteryitemStorage = GetComponent<ItemStorage>();
 			InternalBatterySlot = BatteryitemStorage.GetIndexedItemSlot(0);
 		}
 

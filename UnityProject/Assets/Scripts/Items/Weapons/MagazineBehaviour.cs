@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -39,17 +40,19 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// <summary>
 	///	Whether this can be used to reload other (internal or external) magazines.
 	/// </summary>
+	[HideInInspector]
 	public bool isClip = false;
+	[NonSerialized]
 	public bool isCell = false;
 
 	[SerializeField, FormerlySerializedAs("Projectile")]
 	public GameObject initalProjectile;
 	public int ProjectilesFired = 1;
 
-	[HideInInspector]
+	[NonSerialized]
 	public List<int> containedProjectilesFired = new List<int>();
 
-	[HideInInspector]
+	[NonSerialized]
 	public List<GameObject> containedBullets = new List<GameObject>();
 	public AmmoType ammoType; //SET IT IN INSPECTOR
 	public int magazineSize = 20;
@@ -270,6 +273,21 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0 ? (ServerAmmoRemains.ToString() + " left") : "empty") + ")";
 	}
+
+	#if UNITY_EDITOR
+	[CustomEditor(typeof(MagazineBehaviour), true)]
+	public class MagEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			DrawDefaultInspector(); // for other non-HideInInspector fields
+
+			MagazineBehaviour script = (MagazineBehaviour)target;
+
+			script.isClip = EditorGUILayout.Toggle("isClip", script.isClip);
+		}
+	}
+#endif
 }
 
 public enum AmmoType
