@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/12/9: Removed ability for stun batons to hurt people when used to stun on disarm and grab intent. by [PetMudstone](https://github.com/PetMudstone) in PR #[5725](https://github.com/unitystation/unitystation/pull/5725)
 * 2020/12/7: Added weapon cells. They can be removed from energy guns with screwdrivers (credit to Autumn) and be made in the autolathe. by [PetMudstone](https://github.com/PetMudstone) in PR #[5715](https://github.com/unitystation/unitystation/pull/5715)
 * 2020/12/7: Removed ability for welding fuel to create plasma gas when it is emptied out of containers. by [PetMudstone](https://github.com/PetMudstone) in PR #[5710](https://github.com/unitystation/unitystation/pull/5710)
 * 2020/12/5: fixed the radius around the player that caused them to accidentally attack themselves by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5707](https://github.com/unitystation/unitystation/pull/5707)
