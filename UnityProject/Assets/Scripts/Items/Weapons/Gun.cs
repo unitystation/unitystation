@@ -612,7 +612,7 @@ namespace Weapons
 		private bool TryReload(GameObject ammo)
 		{
 			MagazineBehaviour magazine = ammo.GetComponent<MagazineBehaviour>();
-			if (CurrentMagazine == null || (MagInternal && magazine.isClip))
+			if (CurrentMagazine == null || (MagInternal && magazine.magType == MagType.Clip))
 			{
 				//RELOAD
 				// If the item used on the gun is a magazine, check type and reload

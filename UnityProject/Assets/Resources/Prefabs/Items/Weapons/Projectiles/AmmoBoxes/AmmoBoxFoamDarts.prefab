@@ -83,6 +83,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 20c01d5e47bb85446996ad3eb2158d58,
         type: 3}
+    - target: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -107,6 +112,12 @@ PrefabInstance:
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 8926349090719206047, guid: f29df69b3b938f941b3064a2cb7dc4b6,
+        type: 3}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: initalProjectile
       value: 
       objectReference: {fileID: 8926349090719206047, guid: f29df69b3b938f941b3064a2cb7dc4b6,
         type: 3}
