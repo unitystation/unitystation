@@ -6,11 +6,12 @@ using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Pickupable))]
+[RequireComponent(typeof(MeleeStun))]
 public class StunBatonV2 : NetworkBehaviour, ICheckedInteractable<HandActivate>, IServerSpawn
 {
-	public SpriteHandler spriteHandler;
+	private SpriteHandler spriteHandler;
 
-    public MeleeStun meleeStun;
+	private MeleeStun meleeStun;
 	
 	// Sound played when turning this baton on/off.
 	public AddressableAudioSource ToggleSound;
@@ -25,10 +26,11 @@ public class StunBatonV2 : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	private BatonState batonState;
 
-    private void Awake()
-    {
-        meleeStun = GetComponent<MeleeStun>();
-    }
+	private void Awake()
+	{
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
+		meleeStun = GetComponent<MeleeStun>();
+	}
 
 	// Calls TurnOff() when baton is spawned, see below.
 	public void OnSpawnServer(SpawnInfo info)
@@ -36,22 +38,20 @@ public class StunBatonV2 : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		TurnOff();
 	}
 
-	// Enables melee stun component and sets baton state to on.
-    private void TurnOn()
-        {
-        meleeStun.enabled = true;
+	private void TurnOn()
+	{
+		meleeStun.enabled = true;
 		batonState = BatonState.On;
 		spriteHandler.ChangeSprite((int) BatonState.On);
-        }
+	}
 
-	// Disables melee stun component and sets baton state to off.
-    private void TurnOff()
-    {
-        //logic to turn the baton off.
-        meleeStun.enabled = false;
+	private void TurnOff()
+	{
+		//logic to turn the baton off.
+		meleeStun.enabled = false;
 		batonState = BatonState.Off;
 		spriteHandler.ChangeSprite((int) BatonState.Off);
-    }
+	}
 
 	//For making sure the user is actually conscious.
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -59,18 +59,17 @@ public class StunBatonV2 : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		return DefaultWillInteract.Default(interaction, side);
 	}
 
-	//Activating the baton in-hand turns it off, on, or does nothing depending on its state.
+	//Activating the baton in-hand turns it off or off depending on its state.
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
+		SoundManager.PlayNetworkedAtPos(ToggleSound, interaction.Performer.AssumedWorldPosServer(), sourceObj: interaction.Performer);
 		if (batonState == BatonState.Off)
 		{
 			TurnOn();
-			SoundManager.PlayNetworkedAtPos(ToggleSound, interaction.Performer.AssumedWorldPosServer(), sourceObj: interaction.Performer);
 		}
 		else
 		{
 			TurnOff();
-			SoundManager.PlayNetworkedAtPos(ToggleSound, interaction.Performer.AssumedWorldPosServer(), sourceObj: interaction.Performer);
 		}
 	}
 }

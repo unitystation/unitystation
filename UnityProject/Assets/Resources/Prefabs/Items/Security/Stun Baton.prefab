@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 2705650514114133371}
-  meleeStun: {fileID: 7515531381510586654}
   ToggleSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EGloves.prefab
@@ -263,15 +261,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8127288814593014342}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2705650514114133371 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 8127288814593014342}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
