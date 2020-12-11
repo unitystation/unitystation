@@ -8125,6 +8125,7 @@ GameObject:
   - component: {fileID: 4012806785467743927}
   - component: {fileID: 1466505071001026520}
   - component: {fileID: 8512647472880155941}
+  - component: {fileID: 1650104974180287784}
   m_Layer: 0
   m_Name: WizardShip
   m_TagString: Untagged
@@ -8132,6 +8133,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1650104974180287784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650104974180287783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487c0aa989e8d4d7cb70ffa12c1794cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixColliderType: 1
+  uiType: 1
+  initialFacing: 3
+  MaxSpeed: 20
+  SafetyProtocolsOn: 1
+  IsForceStopped: 0
+  RequiresFuel: 0
+  rcsModeActive: 0
+  IsNotPilotable: 1
 --- !u!4 &1817858304349470483
 Transform:
   m_ObjectHideFlags: 0
