@@ -10,11 +10,11 @@ using UnityEngine;
 /// </summary>
 class PostBuildActions : IPostprocessBuildWithReport
 {
-    public int callbackOrder { get { return 0; } }
+	public int callbackOrder { get { return 0; } }
 
-    public void OnPostprocessBuild(BuildReport report)
-    {
-        //Reload the scene after building to refresh it
-        AssetDatabase.SaveAssets();
-    }
+	public void OnPostprocessBuild(BuildReport report)
+	{
+		//Reload the scene after building to refresh it
+		AssetDatabase.SaveAssets();
+	}
 }

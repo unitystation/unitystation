@@ -28,10 +28,10 @@ public class ControlAction : MonoBehaviour
 		{
 			return;
 		}
-		
+
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
-		
-		SoundManager.Play("Click01");
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log("Resist Button", Category.UI);
 	}
 
@@ -44,11 +44,11 @@ public class ControlAction : MonoBehaviour
 		// if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, allowCuffed: true)); Commented out because it does... nothing?
 		UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
 
-		if(PlayerManager.LocalPlayerScript.IsGhost) 
+		if(PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return;
 		}
-	
+
 		if (currentSlot.Item == null)
 		{
 			return;
@@ -59,7 +59,7 @@ public class ControlAction : MonoBehaviour
 			Throw();
 		}
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(currentSlot.NamedSlot);
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log("Drop Button", Category.UI);
 	}
 
@@ -87,7 +87,7 @@ public class ControlAction : MonoBehaviour
 
 			// Enable throw
 			Logger.Log("Throw Button Enabled", Category.UI);
-			SoundManager.Play("Click01");
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			UIManager.IsThrow = true;
 			throwImage.sprite = throwSprites[1];
 		}

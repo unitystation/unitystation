@@ -147,6 +147,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: initialName
       value: gem-encrusted hardsuit helmet
       objectReference: {fileID: 0}
@@ -155,6 +160,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A bizarre gem-encrusted helmet that radiates magical energies.
       objectReference: {fileID: 0}
+    - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: ea4f719e6cbcb664e99411fdcd0d7dc7,
+        type: 2}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: SubCatalogue.Array.size

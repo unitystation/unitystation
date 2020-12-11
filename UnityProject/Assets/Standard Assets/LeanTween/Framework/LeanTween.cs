@@ -324,19 +324,6 @@ public class LeanTween : MonoBehaviour {
 			tweens = new LTDescr[maxTweens];
 			tweensFinished = new int[maxTweens];
 			tweensFinishedIds = new int[maxTweens];
-			_tweenEmpty = new GameObject();
-			_tweenEmpty.name = "~LeanTween";
-			_tweenEmpty.AddComponent(typeof(LeanTween));
-			_tweenEmpty.isStatic = true;
-#if !UNITY_EDITOR
-            _tweenEmpty.hideFlags = HideFlags.HideAndDontSave;
-#endif
-#if UNITY_EDITOR
-			if(Application.isPlaying)
-				DontDestroyOnLoad( _tweenEmpty );
-#else
-            DontDestroyOnLoad( _tweenEmpty );
-#endif
 			for(int i = 0; i < maxTweens; i++){
 				tweens[i] = new LTDescr();
 			}
@@ -350,6 +337,23 @@ public class LeanTween : MonoBehaviour {
 			for(int i = 0; i < maxSimultaneousSequences; i++){
 				sequences[i] = new LTSeq();
 			}
+		}
+
+		if (_tweenEmpty == null)
+		{
+			_tweenEmpty = new GameObject();
+			_tweenEmpty.name = "~LeanTween";
+			_tweenEmpty.AddComponent(typeof(LeanTween));
+			_tweenEmpty.isStatic = true;
+#if !UNITY_EDITOR
+			_tweenEmpty.hideFlags = HideFlags.HideAndDontSave;
+#endif
+#if UNITY_EDITOR
+			if(Application.isPlaying)
+				DontDestroyOnLoad( _tweenEmpty );
+#else
+			DontDestroyOnLoad( _tweenEmpty );
+#endif
 		}
 	}
 

@@ -36,11 +36,11 @@ public class GUI_DevSpawner : MonoBehaviour
     /// </summary>
     void Update()
     {
-	    if (searchBox.isFocused && !isFocused)
+	    if (searchBox.isFocused && isFocused == false)
 	    {
 		    InputFocus();
 	    }
-	    else if (!searchBox.isFocused && isFocused)
+	    else if (searchBox.isFocused == false && isFocused)
 	    {
 		    InputUnfocus();
 	    }
@@ -99,7 +99,7 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	public void Open()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log("Opening dev spawner menu", Category.UI);
 		transform.GetChild(0).gameObject.SetActive(true);
 		transform.SetAsLastSibling();
@@ -107,7 +107,7 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	public void Close()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log("Closing dev spawner menu", Category.UI);
 		transform.GetChild(0).gameObject.SetActive(false);
 	}

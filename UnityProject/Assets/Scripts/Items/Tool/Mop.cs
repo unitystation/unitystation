@@ -38,7 +38,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 
 		//don't attempt to mop walls
-		if (MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), isServer: side == NetworkSide.Server))
+		if (MatrixManager.IsWallAtAnyMatrix(interaction.WorldPositionTarget.RoundToInt(), isServer: side == NetworkSide.Server))
 		{
 			return false;
 		}
@@ -68,8 +68,8 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 		if (bar)
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You begin to clean the floor with {gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.name} begins to clean the floor with {gameObject.ExpensiveName()}.");
+				$"You begin to clean the floor with the {gameObject.ExpensiveName()}...",
+				$"{interaction.Performer.name} begins to clean the floor with the {gameObject.ExpensiveName()}.");
 		}
 	}
 

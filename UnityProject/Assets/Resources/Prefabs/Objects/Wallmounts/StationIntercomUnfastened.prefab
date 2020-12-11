@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 633079008322250563, guid: 37832ac0101fb324aa588e3b400229fe,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1618464505
+      objectReference: {fileID: 0}
+    - target: {fileID: 633079008322250563, guid: 37832ac0101fb324aa588e3b400229fe,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 732769233117423979, guid: 37832ac0101fb324aa588e3b400229fe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,7 +75,12 @@ PrefabInstance:
     - target: {fileID: 736571206788502559, guid: 37832ac0101fb324aa588e3b400229fe,
         type: 3}
       propertyPath: m_Name
-      value: StationIntercom
+      value: StationIntercomUnfastened
+      objectReference: {fileID: 0}
+    - target: {fileID: 841300136273832363, guid: 37832ac0101fb324aa588e3b400229fe,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37832ac0101fb324aa588e3b400229fe, type: 3}

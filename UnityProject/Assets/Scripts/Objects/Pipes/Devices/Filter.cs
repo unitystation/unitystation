@@ -11,15 +11,60 @@ namespace Pipes
 
 		private MixAndVolume IntermediateMixAndVolume = new MixAndVolume();
 
-		public int ToMaxPressure = 9999;
+		public Dictionary<string, Gas> CapableFiltering = new Dictionary<string, Gas>()
+		{
+			{"O2",Gas.Oxygen},
+			{"N2",Gas.Nitrogen},
+			{"PLS",Gas.Plasma},
+			{"CO2",Gas.CarbonDioxide},
+			{"N2O",Gas.NitrousOxide},
+			{"H2",Gas.Hydrogen},
+			{"H2O",Gas.WaterVapor},
+			{"BZ",Gas.BZ},
+			{"MIAS",Gas.Miasma},
+			{"NO2",Gas.Nitryl},
+			{"TRIT",Gas.Tritium},
+			{"HN",Gas.HyperNoblium},
+			{"STIM",Gas.Stimulum},
+			{"PLX",Gas.Pluoxium},
+			{"FRE",Gas.Freon},
+		};
+
+		//This is only used to set the inital filter values, nothing else
+		//the names contained within should always match the key of the above Dictionary
+		private enum FilterValues
+		{
+			O2,
+			N2,
+			PLS,
+			CO2,
+			N2O,
+			H2,
+			H2O,
+			BZ,
+			MIAS,
+			NO2,
+			TRIT,
+			HN,
+			STIM,
+			PLX,
+			FRE,
+		}
+
+		[SerializeField]
+		private FilterValues initalFilterValue = default;
+
+		public int MaxPressure = 9999;
 		private float TransferMoles = 500f;
 
 		public bool IsOn = false;
 
 		public Gas GasIndex = Gas.Oxygen;
 		public Chemistry.Reagent FilterReagent;
+
 		public override void Start()
 		{
+			GasIndex = CapableFiltering[initalFilterValue.ToString()];
 			pipeData.PipeAction = new MonoActions();
 			base.Start();
 
@@ -54,7 +99,6 @@ namespace Pipes
 		public override void TickUpdate()
 		{
 
-
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 
 			if (IsOn == false)
@@ -79,8 +123,8 @@ namespace Pipes
 					var PressureDensity = Connection.Connected.GetMixAndVolume.Density();
 
 
-					var tomove = new Vector2(Mathf.Abs((PressureDensity.x / ToMaxPressure) - 1),
-						Mathf.Abs((PressureDensity.y / ToMaxPressure) - 1));
+					var tomove = new Vector2(Mathf.Abs((PressureDensity.x / MaxPressure) - 1),
+						Mathf.Abs((PressureDensity.y / MaxPressure) - 1));
 
 					Vector2 AvailableReagents = new Vector2(0f, 0f);
 					AvailableReagents+= pipeData.mixAndVolume.Total;
@@ -104,11 +148,11 @@ namespace Pipes
 							}
 							var FilteredPressureDensity = GetConnection.Connected.GetMixAndVolume.Density();
 
-							if (FilteredPressureDensity.x > ToMaxPressure ||  FilteredPressureDensity.y > ToMaxPressure)
+							if (FilteredPressureDensity.x > MaxPressure ||  FilteredPressureDensity.y > MaxPressure)
 							{
 								IntermediateMixAndVolume.TransferSpecifiedTo(pipeData.mixAndVolume,
 									GasIndex, FilterReagent);
-								if (PressureDensity.x > ToMaxPressure && PressureDensity.y > ToMaxPressure)
+								if (PressureDensity.x > MaxPressure && PressureDensity.y > MaxPressure)
 								{
 									IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total);
 								}
@@ -120,7 +164,7 @@ namespace Pipes
 								return;
 							}
 
-							if (PressureDensity.x > ToMaxPressure && PressureDensity.y > ToMaxPressure)
+							if (PressureDensity.x > MaxPressure && PressureDensity.y > MaxPressure)
 							{
 								IntermediateMixAndVolume.TransferSpecifiedTo(GetConnection.Connected.GetMixAndVolume,
 									GasIndex, FilterReagent);
@@ -148,4 +192,3 @@ namespace Pipes
 		}
 	}
 }
-

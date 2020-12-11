@@ -9,26 +9,24 @@ namespace Systems.Atmospherics
 	{
 		public bool Satisfies(GasMix gasMix)
 		{
+			return CanHoldHotspot(gasMix);
+		}
+
+		public static bool CanHoldHotspot(GasMix gasMix)
+		{
 			if (gasMix.Temperature > Reactions.PlasmaMaintainFire && gasMix.GetMoles(Gas.Plasma) > 0.1f &&
-	gasMix.GetMoles(Gas.Oxygen) > 0.1f)
+			    gasMix.GetMoles(Gas.Oxygen) > 0.1f)
 			{
 				if (GetOxygenContact(gasMix) > Reactions.MinimumOxygenContact)
 				{
-					return (true);
-				}
-				else {
-					return (false);
+					return true;
 				}
 			}
-			else {
-				return (false);
-			}
+			return false;
 		}
 
-		public float React(ref GasMix gasMix, Vector3 tilePos)
+		public void React(GasMix gasMix, Vector3 tilePos)
 		{
-			float consumed = 0;
-
 			float temperature = gasMix.Temperature;
 
 			float BurnRate = GetOxygenContact(gasMix);
@@ -44,7 +42,7 @@ namespace Systems.Atmospherics
 
 				if (MolesPlasmaBurnt < 0)
 				{
-					return 0;
+					return;
 				}
 
 				if (gasMix.GetMoles(Gas.Oxygen) / gasMix.GetMoles(Gas.Plasma) > AtmosDefines.SUPER_SATURATION_THRESHOLD)
@@ -70,9 +68,7 @@ namespace Systems.Atmospherics
 
 				float heatCapacity = gasMix.WholeHeatCapacity;
 				gasMix.SetTemperature((temperature * heatCapacity + (Reactions.EnergyPerMole * TotalmolestoCO2)) / gasMix.WholeHeatCapacity);
-				consumed = TotalmolestoCO2;
 			}
-			return (consumed);
 		}
 
 		public static float GetOxygenContact(GasMix gasMix)

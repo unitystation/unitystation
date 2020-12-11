@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine;
 using Objects;
 using Random = UnityEngine.Random;
+using System.Text;
 
 public static class SweetExtensions
 {
@@ -60,9 +61,9 @@ public static class SweetExtensions
 		}
 
 		var player = go.Player();
-		if (player != null && !String.IsNullOrWhiteSpace(player.Name))
+		if (player != null && !String.IsNullOrWhiteSpace(player.Script.visibleName))
 		{
-			return player.Name;
+			return player.Script.visibleName;
 		}
 
 		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
@@ -347,6 +348,17 @@ public static class SweetExtensions
 	}
 
 	/// <summary>
+	/// Removes all KeyValuePairs where each pair matches the given predicate.
+	/// Courtesy of https://www.codeproject.com/Tips/494499/Implementing-Dictionary-RemoveAll.
+	/// </summary>
+	public static void RemoveAll<K, V>(this IDictionary<K, V> dict, Func<K, V, bool> match)
+	{
+		foreach (var key in dict.Keys.ToArray()
+				.Where(key => match(key, dict[key])))
+			dict.Remove(key);
+	}
+
+	/// <summary>
 	/// Enumerate all flags as IEnumerable
 	/// </summary>
 	/// <param name="input"></param>
@@ -368,5 +380,17 @@ public static class SweetExtensions
 			? v
 			: defaultValue;
 
+	}
+
+	/// <summary>
+	/// Removes the last instance of the given string from the given StringBuilder.
+	/// </summary>
+	/// <returns>the final StringBuilder</returns>
+	public static StringBuilder RemoveLast(this StringBuilder sb, string str)
+	{
+		if (sb.Length < 1) return sb;
+
+		sb.Remove(sb.ToString().LastIndexOf(str), str.Length);
+		return sb;
 	}
 }

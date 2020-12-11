@@ -16,10 +16,13 @@ public class RegisterObject : RegisterTile
 	[SyncVar]
 	public bool Passable = true;
 
+	[Tooltip("If true, this object won't block players from interacting with other objects")]
+	public bool ReachableThrough = true;
+
 	private bool initialAtmosPassable;
 	private bool initialPassable;
 
-	[SerializeField] private List<PassableExclusionTrait> passableExclusionsToThis;
+	[SerializeField] private List<PassableExclusionTrait> passableExclusionsToThis = default;
 
 	protected override void Awake()
 	{
@@ -45,7 +48,7 @@ public class RegisterObject : RegisterTile
 		Passable = initialPassable;
 	}
 
-	public override bool IsPassable(Vector3Int enteringFrom, bool isServer, GameObject context = null)
+	public override bool IsPassableFromOutside(Vector3Int enteringFrom, bool isServer, GameObject context = null)
 	{
 		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
 		if (CheckPassableExclusions(context)) return true;
@@ -64,6 +67,11 @@ public class RegisterObject : RegisterTile
 	public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{
 		return AtmosPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
+	}
+
+	public override bool IsReachableThrough(Vector3Int reachingFrom, bool isServer, GameObject context = null)
+	{
+		return ReachableThrough || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
 	}
 
 	private bool CheckPassableExclusions(GameObject context)

@@ -45,7 +45,7 @@ namespace Objects.Atmospherics
 			}
 
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
-			gasContainer.GasMix = gasContainer.GasMix.AddGasReturn(Gas.Plasma, molesAdded);
+			gasContainer.GasMix.AddGas(Gas.Plasma, molesAdded);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()

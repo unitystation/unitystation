@@ -20,7 +20,7 @@ public partial class Chat
 	private struct DestroyChatMessage
 	{
 		public string Message;
-		public Vector2Int WorldPosition;
+		public Vector2 WorldPosition;
 	}
 
 	public Color oocColor;
@@ -176,8 +176,7 @@ public partial class Chat
 		//Skip everything if it is an action or examine message or if it is a local message
 		//without a speaker (which is used by machines)
 		if (channels.HasFlag(ChatChannel.Examine) || channels.HasFlag(ChatChannel.Action)
-		                                          || channels.HasFlag(ChatChannel.Local) &&
-		                                          string.IsNullOrEmpty(speaker))
+			|| channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
@@ -195,7 +194,8 @@ public partial class Chat
 		{
 			// /me message
 			channels = ChatChannel.Local;
-			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
+			speaker = AddMsgColor(channels, speaker);
+			message = $"<b>{speaker}</b>| <i>{message}</i>";
 			return message;
 		}
 
@@ -208,8 +208,8 @@ public partial class Chat
 			{
 				name = "nerd";
 			}
-
-			message = AddMsgColor(channels, $"[ooc] <b>{speaker}: {message}</b>");
+			speaker = AddMsgColor(ChatChannel.OOC, speaker);
+			message = $"[ooc] <b>{speaker}</b>|:<b>{message}</b>";
 			return message;
 		}
 
@@ -217,9 +217,9 @@ public partial class Chat
 		if (channels.HasFlag(ChatChannel.Ghost))
 		{
 			string[] _ghostVerbs = {"cries", "moans"};
-			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
+			speaker = AddMsgColor(ChatChannel.Ghost, speaker);
+			return  $"[dead] <b>{speaker}</b>| {_ghostVerbs.PickRandom()}: {message}";
 		}
-
 		string verb = "says,";
 
 		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
@@ -259,22 +259,22 @@ public partial class Chat
 			verb = "asks,";
 		}
 
-		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
+		// var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
 
-		if (channels.HasFlag(ChatChannel.Command))
-		{
-			chan = "[cmd] ";
-		}
+		// if (channels.HasFlag(ChatChannel.Command))
+		// {
+		// 	chan = "[cmd] ";
+		// }
 
-		if (channels.HasFlag(ChatChannel.Local))
-		{
-			chan = "";
-		}
+		// if (channels.HasFlag(ChatChannel.Local))
+		// {
+		// 	chan = "";
+		// }
 
-		return AddMsgColor(channels,
-			$"{chan}<b>{speaker}</b> {verb}" // [cmd] Username says,
-			+ "  " // Two hair spaces. This triggers Text-to-Speech.
-			+ "\"" + message + "\""); // "This text will be spoken by TTS!"
+		return
+			$"<b>{AddMsgColor(channels, speaker)}</b>| {verb}"    // [cmd] Username says,
+			+ "  "                              // Two hair spaces. This triggers Text-to-Speech.
+			+ "\"" + message + "\"";           // "This text will be spoken by TTS!"
 	}
 
 	private static string StripTags(string input)
@@ -356,7 +356,7 @@ public partial class Chat
 
 //			int averageX = 0;
 //			int averageY = 0;
-			Vector2Int lastPos = Vector2Int.zero;
+			var lastPos = Vector2.zero;
 			int count = 1;
 
 			while (messageQueue.TryDequeue(out DestroyChatMessage msg))

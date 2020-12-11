@@ -15,13 +15,14 @@ public class RightClickMenuItem
 	public readonly Sprite BackgroundSprite;
 	public readonly string Label;
 	public readonly List<Color> palette;
+	public readonly bool keepMenuOpen;
 
 	public readonly List<RightClickMenuItem> SubMenus;
 	public readonly Action Action;
 
 
 	private RightClickMenuItem(Sprite iconSprite, Color iconColor, Sprite backgroundSprite, Color backgroundColor,
-		string label, List<RightClickMenuItem> subMenus, Action action, List<Color> palette = null)
+		string label, List<RightClickMenuItem> subMenus, Action action, List<Color> palette = null, bool keepMenuOpen = true)
 	{
 		this.BackgroundColor = backgroundColor;
 		this.IconSprite = iconSprite;
@@ -31,6 +32,7 @@ public class RightClickMenuItem
 		this.SubMenus = subMenus;
 		this.BackgroundSprite = backgroundSprite;
 		this.palette = palette;
+		this.keepMenuOpen = keepMenuOpen;
 	}
 
 	/// <summary>
@@ -41,9 +43,10 @@ public class RightClickMenuItem
 	/// <param name="backgroundSprite">background sprite of icon, can be null</param>
 	/// <param name="label">label to show</param>
 	/// <param name="action">action to invoke when it is clicked</param>
-	public static RightClickMenuItem CreateSubMenuItem(Color color, Sprite sprite, Sprite backgroundSprite, string label, Action action, List<Color> palette = null)
+	/// <param name="keepMenuOpen">should the menu stay open when the action is performed</param>
+	public static RightClickMenuItem CreateSubMenuItem(Color color, Sprite sprite, Sprite backgroundSprite, string label, Action action, List<Color> palette = null, bool keepMenuOpen = true)
 	{
-		return new RightClickMenuItem(sprite, Color.white, backgroundSprite, color, label, null, action, palette);
+		return new RightClickMenuItem(sprite, Color.white, backgroundSprite, color, label, null, action, palette, keepMenuOpen);
 	}
 
 	/// <summary>
@@ -55,15 +58,16 @@ public class RightClickMenuItem
 	/// <param name="backgroundSprite">background sprite of icon, can be null</param>
 	/// <param name="label">label to show</param>
 	/// <param name="subMenus">submenu items to show for this object</param>
+	/// <param name="keepMenuOpen">should the menu stay open when the action is performed</param>
 	public static RightClickMenuItem CreateObjectMenuItem(Color color, Sprite sprite, Sprite backgroundSprite, string label,
-		List<RightClickMenuItem> subMenus, List<Color> palette = null)
+		List<RightClickMenuItem> subMenus, List<Color> palette = null, bool keepMenuOpen = true)
 	{
-		return new RightClickMenuItem(sprite, Color.white, backgroundSprite,  color, label, subMenus, null, palette);
+		return new RightClickMenuItem(sprite, Color.white, backgroundSprite,  color, label, subMenus, null, palette, keepMenuOpen);
 	}
 	public static RightClickMenuItem CreateObjectMenuItem(Color color, Sprite sprite, Sprite backgroundSprite, string label,
-		List<RightClickMenuItem> subMenus, Color iconColor, List<Color> palette = null)
+		List<RightClickMenuItem> subMenus, Color iconColor, List<Color> palette = null, bool keepMenuOpen = true)
 	{
-		return new RightClickMenuItem(sprite, iconColor, backgroundSprite,  color, label, subMenus, null, palette);
+		return new RightClickMenuItem(sprite, iconColor, backgroundSprite,  color, label, subMenus, null, palette, keepMenuOpen);
 	}
 
 

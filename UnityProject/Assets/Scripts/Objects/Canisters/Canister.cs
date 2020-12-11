@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Mirror;
 using Pipes;
+using Systems.Atmospherics;
 
 namespace Objects.Atmospherics
 {
@@ -50,6 +51,7 @@ namespace Objects.Atmospherics
 		private ShuttleFuelConnector connectorFuel;
 
 		public bool ValveIsOpen { get; private set; }
+		public bool tankValveOpen;
 		public GameObject InsertedContainer { get; private set; }
 		public bool HasContainerInserted => InsertedContainer != null;
 		public bool IsConnected => connector != null || connectorFuel != null;
@@ -140,7 +142,7 @@ namespace Objects.Atmospherics
 
 		private void OnDisable()
 		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RefreshPressureIndicator);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		//this is just here so anyone trying to change the armor value in inspector sees it being
@@ -191,20 +193,14 @@ namespace Objects.Atmospherics
 		public void SetValve(bool isOpen)
 		{
 			ValveIsOpen = isOpen;
-			if (!IsConnected)
-			{
-				GasContainer.SetVent(isOpen);
-			}
-
 			RefreshOverlays();
-
 			if (isOpen)
 			{
-				UpdateManager.Add(RefreshPressureIndicator, 1);
+				UpdateManager.Add(UpdateMe, 1);
 			}
 			else
 			{
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RefreshPressureIndicator);
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 			}
 		}
 
@@ -355,13 +351,6 @@ namespace Objects.Atmospherics
 			RefreshOverlays();
 			objectBehaviour.ServerSetPushable(!IsConnected);
 			ServerOnConnectionStatusChange.Invoke(IsConnected);
-
-			// Will release gas if canister valve was not turned off before disconnecting from a connector,
-			// or stop the release of gas if canister valve is open and is now connected.
-			if (ValveIsOpen)
-			{
-				GasContainer.SetVent(!IsConnected);
-			}
 		}
 
 		#endregion Interaction
@@ -370,9 +359,28 @@ namespace Objects.Atmospherics
 		{
 			if (canisterTier > 0)
 			{
-				GasContainer.GasMix *= Mathf.Pow(10, canisterTier);
+				GasContainer.GasMix.MultiplyGas(Mathf.Pow(10, canisterTier));
 				canisterTierOverlay.ChangeSprite(canisterTier - 1); // Tier 0 has no overlay.
 			}
+		}
+
+		public void UpdateMe()
+		{
+			if(!IsConnected)
+				GasContainer.VentContents();
+			if (tankValveOpen)
+				MergeCanisterAndTank();
+			RefreshPressureIndicator();
+		}
+
+		public void MergeCanisterAndTank()
+		{
+			GasContainer canisterTank = GetComponent<GasContainer>();
+			GasContainer externalTank = InsertedContainer.GetComponent<GasContainer>();
+			GasMix canisterGas = canisterTank.GasMix;
+			GasMix tankGas = externalTank.GasMix;
+			canisterTank.GasMix = tankGas.MergeGasMix(canisterGas);
+			externalTank.GasMix = tankGas;
 		}
 
 		public void RefreshPressureIndicator()

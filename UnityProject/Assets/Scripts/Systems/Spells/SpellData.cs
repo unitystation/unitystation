@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Systems.Spells;
 using Object = UnityEngine.Object;
+using NaughtyAttributes;
 
 namespace ScriptableObjects.Systems.Spells
 {
@@ -22,50 +23,54 @@ namespace ScriptableObjects.Systems.Spells
 
 		public bool ShouldDespawn => SummonLifespan > 0f;
 
-		[Header("Implementation prefab, defaults to SimpleSpell if null")]
-		[SerializeField] private GameObject spellImplementation = null;
+		[Tooltip("Implementation prefab, defaults to SimpleSpell if null")]
+		[SerializeField]
+		private GameObject spellImplementation = null;
 
-		[SerializeField] private string stillRechargingMessage = "The spell is still recharging!";
+		[Tooltip("Rechargeable has unlimited uses, LimitedCharges is limited by StartingCharges")]
+		[SerializeField, BoxGroup("Replenishment")]
+		private SpellChargeType chargeType = SpellChargeType.Rechargeable;
+		[Tooltip("Cooldown time in seconds.")]
+		[SerializeField, BoxGroup("Replenishment"), ShowIf(nameof(IsRechargeable)), Range(0f, 1000f)]
+		private float cooldownTime = 10f;
+		[Tooltip("Starting charges. Used if ChargeType = FixedCharges")]
+		[SerializeField, BoxGroup("Replenishment"), HideIf(nameof(IsRechargeable)), Range(0, 30)]
+		private int startingCharges = 10;
 
-		[Header("Rechargeable has unlimited uses, LimitedCharges is limited by StartingCharges")]
-		[SerializeField] private SpellChargeType chargeType = SpellChargeType.Rechargeable;
-
-		[Header("Cooldown time in seconds.")]
-		[Range(0f, 1000f)]
-		[SerializeField] private float cooldownTime = 10f;
-
-		[Header("Starting charges. Used if ChargeType = FixedCharges")]
-		[Range(0, 30)]
-		[SerializeField] private int startingCharges = 10;
-
-		[Header("Summon type (what to spawn)")]
-		[SerializeField] private SpellSummonType summonType = SpellSummonType.None;
-
-		[Header("Objects to summon (SummonType=Object)")]
-		[SerializeField] private List<GameObject> summonObjects = new List<GameObject>();
-		[Header("Tiles to summon (SummonType=Tile)")]
-		[SerializeField] private List<LayerTile> summonTiles = new List<LayerTile>();
-
-		[Header("Summon position type")]
-		[SerializeField] private SpellSummonPosition summonPosition = SpellSummonPosition.CasterDirection;
-
-		[Header("0 means permanent – lifespan of summoned thing in seconds")]
-		[Range(0f, 1000f)]
-		[SerializeField] private float summonLifespan = 10f;
-
-		[Header("Whatever it says to the guy affected by it")]
-		[SerializeField] private string affectedMessage = "";
 		[SerializeField] private string castSound = null;
-
-		[Header("Whether to whisper, shout or emote the invocationMessage")]
-		[SerializeField] private SpellInvocationType invocationType = SpellInvocationType.None;
-		[SerializeField] private string invocationMessage = "";
-
 		[SerializeField] private int range = 0;
-		[SerializeField] private string invocationMessageSelf = "";
 
-		[Header("Whether to replace existing tile")]
-		[SerializeField] private bool replaceExisting = false;
+		[SerializeField, BoxGroup("Chat")]
+		private string stillRechargingMessage = "The spell is still recharging!";
+		[Tooltip("Whatever it says to the guy affected by it")]
+		[SerializeField, BoxGroup("Chat")]
+		private string affectedMessage = "";
+		[Tooltip("Whether to whisper, shout or emote the invocationMessage")]
+		[SerializeField, BoxGroup("Chat")]
+		private SpellInvocationType invocationType = SpellInvocationType.None;
+		[SerializeField, BoxGroup("Chat"), ShowIf(nameof(IsInvocable))]
+		private string invocationMessage = "";
+		[SerializeField, BoxGroup("Chat"), ShowIf(nameof(IsInvocable))]
+		private string invocationMessageSelf = "";
+
+		[Tooltip("Summon type (what to spawn)")]
+		[SerializeField, BoxGroup("Summoning")]
+		private SpellSummonType summonType = SpellSummonType.None;
+		[Tooltip("Objects to summon (SummonType=Object)")]
+		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonObjects))]
+		private List<GameObject> summonObjects = new List<GameObject>();
+		[Tooltip("Tiles to summon (SummonType=Tile)")]
+		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonTiles))]
+		private List<LayerTile> summonTiles = new List<LayerTile>();
+		[Tooltip("Summon position type")]
+		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonThing))]
+		private SpellSummonPosition summonPosition = SpellSummonPosition.CasterDirection;
+		[Tooltip("0 means permanent – lifespan of summoned thing in seconds")]
+		[SerializeField, BoxGroup("Summoning"), Range(0f, 1000f), ShowIf(nameof(WillSummonThing))]
+		private float summonLifespan = 10f;
+		[Tooltip("Whether to replace existing tile")]
+		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonThing))]
+		private bool replaceExisting = false;		
 
 		public string StillRechargingMessage => stillRechargingMessage;
 		public SpellChargeType ChargeType => chargeType;
@@ -86,6 +91,16 @@ namespace ScriptableObjects.Systems.Spells
 		public GameObject SpellImplementation => spellImplementation;
 
 		public float DefaultTime => CooldownTime;
+
+		#region For inspector
+
+		private bool IsRechargeable => ChargeType == SpellChargeType.Rechargeable;
+		private bool IsInvocable => InvocationType != SpellInvocationType.None;
+		private bool WillSummonObjects => SummonType == SpellSummonType.Object;
+		private bool WillSummonTiles => SummonType == SpellSummonType.Tile;
+		private bool WillSummonThing => SummonType != SpellSummonType.None;
+
+		#endregion
 
 		private void Awake()
 		{
@@ -117,7 +132,13 @@ namespace ScriptableObjects.Systems.Spells
 		{
 			var spellObject = Instantiate(SpellImplementation, player.gameObject.transform);
 			var spellComponent = spellObject.GetComponent<Spell>();
+			if (spellComponent == null)
+			{
+				Logger.LogError($"No spell component found on {spellObject} for {this}!");
+				return default;
+			}
 			spellComponent.SpellData = this;
+			spellComponent.CooldownTime = CooldownTime;
 			return spellComponent;
 		}
 	}

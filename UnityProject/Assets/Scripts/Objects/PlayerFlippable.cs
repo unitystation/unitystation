@@ -36,7 +36,7 @@ namespace Objects
 
 		private void OnFlipClicked()
 		{
-			if (!Validations.IsInReach(gameObject.RegisterTile(), PlayerManager.LocalPlayerScript.registerTile, false)) return;
+			if (!Validations.IsReachableByRegisterTiles(gameObject.RegisterTile(), PlayerManager.LocalPlayerScript.registerTile, false)) return;
 
 			var menuApply = ContextMenuApply.ByLocalPlayer(gameObject, "Flip");
 			RequestInteractMessage.Send(menuApply, this);

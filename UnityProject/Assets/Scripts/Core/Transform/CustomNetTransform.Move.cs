@@ -92,7 +92,7 @@ public partial class CustomNetTransform
 		Vector3Int origin = ServerPosition;
 		Vector3Int roundedTarget = origin + clampedDir;
 
-		if (!ignorePassable && !MatrixManager.IsPassableAt(origin, roundedTarget, true, includingPlayers: !followMode, context: context))
+		if (!ignorePassable && !MatrixManager.IsPassableAtAllMatrices(origin, roundedTarget, true, includingPlayers: !followMode, context: context))
 		{
 			return false;
 		}
@@ -141,7 +141,7 @@ public partial class CustomNetTransform
 
 		Vector3Int currentPos = ClientPosition;
 
-		if (!followMode && !MatrixManager.IsPassableAt(target3int, target3int, isServer : false))
+		if (!followMode && !MatrixManager.IsPassableAtAllMatrices(target3int, target3int, isServer : false))
 		{
 			return false;
 		}
@@ -673,7 +673,7 @@ public partial class CustomNetTransform
 			var hitZone = info.Aim.Randomize();
 			creature.ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 			Chat.AddThrowHitMsgToChat(gameObject,creature.gameObject, hitZone);
-			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 1f, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, transform.position, 1f, sourceObj: gameObject);
 		}
 	}
 
@@ -703,6 +703,6 @@ public partial class CustomNetTransform
 			IsBeingThrownServer : IsBeingThrownClient) ?
 					CollisionType.Airborne : CollisionType.Player;
 
-		return MatrixManager.IsPassableAt(originPos, targetPos, isServer, collisionType: colType, includingPlayers : false);
+		return MatrixManager.IsPassableAtAllMatrices(originPos, targetPos, isServer, collisionType: colType, includingPlayers : false);
 	}
 }

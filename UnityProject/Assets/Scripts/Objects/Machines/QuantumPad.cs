@@ -173,7 +173,7 @@ namespace Objects.Science
 			foreach (ObjectBehaviour player in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true))
 			{
 				Chat.AddLocalMsgToChat(message, travelCoord, gameObject);
-				SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
+				SoundManager.PlayNetworkedForPlayer(player.gameObject, SingletonSOSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, travelCoord);
 				somethingTeleported = true;
 			}

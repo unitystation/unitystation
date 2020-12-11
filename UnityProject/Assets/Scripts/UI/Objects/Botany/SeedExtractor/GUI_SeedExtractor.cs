@@ -185,7 +185,7 @@ namespace UI.Objects.Botany
 
 		private void SendToChat(string messageToSend)
 		{
-			Chat.AddLocalMsgToChat(messageToSend, seedExtractor.gameObject.RegisterTile().WorldPosition.To2Int(), seedExtractor?.gameObject);
+			Chat.AddLocalMsgToChat(messageToSend, seedExtractor.gameObject);
 		}
 
 		private IEnumerator VendorInputCoolDown()

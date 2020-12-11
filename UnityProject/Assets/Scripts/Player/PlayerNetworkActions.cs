@@ -133,7 +133,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				// Throw the player down to the floor for 15 seconds.
 				playerScript.registerTile.ServerStun(15);
-				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 			}
 			else
 			{
@@ -187,6 +187,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	[Command]
+	public void CmdSlideItem(Vector3Int destination)
+	{
+		if (playerScript.IsPositionReachable(destination, true) == false
+			|| playerScript.pushPull.PulledObjectServer == null
+			|| playerScript.IsGhost
+			|| playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		{
+			return;
+		}
+		PushPull pushPull = playerScript.pushPull.PulledObjectServer;
+		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
+		Vector2Int dir = (Vector2Int)(destination - origin);
+		pushPull.TryPush(dir);
+	}
+
 	/// <summary>
 	/// Server handling of the request to drop an item from a client
 	/// </summary>
@@ -200,6 +216,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true)) return;
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
+		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+		Inventory.ServerDrop(slot);
+	}
+
+	/// <summary>
+	/// Server handling of the request to drop an item from a client (any slot)
+	/// </summary>
+	[Command]
+	public void CmdDropItemWithoutValidations(NamedSlot equipSlot)
+	{
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot);
 	}
@@ -229,9 +255,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Vector2? possibleTarget = null;
 		if (Target != TransformState.HiddenPos)
 		{
-			if (Validations.IsInReach(PlayerManager.PlayerScript.registerTile.WorldPosition, Target))
+			if (Validations.IsReachableByPositions(PlayerManager.PlayerScript.registerTile.WorldPosition, Target, false))
 			{
-				if (MatrixManager.IsPassableAt(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
 				{
 					possibleTarget = (Target - PlayerManager.PlayerScript.registerTile.WorldPosition);
 				}
@@ -417,7 +443,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
+					SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 				}
 
 				break;
@@ -429,7 +455,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
+					SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 				}
 
 				break;
@@ -531,8 +557,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			StartCoroutine(AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag));
-			break;
+			return;
 		}
+
+		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!");
 	}
 
 
@@ -631,17 +659,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		string pointedName = pointTarget.name;
+		string pointedName = pointTarget.ExpensiveName();
 		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
 		if (interactableTiles)
 		{
 			LayerTile tile = interactableTiles.LayerTileAt(mousePos);
-			pointedName = tile.DisplayName;
+			if (tile != null) // null if space
+			{
+				pointedName = tile.DisplayName;
+			}
 		}
+		var livinghealthbehavior = pointTarget.GetComponent<LivingHealthBehaviour>();
+		var preposition = "";
+		if (livinghealthbehavior == null)
+			preposition = "the ";
 
 		Effect.PlayParticleDirectional(gameObject, mousePos);
-		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {pointedName}.",
-			$"{playerScript.gameObject.name} points at {pointTarget.name}.");
+		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {preposition}{pointedName}.",
+			$"{playerScript.gameObject.ExpensiveName()} points at {preposition}{pointedName}.");
 	}
 
 	[Command]
@@ -775,11 +810,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
 		if (reactionManager == null) return;
 
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .5f);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 700, .05f);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 700, .05f);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 700, .05f);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right, 700, .05f);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition());
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right);
 	}
 
 	[Command]

@@ -1,79 +1,145 @@
 using System;
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using Weapons;
+using Mirror;
 using Weapons.Projectiles;
 
-public class GunElectrical : Gun
+public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 {
 	public List<GameObject> firemodeProjectiles = new List<GameObject>();
-
 	public List<string> firemodeFiringSound = new List<string>();
-
 	public List<string> firemodeName = new List<string>();
+	public List<int> firemodeUsage = new List<int>();
 
+	[SerializeField]
+	private bool allowScrewdriver = true;
+
+	[SyncVar(hook = nameof(UpdateFiremode))]
 	private int currentFiremode = 0;
 
-	public int countFiremode = 1;
+	public Battery battery =>
+			magSlot.Item != null ? magSlot.Item.GetComponent<Battery>() : null;
+
+	public ElectricalMagazine currentElectricalMag =>
+			magSlot.Item != null ? magSlot.Item.GetComponent<ElectricalMagazine>() : null;
 
 	public override void OnSpawnServer(SpawnInfo info)
 	{
+		UpdateFiremode(currentFiremode, 0);
 		base.OnSpawnServer(info);
-		UpdateFiremode();
 	}
 
-	public void OnSpawnClient(SpawnInfo info)
+	public override bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
-		UpdateFiremode();
+		return DefaultWillInteract.Default(interaction, side);
 	}
 
-	public override bool Interact(HandActivate interaction)
+	public override bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-		if (countFiremode == 1) return false;
-		if (countFiremode - 1 == currentFiremode )
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
+
+		//only reload if the gun is the target and mag/clip is in hand slot
+		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot && side == NetworkSide.Client)
 		{
-		currentFiremode = 0;
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && allowScrewdriver)
+			{
+				return true;
+			}
+			else if (interaction.UsedObject != null)
+			{
+				MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+				if (mag && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public override bool WillInteract(AimApply interaction, NetworkSide side)
+	{
+		if (battery == null || firemodeUsage[currentFiremode] > battery.Watts)
+		{
+			PlayEmptySFX();
+			return false;
+		}
+		CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
+		currentElectricalMag.toRemove = firemodeUsage[currentFiremode];
+		return base.WillInteract(interaction, side);
+	}
+
+	public override void ServerPerformInteraction(HandActivate interaction)
+	{
+		if (firemodeProjectiles.Count <= 1)
+		{
+			return;
+		}
+		if (currentFiremode == firemodeProjectiles.Count - 1)
+		{
+			UpdateFiremode(currentFiremode, 0);
 		}
 		else
 		{
-			currentFiremode += 1;
+			UpdateFiremode(currentFiremode, currentFiremode + 1);
 		}
-		UpdateFiremode();
-		return true;
+		Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
+		CurrentMagazine.ServerSetAmmoRemains(battery.Watts / firemodeUsage[currentFiremode]);
 	}
 
-	public void ServerInteract(HandActivate interaction)
+	public override void ServerPerformInteraction(AimApply interaction)
 	{
-
-		if (countFiremode - 1 == currentFiremode )
-		{
-			currentFiremode = 0;
-		}
-		else
-		{
-			currentFiremode += 1;
-		}
-		UpdateFiremode();
+		if (firemodeUsage[currentFiremode] > battery.Watts) return;
+		base.ServerPerformInteraction(interaction);
+		CurrentMagazine.ServerSetAmmoRemains(battery.Watts / firemodeUsage[currentFiremode]);
 	}
 
-	public void UpdateFiremode()
+	public override void ServerPerformInteraction(InventoryApply interaction)
 	{
-		if (countFiremode != 1)
+		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 		{
-			CurrentMagazine.Projectile = firemodeProjectiles[currentFiremode];
-			FiringSound = firemodeFiringSound[currentFiremode];
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && allowScrewdriver)
+			{
+				base.RequestUnload(CurrentMagazine);
+			}
+			MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+			if (mag)
+			{
+				base.RequestReload(mag.gameObject);
+			}
 		}
+	}
+
+	public void UpdateFiremode(int oldValue, int newState)
+	{
+		currentFiremode = newState;
+		FiringSound = firemodeFiringSound[currentFiremode];
+		//TODO: change sprite here
 	}
 
 	public override String Examine(Vector3 pos)
 	{
-		string returnstring = WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")";
+		string returnstring = WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null ? (Mathf.Floor(battery.Watts / firemodeUsage[currentFiremode]) + " rounds loaded in magazine") : "It's empty!") + ")";
 
-		if (countFiremode != 1) {
+		if (firemodeProjectiles.Count > 1) {
 			returnstring += "\nIt is set to " + firemodeName[currentFiremode] + " mode.";
 		}
 
 		return returnstring;
 	}
+
+	#if UNITY_EDITOR
+	[CustomEditor(typeof(GunElectrical), true)]
+	public class GunEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			DrawDefaultInspector();
+		}
+	}
+#endif
 }

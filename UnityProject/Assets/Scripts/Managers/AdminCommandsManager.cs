@@ -1,23 +1,23 @@
-﻿using DiscordWebhook;
+using DiscordWebhook;
 using InGameEvents;
 using Mirror;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
+using System.IO;
 using Messages.Client;
 using UnityEngine;
 using UnityEngine.Profiling;
-using System.Collections;
-using System.IO;
 
 namespace AdminCommands
 {
-
-
 	/// <summary>
 	/// Admin Commands manager, stores admin commands, so commands can be run in lobby etc, as its not tied to player object.
 	/// </summary>
 	public class AdminCommandsManager : NetworkBehaviour
 	{
+		[SerializeField] private ScriptableObjects.GhostRoleData deathsquadRole = default;
+
 		private static AdminCommandsManager instance;
 
 		public static AdminCommandsManager Instance
@@ -296,6 +296,14 @@ namespace AdminCommands
 				"");
 		}
 
+		[Server]
+		public void CmdCreateDeathSquad(string adminId, string adminToken)
+		{
+			if (IsAdmin(adminId, adminToken) == false) return;
+
+			Systems.GhostRoles.GhostRoleManager.Instance.ServerCreateRole(deathsquadRole);
+		}
+
 		#endregion
 
 		#region PlayerCommands
@@ -339,8 +347,8 @@ namespace AdminCommands
 
 			foreach (PlayerScript player in players)
 			{
-				SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject,
-					player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
+				// SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject,
+					// player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
 			}
 
 			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: played the global sound: {index}.";
@@ -368,6 +376,7 @@ namespace AdminCommands
 			runningProfile = true;
 
 			Directory.CreateDirectory("Profiles");
+			Profiler.SetAreaEnabled(ProfilerArea.Memory, true);
 			Profiler.logFile = "Profiles/" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
 			Profiler.enableBinaryLog = true;
 			Profiler.enabled = true;

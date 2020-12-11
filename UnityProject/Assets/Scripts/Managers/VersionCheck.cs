@@ -61,7 +61,7 @@ public class VersionCheck : MonoBehaviour
 
 	public void DownloadButton()
 	{
-		SoundManager.Play("Click01", 1, 1, 0);
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		Application.OpenURL("http://doobly.izz.moe/unitystation/");
 		Application.Quit();
@@ -69,7 +69,7 @@ public class VersionCheck : MonoBehaviour
 
 	public void CheckAgain()
 	{
-		SoundManager.Play("Click01", 1, 1, 0);
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		errorWindow.SetActive(false);
 		StartCoroutine(CheckVersion());
 	}

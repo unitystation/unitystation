@@ -21,6 +21,9 @@ namespace Systems.Spells
 		}
 		public ActionData ActionData => SpellData;
 
+		public int CurrentTier { get; private set; } = 1;
+		public float CooldownTime { get; set; }
+
 		public int ChargesLeft {
 			get => SpellData ? chargesLeft = SpellData.StartingCharges : chargesLeft;
 			set => chargesLeft = value;
@@ -55,7 +58,7 @@ namespace Systems.Spells
 
 		private void AfterCast(ConnectedPlayer sentByPlayer)
 		{
-			Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, SpellData.CooldownTime);
+			Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, CooldownTime);
 
 			SoundManager.PlayNetworkedAtPos(
 					SpellData.CastSound, sentByPlayer.Script.WorldPos, sourceObj: sentByPlayer.GameObject, global: false);
@@ -91,7 +94,7 @@ namespace Systems.Spells
 			}
 			else
 			{
-				UIActionManager.SetCooldown(this, SpellData.CooldownTime, sentByPlayer.GameObject);
+				UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
 			}
 		}
 
@@ -226,6 +229,30 @@ namespace Systems.Spells
 				return false;
 			}
 
+			if (SpellData is WizardSpellData data && data.RequiresWizardGarb && CheckWizardGarb(caster.Script.Equipment) == false)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		private bool CheckWizardGarb(Equipment casterEquipment)
+		{
+			var outerwear = casterEquipment.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
+			if (outerwear.IsEmpty || outerwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+			{
+				Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your robe!</color>");
+				return false;
+			}
+
+			var headwear = casterEquipment.ItemStorage.GetNamedItemSlot(NamedSlot.head);
+			if (headwear.IsEmpty || headwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+			{
+				Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your hat!</color>");
+				return false;
+			}
+
 			return true;
 		}
 
@@ -241,6 +268,12 @@ namespace Systems.Spells
 		protected virtual string FormatStillRechargingMessage(ConnectedPlayer caster)
 		{
 			return SpellData.StillRechargingMessage;
+		}
+
+		public virtual void UpgradeTier()
+		{
+			CurrentTier++;
+			CooldownTime -= CooldownTime * (SpellData as WizardSpellData).CooldownModifier;
 		}
 	}
 }

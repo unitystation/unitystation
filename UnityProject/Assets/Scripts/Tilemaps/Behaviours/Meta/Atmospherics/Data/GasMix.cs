@@ -11,28 +11,26 @@ namespace Systems.Atmospherics
 	/// Represents a mix of gases
 	/// </summary>
 	[Serializable]
-	public struct GasMix
+	public class GasMix
 	{
 		[InfoBox("Plasma, oxygen, nitrogen, carbon dioxide", EInfoBoxType.Normal)]
 		public float[] Gases;
 
 		public float Pressure;// in kPA
 		public float Volume; // in m3
+		public float Temperature;
 
-		public float Moles => Gases.Sum();
-
-		public float Temperature { get; private set; }
-
-		public void SetTemperature(float newTemperature)
+		public float Moles
 		{
-			Temperature = newTemperature;
-			Pressure = AtmosUtils.CalcPressure(Volume, Moles, Temperature);
-		}
-
-		public void SetPressure(float newPressure)
-		{
-			Pressure = newPressure;
-			Temperature = AtmosUtils.CalcTemperature(Pressure, Volume, Moles);
+			get
+			{
+				float value = 0;
+				foreach (var a in Gases)
+				{
+					value += a;
+				}
+				return value;
+			}
 		}
 
 		public float WholeHeatCapacity //this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
@@ -51,9 +49,10 @@ namespace Systems.Atmospherics
 
 		public float InternalEnergy //This is forgetting the amount of energy inside of the Gas
 		{
-			get { return (WholeHeatCapacity * Temperature); }
+			get => (WholeHeatCapacity * Temperature);
 
-			set {
+			set
+			{
 				if (WholeHeatCapacity == 0)
 				{
 					Temperature = 0;
@@ -65,17 +64,26 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		private GasMix(float[] gases, float pressure, float volume = AtmosConstants.TileVolume)
+		public void SetTemperature(float newTemperature)
 		{
-			Gases = gases;
-			Pressure = pressure;
-			Volume = volume;
-			Temperature = AtmosUtils.CalcTemperature(Pressure, Volume, Gases.Sum());
+			Temperature = newTemperature;
+			RecalculatePressure();
 		}
 
-		public GasMix(GasMix other)
+		public void SetPressure(float newPressure)
 		{
-			this = FromPressure((float[]) other.Gases.Clone(), other.Pressure, other.Volume);
+			Pressure = newPressure;
+			Temperature = AtmosUtils.CalcTemperature(Pressure, Volume, Moles);
+		}
+
+		private void RecalculatePressure()
+		{
+			Pressure = AtmosUtils.CalcPressure(Volume, Moles, Temperature);
+		}
+
+		public static GasMix NewGasMix(GasMix other)
+		{
+			return FromPressure((float[]) other.Gases.Clone(), other.Pressure, other.Volume);
 		}
 
 		public static GasMix FromTemperature(float[] gases, float temperature, float volume = AtmosConstants.TileVolume)
@@ -93,68 +101,98 @@ namespace Systems.Atmospherics
 		public static GasMix FromPressure(IEnumerable<float> gases, float pressure,
 			float volume = AtmosConstants.TileVolume)
 		{
-			return new GasMix(gases.ToArray(), pressure, volume);
+			var gaxMix = new GasMix();
+			gaxMix.Gases = gases.ToArray();
+			gaxMix.Pressure = pressure;
+			gaxMix.Volume = volume;
+			gaxMix.Temperature = AtmosUtils.CalcTemperature(gaxMix.Pressure, gaxMix.Volume, gaxMix.Gases.Sum());
+			return gaxMix;
 		}
 
-		public static GasMix operator +(GasMix a, GasMix b)
+		/// <summary>
+		/// Transfers moles from one gas to another
+		/// </summary>
+		public static void TransferGas(GasMix target, GasMix source, float molesTransferred)
 		{
-			float[] gases = new float[Gas.Count];
+			var sourceStartMoles = source.Moles;
+			if (CodeUtilities.IsEqual(molesTransferred, 0) || CodeUtilities.IsEqual(sourceStartMoles, 0))
+				return;
+			var percentage =  molesTransferred / sourceStartMoles;
+			var targetStartMoles = target.Moles;
 
 			for (int i = 0; i < Gas.Count; i++)
 			{
-				gases[i] = a.Gases[i] + b.Gases[i];
+				if (CodeUtilities.IsEqual(source.Gases[i], 0))
+					continue;
+				var transfer = source.Gases[i] * percentage;
+				target.Gases[i] += transfer;
+				source.Gases[i] -= transfer;
 			}
 
-			float pressure = a.Pressure + b.Pressure * b.Volume / a.Volume;
+			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
+			{
+				target.RecalculatePressure();
+			}
+			else
+			{
+				var energyTarget = targetStartMoles * target.Temperature;
+				var energyTransfer = molesTransferred * source.Temperature;
+				var targetTempFinal = (energyTransfer + energyTarget) / (targetStartMoles + molesTransferred);
+				target.SetTemperature(targetTempFinal);
+			}
 
-			return new GasMix(gases, pressure, a.Volume);
+			if (CodeUtilities.IsEqual(percentage, 1)) //transferred everything, source is empty
+			{
+				source.SetPressure(0);
+			}
+			else
+			{
+				source.RecalculatePressure();
+			}
 		}
 
-		public static GasMix operator -(GasMix a, GasMix b)
+		/// <summary>
+		/// Source and target gas mixes interchange their moles
+		/// </summary>
+		/// <param name="otherGas"></param>
+		public GasMix MergeGasMix(GasMix otherGas)
 		{
-			float[] gases = new float[Gas.Count];
-
-			for (int i = 0; i < Gas.Count; i++)
+			var totalInternalEnergy = InternalEnergy + otherGas.InternalEnergy;
+			var totalWholeHeatCapacity = WholeHeatCapacity + otherGas.WholeHeatCapacity;
+			var newTemperature = totalWholeHeatCapacity > 0 ? totalInternalEnergy / totalWholeHeatCapacity : 0;
+			var totalVolume = Volume + otherGas.Volume;
+			for (var i = 0; i < Gas.Count; i++)
 			{
-				gases[i] = a.Gases[i] - b.Gases[i];
+				float gas = (Gases[i] + otherGas.Gases[i]) / totalVolume;
+				Gases[i] = gas * Volume;
+				otherGas.Gases[i] = gas * otherGas.Volume;
 			}
-
-			float pressure = a.Pressure - b.Pressure * b.Volume / a.Volume;
-
-			return new GasMix(gases, pressure, a.Volume);
+			SetTemperature(newTemperature);
+			otherGas.SetTemperature(newTemperature);
+			return otherGas;
 		}
 
-		public static GasMix operator *(GasMix a, float factor)
-		{
-			float[] gases = new float[Gas.Count];
 
+
+		public void MultiplyGas(float factor)
+		{
 			for (int i = 0; i < Gas.Count; i++)
 			{
-				gases[i] = a.Gases[i] * factor;
+				Gases[i] *= factor;
 			}
-
-			float pressure = a.Pressure * factor;
-
-			return new GasMix(gases, pressure, a.Volume);
+			SetPressure(Pressure * factor);
 		}
 
-		public static GasMix operator /(GasMix a, float factor)
+		public void SetToEmpty()
 		{
-			float[] gases = new float[Gas.Count];
-
-			for (int i = 0; i < Gas.Count; i++)
-			{
-				gases[i] = a.Gases[i] / factor;
-			}
-
-			float pressure = a.Pressure / factor;
-
-			return new GasMix(gases, pressure, a.Volume);
+			MultiplyGas(0);
 		}
 
 		public float GetPressure(Gas gas)
 		{
-			return Moles > 0 ? Pressure * Gases[gas] / Moles : 0;
+			if (Moles == 0)
+				return 0;
+			return Pressure * (Gases[gas] / Moles);
 		}
 
 		public float GetMoles(Gas gas)
@@ -165,104 +203,22 @@ namespace Systems.Atmospherics
 		public void ChangeVolumeValue(float value)
 		{
 			Volume += value;
-			Recalculate();
+			RecalculatePressure();
 		}
-
-		public GasMix RemoveMoles(float InMoles)
-		{
-			if (InMoles == 0)
-			{
-				return new GasMix(GasMixes.Empty);
-			}
-
-			if (Moles == 0)
-			{
-				Logger.LogError("OH GOD IS 0 RTOOO!!");
-				return new GasMix(GasMixes.Empty);
-				;
-			}
-
-			if (InMoles > Moles)
-			{
-				InMoles = Moles;
-			}
-
-			return RemoveRatio(InMoles / Moles);
-		}
-
-		public GasMix RemoveVolume(float volume, bool setVolume = false)
-		{
-			GasMix removed = RemoveRatio(volume / Volume);
-
-			if (setVolume)
-			{
-				removed.Volume = volume;
-				removed = FromTemperature(removed.Gases, Temperature, volume);
-			}
-
-			return removed;
-		}
-
-		public GasMix RemoveRatio(float ratio)
-		{
-			GasMix removed = this * ratio;
-
-			for (int i = 0; i < Gas.Count; i++)
-			{
-				Gases[i] -= removed.Gases[i];
-			}
-
-			SetPressure(Pressure -= removed.Pressure * removed.Volume / Volume);
-
-			return removed;
-		}
-
 
 		/// <summary>
 		/// Returns the gas as a percentage of the gas in the mix
 		/// </summary>
 		/// <returns>The ratio of the gas</returns>
-		/// <param name="_Gas">Gas.</param>
-		public float GasRatio(Gas _Gas)
+		/// <param name="gasIndex">Gas index.</param>
+		public float GasRatio(Gas gasIndex)
 		{
-			if (Gases[_Gas] != 0)
+			if (Gases[gasIndex] != 0)
 			{
-				return (Gases[_Gas] / Moles);
+				return (Gases[gasIndex] / Moles);
 			}
-			else
-			{
-				return (0);
-			}
+			return 0;
 		}
-
-
-		/// <summary>
-		/// Ensures that both containers have the same pressure
-		/// </summary>
-		/// <param name="otherGas"></param>
-		public GasMix MergeGasMix(GasMix otherGas)
-		{
-			float totalInternalEnergy = InternalEnergy + otherGas.InternalEnergy;
-			float totalWholeHeatCapacity = WholeHeatCapacity + otherGas.WholeHeatCapacity;
-			float Newtemperature = totalInternalEnergy / totalWholeHeatCapacity;
-			float totalVolume = Volume + otherGas.Volume;
-			for (int i = 0; i < Gas.Count; i++)
-			{
-				if (Gases[i] < 0)
-				{
-					Debug.Log("OH GOFD!!");
-				}
-
-				float gas = (Gases[i] + otherGas.Gases[i]) / totalVolume;
-				Gases[i] = gas * Volume;
-				otherGas.Gases[i] = gas * otherGas.Volume;
-			}
-
-			SetTemperature(Newtemperature);
-			otherGas.SetTemperature(Newtemperature);
-			return otherGas;
-		}
-
 
 		/// <summary>
 		///  Ensures that all containers have the same pressure
@@ -281,10 +237,10 @@ namespace Systems.Atmospherics
 			}
 
 
-			float Newtemperature = totalInternalEnergy / totalWholeHeatCapacity;
-			for (int i = 0; i < Gas.Count; i++)
+			var newTemperature = totalInternalEnergy / totalWholeHeatCapacity;
+			for (var i = 0; i < Gas.Count; i++)
 			{
-				float gas = (Gases[i]);
+				var gas = (Gases[i]);
 				foreach (var gasMix in otherGas)
 				{
 					gas += PipeFunctions.PipeOrNet(gasMix).GetGasMix().Gases[i];
@@ -294,19 +250,19 @@ namespace Systems.Atmospherics
 				Gases[i] = gas * Volume;
 				foreach (var gasMix in otherGas)
 				{
-					var Ingas = PipeFunctions.PipeOrNet(gasMix).GetGasMix();
-					Ingas.Gases[i] = gas * Ingas.Volume;
-					PipeFunctions.PipeOrNet(gasMix).SetGasMix(Ingas);
+					var inGas = PipeFunctions.PipeOrNet(gasMix).GetGasMix();
+					inGas.Gases[i] = gas * inGas.Volume;
+					PipeFunctions.PipeOrNet(gasMix).SetGasMix(inGas);
 				}
 			}
 
-			SetTemperature(Newtemperature);
-			foreach (var gasMix in otherGas)
+			SetTemperature(newTemperature);
+			foreach (var pipeData in otherGas)
 			{
-				var getMixAndVolume = gasMix.GetMixAndVolume;
-				var gasm = getMixAndVolume.GetGasMix();
-				gasm.SetTemperature(Newtemperature);
-				getMixAndVolume.SetGasMix(gasm);
+				var getMixAndVolume = pipeData.GetMixAndVolume;
+				var gasMix = getMixAndVolume.GetGasMix();
+				gasMix.SetTemperature(newTemperature);
+				getMixAndVolume.SetGasMix(gasMix);
 
 			}
 		}
@@ -319,34 +275,21 @@ namespace Systems.Atmospherics
 		public void SetGas(Gas gas, float moles)
 		{
 			Gases[gas] = moles;
-			Recalculate();
+			RecalculatePressure();
 		}
 
 		public void AddGas(Gas gas, float moles)
 		{
 			Gases[gas] += moles;
-			Recalculate();
-		}
-
-		public GasMix AddGasReturn(Gas gas, float moles)
-		{
-			Gases[gas] += moles;
-			Recalculate();
-			return (this);
+			RecalculatePressure();
 		}
 
 		public void RemoveGas(Gas gas, float moles)
 		{
 			Gases[gas] -= moles;
-			if (Gases[gas] < 0)  Gases[gas] = 0;
-			Recalculate();
-		}
-
-		public GasMix RemoveGasReturn(Gas gas, float moles)
-		{
-			Gases[gas] -= moles;
-			Recalculate();
-			return (this);
+			if (Gases[gas] < 0)
+				Gases[gas] = 0;
+			RecalculatePressure();
 		}
 
 		public void Copy(GasMix other)
@@ -355,8 +298,8 @@ namespace Systems.Atmospherics
 			{
 				Gases[i] = other.Gases[i];
 			}
-
-			SetPressure(other.Pressure);
+			Pressure = other.Pressure;
+			Temperature = other.Temperature;
 			Volume = other.Volume;
 		}
 
@@ -365,9 +308,6 @@ namespace Systems.Atmospherics
 			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume}m^3 ";
 		}
 
-		private void Recalculate()
-		{
-			Pressure = AtmosUtils.CalcPressure(Volume, Moles, Temperature);
-		}
+
 	}
 }

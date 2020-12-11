@@ -156,7 +156,7 @@ namespace Systems.MobAIs
 				registerObject.Passable = true;
 				mobSprite.SetToBodyLayer();
 
-				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 				mobSprite.SetRotationServer(knockedDownRotation);
 			}
 		}

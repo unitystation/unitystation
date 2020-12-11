@@ -20,8 +20,8 @@ namespace Chemistry
 
 		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
-			if ((tempMin != null || reagentMix.Temperature >= tempMin) &&
-			    (tempMax != null || reagentMix.Temperature <= tempMax))
+			if (tempMin != null && reagentMix.Temperature <= tempMin ||
+			    tempMax != null && reagentMix.Temperature >= tempMax)
 			{
 				return false;
 			}

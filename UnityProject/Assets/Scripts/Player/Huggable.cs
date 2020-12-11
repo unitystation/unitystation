@@ -43,7 +43,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 
 		SoundManager.PlayNetworkedAtPos(
-				"ThudSwoosh", interaction.TargetObject.WorldPosServer(), Random.Range(0.8f, 1.2f), sourceObj: interaction.TargetObject);
+				SingletonSOSounds.Instance.ThudSwoosh, interaction.TargetObject.WorldPosServer(), Random.Range(0.8f, 1.2f), sourceObj: interaction.TargetObject);
 	}
 
 	// TODO Consider moving this into its own component, or merging Huggable, this and CPRable into

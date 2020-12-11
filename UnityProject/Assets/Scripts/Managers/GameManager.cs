@@ -376,9 +376,21 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			// Execute server-side OnSpawn hooks for mapped objects
 			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
-			foreach (var s in iServerSpawns)
+			MappedOnSpawnServer(iServerSpawns);
+		}
+	}
+
+	public void MappedOnSpawnServer(IEnumerable<IServerSpawn> iServerSpawns)
+	{
+		foreach (var s in iServerSpawns)
+		{
+			try
 			{
-				s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
+				s.OnSpawnServer(SpawnInfo.Mapped(((Component) s).gameObject));
+			}
+			catch (Exception e)
+			{
+				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.ItemSpawn, e.Message);
 			}
 		}
 	}
@@ -417,8 +429,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			// Tell all clients that the countdown has finished
 			UpdateCountdownMessage.Send(true, 0);
 
-			CurrentRoundState = RoundState.Started;
-			EventManager.Broadcast(EVENT.RoundStarted);
 		}
 	}
 
@@ -451,7 +461,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
 			{
-				SoundManager.Instance.PlayRandomRoundEndSound();
+				//JESTER
+				//SoundManager.Instance.PlayRandomRoundEndSound();
 			}
 		}
 	}

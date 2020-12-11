@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: borgcharger1(old)
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 2080838654305610198, guid: afb07c8b4e8a20347afc5708cab7ba62,
+        type: 3}
+      secondDelay: 0.6
+    - sprite: {fileID: 7597098938689371685, guid: afb07c8b4e8a20347afc5708cab7ba62,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 6729486498187243841, guid: afb07c8b4e8a20347afc5708cab7ba62,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -4935774888229987549, guid: afb07c8b4e8a20347afc5708cab7ba62,
+        type: 3}
+      secondDelay: 0.6
+  IsPalette: 0
+  setID: 22960

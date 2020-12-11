@@ -50,13 +50,14 @@ public class ObjectLayer : Layer
 		return resistance;
 	}
 
-	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer, CollisionType collisionType = CollisionType.Player,
-			bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null)
+	public bool IsPassableAtOnThisLayer(Vector3Int origin, Vector3Int to, bool isServer, CollisionType collisionType = CollisionType.Player,
+			bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
 	{
 		//Targeting windoors here
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(origin) : ClientObjects.Get(origin) )
 		{
-			if (!t.IsPassableTo(to, isServer, context) && (!context || t.gameObject != context))
+			if (t.IsPassableFromInside(to, isServer, context) == false
+				&& (context == null|| t.gameObject != context))
 			{
 				//Can't get outside the tile because windoor doesn't allow us
 				return false;
@@ -65,13 +66,39 @@ public class ObjectLayer : Layer
 
 		foreach ( RegisterTile o in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
-			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin, isServer, context) && (!context || o.gameObject != context))
+			if ((inclPlayers || o.ObjectType != ObjectType.Player)
+				&& o.IsPassableFromOutside(origin, isServer, context) == false
+				&& (context == null|| o.gameObject != context)
+				&& (isReach == false || o.IsReachableThrough(origin, isServer, context) == false)
+				)
 			{
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	/// <summary>
+	/// Returns whether anything in the same square as some particular object, moving out to a particular destination
+	/// would be blocked by that object
+	/// </summary>
+	/// <param name="to">destination of hypothetical movement</param>
+	/// <param name="isServer">Whether or not being run on server</param>
+	/// <param name="context">the object in question.</param>
+	/// <returns></returns>
+	public bool HasAnyDepartureBlockedByRegisterTile(Vector3Int to, bool isServer, RegisterTile context)
+	{
+		foreach (RegisterTile o in isServer ? ServerObjects.Get(context.LocalPositionServer) : ClientObjects.Get(context.LocalPositionClient) )
+		{
+			if (o.IsPassable(isServer,context.gameObject) == false
+				&& context.IsPassableFromInside(to, isServer, o.gameObject) == false)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)

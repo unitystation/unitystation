@@ -21,10 +21,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	//damage incurred per tick per fire stack
 	private static readonly float DAMAGE_PER_FIRE_STACK = 0.08f;
 
-	//volume and temp of hotspot exposed by this player when they are on fire
-	private static readonly float BURNING_HOTSPOT_VOLUME = .005f;
-	private static readonly float BURNING_HOTSPOT_TEMPERATURE = 700f;
-
 	/// <summary>
 	/// Invoked when conscious state changes. Provides old state and new state as 1st and 2nd args.
 	/// </summary>
@@ -154,7 +150,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		{
 			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
 		}
-		
+
 		UpdateManager.Add(PeriodicUpdate, 1f);
 	}
 
@@ -164,12 +160,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
 		}
-				
+
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 	}
 
 	/// Add any missing systems:
-	private void EnsureInit()
+	public void EnsureInit()
 	{
 		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
@@ -263,6 +259,26 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		OnClientFireStacksChange.Invoke(this.fireStacks);
 	}
 
+	/// <summary>
+	/// Check if target body part can take damage, if cannot then replace it
+	/// e.x. RightHand -> RightArm
+	/// </summary>
+	private BodyPartType GetDamageableBodyPart(BodyPartType bodyPartType)
+	{
+		if (bodyPartType == BodyPartType.Eyes || bodyPartType == BodyPartType.Mouth)
+			bodyPartType = BodyPartType.Head;
+		else if(bodyPartType == BodyPartType.LeftHand)
+			bodyPartType = BodyPartType.LeftArm;
+		else if(bodyPartType == BodyPartType.RightHand)
+			bodyPartType = BodyPartType.RightArm;
+		else if(bodyPartType == BodyPartType.LeftFoot)
+			bodyPartType = BodyPartType.LeftLeg;
+		else if(bodyPartType == BodyPartType.RightFoot)
+			bodyPartType = BodyPartType.RightLeg;
+
+		return bodyPartType;
+	}
+
 	/// ---------------------------
 	/// PUBLIC FUNCTIONS: HEAL AND DAMAGE:
 	/// ---------------------------
@@ -275,15 +291,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			return null;
 		}
 
-		if (bodyPartAim == BodyPartType.Groin)
-		{
-			bodyPartAim = BodyPartType.Chest;
-		}
-
-		if (bodyPartAim == BodyPartType.Eyes || bodyPartAim == BodyPartType.Mouth)
-		{
-			bodyPartAim = BodyPartType.Head;
-		}
+		bodyPartAim = GetDamageableBodyPart(bodyPartAim);
 
 		if (BodyParts.Count == 0)
 		{
@@ -342,7 +350,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public void ApplyDamage(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType)
 	{
-	
+
 		foreach (var bodyPart in BodyParts)
 		{
 			ApplyDamageToBodypart(damagedBy, damage / BodyParts.Count, attackType, damageType, bodyPart.Type);
@@ -505,8 +513,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 				SyncFireStacks(fireStacks, 0);
 			}
 
-			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(),
-				BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
 		}
 
 		CalculateRadiationDamage();
@@ -926,6 +933,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			return BodyParts[searchIndex];
 		}
 
+		bodyPartAim = GetDamageableBodyPart(bodyPartAim);
+
 		//If nothing is found then try to find a chest component:
 		searchIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.Chest);
 		if (searchIndex != -1)
@@ -1032,7 +1041,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			// On fire?
 			if (FireStacks > 0)
 			{
-				healthDescription= "on fire!";
+				healthDescription = "on fire!";
 			}
 			healthString += healthDescription;
 

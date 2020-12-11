@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
+using WebSocketSharp;
 
 /// <summary>
 ///     ID card properties
 /// </summary>
-public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExaminable
+public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInteractable<HandActivate>
 {
 
 	[Tooltip("Sprite to use when the card is a normal card")]
@@ -38,12 +39,11 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 	         " first player whose inventory it is added to. Used for initial loadout.")]
 	[SerializeField]
 	private bool autoInitOnPickup = false;
-	private bool hasAutoInit;
+	private bool initialized;
 
 
 	public JobType JobType => jobType;
 	public Occupation Occupation => OccupationList.Instance.Get(JobType);
-	public IDCardType IDCardType => idCardType;
 	public string RegisteredName => registeredName;
 
 
@@ -60,49 +60,43 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 	//The actual list of access allowed set via the server and synced to all clients
 	private SyncListInt accessSyncList = new SyncListInt();
 
-	private bool isInit;
 	//To switch the card sprites when the type changes
 	private SpriteRenderer spriteRenderer;
 	private Pickupable pickupable;
 
+	private ItemAttributesV2 itemAttributes;
+
 	private void Awake()
 	{
-		EnsureInit();
-	}
-
-	private void EnsureInit()
-	{
-		if (spriteRenderer != null) return;
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		pickupable = GetComponent<Pickupable>();
-	}
-
-	public override void OnStartServer()
-	{
-		EnsureInit();
-		InitCard();
-	}
-
-	public override void OnStartClient()
-	{
-		EnsureInit();
-		InitCard();
-		StartCoroutine(WaitForLoad());
+		itemAttributes = GetComponent<ItemAttributesV2>();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		hasAutoInit = false;
+		//This will add the access from ManuallyAddedAccess list
+		if (manuallyAddedAccess.Count > 0)
+		{
+			ServerAddAccess(manuallyAddedAccess);
+			SyncIDCardType(idCardType, manuallyAssignCardType);
+		}
+		initialized = false;
 	}
-
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		Chat.AddActionMsgToChat(interaction.Performer,
+			$"You show the {itemAttributes.ArticleName}",
+			$"{interaction.Performer.ExpensiveName()} shows you: {itemAttributes.ArticleName}");
+	}
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		if (!hasAutoInit && autoInitOnPickup)
+		if (!initialized && autoInitOnPickup)
 		{
 			//auto init if being added to a player's inventory
 			if (info.ToPlayer != null)
 			{
-				hasAutoInit = true;
+				initialized = true;
 				//these checks protect against NRE when spawning a player who has no mind, like dummy
 				var ps = info.ToPlayer.GetComponent<PlayerScript>();
 				if (ps == null) return;
@@ -111,7 +105,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 				var occupation = mind.occupation;
 				if (occupation == null) return;
 				var charSettings = ps.characterSettings;
-				var jobType = occupation.JobType;
+				jobType = occupation.JobType;
 				if (jobType == JobType.CAPTAIN)
 				{
 					Initialize(IDCardType.captain, jobType, occupation.AllowedAccess, charSettings.Name);
@@ -137,93 +131,59 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 	/// <param name="jobType">job on the card</param>
 	/// <param name="allowedAccess">what the card can access</param>
 	/// <param name="name">name listed on card</param>
-	private void Initialize(IDCardType idCardType, JobType jobType, List<Access> allowedAccess, string name)
+	private void Initialize(IDCardType idCardType, JobType newJobType, List<Access> allowedAccess, string name)
 	{
 		//Set all the synced properties for the card
 		SyncName(registeredName, name);
-		this.jobType = jobType;
+		SyncJobType(jobType, newJobType);
 		SyncIDCardType(idCardType, idCardType);
 		ServerAddAccess(allowedAccess);
 	}
 
-	private void InitCard()
+	public void SyncName(string oldName, string newName)
 	{
-		if (isInit)
+		registeredName = newName;
+		RenameIDObject();
+	}
+
+	public void SyncJobType(JobType oldJobType, JobType newJobType)
+	{
+		jobType = newJobType;
+		RenameIDObject();
+	}
+
+	private void RenameIDObject()
+	{
+		var newName = "";
+		if (!RegisteredName.IsNullOrEmpty())
 		{
-			return;
+			newName += $"{RegisteredName}'s ";
 		}
-
-		isInit = true;
-		accessSyncList.Callback += SyncAccess;
-
-		//This will add the access from ManuallyAddedAccess list
-		if (isServer)
+		newName += "ID Card";
+		if (JobType != JobType.NULL)
 		{
-			if (manuallyAddedAccess.Count > 0)
-			{
-				ServerAddAccess(manuallyAddedAccess);
-				idCardType = manuallyAssignCardType;
-			}
+			newName += $" ({JobType})";
 		}
-	}
-
-	//Sync all of the current in game ID's throughout the map with new players
-	private IEnumerator WaitForLoad()
-	{
-		yield return WaitFor.Seconds(3f);
-		SyncName(registeredName, registeredName);
-		SyncJobType(jobType, jobType);
-		SyncIDCardType(idCardType, idCardType);
-	}
-
-	public void SyncAccess(SyncList<int>.Operation op, int index, int oldItem, int newItem)
-	{
-		//Do anything special when the synclist changes on the client
-	}
-
-	public void SyncName(string oldName, string name)
-	{
-		EnsureInit();
-		registeredName = name;
-	}
-
-	public void SyncJobType(JobType oldJobType, JobType jobType)
-	{
-		EnsureInit();
-		this.jobType = jobType;
+		itemAttributes.ServerSetArticleName(newName);
 	}
 
 	public void SyncIDCardType(IDCardType oldCardType, IDCardType cardType)
 	{
-		EnsureInit();
 		idCardType = cardType;
-		IDCardType cType = IDCardType;
-		switch (cType)
+		if (idCardType == IDCardType.standard)
 		{
-			case IDCardType.standard:
-				spriteRenderer.sprite = standardSprite;
-				break;
-			case IDCardType.command:
-				spriteRenderer.sprite = commandSprite;
-				break;
-			case IDCardType.captain:
-				spriteRenderer.sprite = captainSprite;
-				break;
+			spriteRenderer.sprite = standardSprite;
 		}
-
+		else if (idCardType == IDCardType.command)
+		{
+			spriteRenderer.sprite = commandSprite;
+		}
+		else if (idCardType == IDCardType.captain)
+		{
+			spriteRenderer.sprite = captainSprite;
+		}
 		pickupable.RefreshUISlotImage();
-
 	}
-
-	// When examine is triggered by the server on a player gameobj (by a shift click from another player)
-	// the target's Equipment component returns ID info based on presence of ID card in "viewable" slot (id and hands).
-	// When ID card itself is examined, it should return full text.
-	public string Examine(Vector3 worldPos)
-	{
-		return "This is the ID card of " + registeredName + ", station " + JobType + ".";
-	}
-
-
 
 	/// <summary>
 	/// Checks if this id card has the indicated access.
@@ -300,7 +260,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 			ServerAddAccess(occupation.AllowedAccess);
 		}
 
-		jobType = occupation.JobType;
+		SyncJobType(jobType, occupation.JobType);
 	}
 
 	/// <summary>

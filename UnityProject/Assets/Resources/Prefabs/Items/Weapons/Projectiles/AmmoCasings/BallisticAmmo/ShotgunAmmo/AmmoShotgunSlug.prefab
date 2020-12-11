@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isClip: 1
-  Projectile: {fileID: 2003804624138751089, guid: 0db28ea7632de0b4593a32bba473e844,
+  magType: 1
+  initalProjectile: {fileID: 2003804624138751089, guid: 0db28ea7632de0b4593a32bba473e844,
     type: 3}
   ProjectilesFired: 1
   ammoType: 15
@@ -29,6 +29,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
       propertyPath: initialName
       value: shotgun slug
       objectReference: {fileID: 0}
@@ -37,6 +42,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A 12 gauge lead slug.
       objectReference: {fileID: 0}
+    - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c5ea118354e234f9fa2e1e18ce0adff8,
+        type: 2}
     - target: {fileID: 2114072713808011413, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: m_Sprite

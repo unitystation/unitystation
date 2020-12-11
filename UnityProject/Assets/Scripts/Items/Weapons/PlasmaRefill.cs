@@ -96,6 +96,11 @@ namespace Weapons
 		{
 			battery.Watts += ChargingWatts;
 
+			if (battery.Watts > battery.MaxWatts)
+			{
+				battery.Watts = battery.MaxWatts;
+			}
+
 			if (electricalMagazine != null)
 			{
 				//For electrical guns

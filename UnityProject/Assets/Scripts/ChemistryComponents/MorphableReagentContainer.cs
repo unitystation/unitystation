@@ -25,8 +25,8 @@ namespace Chemistry.Components
 
 		private ReagentContainerFillVisualisation fillVisual;
 		private ReagentContainer serverContainer;
-		private Pickupable pickupable;
 		private ItemAttributesV2 item;
+		private SpriteHandler mainSpriteHandler;
 
 		private Sprite defaultSprite;
 
@@ -34,9 +34,9 @@ namespace Chemistry.Components
 		{
 			if (!data || !mainSpriteRender)
 				return;
+			mainSpriteHandler = mainSpriteRender.GetComponent<SpriteHandler>();
 
 			fillVisual = GetComponent<ReagentContainerFillVisualisation>();
-			pickupable = GetComponent<Pickupable>();
 			serverContainer = GetComponent<ReagentContainer>();
 			item = GetComponent<ItemAttributesV2>();
 
@@ -81,18 +81,16 @@ namespace Chemistry.Components
 			{
 				DisableVisualisation();
 			}
-
-			// Update UI sprite in inventory
-			pickupable?.RefreshUISlotImage();
 		}
 
 		/// <summary>
 		/// Show visualisation of this reagent data
 		/// </summary>
 		/// <param name="spriteData"></param>
+		[Client]
 		private void ShowVisualisation(ContainerCustomSprite spriteData)
 		{
-			mainSpriteRender.sprite = spriteData.MainSprite;
+			mainSpriteHandler.SetSprite(spriteData.MainSprite);
 			if (fillVisual && fillVisual.fillSpriteRender)
 				fillVisual.fillSpriteRender.gameObject.SetActive(false);
 
@@ -115,9 +113,10 @@ namespace Chemistry.Components
 		/// <summary>
 		/// Disable all morphable overrides and show standard graphics
 		/// </summary>
+		[Client]
 		private void DisableVisualisation()
 		{
-			mainSpriteRender.sprite = defaultSprite;
+			mainSpriteHandler.SetSprite(defaultSprite);
 			if (fillVisual && fillVisual.fillSpriteRender)
 				fillVisual.fillSpriteRender.gameObject.SetActive(true);
 

@@ -408,7 +408,7 @@ namespace IngameDebugConsole
 					var gasMix = matrix.MetaDataLayer.Get(localPos).GasMix;
 					gasMix.AddGas(Gas.Plasma, 100);
 					gasMix.AddGas(Gas.Oxygen, 100);
-					matrix.ReactionManager.ExposeHotspot(localPos, 1000, .2f);
+					matrix.ReactionManager.ExposeHotspot(localPos);
 				}
 			}
 		}

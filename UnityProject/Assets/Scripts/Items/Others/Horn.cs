@@ -1,4 +1,5 @@
 using System.Collections;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 
@@ -8,6 +9,9 @@ using Mirror;
 public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
 {
 	public string Sound;
+
+	public AddressableAudioSource AddressableAudioSource;
+
 	public float Cooldown = 0.2f;
 
 	//todo: emit HONK particles
@@ -52,7 +56,8 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	/// </summary>
 	public void ServerPerformInteraction( PositionalHandApply interaction )
 	{
-		bool inCloseRange = Validations.IsInReach( interaction.TargetVector );
+		Vector3 performerWorldPos = interaction.PerformerPlayerScript.WorldPos;
+		bool inCloseRange = Validations.IsReachableByPositions( performerWorldPos, performerWorldPos + (Vector3)interaction.TargetVector, true, context: interaction.TargetObject);
 		var targetObject = interaction.TargetObject;
 		var targetHealth = targetObject != null ? targetObject.GetComponent<LivingHealthBehaviour>() : null;
 		bool isCrit = Random.Range( 0f, 1f ) <= CritChance;
@@ -103,7 +108,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	}
 
 	/// <summary>
-	/// Is called to find the object where the honk sound is played. 
+	/// Is called to find the object where the honk sound is played.
 	/// </summary>
 	/// <returns>The GameObject where the sound for the Honk should be played.
 	/// If the horn is in an inventory, the container in which it is located is returned. </returns>

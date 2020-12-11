@@ -315,6 +315,13 @@ public class MouseInputController : MonoBehaviour
 		}
 	}
 
+	private void TrySlide()
+	{
+		if (PlayerManager.PlayerScript.IsGhost || PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+			return;
+		PlayerManager.PlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
+	}
+
 	private bool CheckClick()
 	{
 		ChangeDirection();
@@ -348,6 +355,13 @@ public class MouseInputController : MonoBehaviour
 				var handAppliables = posHandApply.HandObject.GetComponents<IBaseInteractable<PositionalHandApply>>()
 					.Where(c => c != null && (c as MonoBehaviour).enabled);
 				if (InteractionUtils.ClientCheckAndTrigger(handAppliables, posHandApply) != null) return true;
+			}
+
+			// If we're dragging something, try to move it.
+			if (PlayerManager.LocalPlayerScript.pushPull.IsPullingSomethingClient)
+			{
+				TrySlide();
+				return false;
 			}
 		}
 
@@ -526,7 +540,7 @@ public class MouseInputController : MonoBehaviour
 			Vector3Int position = MouseWorldPosition.CutToInt();
 			if (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 			{
-				if (PlayerManager.LocalPlayerScript.IsInReach(position, false))
+				if (PlayerManager.LocalPlayerScript.IsPositionReachable(position, false))
 				{
 					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
 					//remove hidden wallmounts
@@ -548,7 +562,7 @@ public class MouseInputController : MonoBehaviour
 					Logger.LogFormat($"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
-				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), (Vector3)position, PlayerManager.LocalPlayer);
+				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), PlayerManager.LocalPlayer);
 			}
 			return true;
 		}

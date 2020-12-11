@@ -750,15 +750,20 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	}
 
 	///<summary> Is it passable when approaching from outside? </summary>
-	public virtual bool IsPassable(Vector3Int enteringFrom, bool isServer, GameObject context = null)
+	public virtual bool IsPassableFromOutside(Vector3Int enteringFrom, bool isServer, GameObject context = null)
 	{
 		return true;
 	}
 
 	/// <summary> Is it passable when trying to leave it? </summary>
-	public virtual bool IsPassableTo(Vector3Int leavingTo, bool isServer, GameObject context = null)
+	public virtual bool IsPassableFromInside(Vector3Int leavingTo, bool isServer, GameObject context = null)
 	{
 		return true;
+	}
+
+	public virtual bool IsReachableThrough(Vector3Int reachingFrom, bool isServer, GameObject context = null)
+	{
+		return false;
 	}
 
 	///<summary> Is it passable when approaching from outside? </summary>

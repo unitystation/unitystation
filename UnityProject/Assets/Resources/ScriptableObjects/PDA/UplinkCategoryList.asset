@@ -18,24 +18,28 @@ MonoBehaviour:
     - cost: 7
       item: {fileID: 1637236327471730624, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      name: Cutthroat 9 Pistol
+      name: Makarov Pistol
     - cost: 8
-      item: {fileID: 4236242615490500172, guid: bb89e4eb0756de04b8ab904221c23296,
+      item: {fileID: 7781396554342910705, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}
       name: Energy Sword
     - cost: 8
       item: {fileID: 4117137691947961148, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       name: Lucifer .357 Magnum Revolver
+    - cost: 8
+      item: {fileID: 3790956773493410686, guid: ba24bfd676cc17df4b5b819b170d4492,
+        type: 3}
+      name: Reverse Revolver
   - categoryName: Ammunition
     itemList:
     - cost: 1
       item: {fileID: 8399202269906357691, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
-      name: 9mm Pistol Magazine
+      name: 9mm Pistol Magazine (Makarov)
     - cost: 4
       item: {fileID: 661569839832110917, guid: 7cbde3b57839c144e933398cfd78e132, type: 3}
-      name: .357 Speedloader
+      name: .357 Speedloader (Lucifer)
   - categoryName: Explosives
     itemList:
     - cost: 6
@@ -52,6 +56,10 @@ MonoBehaviour:
       item: {fileID: 4335905146119127793, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       name: Miniature Energy Crossbow
+    - cost: 3
+      item: {fileID: 5065923221907874056, guid: 557cc8a1b0b8fd7409c7b846fb7f5c12,
+        type: 3}
+      name: Suppressor
     - cost: 1
       item: {fileID: 2883601815232707539, guid: 234e5bf5fd2610146adf689bbb987ddd,
         type: 3}

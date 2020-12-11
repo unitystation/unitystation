@@ -177,6 +177,9 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// </summary>
 	public bool Initialized => clientStarted && receivedInitialState;
 
+	[FormerlySerializedAs("NoConsole"),Tooltip("Disable the ability for players to use a shuttleconsole to control this matrix")]
+	public bool IsNotPilotable = false;
+
 	public override void OnStartClient()
 	{
 		StartCoroutine(WaitForMatrixManager());
@@ -761,7 +764,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			// Exclude the moving matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { matrixInfo.Id };
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), isServer: true,
+			if (!MatrixManager.IsPassableAtAllMatrices(sensorPos, sensorPos + dir.RoundToInt(), isServer: true,
 											collisionType: matrixColliderType, excludeList: excludeList))
 			{
 				Logger.LogTrace(
@@ -793,7 +796,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			// Exclude the rotating matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { matrixInfo.Id };
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos, isServer: true,
+			if (!MatrixManager.IsPassableAtAllMatrices(sensorPos, sensorPos, isServer: true,
 											collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
 			{
 				Logger.LogTrace(

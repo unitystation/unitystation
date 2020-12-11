@@ -53,7 +53,7 @@ namespace Antagonists
 				" I need to move in the shadows and keep out of sight," +
 				" I'm not going back.");
 
-			_ = StationWarning(newPlayer.ExpensiveName());
+			_ = StationWarning(newPlayer.Player().Name);
 
 			return newPlayer;
 		}

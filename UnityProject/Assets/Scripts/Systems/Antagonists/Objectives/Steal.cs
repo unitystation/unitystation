@@ -28,11 +28,6 @@ namespace Antagonists
 		private int Amount;
 
 		/// <summary>
-		/// The amount that has been found by the completion check so far.
-		/// </summary>
-		private int CheckAmount = 0;
-
-		/// <summary>
 		/// Make sure there's at least one item which hasn't been targeted
 		/// </summary>
 		public override bool IsPossible(PlayerScript candidate)
@@ -83,61 +78,9 @@ namespace Antagonists
 			description = $"Steal {Amount} {ItemName}";
 		}
 
-		/// <summary>
-		/// Checks through all the storage recursively
-		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			return CheckStorage(Owner.body.ItemStorage);
-		}
-
-		private bool CheckStorage(ItemStorage itemStorage)
-		{
-			foreach (var slot in itemStorage.GetItemSlots())
-			{
-				if (CheckSlot(slot))
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		private bool CheckSlot(ItemSlot slot)
-		{
-			if (slot.ItemObject == null) return false;
-
-			//Check if current Item is the one we need
-			if (slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
-			{
-				//If stackable count stack
-				if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
-				{
-					CheckAmount += stackable.Amount;
-				}
-				else
-				{
-					CheckAmount++;
-				}
-
-				//Check to see if count has been passed
-				if (CheckAmount >= Amount)
-				{
-					return true;
-				}
-			}
-
-			//Check to see if this item has storage, and do checks on that
-			if (slot.ItemObject.TryGetComponent<ItemStorage>(out var itemStorage))
-			{
-				if (CheckStorage(itemStorage))
-				{
-					return true;
-				}
-			}
-
-			return false;
+			return CheckStorageFor(ItemName, Amount);
 		}
 	}
 }

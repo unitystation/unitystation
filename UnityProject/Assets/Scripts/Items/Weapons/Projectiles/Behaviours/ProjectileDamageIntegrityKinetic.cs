@@ -28,6 +28,10 @@ namespace Weapons.Projectiles.Behaviours
 		private bool TryDamage(MatrixManager.CustomPhysicsHit  hit)
 		{
 			var coll = hit.CollisionHit.GameObject;
+			if (coll == null)
+			{
+				return false;
+			}
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null)
 			{

@@ -231,8 +231,7 @@ namespace Blob
 
 			overmindName = $"Overmind {Random.Range(1, 1001)}";
 
-			playerScript.characterSettings.Name = overmindName;
-			playerScript.playerName = overmindName;
+			playerScript.SetPermanentName(overmindName);
 
 			playerScript.IsPlayerSemiGhost = true;
 
@@ -337,7 +336,7 @@ namespace Blob
 					string.Format(CentComm.BioHazardReportTemplate,
 						"Caution! Biohazard expanding rapidly. Station structural integrity failing."),
 					MatrixManager.MainStationMatrix);
-				SoundManager.PlayNetworked("Notice1");
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
 			}
 
 			if (isBlobGamemode && !nearlyWon && NumOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
@@ -348,7 +347,7 @@ namespace Blob
 					string.Format(CentComm.BioHazardReportTemplate,
 						"Alert! Station integrity near critical. Biomass sensor levels are off the charts."),
 					MatrixManager.MainStationMatrix);
-				SoundManager.PlayNetworked("Notice1");
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
 			}
 
 			//Blob wins after number of blob tiles reached
@@ -748,7 +747,7 @@ namespace Blob
 
 					if (!autoExpanding)
 					{
-						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", worldPos, gameObject);
+						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
 					}
 
 					PlayAttackEffect(pos);
@@ -768,7 +767,7 @@ namespace Blob
 			}
 
 			//Check for walls, windows and grills
-			if (metaTileMap != null && !MatrixManager.IsPassableAt(pos, true))
+			if (metaTileMap != null && !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true))
 			{
 				//Cell pos is unused var
 				metaTileMap.ApplyDamage(Vector3Int.zero, layerDamage, pos);
@@ -1202,8 +1201,6 @@ namespace Blob
 
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(false);
 
-			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Blue);
-
 			Chat.AddSystemMsgToChat(
 				string.Format(CentComm.BioHazardReportTemplate,
 					"The biohazard has been contained."),
@@ -1446,6 +1443,8 @@ namespace Blob
 
 				if (!result.Successful) continue;
 
+				result.GameObject.GetComponent<BlobStructure>().overmindName = overmindName;
+
 				factoryBlob.Value.Add(result.GameObject);
 			}
 		}
@@ -1582,6 +1581,9 @@ namespace Blob
 		{
 			if (blobStructure.integrity == null) return;
 
+			blobStructure.integrity.Armor = blobStructure.initialArmor;
+			blobStructure.integrity.Resistances = blobStructure.initialResistances;
+
 			if (currentStrain.customArmor)
 			{
 				blobStructure.integrity.Armor = currentStrain.armor;
@@ -1653,6 +1655,8 @@ namespace Blob
 
 		private void SubscribeToDamage(BlobStructure structure)
 		{
+			if(!CustomNetworkManager.IsServer) return;
+
 			structure.integrity.OnWillDestroyServer.AddListener(BlobTileDeath);
 
 			structure.integrity.OnApplyDamage.AddListener(OnDamageReceived);
@@ -1714,7 +1718,7 @@ namespace Blob
 
 		private void ExpandWhenBurnt(DamageInfo info)
 		{
-			if(info.DamageType != DamageType.Burn || info.AttackType != AttackType.Fire) return;
+			if(info.DamageType != DamageType.Burn && info.AttackType != AttackType.Fire) return;
 
 			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
 
@@ -1741,6 +1745,8 @@ namespace Blob
 				var posCache = pos + offset;
 
 				first.SetPosition(second.ServerPosition);
+				blobTiles[second.ServerPosition] = first.GetComponent<BlobStructure>();
+				blobTiles[posCache] = blobStructure;
 				second.SetPosition(posCache);
 
 				//If moved to node or core refresh areas
@@ -1783,7 +1789,7 @@ namespace Blob
 			}
 
 			//Heal self back up
-			info.AttackedIntegrity.RestoreIntegrity(damage * blobIntegrities.Count - 1);
+			info.AttackedIntegrity.RestoreIntegrity(damage * (blobIntegrities.Count - 1));
 		}
 
 		private void EmitFlame(DamageInfo info)
@@ -1793,7 +1799,7 @@ namespace Blob
 
 			foreach (var offset in coords)
 			{
-				registerObject.Matrix.ReactionManager.ExposeHotspotWorldPosition((offset + pos).To2Int(), 3200, 0.02f);
+				registerObject.Matrix.ReactionManager.ExposeHotspotWorldPosition((offset + pos).To2Int());
 			}
 		}
 

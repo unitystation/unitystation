@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stunTime: 0.5
   willDisarm: 0
+  doMsg: 1
 --- !u!1001 &8547774218782980902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -113,6 +114,11 @@ PrefabInstance:
       propertyPath: Color.b
       value: 0.94117653
       objectReference: {fileID: 0}
+    - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5572642767229722754, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: decal
@@ -121,9 +127,6 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents:
     - {fileID: 5134017693424603158, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
-    - {fileID: 4383945307501813551, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
-    - {fileID: 2678535146407671852, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
-    - {fileID: 6782683858533215939, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
 --- !u!1 &5418626791516505491 stripped
 GameObject:

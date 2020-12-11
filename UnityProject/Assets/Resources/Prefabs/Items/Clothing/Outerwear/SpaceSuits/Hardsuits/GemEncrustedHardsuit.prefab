@@ -147,6 +147,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9090939745550505381, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9090939745550505381, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
       propertyPath: initialName
       value: gem-encrusted hardsuit
       objectReference: {fileID: 0}
@@ -160,5 +165,11 @@ PrefabInstance:
       propertyPath: initialSize
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 9090939745550505381, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ea4f719e6cbcb664e99411fdcd0d7dc7,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5da2eb22d55c9c045bd7c22925c9b948, type: 3}

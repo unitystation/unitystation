@@ -166,7 +166,7 @@ namespace Antagonists
 		/// </summary>
 		public void ShowAntagStatusReport()
 		{
-			StringBuilder statusSB = new StringBuilder($"<color=white><size=30><b>End of Round Report</b></size></color>\n\n", 200);
+			StringBuilder statusSB = new StringBuilder($"<color=white><size=60><b>End of Round Report</b></size></color>\n\n", 200);
 
 			var message = $"End of Round Report on {ServerData.ServerConfig.ServerName}\n";
 
@@ -175,8 +175,8 @@ namespace Antagonists
 				// Group all the antags by type and list them together
 				foreach (var antagType in ActiveAntags.GroupBy(t => t.GetType()))
 				{
-					statusSB.AppendLine($"<size=24>The <b>{antagType.Key.Name}s</b> were:\n</size>");
-					message += $"The {antagType.Key.Name}s were:\n";
+					statusSB.AppendLine($"<size=48>The <b>{antagType.First().Antagonist.AntagName}s</b> were:\n</size>");
+					message += $"The {antagType.First().Antagonist.AntagName}s were:\n";
 					foreach (var antag in antagType)
 					{
 						message += $"\n{antag.GetObjectiveStatusNonRich()}\n";
@@ -187,7 +187,7 @@ namespace Antagonists
 			else
 			{
 				message += $"\nThere were no antagonists!\n";
-				statusSB.AppendLine("<size=24>There were no antagonists!</size>");
+				statusSB.AppendLine("<size=48>There were no antagonists!</size>");
 			}
 
 			if (PlayerList.Instance.ConnectionCount == 1)

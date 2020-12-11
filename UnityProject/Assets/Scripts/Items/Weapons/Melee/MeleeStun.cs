@@ -6,7 +6,6 @@ using UnityEngine;
 
 /// <summary>
 /// Adding this to a weapon stuns the target on hit
-/// If the weapon has the StunBaton behaviour it only stuns when the baton is active
 /// </summary>
 public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 {
@@ -31,24 +30,16 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 	[SerializeField]
 	private string stunSound = "EGloves";
 
-	private StunBaton stunBaton;
-
 	private int timer = 0;
 
 	//Send only one message per second.
 	private bool coolDownMessage;
-
-	public void Start()
-	{
-		stunBaton = GetComponent<StunBaton>();
-	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		return interaction.UsedObject == gameObject
-			&& (!stunBaton || stunBaton.isActive)
 			&& interaction.TargetObject.GetComponent<RegisterPlayer>();
 	}
 
@@ -62,10 +53,10 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		WeaponNetworkActions wna = performer.GetComponent<WeaponNetworkActions>();
 
-		// If we're not on help intent we deal damage!
-		// Note: this has to be done before the stun, because otherwise if we hit ourselves with an activated stun baton on harm intent
-		// we wouldn't deal damage to ourselves because CmdRequestMeleeAttack checks whether we're stunned
-		if (interaction.Intent != Intent.Help)
+		// If we're on harm intent we deal damage!
+		// Note: this has to be done before the stun, because otherwise if we hit ourselves with an activated stun baton on harm intent.
+		// We wouldn't deal damage to ourselves because CmdRequestMeleeAttack checks whether we're stunned
+		if (interaction.Intent == Intent.Harm)
 		{
 			// Direction of attack towards the attack target.
 			wna.ServerPerformMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
@@ -73,7 +64,7 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
 
-		// Stun the victim. We check whether the baton is activated in WillInteract and if the user has a charge to stun
+		// Stun the victim. We check if there is a cooldown preventing the attacker from stunning.
 		if (registerPlayerVictim && canStun)
 		{
 			if (delay != 0)
@@ -86,8 +77,8 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 			SoundManager.PlayNetworkedAtPos(stunSound, target.transform.position, sourceObj: target.gameObject);
 			// deactivates the stun and makes you wait;
 
-			// Special case: If we're on help intent (only stun), we should still show the lerp (unless we're hitting ourselves)
-			if (interaction.Intent == Intent.Help && performer != target)
+			// Special case: If we're off harm intent (only stunning), we should still show the lerp (unless we're hitting ourselves).
+			if (interaction.Intent != Intent.Harm && performer != target)
 			{
 				wna.RpcMeleeAttackLerp(dir, gameObject);
 			}

@@ -73,7 +73,6 @@ namespace Systems.MobAIs
 			//TODO use the actual chat api when it allows it!
 			Chat.AddLocalMsgToChat(
 				text,
-				gameObject.transform.position,
 				gameObject,
 				mobNameCap);
 			ChatBubbleManager.ShowAChatBubble(gameObject.transform, text);

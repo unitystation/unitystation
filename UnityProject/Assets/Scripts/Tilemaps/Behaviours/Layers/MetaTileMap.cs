@@ -239,32 +239,43 @@ namespace TileManagement
 			return (damage - RemainingDamage);
 		}
 
-		public bool IsPassableAt(Vector3Int position, bool isServer)
-		{
-			return IsPassableAt(position, position, isServer);
-		}
-
-		public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
+		public bool IsPassableAtOneTileMap(Vector3Int origin, Vector3Int to, bool isServer,
 				CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
-				List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false)
+				List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+				bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 		{
-			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
-			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+			// Simple case: orthogonal travel
+			if (origin.x == to.x || origin.y == to.y)
+			{
+				return IsPassableAtOrthogonal(origin, to, isServer, collisionType, inclPlayers, context, excludeLayers,
+					   excludeTiles, ignoreObjects, isReach: isReach);
+			}
+			else // diagonal travel
+			{
+				Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+				Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
-			return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context, excludeLayers,
-				       excludeTiles, ignoreObjects) &&
-			       _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects) ||
-			       _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context, excludeLayers,
-				       excludeTiles, ignoreObjects) &&
-			       _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects);
+				List<LayerType> diagonalExcludes = onlyExcludeLayerOnDestination ? null : excludeLayers;
+
+				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonal(origin, toX, isServer, collisionType, inclPlayers, context, diagonalExcludes,
+						   excludeTiles, ignoreObjects, isReach: isReach) &&
+					   IsPassableAtOrthogonal(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach: isReach);
+
+				bool isPassableIfVerticalFirst = IsPassableAtOrthogonal(origin, toY, isServer, collisionType, inclPlayers, context, diagonalExcludes,
+						   excludeTiles, ignoreObjects, isReach: isReach) &&
+					   IsPassableAtOrthogonal(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach: isReach);
+
+				return isPassableIfHorizontalFirst || isPassableIfVerticalFirst;
+			}
+
 		}
 
-		private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
+		private bool IsPassableAtOrthogonal(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
-			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false)
+			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false, bool isReach = false)
 		{
 			if (ignoreObjects == false &&
-					ObjectLayer.IsPassableAt(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles) == false)
+					ObjectLayer.IsPassableAtOnThisLayer(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles, isReach: isReach) == false)
 			{
 				return false;
 			}
@@ -698,7 +709,7 @@ namespace TileManagement
 						? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
 						: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
 					{
-						if (!o.IsPassable(isServer))
+						if (o.IsPassable(isServer) == false)
 						{
 							return false;
 						}
@@ -728,7 +739,7 @@ namespace TileManagement
 						if (o is RegisterObject)
 						{
 							PushPull pushPull = o.GetComponent<PushPull>();
-							if (pushPull == null && !o.IsPassable(isServer))
+							if (pushPull == null && o.IsPassable(isServer) == false)
 							{
 								return false;
 							}
@@ -761,7 +772,7 @@ namespace TileManagement
 						? ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
 						: ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position))
 					{
-						if (!o.IsPassable(isServer))
+						if (o.IsPassable(isServer) == false)
 						{
 							bool isExcluded = false;
 							for (var index = 0; index < context.Length; index++)
@@ -773,7 +784,7 @@ namespace TileManagement
 								}
 							}
 
-							if (!isExcluded)
+							if (isExcluded == false)
 							{
 								return false;
 							}
@@ -1060,7 +1071,7 @@ namespace TileManagement
 				}
 			}
 
-			if (!Layers.ContainsKey(tile.LayerType))
+			if (Layers.ContainsKey(tile.LayerType) == false)
 			{
 				Logger.LogErrorFormat($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
 				return;

@@ -64,6 +64,7 @@ public class GUI_DevCloner : MonoBehaviour
 				renderer.GetPropertyBlock(block);
 				List<Vector4> pal = palette.ConvertAll((c) => new Vector4(c.r, c.g, c.b, c.a));
 				block.SetVectorArray("_ColorPalette", pal);
+				block.SetInt("_PaletteSize", pal.Count);
 				block.SetInt("_IsPaletted", 1);
 				renderer.SetPropertyBlock(block);
 
@@ -189,7 +190,7 @@ public class GUI_DevCloner : MonoBehaviour
 			{
 				Vector3Int position = cursorObject.transform.position.RoundToInt();
 				position.z = 0;
-				if (MatrixManager.IsPassableAt(position, false))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(position, false))
 				{
 					if (CustomNetworkManager.IsServer)
 					{

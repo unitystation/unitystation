@@ -47,7 +47,7 @@ public class VotePopUp : MonoBehaviour
 
 	public void VoteYes()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		if (PlayerManager.PlayerScript != null)
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(true);
@@ -61,7 +61,7 @@ public class VotePopUp : MonoBehaviour
 
 	public void VoteNo()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		if (PlayerManager.PlayerScript != null)
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(false);
@@ -74,7 +74,7 @@ public class VotePopUp : MonoBehaviour
 
 	public void AdminVeto()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		if (PlayerManager.PlayerScript != null)
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote(ServerData.UserID, PlayerList.Instance.AdminToken);

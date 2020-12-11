@@ -67,7 +67,7 @@ namespace Doors
 
 		public override void OpenDoor(bool skipAnimation)
 		{
-			if (!skipAnimation)
+			if (skipAnimation == false)
 			{
 				doorController.isPerformingAction = true;
 				doorController.PlayOpenSound();
@@ -79,7 +79,7 @@ namespace Doors
 
 		public override void CloseDoor(bool skipAnimation)
 		{
-			if (!skipAnimation)
+			if (skipAnimation == false)
 			{
 				doorController.isPerformingAction = true;
 				doorController.PlayCloseSound();
@@ -90,13 +90,13 @@ namespace Doors
 
 		public override void AccessDenied(bool skipAnimation)
 		{
-			if (skipAnimation || !IncludeAccessDeniedAnim)
+			if (skipAnimation || IncludeAccessDeniedAnim == false)
 			{
 				return;
 			}
 
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
+			SoundManager.PlayAtPosition( SingletonSOSounds.Instance.AccessDenied, transform.position, gameObject);
 			StartCoroutine(PlayDeniedAnim());
 		}
 
@@ -193,7 +193,7 @@ namespace Doors
 			{
 				doorbase.sprite = sprites[WcloseFrame];
 			}
-			doorController.OnAnimationFinished();
+			doorController.OnAnimationFinished(isClosing: true);
 		}
 
 		private IEnumerator PlayOpenAnim(bool skipAnimation)
@@ -229,7 +229,7 @@ namespace Doors
 			bool light = false;
 			for (int i = 0; i < WanimLength * 2; i++)
 			{
-				if (!light)
+				if (light == false)
 				{
 					doorbase.sprite = sprites[WdeniedFrame];
 				}

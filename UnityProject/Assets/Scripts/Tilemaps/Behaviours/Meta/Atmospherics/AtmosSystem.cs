@@ -20,7 +20,14 @@ namespace Systems.Atmospherics
 					spawnWithNoAir = tile.SpawnWithNoAir;
 				}
 				MetaDataNode node = metaDataLayer.Get(position, false);
-				node.GasMix = new GasMix((node.IsRoom || node.IsOccupied) && !spawnWithNoAir ? GasMixes.Air : GasMixes.Space);
+				if ((node.IsRoom || node.IsOccupied) && !spawnWithNoAir)
+				{
+					node.GasMix = GasMix.NewGasMix(GasMixes.Air);
+				}
+				else
+				{
+					node.GasMix = GasMix.NewGasMix(GasMixes.Space);
+				}
 			}
 		}
 

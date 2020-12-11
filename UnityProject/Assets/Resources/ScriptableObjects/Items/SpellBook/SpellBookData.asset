@@ -16,12 +16,14 @@ MonoBehaviour:
   - name: Offensive
     description: Spells and items geared towards debilitating and destroying.
     entryList:
-    - {fileID: 11400000, guid: 5f87294e709ac064080fb911d6c320e4, type: 2}
     - {fileID: 11400000, guid: 2e06a74590a147e4eaeb08b46d3ac321, type: 2}
+    - {fileID: 11400000, guid: d0cd33073ae97b24381002690a69d7e4, type: 2}
+    - {fileID: 11400000, guid: 5f87294e709ac064080fb911d6c320e4, type: 2}
   - name: Defensive
     description: Spells and items geared towards improving your survivability or
       reducing foes' ability to attack.
     entryList:
+    - {fileID: 11400000, guid: 6208b5c364e9cd34baf190050eb8fcb6, type: 2}
     - {fileID: 11400000, guid: 958b94163c62ac943b3adbaa26976ae1, type: 2}
   - name: Mobility
     description: Spells and items geared towards improving your ability to move.
@@ -32,8 +34,12 @@ MonoBehaviour:
   - name: Assistance
     description: Spells and items geared towards bringing in outside forces to aid
       you or improving upon your other items and abilities.
-    entryList: []
+    entryList:
+    - {fileID: 11400000, guid: 5858f4c01fc04af408aab0739a1e4b50, type: 2}
+    - {fileID: 11400000, guid: 455f9b4f1f4e2774fb97c03f4639062a, type: 2}
   - name: Rituals
     description: These powerful spells change the very fabric of reality. Not always
       in your favour.
-    entryList: []
+    entryList:
+    - {fileID: 11400000, guid: 5edec36434aa4cd468a0585821e2a0e6, type: 2}
+    - {fileID: 11400000, guid: 92e61ea6a855f76459fbf69005072284, type: 2}

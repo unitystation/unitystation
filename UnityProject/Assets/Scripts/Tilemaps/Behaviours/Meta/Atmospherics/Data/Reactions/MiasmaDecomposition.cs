@@ -11,12 +11,12 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public float React(ref GasMix gasMix, Vector3 tilePos)
+		public void React(GasMix gasMix, Vector3 tilePos)
 		{
 			if (gasMix.GetMoles(Gas.WaterVapor) != 0 && gasMix.GetMoles(Gas.WaterVapor) / gasMix.Moles > 0.1)
 			{
 				//No reaction
-				return 0f;
+				return;
 			}
 
 			var cleanedAir = Mathf.Min(gasMix.GetMoles(Gas.Miasma), 20 + (gasMix.Temperature - 373.15f - 70) / 20);
@@ -26,8 +26,6 @@ namespace Systems.Atmospherics
 			gasMix.AddGas(Gas.Oxygen, cleanedAir);
 
 			gasMix.SetTemperature(gasMix.Temperature + cleanedAir * 0.002f);
-
-			return 0f;
 		}
 	}
 }

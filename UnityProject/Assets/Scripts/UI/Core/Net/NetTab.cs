@@ -40,6 +40,8 @@ public enum NetTabType
 	Mixer = 29,
 	SpellBook = 30,
 	TeleportScroll = 31,
+	MagicMirror = 32,
+	ContractOfApprenticeship = 33,
 
 	//add your tabs here
 }
@@ -237,9 +239,15 @@ public class NetTab : Tab
 			}
 		}
 	}
+
 	public void CloseTab()
 	{
 		ControlTabs.CloseTab(Type, Provider);
+	}
+
+	public void ServerCloseTabFor(ConnectedPlayer player)
+	{
+		TabUpdateMessage.Send(player.GameObject, Provider, Type, TabAction.Close);
 	}
 }
 

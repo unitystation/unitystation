@@ -38,15 +38,14 @@ namespace Objects.Engineering
 
 		public float Voltage => voltageSync;
 
-		private float current;
-		public float Current => current;
+		public float Current { get; private set; }
 
 		private ElectricalNodeControl electricalNodeControl;
 		private ResistanceSourceModule resistanceSourceModule;
 
 
-		[SerializeField][FormerlySerializedAs("NetTabType")]
-		private NetTabType netTabType;
+		[SerializeField, FormerlySerializedAs("NetTabType")]
+		private NetTabType netTabType = NetTabType.Apc;
 
 		/// <summary>
 		/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
@@ -135,7 +134,7 @@ namespace Objects.Engineering
 			}
 			ElectricityFunctions.WorkOutActualNumbers(electricalNodeControl.Node.InData);
 			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);
-			current = electricalNodeControl.Node.InData.Data.CurrentInWire;
+			Current = electricalNodeControl.Node.InData.Data.CurrentInWire;
 			HandleDevices();
 			UpdateDisplay();
 		}
@@ -469,4 +468,3 @@ namespace Objects.Engineering
 		}
 	}
 }
-

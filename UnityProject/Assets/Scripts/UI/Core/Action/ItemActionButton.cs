@@ -59,7 +59,7 @@ namespace UI.Action
 			bool shouldShow = ShouldShowButton(info);
 			ClientSetActionButtonVisibility(shouldShow);
 
-			if (PlayerManager.LocalPlayerScript == null) return;
+			if (PlayerManager.LocalPlayerScript == null || PlayerManager.LocalPlayerScript.playerHealth == null) return;
 			if (shouldShow)
 			{
 				PlayerManager.LocalPlayerScript.playerHealth.OnDeathNotifyEvent += OnDeath;

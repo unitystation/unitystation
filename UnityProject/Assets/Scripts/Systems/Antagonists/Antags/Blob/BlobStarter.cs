@@ -251,6 +251,10 @@ namespace Blob
 		/// </summary>
 		private void FormBlob()
 		{
+			var playerScript = gameObject.GetComponent<PlayerScript>();
+
+			if (playerScript.IsDeadOrGhost) return;
+
 			var bound = MatrixManager.MainStationMatrix.Bounds;
 
 			//Teleport user to random location on station if outside radius of 600 or on a space tile
@@ -258,7 +262,7 @@ namespace Blob
 				.magnitude > 600f) || MatrixManager.IsSpaceAt(gameObject.GetComponent<PlayerSync>().ServerPosition, true))
 			{
 				Vector3 position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
-				while (MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position), true) || MatrixManager.IsWallAt(Vector3Int.FloorToInt(position), true))
+				while (MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position), true) || MatrixManager.IsWallAtAnyMatrix(Vector3Int.FloorToInt(position), true))
 				{
 					position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
 				}
@@ -273,8 +277,6 @@ namespace Blob
 				Debug.LogError("Failed to spawn blob!");
 				return;
 			}
-
-			var playerScript = gameObject.GetComponent<PlayerScript>();
 
 			spawnResult.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
 
