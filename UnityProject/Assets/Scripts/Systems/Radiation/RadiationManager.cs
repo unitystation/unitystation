@@ -13,21 +13,7 @@ namespace Systems.Radiation
 		public List<RadiationPulse> PulseQueue = new List<RadiationPulse>();
 		private List<RadiationPulse> WorkingPulseQueue = new List<RadiationPulse>();
 
-		public static RadiationManager Instance
-		{
-			get
-			{
-				if (instance == null)
-				{
-					instance = FindObjectOfType<RadiationManager>();
-				}
-
-				return instance;
-			}
-			set { instance = value; }
-		}
-
-		private static RadiationManager instance;
+		public static RadiationManager Instance;
 
 		public bool Running { get; private set; }
 		public float MSSpeed = 100;
@@ -39,6 +25,7 @@ namespace Systems.Radiation
 
 		void OnEnable()
 		{
+			Instance = this;
 			EventManager.AddHandler(EVENT.RoundStarted, StartSim);
 			EventManager.AddHandler(EVENT.RoundEnded, StopSim);
 		}

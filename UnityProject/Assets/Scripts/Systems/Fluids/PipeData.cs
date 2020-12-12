@@ -85,7 +85,7 @@ namespace Pipes
 				PipeAction.pipeData = this;
 			}
 
-			AtmosManager.Instance.inGameNewPipes.Add(this);
+			AtmosManager.Instance.AddPipe(this);
 			ConnectedPipes =
 				PipeFunctions.GetConnectedPipes(ConnectedPipes, this, MatrixPos, matrix);
 
@@ -138,7 +138,7 @@ namespace Pipes
 
 		public virtual void OnDisable()
 		{
-			AtmosManager.Instance.inGameNewPipes.Remove(this);
+			AtmosManager.Instance.RemovePipe(this);
 			foreach (var Pipe in ConnectedPipes)
 			{
 				if(Pipe == null) continue;

@@ -7,7 +7,7 @@ using Pipes;
 
 namespace Pipes
 {
-	public class AirVent : MonoPipe
+	public class AirVent : MonoPipe, IServerSpawn
 	{
 		public bool SelfSufficient = false;
 
@@ -28,19 +28,14 @@ namespace Pipes
 			base.Start();
 		}
 
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
+			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+		}
+
 		public override void TickUpdate()
 		{
-			if (metaDataLayer == null)
-			{
-				metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			}
-
-			if (metaNode == null)
-			{
-				metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
-			}
-
-
 			base.TickUpdate();
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 			CheckAtmos();
