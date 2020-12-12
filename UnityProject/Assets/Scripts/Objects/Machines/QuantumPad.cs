@@ -6,6 +6,7 @@ using Mirror;
 using System.Linq;
 using Gateway;
 using Systems.Scenes;
+using Random=UnityEngine.Random;
 
 namespace Objects.Science
 {
@@ -31,6 +32,10 @@ namespace Objects.Science
 		public string messageOnTravelToThis;
 
 		private RegisterTile registerTile;
+
+		private int randomNumber;
+
+		public GameObject MutatedBread;
 
 		private Matrix Matrix => registerTile.Matrix;
 
@@ -96,6 +101,8 @@ namespace Objects.Science
 			{
 				LavaLandManager.Instance.LavaLandBase2Connector = this;
 			}
+
+			int randomNumber = Random.Range(1, 100);
 		}
 
 		private void OnEnable()
@@ -184,6 +191,12 @@ namespace Objects.Science
 			{
 				TransportUtility.TransportObjectAndPulled(item, travelCoord);
 				somethingTeleported = true;
+
+				if(item.GetComponent<Bread>() == true && randomNumber == 10)
+				{
+					Instantiate(MutatedBread, travelCoord, Quaternion.identity);
+				}
+				
 			}
 
 			if (!doingAnimation && passiveDetect && somethingTeleported)
