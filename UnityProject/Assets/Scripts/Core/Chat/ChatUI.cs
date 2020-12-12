@@ -26,14 +26,11 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Transform thresholdMarkerBottom = null;
 	[SerializeField] private Transform thresholdMarkerTop = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
-<<<<<<< HEAD
 	[SerializeField] private MentorHelpChat mentorHelpChat = null;
 	[SerializeField] private GameObject helpSelectionPanel = null;
-=======
 	[SerializeField] private RectTransform safeArenaRect = default;
 
 	public RectTransform SafeArenaRect => safeArenaRect;
->>>>>>> origin/develop
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
