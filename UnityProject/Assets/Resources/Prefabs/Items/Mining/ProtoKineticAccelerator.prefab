@@ -14,19 +14,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  ammoPrefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+  ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
     type: 3}
   casingPrefabOverride: {fileID: 0}
   allowMagazineRemoval: 1
   ammoType: 18
+  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+    type: 3}
+  suppressorPrefab: {fileID: 0}
   SpawnsCasing: 0
   MagInternal: 1
-  burstCooldown: 0
-  burstCount: 3
   SmartGun: 0
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FiringSound: ShootKinetic
+  FiringSoundA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  SuppressedSound: 
+  SuppressedSoundA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   FireRate: 1
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
@@ -35,6 +51,8 @@ MonoBehaviour:
     RecoilDuration: 0
     RecoveryDuration: 0
   WeaponType: 1
+  isSuppressed: 0
+  isSuppressible: 0
   Projectile: {fileID: 1560634355228308, guid: 904d4b4cb2c22314b82de3393f1cb254, type: 3}
   rechargeTime: 2
 --- !u!1001 &326958216201229889

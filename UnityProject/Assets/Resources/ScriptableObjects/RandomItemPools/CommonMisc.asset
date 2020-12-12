@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: CommonMisc
   m_EditorClassIdentifier: 
   pool:
-  - prefab: {fileID: 2819670291326673133, guid: 09868dc1147587f4191af0a4defd8c1d,
+  - prefab: {fileID: 8687924225242013247, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
       type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 3775655333583056072, guid: 47e554b7c6d142949a9ecca95c2cd526,
-      type: 3}
+  - prefab: {fileID: 455931542842438959, guid: 601e5fd21b8f19e4abb1c2dc0bb429c1, type: 3}
     maxAmount: 1
     probability: 25
   - prefab: {fileID: 7914350351518715449, guid: 908afbc5b9f871148b5ccd0b81bd147f,
@@ -33,3 +32,18 @@ MonoBehaviour:
       type: 3}
     maxAmount: 1
     probability: 50
+  - prefab: {fileID: 7176186905533401045, guid: 8dac66dd8d4d1724bbfc9915d26583e6,
+      type: 3}
+    maxAmount: 1
+    probability: 80
+  - prefab: {fileID: 2043259655805960583, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7155419759927997733, guid: 975467bc4c51d794e9c556bd095e5e33,
+      type: 3}
+    maxAmount: 1
+    probability: 50
+  - prefab: {fileID: 133447297619427422, guid: 41be4fe4e9ea29443a0731c3637687f9, type: 3}
+    maxAmount: 1
+    probability: 30

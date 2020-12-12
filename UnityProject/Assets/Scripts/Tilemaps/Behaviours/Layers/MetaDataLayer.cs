@@ -127,10 +127,6 @@ public class MetaDataLayer : MonoBehaviour
 				case "SpaceCleaner":
 					Clean(worldPosInt, localPosInt, false);
 					break;
-				case "WeldingFuel":
-					//temporary: converting spilled fuel to plasma
-					Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
-					break;
 				case "SpaceLube":
 				{
 					//( ͡° ͜ʖ ͡°)

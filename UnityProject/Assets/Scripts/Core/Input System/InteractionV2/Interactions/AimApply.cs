@@ -79,7 +79,7 @@ public class AimApply : Interaction
 		                   (Vector2) PlayerManager.LocalPlayer.transform.position;
 		//check for self aim if target vector is sufficiently small so we can avoid raycast
 		var selfAim = false;
-		if (targetVector.magnitude < 1.1)
+		if (targetVector.magnitude < 0.5)
 		{
 			selfAim = MouseUtils.GetOrderedObjectsUnderMouse(PLAYER_LAYER_MASK,
 				go => go == PlayerManager.LocalPlayer).Any();

@@ -63,11 +63,18 @@ namespace Weapons
 		/// </summary>
 		public GunTrigger FiringPin =>
 			pinSlot.Item.GetComponent<GunTrigger>();
+
 		/// <summary>
 		/// The firing pin to initally spawn within the gun
 		/// </summary>
 		[SerializeField, Tooltip("The firing pin initally inside the gun")]
 		private GameObject pinPrefab = null;
+
+		/// <summary>
+		/// The suppressor that will initally spawn attached to the gun provided the gun is suppressable
+		/// </summary>
+		[SerializeField, Tooltip("The suppressor initally attached to the gun (if there is one)")]
+		private GameObject suppressorPrefab = default;
 
 		/// <summary>
 		/// Checks if the weapon should spawn weapon casings
@@ -181,6 +188,7 @@ namespace Weapons
 		private ItemStorage itemStorage;
 		public ItemSlot magSlot;
 		public ItemSlot pinSlot;
+		public ItemSlot suppressorSlot;
 
 		// used for clusmy self shooting randomness
 		private System.Random rnd = new System.Random();
@@ -198,9 +206,6 @@ namespace Weapons
 		[SerializeField, Tooltip("If suppressors can be applied or removed")]
 		private bool isSuppressible = default;
 
-		[SerializeField]
-		private GameObject suppressor = default;
-
 		#region Init Logic
 
 		private void Awake()
@@ -210,6 +215,7 @@ namespace Weapons
 			itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
 			pinSlot = itemStorage.GetIndexedItemSlot(1);
+			suppressorSlot = itemStorage.GetIndexedItemSlot(2);
 			registerTile = GetComponent<RegisterTile>();
 			queuedShots = new Queue<QueuedShot>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
@@ -260,6 +266,11 @@ namespace Weapons
 			}
 
 			Inventory.ServerAdd(Spawn.ServerPrefab(pinPrefab).GameObject, pinSlot);
+
+			if (suppressorPrefab != null && isSuppressed && isSuppressible)
+			{
+				Inventory.ServerAdd(Spawn.ServerPrefab(suppressorPrefab).GameObject, suppressorSlot);
+			}
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)
@@ -361,7 +372,7 @@ namespace Weapons
 			return false;
 		}
 
-		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		public virtual bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
@@ -486,7 +497,7 @@ namespace Weapons
 			}
 		}
 
-		public void ServerPerformInteraction(InventoryApply interaction)
+		public virtual void ServerPerformInteraction(InventoryApply interaction)
 		{
 			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 			{
@@ -500,20 +511,13 @@ namespace Weapons
 					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) && !isSuppressed && isSuppressible)
 					{
 						SyncIsSuppressed(isSuppressed, true);
-						// setting the suppressor var to the gameobject and then spawning that would be better,
-						// however the despawning sets the var to null
-						Despawn.ServerSingle(interaction.UsedObject);
+						Inventory.ServerTransfer(interaction.FromSlot, suppressorSlot);
 					}
 				}
-				else if (isSuppressed && isSuppressible)
+				else if (isSuppressed && isSuppressible && suppressorSlot.Item != null)
 				{
 					SyncIsSuppressed(isSuppressed, false);
-					var result = Spawn.ServerPrefab(suppressor);
-					if (result.Successful)
-					{
-					var item = result.GameObject;
-					Inventory.ServerAdd(item, interaction.FromSlot);
-					}
+					Inventory.ServerTransfer(suppressorSlot, interaction.FromSlot);
 				}
 			}
 		}
@@ -565,7 +569,7 @@ namespace Weapons
 				DequeueAndProcessServerShot();
 			}
 
-			if (queuedUnload && queuedShots.Count == 0 && allowMagazineRemoval && !MagInternal)
+			if (queuedUnload && queuedShots.Count == 0 && !MagInternal)
 			{
 				// done processing shot queue,
 				// perform the queued unload action, causing all clients and server to update their version of this Weapon
@@ -608,7 +612,7 @@ namespace Weapons
 		private bool TryReload(GameObject ammo)
 		{
 			MagazineBehaviour magazine = ammo.GetComponent<MagazineBehaviour>();
-			if (CurrentMagazine == null || (MagInternal && magazine.isClip))
+			if (CurrentMagazine == null || (MagInternal && magazine.magType == MagType.Clip))
 			{
 				//RELOAD
 				// If the item used on the gun is a magazine, check type and reload
@@ -835,7 +839,7 @@ namespace Weapons
 		/// handles validation checks and then calls ServerHandleReloadRequest
 		/// </summary>
 		/// <param name="mag"></param>
-		private void RequestReload(GameObject mag)
+		public void RequestReload(GameObject mag)
 		{
 			uint networkID = mag.gameObject.GetComponent<NetworkIdentity>().netId;
 			ServerHandleReloadRequest(networkID);
@@ -889,7 +893,7 @@ namespace Weapons
 		/// Calls InertiaDrop and then passes handling over to ServerHandleUnloadRequest
 		/// </summary>
 		/// <param name="magscript"></param>
-		private void RequestUnload(MagazineBehaviour magscript)
+		public void RequestUnload(MagazineBehaviour magscript)
 		{
 			Logger.LogTrace("Unloading", Category.Firearms);
 			if (magscript != null)

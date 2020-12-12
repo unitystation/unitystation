@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -37,19 +38,18 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	private double[] RNGContents;
 
 	/// <summary>
-	///	Whether this can be used to reload other (internal or external) magazines.
+	///	The type of magazine. This effects various behaviours depending on its setting
 	/// </summary>
-	public bool isClip = false;
-	public bool isCell = false;
+	public MagType magType;
 
 	[SerializeField, FormerlySerializedAs("Projectile")]
 	public GameObject initalProjectile;
 	public int ProjectilesFired = 1;
 
-	[HideInInspector]
+	[NonSerialized]
 	public List<int> containedProjectilesFired = new List<int>();
 
-	[HideInInspector]
+	[NonSerialized]
 	public List<GameObject> containedBullets = new List<GameObject>();
 	public AmmoType ammoType; //SET IT IN INSPECTOR
 	public int magazineSize = 20;
@@ -80,7 +80,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		//set to max ammo on initialization
 		clientAmmoRemains = -1;
-		if (!isClip)
+		if (magType != MagType.Clip)
 		{
 			InitLists();
 		}
@@ -166,7 +166,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			{
 				var remaining = serverAmmoRemains - amount;
 				SyncServerAmmo(remaining, remaining);
-				if (!isClip && !isCell)
+				if (magType == MagType.Standard)
 				{
 					for (int i = amount;i != 0;i--)
 					{
@@ -174,7 +174,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 						containedProjectilesFired.RemoveAt(0);
 					}
 				}
-				if (isClip && serverAmmoRemains == 0)
+				if (magType == MagType.Clip && serverAmmoRemains == 0)
 				{
 					Despawn.ServerSingle(gameObject);
 				}
@@ -203,7 +203,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		int toTransfer = Math.Min(magazineSize - serverAmmoRemains, clip.serverAmmoRemains);
 
 		clip.ExpendAmmo(toTransfer);
-		if (!isClip && !isCell)
+		if (magType == MagType.Standard)
 		{
 			for (int i = toTransfer;i != 0;i--)
 			{
@@ -238,7 +238,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 		if (mag == null) return false;
 		if (interaction.UsedObject == null) return false;
-		if (mag.ammoType != ammoType || !isClip) return false;
+		if (mag.ammoType != ammoType || magType != MagType.Clip) return false;
 
 		return true;
 	}
@@ -266,10 +266,17 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		return currentRNG;
 	}
 
-	public String Examine(Vector3 pos)
+	public virtual String Examine(Vector3 pos)
 	{
 		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0 ? (ServerAmmoRemains.ToString() + " left") : "empty") + ")";
 	}
+}
+
+public enum MagType
+{
+	Standard,
+	Clip,
+	Cell
 }
 
 public enum AmmoType
