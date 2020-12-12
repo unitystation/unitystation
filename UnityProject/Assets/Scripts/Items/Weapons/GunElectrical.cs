@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using Weapons;
 using Mirror;
 using Weapons.Projectiles;
@@ -12,6 +13,9 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	public List<string> firemodeFiringSound = new List<string>();
 	public List<string> firemodeName = new List<string>();
 	public List<int> firemodeUsage = new List<int>();
+
+	[SerializeField]
+	private bool allowScrewdriver = true;
 
 	[SyncVar(hook = nameof(UpdateFiremode))]
 	private int currentFiremode = 0;
@@ -41,7 +45,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		//only reload if the gun is the target and mag/clip is in hand slot
 		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot && side == NetworkSide.Client)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && allowScrewdriver)
 			{
 				return true;
 			}
@@ -98,7 +102,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	{
 		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && !MagInternal)
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && allowScrewdriver)
 			{
 				base.RequestUnload(CurrentMagazine);
 			}
@@ -127,4 +131,15 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 
 		return returnstring;
 	}
+
+	#if UNITY_EDITOR
+	[CustomEditor(typeof(GunElectrical), true)]
+	public class GunEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			DrawDefaultInspector();
+		}
+	}
+#endif
 }

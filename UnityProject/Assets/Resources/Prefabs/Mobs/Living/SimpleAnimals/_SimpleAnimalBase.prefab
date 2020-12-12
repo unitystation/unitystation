@@ -45,6 +45,18 @@ MonoBehaviour:
   tickRate: 1
   status: 0
   fleeTarget: {fileID: 0}
+--- !u!114 &4462273466969889628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7494601431046934675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6494159132825836884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16004dedecb6d54e8bde3e5d6279b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 0}
+  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
   agentParameters:
     agentCameras: []
     agentRenderTextures: []
@@ -127,18 +139,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldOfView: 180
---- !u!114 &4462273466969889628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7494601431046934675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6860421472168776363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -225,6 +225,16 @@ PrefabInstance:
         type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426004051663692620, guid: 7d1194368de61d14b85c45c90d409c20,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426004051663692620, guid: 7d1194368de61d14b85c45c90d409c20,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d1194368de61d14b85c45c90d409c20, type: 3}

@@ -14,16 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isClip: 0
-  isCell: 1
+  magType: 2
   initalProjectile: {fileID: 0}
   ProjectilesFired: 1
-  containedProjectilesFired: 
-  containedBullets: []
   ammoType: 14
   magazineSize: 20
-  battery: {fileID: 5039032819772725725}
-  toRemove: 0
 --- !u!1001 &6655333940234197588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -154,15 +149,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6655333940234197588}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5039032819772725725 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1851616424243757961, guid: a910878bd30ff5d439b94cd12e623762,
-    type: 3}
-  m_PrefabInstance: {fileID: 6655333940234197588}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5999901686547831408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5f7bc434f271324f9dceb9f6476a0c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

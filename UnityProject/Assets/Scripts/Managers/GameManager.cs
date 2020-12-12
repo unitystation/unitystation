@@ -384,7 +384,14 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		foreach (var s in iServerSpawns)
 		{
-			s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
+			try
+			{
+				s.OnSpawnServer(SpawnInfo.Mapped(((Component) s).gameObject));
+			}
+			catch (Exception e)
+			{
+				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.ItemSpawn, e.Message);
+			}
 		}
 	}
 

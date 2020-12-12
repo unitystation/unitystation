@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEditor;
 
 /// <summary>
 /// Gun scripts are strange, This is to make it easy to have a charging Ammo clip
@@ -7,13 +8,15 @@ using UnityEngine;
 [RequireComponent(typeof(Battery))]
 public class ElectricalMagazine : MagazineBehaviour
 {
-
+	[NonSerialized]
 	public Battery battery;
 
+	[NonSerialized]
 	public int toRemove;
 
 	public void Awake()
 	{
+		magType = MagType.Cell;
 		battery = GetComponent<Battery>();
 	}
 
