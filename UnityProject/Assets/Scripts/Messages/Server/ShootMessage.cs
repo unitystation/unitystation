@@ -12,7 +12,6 @@ namespace Weapons
 	/// </summary>
 	public class ShootMessage : ServerMessage
 	{
-
 		/// <summary>
 		/// GameObject of the player performing the shot
 		/// </summary>
@@ -20,7 +19,7 @@ namespace Weapons
 		/// <summary>
 		/// Weapon being used to perform the shot
 		/// </summary>
-		public uint Projectile;
+		public uint Weapon;
 		/// <summary>
 		/// Direction of shot, originating from Shooter)
 		/// </summary>
@@ -33,6 +32,14 @@ namespace Weapons
 		/// If the shot is aimed at the shooter
 		/// </summary>
 		public bool IsSuicideShot;
+		/// <summary>
+		/// Name of the projectile
+		/// </summary>
+		public string ProjectileName;
+		/// <summary>
+		/// Amount of projectiles
+		/// </summary>
+		public int Quantity;
 
 		///To be run on client
 		public override void Process()
@@ -49,17 +56,18 @@ namespace Weapons
 			//Not even spawned don't show bullets
 			if (PlayerManager.LocalPlayer == null) return;
 
-			LoadMultipleObjects(new [] { Shooter, Projectile });
+			LoadMultipleObjects(new uint[] { Shooter, Weapon});
 
 			Gun wep = NetworkObjects[1].GetComponent<Gun>();
 			if (wep == null)
 			{
 				return;
 			}
+
 			//only needs to run on the clients other than the shooter
 			if (!wep.isServer && PlayerManager.LocalPlayer.gameObject != NetworkObjects[0])
 			{
-				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot);
+				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, ProjectileName, Quantity);
 			}
 		}
 
@@ -71,15 +79,17 @@ namespace Weapons
 		/// <param name="shooter">gameobject of player making the shot</param>
 		/// <param name="isSuicide">if the shooter is shooting themselves</param>
 		/// <returns></returns>
-		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide)
+		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, string projectileName, int quantity)
 		{
 			var msg = new ShootMessage
 			{
-				Projectile = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				Direction = direction,
 				DamageZone = damageZone,
 				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
-				IsSuicideShot = isSuicide
+				IsSuicideShot = isSuicide,
+				ProjectileName = projectileName,
+				Quantity = quantity
 			};
 			msg.SendToAll();
 			return msg;
@@ -93,21 +103,25 @@ namespace Weapons
 		public override void Deserialize(NetworkReader reader)
 		{
 			base.Deserialize(reader);
-			Projectile = reader.ReadUInt32();
+			Weapon = reader.ReadUInt32();
 			Direction = reader.ReadVector2();
 			DamageZone = (BodyPartType)reader.ReadUInt32();
 			Shooter = reader.ReadUInt32();
 			IsSuicideShot = reader.ReadBoolean();
+			ProjectileName = reader.ReadString();
+			Quantity = reader.ReadInt32();
 		}
 
 		public override void Serialize(NetworkWriter writer)
 		{
 			base.Serialize(writer);
-			writer.WriteUInt32(Projectile);
+			writer.WriteUInt32(Weapon);
 			writer.WriteVector2(Direction);
 			writer.WriteInt32((int)DamageZone);
 			writer.WriteUInt32(Shooter);
 			writer.WriteBoolean(IsSuicideShot);
+			writer.WriteString(ProjectileName);
+			writer.WriteInt32(Quantity);
 		}
 	}
 

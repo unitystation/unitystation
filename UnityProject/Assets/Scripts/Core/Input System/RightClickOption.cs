@@ -14,8 +14,9 @@ public class RightClickOption : ScriptableObject
 	[Tooltip("Text to show for this option in the radial menu.")]
 	public String label;
 	[Tooltip("background color of the radial menu item")]
-	public Color backgroundColor = Color.gray;
-
+	public Color backgroundColor = RightClickManager.ButtonColor;
+	[Tooltip("Should the menu stay open when this action is performed.")]
+	public bool keepMenuOpen = true;
 
 	/// <summary>
 	/// Default to the RightClickOption at the specified path if option is null. Convenience method
@@ -37,7 +38,7 @@ public class RightClickOption : ScriptableObject
 	/// <param name="action">action to invoke when clicked</param>
 	public RightClickMenuItem AsMenu(Action action)
 	{
-		var menu = RightClickMenuItem.CreateSubMenuItem(backgroundColor, icon, backgroundSprite, label, action);
+		var menu = RightClickMenuItem.CreateSubMenuItem(backgroundColor, icon, backgroundSprite, label, action, keepMenuOpen: keepMenuOpen);
 		return menu;
 	}
 }

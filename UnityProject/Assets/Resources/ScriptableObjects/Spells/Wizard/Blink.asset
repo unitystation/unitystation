@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
   m_Name: Blink
   m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
   callOnClient: 0
   callOnServer: 1
   actionName: Blink
@@ -22,22 +24,29 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f7b96a7712804949a79f2ec18abee2c, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
   spellImplementation: {fileID: 7469762742606550612, guid: 727cdf95076f5664cb82421703bb12fd,
     type: 3}
-  stillRechargingMessage: The spell is still recharging!
   chargeType: 0
   cooldownTime: 2
   startingCharges: 10
+  castSound: Blink
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 0
+  invocationMessage: 
+  invocationMessageSelf: 
   summonType: 0
   summonObjects: []
   summonTiles: []
   summonPosition: 1
   summonLifespan: 10
-  affectedMessage: 
-  castSound: Blink
-  invocationType: 0
-  invocationMessage: 
-  range: 0
-  invocationMessageSelf: 
   replaceExisting: 0
   requireWizardGarb: 1
+  tierCount: 5
+  cooldownModifierPC: 20

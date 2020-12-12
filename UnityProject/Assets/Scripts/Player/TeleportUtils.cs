@@ -161,7 +161,7 @@ namespace Systems.Teleport
 					continue;
 				}
 
-				if (avoidImpassable && !MatrixManager.IsPassableAt(newPosition, CustomNetworkManager.IsServer))
+				if (avoidImpassable && !MatrixManager.IsPassableAtAllMatricesOneTile(newPosition, CustomNetworkManager.IsServer))
 				{
 					continue;
 				}

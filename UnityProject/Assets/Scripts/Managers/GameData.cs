@@ -69,6 +69,9 @@ public class GameData : MonoBehaviour
 		}
 	}
 
+	public bool DevBuild = false;
+
+
 	void Awake()
 	{
 		Init();
@@ -76,6 +79,9 @@ public class GameData : MonoBehaviour
 
 	private void Init()
 	{
+#if UNITY_EDITOR
+		DevBuild = true;
+#endif
 		var buildInfo =
 			JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
 				"buildinfo.json")));

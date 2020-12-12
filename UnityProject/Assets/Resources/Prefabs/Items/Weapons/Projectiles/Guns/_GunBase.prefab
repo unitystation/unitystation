@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 0}
+  itemStorageStructure: {fileID: 11400000, guid: ee76ba24a0cd443b1a308dd04cdb3678,
+    type: 2}
   itemStorageCapacity: {fileID: 0}
   itemStoragePopulator: {fileID: 0}
 --- !u!114 &4644871529314044369
@@ -33,24 +34,40 @@ MonoBehaviour:
   casingPrefabOverride: {fileID: 0}
   allowMagazineRemoval: 1
   ammoType: 0
+  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+    type: 3}
+  suppressorPrefab: {fileID: 0}
   SpawnsCasing: 1
   MagInternal: 0
-  burstCooldown: 0
-  burstCount: 3
   SmartGun: 0
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FiringSound: 
+  FiringSoundA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  SuppressedSound: 
+  SuppressedSoundA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   FireRate: 0
   MaxRecoilVariance: 0
-  Projectile: {fileID: 0}
-  ProjectilesFired: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
     Distance: 0
     RecoilDuration: 0
     RecoveryDuration: 0
   WeaponType: 0
+  isSuppressed: 0
+  isSuppressible: 0
 --- !u!1001 &8150967651737613344
 PrefabInstance:
   m_ObjectHideFlags: 0

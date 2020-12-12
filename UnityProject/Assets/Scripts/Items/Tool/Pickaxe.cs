@@ -50,7 +50,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		}
 		else
 		{
-			SoundManager.PlayNetworkedAtPos("BreakStone", interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 			var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
 
 			var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;

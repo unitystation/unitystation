@@ -17,13 +17,14 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 3c41ffc5238c6e64d8d2d4e7324abe66,
+      objectReference: {fileID: 21300000, guid: 3c41ffc5238c6e64d8d2d4e7324abe66,
         type: 3}
     - target: {fileID: 3388407568319593415, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: a6e19c7d6afcff246ae8a9c2c153b150,
+        type: 2}
     - target: {fileID: 3486087033876061008, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
       propertyPath: m_Sprite
@@ -123,6 +124,18 @@ PrefabInstance:
       propertyPath: initialName
       value: foam force pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 142ee55c20971b54689d887a12602774,
+        type: 2}
+    - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 92c8fbdd0c285af429459769d58b2763,
+        type: 2}
     - target: {fileID: 5043064573332816032, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
       propertyPath: m_Name
@@ -138,7 +151,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d321377492a98424db9a571b4cde5ed9,
+      objectReference: {fileID: 21300000, guid: a7fbb35a4765a3a40868e3718de6d4e1,
         type: 3}
     - target: {fileID: 6259901807696858119, guid: f99b98719ad16074496e272268d289f9,
         type: 3}

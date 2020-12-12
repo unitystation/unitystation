@@ -28,28 +28,36 @@ namespace Items.Scrolls.TeleportScroll
 
 		public void TeleportTo(TeleportDestination destination)
 		{
-			var teleportingPlayer = netTab.LastInteractedPlayer();
+			ConnectedPlayer teleportingPlayer = GetLastReader();
 
-			if (!HasChargesRemaining(teleportingPlayer)) return;
+			if (!HasChargesRemaining(teleportingPlayer.GameObject)) return;
 
 			if (teleport.IsBusy)
 			{
-				Chat.AddExamineMsgFromServer(teleportingPlayer, $"You are already teleporting!");
+				Chat.AddExamineMsgFromServer(teleportingPlayer.GameObject, $"You are already teleporting!");
 				return;
 			}
 
 			Transform spawnTransform = PlayerSpawn.GetSpawnForJob((JobType)destination);
-			teleport.ServerTeleportWizard(teleportingPlayer, spawnTransform.position.CutToInt());
+			teleport.ServerTeleportWizard(teleportingPlayer.GameObject, spawnTransform.position.CutToInt());
 
 			SpellData teleportSpell = SpellList.Instance.Spells.Find(spell => spell.Name == "Teleport");
 
 			SoundManager.PlayNetworkedAtPos(
-					teleportSpell.CastSound, teleportingPlayer.Player().Script.WorldPos, sourceObj: teleportingPlayer);
+					teleportSpell.CastSound, teleportingPlayer.Script.WorldPos, sourceObj: teleportingPlayer.GameObject);
 
 			var incantation = $"{teleportSpell.InvocationMessage.Trim('!')} {destination.ToString().ToUpper()}!";
-			Chat.AddChatMsgToChat(teleportingPlayer.Player(), incantation, ChatChannel.Local);
+			Chat.AddChatMsgToChat(teleportingPlayer, incantation, ChatChannel.Local);
 
 			ChargesRemaining--;
+		}
+
+		/// <summary>
+		/// Gets the latest player to interact with tab.
+		/// </summary>
+		public ConnectedPlayer GetLastReader()
+		{
+			return netTab.LastInteractedPlayer().Player();
 		}
 	}
 

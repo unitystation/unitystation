@@ -119,7 +119,7 @@ public partial class PlayerSync
 				//RequestMoveMessage.Send(action);
 				BumpType clientBump = CheckSlideAndBump(predictedState, false, ref action);
 
-				action.isRun = UIManager.WalkRun.running;
+				action.isRun = UIManager.Intent.Running;
 
 				// handle predictions here
 				if(playerScript.RcsMode)
@@ -230,25 +230,49 @@ public partial class PlayerSync
 	/// <param name="direction">Direction you're pushing</param>
 	private void PredictiveBumpInteract(Vector3Int worldTile, Vector2Int direction)
 	{
+		Vector3Int worldOrigin = worldTile - (Vector3Int)direction;
+
 		if (!Validations.CanInteract(playerScript, NetworkSide.Client, allowCuffed: true))
 		{
 			return;
 		}
 		// Is the object pushable (iterate through all of the objects at the position):
-		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile, false);
+		List<PushPull> pushPulls = MatrixManager.GetPushableAt(worldOrigin, direction, gameObject, false, true);
 		for (int i = 0; i < pushPulls.Count; i++)
 		{
-			var pushPull = pushPulls[i];
-			if (pushPull && pushPull.gameObject != gameObject && pushPull.CanPushClient(worldTile, direction))
+			var potentialPushed = pushPulls[i];
+			if (potentialPushed && potentialPushed.gameObject != gameObject)
 			{
+				// whether or not we actually manage to push it, make sure we aren't pulling it!
+				if (pushPull.PulledObjectClient == potentialPushed)
+				{
+					pushPull.CmdStopPulling();
+				}
+
+				// if player can't reach, player can't push
+				if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, worldTile, isServer: false, includingPlayers: false, 
+						context: potentialPushed.gameObject, isReach: true) == false)
+				{
+					continue;
+				}
+				
+
+				// If its movement is blocked, don't push it
+				if (potentialPushed.CanPushClient(worldTile, direction) == false)
+				{
+					continue;
+				}
+
 				//					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
-				if (pushPull.TryPredictivePush(worldTile, direction))
+				if (potentialPushed.TryPredictivePush(worldTile, direction))
 				{
 					//telling server what we just predictively pushed this thing
 					//so that server could rollback it for client if it was wrong
 					//instead of leaving it messed up permanently on client side
-					CmdValidatePush(pushPull.gameObject);
+					CmdValidatePush(potentialPushed.gameObject);
 				}
+
+				//If we managed to push, stop trying any more
 				break;
 			}
 		}
@@ -272,7 +296,7 @@ public partial class PlayerSync
 
 		Vector3Int target3int = target.To3Int();
 
-		if (!followMode && !MatrixManager.IsPassableAt(target3int, target3int, false)) //might have issues with windoors
+		if (!followMode && !MatrixManager.IsPassableAtAllMatrices(target3int, target3int, false)) //might have issues with windoors
 		{
 			return false;
 		}

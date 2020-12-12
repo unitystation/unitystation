@@ -1,4 +1,5 @@
 using System;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.UI;
 using Objects.Atmospherics;
@@ -15,6 +16,7 @@ namespace UI.Objects.Atmospherics
 		public float ShadowDistance = 10;
 		private bool muteSounds;
 
+
 		private void Awake()
 		{
 			muteSounds = GetComponentInParent<GUI_Canister>().IsServer;
@@ -25,7 +27,7 @@ namespace UI.Objects.Atmospherics
 			//play toggle sound
 			if (!muteSounds)
 			{
-				SoundManager.Play("Valve", 0.1f, pan: 0.3f);
+				SoundManager.Play(SingletonSOSounds.Instance.Valve); //volume 0.1f, pan: 0.3f
 			}
 
 			//fix the shadow and rotate

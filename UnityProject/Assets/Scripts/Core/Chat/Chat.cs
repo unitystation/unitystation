@@ -104,7 +104,7 @@ public partial class Chat : MonoBehaviour
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
 			speaker = (player == null) ? sentByPlayer.Username : player.name,
-			position = (player == null) ? TransformState.HiddenPos : player.WorldPos,
+			position = (player == null) ? TransformState.HiddenPos : player.gameObject.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByPlayer.GameObject
 		};
@@ -117,9 +117,9 @@ public partial class Chat : MonoBehaviour
 
 			if (isAdmin)
 			{
-				chatEvent.speaker = "[Admin] " + chatEvent.speaker;
+				chatEvent.speaker = "<color=red>[Admin]</color> " + chatEvent.speaker;
 			} else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId)){
-				chatEvent.speaker = "[Mentor]" + chatEvent.speaker;
+				chatEvent.speaker = "<color=#6400ff>[Mentor]</color> " + chatEvent.speaker;
 			}
 
 			if (Instance.OOCMute && !isAdmin) return;
@@ -252,7 +252,7 @@ public partial class Chat : MonoBehaviour
 			speaker = originator.name,
 			message = originatorMessage,
 			messageOthers = othersMessage,
-			position = originator.WorldPosServer(),
+			position = originator.AssumedWorldPosServer(),
 			originator = originator
 		});
 	}
@@ -285,7 +285,7 @@ public partial class Chat : MonoBehaviour
 			message = originatorMsg,
 			messageOthers = othersMsg,
 			speaker = originator.name,
-			position = originator.WorldPosServer(),
+			position = originator.AssumedWorldPosServer(),
 			originator = originator
 		});
 	}
@@ -301,7 +301,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="customAttackVerb">If you want to override the attack verb then pass the verb here</param>
 	/// <param name="attackedTile">If attacking a particular tile, the layer tile being attacked</param>
 	public static void AddAttackMsgToChat(GameObject attacker, GameObject victim,
-		BodyPartType hitZone = BodyPartType.None, GameObject item = null, string customAttackVerb = "", LayerTile attackedTile = null)
+		BodyPartType hitZone = BodyPartType.None, GameObject item = null, string customAttackVerb = "", LayerTile attackedTile = null, Vector3 posOverride = new Vector3())
 	{
 		string attackVerb;
 		string attack;
@@ -385,12 +385,19 @@ public partial class Chat : MonoBehaviour
 		var messageOthers = $"{attackerName} has {attackVerb} {victimNameOthers}{InTheZone(hitZone)}{attack}!";
 		var message = $"You {attackVerb} {victimName}{InTheZone(hitZone)}{attack}!";
 
+		var pos = attacker.AssumedWorldPosServer();
+
+		if (posOverride != Vector3.zero)
+		{
+			pos = posOverride;
+		}
+
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
 			message = message,
 			messageOthers = messageOthers,
-			position = attacker.WorldPosServer(),
+			position = pos,
 			speaker = attacker.name,
 			originator = attacker
 		});
@@ -414,12 +421,12 @@ public partial class Chat : MonoBehaviour
 		}
 
 		var message =
-			$"{victim.ExpensiveName()} has been hit by {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
+			$"{victim.ExpensiveName()} has been hit by a {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
 			message = message,
-			position = victim.WorldPosServer(),
+			position = victim.AssumedWorldPosServer(),
 			originator = victim
 		});
 	}
@@ -431,14 +438,14 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message"></param>
 	/// <param name="postfix">Common, amount agnostic postfix</param>
 	/// <param name="worldPos"></param>
-	public static void AddLocalDestroyMsgToChat(string message, string postfix, Vector2Int worldPos)
+	public static void AddLocalDestroyMsgToChat(string message, string postfix, GameObject destroyedObject)
 	{
 		if (!messageQueueDict.ContainsKey(postfix))
 		{
 			messageQueueDict.Add(postfix, new UniqueQueue<DestroyChatMessage>());
 		}
 
-		messageQueueDict[postfix].Enqueue(new DestroyChatMessage { Message = message, WorldPosition = worldPos });
+		messageQueueDict[postfix].Enqueue(new DestroyChatMessage { Message = message, WorldPosition = destroyedObject.AssumedWorldPosServer() });
 
 		if (composeMessageHandle == null)
 		{
@@ -476,10 +483,9 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="originator">The object (i.e. vending machine) that said message</param>
-	public static void AddLocalMsgToChat(string message, GameObject originator)
+	public static void AddLocalMsgToChat(string message, GameObject originator, string speakerName = null)
 	{
-		if (!IsServer()) return;
-		AddLocalMsgToChat(message, originator.WorldPosServer(), originator);
+		AddLocalMsgToChat(message, originator.AssumedWorldPosServer(), originator, speakerName);
 	}
 
 	/// <summary>
@@ -492,6 +498,18 @@ public partial class Chat : MonoBehaviour
 	{
 		if (!IsServer()) return;
 		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg);
+	}
+
+	/// <inheritdoc cref="AddExamineMsgFromServer(GameObject, string)"/>
+	public static void AddExamineMsgFromServer(ConnectedPlayer recipient, string msg)
+	{
+		if (recipient == null || recipient.Equals(ConnectedPlayer.Invalid))
+		{
+			Logger.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
+			return;
+		}
+
+		AddExamineMsgFromServer(recipient.GameObject, msg);
 	}
 
 	/// <summary>

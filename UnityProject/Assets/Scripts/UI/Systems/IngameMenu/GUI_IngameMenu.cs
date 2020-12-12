@@ -72,7 +72,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// <param name="nextMenuPanel">Menu panel to open</param>
 	public void OpenMenuPanel(GameObject nextMenuPanel)
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log("Opening " + nextMenuPanel.name + " menu", Category.UI);
 		nextMenuPanel.SetActive(true);
 	}
@@ -82,7 +82,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// </summary>
 	public void OpenMenuPanel()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 		menuWindow.SetActive(true);
 		if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(true);
@@ -104,7 +104,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// <param name="thisPanel">The menu panel to close.</param>
 	public void CloseMenuPanel(GameObject thisPanel)
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log("Closing " + thisPanel.name + " menu", Category.UI);
 		thisPanel.SetActive(false);
 	}
@@ -114,7 +114,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// </summary>
 	public void CloseMenuPanel()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log($"Closing {menuWindow.name} menu", Category.UI);
 		HideAllMenus();
 	}
@@ -127,7 +127,7 @@ public class GUI_IngameMenu : MonoBehaviour
 
 	public void InitiateRestartVote()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		if (PlayerManager.PlayerScript == null) return;
 		if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
@@ -146,7 +146,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	public void LogoutConfirmYesButton()
 	{
 		EventManager.Broadcast(EVENT.RoundEnded);
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		HideAllMenus();
 		StopNetworking();
 		SceneManager.LoadScene("Lobby");
@@ -160,7 +160,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	}
 	public void ExitConfirmYesButton()
 	{
-		SoundManager.Play("Click01");
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		StopNetworking();
 		// Either shutdown the application or stop the editor
 #if UNITY_EDITOR

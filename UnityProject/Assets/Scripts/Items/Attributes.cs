@@ -8,12 +8,12 @@ using Mirror;
 
 [RequireComponent(typeof(Integrity))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn
+public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 {
 
 	[Tooltip("Display name of this item when spawned.")]
 	[SerializeField]
-	private string initialName = null;
+	public string initialName = null;
 
 	[SyncVar(hook = nameof(SyncArticleName))]
 	private string articleName;
@@ -28,7 +28,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
-	private string initialDescription = null;
+	public string initialDescription = null;
 
 	[Tooltip("Will this item highlight on mouseover?")]
 	[SerializeField]
@@ -78,11 +78,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		base.OnStartClient();
 	}
 
-
-	public virtual void OnSpawnServer(SpawnInfo info)
+	public override void OnStartServer()
 	{
 		SyncArticleName(articleName, initialName);
 		SyncArticleDescription(articleDescription, initialDescription);
+		base.OnStartServer();
 	}
 
 	private void SyncArticleName(string oldName, string newName)
@@ -122,8 +122,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		if (string.IsNullOrWhiteSpace(displayName)) displayName = "error";
 
 		UIManager.SetToolTip =
-			displayName.First().ToString().ToUpper() + displayName.Substring(1) +
-			(string.IsNullOrEmpty(articleDescription) ? "" : $" ({ articleDescription })");
+			displayName.First().ToString().ToUpper() + displayName.Substring(1);
 	}
 
 	public void OnHoverEnd()

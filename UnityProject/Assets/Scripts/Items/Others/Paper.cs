@@ -4,20 +4,21 @@ using Mirror;
 
 public class Paper : NetworkBehaviour
 {
-	public Sprite[] spriteStates; //0 = No text, 1 = text
-
-	[SyncVar(hook = nameof(UpdateState))][Range(0, 1)]
-	public int spriteState;
-
 	public string ServerString { get; private set; }
 
 	///<Summary>
 	/// Synced individually via NetMsg for each client that has permission to view it
 	///</Summary>
 	public string PaperString { get; set; } = "";
-	public SpriteRenderer spriteRenderer;
 
 	private Pickupable pickupable;
+	private SpriteHandler spriteHandler;
+
+	private enum SpriteState
+	{
+		Blank = 0,
+		WithText = 1,
+	}
 
 	private void Awake()
 	{
@@ -28,6 +29,7 @@ public class Paper : NetworkBehaviour
 	{
 		if (pickupable != null) return;
 		pickupable = GetComponent<Pickupable>();
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
 	[Server]
@@ -36,13 +38,12 @@ public class Paper : NetworkBehaviour
 		ServerString = msg;
 		if (string.IsNullOrWhiteSpace(msg))
 		{
-			spriteState = 0;
+			UpdateState(SpriteState.Blank);
 		}
 		else
 		{
-			spriteState = 1;
+			UpdateState(SpriteState.WithText);
 		}
-		UpdateState(spriteState, spriteState);
 	}
 
 	[Server]
@@ -51,17 +52,9 @@ public class Paper : NetworkBehaviour
 		PaperUpdateMessage.Send(recipient, gameObject, ServerString);
 	}
 
-	public override void OnStartClient()
+	private void UpdateState(SpriteState state)
 	{
 		EnsureInit();
-		UpdateState(spriteState, spriteState);
-	}
-
-	public void UpdateState(int oldI, int i)
-	{
-		EnsureInit();
-		spriteState = i;
-		spriteRenderer.sprite = spriteStates[i];
-		pickupable.LocalUISlot?.RefreshImage();
+		spriteHandler.ChangeSprite((int) state);
 	}
 }

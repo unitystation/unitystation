@@ -2,6 +2,7 @@
 using UnityEngine;
 using Mirror;
 using Systems.Explosions;
+using AddressableReferences;
 
 namespace Objects
 {
@@ -33,6 +34,9 @@ namespace Objects
 		private bool isLanding = false;
 
 		private bool IsServer => CustomNetworkManager.IsServer;
+
+
+		public AddressableAudioSource RocketLand;
 
 		private Vector3Int worldPosition;
 		private Vector3Int WorldPosition
@@ -134,7 +138,7 @@ namespace Objects
 		private IEnumerator DelayLandingSFX()
 		{
 			yield return WaitFor.Seconds(TRAVEL_TIME - 1);
-			SoundManager.PlayAtPosition("RocketLand", WorldPosition, sourceObj: gameObject);
+			SoundManager.PlayAtPosition(RocketLand,  WorldPosition, gameObject );
 		}
 	}
 }

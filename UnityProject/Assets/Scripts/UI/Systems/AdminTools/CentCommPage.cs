@@ -5,7 +5,6 @@ using DatabaseAPI;
 using AdminCommands;
 using UnityEngine.UI;
 
-
 namespace AdminTools
 {
     public class CentCommPage : AdminPage
@@ -95,6 +94,22 @@ namespace AdminTools
 
 	        ServerCommandVersionFiveMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, toggleBool,"CmdSendBlockShuttleRecall");
         }
+
+		public void CreateERTBtn()
+		{
+			Logger.LogWarning("Create ERT is not implemented.", Category.Admin);
+		}
+
+		public void CreateDeathSquadBtn()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+					"Are you sure you want to create a Death Squad? Intended for extreme cases of station dissidence.",
+					CreateDeathSquad, gameObject);
+		}
+
+		private void CreateDeathSquad()
+		{
+			ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdCreateDeathSquad");
+		}
     }
 }
-

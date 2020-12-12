@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -10,6 +11,7 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	public SpriteHandler IconBackground;
 	public SpriteHandler IconFront;
 	public Transform CooldownOpacity;
+	public Text CooldownNumber;
 
 	public IActionGUI iActionGUI;
 	private ActionData actionData;
@@ -65,7 +67,8 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
 	public void ButtonPress()
 	{
-		SoundManager.Play("Click01");
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		if (actionData.IsToggle)
 		{

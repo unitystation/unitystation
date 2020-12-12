@@ -138,12 +138,16 @@ namespace Objects.Disposals
 
 		void EjectItemOrObject(ObjectBehaviour entity)
 		{
+			if (entity == null) return;
+
 			entity.parentContainer = null;
 			entity.GetComponent<CustomNetTransform>()?.SetPosition(ContainerWorldPosition);
 		}
 
 		void EjectPlayer(ObjectBehaviour player)
 		{
+			if (player == null) return;
+
 			player.parentContainer = null;
 			player.GetComponent<PlayerSync>()?.SetPosition(ContainerWorldPosition);
 			FollowCameraMessage.Send(player.gameObject, player.gameObject);

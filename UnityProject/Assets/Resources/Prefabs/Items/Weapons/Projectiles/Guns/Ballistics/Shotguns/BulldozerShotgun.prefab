@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 41
-  m_Sprite: {fileID: 21300000, guid: 8a744ce4a899148499067592fdd98461, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 8a744ce4a899148499067592fdd98461, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -148,6 +149,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -219,7 +221,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 5531796456047199634, guid: 98da9a96ac84b28439d4baced674700d,
+      objectReference: {fileID: 3417397333577640349, guid: 857e3b9968507b6419c8eefb3f1dfd9b,
         type: 3}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -228,13 +230,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: FireRate
-      value: 0.5
+      propertyPath: allowMagazineRemoval
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: allowMagazineRemoval
-      value: 1
+      propertyPath: FireRate
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2297580117821714339, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}

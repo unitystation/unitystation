@@ -6,6 +6,7 @@ using Mirror;
 using Antagonists;
 using Systems.Spells;
 using Object = UnityEngine.Object;
+using ScriptableObjects.Systems.Spells;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -213,6 +214,17 @@ public class Mind
 		return Antag;
 	}
 
+	/// <summary>
+	/// Returns true if the given mind is of the given Antagonist type.
+	/// </summary>
+	/// <typeparam name="T">The type of antagonist to check against</typeparam>
+	public bool IsOfAntag<T>() where T : Antagonist
+	{
+		if (IsAntag == false) return false;
+
+		return Antag.Antagonist is T;
+	}
+
 	public void AddSpell(Spell spell)
 	{
 		if (spells.Contains(spell))
@@ -228,6 +240,24 @@ public class Mind
 		{
 			spells.Remove(spell);
 		}
+	}
+
+	public Spell GetSpellInstance(SpellData spellData)
+	{
+		foreach (Spell spell in Spells)
+		{
+			if (spell.SpellData == spellData)
+			{
+				return spell;
+			}
+		}
+
+		return default;
+	}
+
+	public bool HasSpell(SpellData spellData)
+	{
+		return GetSpellInstance(spellData) != null;
 	}
 
 	public void SetProperty(string key, object value)

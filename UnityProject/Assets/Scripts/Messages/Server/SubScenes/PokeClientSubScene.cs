@@ -7,8 +7,8 @@ public class PokeClientSubScene : ServerMessage
 	public string ToLoadSceneName = "";
 	public override void Process()
 	{
+		if (CustomNetworkManager.Instance._isServer) return;
 		SubSceneManager.ManuallyLoadScene(ToLoadSceneName);
-
 	}
 
 	public static void SendToAll(string SceneName)

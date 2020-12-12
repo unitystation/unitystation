@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
@@ -45,6 +46,10 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	[SyncVar(hook = nameof(SyncState))]
 	private bool isActivated;
+
+	public AddressableAudioSource saberon;
+
+	public AddressableAudioSource saberoff;
 
 	#region Lifecycle
 
@@ -125,7 +130,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		}
 
 		SoundManager.PlayNetworkedAtPos(
-				isActivated ? "saberon" : "saberoff", gameObject.AssumedWorldPosServer());
+				isActivated ? saberon : saberoff, gameObject.AssumedWorldPosServer());
 		StartCoroutine(DelayCharacterSprite(interaction));
 	}
 

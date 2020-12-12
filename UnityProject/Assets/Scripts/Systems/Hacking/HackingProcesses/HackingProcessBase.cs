@@ -328,7 +328,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	/// <returns></returns>
 	public virtual bool ServerPlayerCanRemoveConnection(PlayerScript playerScript, int[] connection)
 	{
-		if (!playerScript.IsInReach(gameObject, true))
+		if (!playerScript.IsGameObjectReachable(gameObject, true, context: gameObject))
 		{
 			return false;
 		}
@@ -356,7 +356,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	/// <returns></returns>
 	public virtual bool ServerPlayerCanAddConnection(PlayerScript playerScript, int[] connection)
 	{
-		if (!playerScript.IsInReach(gameObject, true))
+		if (!playerScript.IsGameObjectReachable(gameObject, true, context: gameObject))
 		{
 			return false;
 		}
@@ -390,7 +390,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	/// <returns></returns>
 	public virtual bool ServerPlayerCanAddDevice(PlayerScript playerScript, HackingDevice device)
 	{
-		if (!playerScript.IsInReach(gameObject, true))
+		if (!playerScript.IsGameObjectReachable(gameObject, true, context: gameObject))
 		{
 			return false;
 		}
@@ -411,7 +411,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	/// <returns></returns>
 	public virtual bool ServerPlayerCanRemoveDevice(PlayerScript playerScript, HackingDevice device)
 	{
-		if (!playerScript.IsInReach(gameObject, true))
+		if (!playerScript.IsGameObjectReachable(gameObject, true, context: gameObject))
 		{
 			return false;
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 namespace ScriptableObjects.Items.SpellBook
 {
@@ -27,7 +28,7 @@ namespace ScriptableObjects.Items.SpellBook
 		private string name = default;
 		[SerializeField]
 		private string description = default;
-		[SerializeField]
+		[SerializeField, ReorderableList]
 		private List<SpellBookEntry> entryList = default;
 
 		public string Name => name;

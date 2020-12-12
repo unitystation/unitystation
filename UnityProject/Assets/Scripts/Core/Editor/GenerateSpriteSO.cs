@@ -8,6 +8,8 @@ using System.Linq;
 using System.Reflection;
 using Systems.Botany;
 using Items.Botany;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class GenerateSpriteSO : EditorWindow
 {
@@ -15,6 +17,39 @@ public class GenerateSpriteSO : EditorWindow
 	public static Dictionary<string, SpriteDataSO> ToSeve = new Dictionary<string, SpriteDataSO>();
 
 	public static SpriteCatalogue spriteCatalogue;
+
+	[MenuItem("Tools/Get Music keys")]
+	public static void GetMusicKeys()
+	{
+		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
+		path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
+		Logger.Log(path);
+		var Files = System.IO.Directory.GetFiles(path);
+		string FoundFile = "";
+		foreach (var File in Files)
+		{
+			Logger.Log(File);
+			if (File.EndsWith(".json"))
+			{
+				FoundFile = File;
+			}
+		}
+
+		if (FoundFile == "")
+		{
+			Logger.LogWarning("missing json file");
+			return;
+		}
+
+		JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"\"))));
+		var IDs = o1.GetValue("m_InternalIds");
+		var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
+		foreach (var ListID in ListIDs)
+		{
+			Logger.Log(ListID);
+		}
+
+	}
 
 	[MenuItem("Tools/StopAssetEditing")]
 	public static void StopAssetEditing()
@@ -27,7 +62,9 @@ public class GenerateSpriteSO : EditorWindow
 	[MenuItem("Tools/Convert Json Sprites")]
 	public static void ConvertJsonSprites()
 	{
-		spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>("Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
+		spriteCatalogue =
+			AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
+				"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
 		ToSeve.Clear();
 		ToDel.Clear();
 		DirSearch_ex3(Application.dataPath + "/SpriteJsonToSO");
@@ -42,11 +79,34 @@ public class GenerateSpriteSO : EditorWindow
 			AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
 			Seve.Value.Awake();
 		}
+
 		ToSeve.Clear();
 		ToDel.Clear();
 		AssetDatabase.SaveAssets();
 	}
 
+
+	[MenuItem("Tools/Reset SO index")]
+	public static void Reset()
+	{
+		AssetDatabase.StartAssetEditing();
+		var AAA = FindAssetsByType<SpriteCatalogue>();
+		foreach (var AA in AAA)
+		{
+			AA.Catalogue = new List<SpriteDataSO>();
+			EditorUtility.SetDirty(AA);
+		}
+
+		var SOs = FindAssetsByType<SpriteDataSO>();
+		foreach (var SO in SOs)
+		{
+			SO.setID = -1;
+			SO.UpdateIDLocation();
+		}
+
+		AssetDatabase.StopAssetEditing();
+		AssetDatabase.SaveAssets();
+	}
 
 	[MenuItem("Tools/GenerateSpriteSO")]
 	public static void Generate()
@@ -70,11 +130,11 @@ public class GenerateSpriteSO : EditorWindow
 		{
 			//foreach (var Sprite in SH.Sprites)
 			//{
-				//var SO = PullOutSO(Sprite.Texture);
-				//if (SH.SubCatalogue.Contains(SO) == false)
-				//{
-					//SH.SubCatalogue.Add(SO);
-				//}
+			//var SO = PullOutSO(Sprite.Texture);
+			//if (SH.SubCatalogue.Contains(SO) == false)
+			//{
+			//SH.SubCatalogue.Add(SO);
+			//}
 			//}
 
 			var SR = SH.GetComponent<SpriteRenderer>();
@@ -95,7 +155,6 @@ public class GenerateSpriteSO : EditorWindow
 				Logger.Log(GetRoot(SH.gameObject).name + "Not root apparently");
 			}
 		}
-
 
 
 		return;
@@ -448,8 +507,6 @@ public class GenerateSpriteSO : EditorWindow
 
 				foreach (var S in hasTT)
 				{
-
-
 					prefabComponents.Add(S);
 				}
 			}

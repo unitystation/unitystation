@@ -22,6 +22,7 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
+  doesReflectBullet: 0
   passableException:
     m_keys: 
     m_values: 
@@ -46,7 +47,7 @@ MonoBehaviour:
   lootOnDespawn: {fileID: 0}
   soundOnHit: 
   PipeType: 0
-  DisposalPipeObjectOrientation: 0
+  DisposalPipeObjectOrientation: 3
   sprite: {fileID: 21300008, guid: da9a6cbf0b6d881488fe2e0cbe135069, type: 3}
   _ConnectablePoints:
   - Side: 3

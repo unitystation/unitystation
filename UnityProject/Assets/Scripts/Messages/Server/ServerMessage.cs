@@ -64,6 +64,12 @@ public abstract class ServerMessage : GameMessageBase
 		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 	}
 
+	public void SendTo(ConnectedPlayer recipient)
+	{
+		if (recipient == null) return;
+		SendTo(recipient.Connection);
+	}
+
 	public void SendTo(NetworkConnection recipient)
 	{
 		if (recipient == null) return;

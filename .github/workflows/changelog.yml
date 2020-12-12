@@ -1,41 +1,40 @@
 name: pr2changelog
 on:
-    pull_request_target:
-        branches:
-            - develop
-        types: [closed]
+  pull_request_target:
+    branches:
+      - develop
+    types: [closed]
 
 jobs:
-    generate:
-        if: github.event.pull_request.merged == true
+  generate:
+    if: github.event.pull_request.merged == true
 
-        name: changelog generator
-        runs-on: ubuntu-latest
-        steps:
+    name: changelog generator
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: develop
 
-            - name: Checkout repository
-              uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0
-                  ref: develop
+      - name: pr2changelog
+        id: pr2changelog
+        uses: corp-0/pr2changelog@master
+        with:
+          repo: ${{ github.repository }}
+          pr_number: ${{ github.event.pull_request.number }}
 
-            - name: pr2changelog
-              id: pr2changelog
-              uses: corp-0/pr2changelog@master
-              with:
-                  repo: ${{ github.repository }}
-                  pr_number: ${{ github.event.pull_request.number }}
-
-            -   name: Commit files
-                if: ${{ steps.pr2changelog.outputs.generated_changelog == 1}}
-                run: |
-                    git config --local user.email "action@github.com"
-                    git config --local user.name "GitHub Action"
-                    git add *
-                    git commit -m "misc: update Changelog" -a
-            -   name: Push changes
-                if: ${{ steps.pr2changelog.outputs.generated_changelog == 1}}
-                uses: ad-m/github-push-action@master
-                with:
-                    branch: develop
-                    github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit files
+        if: ${{ steps.pr2changelog.outputs.generated_changelog == 1}}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add *
+          git commit -m "misc: update Changelog" -a
+      - name: Push changes
+        if: ${{ steps.pr2changelog.outputs.generated_changelog == 1}}
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          branch: develop
+          github_token: ${{ secrets.GITHUB_TOKEN }}

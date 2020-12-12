@@ -44,7 +44,7 @@ public class RightClickMethod : Attribute
 	{
 		var labelToUse = label ?? attributedMethod.Name;
 
-		var colorToUse = Color.gray;
+		var colorToUse = RightClickManager.ButtonColor;
 		if (ColorUtility.TryParseHtmlString(bgColorHex, out var color))
 		{
 			colorToUse = color;

@@ -56,7 +56,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		void ProgressFinishAction()
 		{
-			if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false)
+			if(performer.GetComponent<PlayerScript>()?.IsGameObjectReachable(target, true) ?? false)
 			{
 				target.GetComponent<PlayerMove>().Cuff(interaction);
 				Chat.AddActionMsgToChat(performer, $"You successfully restrain {target.ExpensiveName()}.",

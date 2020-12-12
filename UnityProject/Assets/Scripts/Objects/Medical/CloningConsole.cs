@@ -62,21 +62,37 @@ namespace Objects.Medical
 		/// </summary>
 		public void ServerToggleLock()
 		{
-			if (scanner && scanner.IsClosed && scanner.Powered)
+			if (Inoperable())
+			{
+				UpdateInoperableStatus();
+				return;
+			}
+			if (scanner.IsClosed)
 			{
 				scanner.ServerToggleLocked();
+				scanner.statusString = scanner.IsLocked ? "Scanner locked." : "Scanner unlocked.";
+			}
+			else
+			{
+				scanner.statusString = "Scanner is not closed.";
 			}
 		}
 
 		public void Scan()
 		{
-			if (scanner && scanner.occupant && scanner.Powered)
+			if (Inoperable())
+			{
+				UpdateInoperableStatus();
+				return;
+			}
+			if (scanner.occupant)
 			{
 				var mob = scanner.occupant;
 				var mobID = scanner.occupant.mobID;
 				var playerScript = mob.GetComponent<PlayerScript>();
 				if (playerScript?.mind?.bodyMobID != mobID)
 				{
+					scanner.statusString = "Bad mind/body interface.";
 					return;
 				}
 				for (int i = 0; i < cloningRecords.Count; i++)
@@ -92,6 +108,23 @@ namespace Objects.Medical
 				CreateRecord(mob, playerScript);
 				scanner.statusString = "Subject successfully scanned.";
 			}
+			else
+			{
+				scanner.statusString = "Scanner is empty.";
+			}
+		}
+
+		private bool Inoperable()
+		{
+			return !(scanner && scanner.RelatedAPC && scanner.Powered);
+		}
+
+		private void UpdateInoperableStatus()
+		{
+			if (!scanner.RelatedAPC)
+				scanner.statusString = "Scanner not connected to APC.";
+			else if (!scanner.Powered)
+				scanner.statusString = "Voltage too low.";
 		}
 
 		public void ServerTryClone(CloningRecord record)

@@ -114,7 +114,7 @@ namespace Systems.Atmospherics
 			if (nodes.Count > 1)
 			{
 				//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
-				GasMix MeanGasMix = CalcMeanGasMix();
+				CalcMeanGasMix();
 
 				for (var i = 0; i < nodes.Count; i++)
 				{
@@ -122,29 +122,30 @@ namespace Systems.Atmospherics
 
 					if (!node.IsOccupied)
 					{
-						node.GasMix = CalcAtmos(node.GasMix, MeanGasMix);
-
-						if (node.IsSpace)
+						if (!node.IsSpace)
 						{
-							//Set to 0 if space
-							node.GasMix *= 0;
+							node.GasMix.Copy(meanGasMix);
+						}
+						else
+						{
+							node.GasMix.SetToEmpty();
 						}
 					}
 				}
 			}
 		}
 
-		private GasMix meanGasMix = new GasMix(GasMixes.Empty);
+		private GasMix meanGasMix = GasMix.NewGasMix(GasMixes.Empty);
 
 		/// <summary>
 		/// Calculate the average Gas tile if you averaged all the adjacent ones and itself
 		/// </summary>
 		/// <returns>The mean gas mix.</returns>
-		private GasMix CalcMeanGasMix()
+		private void CalcMeanGasMix()
 		{
 			meanGasMix.Copy(GasMixes.Empty);
 
-			int targetCount = 0;
+			var targetCount = 0;
 
 			for (var i = 0; i < nodes.Count; i++)
 			{
@@ -155,12 +156,8 @@ namespace Systems.Atmospherics
 					continue;
 				}
 
-				for (int j = 0; j < Gas.Count; j++)
-				{
-					meanGasMix.Gases[j] += node.GasMix.Gases[j];
-				}
-
-				meanGasMix.SetPressure(meanGasMix.Pressure + node.GasMix.Pressure);
+				meanGasMix.Volume += node.GasMix.Volume;
+				GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles);
 
 				if (!node.IsOccupied)
 				{
@@ -169,36 +166,20 @@ namespace Systems.Atmospherics
 				else
 				{
 					//Decay if occupied
-					node.GasMix *= 0;
+					node.GasMix.SetToEmpty();
 				}
 			}
 
-			// Sometime, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos)
-			// This condition is to avoid a divide by zero error (or 0 / 0 that gives NaN)
-			if (targetCount != 0)
-			{
-				for (int j = 0; j < Gas.Count; j++)
-				{
-					meanGasMix.Gases[j] /= targetCount;
-				}
+			// Sometimes, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos, ie: walls)
+			if (targetCount == 0)
+				return;
 
-				meanGasMix.SetPressure(meanGasMix.Pressure / targetCount);
+			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
+			for (var i = 0; i < Gas.Count; i++)
+			{
+				meanGasMix.Gases[i] = meanGasMix.Gases[i] / targetCount;
 			}
 
-			return meanGasMix;
-		}
-
-		private GasMix CalcAtmos(GasMix atmos, GasMix gasMix)
-		{
-			//Used for updating tiles with the averagee Calculated gas
-			for (int i = 0; i < Gas.Count; i++)
-			{
-				atmos.Gases[i] = gasMix.Gases[i];
-			}
-
-			atmos.SetPressure(gasMix.Pressure);
-
-			return atmos;
 		}
 
 		#region GasVisualEffects

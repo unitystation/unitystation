@@ -22,11 +22,11 @@ namespace Core.Directionals
 
 		[Header("Set which sides are passable when in orientation Down")]
 		[SerializeField]
-		private PassableSides leavableSides;
+		private PassableSides leavableSides = default;
 		[SerializeField]
-		private PassableSides enterableSides;
+		private PassableSides enterableSides = default;
 		[SerializeField]
-		private PassableSides atmosphericPassableSides;
+		private PassableSides atmosphericPassableSides = default;
 
 		public Directional Directional { get; private set; }
 
@@ -39,39 +39,45 @@ namespace Core.Directionals
 		protected override void Awake()
 		{
 			base.Awake();
+			EnsureInit();
+		}
+
+		private void EnsureInit()
+		{
+			if (Directional != null) return;
+
 			Directional = GetComponent<Directional>();
 		}
 
 		public override bool IsPassable(bool isServer, GameObject context = null)
 		{
-			if (!Passable) return false;
-			if (context == gameObject || context == null) return true;
+			if (context == gameObject) return true;
 
 			return Passable;
 		}
 
-		public override bool IsPassable(Vector3Int enteringFrom, bool isServer, GameObject context = null)
+		public override bool IsPassableFromOutside(Vector3Int enteringFrom, bool isServer, GameObject context = null)
 		{
-			if (!Passable) return false;
+			if (context == gameObject) return true;
 			if (IsEnterableOnAll) return true;
-			if (context == gameObject || context == null) return true;
+			if (Passable == false) return false;
 
 			return IsPassableAtSide(GetSideFromVector(enteringFrom), enterableSides);
 		}
 
-		public override bool IsPassableTo(Vector3Int leavingTo, bool isServer, GameObject context = null)
+		public override bool IsPassableFromInside(Vector3Int leavingTo, bool isServer, GameObject context = null)
 		{
-			if (!Passable) return false;
+			if (context == gameObject) return true;
 			if (IsLeavableOnAll) return true;
-			if (context == gameObject || context == null) return true;
+			if (Passable == false) return true;
 
 			return IsPassableAtSide(GetSideFromVector(leavingTo), leavableSides);
 		}
 
 		public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 		{
-			if (!AtmosPassable) return false;
 			if (IsAtmosPassableOnAll) return true;
+			if (AtmosPassable == false) return false;
 
 			return IsPassableAtSide(GetSideFromVector(enteringFrom), atmosphericPassableSides);
 		}
@@ -160,6 +166,13 @@ namespace Core.Directionals
 
 		private bool IsPassableAtSide(Vector2Int sideToCross, PassableSides sides)
 		{
+			EnsureInit();
+			if (Directional == null)
+			{
+				Logger.LogError($"No {nameof(Directional)} component found on {this}?");
+				return false;
+			}
+
 			if (sideToCross == Vector2Int.zero) return true;
 
 			// TODO: figure out a better way or at least use some data structure.

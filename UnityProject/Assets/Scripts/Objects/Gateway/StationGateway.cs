@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using Gateway;
 using Systems.Electricity;
+using AddressableReferences;
 
 namespace Objects
 {
@@ -224,7 +225,7 @@ namespace Objects
 			{
 				var coord = new Vector2(Position.x, Position.y);
 				Chat.AddLocalMsgToChat(Message, coord, gameObject);
-				SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
+				SoundManager.PlayNetworkedForPlayer(player.gameObject,SingletonSOSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, TeleportTargetCoord);
 			}
 

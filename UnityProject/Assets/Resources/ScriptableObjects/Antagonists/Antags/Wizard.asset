@@ -15,7 +15,7 @@ MonoBehaviour:
   antagName: Wizard
   antagJobType: 54
   playSound: 1
-  spawnSound: AmbiGen7
+  spawnSound: ambigen8
   textColor: {r: 0.35686275, g: 0.7254902, b: 0.9686275, a: 1}
   backgroundColor: {r: 0.25882354, g: 0.33333334, b: 0.46274513, a: 1}
   numberOfObjectives: 3
@@ -27,3 +27,6 @@ MonoBehaviour:
   antagOccupation: {fileID: 11400000, guid: 191fa13b4d14221479bf108a4c9628fa, type: 2}
   showInPreferences: 1
   startingSpellCount: 1
+  assignRandomNameOnSpawn: 1
+  wizardFirstNames: {fileID: 11400000, guid: 4b3a8019fc6e37948b37b76ac221c253, type: 2}
+  wizardLastNames: {fileID: 11400000, guid: 2854c54aab158134f9ebb1ad2f982199, type: 2}

@@ -12,6 +12,9 @@ using UnityEngine.Serialization;
 /// </summary>
 public class UpdateManager : MonoBehaviour
 {
+
+	public static float CashedDeltaTime = 0;
+
 	private static UpdateManager instance;
 
 	public static UpdateManager Instance
@@ -66,6 +69,7 @@ public class UpdateManager : MonoBehaviour
 		public readonly List<NamedAction> ActionList = new List<NamedAction>(128);
 		public readonly Dictionary<Action, NamedAction> ActionDictionary = new Dictionary<Action, NamedAction>(128);
 	}
+
 
 	private void Awake()
 	{
@@ -244,9 +248,10 @@ public class UpdateManager : MonoBehaviour
 
 	private void Update()
 	{
-		for (int i = updateActions.Count; i > 0; i--)
+		CashedDeltaTime = Time.deltaTime;
+		for (int i = updateActions.Count; i >= 0; i--)
 		{
-			if (i > 0 && i < updateActions.Count)
+			if (i < updateActions.Count)
 			{
 				if (Profile)
 				{
@@ -283,7 +288,7 @@ public class UpdateManager : MonoBehaviour
 		NumberOfUpdatesAdded = 0;
 		for (int i = 0; i < periodicUpdateActions.Count; i++)
 		{
-			periodicUpdateActions[i].TimeTitleNext -= Time.deltaTime;
+			periodicUpdateActions[i].TimeTitleNext -= CashedDeltaTime;
 			if (periodicUpdateActions[i].TimeTitleNext <= 0)
 			{
 				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate;
@@ -295,9 +300,9 @@ public class UpdateManager : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		for (int i = fixedUpdateActions.Count; i > 0; i--)
+		for (int i = fixedUpdateActions.Count; i >= 0; i--)
 		{
-			if (i > 0 && i < fixedUpdateActions.Count)
+			if (i < fixedUpdateActions.Count)
 			{
 				fixedUpdateActions[i].Invoke();
 			}
@@ -306,9 +311,9 @@ public class UpdateManager : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		for (int i = lateUpdateActions.Count; i > 0; i--)
+		for (int i = lateUpdateActions.Count; i >= 0; i--)
 		{
-			if (i > 0 && i < lateUpdateActions.Count)
+			if (i < lateUpdateActions.Count)
 			{
 				lateUpdateActions[i].Invoke();
 			}

@@ -10,7 +10,7 @@ using Random = System.Random;
 
 public class SpriteUpdateMessage : ServerMessage
 {
-	public static List<char> ControlCharacters = new List<char>()
+	private static List<char> ControlCharacters = new List<char>()
 	{
 		'>', '<', '&', ',', '?', '~', '`', '@', '{', '%', '^', '£'
 	};
@@ -27,7 +27,7 @@ public class SpriteUpdateMessage : ServerMessage
 	//% = Pallet
 	//^ = ClearPallet
 
-	private static StringBuilder ToReturn = new StringBuilder("", 1000);
+	private static StringBuilder ToReturn = new StringBuilder("", 2000);
 
 	public override void Process()
 	{
@@ -40,7 +40,7 @@ public class SpriteUpdateMessage : ServerMessage
 			{
 				Scanning = GoToIndexOfCharacter(SerialiseData, '@', Start);
 				uint NetID = uint.Parse(SerialiseData.Substring(Start, Scanning - Start));
-				if (!NetworkIdentity.spawned.ContainsKey(NetID) || NetworkIdentity.spawned[NetID] == null)
+				if (NetworkIdentity.spawned.ContainsKey(NetID) == false || NetworkIdentity.spawned[NetID] == null)
 				{
 					Scanning = SkipSection(Start);
 					Start = Scanning;
@@ -111,10 +111,10 @@ public class SpriteUpdateMessage : ServerMessage
 				if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '`')
 				{
 					Color TheColour = Color.white;
-					TheColour.r = (SerialiseData[Scanning + 1] / 255f);
-					TheColour.g = (SerialiseData[Scanning + 2] / 255f);
-					TheColour.b = (SerialiseData[Scanning + 3] / 255f);
-					TheColour.a = (SerialiseData[Scanning + 4] / 255f);
+					TheColour.r = ((int)SerialiseData[Scanning + 1] / 255f);
+					TheColour.g = ((int)SerialiseData[Scanning + 2] / 255f);
+					TheColour.b = ((int)SerialiseData[Scanning + 3] / 255f);
+					TheColour.a = ((int)SerialiseData[Scanning + 4] / 255f);
 					Scanning = Scanning + 4;
 					SP.SetColor(TheColour, false);
 					Scanning++;
@@ -122,14 +122,18 @@ public class SpriteUpdateMessage : ServerMessage
 
 				if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '%')
 				{
+					Scanning = Scanning + 1;
+					int paletteCount = SerialiseData[Scanning];
+
 					List<Color> Colours = new List<Color>();
-					for (int i = 0; i < 8; i++)
+					for (int i = 0; i < paletteCount; i++)
 					{
 						Colours.Add(GetColourFromStringIndex(SerialiseData, Scanning + (i * 4)));
 					}
 
 					Scanning = Scanning + 1;
-					Scanning = Scanning + 32;
+					Scanning = Scanning + 4 * paletteCount;
+
 					SP.SetPaletteOfCurrentSprite(Colours, false);
 				}
 
@@ -198,7 +202,9 @@ public class SpriteUpdateMessage : ServerMessage
 		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '%')
 		{
 			Scanning = Scanning + 1;
-			Scanning = Scanning + 32;
+			int paletteCount = SerialiseData[Scanning];
+
+			Scanning = Scanning + 1 + 4 * paletteCount;
 		}
 
 		Scanning++;
@@ -345,21 +351,23 @@ public class SpriteUpdateMessage : ServerMessage
 
 		if (spriteChange.Pallet != null)
 		{
-			if (spriteChange.Pallet.Count != 8)
+			if (spriteChange.Pallet.Count < 1 || spriteChange.Pallet.Count > 255)
 			{
-				Logger.Log("Pallet Is not the right length has to be eight it is " + spriteChange.Pallet.Count);
+				Logger.Log(string.Format("Pallet size must be between 1 and 255. It is currently {0}.",spriteChange.Pallet.Count));
 				ToReturn.Append("£");
 				return;
 			}
 
 			ToReturn.Append("%");
+			ToReturn.Append(Convert.ToChar(spriteChange.Pallet.Count));
 
-			foreach (var Colour in spriteChange.Pallet)
+			foreach (Color Colour in spriteChange.Pallet)
 			{
 				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.r * 255)));
 				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.g * 255)));
 				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.b * 255)));
 				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.a * 255)));
+				
 			}
 		}
 

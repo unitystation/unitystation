@@ -3,24 +3,21 @@ name: Tests
 on:
   push:
     branches:
-    - develop
-    - master
+      - develop
     paths:
-    - 'Tools/UnityLicense.ulf'
-    - 'UnityProject/**'
-    - '.github/workflows/**'
-    - 'Docker/**'
+      - "Tools/UnityLicense.ulf"
+      - "UnityProject/**"
+      - ".github/workflows/**"
+      - "Docker/**"
   pull_request:
     branches:
-    - develop
-    - master
+      - develop
     paths:
-    - 'Tools/UnityLicense.ulf'
-    - 'UnityProject/**'
-    - '.github/workflows/**'
+      - "Tools/UnityLicense.ulf"
+      - "UnityProject/**"
+      - ".github/workflows/**"
 
 jobs:
-
   ########## HOW TO UPDATE UNITY_LICENSE ##########
   # The job below is only used to request a new activation file
   #
@@ -51,7 +48,7 @@ jobs:
   #       with:
   #         name: ${{ steps.getManualLicenseFile.outputs.filePath }}
   #         path: ${{ steps.getManualLicenseFile.outputs.filePath }}
-  
+
   # Perform unit testing
   performTest:
     name: Unit testing on ${{ matrix.unityVersion }}
@@ -62,66 +59,59 @@ jobs:
         projectPath:
           - UnityProject
         unityVersion:
-#           - 2019.3.15f1
+          # - 2019.3.15f1
           - 2020.1.6f1
         targetPlatform:
           - StandaloneWindows64
+
     steps:
       # Checkout repository (required to test local actions)
       - name: Checkout repository
         uses: actions/checkout@v2.0.0
-      
-      # Cache the library directory to speed up builds
-    #  - name: Cache library directory
-    #    uses: actions/cache@v1.1.0
-    #    with:
-    #      path: ${{ matrix.projectPath }}/Library
-    #      key: Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-    #      restore-keys: |
-    #        Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-    #        Library2-${{ matrix.projectPath }}-
-    #        Library2-
-    #
-      # Set the UNITY_LICENSE environment variable
+
+      # # Cache the library directory to speed up builds
+      # - name: Cache library directory
+      #   uses: actions/cache@v1.1.0
+      #   with:
+      #     path: ${{ matrix.projectPath }}/Library
+      #     key: Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+      #     restore-keys: |
+      #       Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+      #       Library2-${{ matrix.projectPath }}-
+      #       Library2-
+
+      # Set the UNITY_LICENSE environment variable with contents of $LICENSE_FILE_PATH
       - name: Setup license
-        # This step:
-        #   - Grabs the license file contents from the $LICENSE_FILE_PATH
-        #   - Uses substitution to escape newline characters for GitHub Actions set-env.
-        #     (from: https://github.community/t5/GitHub-Actions/set-output-Truncates-Multiline-Strings/td-p/37870)
-        #   - Set the UNITY_LICENSE env var for all future steps using special GitHub Actions syntax
         env:
           LICENSE_FILE_PATH: ./Tools/UnityLicense.ulf
         run: |
-          license=$(<"$LICENSE_FILE_PATH")
-          license="${license//'%'/'%25'}"
-          license="${license//$'\n'/'%0A'}"
-          license="${license//$'\r'/'%0D'}"
-          echo "::set-env name=UNITY_LICENSE::$license"
-      # Delete unity version file (test runner will crash otherwise)
-      - name: Delete ProjectVersion.txt
-        run: sudo rm ./${{ matrix.projectPath }}/ProjectSettings/ProjectVersion.txt        
+          echo 'UNITY_LICENSE<<LICENSE-EOF' >> "$GITHUB_ENV"
+          cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
+          printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
+
       # Run tests - only edit mode supported
+      # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
       - name: Run tests
         uses: webbertakken/unity-test-runner@v1.6
         with:
-          customParameters: '-nographics'
+          customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
-          
+
       # Install dotnet
       - name: Installing dotnet
         if: always()
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '2.1.202'
-          
+          dotnet-version: "2.1.202"
+
       # Do the report magic
       - name: Generate .html report
-        run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
         if: always()
-        
+        run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
+
       # Upload test results
       - name: Upload Test Results
         if: always()

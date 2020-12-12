@@ -398,6 +398,15 @@ MonoBehaviour:
       productionTime: 0.8
   - categoryName: Misc
     products:
+    - name: Basic Power Cell
+      product: {fileID: 8162013665826553233, guid: 02f803ad1a6a4ca4fb962436b7dc9ed6,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: bc02000032000000
+      productionTime: 1
     - name: Box of Foam Darts
       product: {fileID: 1257563116079482585, guid: cd26a108df3c1ac4098c55b854d97a8c,
         type: 3}
@@ -416,7 +425,7 @@ MonoBehaviour:
         m_values: f401000064000000
       productionTime: 4
     - name: Emergency Oxygen Tank
-      product: {fileID: 7243456001760246399, guid: a3dd5c5de5e35f24d94fe3615219fb87,
+      product: {fileID: 249768970035654221, guid: 1a040146036b65b499f540b92ce87ac8,
         type: 3}
       materialToAmounts:
         m_keys:
@@ -432,7 +441,7 @@ MonoBehaviour:
         m_values: 0c000000
       productionTime: 0.1
     - name: Generic Gas Tank
-      product: {fileID: 132773863777131159, guid: 26fd2ca9f01943342baba2a03f0721ac,
+      product: {fileID: 1600028148722177027, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
       materialToAmounts:
         m_keys:
@@ -448,15 +457,6 @@ MonoBehaviour:
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: f401000032000000
       productionTime: 0.8
-    - name: Power Cell
-      product: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-      materialToAmounts:
-        m_keys:
-        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
-        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
-        m_values: bc02000032000000
-      productionTime: 0.8
     - name: Proximity Sensor
       product: {fileID: 6513434798660266608, guid: f5de4bfc8649c7a428e694010049af77,
         type: 3}
@@ -465,4 +465,24 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: 20030000c8000000
+      productionTime: 0.8
+    - name: Upgraded Weapon Power Cell
+      product: {fileID: 7965872897035117346, guid: 2affbb27616c0a34d8fc31ea8505291c,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        - {fileID: 11400000, guid: 34a32a7e1dca6124e9b583dd262acb0a, type: 2}
+        m_values: bc020000500000009600000096000000
+      productionTime: 0.8
+    - name: Weapon Power Cell
+      product: {fileID: 4628131739231852847, guid: 08ca0ad89e4b8aa479224994b1d576d1,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: bc02000050000000
       productionTime: 0.8

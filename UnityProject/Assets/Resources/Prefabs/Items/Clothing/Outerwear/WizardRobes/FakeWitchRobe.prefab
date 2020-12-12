@@ -13,6 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4f690f8116780da41ac176d2f9205fa3,
         type: 2}
+    - target: {fileID: 6398446528150254306, guid: 5601675397d48b544aeb7c553e91a863,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6398446528150254306, guid: 5601675397d48b544aeb7c553e91a863,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6784184120889564544, guid: 5601675397d48b544aeb7c553e91a863,
         type: 3}
       propertyPath: m_Name

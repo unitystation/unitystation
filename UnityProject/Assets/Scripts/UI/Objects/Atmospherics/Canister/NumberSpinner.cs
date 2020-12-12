@@ -131,7 +131,7 @@ public class NumberSpinner : NetUIStringElement
 		targetValue = newValue;
 		if (!muteSounds && tickCooldown <= 0)
 		{
-			SoundManager.Play("Tick", 0.15f, pan: -0.3f);
+			SoundManager.Play(SingletonSOSounds.Instance.Tick); //0.15f, pan: -0.3f
 			tickCooldown = MIN_SECONDS_PER_TICK;
 		}
 

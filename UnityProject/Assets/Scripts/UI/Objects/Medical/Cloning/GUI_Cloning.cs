@@ -29,16 +29,21 @@ namespace UI.Objects.Medical
 		public NetLabel recordBrute;
 		public NetLabel recordUniqueID;
 
-		void Start()
+		protected override void InitServer()
 		{
-			if (Provider != null)
+			StartCoroutine(WaitForProvider());
+		}
+
+		private IEnumerator WaitForProvider()
+		{
+			while (Provider == null)
 			{
-				//Makes sure it connects with the dispenser properly
-				CloningConsole = Provider.GetComponentInChildren<CloningConsole>();
-				CloningConsole.RegisterConsoleGUI(this);
-				//Subscribe to change event from CloningConsole.cs
-				UpdateDisplay();
+				yield return WaitFor.EndOfFrame;
 			}
+			CloningConsole = Provider.GetComponentInChildren<CloningConsole>();
+			CloningConsole.RegisterConsoleGUI(this);
+			//Subscribe to change event from CloningConsole.cs
+			UpdateDisplay();
 		}
 
 		public void UpdateDisplay()

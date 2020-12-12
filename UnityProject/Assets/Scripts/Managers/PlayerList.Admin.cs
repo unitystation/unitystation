@@ -547,8 +547,18 @@ public partial class PlayerList
 	/// <returns></returns>
 	private List<JobBanEntry> ClientAskingAboutJobBans(ConnectedPlayer connPlayer)
 	{
+		if (connPlayer.Equals(ConnectedPlayer.Invalid))
+		{
+			Logger.LogError($"Attempted to check job-ban for invalid player.");
+			return default;
+		}
+
+		string playerUserID = connPlayer.UserId;
+		string playerAddress = connPlayer.Connection.address;
+		string playerClientID = connPlayer.ClientId;
+
 		//jobbanlist checking:
-		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(playerUserID, playerAddress, playerClientID);
 
 		if (jobBanPlayerEntry == null)
 		{
@@ -872,20 +882,21 @@ public partial class PlayerList
 
 	#region Kick/Ban
 
-	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes, bool announceBan)
+	public void ProcessKickRequest(string adminId, string userToKick, string reason, bool isBan, int banMinutes, bool announceBan)
 	{
-		if (!adminUsers.Contains(admin)) return;
+		if (!adminUsers.Contains(adminId)) return;
 
-		var players = GetAllByUserID(userToKick);
+		ConnectedPlayer adminPlayer = PlayerList.Instance.GetByUserID(adminId);
+		List<ConnectedPlayer> players = GetAllByUserID(userToKick, true);
 		if (players.Count != 0)
 		{
 			foreach (var p in players)
 			{
-				var message = $"A kick/ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+				string message = $"A kick/ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 
 				Logger.Log(message);
 
-				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
+				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes,adminPlayer));
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
@@ -907,12 +918,12 @@ public partial class PlayerList
 		}
 		else
 		{
-			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {admin}");
+			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {adminPlayer.Username}");
 		}
 	}
 
 	IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
-		bool ban = false, int banLengthInMinutes = 0)
+		bool ban = false, int banLengthInMinutes = 0, ConnectedPlayer adminPlayer = null)
 	{
 		Logger.Log("Processing KickPlayer/ban for " + "\n"
 				   + "UserId " + connPlayer?.UserId + "\n"
@@ -927,7 +938,7 @@ public partial class PlayerList
 			message = $"You have been banned for {banLengthInMinutes}" +
 					  $" minutes. Reason: {reason}";
 
-			var index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
+			int index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
 			if (index != -1)
 			{
 				Logger.Log("removing pre-existing ban entry for userId of" + connPlayer.UserId);
@@ -942,7 +953,9 @@ public partial class PlayerList
 				reason = reason,
 				dateTimeOfBan = DateTime.Now.ToString("O"),
 				ipAddress = connPlayer?.Connection?.address,
-				clientId = connPlayer?.ClientId
+				clientId = connPlayer?.ClientId,
+				adminId = adminPlayer?.UserId,
+				adminName = adminPlayer?.Username
 			});
 
 			SaveBanList();
@@ -981,31 +994,32 @@ public partial class PlayerList
 		loggedOff.Remove(connPlayer);
 	}
 
-	public void ProcessJobBanRequest(string admin, string userToJobBan, string reason, bool isPerma, int banMinutes, JobType jobType, bool kickAfter = false, bool ghostAfter = false)
+	public void ProcessJobBanRequest(string adminId, string userToJobBan, string reason, bool isPerma, int banMinutes, JobType jobType, bool kickAfter = false, bool ghostAfter = false)
 	{
-		if (!adminUsers.Contains(admin)) return;
+		if (!adminUsers.Contains(adminId)) return;
 
-		var players = GetAllByUserID(userToJobBan);
+		ConnectedPlayer adminPlayer = PlayerList.Instance.GetByUserID(adminId);
+		List<ConnectedPlayer> players = GetAllByUserID(userToJobBan);
 		if (players.Count != 0)
 		{
 			foreach (var p in players)
 			{
-				var message = "";
+				string message = "";
 
 				if (isPerma)
 				{
-					message = $"A job ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} IsPerma: {isPerma} Time: {DateTime.Now}";
+					message = $"A job ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} IsPerma: {isPerma} Time: {DateTime.Now}";
 				}
 				else
 				{
-					message = $"A job ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+					message = $"A job ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 				}
 
 				Logger.Log(message);
 
-				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType));
+				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType, adminPlayer));
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{PlayerList.Instance.GetByUserID(admin).Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{adminPlayer.Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
@@ -1027,11 +1041,11 @@ public partial class PlayerList
 		}
 		else
 		{
-			Logger.Log($"job ban failed, can't find player: {userToJobBan}. Requested by {admin}");
+			Logger.Log($"job ban failed, can't find player: {userToJobBan}. Requested by {adminPlayer.Username}");
 		}
 	}
 
-	IEnumerator JobBanPlayer(ConnectedPlayer connPlayer, string reason, bool isPermaBool, int banLengthInMinutes, JobType jobType)
+	IEnumerator JobBanPlayer(ConnectedPlayer connPlayer, string reason, bool isPermaBool, int banLengthInMinutes, JobType jobType, ConnectedPlayer admin)
 	{
 		if (jobBanList == null)
 		{
@@ -1060,7 +1074,9 @@ public partial class PlayerList
 				userName = connPlayer?.Username,
 				ipAddress = connPlayer?.Connection?.address,
 				clientId = connPlayer?.ClientId,
-				jobBanEntry = new List<JobBanEntry>()
+				jobBanEntry = new List<JobBanEntry>(),
+				adminId = admin?.UserId,
+				adminName = admin?.Username
 			});
 
 			jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
@@ -1135,12 +1151,17 @@ public class BanEntry
 	public string ipAddress;
 	public string clientId;
 
+	public string adminId;
+
+	public string adminName;
+
 	public override string ToString()
 	{
 		return ("BanEntry of " + userId + " / " + userName + "\n"
 				 + "for " + minutes + " minutes, on" + dateTimeOfBan + "\n"
 				 + "on IP " + ipAddress + "\n"
 				 + "clientId " + clientId + "\n"
+				 + "by " + adminId + " / " + adminName + "\n"
 				 + "for reason" + reason);
 	}
 }
@@ -1170,6 +1191,10 @@ public class JobBanPlayerEntry
 	public string userName;
 	public string ipAddress;
 	public string clientId;
+
+	public string adminId;
+
+	public string adminName;
 
 	public List<JobBanEntry> jobBanEntry = new List<JobBanEntry>();
 

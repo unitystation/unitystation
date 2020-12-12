@@ -57,7 +57,6 @@ namespace Objects.Atmospherics
 
 		private void OnDisable()
 		{
-			SetVentClosed();
 			integrity.OnApplyDamage.RemoveListener(OnServerDamage);
 		}
 
@@ -65,7 +64,6 @@ namespace Objects.Atmospherics
 		{
 			if (integrity.integrity - info.Damage <= 0)
 			{
-				SetVentClosed();
 				ExplodeContainer();
 				integrity.RestoreIntegrity(integrity.initialIntegrity);
 			}
@@ -84,7 +82,7 @@ namespace Objects.Atmospherics
 			ReleaseContentsInstantly();
 
 			ExplosionUtils.PlaySoundAndShake(WorldPosition, shakeIntensity, (int)shakeDistance);
-			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", WorldPosition.To2Int());
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject);
 
 			ServerContainerExplode?.Invoke();
 			// Disable this script, gameObject has no valid container now.
@@ -95,42 +93,13 @@ namespace Objects.Atmospherics
 		{
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(WorldPosition, true).MetaDataLayer;
 			MetaDataNode node = metaDataLayer.Get(LocalPosition, false);
-			
-			node.GasMix += GasMix;
+
+			GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
 			metaDataLayer.UpdateSystemsAt(LocalPosition, SystemType.AtmosSystem);
 		}
 
-		public void SetVent(bool isOpen)
-		{
-			if (isOpen)
-			{
-				SetVentOpen();
-			}
-			else
-			{
-				SetVentClosed();
-			}
-		}
-
-		private void SetVentOpen()
-		{
-			IsVenting = true;
-			UpdateManager.Add(CallbackType.UPDATE, UpdateVenting);
-		}
-
-		private void SetVentClosed()
-		{
-			IsVenting = false;
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateVenting);
-		}
-
-		private void UpdateVenting()
-		{
-			VentContents();
-		}
-
 		[Server]
-		private void VentContents()
+		public void VentContents()
 		{
 			var metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position), true).MetaDataLayer;
 
@@ -141,11 +110,9 @@ namespace Objects.Atmospherics
 
 			if (deltaPressure > 0)
 			{
-				float ratio = deltaPressure / GasMix.Pressure * Time.deltaTime;
+				float ratio = deltaPressure * Time.deltaTime;
 
-				node.GasMix += GasMix * ratio;
-
-				GasMix *= (1 - ratio);
+				GasMix.TransferGas(node.GasMix, GasMix, ratio);
 
 				metaDataLayer.UpdateSystemsAt(localPosition, SystemType.AtmosSystem);
 

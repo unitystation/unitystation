@@ -16,7 +16,6 @@ namespace AdminTools
 		[SerializeField] private bool showAdminsOnly = false;
 		[SerializeField] private bool disableButtonInteract = false;
 		private float refreshTime = 3f;
-		private float currentCount = 0f;
 
 		private List<GameObject> HiddenButtons = new List<GameObject>();
 		[SerializeField] private AdminSearchBar searchBar = null;
@@ -136,8 +135,11 @@ namespace AdminTools
 			}
 			HiddenButtons.Clear();
 
-			var buttons = playerEntries;//Grabs fresh list of all the possible buttons
-
+			//Grabs fresh list of all the possible buttons
+			// TODO: encapsulate this adminPlayerList search more generic so that it can better be used across different admin systems
+			var buttons = playerEntries.Count > 0 
+				? playerEntries 
+				: gameObject.transform.parent.parent.parent.GetComponent<GUI_AdminTools>().GetPlayerEntries();
 			var Searchtext = searchBar.SearchText();
 
 			for (int i = 0; i < buttons.Count; i++)

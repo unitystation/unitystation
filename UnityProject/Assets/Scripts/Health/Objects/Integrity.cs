@@ -192,14 +192,14 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <param name="damage"></param>
 	/// <param name="damageType"></param>
 	[Server]
-	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false)
+	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false, bool triggerEvent = true)
 	{
 		//already destroyed, don't apply damage
 		if (destroyed || Resistances.Indestructable || (!ignoreDeflection && damage < damageDeflection)) return;
 
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 
-		var damageInfo = new DamageInfo(damage, attackType, damageType);
+		var damageInfo = new DamageInfo(damage, attackType, damageType, this);
 
 		damage = Armor.GetDamage(damage, attackType);
 		if (damage > 0)
@@ -210,7 +210,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			}
 			integrity -= damage;
 			lastDamageType = damageType;
-			OnApplyDamage.Invoke(damageInfo);
+
+			if (triggerEvent)
+			{
+				OnApplyDamage.Invoke(damageInfo);
+			}
+
 			CheckDestruction();
 
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
@@ -305,7 +310,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		Profiler.BeginSample("DefaultBurnUp");
 		registerTile.TileChangeManager.UpdateOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
-		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject.TileWorldPosition());
+		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject);
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		Despawn.ServerSingle(gameObject);
 		Profiler.EndSample();
@@ -316,13 +321,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (info.DamageType == DamageType.Brute)
 		{
-			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got smashed to pieces.", gameObject.TileWorldPosition());
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got smashed to pieces.", gameObject);
 			Despawn.ServerSingle(gameObject);
 		}
 		//TODO: Other damage types (acid)
 		else
 		{
-			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got destroyed.", gameObject.TileWorldPosition());
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got destroyed.", gameObject);
 			Despawn.ServerSingle(gameObject);
 		}
 	}
@@ -408,11 +413,14 @@ public class DamageInfo
 
 	public readonly AttackType AttackType;
 
+	public readonly Integrity AttackedIntegrity;
+
 	public readonly float Damage;
-	public DamageInfo(float damage, AttackType attackType, DamageType damageType)
+	public DamageInfo(float damage, AttackType attackType, DamageType damageType, Integrity attackedIntegrity)
 	{
 		DamageType = damageType;
 		Damage = damage;
 		AttackType = attackType;
+		AttackedIntegrity = attackedIntegrity;
 	}
 }

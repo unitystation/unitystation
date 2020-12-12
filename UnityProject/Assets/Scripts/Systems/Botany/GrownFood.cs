@@ -29,12 +29,12 @@ public class GrownFood : NetworkBehaviour
 	private Edible edible = default;
 
 	[SyncVar(hook = nameof(SyncSize))]
-	public float SizeScale;
-
+	public float sizeScale = 1;
+	
 	public void SyncSize(float oldScale, float newScale)
 	{
-		SizeScale = newScale;
-		SpriteSizeAdjustment.transform.localScale = new Vector3((SizeScale), (SizeScale), (SizeScale));
+		sizeScale = newScale;
+		SpriteSizeAdjustment.transform.localScale = new Vector3((sizeScale), (sizeScale), (sizeScale));
 	}
 
 	public PlantData GetPlantData()
@@ -65,10 +65,9 @@ public class GrownFood : NetworkBehaviour
 		Sprite.PushTexture();
 	}*/
 
-	public override void OnStartClient()
+	public void Start()
 	{
-		SyncSize(this.SizeScale, this.SizeScale);
-		base.OnStartClient();
+		SyncSize(sizeScale, sizeScale);
 	}
 
 	/// <summary>
@@ -77,7 +76,7 @@ public class GrownFood : NetworkBehaviour
 	public void SetUpFood(PlantData newPlantData, PlantTrayModification modification)
 	{
 		plantData = PlantData.MutateNewPlant(newPlantData, modification);
-		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 200f));
+		SyncSize(sizeScale, 0.5f + (newPlantData.Potency / 200f));
 		SetupChemicalContents();
 		if(edible != null)
 		{

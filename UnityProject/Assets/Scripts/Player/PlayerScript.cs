@@ -99,6 +99,13 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		Init();
 		waitTimeForRTTUpdate = 0f;
+
+		if (IsGhost == false)
+		{
+			UIManager.Internals.SetupListeners();
+			UIManager.Instance.panelHudBottomController.SetupListeners();
+		}
+		
 		isUpdateRTT = true;
 	}
 
@@ -266,6 +273,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		playerName = value;
 		gameObject.name = value;
+		RefreshVisibleName();
 	}
 
 	public bool IsHidden => !PlayerSync.ClientState.Active;
@@ -297,31 +305,43 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public object Chat { get; internal set; }
 
-	public bool IsInReach(GameObject go, bool isServer, float interactDist = interactionDistance)
+	public bool IsGameObjectReachable(GameObject go, bool isServer, float interactDist = interactionDistance, GameObject context=null)
 	{
 		var rt = go.RegisterTile();
 		if (rt)
 		{
-			return IsInReach(rt, isServer, interactDist);
+			return IsRegisterTileReachable(rt, isServer, interactDist, context: context);
 		}
 		else
 		{
-			return IsInReach(go.transform.position, isServer, interactDist);
+			return IsPositionReachable(go.transform.position, isServer, interactDist, context: context);
 		}
 	}
 
 	/// The smart way:
-	///  <inheritdoc cref="IsInReach(Vector3,float)"/>
-	public bool IsInReach(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance)
+	///  <inheritdoc cref="IsPositionReachable(Vector3, bool, float, GameObject)"/>
+	public bool IsRegisterTileReachable(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance, GameObject context=null)
 	{
-		return Validations.IsInReach(registerTile, otherObject, isServer, interactDist);
+		return Validations.IsReachableByRegisterTiles(registerTile, otherObject, isServer, interactDist, context: context);
 	}
 	///     Checks if the player is within reach of something
 	/// <param name="otherPosition">The position of whatever we are trying to reach</param>
+	/// <param name="isServer">True if being executed on server, false otherwise</param>
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
-	public bool IsInReach(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance)
+	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
+	public bool IsPositionReachable(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance, GameObject context = null)
 	{
-		return Validations.IsInReach(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, interactDist);
+		return Validations.IsReachableByPositions(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, isServer, interactDist, context: context);
+	}
+
+	/// <summary>
+	/// Sets the IC name for this player and refreshes the visible name. Name will be kept if respawned.
+	/// </summary>
+	/// <param name="newName">The new name to give to the player.</param>
+	public void SetPermanentName(string newName)
+	{
+		characterSettings.Name = newName;
+		playerName = newName;
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
@@ -403,7 +423,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		// TODO: Check inventory for head/mask items that hide face - atm just check you are not wearing a mask.
 		// needs helmet/hideface trait to be added and checked for. This way, we start with a "face name" our characters might know...
-		if (ItemSlot.GetNamed(ItemStorage, NamedSlot.mask).IsEmpty)
+		if (IsGhost || ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty)
 		{
 			SyncVisibleName(playerName, playerName);
 		}
@@ -411,15 +431,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		{
 			SyncVisibleName("Unknown", "Unknown");
 		}
-
-		// ...but if ID card is in belt slot, override with ID card data.
-		string idname = Equipment.GetIdentityFromID();
-		if (!String.Equals(idname, ""))
-		{
-			SyncVisibleName(idname, idname);
-		}
-
-
 	}
 
 	//Tooltips inspector bar
@@ -454,13 +465,15 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		if (PlayerList.Instance.IsAntag(gameObject))
 		{
-			return $"<color=yellow>Name: {characterSettings.Name}\r\n" +
-				   $"Acc: {characterSettings.Username}\r\n" +
-				   $"Antag: True</color>";
+			return $"<color=yellow>Name: {characterSettings.Name}\n" +
+				   $"Acc: {characterSettings.Username}\n" +
+				   $"Antag: True \n" +
+				   "Objectives : "+ mind.GetAntag().GetObjectiveSummary() + "</color>";
+
 		}
 
-		return $"Name: {characterSettings.Name}\r\n" +
-			   $"Acc: {characterSettings.Username}\r\n" +
+		return $"Name: {characterSettings.Name}\n" +
+			   $"Acc: {characterSettings.Username}\n" +
 			   $"Antag: False";
 	}
 }

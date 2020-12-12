@@ -19,8 +19,9 @@ public class RightClickableElement
 	private readonly Color? bgColorOverride;
 	private readonly Sprite spriteOverride;
 	private readonly Sprite bgSpriteOverride;
+	private readonly bool keepMenuOpen;
 
-	private RightClickableElement(RightClickOption option, Action action, string nameOverride, Color? bgColorOverride, Sprite spriteOverride, Sprite bgSpriteOverride)
+	private RightClickableElement(RightClickOption option, Action action, string nameOverride, Color? bgColorOverride, Sprite spriteOverride, Sprite bgSpriteOverride, bool keepMenuOpen)
 	{
 		this.option = option;
 		this.action = action;
@@ -28,6 +29,7 @@ public class RightClickableElement
 		this.bgColorOverride = bgColorOverride;
 		this.spriteOverride = spriteOverride;
 		this.bgSpriteOverride = bgSpriteOverride;
+		this.keepMenuOpen = keepMenuOpen;
 	}
 
 	/// <summary>
@@ -45,7 +47,8 @@ public class RightClickableElement
 	/// <param name="nameOverride">Name to use instead of the RightClickOption's name</param>
 	/// <returns>RightClickableElement encapsulating this info</returns>
 	public static RightClickableElement FromOptionName(string optionName, Action action,
-		Color? bgColorOverride = null, string nameOverride = null, Sprite spriteOverride = null, Sprite bgSpriteOverride = null)
+		Color? bgColorOverride = null, string nameOverride = null, Sprite spriteOverride = null,
+		Sprite bgSpriteOverride = null, bool keepMenuOpen = true)
 
 	{
 		if (optionNameToOption == null)
@@ -55,7 +58,7 @@ public class RightClickableElement
 
 		if (optionNameToOption.TryGetValue(optionName, out var option))
 		{
-			return new RightClickableElement(option, action, nameOverride, bgColorOverride, spriteOverride, bgSpriteOverride);
+			return new RightClickableElement(option, action, nameOverride, bgColorOverride, spriteOverride, bgSpriteOverride, option.keepMenuOpen);
 		}
 		else
 		{
@@ -63,7 +66,7 @@ public class RightClickableElement
 			                      " the RightClickOption scriptable object exists in the folder {1}." +
 			                      " A default option will be displayed instead with the same name.",
 									Category.UI, optionName, RIGHT_CLICK_OPTION_FOLDER);
-			return FromOptionName("Default", action, bgColorOverride, nameOverride != null ? nameOverride : optionName, spriteOverride, bgSpriteOverride);
+			return FromOptionName("Default", action, bgColorOverride, nameOverride != null ? nameOverride : optionName, spriteOverride, bgSpriteOverride, keepMenuOpen);
 		}
 	}
 
@@ -94,6 +97,6 @@ public class RightClickableElement
 		var sprite = spriteOverride ? spriteOverride : option.icon;
 		var bgSprite = bgSpriteOverride ? bgSpriteOverride : option.backgroundSprite;
 
-		return RightClickMenuItem.CreateSubMenuItem(color, sprite, bgSprite, label, action);
+		return RightClickMenuItem.CreateSubMenuItem(color, sprite, bgSprite, label, action, keepMenuOpen: keepMenuOpen);
 	}
 }

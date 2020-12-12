@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Antagonists;
 using UnityEngine;
 using Mirror;
+using UI.CharacterCreator;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
@@ -10,7 +12,7 @@ public partial class PlayerList : NetworkBehaviour
 {
 	//ConnectedPlayer list, server only
 	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
-	private List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
+	public List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
 
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
@@ -300,9 +302,15 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public List<ConnectedPlayer> GetAllByUserID(string byUserID)
+	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool includeOffline  = false)
 	{
-		return loggedIn.FindAll(player => player.UserId == byUserID);
+		var newone = loggedIn.ToList();
+		if (includeOffline)
+		{
+			newone.AddRange(loggedOff);
+		}
+
+ 		return newone.FindAll(player => player.UserId == byUserID);
 	}
 
 	private ConnectedPlayer getInternal(Func<ConnectedPlayer, bool> condition)
@@ -471,6 +479,26 @@ public partial class PlayerList : NetworkBehaviour
 	public void ClearReadyPlayers()
 	{
 		ReadyPlayers.Clear();
+	}
+
+	public static bool HasAntagEnabled(AntagPrefsDict antagPrefs, Antagonist antag)
+	{
+		return !antag.ShowInPreferences ||
+		       (antagPrefs.ContainsKey(antag.AntagName) && antagPrefs[antag.AntagName]);
+	}
+
+	public static bool HasAntagEnabled(ConnectedPlayer connectedPlayer, Antagonist antag)
+	{
+		if (connectedPlayer.CharacterSettings == null)
+		{
+			if (connectedPlayer.Script.characterSettings == null) return false;
+
+			connectedPlayer.CharacterSettings = connectedPlayer.Script.characterSettings;
+		}
+
+		return !antag.ShowInPreferences ||
+		       (connectedPlayer.CharacterSettings.AntagPreferences.ContainsKey(antag.AntagName)
+		        && connectedPlayer.CharacterSettings.AntagPreferences[antag.AntagName]);
 	}
 }
 

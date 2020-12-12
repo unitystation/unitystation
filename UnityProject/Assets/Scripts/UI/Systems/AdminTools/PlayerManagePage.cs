@@ -8,57 +8,50 @@ namespace AdminTools
 {
 	public class PlayerManagePage : AdminPage
 	{
-		[SerializeField] private Button kickBtn;
-		[SerializeField] private Button banBtn;
 		[SerializeField] private Button deputiseBtn = null;
-		[SerializeField] private Button respawnBtn = null;
-		[SerializeField] private Button teleportAdminToPlayer = null; // TODO: this is unused and is creating a compiler warning.
-		[SerializeField] private Button teleportPlayerToAdmin = null; // Same issue with this.
-		[SerializeField] private Button teleportAdminToPlayerAghost = null; // This too.
-		[SerializeField] private Button teleportAllPlayersToPlayer = null; // And this.
-		[SerializeField] private AdminRespawnPage adminRespawnPage;
-		private AdminPlayerEntry playerEntry;
-		public AdminPlayerEntry PlayerEntry => playerEntry;
+		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+
+		public AdminPlayerEntry PlayerEntry { get; private set; }
 
 		public void SetData(AdminPlayerEntry entry)
 		{
-			playerEntry = entry;
+			PlayerEntry = entry;
 			deputiseBtn.interactable = !entry.PlayerData.isAdmin;
 			// respawnBtn.interactable = !playerEntry.PlayerData.isAlive;
 		}
 
 		public void OnKickBtn()
 		{
-			adminTools.kickBanEntryPage.SetPage(false, playerEntry.PlayerData, false);
+			adminTools.kickBanEntryPage.SetPage(false, PlayerEntry.PlayerData, false);
 		}
 
 		public void OnBanBtn()
 		{
-			adminTools.kickBanEntryPage.SetPage(true, playerEntry.PlayerData, false);
+			adminTools.kickBanEntryPage.SetPage(true, PlayerEntry.PlayerData, false);
 		}
 
 		public void OnJobBanBtn()
 		{
-			adminTools.kickBanEntryPage.SetPage(false, playerEntry.PlayerData, true);
+			adminTools.kickBanEntryPage.SetPage(false, PlayerEntry.PlayerData, true);
 		}
 
 		public void OnSmiteBtn()
 		{
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Are you sure you want to smite {playerEntry.PlayerData.name}?",
+				$"Are you sure you want to smite {PlayerEntry.PlayerData.name}?",
 				SendSmitePlayerRequest);
 		}
 
 		public void OnDeputiseBtn()
 		{
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Are you sure you want to make {playerEntry.PlayerData.name} an admin?",
+				$"Are you sure you want to make {PlayerEntry.PlayerData.name} an admin?",
 				SendMakePlayerAdminRequest);
 		}
 
 		public void OnRespawnButton()
 		{
-			adminRespawnPage.SetTabsWithPlayerEntry(playerEntry);
+			adminRespawnPage.SetTabsWithPlayerEntry(PlayerEntry);
 			adminTools.ShowRespawnPage();
 		}
 
@@ -67,7 +60,7 @@ namespace AdminTools
 		/// </summary>
 		void SendSmitePlayerRequest()
 		{
-			ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerEntry.PlayerData.uid, "CmdSmitePlayer");
+			ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid, "CmdSmitePlayer");
 			RefreshPage();
 		}
 
@@ -76,14 +69,14 @@ namespace AdminTools
 			RequestAdminPromotion.Send(
 				ServerData.UserID,
 				PlayerList.Instance.AdminToken,
-				playerEntry.PlayerData.uid);
+				PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
 		public void OnTeleportAdminToPlayer()
 		{
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Teleport yourself to {playerEntry.PlayerData.name}?",
+				$"Teleport yourself to {PlayerEntry.PlayerData.name}?",
 				SendTeleportAdminToPlayerRequest);
 		}
 
@@ -94,7 +87,7 @@ namespace AdminTools
 				ServerData.UserID,
 				PlayerList.Instance.AdminToken,
 				null,
-				playerEntry.PlayerData.uid,
+				PlayerEntry.PlayerData.uid,
 				RequestAdminTeleport.OpperationList.AdminToPlayer,
 				false,
 				new Vector3(0, 0, 0)
@@ -104,7 +97,7 @@ namespace AdminTools
 		public void OnTeleportPlayerToAdmin()
 		{
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Teleport {playerEntry.PlayerData.name} to you?",
+				$"Teleport {PlayerEntry.PlayerData.name} to you?",
 				SendTeleportPlayerToAdmin);
 		}
 
@@ -113,7 +106,7 @@ namespace AdminTools
 			RequestAdminTeleport.Send(
 				ServerData.UserID,
 				PlayerList.Instance.AdminToken,
-				playerEntry.PlayerData.uid,
+				PlayerEntry.PlayerData.uid,
 				null,
 				RequestAdminTeleport.OpperationList.PlayerToAdmin,
 				false,
@@ -124,7 +117,7 @@ namespace AdminTools
 		public void OnTeleportAdminToPlayerAghost()
 		{
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Teleport yourself to {playerEntry.PlayerData.name} as a ghost?",
+				$"Teleport yourself to {PlayerEntry.PlayerData.name} as a ghost?",
 				SendTeleportAdminToPlayerAghost);
 		}
 
@@ -139,7 +132,7 @@ namespace AdminTools
 				ServerData.UserID,
 				PlayerList.Instance.AdminToken,
 				null,
-				playerEntry.PlayerData.uid,
+				PlayerEntry.PlayerData.uid,
 				RequestAdminTeleport.OpperationList.AdminToPlayer,
 				true,
 				new Vector3 (0,0,0)
@@ -149,7 +142,7 @@ namespace AdminTools
 		public void OnTeleportAllPlayersToPlayer()
 		{
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Teleport EVERYONE to {playerEntry.PlayerData.name}?",
+				$"Teleport EVERYONE to {PlayerEntry.PlayerData.name}?",
 				SendTeleportAllPlayersToPlayer);
 		}
 
@@ -159,7 +152,7 @@ namespace AdminTools
 
 			bool isAghost;
 
-			if (PlayerManager.LocalPlayerScript.IsGhost && playerEntry.PlayerData.uid == ServerData.UserID)
+			if (PlayerManager.LocalPlayerScript.IsGhost && PlayerEntry.PlayerData.uid == ServerData.UserID)
 			{
 				coord = PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition;
 				isAghost = true;
@@ -174,7 +167,7 @@ namespace AdminTools
 				ServerData.UserID,
 				PlayerList.Instance.AdminToken,
 				null,
-				playerEntry.PlayerData.uid,
+				PlayerEntry.PlayerData.uid,
 				RequestAdminTeleport.OpperationList.AllPlayersToPlayer,
 				isAghost,
 				coord
