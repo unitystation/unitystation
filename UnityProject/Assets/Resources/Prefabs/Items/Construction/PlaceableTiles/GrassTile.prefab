@@ -40,6 +40,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
         type: 2}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: placeSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: initialDescription
@@ -68,6 +73,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2df138af9a5030a44953045e4d508f07,
         type: 3}
+    - target: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: m_Name

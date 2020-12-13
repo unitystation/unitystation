@@ -122,7 +122,7 @@ public partial class GameManager
 			if (status == EscapeShuttleStatus.DockedStation && !primaryEscapeShuttle.hostileEnvironment)
 			{
 				beenToStation = true;
-				SoundManager.PlayNetworked("ShuttleDocked");
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleDocked);
 				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix);
 				//should be changed to manual send later
 				StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
@@ -130,7 +130,7 @@ public partial class GameManager
 			else if (status == EscapeShuttleStatus.DockedStation && primaryEscapeShuttle.hostileEnvironment)
 			{
 				beenToStation = true;
-				SoundManager.PlayNetworked("ShuttleDocked");
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleDocked);
 				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>", MatrixManager.MainStationMatrix);
 			}
 		} );

@@ -69,18 +69,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  openSFX: AirlockOpen
-  closeSFX: AirlockClose
-  openSFXA:
+  openSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  closeSFXA:
+  closeSFX:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
+    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

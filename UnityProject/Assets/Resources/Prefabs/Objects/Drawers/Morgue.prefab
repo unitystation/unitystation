@@ -19,6 +19,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8559641278420770263}
+        m_TargetAssemblyTypeName: Objects.Drawers.Morgue, Assets
         m_MethodName: OnEditorDirectionChange
         m_Mode: 1
         m_Arguments:
@@ -59,9 +60,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  BinOpenSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/BinOpen.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  BinCloseSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/BinClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   trayPrefab: {fileID: 6276591062313578460, guid: ec878b229bc16bb43a22dfbe0068687a,
     type: 3}
   storePlayers: 1
+  emaggedSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/SnapCracklePop1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  buzzerToggleSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Pop.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  consciousnessAlarmSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/OutOfAmmoAlarm.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &9175309300622239234
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e87ca80500964a91bd61d1a1a7ab3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slurp: 
-  SlurpA:
+  drinkSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Slurp.prefab
     AssetReference:
@@ -126,6 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialName
       value: generic container
       objectReference: {fileID: 0}
@@ -138,11 +142,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: It's a very generic container
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

@@ -27,13 +27,10 @@ namespace Doors
 
 		private int closedLayer;
 		private int closedSortingLayer;
-		public string openSFX = "AirlockOpen", closeSFX = "AirlockClose";
 
-		public AddressableAudioSource openSFXA;
+		public AddressableAudioSource openSFX;
 
-		public AddressableAudioSource closeSFXA;
-
-		//RRTL
+		public AddressableAudioSource closeSFX;
 
 		private IEnumerator coWaitOpened;
 		private IEnumerator coBlockAutomaticClosing;
@@ -259,7 +256,7 @@ namespace Doors
 			if (openSFX != null)
 			{
 				// Need to play this sound as global - this will ignore muffle effect
-				SoundManager.PlayAtPosition(openSFXA, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
+				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
 			}
 		}
 
@@ -267,7 +264,7 @@ namespace Doors
 		{
 			if (closeSFX != null)
 			{
-				SoundManager.PlayAtPosition(closeSFXA, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
+				SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
 			}
 		}
 

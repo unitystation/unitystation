@@ -1,65 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2988463691272678988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062928049622915926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialName: cyborg endoskeleton
-  initialDescription: 
-  willHighlight: 1
-  exportCost: 0
-  exportName: 
-  exportMessage: 
-  initialTraits: []
-  initialSize: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  hitSoundSettings: 0
-  canConnectToTank: 0
-  isEVACapable: 0
-  attackVerbs: []
-  itemSprites:
-    SpriteInventoryIcon: {fileID: 0}
-    SpriteLeftHand: {fileID: 0}
-    SpriteRightHand: {fileID: 0}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
---- !u!114 &5732219805588881345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062928049622915926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!1001 &2063609350469347308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126,6 +66,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c2ae2524383538b499b08fef73eff9d1,
         type: 3}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialSize
@@ -146,6 +91,11 @@ PrefabInstance:
       propertyPath: initialName
       value: cyborg endoskeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1397050043076861577, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: spriteHandler
@@ -157,16 +107,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3237962f1f2e2fa489264f6fd2b35651,
         type: 2}
-    m_RemovedComponents:
-    - {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
-    - {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
---- !u!1 &2062928049622915926 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 2063609350469347308}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5325191094975340753 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,

@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: sound
       value: Slurp
       objectReference: {fileID: 0}
+    - target: {fileID: 246742310216031076, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: eatSound.AssetAddress
+      value: Assets/Prefabs/Effects/Slurp.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -29,6 +34,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4de139483fd9ff9459999c7e62280720,
         type: 3}
+    - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_LocalPosition.x

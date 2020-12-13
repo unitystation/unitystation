@@ -89,6 +89,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &114766109722980006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +135,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114302351363566878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +157,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -214,7 +228,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  registerObject: {fileID: 114797768156768684}
   storage: {fileID: 8517661123045796505}
   seedPackets: []
 --- !u!114 &8517661123045796505
@@ -248,18 +261,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
   wattusage: 95
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
 --- !u!114 &5073811291310827968
 MonoBehaviour:
@@ -358,6 +369,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -380,7 +392,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 15d97a343dc638742bd3fe58d8b1bc4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

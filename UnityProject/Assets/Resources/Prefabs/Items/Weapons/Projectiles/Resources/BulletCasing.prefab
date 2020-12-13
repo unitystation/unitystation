@@ -81,6 +81,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 10a4dece4d9c35a4cb028b81175171d4,
         type: 3}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
@@ -100,11 +105,6 @@ PrefabInstance:
         type: 3}
       propertyPath: throwSpeed
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: hitSound
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

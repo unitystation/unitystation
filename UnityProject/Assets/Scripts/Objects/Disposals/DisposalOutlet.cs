@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AddressableReferences;
 
 namespace Objects.Disposals
 {
@@ -21,6 +22,8 @@ namespace Objects.Disposals
 			Idle = 0,
 			Operating = 1
 		}
+
+		[SerializeField] private AddressableAudioSource ejectionAlarmSound;
 
 		#region Lifecycle
 
@@ -135,7 +138,7 @@ namespace Objects.Disposals
 			{
 				// Outlet orifice opens...
 				SetOutletOperating(true);
-				SoundManager.PlayNetworkedAtPos("DisposalMachineBuzzer", registerObject.WorldPositionServer, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(ejectionAlarmSound, registerObject.WorldPositionServer, sourceObj: gameObject);
 				yield return WaitFor.Seconds(EJECTION_DELAY);
 
 				// Outlet orifice open. Release the charge.

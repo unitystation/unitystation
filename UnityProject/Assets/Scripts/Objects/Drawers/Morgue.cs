@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using UnityEngine;
+using AddressableReferences;
 
 namespace Objects.Drawers
 {
@@ -19,6 +21,12 @@ namespace Objects.Drawers
 			/// <summary> Red morgue lights. </summary>
 			ShutWithPlayer = 2
 		}
+		
+		[SerializeField] private AddressableAudioSource emaggedSound;
+
+		[SerializeField] private AddressableAudioSource buzzerToggleSound;
+
+		[SerializeField] private AddressableAudioSource consciousnessAlarmSound;
 
 		// Whether the morgue alarm should sound if a consciousness is present.
 		private const bool ALARM_SYSTEM_ENABLED = true;
@@ -125,7 +133,7 @@ namespace Objects.Drawers
 					$"You wave the {interaction.HandObject.name.ToLower()} over the {name.ToLower()}'s electrical panel. " +
 					"The status panel flickers and the buzzer makes sickly popping noises. You can smell smoke...",
 					"You can smell caustic smoke from somewhere...");
-			SoundManager.PlayNetworkedAtPos("SnapCracklePop1", DrawerWorldPosition, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(emaggedSound, DrawerWorldPosition, sourceObj: gameObject);
 			StartCoroutine(PlayEmagAnimation());
 		}
 
@@ -157,7 +165,7 @@ namespace Objects.Drawers
 			alarmRunning = true;
 			while (consciousnessPresent && buzzerEnabled && !alarmBroken)
 			{
-				SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", DrawerWorldPosition, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(consciousnessAlarmSound, DrawerWorldPosition, sourceObj: gameObject);
 				yield return WaitFor.Seconds(ALARM_PERIOD);
 				if (drawerState == DrawerState.Open) break;
 				UpdateCloseState();

@@ -11,7 +11,7 @@ namespace Objects.Atmospherics
 	{
 		const float DISPENSING_TIME = 2; // As per sprite sheet JSON file.
 
-		[SerializeField] private AddressableAudioSource PosterCreate = null;
+		[SerializeField] private AddressableAudioSource OperatingSound = null;
 
 		ObjectBehaviour objectBehaviour;
 		WrenchSecurable securable;
@@ -93,7 +93,7 @@ namespace Objects.Atmospherics
 		{
 			MachineOperating = true;
 			UpdateSprite();
-			SoundManager.PlayNetworkedAtPos(PosterCreate, objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(OperatingSound, objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
 			yield return WaitFor.Seconds(DISPENSING_TIME);
 			MachineOperating = false;
 			UpdateSprite();

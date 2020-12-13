@@ -116,7 +116,13 @@ MonoBehaviour:
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitSound: GenericHit
+  hitSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GenericHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   hitSoundSettings: 0
   canConnectToTank: 0
   isEVACapable: 0
@@ -149,7 +155,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &6657961525864459168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +245,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -352,7 +370,7 @@ MonoBehaviour:
   SpriteSizeAdjustment: {fileID: 6845515435948111746}
   Sprite: {fileID: 628184727406542681}
   edible: {fileID: 0}
-  SizeScale: 0
+  sizeScale: 1
 --- !u!114 &2383114736845898972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +420,13 @@ MonoBehaviour:
   maxDamage: 125
   maxRadius: 5
   spriteHandler: {fileID: 628184727406542681}
+  ArmedSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   lemonPotencyOverride: 0
 --- !u!1 &6770754434974323192
 GameObject:
@@ -473,7 +498,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 40
   m_Sprite: {fileID: 21300000, guid: 82cfd024cb5627944b73e01a9abe0547, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

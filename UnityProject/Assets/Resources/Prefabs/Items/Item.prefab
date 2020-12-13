@@ -86,7 +86,13 @@ MonoBehaviour:
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitSound: GenericHit
+  hitSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GenericHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   hitSoundSettings: 0
   canConnectToTank: 0
   isEVACapable: 0
@@ -119,7 +125,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 0
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/BladeSlice.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114734890905785284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +215,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Tap.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0

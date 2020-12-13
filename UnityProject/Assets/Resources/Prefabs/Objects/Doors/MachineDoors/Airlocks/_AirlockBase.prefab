@@ -810,34 +810,30 @@ MonoBehaviour:
   openingAnimationTime: 0.6
   closingAnimationTime: 0.6
   deniedAnimationTime: 0.6
-  openingSFX: AirlockOpen
-  closingSFX: AirlockClose
-  deniedSFX: AccessDenied
-  warningSFX: TripleBeep
-  openingSFXA:
+  openingSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  closingSFXA:
+  closingSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  deniedSFXA:
+  deniedSFX:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
+    AssetAddress: Assets/Prefabs/Effects/AccessDenied.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  warningSFXA:
+  warningSFX:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/AccessDenied.prefab
+    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -876,15 +872,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d4876cebf57c42f4d925346f7a7005d5,
         type: 2}
-    - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -934,6 +930,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}

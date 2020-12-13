@@ -17,7 +17,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	private float healthCache;
 	private Vector3Int positionCache;
 
-	[SerializeField] private AddressableAudioSource Handcuffs = null;
+	[SerializeField] private AddressableAudioSource restraintRemovalSound = null;
 
 	[SerializeField]
 	private ActionData actionData = null;
@@ -98,7 +98,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
 			thisPlayerScript.playerName + " has removed their cuffs");
 
-		SoundManager.PlayNetworkedAtPos(Handcuffs, thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(restraintRemovalSound, thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
 	}
 
 	private bool CanUncuff()

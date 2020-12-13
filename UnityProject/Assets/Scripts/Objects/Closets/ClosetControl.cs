@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
@@ -47,15 +48,15 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[FormerlySerializedAs("soundOnOpen")]
 	[Tooltip("Name of sound to play when opened / closed")]
 	[SerializeField]
-	private string soundOnOpenOrClose = "OpenClose";
+	private AddressableAudioSource soundOnOpenOrClose = null;
 
 	[Tooltip("Name of sound to play when emagged")]
 	[SerializeField]
-	private string soundOnEmag = "Grillehit";
+	private AddressableAudioSource soundOnEmag = null;
 
 	[Tooltip("Name of sound to play when emagged")]
 	[SerializeField]
-	private string soundOnEscape = "Rustle 1";
+	private AddressableAudioSource soundOnEscape = null;
 
 	[Tooltip("Sprite to show when door is open.")]
 	[SerializeField]

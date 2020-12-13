@@ -14,7 +14,7 @@ namespace Objects.Command
 	{
 		public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
 
-		[SerializeField] private AddressableAudioSource TimerTick = null;
+		[SerializeField] private AddressableAudioSource TimerTickSound = null;
 
 		private ObjectBehaviour objectBehaviour;
 		private ItemStorage itemNuke;
@@ -287,7 +287,7 @@ namespace Objects.Command
 			while (CurrentTimerSeconds > 0)
 			{
 				CurrentTimerSeconds -= 1;
-				SoundManager.PlayNetworkedAtPos(TimerTick, gameObject.AssumedWorldPosServer());
+				SoundManager.PlayNetworkedAtPos(TimerTickSound, gameObject.AssumedWorldPosServer());
 				yield return WaitFor.Seconds(1);
 			}
 			Detonate();

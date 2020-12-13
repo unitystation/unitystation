@@ -16,6 +16,13 @@ MonoBehaviour:
   syncInterval: 0.1
   IsClosed: 1
   spriteHandler: {fileID: 4986712641889203157}
+  OpenCloseSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &3367540288689315794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,7 +215,12 @@ PrefabInstance:
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 19
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}

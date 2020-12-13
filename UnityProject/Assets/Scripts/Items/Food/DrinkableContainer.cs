@@ -16,13 +16,7 @@ public class DrinkableContainer : Consumable
 	/// The name of the sound the player makes when drinking
 	/// </summary>
 	[Tooltip("The name of the sound the player makes when drinking (must be in soundmanager")]
-	public string Slurp  = "Slurp";
-
-	/// <summary>
-	/// The name of the sound the player makes when drinking
-	/// </summary>
-	[Tooltip("The name of the sound the player makes when drinking (must be in soundmanager")]
-	[SerializeField] private AddressableAudioSource SlurpA = null;
+	[SerializeField] private AddressableAudioSource drinkSound = null;
 
 	private ReagentContainer container;
 	private ItemAttributesV2 itemAttributes;
@@ -89,9 +83,9 @@ public class DrinkableContainer : Consumable
 		DoDrinkEffects(eater, drinkAmount);
 
 		// Play sound
-		if (item && SlurpA != null)
+		if (item && drinkSound != null)
 		{
-			SoundManager.PlayNetworkedAtPos(SlurpA, eater.WorldPos, sourceObj: eater.gameObject);
+			SoundManager.PlayNetworkedAtPos(drinkSound, eater.WorldPos, sourceObj: eater.gameObject);
 		}
 	}
 

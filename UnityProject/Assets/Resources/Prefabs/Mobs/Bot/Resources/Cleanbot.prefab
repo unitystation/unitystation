@@ -108,6 +108,8 @@ MonoBehaviour:
   objectType: 0
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &3833486593887161316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &1017489859683087991
 MonoBehaviour:
@@ -163,8 +166,17 @@ MonoBehaviour:
   performingAction: 0
   activated: 1
   tickRate: 1
+  EatFoodA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   target: 1
   actionPerformTime: 3
+  hasFoodPrefereces: 0
+  foodPreferences: []
 --- !u!114 &822779961239697815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,8 +189,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &-8380667346639020303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +212,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  soundOnHit: 
+  initialIntegrity: 100
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -214,7 +241,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &6801814165055322343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,9 +253,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &6180971314615384560
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,6 +299,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -298,7 +322,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 21
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: b6deaa8f228322c4789b1c364991728e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

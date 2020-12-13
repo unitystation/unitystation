@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 namespace Objects.Disposals
@@ -22,6 +23,9 @@ namespace Objects.Disposals
 
 		public int ContentsCount => containedItems.Count + containedObjects.Count + containedPlayers.Count;
 		public bool HasContents => ContentsCount > 0;
+
+		[Tooltip("The sound made when someone is trying to move in pipes.")]
+		[SerializeField] private AddressableAudioSource ClangSound;
 
 		void Awake()
 		{
@@ -256,7 +260,7 @@ namespace Objects.Disposals
 			if (disposalMachine == null)
 			{
 				// Must be in the disposal pipes
-				SoundManager.PlayNetworkedAtPos("Clang", ContainerWorldPosition);
+				SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
 			}
 			else if (disposalMachine.TryGetComponent(out DisposalBin disposalBin))
 			{

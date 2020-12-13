@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mirror;
+using AddressableReferences;
 using UnityEngine;
 
 namespace Items
