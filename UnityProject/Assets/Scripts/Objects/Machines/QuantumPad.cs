@@ -33,7 +33,7 @@ namespace Objects.Science
 
 		private RegisterTile registerTile;
 
-		private int randomNumber;
+		//private int randomNumber;
 
 		public GameObject MutatedBread;
 
@@ -102,7 +102,7 @@ namespace Objects.Science
 				LavaLandManager.Instance.LavaLandBase2Connector = this;
 			}
 
-			int randomNumber = Random.Range(1, 5);
+			//int randomNumber = Random.Range(1, 5);
 		}
 
 		private void OnEnable()
@@ -192,7 +192,7 @@ namespace Objects.Science
 				TransportUtility.TransportObjectAndPulled(item, travelCoord);
 				somethingTeleported = true;
 
-				if(item.GetComponent<Bread>() == true && randomNumber == 3)
+				if(item.GetComponent<Bread>() == true)
 				{
 					Instantiate(MutatedBread, travelCoord, Quaternion.identity);
 				}
