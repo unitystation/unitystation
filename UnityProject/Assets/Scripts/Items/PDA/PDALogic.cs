@@ -31,6 +31,15 @@ namespace Items.PDA
 		[SerializeField]
 		private bool willResetName = false;
 
+		[Tooltip("Tint of the main background in the GUI")]
+		public Color UIBG;
+
+		[Tooltip("Tint of the patterned overlay in the GUI")]
+		public Color UIOVER;
+
+		[Tooltip("The overlay to be used in the GUI")]
+		public int OVERLAY;
+
 		#endregion Inspector
 
 		// GameObject attached components
