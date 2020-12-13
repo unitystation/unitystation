@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Threading.Tasks;
+using Items;
 
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(ItemAttributesV2))]

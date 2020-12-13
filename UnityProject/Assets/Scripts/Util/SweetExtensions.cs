@@ -7,6 +7,7 @@ using UnityEngine;
 using Objects;
 using Random = UnityEngine.Random;
 using System.Text;
+using Items;
 
 public static class SweetExtensions
 {

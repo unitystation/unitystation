@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 114738972662350094}
   - component: {fileID: 1397050043076861577}
   - component: {fileID: -6201661749900855812}
+  - component: {fileID: 1373280397285383934}
   m_Layer: 10
   m_Name: Item
   m_TagString: Abstract
@@ -266,6 +267,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1373280397285383934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af4d0e94e1b24623931ca59abaf6e1e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionTextOriginator: You start wrapping {0} with {1}.
+  actionTextOthers: '{0} starts wrapping {1} with {2}.'
+  normalPackagePrefab: {fileID: 1724179870811488903, guid: 2b7b7624210ee9a4db29860a7e0d9105,
+    type: 3}
+  festivePackagePrefab: {fileID: 7230278577656183976, guid: b8b3979fac13b304c948ef72851ced85,
+    type: 3}
+  wrapTime: 5
+  overrideAmountOfPaper: 0
+  customAmountOfPaper: 5
+  shapedPackage: 0
+  packageType: 0
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,9 +360,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 40
-  m_Sprite: {fileID: 21300000, guid: 66305a19e3614694f868c75a982e6b68, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -346,7 +370,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6144467708197095229
