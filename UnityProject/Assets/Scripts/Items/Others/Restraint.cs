@@ -35,7 +35,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// <summary>
 	/// Sound to be played when applying restraints
 	/// </summary>
-	[SerializeField] private AddressableAudioSource Handcuffs = null;
+	[SerializeField] private AddressableAudioSource applySound = null;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -68,7 +68,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			.ServerStartProgress(target.RegisterTile(), applyTime, performer);
 		if (bar != null)
 		{
-			SoundManager.PlayNetworkedAtPos(Handcuffs, target.transform.position, sourceObj: target.gameObject);
+			SoundManager.PlayNetworkedAtPos(applySound, target.transform.position, sourceObj: target.gameObject);
 			Chat.AddActionMsgToChat(performer,
 				$"You begin restraining {target.ExpensiveName()}...",
 				$"{performer.ExpensiveName()} begins restraining {target.ExpensiveName()}...");

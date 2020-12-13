@@ -17,13 +17,8 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 	/// <summary>
 	/// The name of the sound the player makes when eating
 	/// </summary>
-	public string EatFood = "EatFood";
-
-	/// <summary>
-	/// The name of the sound the player makes when eating
-	/// </summary>
-	[Tooltip("The name of the sound the player makes when eating (must be in soundmanager")]
-	[SerializeField] private AddressableAudioSource EatFoodA = null;
+	[Tooltip("The name of the sound the player makes when eating.")]
+	public AddressableAudioSource eatSound = null;
 
 	private static readonly StandardProgressActionConfig ProgressConfig
 		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
@@ -72,7 +67,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		if (eater == null)
 		{
 			// todo: implement non-player eating
-			SoundManager.PlayNetworkedAtPos(EatFoodA, item.WorldPosition);
+			SoundManager.PlayNetworkedAtPos(eatSound, item.WorldPosition);
 			if (leavings != null)
 			{
 				Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent);
@@ -110,7 +105,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 
 	public virtual void Eat(PlayerScript eater, PlayerScript feeder)
 	{
-		SoundManager.PlayNetworkedAtPos(EatFoodA, eater.WorldPos, sourceObj: eater.gameObject);
+		SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
 
 		eater.playerHealth.Metabolism
 			.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));

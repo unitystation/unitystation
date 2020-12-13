@@ -11,9 +11,9 @@ namespace Items.Magical
 {
 	public class BookOfSpells : MonoBehaviour, IExaminable, IServerInventoryMove, ICheckedInteractable<HandActivate>
 	{
-		[SerializeField] private AddressableAudioSource Blind = null;
+		[SerializeField] private AddressableAudioSource learningSound = null;
 
-		[SerializeField] private AddressableAudioSource SummonItemsGeneric = null;
+		[SerializeField] private AddressableAudioSource summonItemSound = null;
 
 		[Tooltip("If checked, will only be usable by wizards.")]
 		[SerializeField]
@@ -80,7 +80,7 @@ namespace Items.Magical
 		{
 			points -= spellEntry.Cost;
 
-			SoundManager.PlayNetworkedAtPos(Blind, player.Script.WorldPos, sourceObj: player.GameObject);
+			SoundManager.PlayNetworkedAtPos(learningSound, player.Script.WorldPos, sourceObj: player.GameObject);
 			Chat.AddChatMsgToChat(player, spellEntry.Incantation, ChatChannel.Local);
 
 			Spell spellInstance = player.Script.mind.GetSpellInstance(spellEntry.Spell);
@@ -105,7 +105,7 @@ namespace Items.Magical
 			if (spawnResult.Successful)
 			{
 				points -= artifactEntry.Cost;
-				SoundManager.PlayNetworkedAtPos(SummonItemsGeneric, playerScript.WorldPos, sourceObj: playerScript.gameObject);
+				SoundManager.PlayNetworkedAtPos(summonItemSound, playerScript.WorldPos, sourceObj: playerScript.gameObject);
 
 				var closetControl = spawnResult.GameObject.GetComponent<ClosetControl>();
 

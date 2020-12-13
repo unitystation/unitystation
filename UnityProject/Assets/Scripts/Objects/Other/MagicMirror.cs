@@ -13,7 +13,7 @@ namespace Objects
 	{
 		private readonly float PRINTING_TIME = 2;
 
-		[SerializeField] private AddressableAudioSource PosterCreate = null;
+		[SerializeField] private AddressableAudioSource PrintSound = null;
 
 		[SerializeField]
 		private GameObject paperPrefab = default;
@@ -42,7 +42,7 @@ namespace Objects
 
 		private IEnumerator RunNameSetSequence(ConnectedPlayer player, string newName)
 		{
-			SoundManager.PlayNetworkedAtPos(PosterCreate, gameObject.RegisterTile().WorldPositionServer, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(PrintSound, gameObject.RegisterTile().WorldPositionServer, sourceObj: gameObject);
 			yield return WaitFor.Seconds(PRINTING_TIME);
 
 			player.Script.SetPermanentName(newName);

@@ -54,11 +54,6 @@ namespace Objects.Construction
 		[Tooltip("Sound when destroyed.")]
 		[SerializeField] private AddressableAudioSource soundOnDestroy = null;
 
-		[Tooltip("Sound when glass is hit.")]
-		[SerializeField] private AddressableAudioSource GlassHit = null;
-
-
-
 		private void Start()
 		{
 			registerObject = GetComponent<RegisterObject>();
@@ -91,7 +86,7 @@ namespace Objects.Construction
 
 			return true;
 		}
-		//SoundManager.PlayNetworkedAtPos(GlassHit, exposure.ExposedWorldPosition.To3Int(), Random.Range(0.9f, 1.1f));
+
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (interaction.TargetObject != gameObject) return;

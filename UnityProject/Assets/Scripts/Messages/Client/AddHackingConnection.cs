@@ -9,7 +9,6 @@ using AddressableReferences;
 
 public class AddHackingConnection : ClientMessage
 {
-	[SerializeField] private AddressableAudioSource Wiremend = null;
 
 	public uint Player;
 	public uint HackableObject;
@@ -25,7 +24,7 @@ public class AddHackingConnection : ClientMessage
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanAddConnection(playerScript, connectionToAdd))
 		{
-			SoundManager.PlayNetworkedAtPos(Wiremend, playerScript.WorldPos); 
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.WireMend, playerScript.WorldPos); 
 			hackingProcess.AddNodeConnection(connectionToAdd);
 			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
 		}

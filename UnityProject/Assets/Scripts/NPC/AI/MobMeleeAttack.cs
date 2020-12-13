@@ -25,7 +25,8 @@ namespace Systems.MobAIs
 		[Tooltip("Attack nothing but the target. No players in the way, no tiles, nada.")]
 		public bool onlyHitTarget;
 
-		[SerializeField] private AddressableAudioSource BladeSlice = null;
+		[SerializeField] private AddressableAudioSource attackSound = null;
+		
 
 		public int hitDamage = 30;
 		public string attackVerb;
@@ -215,7 +216,7 @@ namespace Systems.MobAIs
 				healthBehaviour.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
 					defaultTarget.Randomize());
 				Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
-				SoundManager.PlayNetworkedAtPos(BladeSlice, transform.position, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(attackSound, transform.position, sourceObj: gameObject);
 			}
 		}
 
