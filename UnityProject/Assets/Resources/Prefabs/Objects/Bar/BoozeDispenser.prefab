@@ -103,21 +103,6 @@ MonoBehaviour:
   RequireFloorPlatingExposed: 0
   secondsToSecure: 0
   secondsToUnsecure: 0
---- !u!114 &6290354675217138062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6406346259585755381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ac94ea034f589c46b4568ffe0d4d992, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ThisState: 0
 --- !u!114 &6957727407797718013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +159,21 @@ MonoBehaviour:
   AdvancedControlToScript: 0
   StateUpdateOnClient: 0
   conType: 1
+--- !u!114 &-1824006485459751206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406346259585755381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7a43d0efcabe9cbbb24e3e05f26fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ThisState: 0
 --- !u!1001 &5972872610322709877
 PrefabInstance:
   m_ObjectHideFlags: 0
