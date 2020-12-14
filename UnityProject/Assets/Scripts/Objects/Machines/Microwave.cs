@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Electricity;
+using Items;
 
 namespace Objects.Kitchen
 {

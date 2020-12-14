@@ -1,4 +1,6 @@
-﻿public class RollSpaceCube : RollDie
+﻿using Items;
+
+public class RollSpaceCube : RollDie
 {
 	ItemAttributesV2 itemAttributes;
 
