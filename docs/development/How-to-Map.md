@@ -32,8 +32,9 @@ Away Sites – on the MainStation there is a portal which connects to one of the
 Additional Scenes – the scenes which the antagonists start on.
 
 Here is a handy diagram which you can use if you want to add a new antagonist or job and ensure that it updates across all the scenes.
-(adding_role_to_maps.png)
+![](../assets/images/HowToMap/adding_role_to_maps.png)
 ## Important Sidebar Functions
+![](../assets/images/HowToMap/sidebar.png)
 When you open the editor, there should be a sidebar open on the right hand side of your screen. If it is not present, go Window -> Sidebar to make it appear. This sidebar will help you through some of the processes as you map. From Top to Bottom they are:
 ### Test Runner
 Performs a variety of tests to check for Null references and other things. These tests are also used when you send a Pull Request.
@@ -56,27 +57,26 @@ Monitors certain variables when you are in play mode editor. Useful for debuggin
 ### PixelArt Editor
 Not necessary for mapping purposes.
 
-### Create a new map
-* TODO: How do you create a new map from a station palette?
+## Creating a MainStation Map
 * TODO: How do you add your new map for map selection, other than this: [Testing custom maps in Multiplayer](../contribution-guides/Building-And-Testing.md)?
 
-## Creating a MainStation Map
 1.	Copy and paste the NewStation Scene inside Asset/Scenes Folder, do not have Unity open when you do this.
 2.	Open up the Tile Palette, select base floors and begin the process of painting the tiles to make up the Station.
 3.	Next you will want to designate where the departments should go and how big they should be. Move the spawn points to generally mark out the areas so you can keep track of where everything is going. How you approach the rest is up to you, steps 4 to 7 below is a suggested method for you to use if you wish.
-Consider then mapping in all the power cables, atmos pipes and disposal pipes. This is all the important life support stuff that makes the station function. This step can be done at any time, however, a lot of LighTubeFixtures, LightBulbFixtures, AirVents, Scrubbers, Pumps, Mixers, GasConnectors, Filters, UnaryVents, Metres and DisposalBins are required for the station to run.
+Consider then mapping in all the power cables, atmos pipes and disposal pipes. This is all the important life support stuff that makes the station function. This step can be done at any time, however, a lot of LighTubeFixtures, LightBulbFixtures, AirVents, Scrubbers, Pumps, Mixers, GasConnectors, Filters, UnaryVents, Metres and DisposalBins are required for the station to run. See Step 5 for details on how to add existing prefabs onto a Scene.
 
 UnityStation’s Electrical Wiring differs from base SS13. Follow the guide below to make sure you correctly hook everything up.
-
-Make sure to always put a machine connector on the higher voltage side of the device. If you are still stuck, consult the wiring on TestStation Scene in the Electrical Testing Area and inspect the relevant prefabs.
+![](../assets/images/HowToMap/wire_connections.png)
+Make sure to always put a machine connector (white square in diagram) on the lower voltage side of the device. If you are still stuck, consult the wiring on TestStation Scene in the Electrical Testing Area and inspect the relevant prefabs.
 
 The atmos pipes are colour coded to help keep track of a specific function, use the following convention:
-Blue – Exports Gas out into the Station to the AirVents
-Red – Imports Gas back into the Atmospherics Department from the Scrubbers
-Green – Connects to Red Pipes has Filter prefabs littered through is section to filter out each gas to its specific canister chamber
-Yellow – Connects to pumps to pump out gas from a particular gas chamber, yellow pipes connect up to the end of the Green and Blue pipes
-Light Blue – These pipes connect up the canisters of nitrogen and oxygen that everyone will be breathing. They replace the yellow pipes for the air canister and connect directly to the blue pipes.
-Silver/Purple Pipes – These pipes are the internal pipes for the department which connect up to GasConnectors, these connectors allow an atmos tech to pump gas into/out of a gas canister into the pipes.
+
+* Blue – Exports Gas out into the Station to the AirVents
+* Red – Imports Gas back into the Atmospherics Department from the Scrubbers
+* Green – Connects to Red Pipes has Filter prefabs littered through is section to filter out each gas to its specific canister chamber
+* Yellow – Connects to pumps to pump out gas from a particular gas chamber, yellow pipes connect up to the end of the Green and Blue pipes
+* Light Blue – These pipes connect up the canisters of nitrogen and oxygen that everyone will be breathing. They replace the yellow pipes for the air canister and connect directly to the blue pipes.
+* Silver/Purple Pipes – These pipes are the internal pipes for the department which connect up to GasConnectors, these connectors allow an atmos tech to pump gas into/out of a gas canister into the pipes.
 
 Make sure that the pumps to do with the air are turned on and that all the canisters in the chamber rooms have been set to open in the prefab, otherwise no gas will flow.
 
@@ -86,9 +86,12 @@ To help with completing Step 6, click and drag all prefabs onto the scene, selec
 
 4.	Add in the Walls to designate the rooms, relevant floor tiles and tables to populate the rooms. Remember that floor tiles are not present in maintenance areas, unless it is in a room coming from a corridor.
 5.	To place objects into a scene search in the File manager with the prefab filter on, then click and drag the prefab onto the scene. All objects you place will need to go on the Station Matrix’s Object layer in the Hierarchy. IMPORTANT: make sure you keep consistent unique number or attach an “_name” (e.g. APC_Kitchen), this will help a lot when you need to add in references to other prefabs, as you can tell them apart.
+
+![](../assets/images/HowToMap/search_for_prefab.png)
+
 6.	Add in all the other prefabs. Don’t worry if you aren’t getting the x,y co-ordinates close to the centre of a grid square, the Custom Net Transform always has Snap To Grid enabled, so it will have perfect co-ordinates in-game.
 7.	As you progress placing the objects down onto the matrix, make sure you modify the relevant fields on the prefabs so that they can be referred to by the other relevant prefabs. The best way to see what prefabs relate to what is to open an existing map and turn on gizmos. Make sure all of the gizmos are turned on and if a line exists between the prefab and another, then a relationship exists. As there are a multitude of components that can exist on a prefab, it is best to read through them to understand what they are doing and what they need, some have tooltips to help. Always remember you can look at existing maps to see how the prefabs are connected.
-8.	All the shuttles need the Retro Control System (RCS) Thrusters to be added onto the shuttle matrixes.
+8.	All the shuttles need the Retro Control System (RCS) Thrusters to be added onto the outside of the shuttle matrixes. Follow instructions detailed [here](https://github.com/unitystation/unitystation/pull/5111).
 
 ## Mapping Guidelines and Pointers
 Objects should never be rotated using the Transform. Their local rotation should always be 0, 0, 0. If you change it, it will either not have any effect or may have unexpected consequences. If there is any need to rotate an object, define its facing, etc...it should be done via Directional or other components.
@@ -100,9 +103,17 @@ Here are some general tips to help you get when mapping in UnityStation:
 - Do not attempt to try and finish your map from scratch in one sitting, it is better if you break it down into sections.
 - If you find yourself unable to place tiles from the Tile Palette and are receiving a ton of warnings, it may be because you are missing a layer in the matrix. Duplicate an existing layer in the matrix and perform the necessary changes before trying to place anymore tiles.
 - Attaching an APC can be quite tedious, but can be made a lot easier if you place the APC first, relabel it and then attach the APCPoweredDevice by moving it close to the APC and hitting the Auto Connect Button.
+![](../assets/images/HowToMap/APC_autoconnect.gif)
 - Make sure for jobs that will have 2 or more signing up to them that you have placed multiple spawn points in the department – this ensures that players do not spawn ontop of each other. To do this, copy an existing spawn point inside the SpawnPointsV2 object, alter its position and spawn name.
-- So you can see what you are placing tile-wise on a particular layer, you can select obstructing layers to hide in the Hierarchy. You then can press the crossed-out eye above the scene view window to toggle the layers’ visibility.
+
+![](../assets/images/HowToMap/spawn_points.PNG)
+
+- So you can see what you are placing tile-wise on a particular layer, you can select obstructing layers to hide in the Hierarchy. You then can press the crossed-out eye above the scene view window to toggle the layers’ visibility. 
+
+![](../assets/images/HowToMap/hireachy_hide.gif)
+
 - Make sure you have put tiny fans on all the airlock exits into space on stations and shuttles to help stop space wind problems.
+
 If you are ever stuck mapping in UnityStation first try looking at how the current maps work, what components make up an object. If all else fails, please message the mapper channel on discord.
 
 ### Wallmounts
@@ -111,8 +122,8 @@ Wallmounts always appear upright, but you need to indicate which side of the wal
 Enabling Gizmos for WallmountBehaviours will show helper arrows so that you wouldn't need to guess their direction:
 ![how-to-enable](https://user-images.githubusercontent.com/10403536/58015542-0f0e2800-7aeb-11e9-8729-5a06fb88072e.png)
 
-## PRing a Map Scene to the Repo
-Once you have finished mapping a scene and it’s time to PR, follow the instructions below so it gets submitted first time without needed rework.
+## Pull Request a New Map Scene to the Repo
+Once you have finished mapping a scene and it’s time to PR, follow the instructions below so it gets submitted first time without needed rework. If you are working on an existing map, you only need to commit and PR the .scene file.
 1. Run the Unit tests. These can be accessed in editor by going into the blah menu or selecting the U logo on the right bar.
 2. If the scene you have created is a Main Station, add its name into to the map.json file. This file keeps track of what maps to randomly select from given the server population (low, medium, high pop).
 3. Next you will need to add the created scene into a Scriptable Object List. Search in the editor
