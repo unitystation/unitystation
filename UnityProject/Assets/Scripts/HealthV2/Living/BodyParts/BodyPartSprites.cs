@@ -7,41 +7,52 @@ using UnityEngine;
 /// </summary>
 public class BodyPartSprites : MonoBehaviour
 {
-	[SerializeField]
-	private SpriteHandler baseSpriteHandler;
+	[SerializeField] protected SpriteHandler baseSpriteHandler;
 
-	[SerializeField]
-	private SpriteHandler baseOverlaySpriteHandler;
+	[SerializeField] private SpriteHandler damageOverlaySpriteHandler;
 
-	[SerializeField]
-	private SpriteHandler damageOverlaySpriteHandler;
-
-	[SerializeField]
-	public BodyPartType bodyPartType;
-
-	[SerializeField]
-	[Tooltip("The sprites that will be used when there is no limbs installed.")]
-	private SpriteDataSO noLimbSpriteData;
+	[SerializeField] public BodyPartType bodyPartType;
 
 	public CharacterSettings ThisCharacter;
 
 
-	public void UpdateSpritesForImplant(ImplantBase implant)
+
+	public virtual void UpdateSpritesForImplant(BodyPart implant, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer)
 	{
-		if (implant.LimbSpriteData)
-		{
-			baseSpriteHandler.SetSpriteSO(implant.LimbSpriteData, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
-		}
-
-		if (implant.LimbOverlaySpriteData)
-		{
-			baseOverlaySpriteHandler.SetSpriteSO(implant.LimbOverlaySpriteData, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
-		}
-
+		//TODOH Colour
+		if (baseSpriteHandler == null) return;
+		//Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f)
+		baseSpriteHandler.SetSpriteSO(Sprite, Color.white);
 	}
 
-	public void UpdateSpritesOnImplantRemoved(ImplantBase implant)
+	public virtual void OnDirectionChange(Orientation direction)
 	{
 
+		int referenceOffset = 0;
+
+		if (direction == Orientation.Down)
+		{
+			referenceOffset = 0;
+		}
+
+		if (direction == Orientation.Up)
+		{
+			referenceOffset = 1;
+		}
+
+		if (direction == Orientation.Right)
+		{
+			referenceOffset = 2;
+		}
+
+		if (direction == Orientation.Left)
+		{
+			referenceOffset = 3;
+		}
+		baseSpriteHandler.ChangeSpriteVariant(referenceOffset);
 	}
+
+
+
+
 }

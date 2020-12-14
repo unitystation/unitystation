@@ -1,34 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &603473724761143302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2744469315531546719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 215e552740637b64e8619b576b1a2929, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  properties: []
-  mtyGenders: 0000000000000000
-  maxHealth: 100
-  efficiency: 1
-  isBloodReagentConsumed: 1
-  isDimorphic: 1
-  gender: 1
-  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  bloodReagentConsumed: 0.15
-  bloodReagentStoreAmount: 0.01
-  bloodReagentStoredMax: 20
-  bodyPartType: 1
-  maleSprite: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234, type: 2}
-  femaleSprite: {fileID: 11400000, guid: ccfebde2cc0de824b80261ac774928d7, type: 2}
-  limbSpriteData: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234, type: 2}
-  limbOverlaySpriteData: {fileID: 0}
-  implantPreventsBleeding: 0
 --- !u!1001 &7464378722896875326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72,8 +43,13 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
+      objectReference: {fileID: 11400000, guid: 0e635393f59b294438bd7d20c37e884c,
         type: 2}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: variantIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -143,7 +119,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 37b233584f435ca40a077f430f53d386,
+      objectReference: {fileID: 21300002, guid: 6a1f850ea1c5e4a4689f29055a52d7f6,
         type: 3}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -186,12 +162,94 @@ PrefabInstance:
       propertyPath: hitDamage
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: maleSprite.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: femaleSprite.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: limbSpriteData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: isDimorphic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: maleSprite.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
+        type: 2}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: femaleSprite.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ccfebde2cc0de824b80261ac774928d7,
+        type: 2}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: limbSpriteData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
+        type: 2}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: bodyPartType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: isBloodReagentConsumed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: requiredReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c,
+        type: 2}
+    - target: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Populater.Contents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: cd30a2ac1bcd7c5498ea24f3df62fc09,
+        type: 2}
+    - target: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 327d8792759baf8498c08c24500690cc,
+        type: 2}
+    - target: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: UesAddlistPopulater
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[0]
+      value: 
+      objectReference: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+    - target: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[1]
+      value: 
+      objectReference: {fileID: 3169642092305287280, guid: a05828ab8602a63449e9b422078fd217,
+        type: 3}
     m_RemovedComponents:
     - {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
---- !u!1 &2744469315531546719 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7464378722896875326}
-  m_PrefabAsset: {fileID: 0}

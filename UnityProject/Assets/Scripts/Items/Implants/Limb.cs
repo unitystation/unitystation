@@ -12,7 +12,7 @@ namespace HealthV2
 		LeftHand,
 		RightHand
 	}
-	public class ImplantLimb : ImplantBase
+	public class Limb : BodyPart, PlayerMove.IMovementEffect
 	{
 		[SerializeField]
 		[Tooltip("The walking speed that will be used when attached as a leg.\n" +
@@ -44,6 +44,21 @@ namespace HealthV2
 		[Tooltip("Whether or not this limb can hold items.")]
 		private bool canHoldItems = false;
 
+
+		public float RunningAdd {
+			get => GetRunningSpeed();
+			set { }
+		}
+		public float WalkingAdd {
+			get => GetWalkingSpeed();
+			set { }
+		}
+		public float CrawlAdd
+		{
+			get => GetCrawlingSpeed();
+			set{ }
+		}
+
 		public float GetWalkingSpeed()
 		{
 			return walkingSpeed * legEfficiency;
@@ -58,6 +73,25 @@ namespace HealthV2
 		{
 			return crawlingSpeed * armEfficiency;
 		}
+
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
+		{
+			var playerHealthV2 = livingHealthMasterBase as PlayerHealthV2;
+			if (playerHealthV2 != null)
+			{
+				playerHealthV2.PlayerMove.RemoveModifier(this);
+			}
+		}
+
+		public override void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
+		{
+			var playerHealthV2 = livingHealthMasterBase as PlayerHealthV2;
+			if (playerHealthV2 != null)
+			{
+				playerHealthV2.PlayerMove.AddModifier(this);
+			}
+		}
+
 
 
 	}
