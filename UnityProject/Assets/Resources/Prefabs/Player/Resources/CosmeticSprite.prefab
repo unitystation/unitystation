@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 713125211786761136}
   - component: {fileID: 1709577656587412352}
   m_Layer: 8
-  m_Name: CosmeticSprite
+  m_Name: suit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 22
+  m_SortingLayer: 17
   m_SortingOrder: 16
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -120,4 +120,3 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
-  randomInitialSprite: 0

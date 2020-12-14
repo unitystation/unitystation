@@ -1,9 +1,11 @@
-﻿using Systems.Atmospherics;
+﻿using System;
+using Systems.Atmospherics;
 using HealthV2;
 using Objects.Atmospherics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class Lungs : ImplantBase
+public class Lungs : BodyPart
 {
 	[SerializeField]
 	private int breatheCooldown = 4;
@@ -20,9 +22,9 @@ public class Lungs : ImplantBase
 	private bool isSuffocating = false;
 	public bool IsSuffocating => isSuffocating;
 
-	public override void ImplantUpdate(LivingHealthMasterBase healthMaster)
+	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
 	{
-		base.ImplantUpdate(healthMaster);
+		base.ImplantPeriodicUpdate(healthMaster);
 
 		Vector3Int position = healthMaster.OBehavior.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
@@ -33,14 +35,12 @@ public class Lungs : ImplantBase
 		}
 	}
 
+
+
 	private bool Breathe(IGasMixContainer node, LivingHealthMasterBase healthMaster)
 	{
-		breatheCooldown --; //not timebased, but tickbased
-		if(breatheCooldown > 0){
-			return false;
-		}
-
-		if (!healthMaster.CirculatorySystem) //No point breathing if we dont have blood.
+		//Logger.Log("Lungs have " + healthMaster.CirculatorySystem.UseBloodPool + " Of Used blood available ");
+		if (healthMaster.CirculatorySystem.UseBloodPool == 0) //No point breathing if we dont have blood.
 		{
 			return false;
 		}
@@ -57,17 +57,31 @@ public class Lungs : ImplantBase
 
 		//Can probably edit this to use the volume of the lungs instead.
 		GasMix gasMix = container.GasMix;
-		GasMix breathGasMix = gasMix.RemoveVolume(AtmosConstants.BREATH_VOLUME, true);
+		GasMix breathGasMix = gasMix.RemoveVolume(AtmosConstants.BREATH_VOLUME, true); //BREATH_VOLUME to lung VOLUME
 
 		float reagentUsed = HandleBreathing(breathGasMix, healthMaster);
+		float gasUsed = reagentUsed;
+		reagentUsed = reagentUsed * 1000;
+		if (reagentUsed > healthMaster.CirculatorySystem.UseBloodPool)
+		{
+			reagentUsed = healthMaster.CirculatorySystem.UseBloodPool;
+			healthMaster.CirculatorySystem.UseBloodPool = 0;
+		}
+		else
+		{
+			healthMaster.CirculatorySystem.UseBloodPool -= reagentUsed;
+		}
+
+
+		//Logger.Log("Lungs produced " + reagentUsed + " Of useful blood");
 
 		if (reagentUsed > 0)
 		{
-			breathGasMix.RemoveGas(requiredGas, reagentUsed);
-			node.GasMix.AddGas(expelledGas, reagentUsed);
+			breathGasMix.RemoveGas(requiredGas, gasUsed);
+			node.GasMix.AddGas(expelledGas, gasUsed); //Probably violates a few laws of energy Equilibrium
 			healthMaster.RegisterTile.Matrix.MetaDataLayer.UpdateSystemsAt(healthMaster.RegisterTile.LocalPositionClient, SystemType.AtmosSystem);
-			
-			healthMaster.CirculatorySystem.AddBloodReagent(reagentUsed);
+
+			healthMaster.CirculatorySystem.AddUsefulBloodReagent(reagentUsed);
 
 		}
 
@@ -105,6 +119,7 @@ public class Lungs : ImplantBase
 
 	private float HandleBreathing(GasMix breathGasMix, LivingHealthMasterBase healthMaster)
 	{
+		//Can do something with partial pressures
 		float reagentPressure = breathGasMix.GetPressure(requiredGas);
 
 		float reagentUsed = 0;

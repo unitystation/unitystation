@@ -89,8 +89,7 @@ public class PrefabListPopulater : IItemStoragePopulator
 	[SerializeField]
 	[Tooltip("Prefabs to spawn in each indexed storage slot (index in list corresponds" +
 	         " to slot index that it will populate).")]
-	public List<GameObject> Contents = new List<GameObject>();
-
+	private List<GameObject> Contents = new List<GameObject>();
 
 	public void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{

@@ -7,6 +7,7 @@ namespace HealthV2
 	[RequireComponent(typeof(ItemAttributesV2))]
 	public class ImplantBase : MonoBehaviour
 	{
+		//The implanted things in this
 		[SerializeField]
 		private List<ImplantProperty> properties = new List<ImplantProperty>();
 
@@ -62,29 +63,20 @@ namespace HealthV2
 		[SerializeField]
 		[ShowIf(nameof(isDimorphic))]
 		[Tooltip("The MALE visuals of this implant")]
-		private SpriteDataSO maleSprite;
+		private List<SpriteDataSO>  maleSprite;
 
 
 		[SerializeField]
 		[ShowIf(nameof(isDimorphic))]
 		[Tooltip("The FEMALE visuals of this implant")]
-		private SpriteDataSO femaleSprite;
+		private List<SpriteDataSO>  femaleSprite;
 
 		[SerializeField]
 		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents." +
 		         "It is intended for things like arms/legs/heads." +
 		         "Leave empty if it shouldn't change this.")]
-		private SpriteDataSO limbSpriteData;
-		public SpriteDataSO LimbSpriteData => limbSpriteData;
-
-		[SerializeField]
-		[Tooltip("The overlaying visuals of this implant. It will be laid on top of the limb sprite." +
-		         "Leave empty if there should be no visual representation.")]
-		private SpriteDataSO limbOverlaySpriteData;
-		public SpriteDataSO LimbOverlaySpriteData => limbOverlaySpriteData;
-
-		[SerializeField]
-		private bool implantPreventsBleeding = true;
+		private List<SpriteDataSO>  limbSpriteData;
+		public List<SpriteDataSO>  LimbSpriteData => limbSpriteData;
 
 		private void Awake()
 		{
@@ -108,63 +100,37 @@ namespace HealthV2
 				}
 			}
 
+			Initialise();
 
 		}
+
+		public virtual void Initialise()
+		{
+
+		}
+
+
+		public virtual void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
+		{
+
+		}
+
+		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
+		{
+
+		}
+
 
 		public virtual void ImplantUpdate(LivingHealthMasterBase healthMaster)
 		{
 			foreach (ImplantProperty prop in properties)
 			{
-				prop.ImplantUpdate(this, healthMaster);
+				//prop.ImplantUpdate(this, healthMaster);
 			}
 
 			bloodReagentStored -= Time.deltaTime * bloodReagentConsumed;
 		}
 
-		/// <summary>
-		/// Called when the implant receives the wrong reagent in the blood pumped too it.
-		/// Returns the amount of blood reagent that remains after the pump event, in case it uses any of it.
-		/// For example, maybe an organ is damaged by the wrong reagent.
-		/// </summary>
-		/// <param name="bloodReagent"></param>
-		/// <param name="amount"></param>
-		/// <returns></returns>
-		public virtual float HandleWrongBloodReagent(Chemistry.Reagent bloodReagent, float amount)
-		{
-			return amount;
-		}
-
-		/// <summary>
-		/// This is called whenever blood is pumped through the circulatory system by a heartbeat.
-		/// Can happen multiple times if there's multiple hearts.
-		/// </summary>
-		/// <param name="bloodReagent"></param>
-		/// <param name="amountOfBloodReagentPumped"></param>
-		/// <returns></returns>
-		public float BloodPumpedEvent(Chemistry.Reagent bloodReagent, float amountOfBloodReagentPumped)
-		{
-			if (bloodReagent != requiredReagent)
-			{
-				return HandleWrongBloodReagent(bloodReagent, amountOfBloodReagentPumped);
-			}
-
-			float returnedReagent = amountOfBloodReagentPumped;
-
-			if (isBloodReagentConsumed)
-			{
-				//No reagent left in blood, we sad.
-				if (returnedReagent < 0f)
-				{
-					return 0f;
-				}
-
-				returnedReagent -= bloodReagentStoreAmount;
-				bloodReagentStored += bloodReagentStoreAmount;
-
-			}
-
-			return returnedReagent;
-		}
 	}
 
 }
