@@ -140,7 +140,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
 	[SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
-	public float CrawlSpeed;
+	[SyncVar(hook = nameof(SyncCrawlingSpeed))] public float CrawlSpeed;
 
 
 	/// <summary>
@@ -152,12 +152,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private Matrix matrix => registerPlayer.Matrix;
 	private PlayerScript playerScript;
 
-	[SerializeField]
-	private List<LimbContainer> legContainers;
-
-	[SerializeField]
-	private List<LimbContainer> armContainers;
-
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
@@ -165,16 +159,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-
-		foreach (LimbContainer limbContainer in legContainers)
-		{
-			limbContainer.LimbUpdateEvent += UpdateSpeedFromLimbUpdate;
-		}
-
-		foreach (LimbContainer limbContainer in armContainers)
-		{
-			limbContainer.LimbUpdateEvent += UpdateSpeedFromLimbUpdate;
-		}
 
 		//Aren't these set up with sync vars? Why are they set like this?
 		//They don't appear to ever get synced either.
@@ -459,6 +443,49 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		playerScript?.PlayerSync?.RollbackPrediction();
 	}
 
+	private readonly List<IMovementEffect> MovementAffects = new List<IMovementEffect>();
+
+
+	public interface IMovementEffect
+	{
+		float RunningAdd { get; set; }
+		float WalkingAdd { get; set; }
+		float CrawlAdd { get; set; }
+
+	}
+
+
+	[Server]
+	public void AddModifier( IMovementEffect Modifier)
+	{
+		MovementAffects.Add(Modifier);
+		UpdateSpeeds();
+	}
+
+	[Server]
+	public void RemoveModifier( IMovementEffect Modifier)
+	{
+		MovementAffects.Remove(Modifier);
+		UpdateSpeeds();
+	}
+
+	public void UpdateSpeeds()
+	{
+		RunSpeed = 0;
+		WalkSpeed = 0;
+		CrawlSpeed = 0;
+		foreach (var MovementAffect in MovementAffects)
+		{
+			RunSpeed += MovementAffect.RunningAdd;
+			WalkSpeed += MovementAffect.WalkingAdd;
+			CrawlSpeed+= MovementAffect.CrawlAdd;
+		}
+
+		if (RunSpeed < 0) RunSpeed = 0;
+		if (WalkSpeed < 0) WalkSpeed = 0;
+		if (CrawlSpeed < 0) CrawlSpeed = 0;
+	}
+
 	/// <summary>
 	/// Changes the player speed from Server. Values inputted as arguments will OVERRIDE the current speed!
 	/// </summary>
@@ -479,6 +506,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private void SyncWalkSpeed(float oldSpeed, float newSpeed)
 	{
 		this.WalkSpeed = newSpeed;
+	}
+
+	private void SyncCrawlingSpeed(float oldSpeed, float newSpeed)
+	{
+		this.CrawlSpeed = newSpeed;
 	}
 
 	public void CallActionClient()
@@ -639,7 +671,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	#endregion Cuffing
 
-	public void UpdateSpeedFromLimbUpdate(ImplantLimb prevLimb, ImplantLimb newLimb)
+	public void UpdateSpeedFromLimbUpdate(Limb prevLimb, Limb newLimb)
 	{
 		//If we had a previous limb that's being replaced, we need to remove the speed bonuses it gave.
 		if (prevLimb)

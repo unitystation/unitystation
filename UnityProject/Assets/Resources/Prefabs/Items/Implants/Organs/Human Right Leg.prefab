@@ -12,18 +12,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  properties: []
+  HealthMaster: {fileID: 0}
+  storage: {fileID: 8606248043580972916}
+  bodyPartType: 5
+  containBodyParts: []
   maxHealth: 100
   efficiency: 1
+  isDimorphic: 0
+  gender: 0
+  maleSprite: []
+  femaleSprite: []
+  limbSpriteData:
+  - {fileID: 11400000, guid: f0594d5820b2ebd4d90a67a4b81c7ba0, type: 2}
+  Root: {fileID: 0}
+  ContainedIn: {fileID: 0}
+  SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
+    type: 3}
   isBloodReagentConsumed: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   bloodReagentConsumed: 0.15
   bloodReagentStoreAmount: 0.01
-  bloodReagentStoredMax: 20
-  bodyPartType: 5
-  limbSpriteData: {fileID: 11400000, guid: f0594d5820b2ebd4d90a67a4b81c7ba0, type: 2}
-  limbOverlaySpriteData: {fileID: 0}
-  implantPreventsBleeding: 1
+  BodyPartArmour:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  SubOrganBodyPartArmour:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  SubOrganDamageIncreasePoint: 50
+  DamageContributesToOverallHealth: 1
   walkingSpeed: 1.5
   runningSpeed: 3
   crawlingSpeed: 0.1
@@ -165,8 +197,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 52f30f2b2a48cc640ae154fe039ae31f,
         type: 2}
+    - target: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: d5e23192825d2ce4d9ef7628d05597a4,
+        type: 2}
+    - target: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ec1781b529eaba46a73350d4f2ed1bb,
+        type: 2}
     m_RemovedComponents:
     - {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &4825408889243318330 stripped
 GameObject:
@@ -174,3 +219,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 249905224086132571}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8606248043580972916 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 249905224086132571}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825408889243318330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

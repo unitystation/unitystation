@@ -20,6 +20,10 @@
 
 	RightLeg = 4,
 	RightFoot = 12
+
 	//    LEFT_FOOT,
 	//    RIGHT_FOOT
+
+	//Used for extra body parts, note please don't set up a Damage selection system for this, just inherit from what Chest, LeftArm n stuff
+	Custom = 99
 }

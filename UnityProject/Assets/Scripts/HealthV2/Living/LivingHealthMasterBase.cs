@@ -23,10 +23,15 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	private float tickRate = 1f;
 	private float tick = 0;
 
+
+	public float AvailableBlood = 0;
+
+
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 
 	[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
+
 	public ConsciousState ConsciousState
 	{
 		get => consciousState;
@@ -43,31 +48,31 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 			}
 		}
 	}
+
 	private ConsciousState consciousState;
 
 	//I don't know what this is. It was in the first Health system.
 	public float RTT;
 
-	[SerializeField]
-	private float maxHealth = 100;
+	[SerializeField] private float maxHealth = 100; //plyer sytuff
 
 	private float overallHealth = 100;
 	public float OverallHealth => overallHealth;
 
-	[SerializeField]
-	[Tooltip("These are the things that will hold all our organs and implants.")]
-	private List<BodyPartContainerBase> bodyPartContainers;
+	[SerializeField] [Tooltip("These are the things that will hold all our organs and implants.")]
+	private List<BodyPart> bodyPartContainers;
 
-	[CanBeNull]
-	private CirculatorySystemBase circulatorySystem;
+	[CanBeNull] private CirculatorySystemBase circulatorySystem;
 	public CirculatorySystemBase CirculatorySystem => circulatorySystem;
 
-	[CanBeNull]
-	private RespiratorySystemBase respiratorySystem;
+
+	private HealthV2.Brain brain;
+
+
+	[CanBeNull] private RespiratorySystemBase respiratorySystem;
 	public RespiratorySystemBase RespiratorySystem => respiratorySystem;
 
-	[CanBeNull]
-	private MetabolismSystemV2 metabolism;
+	[CanBeNull] private MetabolismSystemV2 metabolism;
 	public MetabolismSystemV2 Metabolism => metabolism;
 
 	private bool isDead = false;
@@ -78,9 +83,11 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	public bool InCardiacArrest => circulatorySystem != null && circulatorySystem.HeartIsStopped;
 
-	private List<ImplantBase> implantList = new List<ImplantBase>();
+	private HashSet<BodyPart> implantList = new HashSet<BodyPart>();
 
-	public List<ImplantBase> ImplantList => implantList;
+	public HashSet<BodyPart> ImplantList => implantList;
+
+	public List<RootBodyPartContainer> RootBodyPartContainers = new List<RootBodyPartContainer>();
 
 	public event Action<GameObject> applyDamageEvent;
 
@@ -91,6 +98,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	//can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
 	[SyncVar(hook = nameof(SyncFireStacks))]
 	private float fireStacks;
+
 	private float maxFireStacks = 5f;
 	private bool maxFireStacksReached = false;
 
@@ -104,8 +112,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	/// (becoming on fire, extinguishing, etc...). Use this to update
 	/// burning sprites.
 	/// </summary>
-	[NonSerialized]
-	public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
+	[NonSerialized] public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
 
 	private ObjectBehaviour objectBehaviour;
 	public ObjectBehaviour OBehavior => objectBehaviour;
@@ -138,6 +145,11 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		//Always include blood for living entities:
 	}
 
+	public void Setbrain(HealthV2.Brain _brain)
+	{
+		brain = _brain;
+	}
+
 	public override void OnStartServer()
 	{
 		EnsureInit();
@@ -147,17 +159,41 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		DNABloodType = new DNAandBloodType();
 	}
 
+
+	[RightClickMethod]
+	public void RemoveChest()
+	{
+		RootBodyPartContainer rootBodyPartContainers = null;
+		foreach (var cntainers in RootBodyPartContainers)
+		{
+			if (cntainers.bodyPartType == BodyPartType.Chest)
+			{
+				rootBodyPartContainers = cntainers;
+			}
+		}
+
+		rootBodyPartContainers.RemoveLimbs();
+	}
+
+
+	[RightClickMethod]
+	public void RemoveRandomLimb()
+	{
+		var Limb = RootBodyPartContainers.PickRandom();
+		Limb.RemoveLimbs();
+	}
+
 	/// <summary>
 	/// Adds a new implant to the health master.
 	/// This is NOT how implants should be added, it is called automatically by the body part container system!
 	/// </summary>
 	/// <param name="implant"></param>
-	public void AddNewImplant(ImplantBase implant)
+	public void AddNewImplant(BodyPart implant)
 	{
 		implantList.Add(implant);
 	}
 
-	public void RemoveImplant(ImplantBase implantBase)
+	public void RemoveImplant(BodyPart implantBase)
 	{
 		implantList.Remove(implantBase);
 	}
@@ -172,14 +208,37 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	private void UpdateMe()
 	{
-		foreach (ImplantBase implant in implantList)
+		foreach (var implant in RootBodyPartContainers)
 		{
 			implant.ImplantUpdate(this);
 		}
+
+		//do Separate delayed blood update
 	}
 
 	private void PeriodicUpdate()
 	{
+		foreach (var implant in RootBodyPartContainers)
+		{
+			implant.ImplantPeriodicUpdate(this);
+		}
+
+		CalculateOverallHealth();
+	}
+
+
+	public void CalculateOverallHealth()
+	{
+		float CurrentHealth = maxHealth;
+		foreach (var implant in implantList)
+		{
+			if (implant.DamageContributesToOverallHealth == false) continue;
+			CurrentHealth -= implant.TotalDamageWithoutOxy;
+		}
+
+		CurrentHealth -= brain.Oxy; //Assuming has brain
+		overallHealth = CurrentHealth;
+		//Logger.Log("overallHealth >" + overallHealth);
 	}
 
 	IEnumerator WaitForClientLoad()
@@ -202,7 +261,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
-		/// <summary>
+	/// <summary>
 	///  Apply Damage to the whole body of this Living thing. Server only
 	/// </summary>
 	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
@@ -213,6 +272,9 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public void ApplyDamage(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType)
 	{
+		var body = RootBodyPartContainers.PickRandom();
+
+		body.TakeDamage(damagedBy,damage, attackType, damageType );
 		//TODO: Reimplement
 	}
 
@@ -227,6 +289,53 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType)
 	{
+		//what Outer body part hit
+		//How much damage is absorbed by body part
+		//Body part weaknesses
+		//to damage to internal components if not absorbed
+		//Do this recursively
+
+		//Guns Burns no Break bones
+		//blunt maybe break bones?
+		//
+		//toolbox fight, Slight organ damage, Severe brutal damage
+		//If over 90% increased chance of breaking bones
+		//if limb is more damaged high likelihood of breaking bones?, in critical yes and noncritical?
+		//
+		//Shotgun, Severe brutal damage, Some organ damage,
+		//damages skin until, got through then does organ damage
+		//
+		//gun, Severe brutal damage, Some organ damage, Embedding can be prevented from Armour  reduce organ damage if armoured
+		// pellet
+		// 0.5
+		// rifle round
+		// 1
+		// Sniper around
+		// 3
+
+		//Cutting, Severe brutal damage
+		//can cut off limbs, up to a damage
+		//
+
+		//Laser, Severe Burns
+		//just burning
+
+		//crush, Broken Bones, Moderate organ damage
+		//no surface damage/small
+
+		// Healing applies to both so 100 to both
+		// if it's 100 healing
+
+		// Damage, is split across the two
+
+		// Injection chooses one
+
+		//TODOH
+		//remove old references to Sprite directions
+		//Make sure is added to the manager properly
+		//brains always recoverable, even if they get nuked, imo have tight regulations on what can destroy a brain
+		//Surgery should be, Versus medicine medicine slow but dependable, surgery fast but requires someone doing surgery , Two only related for internal organs
+		//Remove clothing item from sprites completely useless and unneeded
 		ApplyDamageToBodypart(damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize(0));
 	}
 
@@ -242,11 +351,19 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
-		//TODO: Reimplement
+		foreach (var cntainers in RootBodyPartContainers)
+		{
+			if (cntainers.bodyPartType == bodyPartAim)
+			{
+				//Assuming is only going to be one otherwise damage will be duplicated across them
+				cntainers.TakeDamage(damagedBy, damage, attackType, damageType);
+			}
+		}
 	}
 
 	private void TryGibbing(float damage)
 	{
+		//idk
 		//TODO: Reimplement
 	}
 
@@ -261,13 +378,21 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public virtual void HealDamage(GameObject healingItem, int healAmt,
 		DamageType damageTypeToHeal, BodyPartType bodyPartAim)
 	{
+		foreach (var cntainers in RootBodyPartContainers)
+		{
+			if (cntainers.bodyPartType == bodyPartAim)
+			{
+				cntainers.HealDamage(healingItem, healAmt, damageTypeToHeal);
+			}
+		}
+
+
 		//TODO: Reimplement
 	}
 
 	[Server]
 	public void Harvest()
 	{
-
 		//Reimplement
 
 		Gib();
@@ -276,7 +401,6 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	[Server]
 	protected virtual void Gib()
 	{
-
 		//TODO: Reimplement
 
 		//never destroy players!
@@ -365,6 +489,4 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	{
 		return "Weeee";
 	}
-
-
 }
