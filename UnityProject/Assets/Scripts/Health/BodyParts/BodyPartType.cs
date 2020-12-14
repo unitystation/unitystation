@@ -15,7 +15,10 @@
 	Groin = 6,
 	LeftLeg = 5,
 
-	RightLeg = 4
+	RightLeg = 4,
 	//    LEFT_FOOT,
 	//    RIGHT_FOOT
+
+	//Used for extra body parts, note please don't set up a Damage selection system for this, just inherit from what Chest, LeftArm n stuff
+	Custom = 99
 }

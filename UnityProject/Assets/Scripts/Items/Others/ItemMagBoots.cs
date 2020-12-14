@@ -5,7 +5,7 @@ using UnityEngine;
 using Mirror;
 using UI.Action;
 
-public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove
+public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove, PlayerMove.IMovementEffect
 {
 	[Tooltip("The speed debuff to apply to run speed.")]
 	[SerializeField]
@@ -18,6 +18,26 @@ public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove
 	private ItemActionButton actionButton;
 
 	private bool isOn = false;
+
+	public float RunningAdd {
+		get => runSpeedDebuff;
+		set { }
+	}
+
+	public float WalkingAdd {
+		get => 0;
+		set { }
+	}
+
+
+	public float CrawlAdd
+	{
+		get => 0;
+		set { }
+	}
+
+
+
 
 	private enum SpriteState
 	{
@@ -103,14 +123,14 @@ public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove
 	private void ApplyEffect()
 	{
 		itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
-		playerMove.ServerChangeSpeed(playerMove.RunSpeed - runSpeedDebuff, playerMove.WalkSpeed);
+		playerMove.AddModifier(this);
 		playerMove.PlayerScript.pushPull.ServerSetPushable(false);
 	}
 
 	private void RemoveEffect()
 	{
 		itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
-		playerMove.ServerChangeSpeed(playerMove.RunSpeed + runSpeedDebuff, playerMove.WalkSpeed);
+		playerMove.RemoveModifier(this);
 		playerMove.PlayerScript.pushPull.ServerSetPushable(true);
 	}
 }
