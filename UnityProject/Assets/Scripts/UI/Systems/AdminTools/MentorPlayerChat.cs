@@ -179,12 +179,12 @@ namespace AdminTools
 
 		public void OnInputSend(string message)
 		{
-			var asmentorMsg = new AdminChatMessage
+			/*var asmentorMsg = new AdminChatMessage
 			{
 				fromUserid = ServerData.UserID,
 				Message = message,
 				wasFromAdmin = true
-			};
+			};*/ // I dont know what this does, as the variable is unused completely
 
 			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
 			RequestMentorBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.uid,msg);
