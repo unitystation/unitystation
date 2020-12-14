@@ -18,11 +18,6 @@ namespace Systems.Atmospherics
 	public class AtmosSimulation
 	{
 		/// <summary>
-		/// True if the atmos simulation has no updates to perform
-		/// </summary>
-		public bool IsIdle => updateList.IsEmpty;
-
-		/// <summary>
 		/// Number of updates remaining for the atmos simulation to process
 		/// </summary>
 		public int UpdateListCount => updateList.Count;

@@ -20,13 +20,13 @@ namespace Systems.Atmospherics
 			reactions.Add(new PlasmaFireReaction());
 		}
 
-		public static void React(GasMix gasMix)
+		public static void React(GasMix gasMix, Matrix matrix)
 		{
 			foreach (Reaction reaction in reactions)
 			{
 				if (reaction.Satisfies(gasMix))
 				{
-					reaction.React(gasMix, Vector3.zero);
+					reaction.React(gasMix, Vector3.zero, matrix);
 				}
 			}
 		}

@@ -9,6 +9,7 @@ using TileManagement;
 public class TileChangeManager : NetworkBehaviour
 {
 	private MetaTileMap metaTileMap;
+	private NetworkIdentity networkIdentity;
 
 	private TileChangeList changeList = new TileChangeList();
 
@@ -35,6 +36,7 @@ public class TileChangeManager : NetworkBehaviour
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
 		subsystemManager = GetComponent<SubsystemManager>();
 		interactableTiles = GetComponent<InteractableTiles>();
+		networkIdentity = GetComponent<NetworkIdentity>();
 	}
 
 	public override void OnStartClient()
@@ -84,7 +86,7 @@ public class TileChangeManager : NetworkBehaviour
 		{
 			InternalUpdateTile(cellPosition, tileType, tileName, transformMatrix, color);
 
-			ChooseCorrectRpc(cellPosition, tileType, tileName, transformMatrix, color);
+			AlertClients(cellPosition, tileType, tileName, transformMatrix, color);
 
 			AddToChangeList(cellPosition, tileType: tileType, tileName: tileName, transformMatrix : transformMatrix , color: color);
 		}
@@ -99,7 +101,7 @@ public class TileChangeManager : NetworkBehaviour
 		{
 			InternalUpdateTile(cellPosition, layerTile,transformMatrix, color);
 
-			ChooseCorrectRpc(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
+			AlertClients(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
 
 			AddToChangeList(cellPosition, layerTile, transformMatrix : transformMatrix , color: color);
 		}
@@ -114,7 +116,7 @@ public class TileChangeManager : NetworkBehaviour
 	public void UnderfloorUpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
-		ChooseCorrectRpc(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
+		AlertClients(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
 		AddToChangeList(cellPosition, layerTile, transformMatrix: transformMatrix, color : color);
 	}
 
@@ -137,7 +139,7 @@ public class TileChangeManager : NetworkBehaviour
 		{
 			InternalUpdateTile(cellPosition, overlayTile, transformMatrix, color);
 
-			ChooseCorrectRpc(cellPosition, overlayTile.TileType, overlayTile.name, transformMatrix, color);
+			AlertClients(cellPosition, overlayTile.TileType, overlayTile.name, transformMatrix, color);
 
 			AddToChangeList(cellPosition, overlayTile, transformMatrix : transformMatrix,color : color );
 		}
@@ -169,7 +171,7 @@ public class TileChangeManager : NetworkBehaviour
 		{
 			InternalRemoveTile(cellPosition, layerType, removeAll);
 
-			RpcRemoveTile(cellPosition, layerType, removeAll);
+			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType);
 
@@ -205,7 +207,7 @@ public class TileChangeManager : NetworkBehaviour
 
 			InternalRemoveTile(cellPosition, layerType, false);
 
-			RpcRemoveTile(cellPosition, layerType, false);
+			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType, removeAll: true);
 		}
@@ -217,96 +219,30 @@ public class TileChangeManager : NetworkBehaviour
 		return metaTileMap.GetTile(cellPosition, layerType);
 	}
 
-	[ClientRpc]
-	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool removeAll)
-	{
-		if (isServer)
-		{
-			return;
-		}
-
-		InternalRemoveTile(position, layerType, removeAll);
-	}
-
-	private void InternalRemoveTile(Vector3 position, LayerType layerType, bool removeAll)
+	public void InternalRemoveTile(Vector3 position, LayerType layerType, bool removeAll)
 	{
 		Vector3Int p = position.RoundToInt();
 
 		metaTileMap.RemoveTileWithlayer(p, layerType);
 	}
 
-	private void ChooseCorrectRpc(Vector3Int position, TileType tileType, string tileName,
+	private void AlertClients(Vector3Int position, TileType tileType, string tileName,
 		Matrix4x4? transformMatrix = null, Color? color = null)
 	{
-		if (transformMatrix != null)
+		if (color == null)
 		{
-			if (color != null)
-			{
-				RpcUpdateTileMC(position, tileType, tileName, transformMatrix.GetValueOrDefault(Matrix4x4.identity),
-					color.GetValueOrDefault(Color.white));
-				return;
-			}
-
-			RpcUpdateTileM(position, tileType, tileName, transformMatrix.GetValueOrDefault(Matrix4x4.identity));
-			return;
-
+			color = color.GetValueOrDefault(Color.white);
 		}
 
-		if (color != null) { RpcUpdateTileC(position, tileType, tileName, color.GetValueOrDefault(Color.white)); return;
+		if (transformMatrix == null)
+		{
+			transformMatrix = transformMatrix.GetValueOrDefault(Matrix4x4.identity);
 		}
 
-
-		RpcUpdateTile(position, tileType, tileName);
-		return;
+		UpdateTileMessage.Send(networkIdentity.netId, position, tileType, tileName, (Matrix4x4)transformMatrix, (Color)color);
 	}
 
-	[ClientRpc]
-	private void RpcUpdateTileMC(Vector3Int position, TileType tileType, string tileName, Matrix4x4 transformMatrix,
-		Color color)
-	{
-		if (isServer)
-		{
-			return;
-		}
-
-		InternalUpdateTile(position, tileType, tileName, transformMatrix, color);
-	}
-
-	[ClientRpc]
-	private void RpcUpdateTileM(Vector3Int position, TileType tileType, string tileName, Matrix4x4 transformMatrix)
-	{
-		if (isServer)
-		{
-			return;
-		}
-
-		InternalUpdateTile(position, tileType, tileName, transformMatrix: transformMatrix);
-	}
-
-	[ClientRpc]
-	private void RpcUpdateTileC(Vector3Int position, TileType tileType, string tileName, Color color)
-	{
-		if (isServer)
-		{
-			return;
-		}
-
-		InternalUpdateTile(position, tileType, tileName, color: color);
-	}
-
-	[ClientRpc]
-	private void RpcUpdateTile(Vector3Int position, TileType tileType, string tileName)
-	{
-		if (isServer)
-		{
-			return;
-		}
-
-		InternalUpdateTile(position, tileType, tileName);
-	}
-
-
-	private void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName,
+	public void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName,
 		Matrix4x4? transformMatrix = null, Color? color = null)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
@@ -328,7 +264,7 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
-	private void InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+	public void InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
 		if (layerTile.TileType == TileType.WindowDamaged)

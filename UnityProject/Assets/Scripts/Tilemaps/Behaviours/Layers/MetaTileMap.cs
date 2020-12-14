@@ -439,11 +439,11 @@ namespace TileManagement
 			return false;
 		}
 
-		public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null, Color? color = null)
+		public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null, Color? color = null, bool isPlaying = true)
 		{
 			if (Layers.TryGetValue(tile.LayerType, out var layer))
 			{
-				if (Application.isPlaying == false)
+				if (isPlaying == false) //is the game playing or is this the levelbrush?
 				{
 					layer.SetTile(position, tile,
 						matrixTransform.GetValueOrDefault(Matrix4x4.identity),

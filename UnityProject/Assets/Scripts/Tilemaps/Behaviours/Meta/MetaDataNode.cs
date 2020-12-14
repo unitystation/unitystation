@@ -15,6 +15,11 @@ public class MetaDataNode : IGasMixContainer
 	public static readonly MetaDataNode None;
 
 	/// <summary>
+	/// Contains the matrix of the current node
+	/// </summary>
+	public Matrix PositionMatrix = null;
+
+	/// <summary>
 	/// Used for calculating explosion data
 	/// </summary>
 	public ExplosionNode ExplosionNode = null;
@@ -123,8 +128,9 @@ public class MetaDataNode : IGasMixContainer
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
 	/// </summary>
 	/// <param name="position">local position (within the matrix) the node exists on</param>
-	public MetaDataNode(Vector3Int position, ReactionManager reactionManager)
+	public MetaDataNode(Vector3Int position, ReactionManager reactionManager, Matrix matrix)
 	{
+		PositionMatrix = matrix;
 		Position = position;
 		neighborList = new List<MetaDataNode>(4);
 		for (var i = 0; i < neighborList.Capacity; i++)
@@ -137,7 +143,7 @@ public class MetaDataNode : IGasMixContainer
 
 	static MetaDataNode()
 	{
-		None = new MetaDataNode(Vector3Int.one * -1000000, null);
+		None = new MetaDataNode(Vector3Int.one * -1000000, null, null);
 	}
 
 	/// <summary>

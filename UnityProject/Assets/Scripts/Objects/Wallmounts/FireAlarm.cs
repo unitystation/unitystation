@@ -69,7 +69,7 @@ namespace Objects.Wallmounts
 		{
 			var integrity = GetComponent<Integrity>();
 			integrity.OnExposedEvent.AddListener(SendCloseAlerts);
-			AtmosManager.Instance.inGameFireAlarms.Add(this);
+			AtmosManager.Instance.AddFireAlarm(this);
 			RegisterTile registerTile = GetComponent<RegisterTile>();
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			var wallMount = GetComponent<WallmountBehavior>();
@@ -101,7 +101,7 @@ namespace Objects.Wallmounts
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
-			AtmosManager.Instance.inGameFireAlarms.Remove(this);
+			AtmosManager.Instance.RemoveFireAlarm(this);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

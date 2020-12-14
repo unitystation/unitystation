@@ -197,12 +197,12 @@ namespace Pipes
 	{
 		public override void OnEnable()
 		{
-			AtmosManager.Instance.inGameNewPipes.Add(this);
+			AtmosManager.Instance.AddPipe(this);
 		}
 
 		public override void OnDisable()
 		{
-			AtmosManager.Instance.inGameNewPipes.Remove(this);
+			AtmosManager.Instance.RemovePipe(this);
 		}
 
 		public override void TickUpdate()
