@@ -14,6 +14,7 @@ public class AdminEnableMessage : ServerMessage
 	{
 		PlayerList.Instance.SetClientAsAdmin(AdminToken);
 		UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(true);
+		UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
 	}
 
 	public static AdminEnableMessage Send(NetworkConnection player, string adminToken)
