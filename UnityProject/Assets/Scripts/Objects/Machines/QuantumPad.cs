@@ -191,7 +191,6 @@ namespace Objects.Science
 				if (item.TryGetComponent<Bread>(out _) && DMMath.Prob(25))
 				{
 					Spawn.ServerPrefab(MutatedBread, travelCoord);
-					Debug.Log("Mutant Bread Created");
 					Destroy(item);
 
 				}
