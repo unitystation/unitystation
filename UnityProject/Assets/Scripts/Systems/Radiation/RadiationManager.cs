@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.Profiling;
 
 namespace Systems.Radiation
@@ -13,7 +14,7 @@ namespace Systems.Radiation
 		public List<RadiationPulse> PulseQueue = new List<RadiationPulse>();
 		private List<RadiationPulse> WorkingPulseQueue = new List<RadiationPulse>();
 
-		public static RadiationManager Instance;
+		public static RadiationManager Instance {get; private set;}
 
 		public bool Running { get; private set; }
 		public float MSSpeed = 100;
@@ -22,7 +23,6 @@ namespace Systems.Radiation
 		{
 			StopSim();
 		}
-
 		void OnEnable()
 		{
 			Instance = this;

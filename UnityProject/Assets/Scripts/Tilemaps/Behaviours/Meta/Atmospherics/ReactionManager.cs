@@ -191,6 +191,7 @@ namespace Systems.Atmospherics
 			timePassed += Time.deltaTime;
 			if (timePassed < 0.5)
 			{
+				Profiler.EndSample();
 				return;
 			}
 

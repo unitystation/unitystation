@@ -19,6 +19,8 @@ public static class AtmosThread
 
 	private static CustomSampler sampler;
 
+	public static List<ReactionManager> reactionManagerList {get; private set;} = new List<ReactionManager>();
+
 	static AtmosThread()
 	{
 		simulation = new AtmosSimulation();
@@ -70,7 +72,6 @@ public static class AtmosThread
 		return simulation.UpdateListCount;
 	}
 
-	public static List<ReactionManager> reactionManagerList = new List<ReactionManager>();
 	public static void RunStep()
 	{
 		simulation.Run();

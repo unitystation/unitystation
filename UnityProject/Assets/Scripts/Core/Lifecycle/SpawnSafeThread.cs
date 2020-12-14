@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 /// <summary>
 /// Using main thread to spawn prefabs into the world
 /// </summary>
-public class SpawnSafeThread
+public static class SpawnSafeThread
 {
 	private static ConcurrentQueue<Tuple<Vector3, GameObject>> prefabsToSpawn = new ConcurrentQueue<Tuple<Vector3, GameObject>>();
 
