@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
 
-public class Heart : ImplantBase
+public class Heart : BodyPart
 {
 
 	//The actual heartrate of this implant, in BPM.
@@ -31,16 +31,11 @@ public class Heart : ImplantBase
 	private float nextHeartBeat = 0f;
 
 	private float heartBeatDelay;
-	public override void ImplantUpdate(LivingHealthMasterBase healthMaster)
+	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
 	{
-		base.ImplantUpdate(healthMaster);
+		base.ImplantPeriodicUpdate(healthMaster);
 
-		if (Time.time > nextHeartBeat)
-		{
-			DoHeartBeat(healthMaster);
-			lastHeartBeat = Time.time;
-			nextHeartBeat = lastHeartBeat + heartBeatDelay;
-		}
+		DoHeartBeat(healthMaster);
 
 	}
 

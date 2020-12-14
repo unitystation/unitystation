@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -62,6 +63,10 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	//It can be null, or it can be a pickupable.(Health V2)
 	public event Action<Pickupable, Pickupable> ServerInventoryItemSlotSet;
 
+	public bool UesAddlistPopulater = false;
+
+	[ShowIf(nameof(UesAddlistPopulater))] public PrefabListPopulater Populater;
+
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -71,6 +76,11 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(info));
+		if (UesAddlistPopulater)
+		{
+			ServerPopulate(Populater, PopulationContext.AfterSpawn(info));
+		}
+
 		//if this is a player's inventory, make them an observer of all slots
 		if (GetComponent<PlayerScript>() != null)
 		{
