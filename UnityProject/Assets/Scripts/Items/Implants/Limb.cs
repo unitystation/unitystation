@@ -12,7 +12,6 @@ namespace HealthV2
 		LeftHand,
 		RightHand
 	}
-
 	public class Limb : BodyPart, PlayerMove.IMovementEffect
 	{
 		[SerializeField]
@@ -27,7 +26,8 @@ namespace HealthV2
 		         "Multiplied by leg efficiency.")]
 		private float runningSpeed = 3f;
 
-		[SerializeField] [Tooltip("The crawling speed used for when the limb is attached as an arm.\n")]
+		[SerializeField]
+		[Tooltip("The crawling speed used for when the limb is attached as an arm.\n")]
 		private float crawlingSpeed = 0.3f;
 
 		[SerializeField]
@@ -40,48 +40,42 @@ namespace HealthV2
 		         "1 is a human leg.")]
 		private float legEfficiency = 1f;
 
-		[SerializeField] [Tooltip("Whether or not this limb can hold items.")]
+		[SerializeField]
+		[Tooltip("Whether or not this limb can hold items.")]
 		private bool canHoldItems = false;
 
 
-		public float RunningAdd
-		{
+		public float RunningAdd {
 			get => GetRunningSpeed();
 			set { }
 		}
-
-		public float WalkingAdd
-		{
+		public float WalkingAdd {
 			get => GetWalkingSpeed();
 			set { }
 		}
-
 		public float CrawlAdd
 		{
 			get => GetCrawlingSpeed();
-			set { }
+			set{ }
 		}
 
 		public float GetWalkingSpeed()
 		{
-			return walkingSpeed * legEfficiency * TotalModified;
+			return walkingSpeed * legEfficiency;
 		}
 
 		public float GetRunningSpeed()
 		{
-			return runningSpeed * legEfficiency * TotalModified;
-			;
+			return runningSpeed * legEfficiency;
 		}
 
 		public float GetCrawlingSpeed()
 		{
-			return crawlingSpeed * armEfficiency * TotalModified;
-			;
+			return crawlingSpeed * armEfficiency;
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
-			base.RemovedFromBody(livingHealthMasterBase);
 			var playerHealthV2 = livingHealthMasterBase as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
@@ -91,7 +85,6 @@ namespace HealthV2
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
-			base.AddedToBody(livingHealthMasterBase);
 			var playerHealthV2 = livingHealthMasterBase as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
@@ -100,26 +93,7 @@ namespace HealthV2
 		}
 
 
-		public override void Initialisation()
-		{
-			base.Initialisation();
-			ModifierChange += ModifierChanged;
-			var playerHealthV2 = healthMaster as PlayerHealthV2;
-			if (playerHealthV2 != null)
-			{
-				playerHealthV2.PlayerMove.AddModifier(this);
-			}
 
-		}
-
-		public void ModifierChanged()
-		{
-			var playerHealthV2 = healthMaster as PlayerHealthV2;
-			if (playerHealthV2 != null)
-			{
-				playerHealthV2.PlayerMove.UpdateSpeeds();
-			}
-		}
 	}
 
 }

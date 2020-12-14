@@ -20,20 +20,6 @@ namespace HealthV2
 
 		public bool DamageContributesToOverallHealth = true;
 
-
-		public float DamageEfficiencyMultiplier = 1;
-
-		private float health = 100;
-
-
-		public Modifier DamageModifier = new Modifier();
-
-		[SerializeField]
-		[Tooltip("The maxmimum health of the implant." +
-		         "Implants will start with this amount of health.")]
-		private float maxHealth = 100; //Is used for organ functionIt
-
-
 		//Used for Calculating Overall damage
 		public float TotalDamageWithoutOxy
 		{
@@ -43,24 +29,6 @@ namespace HealthV2
 				for (int i = 0; i < Damages.Length; i++)
 				{
 					if ((int)DamageType.Oxy == i) continue;
-					TDamage += Damages[i];
-				}
-
-				return TDamage;
-			}
-		}
-
-
-		//
-		public float TotalDamageWithoutOxyClone
-		{
-			get
-			{
-				float TDamage = 0;
-				for (int i = 0; i < Damages.Length; i++)
-				{
-					if ((int)DamageType.Oxy == i) continue;
-					if ((int)DamageType.Clone == i) continue;
 					TDamage += Damages[i];
 				}
 
@@ -98,15 +66,13 @@ namespace HealthV2
 			0,
 		};
 
-		public void AffectDamage(float HealthDamage, int healthDamageType)
+		public void AffectDamage(float HealthDamage, DamageType healthDamageType)
 		{
-			float Damage = Damages[healthDamageType] + HealthDamage;
+			float Damage = Damages[(int)healthDamageType] + HealthDamage;
 
 			if (Damage < 0) Damage = 0;
 
-			Damages[healthDamageType] = Damage;
-			health = maxHealth - TotalDamage;
-			RecalculateEffectiveness();
+			Damages[(int)healthDamageType] = Damage;
 		}
 
 
@@ -115,41 +81,27 @@ namespace HealthV2
 		{
 
 			var damageToLimb = BodyPartArmour.GetDamage(damage, attackType);
-			AffectDamage(damageToLimb,(int) damageType);
+			AffectDamage(damageToLimb, damageType);
 
 			//TotalDamage// Could do without oxygen maybe
 			//May be changed to individual damage
-			if (containBodyParts.Count > 0)
-			{
-				var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType);
-				if (maxHealth-Damages[(int)damageType] < SubOrganDamageIncreasePoint)
-				{
-					organDamageRatingValue += (1 - ((maxHealth - Damages[(int)damageType]) / SubOrganDamageIncreasePoint));
-					organDamageRatingValue = Math.Min(1, organDamageRatingValue);
-				}
 
-				var OrganDamage = damage * organDamageRatingValue;
-				var OrganToDamage = containBodyParts.PickRandom(); //It's not like you can aim for Someone's  liver can you
-				OrganToDamage.TakeDamage(damagedBy,OrganDamage,attackType,damageType);
+			var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType);
+			if (health-Damages[(int)damageType] < SubOrganDamageIncreasePoint)
+			{
+				organDamageRatingValue += (1 - (health - Damages[(int)damageType] / SubOrganDamageIncreasePoint));
+				organDamageRatingValue = Math.Min(1, organDamageRatingValue);
 			}
 
+			var OrganDamage = damage * organDamageRatingValue;
+			var OrganToDamage = containBodyParts.PickRandom(); //It's not like you can aim for Someone's  liver can you
+			OrganToDamage.TakeDamage(damagedBy,OrganDamage,attackType,damageType);
 		}
 
-		public void DamageInitialisation()
-		{
-			this.AddModifier(DamageModifier);
-		}
-
-		public void HealDamage(GameObject healingItem, float healAmt,
-			int damageTypeToHeal)
+		public void HealDamage(GameObject healingItem, int healAmt,
+			DamageType damageTypeToHeal)
 		{
 			AffectDamage(-healAmt, damageTypeToHeal);
-		}
-
-		//Probably custom curves would be good here
-		public void RecalculateEffectiveness()
-		{
-			DamageModifier.Multiplier = (health / maxHealth);
 		}
 	}
 }

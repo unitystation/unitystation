@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6818438612513610564
+--- !u!114 &2314801526373061764
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,9 +9,71 @@ MonoBehaviour:
   m_GameObject: {fileID: 1163316686972202776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 215e552740637b64e8619b576b1a2929, type: 3}
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthMaster: {fileID: 0}
+  storage: {fileID: 2719098251223779414}
+  bodyPartType: 0
+  containBodyParts: []
+  maxHealth: 100
+  efficiency: 1
+  isDimorphic: 0
+  gender: 0
+  maleSprite: []
+  femaleSprite: []
+  limbSpriteData: []
+  Root: {fileID: 0}
+  ContainedIn: {fileID: 0}
+  SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
+    type: 3}
+  isBloodReagentConsumed: 0
+  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  bloodReagentConsumed: 0.15
+  bloodReagentStoreAmount: 0.01
+  BodyPartArmour:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  SubOrganBodyPartArmour:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  SubOrganDamageIncreasePoint: 50
+  DamageContributesToOverallHealth: 1
+--- !u!114 &2719098251223779414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163316686972202776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 0}
+  itemStorageCapacity: {fileID: 0}
+  itemStoragePopulator: {fileID: 0}
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!1001 &1164032867585741730
 PrefabInstance:
   m_ObjectHideFlags: 0

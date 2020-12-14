@@ -9,7 +9,7 @@ using Systems.Clothing;
 using Messages.Server;
 using HealthV2;
 using Lobby;
-
+using HealthV2;
 
 
 /// <summary>
@@ -47,7 +47,16 @@ public class PlayerSprites : MonoBehaviour
 	[SerializeField]
 	private LightSprite muzzleFlash = default;
 
+
+	[Tooltip("The place that all sprites and body part components go")]
+	[SerializeField]
+	private GameObject BodyParts = default;
+
+
 	#endregion Inspector fields
+
+
+	public LivingHealthMasterBase livingHealthMasterBase;
 
 	/// <summary>
 	/// Threshold value where we switch from partial burning to fully engulfed sprite.
@@ -63,9 +72,11 @@ public class PlayerSprites : MonoBehaviour
 	//TODO: don't use string as the dictionary key
 	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
+	public readonly List<BodyPartSprites> Addedbodypart = new List<BodyPartSprites>();
+
 	//bodypart for each bodypart
 	//TODO: don't use string as the dictionary key
-	public readonly Dictionary<string, BodyPartSprites> bodyparts = new Dictionary<string, BodyPartSprites>();
+	public readonly Dictionary<string, GameObject> bodyparts = new Dictionary<string, GameObject>();
 
 	private Directional directional;
 	private PlayerDirectionalOverlay engulfedBurningOverlay;
@@ -86,7 +97,7 @@ public class PlayerSprites : MonoBehaviour
 	{
 		directional = GetComponent<Directional>();
 		playerHealth = GetComponent<PlayerHealthV2>();
-	
+
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
@@ -94,11 +105,12 @@ public class PlayerSprites : MonoBehaviour
 			c.OnClothingEquipped += OnClothingEquipped;
 		}
 
-		foreach (BodyPartSprites b in GetComponentsInChildren<BodyPartSprites>())
+		for (int i = 0; i < BodyParts.transform.childCount; i++)
 		{
-			bodyparts[b.name] = b;
-			//TODO: Do we need to add listeners for implant removal
+			//TODO: Do we need to add listeners for implant removalv
+			bodyparts[BodyParts.transform.GetChild(i).name] = BodyParts.transform.GetChild(i).gameObject;
 		}
+
 
 
 
@@ -135,6 +147,17 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
+
+	public void SetUpCharacter(CharacterSettings Character)
+	{
+		InstantiateAndSetUp(RaceBodyparts.Base.Head, bodyparts["Head"].transform);
+		InstantiateAndSetUp(RaceBodyparts.Base.Torso, bodyparts["Chest"].transform);
+		InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft, bodyparts["LeftArm"].transform);
+		InstantiateAndSetUp(RaceBodyparts.Base.ArmRight, bodyparts["RightArm"].transform);
+		InstantiateAndSetUp(RaceBodyparts.Base.LegLeft, bodyparts["LeftLeg"].transform);
+		InstantiateAndSetUp(RaceBodyparts.Base.LegRight, bodyparts["RightLeg"].transform);
+	}
+
 	public void SetupCharacterData(CharacterSettings Character)
 	{
 		ThisCharacter = Character;
@@ -145,13 +168,15 @@ public class PlayerSprites : MonoBehaviour
 		{
 			//
 		}
-		
-		Instantiate(RaceBodyparts.Base.Head, bodyparts["Head"].transform);
-		Instantiate(RaceBodyparts.Base.Torso, bodyparts["Chest"].transform);
-		Instantiate(RaceBodyparts.Base.ArmLeft, bodyparts["LeftArm"].transform);
-		Instantiate(RaceBodyparts.Base.ArmRight, bodyparts["RightArm"].transform);
-		Instantiate(RaceBodyparts.Base.LegLeft, bodyparts["LeftLeg"].transform);
-		Instantiate(RaceBodyparts.Base.LegRight, bodyparts["RightLeg"].transform);
+
+		//this is Target zone
+
+		//Instantiates Sprites
+		//TODOH
+		//Race data contain sprites order
+		//healing/Damage splits across body parts
+		//needs a generate sprites dynamically
+
 
 
 		//RaceBodyparts.Base.LegLeft.GetComponent<ItemStorage>()
@@ -159,11 +184,23 @@ public class PlayerSprites : MonoBehaviour
 
 		//RaceTexture = Spawn.RaceData["human"];
 
-		//Loop through dimrphic body parts 
+		//Loop through dimrphic body parts
 		//SetupBodySpritesByGender();
 
 		SetupAllCustomisationSprites();
 		OnDirectionChange(directional.CurrentDirection);
+	}
+
+	public void InstantiateAndSetUp(GameObject ToSpawn, Transform InWhere)
+	{
+		var rootBodyPartContainer = Instantiate(ToSpawn, InWhere).GetComponent<RootBodyPartContainer>();
+		if (rootBodyPartContainer != null)
+		{
+			livingHealthMasterBase.RootBodyPartContainers.Add(rootBodyPartContainer);
+			rootBodyPartContainer.PlayerSprites = this;
+			rootBodyPartContainer.healthMaster = playerHealth;
+		}
+
 	}
 
 	/// <summary>
@@ -277,10 +314,16 @@ public class PlayerSprites : MonoBehaviour
 				{
 				c.transform.GetComponent<SpriteRenderer>().sortingOrder = 1;
 				}
-				
+
 			}
-		
+
 		}
+
+		foreach (var bodypart in Addedbodypart)
+		{
+			bodypart.OnDirectionChange(direction);
+		}
+
 
 		//TODO: Reimplement player fire sprites.
 		UpdateBurningOverlays(playerHealth.FireStacks, direction);
@@ -366,6 +409,7 @@ public class PlayerSprites : MonoBehaviour
 		}
 
 		SetupCharacterData(characterSettings);
+		SetUpCharacter(characterSettings);
 		// FIXME: this probably shouldn't send ALL of the character settings to everyone
 		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
 	}
