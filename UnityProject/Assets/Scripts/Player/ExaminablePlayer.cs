@@ -21,10 +21,10 @@ namespace Assets.Scripts.Player
 
 		private PlayerScript script;
 
-		public PlayerHealth Health => script.playerHealth;
-		public Equipment Equipment => script.Equipment;
+		//public PlayerHealth Health => script.playerHealth;
+		//public Equipment Equipment => script.Equipment;
 		public InteractableStorage InteractableStorage => interactableStorage;
-		public string VisibleName => script.visibleName;
+		//public string VisibleName => script.visibleName;
 
 		/// <summary>
 		/// Check if player is wearing a mask
