@@ -124,16 +124,22 @@ Enabling Gizmos for WallmountBehaviours will show helper arrows so that you woul
 
 ## Pull Request a New Map Scene to the Repo
 Once you have finished mapping a scene and it’s time to PR, follow the instructions below so it gets submitted first time without needed rework. If you are working on an existing map, you only need to commit and PR the .scene file.
-1. Run the Unit tests. These can be accessed in editor by going into the blah menu or selecting the U logo on the right bar.
+
+1. Run the Unit tests. These can be accessed in editor by going into the sidebar menu or selecting the U logo on the right bar.
+
 2. If the scene you have created is a Main Station, add its name into to the map.json file. This file keeps track of what maps to randomly select from given the server population (low, medium, high pop).
+
 3. Next you will need to add the created scene into a Scriptable Object List. Search in the editor
-•	If it is a Station where the crew will spawn in, add it into the Main Station List SO
-•	If the scene is a scene which connects to the Station Gateway, add it into the Away World List SO
-•	If the scene is an asteroid (contains ores to mine), add it into the Asteroid List SO
-•	If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the Additional Scene List SO
+-	If it is a Station where the crew will spawn in, add it into the Main Station List SO
+-	If the scene is a scene which connects to the Station Gateway, add it into the Away World List SO
+-	If the scene is an asteroid (contains ores to mine), add it into the Asteroid List SO
+-	If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the Additional Scene List SO
+
 4. Add the Scene in by going to File -> Build Settings, then click open scene to add the scene you are in.
+
 5. Make sure you go through the checklist below to check you have gotten the following on the map.
- - In the Captain’s Room, there is a Nuke disk, Nuke pointer and Captain’s spare ID
+
+- In the Captain’s Room, there is a Nuke disk, Nuke pointer and Captain’s spare ID
 - Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig
 - Fire alarms are connected to FireDoors
 - AirVents and Scrubbers are rotated correctly to match the particular pipe outlets
