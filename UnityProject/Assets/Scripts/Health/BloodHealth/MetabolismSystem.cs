@@ -41,7 +41,7 @@ public enum MetabolismDuration
 /// <summary>
 /// Handles the intake of substances (food, drink, chemical reagents etc...) for a Living Entity
 /// </summary>
-public class MetabolismSystem : NetworkBehaviour
+public class MetabolismSystem : NetworkBehaviour, PlayerMove.IMovementEffect
 {
 	public static int NUTRITION_LEVEL_MAX = 500;
 	public static int NUTRITION_LEVEL_STUFFED = 450;
@@ -62,7 +62,24 @@ public class MetabolismSystem : NetworkBehaviour
 	[SerializeField]
 	[Tooltip("Speed debuff when walking and starving")]
 	private float starvingWalkDebuff = 1f;
-	
+
+
+	public float RunningAdd {
+		get => -starvingRunDebuff;
+		set { }
+	}
+
+	public float WalkingAdd {
+		get => -starvingWalkDebuff;
+		set { }
+	}
+
+	public float CrawlAdd
+	{
+		get => 0;
+		set { }
+	}
+
 	public int NutritionLevel => nutritionLevel;
 
 	private int nutritionLevel = 400;
@@ -108,7 +125,7 @@ public class MetabolismSystem : NetworkBehaviour
 	// Metabolism tick
 	private void ServerUpdateMe()
 	{
-		if (bloodSystem.HeartStopped) return; 
+		if (bloodSystem.HeartStopped) return;
 
 		//Apply hunger
 		nutritionLevel -= HungerRate;
@@ -199,9 +216,7 @@ public class MetabolismSystem : NetworkBehaviour
 	{
 		if (appliedStarvingDebuff) return;
 
-		playerMove.ServerChangeSpeed(
-			run: playerMove.RunSpeed - starvingRunDebuff,
-			walk: playerMove.WalkSpeed - starvingWalkDebuff);
+		playerMove.AddModifier(this);
 		appliedStarvingDebuff = true;
 	}
 
@@ -212,9 +227,7 @@ public class MetabolismSystem : NetworkBehaviour
 	{
 		if (!appliedStarvingDebuff) return;
 
-		playerMove.ServerChangeSpeed(
-			run: playerMove.RunSpeed + starvingRunDebuff,
-			walk: playerMove.WalkSpeed + starvingWalkDebuff);
+		playerMove.RemoveModifier(this);
 		appliedStarvingDebuff = false;
 	}
 

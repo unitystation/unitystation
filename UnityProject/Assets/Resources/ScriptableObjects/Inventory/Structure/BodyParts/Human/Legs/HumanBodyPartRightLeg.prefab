@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 41458177592684260}
-  - component: {fileID: 4618937713811876022}
   - component: {fileID: 7976693802946159117}
+  - component: {fileID: 5812199722301378817}
   m_Layer: 8
   m_Name: HumanBodyPartRightLeg
   m_TagString: Untagged
@@ -32,21 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4618937713811876022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1309926505914675287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2ce72b73dcec86439d41c1513264111, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
-  bodyPartSprites: {fileID: 0}
-  bodyPartType: 7
 --- !u!114 &7976693802946159117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,5 +48,27 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 4f53f6ef272b63247a621006aa5b9d97,
     type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: 3e38d12029ee746499e935badd68870e,
-    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  UesAddlistPopulater: 1
+  Populater:
+    MergeMode: 0
+    Contents:
+    - {fileID: 4825408889243318330, guid: a16d954ba85c3944d943b55108e53ba4, type: 3}
+--- !u!114 &5812199722301378817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309926505914675287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7763c616bb0554240a552b5d0ff05b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMaster: {fileID: 0}
+  bodyPartType: 7
+  ItemStorage: {fileID: 0}
+  PlayerSprites: {fileID: 0}
+  PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
+    type: 3}
