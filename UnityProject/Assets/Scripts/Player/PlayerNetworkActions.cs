@@ -471,8 +471,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL
-		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
-		                                        || playerScript.playerHealth.IsCardiacArrest)
+		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them

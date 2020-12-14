@@ -7,17 +7,13 @@ using Random = UnityEngine.Random;
 
 public class Lungs : BodyPart
 {
-	[SerializeField]
-	private int breatheCooldown = 4;
+	[SerializeField] private int breatheCooldown = 4;
 
-	[SerializeField]
-	private float reagentSafeMin = 16;
+	[SerializeField] private float reagentSafeMin = 16;
 
-	[SerializeField]
-	private Gas requiredGas = Gas.Oxygen;
+	[SerializeField] private Gas requiredGas = Gas.Oxygen;
 
-	[SerializeField]
-	private Gas expelledGas = Gas.CarbonDioxide;
+	[SerializeField] private Gas expelledGas = Gas.CarbonDioxide;
 
 	private bool isSuffocating = false;
 	public bool IsSuffocating => isSuffocating;
@@ -36,7 +32,6 @@ public class Lungs : BodyPart
 	}
 
 
-
 	private bool Breathe(IGasMixContainer node, LivingHealthMasterBase healthMaster)
 	{
 		//Logger.Log("Lungs have " + healthMaster.CirculatorySystem.UseBloodPool + " Of Used blood available ");
@@ -51,15 +46,15 @@ public class Lungs : BodyPart
 		IGasMixContainer container = node;
 		if (healthMaster is PlayerHealthV2 playerHealth)
 		{
-			container= GetInternalGasMix(playerHealth) ?? node;
+			container = GetInternalGasMix(playerHealth) ?? node;
 		}
 
 
 		//Can probably edit this to use the volume of the lungs instead.
 		GasMix gasMix = container.GasMix;
-		GasMix breathGasMix = gasMix.RemoveVolume(AtmosConstants.BREATH_VOLUME, true); //BREATH_VOLUME to lung VOLUME
 
-		float reagentUsed = HandleBreathing(breathGasMix, healthMaster);
+
+		float reagentUsed = HandleBreathing(gasMix);
 		float gasUsed = reagentUsed;
 		reagentUsed = reagentUsed * 1000;
 		if (reagentUsed > healthMaster.CirculatorySystem.UseBloodPool)
@@ -73,21 +68,17 @@ public class Lungs : BodyPart
 		}
 
 
-		//Logger.Log("Lungs produced " + reagentUsed + " Of useful blood");
+		Logger.Log("Lungs produced " + reagentUsed + " Of useful blood");
 
 		if (reagentUsed > 0)
 		{
-			breathGasMix.RemoveGas(requiredGas, gasUsed);
-			node.GasMix.AddGas(expelledGas, gasUsed); //Probably violates a few laws of energy Equilibrium
+			gasMix.RemoveGas(Gas.Oxygen, reagentUsed);
+			node.GasMix.AddGas(Gas.CarbonDioxide, reagentUsed);
 			healthMaster.RegisterTile.Matrix.MetaDataLayer.UpdateSystemsAt(healthMaster.RegisterTile.LocalPositionClient, SystemType.AtmosSystem);
 
 			healthMaster.CirculatorySystem.AddUsefulBloodReagent(reagentUsed);
-
 		}
-
-		gasMix += breathGasMix;
-		container.GasMix = gasMix;
-
+		
 		return reagentUsed > 0;
 	}
 
@@ -102,11 +93,11 @@ public class Lungs : BodyPart
 			bool internalsEnabled = playerHealth.Equip.IsInternalsEnabled;
 			if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
 			{
-				foreach ( var gasSlot in playerScript.ItemStorage.GetGasSlots() )
+				foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())
 				{
 					if (gasSlot.Item == null) continue;
 					var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-					if ( gasContainer )
+					if (gasContainer)
 					{
 						return gasContainer;
 					}
@@ -117,40 +108,40 @@ public class Lungs : BodyPart
 		return null;
 	}
 
-	private float HandleBreathing(GasMix breathGasMix, LivingHealthMasterBase healthMaster)
+	private float HandleBreathing(GasMix gasMix)
 	{
-		//Can do something with partial pressures
-		float reagentPressure = breathGasMix.GetPressure(requiredGas);
+		float oxygenPressure = gasMix.GetPressure(Gas.Oxygen);
 
-		float reagentUsed = 0;
+		float oxygenUsed = 0;
 
-		if (reagentPressure < reagentSafeMin)
+		if (oxygenPressure < reagentSafeMin)
 		{
 			if (Random.value < 0.1)
 			{
-				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{gameObject.name} gasps");
+				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{gameObject.ExpensiveName()} gasps");
 			}
 
-			if (reagentPressure > 0)
+			if (oxygenPressure > 0)
 			{
-				float ratio = 1 - reagentPressure / reagentSafeMin;
+				float ratio = 1 - oxygenPressure / reagentSafeMin;
 				//bloodSystem.OxygenDamage += 1 * ratio;
-				reagentUsed = breathGasMix.GetMoles(requiredGas) * ratio;
+				oxygenUsed = gasMix.GetMoles(Gas.Oxygen) * ratio * AtmosConstants.BREATH_VOLUME;
 			}
 			else
 			{
 				//bloodSystem.OxygenDamage += 1;
 			}
+
 			isSuffocating = true;
 		}
 		else
 		{
-			reagentUsed = breathGasMix.GetMoles(Gas.Oxygen);
+			oxygenUsed = gasMix.GetMoles(Gas.Oxygen) * AtmosConstants.BREATH_VOLUME;
 			isSuffocating = false;
 			//bloodSystem.OxygenDamage -= 2.5f;
 			breatheCooldown = 4;
 		}
-		return reagentUsed;
-	}
 
+		return oxygenUsed;
+	}
 }

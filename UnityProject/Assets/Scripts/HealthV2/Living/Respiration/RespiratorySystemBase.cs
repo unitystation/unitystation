@@ -1,4 +1,5 @@
 ﻿using Systems.Atmospherics;
+using Items;
 using NaughtyAttributes;
 using Objects.Atmospherics;
 using UnityEngine;
@@ -106,19 +107,16 @@ namespace HealthV2
 			IGasMixContainer container = GetInternalGasMix() ?? node;
 
 			GasMix gasMix = container.GasMix;
-			GasMix breathGasMix = gasMix.RemoveVolume(AtmosConstants.BREATH_VOLUME, true);
 
-			float gasUsed = HandleBreathing(breathGasMix);
+
+			float gasUsed = HandleBreathing(gasMix);
 
 			if (gasUsed > 0)
 			{
-				breathGasMix.RemoveGas(respiratoryInfo.RequiredGas, gasUsed);
+				gasMix.RemoveGas(respiratoryInfo.RequiredGas, gasUsed);
 				node.GasMix.AddGas(respiratoryInfo.ReleasedGas, gasUsed);
 				registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
 			}
-
-			gasMix += breathGasMix;
-			container.GasMix = gasMix;
 
 			return gasUsed > 0;
 		}
