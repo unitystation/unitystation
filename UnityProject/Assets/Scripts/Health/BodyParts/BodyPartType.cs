@@ -19,7 +19,7 @@
 	LeftFoot = 11,
 
 	RightLeg = 4,
-	RightFoot = 12,
+	RightFoot = 12
 
 	//    LEFT_FOOT,
 	//    RIGHT_FOOT

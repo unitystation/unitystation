@@ -15,9 +15,6 @@ MonoBehaviour:
   baseSpriteHandler: {fileID: 1286611255038373546}
   damageOverlaySpriteHandler: {fileID: 687716640951515213}
   bodyPartType: 0
-  spriteRenderer: {fileID: 5622979681401935431}
-  SpriteOrder:
-    Orders: 16000000160000001600000016000000
   OverlySpriteHandler: {fileID: 8378186601239540787}
 --- !u!1 &7060390259241769481
 GameObject:
@@ -89,7 +86,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 22
+  m_SortingLayer: 17
   m_SortingOrder: 16
   m_Sprite: {fileID: 21300000, guid: 4b7b6c3a7031f5c45976f42c955fb37d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -143,17 +140,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: bce563184c34e354b80a4633136797fb,
+      objectReference: {fileID: 21300024, guid: bce563184c34e354b80a4633136797fb,
         type: 3}
     - target: {fileID: 5026448041578801434, guid: 7f846789e62ac004499611e9c1417efa,
         type: 3}
       propertyPath: m_SortingOrder
       value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675696822478708226, guid: 7f846789e62ac004499611e9c1417efa,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5675696822478708226, guid: 7f846789e62ac004499611e9c1417efa,
         type: 3}
@@ -172,11 +164,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5675696822478708226, guid: 7f846789e62ac004499611e9c1417efa,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675696822478708226, guid: 7f846789e62ac004499611e9c1417efa,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -189,6 +176,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5675696822478708226, guid: 7f846789e62ac004499611e9c1417efa,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5675696822478708226, guid: 7f846789e62ac004499611e9c1417efa,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5675696822478708226, guid: 7f846789e62ac004499611e9c1417efa,
         type: 3}
@@ -218,12 +215,6 @@ GameObject:
 --- !u!4 &4975758331375821151 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5675696822478708226, guid: 7f846789e62ac004499611e9c1417efa,
-    type: 3}
-  m_PrefabInstance: {fileID: 849300055863115613}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &5622979681401935431 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 5026448041578801434, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   m_PrefabInstance: {fileID: 849300055863115613}
   m_PrefabAsset: {fileID: 0}
