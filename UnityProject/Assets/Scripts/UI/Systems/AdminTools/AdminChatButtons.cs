@@ -40,34 +40,42 @@ namespace AdminTools
 
 		void ToggleButtons(AdminChatWindow selectedWindow)
 		{
-			adminChatButton.image.color = unSelectedColor;
-			mentorChatButton.image.color = unSelectedColor;
-			playerChatButton.image.color = unSelectedColor;
-			prayerWindowButton.image.color = unSelectedColor;
+			if(adminChatButton != null)
+				adminChatButton.image.color = unSelectedColor;
+			if(mentorChatButton != null)
+				mentorChatButton.image.color = unSelectedColor;
+			if(playerChatButton != null)
+				playerChatButton.image.color = unSelectedColor;
+			if(prayerWindowButton != null)
+				prayerWindowButton.image.color = unSelectedColor;
 
 			switch (selectedWindow)
 			{
 				case AdminChatWindow.AdminPlayerChat:
-					playerChatButton.image.color = selectedColor;
+					if(playerChatButton != null)
+						playerChatButton.image.color = selectedColor;
 					break;
 				case AdminChatWindow.MentorPlayerChat:
-					mentorChatButton.image.color = selectedColor;
+					if(mentorChatButton != null)
+						mentorChatButton.image.color = selectedColor;
 					break;
 				case AdminChatWindow.AdminToAdminChat:
-					adminChatButton.image.color = selectedColor;
+					if(adminChatButton != null)
+						adminChatButton.image.color = selectedColor;
 					break;
 				case AdminChatWindow.PrayerWindow:
-					prayerWindowButton.image.color = selectedColor;
+					if(prayerWindowButton != null)
+						prayerWindowButton.image.color = selectedColor;
 					break;
 			}
 		}
 
 		public void ClearAllNotifications()
 		{
-			adminNotification.ClearAll();
-			mentorNotification.ClearAll();
-			playerNotification.ClearAll();
-			prayerNotification.ClearAll();
+			adminNotification?.ClearAll();
+			mentorNotification?.ClearAll();
+			playerNotification?.ClearAll();
+			prayerNotification?.ClearAll();
 		}
 
 		/// <summary>
@@ -78,17 +86,20 @@ namespace AdminTools
 		{
 			var update = new AdminChatNotificationFullUpdate();
 
-			foreach (var n in adminNotification.notifications)
-			{
-				update.notificationEntries.Add(new AdminChatNotificationEntry
+			if(adminNotification != null){
+				foreach (var n in adminNotification?.notifications)
 				{
-					Amount = n.Value,
-					Key = n.Key,
-					TargetWindow = AdminChatWindow.AdminToAdminChat
-				});
+					update.notificationEntries.Add(new AdminChatNotificationEntry
+					{
+						Amount = n.Value,
+						Key = n.Key,
+						TargetWindow = AdminChatWindow.AdminToAdminChat
+					});
+				}
 			}
 
-			foreach (var n in playerNotification.notifications)
+			if(playerNotification != null){
+			foreach (var n in playerNotification?.notifications)
 			{
 				if (PlayerList.Instance.GetByUserID(n.Key) == null
 				    || PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
@@ -99,9 +110,10 @@ namespace AdminTools
 					Key = n.Key,
 					TargetWindow = AdminChatWindow.AdminPlayerChat
 				});
-			}
+			}}
 
-			foreach (var n in mentorNotification.notifications)
+			if(mentorNotification != null){
+			foreach (var n in mentorNotification?.notifications)
 			{
 				if (PlayerList.Instance.GetByUserID(n.Key) == null
 				    || PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
@@ -112,9 +124,10 @@ namespace AdminTools
 					Key = n.Key,
 					TargetWindow = AdminChatWindow.MentorPlayerChat
 				});
-			}
+			}}
 
-			foreach (var n in prayerNotification.notifications)
+			if(prayerNotification != null) {
+			foreach (var n in prayerNotification?.notifications)
 			{
 				if (PlayerList.Instance.GetByUserID(n.Key) == null
 				    || PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
@@ -125,6 +138,7 @@ namespace AdminTools
 					Key = n.Key,
 					TargetWindow = AdminChatWindow.PrayerWindow
 				});
+			}
 			}
 
 			AdminChatNotifications.Send(adminConn, update);
@@ -138,37 +152,55 @@ namespace AdminTools
 				case AdminChatWindow.AdminPlayerChat:
 					if (clearAll)
 					{
-						playerNotification.RemoveNotification(notificationKey);
+						playerNotification?.RemoveNotification(notificationKey);
 						if (amt == 0) return;
 					}
 					//No need to update notification if the player is already selected in admin chat
 					if (adminChatWindows.SelectedWindow == AdminChatWindow.AdminPlayerChat)
 					{
-						if (adminChatWindows.adminPlayerChat.SelectedPlayer != null
-						    && adminChatWindows.adminPlayerChat.SelectedPlayer.uid == notificationKey)
+						if (adminChatWindows.adminPlayerChat?.SelectedPlayer != null
+						    && adminChatWindows.adminPlayerChat?.SelectedPlayer.uid == notificationKey)
 						{
 							break;
 						}
 					}
-					playerNotification.AddNotification(notificationKey, amt);
+					playerNotification?.AddNotification(notificationKey, amt);
+					break;
+				case AdminChatWindow.MentorPlayerChat:
+					if (clearAll)
+					{
+						mentorNotification?.RemoveNotification(notificationKey);
+						if (amt == 0) return;
+					}
+					//No need to update notification if the player is already selected in admin chat
+					if (adminChatWindows.SelectedWindow == AdminChatWindow.MentorPlayerChat)
+					{
+						if (adminChatWindows.mentorPlayerChat?.SelectedPlayer != null
+						    && adminChatWindows.mentorPlayerChat?.SelectedPlayer.uid == notificationKey)
+						{
+							break;
+						}
+					}
+					mentorNotification?.AddNotification(notificationKey, amt);
 					break;
 				case AdminChatWindow.AdminToAdminChat:
 					if (clearAll)
 					{
-						adminNotification.RemoveNotification(notificationKey);
+						adminNotification?.RemoveNotification(notificationKey);
 						if (amt == 0) return;
 					}
 
-					if (adminChatWindows.adminToAdminChat.gameObject.activeInHierarchy) return;
+					if (adminChatWindows.adminToAdminChat?.gameObject.activeInHierarchy == true) return;
 
-					adminNotification.AddNotification(notificationKey, amt);
+					adminNotification?.AddNotification(notificationKey, amt);
 					break;
 				case AdminChatWindow.PrayerWindow:
 					if (clearAll)
 					{
-						prayerNotification.AddNotification(notificationKey, amt);
+						prayerNotification?.RemoveNotification(notificationKey);
+						if(amt==0) return;
 					}
-					prayerNotification.AddNotification(notificationKey, amt);
+					prayerNotification?.AddNotification(notificationKey, amt);
 					break;
 			}
 		}

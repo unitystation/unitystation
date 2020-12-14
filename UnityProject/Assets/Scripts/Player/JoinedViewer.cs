@@ -103,6 +103,7 @@ public class JoinedViewer : NetworkBehaviour
 		}
 
 		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);
+		PlayerList.Instance.CheckMentorState(unverifiedConnPlayer, unverifiedUserid);
 
 		PlayerList.ClientJobBanDataMessage.Send(unverifiedUserid);
 	}

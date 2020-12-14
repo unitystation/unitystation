@@ -27,6 +27,8 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Transform thresholdMarkerTop = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
 	[SerializeField] private MentorHelpChat mentorHelpChat = null;
+
+	[SerializeField] private PlayerPrayerWindow playerPrayerWindow = null;
 	[SerializeField] private GameObject helpSelectionPanel = null;
 	[SerializeField] private RectTransform safeArenaRect = default;
 
@@ -857,6 +859,22 @@ public class ChatUI : MonoBehaviour
 		else
 		{
 			helpSelectionPanel.gameObject.SetActive(true);
+		}
+	}
+
+	/// <summary>
+	/// Opens the prayer window to pray to the gods (admins).
+	/// </summary>
+	public void OnPlayerPrayerButton()
+	{
+		CloseChatWindow();
+		if (playerPrayerWindow.gameObject.activeInHierarchy)
+		{
+			playerPrayerWindow.gameObject.SetActive(false);
+		}
+		else
+		{
+			playerPrayerWindow.gameObject.SetActive(true);
 		}
 	}
 

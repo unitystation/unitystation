@@ -38,6 +38,7 @@ public partial class PlayerList
 	public List<JobBanEntry> clientSideBanEntries = new List<JobBanEntry>();
 
 	public string AdminToken { get; private set; }
+	public string MentorToken { get; private set; }
 
 	[Server]
 	void InitAdminController()
@@ -837,6 +838,21 @@ public partial class PlayerList
 		}
 	}
 
+	public void CheckMentorState(ConnectedPlayer playerConn, string userid)
+	{
+		if (mentorUsers.Contains(userid) && !adminUsers.Contains(userid))
+		{
+			Logger.Log($"{playerConn.Username} logged in as Mentor. " +
+					   $"IP: {playerConn.Connection.address}");
+			var newToken = System.Guid.NewGuid().ToString();
+			if (!loggedInMentors.ContainsKey(userid))
+			{
+				loggedInMentors.Add(userid, newToken);
+				MentorEnableMessage.Send(playerConn.Connection, newToken);
+			}
+		}
+	}
+
 	void CheckForLoggedOffAdmin(string userid, string userName)
 	{
 		if (loggedInAdmins.ContainsKey(userid))
@@ -851,6 +867,12 @@ public partial class PlayerList
 		AdminToken = _adminToken;
 		ControlTabs.Instance.ToggleOnAdminTab();
 		Logger.Log("You have logged in as an admin. Admin tools are now available.");
+	}
+
+	public void SetClientAsMentor(string _mentorToken)
+	{
+		MentorToken = _mentorToken;
+		Logger.Log("You have logged in as a mentor. Mentor tools are now available.");
 	}
 
 	public void ProcessAdminEnableRequest(string admin, string userToPromote)

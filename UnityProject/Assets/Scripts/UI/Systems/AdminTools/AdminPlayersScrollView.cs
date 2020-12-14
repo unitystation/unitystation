@@ -15,6 +15,7 @@ namespace AdminTools
 
 		[SerializeField] private bool showAdminsOnly = false;
 		[SerializeField] private bool disableButtonInteract = false;
+		[SerializeField] private bool hideSensitiveFields = false;
 		private float refreshTime = 3f;
 
 		private List<GameObject> HiddenButtons = new List<GameObject>();
@@ -61,7 +62,7 @@ namespace AdminTools
 				var index = playerEntries.FindIndex(x => x.PlayerData.uid == p.uid);
 				if (index != -1)
 				{
-					playerEntries[index].UpdateButton(p, SelectPlayerInList, masterNotification, disableButtonInteract);
+					playerEntries[index].UpdateButton(p, SelectPlayerInList, masterNotification, disableButtonInteract,hideSensitiveFields);
 				}
 				else
 				{
@@ -71,7 +72,7 @@ namespace AdminTools
 					}
 					var e = Instantiate(playerEntryPrefab, playerListContent);
 					var entry = e.GetComponent<AdminPlayerEntry>();
-					entry.UpdateButton(p, SelectPlayerInList, masterNotification, disableButtonInteract);
+					entry.UpdateButton(p, SelectPlayerInList, masterNotification, disableButtonInteract,hideSensitiveFields);
 					playerEntries.Add(entry);
 					index = playerEntries.Count - 1;
 				}
