@@ -27,7 +27,7 @@ The processing of mapping depending on what type of scene you are mapping. In Un
 
 Main Stations – where all the crew spawns at the start of the round
 
-Away Sites – on the MainStation there is a portal which connects to one of these scenes which the player then jump when the connection is established in the middle of the round.
+Away Sites – on the MainStation there is a portal which connects to one of these scenes which the player then jumps through when the connection is established in the middle of the round.
 
 Additional Scenes – the scenes which the antagonists start on.
 
