@@ -6,7 +6,7 @@ namespace HealthV2
 {
 	public abstract class ImplantProperty : ScriptableObject
 	{
-		public abstract void ImplantUpdate(ImplantBase implant, LivingHealthMasterBase healthMaster);
+		public abstract void ImplantUpdate(BodyPart implant, LivingHealthMasterBase healthMaster);
 	}
 
 }

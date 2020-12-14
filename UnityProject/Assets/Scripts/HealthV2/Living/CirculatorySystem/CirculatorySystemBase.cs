@@ -15,6 +15,10 @@ namespace HealthV2
 		private BloodType bloodType = null;
 		public BloodType BloodType => bloodType;
 
+		public float UseBloodPool  = 0;
+		public float ReadyBloodPool = 0;
+
+
 		//How much of our blood reagent we have.
 		//In a human, this would be oxygen.
 		private float bloodReagentAmount;
@@ -70,29 +74,48 @@ namespace HealthV2
 			bloodAmount = BloodInfo.BLOOD_DEFAULT;
 		}
 
-		public virtual void AddBloodReagent(float amount)
+		public virtual float AddUsefulBloodReagent(float amount) //Return excess
 		{
-			bloodReagentAmount += amount;
-			bloodReagentAmount = Mathf.Min(bloodInfo.BLOOD_REAGENT_MAX, bloodReagentAmount);
+			ReadyBloodPool += amount;
+			//Add mechanism for recovering blood naturally
+			//ReadyBloodPool = Mathf.Min(bloodInfo.BLOOD_REAGENT_MAX, bloodReagentAmount);
+			return 0;
 		}
 
 		//This circulates blood around the body.
 		//This isn't actually called by the circulatory system, it is going to be activated by an organ pumping blood.
 		public virtual void HeartBeat(float strength)
 		{
-			float initialPumpAmount = (bloodReagentAmount / bloodAmount) * (heartStrengthRatio * strength);
-			float pumpedReagent = initialPumpAmount;
-			foreach (ImplantBase implant in healthMaster.ImplantList)
+			//TODOH Balance all this stuff, Currently takes an eternity to suffocate
+			float initialPumpAmount = (heartStrengthRatio * strength);
+
+			//Logger.Log("heart Available  " + ReadyBloodPool);
+			float pumpedReagent = Math.Min(initialPumpAmount, ReadyBloodPool);
+
+			//Logger.Log("heart pumpedReagent " + pumpedReagent);
+
+			float WantedBlood = 0;
+			foreach (BodyPart implant in healthMaster.ImplantList)
 			{
-				pumpedReagent = Math.Max(implant.BloodPumpedEvent(bloodType.CirculatedReagent, pumpedReagent), 0);
+				if (implant.IsBloodReagentConsumed == false) continue;
+				WantedBlood += implant.BloodReagentStoreAmount;
+				//pumpedReagent = Math.Max(implant.BloodPumpedEvent(bloodType.CirculatedReagent, pumpedReagent), 0);
 			}
 
-			heartRateNeedsIncreasing = (pumpedReagent <= 0);
+			//Logger.Log("heart Wanted blood " + WantedBlood);
 
-			float usedReagent = initialPumpAmount - pumpedReagent;
-			bloodReagentAmount -= usedReagent + bloodInfo.BLOOD_REAGENT_CONSUME_PER_BEAT;
-			bloodReagentAmount = Mathf.Max(bloodReagentAmount, 0);
+			float SpareBlood = 0;
 
+			foreach (BodyPart implant in healthMaster.ImplantList)
+			{
+				if (implant.IsBloodReagentConsumed == false) continue;
+				SpareBlood = implant.BloodPumpedEvent(bloodType.CirculatedReagent, ((implant.BloodReagentStoreAmount/ WantedBlood) * pumpedReagent)+SpareBlood);
+			}
+
+			//Logger.Log("heart SpareBlood " + SpareBlood);
+			heartRateNeedsIncreasing = (SpareBlood == 0);
+
+			ReadyBloodPool = SpareBlood;
 		}
 
 	}

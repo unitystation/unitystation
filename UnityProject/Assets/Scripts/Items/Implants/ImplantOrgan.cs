@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class ImplantOrgan : ImplantBase
+	public class ImplantOrgan : BodyPart
 	{
 
 	}
