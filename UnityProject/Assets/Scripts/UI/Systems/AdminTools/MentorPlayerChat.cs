@@ -187,7 +187,10 @@ namespace AdminTools
 			};*/ // I dont know what this does, as the variable is unused completely
 
 			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
-			RequestMentorBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.uid,msg);
+			string MentorOrAdminToken = PlayerList.Instance.MentorToken;
+			if(MentorOrAdminToken == null)
+				MentorOrAdminToken = PlayerList.Instance.AdminToken;
+			RequestMentorBwoink.Send(ServerData.UserID, MentorOrAdminToken, selectedPlayer.uid,msg);
 		}
 	}
 }
