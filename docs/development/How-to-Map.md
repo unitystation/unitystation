@@ -5,7 +5,7 @@ This page explains the details of how to do mapping within unitystation.
 All mapping is done in Unity.
 
 ### Setting Up Your Workspace
-You should have the following windows open. To open a window, go to the _Window_ tab at the top of Unity.   
+You should have the following windows open. To open a window, go to the _Window_ tab at the top of Unity.<br>
   - Window > General > __Scene__
   - Window > General > __Project__
   - Window > General > __Hierarchy__
