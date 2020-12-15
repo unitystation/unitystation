@@ -5,19 +5,22 @@ This page explains the details of how to do mapping within unitystation.
 All mapping is done in Unity.
 
 ### Setting Up Your Workspace
-You should have the following windows open. To open a window, to the __Window__ tab at the top of Unity.
-- Window > General > __Scene__
-- Window > General > __Project__
-- Window > General > __Hierarchy__
-- Window > General > __Inspector__
-- Window > __Sidebar__
+You should have the following windows open. To open a window, to the __Window__ tab at the top of Unity.<br />
+<ul>
+  <li>Window > General > Scene</li>
+  <li>Window > General > Project</li>
+  <li>Window > General > Hierarchy</li>
+  <li>Window > General > Inspector</li>
+  <li>Window > Sidebar</li> 
+</ul> 
 
 ### Introduction to Scenes
-Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one.
-* Open an existing scene: UnityProject > Assets > Scenes > Mainstations > TestStation
-* Make sure you have your Scene window focused
-* Look around the Scene with the [Hand Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html)
-* To move prefabs around the Scene, use the [Move Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html)
+Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one. <br />
+<ul>
+   <li>Open an existing scene: UnityProject > Assets > Scenes > Mainstations > TestStation</li>
+   <li>Make sure you have your Scene window focused</li>
+   <li>Look around the Scene with the Hand Tool and to move prefabs around the Scene, use the Move Tool (reference: https://docs.unity3d.com/Manual/SceneViewNavigation.html)</li>
+</ul>
 
 Notice that in the Hierarchy window selecting _TestStation_ selects the entire station, but not other shuttles, etc.
 You can save maps and areas as [prefabs](https://docs.unity3d.com/Manual/Prefabs.html) by dragging them from the Hierarchy tab into the Project tab.
@@ -127,28 +130,27 @@ Once you have finished mapping a scene and it’s time to PR, follow the instruc
 
 1. Run the Unit tests. These can be accessed in editor by going into the sidebar menu or selecting the U logo on the right bar.
 
-2. If the scene you have created is a Main Station, add its name into to the map.json file. This file keeps track of what maps to randomly select from given the server population (low, medium, high pop).
+1. If the scene you have created is a Main Station, add its name into to the map.json file. This file keeps track of what maps to randomly select from given the server population (low, medium, high pop).
 
 3. Next you will need to add the created scene into a Scriptable Object List. Search in the editor for the following.
    
-- If it is a Station where the crew will spawn in, add it into the __Main Station List SO__
-- If the scene is a scene which connects to the Station Gateway, add it into the __Away World List SO__
-- If the scene is an asteroid (contains ores to mine), add it into the __Asteroid List SO__
-- If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the __Additional Scene List SO__
+    - If it is a Station where the crew will spawn in, add it into the __Main Station List SO__
+    - If the scene is a scene which connects to the Station Gateway, add it into the __Away World List SO__
+    - If the scene is an asteroid (contains ores to mine), add it into the __Asteroid List SO__
+    - If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the __Additional Scene List SO__
 
 4. Add the Scene in by going to File -> Build Settings, then click open scene to add the scene you are in.
 5. Make sure you go through the checklist below to check you have gotten the following on the map.
-
-- In the Captain's Room, there should be a Nuke Disk, Nuke Pointer and a Captain's Spare ID
-- Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig cells
-- Fire alarms have been connected to the FireDoors
-- AirVents and Scrubbers are rotated correctly to match the particular pipe outlets from adjcent tiles
-- RCS thrusters are present on shuttle matrixes
-- Multiple spawn points exist for the same job and that all jobs have a sensible spawn point
-- Check that atmos canisters are open in the atmospherics room
-- Ensure that no obvious extrusions will destory or block the cargo and evac shuttle
-- Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)
-- If it's a MainStation, include a picture of your map for the wiki 
+    1. In the Captain's Room, there should be a Nuke Disk, Nuke Pointer and a Captain's Spare ID
+    1. Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig cells
+    1. Fire alarms have been connected to the FireDoors
+    1. AirVents and Scrubbers are rotated correctly to match the particular pipe outlets from adjcent tiles
+    1. RCS thrusters are present on shuttle matrixes
+    1. Multiple spawn points exist for the same job and that all jobs have a sensible spawn point
+    1. Check that atmos canisters are open in the atmospherics room
+    1. Ensure that no obvious extrusions will destory or block the cargo and evac shuttle
+    1. Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)
+    1. If it's a MainStation, include a picture of your map for the wiki 
 
 ## Pull Requests for Tile Palette Changes
 Almost never would you need to actually PR a palette change, if you do please make sure __NOT__ to include anything other than the palette file and its .meta file.
