@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/12/15: Adds mentors by [craftxbox](https://github.com/craftxbox) in PR #[5365](https://github.com/unitystation/unitystation/pull/5365)
 * 2020/12/13: added ability to wrap all items, crates and lockers. by [corp-0](https://github.com/corp-0) in PR #[5680](https://github.com/unitystation/unitystation/pull/5680)
 * 2020/12/9: Removed ability for stun batons to hurt people when used to stun on disarm and grab intent. by [PetMudstone](https://github.com/PetMudstone) in PR #[5725](https://github.com/unitystation/unitystation/pull/5725)
 * 2020/12/7: Added weapon cells. They can be removed from energy guns with screwdrivers (credit to Autumn) and be made in the autolathe. by [PetMudstone](https://github.com/PetMudstone) in PR #[5715](https://github.com/unitystation/unitystation/pull/5715)
