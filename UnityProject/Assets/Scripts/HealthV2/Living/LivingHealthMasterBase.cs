@@ -161,26 +161,14 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 
 	[RightClickMethod]
-	public void RemoveChest()
+	public void PrintHealth()
 	{
-		RootBodyPartContainer rootBodyPartContainers = null;
-		foreach (var cntainers in RootBodyPartContainers)
+		foreach (var ImplantLis in ImplantList)
 		{
-			if (cntainers.bodyPartType == BodyPartType.Chest)
-			{
-				rootBodyPartContainers = cntainers;
-			}
+			Logger.Log(ImplantLis.name + "\n" + "Byrne >" + ImplantLis.Burn + " Brute > " + ImplantLis.Brute +
+			           " Oxy > " + ImplantLis.Oxy + " Cellular > " + ImplantLis.Cellular + " Stamina > " +
+			           ImplantLis.Stamina + " Toxin > " + ImplantLis.Toxin + " DamageEfficiencyMultiplier > " + ImplantLis.DamageEfficiencyMultiplier);
 		}
-
-		rootBodyPartContainers.RemoveLimbs();
-	}
-
-
-	[RightClickMethod]
-	public void RemoveRandomLimb()
-	{
-		var Limb = RootBodyPartContainers.PickRandom();
-		Limb.RemoveLimbs();
 	}
 
 	/// <summary>
@@ -274,7 +262,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	{
 		var body = RootBodyPartContainers.PickRandom();
 
-		body.TakeDamage(damagedBy,damage, attackType, damageType );
+		body.TakeDamage(damagedBy, damage, attackType, damageType);
 		//TODO: Reimplement
 	}
 

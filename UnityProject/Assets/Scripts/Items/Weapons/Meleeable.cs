@@ -16,7 +16,6 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 
 	[SerializeField] private string butcherSound = "BladeSlice";
 
-
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles regardless of intent
 	/// </summary>
@@ -123,7 +122,9 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		}
 		else
 		{
-			if (interaction.Intent == Intent.Help) return;
+			//attacking objects
+
+			//butcher check
 			GameObject victim = interaction.TargetObject;
 			var healthComponent = victim.GetComponent<LivingHealthMasterBase>();
 
