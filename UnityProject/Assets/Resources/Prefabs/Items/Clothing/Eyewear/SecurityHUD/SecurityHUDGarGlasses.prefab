@@ -70,6 +70,11 @@ PrefabInstance:
       propertyPath: attackVerbs.Array.data[0]
       value: sliced
       objectReference: {fileID: 0}
+    - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3183123304414575785, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
       propertyPath: m_Name

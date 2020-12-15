@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
+using AddressableReferences;
 
 /// <summary>
 /// Adding this to a weapon stuns the target on hit
@@ -27,8 +28,7 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// <summary>
 	/// Sounds to play when stunning someone
 	/// </summary>
-	[SerializeField]
-	private string stunSound = "EGloves";
+	[SerializeField] private AddressableAudioSource stunSound = null;
 
 	private int timer = 0;
 

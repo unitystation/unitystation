@@ -52,6 +52,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  disposalFlushSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalMachineFlush.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &5007995467691140660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +109,11 @@ PrefabInstance:
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,

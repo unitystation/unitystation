@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 87636766407104259, guid: 52e52506ef7e83e41a024f96fadc9304,
+        type: 3}
+      propertyPath: EatFoodA.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 822779961239697815, guid: 52e52506ef7e83e41a024f96fadc9304,
+        type: 3}
+      propertyPath: butcherSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 1017489859683087991, guid: 52e52506ef7e83e41a024f96fadc9304,
         type: 3}
       propertyPath: m_AssetId

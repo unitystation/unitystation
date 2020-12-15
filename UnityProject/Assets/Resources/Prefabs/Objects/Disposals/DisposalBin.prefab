@@ -86,7 +86,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: f6fbc8ead7aa4d828142c67f20e5eb57
+  m_AssetId: 
 --- !u!114 &114394597018269012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,7 +137,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114365750295642960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +159,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -273,6 +285,20 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   rechargeSFX: {fileID: 7874827126058003475}
+  AirFlapSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Click.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  FlushSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalMachineFlush.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1 &1000010229813120
 GameObject:
   m_ObjectHideFlags: 0

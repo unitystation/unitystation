@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Chemistry.Components;
+using AddressableReferences;
 
 [RequireComponent(typeof(Pickupable))]
 public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 {
 	public int travelDistance = 6;
+	[SerializeField] private AddressableAudioSource Spray2 = null;
 
 	private float travelTime => 1f / travelDistance;
 
@@ -49,7 +51,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
-		SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1, sourceObj: interaction.Performer);
+		SoundManager.PlayNetworkedAtPos(Spray2, startPos, 1, sourceObj: interaction.Performer);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
 	}

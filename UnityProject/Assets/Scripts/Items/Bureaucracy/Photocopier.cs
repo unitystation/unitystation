@@ -2,6 +2,7 @@
 using UnityEngine;
 using Mirror;
 using System.Collections;
+using  AddressableReferences;
 
 namespace Assets.Scripts.Items.Bureaucracy
 {
@@ -20,6 +21,8 @@ namespace Assets.Scripts.Items.Bureaucracy
 
 		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterObject registerObject;
+
+		[SerializeField] private AddressableAudioSource Copier = null;
 
 		private void Awake()
 		{
@@ -151,7 +154,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 		public void Print()
 		{
 			SyncPhotocopierState( PhotocopierState.Production);
-			SoundManager.PlayNetworkedAtPos("Copier", registerObject.WorldPosition);
+			SoundManager.PlayNetworkedAtPos(Copier, registerObject.WorldPosition);
 			StartCoroutine(WaitForPrint());
 		}
 

@@ -1861,6 +1861,21 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3246771360178382922, guid: cbae9a210d638ba4b9402e836c970fa2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3246771360178382922, guid: cbae9a210d638ba4b9402e836c970fa2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3246771360178382922, guid: cbae9a210d638ba4b9402e836c970fa2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 4287942156532742270, guid: cbae9a210d638ba4b9402e836c970fa2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1930,7 +1945,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: cbae9a210d638ba4b9402e836c970fa2, type: 3}
 --- !u!4 &641309815 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4287942156532742270, guid: cbae9a210d638ba4b9402e836c970fa2,
+  m_CorrespondingSourceObject: {fileID: 3246771360178382922, guid: cbae9a210d638ba4b9402e836c970fa2,
     type: 3}
   m_PrefabInstance: {fileID: 641309814}
   m_PrefabAsset: {fileID: 0}
@@ -4406,7 +4421,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!19719996 &108240060683191360
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -15842,7 +15863,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 617432531}
-  - {fileID: 641309815}
   - {fileID: 222530586}
   - {fileID: 1632930329}
   - {fileID: 111658406}
@@ -15854,6 +15874,7 @@ Transform:
   - {fileID: 2089716890}
   - {fileID: 296134855}
   - {fileID: 1910775474}
+  - {fileID: 641309815}
   - {fileID: 79050606}
   - {fileID: 852438537}
   - {fileID: 535519070}

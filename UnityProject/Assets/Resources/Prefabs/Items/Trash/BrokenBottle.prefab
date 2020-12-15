@@ -66,6 +66,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 64700b27c0345ce4fa9ee5c80203335c,
         type: 3}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: attackVerbs.Array.size
@@ -206,6 +211,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 32de1f4d04e224f4399721f51621df9d,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet

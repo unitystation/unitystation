@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using AddressableReferences;
 
 [RequireComponent(typeof(Pickupable))]
 public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
@@ -12,8 +13,7 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 	/// <summary>
 	/// Sound played when turning this baton on/off
 	/// </summary>
-	[SerializeField]
-	private string soundToggle = null;
+	[SerializeField] private AddressableAudioSource soundToggle = null;
 
 	/// <summary>
 	/// Sprite to be shown when the baton is on

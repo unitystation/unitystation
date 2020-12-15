@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
+using AddressableReferences;
 
 /// <summary>
 /// Allows an item to be placed in order to create a tile on the ground.
@@ -21,8 +22,7 @@ public class PlaceableTileReplaceBase : MonoBehaviour, ICheckedInteractable<Posi
 	[SerializeField]
 	private float placeTime = 1.0f;
 
-	[SerializeField]
-	private string placeSound = null;
+	[SerializeField] private AddressableAudioSource placeSound = null;
 
 	[SerializeField]
 	private static readonly StandardProgressActionConfig ProgressConfig

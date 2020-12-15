@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
+      propertyPath: initialName
+      value: glass
       objectReference: {fileID: 0}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
-      propertyPath: initialName
-      value: glass
+      propertyPath: initialDescription
+      value: Not necessarily made out of glass
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -29,15 +34,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 55917bb83c64bdc41acf0a60f284366c,
         type: 2}
-    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
-        type: 3}
-      propertyPath: initialDescription
-      value: Not necessarily made out of glass
-      objectReference: {fileID: 0}
     - target: {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: m_Name
       value: ContainerGlassBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -56,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -104,10 +104,25 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7997558505216099516, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7997558505216099516, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249693547510685597, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: SlurpA.AssetAddress
+      value: Assets/Prefabs/Effects/Slurp.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.size
-      value: 7
+      propertyPath: maxCapacity
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -116,8 +131,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
-      propertyPath: maxCapacity
-      value: 50
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}

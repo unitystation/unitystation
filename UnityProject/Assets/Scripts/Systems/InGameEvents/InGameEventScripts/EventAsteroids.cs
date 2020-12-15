@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.Explosions;
+using AddressableReferences;
 
 namespace InGameEvents
 {
@@ -43,7 +44,7 @@ namespace InGameEvents
 
 				CentComm.MakeAnnouncementNoSound(CentComm.CentCommAnnounceTemplate, text);
 
-				SoundManager.PlayNetworked("Meteors");
+				SoundManager.PlayNetworked(SingletonSOSounds.Instance.MeteorsAnnouncement);
 			}
 
 			if (FakeEvent) return;

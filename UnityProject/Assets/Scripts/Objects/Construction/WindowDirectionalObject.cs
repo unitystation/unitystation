@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
@@ -35,7 +36,7 @@ namespace Objects.Construction
 		public int maxCountOfRodsOnDestroy;
 
 		[Tooltip("Sound when destroyed.")]
-		public string soundOnDestroy;
+		public AddressableAudioSource soundOnDestroy;
 
 
 

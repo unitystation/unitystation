@@ -103,7 +103,7 @@ namespace Objects
 				if (timeElapsedServerSound > SoundLength && isOn)
 				{
 					DetectPlayer();
-					SoundManager.PlayNetworkedAtPos("machinehum4", Position + Vector3Int.up);
+					SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.MachineHum4, Position + Vector3Int.up);
 					timeElapsedServerSound = 0;
 				}
 			}

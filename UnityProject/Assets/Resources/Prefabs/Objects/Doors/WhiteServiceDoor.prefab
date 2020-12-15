@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
-  m_SortingLayer: 13
+  m_SortingLayer: 17
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 63b7011f0f41a4a86b02c7a6eec1de98, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -127,6 +128,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -149,7 +151,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
-  m_SortingLayer: 13
+  m_SortingLayer: 17
   m_SortingOrder: 9
   m_Sprite: {fileID: 21300116, guid: aa62bd6401d4c406b8c477866454a587, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -252,8 +254,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  openSFX: AirlockOpen
-  closeSFX: AirlockClose
+  openSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  closeSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   doorAnimationSize: 6
   doorAnimator: {fileID: 114644895939695836}
   DoorDeniedSpriteOffset: 12
@@ -262,12 +276,14 @@ MonoBehaviour:
   DoorSpriteOffset: 2
   weldOverlay: {fileID: 1218115893816178316}
   weldSprite: {fileID: 21300000, guid: 6419453d60057db4bbe180cc7c356b63, type: 3}
+  isEmagged: 0
   doorType: 14
   damageOnClose: 0
   damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 1
   conType: 7
+  connectedDoorSwitch: {fileID: 0}
   isPerformingAction: 0
   isWindowedDoor: 1
   useSimpleLightAnimation: 0
@@ -278,6 +294,7 @@ MonoBehaviour:
   pressureLevel: 0
   openingDirection: 0
   spriteRenderer: {fileID: 0}
+  BlockAutoClose: 0
 --- !u!114 &114787423019724530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +309,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114672552748689518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,6 +547,13 @@ MonoBehaviour:
   - {fileID: 21300174, guid: aa62bd6401d4c406b8c477866454a587, type: 3}
   - {fileID: 21300176, guid: aa62bd6401d4c406b8c477866454a587, type: 3}
   - {fileID: 21300178, guid: aa62bd6401d4c406b8c477866454a587, type: 3}
+  TripleBeep:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114937751941926332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,7 +645,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 350
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 21
   Armor:
     Melee: 30
@@ -770,6 +806,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -792,7 +829,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
-  m_SortingLayer: 13
+  m_SortingLayer: 17
   m_SortingOrder: 12
   m_Sprite: {fileID: 21300126, guid: aa62bd6401d4c406b8c477866454a587, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -851,6 +888,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -873,7 +911,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 18
+  m_SortingLayer: 25
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
