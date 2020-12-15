@@ -15,39 +15,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: Nutriment
-      value: 
-      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
-        type: 2}
-    - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
-        type: 3}
-      propertyPath: isSurface
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
-        type: 3}
       propertyPath: bodyPartType
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: limbSpriteData.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176,
-        type: 2}
-    - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
-        type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
-        type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
-        type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176,
         type: 2}
@@ -61,11 +34,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HumanLeftLeg
-      objectReference: {fileID: 0}
-    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -84,11 +52,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -101,6 +64,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}

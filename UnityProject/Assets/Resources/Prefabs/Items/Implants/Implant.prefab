@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthMaster: {fileID: 0}
+  RelatedPresentSprites: []
   storage: {fileID: 2719098251223779414}
   bodyPartType: 0
   containBodyParts: []
-  maxHealth: 100
   efficiency: 1
   isDimorphic: 0
   gender: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
   ContainedIn: {fileID: 0}
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
-  isBloodReagentConsumed: 0
+  isBloodReagentConsumed: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   bloodReagentConsumed: 0.15
   bloodReagentStoreAmount: 0.01
@@ -43,18 +43,20 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   SubOrganBodyPartArmour:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
+    Melee: 100
+    Bullet: 90
+    Laser: 100
+    Energy: 99
+    Bomb: 80
+    Rad: 30
+    Fire: 100
+    Acid: 100
+    Magic: 100
     Bio: 0
   SubOrganDamageIncreasePoint: 50
   DamageContributesToOverallHealth: 1
+  DamageEfficiencyMultiplier: 1
+  maxHealth: 100
 --- !u!114 &2719098251223779414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +136,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &1163316686972202776 stripped

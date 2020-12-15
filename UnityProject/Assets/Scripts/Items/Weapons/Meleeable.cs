@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using AddressableReferences;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
@@ -15,8 +14,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 
 	[SerializeField] private float butcherTime = 2.0f;
 
-	[SerializeField] private AddressableAudioSource butcherSound = null;
-
+	[SerializeField] private string butcherSound = "BladeSlice";
 
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles regardless of intent
@@ -63,7 +61,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		}
 
 		//not punching unless harm intent
-		if (interaction.Intent != Intent.Harm) return false;
+		if (interaction.HandObject == null && interaction.Intent != Intent.Harm) return false;
 
 		//if attacking tiles, only some layers are allowed to be attacked
 		if (interactableTiles != null)
