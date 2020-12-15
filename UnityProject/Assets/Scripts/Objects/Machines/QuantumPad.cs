@@ -10,6 +10,7 @@ using Random=UnityEngine.Random;
 
 namespace Objects.Science
 {
+
 	public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		public QuantumPad connectedPad;
@@ -32,9 +33,6 @@ namespace Objects.Science
 		public string messageOnTravelToThis;
 
 		private RegisterTile registerTile;
-
-		[SerializeField]
-		private GameObject MutatedBread = default;
 
 		private Matrix Matrix => registerTile.Matrix;
 
@@ -189,11 +187,10 @@ namespace Objects.Science
 				TransportUtility.TransportObjectAndPulled(item, travelCoord);
 				somethingTeleported = true;
 
-				if (DMMath.Prob(5) && item.TryGetComponent<Bread>(out _))
+				if (item is IQuantumReaction reaction)
 				{
-					Spawn.ServerPrefab(MutatedBread, travelCoord);
-					Despawn.ServerSingle(item.gameObject);
-
+					reaction.OnTeleportStart();
+					reaction.OnTeleportEnd();
 				}
 				
 			}
