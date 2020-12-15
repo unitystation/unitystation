@@ -51,9 +51,9 @@ MonoBehaviour:
   itemStoragePopulator: {fileID: 0}
   UesAddlistPopulater: 1
   Populater:
-    MergeMode: 1
+    MergeMode: 0
     Contents:
-    - {fileID: 2744469315531546719, guid: 2443cb16b69bb824f9e8f5d54d0a8f28, type: 3}
+    - {fileID: 8910782054479282841, guid: cc032f91cda505e44b066c36db32760d, type: 3}
 --- !u!114 &253961674678137764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,3 +72,4 @@ MonoBehaviour:
   PlayerSprites: {fileID: 0}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
+  ContainsLimbs: []
