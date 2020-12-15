@@ -33,7 +33,8 @@ namespace Objects.Science
 
 		private RegisterTile registerTile;
 
-		public GameObject MutatedBread;
+		[SerializeField]
+		private GameObject MutatedBread = default;
 
 		private Matrix Matrix => registerTile.Matrix;
 
@@ -188,10 +189,10 @@ namespace Objects.Science
 				TransportUtility.TransportObjectAndPulled(item, travelCoord);
 				somethingTeleported = true;
 
-				if (item.TryGetComponent<Bread>(out _) && DMMath.Prob(25))
+				if (item.TryGetComponent<Bread>(out _) && DMMath.Prob(5))
 				{
 					Spawn.ServerPrefab(MutatedBread, travelCoord);
-					Destroy(item);
+					Despawn.ServerSingle(item);
 
 				}
 				
