@@ -1,22 +1,19 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using Initialisation;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Objects.Wallmounts;
 using Objects.Command;
-using AddressableReferences;
 
 ///------------
 /// CENTRAL COMMAND HQ
 ///------------
 public class CentComm : MonoBehaviour
 {
-	[SerializeField] private AddressableAudioSource welcomeSound;
-	[SerializeField] private AddressableAudioSource interceptedMessageSound;
-
 	public GameManager gameManager;
 
 	[SerializeField][Tooltip("Reference to the paper prefab. Needed to send reports.")]
@@ -123,7 +120,7 @@ public class CentComm : MonoBehaviour
 		//Generic AI welcome message
 		//this sound will feel just like home once we have the proper job allocation.
 		//it plays as soon as the round starts.
-		SoundManager.PlayNetworked(welcomeSound);
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementWelcome);
 		//Wait some time after the round has started
 		yield return WaitFor.Seconds(60f);
 
@@ -178,7 +175,7 @@ public class CentComm : MonoBehaviour
 	}
 	private void SendAntagUpdate()
 	{
-		SoundManager.PlayNetworked(interceptedMessageSound);
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementIntercept);
 		MakeAnnouncement(CentCommAnnounceTemplate,
 			string.Format(InitialUpdateTemplate,AntagInitialUpdate+"\n\n"+AlertLevelStrings[AlertLevelString.UpToBlue]),
 			UpdateSound.alert);
@@ -266,7 +263,7 @@ public class CentComm : MonoBehaviour
 		Chat.AddSystemMsgToChat(string.Format(CentCommAnnounceTemplate, CommandNewReportString), MatrixManager.MainStationMatrix);
 
 		SoundManager.PlayNetworked(UpdateTypes[type], 1f);
-		SoundManager.PlayNetworked("Commandreport");
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
 	}
 
 	/// <summary>
@@ -359,10 +356,11 @@ public class CentComm : MonoBehaviour
 		announce
 	}
 
-	private static readonly Dictionary<UpdateSound, AddressableAudioSource> UpdateTypes = new Dictionary<UpdateSound, AddressableAudioSource> {
-		{UpdateSound.notice, SingletonSOSounds.Instance.AnnouncementNotice},
-		{UpdateSound.alert, SingletonSOSounds.Instance.AnnouncementAnnounce},
-		{UpdateSound.announce, SingletonSOSounds.Instance.AnnouncementAlert}
+	//Mudstone: Trying to convert these to addressables pisses off Unity and makes test fail, for some reason. Not touching for now.
+	private static readonly Dictionary<UpdateSound, string> UpdateTypes = new Dictionary<UpdateSound, string> {
+		{UpdateSound.notice, "Notice2"},
+		{UpdateSound.alert, "Notice1"},
+		{UpdateSound.announce, "Announce"}
 	};
 
 	public enum AlertLevel {
