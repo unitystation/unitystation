@@ -44,12 +44,7 @@ namespace HealthV2
 
 		private ItemAttributesV2 attributes;
 
-		private float health = 100;
 
-		[SerializeField]
-		[Tooltip("The maxmimum health of the implant." +
-		         "Implants will start with this amount of health.")]
-		private float maxHealth = 100; //Is used for organ functionIt
 
 		//This should be utilized in most implants so as to make changing the effectivenss of it easy.
 		//Some organs wont boil down to just one efficiency score, so you'll have to keep that in mind.
