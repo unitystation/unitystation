@@ -10,7 +10,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	[Tooltip("Display name of this item when spawned.")]
 	[SerializeField]
-	public string initialName = null;
+	private string initialName = null;
 
 	[SyncVar(hook = nameof(SyncArticleName))]
 	private string articleName;
@@ -25,7 +25,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
-	public string initialDescription = null;
+	private string initialDescription = null;
 
 	[Tooltip("Will this item highlight on mouseover?")]
 	[SerializeField]

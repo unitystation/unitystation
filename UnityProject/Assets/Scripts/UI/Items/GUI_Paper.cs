@@ -9,8 +9,6 @@ public class GUI_Paper : NetTab
 {
 	[SerializeField]
 	private TMP_InputField textField = default;
-	[SerializeField]
-	private ContentSizeFitter contentSizeFitter = default;
 
 	public override void OnEnable()
 	{
@@ -96,12 +94,5 @@ public class GUI_Paper : NetTab
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject, textField.text);
 		UIManager.IsInputFocus = false;
 		UIManager.PreventChatInput = false;
-	}
-
-	public void OnTextValueChange()
-	{
-		//Only way to refresh it to get it to do its job (unity bug):
-		contentSizeFitter.enabled = false;
-		contentSizeFitter.enabled = true;
 	}
 }

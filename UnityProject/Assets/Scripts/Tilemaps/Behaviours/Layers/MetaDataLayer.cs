@@ -31,7 +31,7 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			if (createIfNotExists)
 			{
-				nodes[localPosition] = new MetaDataNode(localPosition, reactionManager);
+				nodes[localPosition] = new MetaDataNode(localPosition, reactionManager, matrix);
 			}
 			else
 			{

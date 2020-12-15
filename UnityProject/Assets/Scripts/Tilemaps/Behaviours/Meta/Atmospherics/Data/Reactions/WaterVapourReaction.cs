@@ -11,7 +11,7 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos)
+		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
 		{
 			if (gasMix.Temperature <= AtmosDefines.WATER_VAPOR_FREEZE)
 			{
@@ -25,7 +25,7 @@ namespace Systems.Atmospherics
 
 				for (var i = 0; i < numberOfIceToSpawn; i++)
 				{
-					Spawn.ServerPrefab(AtmosManager.Instance.iceShard, tilePos, MatrixManager.GetDefaultParent(tilePos, true));
+					SpawnSafeThread.SpawnPrefab(tilePos, AtmosManager.Instance.iceShard);
 				}
 
 				gasMix.RemoveGas(Gas.WaterVapor, numberOfIceToSpawn * 2f);

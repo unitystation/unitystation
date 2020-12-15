@@ -5,6 +5,7 @@ using Pipes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Objects.Wallmounts;
+using System.Collections.Concurrent;
 
 namespace Systems.Atmospherics
 {
@@ -20,13 +21,12 @@ namespace Systems.Atmospherics
 
 		public bool Running { get; private set; }
 
-		public bool roundStartedServer = false;
 		public HashSet<PipeData> inGameNewPipes = new HashSet<PipeData>();
 		public HashSet<FireAlarm> inGameFireAlarms = new HashSet<FireAlarm>();
+		public ConcurrentBag<FireAlarm> fireAlarmToAdd = new ConcurrentBag<FireAlarm>();
+		public ConcurrentBag<PipeData> pipeToAdd = new ConcurrentBag<PipeData>();
+
 		public static int currentTick;
-		public static float tickRateComplete = 0.25f; //currently set to update every second
-		public static float tickRate;
-		private static float tickCount = 0f;
 		private const int Steps = 1;
 
 		public static AtmosManager Instance;
@@ -36,7 +36,6 @@ namespace Systems.Atmospherics
 		public GameObject fireLight = null;
 
 		public GameObject iceShard = null;
-
 		public GameObject hotIce = null;
 
 		private void Awake()
@@ -66,40 +65,51 @@ namespace Systems.Atmospherics
 					throw;
 				}
 			}
-
-			if (roundStartedServer)
-			{
-				if (tickRate == 0)
-				{
-					tickRate = tickRateComplete / Steps;
-				}
-
-				tickCount += Time.deltaTime;
-
-				if (tickCount > tickRate)
-				{
-					DoTick();
-					tickCount = 0f;
-					currentTick = ++currentTick % Steps;
-				}
-			}
 		}
 
-		void DoTick()
+		public void DoTick()
 		{
 			if (StopPipes == false)
 			{
-				foreach (var p in inGameNewPipes)
+
+				foreach (var pipeData in pipeToAdd)
 				{
-					p.TickUpdate();
+					if(pipeData.MonoPipe == null)
+						continue;
+					pipeData.TickUpdate();
 				}
 			}
 
-			foreach (FireAlarm firealarm in inGameFireAlarms)
+			foreach (var fireAlarm in fireAlarmToAdd)
 			{
-				firealarm.TickUpdate();
+				if(fireAlarm == null)
+					continue;
+				fireAlarm.TickUpdate();
 			}
+
+			currentTick = ++currentTick % Steps;
 		}
+
+		public void AddPipe(PipeData pipeData)
+		{
+			pipeToAdd.Add(pipeData);
+		}
+
+		public void RemovePipe(PipeData pipeData)
+		{
+			pipeToAdd.TryTake(out pipeData);
+		}
+
+		public void AddFireAlarm(FireAlarm fireAlarm)
+		{
+			fireAlarmToAdd.Add(fireAlarm);
+		}
+
+		public void RemoveFireAlarm(FireAlarm fireAlarm)
+		{
+			fireAlarmToAdd.TryTake(out fireAlarm);
+		}
+
 
 		void OnEnable()
 		{
@@ -121,22 +131,14 @@ namespace Systems.Atmospherics
 			{
 				StartSimulation();
 			}
-			StartCoroutine(SetPipes());
-		}
-
-		private IEnumerator SetPipes() /// TODO: FIX ALL MANAGERS LOADING ORDER AND REMOVE ANY WAITFORSECONDS
-		{
-			yield return new WaitForSeconds(2);
-			roundStartedServer = true;
 		}
 
 		void OnRoundEnd()
 		{
-			roundStartedServer = false;
 			AtmosThread.ClearAllNodes();
 			inGameNewPipes.Clear();
+			StopSimulation();
 		}
-
 
 		private void OnApplicationQuit()
 		{
@@ -177,10 +179,6 @@ namespace Systems.Atmospherics
 
 		void OnSceneChange(Scene oldScene, Scene newScene)
 		{
-			if (newScene.name == "Lobby")
-			{
-				roundStartedServer = false;
-			}
 			inGameNewPipes.Clear();
 			inGameFireAlarms.Clear();
 		}
