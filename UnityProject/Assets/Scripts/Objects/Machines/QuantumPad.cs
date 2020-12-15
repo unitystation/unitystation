@@ -189,7 +189,7 @@ namespace Objects.Science
 				TransportUtility.TransportObjectAndPulled(item, travelCoord);
 				somethingTeleported = true;
 
-				if (item.TryGetComponent<Bread>(out _) && DMMath.Prob(5))
+				if (DMMath.Prob(5) && item.TryGetComponent<Bread>(out _))
 				{
 					Spawn.ServerPrefab(MutatedBread, travelCoord);
 					Despawn.ServerSingle(item.gameObject);

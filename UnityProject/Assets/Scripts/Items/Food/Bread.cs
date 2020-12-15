@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class Bread : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //Bread Class has big plans for the future WORK-IN-PROGRESS
+
 }
