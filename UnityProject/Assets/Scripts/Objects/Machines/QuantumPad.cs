@@ -192,7 +192,7 @@ namespace Objects.Science
 				if (item.TryGetComponent<Bread>(out _) && DMMath.Prob(5))
 				{
 					Spawn.ServerPrefab(MutatedBread, travelCoord);
-					Despawn.ServerSingle(item);
+					Despawn.ServerSingle(item.gameObject);
 
 				}
 				
