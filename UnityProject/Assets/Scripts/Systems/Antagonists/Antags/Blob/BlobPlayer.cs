@@ -10,6 +10,7 @@ using Mirror;
 using UnityEngine;
 using TMPro;
 using Random = UnityEngine.Random;
+using EpPathFinding.cs;
 
 namespace Blob
 {
@@ -135,6 +136,11 @@ namespace Blob
 			new Vector3Int(0, -1, 0),
 			new Vector3Int(-1, 0, 0)
 		};
+
+		private BaseGrid searchGrid;
+		private int bottomXCoord;
+		private int bottomYCoord;
+		[SerializeField]private LineRenderer lineRenderer;
 
 		public float Resources
 		{
@@ -375,6 +381,8 @@ namespace Blob
 
 				StrainRerolls += 1;
 			}
+
+			GenerateGrid();
 
 			BiomassTick();
 
@@ -1463,6 +1471,11 @@ namespace Blob
 				//Remove null if possible
 				resourceBlobs.Remove(null);
 
+				foreach (var blob in resourceBlobs)
+				{
+					PathSearch(blob.TileWorldPosition(), blobCore.TileWorldPosition());
+				}
+
 				float numResource = resourceBlobs.Count;
 				var coreIncome = 3;
 
@@ -1801,6 +1814,56 @@ namespace Blob
 			{
 				registerObject.Matrix.ReactionManager.ExposeHotspotWorldPosition((offset + pos).To2Int());
 			}
+		}
+
+		#endregion
+
+		#region Pathfinding
+
+		private void GenerateGrid()
+		{
+			var topXCoord = blobTiles.Keys.Max(v => v.x);
+			var topYCoord = blobTiles.Keys.Max(v => v.y);
+
+			bottomXCoord = blobTiles.Keys.Min(v => v.x);
+			bottomYCoord = blobTiles.Keys.Min(v => v.y);
+
+			var xRange = Math.Abs(topXCoord) - bottomXCoord;
+			var yRange = Math.Abs(topYCoord) - bottomYCoord;
+
+			List<GridPos> walkableGridPosList= new List<GridPos>();
+
+			foreach (var blob in blobTiles.Keys)
+			{
+				walkableGridPosList.Add(new GridPos(blob.x - bottomXCoord, blob.y - bottomYCoord));
+			}
+
+			searchGrid = new DynamicGrid(walkableGridPosList);
+		}
+
+		private bool PathSearch(Vector2Int startPosVector, Vector2Int endPosVector)
+		{
+			var startPos = new GridPos(startPosVector.x - bottomXCoord, startPosVector.y - bottomYCoord);
+			var endPos = new GridPos(endPosVector.x - bottomXCoord, endPosVector.y - bottomYCoord);
+
+			JumpPointParam jpParam = new JumpPointParam(searchGrid, startPos, endPos,
+				EndNodeUnWalkableTreatment.DISALLOW, DiagonalMovement.Never);
+
+			List<GridPos> resultPathList = JumpPointFinder.FindPath(jpParam);
+
+			if (resultPathList != null)
+			{
+				var positions = new Vector3[resultPathList.Count - 1];
+
+				for (int i = 0; i < resultPathList.Count; i++)
+				{
+					positions[i] = new Vector3(resultPathList[i].x + bottomXCoord, resultPathList[i].y + bottomYCoord, 0);
+				}
+
+				lineRenderer.SetPositions(positions);
+			}
+
+			return resultPathList != null;
 		}
 
 		#endregion
