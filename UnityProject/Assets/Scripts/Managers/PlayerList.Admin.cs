@@ -19,10 +19,14 @@ using Newtonsoft.Json;
 public partial class PlayerList
 {
 	private FileSystemWatcher adminListWatcher;
+	private FileSystemWatcher mentorListWatcher;
 	private FileSystemWatcher WhiteListWatcher;
 	private List<string> adminUsers = new List<string>();
+	private List<string> mentorUsers = new List<string>();
 	private Dictionary<string, string> loggedInAdmins = new Dictionary<string, string>();
+	private Dictionary<string, string> loggedInMentors = new Dictionary<string, string>();
 	private BanList banList;
+	private string mentorsPath;
 	private string adminsPath;
 	private string banPath;
 	private List<string> whiteListUsers = new List<string>();
@@ -34,11 +38,13 @@ public partial class PlayerList
 	public List<JobBanEntry> clientSideBanEntries = new List<JobBanEntry>();
 
 	public string AdminToken { get; private set; }
+	public string MentorToken { get; private set; }
 
 	[Server]
 	void InitAdminController()
 	{
 		adminsPath = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
+		mentorsPath = Path.Combine(Application.streamingAssetsPath, "admin", "mentors.txt");
 		banPath = Path.Combine(Application.streamingAssetsPath, "admin", "banlist.json");
 		whiteListPath = Path.Combine(Application.streamingAssetsPath, "admin", "whitelist.txt");
 		jobBanPath = Path.Combine(Application.streamingAssetsPath, "admin", "jobBanlist.json");
@@ -46,6 +52,11 @@ public partial class PlayerList
 		if (!File.Exists(adminsPath))
 		{
 			File.CreateText(adminsPath).Close();
+		}
+		
+		if (!File.Exists(mentorsPath))
+		{
+			File.CreateText(mentorsPath).Close();
 		}
 
 		if (!File.Exists(banPath))
@@ -69,6 +80,13 @@ public partial class PlayerList
 		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
 		adminListWatcher.Changed += LoadCurrentAdmins;
 		adminListWatcher.EnableRaisingEvents = true;
+		
+		mentorListWatcher = new FileSystemWatcher();
+		mentorListWatcher.Path = Path.GetDirectoryName(mentorsPath);
+		mentorListWatcher.Filter = Path.GetFileName(mentorsPath);
+		mentorListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+		mentorListWatcher.Changed += LoadCurrentMentors;
+		mentorListWatcher.EnableRaisingEvents = true;
 
 		WhiteListWatcher = new FileSystemWatcher();
 		WhiteListWatcher.Path = Path.GetDirectoryName(whiteListPath);
@@ -79,6 +97,7 @@ public partial class PlayerList
 
 		LoadBanList();
 		LoadCurrentAdmins();
+		LoadCurrentMentors();
 		LoadWhiteList();
 		LoadJobBanList();
 	}
@@ -105,6 +124,16 @@ public partial class PlayerList
 	void LoadCurrentAdmins()
 	{
 		StartCoroutine(LoadAdmins());
+	}
+	
+	void LoadCurrentMentors(object source, FileSystemEventArgs e)
+	{
+		LoadCurrentMentors();
+	}
+
+	void LoadCurrentMentors()
+	{
+		StartCoroutine(LoadMentors());
 	}
 
 	void LoadJobBanList()
@@ -140,6 +169,14 @@ public partial class PlayerList
 		yield return WaitFor.EndOfFrame;
 		adminUsers.Clear();
 		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
+	}
+	
+	IEnumerator LoadMentors()
+	{
+		//ensure any writing has finished
+		yield return WaitFor.EndOfFrame;
+		mentorUsers.Clear();
+		mentorUsers = new List<string>(File.ReadAllLines(mentorsPath));
 	}
 
 	[Server]
@@ -189,6 +226,55 @@ public partial class PlayerList
 	public bool IsAdmin(string userID)
 	{
 		return adminUsers.Contains(userID);
+	}
+	
+	[Server]
+	public GameObject GetMentor(string userID, string token)
+	{
+
+		if (string.IsNullOrEmpty(userID))
+		{
+			//allow null mentor when doing offline testing
+			if (GameData.Instance.OfflineMode)
+			{
+				return PlayerManager.LocalPlayer;
+			}
+			Logger.LogError("The User ID for Mentor is null!", Category.Mentor);
+			if (string.IsNullOrEmpty(token))
+			{
+				Logger.LogError("The AdminToken value is null!", Category.Mentor);
+			}
+
+			return null;
+		}
+
+		if (!loggedInMentors.ContainsKey(userID)) return null;
+
+		if (loggedInMentors[userID] != token) return null;
+
+		return GetByUserID(userID).GameObject;
+	}
+
+	[Server]
+	public List<ConnectedPlayer> GetAllMentors()
+	{
+		List<ConnectedPlayer> mentors = new List<ConnectedPlayer>();
+		foreach (var a in loggedInMentors)
+		{
+			var getConn = GetByUserID(a.Key);
+			if (getConn != null)
+			{
+				mentors.Add(getConn);
+			}
+		}
+
+		return mentors;
+	}
+
+	[Server]
+	public bool IsMentor(string userID)
+	{
+		return mentorUsers.Contains(userID);
 	}
 
 	public async Task<bool> ValidatePlayer(string unverifiedClientId, string unverifiedUsername,
@@ -752,6 +838,21 @@ public partial class PlayerList
 		}
 	}
 
+	public void CheckMentorState(ConnectedPlayer playerConn, string userid)
+	{
+		if (mentorUsers.Contains(userid) && !adminUsers.Contains(userid))
+		{
+			Logger.Log($"{playerConn.Username} logged in as Mentor. " +
+					   $"IP: {playerConn.Connection.address}");
+			var newToken = System.Guid.NewGuid().ToString();
+			if (!loggedInMentors.ContainsKey(userid))
+			{
+				loggedInMentors.Add(userid, newToken);
+				MentorEnableMessage.Send(playerConn.Connection, newToken);
+			}
+		}
+	}
+
 	void CheckForLoggedOffAdmin(string userid, string userName)
 	{
 		if (loggedInAdmins.ContainsKey(userid))
@@ -766,6 +867,12 @@ public partial class PlayerList
 		AdminToken = _adminToken;
 		ControlTabs.Instance.ToggleOnAdminTab();
 		Logger.Log("You have logged in as an admin. Admin tools are now available.");
+	}
+
+	public void SetClientAsMentor(string _mentorToken)
+	{
+		MentorToken = _mentorToken;
+		Logger.Log("You have logged in as a mentor. Mentor tools are now available.");
 	}
 
 	public void ProcessAdminEnableRequest(string admin, string userToPromote)

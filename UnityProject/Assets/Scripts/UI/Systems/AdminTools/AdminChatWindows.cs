@@ -8,6 +8,7 @@ namespace AdminTools
 	public class AdminChatWindows : MonoBehaviour
 	{
 		public AdminPlayerChat adminPlayerChat = null;
+		public MentorPlayerChat mentorPlayerChat = null;
 		public AdminToAdminChat adminToAdminChat = null;
 		public PlayerPrayerWindow playerPrayerWindow = null;
 		public List<AdminPlayersScrollView> playerListViews = new List<AdminPlayersScrollView>();
@@ -29,6 +30,7 @@ namespace AdminTools
 		void ToggleWindows(AdminChatWindow window)
 		{
 			adminPlayerChat.gameObject.SetActive(false);
+			mentorPlayerChat.gameObject.SetActive(false);
 			adminToAdminChat.gameObject.SetActive(false);
 			playerPrayerWindow.gameObject.SetActive(false);
 
@@ -37,6 +39,10 @@ namespace AdminTools
 				case AdminChatWindow.AdminPlayerChat:
 					adminPlayerChat.gameObject.SetActive(true);
 					SelectedWindow = AdminChatWindow.AdminPlayerChat;
+					break;
+				case AdminChatWindow.MentorPlayerChat:
+					mentorPlayerChat.gameObject.SetActive(true);
+					SelectedWindow = AdminChatWindow.MentorPlayerChat;
 					break;
 				case AdminChatWindow.AdminToAdminChat:
 					adminToAdminChat.gameObject.SetActive(true);
@@ -60,6 +66,7 @@ namespace AdminTools
 		public void ResetAll()
 		{
 			adminPlayerChat.ClearLogs();
+			mentorPlayerChat.ClearLogs();
 			adminToAdminChat.ClearLogs();
 			playerPrayerWindow.ClearLogs();
 		}
@@ -70,6 +77,7 @@ namespace AdminTools
 		None,
 		AdminPlayerChat,
 		AdminToAdminChat,
+		MentorPlayerChat,
 		PrayerWindow
 	}
 }

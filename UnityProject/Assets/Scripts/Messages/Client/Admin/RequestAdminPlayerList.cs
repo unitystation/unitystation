@@ -20,10 +20,13 @@ public class RequestAdminPlayerList : ClientMessage
 	void VerifyAdminStatus()
 	{
 		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
+		if (player == null)
 		{
-			AdminPlayerListRefreshMessage.Send(player, Userid);
+			player = PlayerList.Instance.GetMentor(Userid,AdminToken);
+			if(player == null)
+				return;
 		}
+		AdminPlayerListRefreshMessage.Send(player, Userid);
 	}
 
 	public static RequestAdminPlayerList Send(string userId, string adminToken)
