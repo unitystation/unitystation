@@ -18,7 +18,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[Tooltip("Contents that will spawn inside every instance of this locker when the" +
 			 " locker spawns.")]
 	[SerializeField]
-	public SpawnableList initialContents = null;
+	private SpawnableList initialContents = null;
 
 	[Tooltip("Lock light status indicator component")]
 	[SerializeField]
@@ -26,7 +26,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	[Tooltip("Whether the container can be locked.")]
 	[SerializeField]
-	public bool IsLockable = false;
+	private bool IsLockable = false;
 
 	[Tooltip("Max amount of players that can fit in it at once.")]
 	[SerializeField]

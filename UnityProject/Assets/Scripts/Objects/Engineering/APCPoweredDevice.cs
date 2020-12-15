@@ -28,7 +28,7 @@ namespace Systems.Electricity
 
 		[SerializeField]
 		[Tooltip("This device powers itself and doesn't need an APC")]
-		public bool isSelfPowered = false;
+		private bool isSelfPowered = false;
 
 		public bool IsSelfPowered => isSelfPowered;
 
