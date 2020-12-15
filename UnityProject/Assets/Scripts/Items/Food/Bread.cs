@@ -8,7 +8,7 @@ using System.Linq;
 public class Bread : MonoBehaviour, IQuantumReaction
 {
 
-    [SerializeField]
+	[SerializeField]
 	private GameObject MutatedBread = default;
 
 	public void OnTeleportStart()
@@ -18,13 +18,13 @@ public class Bread : MonoBehaviour, IQuantumReaction
 
 	public void OnTeleportEnd()
 	{
-        if (DMMath.Prob(5))
-        {
+		if (DMMath.Prob(10))
+		{
 			Spawn.ServerPrefab(MutatedBread, gameObject.AssumedWorldPosServer());
 			Despawn.ServerSingle(gameObject);
-        }
-    }
+		}
+	}
 
-    //Bread Class has big plans for the future WORK-IN-PROGRESS
+	//Bread Class has big plans for the future WORK-IN-PROGRESS
 
 }

@@ -184,15 +184,20 @@ namespace Objects.Science
 			foreach (var item in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Object, true)
 									.Concat(Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true)))
 			{
-				TransportUtility.TransportObjectAndPulled(item, travelCoord);
-				somethingTeleported = true;
-
-				if (item is IQuantumReaction reaction)
+				
+				if (item.gameObject.TryGetComponent(out IQuantumReaction reaction))
 				{
 					reaction.OnTeleportStart();
+					TransportUtility.TransportObjectAndPulled(item, travelCoord);
 					reaction.OnTeleportEnd();
 				}
-				
+
+				else
+				{
+					TransportUtility.TransportObjectAndPulled(item, travelCoord);
+				}
+
+				somethingTeleported = true;
 			}
 
 			if (!doingAnimation && passiveDetect && somethingTeleported)
