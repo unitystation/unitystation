@@ -5,12 +5,12 @@ This page explains the details of how to do mapping within unitystation.
 All mapping is done in Unity.
 
 ### Setting Up Your Workspace
-You should have the following windows open. To open a window, go to the _Window_ tab at the top of Unity.
-* Window > General > __Scene__
-* Window > General > __Project__
-* Window > General > __Hierarchy__
-* Window > General > __Inspector__
-* Window > __Sidebar__
+You should have the following windows open. To open a window, go to the _Window_ tab at the top of Unity.   
+- Window > General > __Scene__
+- Window > General > __Project__
+- Window > General > __Hierarchy__
+- Window > General > __Inspector__
+- Window > __Sidebar__
 
 ### Introduction to Scenes
 Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one.
@@ -40,9 +40,9 @@ When you open the editor, there should be a sidebar open on the right hand side 
 Performs a variety of tests to check for Null references and other things. These tests are also used when you send a Pull Request.
 
 ### Tile Palette
-* The Tile Palette tab lets you place walls, floors, doors, tables etc. into the Scene tab
-* Make sure to select the right Active Tilemap in the Tile Palette when editing
-* The new tiles and objects will be added to the right categories within the active tilemap automatically
+- The Tile Palette tab lets you place walls, floors, doors, tables etc. into the Scene tab
+- Make sure to select the right Active Tilemap in the Tile Palette when editing
+- The new tiles and objects will be added to the right categories within the active tilemap automatically
 
 Keep in mind when editing a Tile Palette that tiles are added to the palettes as they are created. To create a new Tile follow this example:
 - Choose a tile from /Tilemaps/Tiles/Objects
@@ -129,16 +129,17 @@ Once you have finished mapping a scene and it’s time to PR, follow the instruc
 
 2. If the scene you have created is a Main Station, add its name into to the map.json file. This file keeps track of what maps to randomly select from given the server population (low, medium, high pop).
 
-3. Next you will need to add the created scene into a Scriptable Object List. Search in the editor
--	If it is a Station where the crew will spawn in, add it into the Main Station List SO
--	If the scene is a scene which connects to the Station Gateway, add it into the Away World List SO
--	If the scene is an asteroid (contains ores to mine), add it into the Asteroid List SO
--	If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the Additional Scene List SO
+3. Next you will need to add the created scene into a Scriptable Object List. Search in the editor for the following.
+    
+-	If it is a Station where the crew will spawn in, add it into the __Main Station List SO__
+-	If the scene is a scene which connects to the Station Gateway, add it into the __Away World List SO__
+-	If the scene is an asteroid (contains ores to mine), add it into the __Asteroid List SO__
+-	If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the __Additional Scene List SO__
 
 4. Add the Scene in by going to File -> Build Settings, then click open scene to add the scene you are in.
 
 5. Make sure you go through the checklist below to check you have gotten the following on the map.
-
+    
 - In the Captain’s Room, there is a Nuke disk, Nuke pointer and Captain’s spare ID
 - Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig
 - Fire alarms are connected to FireDoors
