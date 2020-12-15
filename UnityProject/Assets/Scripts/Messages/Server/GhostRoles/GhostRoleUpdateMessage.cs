@@ -34,7 +34,7 @@ namespace Messages.Server
 		{
 			GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[key];
 
-			foreach (ConnectedPlayer player in PlayerList.Instance.AllPlayers)
+			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
 			{
 				if (player.Script.IsDeadOrGhost == false) continue;
 				SendTo(player, key, role);
