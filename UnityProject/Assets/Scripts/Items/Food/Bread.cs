@@ -5,6 +5,9 @@ using UnityEngine;
 using Mirror;
 using System.Linq;
 
+namespace items.food
+{
+
 public class Bread : MonoBehaviour, IQuantumReaction
 {
 
@@ -27,4 +30,5 @@ public class Bread : MonoBehaviour, IQuantumReaction
 
 	//Bread Class has big plans for the future WORK-IN-PROGRESS
 
+}
 }
