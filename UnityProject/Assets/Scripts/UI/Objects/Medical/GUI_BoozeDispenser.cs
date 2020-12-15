@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -166,30 +167,29 @@ namespace UI.Objects.Booze
 		// Updates UI elements
 		public void UpdateDisplay()
 		{
-			var newListOfReagents = "";
-			var newQuantityList = "";
+			string Reagents = "";
+			string Quantitys = "";
 			if (BoozeDispenser.Container != null)
 			{
+				StringBuilder newListOfReagents = new StringBuilder();
+				StringBuilder newQuantityList = new StringBuilder();
 				var reagentList = BoozeDispenser.Container;
 				foreach (var reagent in reagentList)
 				{
-					newListOfReagents +=
-						$"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)}\n";
-					newQuantityList +=
-						$"{Math.Round(reagent.Value,1)}u\n";
+					newListOfReagents.AppendLine($"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)}");
+					newQuantityList.AppendLine($"{Math.Round(reagent.Value,1)}u");
 				}
-
 				Total.SetValueServer($"{BoozeDispenser.Container.ReagentMixTotal}/{BoozeDispenser.Container.MaxCapacity} Units");
+				Reagents = newListOfReagents.ToString();
+				Quantitys = newQuantityList.ToString();
 			}
 			else
 			{
-				newListOfReagents = "";
-				newQuantityList = "";
 				Total.SetValueServer("No container inserted");
 			}
 
-			ListOfReagents.SetValueServer(newListOfReagents);
-			QuantityList.SetValueServer(newQuantityList);
+			ListOfReagents.SetValueServer(Reagents);
+			QuantityList.SetValueServer(Quantitys);
 		}
 
 		public void OnDestroy()

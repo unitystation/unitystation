@@ -21,12 +21,11 @@ namespace Chemistry
 
 		public static event ChangeEvent changeEvent;
 
-		private ItemStorage itemStorage;
 		private ItemSlot itemSlot;
 
 		private void Awake()
 		{
-			itemStorage = GetComponent<ItemStorage>();
+			ItemStorage itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
 
