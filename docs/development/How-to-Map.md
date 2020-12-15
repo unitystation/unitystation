@@ -6,11 +6,11 @@ All mapping is done in Unity.
 
 ### Setting Up Your Workspace
 You should have the following windows open. To open a window, go to the _Window_ tab at the top of Unity.   
-- Window > General > __Scene__
-- Window > General > __Project__
-- Window > General > __Hierarchy__
-- Window > General > __Inspector__
-- Window > __Sidebar__
+  - Window > General > __Scene__
+  - Window > General > __Project__
+  - Window > General > __Hierarchy__
+  - Window > General > __Inspector__
+  - Window > __Sidebar__
 
 ### Introduction to Scenes
 Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one.
@@ -131,25 +131,25 @@ Once you have finished mapping a scene and it’s time to PR, follow the instruc
 
 3. Next you will need to add the created scene into a Scriptable Object List. Search in the editor for the following.
     
--	If it is a Station where the crew will spawn in, add it into the __Main Station List SO__
--	If the scene is a scene which connects to the Station Gateway, add it into the __Away World List SO__
--	If the scene is an asteroid (contains ores to mine), add it into the __Asteroid List SO__
--	If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the __Additional Scene List SO__
+  - If it is a Station where the crew will spawn in, add it into the __Main Station List SO__
+  - If the scene is a scene which connects to the Station Gateway, add it into the __Away World List SO__
+  - If the scene is an asteroid (contains ores to mine), add it into the __Asteroid List SO__
+  - If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the __Additional Scene List SO__
 
 4. Add the Scene in by going to File -> Build Settings, then click open scene to add the scene you are in.
 
 5. Make sure you go through the checklist below to check you have gotten the following on the map.
     
-- In the Captain’s Room, there is a Nuke disk, Nuke pointer and Captain’s spare ID
-- Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig
-- Fire alarms are connected to FireDoors
-- AirVents and Scrubbers are rotated correctly to match the particular pipe outlets
-- RCS are present on shuttle matrixes
-- Multiple spawn points exist for the same job and that all jobs have a sensible spawn point.
-- Check atmos canisters are open in the atmospherics room
-- No obvious extrusions that will destroy or block the cargo/evac shuttle
-- Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)
-- If it’s a MainStation, include a picture of your map for the wiki
+  - In the Captain’s Room, there is a Nuke disk, Nuke pointer and Captain’s spare ID
+  - Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig
+  - Fire alarms are connected to FireDoors
+  - AirVents and Scrubbers are rotated correctly to match the particular pipe outlets
+  - RCS are present on shuttle matrixes
+  - Multiple spawn points exist for the same job and that all jobs have a sensible spawn point.
+  - Check atmos canisters are open in the atmospherics room
+  - No obvious extrusions that will destroy or block the cargo/evac shuttle
+  - Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)
+  - If it’s a MainStation, include a picture of your map for the wiki
 
 ## Pull Requests for Tile Palette Changes
 Almost never would you need to actually PR a palette change, if you do please make sure __NOT__ to include anything other than the palette file and its .meta file.
