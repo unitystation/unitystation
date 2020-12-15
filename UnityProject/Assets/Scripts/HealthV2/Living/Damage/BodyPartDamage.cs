@@ -20,6 +20,17 @@ namespace HealthV2
 
 		public bool DamageContributesToOverallHealth = true;
 
+
+		public float DamageEfficiencyMultiplier = 1;
+
+		private float health = 100;
+
+		[SerializeField]
+		[Tooltip("The maxmimum health of the implant." +
+		         "Implants will start with this amount of health.")]
+		private float maxHealth = 100; //Is used for organ functionIt
+
+
 		//Used for Calculating Overall damage
 		public float TotalDamageWithoutOxy
 		{
@@ -73,6 +84,8 @@ namespace HealthV2
 			if (Damage < 0) Damage = 0;
 
 			Damages[(int)healthDamageType] = Damage;
+			health = maxHealth - TotalDamage;
+			RecalculateEffectiveness();
 		}
 
 
@@ -85,23 +98,32 @@ namespace HealthV2
 
 			//TotalDamage// Could do without oxygen maybe
 			//May be changed to individual damage
-
-			var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType);
-			if (health-Damages[(int)damageType] < SubOrganDamageIncreasePoint)
+			if (containBodyParts.Count > 0)
 			{
-				organDamageRatingValue += (1 - (health - Damages[(int)damageType] / SubOrganDamageIncreasePoint));
-				organDamageRatingValue = Math.Min(1, organDamageRatingValue);
+				var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType);
+				if (maxHealth-Damages[(int)damageType] < SubOrganDamageIncreasePoint)
+				{
+					organDamageRatingValue += (1 - ((maxHealth - Damages[(int)damageType]) / SubOrganDamageIncreasePoint));
+					organDamageRatingValue = Math.Min(1, organDamageRatingValue);
+				}
+
+				var OrganDamage = damage * organDamageRatingValue;
+				var OrganToDamage = containBodyParts.PickRandom(); //It's not like you can aim for Someone's  liver can you
+				OrganToDamage.TakeDamage(damagedBy,OrganDamage,attackType,damageType);
 			}
 
-			var OrganDamage = damage * organDamageRatingValue;
-			var OrganToDamage = containBodyParts.PickRandom(); //It's not like you can aim for Someone's  liver can you
-			OrganToDamage.TakeDamage(damagedBy,OrganDamage,attackType,damageType);
 		}
 
 		public void HealDamage(GameObject healingItem, int healAmt,
 			DamageType damageTypeToHeal)
 		{
 			AffectDamage(-healAmt, damageTypeToHeal);
+		}
+
+		//Probably custom curves would be good here
+		public void RecalculateEffectiveness()
+		{
+			DamageEfficiencyMultiplier = (health / maxHealth);
 		}
 	}
 }
