@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Items;
 using UnityEngine.Serialization;
 
 namespace Objects.Mining

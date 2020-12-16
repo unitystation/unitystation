@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Threading.Tasks;
+using Items;
 
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(ItemAttributesV2))]
@@ -20,7 +21,7 @@ public class XenomorphFood : Edible
 		if (eater == null)
 		{
 			// todo: implement non-player eating
-			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos);
+			SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos);
 			Despawn.ServerSingle(gameObject);
 			return;
 		}
@@ -49,7 +50,7 @@ public class XenomorphFood : Edible
 	}
 	public override void Eat(PlayerScript eater, PlayerScript feeder)
 	{
-		SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+		SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
 
 		eater.playerHealth.Metabolism.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));
 		Pregnancy(eater.playerHealth);

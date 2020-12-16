@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 using Objects.Disposals;
+using AddressableReferences;
 
 namespace Systems.Disposals
 {
@@ -18,6 +19,8 @@ namespace Systems.Disposals
 		public bool ReadyToTraverse = false;
 		public bool CurrentlyDelayed = false;
 		public bool TraversalFinished = false;
+
+		[SerializeField] private AddressableAudioSource DisposalEjectionHiss = null;
 
 		bool justStarted;
 		DisposalPipe currentPipe;
@@ -153,7 +156,7 @@ namespace Systems.Disposals
 		{
 			TryDamageTileFromEjection(NextPipeLocalPosition);
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
-			SoundManager.PlayNetworkedAtPos("DisposalEjectionHiss", worldPos);
+			SoundManager.PlayNetworkedAtPos(DisposalEjectionHiss, worldPos);
 			TransferContainerToVector(NextPipeVector);
 			virtualContainer.EjectContentsAndThrow(currentPipeOutputSide.Vector);
 			DespawnContainerAndFinish();

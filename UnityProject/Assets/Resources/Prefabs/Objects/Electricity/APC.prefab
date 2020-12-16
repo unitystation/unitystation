@@ -47,15 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  PowerMachinery: 1
-  PowerLights: 1
-  PowerEnvironment: 1
-  BatteryCharging: 0
-  CashOfConnectedDevices: 0
-  Current: 0
-  ElectricalNodeControl: {fileID: 0}
-  ResistanceSourceModule: {fileID: 0}
-  NetTabType: 6
+  powerMachinery: 1
+  powerLights: 1
+  powerEnvironment: 1
+  netTabType: 6
   criticalSprites:
   - {fileID: 21300000, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
   - {fileID: 21300004, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
@@ -74,10 +69,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
   - {fileID: 21300002, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
   screenDisplay: {fileID: 7181786134445355985}
-  ConnectedDevices: []
-  ConnectedDepartmentBatteries: []
+  connectedDevices: []
+  connectedDepartmentBatteries: []
   conType: 1
   multiMaster: 1
+  NoPowerSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/APCPowerOff.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1 &9053875397184046594
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,6 +128,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -148,9 +151,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300002, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -237,10 +240,15 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: m_Name
-      value: AreaPowerControllerAPC
+      value: APC
       objectReference: {fileID: 0}
     - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}

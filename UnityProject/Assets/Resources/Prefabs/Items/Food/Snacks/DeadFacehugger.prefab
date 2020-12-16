@@ -13,8 +13,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leavings: {fileID: 0}
-  sound: EatFood
-  NutritionLevel: 0
+  eatSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  NutritionLevel: 38
   killTime: 400
   larvae: {fileID: 4827737755655954553, guid: a1fd9c56261d0264aa95947190b7a5dd, type: 3}
 --- !u!114 &-937846160698383887
@@ -65,6 +71,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3f7ecbb8e93b84043827bef6175b8765,
         type: 3}
+    - target: {fileID: 1155915217242832539, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1362573601969762483, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_LocalPosition.x

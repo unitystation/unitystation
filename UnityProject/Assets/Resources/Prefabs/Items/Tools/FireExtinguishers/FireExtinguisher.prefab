@@ -5029,7 +5029,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 18
+  m_SortingLayer: 23
   m_SortingOrder: 0
   m_RenderMode: 1
   m_SortMode: 0
@@ -5071,6 +5071,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   travelDistance: 6
+  SpraySound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Extinguish.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   reagentsPerUse: 5
   reagentContainer: {fileID: 5035609469445439989}
 --- !u!114 &5035609469445439989

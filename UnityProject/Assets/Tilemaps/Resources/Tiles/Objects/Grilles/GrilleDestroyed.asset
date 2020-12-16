@@ -47,5 +47,11 @@ MonoBehaviour:
     type: 3}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
-  soundOnHit: GrillHit
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   sprite: {fileID: 21300000, guid: 2f1b3e8d6fb118b41889deb99ae48c0d, type: 3}

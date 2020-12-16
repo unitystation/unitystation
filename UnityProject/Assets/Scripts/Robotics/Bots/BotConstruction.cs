@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Items;
+using UnityEngine;
 using Mirror;
 /// <summary>
 /// The component used in the botassembly prefabs that keeps track of the "stage" the bot is on before spawning the actual simplebot prefab

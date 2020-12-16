@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Items;
 using UnityEngine;
 
 namespace Antagonists
@@ -118,7 +119,7 @@ namespace Antagonists
 			if (slot.IsEmpty) return 0;
 
 			//Check if current Item is the one we need
-			if (slot.ItemObject.TryGetComponent(component, out _) ||
+			if ((component != null && slot.ItemObject.TryGetComponent(component, out _)) ||
 					slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == name)
 			{
 				//If stackable count stack

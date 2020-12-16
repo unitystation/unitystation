@@ -71,6 +71,7 @@ namespace Initialisation
 				stopwatch.Stop();
 				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
 			}
+			SpawnSafeThread.Process();
 		}
 	}
 

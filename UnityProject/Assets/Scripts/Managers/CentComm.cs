@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using Initialisation;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -119,7 +120,7 @@ public class CentComm : MonoBehaviour
 		//Generic AI welcome message
 		//this sound will feel just like home once we have the proper job allocation.
 		//it plays as soon as the round starts.
-		SoundManager.PlayNetworked("Welcome");
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementWelcome);
 		//Wait some time after the round has started
 		yield return WaitFor.Seconds(60f);
 
@@ -174,7 +175,7 @@ public class CentComm : MonoBehaviour
 	}
 	private void SendAntagUpdate()
 	{
-		SoundManager.PlayNetworked("InterceptMessage");
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementIntercept);
 		MakeAnnouncement(CentCommAnnounceTemplate,
 			string.Format(InitialUpdateTemplate,AntagInitialUpdate+"\n\n"+AlertLevelStrings[AlertLevelString.UpToBlue]),
 			UpdateSound.alert);
@@ -262,7 +263,7 @@ public class CentComm : MonoBehaviour
 		Chat.AddSystemMsgToChat(string.Format(CentCommAnnounceTemplate, CommandNewReportString), MatrixManager.MainStationMatrix);
 
 		SoundManager.PlayNetworked(UpdateTypes[type], 1f);
-		SoundManager.PlayNetworked("Commandreport");
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
 	}
 
 	/// <summary>
@@ -310,7 +311,7 @@ public class CentComm : MonoBehaviour
 
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) ),
 			MatrixManager.MainStationMatrix);
-		SoundManager.PlayNetworked("ShuttleCalled");
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleCalled);
 	}
 
 	/// <summary>
@@ -320,7 +321,7 @@ public class CentComm : MonoBehaviour
 	{
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) ),
 			MatrixManager.MainStationMatrix);
-		SoundManager.PlayNetworked("ShuttleRecalled");
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleRecalled);
 	}
 
 	private string StationObjectiveReport()
@@ -355,6 +356,7 @@ public class CentComm : MonoBehaviour
 		announce
 	}
 
+	//Mudstone: Trying to convert these to addressables pisses off Unity and makes test fail, for some reason. Not touching for now.
 	private static readonly Dictionary<UpdateSound, string> UpdateTypes = new Dictionary<UpdateSound, string> {
 		{UpdateSound.notice, "Notice2"},
 		{UpdateSound.alert, "Notice1"},

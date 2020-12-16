@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 
@@ -90,10 +91,10 @@ namespace Items
 		{
 			public string ExamineMessage;
 			public string changeMessage;
-			public string changeSound;
+			public AddressableAudioSource changeSound;
 			public int spriteIndex;
 			public ItemTrait[] traits;
-			public string usingSound;
+			public AddressableAudioSource usingSound;
 		}
 	}
 }

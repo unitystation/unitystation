@@ -6,12 +6,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using AddressableReferences;
 
 /// <summary>
 /// Provides central access to the Players Health
 /// </summary>
 public class PlayerHealth : LivingHealthBehaviour
 {
+
+	[SerializeField] private AddressableAudioSource SmallElectricShock = null;
+
 	[SerializeField]
 	private MetabolismSystem metabolism = null;
 
@@ -341,14 +345,14 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 	{
-		SoundManager.PlayNetworkedAtPos("SmallElectricShock#", registerPlayer.WorldPosition);
+		SoundManager.PlayNetworkedAtPos(SmallElectricShock, registerPlayer.WorldPosition);
 		Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 	}
 
 	protected override void PainfulElectrocution(Electrocution electrocution, float shockPower)
 	{
 		// TODO: Add sparks VFX at shockSourcePos.
-		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
 		Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
 		// Slip is essentially a yelp SFX.
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
@@ -366,7 +370,7 @@ public class PlayerHealth : LivingHealthBehaviour
 
 		PlayerMove.allowInput = false;
 		// TODO: Add sparks VFX at shockSourcePos.
-		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
 		StartCoroutine(ElectrocutionSequence());
 
 		string victimChatString, observerChatString;

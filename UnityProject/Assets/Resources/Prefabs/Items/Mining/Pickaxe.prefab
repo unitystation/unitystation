@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462d967aee8e4662964d700de16a6740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickaxeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/pickaxe1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &2654578771155042347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,6 +85,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 0ece1eab34b50b8489164a1cdf6e2347,
         type: 3}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size

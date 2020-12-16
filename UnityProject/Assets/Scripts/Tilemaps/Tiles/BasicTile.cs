@@ -2,6 +2,7 @@
 using NaughtyAttributes;
 using ScriptableObjects;
 using TileManagement;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
@@ -104,9 +105,9 @@ public abstract class BasicTile : LayerTile
 
 	public LootOnDespawn LootOnDespawn => lootOnDespawn;
 
-	[SerializeField] private string soundOnHit = default;
+	[SerializeField] private AddressableAudioSource soundOnHit = null;
 
-	public string SoundOnHit => soundOnHit;
+	public AddressableAudioSource SoundOnHit => soundOnHit;
 
 	public override void RefreshTile(Vector3Int position, ITilemap tilemap)
 	{

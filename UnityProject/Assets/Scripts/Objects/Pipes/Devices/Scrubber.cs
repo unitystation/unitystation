@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Pipes
 {
-	public class Scrubber : MonoPipe
+	public class Scrubber : MonoPipe, IServerSpawn
 	{
 		public bool SelfSufficient = false;
 		// minimum pressure needs to be a little lower because of floating point inaccuracies
@@ -27,19 +27,14 @@ namespace Pipes
 			base.Start();
 		}
 
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
+			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+		}
+
 		public override void TickUpdate()
 		{
-			if (metaDataLayer == null)
-			{
-				metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			}
-
-			if (metaNode == null)
-			{
-				metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
-			}
-
-
 			base.TickUpdate();
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 			CheckAtmos();

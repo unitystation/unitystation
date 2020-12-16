@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
+using AddressableReferences;
 
 namespace Systems.Spells.Wizard
 {
 	public class LesserSummonGuns : Spell
 	{
+		[SerializeField] private AddressableAudioSource LesserSummonGunsSFX = null;
+		
 		private const float TIME_BETWEEN_PORTALS = 0.5f;
 		private const int PORTAL_HEIGHT = 2;
 		private const float PORTAL_OPEN_TIME = 0.8f;
@@ -76,7 +79,7 @@ namespace Systems.Spells.Wizard
 		private IEnumerator DelaySoundFX(Vector3Int position)
 		{
 			yield return WaitFor.Seconds(0.6f);
-			SoundManager.PlayNetworkedAtPos("LesserSummonGuns", position);
+			SoundManager.PlayNetworkedAtPos(LesserSummonGunsSFX, position);
 		}
 
 		private bool SpawnGunInHand(ConnectedPlayer caster)

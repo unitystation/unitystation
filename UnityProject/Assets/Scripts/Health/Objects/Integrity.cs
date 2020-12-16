@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -63,7 +64,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public float initialIntegrity = 100f;
 
 	[Tooltip("Sound to play when damage applied.")]
-	public string soundOnHit;
+	public AddressableAudioSource soundOnHit;
 
 	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
 	public float damageDeflection = 0;

@@ -16,6 +16,11 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource Click01 = null;
    public AddressableAudioSource Explosion1 = null;
    public AddressableAudioSource Explosion2 = null;
+   public AddressableAudioSource ExplosionDistant1 = null;
+   public AddressableAudioSource ExplosionDistant2 = null;
+   public AddressableAudioSource ExplosionCreak1 = null;
+   public AddressableAudioSource ExplosionCreak2 = null;
+   public AddressableAudioSource ExplosionCreak3 = null;
    public AddressableAudioSource Notice1 = null;
    public AddressableAudioSource Notice2 = null;
 
@@ -40,11 +45,16 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource AnnouncementNotice = null;
    public AddressableAudioSource AnnouncementAnnounce = null;
    public AddressableAudioSource AnnouncementAlert = null;
+   public AddressableAudioSource AnnouncementWelcome = null;
+   public AddressableAudioSource AnnouncementIntercept = null;
+   public AddressableAudioSource AnnouncementCommandReport = null;
 
    public AddressableAudioSource ShuttleDocked = null;
 
    public AddressableAudioSource ShuttleCalled = null;
    public AddressableAudioSource ShuttleRecalled = null;
+
+   public AddressableAudioSource MeteorsAnnouncement = null;
 
    public AddressableAudioSource Deconstruct = null;
    public AddressableAudioSource GlassHit = null;
@@ -62,7 +72,13 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource Tick;
 
    public AddressableAudioSource StealthOff;
+   public AddressableAudioSource MachineHum4;
    public AddressableAudioSource Valve;
+
+   public AddressableAudioSource WireMend;
+
+   public AddressableAudioSource CritState;
+   public AddressableAudioSource ambigen8;
 
 
 }

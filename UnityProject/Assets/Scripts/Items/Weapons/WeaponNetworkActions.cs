@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using AddressableReferences;
+using Items;
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
@@ -77,7 +79,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		ItemAttributesV2 weaponAttr = isWeapon ? weapon.GetComponent<ItemAttributesV2>() : null;
 		var damage = isWeapon ? weaponAttr.ServerHitDamage : fistDamage;
 		var damageType = isWeapon ? weaponAttr.ServerDamageType : DamageType.Brute;
-		var attackSoundName = isWeapon ? weaponAttr.ServerHitSound : "Punch#";
+		var attackSound = isWeapon ? weaponAttr.ServerHitSound : null;
 		LayerTile attackedTile = null;
 		bool didHit = false;
 
@@ -102,7 +104,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				if (isWeapon && weaponStats != null &&
 				    weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject)
 				{
-					attackSoundName = "";
+					attackSound = null;
 				}
 				var worldPos = (Vector2)transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
@@ -129,10 +131,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 					}
 					else if (isWeapon && weaponStats != null &&
-				    	     weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit != "")
+				    	     weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit == null)
 					{
 						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-						attackSoundName = "";
+						attackSound = null;
 					}
 					integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
 					didHit = true;
@@ -165,9 +167,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		//common logic to do if we hit something
 		if (didHit)
 		{
-			if (!string.IsNullOrEmpty(attackSoundName))
+			if (attackSound != null)
 			{
-				SoundManager.PlayNetworkedAtPos(attackSoundName, transform.position, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(attackSound, transform.position, sourceObj: gameObject);
 			}
 
 			if (damage > 0)

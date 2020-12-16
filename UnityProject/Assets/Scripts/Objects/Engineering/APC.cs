@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using Electricity.Inheritance;
 using Systems.Electricity;
 using Mirror;
@@ -451,6 +452,9 @@ namespace Objects.Engineering
 			}
 		}
 
+		[Tooltip("Sound used when the APC loses all power.")]
+		[SerializeField] private AddressableAudioSource NoPowerSound = null;
+
 		public void TriggerSoundOff()
 		{
 			if(!CustomNetworkManager.IsServer) return;
@@ -464,7 +468,7 @@ namespace Objects.Engineering
 
 			if (State != APCState.Critical) yield break;
 
-			SoundManager.PlayNetworkedAtPos("APCPowerOff", gameObject.WorldPosServer());
+			SoundManager.PlayNetworkedAtPos(NoPowerSound, gameObject.WorldPosServer());
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AddressableReferences;
 
 namespace Objects.Drawers
 {
@@ -11,6 +12,9 @@ namespace Objects.Drawers
 	/// </summary>
 	public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMenuApply>
 	{
+		[Tooltip("Sound used for cremation.")]
+		[SerializeField] private AddressableAudioSource CremationSound = null;
+
 		// Extra states over the base DrawerState enum.
 		private enum CrematorState
 		{
@@ -98,7 +102,7 @@ namespace Objects.Drawers
 		{
 			OnStartPlayerCremation();
 			StartCoroutine(PlayIncineratingAnim());
-			SoundManager.PlayNetworkedAtPos("Microwave", DrawerWorldPosition, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(CremationSound, DrawerWorldPosition, sourceObj: gameObject);
 			DestroyItems();
 		}
 
