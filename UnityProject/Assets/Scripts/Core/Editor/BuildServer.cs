@@ -74,7 +74,7 @@ static class BuildScript
 		if (validatedOptions.TryGetValue("devBuild", out var devBuild))
 		{
 			Console.WriteLine("Found -devBuild argument. This build will be a devBuild");
-			validatedOptions.Add("devBuild", "true");
+			validatedOptions["devBuild"] = "true";
 		}
 		else
 		{
@@ -173,10 +173,6 @@ static class BuildScript
 			case BuildResult.Cancelled:
 				Console.WriteLine("Build cancelled!");
 				EditorApplication.Exit(102);
-				break;
-			case BuildResult.Unknown:
-				Console.WriteLine("Build result is unknown!");
-				EditorApplication.Exit(103);
 				break;
 			default:
 				Console.WriteLine("Build result is unknown!");
