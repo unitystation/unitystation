@@ -14,6 +14,13 @@ namespace Objects
 		private OccupiableDirectionalSprite occupiableDirectionalSprite;
 		private Integrity integrity;
 
+		/// <summary>
+		/// The time that a mob will spend trying to unbuckle himself from a chair when he is handcuffed.
+		/// </summary>
+		[SerializeField]
+		private float resistTime = 60;
+		public float ResistTime => resistTime;
+
 		public bool forceLayingDown;
 
 		private void Start()
