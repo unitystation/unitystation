@@ -58,7 +58,7 @@ static class BuildScript
 
 		if (!Enum.IsDefined(typeof(BuildTarget), buildTarget) &&
 		    !buildTarget.ToLower().Equals("linuxserver")) {
-
+			Console.WriteLine("Invalid value for argument -buildTarget");
 			EditorApplication.Exit(121);
 		}
 
@@ -104,22 +104,20 @@ static class BuildScript
 		var scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(s => s.path).ToArray();
 		// var locationPathName = $"{buildPath}/{buildName}{GetFileExtension(buildTarget)}";
 		var locationPathName = buildPath;
+		var target = BuildTarget.StandaloneWindows64;
 
 		// Define BuildPlayer Options
 		var buildOptions = new BuildPlayerOptions {
 			scenes = scenes,
 			locationPathName = locationPathName,
-			// target = target,
+			target = target,
 			options = BuildOptions.CompressWithLz4HC
 		};
-
-		var target = BuildTarget.StandaloneWindows64;
 
 		// Try to parse the BuildTarget. If it isn't our custom "linuxserver" target, quit
 		try
 		{
 			target = (BuildTarget) Enum.Parse(typeof(BuildTarget), buildTarget);
-
 		}
 		catch (ArgumentException)
 		{
@@ -130,6 +128,7 @@ static class BuildScript
 			}
 			else
 			{
+				Console.WriteLine("Invalid value for argument -buildTarget");
 				EditorApplication.Exit(121);
 			}
 		}
