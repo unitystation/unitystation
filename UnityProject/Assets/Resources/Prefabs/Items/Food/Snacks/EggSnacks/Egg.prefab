@@ -28,9 +28,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BrokenItem: {fileID: 3880655971207283372, guid: ff80a95bbc8011c47b00ce4fcba0f2a6,
+  brokenItem: {fileID: 3880655971207283372, guid: ff80a95bbc8011c47b00ce4fcba0f2a6,
     type: 3}
-  ChanceToBreak: 100
+  chanceToBreak: 100
+  soundToPlay:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/ShyguyScream.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &1295264489575076378
 MonoBehaviour:
   m_ObjectHideFlags: 0
