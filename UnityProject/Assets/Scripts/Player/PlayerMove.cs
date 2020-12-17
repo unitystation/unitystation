@@ -340,6 +340,23 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	[Command]
 	public void CmdUnbuckle()
 	{
+		if (IsCuffed)
+		{
+			Chat.AddActionMsgToChat(
+				playerScript.gameObject,
+				"You're trying to ubuckle yourself from the chair! (this will take some time...)",
+				playerScript.name + " is trying to ubuckle themself from the chair!"
+			);
+			StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
+				Unbuckle
+			).ServerStartProgress(
+				buckledObject.RegisterTile(),
+				buckledObject.GetComponent<BuckleInteract>().ResistTime,
+				playerScript.gameObject
+			);
+			return;
+		}
 		Unbuckle();
 	}
 
@@ -445,30 +462,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	public void CallActionClient()
 	{
-		if (!CanUnBuckleSelf())
+		if (CanUnBuckleSelf())
 		{
-			return;
+			CmdUnbuckle();
 		}
-
-		if (IsCuffed)
-		{
-			Chat.AddActionMsgToChat(
-				playerScript.gameObject,
-				"You're trying to ubuckle yourself from the chair! (this will take some time...)",
-				playerScript.name + " is trying to ubuckle themself from the chair!"
-			);
-			StandardProgressAction.Create(
-				new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
-				Unbuckle
-			).ServerStartProgress(
-				buckledObject.RegisterTile(),
-				buckledObject.GetComponent<BuckleInteract>().ResistTime,
-				playerScript.gameObject
-			);
-			return;
-		}
-
-		CmdUnbuckle();
 	}
 
 	private bool CanUnBuckleSelf()
