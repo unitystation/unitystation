@@ -82,6 +82,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4332256062918035871, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: ChanceToBreak
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size

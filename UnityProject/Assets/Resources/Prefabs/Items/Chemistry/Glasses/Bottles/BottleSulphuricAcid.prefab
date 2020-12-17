@@ -75,12 +75,17 @@ PrefabInstance:
     - target: {fileID: 3319486117027293288, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
       propertyPath: m_Name
-      value: SulphuricAcidBottle
+      value: BottleSulphuricAcid
       objectReference: {fileID: 0}
     - target: {fileID: 3424172302466455004, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332256062918035871, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: ChanceToBreak
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
