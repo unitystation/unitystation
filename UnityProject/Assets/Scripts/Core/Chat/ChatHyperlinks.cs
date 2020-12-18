@@ -23,7 +23,7 @@ public class ChatHyperlinks : MonoBehaviour, IPointerClickHandler {
 
     protected virtual void Awake() {
         pTextMeshPro = GetComponent<TextMeshProUGUI>();
-        pCanvas = GetComponentInParent<Canvas>();
+        pCanvas = transform.parent.GetComponentInParent<Canvas>();
 
         // Get a reference to the camera if Canvas Render Mode is not ScreenSpace Overlay.
         if( pCanvas.renderMode == RenderMode.ScreenSpaceOverlay )

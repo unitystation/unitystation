@@ -130,7 +130,7 @@ public class ChatRelay : NetworkBehaviour
 				if (!channels.HasFlag(ChatChannel.Binary) || players[i].Script.IsGhost)
 				{
 					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
-						chatEvent.originator, chatEvent.speaker);
+						chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 
 					continue;
 				}
@@ -149,7 +149,7 @@ public class ChatRelay : NetworkBehaviour
 			if (channels != ChatChannel.None)
 			{
 				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
-					chatEvent.originator, chatEvent.speaker);
+					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 			}
 		}
 

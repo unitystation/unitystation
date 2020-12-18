@@ -7,7 +7,7 @@ using TMPro;
 
 public class ChatEntry : MonoBehaviour
 {
-	[SerializeField] private Text senderName = null;
+	[SerializeField] private TMP_Text senderName = null;
 	[SerializeField] private TMP_Text visibleText = null;
 	[SerializeField] private GameObject adminOverlay = null;
 	[SerializeField] private Outline senderNameOutline = default;
@@ -206,6 +206,7 @@ public class ChatEntry : MonoBehaviour
 		}
 
 		visibleText.enabled = enabled;
+		senderName.enabled = enabled;
 
 		foreach (var i in allImages)
 		{

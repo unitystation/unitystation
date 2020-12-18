@@ -1,12 +1,13 @@
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class ChatPlayerNameTooltip : TooltipMonoBehaviour
 {
 	// 26 is length of <color=#00000000></color>, +1 to make sure that name is not empty
 	private const int COLOR_TAG_LENGTH = 27;
-	
-	[SerializeField] private Text playeNameText = default;
+
+	[SerializeField] private TMP_Text playeNameText = default;
 
 	public override string Tooltip
 	{
