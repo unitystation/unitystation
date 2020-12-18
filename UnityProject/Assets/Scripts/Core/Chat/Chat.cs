@@ -134,28 +134,28 @@ public partial class Chat : MonoBehaviour
 			{
 				if (htmlRegex.IsMatch(chatEvent.message))
 				{
-					var parts = chatEvent.message.Split(' ');
+					var messageParts = chatEvent.message.Split(' ');
 
 					var builder = new StringBuilder();
 
-					for (int i = 0; i < parts.Length; i++)
+					foreach (var part in messageParts)
 					{
-						if (!htmlRegex.IsMatch(parts[i])) continue;
-
-						for (int j = 0; j < i; j++)
+						if (!htmlRegex.IsMatch(part))
 						{
-							builder.Append(parts[j]);
+							builder.Append(part);
+							builder.Append(" ");
+							continue;
 						}
 
-						builder.Append($"<link={parts[i]}><color=blue>{parts[i]}</color></link>");
+						builder.Append($"<link={part}><color=blue>{part}</color></link> ");
 					}
 
 					chatEvent.message = builder.ToString();
-				}
 
-				//TODO have a config file available to whitelist/blacklist links if all players are allowed to post links
-				//disables client side tag protection to allow <link=></link> tag
-				chatEvent.stripTags = false;
+					//TODO have a config file available to whitelist/blacklist links if all players are allowed to post links
+					//disables client side tag protection to allow <link=></link> tag
+					chatEvent.stripTags = false;
+				}
 			}
 
 			Instance.addChatLogServer.Invoke(chatEvent);
