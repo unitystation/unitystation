@@ -6,6 +6,7 @@ using DiscordWebhook;
 using DatabaseAPI;
 using Systems.MobAIs;
 using System.Text;
+using System.Text.RegularExpressions;
 using Items;
 
 /// <summary>
@@ -40,6 +41,8 @@ public partial class Chat : MonoBehaviour
 	public bool GhostHearAll { get; set; } = true;
 
 	public bool OOCMute = false;
+
+	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
 	/// <summary>
 	/// Set the scene based chat relay at the start of every round
@@ -119,11 +122,41 @@ public partial class Chat : MonoBehaviour
 			if (isAdmin)
 			{
 				chatEvent.speaker = "<color=red>[Admin]</color> " + chatEvent.speaker;
-			} else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId)){
+			}
+			else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId)){
 				chatEvent.speaker = "<color=#6400ff>[Mentor]</color> " + chatEvent.speaker;
 			}
 
 			if (Instance.OOCMute && !isAdmin) return;
+
+			//http/https links in OOC chat
+			if (isAdmin || !GameManager.Instance.AdminOnlyHtml)
+			{
+				if (htmlRegex.IsMatch(chatEvent.message))
+				{
+					var messageParts = chatEvent.message.Split(' ');
+
+					var builder = new StringBuilder();
+
+					foreach (var part in messageParts)
+					{
+						if (!htmlRegex.IsMatch(part))
+						{
+							builder.Append(part);
+							builder.Append(" ");
+							continue;
+						}
+
+						builder.Append($"<link={part}><color=blue>{part}</color></link> ");
+					}
+
+					chatEvent.message = builder.ToString();
+
+					//TODO have a config file available to whitelist/blacklist links if all players are allowed to post links
+					//disables client side tag protection to allow <link=></link> tag
+					chatEvent.stripTags = false;
+				}
+			}
 
 			Instance.addChatLogServer.Invoke(chatEvent);
 

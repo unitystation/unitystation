@@ -159,7 +159,7 @@ public partial class Chat
 	/// </summary>
 	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
-		ChatModifier modifiers)
+		ChatModifier modifiers, bool stripTags = true)
 	{
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
@@ -187,7 +187,10 @@ public partial class Chat
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
 
-		message = StripTags(message);
+		if (stripTags)
+		{
+			message = StripTags(message);
+		}
 
 		//Check for emote. If found skip chat modifiers, make sure emote is only in Local channel
 		if ((modifiers & ChatModifier.Emote) == ChatModifier.Emote)
@@ -209,7 +212,7 @@ public partial class Chat
 				name = "nerd";
 			}
 			speaker = AddMsgColor(ChatChannel.OOC, speaker);
-			message = $"[ooc] <b>{speaker}</b>|:<b>{message}</b>";
+			message = $"[ooc] <b>{speaker}</b>|:  <b>{message}</b>";
 			return message;
 		}
 
@@ -248,7 +251,7 @@ public partial class Chat
 		}
 		else if ((modifiers & ChatModifier.ColdlyState) == ChatModifier.ColdlyState)
 		{
-			verb = "coldly states,";
+			verb = " coldly states,";
 		}
 		else if (message.EndsWith("!"))
 		{
@@ -272,7 +275,7 @@ public partial class Chat
 		// }
 
 		return
-			$"<b>{AddMsgColor(channels, speaker)}</b>| {verb}"    // [cmd] Username says,
+			$"<b>{AddMsgColor(channels, speaker)}</b>|   {verb}"    // [cmd]  Username says,
 			+ "  "                              // Two hair spaces. This triggers Text-to-Speech.
 			+ "\"" + message + "\"";           // "This text will be spoken by TTS!"
 	}
@@ -383,7 +386,7 @@ public partial class Chat
 	/// on the client. Do not use for anything else!
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipient, uint originator, string message,
-		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker)
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, bool stripTags = true)
 	{
 		//If there is a message in MessageOthers then determine
 		//if it should be the main message or not.
@@ -398,7 +401,7 @@ public partial class Chat
 
 		if (GhostValidationRejection(originator, channels)) return;
 
-		var msg = ProcessMessageFurther(message, speaker, channels, modifiers);
+		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, stripTags);
 		Instance.addChatLogClient.Invoke(msg, channels);
 	}
 
