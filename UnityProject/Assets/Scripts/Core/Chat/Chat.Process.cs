@@ -212,7 +212,7 @@ public partial class Chat
 				name = "nerd";
 			}
 			speaker = AddMsgColor(ChatChannel.OOC, speaker);
-			message = $"[ooc] <b>{speaker}</b>|:<b>{message}</b>";
+			message = $"[ooc] <b>{speaker}</b>|:  <b>{message}</b>";
 			return message;
 		}
 
