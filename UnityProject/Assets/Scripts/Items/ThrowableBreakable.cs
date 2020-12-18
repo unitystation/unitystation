@@ -35,8 +35,8 @@ namespace Items
 			if (DMMath.Prob(chanceToBreak))
 			{
 				Spawn.ServerPrefab(brokenItem, gameObject.AssumedWorldPosServer());
-				Despawn.ServerSingle(gameObject);
 				SoundManager.PlayNetworkedAtPos(soundToPlay, gameObject.AssumedWorldPosServer());
+				Despawn.ServerSingle(gameObject);
 			}
 		}
 
