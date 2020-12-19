@@ -891,7 +891,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	protected virtual void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
 		// TODO: Add sparks VFX at shockSourcePos.
-		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
 
 		float damage = shockPower;
 		ApplyDamage(null, damage, AttackType.Internal, DamageType.Burn);

@@ -217,7 +217,13 @@ MonoBehaviour:
       type: 2}
     itemCost: 1
   placeTime: 0
-  placeSound: 
+  placeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Tap.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &2821420188953315750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -971,6 +977,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b16790bd650051044ae96a3849a79d70,
         type: 3}
+    - target: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: m_Name

@@ -1,5 +1,6 @@
 ﻿using System;
 using Mirror;
+using AddressableReferences;
 using UnityEngine;
 using ScriptableObjects;
 using Random = UnityEngine.Random;
@@ -73,23 +74,23 @@ namespace Objects.Construction
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 			{
-				Assemble(interaction, "metal", metalTable, "Deconstruct");
+				Assemble(interaction, "metal", metalTable, SingletonSOSounds.Instance.Deconstruct);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet))
 			{
-				Assemble(interaction, "glass", glassTable, "GlassHit");
+				Assemble(interaction, "glass", glassTable, SingletonSOSounds.Instance.GlassHit);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.WoodenPlank))
 			{
-				Assemble(interaction, "wooden", woodTable, "wood3");
+				Assemble(interaction, "wooden", woodTable, SingletonSOSounds.Instance.wood3);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
 			{
-				Assemble(interaction, "reinforced", reinforcedTable, "Deconstruct");
+				Assemble(interaction, "reinforced", reinforcedTable, SingletonSOSounds.Instance.Deconstruct);
 			}
 		}
 
-		private void Assemble(HandApply interaction, string tableType, LayerTile layerTile, string soundName)
+		private void Assemble(HandApply interaction, string tableType, LayerTile layerTile, AddressableAudioSource assemblySound)
 		{
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
 				$"You start constructing a {tableType} table...",
@@ -97,7 +98,7 @@ namespace Objects.Construction
 				$"You finish assembling the {tableType} table.",
 				$"{interaction.Performer.ExpensiveName()} assembles a {tableType} table.",
 				() => SpawnTable(interaction, layerTile));
-			SoundManager.PlayNetworkedAtPos(soundName, gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
 		}
 
 		private void Disassemble(HandApply interaction)

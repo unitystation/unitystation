@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Items;
@@ -9,6 +10,9 @@ namespace Objects
 	{
 		public SpriteRenderer sprite;
 		public GameObject rolledPosterPrefab;
+
+		[Tooltip("The sound made when the poster is ripped off a wall.")]
+		[SerializeField] private AddressableAudioSource RipSound;
 
 		[SyncVar(hook = nameof(SyncPosterType))]
 		public Posters posterVariant = Posters.Random;
@@ -136,7 +140,7 @@ namespace Objects
 
 			Chat.AddLocalMsgToChat(interaction.Performer.ExpensiveName() +
 								   " rips the poster in a single, decisive motion!", interaction.Performer);
-			SoundManager.PlayNetworkedAtPos("PosterRipped", pos, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(RipSound, pos, sourceObj: gameObject);
 
 			SyncPosterType(posterVariant, Posters.Ripped);
 		}

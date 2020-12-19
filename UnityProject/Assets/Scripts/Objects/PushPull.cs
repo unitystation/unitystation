@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -164,7 +165,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 
 	[Tooltip("The sound to play when pushed/pulled")]
 	[SerializeField]
-	private string pushPullSound = null;
+	private AddressableAudioSource pushPullSound = null;
 
 	[Tooltip("A minimum delay for the sound to be played again (in milliseconds)")]
 	[SerializeField]
@@ -768,7 +769,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			}
 
 			// If there is a sound to be played
-			if (string.IsNullOrWhiteSpace(pushPullSound) == false && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
+			if (pushPullSound == null && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
 			{
 				SoundManager.PlayNetworkedAtPos(pushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance), sourceObj: gameObject);
 				lastPlayedSoundTime = Time.time * 1000;

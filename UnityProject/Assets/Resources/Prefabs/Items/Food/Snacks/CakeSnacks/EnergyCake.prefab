@@ -48,8 +48,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 5911011306017610136, guid: 48f9acecbef57b549b0fec937c75efb0,
+      objectReference: {fileID: 21300000, guid: f3099d674423e3b4ea22848c16d25f56,
         type: 3}
+    - target: {fileID: 4103576889061410265, guid: b3d41585e23dd2045892c06de579cb7f,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4180221079474091653, guid: b3d41585e23dd2045892c06de579cb7f,
         type: 3}
       propertyPath: m_Name
@@ -135,6 +140,11 @@ PrefabInstance:
       propertyPath: hitDamage
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4390651576208513511, guid: b3d41585e23dd2045892c06de579cb7f,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/blade1.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 5464114093129708789, guid: b3d41585e23dd2045892c06de579cb7f,
         type: 3}
       propertyPath: NutritionLevel
@@ -149,11 +159,6 @@ PrefabInstance:
         type: 3}
       propertyPath: Sprites.Array.data[0].Sprites.Array.size
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8017884922226511106, guid: b3d41585e23dd2045892c06de579cb7f,
-        type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8017884922226511106, guid: b3d41585e23dd2045892c06de579cb7f,
         type: 3}
@@ -186,6 +191,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 907e4d310fa126349a1e7e03a3906de0,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3d41585e23dd2045892c06de579cb7f, type: 3}

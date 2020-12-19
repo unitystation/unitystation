@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public GamePad gamePad;
 	public AnimationCurve strandedZoomOutCurve;
 	public AdminChatButtons adminChatButtons;
+	public AdminChatButtons mentorChatButtons;
 	public AdminChatWindows adminChatWindows;
 	public ProfileScrollView profileScrollView;
 	public PlayerAlerts playerAlerts;
@@ -70,7 +71,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	///Global flag for focused input field. Movement keystrokes are ignored if true.
 	/// <see cref="InputFieldFocus"/> handles this flag automatically
-	public static bool IsInputFocus
+	public static bool IsInputFocus 
 	{
 		get { return Instance && Instance.isInputFocus; }
 		set
@@ -248,6 +249,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		}
 
 		adminChatButtons.transform.parent.gameObject.SetActive(false);
+		mentorChatButtons.transform.parent.gameObject.SetActive(false);
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
 	}
 
@@ -288,6 +290,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		adminChatButtons.ClearAllNotifications();
+		mentorChatButtons.ClearAllNotifications();
 		adminChatWindows.ResetAll();
 		playerAlerts.ClearLogs();
 	}

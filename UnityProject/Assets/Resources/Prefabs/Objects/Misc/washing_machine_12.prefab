@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_Sprite: {fileID: -3504011949582635413, guid: 342edbf7bbb2e3146b47fa5bb3d68af0,
     type: 3}
@@ -163,7 +163,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114707962163511360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +201,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &114077473371981760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +248,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0

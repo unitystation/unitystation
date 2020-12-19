@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
+using UnityEngine.UI;
 using Items.PDA;
 
 namespace UI.Items.PDA
@@ -15,6 +16,16 @@ namespace UI.Items.PDA
 
 		[Tooltip("Put the main NetPage switcher here")]
 		public NetPageSwitcher mainSwitcher = null;
+
+		[Tooltip("Put the object here")]
+		public Image Background = null;
+
+		[Tooltip("Put the overlay object here")]
+		public Image BackgroundOverlay = null;
+
+		[Tooltip("Put the overlay images here")]
+		[SerializeField] 
+		List<Sprite> overlays = default;
 
 		[Header("Assign the PDA's main pages here")]
 		public GUI_PDAMainMenu menuPage = null;
@@ -41,6 +52,9 @@ namespace UI.Items.PDA
 				yield return WaitFor.EndOfFrame;
 			}
 			PDA = Provider.GetComponent<PDALogic>();
+			Background.color = PDA.UIBG;
+			BackgroundOverlay.sprite = overlays[PDA.OVERLAY];
+			BackgroundOverlay.color = PDA.UIOVER;
 			OpenPage(MainPage);
 		}
 

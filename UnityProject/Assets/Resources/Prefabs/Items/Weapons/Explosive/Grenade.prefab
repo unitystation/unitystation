@@ -18,6 +18,13 @@ MonoBehaviour:
     type: 3}
   unstableFuse: 0
   fuseLength: 3
+  armbomb:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/armbomb.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   spriteHandler: {fileID: 2450954382432651964}
   pickupable: {fileID: 8561795974084681285}
 --- !u!1001 &8594560052825132417
@@ -74,11 +81,6 @@ PrefabInstance:
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

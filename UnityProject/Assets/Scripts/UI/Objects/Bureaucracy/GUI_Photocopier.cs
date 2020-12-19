@@ -1,11 +1,20 @@
 ﻿using System;
 using System.Collections;
 using Assets.Scripts.Items.Bureaucracy;
+using UnityEngine;
+using AddressableReferences;
 
 namespace Assets.Scripts.UI.Bureaucracy
 {
+	
+
+
+	
 	public class GUI_Photocopier : NetTab
 	{
+		[SerializeField] private AddressableAudioSource Beep = null;
+
+		
 		private Photocopier Photocopier { get; set; }
 		private RegisterObject registerObject;
 
@@ -99,7 +108,7 @@ namespace Assets.Scripts.UI.Bureaucracy
 		{
 			if (!Photocopier.TrayOpen)
 			{
-				SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
+				SoundManager.PlayNetworkedAtPos(Beep, registerObject.WorldPosition);
 				Photocopier.ToggleTray();
 			}
 		}
@@ -108,7 +117,7 @@ namespace Assets.Scripts.UI.Bureaucracy
 		{
 			if (!Photocopier.ScannerOpen)
 			{
-				SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
+				SoundManager.PlayNetworkedAtPos(Beep, registerObject.WorldPosition);
 				Photocopier.ToggleScannerLid();
 			}
 		}
@@ -117,7 +126,7 @@ namespace Assets.Scripts.UI.Bureaucracy
 		{
 			if (Photocopier.CanPrint())
 			{
-				SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
+				SoundManager.PlayNetworkedAtPos(Beep, registerObject.WorldPosition);
 				Photocopier.Print();
 			}
 		}
@@ -126,7 +135,7 @@ namespace Assets.Scripts.UI.Bureaucracy
 		{
 			if (Photocopier.CanScan())
 			{
-				SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
+				SoundManager.PlayNetworkedAtPos(Beep, registerObject.WorldPosition);
 				Photocopier.Scan();
 			}
 		}

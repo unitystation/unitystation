@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
@@ -13,7 +10,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	[Tooltip("Display name of this item when spawned.")]
 	[SerializeField]
-	public string initialName = null;
+	private string initialName = null;
 
 	[SyncVar(hook = nameof(SyncArticleName))]
 	private string articleName;
@@ -28,7 +25,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
-	public string initialDescription = null;
+	private string initialDescription = null;
 
 	[Tooltip("Will this item highlight on mouseover?")]
 	[SerializeField]
@@ -62,6 +59,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	[SerializeField]
 	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
+
+	[Server]
+	public void SetExportCost(int value)
+	{
+		exportCost = value;
+	}
 
 	[SyncVar(hook = nameof(SyncArticleDescription))]
 	private string articleDescription;

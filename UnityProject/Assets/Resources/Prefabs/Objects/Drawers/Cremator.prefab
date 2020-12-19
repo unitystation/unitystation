@@ -19,6 +19,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5820822380738713605}
+        m_TargetAssemblyTypeName: Objects.Drawers.Cremator, Assets
         m_MethodName: OnEditorDirectionChange
         m_Mode: 1
         m_Arguments:
@@ -72,9 +73,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  BinOpenSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/BinOpen.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  BinCloseSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/BinClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   trayPrefab: {fileID: 6276591062313578460, guid: cb335e9d7c8dce444a0ea88946edbfd8,
     type: 3}
   storePlayers: 1
+  CremationSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Microwave/Microwave.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &9175309300622239234
 MonoBehaviour:
   m_ObjectHideFlags: 0

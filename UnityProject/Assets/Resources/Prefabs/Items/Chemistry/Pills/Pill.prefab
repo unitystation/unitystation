@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leavings: {fileID: 0}
-  sound: EatFood
+  eatSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   NutritionLevel: 0
 --- !u!1001 &1589238156592565650
 PrefabInstance:
@@ -200,6 +206,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6075a4e0f864a2443b3e030a5fe54dea,
         type: 3}
+    - target: {fileID: 7997558505216099516, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: possibleTransferAmounts.Array.size

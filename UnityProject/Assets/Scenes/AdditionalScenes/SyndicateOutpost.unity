@@ -1564,6 +1564,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isSelfPowered
@@ -2682,7 +2692,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 22
+  m_SortingLayer: 23
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2761,6 +2771,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Fire_Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: c1aebfea91112ef4a83ba10f37d3f437,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: c1aebfea91112ef4a83ba10f37d3f437,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: c1aebfea91112ef4a83ba10f37d3f437,
         type: 3}
@@ -2941,7 +2961,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 149917821
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -4957,7 +4977,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -5982,6 +6002,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: RelatedAPC
@@ -6130,7 +6160,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: bb89e4eb0756de04b8ab904221c23296, type: 3}
 --- !u!4 &122221309 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4236242615490453967, guid: bb89e4eb0756de04b8ab904221c23296,
+  m_CorrespondingSourceObject: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
     type: 3}
   m_PrefabInstance: {fileID: 122221308}
   m_PrefabAsset: {fileID: 0}
@@ -23949,7 +23979,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 97
+  m_RootOrder: 100
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &216707398
 SpriteRenderer:
@@ -25199,7 +25229,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 105
+  m_RootOrder: 152
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &256985393
 SpriteRenderer:
@@ -26018,6 +26048,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -26177,7 +26217,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 85
+  m_RootOrder: 88
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &319505721
 SpriteRenderer:
@@ -26331,6 +26371,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -26966,6 +27016,16 @@ PrefabInstance:
     - target: {fileID: 8412239413558774791, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -28280,6 +28340,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ed8a6f4dbced449ad66a9f9be5c957, type: 3}
 --- !u!4 &401152396 stripped
@@ -28389,6 +28459,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -28701,7 +28781,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 91
+  m_RootOrder: 94
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &449343528
 SpriteRenderer:
@@ -28824,6 +28904,16 @@ PrefabInstance:
     - target: {fileID: 8412239413558774791, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -29000,7 +29090,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -29971,6 +30061,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -30422,6 +30522,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ed8a6f4dbced449ad66a9f9be5c957, type: 3}
 --- !u!4 &513195168 stripped
@@ -30580,6 +30690,16 @@ PrefabInstance:
     - target: {fileID: 8412239413558774791, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -30776,7 +30896,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: bb89e4eb0756de04b8ab904221c23296, type: 3}
 --- !u!4 &548188112 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4236242615490453967, guid: bb89e4eb0756de04b8ab904221c23296,
+  m_CorrespondingSourceObject: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
     type: 3}
   m_PrefabInstance: {fileID: 548188111}
   m_PrefabAsset: {fileID: 0}
@@ -30951,7 +31071,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -32081,6 +32201,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: WinDoorLeft
       objectReference: {fileID: 0}
+    - target: {fileID: 3961883525441312978, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3961883525441312978, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4631562103800088999, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
       propertyPath: sceneId
@@ -32342,7 +32472,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 89
+  m_RootOrder: 92
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &626195732
 SpriteRenderer:
@@ -32648,7 +32778,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 94
+  m_RootOrder: 97
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &640755172
 SpriteRenderer:
@@ -33261,6 +33391,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isSelfPowered
@@ -33594,6 +33734,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ed8a6f4dbced449ad66a9f9be5c957, type: 3}
 --- !u!4 &694892790 stripped
@@ -33672,6 +33822,16 @@ PrefabInstance:
     - target: {fileID: 8412239413558774791, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -33965,6 +34125,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: RelatedAPC
@@ -34244,18 +34414,18 @@ Transform:
   - {fileID: 1850316918}
   - {fileID: 1935090176}
   - {fileID: 1236237794}
-  - {fileID: 548188112}
   - {fileID: 1658846823}
   - {fileID: 899108053}
   - {fileID: 1465230676}
   - {fileID: 1685994031}
   - {fileID: 1277773485}
   - {fileID: 513195168}
-  - {fileID: 2003750707}
-  - {fileID: 457336260}
-  - {fileID: 1856263540}
+  - {fileID: 998025613}
+  - {fileID: 122221309}
+  - {fileID: 548188112}
   - {fileID: 843647535}
   - {fileID: 1471148877}
+  - {fileID: 2121780459}
   - {fileID: 39176403}
   - {fileID: 163285459}
   - {fileID: 646131199}
@@ -34305,13 +34475,16 @@ Transform:
   - {fileID: 1420247345}
   - {fileID: 1783941571}
   - {fileID: 1139699285}
-  - {fileID: 2121780459}
   - {fileID: 1895091042}
+  - {fileID: 2003750707}
   - {fileID: 71270909}
   - {fileID: 885575749}
+  - {fileID: 1964280170}
+  - {fileID: 1856263540}
   - {fileID: 753885815}
   - {fileID: 990886887}
   - {fileID: 735225778}
+  - {fileID: 457336260}
   - {fileID: 1082625789}
   - {fileID: 319505720}
   - {fileID: 1729306653}
@@ -34333,9 +34506,6 @@ Transform:
   - {fileID: 1120214840}
   - {fileID: 838608708}
   - {fileID: 928099420}
-  - {fileID: 256985392}
-  - {fileID: 1830084921}
-  - {fileID: 998025613}
   - {fileID: 395426981}
   - {fileID: 1465331294}
   - {fileID: 1565826904}
@@ -34380,9 +34550,9 @@ Transform:
   - {fileID: 633351365}
   - {fileID: 1046032796}
   - {fileID: 458327134}
-  - {fileID: 122221309}
+  - {fileID: 256985392}
   - {fileID: 1398367789}
-  - {fileID: 1964280170}
+  - {fileID: 1830084921}
   - {fileID: 860781230}
   - {fileID: 358676319}
   - {fileID: 66047781}
@@ -36810,6 +36980,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isSelfPowered
@@ -36869,7 +37049,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 83
+  m_RootOrder: 85
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &735225779
 SpriteRenderer:
@@ -75564,7 +75744,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 81
+  m_RootOrder: 83
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &753885816
 SpriteRenderer:
@@ -75604,7 +75784,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 22
+  m_SortingLayer: 23
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -75693,6 +75873,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WinDoorLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 3961883525441312978, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3961883525441312978, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4631562103800088999, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
@@ -75795,6 +75985,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TrashCart
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293214028882204601, guid: f586bbb3df568ba4ba5af8e73c1da64d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293214028882204601, guid: f586bbb3df568ba4ba5af8e73c1da64d,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f586bbb3df568ba4ba5af8e73c1da64d, type: 3}
@@ -75952,7 +76152,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 101
+  m_RootOrder: 104
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &776488603
 SpriteRenderer:
@@ -76753,7 +76953,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 93
+  m_RootOrder: 96
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &816290093
 SpriteRenderer:
@@ -76994,7 +77194,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 149917821
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.125, y: 0.125, z: 0}
@@ -97834,7 +98034,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 103
+  m_RootOrder: 106
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &838608709
 SpriteRenderer:
@@ -98204,6 +98404,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ed8a6f4dbced449ad66a9f9be5c957, type: 3}
 --- !u!4 &843647535 stripped
@@ -98310,7 +98520,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -100135,7 +100345,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 22
+  m_SortingLayer: 23
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100177,7 +100387,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 88
+  m_RootOrder: 91
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &885579229
 SpriteRenderer:
@@ -100663,6 +100873,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -100888,6 +101108,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
@@ -101495,7 +101725,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 104
+  m_RootOrder: 107
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &928099421
 SpriteRenderer:
@@ -103075,6 +103305,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -103270,7 +103510,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 99
+  m_RootOrder: 102
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &959744411
 SpriteRenderer:
@@ -104003,7 +104243,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 82
+  m_RootOrder: 84
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &990886888
 SpriteRenderer:
@@ -104043,7 +104283,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 22
+  m_SortingLayer: 23
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -104162,7 +104402,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: bb89e4eb0756de04b8ab904221c23296, type: 3}
 --- !u!4 &998025613 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4236242615490453967, guid: bb89e4eb0756de04b8ab904221c23296,
+  m_CorrespondingSourceObject: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
     type: 3}
   m_PrefabInstance: {fileID: 998025612}
   m_PrefabAsset: {fileID: 0}
@@ -104387,6 +104627,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: RelatedAPC
@@ -104440,6 +104690,16 @@ PrefabInstance:
         type: 3}
       propertyPath: restriction
       value: 71
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684717386964923742, guid: 1f176cfc086093d4383dc5c0eab2f58b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684717386964923742, guid: 1f176cfc086093d4383dc5c0eab2f58b,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2747816816125661513, guid: 1f176cfc086093d4383dc5c0eab2f58b,
         type: 3}
@@ -104874,7 +105134,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 90
+  m_RootOrder: 93
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1019226986
 SpriteRenderer:
@@ -105975,6 +106235,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId.i15
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 212514117955345912, guid: 84482a6a9ce96a746b992465f8766f03,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 212514117955345912, guid: 84482a6a9ce96a746b992465f8766f03,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84482a6a9ce96a746b992465f8766f03, type: 3}
@@ -109363,6 +109633,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: RelatedAPC
@@ -109434,7 +109714,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 84
+  m_RootOrder: 87
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1082625790
 SpriteRenderer:
@@ -110510,7 +110790,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 102
+  m_RootOrder: 105
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1120214841
 SpriteRenderer:
@@ -110981,6 +111261,16 @@ PrefabInstance:
       propertyPath: restriction
       value: 71
       objectReference: {fileID: 0}
+    - target: {fileID: 2684717386964923742, guid: 1f176cfc086093d4383dc5c0eab2f58b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684717386964923742, guid: 1f176cfc086093d4383dc5c0eab2f58b,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2747816816125661513, guid: 1f176cfc086093d4383dc5c0eab2f58b,
         type: 3}
       propertyPath: m_Name
@@ -111231,6 +111521,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isSelfPowered
@@ -111327,6 +111627,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
@@ -111523,6 +111833,16 @@ PrefabInstance:
     - target: {fileID: 114705152130084640, guid: 35eed4273d90143b0926de4715bbc06e,
         type: 3}
       propertyPath: isOn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212962152979335194, guid: 35eed4273d90143b0926de4715bbc06e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 212962152979335194, guid: 35eed4273d90143b0926de4715bbc06e,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -113495,6 +113815,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -114196,6 +114526,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isSelfPowered
@@ -114711,6 +115051,16 @@ PrefabInstance:
     - target: {fileID: 8412239413558774791, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -116002,6 +116352,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Engineering
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 1580d0511eb4e7f4ca8244aea4c99de9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 1580d0511eb4e7f4ca8244aea4c99de9,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 1580d0511eb4e7f4ca8244aea4c99de9,
         type: 3}
       propertyPath: sceneId
@@ -116299,6 +116659,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -116464,6 +116834,16 @@ PrefabInstance:
     - target: {fileID: 8412239413558774791, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -117093,6 +117473,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
@@ -118597,6 +118987,7 @@ GameObject:
   - component: {fileID: 1513048997}
   - component: {fileID: 1513048996}
   - component: {fileID: 1513048995}
+  - component: {fileID: 1513049000}
   m_Layer: 0
   m_Name: SyndicateOutpost
   m_TagString: Untagged
@@ -118674,6 +119065,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1513049000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513048994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487c0aa989e8d4d7cb70ffa12c1794cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixColliderType: 1
+  uiType: 1
+  initialFacing: 3
+  MaxSpeed: 20
+  SafetyProtocolsOn: 1
+  IsForceStopped: 0
+  RequiresFuel: 0
+  rcsModeActive: 0
+  IsNotPilotable: 1
 --- !u!114 &1513049001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118860,7 +119274,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 96
+  m_RootOrder: 99
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1523188557
 SpriteRenderer:
@@ -120177,7 +120591,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 100
+  m_RootOrder: 103
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1592817036
 SpriteRenderer:
@@ -120991,6 +121405,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: isSelfPowered
@@ -121119,7 +121543,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: -10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -121633,6 +122057,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1123679049}
     m_Modifications:
+    - target: {fileID: 3576889381347003176, guid: d38a25ea933e7a14c9c4c0134c741b6e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3576889381347003176, guid: d38a25ea933e7a14c9c4c0134c741b6e,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3657931253695786815, guid: d38a25ea933e7a14c9c4c0134c741b6e,
         type: 3}
       propertyPath: m_Name
@@ -121840,6 +122274,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
@@ -122526,6 +122970,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -123102,7 +123556,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 22
+  m_SortingLayer: 23
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -123439,7 +123893,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: -10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -124863,7 +125317,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 86
+  m_RootOrder: 89
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1729306654
 SpriteRenderer:
@@ -125439,7 +125893,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 98
+  m_RootOrder: 101
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1741949518
 SpriteRenderer:
@@ -126118,6 +126572,16 @@ PrefabInstance:
         type: 3}
       propertyPath: restriction
       value: 71
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529957142200798745, guid: 1f1f794ef351a004ca8600daab98e915,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529957142200798745, guid: 1f1f794ef351a004ca8600daab98e915,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6170454579379691372, guid: 1f1f794ef351a004ca8600daab98e915,
         type: 3}
@@ -127602,6 +128066,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashCart
       objectReference: {fileID: 0}
+    - target: {fileID: 8293214028882204601, guid: f586bbb3df568ba4ba5af8e73c1da64d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293214028882204601, guid: f586bbb3df568ba4ba5af8e73c1da64d,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f586bbb3df568ba4ba5af8e73c1da64d, type: 3}
 --- !u!4 &1811388051 stripped
@@ -127833,6 +128307,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Emergency_Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718652092239788848, guid: 91d832be818283a4188516804e8d5ef0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017749350732507717, guid: 91d832be818283a4188516804e8d5ef0,
         type: 3}
       propertyPath: sceneId
@@ -127875,7 +128359,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 106
+  m_RootOrder: 154
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1830084922
 SpriteRenderer:
@@ -128281,7 +128765,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 87
+  m_RootOrder: 90
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1840644527
 SpriteRenderer:
@@ -128445,7 +128929,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 92
+  m_RootOrder: 95
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1851219818
 SpriteRenderer:
@@ -128570,6 +129054,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ed8a6f4dbced449ad66a9f9be5c957, type: 3}
 --- !u!4 &1856263540 stripped
@@ -128607,7 +129101,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 95
+  m_RootOrder: 98
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1858357241
 SpriteRenderer:
@@ -129211,7 +129705,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 78
+  m_RootOrder: 77
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1895091043
 SpriteRenderer:
@@ -129251,7 +129745,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 22
+  m_SortingLayer: 23
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -130490,7 +130984,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: bb89e4eb0756de04b8ab904221c23296, type: 3}
 --- !u!4 &1964280170 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4236242615490453967, guid: bb89e4eb0756de04b8ab904221c23296,
+  m_CorrespondingSourceObject: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
     type: 3}
   m_PrefabInstance: {fileID: 1964280169}
   m_PrefabAsset: {fileID: 0}
@@ -130564,6 +131058,16 @@ PrefabInstance:
     - target: {fileID: 8412239413558774791, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -130996,6 +131500,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlastDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7279317671276405710, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: RelatedAPC
@@ -131371,7 +131885,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 25
+  m_SortingLayer: 26
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -131489,6 +132003,16 @@ PrefabInstance:
     - target: {fileID: 8412239413558774791, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -132216,6 +132740,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ed8a6f4dbced449ad66a9f9be5c957, type: 3}
 --- !u!4 &2064208980 stripped
@@ -132742,6 +133276,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632219677651103434, guid: f2ed8a6f4dbced449ad66a9f9be5c957,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ed8a6f4dbced449ad66a9f9be5c957, type: 3}
 --- !u!4 &2073070282 stripped
@@ -132942,7 +133486,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 25
+  m_SortingLayer: 26
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -133445,7 +133989,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 711666134}
-  m_RootOrder: 77
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2121780460
 SpriteRenderer:
@@ -133485,7 +134029,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 22
+  m_SortingLayer: 23
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

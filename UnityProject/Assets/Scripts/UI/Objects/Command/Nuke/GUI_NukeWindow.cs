@@ -147,7 +147,6 @@ namespace UI.Objects.Command
 				{
 					InfoAnchorColor.SetValueServer(colorGrey);
 				}
-
 			}
 		}
 
@@ -186,12 +185,12 @@ namespace UI.Objects.Command
 				InfoSafetyColor.SetValueServer(isSafety.Value ? colorGreen : colorRed);
 				if (isSafety.Value) { InfoTimerColor.SetValueServer(colorRed); }
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(UpdateDisplay("Safety is: " + (isSafety.Value ? "On" : "Off"), (isSafety.Value ? "Nuke disarmed!" : "Nuke armed!")), ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Safety is: " + (isSafety.Value ? "On" : "Off"), (isSafety.Value ? "Nuke is disarmed!" : "Nuke is armed!")), ref corHandler);
 			}
 			else
 			{
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(UpdateDisplay("Enter the code first!", "Input code:"), ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Enter code first!", "Input code:"), ref corHandler);
 			}
 		}
 
@@ -202,6 +201,8 @@ namespace UI.Objects.Command
 		{
 			if (!Nuke.IsAncharable)
 			{
+				this.TryStopCoroutine(ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Cannot be unanchored!", "Cannot be unanchored!"), ref corHandler);
 				return;
 			}
 			if (nuke.NukeSlot.IsEmpty)
@@ -215,7 +216,7 @@ namespace UI.Objects.Command
 			{
 				InfoAnchorColor.SetValueServer(isAnchored.Value ? colorRed : colorGreen);
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(UpdateDisplay("Anchor is: " + (isAnchored.Value ? "Off" : "On"), (isAnchored.Value ? "Nuke position Unlocked!" : "Nuke position Locked!")), ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Anchor is: " + (isAnchored.Value ? "Off" : "On"), (isAnchored.Value ? "Nuke position unlocked!" : "Nuke position locked!")), ref corHandler);
 			}
 			else
 			{
@@ -319,7 +320,7 @@ namespace UI.Objects.Command
 				if (Nuke.IsTimer && Nuke.IsCodeRight)
 				{
 					this.TryStopCoroutine(ref corHandler);
-					this.StartCoroutine(UpdateDisplay("Timer has been set!", "Nuke detonation in:"), ref corHandler);
+					this.StartCoroutine(UpdateDisplay("Timer is set!", "Nuke detonation in:"), ref corHandler);
 
 				}
 				else

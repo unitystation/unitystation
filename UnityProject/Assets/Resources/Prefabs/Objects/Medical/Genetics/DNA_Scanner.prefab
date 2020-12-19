@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a04b8478cd5128343955dfd27c1e107f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -165,7 +166,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &9128197607768152992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,11 +191,36 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   IsLockable: 0
   playerLimit: 1
+  breakoutTime: 120
   matsOnDestroy: {fileID: 0}
   matsDroppedOnDestroy: 2
-  soundOnOpenOrClose: OpenClose
+  soundOnOpenOrClose:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnEmag:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/SnapCracklePop2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnEscape:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Rustle01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   doorOpened: {fileID: 21300000, guid: fe32ef034620a70419a70fce6f2e99ef, type: 3}
   spriteRenderer: {fileID: 212360857505739792}
+  lockOverlay: {fileID: 0}
+  isEmagged: 0
+  weldOverlay: {fileID: 0}
+  weldSprite: {fileID: 0}
   occupant: {fileID: 0}
   statusString: 
   openUnPoweredSprite: {fileID: 21300000, guid: adbd8f0ee776c3f409f3d3b0b60c6916,
@@ -204,6 +236,7 @@ MonoBehaviour:
   - {fileID: 21300004, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
   - {fileID: 21300006, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
   animSpeed: 0.13
+  RelatedAPC: {fileID: 0}
 --- !u!114 &114657711786529776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +295,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
   closetType: 2
 --- !u!114 &114532654656294352
 MonoBehaviour:
@@ -291,7 +326,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  soundOnHit: 
+  initialIntegrity: 100
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -312,7 +355,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &4585042576726451927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,18 +369,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
   wattusage: 0.01
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
 --- !u!114 &114261379763110518
 MonoBehaviour:

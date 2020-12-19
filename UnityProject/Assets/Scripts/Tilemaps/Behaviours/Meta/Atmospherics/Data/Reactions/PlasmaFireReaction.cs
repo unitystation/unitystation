@@ -25,7 +25,7 @@ namespace Systems.Atmospherics
 			return false;
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos)
+		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
 		{
 			float temperature = gasMix.Temperature;
 

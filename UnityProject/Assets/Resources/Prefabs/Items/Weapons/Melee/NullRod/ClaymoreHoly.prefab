@@ -291,6 +291,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 884cf6ff95d927c4b8b89efaab73d75c,
         type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d70fb70bc4fe6534a85996e49221bb53, type: 3}
 --- !u!1 &6312338506369003408 stripped

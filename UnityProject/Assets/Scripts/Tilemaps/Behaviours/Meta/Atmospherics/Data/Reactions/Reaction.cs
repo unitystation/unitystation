@@ -8,7 +8,7 @@ namespace Systems.Atmospherics
 	{
 		bool Satisfies(GasMix gasMix);
 
-		void React(GasMix gasMix, Vector3 tilePos);
+		void React(GasMix gasMix, Vector3 tilePos, Matrix matrix);
 	}
 
 	public struct GasReactions

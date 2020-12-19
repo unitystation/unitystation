@@ -2,8 +2,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Items;
 using NaughtyAttributes;
 using Objects.Construction;
+using AddressableReferences;
 
 namespace Systems.MobAIs
 {
@@ -13,6 +15,9 @@ namespace Systems.MobAIs
 	/// </summary>
 	public class MobExplore : MobAgent
 	{
+
+		[SerializeField] private AddressableAudioSource EatFoodA = null;
+
 		//Add your targets as needed
 		public enum Target
 		{
@@ -190,7 +195,7 @@ namespace Systems.MobAIs
 				}
 
 				// Send the sound to all nearby clients
-				SoundManager.PlayNetworkedAtPos("EatFood", transform.position, null, false, false, gameObject);
+				SoundManager.PlayNetworkedAtPos(EatFoodA, transform.position, null, false, false, gameObject);
 
 				Despawn.ServerSingle(food.gameObject);
 				FoodEatenEvent?.Invoke();

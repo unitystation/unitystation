@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 912b3b0b4c7367e4290eb56900508145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrintSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PosterCreate.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   paperPrefab: {fileID: 8734328976324889014, guid: d3c71176f32c1274b929f3a88695a795,
     type: 3}
 --- !u!114 &7441945920298257138
@@ -147,7 +154,12 @@ PrefabInstance:
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 15
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}

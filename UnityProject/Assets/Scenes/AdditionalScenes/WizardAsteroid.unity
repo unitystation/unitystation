@@ -460,6 +460,16 @@ PrefabInstance:
       propertyPath: sceneId
       value: 1417946889
       objectReference: {fileID: 0}
+    - target: {fileID: 6748236477108040998, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748236477108040998, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6829341300379324721, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
         type: 3}
       propertyPath: m_Name
@@ -606,6 +616,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: FreezerMeatFridge (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9166595322896029137, guid: 55924b0ca337c6d4fbed9f36a57d2c73,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9166595322896029137, guid: 55924b0ca337c6d4fbed9f36a57d2c73,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55924b0ca337c6d4fbed9f36a57d2c73, type: 3}
 --- !u!4 &222530586 stripped
@@ -686,6 +706,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8631844970847423599, guid: 93dbd338c6220214c926ec72a2c9c6b2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631844970847423599, guid: 93dbd338c6220214c926ec72a2c9c6b2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93dbd338c6220214c926ec72a2c9c6b2, type: 3}
 --- !u!4 &249871925 stripped
@@ -705,6 +735,16 @@ PrefabInstance:
         type: 3}
       propertyPath: sceneId
       value: 2998559793
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6261150146027131255, guid: dde361d656542f048bdeebf4e87dd7d3,
         type: 3}
@@ -1312,7 +1352,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -391668011
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0.03125, z: 0}
@@ -1821,6 +1861,21 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3246771360178382922, guid: cbae9a210d638ba4b9402e836c970fa2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3246771360178382922, guid: cbae9a210d638ba4b9402e836c970fa2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3246771360178382922, guid: cbae9a210d638ba4b9402e836c970fa2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 4287942156532742270, guid: cbae9a210d638ba4b9402e836c970fa2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1890,7 +1945,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: cbae9a210d638ba4b9402e836c970fa2, type: 3}
 --- !u!4 &641309815 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4287942156532742270, guid: cbae9a210d638ba4b9402e836c970fa2,
+  m_CorrespondingSourceObject: {fileID: 3246771360178382922, guid: cbae9a210d638ba4b9402e836c970fa2,
     type: 3}
   m_PrefabInstance: {fileID: 641309814}
   m_PrefabAsset: {fileID: 0}
@@ -1964,6 +2019,16 @@ PrefabInstance:
     - target: {fileID: 8412706953933598370, guid: 93dbd338c6220214c926ec72a2c9c6b2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631844970847423599, guid: 93dbd338c6220214c926ec72a2c9c6b2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631844970847423599, guid: 93dbd338c6220214c926ec72a2c9c6b2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2229,6 +2294,16 @@ PrefabInstance:
     - target: {fileID: 8412706953933598370, guid: 93dbd338c6220214c926ec72a2c9c6b2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631844970847423599, guid: 93dbd338c6220214c926ec72a2c9c6b2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631844970847423599, guid: 93dbd338c6220214c926ec72a2c9c6b2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2709,6 +2784,16 @@ PrefabInstance:
     - target: {fileID: 8412706953933598370, guid: 93dbd338c6220214c926ec72a2c9c6b2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631844970847423599, guid: 93dbd338c6220214c926ec72a2c9c6b2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631844970847423599, guid: 93dbd338c6220214c926ec72a2c9c6b2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3648,6 +3733,16 @@ PrefabInstance:
       propertyPath: sceneId
       value: 1328816211
       objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165880613990888378, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6261150146027131255, guid: dde361d656542f048bdeebf4e87dd7d3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3974,6 +4069,16 @@ PrefabInstance:
       propertyPath: sceneId
       value: 1037331628
       objectReference: {fileID: 0}
+    - target: {fileID: 6748236477108040998, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748236477108040998, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6829341300379324721, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
         type: 3}
       propertyPath: m_Name
@@ -4114,6 +4219,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrabMeat (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5424592551650081167, guid: 5ecad40040be9b848af97507c5003164,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424592551650081167, guid: 5ecad40040be9b848af97507c5003164,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ecad40040be9b848af97507c5003164, type: 3}
 --- !u!4 &1973215845 stripped
@@ -4214,6 +4329,16 @@ PrefabInstance:
       propertyPath: sceneId
       value: 2682127276
       objectReference: {fileID: 0}
+    - target: {fileID: 6748236477108040998, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748236477108040998, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6829341300379324721, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
         type: 3}
       propertyPath: m_Name
@@ -4296,7 +4421,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!19719996 &108240060683191360
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -8062,6 +8193,7 @@ GameObject:
   - component: {fileID: 4012806785467743927}
   - component: {fileID: 1466505071001026520}
   - component: {fileID: 8512647472880155941}
+  - component: {fileID: 1650104974180287784}
   m_Layer: 0
   m_Name: WizardAsteriod
   m_TagString: Untagged
@@ -8069,6 +8201,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1650104974180287784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650104974180287783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487c0aa989e8d4d7cb70ffa12c1794cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixColliderType: 1
+  uiType: 1
+  initialFacing: 3
+  MaxSpeed: 20
+  SafetyProtocolsOn: 1
+  IsForceStopped: 0
+  RequiresFuel: 0
+  rcsModeActive: 0
+  IsNotPilotable: 1
 --- !u!4 &1817858304349470483
 Transform:
   m_ObjectHideFlags: 0
@@ -8147,7 +8302,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -8243,7 +8398,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 25
+  m_SortingLayer: 26
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -8401,7 +8556,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: -5
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -8449,7 +8604,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 149917821
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.125, y: 0.125, z: 0}
@@ -15708,7 +15863,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 617432531}
-  - {fileID: 641309815}
   - {fileID: 222530586}
   - {fileID: 1632930329}
   - {fileID: 111658406}
@@ -15720,6 +15874,7 @@ Transform:
   - {fileID: 2089716890}
   - {fileID: 296134855}
   - {fileID: 1910775474}
+  - {fileID: 641309815}
   - {fileID: 79050606}
   - {fileID: 852438537}
   - {fileID: 535519070}
@@ -15838,7 +15993,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2102490269
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}

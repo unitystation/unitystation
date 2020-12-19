@@ -215,6 +215,7 @@ public class ControlDisplays : MonoBehaviour
 		preRoundWindow.gameObject.SetActive(false);
 		if (disclaimer != null) disclaimer.SetActive(true);
 		UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(false);
+		UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(false);
 	}
 
 	public void SetScreenForGame()

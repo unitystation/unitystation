@@ -50,24 +50,13 @@ namespace Doors
 		#endregion
 
 		[SerializeField, Tooltip("Sound that plays when opening this door")]
-		private string openingSFX = "AirlockOpen";
+		private AddressableAudioSource openingSFX;
 		[SerializeField, Tooltip("Sound that plays when closing this door")]
-		private string closingSFX = "AirlockClose";
+		private AddressableAudioSource closingSFX;
 		[SerializeField, Tooltip("Sound that plays when access is denied by this door")]
-		private string deniedSFX = "AccessDenied";
+		private AddressableAudioSource deniedSFX;
 		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
-		private string warningSFX = "TripleBeep";
-
-
-		//RRTL
-		[SerializeField, Tooltip("Sound that plays when opening this door")]
-		private AddressableAudioSource openingSFXA;
-		[SerializeField, Tooltip("Sound that plays when closing this door")]
-		private AddressableAudioSource closingSFXA;
-		[SerializeField, Tooltip("Sound that plays when access is denied by this door")]
-		private AddressableAudioSource deniedSFXA;
-		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
-		private AddressableAudioSource warningSFXA;
+		private AddressableAudioSource warningSFX;
 
 		public event Action AnimationFinished;
 
@@ -101,7 +90,7 @@ namespace Doors
 			}
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Opening);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Opening);
-			SoundManager.PlayAtPosition(openingSFXA, gameObject.AssumedWorldPosServer());
+			SoundManager.PlayAtPosition(openingSFX, gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(openingAnimationTime);
 
 			//Change to open sprite after done opening
@@ -127,7 +116,7 @@ namespace Doors
 
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Closing);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Closing);
-			SoundManager.PlayNetworkedAtPos(closingSFXA, gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(closingSFX, gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(openingAnimationTime);
 
 			//Change to closed sprite after it is done closing
@@ -151,7 +140,7 @@ namespace Doors
 		{
 			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
-			SoundManager.PlayNetworkedAtPos(deniedSFXA, gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(deniedSFX, gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
 			overlayLightsHandler.ChangeSprite(previousLightSprite);
@@ -161,7 +150,7 @@ namespace Doors
 
 		public IEnumerator PlayPressureWarningAnimation()
 		{
-			SoundManager.PlayNetworkedAtPos(warningSFXA, gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(warningSFX, gameObject.AssumedWorldPosServer());
 			AnimationFinished?.Invoke();
 			yield break;
 		}

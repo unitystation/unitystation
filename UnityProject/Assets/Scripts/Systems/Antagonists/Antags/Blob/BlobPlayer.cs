@@ -9,6 +9,7 @@ using Light2D;
 using Mirror;
 using UnityEngine;
 using TMPro;
+using AddressableReferences;
 using Random = UnityEngine.Random;
 using EpPathFinding.cs;
 
@@ -19,6 +20,8 @@ namespace Blob
 	/// </summary>
 	public class BlobPlayer : NetworkBehaviour
 	{
+		[SerializeField] private AddressableAudioSource Outbreak5 = null;
+
 		[SerializeField] private GameObject blobCorePrefab = null;
 		[SerializeField] private GameObject blobNodePrefab = null;
 		[SerializeField] private GameObject blobResourcePrefab = null;
@@ -372,7 +375,7 @@ namespace Blob
 					string.Format(CentComm.BioHazardReportTemplate,
 						"Confirmed outbreak of level 5 biohazard aboard the station. All personnel must contain the outbreak."),
 					MatrixManager.MainStationMatrix);
-				SoundManager.PlayNetworked("Outbreak5");
+				SoundManager.PlayNetworked(Outbreak5);
 			}
 
 			if (rerollTimer > 300f)

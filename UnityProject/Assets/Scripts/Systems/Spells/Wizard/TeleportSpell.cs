@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
+using AddressableReferences;
 
 namespace Systems.Spells.Wizard
 {
@@ -19,6 +20,10 @@ namespace Systems.Spells.Wizard
 		private GameObject teleportingPlayer;
 
 		private Transform playerSprite;
+
+		[SerializeField] private AddressableAudioSource TeleportDisappear = null;
+
+		[SerializeField] private AddressableAudioSource TeleportAppear = null;
 
 		/// <summary>
 		/// When set true, plays teleport begin animation on the client. False: plays teleport end animation.
@@ -39,13 +44,13 @@ namespace Systems.Spells.Wizard
 
 			IsBusy = true;
 			syncAnimation = true;
-			SoundManager.PlayNetworkedAtPos("TeleportDisappear", player.Script.WorldPos);
+			SoundManager.PlayNetworkedAtPos(TeleportDisappear, player.Script.WorldPos);
 			yield return WaitFor.Seconds(TELEPORT_ANIMATE_TIME + TELEPORT_TRAVEL_TIME);
 
 			player.Script.PlayerSync.SetPosition(toWorldPos, true);
 
 			syncAnimation = false;
-			SoundManager.PlayNetworkedAtPos("TeleportAppear", player.Script.WorldPos);
+			SoundManager.PlayNetworkedAtPos(TeleportAppear, player.Script.WorldPos);
 			yield return WaitFor.Seconds(TELEPORT_ANIMATE_TIME);
 			IsBusy = false;
 		}

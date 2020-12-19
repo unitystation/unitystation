@@ -61,6 +61,13 @@ MonoBehaviour:
   coverOpen: 0
   hasCables: 1
   conType: 5
+  FireAlarmSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/FireAlarm.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &6035042698460554235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +154,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 8
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 84063e53cb4afcd428bbffdfe7925f37, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -265,7 +272,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 8
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 23890d1fdf7434443ae128ad29a885c0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -343,7 +350,12 @@ PrefabInstance:
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 15
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

@@ -2,14 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Items;
 using ScriptableObjects;
 using UnityEngine;
+using AddressableReferences;
+using WebSocketSharp;
 
 [RequireComponent(typeof(ItemAttributesV2))]
 [RequireComponent(typeof(ReagentContainer))]
 public class DrinkableContainer : Consumable
 {
-	public string sound = "Slurp";
+	/// <summary>
+	/// The name of the sound the player makes when drinking
+	/// </summary>
+	[Tooltip("The name of the sound the player makes when drinking (must be in soundmanager")]
+	[SerializeField] private AddressableAudioSource drinkSound = null;
 
 	private ReagentContainer container;
 	private ItemAttributesV2 itemAttributes;
@@ -76,9 +83,9 @@ public class DrinkableContainer : Consumable
 		DoDrinkEffects(eater, drinkAmount);
 
 		// Play sound
-		if (item && !string.IsNullOrEmpty(sound))
+		if (item && drinkSound != null)
 		{
-			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+			SoundManager.PlayNetworkedAtPos(drinkSound, eater.WorldPos, sourceObj: eater.gameObject);
 		}
 	}
 

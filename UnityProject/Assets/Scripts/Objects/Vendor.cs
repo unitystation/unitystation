@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Systems.Electricity;
+using AddressableReferences;
 
 namespace Objects
 {
@@ -31,9 +32,8 @@ namespace Objects
 		[ConditionalField("EjectObjects")]
 		[Tooltip("In which direction object should be thrown?")]
 		public EjectDirection EjectDirection = EjectDirection.None;
-
-		[Tooltip("Sound when object vends from vendor")]
-		public string VendingSound = "MachineVend";
+		
+		[SerializeField] private AddressableAudioSource VendingSound = null;
 
 		[Header("Text messages")]
 		[SerializeField]

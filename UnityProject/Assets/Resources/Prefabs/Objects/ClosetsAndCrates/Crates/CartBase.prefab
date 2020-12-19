@@ -27,6 +27,11 @@ PrefabInstance:
       propertyPath: soundMinimumPitchVariance
       value: 0.65
       objectReference: {fileID: 0}
+    - target: {fileID: 882706841093362223, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: Assets/Prefabs/Effects/ChairRoll.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: initialName

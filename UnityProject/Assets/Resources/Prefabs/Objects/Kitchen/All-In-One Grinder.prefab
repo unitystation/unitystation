@@ -215,7 +215,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114331394817717546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +237,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -283,7 +295,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 506edc0541ee4ecbbf1a545b24ced013
+  m_AssetId: 
 --- !u!114 &8284725732460388252
 MonoBehaviour:
   m_ObjectHideFlags: 0

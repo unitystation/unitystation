@@ -29,7 +29,13 @@ MonoBehaviour:
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
-  VendingSound: MachineVend
+  VendingSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   isEmagged: 0
@@ -66,6 +72,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f6a47853efc6841498da6e3ba107b1da,
         type: 3}
+    - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalPosition.x

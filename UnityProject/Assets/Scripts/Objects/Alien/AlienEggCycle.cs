@@ -2,11 +2,14 @@
 using System.Collections;
 using UnityEngine;
 using Mirror;
+using AddressableReferences;
 
 namespace Alien
 {
 	public class AlienEggCycle : MonoBehaviour, IInteractable<HandApply>, IServerSpawn, IServerDespawn
 	{
+		[SerializeField] private AddressableAudioSource squishSFX = null;
+
 		private const float OPENING_ANIM_TIME = 1.6f;
 		private const int SMALL_SPRITE = 0;
 		private const int BIG_SPRITE = 1;
@@ -163,7 +166,7 @@ namespace Alien
 			StopAllCoroutines();
 
 			SoundManager.PlayNetworkedAtPos(
-				"squish",
+				squishSFX,
 				gameObject.RegisterTile().WorldPositionServer,
 				1f,
 				global: false);

@@ -321,7 +321,7 @@ public class SoundManager : MonoBehaviour
 	public static async Task<string> PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources, Vector3 worldPos, AudioSourceParameters audioSourceParameters,
 			bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
 	{
-		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources).ConfigureAwait(false);
+		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSources);
 
 		if (Global)
 		{

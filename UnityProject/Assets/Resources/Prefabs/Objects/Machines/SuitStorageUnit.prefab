@@ -42,6 +42,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
   closetType: 0
 --- !u!114 &6367803473829525767
 MonoBehaviour:
@@ -61,13 +63,36 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   IsLockable: 0
   playerLimit: 3
+  breakoutTime: 120
   matsOnDestroy: {fileID: 0}
   matsDroppedOnDestroy: 2
-  soundOnOpenOrClose: OpenClose
-  soundOnEmag: grillehit
+  soundOnOpenOrClose:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnEmag:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/SnapCracklePop2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnEscape:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Rustle02.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   doorOpened: {fileID: 21300000, guid: c2613a9a03887ae42a29b51b4b7b934c, type: 3}
   spriteRenderer: {fileID: 2671543766714826717}
+  lockOverlay: {fileID: 0}
   isEmagged: 0
+  weldOverlay: {fileID: 0}
+  weldSprite: {fileID: 0}
 --- !u!1 &8639641436648170908
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +103,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5216845516244221004}
   - component: {fileID: 2671543766714826717}
-  - component: {fileID: 129512125108652232}
   m_Layer: 0
   m_Name: DoorOverlay
   m_TagString: Untagged
@@ -115,6 +139,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -137,7 +162,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: ea200df6b5cc4364082fb8b5baf64f78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -150,25 +175,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &129512125108652232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8639641436648170908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
-  pushTextureOnStartUp: 1
-  variantIndex: 0
-  palette: []
-  Sprites: []
 --- !u!1001 &8503951718868588636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -187,6 +193,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 14622532dc25da845b2321d77b59897f,
         type: 3}
+    - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -247,6 +268,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: SuitStorageUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e392e89c965260149929ae63af95d954,
+        type: 2}
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: isDirty

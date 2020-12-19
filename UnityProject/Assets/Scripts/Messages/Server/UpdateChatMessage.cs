@@ -19,11 +19,12 @@ public class UpdateChatMessage : ServerMessage
 	public uint Recipient;
 	public uint Originator;
 	public string Speaker;
+	public bool StripTags;
 
 	public override void Process()
 	{
 		LoadNetworkObject(Recipient);
-		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker);
+		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker, StripTags);
 	}
 
 	/// <summary>
@@ -32,7 +33,7 @@ public class UpdateChatMessage : ServerMessage
 	/// i.e syndi special roles)
 	/// </summary>
 	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage, string othersMsg = "",
-		GameObject originator = null, string speaker = "")
+		GameObject originator = null, string speaker = "", bool stripTags = true)
 	{
 		uint origin = NetId.Empty;
 		if (originator != null)
@@ -47,7 +48,8 @@ public class UpdateChatMessage : ServerMessage
 				Message = chatMessage,
 				OthersMessage = othersMsg,
 				Originator = origin,
-				Speaker = speaker
+				Speaker = speaker,
+				StripTags = stripTags
 			};
 
 		msg.SendTo(recipient);

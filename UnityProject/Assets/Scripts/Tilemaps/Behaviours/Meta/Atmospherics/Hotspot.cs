@@ -16,14 +16,9 @@ namespace Systems.Atmospherics
 			node = newNode;
 		}
 
-		public bool Process()
+		public void Process()
 		{
-			if (PlasmaFireReaction.CanHoldHotspot(node.GasMix))
-			{
-				Reactions.React(node.GasMix);
-				return true;
-			}
-			return false;
+			Reactions.React(node.GasMix, node.PositionMatrix);
 		}
 	}
 }
