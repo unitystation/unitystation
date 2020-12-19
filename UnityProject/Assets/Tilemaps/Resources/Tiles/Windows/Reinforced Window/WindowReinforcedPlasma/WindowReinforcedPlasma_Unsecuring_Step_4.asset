@@ -23,6 +23,7 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  doesReflectBullet: 0
   passableException:
     m_keys: 
     m_values: 
@@ -46,7 +47,13 @@ MonoBehaviour:
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 11400000, guid: 2312ac2906e7e394b82800d3cfc8cc3c, type: 2}
-  soundOnHit: GlassHit
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   connectCategory: 1
   connectType: 1
   spriteSheet:

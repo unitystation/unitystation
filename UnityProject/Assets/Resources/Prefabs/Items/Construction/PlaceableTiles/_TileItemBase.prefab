@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waysToPlace: []
   placeTime: 0
-  placeSound: 
+  placeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Tap.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &6231797008839051928
 PrefabInstance:
   m_ObjectHideFlags: 0

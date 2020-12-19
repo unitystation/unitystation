@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd72cce9b56eb76439664823576f11c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  learningSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  summonItemSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   isForWizardsOnly: 0
   points: 10
   data: {fileID: 11400000, guid: 096052722a2601d4a891d88cb8f61971, type: 2}
@@ -68,6 +82,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300002, guid: 226491aaf498b0a41bdfca3339875c18,
         type: 3}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName

@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: sound
       value: adminhelp
       objectReference: {fileID: 0}
+    - target: {fileID: 101364236234189732, guid: 48bc65e3f41a48540af24bc4f96d2279,
+        type: 3}
+      propertyPath: drinkSound.AssetAddress
+      value: Assets/Prefabs/UI/Bwoink.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 1870599752894753979, guid: 48bc65e3f41a48540af24bc4f96d2279,
         type: 3}
       propertyPath: initialName

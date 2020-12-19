@@ -42,7 +42,13 @@ MonoBehaviour:
   syncInterval: 0.1
   color: 0
   activatedSize: 5
-  activatedHitSound: blade1
+  activatedHitSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/blade1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   activatedHitDamage: 30
   activatedThrowDamage: 20
   activatedVerbs:
@@ -463,6 +469,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 385f2a45ff9d83f49b07586ddf26d1e0,
         type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}
 --- !u!1 &7781396554342910705 stripped

@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ChatEntry : MonoBehaviour
 {
-	[SerializeField] private Text senderName = null;
-	[SerializeField] private Text visibleText = null;
+	[SerializeField] private TMP_Text senderName = null;
+	[SerializeField] private TMP_Text visibleText = null;
 	[SerializeField] private GameObject adminOverlay = null;
 	[SerializeField] private Outline senderNameOutline = default;
 	[SerializeField] private Outline chatEntryOutline = default;
@@ -172,7 +173,7 @@ public class ChatEntry : MonoBehaviour
 		float entryYPositionOutsideChatFeedParent = transform.localPosition.y + transform.parent.localPosition.y;
 
 		// Check to see if the chat entry is inside the VIEWPORT thresholds, and if so we will enable viewing it.
-		if (entryYPositionOutsideChatFeedParent > thresholdMarkerBottom.localPosition.y && entryYPositionOutsideChatFeedParent < thresholdMarkerTop.localPosition.y) 
+		if (entryYPositionOutsideChatFeedParent > thresholdMarkerBottom.localPosition.y && entryYPositionOutsideChatFeedParent < thresholdMarkerTop.localPosition.y)
 		{
 			ToggleUIElements(true);
 		}
@@ -203,6 +204,9 @@ public class ChatEntry : MonoBehaviour
 				continue;
 			t.enabled = enabled;
 		}
+
+		visibleText.enabled = enabled;
+		senderName.enabled = enabled;
 
 		foreach (var i in allImages)
 		{
@@ -370,7 +374,7 @@ public class ChatEntry : MonoBehaviour
 
 		TextGenerator textGen = new TextGenerator(_text.Length);
 		Vector2 extents = visibleText.gameObject.GetComponent<RectTransform>().rect.size;
-		textGen.Populate(_text, visibleText.GetGenerationSettings(extents));
+		//textGen.Populate(_text, visibleText.GetGenerationSettings(extents));
 		if (textGen.vertexCount == 0)
 		{
 			return;

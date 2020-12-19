@@ -1,9 +1,16 @@
 ﻿using Mirror;
+using UnityEngine;
+using AddressableReferences;
+using UnityEngine.Serialization;
 
 namespace Objects
 {
 	public class ServiceBell : Pickupable
 	{
+
+		[Tooltip("The sound the bell makes when it rings.")]
+		[SerializeField] private AddressableAudioSource RingSound = null;
+
 		public override void ServerPerformInteraction(HandApply interaction)
 		{
 			// yes, we can pick up the service bell!
@@ -12,7 +19,7 @@ namespace Objects
 				base.ServerPerformInteraction(interaction);
 				return;
 			}
-			SoundManager.PlayNetworkedAtPos("ServiceBell", interaction.TargetObject.WorldPosServer());
+			SoundManager.PlayNetworkedAtPos(RingSound, interaction.TargetObject.WorldPosServer());
 		}
 	}
 }

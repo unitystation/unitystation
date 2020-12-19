@@ -30,7 +30,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: ChairRoll
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/ChairRoll.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 500
   soundMinimumPitchVariance: 0.65
   soundMaximumPitchVariance: 1

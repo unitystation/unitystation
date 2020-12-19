@@ -13,9 +13,11 @@ using DiscordWebhook;
 using Mirror;
 using GameConfig;
 using Initialisation;
+using AddressableReferences;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
+
 	public static GameManager Instance;
 	public bool counting;
 	/// <summary>
@@ -66,6 +68,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// If true, it will allow shuttles from dealing 9001 damage and instantly gibbing people when crashed
 	/// </summary>
 	public bool ShuttleGibbingAllowed { get; set; }
+
+	/// <summary>
+	/// If true, only admins who put http/https links in OOC will be allowed
+	/// </summary>
+	public bool AdminOnlyHtml { get; set; }
 
 	/// <summary>
 	/// The game mode that the server will switch to at round end if no mode or an invalid mode is selected.
@@ -154,6 +161,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
 		GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
+		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Script;
 	}
@@ -461,7 +469,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
 			{
-				//JESTER
+				//Jester
 				//SoundManager.Instance.PlayRandomRoundEndSound();
 			}
 		}

@@ -26,7 +26,13 @@ MonoBehaviour:
   rodsOnDestroy: {fileID: 0}
   minCountOfRodsOnDestroy: 0
   maxCountOfRodsOnDestroy: 0
-  soundOnDestroy: GlassBreak01
+  soundOnDestroy:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &8615718183443782814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,6 +51,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!1001 &1256876796715916942
 PrefabInstance:
@@ -147,18 +154,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6499520240771697169, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
-      propertyPath: m_SortingLayerID
-      value: 142874271
-      objectReference: {fileID: 0}
-    - target: {fileID: 6499520240771697169, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
       propertyPath: m_SortingLayer
-      value: 10
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6499520240771697169, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8211889008010393860, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}

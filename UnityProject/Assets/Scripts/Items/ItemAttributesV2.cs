@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using Mirror;
+using AddressableReferences;
 using UnityEngine;
 
 namespace Items
@@ -101,7 +103,7 @@ namespace Items
 
 		[Tooltip("Sound to be played when we click someone with harm intent")]
 		[SerializeField]
-		private string hitSound = "genericHit";
+		private AddressableAudioSource hitSound = null;
 
 
 		[Tooltip("How to play sounds.")]
@@ -110,7 +112,7 @@ namespace Items
 		/// <summary>
 		/// Sound to be played when we click someone with harm intent, tracked server side only
 		/// </summary>
-		public string ServerHitSound
+		public AddressableAudioSource ServerHitSound
 		{
 			get => hitSound;
 			set => hitSound = value;

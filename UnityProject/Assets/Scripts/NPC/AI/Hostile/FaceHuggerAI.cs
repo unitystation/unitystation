@@ -5,6 +5,7 @@ using UnityEngine;
 using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
+using AddressableReferences;
 
 namespace Systems.MobAIs
 {
@@ -18,6 +19,7 @@ namespace Systems.MobAIs
 		[SerializeField]
 		[Range(0,100)]
 		private int randomSoundProbability = 20;
+		[SerializeField] private AddressableAudioSource Bite = null;
 		[SerializeField] private float searchTickRate = 0.5f;
 		private float movementTickRate = 1f;
 		private float moveWaitTime = 0f;
@@ -331,7 +333,7 @@ namespace Systems.MobAIs
 				verb);
 
 			SoundManager.PlayNetworkedAtPos(
-				"bite",
+				Bite,
 				player.gameObject.RegisterTile().WorldPositionServer,
 				1f,
 				true,

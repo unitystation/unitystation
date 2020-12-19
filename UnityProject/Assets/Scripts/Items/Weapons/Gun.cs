@@ -110,7 +110,7 @@ namespace Weapons
 		/// <summary>
 		/// The name of the sound this gun makes when shooting
 		/// </summary>
-		[FormerlySerializedAs("FireingSound"), Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
+		[Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
 		public string FiringSound;
 
 
@@ -118,7 +118,7 @@ namespace Weapons
 		/// The name of the sound this gun makes when shooting
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
-		public AddressableAudioSource FiringSoundA;
+		[SerializeField] private AddressableAudioSource FiringSoundA = null;
 		//RRTL
 
 		/// <summary>
@@ -131,7 +131,7 @@ namespace Weapons
 		/// The name of the sound this gun makes when shooting
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
-		public AddressableAudioSource SuppressedSoundA;
+		[SerializeField] private AddressableAudioSource SuppressedSoundA = null;
 		//RRTL
 
 		/// <summary>

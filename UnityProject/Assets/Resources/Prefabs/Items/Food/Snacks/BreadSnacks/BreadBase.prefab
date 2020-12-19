@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3800308598080693593, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
+      propertyPath: EatFoodA.AssetAddress
+      value: Assets/Prefabs/Effects/EatFood.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 4971432123339430557, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}
       propertyPath: m_AssetId
@@ -16,6 +21,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BreadBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006213421306649181, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5006213421306649181, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}
@@ -34,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006213421306649181, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006213421306649181, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5006213421306649181, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5006213421306649181, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5006213421306649181, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}

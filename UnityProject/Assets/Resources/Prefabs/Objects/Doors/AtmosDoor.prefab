@@ -172,18 +172,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  openSFX: AirlockOpen
-  closeSFX: AirlockClose
-  openSFXA:
+  openSFX:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  closeSFXA:
+  closeSFX:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -229,7 +227,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114955538477622776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +431,7 @@ MonoBehaviour:
   - {fileID: 21300058, guid: 972b5464ef5654c99bb13c8b6b2983a4, type: 3}
   TripleBeep:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -523,7 +527,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 350
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 21
   Armor:
     Melee: 30

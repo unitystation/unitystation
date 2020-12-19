@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using AddressableReferences;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
@@ -17,8 +18,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 	[SerializeField]
 	private float butcherTime = 2.0f;
 
-	[SerializeField]
-	private string butcherSound = "BladeSlice";
+	[SerializeField] private AddressableAudioSource butcherSound = null;
 
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles regardless of intent

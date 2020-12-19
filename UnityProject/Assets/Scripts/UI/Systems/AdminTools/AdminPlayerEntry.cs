@@ -25,14 +25,16 @@ namespace AdminTools
 		public AdminPlayerEntryData PlayerData { get; set; }
 
 		public void UpdateButton(AdminPlayerEntryData playerEntryData, Action<AdminPlayerEntry> onClickEvent, GUI_Notification masterNotification = null,
-			bool disableInteract = false)
+			bool disableInteract = false, bool hideSensitiveFields = false)
 		{
 			parentNotification = masterNotification;
 			OnClickEvent = onClickEvent;
 			PlayerData = playerEntryData;
-			displayName.text = $"{playerEntryData.name} - {playerEntryData.currentJob}. ACC: {playerEntryData.accountName} {playerEntryData.ipAddress} UUID { playerEntryData.uid}";
-
-			if (PlayerData.isAntag)
+			if(!hideSensitiveFields)
+				displayName.text = $"{playerEntryData.name} - {playerEntryData.currentJob}. ACC: {playerEntryData.accountName} {playerEntryData.ipAddress} UUID { playerEntryData.uid}";
+			else 
+				displayName.text = $"{playerEntryData.accountName}";
+			if (PlayerData.isAntag && !hideSensitiveFields)
 			{
 				displayName.color = antagTextColor;
 			}

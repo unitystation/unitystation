@@ -19,6 +19,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e59b70e2f9a079543ac564201ec476fd,
         type: 3}
+    - target: {fileID: 4705654935379183511, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4767086867303369087, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: m_AssetId
@@ -143,5 +148,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
         type: 2}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2cc2b1c514be164282a4cdd366643e5, type: 3}

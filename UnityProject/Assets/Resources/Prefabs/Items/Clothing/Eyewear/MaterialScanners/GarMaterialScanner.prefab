@@ -141,6 +141,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
         type: 2}
+    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 8442361138761224706, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
       propertyPath: PresentSpriteSet

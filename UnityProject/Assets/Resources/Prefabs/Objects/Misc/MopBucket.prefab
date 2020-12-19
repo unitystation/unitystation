@@ -17,7 +17,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: ChairRoll
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/ChairRoll.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 500
   soundMinimumPitchVariance: 0.65
   soundMaximumPitchVariance: 1
@@ -138,7 +144,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -260,6 +266,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1c237d665fb003e46ac6931daa08fb37,
         type: 3}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
 --- !u!1 &3699947509454198558 stripped

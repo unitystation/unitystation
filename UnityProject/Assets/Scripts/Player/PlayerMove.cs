@@ -12,7 +12,8 @@ using Objects;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI, ICheckedInteractable<ContextMenuApply>
+public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI,
+	ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript PlayerScript => playerScript;
 
@@ -28,6 +29,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Object this player is buckled to (if buckled). Null if not buckled.
 	/// </summary>
 	public GameObject BuckledObject => buckledObject;
+
 	//cached for fast access
 	private GameObject buckledObject;
 
@@ -54,8 +56,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
 	/// </summary>
-	[NonSerialized]
-	public CuffEvent OnCuffChangeServer = new CuffEvent();
+	[NonSerialized] public CuffEvent OnCuffChangeServer = new CuffEvent();
 
 	/// <summary>
 	/// Whether this player meets all the conditions for being swapped with, but only
@@ -64,20 +65,19 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Doesn't incorporate any other conditions into this
 	/// flag, but IsSwappable does.
 	/// </summary>
-	[SyncVar]
-	private bool isSwappable;
+	[SyncVar] private bool isSwappable;
 
 	/// <summary>
 	/// server side only, tracks whether this player has indicated they are on help intent. Used
 	/// for checking for swaps.
 	/// </summary>
 	public bool IsHelpIntentServer => isHelpIntentServer;
+
 	//starts true because all players spawn with help intent.
 	private bool isHelpIntentServer = true;
 
 
-	[SerializeField]
-	private ActionData actionData = null;
+	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	/// <summary>
@@ -107,6 +107,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				//rely on server synced value
 				canSwap = isSwappable;
 			}
+
 			return canSwap
 			       //don't swap with ghosts
 			       && !PlayerScript.IsGhost
@@ -128,8 +129,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
-	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
+	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))]
+	public float RunSpeed;
+
+	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))]
+	public float WalkSpeed;
+
 	[HideInInspector] public float CrawlSpeed;
 
 	/// <summary>
@@ -212,11 +217,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		for (int i = 0; i < moveList.Length; i++)
 		{
-			if (actionKeys.Contains((int)moveList[i]) && !moveActionList.Contains(moveList[i]))
+			if (actionKeys.Contains((int) moveList[i]) && !moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Add(moveList[i]);
 			}
-			else if (!actionKeys.Contains((int)moveList[i]) && moveActionList.Contains(moveList[i]))
+			else if (!actionKeys.Contains((int) moveList[i]) && moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Remove(moveList[i]);
 			}
@@ -337,6 +342,19 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	{
 		if (IsCuffed)
 		{
+			Chat.AddActionMsgToChat(
+				playerScript.gameObject,
+				"You're trying to ubuckle yourself from the chair! (this will take some time...)",
+				playerScript.name + " is trying to ubuckle themself from the chair!"
+			);
+			StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
+				Unbuckle
+			).ServerStartProgress(
+				buckledObject.RegisterTile(),
+				buckledObject.GetComponent<BuckleInteract>().ResistTime,
+				playerScript.gameObject
+			);
 			return;
 		}
 		Unbuckle();
@@ -359,7 +377,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (previouslyBuckledTo == null) return;
 
 		var integrityBuckledObject = previouslyBuckledTo.GetComponent<Integrity>();
-		if(integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
+		if (integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
 
 		//we are unbuckled but still will drift with the object.
 		var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
@@ -381,6 +399,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			PlayerDirectional = gameObject.GetComponent<Directional>();
 		}
+
 		PlayerDirectional.FaceDirection(newDir);
 	}
 
@@ -527,7 +546,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// </summary>
 	public void ServerPerformInteraction(ContextMenuApply interaction)
 	{
-		var handcuffs = interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs).ItemObject;
+		var handcuffs = interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs)
+			.ItemObject;
 		if (handcuffs == null) return;
 
 		var restraint = handcuffs.GetComponent<Restraint>();

@@ -66,6 +66,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -90,6 +91,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &7115020877522690343
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -140,7 +142,13 @@ MonoBehaviour:
   HullColor: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
   EjectObjects: 0
   EjectDirection: 0
-  VendingSound: MachineVend
+  VendingSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   isEmagged: 0
@@ -166,6 +174,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3f149ee47222ecf4fa56b9fb4cf9fe27,
         type: 3}
+    - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -224,7 +237,7 @@ PrefabInstance:
     - target: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Name
-      value: VendingMachineBase
+      value: _VendingMachineBase
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

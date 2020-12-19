@@ -15,9 +15,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 9ab87f7c97317ed48affcc1c5b653d03, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!114 &1709981260635841664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +73,7 @@ MonoBehaviour:
   SpriteSizeAdjustment: {fileID: 7992938450538310393}
   Sprite: {fileID: 4133026307562938914}
   edible: {fileID: 4784545385014217823}
-  SizeScale: 0
+  sizeScale: 1
 --- !u!114 &2785554390837465345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,7 +115,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leavings: {fileID: 0}
-  sound: EatFood
+  eatSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   NutritionLevel: 60
 --- !u!1001 &7790942942705771807
 PrefabInstance:
@@ -182,6 +189,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7b9d8593f5b7243409c8d1ed6fd40a3f,
         type: 3}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.size

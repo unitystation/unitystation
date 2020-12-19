@@ -4,6 +4,7 @@ using UnityEngine;
 using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
+using AddressableReferences;
 
 namespace Systems.MobAIs
 {

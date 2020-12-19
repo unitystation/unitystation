@@ -13,5 +13,6 @@ public enum StandardProgressActionType
 	CPR = 4,
 	Disrobe = 5,
 	Mop = 6,
-	Escape = 7
+	Escape = 7,
+	Unbuckle = 8
 }
