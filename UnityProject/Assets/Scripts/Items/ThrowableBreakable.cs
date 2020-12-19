@@ -34,7 +34,7 @@ namespace Items
 			customNetTransform.OnThrowEnd.RemoveListener(MyListener);
 		}
 
-		private void MyListener(ThrowInfo info)
+		private void OnThrown(ThrowInfo info)
 		{
 			if (DMMath.Prob(chanceToBreak))
 			{
