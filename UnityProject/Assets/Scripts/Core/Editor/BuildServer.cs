@@ -26,7 +26,8 @@ static class BuildScript
 		);
 
 		// Extract flags with optional values
-		for (int current = 0, next = 1; current < args.Length; current++, next++) {
+		for (int current = 0, next = 1; current < args.Length; current++, next++)
+		{
 			// Parse flag
 			bool isFlag = args[current].StartsWith("-");
 			if (!isFlag) continue;
@@ -46,48 +47,41 @@ static class BuildScript
 	{
 		ParseCommandLineArguments(out var validatedOptions);
 
-		if (!validatedOptions.TryGetValue("projectPath", out var projectPath)) {
+		if (!validatedOptions.TryGetValue("projectPath", out _))
+		{
 			Console.WriteLine("Missing argument -projectPath");
 			EditorApplication.Exit(110);
 		}
 
-		if (!validatedOptions.TryGetValue("buildTarget", out var buildTarget)) {
+		if (!validatedOptions.TryGetValue("buildTarget", out var buildTarget))
+		{
 			Console.WriteLine("Missing argument -buildTarget");
 			EditorApplication.Exit(120);
 		}
 
-		if (!Enum.IsDefined(typeof(BuildTarget), buildTarget) &&
-		    !buildTarget.ToLower().Equals("linuxserver")) {
-			Console.WriteLine("Invalid value for argument -buildTarget");
+		if (!Enum.IsDefined(typeof(BuildTarget), buildTarget))
+		{
+			Console.WriteLine("Invalid -targetBuild value.");
 			EditorApplication.Exit(121);
 		}
 
-		if (!validatedOptions.TryGetValue("customBuildPath", out var customBuildPath)) {
+		if (!validatedOptions.TryGetValue("customBuildPath", out _))
+		{
 			Console.WriteLine("Missing argument -customBuildPath");
 			EditorApplication.Exit(130);
 		}
 
-		string defaultCustomBuildName = "TestBuild";
-		if (!validatedOptions.TryGetValue("customBuildName", out var customBuildName)) {
-			Console.WriteLine($"Missing argument -customBuildName, defaulting to {defaultCustomBuildName}.");
-			validatedOptions.Add("customBuildName", defaultCustomBuildName);
+		if (validatedOptions.TryGetValue("devBuild", out var devBuild))
+		{
+			Console.WriteLine("Found -devBuild argument. This build will be a devBuild");
+			validatedOptions.Add("devBuild", "true");
 		}
-		else if (customBuildName == "") {
-			Console.WriteLine($"Invalid argument -customBuildName, defaulting to {defaultCustomBuildName}.");
-			validatedOptions.Add("customBuildName", defaultCustomBuildName);
+		else
+		{
+			validatedOptions.Add("devBuild", "false");
 		}
 
 		return validatedOptions;
-	}
-
-	private static string GetFileExtension(string buildTarget)
-	{
-		var target = buildTarget.ToLower();
-
-		if (target.Contains("windows")) return ".exe";
-		if (target.Contains("osx")) return ".app";
-
-		return null;
 	}
 
 	public static void BuildProject()
@@ -97,14 +91,14 @@ static class BuildScript
 
 		var buildTarget = options["buildTarget"];
 		var buildPath = options["customBuildPath"];
-		// TODO: fix Unity Builder Action to use customBuildName
-		// var buildName = options["customBuildName"];
+		var devBuild = options["devBuild"];
 
 		// Gather values from project
 		var scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(s => s.path).ToArray();
-		// var locationPathName = $"{buildPath}/{buildName}{GetFileExtension(buildTarget)}";
+
 		var locationPathName = buildPath;
-		var target = BuildTarget.StandaloneWindows64;
+
+		var target = (BuildTarget) Enum.Parse(typeof(BuildTarget), buildTarget);
 
 		// Define BuildPlayer Options
 		var buildOptions = new BuildPlayerOptions {
@@ -114,26 +108,10 @@ static class BuildScript
 			options = BuildOptions.CompressWithLz4HC
 		};
 
-		// Try to parse the BuildTarget. If it isn't our custom "linuxserver" target, quit
-		try
+		if (devBuild.Equals("true"))
 		{
-			target = (BuildTarget) Enum.Parse(typeof(BuildTarget), buildTarget);
+			buildOptions.options |= BuildOptions.Development;
 		}
-		catch (ArgumentException)
-		{
-			if (buildTarget.ToLower().Equals("linuxserver"))
-			{
-				target = BuildTarget.StandaloneLinux64;
-				buildOptions.options |= BuildOptions.Development;
-			}
-			else
-			{
-				Console.WriteLine("Invalid value for argument -buildTarget");
-				EditorApplication.Exit(121);
-			}
-		}
-
-		buildOptions.target = target;
 
 		ReportOptions(buildOptions);
 
@@ -182,24 +160,28 @@ static class BuildScript
 
 	private static void ExitWithResult(BuildResult result)
 	{
-		if (result == BuildResult.Succeeded) {
-			Console.WriteLine("Build succeeded!");
-			EditorApplication.Exit(0);
-		}
-
-		if (result == BuildResult.Failed) {
-			Console.WriteLine("Build failed!");
-			EditorApplication.Exit(101);
-		}
-
-		if (result == BuildResult.Cancelled) {
-			Console.WriteLine("Build cancelled!");
-			EditorApplication.Exit(102);
-		}
-
-		if (result == BuildResult.Unknown) {
-			Console.WriteLine("Build result is unknown!");
-			EditorApplication.Exit(103);
+		switch (result)
+		{
+			case BuildResult.Succeeded:
+				Console.WriteLine("Build succeeded!");
+				EditorApplication.Exit(0);
+				break;
+			case BuildResult.Failed:
+				Console.WriteLine("Build failed!");
+				EditorApplication.Exit(101);
+				break;
+			case BuildResult.Cancelled:
+				Console.WriteLine("Build cancelled!");
+				EditorApplication.Exit(102);
+				break;
+			case BuildResult.Unknown:
+				Console.WriteLine("Build result is unknown!");
+				EditorApplication.Exit(103);
+				break;
+			default:
+				Console.WriteLine("Build result is unknown!");
+				EditorApplication.Exit(103);
+				break;
 		}
 	}
 }
