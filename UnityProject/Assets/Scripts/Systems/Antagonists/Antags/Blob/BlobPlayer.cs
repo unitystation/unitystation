@@ -50,7 +50,7 @@ namespace Blob
 
 		private BlobStrain currentStrain;
 
-		private GameObject blobCore;
+		private BlobStructure blobCore;
 		private Integrity coreHealth;
 		private UI_Blob uiBlob;
 
@@ -124,10 +124,10 @@ namespace Blob
 
 		private HashSet<GameObject> nonSpaceBlobTiles = new HashSet<GameObject>();
 
-		private HashSet<GameObject> resourceBlobs = new HashSet<GameObject>();
+		private HashSet<BlobStructure> resourceBlobs = new HashSet<BlobStructure>();
 
-		private ConcurrentDictionary<GameObject, HashSet<GameObject>> factoryBlobs =
-			new ConcurrentDictionary<GameObject, HashSet<GameObject>>();
+		private ConcurrentDictionary<BlobStructure, HashSet<GameObject>> factoryBlobs =
+			new ConcurrentDictionary<BlobStructure, HashSet<GameObject>>();
 
 		private HashSet<BlobStructure> nodeBlobs = new HashSet<BlobStructure>();
 
@@ -143,7 +143,6 @@ namespace Blob
 		private BaseGrid searchGrid;
 		private int bottomXCoord;
 		private int bottomYCoord;
-		[SerializeField]private LineRenderer lineRenderer;
 
 		public float Resources
 		{
@@ -220,6 +219,8 @@ namespace Blob
 
 		private int maxNonSpaceCount = 0;
 
+		private bool pathSearch;
+
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
 		/// </summary>
@@ -254,33 +255,32 @@ namespace Blob
 
 			TargetRpcTurnOnClientLight(connectionToClient);
 
-			blobCore = result.GameObject;
+			blobCore = result.GameObject.GetComponent<BlobStructure>();
 
 			var pos = blobCore.GetComponent<CustomNetTransform>().ServerPosition;
 
-			var structure = blobCore.GetComponent<BlobStructure>();
+			blobTiles.TryAdd(pos, blobCore);
+			nonSpaceBlobTiles.Add(blobCore.gameObject);
 
-			blobTiles.TryAdd(pos, structure);
-			nonSpaceBlobTiles.Add(blobCore);
-
-			structure.location = pos;
-			structure.overmindName = overmindName;
+			blobCore.location = pos;
+			blobCore.overmindName = overmindName;
 
 			currentStrain = blobStrains.PickRandom();
 			StrainIndex = blobStrains.IndexOf(currentStrain);
 
-			SetStrainData(structure);
-			SetLightAndColor(structure);
+			SetStrainData(blobCore);
+			SetLightAndColor(blobCore);
 
 			//Make core act like node
-			structure.expandCoords = GenerateCoords(pos);
-			structure.healthPulseCoords = structure.expandCoords;
-			nodeBlobs.Add(structure);
+			blobCore.expandCoords = GenerateCoords(pos);
+			blobCore.healthPulseCoords = blobCore.expandCoords;
+			blobCore.connectedToBlobNet = true;
+			nodeBlobs.Add(blobCore);
 
 			//Set up death detection
 			coreHealth = blobCore.GetComponent<Integrity>();
 			coreHealth.OnWillDestroyServer.AddListener(Death);
-			SubscribeToDamage(structure);
+			SubscribeToDamage(blobCore);
 
 			//Block escape shuttle from leaving station when it arrives
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(true);
@@ -385,7 +385,7 @@ namespace Blob
 				StrainRerolls += 1;
 			}
 
-			GenerateGrid();
+			CheckConnections();
 
 			BiomassTick();
 
@@ -429,7 +429,7 @@ namespace Blob
 		{
 			if(blobCore == null) return;
 
-			playerSync.SetPosition(blobCore.WorldPosServer());
+			playerSync.SetPosition(blobCore.location);
 		}
 
 		[Command]
@@ -463,7 +463,7 @@ namespace Blob
 				//Blob is dead :(
 				if(blobCore == null) return;
 
-				playerSync.SetPosition(blobCore.WorldPosServer());
+				playerSync.SetPosition(blobCore.location);
 				return;
 			}
 
@@ -878,7 +878,7 @@ namespace Blob
 				{
 					if(resourceBlob == null) continue;
 
-					specialisedBlobs.Add(resourceBlob.GetComponent<BlobStructure>().location);
+					specialisedBlobs.Add(resourceBlob.location);
 				}
 			}
 
@@ -904,7 +904,7 @@ namespace Blob
 		{
 			var pos = worldPos.RoundToInt();
 
-			var corePos = blobCore.WorldPosServer();
+			var corePos = blobCore.location;
 
 			foreach (var offSet in coords)
 			{
@@ -913,6 +913,27 @@ namespace Blob
 					return true;
 				}
 			}
+			return false;
+		}
+
+		/// <summary>
+		/// Check to see if theres any blob next to it
+		/// </summary>
+		/// <param name="worldPos"></param>
+		/// <param name="noMsg"></param>
+		/// <returns></returns>
+		private bool ValidateNextToBlob(Vector3 worldPos)
+		{
+			var pos = worldPos.RoundToInt();
+
+			foreach (var offSet in coords)
+			{
+				if (pos + offSet != pos && blobTiles.ContainsKey(pos + offSet))
+				{
+					return true;
+				}
+			}
+
 			return false;
 		}
 
@@ -1070,10 +1091,10 @@ namespace Blob
 							nodeBlobs.Add(structure);
 							break;
 						case BlobConstructs.Factory:
-							factoryBlobs.TryAdd(result.GameObject, new HashSet<GameObject>());
+							factoryBlobs.TryAdd(structure, new HashSet<GameObject>());
 							break;
 						case BlobConstructs.Resource:
-							resourceBlobs.Add(result.GameObject);
+							resourceBlobs.Add(structure);
 							break;
 						default:
 							Debug.LogError("Switch has no correct case for blob structure!");
@@ -1110,7 +1131,7 @@ namespace Blob
 				nodeBlobs.Remove(removed);
 			}
 
-			factoryBlobs.TryRemove(info.Destroyed.gameObject, out var spores);
+			factoryBlobs.TryRemove(info.Destroyed.gameObject.GetComponent<BlobStructure>(), out var spores);
 
 			info.Destroyed.OnWillDestroyServer.RemoveListener(BlobTileDeath);
 		}
@@ -1315,11 +1336,14 @@ namespace Blob
 			var coreCache = core.ServerPosition;
 
 			core.SetPosition(node.ServerPosition);
-			blobTiles[node.ServerPosition] = blobCore.GetComponent<BlobStructure>();
+			blobTiles[node.ServerPosition] = blobCore;
+			blobCore.location = node.ServerPosition;
+
 			blobTiles[coreCache] = oldNode;
+			oldNode.location = coreCache;
 			node.SetPosition(coreCache);
 
-			ResetArea(blobCore);
+			ResetArea(blobCore.gameObject);
 			ResetArea(oldNode.gameObject);
 		}
 
@@ -1341,11 +1365,14 @@ namespace Blob
 			var coreCache = core.ServerPosition;
 
 			core.SetPosition(normal.ServerPosition);
-			blobTiles[normal.ServerPosition] = blobCore.GetComponent<BlobStructure>();
+			blobTiles[normal.ServerPosition] = blobCore;
+			blobCore.location = normal.ServerPosition;
+
 			blobTiles[coreCache] = oldNormal;
+			oldNormal.location = coreCache;
 			normal.SetPosition(coreCache);
 
-			ResetArea(blobCore);
+			ResetArea(blobCore.gameObject);
 		}
 
 		#endregion
@@ -1359,7 +1386,7 @@ namespace Blob
 			//Node auto expand logic
 			foreach (var node in nodeBlobs.Shuffle())
 			{
-				if(node == null || node.nodeDepleted) continue;
+				if(node == null || node.nodeDepleted || !node.connectedToBlobNet) continue;
 
 				var coordsLeft = node.expandCoords;
 
@@ -1446,10 +1473,13 @@ namespace Blob
 					}
 				}
 
+				//Dont produce spores unless connected
+				if(!factoryBlob.Key.connectedToBlobNet) continue;
+
 				//Create max of three spore
 				if (factoryBlob.Value.Count >= 3) continue;
 
-				var result = Spawn.ServerPrefab(blobSpore, factoryBlob.Key.WorldPosServer(),
+				var result = Spawn.ServerPrefab(blobSpore, factoryBlob.Key.location,
 					factoryBlob.Key.transform);
 
 				if (!result.Successful) continue;
@@ -1471,20 +1501,20 @@ namespace Blob
 			{
 				econTimer = 0f;
 
-				//Remove null if possible
+				//Base income
+				var coreIncome = 3;
+
 				resourceBlobs.Remove(null);
 
-				foreach (var blob in resourceBlobs)
-				{
-					PathSearch(blob.TileWorldPosition(), blobCore.TileWorldPosition());
-				}
+				//Connected resource income
+				float numResource = resourceBlobs.Count(r => r.connectedToBlobNet);
 
-				float numResource = resourceBlobs.Count;
-				var coreIncome = 3;
+				Debug.Log(numResource);
 
 				if (currentStrain.strainType == StrainTypes.NetworkedFibers)
 				{
 					//Nodes produce 1.5 resources to make up for no expansion
+					//TODO change to connectedtoblob
 					numResource += nodeBlobs.Count * 1.5f;
 					coreIncome = 4;
 				}
@@ -1494,7 +1524,7 @@ namespace Blob
 				}
 
 				//One biomass for each resource node
-				var newBiomass = (numResource + coreIncome) * econModifier; //Base income of three
+				var newBiomass = (numResource + coreIncome) * econModifier;
 
 				AddToResources(newBiomass);
 			}
@@ -1564,7 +1594,7 @@ namespace Blob
 
 			foreach (var node in nodeBlobs)
 			{
-				if(node == null) continue;
+				if(node == null || !node.connectedToBlobNet) continue;
 
 				var healthToRestore = node.isCore ? 3f : 1f;
 
@@ -1844,7 +1874,7 @@ namespace Blob
 			searchGrid = new DynamicGrid(walkableGridPosList);
 		}
 
-		private bool PathSearch(Vector2Int startPosVector, Vector2Int endPosVector)
+		private bool PathSearch(Vector2Int startPosVector, Vector2Int endPosVector, BlobStructure blobStructure = null)
 		{
 			var startPos = new GridPos(startPosVector.x - bottomXCoord, startPosVector.y - bottomYCoord);
 			var endPos = new GridPos(endPosVector.x - bottomXCoord, endPosVector.y - bottomYCoord);
@@ -1854,19 +1884,157 @@ namespace Blob
 
 			List<GridPos> resultPathList = JumpPointFinder.FindPath(jpParam);
 
-			if (resultPathList != null)
+			if (resultPathList != null && blobStructure != null && blobStructure.lineRenderer != null)
 			{
-				var positions = new Vector3[resultPathList.Count - 1];
+				var positions = new Vector3[resultPathList.Count];
 
 				for (int i = 0; i < resultPathList.Count; i++)
 				{
 					positions[i] = new Vector3(resultPathList[i].x + bottomXCoord, resultPathList[i].y + bottomYCoord, 0);
 				}
 
-				lineRenderer.SetPositions(positions);
+				blobStructure.lineRenderer.positionCount = resultPathList.Count;
+
+				blobStructure.lineRenderer.SetPositions(positions);
 			}
 
-			return resultPathList != null;
+			return resultPathList?.Count > 0;
+		}
+
+		#endregion
+
+		#region PathCheck
+
+		private void CheckConnections()
+		{
+			if (!pathSearch)
+			{
+				pathSearch = true;
+				StartCoroutine(CheckPaths());
+			}
+		}
+
+		private IEnumerator CheckPaths()
+		{
+			GenerateGrid();
+
+			NodePaths();
+			EcoPaths();
+			FactoryPaths();
+
+			pathSearch = false;
+			yield break;
+		}
+
+		private void NodePaths()
+		{
+			var sortedNodes = nodeBlobs.OrderBy(n => Vector3.Distance(n.location, blobCore.location));
+
+			foreach (var blob in sortedNodes)
+			{
+				if(blob == null || blob == blobCore) continue;
+
+				//If not next to any blob then failed anyway, dont need to check
+				if (!ValidateNextToBlob(blob.location))
+				{
+					blob.lineRenderer.SetPositions(new Vector3[0]);
+					blob.connectedToBlobNet = false;
+					continue;
+				}
+
+				var foundConnection = false;
+
+				var nodesClosest = nodeBlobs.OrderBy(n => Vector3.Distance(n.location, blob.location));
+
+				//Try to connect to nearest node if possible
+				foreach (var node in nodesClosest)
+				{
+					if(node == null || blob == node) continue;
+
+					//Dont connect each way
+					if(node.connectedNode == blob) continue;
+
+					if (PathSearch(blob.location.To2Int(), node.location.To2Int(), blob))
+					{
+						blob.connectedNode = node;
+						blob.connectedToBlobNet = node.connectedToBlobNet;
+
+						foundConnection = true;
+						break;
+					}
+				}
+
+				//If no connection disable abilities
+				if (!foundConnection)
+				{
+					blob.connectedNode = null;
+					blob.connectedToBlobNet = false;
+				}
+
+				searchGrid.Reset();
+			}
+		}
+
+		private void EcoPaths()
+		{
+			foreach (var blob in resourceBlobs)
+			{
+				if(blob == null) continue;
+
+				if (!ValidateNextToBlob(blob.location))
+				{
+					blob.lineRenderer.SetPositions(new Vector3[0]);
+					blob.connectedToBlobNet = false;
+					continue;
+				}
+
+				var nodesClosest = nodeBlobs.OrderBy(n => Vector3.Distance(n.location, blob.location));
+
+				//Try to connect to nearest node if possible
+				foreach (var node in nodesClosest)
+				{
+					if(node == null) continue;
+
+					if (PathSearch(blob.location.To2Int(), node.location.To2Int(), blob))
+					{
+						blob.connectedToBlobNet = node.connectedToBlobNet;
+						break;
+					}
+				}
+
+				searchGrid.Reset();
+			}
+		}
+
+		private void FactoryPaths()
+		{
+			foreach (var blob in factoryBlobs)
+			{
+				if(blob.Key == null) continue;
+
+				if (!ValidateNextToBlob(blob.Key.location))
+				{
+					blob.Key.lineRenderer.SetPositions(new Vector3[0]);
+					blob.Key.connectedToBlobNet = false;
+					continue;
+				}
+
+				var nodesClosest = nodeBlobs.OrderBy(n => Vector3.Distance(n.location, blob.Key.location));
+
+				//Try to connect to nearest node if possible
+				foreach (var node in nodesClosest)
+				{
+					if(node == null) continue;
+
+					if (PathSearch(blob.Key.location.To2Int(), node.location.To2Int(), blob.Key))
+					{
+						blob.Key.connectedToBlobNet = node.connectedToBlobNet;
+						break;
+					}
+				}
+
+				searchGrid.Reset();
+			}
 		}
 
 		#endregion

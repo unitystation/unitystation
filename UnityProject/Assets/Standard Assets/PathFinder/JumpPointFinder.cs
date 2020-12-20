@@ -1,4 +1,4 @@
-﻿/*! 
+﻿/*!
 @file JumpPointFinder.cs
 @author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 		<http://github.com/juhgiyo/eppathfinding.cs>
@@ -39,6 +39,7 @@ using C5;
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine;
 
 
 namespace EpPathFinding.cs
@@ -94,7 +95,7 @@ namespace EpPathFinding.cs
             : base(iGrid, iDiagonalMovement, iMode)
         {
             CurEndNodeUnWalkableTreatment = iAllowEndNodeUnWalkable ? EndNodeUnWalkableTreatment.ALLOW : EndNodeUnWalkableTreatment.DISALLOW;
-            
+
             openList = new IntervalHeap<Node>();
             CurIterationType = IterationType.LOOP;
         }
@@ -225,6 +226,8 @@ namespace EpPathFinding.cs
             Node tNode;
             bool revertEndNodeWalkable = false;
 
+            int count = 0;
+
             // set the `g` and `f` value of the start node to be 0
             tStartNode.startToCurNodeLen = 0;
             tStartNode.heuristicStartToEndLen = 0;
@@ -242,6 +245,14 @@ namespace EpPathFinding.cs
             // while the open list is not empty
             while (tOpenList.Count > 0)
             {
+	            count++;
+
+	            if (count > 1000)
+	            {
+		            Debug.LogError("Stackoverflow prevented!!");
+		            break;
+	            }
+
                 // pop the position of node which has the minimum `f` value.
                 tNode = tOpenList.DeleteMin();
                 tNode.isClosed = true;
@@ -353,9 +364,19 @@ namespace EpPathFinding.cs
             currentSnapshot.iPy = iPy;
             currentSnapshot.stage = 0;
 
+            var count = 0;
+
             stack.Push(currentSnapshot);
             while (stack.Count != 0)
             {
+	            count++;
+
+	            if (count > 1000)
+	            {
+		            Debug.LogError("Stackoverflow prevented 2 !!!");
+		            break;
+	            }
+
                 currentSnapshot = stack.Pop();
                 switch (currentSnapshot.stage)
                 {

@@ -22,7 +22,7 @@ namespace Blob
 		public LightSprite lightSprite = null;
 
 		public SpriteHandler spriteHandler = null;
-		
+
 		[HideInInspector]
 		public Integrity integrity;
 
@@ -48,9 +48,19 @@ namespace Blob
 
 		private bool initialSet;
 
+		[HideInInspector]
+		public bool connectedToBlobNet;
+
+		[HideInInspector]
+		public BlobStructure connectedNode;
+
+		[HideInInspector]
+		public LineRenderer lineRenderer;
+
 		private void OnEnable()
 		{
 			integrity = GetComponent<Integrity>();
+			lineRenderer = GetComponent<LineRenderer>();
 
 			if(initialSet || integrity == null) return;
 
