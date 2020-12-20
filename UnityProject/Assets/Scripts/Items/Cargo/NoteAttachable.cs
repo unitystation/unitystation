@@ -1,4 +1,4 @@
-﻿using Mirror;
+using Mirror;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -52,10 +52,11 @@ namespace Items.Cargo
 		private bool CommonWillInteract(TargetedInteraction interaction)
 		{
 			return interaction.TargetObject == gameObject &&
-			       interaction.UsedObject != null &&
-			       interaction.UsedObject.TryGetComponent<Paper>(out var paper) &&
-			       noteText.IsNullOrEmpty() &&
-			       paper.PaperString.IsNullOrEmpty() == false;
+					interaction.UsedObject != null &&
+					interaction.UsedObject.TryGetComponent<Paper>(out var paper) &&
+					noteText.IsNullOrEmpty() &&
+					(paper.ServerString.IsNullOrEmpty() == false || paper.PaperString.IsNullOrEmpty() == false);
+					// Server uses ServerString, clients; PaperString.
 		}
 
 		private void SyncNoteText(string oldVal, string newVal)
