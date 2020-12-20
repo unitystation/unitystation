@@ -27,18 +27,16 @@ MonoBehaviour:
   SmartGun: 0
   CurrentRecoilVariance: 0
   FireCountDown: 0
-  FiringSound: ShootKinetic
   FiringSoundA:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GunShots/ShootKinetic.prefab
+    AssetAddress: Assets/Prefabs/Weapons/KineticShot.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  SuppressedSound: 
   SuppressedSoundA:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GunShots/ShootHeavySuppressed.prefab
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -53,6 +51,7 @@ MonoBehaviour:
   WeaponType: 1
   isSuppressed: 0
   isSuppressible: 0
+  suppressor: {fileID: 0}
   Projectile: {fileID: 1560634355228308, guid: 904d4b4cb2c22314b82de3393f1cb254, type: 3}
   ReloadKinetic:
     SetLoadSetting: 0

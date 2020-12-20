@@ -41,7 +41,13 @@ MonoBehaviour:
       type: 2}
     itemCost: 2
   placeTime: 1
-  placeSound: 
+  placeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GenHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &4483220012042811674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56,8 +62,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  metalPrefab: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
-    type: 3}
   metalSpawnCount: 1
   minimumRods: 2
 --- !u!1001 &8878983786138796137
@@ -143,6 +147,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4e90c4f5e99de09438e3420eaf88c3aa,
         type: 3}
+    - target: {fileID: 1886097303314001423, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: attackVerbs.Array.size

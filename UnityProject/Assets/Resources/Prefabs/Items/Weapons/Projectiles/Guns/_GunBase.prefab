@@ -42,18 +42,23 @@ MonoBehaviour:
   SmartGun: 0
   CurrentRecoilVariance: 0
   FireCountDown: 0
-  FiringSound: 
   FiringSoundA:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GunShots/ShootSyringe.prefab
+    AssetAddress: Assets/Prefabs/Weapons/Gun/Pistol/PistolShot.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  SuppressedSound: 
   SuppressedSoundA:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/GunShots/ShootHeavySuppressed.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  DryFireSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

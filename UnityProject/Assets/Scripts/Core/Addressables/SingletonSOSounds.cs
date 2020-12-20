@@ -23,6 +23,9 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource ExplosionCreak3 = null;
    public AddressableAudioSource Notice1 = null;
    public AddressableAudioSource Notice2 = null;
+   
+   public AddressableAudioSource GunEmptyAlarm = null;
+   public AddressableAudioSource KineticReload = null;
 
    public AddressableAudioSource Smash = null;
    public AddressableAudioSource Bwoink = null;

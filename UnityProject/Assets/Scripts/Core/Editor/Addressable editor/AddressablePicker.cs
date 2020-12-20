@@ -83,7 +83,6 @@ public class AddressablePicker : EditorWindow
 		return FoundFiles;
 	}
 
-
 	public static void Refresh()
 	{
 		var FoundFiles = GetCataloguePath();
@@ -95,7 +94,9 @@ public class AddressablePicker : EditorWindow
 
 			catalogueData = AssetDatabase.LoadAssetAtPath<CatalogueData>("Assets/CachedData/CatalogueData.asset");
 			var flip = new FileInfo(FoundFile);
-			catalogueData.Data[flip.Directory.Parent.Name] = ListIDs.ToList();
+			var ToPutInList = ListIDs.ToList();
+			ToPutInList .Insert(0, "null");
+			catalogueData.Data[flip.Directory.Parent.Name] = ToPutInList;
 
 		}
 
@@ -106,5 +107,5 @@ public class AddressablePicker : EditorWindow
 		}
 
 		EditorUtility.SetDirty(catalogueData);
-	}
+    }
 }
