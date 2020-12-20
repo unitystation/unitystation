@@ -122,13 +122,11 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Mix:
-        temperature: 288.15
+      mix:
+        temperature: 273.15
         reagents:
-          m_keys:
-          - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
-          m_values:
-          - 50
+          m_keys: []
+          m_values: []
       gasMix:
         Gases:
         - 0
@@ -148,6 +146,7 @@ MonoBehaviour:
         - 0
         Pressure: 0
         Volume: 50
+        Temperature: 0
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}
@@ -216,6 +215,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 10df47485b14bb946abf36c5a3852c3f,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
@@ -307,6 +321,12 @@ PrefabInstance:
       propertyPath: exportMessage
       value: damn hippies.
       objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d8ef782faad5e045a885b4ed1697cd1,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &8390320911816615196 stripped

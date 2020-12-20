@@ -90,6 +90,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 639820a8628540c478d0ea4a47b69f82,
         type: 3}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1686299411022228870, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_WasSpriteAssigned
@@ -117,6 +132,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f6a6c5126a3aab044ab757c2266febb0,
         type: 3}
+    - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f5e096d3f3b5dd459b0bc694138bcae,
+        type: 2}
     - target: {fileID: 6240388854490930091, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -127,6 +148,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: engineering fire locker
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260176341816705930, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 8981175845054980503, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
