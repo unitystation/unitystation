@@ -8,8 +8,6 @@ public class GunPKA : Gun
 {
 	public GameObject Projectile;
 
-	[SerializeField] private AddressableAudioSource ReloadKinetic = null;
-
 	bool allowRecharge = true;
 	public float rechargeTime = 2.0f;
 
@@ -50,7 +48,7 @@ public class GunPKA : Gun
 		}
 		else
 		{
-			SoundManager.PlayNetworkedAtPos(ReloadKinetic, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.KineticReload, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 		}
 		allowRecharge = true;
 	}

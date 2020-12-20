@@ -20,7 +20,7 @@ MonoBehaviour:
     changeMessage: You attach the socket bit to the drill.
     changeSound:
       SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      AssetAddress: Assets/Prefabs/Items/ChangeDrill.prefab
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
@@ -30,7 +30,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
     usingSound:
       SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      AssetAddress: Assets/Prefabs/Items/DrillUse.prefab
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
@@ -39,7 +39,7 @@ MonoBehaviour:
     changeMessage: You attach the screwdriver bit to the drill.
     changeSound:
       SetLoadSetting: 0
-      AssetAddress: 
+      AssetAddress: Assets/Prefabs/Items/ChangeDrill.prefab
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
@@ -49,7 +49,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
     usingSound:
       SetLoadSetting: 0
-      AssetAddress: 
+      AssetAddress: Assets/Prefabs/Items/DrillUse.prefab
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
@@ -246,7 +246,7 @@ PrefabInstance:
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: hitSound.AssetAddress
-      value: None
+      value: Assets/Prefabs/Items/DrillHit.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
