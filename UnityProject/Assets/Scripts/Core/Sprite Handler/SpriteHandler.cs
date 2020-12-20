@@ -22,6 +22,8 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private SpriteDataSO PresentSpriteSet;
 	private SpriteDataSO.Frame PresentFrame = null;
 
+	[SerializeField] private bool randomInitialSprite = false;
+
 	private SpriteRenderer spriteRenderer;
 	private Image image;
 
@@ -692,7 +694,11 @@ public class SpriteHandler : MonoBehaviour
 		ImageComponentStatus(false);
 		Initialised = true;
 
-		if (PresentSpriteSet != null)
+		if (randomInitialSprite && CatalogueCount > 0)
+		{
+			ChangeSprite(Random.Range(0, CatalogueCount), NetworkThis);
+		}
+		else if (PresentSpriteSet != null)
 		{
 			if (HasImageComponent() && pushTextureOnStartUp)
 			{

@@ -135,7 +135,7 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	{
 		var worldPos = gameObject.AssumedWorldPosServer();
 		var tr = gameObject.transform.parent;
-		var rotation = RandomUtils.RandomRotatation2D();
+		var rotation = RandomUtils.RandomRotation2D();
 
 		// Print burn out message if in players inventory
 		if (pickupable && pickupable.ItemSlot != null)
