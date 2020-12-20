@@ -26,12 +26,12 @@ namespace Items
 		private void Start()
 		{
 			customNetTransform = GetComponent<CustomNetTransform>();
-			customNetTransform.OnThrowEnd.AddListener(MyListener);
+			customNetTransform.OnThrowEnd.AddListener(OnThrown);
 		}
 
 		private void OnDisable()
 		{
-			customNetTransform.OnThrowEnd.RemoveListener(MyListener);
+			customNetTransform.OnThrowEnd.RemoveListener(OnThrown);
 		}
 
 		private void OnThrown(ThrowInfo info)
