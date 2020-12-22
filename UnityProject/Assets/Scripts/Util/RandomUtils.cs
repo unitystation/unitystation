@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RandomUtils
 {
-	public static Quaternion RandomRotatation2D()
+	public static Quaternion RandomRotation2D()
 	{
 		var axis = new Vector3(0, 0, 1);
 		var randomRotation = Quaternion.AngleAxis(UnityEngine.Random.Range(-180f, 180f), axis);

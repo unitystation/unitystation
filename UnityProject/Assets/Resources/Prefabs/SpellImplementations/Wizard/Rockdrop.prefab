@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2091150287816295887}
-  - component: {fileID: 7985153769566280728}
-  - component: {fileID: -2961367611600828348}
+  - component: {fileID: 1785456988025682625}
+  - component: {fileID: 6794817751832701430}
   m_Layer: 0
-  m_Name: LesserSummonGuns
+  m_Name: Rockdrop
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: b60b1105383115d43b5360612f8f44b6, type: 3}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7985153769566280728
+--- !u!114 &1785456988025682625
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &-2961367611600828348
+--- !u!114 &6794817751832701430
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,22 +57,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7469762742606550612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aed59c8bd3a97f48ab9ef8aa5bff7e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 207b67e169344ad4782d3d724bf97a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
   portalPrefab: {fileID: 4686069471335676681, guid: 6ca11e1a2337f494d8337d3d47f0a042,
     type: 3}
-  gunPrefab: {fileID: 331383614235509145, guid: ed9f88270aae41443a71e5406ac73acb,
+  mainRockPrefab: {fileID: 7208620287548955600, guid: 5e3d3dfb1d4c2e74ba2e05503ea9cec0,
     type: 3}
-  LesserSummonGunsSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Magic/SummonGuns.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  gunSpawnCount: 4
-  scatterRadius: 3
-  timeBetweenPortals: 0.3
+  smallRockPrefab: {fileID: 7208620287548955600, guid: 6859337e044ce514f8079ab0f89a62f5,
+    type: 3}
+  smallRocksToSpawn: 7
+  timeBetweenRocks: 0.1
