@@ -165,8 +165,8 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/AmbientTracks/AmbiGen8.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 5631977054488097951, guid: 28ac62a70bb9bd54d852232bcd67e25b, type: 3}
-    m_TargetAsset: {fileID: 5631977054488097951, guid: 28ac62a70bb9bd54d852232bcd67e25b, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: 41d108c708b1d9a4c87262a5752b275f
     m_Address: Assets/Prefabs/AmbientTracks/AsteriodAmbience.prefab
     m_ReadOnly: 0
@@ -1283,68 +1283,56 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: ace575518080b7c42833d9cc883f3d87
-    m_Address: Assets/Prefabs/GunShots/ShootTazer.prefab
+  - m_GUID: e88b050a44cb5d64281d5f409a594720
+    m_Address: Assets/Prefabs/Weapons/PlasmaCutter.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: fe0d97b1e1cabcb4ab239859499f6a70
-    m_Address: Assets/Prefabs/GunShots/PlasmaCutter.prefab
+  - m_GUID: f354f2d6341c1db4993db9c09a67d413
+    m_Address: Assets/Prefabs/Weapons/Laser1.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: 683094d5bfc3d3e43bc31b62263dca2b
-    m_Address: Assets/Prefabs/GunShots/ShootLMG.prefab
+  - m_GUID: 1abbd515b56edd84d870b487881e9a89
+    m_Address: Assets/Prefabs/Weapons/TaserHit.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: 305cb907a9c4a6f40935b6a1c74d87ea
-    m_Address: Assets/Prefabs/GunShots/ShootGun04.prefab
+  - m_GUID: 492b8fce91eaaa64188bab166734d96c
+    m_Address: Assets/Prefabs/Weapons/Taser2.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: 5c59f927cbc69a94eb88155ae665df54
-    m_Address: Assets/Prefabs/GunShots/ShootSMG.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
-  - m_GUID: 920341478e99231449a5794a21a7fdf8
-    m_Address: Assets/Prefabs/GunShots/ShootGun01.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
-  - m_GUID: accf86d84f1d66c4f80e5d2f1681e7c6
-    m_Address: Assets/Prefabs/GunShots/ShootGunUzi.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
-  - m_GUID: 84c1dfab17572d24c98b44a362a4e9c0
-    m_Address: Assets/Prefabs/GunShots/ShootLaser.prefab
+  - m_GUID: 958b315a205eab048afdc598b0086abb
+    m_Address: Assets/Prefabs/Weapons/Taser1.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
   - m_GUID: 7b699d4d690884d4ca2b83ee49baa65b
-    m_Address: Assets/Prefabs/GunShots/ShootPulse.prefab
+    m_Address: Assets/Prefabs/Weapons/Pulse.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: b4d5a65d5afc28740a76da3e06589da5
-    m_Address: Assets/Prefabs/GunShots/ShootHeavySuppressed.prefab
+  - m_GUID: 2672d4ec653a41c4ca7a3f042b7d5af4
+    m_Address: Assets/Prefabs/Weapons/LaserCannonFire.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: eb2b19aebe21f1e45be989344c91af75
-    m_Address: Assets/Prefabs/GunShots/ShootTommy.prefab
+  - m_GUID: f068125dbb2905d45946fbcebed251a8
+    m_Address: Assets/Prefabs/Weapons/Laser3.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: c3a74fe2992338947af89092fb0b06df
+    m_Address: Assets/Prefabs/Weapons/Laser2.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
@@ -2343,32 +2331,38 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/Magic/TeleportAppear.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 1874605057849933153, guid: 85011587a72b5124c9fb0556492a2718, type: 3}
-    m_TargetAsset: {fileID: 1874605057849933153, guid: 85011587a72b5124c9fb0556492a2718, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: 6758054f85d5e6f4096a09615ebcbf69
     m_Address: Assets/Prefabs/Magic/TeleportDisappear.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 1874605057849933153, guid: 6758054f85d5e6f4096a09615ebcbf69, type: 3}
-    m_TargetAsset: {fileID: 1874605057849933153, guid: 6758054f85d5e6f4096a09615ebcbf69, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: 1aad8eb93b836174fa757b0806abd46e
     m_Address: Assets/Prefabs/Magic/SummonGuns.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 1874605057849933153, guid: 1aad8eb93b836174fa757b0806abd46e, type: 3}
-    m_TargetAsset: {fileID: 1874605057849933153, guid: 1aad8eb93b836174fa757b0806abd46e, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: b4592d5bdb254e04b968816f165e73f4
     m_Address: Assets/Prefabs/Magic/SummonItemsGeneric.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 1874605057849933153, guid: b4592d5bdb254e04b968816f165e73f4, type: 3}
-    m_TargetAsset: {fileID: 1874605057849933153, guid: b4592d5bdb254e04b968816f165e73f4, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: 4976b755fe392cf4c898e2811c0cfeb3
     m_Address: Assets/Prefabs/Magic/Blind.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 1874605057849933153, guid: 4976b755fe392cf4c898e2811c0cfeb3, type: 3}
-    m_TargetAsset: {fileID: 1874605057849933153, guid: 4976b755fe392cf4c898e2811c0cfeb3, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: a7fd06aea1457974eac2d3939223d0c1
+    m_Address: Assets/Prefabs/Weapons/IonRifle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 5633815793196679491, guid: a7fd06aea1457974eac2d3939223d0c1, type: 3}
+    m_TargetAsset: {fileID: 5633815793196679491, guid: a7fd06aea1457974eac2d3939223d0c1, type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f95b0aa2a9e50074595f5a4dc19fbb1a, type: 2}
   m_SchemaSet:

@@ -15,7 +15,6 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	private ItemStorage storageObject;
 	private ItemSlot slot;
 
-	//RRTL
 	public AddressableAudioSource OpenCloseSound;
 
 
