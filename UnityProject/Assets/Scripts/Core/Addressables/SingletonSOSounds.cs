@@ -44,6 +44,7 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource Sparks = null;
    public AddressableAudioSource Rustle = null;
    public AddressableAudioSource BreakStone = null;
+   public AddressableAudioSource GlassBreak01 = null;
 
    public AddressableAudioSource AnnouncementNotice = null;
    public AddressableAudioSource AnnouncementAnnounce = null;

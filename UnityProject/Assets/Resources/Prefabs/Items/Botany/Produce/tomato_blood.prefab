@@ -1,5 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4848091471266021778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6810098815331655764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenItem: {fileID: 1069497300762596, guid: e4b5330dc21e94b0494056c5ef239d49, type: 3}
+  chanceToBreak: 100
+  useCustomSound: 1
+  customSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/ShyguyScream.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &1890460564945177147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -300,6 +322,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tomato_blood
       objectReference: {fileID: 0}
+    - target: {fileID: 4983277784558212719, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 4983833925385836507, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: m_AssetId
@@ -311,6 +338,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c6efb2eef9e13b842bd7ce464995e277,
         type: 3}
+    - target: {fileID: 5066517181570930995, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6259075970471028923, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: NutritionLevel
@@ -324,3 +356,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}
+--- !u!1 &6810098815331655764 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1890460564945177147}
+  m_PrefabAsset: {fileID: 0}

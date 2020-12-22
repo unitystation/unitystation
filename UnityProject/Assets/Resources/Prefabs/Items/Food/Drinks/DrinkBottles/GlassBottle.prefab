@@ -26,6 +26,29 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b1d7b1bd436fdbb4e9abbada2fa13c74, type: 3}
   - {fileID: 21300000, guid: 94d7c578ae1ded747b82b4f50359108c, type: 3}
   - {fileID: 21300000, guid: 942b263c48de8274da3e98a50884124a, type: 3}
+--- !u!114 &-909571580518399196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124207949847323391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenItem: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
+    type: 3}
+  chanceToBreak: 100
+  useCustomSound: 0
+  customSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1 &5302129539027542214
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,6 +96,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -95,7 +119,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 42
   m_Sprite: {fileID: 21300000, guid: dbe0c566a675b6a44b79ac8fe8ee52f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -123,9 +147,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 54f71332c1ee70848bda6c5eb2dbff1e, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &7806547096474758670
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,6 +198,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -195,7 +221,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -223,9 +249,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1001 &5231688345591793492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -310,6 +337,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 23c4029e1c2f0b84cb1037213c3365e4,
         type: 3}
+    - target: {fileID: 6274066957328979703, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a38b78ce2ca024a92744e263e5e94a, type: 3}
 --- !u!1 &2124207949847323391 stripped

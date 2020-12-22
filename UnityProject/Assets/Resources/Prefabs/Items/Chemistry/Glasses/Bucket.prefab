@@ -156,6 +156,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3aa6f26374f474b4a9640803bd2ab5e7,
         type: 3}
+    - target: {fileID: 5388378204652235194, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -288,7 +293,8 @@ PrefabInstance:
       propertyPath: maxCapacity
       value: 70
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -2722210368152241391, guid: 364841a08150e9345b119e71191c8dcf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 364841a08150e9345b119e71191c8dcf, type: 3}
 --- !u!1 &8724836040044288808 stripped
 GameObject:

@@ -1,5 +1,28 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7346780444472678031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152655092904150459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenItem: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
+    type: 3}
+  chanceToBreak: 100
+  useCustomSound: 0
+  customSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &-3697630692407340460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +130,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -183,6 +206,11 @@ PrefabInstance:
       propertyPath: initialIntegrity
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7799379685630866348, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 7799949450078925336, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: m_AssetId
@@ -254,6 +282,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a652072a4249d7145a17349eb2c47af1,
         type: 3}
+    - target: {fileID: 8024073914213612784, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: transferAmount
