@@ -22,6 +22,7 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private SpriteDataSO PresentSpriteSet;
 	private SpriteDataSO.Frame PresentFrame = null;
 
+	[Tooltip("If checked, a random sprite SO will be selected during initialization from the catalogue of sprite SOs.")]
 	[SerializeField] private bool randomInitialSprite = false;
 
 	private SpriteRenderer spriteRenderer;
