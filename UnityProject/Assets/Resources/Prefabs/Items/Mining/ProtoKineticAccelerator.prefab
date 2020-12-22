@@ -41,6 +41,13 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  DryFireSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   FireRate: 1
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
@@ -51,15 +58,7 @@ MonoBehaviour:
   WeaponType: 1
   isSuppressed: 0
   isSuppressible: 0
-  suppressor: {fileID: 0}
   Projectile: {fileID: 1560634355228308, guid: 904d4b4cb2c22314b82de3393f1cb254, type: 3}
-  ReloadKinetic:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/ReloadKinetic.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
   rechargeTime: 2
 --- !u!1001 &326958216201229889
 PrefabInstance:

@@ -112,21 +112,18 @@ namespace Weapons
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
 		public AddressableAudioSource FiringSoundA = null;
-		//RRTL
 
 		/// <summary>
 		/// The name of the sound this gun makes when shooting
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
 		public AddressableAudioSource SuppressedSoundA;
-		//RRTL
 		
 		/// <summary>
 		/// The sound the gun makes while trying to fire without ammo.
 		/// </summary>
 		[Tooltip("The sound the gun uses when trying to fire without ammo.")]
 		public AddressableAudioSource DryFireSound;
-		//RRTL
 
 		/// <summary>
 		/// The amount of times per second this weapon can fire
