@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brokenItem: {fileID: 1069497300762596, guid: e4b5330dc21e94b0494056c5ef239d49, type: 3}
   chanceToBreak: 100
-  soundToPlay:
+  useCustomSound: 1
+  customSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/ShyguyScream.prefab
     AssetReference:

@@ -1,4 +1,5 @@
 ﻿using AddressableReferences;
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,10 @@ namespace Items
 		private int chanceToBreak = 100;
 
 		[SerializeField]
-		private AddressableAudioSource soundToPlay = SingletonSOSounds.Instance.GlassBreak01;
+		private bool useCustomSound = false;
+
+		[SerializeField, ShowIf(nameof(useCustomSound))]
+		private AddressableAudioSource customSound = default;
 
 		private CustomNetTransform customNetTransform;
 
@@ -35,7 +39,7 @@ namespace Items
 			if (DMMath.Prob(chanceToBreak))
 			{
 				Spawn.ServerPrefab(brokenItem, gameObject.AssumedWorldPosServer());
-				SoundManager.PlayNetworkedAtPos(soundToPlay, gameObject.AssumedWorldPosServer());
+				SoundManager.PlayNetworkedAtPos(useCustomSound ? customSound : SingletonSOSounds.Instance.GlassBreak01, gameObject.AssumedWorldPosServer());
 				Despawn.ServerSingle(gameObject);
 			}
 		}
