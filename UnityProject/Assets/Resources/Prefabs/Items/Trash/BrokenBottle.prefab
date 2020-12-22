@@ -55,6 +55,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114182420558184634, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
@@ -203,7 +208,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 11400000, guid: 1830abd54ea321342b747714176cd89c,
+      objectReference: {fileID: 11400000, guid: 3bed2151538092740bd013455ce25e66,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
