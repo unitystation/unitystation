@@ -235,7 +235,7 @@ namespace Health.Sickness
 		private void PerformSymptomSneeze(SymptomManifestation symptomManifestation)
 		{
 			GameObject performer = symptomManifestation.PlayerHealth.gameObject;
-			Chat.AddActionMsgToChat(performer, "You sneeze.", $"{performer.name} sneezes");
+			Chat.AddActionMsgToChat(performer, "You sneeze.", $"{performer.ExpensiveName()} sneezes!");
 
 			if (symptomManifestation.SicknessAffliction.Sickness.Contagious)
 			{
@@ -249,7 +249,7 @@ namespace Health.Sickness
 		private void PerformSymptomCough(SymptomManifestation symptomManifestation)
 		{
 			GameObject performer = symptomManifestation.PlayerHealth.gameObject;
-			Chat.AddActionMsgToChat(performer, "You cough.", $"{performer.name} coughs");
+			Chat.AddActionMsgToChat(performer, "You cough.", $"{performer.ExpensiveName()} coughs!");
 
 			if (symptomManifestation.SicknessAffliction.Sickness.Contagious)
 			{
@@ -270,8 +270,9 @@ namespace Health.Sickness
 			int randomMessage = Random.Range(0, customMessageParameter.CustomMessages.Count);
 			CustomMessage customMessage = customMessageParameter.CustomMessages[randomMessage];
 
-			string privateMessage = (customMessage.privateMessage ?? "").Replace("%PLAYERNAME%", performer.name);
-			string publicMessage = (customMessage.publicMessage ?? "").Replace("%PLAYERNAME%", performer.name);
+			string performerName = performer.ExpensiveName();
+			string privateMessage = (customMessage.privateMessage ?? "").Replace("%PLAYERNAME%", performerName);
+			string publicMessage = (customMessage.publicMessage ?? "").Replace("%PLAYERNAME%", performerName);
 
 			if (string.IsNullOrWhiteSpace(publicMessage))
 				Chat.AddExamineMsg(performer, privateMessage);

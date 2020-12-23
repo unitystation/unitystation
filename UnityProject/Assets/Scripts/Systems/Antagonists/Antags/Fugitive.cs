@@ -41,19 +41,19 @@ namespace Antagonists
 			GameManager.Instance.CentComm.MakeCommandReport(warnMessage, CentComm.UpdateSound.notice);
 		}
 
-		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
+		public override ConnectedPlayer ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			var newPlayer = PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, AntagOccupation,
-				spawnRequest.CharacterSettings);
+				spawnRequest.CharacterSettings).Player();
 
-			UpdateChatMessage.Send(newPlayer, ChatChannel.Local, ChatModifier.Whisper,
+			UpdateChatMessage.Send(newPlayer.GameObject, ChatChannel.Local, ChatModifier.Whisper,
 				"I can't believe we managed to break out of a Nanotrasen superjail! Sadly though," +
 				" our work is not done. The emergency teleport at the station logs everyone who uses it," +
 				" and where they went. It won't be long until Centcom tracks where we've gone off to." +
 				" I need to move in the shadows and keep out of sight," +
 				" I'm not going back.");
 
-			_ = StationWarning(newPlayer.Player().Name);
+			_ = StationWarning(newPlayer.Script.playerName);
 
 			return newPlayer;
 		}
