@@ -104,7 +104,7 @@ namespace Antagonists
 		/// </summary>
 		/// <param name="spawnRequest">player's requested spawn</param>
 		/// <returns>gameobject of the spawned antag that he player is now in control of</returns>
-		public abstract GameObject ServerSpawn(PlayerSpawnRequest spawnRequest);
+		public abstract ConnectedPlayer ServerSpawn(PlayerSpawnRequest spawnRequest);
 
 		public void AddObjective(Objective objective)
 		{

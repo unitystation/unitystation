@@ -17,9 +17,9 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	/// </summary>
 	public CharacterSettings characterSettings = new CharacterSettings();
 
-	[SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
+	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
 
-	[SyncVar(hook = nameof(SyncVisibleName))] public string visibleName = " ";
+	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))] public string visibleName = " ";
 	public PlayerNetworkActions playerNetworkActions { get; set; }
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
@@ -421,16 +421,19 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	//Update visible name.
 	public void RefreshVisibleName()
 	{
-		// TODO: Check inventory for head/mask items that hide face - atm just check you are not wearing a mask.
-		// needs helmet/hideface trait to be added and checked for. This way, we start with a "face name" our characters might know...
-		if (IsGhost || ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty)
+		string newVisibleName;
+
+		if (IsGhost || Equipment.IsIdentityObscured() == false)
 		{
-			SyncVisibleName(playerName, playerName);
+			newVisibleName = playerName; // can see face so real identity is known
 		}
 		else
 		{
-			SyncVisibleName("Unknown", "Unknown");
+			// Returns Unknown if identity could not be found via equipment (ID, PDA)
+			newVisibleName = Equipment.GetPlayerNameByEquipment();
 		}
+
+		SyncVisibleName(newVisibleName, newVisibleName);
 	}
 
 	//Tooltips inspector bar

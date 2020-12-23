@@ -9,7 +9,7 @@ public enum SpriteHandType
 	LeftHand
 }
 
-public delegate void OnClothingEquippedDelegate(ClothingV2 clothing, bool isEquiped);
+public delegate void OnClothingEquippedDelegate(ClothingV2 clothing, bool isEquipped);
 
 /// <summary>
 /// For the Individual clothing player sprite renderers

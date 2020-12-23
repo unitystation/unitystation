@@ -22,6 +22,10 @@ public class ClothingV2 : NetworkBehaviour
 	[SerializeField][SyncVar(hook = nameof(SyncSprites))]
 	private ClothingVariantType variantType = ClothingVariantType.Default;
 
+	[Tooltip("Determine whether this piece of clothing obscures the identity of the wearer (head, maskwear)")]
+	[SerializeField]
+	private bool hidesIdentity = false;
+
 	[Tooltip("Determine which slots this clothing should obscure.")]
 	[SerializeField, EnumFlag]
 	private NamedSlotFlagged hidesSlots = NamedSlotFlagged.None;
@@ -50,6 +54,9 @@ public class ClothingV2 : NetworkBehaviour
 	/// The index of the sprites that should currently be used for rendering this, an index into SpriteData.List
 	/// </summary>
 	public int SpriteInfoState => isAdjusted ? 1 : 0;
+
+	/// <summary> Whether this piece of clothing obscures the identity of the wearer (head, maskwear). </summary>
+	public bool HidesIdentity => hidesIdentity;
 
 	/// <summary>
 	/// When this item is equipped, these are the slots that should be hidden.

@@ -26,11 +26,10 @@ namespace Antagonists
 
 		public int StartingSpellCount => startingSpellCount;
 
-		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
+		public override ConnectedPlayer ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
-			GameObject newPlayer = PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, AntagOccupation,
-					spawnRequest.CharacterSettings);
-			ConnectedPlayer player = newPlayer.Player();
+			ConnectedPlayer player = PlayerSpawn.ServerSpawnPlayer(
+					spawnRequest.JoinedViewer, AntagOccupation, spawnRequest.CharacterSettings).Player();
 
 			GiveRandomSpells(player);
 
@@ -41,7 +40,7 @@ namespace Antagonists
 
 			SetPapers(player);
 
-			return newPlayer;
+			return player;
 		}
 
 		public string GetRandomWizardName()
