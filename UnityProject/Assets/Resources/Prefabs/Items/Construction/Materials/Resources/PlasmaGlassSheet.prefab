@@ -38,7 +38,13 @@ MonoBehaviour:
       type: 2}
     itemCost: 2
   placeTime: 6
-  placeSound: GlassHit
+  placeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &8850041826560229315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -178,6 +184,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 664826c0d1b4b2c4cb83c79a127a756a,
         type: 3}
+    - target: {fileID: 8637049411140268899, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b56fec0300832ce48ade0ddf2e577ee7, type: 3}
 --- !u!1 &1151981523841236988 stripped

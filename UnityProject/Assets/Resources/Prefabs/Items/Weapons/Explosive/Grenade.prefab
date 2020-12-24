@@ -20,7 +20,7 @@ MonoBehaviour:
   fuseLength: 3
   armbomb:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/armbomb.prefab
+    AssetAddress: Assets/Prefabs/Weapons/armbomb.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -82,12 +82,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: a9cf0172ca27b1b4bb8fdf337f25c029,
         type: 3}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size

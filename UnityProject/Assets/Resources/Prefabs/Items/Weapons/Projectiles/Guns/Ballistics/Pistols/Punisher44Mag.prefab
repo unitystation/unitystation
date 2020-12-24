@@ -136,6 +136,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21396104557255652, guid: b050e4c5d57a78745b27d25436f42c04,
         type: 3}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/Rifle/RifleShot.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 4899563401211278407, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: PresentSpriteSet

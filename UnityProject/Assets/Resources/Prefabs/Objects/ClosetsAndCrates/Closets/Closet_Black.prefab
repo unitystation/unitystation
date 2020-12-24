@@ -19,6 +19,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6b7e9eec63229794998914c5e8ae3702,
         type: 3}
+    - target: {fileID: 1969054859882783242, guid: fcb881ba1c51960459541b3bcfd049b7,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 36b2a818934f88a4bb29e82c35b88bf1,
+        type: 2}
+    - target: {fileID: 2512969720450703279, guid: fcb881ba1c51960459541b3bcfd049b7,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3233124815913549234, guid: fcb881ba1c51960459541b3bcfd049b7,
         type: 3}
       propertyPath: m_AssetId
@@ -90,5 +101,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: da5c2bf4485af964c84c86886dcd3cee,
         type: 3}
+    - target: {fileID: 6513243830832753863, guid: fcb881ba1c51960459541b3bcfd049b7,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513243830832753863, guid: fcb881ba1c51960459541b3bcfd049b7,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513243830832753863, guid: fcb881ba1c51960459541b3bcfd049b7,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fcb881ba1c51960459541b3bcfd049b7, type: 3}

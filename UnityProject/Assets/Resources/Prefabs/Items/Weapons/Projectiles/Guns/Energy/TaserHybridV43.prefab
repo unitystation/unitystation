@@ -108,6 +108,21 @@ PrefabInstance:
       propertyPath: firemodeUsage.Array.data[1]
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[0].AssetAddress
+      value: Assets/Prefabs/Weapons/Taser1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[1].AssetAddress
+      value: Assets/Prefabs/Weapons/Taser2.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/Taser1.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 4979405696378388488, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: m_Sprite

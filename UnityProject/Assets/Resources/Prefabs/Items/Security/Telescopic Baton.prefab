@@ -17,7 +17,7 @@ MonoBehaviour:
   spriteHandler: {fileID: 0}
   soundToggle:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/Weapons/BatonExtend.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -41,7 +41,7 @@ MonoBehaviour:
   delay: 0
   stunSound:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/ThudSwoosh.prefab
+    AssetAddress: Assets/Prefabs/Effects/WoodHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -101,9 +101,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114326413956932616, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 114182420558184634, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: butcherSound.AssetAddress
+      propertyPath: pushPullSound.AssetAddress
       value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -117,6 +117,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 65365615fcd65b3449f6b93fef1a194a,
         type: 3}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size

@@ -42,35 +42,35 @@ MonoBehaviour:
       m_SubObjectType: 
   ExplosionDistant1:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/Explosion/ExplosionDistant.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   ExplosionDistant2:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Explosion/Explosion1.prefab
+    AssetAddress: Assets/Prefabs/Explosion/ExplosionFar.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   ExplosionCreak1:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/Explosion/ExplosionCreak1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   ExplosionCreak2:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/Explosion/ExplosionCreak2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   ExplosionCreak3:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/Explosion/ExplosionCreak3.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -85,6 +85,20 @@ MonoBehaviour:
   Notice2:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Notice2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  GunEmptyAlarm:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralEmptyAlarm.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  KineticReload:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -357,7 +371,7 @@ MonoBehaviour:
       m_SubObjectType: 
   Valve:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/UI/Valve.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -371,14 +385,14 @@ MonoBehaviour:
       m_SubObjectType: 
   CritState:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/LoopedSounds/Critstate.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   ambigen8:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbiGen8.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

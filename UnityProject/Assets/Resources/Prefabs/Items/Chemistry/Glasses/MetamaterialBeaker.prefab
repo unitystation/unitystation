@@ -85,6 +85,11 @@ PrefabInstance:
       propertyPath: possibleTransferAmounts.Array.data[8]
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 7672760112814096758, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: ChanceToBreak
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -166,5 +171,6 @@ PrefabInstance:
       propertyPath: initialName
       value: metamaterial beaker
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7672760112814096758, guid: 8fee22e722a3782408324281846ebd02, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8fee22e722a3782408324281846ebd02, type: 3}

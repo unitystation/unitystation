@@ -42,7 +42,7 @@ public class EventSpawnBlob : EventScriptBase
 		//Set up objectives
 		if (antag == null || antag.Antagonist.AntagJobType != JobType.BLOB)
 		{
-			AntagManager.Instance.ServerFinishAntag(SOAdminJobsList.Instance.Antags.First(a => a.AntagJobType == JobType.BLOB), player, player.GameObject);
+			AntagManager.Instance.ServerFinishAntag(SOAdminJobsList.Instance.Antags.First(a => a.AntagJobType == JobType.BLOB), player);
 		}
 	}
 }

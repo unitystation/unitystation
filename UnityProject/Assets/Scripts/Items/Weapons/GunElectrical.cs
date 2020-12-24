@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using UnityEditor;
 using Weapons;
@@ -10,7 +11,7 @@ using Weapons.Projectiles;
 public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 {
 	public List<GameObject> firemodeProjectiles = new List<GameObject>();
-	public List<string> firemodeFiringSound = new List<string>();
+	public List<AddressableAudioSource> firemodeFiringSound = new List<AddressableAudioSource>();
 	public List<string> firemodeName = new List<string>();
 	public List<int> firemodeUsage = new List<int>();
 
@@ -117,7 +118,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	public void UpdateFiremode(int oldValue, int newState)
 	{
 		currentFiremode = newState;
-		FiringSound = firemodeFiringSound[currentFiremode];
+		FiringSoundA = firemodeFiringSound[currentFiremode];
 		//TODO: change sprite here
 	}
 

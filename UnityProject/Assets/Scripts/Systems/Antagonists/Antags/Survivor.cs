@@ -6,10 +6,10 @@ namespace Antagonists
 	[CreateAssetMenu(menuName = "ScriptableObjects/Antagonist/Survivor")]
 	public class Survivor : Antagonist
 	{
-		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
+		public override ConnectedPlayer ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally, with their preferred occupation
-			return PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+			return PlayerSpawn.ServerSpawnPlayer(spawnRequest).Player();
 		}
 	}
 }

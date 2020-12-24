@@ -79,14 +79,14 @@ MonoBehaviour:
   syncInterval: 0.1
   TeleportDisappear:
     SetLoadSetting: 0
-    AssetAddress: None
+    AssetAddress: Assets/Prefabs/Magic/TeleportDisappear.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   TeleportAppear:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/Magic/TeleportAppear.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
