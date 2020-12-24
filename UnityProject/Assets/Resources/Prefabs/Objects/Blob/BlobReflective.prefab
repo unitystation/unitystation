@@ -17,6 +17,23 @@ PrefabInstance:
       propertyPath: isReflective
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: blobType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: activeSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: 117ac9d46beea584e914741085d416e8,
+        type: 2}
+    - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: inactiveSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: a46ca0047b90cf04eb0dd5d6602d4800,
+        type: 2}
     - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -81,7 +98,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300032, guid: 813029b21884737488c81db5926d7f3e,
+      objectReference: {fileID: 21300000, guid: 813029b21884737488c81db5926d7f3e,
         type: 3}
     - target: {fileID: 5538826551895775827, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}

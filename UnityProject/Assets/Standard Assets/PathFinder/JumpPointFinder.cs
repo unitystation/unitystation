@@ -249,7 +249,7 @@ namespace EpPathFinding.cs
 
 	            if (count > 1000)
 	            {
-		            Debug.LogError("Stackoverflow prevented!!");
+		            //Custom code to prevent freeze due to never ending loop
 		            break;
 	            }
 
@@ -373,7 +373,7 @@ namespace EpPathFinding.cs
 
 	            if (count > 1000)
 	            {
-		            Debug.LogError("Stackoverflow prevented 2 !!!");
+		            //Custom code to prevent freeze due to never ending loop
 		            break;
 	            }
 

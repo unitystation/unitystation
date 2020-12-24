@@ -12,6 +12,7 @@ using TMPro;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using EpPathFinding.cs;
+using UnityEngine.Profiling;
 
 namespace Blob
 {
@@ -220,6 +221,9 @@ namespace Blob
 		private int maxNonSpaceCount = 0;
 
 		private bool pathSearch;
+
+		//stores the client linerenderer gameobjects
+		private HashSet<GameObject> clientLinerenderers = new HashSet<GameObject>();
 
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
@@ -547,6 +551,23 @@ namespace Blob
 			uiBlob.randomStrains = strains.PickRandom(4).ToList();
 
 			uiBlob.UpdateStrainInfo();
+		}
+
+		[TargetRpc]
+		private void TargetRpcSetLineRender(NetworkConnection target, Vector3 worldPos, Vector3[] positions)
+		{
+			var blobs = MatrixManager.GetAt<BlobStructure>(worldPos.RoundToInt(), false);
+
+			foreach (var blob in blobs)
+			{
+				if(blob.lineRenderer == null) continue;
+
+				blob.lineRenderer.positionCount = positions.Length;
+				blob.lineRenderer.SetPositions(positions);
+				blob.lineRenderer.enabled = uiBlob.blobnet;
+
+				clientLinerenderers.Add(blob.gameObject);
+			}
 		}
 
 		#endregion
@@ -937,6 +958,26 @@ namespace Blob
 			return false;
 		}
 
+		/// <summary>
+		/// Check to see if all blobs are still in main dictionary
+		/// </summary>
+		/// <param name="worldPos"></param>
+		/// <param name="noMsg"></param>
+		/// <returns></returns>
+		private bool ValidateBlobPath(List<Vector3Int> fullPath)
+		{
+			if (fullPath.Count == 0) return false;
+
+			foreach (var position in fullPath)
+			{
+				if (blobTiles.ContainsKey(position)) continue;
+
+				return false;
+			}
+
+			return true;
+		}
+
 		#endregion
 
 		#region Effects
@@ -971,14 +1012,14 @@ namespace Blob
 			if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
 			{
 				//Try place strong
-				if (blob != null && blob.isNormal)
+				if (blob != null && blob.blobType == BlobConstructs.Normal)
 				{
 					PlaceStrongReflective(blobStrongPrefab, blob, strongBlobCost, worldPos, "You grow a strong blob, you can now mutate to a reflective.");
 					return;
 				}
 
 				//Try place reflective
-				if (blob != null && blob.isStrong)
+				if (blob != null && blob.blobType == BlobConstructs.Strong)
 				{
 					PlaceStrongReflective(blobReflectivePrefab, blob, reflectiveBlobCost, worldPos, "You grow a reflective blob.");
 					return;
@@ -1057,7 +1098,7 @@ namespace Blob
 
 			if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
 			{
-				if (blob != null && blob.isNormal)
+				if (blob != null && blob.blobType == BlobConstructs.Normal)
 				{
 					if (blobConstructs != BlobConstructs.Node && !ValidateDistance(worldPos, true))
 					{
@@ -1128,7 +1169,9 @@ namespace Blob
 
 			if (blobTiles.TryRemove(info.Destroyed.GetComponent<BlobStructure>().location, out var removed))
 			{
+				removed.connectedToBlobNet = false;
 				nodeBlobs.Remove(removed);
+				resourceBlobs.Remove(removed);
 			}
 
 			factoryBlobs.TryRemove(info.Destroyed.gameObject.GetComponent<BlobStructure>(), out var spores);
@@ -1156,33 +1199,34 @@ namespace Blob
 			}
 			else
 			{
-				if (blob.isNode || blob.isCore)
-				{
-					Chat.AddExamineMsgFromServer(gameObject, "This is a core or node blob. It cannot be removed");
-					return;
-				}
-
 				var returnCost = 0;
 
-				if (blob.isNormal)
+				switch (blob.blobType)
 				{
-					returnCost = Mathf.RoundToInt(normalBlobCost * refundPercentage);
-				}
-				else if (blob.isStrong)
-				{
-					returnCost = Mathf.RoundToInt(strongBlobCost * refundPercentage);
-				}
-				else if (blob.isReflective)
-				{
-					returnCost = Mathf.RoundToInt(reflectiveBlobCost * refundPercentage);
-				}
-				else if (blob.isResource)
-				{
-					returnCost = Mathf.RoundToInt(resourceBlobCost * refundPercentage);
-				}
-				else if (blob.isFactory)
-				{
-					returnCost = Mathf.RoundToInt(factoryBlobCost * refundPercentage);
+					case BlobConstructs.Normal:
+						returnCost = Mathf.RoundToInt(normalBlobCost * refundPercentage);
+						break;
+					case BlobConstructs.Factory:
+						returnCost = Mathf.RoundToInt(factoryBlobCost * refundPercentage);
+						break;
+					case BlobConstructs.Resource:
+						returnCost = Mathf.RoundToInt(resourceBlobCost * refundPercentage);
+						break;
+					case BlobConstructs.Strong:
+						returnCost = Mathf.RoundToInt(strongBlobCost * refundPercentage);
+						break;
+					case BlobConstructs.Reflective:
+						returnCost = Mathf.RoundToInt(reflectiveBlobCost * refundPercentage);
+						break;
+					case BlobConstructs.Core:
+						Chat.AddExamineMsgFromServer(gameObject, "This is a blob core. It cannot be removed");
+						return;
+					case BlobConstructs.Node:
+						Chat.AddExamineMsgFromServer(gameObject, "This is a blob node. It cannot be removed");
+						return;
+					default:
+						Debug.LogError("Switch has no correct case for blob click!");
+						break;
 				}
 
 				Chat.AddExamineMsgFromServer(gameObject, $"Blob removed, {AddToResources(returnCost)} biomass refunded");
@@ -1317,7 +1361,7 @@ namespace Blob
 		/// <param name="oldNode"></param>
 		public void SwitchCore(BlobStructure oldNode)
 		{
-			if (!oldNode.isNode)
+			if (oldNode.blobType != BlobConstructs.Node)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "Can only move the core to a node");
 				return;
@@ -1348,12 +1392,12 @@ namespace Blob
 		}
 
 		/// <summary>
-		/// Switches a node into a core
+		/// Moves a core to a normal blob
 		/// </summary>
 		/// <param name="oldNode"></param>
 		public void MoveCoreToNormalBlob(BlobStructure oldNormal)
 		{
-			if (!oldNormal.isNormal)
+			if (oldNormal.blobType != BlobConstructs.Normal)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "Can only move the core to a normal blob");
 				return;
@@ -1419,7 +1463,7 @@ namespace Blob
 			var pos = node.GetComponent<CustomNetTransform>().ServerPosition;
 			var structNode = node.GetComponent<BlobStructure>();
 
-			if(!structNode.isCore && !structNode.isNode) return;
+			if(structNode.blobType != BlobConstructs.Core && structNode.blobType != BlobConstructs.Node) return;
 
 			structNode.expandCoords = GenerateCoords(pos);
 			structNode.healthPulseCoords = structNode.expandCoords;
@@ -1513,9 +1557,8 @@ namespace Blob
 
 				if (currentStrain.strainType == StrainTypes.NetworkedFibers)
 				{
-					//Nodes produce 1.5 resources to make up for no expansion
-					//TODO change to connectedtoblob
-					numResource += nodeBlobs.Count * 1.5f;
+					//Connected nodes produce 1.5 resources to make up for no expansion
+					numResource += nodeBlobs.Count(r => r.connectedToBlobNet) * 1.5f;
 					coreIncome = 4;
 				}
 				else if (currentStrain.strainType == StrainTypes.RegenerativeMateria)
@@ -1567,6 +1610,7 @@ namespace Blob
 				blobStructure.lightSprite.Color.a = 0.2f;
 			}
 
+			blobStructure.spriteHandler.SetSpriteSO(blobStructure.activeSprite, NewvariantIndex: Random.Range(0, blobStructure.activeSprite.Variance.Count));
 			blobStructure.spriteHandler.SetColor(currentStrain.color);
 		}
 
@@ -1596,13 +1640,13 @@ namespace Blob
 			{
 				if(node == null || !node.connectedToBlobNet) continue;
 
-				var healthToRestore = node.isCore ? 3f : 1f;
+				var healthToRestore = node.blobType == BlobConstructs.Core ? 3f : 1f;
 
-				if (currentStrain.strainType == StrainTypes.NetworkedFibers && node.isCore)
+				if (currentStrain.strainType == StrainTypes.NetworkedFibers && node.blobType == BlobConstructs.Core)
 				{
 					healthToRestore *= 2.5f;
 				}
-				else if (currentStrain.strainType == StrainTypes.RegenerativeMateria && node.isCore)
+				else if (currentStrain.strainType == StrainTypes.RegenerativeMateria && node.blobType == BlobConstructs.Core)
 				{
 					healthToRestore *= 10f;
 				}
@@ -1737,7 +1781,19 @@ namespace Blob
 					SpreadDamageOut(info);
 					break;
 				default:
-					return;
+					break;
+			}
+
+			//If less than 50% health set to damaged sprite for Normal,Strong and reflective
+			if (info.AttackedIntegrity.integrity < info.AttackedIntegrity.initialIntegrity / 2
+			    && info.AttackedIntegrity.integrity > 0
+			    && info.AttackedIntegrity.gameObject.TryGetComponent<BlobStructure>(out var blob)
+			    && blob != null
+			    && (blob.blobType == BlobConstructs.Normal
+			        || blob.blobType == BlobConstructs.Strong
+			        || blob.blobType == BlobConstructs.Reflective))
+			{
+				blob.spriteHandler.SetSpriteSO(blob.inactiveSprite);
 			}
 		}
 
@@ -1798,7 +1854,7 @@ namespace Blob
 				//If moved to node or core refresh areas
 				ResetArea(first.gameObject);
 
-				if(!blobStructure.isCore && !blobStructure.isNode) return;
+				if(blobStructure.blobType != BlobConstructs.Core && blobStructure.blobType != BlobConstructs.Node) return;
 
 				ResetArea(second.gameObject);
 				return;
@@ -1893,12 +1949,44 @@ namespace Blob
 					positions[i] = new Vector3(resultPathList[i].x + bottomXCoord, resultPathList[i].y + bottomYCoord, 0);
 				}
 
-				blobStructure.lineRenderer.positionCount = resultPathList.Count;
-
-				blobStructure.lineRenderer.SetPositions(positions);
+				TargetRpcSetLineRender(connectionToClient, blobStructure.location, positions);
 			}
 
-			return resultPathList?.Count > 0;
+			if (resultPathList?.Count > 0)
+			{
+				if (blobStructure != null)
+				{
+					var fullPath = JumpPointFinder.GetFullPath(resultPathList);
+
+					var positions = new List<Vector3Int>();
+
+					for (int i = 0; i < fullPath.Count; i++)
+					{
+						positions.Add(new Vector3Int(fullPath[i].x + bottomXCoord, fullPath[i].y + bottomYCoord, 0));
+					}
+
+					blobStructure.connectedPath = positions;
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Toggles the cached line renderers for the client
+		/// </summary>
+		/// <param name="toggle"></param>
+		[Client]
+		public void ToggleLineRenderers(bool toggle)
+		{
+			foreach (var lineRendererObject in clientLinerenderers)
+			{
+				if(lineRendererObject == null || !lineRendererObject.TryGetComponent<LineRenderer>(out var lineRenderer)) continue;
+
+				lineRenderer.enabled = toggle;
+			}
 		}
 
 		#endregion
@@ -1916,11 +2004,15 @@ namespace Blob
 
 		private IEnumerator CheckPaths()
 		{
+			Profiler.BeginSample("Blob Grid");
 			GenerateGrid();
+			Profiler.EndSample();
 
+			Profiler.BeginSample("Blob paths");
 			NodePaths();
 			EcoPaths();
 			FactoryPaths();
+			Profiler.EndSample();
 
 			pathSearch = false;
 			yield break;
@@ -1930,6 +2022,7 @@ namespace Blob
 		{
 			var sortedNodes = nodeBlobs.OrderBy(n => Vector3.Distance(n.location, blobCore.location));
 
+			//Do closets nodes to core first
 			foreach (var blob in sortedNodes)
 			{
 				if(blob == null || blob == blobCore) continue;
@@ -1937,8 +2030,20 @@ namespace Blob
 				//If not next to any blob then failed anyway, dont need to check
 				if (!ValidateNextToBlob(blob.location))
 				{
-					blob.lineRenderer.SetPositions(new Vector3[0]);
-					blob.connectedToBlobNet = false;
+					ResetConnection(blob);
+					continue;
+				}
+
+				//If the last connected path still exists dont need to check until it has changed
+				if (ValidateBlobPath(blob.connectedPath) && blob.connectedNode != null)
+				{
+					//If we're still connected to a valid node then that node connection state is ours too
+					blob.connectedToBlobNet = blob.connectedNode.connectedToBlobNet;
+
+					blob.spriteHandler.SetSpriteSO(blob.connectedNode.connectedToBlobNet
+						? blob.activeSprite
+						: blob.inactiveSprite);
+
 					continue;
 				}
 
@@ -1954,10 +2059,13 @@ namespace Blob
 					//Dont connect each way
 					if(node.connectedNode == blob) continue;
 
+					searchGrid.Reset();
+
 					if (PathSearch(blob.location.To2Int(), node.location.To2Int(), blob))
 					{
 						blob.connectedNode = node;
 						blob.connectedToBlobNet = node.connectedToBlobNet;
+						blob.spriteHandler.SetSpriteSO(blob.activeSprite);
 
 						foundConnection = true;
 						break;
@@ -1969,9 +2077,9 @@ namespace Blob
 				{
 					blob.connectedNode = null;
 					blob.connectedToBlobNet = false;
+					blob.connectedPath.Clear();
+					blob.spriteHandler.SetSpriteSO(blob.inactiveSprite);
 				}
-
-				searchGrid.Reset();
 			}
 		}
 
@@ -1979,30 +2087,7 @@ namespace Blob
 		{
 			foreach (var blob in resourceBlobs)
 			{
-				if(blob == null) continue;
-
-				if (!ValidateNextToBlob(blob.location))
-				{
-					blob.lineRenderer.SetPositions(new Vector3[0]);
-					blob.connectedToBlobNet = false;
-					continue;
-				}
-
-				var nodesClosest = nodeBlobs.OrderBy(n => Vector3.Distance(n.location, blob.location));
-
-				//Try to connect to nearest node if possible
-				foreach (var node in nodesClosest)
-				{
-					if(node == null) continue;
-
-					if (PathSearch(blob.location.To2Int(), node.location.To2Int(), blob))
-					{
-						blob.connectedToBlobNet = node.connectedToBlobNet;
-						break;
-					}
-				}
-
-				searchGrid.Reset();
+				CheckPath(blob);
 			}
 		}
 
@@ -2010,31 +2095,73 @@ namespace Blob
 		{
 			foreach (var blob in factoryBlobs)
 			{
-				if(blob.Key == null) continue;
+				CheckPath(blob.Key);
+			}
+		}
 
-				if (!ValidateNextToBlob(blob.Key.location))
-				{
-					blob.Key.lineRenderer.SetPositions(new Vector3[0]);
-					blob.Key.connectedToBlobNet = false;
-					continue;
-				}
+		private void CheckPath(BlobStructure blob)
+		{
+			if(blob == null) return;
 
-				var nodesClosest = nodeBlobs.OrderBy(n => Vector3.Distance(n.location, blob.Key.location));
+			//If not next to any blob then failed anyway, dont need to check
+			if (!ValidateNextToBlob(blob.location))
+			{
+				ResetConnection(blob);
+				return;
+			}
 
-				//Try to connect to nearest node if possible
-				foreach (var node in nodesClosest)
-				{
-					if(node == null) continue;
+			//If the last connected path still exists dont need to check until it has changed
+			if (ValidateBlobPath(blob.connectedPath) && blob.connectedNode != null)
+			{
+				//If we're still connected to a valid node then that node connection state is ours too
+				blob.connectedToBlobNet = blob.connectedNode.connectedToBlobNet;
 
-					if (PathSearch(blob.Key.location.To2Int(), node.location.To2Int(), blob.Key))
-					{
-						blob.Key.connectedToBlobNet = node.connectedToBlobNet;
-						break;
-					}
-				}
+				blob.spriteHandler.SetSpriteSO(blob.connectedNode.connectedToBlobNet
+					? blob.activeSprite
+					: blob.inactiveSprite);
+
+				return;
+			}
+
+			var nodesClosest = nodeBlobs.OrderBy(n => Vector3.Distance(n.location, blob.location));
+
+			var foundConnection = false;
+
+			//Try to connect to nearest node if possible
+			foreach (var node in nodesClosest)
+			{
+				if(node == null) continue;
 
 				searchGrid.Reset();
+
+				if (PathSearch(blob.location.To2Int(), node.location.To2Int(), blob))
+				{
+					foundConnection = true;
+
+					blob.connectedNode = node;
+					blob.connectedToBlobNet = node.connectedToBlobNet;
+					blob.spriteHandler.SetSpriteSO(blob.activeSprite);
+					break;
+				}
 			}
+
+			if (!foundConnection)
+			{
+				ResetConnection(blob);
+			}
+		}
+
+		/// <summary>
+		/// Resets line renderer and connection for specific blob structure
+		/// </summary>
+		/// <param name="blob"></param>
+		private void ResetConnection(BlobStructure blob)
+		{
+			TargetRpcSetLineRender(connectionToClient, blob.location, new Vector3[0]);
+			blob.connectedToBlobNet = false;
+			blob.connectedNode = null;
+			blob.connectedPath.Clear();
+			blob.spriteHandler.SetSpriteSO(blob.inactiveSprite);
 		}
 
 		#endregion
@@ -2047,6 +2174,7 @@ namespace Blob
 		Resource,
 		Factory,
 		Strong,
-		Reflective
+		Reflective,
+		Normal
 	}
 }

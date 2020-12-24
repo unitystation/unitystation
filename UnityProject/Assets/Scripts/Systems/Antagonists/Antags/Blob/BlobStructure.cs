@@ -11,17 +11,16 @@ namespace Blob
 	/// </summary>
 	public class BlobStructure : MonoBehaviour
 	{
-		public bool isCore;
-		public bool isNode;
-		public bool isResource;
-		public bool isFactory;
-		public bool isReflective;
-		public bool isStrong;
-		public bool isNormal;
+		public BlobConstructs blobType;
 
 		public LightSprite lightSprite = null;
 
 		public SpriteHandler spriteHandler = null;
+
+		public SpriteDataSO activeSprite = null;
+
+		[Tooltip("Used for inactive or damaged sprites")]
+		public SpriteDataSO inactiveSprite = null;
 
 		[HideInInspector]
 		public Integrity integrity;
@@ -53,6 +52,9 @@ namespace Blob
 
 		[HideInInspector]
 		public BlobStructure connectedNode;
+
+		[HideInInspector]
+		public List<Vector3Int> connectedPath = new List<Vector3Int>();
 
 		[HideInInspector]
 		public LineRenderer lineRenderer;
