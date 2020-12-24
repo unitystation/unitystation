@@ -1225,7 +1225,7 @@ namespace Blob
 						Chat.AddExamineMsgFromServer(gameObject, "This is a blob node. It cannot be removed");
 						return;
 					default:
-						Debug.LogError("Switch has no correct case for blob click!");
+						Debug.LogError("Switch has no correct case for blob structure!");
 						break;
 				}
 
@@ -1552,8 +1552,6 @@ namespace Blob
 
 				//Connected resource income
 				float numResource = resourceBlobs.Count(r => r.connectedToBlobNet);
-
-				Debug.Log(numResource);
 
 				if (currentStrain.strainType == StrainTypes.NetworkedFibers)
 				{
