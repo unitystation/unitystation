@@ -6,15 +6,16 @@ namespace Antagonists
 	[CreateAssetMenu(menuName="ScriptableObjects/Antagonist/Blob")]
 	public class Blob : Antagonist
 	{
-		public override ConnectedPlayer ServerSpawn(PlayerSpawnRequest spawnRequest)
+		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally, with their preferred occupation
-			var spawn = PlayerSpawn.ServerSpawnPlayer(spawnRequest).Player();
+			return PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+		}
 
+		public override void AfterSpawn(ConnectedPlayer player)
+		{
 			//Add blob player to game object
-			spawn.GameObject.AddComponent<BlobStarter>();
-
-			return spawn;
+			player.GameObject.AddComponent<BlobStarter>();
 		}
 	}
 }

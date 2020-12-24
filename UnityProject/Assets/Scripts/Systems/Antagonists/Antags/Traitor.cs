@@ -10,14 +10,15 @@ namespace Antagonists
 		[SerializeField]
 		private int initialTC = 20;
 
-		public override ConnectedPlayer ServerSpawn(PlayerSpawnRequest spawnRequest)
+		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally, with their preferred occupation
-			ConnectedPlayer player = PlayerSpawn.ServerSpawnPlayer(spawnRequest).Player();
+			return PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+		}
 
+		public override void AfterSpawn(ConnectedPlayer player)
+		{
 			AntagManager.TryInstallPDAUplink(player, initialTC);
-
-			return player;
 		}
 	}
 }
