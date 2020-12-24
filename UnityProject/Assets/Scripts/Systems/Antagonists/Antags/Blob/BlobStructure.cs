@@ -59,7 +59,7 @@ namespace Blob
 		[HideInInspector]
 		public LineRenderer lineRenderer;
 
-		private void OnEnable()
+		private void Awake()
 		{
 			integrity = GetComponent<Integrity>();
 			lineRenderer = GetComponent<LineRenderer>();
