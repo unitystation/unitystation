@@ -66,7 +66,8 @@ namespace Antagonists
 		/// </summary>
 		public string GetObjectivesForPlayer()
 		{
-			StringBuilder objSB = new StringBuilder($"</i><size=60><color=red>You are a <b>{Antagonist.AntagName}</b>!</color></size>\n", 200);
+			// TODO: remove the leading space before "You are a {Antagonist.AntagName}!" once issue #5775 is fixed.
+			StringBuilder objSB = new StringBuilder($"</i><size=60><color=red> You are a <b>{Antagonist.AntagName}</b>!</color></size>\n", 200);
 			var objectiveList = Objectives.ToList();
 			objSB.AppendLine("Your objectives are:");
 			for (int i = 0; i < objectiveList.Count; i++)

@@ -26,11 +26,8 @@ namespace Antagonists
 
 		public int StartingSpellCount => startingSpellCount;
 
-		public override ConnectedPlayer ServerSpawn(PlayerSpawnRequest spawnRequest)
+		public override void AfterSpawn(ConnectedPlayer player)
 		{
-			ConnectedPlayer player = PlayerSpawn.ServerSpawnPlayer(
-					spawnRequest.JoinedViewer, AntagOccupation, spawnRequest.CharacterSettings).Player();
-
 			GiveRandomSpells(player);
 
 			if (assignRandomNameOnSpawn)
@@ -39,8 +36,6 @@ namespace Antagonists
 			}
 
 			SetPapers(player);
-
-			return player;
 		}
 
 		public string GetRandomWizardName()
@@ -96,7 +91,6 @@ namespace Antagonists
 						"\n<size=28><b>Known Issues</b></size>\n" +
 						"- The artifact Whizzamazon drop-pods do not display the landing target reticule. Watch out!\n" +
 						"- Unfortunately, you will lose your action spells if you disconnect from the game or are respawned.\n" +
-						"- LesserSummonGuns spell animation does not work. Cosmetic only.\n" +
 						"Good luck!");
 			}
 		}

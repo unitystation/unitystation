@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Items
 {
+	/// <summary>
+	/// Allows a gameobject to transform into a different object when it is thrown, upon landing.
+	/// </summary>
 	public class ThrowableBreakable : MonoBehaviour
 	{
 		[SerializeField]
@@ -23,9 +26,13 @@ namespace Items
 
 		private CustomNetTransform customNetTransform;
 
-		private void Start()
+		private void Awake()
 		{
 			customNetTransform = GetComponent<CustomNetTransform>();
+		}
+
+		private void OnEnable()
+		{
 			customNetTransform.OnThrowEnd.AddListener(OnThrown);
 		}
 

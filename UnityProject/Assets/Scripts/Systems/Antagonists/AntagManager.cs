@@ -79,7 +79,7 @@ namespace Antagonists
 		public void ServerSpawnAntag(Antagonist chosenAntag, PlayerSpawnRequest spawnRequest)
 		{
 			//spawn the antag using their custom spawn logic
-			ConnectedPlayer spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest);
+			ConnectedPlayer spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest).Player();
 
 			ServerFinishAntag(chosenAntag, spawnedPlayer);
 		}
@@ -124,6 +124,7 @@ namespace Antagonists
 			var spawnedAntag = SetAntagDetails(chosenAntag, connectedPlayer);
 			ActiveAntags.Add(spawnedAntag);
 			ShowAntagBanner(connectedPlayer, chosenAntag);
+			chosenAntag.AfterSpawn(connectedPlayer);
 
 			Logger.Log(
 				$"Created new antag. Made {connectedPlayer.Name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}",
