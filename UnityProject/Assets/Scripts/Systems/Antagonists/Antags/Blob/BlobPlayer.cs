@@ -1911,14 +1911,8 @@ namespace Blob
 
 		private void GenerateGrid()
 		{
-			var topXCoord = blobTiles.Keys.Max(v => v.x);
-			var topYCoord = blobTiles.Keys.Max(v => v.y);
-
 			bottomXCoord = blobTiles.Keys.Min(v => v.x);
 			bottomYCoord = blobTiles.Keys.Min(v => v.y);
-
-			var xRange = Math.Abs(topXCoord) - bottomXCoord;
-			var yRange = Math.Abs(topYCoord) - bottomYCoord;
 
 			List<GridPos> walkableGridPosList= new List<GridPos>();
 
