@@ -19,8 +19,11 @@ MonoBehaviour:
   isReflective: 0
   isStrong: 0
   isNormal: 1
+  blobType: 6
   lightSprite: {fileID: 0}
   spriteHandler: {fileID: 7649593002434359225}
+  activeSprite: {fileID: 11400000, guid: fcd276973d7c6cc4f985e6d166b2a00d, type: 2}
+  inactiveSprite: {fileID: 11400000, guid: 70ab33c7d0aae78469c1e9414003ae19, type: 2}
   integrity: {fileID: 0}
   expandCoords: []
   healthPulseCoords: []
@@ -46,6 +49,10 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+  connectedToBlobNet: 0
+  connectedNode: {fileID: 0}
+  connectedPath: []
+  lineRenderer: {fileID: 0}
 --- !u!1001 &6647483129041870009
 PrefabInstance:
   m_ObjectHideFlags: 0
