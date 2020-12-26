@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
+  m_Name: Rockdrop
+  m_EditorClassIdentifier: 
+  actionType: 1
+  activeSpriteIndex: 1
+  callOnClient: 0
+  callOnServer: 0
+  actionName: Rockdrop
+  description: Summons lethal rocks that fall from portals.
+  Sprites:
+  - {fileID: 11400000, guid: c8d87c8972a790a45a4aae7d51b993f4, type: 2}
+  - {fileID: 11400000, guid: 3826d854151b70e41a9bedcb49ff5821, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 8f7b96a7712804949a79f2ec18abee2c, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 1
+  useCustomCursor: 1
+  cursorTexture: {fileID: 2800000, guid: a98858de92927fd4c844f441140f55fe, type: 3}
+  cursorOffsetType: 1
+  cursorOffset: {x: 0, y: 0}
+  spellImplementation: {fileID: 7469762742606550612, guid: 744b0cb256b76454bb452aa847daf921,
+    type: 3}
+  chargeType: 0
+  cooldownTime: 45
+  startingCharges: 10
+  castSound: 
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 2
+  invocationMessage: BALDERDASH!
+  invocationMessageSelf: 
+  summonType: 0
+  summonObjects: []
+  summonTiles: []
+  summonPosition: 1
+  summonLifespan: 10
+  replaceExisting: 0
+  requireWizardGarb: 1
+  tierCount: 5
+  cooldownModifierPC: 20

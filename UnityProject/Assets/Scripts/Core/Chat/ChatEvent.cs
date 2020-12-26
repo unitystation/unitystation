@@ -82,6 +82,7 @@ public class ChatEvent
 	public double timestamp;
 	public Vector3 position = TransformState.HiddenPos;
 	public GameObject originator;
+	public bool stripTags = true;
 
 	/// <summary>
 	/// Send chat message only to those on this matrix

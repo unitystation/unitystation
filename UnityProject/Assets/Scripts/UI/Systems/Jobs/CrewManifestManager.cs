@@ -1,4 +1,4 @@
-﻿using Objects.Security;
+using Objects.Security;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -66,8 +66,10 @@ namespace Systems
 				Name = script.playerName,
 				JobType = jobType,
 			};
+			CrewManifest.Add(entry);
 
 			if (jobType == JobType.AI || jobType == JobType.CYBORG) return entry;
+
 			entry.SecurityRecord = GenerateSecurityRecord(script, jobType);
 			SecurityRecords.Add(entry.SecurityRecord);
 

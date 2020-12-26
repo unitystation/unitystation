@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 42
   m_Sprite: {fileID: 21300000, guid: 8b1abfceeb6f5014093065d226fb4f10, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -135,6 +135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: FiringSound
       value: ShootSyringe
+      objectReference: {fileID: 0}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/GunShots/ShootSyringe.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 1426280140011400311, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}

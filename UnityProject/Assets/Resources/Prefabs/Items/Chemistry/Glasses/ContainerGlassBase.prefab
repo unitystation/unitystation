@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2722210368152241391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203532174433049318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BrokenItem: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
+    type: 3}
+  ChanceToBreak: 20
 --- !u!1001 &2610491824729468166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9,6 +24,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: initialName
       value: glass
       objectReference: {fileID: 0}
@@ -16,11 +36,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Not necessarily made out of glass
-      objectReference: {fileID: 0}
-    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -104,6 +119,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7897839439014890464, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 7997558505216099516, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: m_Sprite
@@ -121,6 +141,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: maxCapacity
       value: 50
       objectReference: {fileID: 0}
@@ -131,13 +156,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
-        type: 3}
       propertyPath: possibleTransferAmounts.Array.data[6]
       value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
+--- !u!1 &5203532174433049318 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2610491824729468166}
+  m_PrefabAsset: {fileID: 0}

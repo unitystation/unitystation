@@ -65,5 +65,6 @@ namespace GameConfig
 		public int ShuttleDepartTime;
 		public bool GibbingAllowed;
 		public bool ShuttleGibbingAllowed;
+		public bool AdminOnlyHtml;
 	}
 }

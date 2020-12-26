@@ -105,6 +105,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &114703946515217786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +137,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &-1607867197496824203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +159,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -349,6 +363,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -371,9 +386,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 4
+  m_SortingLayer: 8
   m_SortingOrder: 11
-  m_Sprite: {fileID: -1152738003139098640, guid: c2088b604ffb10845a34477ca96f654f,
+  m_Sprite: {fileID: -9144930213960443528, guid: c2088b604ffb10845a34477ca96f654f,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -398,14 +413,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue:
-  - {fileID: 0}
-  PresentSpriteSet: {fileID: 0}
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 2c7561ab4a4560b479e53860e6e8197e, type: 2}
   pushTextureOnStartUp: 1
   variantIndex: 0
-  palette: []
-  Sprites:
-  - Texture: {fileID: 2800000, guid: c2088b604ffb10845a34477ca96f654f, type: 3}
+  palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  Sprites: []
 --- !u!1 &2215391653596606113
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,6 +466,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -474,7 +489,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 4
+  m_SortingLayer: 8
   m_SortingOrder: 13
   m_Sprite: {fileID: 21300000, guid: 302f50de3dd7ae84d88916d1ecae1436, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -533,6 +548,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -555,7 +571,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 4
+  m_SortingLayer: 8
   m_SortingOrder: 13
   m_Sprite: {fileID: 21300000, guid: b39543bfb9c26624aae2171472a9123b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
