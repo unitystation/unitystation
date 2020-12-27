@@ -1,5 +1,28 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6745869943638027713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241979378841723491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenItem: {fileID: 8012353638308087684, guid: b25ecfd0ff025024995ceff3a9bb6be7,
+    type: 3}
+  chanceToBreak: 100
+  useCustomSound: 1
+  customSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassBreak02.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &8170840098464917423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,12 +107,22 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7047849501450287564, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 7109274997928588944, guid: 086407f2a016834408c533b2c8cfefe5,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 84770c8e79df73b4b8f1bd6d61e042e5,
         type: 3}
+    - target: {fileID: 7109274997928588944, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7400919253822581422, guid: 086407f2a016834408c533b2c8cfefe5,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -125,3 +158,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 086407f2a016834408c533b2c8cfefe5, type: 3}
+--- !u!1 &1241979378841723491 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6942512601141888460, guid: 086407f2a016834408c533b2c8cfefe5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8170840098464917423}
+  m_PrefabAsset: {fileID: 0}

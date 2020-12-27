@@ -9,12 +9,13 @@ namespace Antagonists
 		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally, with their preferred occupation
-			var spawn = PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+			return PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+		}
 
+		public override void AfterSpawn(ConnectedPlayer player)
+		{
 			//Add blob player to game object
-			spawn.AddComponent<BlobStarter>();
-
-			return spawn;
+			player.GameObject.AddComponent<BlobStarter>();
 		}
 	}
 }

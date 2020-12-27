@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using Mirror;
-using Antagonists;
+using NaughtyAttributes;
 using Random = UnityEngine.Random;
 using UI.Action;
 
@@ -12,38 +12,46 @@ namespace Items.PDA
 	[RequireComponent(typeof(ItemLightControl))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
-	public class PDALogic : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
+	public class PDALogic : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, IServerInventoryMove
 	{
-		private const bool DEBUG_UPLINK = false;
-		private const string DEBUG_UPLINK_CODE = "Whiskey Tango Foxtrot-1337";
-		private const int TIME_BEFORE_UPLINK_ACTIVATION = 10;
+		// TODO: consider moving uplink code into its own class (perhaps compatible with pen, headset uplinks)
 
 		#region Inspector
 		[Tooltip("The cartridge prefab to be spawned for this PDA")]
-		[SerializeField]
+		[SerializeField, BoxGroup("Settings")]
 		private GameObject cartridgePrefab = default;
 
 		[Tooltip("The default ringtone to play")]
-		[SerializeField]
+		[SerializeField, BoxGroup("Settings")]
 		private string defaultRingtone = "TwoBeep";
 
 		[Tooltip("Reset registered name on FactoryReset?")]
-		[SerializeField]
+		[SerializeField, BoxGroup("Settings")]
 		private bool willResetName = false;
 
 		[Tooltip("Tint of the main background in the GUI")]
+		[BoxGroup("GUI")]
 		public Color UIBG;
 
 		[Tooltip("Tint of the patterned overlay in the GUI")]
+		[BoxGroup("GUI")]
 		public Color UIOVER;
 
 		[Tooltip("The overlay to be used in the GUI")]
+		[BoxGroup("GUI")]
 		public int OVERLAY;
+
+		[Tooltip("How long the delay before the owner is informed of the uplink code " +
+			"(intedned to reduce information overload - likely just received objectives)")]
+		[SerializeField, BoxGroup("Uplink"), Range(0, 60)]
+		private float informUplinkCodeDelay = 10;
+
+		[SerializeField, BoxGroup("Uplink")]
+		private bool debugUplink = false;
 
 		#endregion Inspector
 
 		// GameObject attached components
-		private NetworkIdentity pdaID;
 		private Pickupable pickupable;
 		private ItemStorage storage;
 		private ItemLightControl flashlight;
@@ -70,23 +78,13 @@ namespace Items.PDA
 		private ItemSlot IDSlot = default;
 		private ItemSlot CartridgeSlot = default;
 
-		#region Messenger stuff (unused)
-
-		// for messenger system
-		//MessengerSyncDictionary pdas;
-
 		//The actual list of access allowed set via the server and synced to all clients
 		private readonly SyncListInt accessSyncList = new SyncListInt();
-
-		//private MessengerManager messengerSystem;
-
-		#endregion Messenger stuff (unused)
 
 		#region Lifecycle
 
 		private void Awake()
 		{
-			pdaID = GetComponent<NetworkIdentity>();
 			pickupable = GetComponent<Pickupable>();
 			storage = GetComponent<ItemStorage>();
 			flashlight = GetComponent<ItemLightControl>();
@@ -111,48 +109,46 @@ namespace Items.PDA
 			CartridgeSlot = storage.GetIndexedItemSlot(1);
 
 			IDSlot.OnSlotContentsChangeServer.AddListener(OnIDSlotChanged);
-			//messengerSystem = GameObject.Find("MessengerManager").GetComponent<MessengerManager>();
-			//AddSelf();
-		}
 
-		public override void OnStartServer()
-		{
-			// TODO Instead, consider listening for client's OnPlayerSpawned and then request server to run stuff.
-			StartCoroutine(DelayInitialisation());
-		}
-
-		private IEnumerator DelayInitialisation()
-		{
-			yield return WaitFor.Seconds(TIME_BEFORE_UPLINK_ACTIVATION);
-			OnStartServerDelayed();
-		}
-
-		private void OnStartServerDelayed()
-		{
 			if (cartridgePrefab != null)
 			{
 				var cartridge = Spawn.ServerPrefab(cartridgePrefab).GameObject;
 				Inventory.ServerAdd(cartridge, CartridgeSlot);
 			}
-
-			var owner = GetPlayerByParentInventory();
-			if (owner == null) return;
-
-			RegisteredPlayerName = owner.ExpensiveName();
-			TryInstallUplink(owner);
-
-			if (DEBUG_UPLINK)
-			{
-#pragma warning disable CS0162 // Unreachable code detected
-				UplinkTC = 20;
-				UplinkUnlockCode = DEBUG_UPLINK_CODE;
-				IsUplinkCapable = true;
-				InformUplinkCode(owner);
-#pragma warning restore CS0162 // Unreachable code detected
-			}
 		}
 
 		#endregion Lifecycle
+
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			// This is also triggered when the PDA spawns as part of the player's inventory populator
+			// and added to their inventory, when they spawn.
+
+			if (RegisteredPlayerName != default) return; // PDA already registered to someone
+			if (info.ToRootPlayer == null) return; // PDA was not added to player
+
+			ConnectedPlayer pickedUpBy = info.ToRootPlayer.gameObject.Player();
+			RegisterTo(pickedUpBy);
+
+			if (debugUplink)
+			{
+				InstallUplink(pickedUpBy, 80);
+			}
+		}
+
+		private void RegisterTo(ConnectedPlayer player)
+		{
+			RegisteredPlayerName = player.Script.playerName;
+			gameObject.name = $"{player.Script.playerName}'s PDA ({player.Script.mind.occupation.DisplayName})";
+			gameObject.Item().ServerSetArticleName(gameObject.name);
+		}
+
+		private void RegisterTo(string playerName)
+		{
+			RegisteredPlayerName = playerName;
+			gameObject.name = playerName == default ? gameObject.Item().InitialName : $"{playerName}'s PDA";
+			gameObject.Item().ServerSetArticleName(gameObject.name);
+		}
 
 		public void ToggleFlashlight()
 		{
@@ -169,8 +165,7 @@ namespace Items.PDA
 			{
 				if (willResetName)
 				{
-					ReplaceName(pdaID, "UnknownPDA");
-					RegisteredPlayerName = default;
+					RegisterTo(default(string));
 				}
 
 				LockUplink();
@@ -186,11 +181,11 @@ namespace Items.PDA
 			}
 		}
 
-		private GameObject GetPlayerByParentInventory()
+		private ConnectedPlayer GetPlayerByParentInventory()
 		{
 			if (pickupable.ItemSlot == null) return default;
 
-			return pickupable.ItemSlot.RootPlayer().gameObject;
+			return pickupable.ItemSlot.RootPlayer().gameObject.Player();
 		}
 
 		#region Sounds
@@ -212,10 +207,12 @@ namespace Items.PDA
 
 		public void PlaySound(string soundName)
 		{
-			var sourceObject = GetPlayerByParentInventory();
-			if (sourceObject == null)
+			GameObject sourceObject = gameObject;
+
+			ConnectedPlayer player = GetPlayerByParentInventory();
+			if (player != null)
 			{
-				sourceObject = gameObject;
+				sourceObject = player.GameObject;
 			}
 
 			SoundManager.PlayNetworkedAtPos(soundName, sourceObject.AssumedWorldPosServer(), sourceObj: sourceObject);
@@ -226,7 +223,7 @@ namespace Items.PDA
 			var player = GetPlayerByParentInventory();
 			if (player == null) return;
 
-			SoundManager.PlayNetworkedForPlayerAtPos(player, player.AssumedWorldPosServer(), soundName, sourceObj: player);
+			SoundManager.PlayNetworkedForPlayerAtPos(player.GameObject, player.Script.WorldPos, soundName, sourceObj: player.GameObject);
 		}
 
 		#endregion Sounds
@@ -318,43 +315,18 @@ namespace Items.PDA
 
 		#region Uplink-Init
 
-		private void TryInstallUplink(GameObject owner)
+		/// <summary>
+		/// Installs uplink capability into this PDA with the given telecrystal count and informs the given player the code.
+		/// </summary>
+		/// <param name="informPlayer">The player that will be informed the code to the PDA uplink</param>
+		/// <param name="tcCount">The amount of telecrystals to add to the uplink.</param>
+		public void InstallUplink(ConnectedPlayer informPlayer, int tcCount)
 		{
-			var antagType = TryGetAntagType(owner);
-			if (antagType == null) return;
-
-			UplinkTC = GetTCFromAntag(antagType);
-			if (UplinkTC <= 0) return;
-
+			UplinkTC += tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
 			UplinkUnlockCode = GenerateUplinkUnlockCode();
 			IsUplinkCapable = true;
 
-			InformUplinkCode(owner);
-		}
-
-		private Antagonist TryGetAntagType(GameObject player)
-		{
-			var playerMind = player.GetComponent<PlayerScript>().mind;
-			if (playerMind.IsAntag)
-			{
-				return playerMind.GetAntag().Antagonist;
-			}
-
-			return default;
-		}
-
-		private int GetTCFromAntag(Antagonist antag)
-		{
-			if (antag is Antagonists.Traitor traitor)
-			{
-				return traitor.initialTC;
-			}
-			else if (antag is NuclearOperative operative)
-			{
-				return operative.initialTC;
-			}
-
-			return default;
+			StartCoroutine(DelayInformUplinkCode(informPlayer));
 		}
 
 		private string GenerateUplinkUnlockCode()
@@ -371,12 +343,19 @@ namespace Items.PDA
 			return code += nums;
 		}
 
-		private void InformUplinkCode(GameObject player)
+		private IEnumerator DelayInformUplinkCode(ConnectedPlayer forPlayer)
+		{
+			// We delay the uplink code inform to reduce information overload (player was likely just given objectives)
+			yield return WaitFor.Seconds(informUplinkCodeDelay);
+			InformUplinkCode(forPlayer);
+		}
+
+		private void InformUplinkCode(ConnectedPlayer player)
 		{
 			var uplinkMessage =
-					$"{(DEBUG_UPLINK ? "<b>UPLINK DEBUGGING ENABLED: </b>" : "")}" +
-					$"The Syndicate has cunningly disguised a <i>Syndicate Uplink</i> as your <i>{gameObject.ExpensiveName()}</i>." +
-					$"Simply enter the code <b>{UplinkUnlockCode}</b> into the ringtone select to unlock its hidden features.";
+					$"{(debugUplink ? "<b>UPLINK DEBUGGING ENABLED: </b>" : "")}" +
+					$"</i>The Syndicate has cunningly disguised a <i>Syndicate Uplink</i> as your <i>{gameObject.ExpensiveName()}</i>. " +
+					$"Simply enter the code <b>{UplinkUnlockCode}</b> into the ringtone select to unlock its hidden features.<i>";
 
 			PlaySoundPrivate(Ringtone);
 			Chat.AddExamineMsgFromServer(player, uplinkMessage);
@@ -433,8 +412,7 @@ namespace Items.PDA
 
 				if (RegisteredPlayerName == default)
 				{
-					RegisteredPlayerName = IDCard.RegisteredName;
-					ReplaceName(pdaID, RegisteredPlayerName);
+					RegisterTo(IDCard.RegisteredName);
 				}
 			}
 
@@ -468,70 +446,14 @@ namespace Items.PDA
 				return default;
 			}
 
-			var playerStorage = player.GetComponent<PlayerScript>().ItemStorage;
+			var playerStorage = player.Script.ItemStorage;
 			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 
 		#endregion Inventory
 
-		#region Messaging (unused)
-
-		//Just to make sure this only runs on client as Cmd only works Client ---> server
-		[Client]
-		private void ReplaceName(NetworkIdentity pdaId, string newName)
-		{
-			//messengerSystem.ReplaceName(pdaID, newName);
-		}
-
-		//TODO Get someone else to do the networking for the messenger
-		//The methods below handle any PDA messages that get sent to this PDA, not being used please come back later
-		/*
-	[Client]
-	//This only runs once and it's to tell the MessengerManager that this PDA exists
-
-	private void AddSelf()
-	{
-		Profiler.BeginSample("Addself");
-		string name = pdaRegisteredName;
-		if(name == null)
-		{
-			name = "Unknown PDA";
-		}
-		messengerSystem.AddPDA(pdaID, name);
-		Profiler.EndSample();
-
-	}
-
-	[Client]
-	/// <summary>
-	/// This method handles any messages directed at this PDA, it will check who sent the message (with their NetID)
-	/// give them a name, then pass it onto the MessageHandler
-	/// </summary>
-	public void ReceiveMessage(NetworkIdentity id, string message)
-	{
-		if (pdas.ContainsKey(id))
-		{
-			string name = pdas[id];
-			// put method here
-		}
-	}
-
-	public void SendMessage(NetworkIdentity receiver, NetworkIdentity sender, string message)
-	{
-		messengerSystem.SendMessage(receiver, sender, message);
-	}
-	void IServerDespawn.OnDespawnServer(DespawnInfo info)
-	{
-		Debug.Log("removing from dictionary");
-		messengerSystem.RemovePDA(pdaID);
-	}
-	*/
-
-		#endregion Messaging
-
 		#region IDAccess
 		// All these methods handle ID card access, should only be ran server side because we cant trust client
-		//Note I I dont 100% understand all this but it works on the old code so im guessing its all fine
 
 		[Server]
 		public bool HasAccess(Access access)

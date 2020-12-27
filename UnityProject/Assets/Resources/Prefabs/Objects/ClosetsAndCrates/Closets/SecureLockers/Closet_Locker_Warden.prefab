@@ -90,6 +90,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c89d9cb2099a48847b69097880761a16,
         type: 3}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2705355635485535387, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Sprite
@@ -102,6 +117,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: aa40a4cded2d5564ea5032ee017b4291,
         type: 3}
+    - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f2423bbe07b0f64097accca0d72749e,
+        type: 2}
     - target: {fileID: 6240388854490930091, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -112,6 +133,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: warden's locker
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260176341816705930, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 8981175845054980503, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}

@@ -52,13 +52,11 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Mix:
+      mix:
         temperature: 273.15
         reagents:
-          m_keys:
-          - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
-          m_values:
-          - 100
+          m_keys: []
+          m_values: []
       gasMix:
         Gases:
         - 0
@@ -78,6 +76,7 @@ MonoBehaviour:
         - 0
         Pressure: 0
         Volume: 100
+        Temperature: 0
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}
@@ -97,6 +96,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -6897867726815393058, guid: 27a0d28029b57644faee3086606670c2,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
@@ -172,6 +186,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: used to power the turbine when contents at high temperature.
       objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: palette.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f6a233297a6328489f7fa2b448d8c0c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &8390320911816615196 stripped

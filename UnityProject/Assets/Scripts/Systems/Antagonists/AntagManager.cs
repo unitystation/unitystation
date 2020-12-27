@@ -79,11 +79,9 @@ namespace Antagonists
 		public void ServerSpawnAntag(Antagonist chosenAntag, PlayerSpawnRequest spawnRequest)
 		{
 			//spawn the antag using their custom spawn logic
-			var spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest);
+			ConnectedPlayer spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest).Player();
 
-			var connectedPlayer = PlayerList.Instance.Get(spawnedPlayer);
-
-			ServerFinishAntag(chosenAntag, connectedPlayer, spawnedPlayer);
+			ServerFinishAntag(chosenAntag, spawnedPlayer);
 		}
 
 		public IEnumerator ServerRespawnAsAntag(ConnectedPlayer connectedPlayer, Antagonist antagonist)
@@ -108,7 +106,7 @@ namespace Antagonists
 			}
 
 			PlayerSpawn.ServerRespawnPlayer(connectedPlayer.Script.mind);
-			ServerFinishAntag(antagonist, connectedPlayer, connectedPlayer.GameObject);
+			ServerFinishAntag(antagonist, connectedPlayer);
 		}
 
 		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, ConnectedPlayer connectedPlayer)
@@ -121,28 +119,44 @@ namespace Antagonists
 			return spawnedAntag;
 		}
 
-		public void ServerFinishAntag(Antagonist chosenAntag, ConnectedPlayer connectedPlayer, GameObject spawnedPlayer)
+		public void ServerFinishAntag(Antagonist chosenAntag, ConnectedPlayer connectedPlayer)
 		{
 			var spawnedAntag = SetAntagDetails(chosenAntag, connectedPlayer);
 			ActiveAntags.Add(spawnedAntag);
-			ShowAntagBanner(spawnedPlayer, chosenAntag);
+			ShowAntagBanner(connectedPlayer, chosenAntag);
+			chosenAntag.AfterSpawn(connectedPlayer);
 
 			Logger.Log(
 				$"Created new antag. Made {connectedPlayer.Name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}",
 				Category.Antags);
 		}
 
-
+		/// <summary>
+		/// Searches for the first PDA on the given player and installs an uplink.
+		/// </summary>
+		/// <param name="player">The player that should receive an uplink in the first PDA found on them.</param>
+		/// <param name="tcCount">The amount of telecrystals the uplink should be given.</param>
+		public static void TryInstallPDAUplink(ConnectedPlayer player, int tcCount)
+		{
+			foreach (ItemSlot slot in player.Script.ItemStorage.GetItemSlotTree())
+			{
+				if (slot.IsEmpty) continue;
+				if (slot.Item.TryGetComponent<Items.PDA.PDALogic>(out var pda))
+				{
+					pda.InstallUplink(player, tcCount);
+				}
+			}
+		}
 
 		/// <summary>
 		/// Sends a message to the antag player and tells it to start the antag banner animation.
 		/// </summary>
 		/// <param name="player">Who</param>
 		/// <param name="antag">What antag data</param>
-		private static void ShowAntagBanner(GameObject player, Antagonist antag)
+		private static void ShowAntagBanner(ConnectedPlayer player, Antagonist antag)
 		{
 			AntagBannerMessage.Send(
-				player,
+				player.GameObject,
 				antag.AntagName,
 				antag.SpawnSound,
 				antag.TextColor,

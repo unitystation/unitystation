@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 664703297392823326, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bac65961633c93043b2f248ea704df20,
+        type: 2}
     - target: {fileID: 3444282888222636532, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}
       propertyPath: initialName
@@ -23,6 +29,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 52c09cef2221e634388427aa7ba7a626,
         type: 2}
+    - target: {fileID: 5190763709621519059, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c1544516a9f78c0479969814bbe51fc4,
+        type: 3}
+    - target: {fileID: 5190763709621519059, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5190763709621519059, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5190763709621519059, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5304060587062873747, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}
       propertyPath: restriction
@@ -31,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 5433998667489142468, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}
       propertyPath: m_Name
-      value: KitchenCabinet
+      value: FreezerKitchenCabinet
       objectReference: {fileID: 0}
     - target: {fileID: 5439439281914060830, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}

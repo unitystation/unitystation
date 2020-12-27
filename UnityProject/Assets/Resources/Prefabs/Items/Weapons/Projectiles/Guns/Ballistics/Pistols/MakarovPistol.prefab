@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -146320
-  m_SortingLayer: 13
+  m_SortingLayer: 0
   m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: a7fbb35a4765a3a40868e3718de6d4e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -341,6 +341,21 @@ PrefabInstance:
         type: 3}
       propertyPath: isSuppressible
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/Pistol/PistolShot.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/Pistol/PistolShotSuppressed.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: DryFireSound.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/Pistol/PistolDryFire.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 4729653154424643162, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}

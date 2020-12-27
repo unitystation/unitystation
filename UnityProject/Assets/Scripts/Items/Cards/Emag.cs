@@ -27,10 +27,7 @@ public class Emag : NetworkBehaviour, IServerSpawn, IExaminable
 	/// </summary>
     public int Charges => charges;
 
-    private string OutOfChargesSFX = "Sparks04";
-
     public AddressableAudioSource OutOfChargesSFXA;
-    //RRTL
 
     #region SyncVarFuncs
         void Awake()

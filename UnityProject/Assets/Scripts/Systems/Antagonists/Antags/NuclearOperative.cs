@@ -7,25 +7,23 @@ namespace Antagonists
 	public class NuclearOperative : Antagonist
 	{
 		[Tooltip("For use in Syndicate Uplinks")]
-		public int initialTC = 20;
+		[SerializeField]
+		private int initialTC = 20;
 
-		// add any NuclearOperative specific logic here
-		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
+		public override void AfterSpawn(ConnectedPlayer player)
 		{
-			//spawn as a nuke op regardless of the requested occupation
-			var newPlayer = PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, AntagOccupation,
-				spawnRequest.CharacterSettings);
+			// add any NuclearOperative specific logic here
 
 			//send the code:
 			//Check to see if there is a nuke and communicate the nuke code:
-			Nuke nuke = Object.FindObjectOfType<Nuke>();
+			Nuke nuke = FindObjectOfType<Nuke>();
 			if (nuke != null)
 			{
-				UpdateChatMessage.Send(newPlayer, ChatChannel.Syndicate, ChatModifier.None,
-					"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
+				UpdateChatMessage.Send(player.GameObject, ChatChannel.Syndicate, ChatModifier.None,
+					$"We have intercepted the code for the nuclear weapon: <b>{nuke.NukeCode}</b>.");
 			}
 
-			return newPlayer;
+			AntagManager.TryInstallPDAUplink(player, initialTC);
 		}
 	}
 }

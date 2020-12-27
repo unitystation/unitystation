@@ -111,28 +111,19 @@ namespace Weapons
 		/// The name of the sound this gun makes when shooting
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
-		public string FiringSound;
-
-
-		/// <summary>
-		/// The name of the sound this gun makes when shooting
-		/// </summary>
-		[Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
-		[SerializeField] private AddressableAudioSource FiringSoundA = null;
-		//RRTL
+		public AddressableAudioSource FiringSoundA = null;
 
 		/// <summary>
 		/// The name of the sound this gun makes when shooting
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
-		public string SuppressedSound;
-
+		public AddressableAudioSource SuppressedSoundA;
+		
 		/// <summary>
-		/// The name of the sound this gun makes when shooting
+		/// The sound the gun makes while trying to fire without ammo.
 		/// </summary>
-		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
-		[SerializeField] private AddressableAudioSource SuppressedSoundA = null;
-		//RRTL
+		[Tooltip("The sound the gun uses when trying to fire without ammo.")]
+		public AddressableAudioSource DryFireSound;
 
 		/// <summary>
 		/// The amount of times per second this weapon can fire
@@ -918,12 +909,12 @@ namespace Weapons
 
 		private void OutOfAmmoSFX()
 		{
-			SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GunEmptyAlarm, transform.position, sourceObj: serverHolder);
 		}
 
 		public void PlayEmptySFX()
 		{
-			SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
+			SoundManager.PlayNetworkedAtPos(DryFireSound, transform.position, sourceObj: serverHolder);
 		}
 
 		#endregion

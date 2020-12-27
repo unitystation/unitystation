@@ -60,10 +60,22 @@ public class UI_Blob : MonoBehaviour
 	private bool core;
 
 	[HideInInspector]
+	public bool blobnet;
+
+	[HideInInspector]
 	public BlobPlayer blobPlayer = null;
 
 	[HideInInspector]
 	public BlobMouseInputController controller = null;
+
+	public void ToggleBlobNet()
+	{
+		if (blobPlayer == null) return;
+
+		blobnet = !blobnet;
+
+		blobPlayer.ToggleLineRenderers(blobnet);
+	}
 	public void JumpToCore()
 	{
 		if (blobPlayer == null) return;

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8891796486152224138}
   - component: {fileID: 83192708151968013}
+  - component: {fileID: 645994242402123296}
   m_Layer: 12
   m_Name: sprite
   m_TagString: Untagged
@@ -69,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 16
+  m_SortingLayer: 21
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 6f1a7dd20b7d3b64bb0ed22c4e2169e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -82,6 +83,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &645994242402123296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3392343644113499114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 814be29b6c2086d43882cff92fc72e9b, type: 2}
+  - {fileID: 11400000, guid: 4b624f3b0e4e28f41b97f4f2e7ba1453, type: 2}
+  - {fileID: 11400000, guid: aaf4e93bc15a6714d9ed29df2c5bf886, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 814be29b6c2086d43882cff92fc72e9b, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &4826224059160213873
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,13 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 520
   Type: 1
   isBleeding: 0
@@ -191,13 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 420
   Type: 0
   isBleeding: 0
@@ -272,6 +281,7 @@ GameObject:
   - component: {fileID: 3708589072684735304}
   - component: {fileID: -5280086393832015683}
   - component: {fileID: 3220691293642193504}
+  - component: {fileID: 1631863151160739797}
   m_Layer: 12
   m_Name: NPC_Leaper
   m_TagString: Untagged
@@ -371,7 +381,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 1
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -396,6 +412,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &4859363408336224435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,7 +444,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &4859213822428636291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,7 +550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 645994242402123296}
   spriteRend: {fileID: 83192708151968013}
   aliveSpriteIndex: 0
   deadSpriteIndex: 1
@@ -558,6 +582,13 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 2
+  EatFoodA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   target: 4
   actionPerformTime: 0.5
   hasFoodPrefereces: 0
@@ -590,6 +621,13 @@ MonoBehaviour:
   spriteHolder: {fileID: 3392343644113499114}
   targetOtherPlayersWhoGetInWay: 1
   onlyHitTarget: 1
+  attackSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   hitDamage: 85
   attackVerb: stomped
   defaultTarget: 1
@@ -639,3 +677,22 @@ MonoBehaviour:
       m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
+--- !u!114 &1631863151160739797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChangingSO: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
+  spriteHandlers:
+  - {fileID: 645994242402123296}

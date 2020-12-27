@@ -53,6 +53,9 @@ public class ConnectedPlayer
 		}
 	}
 
+	/// <summary>
+	/// The in-game name of the player. Does not take into account recognition (unknown identity).
+	/// </summary>
 	public string Name
 	{
 		get

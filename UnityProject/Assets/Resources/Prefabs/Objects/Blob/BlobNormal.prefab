@@ -19,13 +19,40 @@ MonoBehaviour:
   isReflective: 0
   isStrong: 0
   isNormal: 1
+  blobType: 6
   lightSprite: {fileID: 0}
   spriteHandler: {fileID: 7649593002434359225}
+  activeSprite: {fileID: 11400000, guid: fcd276973d7c6cc4f985e6d166b2a00d, type: 2}
+  inactiveSprite: {fileID: 11400000, guid: 70ab33c7d0aae78469c1e9414003ae19, type: 2}
   integrity: {fileID: 0}
   expandCoords: []
   healthPulseCoords: []
   nodeDepleted: 0
   location: {x: 0, y: 0, z: 0}
+  overmindName: 
+  initialArmor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  initialResistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  connectedToBlobNet: 0
+  connectedNode: {fileID: 0}
+  connectedPath: []
+  lineRenderer: {fileID: 0}
 --- !u!1001 &6647483129041870009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,6 +105,11 @@ PrefabInstance:
         type: 3}
       propertyPath: soundOnHit
       value: Attackblob
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: soundOnHit.AssetAddress
+      value: Assets/Prefabs/Effects/AttackBlob.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -179,12 +211,17 @@ PrefabInstance:
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_SortingOrder
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
