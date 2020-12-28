@@ -10,13 +10,14 @@ using Items.Botany;
 namespace Objects.Botany
 {
 	[RequireComponent(typeof(HasNetworkTab))]
-	public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn, IAPCPowered
+	public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerLifecycle, IAPCPowered
 	{
 		private Queue<GrownFood> foodToBeProcessed;
 		private float processingProgress;
 		private PowerStates currentState = PowerStates.Off;
 
 		//Time it takes to process a single piece of produce
+		[SerializeField]
 		private float processingTime = 3f;
 
 		[Tooltip("Inventory to store food waiting to be processed")]
@@ -120,7 +121,7 @@ namespace Objects.Botany
 		[Server]
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			var grownFood = interaction.HandObject?.GetComponent<GrownFood>();
+			var grownFood = interaction.HandObject.GetComponent<GrownFood>();
 			if (grownFood != null)
 			{
 				var foodAtributes = grownFood.GetComponentInParent<ItemAttributesV2>();
