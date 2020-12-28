@@ -210,7 +210,6 @@ public class KeyboardInputManager : MonoBehaviour
 		// Intents
 		{ KeyAction.IntentLeft,		() => { UIManager.Intent.CycleIntent(true); }},
 		{ KeyAction.IntentRight, 	() => { UIManager.Intent.CycleIntent(false); }},
-		{ KeyAction.IntentSwap, 	() => { UIManager.Intent.OnClickIntent(); }},
 		{ KeyAction.IntentHelp, 	() => { UIManager.Intent.SetIntent(Intent.Help); }},
 		{ KeyAction.IntentDisarm,	() => { UIManager.Intent.SetIntent(Intent.Disarm); }},
 		{ KeyAction.IntentGrab, 	() => { UIManager.Intent.SetIntent(Intent.Grab); }},
