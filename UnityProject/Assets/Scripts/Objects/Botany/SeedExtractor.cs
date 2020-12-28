@@ -97,6 +97,23 @@ namespace Objects.Botany
 		}
 
 		/// <summary>
+		/// Ejects all the seed packets when extractor is deconstructed
+		/// </summary>
+		[Server]
+		public void OnDespawnServer(DespawnInfo info)
+        {
+			Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
+			foreach (var packet in seedPackets)
+            {
+				CustomNetTransform netTransform = packet.GetComponent<CustomNetTransform>();
+				netTransform.AppearAtPosition(spawnPos);
+				netTransform.AppearAtPositionServer(spawnPos);
+			}
+
+
+		}
+
+		/// <summary>
 		/// Handles placing produce into the seed extractor
 		/// </summary>
 		/// <param name="interaction">contains information about the interaction</param>
