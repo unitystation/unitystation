@@ -22,8 +22,8 @@ namespace Objects.Disposals
 
 	public abstract class DisposalMachine : NetworkBehaviour, IExaminable, ICheckedInteractable<PositionalHandApply> // Must it be positional?
 	{
-		const float WELD_TIME = 2f;
-		const string PIPE_TERMINAL_NAME = "disposal pipe terminal";
+		private const float WELD_TIME = 2f;
+		private const string PIPE_TERMINAL_NAME = "disposal pipe terminal";
 
 		protected RegisterObject registerObject;
 		protected ObjectAttributes objectAttributes;
@@ -58,7 +58,7 @@ namespace Objects.Disposals
 
 		IEnumerator WaitForUnderfloorUtilities()
 		{
-			while (!registerObject.Matrix.UnderFloorLayer.UnderFloorUtilitiesInitialised)
+			while (registerObject.Matrix.UnderFloorLayer.UnderFloorUtilitiesInitialised == false)
 			{
 				yield return WaitFor.EndOfFrame;
 			}
@@ -93,7 +93,7 @@ namespace Objects.Disposals
 
 		public virtual bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject == null) return false;
 
 			switch (installState)
@@ -117,16 +117,26 @@ namespace Objects.Disposals
 		{
 			currentInteraction = interaction;
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench)
-					&& MachineWrenchable) TryUseWrench();
-			else if (Validations.HasUsedActiveWelder(interaction)
-					&& MachineWeldable) TryUseWelder();
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) && MachineWrenchable)
+			{
+				TryUseWrench();
+			}
+			else if (Validations.HasUsedActiveWelder(interaction) && MachineWeldable)
+			{
+				TryUseWelder();
+			}
 		}
 
 		public virtual string Examine(Vector3 worldPos = default)
 		{
-			if (MachineSecured) return $"It is welded securely to a {PIPE_TERMINAL_NAME}.";
-			if (MachineAnchored) return $"It is bolted to a {PIPE_TERMINAL_NAME} but is not welded.";
+			if (MachineSecured)
+			{
+				return $"It is welded securely to a {PIPE_TERMINAL_NAME}.";
+			}
+			if (MachineAnchored)
+			{
+				return $"It is bolted to a {PIPE_TERMINAL_NAME} but is not welded.";
+			}
 			return $"It is not attached to a {PIPE_TERMINAL_NAME}.";
 		}
 
@@ -143,7 +153,7 @@ namespace Objects.Disposals
 
 		protected bool FloorPlatingExposed()
 		{
-			return !registerObject.TileChangeManager.MetaTileMap.HasTile(registerObject.LocalPositionServer, LayerType.Floors);
+			return registerObject.TileChangeManager.MetaTileMap.HasTile(registerObject.LocalPositionServer, LayerType.Floors) == false;
 		}
 
 		protected bool PipeTerminalExists()
@@ -156,15 +166,15 @@ namespace Objects.Disposals
 			return false;
 		}
 
-		bool VerboseFloorExists()
+		private bool VerboseFloorExists()
 		{
-			if (!MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true)) return true;
+			if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true) == false) return true;
 
 			Chat.AddExamineMsg(currentInteraction.Performer, $"A floor must be present to secure the {objectAttributes.InitialName}!");
 			return false;
 		}
 
-		bool VerbosePlatingExposed()
+		private bool VerbosePlatingExposed()
 		{
 			if (FloorPlatingExposed()) return true;
 
@@ -174,7 +184,7 @@ namespace Objects.Disposals
 			return false;
 		}
 
-		bool VerbosePipeTerminalExists()
+		private bool VerbosePipeTerminalExists()
 		{
 			if (PipeTerminalExists()) return true;
 
@@ -196,9 +206,9 @@ namespace Objects.Disposals
 			}
 			else
 			{
-				if (!VerboseFloorExists()) return;
-				if (!VerbosePlatingExposed()) return;
-				if (!VerbosePipeTerminalExists()) return;
+				if (VerboseFloorExists() == false) return;
+				if (VerbosePlatingExposed() == false) return;
+				if (VerbosePipeTerminalExists() == false) return;
 
 				finishPerformerMsg = $"You bolt the {objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
 				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} bolts the " +
@@ -208,9 +218,9 @@ namespace Objects.Disposals
 			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, 0, "", "", finishPerformerMsg, finishOthersMsg, UseWrench);
 		}
 
-		void UseWrench()
+		private void UseWrench()
 		{
-			objectBehaviour.ServerSetPushable(!objectBehaviour.IsPushable);
+			objectBehaviour.ServerSetPushable(objectBehaviour.IsPushable == false);
 			if (objectBehaviour.IsPushable)
 			{
 				SetInstallState(InstallState.Unattached);
@@ -237,9 +247,9 @@ namespace Objects.Disposals
 			}
 			else
 			{
-				if (!VerboseFloorExists()) return;
-				if (!VerbosePlatingExposed()) return;
-				if (!VerbosePipeTerminalExists()) return;
+				if (VerboseFloorExists() == false) return;
+				if (VerbosePlatingExposed() == false) return;
+				if (VerbosePipeTerminalExists() == false) return;
 
 				startPerformerMsg = "You start welding the joints between the " +
 						$"{objectAttributes.InitialName} and the {PIPE_TERMINAL_NAME}...";
@@ -257,12 +267,18 @@ namespace Objects.Disposals
 			);
 		}
 
-		void UseWelder()
+		private void UseWelder()
 		{
 			// Advance construction state
-			if (MachineAnchored) SetMachineInstalled();
+			if (MachineAnchored)
+			{
+				SetMachineInstalled();
+			}
 			// Retard construction state
-			else if (MachineSecured) SetMachineUninstalled();
+			else if (MachineSecured)
+			{
+				SetMachineUninstalled();
+			}
 		}
 
 		// Virtual, so specific machines can run logic when installation occurs.

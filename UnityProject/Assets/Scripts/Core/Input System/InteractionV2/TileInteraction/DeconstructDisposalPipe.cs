@@ -1,5 +1,4 @@
 using UnityEngine;
-using WebSocketSharp;
 
 namespace Objects.Disposals
 {
@@ -18,7 +17,7 @@ namespace Objects.Disposals
 
 		public override bool WillInteract(TileApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return Validations.HasUsedActiveWelder(interaction);
 		}
@@ -44,8 +43,8 @@ namespace Objects.Disposals
 				if (disposalMachine != null && disposalMachine.MachineAttachedOrGreater)
 				{
 					string machineName = disposalMachine.name;
-					if (disposalMachine.TryGetComponent(out ObjectAttributes attributes) &&
-						!attributes.InitialName.IsNullOrEmpty())
+					if (disposalMachine.TryGetComponent<ObjectAttributes>(out var attributes) &&
+						string.IsNullOrWhiteSpace(attributes.InitialName) == false)
 					{
 						machineName = attributes.InitialName;
 					}
@@ -84,13 +83,17 @@ namespace Objects.Disposals
 			if (interaction.BasicTile.SpawnOnDeconstruct == null) return;
 
 			var spawn = Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget);
-			if (!spawn.Successful) return;
+			if (spawn.Successful == false) return;
 
-			if (!spawn.GameObject.TryGetComponent(out Directional directional)) return;
-			directional.FaceDirection(Orientation.FromEnum(pipe.DisposalPipeObjectOrientation));
+			if (spawn.GameObject.TryGetComponent<Directional>(out var directional))
+			{
+				directional.FaceDirection(Orientation.FromEnum(pipe.DisposalPipeObjectOrientation));
+			}
 
-			if (!spawn.GameObject.TryGetComponent(out ObjectBehaviour behaviour)) return;
-			behaviour.ServerSetPushable(false);
+			if (spawn.GameObject.TryGetComponent<ObjectBehaviour>(out var behaviour))
+			{
+				behaviour.ServerSetPushable(false);
+			}
 		}
 
 		#endregion Deconstruction
