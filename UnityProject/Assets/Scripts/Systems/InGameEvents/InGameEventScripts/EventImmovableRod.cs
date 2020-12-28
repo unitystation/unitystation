@@ -34,7 +34,7 @@ namespace InGameEvents
 			{
 				var text = "What the fuck is going on?!";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 
 			if (FakeEvent) return;
@@ -108,7 +108,7 @@ namespace InGameEvents
 			{
 				var text = "Seriously, what the fuck was that?!";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 		}
 

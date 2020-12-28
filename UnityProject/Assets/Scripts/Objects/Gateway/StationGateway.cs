@@ -202,7 +202,7 @@ namespace Objects
 				ServerChangeState(true);
 
 				var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + selectedWorld.WorldName;
-				CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 		}
 

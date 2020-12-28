@@ -61,7 +61,7 @@ namespace InGameEvents
 			{
 				var text = "Incoming Report:\nA weapons convoy got caught in a blue space anomaly near your location. ";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 		}
 	}

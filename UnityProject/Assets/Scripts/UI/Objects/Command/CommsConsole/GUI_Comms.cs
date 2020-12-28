@@ -183,11 +183,11 @@ namespace UI.Objects.Command
 			Logger.Log(nameof(MakeAnAnnouncement), Category.NetUI);
 			if (text.Length > 200)
 			{
-				CentComm.MakeAnnouncement(ChatTemplates.CAPTAIN_ANNOUNCE, text.Substring(0, 200), CentComm.UpdateSound.Announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce);
 			}
 			else
 			{
-				CentComm.MakeAnnouncement(ChatTemplates.CAPTAIN_ANNOUNCE, text, CentComm.UpdateSound.Announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text, CentComm.UpdateSound.Announce);
 			}
 			OpenMenu();
 		}

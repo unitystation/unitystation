@@ -15,7 +15,7 @@ namespace InGameEvents
 			{
 				var text = "It appears the chemistry of the universe has been broken, damn those science nerds.";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 
 			if (FakeEvent) return;

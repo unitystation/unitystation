@@ -51,7 +51,7 @@ namespace InGameEvents
 		{
 			if (AnnounceEvent)
 			{
-				CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, announceText, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, announceText, CentComm.UpdateSound.Alert);
 			}
 		}
 	}

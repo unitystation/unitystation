@@ -44,7 +44,7 @@ namespace InGameEvents
 			{
 				var text = "Proximity Alert:\nInbound Meteors have been detected.\nBrace for impact!";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, text, CentComm.UpdateSound.NoSound);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
 
 				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.MeteorsAnnouncement);
 			}
@@ -73,7 +73,7 @@ namespace InGameEvents
 			{
 				var text = "Situation Update:\nNo more Meteors have been detected.";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 		}
 

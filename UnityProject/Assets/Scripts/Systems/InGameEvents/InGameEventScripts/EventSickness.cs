@@ -28,7 +28,7 @@ namespace InGameEvents
 			{
 				var text = "Incoming Public Health Report:\nSome people on the station are afflicted by some disease.";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 		}
 

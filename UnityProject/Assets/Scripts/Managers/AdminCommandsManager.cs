@@ -237,7 +237,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
 
-			CentComm.MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, text, CentComm.UpdateSound.Notice);
+			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Notice);
 
 			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT.";
 

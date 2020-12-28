@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using AddressableReferences;
 using Initialisation;
 using Objects.Command;
@@ -128,7 +129,7 @@ namespace Managers
 
 		private void SendExtendedUpdate()
 		{
-			MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, string.Format(ReportTemplates.INITIAL_UPDATE, ReportTemplates.EXTENDED_INITIAL),
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce, string.Format(ReportTemplates.InitialUpdate, ReportTemplates.ExtendedInitial),
 				UpdateSound.Notice);
 			SpawnReports(StationObjectiveReport());
 		}
@@ -136,14 +137,14 @@ namespace Managers
 		{
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementIntercept);
 			MakeAnnouncement(
-				ChatTemplates.CENTCOM_ANNOUNCE,
+				ChatTemplates.CentcomAnnounce,
 				string.Format(
-					ReportTemplates.INITIAL_UPDATE,
-					ReportTemplates.ANTAG_INITIAL_UPDATE+"\n\n"+
+					ReportTemplates.InitialUpdate,
+					ReportTemplates.AntagInitialUpdate+"\n\n"+
 					ChatTemplates.GetAlertLevelMessage(AlertLevelChange.UpToBlue)),
 				UpdateSound.Alert);
 			SpawnReports(StationObjectiveReport());
-			SpawnReports(ReportTemplates.ANTAG_THREAT_REPORT);
+			SpawnReports(ReportTemplates.AntagThreat);
 			ChangeAlertLevel(AlertLevel.Blue, false);
 		}
 
@@ -157,7 +158,7 @@ namespace Managers
 			PlayerUtils.DoReport();
 
 			yield return WaitFor.Seconds(10);
-			MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE, PlayerUtils.GetGenericReport(), UpdateSound.Announce);
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce, PlayerUtils.GetGenericReport(), UpdateSound.Announce);
 		}
 
 		/// <summary>
@@ -171,20 +172,20 @@ namespace Managers
 
 			if (CurrentAlertLevel > toLevel && toLevel == AlertLevel.Green)
 			{
-				MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE,
+				MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 					ChatTemplates.GetAlertLevelMessage(AlertLevelChange.DownToGreen),
 					UpdateSound.Notice);
 			}
 			else if (CurrentAlertLevel > toLevel && announce)
 			{
 				var levelString = (int) toLevel * -1;
-				MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE,
+				MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 					ChatTemplates.GetAlertLevelMessage((AlertLevelChange)levelString),
 					UpdateSound.Notice);
 			}
 			else if (CurrentAlertLevel < toLevel && announce)
 			{
-				MakeAnnouncement(ChatTemplates.CENTCOM_ANNOUNCE,
+				MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 					ChatTemplates.GetAlertLevelMessage((AlertLevelChange)toLevel),
 					UpdateSound.Alert);
 			}
@@ -204,7 +205,7 @@ namespace Managers
 			{
 				var p = Spawn.ServerPrefab(paperPrefab, console.gameObject.RegisterTile().WorldPositionServer, console.transform.parent).GameObject;
 				var paper = p.GetComponent<Paper>();
-				paper.SetServerString(string.Format(ReportTemplates.CENTCOM_REPORT, text));
+				paper.SetServerString(string.Format(ReportTemplates.CentcomReport, text));
 			}
 		}
 
@@ -217,7 +218,7 @@ namespace Managers
 		{
 			SpawnReports(text);
 
-			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CENTCOM_ANNOUNCE, ChatTemplates.COMMAND_NEW_REPORT), MatrixManager.MainStationMatrix);
+			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix);
 
 			_ = SoundManager.PlayNetworked(updateTypes[type], 1f);
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
@@ -255,7 +256,7 @@ namespace Managers
 			}
 
 			Chat.AddSystemMsgToChat(
-				string.Format(ChatTemplates.PRIORITY_ANNOUNCEMENT, string.Format(ChatTemplates.SHUTTLE_CALL_SUB,minutes,text) ),
+				string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleCallSub,minutes,text) ),
 				MatrixManager.MainStationMatrix);
 
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleCalled);
@@ -267,7 +268,7 @@ namespace Managers
 		public static void MakeShuttleRecallAnnouncement( string text )
 		{
 			Chat.AddSystemMsgToChat(
-				string.Format(ChatTemplates.PRIORITY_ANNOUNCEMENT, string.Format(ChatTemplates.SHUTTLE_RECALL_SUB,text)),
+				string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleRecallSub,text)),
 				MatrixManager.MainStationMatrix);
 
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleRecalled);
@@ -275,14 +276,15 @@ namespace Managers
 
 		private string StationObjectiveReport()
 		{
-			string report = string.Format(ReportTemplates.STATION_OBJECTIVE, plasmaOrderRequestAmt);
+			var report = new StringBuilder();
+			report.AppendFormat(ReportTemplates.StationObjective, plasmaOrderRequestAmt);
 
 			foreach (var location in asteroidLocations)
 			{
-				report += " <size=24>" + Vector2Int.RoundToInt(location).ToString() + "</size> ";
+				report.AppendFormat(" <size=24>{0}</size> ", Vector2Int.RoundToInt(location));
 			}
 
-			return report;
+			return report.ToString();
 		}
 
 		public enum UpdateSound {
