@@ -260,6 +260,14 @@ public class Mind
 		return GetSpellInstance(spellData) != null;
 	}
 
+	public void ResendSpellActions()
+	{
+		foreach (Spell spell in Spells)
+		{
+			UIActionManager.Toggle(spell, true, body.gameObject);
+		}
+	}
+
 	public void SetProperty(string key, object value)
 	{
 		if (properties.ContainsKey(key))
