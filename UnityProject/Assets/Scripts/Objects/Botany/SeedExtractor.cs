@@ -103,15 +103,14 @@ namespace Objects.Botany
 		/// </summary>
 		[Server]
 		public void OnDespawnServer(DespawnInfo info)
-        {
+		{
 			Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
 			foreach (var packet in seedPackets)
-            {
+			{
 				CustomNetTransform netTransform = packet.GetComponent<CustomNetTransform>();
 				netTransform.AppearAtPosition(spawnPos);
 				netTransform.AppearAtPositionServer(spawnPos);
 			}
-
 
 		}
 
