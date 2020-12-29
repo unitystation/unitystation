@@ -10,7 +10,7 @@ using Items.Botany;
 namespace Objects.Botany
 {
 	[RequireComponent(typeof(HasNetworkTab))]
-	public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerLifecycle, IAPCPowered
+	public class SeedExtractor : ManagedNetworkBehaviour, ICheckedInteractable<HandApply>, IServerLifecycle, IAPCPowered
 	{
 		private Queue<GrownFood> foodToBeProcessed;
 		private float processingProgress;
@@ -98,7 +98,8 @@ namespace Objects.Botany
 		}
 
 		/// <summary>
-		/// Ejects all the seed packets when extractor is deconstructed
+		/// Ejects all the seed packets when extractor is deconstructed, but only will eject produce you
+		/// put in only if it hasn't been processed by the extractor
 		/// </summary>
 		[Server]
 		public void OnDespawnServer(DespawnInfo info)
@@ -121,9 +122,9 @@ namespace Objects.Botany
 		[Server]
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			var grownFood = interaction.HandObject.GetComponent<GrownFood>();
-			if (grownFood != null)
-			{
+			if (interaction.HandObject != null) {
+				var grownFood = interaction.HandObject.GetComponent<GrownFood>();
+			
 				var foodAtributes = grownFood.GetComponentInParent<ItemAttributesV2>();
 				if (!Inventory.ServerTransfer(interaction.HandSlot, storage.GetBestSlotFor(interaction.HandObject)))
 				{
@@ -145,6 +146,11 @@ namespace Objects.Botany
 			}
 			//If no interaction happens
 			networkTab.ServerPerformInteraction(interaction);
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
 		}
 
 		/// <summary>
