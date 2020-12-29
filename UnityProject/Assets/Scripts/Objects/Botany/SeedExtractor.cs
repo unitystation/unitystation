@@ -133,11 +133,11 @@ namespace Objects.Botany
 						$"You try and place the {foodAtributes.ArticleName} into the seed extractor but it is full!",
 						$"{interaction.Performer.name} tries to place the {foodAtributes.ArticleName} into the seed extractor but it is full!");
 					return;
-				}
+			}
 
 				Chat.AddActionMsgToChat(interaction.Performer,
-						$"You place the {foodAtributes.ArticleName} into the seed extractor",
-						$"{interaction.Performer.name} places the {foodAtributes.name} into the seed extractor");
+				$"You place the {foodAtributes.ArticleName} into the seed extractor",
+				$"{interaction.Performer.name} places the {foodAtributes.name} into the seed extractor");
 				if (foodToBeProcessed.Count == 0 && currentState != PowerStates.Off)
 				{
 					Chat.AddLocalMsgToChat("The seed extractor begins processing", gameObject);
