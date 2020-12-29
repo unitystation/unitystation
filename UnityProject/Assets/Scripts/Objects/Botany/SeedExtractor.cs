@@ -125,9 +125,8 @@ namespace Objects.Botany
 			if (interaction.HandObject != null)
 			{
 				var grownFood = interaction.HandObject.GetComponent<GrownFood>();
-
-
 				var foodAtributes = grownFood.GetComponentInParent<ItemAttributesV2>();
+
 				if (!Inventory.ServerTransfer(interaction.HandSlot, storage.GetBestSlotFor(interaction.HandObject)))
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
