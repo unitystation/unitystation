@@ -10,24 +10,25 @@ namespace Objects.Disposals
 	/// </summary>
 	public class DisposalVirtualContainer : MonoBehaviour, IServerDespawn, IExaminable
 	{
-		Matrix Matrix;
-		ObjectBehaviour ContainerBehaviour;
+		[Tooltip("The sound made when someone is trying to move in pipes.")]
+		[SerializeField]
+		private AddressableAudioSource ClangSound;
+
+		private Matrix Matrix;
+		private ObjectBehaviour ContainerBehaviour;
 
 		// transform.position seems to be the only reliable method after OnDespawnServer() has been called.
-		Vector3 ContainerWorldPosition => transform.position;
+		private Vector3 ContainerWorldPosition => transform.position;
 
 		// We store each type of entity separately, because each entity type requires different operations.
-		List<ObjectBehaviour> containedItems = new List<ObjectBehaviour>();
-		List<ObjectBehaviour> containedObjects = new List<ObjectBehaviour>();
-		List<ObjectBehaviour> containedPlayers = new List<ObjectBehaviour>();
+		private readonly List<ObjectBehaviour> containedItems = new List<ObjectBehaviour>();
+		private readonly List<ObjectBehaviour> containedObjects = new List<ObjectBehaviour>();
+		private readonly List<ObjectBehaviour> containedPlayers = new List<ObjectBehaviour>();
 
 		public int ContentsCount => containedItems.Count + containedObjects.Count + containedPlayers.Count;
 		public bool HasContents => ContentsCount > 0;
 
-		[Tooltip("The sound made when someone is trying to move in pipes.")]
-		[SerializeField] private AddressableAudioSource ClangSound;
-
-		void Awake()
+		private void Awake()
 		{
 			Matrix = gameObject.RegisterTile().Matrix;
 			ContainerBehaviour = GetComponent<ObjectBehaviour>();
@@ -116,7 +117,7 @@ namespace Objects.Disposals
 
 		#region EjectContents
 
-		void EjectContainedItems()
+		private void EjectContainedItems()
 		{
 			foreach (ObjectBehaviour item in containedItems)
 			{
@@ -124,7 +125,7 @@ namespace Objects.Disposals
 			}
 		}
 
-		void EjectContainedObjects()
+		private void EjectContainedObjects()
 		{
 			foreach (ObjectBehaviour entity in containedObjects)
 			{
@@ -132,7 +133,7 @@ namespace Objects.Disposals
 			}
 		}
 
-		void EjectContainedPlayers()
+		private void EjectContainedPlayers()
 		{
 			foreach (ObjectBehaviour player in containedPlayers)
 			{
@@ -140,24 +141,30 @@ namespace Objects.Disposals
 			}
 		}
 
-		void EjectItemOrObject(ObjectBehaviour entity)
+		private void EjectItemOrObject(ObjectBehaviour entity)
 		{
 			if (entity == null) return;
 
 			entity.parentContainer = null;
-			entity.GetComponent<CustomNetTransform>()?.SetPosition(ContainerWorldPosition);
+			if (entity.TryGetComponent<CustomNetTransform>(out var netTransform))
+			{
+				netTransform.SetPosition(ContainerWorldPosition);
+			}
 		}
 
-		void EjectPlayer(ObjectBehaviour player)
+		private void EjectPlayer(ObjectBehaviour player)
 		{
 			if (player == null) return;
 
 			player.parentContainer = null;
-			player.GetComponent<PlayerSync>()?.SetPosition(ContainerWorldPosition);
-			FollowCameraMessage.Send(player.gameObject, player.gameObject);
+			if (player.TryGetComponent<PlayerSync>(out var playerSync))
+			{
+				playerSync.SetPosition(ContainerWorldPosition);
+				FollowCameraMessage.Send(player.gameObject, player.gameObject);
+			}
 		}
 
-		void ThrowContainedItems(Vector3 throwVector)
+		private void ThrowContainedItems(Vector3 throwVector)
 		{
 			foreach (ObjectBehaviour item in containedItems)
 			{
@@ -165,7 +172,7 @@ namespace Objects.Disposals
 			}
 		}
 
-		void ThrowContainedObjects(Vector3 throwVector)
+		private void ThrowContainedObjects(Vector3 throwVector)
 		{
 			foreach (ObjectBehaviour entity in containedObjects)
 			{
@@ -174,7 +181,7 @@ namespace Objects.Disposals
 			}
 		}
 
-		void ThrowContainedPlayers(Vector3 throwVector)
+		private void ThrowContainedPlayers(Vector3 throwVector)
 		{
 			foreach (ObjectBehaviour player in containedPlayers)
 			{
@@ -183,7 +190,7 @@ namespace Objects.Disposals
 			}
 		}
 
-		void ThrowItem(ObjectBehaviour item, Vector3 throwVector)
+		private void ThrowItem(ObjectBehaviour item, Vector3 throwVector)
 		{
 			Vector3 vector = item.transform.rotation * throwVector;
 			ThrowInfo throwInfo = new ThrowInfo
@@ -200,17 +207,17 @@ namespace Objects.Disposals
 			itemTransform.Throw(throwInfo);
 		}
 
-		void PushObject(ObjectBehaviour entity, Vector3 pushVector)
+		private void PushObject(ObjectBehaviour entity, Vector3 pushVector)
 		{
 			entity.QueuePush(pushVector.NormalizeTo2Int());
 			//entity.TryPush(pushVector.NormalizeTo2Int());
 			//GetComponent<CustomNetTransform>().Push(pushVector.NormalizeTo2Int());
 		}
 
-		void PushPlayer(ObjectBehaviour player, Vector3 pushVector)
+		private void PushPlayer(ObjectBehaviour player, Vector3 pushVector)
 		{
 			//PushObject(player, pushVector);
-			player.GetComponent<RegisterPlayer>()?.ServerStun();
+			player.GetComponent<RegisterPlayer>().ServerStun();
 			player.QueuePush(pushVector.NormalizeTo2Int());
 		}
 
@@ -234,9 +241,6 @@ namespace Objects.Disposals
 		/// <param name="throwVector">The direction and distance to throw the contents with</param>
 		public void EjectContentsAndThrow(Vector3 throwVector)
 		{
-			if (ContainerBehaviour.IsBeingPulled) Debug.Log("I was pulled");
-
-
 			EjectContainedItems();
 			EjectContainedObjects();
 			EjectContainedPlayers();
@@ -253,16 +257,17 @@ namespace Objects.Disposals
 
 		public void PlayerTryEscaping(GameObject player)
 		{
-			if (!player.TryGetComponent(out ObjectBehaviour playerBehaviour)) return;
-			if (!containedPlayers.Contains(playerBehaviour)) return;
+			if (player.TryGetComponent<ObjectBehaviour>(out var playerBehaviour) == false) return;
+			if (containedPlayers.Contains(playerBehaviour) == false) return;
+			if (ContainerBehaviour.parentContainer == null) return;
 
-			GameObject disposalMachine = ContainerBehaviour.parentContainer?.gameObject;
+			GameObject disposalMachine = ContainerBehaviour.parentContainer.gameObject;
 			if (disposalMachine == null)
 			{
 				// Must be in the disposal pipes
 				SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
 			}
-			else if (disposalMachine.TryGetComponent(out DisposalBin disposalBin))
+			else if (disposalMachine.TryGetComponent<DisposalBin>(out var disposalBin))
 			{
 				// In a disposal bin
 				disposalBin.PlayerTryClimbingOut(player);

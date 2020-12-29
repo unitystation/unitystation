@@ -4,7 +4,6 @@ using System.Linq;
 using TileManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using YamlDotNet.Samples;
 
 /// <summary>
 /// Main entry point for Tile Interaction system.
@@ -290,7 +289,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	}
 
-	bool TryInteractWithTile(TileApply interaction)
+	private bool TryInteractWithTile(TileApply interaction)
 	{
 		// Iterate over the interactions for the given tile until a valid one is found.
 		foreach (var tileInteraction in interaction.BasicTile.TileInteractions)

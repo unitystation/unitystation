@@ -10,7 +10,7 @@ namespace Systems.Disposals
 	/// </summary>
 	public class DisposalsManager : MonoBehaviour
 	{
-		static DisposalsManager instance;
+		private static DisposalsManager instance;
 		public static DisposalsManager Instance {
 			get {
 				if (instance == null)
@@ -28,12 +28,14 @@ namespace Systems.Disposals
 		public GameObject VirtualContainerPrefab;
 		[SerializeField]
 		[Tooltip("Set how many tiles every disposal instance can traverse in one second.")]
-		float TileTraversalsPerSecond = 20;
+		private float TileTraversalsPerSecond = 20;
 
-		List<DisposalTraversal> disposalInstances = new List<DisposalTraversal>();
+		private readonly List<DisposalTraversal> disposalInstances = new List<DisposalTraversal>();
 
-		void Update()
+		private void Update()
 		{
+			// TODO: this is terrible.
+
 			/*
 			 * Allow one disposal instance to traverse per update.
 			 * This means that in the (unlikely) event of huge number of disposals, performance
@@ -47,7 +49,7 @@ namespace Systems.Disposals
 
 			foreach (DisposalTraversal disposal in disposalInstances)
 			{
-				if (!disposal.CurrentlyDelayed)
+				if (disposal.CurrentlyDelayed == false)
 				{
 					UpdateDisposal(disposal);
 					break;
@@ -58,7 +60,7 @@ namespace Systems.Disposals
 		public static GameObject SpawnVirtualContainer(Vector3Int worldPosition)
 		{
 			SpawnResult virtualContainerSpawn = Spawn.ServerPrefab(Instance.VirtualContainerPrefab, worldPosition);
-			if (!virtualContainerSpawn.Successful)
+			if (virtualContainerSpawn.Successful == false)
 			{
 				Logger.LogError(
 						"Failed to spawn disposal virtual container! " +
@@ -88,7 +90,7 @@ namespace Systems.Disposals
 			disposalInstances.Remove(disposal);
 		}
 
-		void UpdateDisposal(DisposalTraversal disposal)
+		private void UpdateDisposal(DisposalTraversal disposal)
 		{
 			if (disposal.TraversalFinished)
 			{
@@ -103,7 +105,7 @@ namespace Systems.Disposals
 			StartCoroutine(DelayTraversal(disposal));
 		}
 
-		IEnumerator DelayTraversal(DisposalTraversal disposal)
+		private IEnumerator DelayTraversal(DisposalTraversal disposal)
 		{
 			yield return WaitFor.Seconds(1 / TileTraversalsPerSecond);
 			disposal.CurrentlyDelayed = false;

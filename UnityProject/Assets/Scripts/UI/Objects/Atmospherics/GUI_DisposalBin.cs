@@ -7,37 +7,35 @@ namespace UI.Objects.Disposals
 {
 	public class GUI_DisposalBin : NetTab
 	{
-#pragma warning disable 0649
-		[SerializeField] NetLabel LabelBinStatus;
-		[SerializeField] GUI_ExoFabButton ButtonBinPower;
-		[SerializeField] GUI_ExoFabButton ButtonFlushContents;
-		[SerializeField] GUI_ExoFabButton ButtonEjectContents;
-		[SerializeField] NumberSpinner StoredPressureSpinner;
-		[SerializeField] NetColorChanger LEDRed;
-		[SerializeField] NetColorChanger LEDYellow;
-		[SerializeField] NetColorChanger LEDGreen;
-#pragma warning restore 0649
+		[SerializeField] private NetLabel LabelBinStatus = default;
+		[SerializeField] private GUI_ExoFabButton ButtonBinPower = default;
+		[SerializeField] private GUI_ExoFabButton ButtonFlushContents = default;
+		[SerializeField] private GUI_ExoFabButton ButtonEjectContents = default;
+		[SerializeField] private NumberSpinner StoredPressureSpinner = default;
+		[SerializeField] private NetColorChanger LEDRed = default;
+		[SerializeField] private NetColorChanger LEDYellow = default;
+		[SerializeField] private NetColorChanger LEDGreen = default;
 
-		readonly Color RED_ACTIVE = new Color32(0xFF, 0x1C, 0x00, 0xFF);
-		readonly Color RED_INACTIVE = new Color32(0x73, 0x00, 0x00, 0xFF);
-		readonly Color YELLOW_ACTIVE = new Color32(0xE4, 0xFF, 0x02, 0xFF);
-		readonly Color YELLOW_INACTIVE = new Color32(0x5E, 0x54, 0x00, 0xFF);
-		readonly Color GREEN_ACTIVE = new Color32(0x02, 0xFF, 0x23, 0xFF);
-		readonly Color GREEN_INACTIVE = new Color32(0x00, 0x5E, 0x00, 0xFF);
+		private readonly Color RED_ACTIVE = new Color32(0xFF, 0x1C, 0x00, 0xFF);
+		private readonly Color RED_INACTIVE = new Color32(0x73, 0x00, 0x00, 0xFF);
+		private readonly Color YELLOW_ACTIVE = new Color32(0xE4, 0xFF, 0x02, 0xFF);
+		private readonly Color YELLOW_INACTIVE = new Color32(0x5E, 0x54, 0x00, 0xFF);
+		private readonly Color GREEN_ACTIVE = new Color32(0x02, 0xFF, 0x23, 0xFF);
+		private readonly Color GREEN_INACTIVE = new Color32(0x00, 0x5E, 0x00, 0xFF);
 
-		const float UPDATE_RATE = 0.5f;
-		Coroutine updateChargeStatus;
+		private readonly float UPDATE_RATE = 0.5f;
+		private Coroutine updateChargeStatus;
 
-		DisposalBin bin;
+		private DisposalBin bin;
 
 		#region Initialisation
 
-		void Awake()
+		private void Awake()
 		{
 			StartCoroutine(WaitForProvider());
 		}
 
-		IEnumerator WaitForProvider()
+		private IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
 			{
@@ -55,19 +53,19 @@ namespace UI.Objects.Disposals
 
 		#endregion Initialisation
 
-		void ServerOnBinStateUpdated()
+		private void ServerOnBinStateUpdated()
 		{
 			LabelBinStatus.SetValueServer(bin.BinState.ToString());
 			ServerUpdatePressureSpinner();
 			ServerSetButtonsAndLEDsByState();
 		}
 
-		void ServerUpdatePressureSpinner()
+		private void ServerUpdatePressureSpinner()
 		{
 			StoredPressureSpinner.ServerSpinTo(bin.ChargePressure);
 		}
 
-		void ServerSetButtonsAndLEDsByState()
+		private void ServerSetButtonsAndLEDsByState()
 		{
 			switch (bin.BinState)
 			{
@@ -89,7 +87,7 @@ namespace UI.Objects.Disposals
 			}
 		}
 
-		IEnumerator ServerUpdateChargeStatus()
+		private IEnumerator ServerUpdateChargeStatus()
 		{
 			while (bin.BinCharging)
 			{
@@ -101,21 +99,24 @@ namespace UI.Objects.Disposals
 			}
 		}
 
-		void ServerEnableButtonInteraction(GUI_ExoFabButton button)
+		private void ServerEnableButtonInteraction(GUI_ExoFabButton button)
 		{
 			button.SetValueServer("true");
 		}
 
-		void ServerDisableButtonInteraction(GUI_ExoFabButton button)
+		private void ServerDisableButtonInteraction(GUI_ExoFabButton button)
 		{
 			button.SetValueServer("false");
 		}
 
 		#region State Updates
 
-		void ServerSetStateDisconnected()
+		private void ServerSetStateDisconnected()
 		{
-			if (updateChargeStatus != null) StopCoroutine(updateChargeStatus);
+			if (updateChargeStatus != null)
+			{
+				StopCoroutine(updateChargeStatus);
+			}
 			ServerDisableButtonInteraction(ButtonBinPower);
 			ServerDisableButtonInteraction(ButtonFlushContents);
 			ServerEnableButtonInteraction(ButtonEjectContents);
@@ -124,9 +125,12 @@ namespace UI.Objects.Disposals
 			LEDGreen.SetValueServer(GREEN_INACTIVE);
 		}
 
-		void ServerSetStateOff()
+		private void ServerSetStateOff()
 		{
-			if (updateChargeStatus != null) StopCoroutine(updateChargeStatus);
+			if (updateChargeStatus != null)
+			{
+				StopCoroutine(updateChargeStatus);
+			}
 			ServerEnableButtonInteraction(ButtonBinPower);
 			ServerDisableButtonInteraction(ButtonFlushContents);
 			ServerEnableButtonInteraction(ButtonEjectContents);
@@ -135,9 +139,12 @@ namespace UI.Objects.Disposals
 			LEDGreen.SetValueServer(GREEN_INACTIVE);
 		}
 
-		void ServerSetStateReady()
+		private void ServerSetStateReady()
 		{
-			if (updateChargeStatus != null) StopCoroutine(updateChargeStatus);
+			if (updateChargeStatus != null)
+			{
+				StopCoroutine(updateChargeStatus);
+			}
 			ServerEnableButtonInteraction(ButtonBinPower);
 			ServerEnableButtonInteraction(ButtonFlushContents);
 			ServerEnableButtonInteraction(ButtonEjectContents);
@@ -146,9 +153,12 @@ namespace UI.Objects.Disposals
 			LEDGreen.SetValueServer(GREEN_ACTIVE);
 		}
 
-		void ServerSetStateFlushing()
+		private void ServerSetStateFlushing()
 		{
-			if (updateChargeStatus != null) StopCoroutine(updateChargeStatus);
+			if (updateChargeStatus != null)
+			{
+				StopCoroutine(updateChargeStatus);
+			}
 			ServerDisableButtonInteraction(ButtonBinPower);
 			ServerDisableButtonInteraction(ButtonFlushContents);
 			ServerDisableButtonInteraction(ButtonEjectContents);
@@ -157,7 +167,7 @@ namespace UI.Objects.Disposals
 			LEDGreen.SetValueServer(GREEN_INACTIVE);
 		}
 
-		void ServerSetStateRecharging()
+		private void ServerSetStateRecharging()
 		{
 			this.RestartCoroutine(ServerUpdateChargeStatus(), ref updateChargeStatus);
 			ServerEnableButtonInteraction(ButtonBinPower);
