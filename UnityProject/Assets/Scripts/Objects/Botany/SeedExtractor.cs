@@ -122,7 +122,8 @@ namespace Objects.Botany
 		[Server]
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandObject != null) {
+			if (interaction.HandObject != null)
+			{
 				var grownFood = interaction.HandObject.GetComponent<GrownFood>();
 			
 				var foodAtributes = grownFood.GetComponentInParent<ItemAttributesV2>();
@@ -150,7 +151,10 @@ namespace Objects.Botany
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return DefaultWillInteract.Default(interaction, side);
+			return DefaultWillInteract.Default(interaction, side) &&
+			   interaction.TargetObject == gameObject &&
+			   interaction.HandObject != null &&
+			   interaction.HandObject.TryGetComponent<GrownFood>(out _);
 		}
 
 		/// <summary>
