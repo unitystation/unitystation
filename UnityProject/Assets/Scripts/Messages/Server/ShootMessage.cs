@@ -152,7 +152,9 @@ namespace Weapons
 		///To be run on client
 		public override void Process()
 		{
-			if (!MatrixManager.IsInitialized) return;
+			if (CustomNetworkManager.IsServer) return; // Processed serverside in SendToAll
+
+			if (MatrixManager.IsInitialized == false) return;
 
 			if (Shooter.Equals(NetId.Invalid))
 			{
@@ -162,24 +164,29 @@ namespace Weapons
 			}
 
 			//Not even spawned don't show bullets
-			if (CustomNetworkManager.IsServer == false && PlayerManager.LocalPlayer == null) return;
+			if (PlayerManager.LocalPlayer == null) return;
 
 			LoadNetworkObject(Shooter);
 			GameObject shooter = NetworkObject;
 
-			if (!ClientScene.prefabs.TryGetValue(ProjectilePrefab, out var prefab))
+			if (ClientScene.prefabs.TryGetValue(ProjectilePrefab, out var prefab) == false)
 			{
 				Logger.LogError($"Couldn't cast {ProjectilePrefab}; it is probably missing {nameof(NetworkIdentity)} component.", Category.Firearms);
 				return;
 			}
 
+			ShootProjectile(prefab, shooter, Direction, DamageZone);
+		}
+
+		private static void ShootProjectile(GameObject prefab, GameObject shooter, Vector2 direction, BodyPartType damageZone)
+		{
 			GameObject projectile = UnityEngine.Object.Instantiate(prefab, shooter.transform.position, Quaternion.identity);
 
 			if (projectile == null) return;
 			Bullet bullet = projectile.GetComponent<Bullet>();
 			if (bullet == null) return;
 
-			bullet.Shoot(Direction, shooter, null, DamageZone);
+			bullet.Shoot(direction, shooter, null, damageZone);
 		}
 
 		/// <summary>
@@ -192,6 +199,11 @@ namespace Weapons
 		/// <returns></returns>
 		public static CastProjectileMessage SendToAll(GameObject shooter, GameObject projectilePrefab, Vector2 direction, BodyPartType damageZone)
 		{
+			if (CustomNetworkManager.IsServer)
+			{
+				ShootProjectile(projectilePrefab, shooter, direction, damageZone);
+			}
+
 			Guid assetID;
 			if (projectilePrefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
 			{
