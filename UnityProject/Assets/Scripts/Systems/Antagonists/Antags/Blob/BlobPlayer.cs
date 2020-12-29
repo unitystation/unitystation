@@ -12,6 +12,8 @@ using TMPro;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using EpPathFinding.cs;
+using Managers;
+using Strings;
 using UnityEngine.Profiling;
 
 namespace Blob
@@ -346,7 +348,7 @@ namespace Blob
 				halfWay = true;
 
 				Chat.AddSystemMsgToChat(
-					string.Format(CentComm.BioHazardReportTemplate,
+					string.Format(ReportTemplates.BioHazard,
 						"Caution! Biohazard expanding rapidly. Station structural integrity failing."),
 					MatrixManager.MainStationMatrix);
 				SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
@@ -357,7 +359,7 @@ namespace Blob
 				nearlyWon = true;
 
 				Chat.AddSystemMsgToChat(
-					string.Format(CentComm.BioHazardReportTemplate,
+					string.Format(ReportTemplates.BioHazard,
 						"Alert! Station integrity near critical. Biomass sensor levels are off the charts."),
 					MatrixManager.MainStationMatrix);
 				SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
@@ -376,7 +378,7 @@ namespace Blob
 				announcedBlob = true;
 
 				Chat.AddSystemMsgToChat(
-					string.Format(CentComm.BioHazardReportTemplate,
+					string.Format(ReportTemplates.BioHazard,
 						"Confirmed outbreak of level 5 biohazard aboard the station. All personnel must contain the outbreak."),
 					MatrixManager.MainStationMatrix);
 				SoundManager.PlayNetworked(Outbreak5);
@@ -1278,7 +1280,7 @@ namespace Blob
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(false);
 
 			Chat.AddSystemMsgToChat(
-				string.Format(CentComm.BioHazardReportTemplate,
+				string.Format(ReportTemplates.BioHazard,
 					"The biohazard has been contained."),
 				MatrixManager.MainStationMatrix);
 
@@ -1305,7 +1307,7 @@ namespace Blob
 			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
 
 			Chat.AddSystemMsgToChat(
-				string.Format(CentComm.BioHazardReportTemplate,
+				string.Format(ReportTemplates.BioHazard,
 					"Biohazard has reached critical mass. Station integrity critical!"),
 				MatrixManager.MainStationMatrix);
 

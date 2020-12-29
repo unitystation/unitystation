@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.Explosions;
+using Managers;
+using Strings;
 
 namespace InGameEvents
 {
@@ -32,7 +34,7 @@ namespace InGameEvents
 			{
 				var text = "What the fuck is going on?!";
 
-				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 
 			if (FakeEvent) return;
@@ -106,7 +108,7 @@ namespace InGameEvents
 			{
 				var text = "Seriously, what the fuck was that?!";
 
-				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 		}
 
