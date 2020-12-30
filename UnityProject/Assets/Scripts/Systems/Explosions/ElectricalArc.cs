@@ -99,10 +99,11 @@ namespace Systems.ElectricalArcs
 				endPos += Settings.endObject.transform.position;
 			}
 
-			return MatrixManager.Linecast(
+			var linecast = MatrixManager.Linecast(
 					startPos,
 					LayerTypeSelection.Walls | LayerTypeSelection.Windows, LayerMask.NameToLayer("Door Closed"),
-					endPos).ItHit == false;
+					endPos);
+			return linecast.ItHit == false || Vector3.Distance(endPos, linecast.HitWorld) < 0.1f; // Allow for some raycast/linecast tolerance
 		}
 
 		private LightningBoltScript CreateSingleArc(ElectricalArcSettings settings)

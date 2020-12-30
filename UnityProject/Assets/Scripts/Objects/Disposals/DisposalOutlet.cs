@@ -8,11 +8,14 @@ namespace Objects.Disposals
 {
 	public class DisposalOutlet : DisposalMachine, IServerDespawn, IExaminable
 	{
-		const float ANIMATION_TIME = 4.2f; // As per sprite sheet JSON file.
-		const float EJECTION_DELAY = 3;
+		private const float ANIMATION_TIME = 4.2f; // As per sprite sheet JSON file.
+		private const float EJECTION_DELAY = 3;
 
-		Directional directional;
-		List<DisposalVirtualContainer> receivedContainers = new List<DisposalVirtualContainer>();
+		[SerializeField]
+		private AddressableAudioSource ejectionAlarmSound;
+
+		private Directional directional;
+		private readonly List<DisposalVirtualContainer> receivedContainers = new List<DisposalVirtualContainer>();
 
 		public bool IsOperating { get; private set; }
 		public bool ServerHasContainers => receivedContainers.Count > 0;
@@ -23,8 +26,6 @@ namespace Objects.Disposals
 			Operating = 1
 		}
 
-		[SerializeField] private AddressableAudioSource ejectionAlarmSound;
-
 		#region Lifecycle
 
 		protected override void Awake()
@@ -34,7 +35,7 @@ namespace Objects.Disposals
 			directional = GetComponent<Directional>();
 		}
 
-		void Start()
+		private void Start()
 		{
 			directional.OnDirectionChange.AddListener(OnDirectionChanged);
 			UpdateSpriteState();
@@ -51,12 +52,12 @@ namespace Objects.Disposals
 
 		#endregion Lifecycle
 
-		void OnDirectionChanged(Orientation newDir)
+		private void OnDirectionChanged(Orientation newDir)
 		{
 			UpdateSpriteOrientation();
 		}
 
-		void SetOutletOperating(bool isOperating)
+		private void SetOutletOperating(bool isOperating)
 		{
 			IsOperating = isOperating;
 			UpdateSpriteState();
@@ -64,7 +65,7 @@ namespace Objects.Disposals
 
 		#region Sprites
 
-		void UpdateSpriteState()
+		private void UpdateSpriteState()
 		{
 			if (IsOperating)
 			{
@@ -76,7 +77,7 @@ namespace Objects.Disposals
 			}
 		}
 
-		void UpdateSpriteOrientation()
+		private void UpdateSpriteOrientation()
 		{
 			switch (directional.CurrentDirection.AsEnum())
 			{
@@ -102,10 +103,19 @@ namespace Objects.Disposals
 		public override string Examine(Vector3 worldPos = default)
 		{
 			string baseString = "It";
-			if (FloorPlatingExposed()) baseString = base.Examine().TrimEnd('.') + " and";
+			if (FloorPlatingExposed())
+			{
+				baseString = base.Examine().TrimEnd('.') + " and";
+			}
 
-			if (IsOperating) return $"{baseString} is currently ejecting its contents.";
-			else return $"{baseString} is {(MachineSecured ? "ready" : "not ready")} for use.";
+			if (IsOperating)
+			{
+				return $"{baseString} is currently ejecting its contents.";
+			}
+			else
+			{
+				return $"{baseString} is {(MachineSecured ? "ready" : "not ready")} for use.";
+			}
 		}
 
 		#endregion Interactions
@@ -128,10 +138,13 @@ namespace Objects.Disposals
 		{
 			receivedContainers.Add(virtualContainer);
 			virtualContainer.GetComponent<ObjectBehaviour>().parentContainer = objectBehaviour;
-			if (!IsOperating) StartCoroutine(RunEjectionSequence());
+			if (IsOperating == false)
+			{
+				StartCoroutine(RunEjectionSequence());
+			}
 		}
 
-		IEnumerator RunEjectionSequence()
+		private IEnumerator RunEjectionSequence()
 		{
 			// If a container is received while in the closing orifice stage, (essentially) queue the container.
 			while (ServerHasContainers)

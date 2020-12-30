@@ -5,6 +5,8 @@ using UnityEditor;
 using Gateway;
 using Systems.Electricity;
 using AddressableReferences;
+using Managers;
+using Strings;
 
 namespace Objects
 {
@@ -200,7 +202,7 @@ namespace Objects
 				ServerChangeState(true);
 
 				var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + selectedWorld.WorldName;
-				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 		}
 

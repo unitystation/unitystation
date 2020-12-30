@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 using Systems.Explosions;
@@ -19,6 +19,9 @@ namespace Objects
 		[SerializeField]
 		private bool spawnFalling = true;
 
+		[SerializeField]
+		private AddressableAudioSource RocketLand;
+
 		[Header("SpriteHandlers")]
 		[SerializeField]
 		private SpriteHandler baseSpriteHandler = default;
@@ -34,9 +37,6 @@ namespace Objects
 		private bool isLanding = false;
 
 		private bool IsServer => CustomNetworkManager.IsServer;
-
-
-		public AddressableAudioSource RocketLand;
 
 		private Vector3Int worldPosition;
 		private Vector3Int WorldPosition
@@ -91,30 +91,22 @@ namespace Objects
 			GameObject targetReticule = landingSpriteHandler.gameObject;
 			GameObject dropPod = baseSpriteHandler.gameObject;
 
-			// Initialise target reticule for animating.
-			targetReticule.LeanAlpha(0.25f, 0);
-			targetReticule.transform.localScale = Vector3.one * 1.5f;
-
 			// Initialise drop pod sprite to the start of falling animation.
 			baseSpriteHandler.ChangeSprite((int)BaseSprite.Falling, false);
-			dropPod.transform.localScale = Vector3.zero;
-			Vector3 localPos = dropPod.transform.localPosition;
-			localPos.y = DROP_HEIGHT;
-			dropPod.transform.localPosition = localPos;
 			registerObject.Passable = true;
 
 			// ClosetControl initialises, redisplaying the door, so wait a frame...
 			yield return WaitFor.EndOfFrame;
 			doorSpriteHandler.PushClear(false);
 
-			// Begin the drop animation.
-			dropPod.LeanScale(Vector3.one, TRAVEL_TIME);
-			dropPod.LeanMoveLocalY(0, TRAVEL_TIME);
+			// Animate the drop-pod falling.
+			dropPod.LeanScale(Vector3.one, TRAVEL_TIME).setFrom(Vector3.zero).setEaseInQuad();
+			dropPod.LeanMoveLocalY(0, TRAVEL_TIME).setFrom(DROP_HEIGHT).setEaseInQuad();
 
 			// Animate the target reticule.
-			targetReticule.LeanScale(Vector3Int.one, TRAVEL_TIME / 2);
+			targetReticule.LeanScale(Vector3.one, TRAVEL_TIME / 2f).setFrom(new Vector3(1.5f, 1.5f, 1)).setEaseOutQuad();
 			targetReticule.LeanRotateZ(-270, TRAVEL_TIME);
-			targetReticule.LeanAlpha(0.75f, TRAVEL_TIME / 2);
+			targetReticule.LeanAlpha(0.75f, TRAVEL_TIME / 2f).setFrom(0.25f).setEaseOutQuad();
 
 			yield return WaitFor.Seconds(TRAVEL_TIME);
 
@@ -138,7 +130,7 @@ namespace Objects
 		private IEnumerator DelayLandingSFX()
 		{
 			yield return WaitFor.Seconds(TRAVEL_TIME - 1);
-			SoundManager.PlayAtPosition(RocketLand,  WorldPosition, gameObject );
+			SoundManager.PlayAtPosition(RocketLand, WorldPosition, gameObject);
 		}
 	}
 }

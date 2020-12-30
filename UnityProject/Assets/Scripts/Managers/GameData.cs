@@ -9,6 +9,7 @@ using DatabaseAPI;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Lobby;
+using Managers;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -158,7 +159,7 @@ public class GameData : MonoBehaviour
 
 		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
 		LobbyManager.Instance.lobbyDialogue.serverPortInput.text = port;
-		Managers.instance.serverIP = ip;
+		GameScreenManager.Instance.serverIP = ip;
 
 		var refreshToken = new RefreshToken();
 		refreshToken.refreshToken = token;
@@ -235,12 +236,12 @@ public class GameData : MonoBehaviour
 		if (newScene.name == "Lobby")
 		{
 			IsInGame = false;
-			Managers.instance.SetScreenForLobby();
+			GameScreenManager.Instance.SetScreenForLobby();
 		}
 		else
 		{
 			IsInGame = true;
-			Managers.instance.SetScreenForGame();
+			GameScreenManager.Instance.SetScreenForGame();
 		}
 
 		if (CustomNetworkManager.Instance.isNetworkActive)

@@ -14,6 +14,7 @@ using Mirror;
 using GameConfig;
 using Initialisation;
 using AddressableReferences;
+using Managers;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {

@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Mirror;
-using WebSocketSharp;
 
 namespace Objects.Construction
 {
@@ -25,13 +25,13 @@ namespace Objects.Construction
 		public UnityEvent OnAnchoredChange = new UnityEvent();
 		public bool IsAnchored => objectBehaviour != null && !objectBehaviour.IsPushable;
 
-		[SerializeField]
+		[SerializeField, FormerlySerializedAs("stateSecuredStatus")]
 		[Tooltip("Whether the object will state if it is secured or unsecured upon examination.")]
-		bool stateSecuredStatus = true;
+		private bool isSecuredStateExaminable = true;
 
-		[SerializeField]
+		[SerializeField, FormerlySerializedAs("RequireFloorPlatingExposed")]
 		[Tooltip("Whether the object can be secured with floor tiles or the plating must be exposed.")]
-		bool RequireFloorPlatingExposed = false;
+		private bool isExposedFloorPlatingRequired = false;
 
 		//The two float values below will likely be identical most of the time, but can't hurt to keep them separate just in case.
 		[Tooltip("Time taken to secure this.")]
@@ -42,13 +42,17 @@ namespace Objects.Construction
 		[SerializeField]
 		private float secondsToUnsecure = 0;
 
-		private void Start()
+		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+		}
 
+		private void Start()
+		{
 			// Try get the best name for the object, else default to object's prefab name.
-			if (TryGetComponent(out ObjectAttributes attributes) && !attributes.InitialName.IsNullOrEmpty())
+			if (TryGetComponent<ObjectAttributes>(out var attributes)
+					&& string.IsNullOrWhiteSpace(attributes.InitialName) == false)
 			{
 				objectName = attributes.InitialName;
 			}
@@ -68,13 +72,12 @@ namespace Objects.Construction
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			//start with the default HandApply WillInteract logic.
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			//only care about interactions targeting us
 			if (interaction.TargetObject != gameObject) return false;
 			//only try to interact if the user has a wrench in their hand
-			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
-			return true;
+			return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -85,7 +88,7 @@ namespace Objects.Construction
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			if (stateSecuredStatus)
+			if (isSecuredStateExaminable)
 			{
 				return IsAnchored ? "It is anchored in place." : "It is currently not anchored.";
 			}
@@ -97,12 +100,15 @@ namespace Objects.Construction
 
 		private void TryWrench()
 		{
-			if (IsAnchored) Unanchor();
+			if (IsAnchored)
+			{
+				Unanchor();
+			}
 			else
 			{
 				// Try anchor
-				if (!VerboseFloorExists()) return;
-				if (RequireFloorPlatingExposed && !VerbosePlatingExposed()) return;
+				if (VerboseFloorExists() == false) return;
+				if (isExposedFloorPlatingRequired && VerbosePlatingExposed() == false) return;
 				if (ServerValidations.IsAnchorBlocked(currentInteraction)) return;
 
 				Anchor();
@@ -111,7 +117,7 @@ namespace Objects.Construction
 
 		private bool VerboseFloorExists()
 		{
-			if (!MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true)) return true;
+			if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true) == false) return true;
 
 			Chat.AddExamineMsg(currentInteraction.Performer, $"A floor must be present to secure the {objectName}!");
 			return false;

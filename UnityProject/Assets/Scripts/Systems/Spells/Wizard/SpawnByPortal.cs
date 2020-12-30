@@ -39,12 +39,10 @@ namespace Systems.Spells.Wizard
 		/// </summary>
 		public static void AnimatePortal(GameObject portal, PortalSpawnInfo settings)
 		{
-			portal.transform.localScale = Vector3.zero;
-
 			// Portal expands
-			LeanTween.scale(portal, Vector3.one, settings.PortalOpenTime);
+			LeanTween.scale(portal, Vector3.one, settings.PortalOpenTime).setFrom(Vector3.zero);
 
-			// Portal shrinks and despawns
+			// Portal shrinks
 			LeanTween.scale(portal, Vector3.zero, settings.PortalCloseTime).setDelay(settings.PortalOpenTime + settings.PortalSuspenseTime);
 		}
 
@@ -57,14 +55,12 @@ namespace Systems.Spells.Wizard
 			float fallingTime = GetFallingTime(settings.PortalHeight);
 
 			// Animate entity falling.
-			spriteObject.LeanSetLocalPosY(settings.PortalHeight);
-			LeanTween.moveLocalY(spriteObject.gameObject, 0, fallingTime).setEaseInQuad();
+			LeanTween.moveLocalY(spriteObject.gameObject, 0, fallingTime).setFrom(settings.PortalHeight).setEaseInQuad();
 
 			// Animate entity rotating during fall.
 			if (settings.EntityRotate)
 			{
-				spriteObject.localRotation = RandomUtils.RandomRotation2D();
-				spriteObject.LeanRotateZ(UnityEngine.Random.Range(0, 720), fallingTime);
+				spriteObject.LeanRotateZ(UnityEngine.Random.Range(0, 720), fallingTime).setFrom(RandomUtils.RandomRotation2D().eulerAngles);
 			}
 		}
 

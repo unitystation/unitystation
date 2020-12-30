@@ -110,7 +110,7 @@ namespace Items.PDA
 
 			IDSlot.OnSlotContentsChangeServer.AddListener(OnIDSlotChanged);
 
-			if (cartridgePrefab != null)
+			if (CustomNetworkManager.IsServer && cartridgePrefab != null)
 			{
 				var cartridge = Spawn.ServerPrefab(cartridgePrefab).GameObject;
 				Inventory.ServerAdd(cartridge, CartridgeSlot);

@@ -379,8 +379,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <summary>
 	/// Slots gas containers can be used from.
 	/// </summary>
-	public static readonly NamedSlot[] GasUseSlots = 	{NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02, NamedSlot.storage03,
-		NamedSlot.suitStorage, NamedSlot.back, NamedSlot.belt};
+	public static readonly NamedSlot[] GasUseSlots = 	{NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02, NamedSlot.suitStorage,
+		NamedSlot.back, NamedSlot.belt};
 
 	/// <summary>
 	/// Gets the highest indexed slot that is currently occupied. Null if none are occupied
