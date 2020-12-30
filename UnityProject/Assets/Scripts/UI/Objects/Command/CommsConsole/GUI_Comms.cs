@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using Managers;
 using UnityEngine;
 using Objects.Wallmounts;
 using Objects.Command;
+using Strings;
 
 namespace UI.Objects.Command
 {
@@ -181,11 +183,11 @@ namespace UI.Objects.Command
 			Logger.Log(nameof(MakeAnAnnouncement), Category.NetUI);
 			if (text.Length > 200)
 			{
-				CentComm.MakeAnnouncement(CentComm.CaptainAnnounceTemplate, text.Substring(0, 200), CentComm.UpdateSound.announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce);
 			}
 			else
 			{
-				CentComm.MakeAnnouncement(CentComm.CaptainAnnounceTemplate, text, CentComm.UpdateSound.announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text, CentComm.UpdateSound.Announce);
 			}
 			OpenMenu();
 		}

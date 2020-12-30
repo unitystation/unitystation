@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Managers;
 using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -51,7 +52,7 @@ namespace Antagonists
 			int fugitiveNumber = Random.Range(1111, 9999);
 			warnMessage = string.Format(warnMessage, fugitiveName, fugitiveNumber);
 
-			GameManager.Instance.CentComm.MakeCommandReport(warnMessage, CentComm.UpdateSound.notice);
+			GameManager.Instance.CentComm.MakeCommandReport(warnMessage, CentComm.UpdateSound.Notice);
 		}
 	}
 }

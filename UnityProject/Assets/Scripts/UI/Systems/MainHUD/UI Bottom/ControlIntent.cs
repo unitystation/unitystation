@@ -19,8 +19,6 @@ public class ControlIntent : TooltipMonoBehaviour
 	public override string Tooltip => "intent";
 
 	[Header("GameObject references")]
-	[SerializeField] private GameObject helpIntentIcon = default;
-	[SerializeField] private GameObject harmIntentIcon = default;
 	[SerializeField] private GameObject runWalkBorder = default;
 	[SerializeField] private GameObject helpWindow = default;
 	[Header("Message settings")]
@@ -34,44 +32,18 @@ public class ControlIntent : TooltipMonoBehaviour
 	{
 		SetIntent(Intent.Help);
 
-		if (helpIntentIcon == null || harmIntentIcon == null || runWalkBorder == null)
+		if (runWalkBorder == null)
 		{
 			// TODO: wait for UI changes to settle down before refactoring this to reflect the changes.
 			Logger.LogWarning("At least one intent GameObject is unassigned.");
 		}
 		else
 		{
-			helpIntentIcon.SetActive(true);
-			harmIntentIcon.SetActive(false);
 			runWalkBorder.SetActive(Running);
 		}
 	}
 
 	#region OnClick listeners
-
-	/// <summary>
-	/// Called when player clicks Intent button
-	/// </summary>
-	public void OnClickIntent()
-	{
-		Logger.Log("OnClickIntent", Category.UI);
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-
-		if (UIManager.CurrentIntent == Intent.Help)
-		{
-			helpIntentIcon.SetActive(false);
-			harmIntentIcon.SetActive(true);
-
-			UIManager.CurrentIntent = Intent.Harm;
-		}
-		else
-		{
-			helpIntentIcon.SetActive(true);
-			harmIntentIcon.SetActive(false);
-
-			UIManager.CurrentIntent = Intent.Help;
-		}
-	}
 
 	/// <summary>
 	/// Called when player clicks Rest button
@@ -153,8 +125,7 @@ public class ControlIntent : TooltipMonoBehaviour
 			intent = 0;
 		}
 
-		UIManager.CurrentIntent = (Intent)intent;
-		//if (thisImg != null) thisImg.sprite = sprites[intent];
+		UpdateIcon(intent);
 	}
 
 
@@ -166,19 +137,22 @@ public class ControlIntent : TooltipMonoBehaviour
 
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
-		UIManager.CurrentIntent = (Intent) selectedIntent;
-
-		thisImg.sprite = sprites[selectedIntent];
+		UpdateIcon(selectedIntent);
 	}
 
 	//Hotkey method
 	public void SetIntent(Intent intent)
 	{
-		UIManager.CurrentIntent = intent;
+		UpdateIcon((int)intent);
+	}
 
-		if (thisImg != null)
+	private void UpdateIcon(int intent)
+	{
+
+		UIManager.CurrentIntent = (Intent) intent;
+		if (thisImg != null && sprites[intent] != null)
 		{
-		 	thisImg.sprite = sprites[(int)intent];
+			thisImg.sprite = sprites[intent];
 		}
 	}
 }

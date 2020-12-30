@@ -233,7 +233,9 @@ public static class PlayerSpawn
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
 		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, EVENT.PlayerRejoined, settings);
-		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
+		ps = body.GetComponent<PlayerScript>();
+		ps.playerNetworkActions.ReenterBodyUpdates();
+		ps.mind.ResendSpellActions();
 	}
 
 	/// <summary>

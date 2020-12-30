@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8934140032923375002}
-  - component: {fileID: 2845016280827192407}
   - component: {fileID: -8086378037423238689}
   m_Layer: 0
   m_Name: GhostRoleManager
@@ -32,22 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2845016280827192407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8929341582706713524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDirty: 0
-  sceneId: 0
-  serverOnly: 0
-  m_AssetId: 
 --- !u!114 &-8086378037423238689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9428f84259ced8d45b2a9a5d30eff4e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   ghostRoleList: {fileID: 11400000, guid: f2feab502b816a543b8bf6c81c8011a8, type: 2}

@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Managers;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -105,7 +106,7 @@ public class GUI_PlayerOptions : MonoBehaviour
 	{
 		if (BuildPreferences.isForRelease)
 		{
-			networkManager.networkAddress = Managers.instance.serverIP;
+			networkManager.networkAddress = GameScreenManager.Instance.serverIP;
 			networkManager.StartClient();
 			return;
 		}

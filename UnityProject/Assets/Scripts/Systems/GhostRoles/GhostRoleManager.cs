@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Mirror;
 using Messages.Server;
 using Messages.Client;
 using ScriptableObjects;
@@ -14,7 +13,7 @@ namespace Systems.GhostRoles
 	/// <summary>
 	/// Manages all available ghost roles. Central point for creating, updating and removing roles, and delegating players.
 	/// </summary>
-	public class GhostRoleManager : NetworkBehaviour
+	public class GhostRoleManager : MonoBehaviour
 	{
 		[SerializeField]
 		private GhostRoleList ghostRoleList = default;
@@ -67,7 +66,6 @@ namespace Systems.GhostRoles
 		/// </summary>
 		/// <param name="roleData">The ghost role data to create the role with. Must be defined in GhostRoleList SO.</param>
 		/// <returns>The key with which the new role was generated, for future reference, if successful.</returns>
-		[Server]
 		public uint ServerCreateRole(GhostRoleData roleData)
 		{
 			int roleIndex = GhostRoles.FindIndex(r => r == roleData);
@@ -94,7 +92,6 @@ namespace Systems.GhostRoles
 		/// Update an existing ghost role via its key, on the server. The changes will be sent to all dead players.
 		/// </summary>
 		/// <param name="key">The key used to identify the role for modifying. Returned by <see cref="ServerCreateRole(GhostRoleData)"/>"/></param>
-		[Server]
 		public void ServerUpdateRole(uint key, int minPlayers, int maxPlayers, float timeRemaining)
 		{
 			serverAvailableRoles[key].UpdateRole(minPlayers, maxPlayers, timeRemaining);
@@ -106,7 +103,6 @@ namespace Systems.GhostRoles
 		/// </summary>
 		/// <param name="key">The key used to identify the role for modifying.</param>
 		/// <returns>Returns the GhostRoleClient generated or found by the key.</returns>
-		[Client]
 		public GhostRoleClient ClientAddOrUpdateRole(
 				uint key, int typeIndex, int minPlayers, int maxPlayers, int playerCount, float timeRemaining)
 		{
@@ -149,7 +145,6 @@ namespace Systems.GhostRoles
 		/// Sends a network message to the server requesting ghost role assignment to the role associated with the given key.
 		/// </summary>
 		/// <param name="key">The unique key the ghost role instance is associated with.</param>
-		[Client]
 		public void LocalGhostRequestRole(uint key)
 		{
 			if (PlayerManager.LocalPlayerScript.IsDeadOrGhost == false) return;
@@ -164,7 +159,6 @@ namespace Systems.GhostRoles
 		/// </summary>
 		/// <param name="player">The player to be assigned to the role.</param>
 		/// <param name="key">The unique key the ghost role instance is associated with.</param>
-		[Server]
 		public void ServerGhostRequestRole(ConnectedPlayer player, uint key)
 		{
 			GhostRoleServer role = serverAvailableRoles[key];
@@ -181,7 +175,6 @@ namespace Systems.GhostRoles
 		/// Removes the associated role of the given key from the available roles list. Dead players are informed of the unavailability.
 		/// </summary>
 		/// <param name="key">The unique key the ghost role instance is associated with.</param>
-		[Server]
 		public void ServerRemoveRole(uint key)
 		{
 			if (serverAvailableRoles.ContainsKey(key) == false)

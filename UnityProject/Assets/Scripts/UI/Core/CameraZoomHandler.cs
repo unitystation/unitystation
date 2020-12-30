@@ -1,4 +1,5 @@
 ﻿using System;
+using Managers.SettingsManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D;

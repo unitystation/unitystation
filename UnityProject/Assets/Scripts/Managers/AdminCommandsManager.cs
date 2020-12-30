@@ -5,7 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.IO;
+using Managers;
 using Messages.Client;
+using Strings;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -235,7 +237,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
 
-			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.notice);
+			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Notice);
 
 			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT.";
 
@@ -249,7 +251,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
 
-			GameManager.Instance.CentComm.MakeCommandReport(text, CentComm.UpdateSound.notice);
+			GameManager.Instance.CentComm.MakeCommandReport(text, CentComm.UpdateSound.Notice);
 
 			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT.";
 

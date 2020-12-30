@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Managers.SettingsManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,7 +27,8 @@ namespace Unitystation.Options
 
 		[SerializeField] private Slider chatBubbleSizeSlider = null;
 
-		private DisplaySettings displaySettings = null;
+		private
+			DisplaySettings displaySettings = null;
 
 		void OnEnable()
 		{

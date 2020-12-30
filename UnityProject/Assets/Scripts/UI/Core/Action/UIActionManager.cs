@@ -162,9 +162,7 @@ public class UIActionManager : MonoBehaviour
 		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
 			var _UIAction = Instance.DicIActionGUI[iActionGUI];
-
-			_UIAction.CooldownOpacity.localScale = Vector3Int.one; // Enable opacity.
-			_UIAction.CooldownOpacity.LeanScaleY(0f, cooldown);
+			_UIAction.CooldownOpacity.LeanScaleY(0f, cooldown).setFrom(1f);
 
 			if (cooldown > 5)
 			{
@@ -304,6 +302,8 @@ public class UIActionManager : MonoBehaviour
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, PlayerRejoined);
 	}
 
+	#endregion Events
+
 	private IEnumerator CooldownCountdown(UIAction action, float cooldown)
 	{
 		while ((cooldown -= Time.deltaTime) > 0)
@@ -316,6 +316,4 @@ public class UIActionManager : MonoBehaviour
 
 		action.CooldownNumber.text = default;
 	}
-
-	#endregion Events
 }

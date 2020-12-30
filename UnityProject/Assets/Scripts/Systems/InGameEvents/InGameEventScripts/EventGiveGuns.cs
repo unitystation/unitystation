@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using ScriptableObjects;
+using Strings;
 
 namespace InGameEvents
 {
@@ -59,7 +61,7 @@ namespace InGameEvents
 			{
 				var text = "Incoming Report:\nA weapons convoy got caught in a blue space anomaly near your location. ";
 
-				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 		}
 	}
