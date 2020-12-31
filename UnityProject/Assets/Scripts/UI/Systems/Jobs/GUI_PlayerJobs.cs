@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using System.Globalization;
+using Messages.Server;
 
 /// <summary>
 /// Manages the UI buttons for letting the player choose their desired job.
@@ -83,7 +84,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		waitMessage.SetActive(false);
 	}
 
-	public void ShowFailMessage(JoinedViewer.JobRequestError failReason)
+	public void ShowFailMessage(JobRequestError failReason)
 	{
 		waitForSpawnTimer = 0;
 		ShowJobSelection();
@@ -92,21 +93,23 @@ public class GUI_PlayerJobs : MonoBehaviour
 		errorInfoWindow.SetActive(true);
 	}
 
-	private string GetFailMessage(JoinedViewer.JobRequestError failReason)
+	private string GetFailMessage(JobRequestError failReason)
 	{
 		switch (failReason)
 		{
-			case JoinedViewer.JobRequestError.InvalidUserID:
-				return "Invalid User ID.";
-			case JoinedViewer.JobRequestError.InvalidPlayerID:
+			case JobRequestError.InvalidUserID:
+				return "Invalid User ID (server issue).";
+			case JobRequestError.InvalidPlayerID:
 				return "Invalid Player ID.";
-			case JoinedViewer.JobRequestError.RoundNotReady:
+			case JobRequestError.RoundNotReady:
 				return "New shift hasn't started yet.";
-			case JoinedViewer.JobRequestError.JobBanned:
+			case JobRequestError.JobBanned:
 				return "You were previously fired from this position. [Job-banned]";
-			case JoinedViewer.JobRequestError.PositionsFilled:
+			case JobRequestError.PositionsFilled:
 				return "All positions for this profession have been filled.";
-			default: return "Unspecified error.";
+			case JobRequestError.InvalidScript:
+				return "Invalid ViewerScript (server issue).";
+			default: return "Unspecified server error.";
 		}
 	}
 
