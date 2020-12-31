@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527d04810ffb4855b86689bf64eb71a2, type: 3}
   m_Name: MimeChair
   m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
   callOnClient: 0
   callOnServer: 0
   actionName: Invisible Chair
@@ -22,22 +24,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cd061aeadba774a4396e72bdab2b52f3, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
   spellImplementation: {fileID: 7469762742606550612, guid: 6807d1762ccaf41a3a5394fec3d63462,
     type: 3}
-  stillRechargingMessage: The spell is still recharging
   chargeType: 0
   cooldownTime: 30
   startingCharges: 10
+  castSound: 
+  range: 0
+  stillRechargingMessage: The spell is still recharging
+  affectedMessage: 
+  invocationType: 1
+  invocationMessage: '{0} pulls out an invisible chair and sits down.'
+  invocationMessageSelf: You conjure an invisible chair and sit down.
   summonType: 1
   summonObjects:
-  - {fileID: 7469762742606550612, guid: 6807d1762ccaf41a3a5394fec3d63462, type: 3}
+  - {fileID: 3223654332505707145, guid: 61dc17c9ed6597a4da87ed1218c8b5bf, type: 3}
   summonTiles: []
   summonPosition: 0
   summonLifespan: 25
-  affectedMessage: 
-  castSound: 
-  invocationType: 1
-  invocationMessage: '{0} pulls out an invisible chair and sits down.'
-  range: 0
-  invocationMessageSelf: You conjure an invisible chair and sit down.
   replaceExisting: 0
