@@ -29,7 +29,7 @@ public class CharacterSettings
 	public string FacialHairColor = "black";
 	public string SkinTone = "#ffe0d1";
 	public string UnderwearName = "Mankini";
-	public string SocksName = "Knee-High (Freedom)";
+	public string SocksName = "Knee-high (Freedom)";
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
 
