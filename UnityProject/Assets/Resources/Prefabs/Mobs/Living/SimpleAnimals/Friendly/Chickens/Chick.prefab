@@ -79,6 +79,13 @@ MonoBehaviour:
   minTimeBetweenRandomActions: 60
   maxTimeBetweenRandomActions: 120
   doRandomActionWhenInTask: 1
+  EatFoodA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   grownChicken: 0
   happyChicken: 50
   maxEggsAmount: 3
@@ -112,15 +119,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: butcherResults.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
       propertyPath: deadSprite
       value: 
       objectReference: {fileID: 21300000, guid: ae697a3988508a842a847c6cb1e2eac3,
         type: 3}
+    - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: butcherResults.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: butcherResults.Array.data[0]
@@ -139,10 +146,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ec42e7fdfb4732b4496a4243fdf181bf,
         type: 3}
-    - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
+    - target: {fileID: 3159894102938464743, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 2
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
@@ -150,6 +157,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 10eb69d98dbe2294db0d49261ed0b8c1,
         type: 2}
+    - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -169,6 +181,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -184,6 +201,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -195,16 +217,6 @@ PrefabInstance:
     - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
@@ -226,6 +238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: EatFoodA.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64d782023543d4542b89ce3f9402b084, type: 3}

@@ -84,6 +84,11 @@ public class GrownFood : NetworkBehaviour
 		}
 	}
 
+	public void SetPlantData(PlantData newData)
+	{
+		plantData = newData;
+	}
+
 	/// <summary>
 	/// Takes initial values and scales them based on potency
 	/// </summary>

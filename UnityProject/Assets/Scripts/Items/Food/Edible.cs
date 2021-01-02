@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Items;
 using AddressableReferences;
+using Systems.Botany;
 
 /// <summary>
 /// Indicates an edible object
@@ -13,6 +14,9 @@ using AddressableReferences;
 public class Edible : Consumable, ICheckedInteractable<HandActivate>
 {
 	public GameObject leavings;
+
+	[Tooltip("Copies plant data to the leavings, used for bananas and other produce.")]
+	public bool copyPlantDataToLeavings = false;
 
 	/// <summary>
 	/// The name of the sound the player makes when eating
@@ -130,6 +134,13 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 			{
 				//If stackable has leavings and they couldn't go in the same slot, they should be dropped
 				pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
+			}
+			if (copyPlantDataToLeavings == true)
+			{
+				if (TryGetComponent<GrownFood>(out var produce) && leavingsInstance.TryGetComponent<GrownFood>(out var plantTrash)) 
+				{
+					plantTrash.SetPlantData(produce.GetPlantData());
+				}
 			}
 		}
 	}

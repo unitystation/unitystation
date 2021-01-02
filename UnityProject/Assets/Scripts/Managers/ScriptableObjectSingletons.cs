@@ -19,7 +19,6 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public BestSlotForTrait BestSlotForTrait;
 	public PlayerCustomisationDataSOs PlayerCustomisationDataSOs;
 	public PlayerTextureDataSOs PlayerTextureDataSOs;
-	public DefaultPlantDataSOs DefaultPlantDataSOs;
 	public CommonPrefabs CommonPrefabs;
 	public CommonCooldowns CommonCooldowns;
 	public UIActionSOSingleton UIActionSOSingleton;
