@@ -27,7 +27,7 @@ namespace Objects.Mining
 			ToolUtils.ServerUseToolWithActionMessages(
 					interaction, mineTime,
 					$"You start mining the {objectName}...",
-					$"{interaction.Performer} starts mining the {objectName}...",
+					$"{interaction.Performer.ExpensiveName()} starts mining the {objectName}...",
 					default, default,
 					() =>
 					{

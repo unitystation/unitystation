@@ -55,6 +55,8 @@ namespace Antagonists
 
 		private void GiveRandomSpells(ConnectedPlayer player)
 		{
+			if (StartingSpellCount < 1) return;
+
 			StringBuilder playerMsg = new StringBuilder("You have knowledge of the following spells: ");
 
 			foreach (WizardSpellData randomSpell in GetRandomWizardSpells())
