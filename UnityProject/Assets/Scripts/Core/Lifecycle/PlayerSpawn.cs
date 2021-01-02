@@ -334,9 +334,10 @@ public static class PlayerSpawn
 	/// <summary>
 	/// Spawns an assistant dummy
 	/// </summary>
-	public static void ServerSpawnDummy()
+	public static void ServerSpawnDummy(Transform spawnTransform = null)
 	{
-		Transform spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
+		if(spawnTransform == null)
+			spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
 		if (spawnTransform != null)
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());

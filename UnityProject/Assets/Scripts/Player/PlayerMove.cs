@@ -149,10 +149,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
-	}
-
-	private void Start()
-	{
 		PlayerDirectional = gameObject.GetComponent<Directional>();
 
 		registerPlayer = GetComponent<RegisterPlayer>();
