@@ -91,7 +91,7 @@ namespace Items
 			}
 		}
 
-		private void OnDisable()
+		private void OnDestroy()
 		{
 			ToggleOff();
 		}

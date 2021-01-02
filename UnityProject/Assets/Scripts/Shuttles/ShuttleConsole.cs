@@ -9,7 +9,7 @@ namespace Objects.Shuttles
 	/// <summary>
 	/// Main component for shuttle console
 	/// </summary>
-	public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
 		public MatrixMove ShuttleMatrixMove;
 		private RegisterTile registerTile;
@@ -39,44 +39,29 @@ namespace Objects.Shuttles
 			hasNetworkTab = GetComponent<HasNetworkTab>();
 		}
 
-		private void OnEnable()
-		{
-			if (ShuttleMatrixMove == null)
-			{
-				StartCoroutine(InitMatrixMove());
-			}
-		}
-
-		private IEnumerator InitMatrixMove()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
 
 			if (ShuttleMatrixMove == null)
 			{
-				while (!registerTile.Matrix)
-				{
-					yield return WaitFor.EndOfFrame;
-				}
-
 				ShuttleMatrixMove = MatrixManager.Get(registerTile.Matrix).MatrixMove;
+				if (ShuttleMatrixMove == null)
+				{
+					Logger.Log($"{this} is not on a movable matrix, so won't function.", Category.Matrix);
+					hasNetworkTab.enabled = false;
+					return;
+				}
+				else
+				{
+					Logger.Log($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically", Category.Matrix);
+				}
 			}
-
-			if (ShuttleMatrixMove == null)
-			{
-				Logger.Log($"{this} is not on a movable matrix, so won't function.", Category.Matrix);
-				hasNetworkTab.enabled = false;
-			}
-			else
-			{
-				Logger.Log($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically",
-					Category.Matrix);
-			}
-
 			if (ShuttleMatrixMove.IsNotPilotable)
 			{
 				hasNetworkTab.enabled = false;
 			}
-			else if (ShuttleMatrixMove != null)
+			else
 			{
 				hasNetworkTab.enabled = true;
 			}

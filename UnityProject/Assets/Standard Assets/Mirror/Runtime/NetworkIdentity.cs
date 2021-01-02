@@ -434,12 +434,7 @@ namespace Mirror
 
 	    void SetupIDs()
         {
-	        if (sceneId != 0 && m_AssetId != "")
-	        {
-		        return;
-	        }
-
-            if (ThisIsAPrefab())
+	        if (ThisIsAPrefab())
             {
                 // force 0 for prefabs
                 sceneId = 0;
