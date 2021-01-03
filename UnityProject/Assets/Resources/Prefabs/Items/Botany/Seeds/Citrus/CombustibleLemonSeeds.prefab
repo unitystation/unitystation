@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3960113361349035818
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4780239401564943, guid: a096b50447bc34448ab67474a463eaef, type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 109438799603730107, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_Name
+      value: CombustibleLemonSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 249170908317726183, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 055dea0bdb6b8084a9ae002b4774282a,
+        type: 3}
+    - target: {fileID: 534051172148537817, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: initialDescription
+      value: When life gives you lemons, don't make lemonade. Make life take the
+        lemons back! Get mad! I don't want your damn lemons!
+      objectReference: {fileID: 0}
+    - target: {fileID: 534051172148537817, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: initialName
+      value: pack of combustible seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Combustible Lemon Tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b51274301104b6468c9a564c9111565,
+        type: 2}
+    - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 317081173677754432, guid: 4a97daa0e75797e4db2831ba502ad9e1,
+        type: 3}
+    - target: {fileID: 6107674072460836156, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c0178f8eb864b52499105419e7a92187,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a096b50447bc34448ab67474a463eaef, type: 3}
