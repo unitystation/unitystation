@@ -2,6 +2,10 @@
 ---
 
 
+* 2021/1/3: Added ability to extract seeds from banana peels and other trash made by eating crops. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
+* 2021/1/3: Consolidated kitchen and botany categories in cargo console into Food and Hydroponics, added a few more items to buy in it. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
+* 2021/1/3: Fixed bug where dead plant sprites didn't appear in trays. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
+* 2021/1/3: Fixed bug that caused high amounts of weed in hydro trays to not create special plants when they were supposed to. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
 * 2020/12/22: Added RockDrop spell. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5766](https://github.com/unitystation/unitystation/pull/5766)
 * 2020/12/15: Adds mentors by [craftxbox](https://github.com/craftxbox) in PR #[5365](https://github.com/unitystation/unitystation/pull/5365)
 * 2020/12/13: added ability to wrap all items, crates and lockers. by [corp-0](https://github.com/corp-0) in PR #[5680](https://github.com/unitystation/unitystation/pull/5680)
