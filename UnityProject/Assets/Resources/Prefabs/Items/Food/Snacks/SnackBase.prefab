@@ -26,7 +26,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leavings: {fileID: 0}
   sound: EatFood
-  NutritionLevel: 10
+  StartingNutrients: 10
+  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+  FoodContents: {fileID: 0}
 --- !u!1001 &1737151937450733888
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34,10 +36,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 581308222893969371, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 581308222893969371, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 783851887035088007, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
       propertyPath: m_Name
       value: SnackBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
@@ -56,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
@@ -101,8 +113,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: initialName
+      value: snack
       objectReference: {fileID: 0}
     - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
@@ -111,8 +123,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: initialName
-      value: snack
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}

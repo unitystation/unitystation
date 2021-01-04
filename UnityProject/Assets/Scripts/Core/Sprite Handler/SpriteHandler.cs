@@ -54,7 +54,7 @@ public class SpriteHandler : MonoBehaviour
 	/// </summary>
 	private bool isPaletteSet = false;
 
-	private bool Initialised;
+	private bool Initialised = false;
 
 	private NetworkIdentity NetworkIdentity;
 
@@ -249,8 +249,8 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetColor(Color value, bool NetWork = true)
 	{
+		if (Initialised == false) TryInit();
 		if (setColour == value) return;
-
 		setColour = value;
 		if (HasImageComponent() == false)
 		{
@@ -287,7 +287,7 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
-		
+
 
 		if (Network)
 		{
@@ -652,7 +652,7 @@ public class SpriteHandler : MonoBehaviour
 		return (false);
 	}
 
-	private bool HasSpriteInImageComponent()
+	public bool HasSpriteInImageComponent()
 	{
 		if (Initialised == false) TryInit();
 		if (spriteRenderer != null)
@@ -665,7 +665,7 @@ public class SpriteHandler : MonoBehaviour
 
 		if (image != null)
 		{
-			if (image.sprite != null)
+			if (image.sprite != null || image.enabled)
 			{
 				return true;
 			}
@@ -688,6 +688,7 @@ public class SpriteHandler : MonoBehaviour
 	private void TryInit()
 	{
 		GetImageComponent();
+		bool Status = this.GetImageComponentStatus();
 		ImageComponentStatus(false);
 		Initialised = true;
 
@@ -699,7 +700,7 @@ public class SpriteHandler : MonoBehaviour
 			}
 		}
 
-		ImageComponentStatus(true);
+		ImageComponentStatus(Status);
 	}
 
 	private void ImageComponentStatus(bool Status)
@@ -712,6 +713,20 @@ public class SpriteHandler : MonoBehaviour
 		{
 			image.enabled = Status;
 		}
+	}
+
+	private bool GetImageComponentStatus()
+	{
+		if (spriteRenderer != null)
+		{
+			return spriteRenderer.enabled;
+		}
+		else if (image != null)
+		{
+			return image.enabled;
+		}
+
+		return false;
 	}
 
 	private void OnEnable()

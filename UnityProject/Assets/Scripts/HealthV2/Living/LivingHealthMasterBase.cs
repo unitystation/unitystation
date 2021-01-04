@@ -49,6 +49,8 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		}
 	}
 
+	public BodyType BodyType = BodyType.Neutral;
+
 	private ConsciousState consciousState;
 
 	//I don't know what this is. It was in the first Health system.
@@ -73,7 +75,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public RespiratorySystemBase RespiratorySystem => respiratorySystem;
 
 	[CanBeNull] private MetabolismSystemV2 metabolism;
-	public MetabolismSystemV2 Metabolism => metabolism;
+	//public MetabolismSystemV2 Metabolism => metabolism;
 
 	private bool isDead = false;
 	public bool IsDead => isDead;
@@ -117,6 +119,31 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	private ObjectBehaviour objectBehaviour;
 	public ObjectBehaviour OBehavior => objectBehaviour;
 
+
+	public float MaxNutrimentLevel = 30;
+
+	public float NutrimentLevel = 20;
+
+	public HungerState hungerState => CalculateHungerState();
+
+	public HungerState CalculateHungerState()
+	{
+		//hummm
+		if (MaxNutrimentLevel < NutrimentLevel)
+		{
+			return HungerState.Full;
+		}
+		else if (NutrimentLevel != 0)
+		{
+			return HungerState.Normal;
+		}
+		else if (NutrimentLevel == 0)
+		{
+			return HungerState.Starving;
+		}
+
+		return HungerState.Normal;
+	}
 
 	public virtual void Awake()
 	{
@@ -169,6 +196,13 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 			           " Oxy > " + ImplantLis.Oxy + " Cellular > " + ImplantLis.Cellular + " Stamina > " +
 			           ImplantLis.Stamina + " Toxin > " + ImplantLis.Toxin + " DamageEfficiencyMultiplier > " + ImplantLis.DamageEfficiencyMultiplier);
 		}
+	}
+
+	[RightClickMethod]
+	public void DODMG()
+	{
+		var bit =  RootBodyPartContainers.PickRandom();
+		bit.TakeDamage(null, 20, AttackType.Melee, DamageType.Brute);
 	}
 
 	/// <summary>
@@ -226,7 +260,50 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 		CurrentHealth -= brain.Oxy; //Assuming has brain
 		overallHealth = CurrentHealth;
-		//Logger.Log("overallHealth >" + overallHealth);
+
+		if (overallHealth < -100)
+		{
+			bool hasAllHeartAttack = true;
+			foreach (var Implant in ImplantList)
+			{
+				var heart = Implant as Heart;
+				if (heart != null)
+				{
+					if (heart.HeartAttack == false)
+					{
+						if (ConsciousState != ConsciousState.UNCONSCIOUS)
+						{
+							ConsciousState = ConsciousState.UNCONSCIOUS;
+						}
+						break;
+					}
+				}
+			}
+
+		}
+		else if (overallHealth < -50)
+		{
+			if (ConsciousState != ConsciousState.UNCONSCIOUS)
+			{
+				ConsciousState = ConsciousState.UNCONSCIOUS;
+			}
+		}
+		else if (overallHealth < 0)
+		{
+			if (ConsciousState != ConsciousState.BARELY_CONSCIOUS)
+			{
+				ConsciousState = ConsciousState.BARELY_CONSCIOUS;
+			}
+		}
+		else
+		{
+			if (ConsciousState != ConsciousState.CONSCIOUS)
+			{
+				ConsciousState = ConsciousState.CONSCIOUS;
+			}
+		}
+		Logger.Log("overallHealth >" + overallHealth  +  " ConsciousState > " + ConsciousState);
+		// Logger.Log("NutrimentLevel >" + NutrimentLevel);
 	}
 
 	IEnumerator WaitForClientLoad()
@@ -239,6 +316,19 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 		yield return WaitFor.EndOfFrame;
 		DNASync(DNABloodTypeJSON, DNABloodTypeJSON);
+	}
+
+
+	public void TriggerHeartAttack()
+	{
+		foreach (var Implant in ImplantList)
+		{
+			var heart = Implant as Heart;
+			if (heart != null)
+			{
+				heart.DoHeartAttack();
+			}
+		}
 	}
 
 	// This is the DNA SyncVar hook
@@ -355,6 +445,22 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		//TODO: Reimplement
 	}
 
+
+	public List<Stomach> GetStomachs()
+	{
+		var Stomachs = new List<Stomach>();
+		foreach (var Implant in ImplantList)
+		{
+			var stomach = Implant as Stomach;
+			if (stomach != null)
+			{
+				Stomachs.Add(stomach);
+			}
+		}
+		return Stomachs;
+	}
+
+
 	/// <summary>
 	///  Apply healing to a living thing. Server Only
 	/// </summary>
@@ -383,7 +489,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	{
 		//Reimplement
 
-		Gib();
+		//Gib();
 	}
 
 	[Server]
@@ -401,6 +507,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	///Death from other causes
 	public virtual void Death()
 	{
+
 		//TODO: Reimplemenmt
 	}
 

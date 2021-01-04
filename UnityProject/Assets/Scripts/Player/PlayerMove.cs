@@ -647,21 +647,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	#endregion Cuffing
 
-	public void UpdateSpeedFromLimbUpdate(Limb prevLimb, Limb newLimb)
-	{
-		//If we had a previous limb that's being replaced, we need to remove the speed bonuses it gave.
-		if (prevLimb)
-		{
-			ServerChangeSpeed(RunSpeed - prevLimb.GetRunningSpeed(), WalkSpeed - prevLimb.GetWalkingSpeed());
-		}
-
-		//Check if we're getting a new limb as well.
-		if (newLimb)
-		{
-			ServerChangeSpeed(RunSpeed + newLimb.GetRunningSpeed(), WalkSpeed + newLimb.GetWalkingSpeed());
-		}
-	}
-
 }
 
 /// <summary>

@@ -59,7 +59,7 @@ public class CirculatoryInfo : ScriptableObject
 	public float BLOOD_REAGENT_MAX = 200;
 
 	[Tooltip("Default amount of blood reagent in the body.")]
-	public float BLOOD_REAGENT_DEFAULT = 100;
+	public float BLOOD_REAGENT_DEFAULT = 10;
 
 	//How much of our blood reagent is consumed per heartbeat.
 	//Organs and body parts may consume additional.

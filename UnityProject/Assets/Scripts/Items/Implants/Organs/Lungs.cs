@@ -18,6 +18,9 @@ public class Lungs : BodyPart
 	private bool isSuffocating = false;
 	public bool IsSuffocating => isSuffocating;
 
+
+	public float LungProcessAmount = 10;
+
 	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
 	{
 		base.ImplantPeriodicUpdate(healthMaster);
@@ -34,8 +37,8 @@ public class Lungs : BodyPart
 
 	private bool Breathe(IGasMixContainer node, LivingHealthMasterBase healthMaster)
 	{
-		//Logger.Log("Lungs have " + healthMaster.CirculatorySystem.UseBloodPool + " Of Used blood available ");
-		if (healthMaster.CirculatorySystem.UseBloodPool == 0) //No point breathing if we dont have blood.
+		// Logger.Log("Lungs have " + healthMaster.CirculatorySystem.UseBloodPool + " Of Used blood available ");
+		if (healthMaster.CirculatorySystem.UseBloodPool.Total == 0) //No point breathing if we dont have blood.
 		{
 			return false;
 		}
@@ -53,32 +56,34 @@ public class Lungs : BodyPart
 		//Can probably edit this to use the volume of the lungs instead.
 		GasMix gasMix = container.GasMix;
 
-
+		var AvailableBlood = healthMaster.CirculatorySystem.UseBloodPool.Take(LungProcessAmount * TotalModified);
 		float reagentUsed = HandleBreathing(gasMix);
 		float gasUsed = reagentUsed;
-		reagentUsed = reagentUsed * 1000;
-		if (reagentUsed > healthMaster.CirculatorySystem.UseBloodPool)
+		reagentUsed = reagentUsed * 10000f;
+		if (reagentUsed > AvailableBlood[requiredReagent])
 		{
-			reagentUsed = healthMaster.CirculatorySystem.UseBloodPool;
-			healthMaster.CirculatorySystem.UseBloodPool = 0;
+			reagentUsed = AvailableBlood[requiredReagent];
+			gasUsed = reagentUsed / 10000f;
 		}
 		else
 		{
-			healthMaster.CirculatorySystem.UseBloodPool -= reagentUsed;
+			var Bloodremove = (AvailableBlood[requiredReagent] - reagentUsed);
+			AvailableBlood.Remove(requiredReagent, Bloodremove);
+			healthMaster.CirculatorySystem.UseBloodPool.Add(requiredReagent, Bloodremove);
 		}
 
 
-		Logger.Log("Lungs produced " + reagentUsed + " Of useful blood");
+		// Logger.Log("Lungs produced " + reagentUsed + " Of useful blood");
 
-		if (reagentUsed > 0)
-		{
-			gasMix.RemoveGas(Gas.Oxygen, reagentUsed);
-			node.GasMix.AddGas(Gas.CarbonDioxide, reagentUsed);
-			healthMaster.RegisterTile.Matrix.MetaDataLayer.UpdateSystemsAt(healthMaster.RegisterTile.LocalPositionClient, SystemType.AtmosSystem);
 
-			healthMaster.CirculatorySystem.AddUsefulBloodReagent(reagentUsed);
-		}
-		
+		gasMix.RemoveGas(Gas.Oxygen, gasUsed);
+		node.GasMix.AddGas(Gas.CarbonDioxide, gasUsed);
+		healthMaster.RegisterTile.Matrix.MetaDataLayer.UpdateSystemsAt(healthMaster.RegisterTile.LocalPositionClient,
+			SystemType.AtmosSystem);
+
+		healthMaster.CirculatorySystem.AddUsefulBloodReagent(AvailableBlood);
+
+
 		return reagentUsed > 0;
 	}
 

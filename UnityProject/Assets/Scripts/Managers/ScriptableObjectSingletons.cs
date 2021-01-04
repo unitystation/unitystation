@@ -34,4 +34,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public AlcoholicDrinksSOScript AlcoholicDrinksSOScript;
 	public SpriteCatalogue SpriteCatalogue;
 	public SingletonSOSounds SingletonSOSounds;
+	public RaceSOSingleton RaceSOSingleton;
 }
