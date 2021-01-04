@@ -107,12 +107,14 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		ItemSlot.Free(this);
 	}
 
+
 	public bool ServerTrySpawnAndAdd(GameObject InGameObject)
 	{
 		var spawned = Spawn.ServerPrefab(InGameObject);
 		if (spawned.Successful == false) return false;
 		return ServerTryAdd(spawned.GameObject);
 	}
+
 
 	//True equals successful false equals unsuccessful
 	public bool ServerTryAdd(GameObject InGameObject)
@@ -125,6 +127,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return Inventory.ServerAdd(InGameObject, slot);
 	}
 
+
 	public bool ServerTryTransferFrom(ItemSlot inSlot)
 	{
 		var Item = inSlot.Item.GetComponent<ItemAttributesV2>();
@@ -134,6 +137,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 		return Inventory.ServerTransfer(inSlot, slot, ReplacementStrategy.Cancel);
 	}
+
 
 	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false)
 	{

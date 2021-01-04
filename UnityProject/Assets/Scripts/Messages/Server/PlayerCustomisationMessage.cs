@@ -22,8 +22,11 @@ namespace Messages.Server
 
 	public override void Process()
 	{
-		if (CustomNetworkManager.Instance._isServer == false)
+		CharacterSettings characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(Character);
+		LoadNetworkObject(EquipmentObject);
+		if (NetworkObject != null)
 		{
+
 
 			NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(characterSettings);
 
@@ -34,6 +37,9 @@ namespace Messages.Server
 			{
 				NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(characterSettings);
 			}
+
+
+			NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(characterSettings);
 
 		}
 

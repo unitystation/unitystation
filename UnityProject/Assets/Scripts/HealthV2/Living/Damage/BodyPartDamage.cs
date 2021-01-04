@@ -25,6 +25,9 @@ namespace HealthV2
 
 		private float health = 100;
 
+
+		public Modifier DamageModifier = new Modifier();
+
 		[SerializeField]
 		[Tooltip("The maxmimum health of the implant." +
 		         "Implants will start with this amount of health.")]
@@ -40,6 +43,24 @@ namespace HealthV2
 				for (int i = 0; i < Damages.Length; i++)
 				{
 					if ((int)DamageType.Oxy == i) continue;
+					TDamage += Damages[i];
+				}
+
+				return TDamage;
+			}
+		}
+
+
+		//
+		public float TotalDamageWithoutOxyClone
+		{
+			get
+			{
+				float TDamage = 0;
+				for (int i = 0; i < Damages.Length; i++)
+				{
+					if ((int)DamageType.Oxy == i) continue;
+					if ((int)DamageType.Clone == i) continue;
 					TDamage += Damages[i];
 				}
 
@@ -77,13 +98,13 @@ namespace HealthV2
 			0,
 		};
 
-		public void AffectDamage(float HealthDamage, DamageType healthDamageType)
+		public void AffectDamage(float HealthDamage, int healthDamageType)
 		{
-			float Damage = Damages[(int)healthDamageType] + HealthDamage;
+			float Damage = Damages[healthDamageType] + HealthDamage;
 
 			if (Damage < 0) Damage = 0;
 
-			Damages[(int)healthDamageType] = Damage;
+			Damages[healthDamageType] = Damage;
 			health = maxHealth - TotalDamage;
 			RecalculateEffectiveness();
 		}
@@ -94,7 +115,7 @@ namespace HealthV2
 		{
 
 			var damageToLimb = BodyPartArmour.GetDamage(damage, attackType);
-			AffectDamage(damageToLimb, damageType);
+			AffectDamage(damageToLimb,(int) damageType);
 
 			//TotalDamage// Could do without oxygen maybe
 			//May be changed to individual damage
@@ -114,8 +135,13 @@ namespace HealthV2
 
 		}
 
-		public void HealDamage(GameObject healingItem, int healAmt,
-			DamageType damageTypeToHeal)
+		public void DamageInitialisation()
+		{
+			this.AddModifier(DamageModifier);
+		}
+
+		public void HealDamage(GameObject healingItem, float healAmt,
+			int damageTypeToHeal)
 		{
 			AffectDamage(-healAmt, damageTypeToHeal);
 		}
@@ -123,7 +149,7 @@ namespace HealthV2
 		//Probably custom curves would be good here
 		public void RecalculateEffectiveness()
 		{
-			DamageEfficiencyMultiplier = (health / maxHealth);
+			DamageModifier.Multiplier = (health / maxHealth);
 		}
 	}
 }

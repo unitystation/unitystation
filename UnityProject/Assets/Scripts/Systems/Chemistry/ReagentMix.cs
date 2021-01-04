@@ -214,24 +214,28 @@ namespace Chemistry
 		}
 
 
+
 		public float Remove(Reagent reagent, float amount)
 		{
 			if (amount < 0f)
 			{
 				Debug.LogError($"Trying to remove Negative {amount} amount of {reagent}");
 				return 0;
+
 			}
 
 			if (!reagents.ContainsKey(reagent))
 			{
 				Debug.LogError($"Trying to move {reagent} from container doesn't contain it ");
 				return 0;
+
 			}
 			else
 			{
 				amount = Math.Min(reagents[reagent], amount);
 				reagents[reagent] -= amount;
 				return amount;
+
 			}
 		}
 

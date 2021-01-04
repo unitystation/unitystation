@@ -114,7 +114,6 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		//TODO: Reimplement metabolism.
 		SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-
 		var Stomachs = eater.playerHealth.GetStomachs();
 		if (Stomachs.Count == 0)
 		{
@@ -149,6 +148,6 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 				//If stackable has leavings and they couldn't go in the same slot, they should be dropped
 				pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
 			}
-		}*/
+		}
 	}
 }
