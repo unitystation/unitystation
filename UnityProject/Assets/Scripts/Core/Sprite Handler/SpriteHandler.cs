@@ -22,9 +22,6 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private SpriteDataSO PresentSpriteSet;
 	private SpriteDataSO.Frame PresentFrame = null;
 
-	[Tooltip("If checked, a random sprite SO will be selected during initialization from the catalogue of sprite SOs.")]
-	[SerializeField] private bool randomInitialSprite = false;
-
 	private SpriteRenderer spriteRenderer;
 	private Image image;
 
@@ -46,8 +43,6 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool isAnimation = false;
 
-	private bool animateOnce;
-
 	private Color? setColour = null;
 
 	[Tooltip("The palette that is applied to the Sprite Renderer, if the Present Sprite Set is paletted.")]
@@ -59,7 +54,7 @@ public class SpriteHandler : MonoBehaviour
 	/// </summary>
 	private bool isPaletteSet = false;
 
-	private bool Initialised;
+	private bool Initialised = false;
 
 	private NetworkIdentity NetworkIdentity;
 
@@ -78,12 +73,6 @@ public class SpriteHandler : MonoBehaviour
 	/// Null if sprite became hidden
 	/// </summary>
 	public event System.Action<Sprite> OnSpriteChanged;
-
-	/// <summary>
-	/// Invokes when sprite data scriptable object is changed
-	/// Null if sprite became hidden
-	/// </summary>
-	public event System.Action<SpriteDataSO> OnSpriteDataSOChanged;
 
 	/// <summary>
 	/// Invoke when sprite handler has changed color of sprite
@@ -155,16 +144,6 @@ public class SpriteHandler : MonoBehaviour
 
 	public void ChangeSprite(int SubCataloguePage, bool Network = true)
 	{
-		InternalChangeSprite(SubCataloguePage, Network);
-	}
-
-	public void AnimateOnce(int SubCataloguePage, bool Network = true)
-	{
-		InternalChangeSprite(SubCataloguePage, Network, true);
-	}
-
-	private void InternalChangeSprite(int SubCataloguePage, bool Network = true, bool AnimateOnce = false)
-	{
 		if (cataloguePage > -1 && SubCataloguePage == cataloguePage) return;
 
 		if (SubCataloguePage >= SubCatalogue.Count)
@@ -183,11 +162,9 @@ public class SpriteHandler : MonoBehaviour
 			SetSpriteSO(SubCatalogue[SubCataloguePage], Network: false);
 			if (Network)
 			{
-				NetUpdate(NewCataloguePage: SubCataloguePage, NewAnimateOnce: AnimateOnce);
+				NetUpdate(NewCataloguePage: SubCataloguePage);
 			}
 		}
-
-		animateOnce = AnimateOnce;
 	}
 
 
@@ -206,7 +183,6 @@ public class SpriteHandler : MonoBehaviour
 			{
 				NetUpdate(NewspriteDataSO);
 			}
-			OnSpriteDataSOChanged?.Invoke(NewspriteDataSO);
 		}
 
 		if (color != null)
@@ -275,7 +251,6 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (Initialised == false) TryInit();
 		if (setColour == value) return;
-
 		setColour = value;
 		if (HasImageComponent() == false)
 		{
@@ -312,7 +287,6 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
-		OnSpriteDataSOChanged?.Invoke(null);
 
 
 		if (Network)
@@ -434,8 +408,7 @@ public class SpriteHandler : MonoBehaviour
 		bool NewPushClear = false,
 		bool NewClearPallet = false,
 		Color? NewSetColour = null,
-		List<Color> NewPalette = null,
-		bool NewAnimateOnce = false)
+		List<Color> NewPalette = null)
 	{
 		if (NetworkThis == false) return;
 		if (SpriteHandlerManager.Instance == null) return;
@@ -450,7 +423,7 @@ public class SpriteHandler : MonoBehaviour
 				return;
 			}
 
-			NetworkIdentity = NetID;
+			NetworkIdentity = NetID.netIdentity;
 			if (NetworkIdentity == null)
 			{
 				var gamename = "";
@@ -512,12 +485,6 @@ public class SpriteHandler : MonoBehaviour
 		{
 			if (spriteChange.PushTexture) spriteChange.PushTexture = false;
 			spriteChange.PushClear = NewPushClear;
-		}
-
-		if (NewAnimateOnce)
-		{
-			if (spriteChange.AnimateOnce) spriteChange.AnimateOnce = false;
-			spriteChange.AnimateOnce = NewAnimateOnce;
 		}
 
 		if (NewClearPallet)
@@ -685,7 +652,7 @@ public class SpriteHandler : MonoBehaviour
 		return (false);
 	}
 
-	private bool HasSpriteInImageComponent()
+	public bool HasSpriteInImageComponent()
 	{
 		if (Initialised == false) TryInit();
 		if (spriteRenderer != null)
@@ -698,7 +665,7 @@ public class SpriteHandler : MonoBehaviour
 
 		if (image != null)
 		{
-			if (image.sprite != null  || image.enabled)
+			if (image.sprite != null || image.enabled)
 			{
 				return true;
 			}
@@ -725,11 +692,7 @@ public class SpriteHandler : MonoBehaviour
 		ImageComponentStatus(false);
 		Initialised = true;
 
-		if (randomInitialSprite && CatalogueCount > 0)
-		{
-			ChangeSprite(Random.Range(0, CatalogueCount), NetworkThis);
-		}
-		else if (PresentSpriteSet != null)
+		if (PresentSpriteSet != null)
 		{
 			if (HasImageComponent() && pushTextureOnStartUp)
 			{
@@ -738,20 +701,6 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		ImageComponentStatus(Status);
-	}
-
-	private bool GetImageComponentStatus()
-
-	{
-		if (spriteRenderer != null)
-		{
-			return spriteRenderer.enabled;
-		}
-		else if (image != null)
-		{
-			return image.enabled;
-		}
-		return false;
 	}
 
 	private void ImageComponentStatus(bool Status)
@@ -766,11 +715,25 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+	private bool GetImageComponentStatus()
+	{
+		if (spriteRenderer != null)
+		{
+			return spriteRenderer.enabled;
+		}
+		else if (image != null)
+		{
+			return image.enabled;
+		}
+
+		return false;
+	}
+
 	private void OnEnable()
 	{
 		if (Application.isPlaying && NetworkThis)
 		{
-			NetworkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
+			NetworkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject)?.netIdentity;
 			SpriteHandlerManager.RegisterHandler(this.NetworkIdentity, this);
 		}
 
@@ -815,18 +778,6 @@ public class SpriteHandler : MonoBehaviour
 				if (animationIndex >= PresentSpriteSet.Variance[variantIndex].Frames.Count)
 				{
 					animationIndex = 0;
-
-					if (animateOnce)
-					{
-						if (CustomNetworkManager.IsServer)
-						{
-							ChangeSprite(SubCatalogue.Count - 1 >= CataloguePage + 1 ? CataloguePage + 1 : 0);
-						}
-
-						isAnimation = false;
-						UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-						return;
-					}
 				}
 				var frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 				SetSprite(frame);

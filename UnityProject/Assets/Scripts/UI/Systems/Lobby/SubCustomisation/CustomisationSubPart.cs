@@ -35,7 +35,7 @@ public class CustomisationSubPart : MonoBehaviour
 		characterCustomization = incharacterCustomization;
 		HeadName.text = Customisations.ThisType.ToString();
 		spriteOrder = _SpriteOrder;
-		spriteHandlerNorder.SetSpriteOrder(spriteOrder);
+		spriteHandlerNorder.SpriteOrder = spriteOrder;
 		ThisType = Customisations.ThisType;
 
 		// Make a list of all available options which can then be passed to the dropdown box
@@ -123,7 +123,9 @@ public class CustomisationSubPart : MonoBehaviour
 		{
 			Dropdown.value = Dropdown.options.Count - 1;
 		}
-//Refresh();
+
+
+		//Refresh();
 	}
 
 	public void SetRotation(int newValue)
@@ -146,7 +148,7 @@ public class CustomisationSubPart : MonoBehaviour
 		color = newColor;
 		Refresh();
 	}
-	public void Refresh()
+	private void Refresh()
 	{
 		if (Dropdown.value == 0)
 		{

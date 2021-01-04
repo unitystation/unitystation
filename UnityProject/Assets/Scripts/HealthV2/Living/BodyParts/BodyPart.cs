@@ -3,25 +3,22 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Items;
 
 namespace HealthV2
 {
-	public partial class BodyPart : MonoBehaviour
+	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
 	{
-
 		[SerializeField]
-		[Required("Need a health master to send updates too." +
-		          "Will attempt to find a components in its parents if not already set in editor.")]
+		// [Required("Need a health master to send updates too." +
+		// "Will attempt to find a components in its parents if not already set in editor.")]
 		private LivingHealthMasterBase HealthMaster = null;
 
 
 		public LivingHealthMasterBase healthMaster
 		{
-			get
-			{
-				return HealthMaster;
-			}
+			get { return HealthMaster; }
 			set
 			{
 				HealthMaster = value;
@@ -29,6 +26,8 @@ namespace HealthV2
 				{
 					SetUpBodyPart(BodyPart);
 				}
+
+				HealthMasterSet();
 			}
 		}
 
@@ -42,8 +41,9 @@ namespace HealthV2
 		//The implanted things in this
 		[SerializeField] private List<BodyPart> containBodyParts = new List<BodyPart>();
 
-		private ItemAttributesV2 attributes;
+		public  List<BodyPart>  ContainBodyParts => containBodyParts;
 
+		private ItemAttributesV2 attributes;
 
 
 		//This should be utilized in most implants so as to make changing the effectivenss of it easy.
@@ -54,27 +54,20 @@ namespace HealthV2
 		private float efficiency = 1;
 
 
-
 		[SerializeField] [Tooltip("Does the sprite change dependning on Gender?")]
 		private bool isDimorphic = false;
-
-		[SerializeField] [ShowIf(nameof(isDimorphic))] [Tooltip("Bodypart Gender")]
-		private Gender gender = Gender.Male;
-
-		[SerializeField] [ShowIf(nameof(isDimorphic))] [Tooltip("The MALE visuals of this implant")]
-		private List<SpriteDataSO> maleSprite;
-
-
-		[SerializeField] [ShowIf(nameof(isDimorphic))] [Tooltip("The FEMALE visuals of this implant")]
-		private List<SpriteDataSO> femaleSprite;
 
 		[SerializeField]
 		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents." +
 		         "It is intended for things like arms/legs/heads." +
 		         "Leave empty if it shouldn't change this.")]
-		private List<SpriteDataSO> limbSpriteData;
+		private BodyTypesWithOrder BodyTypesSprites = new BodyTypesWithOrder();
 
-		public List<SpriteDataSO> LimbSpriteData => limbSpriteData;
+
+		private ListSpriteDataSOWithOrder limbSpriteData;
+
+		//Needs to be converted over four sexes/Body type
+		public ListSpriteDataSOWithOrder LimbSpriteData => limbSpriteData;
 
 
 		public RootBodyPartContainer Root;
@@ -83,6 +76,63 @@ namespace HealthV2
 
 
 		public BodyPartSprites SpritePrefab;
+
+		public bool BodySpriteSet = false;
+
+		public BodyPartCustomisationBase LobbyCustomisation;
+
+		public List<BodyPart> OptionalOrgans => optionalOrgans;
+
+		[Tooltip("The organs that can be put inside of this")]
+		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
+
+		[Tooltip("The organ that this can be replaced with")]
+		public List<BodyPart> OptionalReplacementOrgan = new List<BodyPart>();
+
+		void HealthMasterSet()
+		{
+			if (BodySpriteSet == false)
+			{
+				//If gendered part then set the sprite limb data to it
+				if (isDimorphic)
+				{
+					limbSpriteData = new ListSpriteDataSOWithOrder();
+					limbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
+					limbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) healthMaster.BodyType].Sprites;
+				}
+				else
+				{
+					limbSpriteData = new ListSpriteDataSOWithOrder();
+					limbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
+					if (BodyTypesSprites.BodyTypes.Count > 0)
+					{
+						limbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) BodyType.Neutral].Sprites;
+					}
+				}
+
+				BodySpriteSet = true;
+			}
+		}
+
+		public Tuple<SpriteOrder, List<SpriteDataSO>> GetBodyTypeSprites(BodyType BodyType)
+		{
+			if (BodyTypesSprites.BodyTypes.Count > (int) BodyType)
+			{
+
+				return new Tuple<SpriteOrder, List<SpriteDataSO>>(BodyTypesSprites.SpriteOrder,
+					BodyTypesSprites.BodyTypes[(int) BodyType].Sprites);
+			}
+			else
+			{
+				if (BodyTypesSprites.BodyTypes.Count > 0)
+				{
+					return new Tuple<SpriteOrder, List<SpriteDataSO>>(BodyTypesSprites.SpriteOrder,
+						BodyTypesSprites.BodyTypes[0].Sprites);
+				}
+			}
+
+			return null;
+		}
 
 		void Awake()
 		{
@@ -101,25 +151,19 @@ namespace HealthV2
 
 			attributes = GetComponent<ItemAttributesV2>();
 			BloodInitialise();
+			DamageInitialisation();
+
+
 			health = maxHealth;
-			//If gendered part then set the sprite limb data to it
-			if (isDimorphic)
-			{
-				if (gender == Gender.Male)
-				{
-					limbSpriteData = maleSprite;
-				}
-				else if (gender == Gender.Female)
-				{
-					limbSpriteData = femaleSprite;
-				}
-				else
-				{
-					//TODO: Error log
-				}
-			}
+
+
+			Initialisation();
 		}
 
+
+		public virtual void Initialisation()
+		{
+		}
 
 		public virtual void ImplantUpdate(LivingHealthMasterBase healthMaster)
 		{
@@ -135,6 +179,7 @@ namespace HealthV2
 			{
 				prop.ImplantPeriodicUpdate(healthMaster);
 			}
+
 			BloodUpdate();
 		}
 
@@ -199,13 +244,11 @@ namespace HealthV2
 		}
 
 
-
 		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
 			//Check what's being added and add sprites if appropriate
 			if (newImplant)
 			{
-
 				BodyPart implant = newImplant.GetComponent<BodyPart>();
 				containBodyParts.Add(implant);
 				implant.ContainedIn = this;
@@ -238,6 +281,28 @@ namespace HealthV2
 
 			return ReturnList;
 		}
+	}
 
+	[System.Serializable]
+	public class BodyTypesWithOrder
+	{
+		public SpriteOrder SpriteOrder;
+
+		[Tooltip("Neutral, male, female, Other1, other2 , ect.")]
+		public List<ListSpriteDataSO> BodyTypes = new List<ListSpriteDataSO>();
+	}
+
+	[System.Serializable]
+	public class ListSpriteDataSO
+	{
+		public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
+	}
+
+
+	[System.Serializable]
+	public class ListSpriteDataSOWithOrder
+	{
+		public SpriteOrder SpriteOrder;
+		public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
 	}
 }

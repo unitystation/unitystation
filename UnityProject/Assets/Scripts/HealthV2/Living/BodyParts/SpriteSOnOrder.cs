@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class SpriteSOnOrder
+{
+	public SpriteDataSO Sprite;
+
+	public SpriteOrder SpriteOrder;
+}
+
+
+[System.Serializable]
 public class SpriteOrder
 {
-	[Tooltip("Down, Up, Right, Left")]
 	public List<int> Orders = new List<int>() {0, 0, 0, 0};
-
-	public SpriteOrder()
-	{
-
-	}
 
 	public SpriteOrder(SpriteOrder Order)
 	{

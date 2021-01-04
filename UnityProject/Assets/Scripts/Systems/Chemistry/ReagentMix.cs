@@ -9,9 +9,11 @@ namespace Chemistry
 	[Serializable]
 	public class ReagentMix : IEnumerable<KeyValuePair<Reagent, float>>
 	{
-		[Temperature] [SerializeField] private float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
+		[Temperature]
+		[SerializeField] private float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
 
-		[SerializeField] private DictionaryReagentFloat reagents;
+		[SerializeField]
+		private DictionaryReagentFloat reagents;
 
 		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
@@ -22,7 +24,7 @@ namespace Chemistry
 		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
-			reagents = new DictionaryReagentFloat {[reagent] = amount};
+			reagents = new DictionaryReagentFloat { [reagent] = amount };
 		}
 
 		public ReagentMix(float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
@@ -49,20 +51,15 @@ namespace Chemistry
 			}
 		}
 
-		public float
-			WholeHeatCapacity //this is the heat capacity for the entire Fluid mixture, in Joules/Kelvin. gets very big with lots of gas.
+		public float WholeHeatCapacity	//this is the heat capacity for the entire Fluid mixture, in Joules/Kelvin. gets very big with lots of gas.
 		{
 			get
 			{
 				float capacity = 0f;
-				lock (reagents)
+				foreach (var reagent in reagents)
 				{
-					foreach (var reagent in reagents)
-					{
-						capacity += reagent.Key.heatDensity * reagent.Value;
-					}
+					capacity += reagent.Key.heatDensity * reagent.Value;
 				}
-
 				return capacity;
 			}
 		}
@@ -73,7 +70,10 @@ namespace Chemistry
 		/// </summary>
 		public float InternalEnergy
 		{
-			get { return (WholeHeatCapacity * Temperature); }
+			get
+			{
+				return (WholeHeatCapacity *Temperature);
+			}
 
 			set
 			{
@@ -83,12 +83,13 @@ namespace Chemistry
 				}
 				else
 				{
-					Temperature = (value / WholeHeatCapacity);
+					Temperature =(value / WholeHeatCapacity);
 					if (float.IsNaN(Temperature))
 					{
 						Debug.LogError($"Temperature is NAN");
 					}
 				}
+
 			}
 		}
 
@@ -115,15 +116,13 @@ namespace Chemistry
 			{
 				var avgColor = new Color();
 				var totalAmount = Total;
-				lock (reagents)
-				{
-					foreach (var reagent in reagents)
-					{
-						var percent = reagent.Value / totalAmount;
-						var colorStep = percent * reagent.Key.color;
 
-						avgColor += colorStep;
-					}
+				foreach (var reagent in reagents)
+				{
+					var percent = reagent.Value / totalAmount;
+					var colorStep = percent * reagent.Key.color;
+
+					avgColor += colorStep;
 				}
 
 				return avgColor;
@@ -136,7 +135,10 @@ namespace Chemistry
 		/// </summary>
 		public String MixName
 		{
-			get { return MajorMixReagent.Name; }
+			get
+			{
+				return MajorMixReagent.Name;
+			}
 		}
 
 
@@ -162,7 +164,7 @@ namespace Chemistry
 				var volumeByState = groupedByState.Select((group) =>
 				{
 					return new KeyValuePair<ReagentState, float>
-						(group.Key, group.Sum(r => r.Value));
+					(group.Key, group.Sum(r => r.Value));
 				}).ToArray();
 
 				// Now get state with the biggest sum
@@ -173,18 +175,13 @@ namespace Chemistry
 
 		public void Add(ReagentMix b)
 		{
-			if (Total == 0 || b.Total == 0)
+			if (Total == 0)
 			{
-				if (float.IsNaN(b.Temperature) == false)
-				{
-					Temperature = b.Temperature;
-				}
+				Temperature = b.Temperature;
 			}
 			else
 			{
-				Temperature =
-					(Temperature * Total + b.Temperature * b.Total) /
-					(Total + b.Total); //TODO Change to use different formula Involving Heat capacity of each Reagent
+				Temperature = (Temperature * Total + b.Temperature * b.Total) / (Total + b.Total); //TODO Change to use different formula Involving Heat capacity of each Reagent
 			}
 
 
@@ -202,13 +199,9 @@ namespace Chemistry
 				return;
 			}
 
-
 			if (!reagents.ContainsKey(reagent))
 			{
-				lock (reagents)
-				{
-					reagents.Add(reagent, amount);
-				}
+				reagents.Add(reagent, amount);
 			}
 			else
 			{
@@ -217,28 +210,23 @@ namespace Chemistry
 		}
 
 
-
-		public float Remove(Reagent reagent, float amount)
+		public void Remove(Reagent reagent, float amount)
 		{
 			if (amount < 0f)
 			{
 				Debug.LogError($"Trying to remove Negative {amount} amount of {reagent}");
-				return 0;
-
+				return;
 			}
 
 			if (!reagents.ContainsKey(reagent))
 			{
-				//Debug.LogError($"Trying to move {reagent} from container doesn't contain it ");
-				return 0;
-
+				Debug.LogError($"Trying to move {reagent} from container doesn't contain it ");
+				return;
 			}
 			else
 			{
 				amount = Math.Min(reagents[reagent], amount);
 				reagents[reagent] -= amount;
-				return amount;
-
 			}
 		}
 
@@ -254,8 +242,7 @@ namespace Chemistry
 		{
 			if (subAmount < 0)
 			{
-				Debug.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.",
-					subAmount, reagent);
+				Debug.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", subAmount, reagent);
 				return 0;
 			}
 
@@ -267,11 +254,7 @@ namespace Chemistry
 				{
 					// nothing left, remove reagent - it became zero
 					// remove amount that was before
-					lock (reagents)
-					{
-						reagents.Remove(reagent);
-					}
-
+					reagents.Remove(reagent);
 					return amount;
 				}
 
@@ -332,6 +315,7 @@ namespace Chemistry
 		}
 
 
+
 		/// <summary>
 		/// Transfer part of reagent mix
 		/// </summary>
@@ -362,7 +346,6 @@ namespace Chemistry
 			{
 				return;
 			}
-
 			var multiplier = (Total - amount) / Total;
 			if (float.IsNaN(multiplier))
 			{
@@ -373,7 +356,6 @@ namespace Chemistry
 			{
 				multiplier = 0;
 			}
-
 			Multiply(multiplier);
 		}
 
@@ -395,7 +377,7 @@ namespace Chemistry
 
 		public float Total
 		{
-			get { return Mathf.Clamp(reagents.Sum(kvp => kvp.Value), 0, float.MaxValue); }
+			get { return Mathf.Clamp( reagents.Sum(kvp => kvp.Value), 0, float.MaxValue); }
 		}
 
 		public ReagentMix Clone()
@@ -413,7 +395,7 @@ namespace Chemistry
 			return GetEnumerator();
 		}
 
-		public bool ContentEquals(ReagentMix b)
+		public bool ContentEquals (ReagentMix b)
 		{
 			if (ReferenceEquals(this, null) || ReferenceEquals(b, null))
 			{
@@ -438,9 +420,7 @@ namespace Chemistry
 
 		public override string ToString()
 		{
-			return "Temperature > " + Temperature + " reagents > " + "{" +
-			       string.Join(",", reagents.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";
-			;
+			return "Temperature > " + Temperature + " reagents > " + "{" + string.Join(",", reagents.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";;
 		}
 	}
 

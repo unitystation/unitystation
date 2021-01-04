@@ -5,8 +5,6 @@ using Mirror;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Systems.Teleport;
-using Messages.Server.SoundMessages;
-
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(UprightSprites))]
@@ -128,10 +126,10 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
-			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
-			{
-				spriteRenderer.sortingLayerName = "Bodies";
-			}
+			// foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+			// {
+				// spriteRenderer.sortingLayerName = "Bodies";
+			// }
 
 			//lock current direction
 			playerDirectional.LockDirection = true;
@@ -140,10 +138,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
-			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
-			{
-				spriteRenderer.sortingLayerName = "Players";
-			}
+			// foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+			// {
+				// if (playerScript.IsGhost)
+					// spriteRenderer.sortingLayerName = "Ghosts";
+				// else
+					// spriteRenderer.sortingLayerName = "Players";
+			// }
 			playerDirectional.LockDirection = false;
 		}
 	}
@@ -188,8 +189,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		}
 
 		ServerStun();
-		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
-		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, WorldPositionServer, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 		// Let go of pulled items.
 		playerScript.pushPull.ServerStopPulling();
 	}

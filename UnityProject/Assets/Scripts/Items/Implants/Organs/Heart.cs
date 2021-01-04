@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Chemistry;
 using HealthV2;
 using UnityEngine;
 
@@ -37,40 +36,21 @@ public class Heart : BodyPart
 
 	public bool CanTriggerHeartAttack = true;
 
-	public int SecondsOfRevivePulse = 30;
-
-	public int CurrentPulse = 0;
 
 	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
 	{
 		base.ImplantPeriodicUpdate(healthMaster);
 		if (healthMaster.OverallHealth < -100)
 		{
-
 			if (CanTriggerHeartAttack)
 			{
 				DoHeartAttack();
 				CanTriggerHeartAttack = false;
-				CurrentPulse = 0;
-				return;
 			}
-
-			if (HeartAttack == false)
-			{
-				CurrentPulse++;
-				if (SecondsOfRevivePulse < CurrentPulse)
-				{
-					DoHeartAttack();
-				}
-			}
-
-
-
 		}
 		else if (healthMaster.OverallHealth < -50)
 		{
 			CanTriggerHeartAttack = true;
-			CurrentPulse = 0;
 		}
 
 
@@ -82,7 +62,6 @@ public class Heart : BodyPart
 		//If we actually have a circulatory system.
 		if (HeartAttack)
 		{
-			if (SecondsOfRevivePulse < CurrentPulse) return;
 			var RNGInt = RNGesus.Next(0, 10000);
 			if (RNGInt > 9990)
 			{
@@ -92,49 +71,37 @@ public class Heart : BodyPart
 			return;
 		}
 
-		Heartbeat(heartStrength * TotalModified);
-
-	}
-
-
-	public void Heartbeat(float initialPumpAmount)
-	{
 		CirculatorySystemBase circulatorySystem = healthMaster.CirculatorySystem;
 		if (circulatorySystem)
 		{
-			//circulatorySystem.HeartBeat(heartStrength * TotalModified);
-			//TODOH Balance all this stuff, Currently takes an eternity to suffocate
+			circulatorySystem.HeartBeat(heartStrength * TotalModified);
 
-
-			// Logger.Log("heart Available  " + ReadyBloodPool);
-			float pumpedReagent = Math.Min(initialPumpAmount, circulatorySystem.ReadyBloodPool.Total);
-
-			// Logger.Log("heart pumpedReagent " + pumpedReagent);
-
-			float WantedBlood = 0;
-			foreach (BodyPart implant in healthMaster.ImplantList)
-			{
-				if (implant.IsBloodReagentCirculated == false) continue;
-				WantedBlood += implant.BloodReagentStoreAmount;
-			}
-
-			// Logger.Log("heart Wanted blood " + WantedBlood);
-
-			ReagentMix SpareBlood = new ReagentMix();
-
-			foreach (BodyPart implant in healthMaster.ImplantList)
-			{
-				if (implant.IsBloodReagentCirculated == false) continue;
-				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((implant.BloodReagentStoreAmount / WantedBlood) * pumpedReagent);
-				BloodToGive.Add(SpareBlood);
-				SpareBlood.Clear();
-				SpareBlood.Add(implant.BloodPumpedEvent(BloodToGive));
-			}
-
-			// Logger.Log("heart SpareBlood " + SpareBlood);
-			//heartRateNeedsIncreasing = (SpareBlood.Total == 0);
-			circulatorySystem.ReadyBloodPool = SpareBlood;
+			UpdateHeartRate(circulatorySystem);
 		}
+	}
+
+
+	private void UpdateHeartRate(CirculatorySystemBase circulatorySystem)
+	{
+		//This may seem strange, but the heart itself isn't in charge of when to increase its heart rate.
+		//The circulatory system will let us know if that needs changing.
+		if (circulatorySystem.HeartRateNeedsIncreasing)
+		{
+			heartRate += Math.Min((Time.time - lastHeartBeat) * heartRateDelta, heartRateDelta);
+			heartRate = Math.Min(heartRate, maxHeartRate);
+		}
+		else
+		{
+			heartRate = Mathf.MoveTowards(heartRate, circulatorySystem.BloodInfo.HEARTRATE_NORMAL,
+				(Time.time - lastHeartBeat) * heartRateDelta);
+		}
+
+		circulatorySystem.HeartRate = heartRate; //Let our circulatory system know what its heartrate is.
+		//TODO: We may need to account for having multiple hearts here.
+		//i.e. Instead of setting the heartrate of the circulatory system, we tell it to calcualte the average based on
+		//individual pump events.
+
+		heartBeatDelay = 60f / heartRate; //Time in seconds between heart beats.
 	}
 
 	public void DoHeartAttack()

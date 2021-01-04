@@ -8,9 +8,8 @@ namespace HealthV2
 {
 	//Used for handling multiple sprites meant for base limbs and stuff
 	//for example if have 2 arms this would generate a Sprite for each arm
-	public class RootBodyPartContainer : MonoBehaviour
+	public class RootBodyPartContainer : MonoBehaviour, IBodyPartDropDownOrgans
 	{
-
 		[SerializeField]
 		[Required("Need a health master to send updates too." +
 		          "Will attempt to find a components in its parents if not already set in editor.")]
@@ -18,9 +17,13 @@ namespace HealthV2
 
 		private ItemStorage storage;
 
+		public List<BodyPart> OptionalOrgans => optionalOrgans;
 
-		[SerializeField]
-		public BodyPartType bodyPartType;
+
+		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
+
+
+		[SerializeField] public BodyPartType bodyPartType;
 
 		void Awake()
 		{
@@ -53,13 +56,11 @@ namespace HealthV2
 			new Dictionary<BodyPart, List<BodyPartSprites>>();
 
 
-
-
 		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
+
 
 		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
-
 			//Check what's being added and add sprites if appropriate
 			if (newImplant)
 			{
@@ -69,17 +70,19 @@ namespace HealthV2
 				implant.AddedToBody(healthMaster);
 				implant.Root = this;
 				implant.healthMaster = healthMaster;
-				foreach (var Sprite in implant.LimbSpriteData)
+				foreach (var Sprite in implant.LimbSpriteData.Sprites)
 				{
 					var Newspite = Instantiate(implant.SpritePrefab, this.transform);
+					Newspite.name = implant.name;
 					PlayerSprites.Addedbodypart.Add(Newspite);
 					if (ImplantBaseSpritesDictionary.ContainsKey(implant) == false)
 					{
 						ImplantBaseSpritesDictionary[implant] = new List<BodyPartSprites>();
 					}
+
 					implant.RelatedPresentSprites.Add(Newspite);
 					ImplantBaseSpritesDictionary[implant].Add(Newspite);
-					Newspite.UpdateSpritesForImplant(implant, Sprite, this);
+					Newspite.UpdateSpritesForImplant(implant, Sprite, this, implant.LimbSpriteData.SpriteOrder);
 				}
 			}
 
@@ -114,6 +117,7 @@ namespace HealthV2
 			PlayerSprites.livingHealthMasterBase.RootBodyPartContainers.Remove(this);
 			Destroy(gameObject); //?
 		}
+
 		public virtual void ImplantUpdate(LivingHealthMasterBase healthMaster)
 		{
 			foreach (BodyPart prop in ContainsLimbs)
@@ -148,7 +152,7 @@ namespace HealthV2
 
 		public virtual void SubBodyPartAdded(BodyPart implant)
 		{
-			foreach (var Sprite in implant.LimbSpriteData)
+			foreach (var Sprite in implant.LimbSpriteData.Sprites)
 			{
 				var Newspite = Instantiate(implant.SpritePrefab, this.transform);
 				PlayerSprites.Addedbodypart.Add(Newspite);
@@ -156,9 +160,10 @@ namespace HealthV2
 				{
 					ImplantBaseSpritesDictionary[implant] = new List<BodyPartSprites>();
 				}
+
 				implant.RelatedPresentSprites.Add(Newspite);
 				ImplantBaseSpritesDictionary[implant].Add(Newspite);
-				Newspite.UpdateSpritesForImplant(implant, Sprite, this);
+				Newspite.UpdateSpritesForImplant(implant, Sprite, this, implant.LimbSpriteData.SpriteOrder);
 			}
 		}
 
@@ -166,21 +171,20 @@ namespace HealthV2
 		public void TakeDamage(GameObject damagedBy, float damage,
 			AttackType attackType, DamageType damageType)
 		{
-			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
+			Logger.Log("dmg  > " + damage + "attackType > " + attackType + " damageType > " + damageType);
+			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed iAddressableReference.cs:65)f we find a better solution for aiming at Specific body parts
 			if (attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
 				foreach (var ContainsLimb in ContainsLimbs)
 				{
-					ContainsLimb.TakeDamage(damagedBy,damage/ContainsLimbs.Count,attackType,damageType);
+					ContainsLimb.TakeDamage(damagedBy, damage / ContainsLimbs.Count, attackType, damageType);
 				}
 			}
 			else
 			{
-				var OrganToDamage =	ContainsLimbs.PickRandom();
-				OrganToDamage.TakeDamage(damagedBy,damage,attackType,damageType);
+				var OrganToDamage = ContainsLimbs.PickRandom();
+				OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType);
 			}
-
-
 		}
 
 		public void HealDamage(GameObject healingItem, int healAmt,
@@ -190,7 +194,7 @@ namespace HealthV2
 			{
 				//yes It technically duplicates the healing but, I've would feel pretty robbed if There was a damage on one limb Of 50
 				//and I used a bandage of 50 and only healed 25,  if the healing was split across the two limbs
-				limb.HealDamage(healingItem, healAmt, damageTypeToHeal);
+				limb.HealDamage(healingItem, healAmt, (int) damageTypeToHeal);
 			}
 		}
 	}
