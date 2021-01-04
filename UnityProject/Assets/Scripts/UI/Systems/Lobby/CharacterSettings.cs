@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lobby;
+using Newtonsoft.Json;
 using UI.CharacterCreator;
 
 /// <summary>
@@ -30,9 +33,26 @@ public class CharacterSettings
 	public string SkinTone = "#ffe0d1";
 	public string UnderwearName = "Mankini";
 	public string SocksName = "Knee-High (Freedom)";
-	public Race Race = Race.Human;
+	public string PlayerFacialHair = "";
+
+	public List<CustomisationStorage> SerialisedBodyPartCustom;
+	public List<ExternalCustomisation> SerialisedExternalCustom;
+
+
+	public string Race = "Human";
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
+
+
+	[System.Serializable]
+	public class CustomisationClass
+	{
+		public string SelectedName = "None";
+		public string Colour = "#ffffff";
+	}
+
+
+
 
 	public override string ToString()
 	{

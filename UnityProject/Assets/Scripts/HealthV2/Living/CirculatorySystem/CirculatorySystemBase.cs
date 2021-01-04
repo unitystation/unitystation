@@ -15,17 +15,17 @@ namespace HealthV2
 		private BloodType bloodType = null;
 		public BloodType BloodType => bloodType;
 
-		public float UseBloodPool  = 0;
-		public float ReadyBloodPool = 0;
+		public ReagentMix UseBloodPool;
+		public ReagentMix ReadyBloodPool;
 
 
 		//How much of our blood reagent we have.
 		//In a human, this would be oxygen.
-		private float bloodReagentAmount;
-		public float BloodReagentAmount => bloodReagentAmount;
+		//private float bloodReagentAmount;
+		// public float BloodReagentAmount => bloodReagentAmount;
 
-		private float bloodAmount = 0;
-		public float BloodAmount => bloodAmount;
+		// private float bloodAmount = 0;
+		// public float BloodAmount => bloodAmount;
 
 		//The actual reagent our blood uses.
 		public Chemistry.Reagent BloodReagent => bloodType.CirculatedReagent;
@@ -70,13 +70,14 @@ namespace HealthV2
 		private void Awake()
 		{
 			healthMaster = GetComponent<LivingHealthMasterBase>();
-			bloodReagentAmount = BloodInfo.BLOOD_REAGENT_DEFAULT;
-			bloodAmount = BloodInfo.BLOOD_DEFAULT;
+			ReadyBloodPool.Add(BloodReagent,5);
+			// bloodReagentAmount = BloodInfo.BLOOD_REAGENT_DEFAULT;
+			// bloodAmount = BloodInfo.BLOOD_DEFAULT;
 		}
 
-		public virtual float AddUsefulBloodReagent(float amount) //Return excess
+		public virtual float AddUsefulBloodReagent(ReagentMix amount) //Return excess
 		{
-			ReadyBloodPool += amount;
+			ReadyBloodPool.Add(amount);
 			//Add mechanism for recovering blood naturally
 			//ReadyBloodPool = Mathf.Min(bloodInfo.BLOOD_REAGENT_MAX, bloodReagentAmount);
 			return 0;
@@ -89,32 +90,33 @@ namespace HealthV2
 			//TODOH Balance all this stuff, Currently takes an eternity to suffocate
 			float initialPumpAmount = (heartStrengthRatio * strength);
 
-			//Logger.Log("heart Available  " + ReadyBloodPool);
-			float pumpedReagent = Math.Min(initialPumpAmount, ReadyBloodPool);
+			// Logger.Log("heart Available  " + ReadyBloodPool);
+			float pumpedReagent = Math.Min(initialPumpAmount, ReadyBloodPool.Total);
 
-			//Logger.Log("heart pumpedReagent " + pumpedReagent);
+			// Logger.Log("heart pumpedReagent " + pumpedReagent);
 
 			float WantedBlood = 0;
 			foreach (BodyPart implant in healthMaster.ImplantList)
 			{
 				if (implant.IsBloodReagentConsumed == false) continue;
 				WantedBlood += implant.BloodReagentStoreAmount;
-				//pumpedReagent = Math.Max(implant.BloodPumpedEvent(bloodType.CirculatedReagent, pumpedReagent), 0);
 			}
 
-			//Logger.Log("heart Wanted blood " + WantedBlood);
+			// Logger.Log("heart Wanted blood " + WantedBlood);
 
-			float SpareBlood = 0;
+			ReagentMix SpareBlood = new ReagentMix();
 
 			foreach (BodyPart implant in healthMaster.ImplantList)
 			{
 				if (implant.IsBloodReagentConsumed == false) continue;
-				SpareBlood = implant.BloodPumpedEvent(bloodType.CirculatedReagent, ((implant.BloodReagentStoreAmount/ WantedBlood) * pumpedReagent)+SpareBlood);
+				var BloodToGive = ReadyBloodPool.Take((implant.BloodReagentStoreAmount / WantedBlood) * pumpedReagent);
+				BloodToGive.Add(SpareBlood);
+				SpareBlood.Clear();
+				SpareBlood.Add(implant.BloodPumpedEvent(BloodToGive));
 			}
 
-			//Logger.Log("heart SpareBlood " + SpareBlood);
-			heartRateNeedsIncreasing = (SpareBlood == 0);
-
+			// Logger.Log("heart SpareBlood " + SpareBlood);
+			heartRateNeedsIncreasing = (SpareBlood.Total == 0);
 			ReadyBloodPool = SpareBlood;
 		}
 

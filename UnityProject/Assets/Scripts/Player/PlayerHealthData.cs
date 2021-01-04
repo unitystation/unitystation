@@ -16,17 +16,41 @@ public class PlayerHealthData : ScriptableObject
 public class RaceHealthData
 {
 	public GameObject Head;
-	public GameObject Eyes;
+	public GameObject Eyes; //Implant should be in head damage area redirected
 	public GameObject Torso;
 	public GameObject ArmRight;
 	public GameObject ArmLeft;
-	public GameObject HandRight;
-	public GameObject HandLeft;
+	public GameObject HandRight; //idk
+	public GameObject HandLeft; //idk
 	public GameObject LegRight;
 	public GameObject LegLeft;
+
+	public List<CustomisationAllowedSetting> CustomisationSettings = new List<CustomisationAllowedSetting>();
+
+	public BodyTypeSettings bodyTypeSettings = new BodyTypeSettings();
+
 }
 
 
+[System.Serializable]
+public class CustomisationAllowedSetting
+{
+	public CustomisationGroup CustomisationGroup;
+	public List<PlayerCustomisationData> Blacklist = new List<PlayerCustomisationData>();
+}
+
+[System.Serializable]
+public class BodyTypeSettings
+{
+	public List<BodyTypeName> AvailableBodyTypes = new List<BodyTypeName>();
+}
+
+[System.Serializable]
+public class BodyTypeName
+{
+	public BodyType bodyType;
+	public string Name;
+}
 /*public enum BodyPartSpriteName
 {
 	Null,

@@ -22,9 +22,6 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private SpriteDataSO PresentSpriteSet;
 	private SpriteDataSO.Frame PresentFrame = null;
 
-	[Tooltip("If checked, a random sprite SO will be selected during initialization from the catalogue of sprite SOs.")]
-	[SerializeField] private bool randomInitialSprite = false;
-
 	private SpriteRenderer spriteRenderer;
 	private Image image;
 
@@ -57,7 +54,7 @@ public class SpriteHandler : MonoBehaviour
 	/// </summary>
 	private bool isPaletteSet = false;
 
-	private bool Initialised;
+	private bool Initialised = false;
 
 	private NetworkIdentity NetworkIdentity;
 
@@ -76,12 +73,6 @@ public class SpriteHandler : MonoBehaviour
 	/// Null if sprite became hidden
 	/// </summary>
 	public event System.Action<Sprite> OnSpriteChanged;
-
-	/// <summary>
-	/// Invokes when sprite data scriptable object is changed
-	/// Null if sprite became hidden
-	/// </summary>
-	public event System.Action<SpriteDataSO> OnSpriteDataSOChanged;
 
 	/// <summary>
 	/// Invoke when sprite handler has changed color of sprite
@@ -192,7 +183,6 @@ public class SpriteHandler : MonoBehaviour
 			{
 				NetUpdate(NewspriteDataSO);
 			}
-			OnSpriteDataSOChanged?.Invoke(NewspriteDataSO);
 		}
 
 		if (color != null)
@@ -259,8 +249,8 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetColor(Color value, bool NetWork = true)
 	{
+		if (Initialised == false) TryInit();
 		if (setColour == value) return;
-
 		setColour = value;
 		if (HasImageComponent() == false)
 		{
@@ -297,8 +287,7 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
-		OnSpriteDataSOChanged?.Invoke(null);
-		
+
 
 		if (Network)
 		{
@@ -663,7 +652,7 @@ public class SpriteHandler : MonoBehaviour
 		return (false);
 	}
 
-	private bool HasSpriteInImageComponent()
+	public bool HasSpriteInImageComponent()
 	{
 		if (Initialised == false) TryInit();
 		if (spriteRenderer != null)
@@ -676,7 +665,7 @@ public class SpriteHandler : MonoBehaviour
 
 		if (image != null)
 		{
-			if (image.sprite != null)
+			if (image.sprite != null || image.enabled)
 			{
 				return true;
 			}
@@ -699,14 +688,11 @@ public class SpriteHandler : MonoBehaviour
 	private void TryInit()
 	{
 		GetImageComponent();
+		bool Status = this.GetImageComponentStatus();
 		ImageComponentStatus(false);
 		Initialised = true;
 
-		if (randomInitialSprite && CatalogueCount > 0)
-		{
-			ChangeSprite(Random.Range(0, CatalogueCount), NetworkThis);
-		}
-		else if (PresentSpriteSet != null)
+		if (PresentSpriteSet != null)
 		{
 			if (HasImageComponent() && pushTextureOnStartUp)
 			{
@@ -714,7 +700,7 @@ public class SpriteHandler : MonoBehaviour
 			}
 		}
 
-		ImageComponentStatus(true);
+		ImageComponentStatus(Status);
 	}
 
 	private void ImageComponentStatus(bool Status)
@@ -727,6 +713,20 @@ public class SpriteHandler : MonoBehaviour
 		{
 			image.enabled = Status;
 		}
+	}
+
+	private bool GetImageComponentStatus()
+	{
+		if (spriteRenderer != null)
+		{
+			return spriteRenderer.enabled;
+		}
+		else if (image != null)
+		{
+			return image.enabled;
+		}
+
+		return false;
 	}
 
 	private void OnEnable()

@@ -19,8 +19,8 @@ namespace Chemistry.Components
 		[Header("Container Parameters")]
 
 		[Tooltip("Max container capacity in units")]
-		[SerializeField] private int maxCapacity = 100;
-		public int MaxCapacity
+		[SerializeField] private float maxCapacity = 100;
+		public float MaxCapacity
 		{
 			get => maxCapacity;
 			private set { maxCapacity = value; }
@@ -44,6 +44,8 @@ namespace Chemistry.Components
 		private RegisterTile registerTile;
 		private CustomNetTransform customNetTransform;
 		private Integrity integrity;
+
+		public bool ContentsSet = false;
 
 		/// <summary>
 		/// Invoked server side when regent container spills all of its contents
@@ -154,7 +156,12 @@ namespace Chemistry.Components
 		/// </summary>
 		protected void ResetContent()
 		{
-			currentReagentMix = initialReagentMix.Clone();
+			if (ContentsSet == false)
+			{
+				currentReagentMix = initialReagentMix.Clone();
+			}
+
+			ContentsSet = false;
 			OnReagentMixChanged?.Invoke();
 		}
 
@@ -255,6 +262,15 @@ namespace Chemistry.Components
 		public float AmountOfReagent(Reagent reagent)
 		{
 			return CurrentReagentMix[reagent];
+		}
+
+		/// <summary>
+		/// Server side only.
+		/// </summary>
+		public void Divide(float Divider)
+		{
+			CurrentReagentMix.Multiply(Divider);
+			OnReagentMixChanged?.Invoke();
 		}
 
 		/// <summary>

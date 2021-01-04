@@ -10,6 +10,7 @@ public class PlayerCustomisationData : ScriptableObject
 	public string Name;
 	public CustomisationType Type;
 	public Gender gender = Gender.Neuter;
+
 }
 
 /// <summary>

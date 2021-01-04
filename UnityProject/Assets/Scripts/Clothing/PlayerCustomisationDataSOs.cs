@@ -80,35 +80,36 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 	/// <param name="character">The character settings to validate</param>
 	public bool ValidateCharacterSettings(ref CharacterSettings character)
 	{
-		var result = true;
-		if (!IsSettingValid(CustomisationType.HairStyle, character.Gender,
-			character.HairStyleName, out string defaultSetting))
-		{
-			character.HairStyleName = defaultSetting;
-			result = false;
-		}
+		return true;
+		// var result = true;
+		// if (!IsSettingValid(CustomisationType.HairStyle, character.Gender,
+		// character.HairStyleName, out string defaultSetting))
+		// {
+		// character.HairStyleName = defaultSetting;
+		// result = false;
+		// }
 
-		if (!IsSettingValid(CustomisationType.FacialHair, character.Gender,
-			character.FacialHairName, out defaultSetting))
-		{
-			character.FacialHairName = defaultSetting;
-			result = false;
-		}
+		// if (!IsSettingValid(CustomisationType.FacialHair, character.Gender,
+		// character.FacialHairName, out defaultSetting))
+		// {
+		// character.FacialHairName = defaultSetting;
+		// result = false;
+		// }
 
-		if (!IsSettingValid(CustomisationType.Underwear, character.Gender,
-			character.UnderwearName, out defaultSetting))
-		{
-			character.UnderwearName = defaultSetting;
-			result = false;
-		}
+		// if (!IsSettingValid(CustomisationType.Underwear, character.Gender,
+		// character.UnderwearName, out defaultSetting))
+		// {
+		// character.UnderwearName = defaultSetting;
+		// result = false;
+		// }
 
-		if (!IsSettingValid(CustomisationType.Socks, character.Gender,
-			character.SocksName, out defaultSetting))
-		{
-			character.SocksName = defaultSetting;
-			result = false;
-		}
-		return result;
+		// if (!IsSettingValid(CustomisationType.Socks, character.Gender,
+		// character.SocksName, out defaultSetting))
+		// {
+		// character.SocksName = defaultSetting;
+		// result = false;
+		// }
+		// return result;
 	}
 
 	/// <summary>
