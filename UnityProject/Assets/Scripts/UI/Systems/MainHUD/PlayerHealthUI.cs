@@ -133,10 +133,10 @@ public class PlayerHealthUI : MonoBehaviour
 		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.IsSuffocating, oxygenAlert);
 
 		SetSpecificVisibility(false, toxinAlert);
-		if (PlayerManager.LocalPlayerScript?.playerHealth?.Metabolism?.IsHungry != null)
-		{
-			SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
-		}
+		// if (PlayerManager.LocalPlayerScript?.playerHealth?.Metabolism?.IsHungry != null)
+		// {
+			// SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
+		// }
 
 
 		//TODO: Reimplement metabolism stuff.

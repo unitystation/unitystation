@@ -29,7 +29,7 @@ public class XenomorphFood : Edible
 		var feeder = feederGO.GetComponent<PlayerScript>();
 
 		// Show eater message
-		var eaterHungerState = eater.playerHealth.Metabolism.HungerState;
+		var eaterHungerState = eater.playerHealth.hungerState;
 		ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 		// Check if eater can eat anything
@@ -52,7 +52,19 @@ public class XenomorphFood : Edible
 	{
 		SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
 
-		eater.playerHealth.Metabolism.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));
+		var Stomachs = eater.playerHealth.GetStomachs();
+		if (Stomachs.Count == 0)
+		{
+			//No stomachs?!
+			return;
+		}
+		FoodContents.Divide(Stomachs.Count);
+		foreach (var Stomach in Stomachs)
+		{
+			Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+		}
+
+
 		Pregnancy(eater.playerHealth);
 		var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
 		Inventory.ServerDespawn(feederSlot);

@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Chemistry;
+using Chemistry.Components;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace HealthV2
@@ -12,10 +16,13 @@ namespace HealthV2
 		public bool IsBloodReagentConsumed => isBloodReagentConsumed;
 
 		[SerializeField] [Tooltip("What reagent do we use?")]
-		private Chemistry.Reagent requiredReagent;
+		protected Chemistry.Reagent requiredReagent;
 
 		[SerializeField] [Tooltip("How much blood reagent do we actually consume per second?")]
-		private float bloodReagentConsumed = 0.15f;
+		private float _bloodReagentConsumed = 0.10f;
+
+		[SerializeField] [Tooltip("How much blood it processes per second")]
+		private float bloodReagentProcessed = 0.15f;
 
 		[SerializeField] [Tooltip("How much blood reagent is stored per blood pump event.")]
 		private float bloodReagentStoreAmount = 0.01f;
@@ -27,38 +34,116 @@ namespace HealthV2
 
 		private float BloodDamageLow = 0;
 
-		private float bloodReagentStored = 0;
+		//private float bloodReagentStored = 0;
+
+		public float NutrimentConsumption = 0.02f;
+		public float NutrimentPassiveConsumption = 0.001f;
+
+
+		public ReagentContainerBody BloodContainer = null;
+
+
+		public event Action ModifierChange;
+
+		public float TotalModified = 1;
+
+		public List<Modifier> AppliedModifiers = new List<Modifier>();
+
+		public void UpdateMultiplier()
+		{
+			TotalModified = 1;
+			foreach (var Modifier in AppliedModifiers)
+			{
+				TotalModified *= Modifier.Multiplier;
+			}
+			ModifierChange?.Invoke();
+		}
+
+
+		public void AddModifier(Modifier InModifier)
+		{
+			InModifier.RelatedPart = this;
+			AppliedModifiers.Add(InModifier);
+		}
+
+		public void RemoveModifier(Modifier InModifier)
+		{
+			InModifier.RelatedPart = null;
+			AppliedModifiers.Remove(InModifier);
+		}
 
 
 		public void BloodInitialise()
 		{
-			bloodReagentStored = bloodReagentStoredMax; //Organs spawn in oxygenated.
+			BloodContainer = this.GetComponent<ReagentContainerBody>();
+			BloodContainer.Add(new ReagentMix(requiredReagent, bloodReagentStoredMax));
+			//bloodReagentStored = bloodReagentStoredMax; //Organs spawn in oxygenated.
 			BloodDamageLow = bloodReagentStoredMax * 0.25f;
+			BloodContainer.ContentsSet = true;
 		}
 
 		public void BloodUpdate()
 		{
-			if (bloodReagentStored < BloodDamageLow)
+			//Can do something about purity
+			//low Blood content punishment but no damage
+
+			//Logger.Log("Available blood"  + BloodContainer[requiredReagent]);
+
+			if (BloodContainer[requiredReagent] < BloodDamageLow)
 			{
-				AffectDamage( 1f, DamageType.Oxy );
+				AffectDamage(1f, (int) DamageType.Oxy);
 			}
 			else
 			{
-				AffectDamage( -1f,  DamageType.Oxy);
+				AffectDamage(-1f, (int) DamageType.Oxy);
 			}
 
-			float BloodUsed = bloodReagentConsumed;
-			if (bloodReagentStored < BloodUsed)
+			ReagentMix reagentMix = BloodContainer.TakeReagents(bloodReagentProcessed);
+
+			healthMaster.CirculatorySystem.UseBloodPool.Add(reagentMix);
+
+			if (TotalDamageWithoutOxyClone > 0 && healthMaster.NutrimentLevel > 0)
 			{
-				BloodUsed = bloodReagentStored;
-				bloodReagentStored = 0;
+				float toConsume = NutrimentConsumption;
+				if (NutrimentConsumption > healthMaster.NutrimentLevel)
+				{
+					toConsume = healthMaster.NutrimentLevel;
+				}
+
+				healthMaster.NutrimentLevel -= toConsume;
+				NutrimentHeal(toConsume);
+			}
+
+			if (healthMaster.NutrimentLevel > 0)
+			{
+				float toConsume = NutrimentPassiveConsumption;
+				if (NutrimentPassiveConsumption > healthMaster.NutrimentLevel)
+				{
+					toConsume = healthMaster.NutrimentLevel;
+				}
+
+				healthMaster.NutrimentLevel -= toConsume;
+				if (healthMaster.NutrimentLevel < NutrimentPassiveConsumption * 1000)
+				{
+					//is Hungary
+				}
 			}
 			else
 			{
-				bloodReagentStored -= BloodUsed;
+				//Is starving
 			}
+		}
 
-			healthMaster.CirculatorySystem.UseBloodPool += BloodUsed;
+		public void NutrimentHeal(double Amount)
+		{
+			double DamageMultiplier = TotalDamageWithoutOxyClone / Amount;
+
+			for (int i = 0; i < Damages.Length; i++)
+			{
+				if ((int) DamageType.Oxy == i) continue;
+				if ((int) DamageType.Clone == i) continue;
+				HealDamage(null, (float) (Damages[i] / DamageMultiplier), i);
+			}
 		}
 
 		/// <summary>
@@ -66,25 +151,31 @@ namespace HealthV2
 		/// Can happen multiple times if there's multiple hearts.
 		/// </summary>
 		/// <param name="bloodReagent"></param>
-		/// <param name="amountOfBloodReagentPumped"></param>
 		/// <returns></returns>
-		public float BloodPumpedEvent(Chemistry.Reagent bloodReagent, float amountOfBloodReagentPumped)
+		public ReagentMix BloodPumpedEvent(ReagentMix bloodReagent)
 		{
+			//Logger.Log("BloodPumpedEvent  " + bloodReagent);
 			//Maybe have a dynamic 50% other blood in this blood
-			if (bloodReagent != requiredReagent)
+			// if (bloodReagent != requiredReagent)
+			// {
+			// return HandleWrongBloodReagent(bloodReagent, amountOfBloodReagentPumped);
+			// }
+			//bloodReagent.Subtract()
+			//BloodContainer.Add(bloodReagent);
+			if ((BloodContainer.ReagentMixTotal + bloodReagent.Total) > BloodContainer.MaxCapacity)
 			{
-				return HandleWrongBloodReagent(bloodReagent, amountOfBloodReagentPumped);
+				float BloodToTake = (BloodContainer.MaxCapacity - BloodContainer.ReagentMixTotal );
+				bloodReagent.TransferTo(BloodContainer.CurrentReagentMix, BloodToTake);
+				BloodContainer.OnReagentMixChanged?.Invoke();
+				return bloodReagent;
+			}
+			else
+			{
+				bloodReagent.TransferTo(BloodContainer.CurrentReagentMix, bloodReagent.Total);
+				BloodContainer.OnReagentMixChanged?.Invoke();
 			}
 
-
-			bloodReagentStored += amountOfBloodReagentPumped;
-			if (bloodReagentStored > bloodReagentStoredMax)
-			{
-				float BloodReturn = bloodReagentStored - bloodReagentStoredMax;
-				bloodReagentStored = bloodReagentStoredMax;
-				return BloodReturn;
-			}
-			return 0;
+			return bloodReagent;
 		}
 
 		/// <summary>
@@ -99,5 +190,33 @@ namespace HealthV2
 		{
 			return amount;
 		}
+	}
+
+
+	public class Modifier
+	{
+		public float Multiplier
+		{
+			get
+			{
+				return multiplier;
+			}
+			set
+			{
+				if (multiplier != value)
+				{
+					multiplier = value;
+					if (RelatedPart != null)
+					{
+						RelatedPart.UpdateMultiplier();
+					}
+				}
+			}
+		}
+
+		private float multiplier;
+
+		public BodyPart RelatedPart;
+
 	}
 }
