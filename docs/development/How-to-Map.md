@@ -6,17 +6,20 @@ All mapping is done in Unity.
 
 ### Setting Up Your Workspace
 You should have the following windows open. To open a window, to the __Window__ tab at the top of Unity.
-    - Window > General > __Scene__
-    - Window > General > __Project__
-    - Window > General > __Hierarchy__
-    - Window > General > __Inspector__
-    - Window > __Sidebar__
+
+<ul> 
+    <li>Window > General > <b>Scene</b></li>
+    <li>Window > General > <b>Project</b></li>
+    <li>Window > General > <b>Hierarchy</b></li>
+    <li>Window > General > <b>Inspector</b></li>
+    <li>Window > <b>Sidebar</b></li>
+</ul>
 
 ### Introduction to Scenes
 Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one. 
-    - Open an existing scene: UnityProject > Assets > Scenes > Mainstations > TestStation
-        - Make sure you have your Scene window focused
-        - Look around the Scene with the [Hand Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html) and to move prefabs around the Scene, use the [Move Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html)
+1. Open an existing scene: UnityProject > Assets > Scenes > Mainstations > TestStation
+1. Make sure you have your Scene window focused
+1. Look around the Scene with the [Hand Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html) and to move prefabs around the Scene, use the [Move Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html)
 
 
 Notice that in the Hierarchy window selecting _TestStation_ selects the entire station, but not other shuttles, etc.
@@ -152,27 +155,35 @@ Enabling Gizmos for WallmountBehaviours will show helper arrows so that you woul
 Once you have finished mapping a scene and it’s time to PR, follow the instructions below so it gets submitted first time without needed rework. If you are working on an existing map, you only need to commit and PR the .scene file.
 
 1. Make a new branch by opening GitHub Desktop and pressing Ctrl + Shift + N and typing the name of your map. Make sure to bring your changes over from develop if you have already started making progress on a new Scene.
+
 2. Run the Unit tests. These can be accessed in editor by going into the sidebar menu or selecting the U logo on the right bar.
+
 3. If the scene you have created is a Main Station, add its name into to the *map.json* file. This file keeps track of what maps to randomly select from given the server population (low, medium, high pop).
+
 4. Next you will need to add the created scene into a Scriptable Object List. Search in the editor for the following.
 
     - If it is a Station where the crew will spawn in, add it into the __Main Station List SO__
     - If the scene is a scene which connects to the Station Gateway, add it into the __Away World List SO__
     - If the scene is an asteroid (contains ores to mine), add it into the __Asteroid List SO__
     - If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the __Additional Scene List SO__
+    
 5. Add the Scene in by going to File -> Build Settings, then click open scene to add the scene you are in.
-6. Make sure you go through the checklist below to check you have gotten the following on the map.
-    1. In the Captain's Room, there should be a Nuke Disk, Nuke Pointer and a Captain's Spare ID
-    1. Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig cells
-    1. Fire alarms have been connected to the FireDoors
-    1. AirVents and Scrubbers are rotated correctly to match the particular pipe outlets from adjacent tiles
-    1. RCS thrusters are present on shuttle matrixes, test each shuttle in play mode to make sure they follow the directions like the WASD keys.
-    1. Multiple spawn points exist for the same job and that all jobs have a sensible spawn point
-    1. Check that Canisters in Atmos that are part of the pipes are open (Tick *Valve is Initially Open* inside the Canister Script)
-    1. Ensure that no obvious extrusions will destroy or block the cargo and evac shuttle
-    1. Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)
-    1. If it's a MainStation, include a picture of your map for the wiki 
-    1. Commit MainStation.unity, MainStation.unity.meta, MainStation.lighting, MainStation.lighting.meta, maps.json, EditorBuildSettings.asset and the SO List (e.g. __Main Station List SO__). This is not an exhaustive list, so a general rule of thumb is to only commit files you touched.
+
+### Checklist
+
+Make sure you go through the checklist below to check you have gotten the following on the map. Players will have a hard time using your map if it doesn't have these items!
+
+1. In the Captain's Room, there should be a Nuke Disk, Nuke Pointer and a Captain's Spare ID
+1. Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig cells
+1. Fire alarms have been connected to the FireDoors
+1. AirVents and Scrubbers are rotated correctly to match the particular pipe outlets from adjacent tiles
+1. RCS thrusters are present on shuttle matrixes, test each shuttle in play mode to make sure they follow the directions like the WASD keys.
+1. Multiple spawn points exist for the same job and that all jobs have a sensible spawn point
+1. Check that Canisters in Atmos that are part of the pipes are open (Tick *Valve is Initially Open* inside the Canister Script)
+1. Ensure that no obvious extrusions will destroy or block the cargo and evac shuttle
+1. Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)
+1. If it's a MainStation, include a picture of your map for the wiki 
+1. Commit MainStation.unity, MainStation.unity.meta, MainStation.lighting, MainStation.lighting.meta, maps.json, EditorBuildSettings.asset and the SO List (e.g. __Main Station List SO__). This is not an exhaustive list, so a general rule of thumb is to only commit files you touched.
 
 ## Pull Requests for Tile Palette Changes
 Almost never would you need to actually PR a palette change, if you do please make sure __NOT__ to include anything other than the palette file and its .meta file.
