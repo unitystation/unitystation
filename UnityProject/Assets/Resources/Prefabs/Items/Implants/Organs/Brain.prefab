@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthMaster: {fileID: 0}
+  RelatedPresentSprites: []
   storage: {fileID: 1900478478944793783}
   bodyPartType: 0
   containBodyParts: []
-  maxHealth: 100
   efficiency: 1
   isDimorphic: 0
   gender: 0
@@ -29,8 +29,12 @@ MonoBehaviour:
     type: 3}
   isBloodReagentConsumed: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  bloodReagentConsumed: 0.15
+  _bloodReagentConsumed: 0.1
+  bloodReagentProcessed: 0.15
   bloodReagentStoreAmount: 0.01
+  NutrimentConsumption: 0.02
+  NutrimentPassiveConsumption: 0.001
+  BloodContainer: {fileID: 4187505970342889626}
   BodyPartArmour:
     Melee: 0
     Bullet: 0
@@ -55,6 +59,8 @@ MonoBehaviour:
     Bio: 0
   SubOrganDamageIncreasePoint: 50
   DamageContributesToOverallHealth: 1
+  DamageEfficiencyMultiplier: 1
+  maxHealth: 100
 --- !u!1001 &7946465884936551576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -95,6 +106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -107,16 +123,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -139,6 +145,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 11433caf457fffc4baa12960619ae6ec,
         type: 3}
+    - target: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -159,6 +170,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7946465884936551576}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4187505970342889626 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6078318946446652418, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7946465884936551576}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3442747058158572537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1900478478944793783 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,

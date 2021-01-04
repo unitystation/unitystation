@@ -127,10 +127,10 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
-			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-			{
-				spriteRenderer.sortingLayerName = "Bodies";
-			}
+			// foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+			// {
+				// spriteRenderer.sortingLayerName = "Bodies";
+			// }
 
 			//lock current direction
 			playerDirectional.LockDirection = true;
@@ -139,13 +139,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
-			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-			{
-				if (playerScript.IsGhost)
-					spriteRenderer.sortingLayerName = "Ghosts";
-				else
-					spriteRenderer.sortingLayerName = "Players";
-			}
+			// foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+			// {
+				// if (playerScript.IsGhost)
+					// spriteRenderer.sortingLayerName = "Ghosts";
+				// else
+					// spriteRenderer.sortingLayerName = "Players";
+			// }
 			playerDirectional.LockDirection = false;
 		}
 	}
@@ -184,7 +184,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit
 			|| playerScript.playerHealth.IsDead
-			|| playerScript.playerHealth.Metabolism.HungerState == HungerState.Starving)
+			|| playerScript.playerHealth.hungerState == HungerState.Starving)
 		{
 			return;
 		}
