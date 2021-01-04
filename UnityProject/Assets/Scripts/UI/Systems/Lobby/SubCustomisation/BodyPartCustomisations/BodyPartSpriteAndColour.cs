@@ -10,147 +10,80 @@ using UnityEngine.UI;
 
 public class BodyPartSpriteAndColour : BodyPartCustomisationBase
 {
-	public Color BodyPartColour = Color.white;
-	public Image SelectionColourImage;
-	public Dropdown Dropdown;
-	public List<SpriteDataSO> OptionalSprites = new List<SpriteDataSO>();
+    public Color BodyPartColour = Color.white;
+    public Image SelectionColourImage;
 
-	public struct ColourAndSelected
-	{
-		public string color;
-		public int Chosen;
 
-		public ColourAndSelected(Color Color, int InChosen)
-		{
-			color = "#" + ColorUtility.ToHtmlStringRGB(Color);
-			Chosen = InChosen;
-		}
-	}
+    public TMP_Text HeadName;
 
-	public override void Deserialise(string InData)
-	{
+    public Dropdown Dropdown;
+
+    public CustomisationGroup thisCustomisations;
+
+
+    public List<SpriteDataSO>  OptionalSprites = new List<SpriteDataSO>();
+
+    public struct ColourAndSelected
+    {
+	    public string color;
+	    public string Chosen;
+
+    }
+
+    public override void Deserialise(string InData)
+    {
 		var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
 
-		ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
-		if (ColourAnd_Selected.Chosen >= OptionalSprites.Count)
-		{
-			Dropdown.value = 0;
-		}
-		else
-		{
-			Dropdown.value = ColourAnd_Selected.Chosen;
-		}
+	    ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
 
 
-		Refresh();
-	}
 
-	public override string Serialise()
-	{
-		var Toreturn = new ColourAndSelected(BodyPartColour, Dropdown.value);
-		return JsonConvert.SerializeObject(Toreturn);
-	}
+	    Refresh();
+    }
 
-	public void RequestColourPicker()
-	{
-		characterCustomization.OpenColorPicker(BodyPartColour, ColorChange, 32f);
-	}
+    public override string Serialise()
+    {
+	    return "#" + ColorUtility.ToHtmlStringRGB(BodyPartColour);
 
-	public override void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
-	{
-		base.SetUp(incharacterCustomization, Body_Part, path);
-		// Make a list of all available options which can then be passed to the dropdown box
-		var itemOptions = OptionalSprites.Select(pcd => pcd.name).ToList();
-		itemOptions.Sort();
+	    // Make a list of all available options which can then be passed to the dropdown box
+	    var itemOptions = OptionalSprites.Select(pcd => pcd.name).ToList();
+	    itemOptions.Sort();
 
-		// Ensure "None" is at the top of the option lists
-		itemOptions.Insert(0, "None");
-		Dropdown.AddOptions(itemOptions);
-		Dropdown.onValueChanged.AddListener(ItemChange);
-	}
+	    // Ensure "None" is at the top of the option lists
+	    itemOptions.Insert(0, "None");
+	    Dropdown.AddOptions(itemOptions);
 
-	public void ItemChange(int newValue)
-	{
-		Refresh();
-	}
+    }
 
-	public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData,
-		LivingHealthMasterBase LivingHealthMasterBase)
-	{
-		var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
-		ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
-		Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
-		OptionalSprites = OptionalSprites.OrderBy(x => x?.name).ToList();
-		if (ColourAnd_Selected.Chosen != 0)
-		{
-			if (ColourAnd_Selected.Chosen >= OptionalSprites.Count)
-			{
-				Body_Part.RelatedPresentSprites[0].baseSpriteHandler.Empty();
-				return;
-			}
+    public void RequestColourPicker()
+    {
+	    characterCustomization.OpenColorPicker(BodyPartColour, ColorChange, 32f);
+    }
 
-			Body_Part.RelatedPresentSprites[0].baseSpriteHandler
-				.SetSpriteSO(OptionalSprites[ColourAnd_Selected.Chosen - 1]);
-		}
-		else
-		{
-			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.Empty();
-		}
-	}
+    public override void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
+    {
+	    base.SetUp(incharacterCustomization, Body_Part, path);
 
 
-	private void ColorChange(Color newColor)
-	{
-		BodyPartColour = newColor;
-		Refresh();
-	}
+    }
+
+    public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase)
+    {
+	    ColorUtility.TryParseHtmlString(InData, out BodyPartColour);
+	    Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
+    }
 
 
-	public void DropdownScrollRight()
-	{
-		// Check if value should wrap around
-		if (Dropdown.value < Dropdown.options.Count - 1)
-		{
-			Dropdown.value++;
-		}
-		else
-		{
-			Dropdown.value = 0;
-		}
+    private void ColorChange(Color newColor)
+    {
+	    BodyPartColour = newColor;
+	    Refresh();
+    }
 
-		//Refresh();
-	}
-
-	public void DropdownScrollLeft()
-	{
-		// Check if value should wrap around
-		if (Dropdown.value > 0)
-		{
-			Dropdown.value--;
-		}
-		else
-		{
-			Dropdown.value = Dropdown.options.Count - 1;
-		}
-
-//Refresh();
-	}
-
-	public override void Refresh()
-	{
-		//Just the first one for now
-		RelatedRelatedPreviewSprites[0].SpriteHandler.SetColor(BodyPartColour);
-		SelectionColourImage.color = BodyPartColour;
-
-		if (Dropdown.value == 0)
-		{
-			RelatedRelatedPreviewSprites[0].SpriteHandler.Empty();
-		}
-		else
-		{
-			var ChosenOption = Dropdown.options[Dropdown.value].text;
-			var GotOption = OptionalSprites.First(x => x.name == ChosenOption);
-			RelatedRelatedPreviewSprites[0].SpriteHandler.SetSpriteSO(GotOption);
-		}
-	}
+    public override void Refresh()
+    {
+	    //Just the first one for now
+	    RelatedRelatedPreviewSprites[0].SpriteHandler.SetColor(BodyPartColour);
+	    SelectionColourImage.color = BodyPartColour;
+    }
 }
