@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpriteHandlerNorder : MonoBehaviour
+public class SpriteHandlerNorder : MonoBehaviour, ISpriteOrder
 {
 	public SpriteHandler SpriteHandler;
-	public SpriteOrder SpriteOrder  = new SpriteOrder();
+	public SpriteOrder SpriteOrder { get; set; }
 
 	public SpriteRenderer spriteRenderer;
 	public void ChangeSpriteVariant(int number)

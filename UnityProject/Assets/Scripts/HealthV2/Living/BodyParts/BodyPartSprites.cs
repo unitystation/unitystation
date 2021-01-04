@@ -7,22 +7,34 @@ using UnityEngine;
 /// </summary>
 public class BodyPartSprites : MonoBehaviour
 {
-	[SerializeField] protected SpriteHandler baseSpriteHandler;
+	[SerializeField] public SpriteHandler baseSpriteHandler;
 
 	[SerializeField] private SpriteHandler damageOverlaySpriteHandler;
 
 	[SerializeField] public BodyPartType bodyPartType;
 
+	public SpriteRenderer spriteRenderer;
+
 	public CharacterSettings ThisCharacter;
 
+	public SpriteOrder SpriteOrder;
 
 
-	public virtual void UpdateSpritesForImplant(BodyPart implant, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer)
+
+	public virtual void UpdateSpritesForImplant(BodyPart implant, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
 	{
 		//TODOH Colour
 		if (baseSpriteHandler == null) return;
 		//Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f)
 		baseSpriteHandler.SetSpriteSO(Sprite, Color.white);
+		SpriteOrder = _SpriteOrder;
+		if (SpriteOrder != null)
+		{
+			if (SpriteOrder.Orders.Count > 0)
+			{
+				spriteRenderer.sortingOrder = SpriteOrder.Orders[0];
+			}
+		}
 	}
 
 	public virtual void OnDirectionChange(Orientation direction)
@@ -49,6 +61,15 @@ public class BodyPartSprites : MonoBehaviour
 		{
 			referenceOffset = 3;
 		}
+
+		if (SpriteOrder != null)
+		{
+			if (SpriteOrder.Orders.Count > referenceOffset)
+			{
+				spriteRenderer.sortingOrder = SpriteOrder.Orders[referenceOffset];
+			}
+		}
+
 		baseSpriteHandler.ChangeSpriteVariant(referenceOffset);
 	}
 

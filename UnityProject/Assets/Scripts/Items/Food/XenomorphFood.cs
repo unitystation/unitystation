@@ -21,7 +21,7 @@ public class XenomorphFood : Edible
 		if (eater == null)
 		{
 			// todo: implement non-player eating
-			//SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos);
+			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos);
 			Despawn.ServerSingle(gameObject);
 			return;
 		}
@@ -50,7 +50,7 @@ public class XenomorphFood : Edible
 	}
 	public override void Eat(PlayerScript eater, PlayerScript feeder)
 	{
-		//SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
+		SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
 		var Stomachs = eater.playerHealth.GetStomachs();
 		if (Stomachs.Count == 0)

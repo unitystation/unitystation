@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Items;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -105,6 +106,41 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		ItemSlot.Free(this);
 	}
 
+	//True equals successful false equals unsuccessful
+	public bool ServerTryAdd(GameObject InGameObject)
+	{
+		var Item = InGameObject.GetComponent<ItemAttributesV2>();
+		if (Item == null) return false;
+		var slot = GetBestSlotFor(InGameObject);
+		if (slot == null) return false;
+
+		return Inventory.ServerAdd(InGameObject, slot);
+	}
+
+	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false)
+	{
+		var Item = InGameObject.GetComponent<ItemAttributesV2>();
+		if (Item == null) return false;
+		var slots = GetItemSlots();
+		foreach (var slot in slots)
+		{
+			if (slot.Item.gameObject == InGameObject)
+			{
+				if (Destroy)
+				{
+					return Inventory.ServerDespawn(slot);
+				}
+				else
+				{
+					return Inventory.ServerDrop(slot);
+
+				}
+
+			}
+		}
+
+		return false;
+	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{

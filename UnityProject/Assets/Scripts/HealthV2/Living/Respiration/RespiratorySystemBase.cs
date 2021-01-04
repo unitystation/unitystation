@@ -62,11 +62,11 @@ namespace HealthV2
 		void UpdateMe()
 		{
 			//Server Only:
-			if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
-			                                  && !canBreathAnywhere)
-			{
-				MonitorSystem();
-			}
+			// if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
+			                                  // && !canBreathAnywhere)
+			// {
+				// MonitorSystem();
+			// }
 		}
 
 		private void MonitorSystem()

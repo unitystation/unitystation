@@ -36,40 +36,21 @@ public class Heart : BodyPart
 
 	public bool CanTriggerHeartAttack = true;
 
-	public int SecondsOfRevivePulse = 30;
-
-	public int CurrentPulse = 0;
 
 	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
 	{
 		base.ImplantPeriodicUpdate(healthMaster);
 		if (healthMaster.OverallHealth < -100)
 		{
-
 			if (CanTriggerHeartAttack)
 			{
 				DoHeartAttack();
 				CanTriggerHeartAttack = false;
-				CurrentPulse = 0;
-				return;
 			}
-
-			if (HeartAttack == false)
-			{
-				CurrentPulse++;
-				if (SecondsOfRevivePulse < CurrentPulse)
-				{
-					DoHeartAttack();
-				}
-			}
-
-
-
 		}
 		else if (healthMaster.OverallHealth < -50)
 		{
 			CanTriggerHeartAttack = true;
-			CurrentPulse = 0;
 		}
 
 
@@ -81,7 +62,6 @@ public class Heart : BodyPart
 		//If we actually have a circulatory system.
 		if (HeartAttack)
 		{
-			if (SecondsOfRevivePulse < CurrentPulse) return;
 			var RNGInt = RNGesus.Next(0, 10000);
 			if (RNGInt > 9990)
 			{
