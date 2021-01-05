@@ -2,7 +2,7 @@
 using Objects.Construction;
 
 /// <summary>
-/// Main component for Mop. Allows mopping to be done on tiles.
+/// Main component for soap. Allows cleaning of tiles and gradual degradation of the soap as it is used.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
 public class Soap : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IExaminable, IServerSpawn
