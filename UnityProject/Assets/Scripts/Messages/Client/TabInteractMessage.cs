@@ -1,11 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using Messages.Client;
 using UnityEngine;
-using Mirror;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
 
 /// <summary>
 ///     Informs server of interaction with some object's tab element
@@ -119,23 +115,5 @@ public class TabInteractMessage : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		TabProvider = reader.ReadUInt32();
-		NetTabType = (NetTabType) reader.ReadInt32();
-		ElementId = reader.ReadString();
-		ElementValue = reader.ReadBytesAndSize();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(TabProvider);
-		writer.WriteInt32((int) NetTabType);
-		writer.WriteString(ElementId);
-		writer.WriteBytesAndSize(ElementValue);
 	}
 }

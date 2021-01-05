@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
-using Mirror;
 using UnityEngine;
 
 public class OpenPageValueNetMessage : ClientMessage
@@ -37,27 +36,5 @@ public class OpenPageValueNetMessage : ClientMessage
 		msg.AdminToken = adminToken;
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		PageID = reader.ReadUInt64();
-		SentenceID = reader.ReadUInt32();
-		ISSentence = reader.ReadBoolean();
-		iskey = reader.ReadBoolean();
-		AdminId = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt64(PageID);
-		writer.WriteUInt32(SentenceID);
-		writer.WriteBoolean(ISSentence);
-		writer.WriteBoolean(iskey);
-		writer.WriteString(AdminId);
-		writer.WriteString(AdminToken);
 	}
 }

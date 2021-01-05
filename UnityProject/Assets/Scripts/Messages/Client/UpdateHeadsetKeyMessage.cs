@@ -125,18 +125,4 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 	{
 		return $"[UpdateHeadsetKeyMessage SentBy={SentByPlayer} HeadsetItem={HeadsetItem} EncryptionKey={EncryptionKey}]";
 	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		HeadsetItem = reader.ReadUInt32();
-		EncryptionKey = reader.ReadUInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(HeadsetItem);
-		writer.WriteUInt32(EncryptionKey);
-	}
 }

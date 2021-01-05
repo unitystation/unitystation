@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AdminTools;
 using Messages.Client;
-using Mirror;
 
 public class RequestKickMessage : ClientMessage
 {
@@ -44,29 +42,5 @@ public class RequestKickMessage : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-		UserToKick = reader.ReadString();
-		Reason = reader.ReadString();
-		IsBan = reader.ReadBoolean();
-		BanMinutes = reader.ReadInt32();
-		AnnounceBan = reader.ReadBoolean();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
-		writer.WriteString(UserToKick);
-		writer.WriteString(Reason);
-		writer.WriteBoolean(IsBan);
-		writer.WriteInt32(BanMinutes);
-		writer.WriteBoolean(AnnounceBan);
 	}
 }

@@ -1,6 +1,4 @@
-﻿using Antagonists;
-using Audio.Managers;
-using Mirror;
+﻿using Audio.Managers;
 using UnityEngine;
 
 namespace Messages.Server.LocalGuiMessages
@@ -32,26 +30,6 @@ namespace Messages.Server.LocalGuiMessages
 
 			msg.SendTo(player);
 			return msg;
-		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			base.Serialize(writer);
-			writer.WriteString(AntagName);
-			writer.WriteString(AntagSound);
-			writer.WriteColor(TextColor);
-			writer.WriteColor(BackgroundColor);
-			writer.WriteBoolean(PlaySound);
-		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			base.Deserialize(reader);
-			AntagName = reader.ReadString();
-			AntagSound = reader.ReadString();
-			TextColor = reader.ReadColor();
-			BackgroundColor = reader.ReadColor();
-			PlaySound = reader.ReadBoolean();
 		}
 
 		public override void Process()

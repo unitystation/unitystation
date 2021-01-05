@@ -1,5 +1,4 @@
 ﻿using Messages.Client;
-using Mirror;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -42,17 +41,5 @@ public class RequestObserverRefresh : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		NewSceneNameContext = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(NewSceneNameContext);
 	}
 }
