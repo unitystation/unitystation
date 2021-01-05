@@ -53,7 +53,7 @@ namespace Audio.Containers
 
 		private void Update()
 		{
-			if (!PlayingRandomPlayList || CustomNetworkManager.isHeadless) return;
+			if (PlayingRandomPlayList == false || CustomNetworkManager.IsHeadless) return;
 
 			if (MusicManager.isLobbyMusicPlaying()) return;
 
@@ -69,7 +69,7 @@ namespace Audio.Containers
 
 		public void StartPlayingRandomPlaylist()
 		{
-			if (CustomNetworkManager.isHeadless) return;
+			if (CustomNetworkManager.IsHeadless) return;
 
 			PlayingRandomPlayList = true;
 			PlayRandomTrack();
@@ -130,7 +130,7 @@ namespace Audio.Containers
 
 		private void PlayRandomTrack()
 		{
-			if (CustomNetworkManager.isHeadless) return;
+			if (CustomNetworkManager.IsHeadless) return;
 
 			var songInfo = MusicManager.Instance.PlayRandomTrack();
 			trackName.text = songInfo[0];

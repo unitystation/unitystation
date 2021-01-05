@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Messages.Client;
 using UnityEngine;
-using Mirror;
 
 /// <summary>
 ///     Attempts to send a chat message to the server
@@ -30,19 +29,5 @@ public class PostToChatMessage : ClientMessage
 		msg.Send();
 
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Channels = (ChatChannel) reader.ReadUInt32();
-		ChatMessageText = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteInt32((int) Channels);
-		writer.WriteString(ChatMessageText);
 	}
 }

@@ -65,20 +65,4 @@ public class DevDestroyMessage : ClientMessage
 		};
 		msg.Send();
 	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		ToDestroy = reader.ReadUInt32();
-		AdminId = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(ToDestroy);
-		writer.WriteString(AdminId);
-		writer.WriteString(AdminToken);
-	}
 }

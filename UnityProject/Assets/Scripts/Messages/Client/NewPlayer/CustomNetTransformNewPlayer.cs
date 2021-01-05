@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Messages.Client;
-using Mirror;
 
 public class CustomNetTransformNewPlayer: ClientMessage
 {
@@ -22,17 +21,5 @@ public class CustomNetTransformNewPlayer: ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		CNT = reader.ReadUInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(CNT);
 	}
 }

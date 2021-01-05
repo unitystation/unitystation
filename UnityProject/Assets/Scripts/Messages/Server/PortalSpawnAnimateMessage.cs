@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Mirror;
 using Systems.Spells.Wizard;
 
 namespace Messages.Server
@@ -44,32 +43,6 @@ namespace Messages.Server
 			{
 				SpawnByPortal.AnimateObject(Entity, Settings);
 			}
-		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			base.Deserialize(reader);
-
-			Entity = reader.ReadGameObject();
-			Settings.PortalHeight = reader.ReadInt32();
-			Settings.PortalOpenTime = reader.ReadSingle();
-			Settings.PortalCloseTime = reader.ReadSingle();
-			Settings.PortalSuspenseTime = reader.ReadSingle();
-			Settings.EntityRotate = reader.ReadBoolean();
-			Type = (AnimateType)reader.ReadInt32();
-		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			base.Serialize(writer);
-
-			writer.WriteGameObject(Entity);
-			writer.WriteInt32(Settings.PortalHeight);
-			writer.WriteSingle(Settings.PortalOpenTime);
-			writer.WriteSingle(Settings.PortalCloseTime);
-			writer.WriteSingle(Settings.PortalSuspenseTime);
-			writer.WriteBoolean(Settings.EntityRotate);
-			writer.WriteInt32((int)Type);
 		}
 
 		public enum AnimateType

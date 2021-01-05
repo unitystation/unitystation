@@ -74,22 +74,4 @@ public class DevSpawnMessage : ClientMessage
 			                        " be spawned.", Category.Admin, prefab);
 		}
 	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		PrefabAssetID = reader.ReadGuid();
-		WorldPosition = reader.ReadVector2();
-		AdminId = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteGuid(PrefabAssetID);
-		writer.WriteVector2(WorldPosition);
-		writer.WriteString(AdminId);
-		writer.WriteString(AdminToken);
-	}
 }
