@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/1/6: Added ability for soap to clean floors and to slowly get used up every time it's used to clean. by [PetMudstone](https://github.com/PetMudstone) in PR #[5821](https://github.com/unitystation/unitystation/pull/5821)
 * 2021/1/3: Added ability to extract seeds from banana peels and other trash made by eating crops. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
 * 2021/1/3: Consolidated kitchen and botany categories in cargo console into Food and Hydroponics, added a few more items to buy in it. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
 * 2021/1/3: Fixed bug where dead plant sprites didn't appear in trays. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
