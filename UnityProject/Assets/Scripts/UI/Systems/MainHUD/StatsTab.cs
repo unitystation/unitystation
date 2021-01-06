@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerListUI : MonoBehaviour
+public class StatsTab : MonoBehaviour
 {
 	public Text nameList;
 	public GameObject window;
@@ -32,7 +32,7 @@ public class PlayerListUI : MonoBehaviour
 
 	private void OnPreRoundStarted()
 	{
-		UpdateRoundStatus();
+		UpdateRoundStatus("starting soon");
 	}
 
 	private void OnMapInit()
@@ -42,20 +42,20 @@ public class PlayerListUI : MonoBehaviour
 
 	private void OnRoundStarted()
 	{
-		UpdateRoundStatus();
+		UpdateRoundStatus("started");
 		UpdateGameMode();
 	}
 
 	private void OnRoundEnded()
 	{
-		UpdateRoundStatus();
+		UpdateRoundStatus("ended, restarting soon");
 	}
 
-	private void UpdateRoundStatus()
+	private void UpdateRoundStatus(string text)
 	{
 		if (roundStatus == null) return;
 
-		roundStatus.text = GameManager.Instance.CurrentRoundState.ToString();
+		roundStatus.text = text;
 	}
 
 	private void UpdateCurrentMap()

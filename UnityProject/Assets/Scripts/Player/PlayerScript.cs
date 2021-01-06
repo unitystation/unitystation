@@ -226,9 +226,9 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			UIManager.ResetAllUI();
 			GetComponent<MouseInputController>().enabled = true;
 
-			if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
+			if (!UIManager.Instance.statsTab.window.activeInHierarchy)
 			{
-				UIManager.Instance.playerListUIControl.window.SetActive(true);
+				UIManager.Instance.statsTab.window.SetActive(true);
 			}
 
 			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);

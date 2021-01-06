@@ -358,7 +358,7 @@ namespace GameModes
 				SpawnAntag(spawnReq);
 			}
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
-			EventManager.Broadcast(EVENT.RoundStarted);
+			EventManager.Broadcast(EVENT.RoundStarted, true);
 		}
 
 		/// <summary>

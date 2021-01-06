@@ -430,7 +430,7 @@ public static class PlayerSpawn
 			// {
 			// 	NetworkServer.ReplacePlayerForConnection(new NetworkConnectionToClient(0), oldBody);
 			// }
-			TriggerEventMessage.Send(newBody, eventType);
+			TriggerEventMessage.SendTo(newBody, eventType);
 
 			//can observe their new inventory
 			newBody.GetComponent<ItemStorage>()?.ServerAddObserverPlayer(newBody);
