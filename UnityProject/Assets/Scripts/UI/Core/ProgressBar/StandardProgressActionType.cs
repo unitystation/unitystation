@@ -14,5 +14,6 @@ public enum StandardProgressActionType
 	Disrobe = 5,
 	Mop = 6,
 	Escape = 7,
-	Unbuckle = 8
+	Unbuckle = 8,
+	ItemTransfer = 9,
 }
