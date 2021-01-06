@@ -159,6 +159,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
 		InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
 		RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
+		RespawnCurrentlyAllowed = RespawnAllowed;
 		ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
 		GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
