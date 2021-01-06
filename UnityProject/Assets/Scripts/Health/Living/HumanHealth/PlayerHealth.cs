@@ -211,7 +211,7 @@ public class PlayerHealth : LivingHealthBehaviour
 				Chat.AddLocalMsgToChat($"<b>{playerName}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", gameObject);
 			}
 
-			PlayerDeathMessage.Send(gameObject);
+			TriggerEventMessage.SendTo(gameObject, EVENT.PlayerDied);
 		}
 	}
 
