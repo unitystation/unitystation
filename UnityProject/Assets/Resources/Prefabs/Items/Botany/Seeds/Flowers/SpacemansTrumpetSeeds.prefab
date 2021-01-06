@@ -1,0 +1,177 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6325983503782983275
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.Yield
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.Lifespan
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Spaceman's Trumpet Plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b5e35bbf449015e44b25c190db5ed6b4,
+        type: 2}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 4440471985071711808, guid: 0f98844a98b976b4c9440b968eed32dd,
+        type: 3}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.WeedGrowthRate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.WeedResistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 802fee5ac79420145b0f578df0b3e71c,
+        type: 2}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 43e0214ec8fa9c6429cd4785c954faeb,
+        type: 2}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 23e6075d4d0792a449777edc6d66d76f,
+        type: 2}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: bc524f530b259a741a252b1b81f5d005,
+        type: 2}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 37192f52af993af46a9c807c58ef8fdb,
+        type: 2}
+    - target: {fileID: 2535158514570066593, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620615307298508666, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: initialName
+      value: pack of spaceman's trumpet seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620615307298508666, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: initialDescription
+      value: A plant sculped by extensive genetic engineering. The spaceman's trumpet
+        is said to bear no resemblance to its wild ancestors. Inside NT AgriSci circles
+        it is better known as NTPW-0372.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801349128998821228, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3806272604458934296, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_Name
+      value: SpacemansTrumpetSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3838946345099287980, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3901081930090042180, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b497b1d8437ff29479a2b396004843cd,
+        type: 3}
+    - target: {fileID: 7031394399350283167, guid: 9feaaa0ac515571468c1f7a542bc619a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 93d71c933f6f18d4a903f69897dad39b,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9feaaa0ac515571468c1f7a542bc619a, type: 3}

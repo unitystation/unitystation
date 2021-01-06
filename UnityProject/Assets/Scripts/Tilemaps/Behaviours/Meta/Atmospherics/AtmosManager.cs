@@ -23,7 +23,6 @@ namespace Systems.Atmospherics
 
 		public HashSet<PipeData> inGameNewPipes = new HashSet<PipeData>();
 		public HashSet<FireAlarm> inGameFireAlarms = new HashSet<FireAlarm>();
-		public ConcurrentBag<FireAlarm> fireAlarmToAdd = new ConcurrentBag<FireAlarm>();
 		public ConcurrentBag<PipeData> pipeToAdd = new ConcurrentBag<PipeData>();
 
 		public static int currentTick;
@@ -71,20 +70,12 @@ namespace Systems.Atmospherics
 		{
 			if (StopPipes == false)
 			{
-
 				foreach (var pipeData in pipeToAdd)
 				{
 					if(pipeData.MonoPipe == null)
 						continue;
 					pipeData.TickUpdate();
 				}
-			}
-
-			foreach (var fireAlarm in fireAlarmToAdd)
-			{
-				if(fireAlarm == null)
-					continue;
-				fireAlarm.TickUpdate();
 			}
 
 			currentTick = ++currentTick % Steps;
@@ -99,17 +90,6 @@ namespace Systems.Atmospherics
 		{
 			pipeToAdd.TryTake(out pipeData);
 		}
-
-		public void AddFireAlarm(FireAlarm fireAlarm)
-		{
-			fireAlarmToAdd.Add(fireAlarm);
-		}
-
-		public void RemoveFireAlarm(FireAlarm fireAlarm)
-		{
-			fireAlarmToAdd.TryTake(out fireAlarm);
-		}
-
 
 		void OnEnable()
 		{

@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Messages.Client;
 
 public class RequestGameAction : ClientMessage
 {
 	public int ComponentLocation;
 	public uint NetObject;
-	public Type ComponentType;
+	public ushort ComponentID;
 
 	public static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>(); //These are useful
 	public static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
@@ -36,13 +34,15 @@ public class RequestGameAction : ClientMessage
 
 	public override void Process()
 	{
+		var type = componentIDToComponentType[ComponentID];
 		LoadNetworkObject(NetObject);
-		//Logger.Log("ComponentLocation > " + ComponentLocation  + " NetworkObject > " +  NetworkObject + " ComponentType > " + ComponentType);
+
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
-			var IActionGUIs = NetworkObject.GetComponentsInChildren(ComponentType);
-			if ((IActionGUIs.Length > ComponentLocation)) {
-				var IServerActionGUI = (IActionGUIs[ComponentLocation] as IServerActionGUI);
+			var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
+			if (IActionGUIs.Length > ComponentLocation)
+			{
+				var IServerActionGUI = IActionGUIs[ComponentLocation] as IServerActionGUI;
 				IServerActionGUI.CallActionServer(SentByPlayer);
 			}
 		}
@@ -64,8 +64,10 @@ public class RequestGameAction : ClientMessage
 		var childActions = netObject.GetComponentsInChildren(componentType);
 		int componentLocation = 0;
 		bool found = false;
-		foreach (var action in childActions) {
-			if ((action as IServerActionGUI) == actionComponent) {
+		foreach (var action in childActions)
+		{
+			if ((action as IServerActionGUI) == actionComponent)
+			{
 				found = true;
 				break;
 			}
@@ -77,28 +79,12 @@ public class RequestGameAction : ClientMessage
 			{
 				NetObject = netObject.netId,
 				ComponentLocation = componentLocation,
-				ComponentType =	componentType,
+				ComponentID = componentTypeToComponentID[componentType],
 			};
 			msg.Send();
 			return;
 		}
 
 		Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity");
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		ComponentType = componentIDToComponentType[reader.ReadUInt16()];
-		NetObject = reader.ReadUInt32();
-		ComponentLocation = reader.ReadInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt16(componentTypeToComponentID[ComponentType]);
-		writer.WriteUInt32(NetObject);
-		writer.WriteInt32(ComponentLocation);
 	}
 }

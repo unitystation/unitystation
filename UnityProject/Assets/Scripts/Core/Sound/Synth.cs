@@ -31,7 +31,7 @@ public class Synth : MonoBehaviour, IInitialise
 			Instance = this;
 			if (!Initialized)
 			{
-				if (CustomNetworkManager.isHeadless)
+				if (CustomNetworkManager.IsHeadless)
 				{
 					enabled = false;
 					Disabled = true;

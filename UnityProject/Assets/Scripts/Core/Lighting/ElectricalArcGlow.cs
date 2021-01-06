@@ -115,6 +115,8 @@ namespace Core.Lighting
 			startTransform.localScale.Scale(new Vector3(1.25f * glowWidth, 1.25f * glowWidth, 1));
 			endTransform.localScale.Scale(new Vector3(1.25f * glowWidth, 1.25f * glowWidth, 1));
 
+			if (positions.Length < 2) return; // Don't need to calculate angle for small arc.
+
 			// Update angle of hemispherical sprite
 			Vector3 startNextPos = positions[1];
 			Vector3 endNextPos = positions[positions.Length - 2];

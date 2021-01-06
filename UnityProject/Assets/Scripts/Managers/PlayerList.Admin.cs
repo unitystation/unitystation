@@ -647,7 +647,7 @@ public partial class PlayerList
 	/// </summary>
 	/// <param name="job"></param>
 	/// <returns></returns>
-	public bool ClientCheck(JobType job)
+	public bool ClientJobBanCheck(JobType job)
 	{
 		if (Instance.clientSideBanEntries == null || Instance.clientSideBanEntries.Count == 0)
 		{

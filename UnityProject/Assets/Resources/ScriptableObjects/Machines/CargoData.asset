@@ -13,61 +13,6 @@ MonoBehaviour:
   m_Name: CargoData
   m_EditorClassIdentifier: 
   Supplies:
-  - CategoryName: Kitchen
-    Supplies:
-    - OrderName: Beer Crate
-      CreditsCost: 700
-      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      Items:
-      - {fileID: 4501053395374146654, guid: 1a8ca75092f9cdd4d9c6022e08419c9b, type: 3}
-      - {fileID: 4501053395374146654, guid: 1a8ca75092f9cdd4d9c6022e08419c9b, type: 3}
-      - {fileID: 4501053395374146654, guid: 1a8ca75092f9cdd4d9c6022e08419c9b, type: 3}
-      - {fileID: 4501053395374146654, guid: 1a8ca75092f9cdd4d9c6022e08419c9b, type: 3}
-      TotalCreditExport: 600
-    - OrderName: Meat kit
-      CreditsCost: 600
-      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      Items:
-      - {fileID: 8223452375745627725, guid: a326b8be6d37c4a4ba068dbf1c296357, type: 3}
-      - {fileID: 8223452375745627725, guid: a326b8be6d37c4a4ba068dbf1c296357, type: 3}
-      - {fileID: 8223452375745627725, guid: a326b8be6d37c4a4ba068dbf1c296357, type: 3}
-      - {fileID: 8223452375745627725, guid: a326b8be6d37c4a4ba068dbf1c296357, type: 3}
-      - {fileID: 8223452375745627725, guid: a326b8be6d37c4a4ba068dbf1c296357, type: 3}
-      - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
-      TotalCreditExport: 500
-    - OrderName: Knife kit
-      CreditsCost: 500
-      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      Items:
-      - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
-      - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
-      - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
-      TotalCreditExport: 500
-    - OrderName: Energy Crate
-      CreditsCost: 525
-      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      Items:
-      - {fileID: 198778007159947886, guid: 42541a231596b9048846974c482128fe, type: 3}
-      - {fileID: 198778007159947886, guid: 42541a231596b9048846974c482128fe, type: 3}
-      - {fileID: 198778007159947886, guid: 42541a231596b9048846974c482128fe, type: 3}
-      - {fileID: 198778007159947886, guid: 42541a231596b9048846974c482128fe, type: 3}
-      - {fileID: 198778007159947886, guid: 42541a231596b9048846974c482128fe, type: 3}
-      TotalCreditExport: 525
-    - OrderName: Better Eyes Crate
-      CreditsCost: 600
-      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      Items:
-      - {fileID: 3356521420407087850, guid: a105d8f8d8432f142ab521d175b783ec, type: 3}
-      - {fileID: 3356521420407087850, guid: a105d8f8d8432f142ab521d175b783ec, type: 3}
-      - {fileID: 3356521420407087850, guid: a105d8f8d8432f142ab521d175b783ec, type: 3}
-      - {fileID: 3356521420407087850, guid: a105d8f8d8432f142ab521d175b783ec, type: 3}
-      - {fileID: 3356521420407087850, guid: a105d8f8d8432f142ab521d175b783ec, type: 3}
-      TotalCreditExport: 525
   - CategoryName: Security
     Supplies:
     - OrderName: Handcuffs  Crate
@@ -277,17 +222,6 @@ MonoBehaviour:
       - {fileID: 359432221073519209, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}
       - {fileID: 8724836040044288808, guid: ba46a81cbd3cd9c4faea0e047fbae79f, type: 3}
       TotalCreditExport: 500
-    - OrderName: Donk Pocket Variety Crate
-      CreditsCost: 3300
-      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      Items:
-      - {fileID: 5519980735549114617, guid: b2635e9d9a9147f499bb49f9e17c6acd, type: 3}
-      - {fileID: 4137765648563881622, guid: fae7c477fdabcd24ebbffd2e9718e4c5, type: 3}
-      - {fileID: 4858025108857819275, guid: f5d5f3f9ed71a7143a3add4cdabd5234, type: 3}
-      - {fileID: 7956709455914103835, guid: f3618afa1e3d9bd439013f5b56195388, type: 3}
-      - {fileID: 5775455268267556729, guid: 973f41e593e554c4aa1e447dc63808de, type: 3}
-      TotalCreditExport: 500
     - OrderName: Wet floor signs Crate
       CreditsCost: 800
       Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
@@ -321,23 +255,120 @@ MonoBehaviour:
       - {fileID: 8062332028689852436, guid: 8edc1f3642b9f28429c21e6c30566791, type: 3}
       - {fileID: 8062332028689852436, guid: 8edc1f3642b9f28429c21e6c30566791, type: 3}
       TotalCreditExport: 500
-  - CategoryName: Botany
+  - CategoryName: Food & Hydroponics
     Supplies:
-    - OrderName: Hydroponics Crate
-      CreditsCost: 800
-      Crate: {fileID: 7906645642866107620, guid: 24c173cd0caa7b94aa4882f68ba8d78e,
+    - OrderName: Alcohol & Coffee Vendor Refills
+      CreditsCost: 2000
+      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       Items:
-      - {fileID: 11639533463445157, guid: 301047244e720e040b17d641c872719d, type: 3}
-      - {fileID: 7274953645499099385, guid: 394037cafd8e7314993ff56030057547, type: 3}
-      - {fileID: 6096225575505558569, guid: d942e8739f8acdb42b1c0d42ab2f0055, type: 3}
-      - {fileID: 6384647378213985447, guid: 851aaf2916e98034aaf889c36f96ca30, type: 3}
-      - {fileID: 7288648939973306741, guid: a26a4eff862ae144dbd1631611c063b2, type: 3}
-      - {fileID: 4089708377625794130, guid: fc9c98d2b80c5ac4388684a5417cfb3a, type: 3}
-      - {fileID: 4383293123033439814, guid: 984636f7870a4214d90dcc30fd5ea101, type: 3}
-      - {fileID: 7929132545395035327, guid: 6b278dfd25eca3a458046704b9670b4c, type: 3}
-      - {fileID: 3611557936377049867, guid: 61c1ba86edcb8f745b758d73ea4725d4, type: 3}
-      - {fileID: 326547609064969591, guid: ed3cf51f5ac908c428c083a07596e441, type: 3}
+      - {fileID: 2991859853499052220, guid: 987af98a4bcb1e24bbffa24c28dab810, type: 3}
+      - {fileID: 9142150440339612764, guid: 47d3f801b00a01447bdceb8fe2c9142a, type: 3}
+      TotalCreditExport: 750
+    - OrderName: Donk Pocket Variety Crate
+      CreditsCost: 4000
+      Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56,
+        type: 3}
+      Items:
+      - {fileID: 5775455268267556729, guid: 973f41e593e554c4aa1e447dc63808de, type: 3}
+      - {fileID: 7956709455914103835, guid: f3618afa1e3d9bd439013f5b56195388, type: 3}
+      - {fileID: 3714002003377255333, guid: 160baf50e4a27c24a8c1f40b3232c886, type: 3}
+      - {fileID: 549149814992460987, guid: e1a47ce478bf7d24dbf5ac3d3a9ced36, type: 3}
+      - {fileID: 4858025108857819275, guid: f5d5f3f9ed71a7143a3add4cdabd5234, type: 3}
+      - {fileID: 5519980735549114617, guid: b2635e9d9a9147f499bb49f9e17c6acd, type: 3}
+      - {fileID: 4137765648563881622, guid: fae7c477fdabcd24ebbffd2e9718e4c5, type: 3}
+      TotalCreditExport: 750
+    - OrderName: Dinnerware Vendor Refill
+      CreditsCost: 4000
+      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      Items:
+      - {fileID: 5003903431476434660, guid: 6368adaf461713a46813d47be62c2331, type: 3}
+      TotalCreditExport: 750
+    - OrderName: Exotic Seeds Crate
+      CreditsCost: 1500
+      Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56,
+        type: 3}
+      Items:
+      - {fileID: 223049139536807085, guid: ddaa7cb39d8f9b942961b4aae4d65658, type: 3}
+      - {fileID: 5797523842976606620, guid: 614cb7e0e128721409e9f8a61de29621, type: 3}
+      - {fileID: 7891588707496553622, guid: ab1442ccdc53ec149820ae45ec942a3a, type: 3}
+      - {fileID: 2663326238152022564, guid: ade1755b39122014e834e5d291d2179a, type: 3}
+      - {fileID: 4761385092838339003, guid: 103ef0639f3940544afdbbfc8215a99a, type: 3}
+      - {fileID: 6329053858852265869, guid: c1ce6fa13648705408c2308794f9ce69, type: 3}
+      - {fileID: 3521094987913139954, guid: 8ebe2d3c9a4ef5f4bb4e83301adadb66, type: 3}
+      - {fileID: 7690917261163495813, guid: f6b6f17027e814b4db18ad2cff338753, type: 3}
+      - {fileID: 6473116280690192913, guid: 468844fb60616b941940e0e60813be19, type: 3}
+      - {fileID: 6473116280690192913, guid: 468844fb60616b941940e0e60813be19, type: 3}
+      TotalCreditExport: 750
+    - OrderName: Hydroponics Vendor Refills
+      CreditsCost: 2000
+      Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56,
+        type: 3}
+      Items:
+      - {fileID: 6145501849856939213, guid: 7e7a11b69474c2e4098f7ec4acc9f20a, type: 3}
+      - {fileID: 5478126468329474099, guid: b52bef604c5ebf045b3549d897a08478, type: 3}
+      TotalCreditExport: 750
+    - OrderName: Imported Food Vendor Refills
+      CreditsCost: 2000
+      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      Items:
+      - {fileID: 7477498448512949268, guid: ce8d9e4648ed4794d91a815a070e4094, type: 3}
+      - {fileID: 1023378195920529956, guid: 64d6a4799de2602438ad6f10e698ec22, type: 3}
+      TotalCreditExport: 750
+    - OrderName: Ingredients Crate
+      CreditsCost: 1000
+      Crate: {fileID: 7260015131607416311, guid: ed8901b8487af7841b732663341262ca,
+        type: 3}
+      Items:
+      - {fileID: 7224261289035261362, guid: 6c21e5deee1522b4799087cdd4b610ca, type: 3}
+      - {fileID: 7224261289035261362, guid: cdc45bf0e6a41f645adcd71af48f5b5e, type: 3}
+      - {fileID: 7224261289035261362, guid: 6051ed17cb496b142b37a44e5f1fbd41, type: 3}
+      - {fileID: 7224261289035261362, guid: e965d50fb2115f5468bac98589ebf2c0, type: 3}
+      - {fileID: 7974332974296437313, guid: 9b07804f49229264f9cf01474e5d10ed, type: 3}
+      - {fileID: 7974332974296437313, guid: 70ce2fd820cf04f47b2ff97c63a78aa5, type: 3}
+      - {fileID: 1779836936379840953, guid: dbbf6d75ddede15448d4f44a35e2b6e1, type: 3}
+      - {fileID: 1520232852812707528, guid: 283a683616266a84a99465971784e0f3, type: 3}
+      - {fileID: 1282568902990284921, guid: 56e0dbfa3b6f22e41bf078cec71d7eb9, type: 3}
+      - {fileID: 8223452375745627725, guid: a326b8be6d37c4a4ba068dbf1c296357, type: 3}
+      - {fileID: 8750944094386566729, guid: b29d3b3d0eac3a84d9ef700d10f41b3a, type: 3}
+      - {fileID: 8750944094386566729, guid: b29d3b3d0eac3a84d9ef700d10f41b3a, type: 3}
+      - {fileID: 8750944094386566729, guid: b29d3b3d0eac3a84d9ef700d10f41b3a, type: 3}
+      TotalCreditExport: 750
+    - OrderName: Snack Vendor Refill
+      CreditsCost: 1500
+      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      Items:
+      - {fileID: 4889044400386516301, guid: 1673a9fc3c1434d4e96ded34f8ab2bbe, type: 3}
+      TotalCreditExport: 750
+    - OrderName: Seeds Crate
+      CreditsCost: 1000
+      Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56,
+        type: 3}
+      Items:
+      - {fileID: 7872250047666169019, guid: a8b053482da561b4eba3bd81d8fe51ab, type: 3}
+      - {fileID: 3241578132518458830, guid: f93f1ab0ed9820742b43e07cb9375aec, type: 3}
+      - {fileID: 4041351290112742493, guid: 0a1175404af7039419a7794cb4bda0d9, type: 3}
+      - {fileID: 4067919374657561001, guid: f3bdddfdb45d67a48b3be064a3169fd8, type: 3}
+      - {fileID: 6524648055843730005, guid: 4e6de775cebea9d4b959e8aea5b25b74, type: 3}
+      - {fileID: 4251335794183523180, guid: 650450916815dfb4ba0aa087a3006beb, type: 3}
+      - {fileID: 2775257405307013601, guid: e41afb7979b591443b008859f958eca6, type: 3}
+      - {fileID: 1053102236879009808, guid: 60b83b01df9880443809c84ab556dad6, type: 3}
+      - {fileID: 673951613084778289, guid: ffb8828049b890f43baeb7c15447d37b, type: 3}
+      - {fileID: 2454147907924021695, guid: e746d3505715fa14eb99a37456d99398, type: 3}
+      - {fileID: 5784119409934351270, guid: 4844235ecae1ba743ab9b40ce79104be, type: 3}
+      - {fileID: 7599149358166298399, guid: 625f31aec34e13f48a1ece855fc4fe87, type: 3}
+      - {fileID: 3279069433607158746, guid: 4f7ce98391b8ec54493a831134aa65be, type: 3}
+      - {fileID: 3655365403910077050, guid: b35a262356250504fbfa735d183f9998, type: 3}
+      TotalCreditExport: 750
+    - OrderName: Softdrink Vendor Refill
+      CreditsCost: 1000
+      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      Items:
+      - {fileID: 6786961899524531326, guid: 9ba56c018e6293b46893343ff4b8fb45, type: 3}
       TotalCreditExport: 750
   - CategoryName: Mining
     Supplies:
@@ -1186,18 +1217,6 @@ MonoBehaviour:
       TotalCreditExport: 500
   - CategoryName: Miscellaneous
     Supplies:
-    - OrderName: Monkey Crate
-      CreditsCost: 550
-      Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      Items:
-      - {fileID: 7785875528613525472, guid: 4569acb573d85cc4d851531fdaedc4d2, type: 3}
-      - {fileID: 7785875528613525472, guid: 4569acb573d85cc4d851531fdaedc4d2, type: 3}
-      - {fileID: 7785875528613525472, guid: 4569acb573d85cc4d851531fdaedc4d2, type: 3}
-      - {fileID: 7785875528613525472, guid: 4569acb573d85cc4d851531fdaedc4d2, type: 3}
-      - {fileID: 7785875528613525472, guid: 4569acb573d85cc4d851531fdaedc4d2, type: 3}
-      - {fileID: 7785875528613525472, guid: 4569acb573d85cc4d851531fdaedc4d2, type: 3}
-      TotalCreditExport: 500
     - OrderName: Robusting Crate
       CreditsCost: 1000
       Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,

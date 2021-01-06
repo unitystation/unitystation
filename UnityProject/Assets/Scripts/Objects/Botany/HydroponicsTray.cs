@@ -29,12 +29,15 @@ namespace Objects.Botany
 
 		[SerializeField] private RegisterTile registerTile;
 		[SerializeField] private bool isSoilPile = false;
-
 		[Tooltip("If this is set the plant will not grow/die over time, use it to keep wild findable plants alive")]
 		[SerializeField]
 		private bool isWild = false;
 
-		[SerializeField] private List<DefaultPlantData> potentialWeeds = new List<DefaultPlantData>();
+		[Tooltip("Chooses what plants to place in the tray if the weed level gets too high.")]
+		[SerializeField] private List<SeedPacket> potentialWeeds = new List<SeedPacket>();
+		[Tooltip("Chooses what plants to place in the tray if it is a wild tray.")]
+		[SerializeField] private List<SeedPacket> potentialWildPlants = new List<SeedPacket>();
+
 		[SerializeField] private PlantTrayModification modification = PlantTrayModification.None;
 		[SerializeField] private ReagentContainer reagentContainer = null;
 		[SerializeField] private Chemistry.Reagent nutriment = null;
@@ -73,12 +76,10 @@ namespace Objects.Botany
 
 		public void ServerInit()
 		{
-			if (isSoilPile)
+			if (isWild)
 			{
-				//only select plants that have valid produce
-				plantData = PlantData.CreateNewPlant(DefaultPlantData.PlantDictionary.Values
-					.Where(plant => plant.plantData.ProduceObject != null).PickRandom());
-				UpdatePlant(null, plantData.Name);
+				var data = potentialWildPlants[random.Next(potentialWildPlants.Count)];
+				plantData = PlantData.CreateNewPlant(data.plantData);
 				UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.FullyGrown);
 				UpdatePlantGrowthStage(growingPlantStage, plantData.GrowthSpritesSOs.Count - 1);
 				ProduceCrop();
@@ -134,7 +135,7 @@ namespace Objects.Botany
 				//Weeds checks
 				if (weedLevel < 10)
 				{
-					weedLevel = weedLevel + ((0.1f) * (plantData.WeedGrowthRate / 100f));
+					weedLevel = weedLevel + ((0.1f) * (plantData.WeedGrowthRate / 10f));
 					if (weedLevel > 10)
 					{
 						weedLevel = 10;
@@ -224,9 +225,10 @@ namespace Objects.Botany
 					}
 				}
 
-				if (plantData != null)
+				// If there is no living plant in the tray and weed level is at least 10, choose a seed from the "Potential Weeds" list to grow in the tray.
+				if (plantData == null)
 				{
-					if (weedLevel >= 10 && !plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
+					if (weedLevel >= 10)
 					{
 						var data = potentialWeeds[random.Next(potentialWeeds.Count)];
 						plantData = PlantData.CreateNewPlant(data.plantData);
@@ -373,7 +375,7 @@ namespace Objects.Botany
 					if (growingPlantStage >= plantData.GrowthSpritesSOs.Count)
 					{
 						Logger.Log(
-							$"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.Plantname}");
+							$"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.PlantName}");
 						return;
 					}
 
@@ -397,10 +399,10 @@ namespace Objects.Botany
 
 			growingPlantStage = 0;
 			plantCurrentStage = PlantSpriteStage.Dead;
+			UpdateSprite();
 			plantData = null;
 			readyProduce.Clear();
 			UpdateHarvestFlag(showHarvestFlag, false);
-			UpdateSprite();
 		}
 
 		/// <summary>
@@ -409,6 +411,7 @@ namespace Objects.Botany
 		/// </summary>
 		private void ProduceCrop()
 		{
+			//Divides the yield value by 10 and then rounds it to the nearest integer to get the amount of objects harvested.
 			for (int i = 0;
 				i < (int)Math.Round(plantData.Yield / 10f);
 				i++)
@@ -529,7 +532,6 @@ namespace Objects.Botany
 				{
 					PlantData _plantData = foodObject.GetPlantData();
 					plantData = PlantData.CreateNewPlant(_plantData);
-					UpdatePlant(null, plantData.Name);
 					UpdatePlantGrowthStage(0, 0);
 					UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
 					Inventory.ServerVanish(slot);
@@ -544,7 +546,6 @@ namespace Objects.Botany
 			if (Object != null)
 			{
 				plantData = PlantData.CreateNewPlant(slot.Item.GetComponent<SeedPacket>().plantData);
-				UpdatePlant(null, plantData.Name);
 				UpdatePlantGrowthStage(0, 0);
 				UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
 				Inventory.ServerVanish(slot);

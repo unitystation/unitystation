@@ -7,17 +7,80 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2881235331250953825, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: uses
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881235331250953825, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: useTime
+      value: 2.8
+      objectReference: {fileID: 0}
     - target: {fileID: 4128362409855863911, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 859417389fde79e4fa0051b5634b06e4,
         type: 2}
+    - target: {fileID: 7438100563850116741, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7438100563850116741, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: initialDescription
+      value: A heavy duty bar of Nanotrasen brand soap. Smells of plasma.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1546dd0b04719094487e934ba092a7f1,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b264f19b093fb1e44b454d1f8b51ee8f,
+        type: 2}
     - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 8ea87d123134e4649a89097a4ce71c6d, type: 3}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: d6c2af3c88699e146a41df8b9a15b0b8, type: 3}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 859417389fde79e4fa0051b5634b06e4,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 42296fc0903334847a740b9f100ff824, type: 3}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 714b8c6ba1929b744908be8203079222, type: 3}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: b559b3771f47a154d858fed88f6813df, type: 3}
     - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -44,16 +107,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 714b8c6ba1929b744908be8203079222, type: 3}
-    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: d6c2af3c88699e146a41df8b9a15b0b8, type: 3}
-    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: d6c2af3c88699e146a41df8b9a15b0b8,
@@ -78,47 +131,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: b559b3771f47a154d858fed88f6813df, type: 3}
-    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 42296fc0903334847a740b9f100ff824, type: 3}
-    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
       propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: 42296fc0903334847a740b9f100ff824,
         type: 3}
-    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: initialDescription
-      value: A heavy duty bar of Nanotrasen brand soap. Smells of plasma.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: 859417389fde79e4fa0051b5634b06e4,
-        type: 2}
-    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 1546dd0b04719094487e934ba092a7f1,
-        type: 2}
-    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: b264f19b093fb1e44b454d1f8b51ee8f,
-        type: 2}
     - target: {fileID: 7785875528613525472, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: m_Name
       value: SoapNanotrasen
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
@@ -137,6 +162,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -149,16 +179,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
@@ -186,5 +206,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 42296fc0903334847a740b9f100ff824,
         type: 3}
+    - target: {fileID: 8258904204275641670, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: useTime
+      value: 2.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94dfead23e20498409009e55d3dfe3ca, type: 3}

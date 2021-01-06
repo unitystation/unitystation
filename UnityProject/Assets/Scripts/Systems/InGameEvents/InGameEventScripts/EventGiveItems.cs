@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Managers;
+using Strings;
 using UnityEngine;
 
 namespace InGameEvents
@@ -49,7 +51,7 @@ namespace InGameEvents
 		{
 			if (AnnounceEvent)
 			{
-				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, announceText, CentComm.UpdateSound.alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, announceText, CentComm.UpdateSound.Alert);
 			}
 		}
 	}

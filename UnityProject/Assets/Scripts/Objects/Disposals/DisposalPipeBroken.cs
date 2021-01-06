@@ -4,15 +4,16 @@ namespace Objects.Disposals
 {
 	public class DisposalPipeBroken : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-		[SerializeField] float cutTime = 3;
+		[SerializeField]
+		private float cutTime = 3;
 
-		string objectName;
-		HandApply currentInteraction;
+		private string objectName;
+		private HandApply currentInteraction;
 
-		void Awake()
+		private void Awake()
 		{
 			objectName = gameObject.ExpensiveName();
-			if (gameObject.TryGetComponent(out ObjectAttributes attributes))
+			if (gameObject.TryGetComponent<ObjectAttributes>(out var attributes))
 			{
 				objectName = attributes.InitialName;
 			}
@@ -22,7 +23,7 @@ namespace Objects.Disposals
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return Validations.HasUsedActiveWelder(interaction);
 		}
@@ -41,7 +42,7 @@ namespace Objects.Disposals
 
 		#region Construction
 
-		void Weld()
+		private void Weld()
 		{
 			ToolUtils.ServerUseToolWithActionMessages(
 					currentInteraction, cutTime,
@@ -53,9 +54,9 @@ namespace Objects.Disposals
 			);
 		}
 
-		void DespawnBrokenPipe()
+		private void DespawnBrokenPipe()
 		{
-			Despawn.ServerSingle(this.gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion Construction

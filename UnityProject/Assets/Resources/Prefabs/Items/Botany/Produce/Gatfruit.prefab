@@ -1,194 +1,115 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7248039360948131094
+--- !u!1001 &8919294788748960216
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 2995035487439332361, guid: 9da2f8923c588ec42ab9693f707da84f,
         type: 3}
-      propertyPath: SeedPacket
-      value: 
-      objectReference: {fileID: 3896990526605736174, guid: 1c27f501d2de91541b14c641f7e8afa7,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: seedPacket
-      value: 
-      objectReference: {fileID: 3896990526605736174, guid: 1c27f501d2de91541b14c641f7e8afa7,
-        type: 3}
-    - target: {fileID: 1294793839381664232, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: fb71af3407afbf54b9eb6bb69440900e,
-        type: 2}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.size
-      value: 4
+      propertyPath: initialName
+      value: gatfruit
       objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 2995035487439332361, guid: 9da2f8923c588ec42ab9693f707da84f,
         type: 3}
-      propertyPath: Amounts.Array.size
-      value: 4
+      propertyPath: initialDescription
+      value: It smells like burning.
       objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.data[0]
-      value: sulfur
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.data[1]
-      value: carbon
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.data[2]
-      value: nitrogen
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.data[3]
-      value: potassium
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Amounts.Array.data[0]
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Amounts.Array.data[1]
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Amounts.Array.data[2]
-      value: 0.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Amounts.Array.data[3]
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 87dafaf584585424e9bda1b8d28d0b85, type: 3}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 87dafaf584585424e9bda1b8d28d0b85,
-        type: 3}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6,
-        type: 2}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_Name
-      value: Gatfruit
-      objectReference: {fileID: 0}
-    - target: {fileID: 4983833925385836507, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5066517181570930995, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 3282261839041951799, guid: 9da2f8923c588ec42ab9693f707da84f,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 87dafaf584585424e9bda1b8d28d0b85,
         type: 3}
-    - target: {fileID: 6259075970471028923, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 3282261839041951799, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380285515758663391, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421920275624577899, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_Name
+      value: Gatfruit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3987191329779353372, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: seedPacket
+      value: 
+      objectReference: {fileID: 6646600994541929486, guid: a90c31aa0c2b68c459f4442f603a996a,
+        type: 3}
+    - target: {fileID: 6821357363608144155, guid: 9da2f8923c588ec42ab9693f707da84f,
         type: 3}
       propertyPath: leavings
       value: 
       objectReference: {fileID: 4117137691947961148, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-    - target: {fileID: 6259075970471028923, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: NutritionLevel
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 7640553959568001153, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 8807639457360376044, guid: 9da2f8923c588ec42ab9693f707da84f,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fb71af3407afbf54b9eb6bb69440900e,
         type: 2}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 9da2f8923c588ec42ab9693f707da84f, type: 3}

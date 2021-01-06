@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
-using Mirror;
 using UnityEngine;
 
 public class RequestBookshelfNetMessage : ClientMessage
@@ -58,24 +57,4 @@ public class RequestBookshelfNetMessage : ClientMessage
 		msg.Send();
 		return msg;
 	}
-
-	/*public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		TheObjectToView = reader.ReadUInt32();
-		BookshelfID = reader.ReadUInt64();
-		IsNewBookshelf = reader.ReadBoolean();
-		AdminId = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(TheObjectToView);
-		writer.WriteUInt64(BookshelfID);
-		writer.WriteBoolean(IsNewBookshelf);
-		writer.WriteString(AdminId);
-		writer.WriteString(AdminToken);
-	}*/
 }

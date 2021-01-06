@@ -1,6 +1,8 @@
 ﻿using Health.Sickness;
 using Newtonsoft.Json;
 using System.Linq;
+using Managers;
+using Strings;
 using UnityEngine;
 
 namespace InGameEvents
@@ -26,7 +28,7 @@ namespace InGameEvents
 			{
 				var text = "Incoming Public Health Report:\nSome people on the station are afflicted by some disease.";
 
-				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
 		}
 
