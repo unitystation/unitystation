@@ -24,7 +24,8 @@ namespace Lobby
 		public Dictionary<BodyPart, List<SpriteHandlerNorder>> OpenBodySprites =
 			new Dictionary<BodyPart, List<SpriteHandlerNorder>>();
 
-		public Dictionary<string, BodyPartCustomisationBase> OpenBodyCustomisation = new Dictionary<string, BodyPartCustomisationBase>();
+		public Dictionary<string, BodyPartCustomisationBase> OpenBodyCustomisation =
+			new Dictionary<string, BodyPartCustomisationBase>();
 
 		public Dictionary<BodyPart, List<BodyPart>> ParentDictionary = new Dictionary<BodyPart, List<BodyPart>>();
 
@@ -118,24 +119,22 @@ namespace Lobby
 			ParentDictionary.Clear();
 
 
-
 			foreach (var OpenBodySprite in OpenBodySprites)
 			{
 				foreach (var BodySprite in OpenBodySprite.Value)
 				{
 					Destroy(BodySprite.gameObject);
 				}
-
 			}
 
 			foreach (var C in OpenBodyCustomisation)
 			{
 				Destroy(C.Value.gameObject);
 			}
+
 			OpenBodySprites.Clear();
 			OpenBodyCustomisation.Clear();
 			OpenCustomisation.Clear();
-
 		}
 
 		private void LoadSettings()
@@ -258,8 +257,13 @@ namespace Lobby
 		{
 			OpenBodySprites[Body_Part] = new List<SpriteHandlerNorder>();
 			var Sprites = Body_Part.GetBodyTypeSprites(ThisBodyType.bodyType); //Get the correct one
+
 			if (Sprites != null)
 			{
+				if (Sprites?.Item1?.Orders == null || Sprites.Item1.Orders.Count == 0)
+				{
+					Logger.LogError("Rendering order not specified on " + Body_Part.name);
+				}
 				int i = 0;
 				foreach (var SpriteData in Sprites.Item2)
 				{
@@ -298,7 +302,8 @@ namespace Lobby
 			{
 				//removeBodyCustomisation
 
-				if (removeBodyCustomisation == true && OpenBodyCustomisation[Body_Part.name].GetComponent<BodyPartDropDownReplaceOrgan>() == null)
+				if (removeBodyCustomisation == true &&
+				    OpenBodyCustomisation[Body_Part.name].GetComponent<BodyPartDropDownReplaceOrgan>() == null)
 				{
 					Destroy(OpenBodyCustomisation[Body_Part.name]);
 				}
@@ -433,7 +438,7 @@ namespace Lobby
 				referenceOffset = 3;
 			}
 
-			var Sprites = SpriteContainer.transform.GetComponentsInChildren<ISpriteOrder>();
+			var Sprites = SpriteContainer.transform.GetComponentsInChildren<SpriteHandlerNorder>();
 
 			var newSprites = Sprites.OrderByDescending(x => x.SpriteOrder.Orders[referenceOffset]).Reverse();
 
@@ -461,7 +466,7 @@ namespace Lobby
 		private void SetAllDropdowns()
 		{
 			bodyPartCustomisationStorage = new List<CustomisationStorage>(currentCharacter.SerialisedBodyPartCustom);
-			ExternalCustomisationStorage =  new List<ExternalCustomisation>(currentCharacter.SerialisedExternalCustom);
+			ExternalCustomisationStorage = new List<ExternalCustomisation>(currentCharacter.SerialisedExternalCustom);
 			if (bodyPartCustomisationStorage == null)
 			{
 				bodyPartCustomisationStorage = new List<CustomisationStorage>();
@@ -522,7 +527,7 @@ namespace Lobby
 				{
 					//Customisation.
 					var TCustomisation = OpenBodyCustomisation[GameObjectBody.name];
-					TCustomisation.Deserialise(Customisation.Data);
+					TCustomisation.Deserialise(Customisation.Data.Replace("@£","\""));
 				}
 			}
 
@@ -554,10 +559,9 @@ namespace Lobby
 
 				if (Customisation != null)
 				{
-					var TCustomisation =  OpenBodyCustomisation[Body_Part.name];
-					TCustomisation.Deserialise(Customisation.Data);
+					var TCustomisation = OpenBodyCustomisation[Body_Part.name];
+					TCustomisation.Deserialise(Customisation.Data.Replace("@£","\""));
 				}
-
 			}
 
 			if (Body_Part?.storage?.Populater?.Contents != null)
@@ -576,7 +580,6 @@ namespace Lobby
 		[NaughtyAttributes.Button()]
 		private void SaveData()
 		{
-
 			ExternalCustomisationStorage.Clear();
 			bodyPartCustomisationStorage.Clear();
 			SaveBodyPart(ThisSetRace.Base.Torso);
@@ -588,8 +591,10 @@ namespace Lobby
 			SaveBodyPart(ThisSetRace.Base.LegRight);
 
 			SaveExternalCustomisations();
-			currentCharacter.SerialisedExternalCustom = new List<ExternalCustomisation>(ExternalCustomisationStorage); ;
-			currentCharacter.SerialisedBodyPartCustom = new List<CustomisationStorage>(bodyPartCustomisationStorage); ;
+			currentCharacter.SerialisedExternalCustom = new List<ExternalCustomisation>(ExternalCustomisationStorage);
+			;
+			currentCharacter.SerialisedBodyPartCustom = new List<CustomisationStorage>(bodyPartCustomisationStorage);
+			;
 			Logger.Log(JsonConvert.SerializeObject(bodyPartCustomisationStorage));
 			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage));
 
@@ -623,7 +628,6 @@ namespace Lobby
 				bodyPartCustomisationStorage.Add(NewCustomisationStorage);
 
 				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[GameObjectBody.name]);
-
 			}
 
 
@@ -638,12 +642,13 @@ namespace Lobby
 		}
 
 
-		public void SaveCustomisations(CustomisationStorage CustomisationStorage, BodyPartCustomisationBase CustomisationObject)
+		public void SaveCustomisations(CustomisationStorage CustomisationStorage,
+			BodyPartCustomisationBase CustomisationObject)
 		{
 			var Customisations = CustomisationObject.GetComponent<BodyPartCustomisationBase>();
 
 			CustomisationStorage.Data = Customisations.Serialise();
-
+			CustomisationStorage.Data = CustomisationStorage.Data.Replace("\"", "@£");
 
 
 			//CustomisationStorage

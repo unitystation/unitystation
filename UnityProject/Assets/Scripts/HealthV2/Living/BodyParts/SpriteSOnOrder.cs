@@ -14,7 +14,13 @@ public class SpriteSOnOrder
 [System.Serializable]
 public class SpriteOrder
 {
+	[Tooltip("Down, Up, Right, Left")]
 	public List<int> Orders = new List<int>() {0, 0, 0, 0};
+
+	public SpriteOrder()
+	{
+
+	}
 
 	public SpriteOrder(SpriteOrder Order)
 	{

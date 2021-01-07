@@ -90,4 +90,71 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 		PlayerMove.PlayerScript.pushPull.VisibleState = false;
 		playerNetworkActions.ServerSpawnPlayerGhost();
 	}
+
+	protected override void OnDeathActions()
+	{
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			ConnectedPlayer player = PlayerList.Instance.Get(gameObject);
+
+			// string killerName = null;
+			// if (LastDamagedBy != null)
+			// {
+				// var lastDamager = PlayerList.Instance.Get(LastDamagedBy);
+				// if (lastDamager != null)
+				// {
+					// killerName = lastDamager.Name;
+					// AutoMod.ProcessPlayerKill(lastDamager, player);
+				// }
+			// }
+
+			// if (killerName == null)
+			// {
+				// killerName = "Stressful work";
+			// }
+
+			// string playerName = player?.Name ?? "dummy";
+			// if (killerName == playerName)
+			// {
+				// Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
+			// }
+			// else if (killerName.EndsWith(playerName))
+			// {
+				// chain reactions
+				// Chat.AddActionMsgToChat(gameObject, $" You screwed yourself up with some help from {killerName}",
+					// $"{playerName} screwed himself up with some help from {killerName}");
+			// }
+			// else
+			// {
+				// PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
+			// }
+
+			//drop items in hand
+			if (itemStorage != null)
+			{
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+			}
+
+			if (isServer)
+			{
+				//EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
+				string descriptor = null;
+				if (player != null)
+				{
+					descriptor = player.CharacterSettings?.TheirPronoun();
+				}
+
+				if (descriptor == null)
+				{
+					descriptor = "their";
+				}
+
+				Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", gameObject);
+			}
+
+			PlayerDeathMessage.Send(gameObject);
+		}
+	}
+
 }
