@@ -45,6 +45,11 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 				{
 					OnConsciousStateChangeServer.Invoke(oldState, value);
 				}
+
+				if (value == ConsciousState.DEAD)
+				{
+					Death();
+				}
 			}
 		}
 	}
@@ -77,7 +82,18 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	[CanBeNull] private MetabolismSystemV2 metabolism;
 	//public MetabolismSystemV2 Metabolism => metabolism;
 
-	private bool isDead = false;
+	private bool isDead
+	{
+		get
+		{
+			if (ConsciousState.DEAD == ConsciousState)
+			{
+				return true;
+			}
+			return false;
+		}
+	}
+
 	public bool IsDead => isDead;
 
 	public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
@@ -271,6 +287,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 				{
 					if (heart.HeartAttack == false)
 					{
+						hasAllHeartAttack = false;
 						if (ConsciousState != ConsciousState.UNCONSCIOUS)
 						{
 							ConsciousState = ConsciousState.UNCONSCIOUS;
@@ -278,6 +295,11 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 						break;
 					}
 				}
+			}
+
+			if (hasAllHeartAttack)
+			{
+				ConsciousState = ConsciousState.DEAD;
 			}
 
 		}
@@ -507,9 +529,11 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	///Death from other causes
 	public virtual void Death()
 	{
-
+		OnDeathActions();
 		//TODO: Reimplemenmt
 	}
+
+	protected abstract void OnDeathActions();
 
 	public virtual void AddSickness(Sickness sickness)
 	{

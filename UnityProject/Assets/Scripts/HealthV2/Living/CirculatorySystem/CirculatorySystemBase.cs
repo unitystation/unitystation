@@ -75,12 +75,19 @@ namespace HealthV2
 			// bloodAmount = BloodInfo.BLOOD_DEFAULT;
 		}
 
-		public virtual float AddUsefulBloodReagent(ReagentMix amount) //Return excess
+		public virtual void AddUsefulBloodReagent(ReagentMix amount) //Return excess
 		{
 			ReadyBloodPool.Add(amount);
 			//Add mechanism for recovering blood naturally
 			//ReadyBloodPool = Mathf.Min(bloodInfo.BLOOD_REAGENT_MAX, bloodReagentAmount);
-			return 0;
+			//return 0;
+		}
+
+		public void ConvertUsedBlood(float Toadd)
+		{
+			//TODOH technically violates the laws of thermodynamics but meh
+			var addAmount = healthMaster.CirculatorySystem.UseBloodPool.Take(Toadd);
+			AddUsefulBloodReagent(addAmount);
 		}
 
 		//This circulates blood around the body.
