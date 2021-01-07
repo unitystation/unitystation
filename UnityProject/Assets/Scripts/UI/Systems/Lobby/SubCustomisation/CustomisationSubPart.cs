@@ -123,9 +123,7 @@ public class CustomisationSubPart : MonoBehaviour
 		{
 			Dropdown.value = Dropdown.options.Count - 1;
 		}
-
-
-		//Refresh();
+//Refresh();
 	}
 
 	public void SetRotation(int newValue)

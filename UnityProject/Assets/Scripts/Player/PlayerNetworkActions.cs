@@ -14,6 +14,7 @@ using Systems.Atmospherics;
 using DiscordWebhook;
 using Messages.Server;
 
+
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	private static readonly StandardProgressActionConfig DisrobeProgressConfig =
@@ -185,7 +186,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else if (playerScript.playerMove.IsTrapped) // Check if trapped.
 		{
-			playerScript.PlayerSync.ServerTryEscapeContainer();
+			playerScript.PlayerSync.TryEscapeContainer();
 		}
 	}
 
@@ -495,16 +496,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//Respawn action for Deathmatch v 0.1.3
 
 	[Command]
-	public void CmdRespawnPlayer(string adminID, string adminToken)
+	public void CmdRespawnPlayer()
 	{
-		if (GameManager.Instance.RespawnCurrentlyAllowed ||
-		    PlayerList.Instance.GetAdmin(adminID, adminToken))
+		if (CustomNetworkManager.IsServer
+				|| PlayerList.Instance.IsAdmin(gameObject.Player())
+				|| GameManager.Instance.RespawnCurrentlyAllowed)
 		{
 			ServerRespawnPlayer();
-		}
-		else
-		{
-			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.");
 		}
 	}
 
@@ -523,12 +521,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerScript.mind.occupation = job;
 				break;
 			}
-		}
-
-		if (playerScript.mind.occupation == null)
-		{
-			// Might be a spectator trying to respawn themselves (when server allows this), default to Assistant
-			playerScript.mind.occupation = OccupationList.Instance.Occupations.First();
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
@@ -600,9 +592,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ServerSpawnPlayerGhost()
 	{
 		//Only force to ghost if the mind belongs in to that body
-		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
-		    playerScript.mind.bodyMobID == currentMobID && !playerScript.mind.IsGhosting)
+		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
+		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
+		    playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
@@ -866,37 +858,5 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				return;
 			}
 		}
-	}
-
-	[Command]
-	public void CmdAdminGib(GameObject toGib, string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		if (toGib == null)
-		{
-			return;
-		}
-
-		var health = toGib.GetComponent<PlayerHealth>();
-		if (health == null)
-		{
-			return;
-		}
-
-		var script = toGib.GetComponent<PlayerScript>();
-		if (script == null || script.IsDeadOrGhost)
-		{
-			return;
-		}
-
-		var message = $"{toGib.ExpensiveName()} was gibbed by {PlayerList.Instance.GetByUserID(adminId).Username}";
-
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
-
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message, "");
-
-		health.ServerGibPlayer();
 	}
 }
