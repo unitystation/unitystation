@@ -12,22 +12,19 @@ public class BodyPartSpriteAndColour : BodyPartCustomisationBase
 {
     public Color BodyPartColour = Color.white;
     public Image SelectionColourImage;
-
-
-    public TMP_Text HeadName;
-
     public Dropdown Dropdown;
-
-    public CustomisationGroup thisCustomisations;
-
-
     public List<SpriteDataSO>  OptionalSprites = new List<SpriteDataSO>();
 
     public struct ColourAndSelected
     {
 	    public string color;
-	    public string Chosen;
+	    public int Chosen;
 
+	    public ColourAndSelected(Color Color, int InChosen )
+	    {
+		    color = "#" + ColorUtility.ToHtmlStringRGB(Color);
+		    Chosen = InChosen;
+	    }
     }
 
     public override void Deserialise(string InData)
@@ -35,7 +32,7 @@ public class BodyPartSpriteAndColour : BodyPartCustomisationBase
 		var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
 
 	    ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
-
+	    Dropdown.value = ColourAnd_Selected.Chosen;
 
 
 	    Refresh();
@@ -43,16 +40,8 @@ public class BodyPartSpriteAndColour : BodyPartCustomisationBase
 
     public override string Serialise()
     {
-	    return "#" + ColorUtility.ToHtmlStringRGB(BodyPartColour);
-
-	    // Make a list of all available options which can then be passed to the dropdown box
-	    var itemOptions = OptionalSprites.Select(pcd => pcd.name).ToList();
-	    itemOptions.Sort();
-
-	    // Ensure "None" is at the top of the option lists
-	    itemOptions.Insert(0, "None");
-	    Dropdown.AddOptions(itemOptions);
-
+	    var Toreturn = new ColourAndSelected(BodyPartColour, Dropdown.value);
+	    return JsonConvert.SerializeObject(Toreturn);
     }
 
     public void RequestColourPicker()
@@ -63,14 +52,37 @@ public class BodyPartSpriteAndColour : BodyPartCustomisationBase
     public override void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
     {
 	    base.SetUp(incharacterCustomization, Body_Part, path);
+	    // Make a list of all available options which can then be passed to the dropdown box
+		var itemOptions = OptionalSprites.Select(pcd => pcd.name).ToList();
+		itemOptions.Sort();
 
+		// Ensure "None" is at the top of the option lists
+		itemOptions.Insert(0, "None");
+		Dropdown.AddOptions(itemOptions);
+		Dropdown.onValueChanged.AddListener(ItemChange);
 
+    }
+
+    public void ItemChange(int newValue)
+    {
+	    Refresh();
     }
 
     public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase)
     {
-	    ColorUtility.TryParseHtmlString(InData, out BodyPartColour);
+	    var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
+	    ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
 	    Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
+	    OptionalSprites = OptionalSprites.OrderBy(x => x?.name).ToList();
+	    if (ColourAnd_Selected.Chosen != 0)
+	    {
+		    Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetSpriteSO(OptionalSprites[ColourAnd_Selected.Chosen-1]);
+	    }
+	    else
+	    {
+		    Body_Part.RelatedPresentSprites[0].baseSpriteHandler.Empty();
+	    }
+
     }
 
 
@@ -80,10 +92,52 @@ public class BodyPartSpriteAndColour : BodyPartCustomisationBase
 	    Refresh();
     }
 
+
+    public void DropdownScrollRight()
+    {
+	    // Check if value should wrap around
+	    if (Dropdown.value < Dropdown.options.Count - 1)
+	    {
+		    Dropdown.value++;
+	    }
+	    else
+	    {
+		    Dropdown.value = 0;
+	    }
+
+	    //Refresh();
+    }
+
+    public void DropdownScrollLeft()
+    {
+	    // Check if value should wrap around
+	    if (Dropdown.value > 0)
+	    {
+		    Dropdown.value--;
+	    }
+	    else
+	    {
+		    Dropdown.value = Dropdown.options.Count - 1;
+	    }
+//Refresh();
+    }
+
     public override void Refresh()
     {
 	    //Just the first one for now
 	    RelatedRelatedPreviewSprites[0].SpriteHandler.SetColor(BodyPartColour);
 	    SelectionColourImage.color = BodyPartColour;
+
+	    if (Dropdown.value == 0)
+	    {
+		    RelatedRelatedPreviewSprites[0].SpriteHandler.Empty();
+	    }
+	    else
+	    {
+		    var ChosenOption = Dropdown.options[Dropdown.value].text;
+		    var GotOption = OptionalSprites.First(x => x.name == ChosenOption);
+		    RelatedRelatedPreviewSprites[0].SpriteHandler.SetSpriteSO(GotOption);
+	    }
+
     }
 }

@@ -21,7 +21,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.HandObject != null) return false;
 		if (interaction.TargetObject == interaction.Performer) return false;
 
-		if (interaction.TargetObject.TryGetComponent(out PlayerHealth targetPlayerHealth))
+		if (interaction.TargetObject.TryGetComponent(out LivingHealthMasterBase targetPlayerHealth))
 		{
 			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
 				targetPlayerHealth.ConsciousState == ConsciousState.DEAD) return false;
@@ -57,7 +57,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private void ServerDoCPR(GameObject performer, GameObject target)
 	{
-		target.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= OXYLOSS_HEAL_AMOUNT;
+		target.GetComponent<LivingHealthMasterBase>().CirculatorySystem.ConvertUsedBlood(OXYLOSS_HEAL_AMOUNT);
 
 		Chat.AddActionMsgToChat(
 				performer,
