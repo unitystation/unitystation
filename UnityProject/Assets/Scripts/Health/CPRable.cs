@@ -8,9 +8,6 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 	const float CPR_TIME = 5;
 	const float OXYLOSS_HEAL_AMOUNT = 7;
 
-	public float HeartbeatStrength = 25;
-
-
 	private static readonly StandardProgressActionConfig CPRProgressConfig =
 			new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
@@ -26,7 +23,8 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		if (interaction.TargetObject.TryGetComponent(out LivingHealthMasterBase targetPlayerHealth))
 		{
-			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS) return false;
+			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
+				targetPlayerHealth.ConsciousState == ConsciousState.DEAD) return false;
 		}
 
 		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
@@ -43,7 +41,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		var cardiacArrestPlayerRegister = interaction.TargetObject.GetComponent<RegisterPlayer>();
 		void ProgressComplete()
 		{
-			ServerDoCPR(interaction.Performer, interaction.TargetObject, interaction.TargetBodyPart);
+			ServerDoCPR(interaction.Performer, interaction.TargetObject);
 		}
 
 		var cpr = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
@@ -52,27 +50,14 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			Chat.AddActionMsgToChat(
 					interaction.Performer,
-					$"You begin performing CPR on {targetName}'s " + interaction.TargetBodyPart,
-					$"{performerName} is trying to perform CPR on {targetName}'s " + interaction.TargetBodyPart);
+					$"You begin performing CPR on {targetName}.",
+					$"{performerName} is trying to perform CPR on {targetName}.");
 		}
 	}
 
-	private void ServerDoCPR(GameObject performer, GameObject target,BodyPartType TargetBodyPart)
+	private void ServerDoCPR(GameObject performer, GameObject target)
 	{
-		var health = target.GetComponent<LivingHealthMasterBase>();
-
-		health.CirculatorySystem.ConvertUsedBlood(OXYLOSS_HEAL_AMOUNT);
-
-		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart))
-		{
-			var heart = BodyPart as Heart;
-			if (heart != null)
-			{
-				heart.Heartbeat(HeartbeatStrength);
-			}
-		}
-		health.GetBodyPartsInZone(TargetBodyPart);
-
+		target.GetComponent<LivingHealthMasterBase>().CirculatorySystem.ConvertUsedBlood(OXYLOSS_HEAL_AMOUNT);
 
 		Chat.AddActionMsgToChat(
 				performer,
