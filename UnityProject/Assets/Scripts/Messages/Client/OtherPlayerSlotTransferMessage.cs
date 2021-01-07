@@ -41,7 +41,7 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 		}
 
 		var progressAction = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.ItemTransfer), FinishTransfer);
-		progressAction.ServerStartProgress(playerObject.RegisterTile(), speed, playerObject);
+		progressAction.ServerStartProgress(targetObject.RegisterTile(), speed, playerObject);
 
 
 		void FinishTransfer()
