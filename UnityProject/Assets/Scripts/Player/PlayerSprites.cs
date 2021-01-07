@@ -182,20 +182,23 @@ public class PlayerSprites : MonoBehaviour
 			if (Body_Part.OptionalOrgans.Count > 0)
 			{
 				pass = false;
-				BodyPartDropDownOrgans.OnPlayerBodyDeserialise(Body_Part, null, customisationStorage.Data,
+				BodyPartDropDownOrgans.OnPlayerBodyDeserialise(Body_Part, null,
+					customisationStorage.Data.Replace("@£", "\""),
 					livingHealthMasterBase);
 			}
 
 			if (Body_Part.OptionalReplacementOrgan.Count > 0 && pass)
 			{
 				pass = false;
-				BodyPartDropDownReplaceOrgan.OnPlayerBodyDeserialise(Body_Part, customisationStorage.Data,
+				BodyPartDropDownReplaceOrgan.OnPlayerBodyDeserialise(Body_Part,
+					customisationStorage.Data.Replace("@£", "\""),
 					livingHealthMasterBase);
 			}
 
 			if (pass)
 			{
-				Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, customisationStorage.Data,
+				Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part,
+					customisationStorage.Data.Replace("@£", "\""),
 					livingHealthMasterBase);
 			}
 		}
@@ -207,15 +210,24 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
+	public IEnumerator WaitForPlayerinitialisation()
+	{
+		yield return null;
+		SetupsSprites();
+	}
+
 	public void SetupCharacterData(CharacterSettings Character)
 	{
 		ThisCharacter = Character;
+		StartCoroutine(WaitForPlayerinitialisation());
+	}
 
-
+	public void SetupsSprites()
+	{
 		foreach (var Root in livingHealthMasterBase.RootBodyPartContainers)
 		{
 			CustomisationStorage customisationStorage = null;
-			foreach (var Custom in Character.SerialisedBodyPartCustom)
+			foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
 			{
 				if (Root.name == Custom.path)
 				{
@@ -239,7 +251,7 @@ public class PlayerSprites : MonoBehaviour
 		PlayerHealthData SetRace = null;
 		foreach (var Race in RaceSOSingleton.Instance.Races)
 		{
-			if (Race.name == Character.Race)
+			if (Race.name == ThisCharacter.Race)
 			{
 				SetRace = Race;
 			}
@@ -248,16 +260,18 @@ public class PlayerSprites : MonoBehaviour
 		foreach (var Customisation in SetRace.Base.CustomisationSettings)
 		{
 			ExternalCustomisation externalCustomisation = null;
-			foreach (var EC in Character.SerialisedExternalCustom)
+			foreach (var EC in ThisCharacter.SerialisedExternalCustom)
 			{
 				if (EC.Key == Customisation.CustomisationGroup.name)
 				{
 					externalCustomisation = EC;
 				}
 			}
+
 			if (externalCustomisation == null) continue;
 
-			var SpriteHandlerNorder = Instantiate<SpriteHandlerNorder>(ToInstantiateSpriteCustomisation, CustomisationSprites.transform);
+			var SpriteHandlerNorder =
+				Instantiate<SpriteHandlerNorder>(ToInstantiateSpriteCustomisation, CustomisationSprites.transform);
 			OpenSprites.Add(SpriteHandlerNorder);
 
 			foreach (var Sprite_s in Customisation.CustomisationGroup.PlayerCustomisations)
@@ -265,12 +279,12 @@ public class PlayerSprites : MonoBehaviour
 				if (Sprite_s.Name == externalCustomisation.SerialisedValue.SelectedName)
 				{
 					SpriteHandlerNorder.SpriteHandler.SetSpriteSO(Sprite_s.SpriteEquipped);
+					SpriteHandlerNorder.SpriteOrder = new SpriteOrder(Customisation.CustomisationGroup.SpriteOrder);
 					Color setColor = Color.black;
 					ColorUtility.TryParseHtmlString(externalCustomisation.SerialisedValue.Colour, out setColor);
 					SpriteHandlerNorder.SpriteHandler.SetColor(setColor);
 				}
 			}
-
 		}
 
 

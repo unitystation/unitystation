@@ -61,6 +61,7 @@ namespace HealthV2
 
 		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
+
 			//Check what's being added and add sprites if appropriate
 			if (newImplant)
 			{
@@ -70,6 +71,7 @@ namespace HealthV2
 				implant.AddedToBody(healthMaster);
 				implant.Root = this;
 				implant.healthMaster = healthMaster;
+				int i = 0;
 				foreach (var Sprite in implant.LimbSpriteData.Sprites)
 				{
 					var Newspite = Instantiate(implant.SpritePrefab, this.transform);
@@ -82,7 +84,10 @@ namespace HealthV2
 
 					implant.RelatedPresentSprites.Add(Newspite);
 					ImplantBaseSpritesDictionary[implant].Add(Newspite);
-					Newspite.UpdateSpritesForImplant(implant, Sprite, this, implant.LimbSpriteData.SpriteOrder);
+					var newOrder = new SpriteOrder(implant.LimbSpriteData.SpriteOrder);
+					newOrder.Add(i);
+					Newspite.UpdateSpritesForImplant(implant, Sprite, this, newOrder);
+					i++;
 				}
 			}
 

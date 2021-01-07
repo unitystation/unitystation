@@ -27,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: Populater.Contents.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -40,6 +40,12 @@ PrefabInstance:
       propertyPath: Populater.Contents.Array.data[1]
       value: 
       objectReference: {fileID: 9217760166789040711, guid: 3dde9705fadbaff4dbad903670db7d08,
+        type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[2]
+      value: 
+      objectReference: {fileID: 2869098758643736549, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -83,6 +89,11 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}

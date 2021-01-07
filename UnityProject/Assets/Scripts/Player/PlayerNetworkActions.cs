@@ -594,8 +594,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ServerSpawnPlayerGhost()
 	{
 		//Only force to ghost if the mind belongs in to that body
-		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
+		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
+		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
 		    playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
