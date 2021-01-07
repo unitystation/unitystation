@@ -81,7 +81,7 @@ public class RequestInventoryTransferMessage : ClientMessage
 	/// o</param>
 	/// <param name="toSlot"></param>
 	/// <returns></returns>
-	public static void _Send(ItemSlot fromSlot, ItemSlot toSlot)
+	public static void Send(ItemSlot fromSlot, ItemSlot toSlot)
 	{
 		RequestInventoryTransferMessage msg = new RequestInventoryTransferMessage
 		{

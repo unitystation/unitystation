@@ -92,19 +92,19 @@ public class PlayerExaminationWindowUI : MonoBehaviour
 	/// <param name="slot">clicket slot</param>
 	public void TryInteract(PlayerExaminationWindowSlot slot)
 	{
-		ItemSlot playerSlot = CurrentOpenStorage.GetNamedItemSlot(slot.UI_ItemSlot.NamedSlot);
+		ItemSlot targetSlot = CurrentOpenStorage.GetNamedItemSlot(slot.UI_ItemSlot.NamedSlot);
 
 		if (slot.IsObscured || slot.IsPocket)
 		{
 			// when player clicks on obscured slot/pocket second time
 			if (slot.IsQuestionMarkActive)
 			{
-				InteractWithOtherPlayersSlot(playerSlot);
+				InteractWithOtherPlayersSlot(targetSlot);
 			}
 			// when player clicks on obscured slot/pocket first time
 			else
 			{
-				if (playerSlot.IsOccupied)
+				if (targetSlot.IsOccupied)
 					slot.SetQuestionMarkActive(true);
 				else
 					slot.SetQuestionMarkActive(false);
@@ -112,30 +112,17 @@ public class PlayerExaminationWindowUI : MonoBehaviour
 		}
 		else
 		{
-			InteractWithOtherPlayersSlot(playerSlot);
+			InteractWithOtherPlayersSlot(targetSlot);
 		}
 	}
 
 	/// <summary>
 	/// TODO interactions
 	/// </summary>
-	private void InteractWithOtherPlayersSlot(ItemSlot playerSlot)
+	private void InteractWithOtherPlayersSlot(ItemSlot targetSlot)
 	{
-		bool isHandEmpty = UIManager.Hands.CurrentSlot.ItemSlot.IsEmpty;
-		bool isTargetSlotEmpty = playerSlot.IsEmpty;
-
-		if (isHandEmpty && !isTargetSlotEmpty)
-		{
-			// TODO: try to take item
-		}
-		else if (!isHandEmpty && isTargetSlotEmpty)
-		{
-			// TODO: try to put item
-		}
-		else if (!isHandEmpty && !isTargetSlotEmpty)
-		{
-			// TODO: try to take item and drop on ground
-		}
+		var playerSlot = UIManager.Hands.CurrentSlot.ItemSlot;
+		OtherPlayerSlotTransferMessage.Send(playerSlot, targetSlot);
 	}
 
 	/// <summary>
