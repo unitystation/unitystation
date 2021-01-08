@@ -9,7 +9,7 @@ using NaughtyAttributes;
 
 namespace InGameEvents
 {
-	public class EventScrubberSurge : EventScriptBase
+	public class EventScrubberSurge : EventScriptBase, IServerSpawn
 	{
 		[Tooltip("A temporary container by which chemicals can be dispersed from.")]
 		[SerializeField]
@@ -25,9 +25,9 @@ namespace InGameEvents
 
 		private static Reagent[] allReagents;
 
-		private void Awake()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (CustomNetworkManager.IsServer == false || allReagents != null) return;
+			if (allReagents != null && allReagents.Length > 0) return;
 
 			// TODO: avoid Resources.LoadAll()
 			allReagents = Resources.LoadAll<Reagent>("ScriptableObjects/Chemistry/Reagents");
