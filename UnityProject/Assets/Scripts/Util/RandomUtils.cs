@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomUtils
+public static class RandomUtils
 {
 	public static Quaternion RandomRotation2D()
 	{
