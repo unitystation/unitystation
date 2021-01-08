@@ -22,4 +22,32 @@ public static class RandomUtils
 		Vector2 randomVector = UnityEngine.Random.insideUnitCircle;
 		return randomVector.normalized * minRadius + randomVector * (maxRadius - minRadius);
 	}
+
+	/// <summary>
+	/// Gets a random point on the main station matrix.
+	/// </summary>
+	public static Vector3Int GetRandomPointOnStation(bool avoidSpace = false, bool avoidImpassable = false)
+	{
+		var stationBounds = MatrixManager.MainStationMatrix.Bounds;
+
+		Vector3Int point = default;
+		for (int i = 0; i < 10; i++)
+		{
+			point = stationBounds.GetRandomPoint().CutToInt();
+
+			if (avoidSpace && MatrixManager.IsSpaceAt(point, CustomNetworkManager.IsServer))
+			{
+				continue;
+			}
+
+			if (avoidImpassable && MatrixManager.IsPassableAtAllMatricesOneTile(point, CustomNetworkManager.IsServer) == false)
+			{
+				continue;
+			}
+
+			break;
+		}
+
+		return point;
+	}
 }
