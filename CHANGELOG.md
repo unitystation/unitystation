@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/1/8: Fixed machine connectors spawning wrong object on deconstruct and missing sprites. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5833](https://github.com/unitystation/unitystation/pull/5833)
 * 2021/1/8: Added Carp Migration, Mice Migration and Portal Storm events. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5834](https://github.com/unitystation/unitystation/pull/5834)
 * 2021/1/8: Added a bunch more random events. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5825](https://github.com/unitystation/unitystation/pull/5825)
 * 2021/1/6: Ghost REVIVE button fixed. Ghost buttons animated. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5824](https://github.com/unitystation/unitystation/pull/5824)
