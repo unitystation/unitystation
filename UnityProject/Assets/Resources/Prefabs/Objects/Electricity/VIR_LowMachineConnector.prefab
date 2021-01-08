@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 114947796331066130}
   - component: {fileID: 114217685053654352}
   - component: {fileID: 114008051345712512}
-  - component: {fileID: 5437261449283511172}
   - component: {fileID: 114969823251644552}
   - component: {fileID: 61506100139303226}
+  - component: {fileID: 5437261449283511172}
   - component: {fileID: 114004853824327828}
   - component: {fileID: 114328546139034518}
   - component: {fileID: 2439883872327300492}
   m_Layer: 22
-  m_Name: VIR_LowVoltageMachineConnector
+  m_Name: VIR_LowMachineConnector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  machineConnectorPrefab: {fileID: 2576181618821966758, guid: d88c145d60cabfd4092f839650cea997,
+  machineConnectorPrefab: {fileID: 783131783223160221, guid: eb3039e757a51bd42aa5d92b0a3711ef,
     type: 3}
   RelatedWire: {fileID: 114008051345712512}
   ApplianceType: 9
@@ -115,31 +115,6 @@ MonoBehaviour:
   Logall: 0
   ControllingCable: {fileID: 0}
   SpriteHandler: {fileID: 5437261449283511172}
---- !u!114 &5437261449283511172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127054139694796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6904f4e88bfe5834ea84b6c258dc98f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  CanConnectTo: 
-  InNorth: 48
-  InSouth: 48
-  InWest: 48
-  InEast: 48
-  SRNorth: {fileID: 9006441355855431351}
-  SRSouth: {fileID: 5587161919529985281}
-  SRWest: {fileID: 4030849672733576823}
-  SREast: {fileID: 3563204450390301488}
-  Syncstring: 0000
-  Wire: {fileID: 114008051345712512}
 --- !u!114 &114969823251644552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +157,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5437261449283511172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127054139694796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6904f4e88bfe5834ea84b6c258dc98f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  CanConnectTo: 
+  InNorth: 48
+  InSouth: 48
+  InWest: 48
+  InEast: 48
+  SRNorth: {fileID: 9006441355855431351}
+  SRSouth: {fileID: 5587161919529985281}
+  SRWest: {fileID: 4030849672733576823}
+  SREast: {fileID: 3563204450390301488}
+  Syncstring: 0000
+  Wire: {fileID: 114008051345712512}
 --- !u!114 &114004853824327828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +270,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -351,6 +352,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -432,6 +434,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -513,6 +516,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -594,6 +598,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
