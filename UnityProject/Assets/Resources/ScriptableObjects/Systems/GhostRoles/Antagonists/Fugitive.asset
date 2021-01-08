@@ -16,9 +16,9 @@ MonoBehaviour:
   description: Survive on the station after escaping from a NanoTrasen superjail.
     Move in the shadows and keep out of sight.
   sprite: {fileID: 11400000, guid: 6f2180fedef59fb41bf603daa92a001c, type: 2}
-  respawnType: 0
+  respawnType: 1
   targetOccupation: {fileID: 11400000, guid: 664fc7dd82e0d0f4aadd3a166f9bdb23, type: 2}
-  targetAntagonist: {fileID: 0}
+  targetAntagonist: {fileID: 11400000, guid: 8e452e9949d197548ad09c2b68d7d879, type: 2}
   minPlayers: 1
   maxPlayers: 3
   timeout: 30
