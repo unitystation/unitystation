@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -38,6 +38,7 @@ namespace Systems.Spawns
 		{ JobType.DETECTIVE, SpawnPointCategory.Detective },
 		{ JobType.LAWYER, SpawnPointCategory.Lawyer },
 
+		{ JobType.CHIEF_ENGINEER, SpawnPointCategory.EngineeringHead },
 		{ JobType.ENGINEER, SpawnPointCategory.Engineering },
 		{ JobType.ENGSEC, SpawnPointCategory.Engineering },
 		{ JobType.ATMOSTECH, SpawnPointCategory.Atmos },
