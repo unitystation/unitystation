@@ -7,6 +7,7 @@ using UI.CharacterCreator;
 using UnityEngine;
 using UnityEngine.Serialization;
 using NaughtyAttributes;
+using Managers;
 
 namespace GameModes
 {

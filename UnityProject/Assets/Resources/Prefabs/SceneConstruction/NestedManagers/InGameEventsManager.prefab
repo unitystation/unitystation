@@ -352,6 +352,58 @@ MonoBehaviour:
   maxStrength: 1500
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
+--- !u!1 &2961505858790993329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8107459317429369441}
+  - component: {fileID: 2610571774784088097}
+  m_Layer: 0
+  m_Name: PowernetCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8107459317429369441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2961505858790993329}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2610571774784088097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2961505858790993329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d9861a6eb83a744995f87f0c1bb7a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Powernet Check
+  StartTimer: 0
+  EndTimer: 60
+  EventType: 1
+  ChanceToHappen: 10
+  MinPlayersToTrigger: 1
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
 --- !u!1 &2976795245637686985
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +468,11 @@ Transform:
   - {fileID: 5866069805973481999}
   - {fileID: 2229250345173143171}
   - {fileID: 698688857389952623}
+  - {fileID: 1590283313530423313}
+  - {fileID: 4130085576290714883}
+  - {fileID: 8107459317429369441}
+  - {fileID: 2967834443619550631}
+  - {fileID: 7644278449202499015}
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -554,6 +611,58 @@ MonoBehaviour:
   FakeEvent: 0
   AnnounceEvent: 1
   blobAntag: {fileID: 11400000, guid: 4e33e3c5bcb99b34cbab164bcfa68951, type: 2}
+--- !u!1 &4778382546232297221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4130085576290714883}
+  - component: {fileID: 5844188118944054632}
+  m_Layer: 0
+  m_Name: ElectricalStorm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4130085576290714883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4778382546232297221}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5844188118944054632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4778382546232297221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782345698547dfb4eac9b38e8f60a5de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Electrical Storm
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
 --- !u!1 &4938991384554239466
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,6 +695,58 @@ Transform:
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6093678303304513412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2967834443619550631}
+  - component: {fileID: 1734058573413260740}
+  m_Layer: 0
+  m_Name: ProcessorOverload
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2967834443619550631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6093678303304513412}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1734058573413260740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6093678303304513412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e298447b3cc14964db9fba631c1d394d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Processor Overload
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
 --- !u!1 &6744402598111110196
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,6 +1039,58 @@ MonoBehaviour:
   itemList:
   - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
   announceText: A gift from the gods!
+--- !u!1 &8370716410027618602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1590283313530423313}
+  - component: {fileID: 6462514027336449978}
+  m_Layer: 0
+  m_Name: CommsBlackout
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1590283313530423313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370716410027618602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6462514027336449978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370716410027618602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5efd24f9ec367e42949ed8086f70879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Communications Blackout
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
 --- !u!1 &8929341582706713524
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,7 +1141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerEventInterval: 1200
-  chanceItIsFake: 50
+  chanceItIsFake: 20
   RandomEventsAllowed: 1
   minPlayersForRandomEventsToHappen: 5
   EnumListCache: []
@@ -1000,3 +1213,61 @@ Transform:
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9019151151982202521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7644278449202499015}
+  - component: {fileID: 5219137714795788897}
+  m_Layer: 0
+  m_Name: ScrubberSurge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7644278449202499015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9019151151982202521}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5219137714795788897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9019151151982202521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71eaa0e8f701f82478bc2e15b2690d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Scrubber Surge
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 0
+  reagentContainer: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
+    type: 3}
+  dispersionAgents:
+  - {fileID: 11400000, guid: 89e87c0935d40e6249cef390e612f90a, type: 2}
+  - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
+  spawnDelayRange: {x: 3, y: 10}
