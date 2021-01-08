@@ -31,7 +31,7 @@ namespace InGameEvents
 		{
 			if (AnnounceEvent)
 			{
-				var text = "Massive blespace anomaly detected en route to your station. Brace for impact.";
+				var text = "Massive bluespace anomaly detected en route to your station. Brace for impact.";
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
