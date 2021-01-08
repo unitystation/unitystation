@@ -235,6 +235,59 @@ MonoBehaviour:
   minStrength: 1000
   maxStrength: 1500
   timeBetweenExplosions: 0.25
+--- !u!1 &2176390301219290958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318916917475401147}
+  - component: {fileID: 7849438823070064729}
+  m_Layer: 0
+  m_Name: Fugitives
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1318916917475401147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2176390301219290958}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7849438823070064729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2176390301219290958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e60c8a1f7899e2408bce7cd56fb3d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Fugitives
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 1
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  ghostRole: {fileID: 11400000, guid: af2384fe291fd1e469745e1438edc9e4, type: 2}
 --- !u!1 &2185954026833562878
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +317,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8688883408302241468
 MonoBehaviour:
@@ -283,7 +336,7 @@ MonoBehaviour:
   EndTimer: 0
   EventType: 1
   ChanceToHappen: 10
-  MinPlayersToTrigger: 0
+  MinPlayersToTrigger: 15
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
@@ -305,6 +358,61 @@ MonoBehaviour:
   - {fileID: 4827737755655954553, guid: 8eb9df99f3d2dd54cab91b4d69a4fe56, type: 3}
   - {fileID: 4827737755655954553, guid: 017526359d2bfe146bc0bc49c7dd25cb, type: 3}
   mobCount: {x: 5, y: 10}
+--- !u!1 &2330691836870820202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1614149104379286000}
+  - component: {fileID: 1444185421979299837}
+  m_Layer: 0
+  m_Name: RadiationStorm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1614149104379286000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2330691836870820202}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1444185421979299837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2330691836870820202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6530a412ec3f61e4ab316ba7c6e27681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Radiation Storm
+  StartTimer: 10
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 1
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  radiationSourcePrefab: {fileID: 17891910219878129, guid: 8eba7f110a40abb4891c1a0b3412faa3,
+    type: 3}
+  numberOfStorms: {x: 10, y: 20}
 --- !u!1 &2418359854451674301
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,7 +618,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2610571774784088097
 MonoBehaviour:
@@ -600,10 +708,12 @@ Transform:
   - {fileID: 6740344816744190755}
   - {fileID: 1590283313530423313}
   - {fileID: 4130085576290714883}
+  - {fileID: 1318916917475401147}
   - {fileID: 1368603534518432520}
   - {fileID: 6017755624213906674}
   - {fileID: 8107459317429369441}
   - {fileID: 2967834443619550631}
+  - {fileID: 1614149104379286000}
   - {fileID: 7644278449202499015}
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 0
@@ -856,7 +966,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2934142359551454669
 MonoBehaviour:
@@ -948,7 +1058,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1734058573413260740
 MonoBehaviour:
@@ -1466,7 +1576,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5219137714795788897
 MonoBehaviour:

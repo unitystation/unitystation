@@ -54,23 +54,7 @@ namespace InGameEvents
 		private IEnumerator SpawnMob()
 		{
 			yield return WaitFor.Seconds(Random.Range(0, 5));
-			new SpawnByPortal(mobsToSpawn.PickRandom(), portalPrefab, GetRandomPoint(), portalSettings);
-		}
-
-		private Vector3Int GetRandomPoint()
-		{
-			var stationBounds = MatrixManager.MainStationMatrix.Bounds;
-
-			Vector3Int point = default;
-			for (int i = 0; i < 10; i++)
-			{
-				point = stationBounds.GetRandomPoint().CutToInt();
-				if (MatrixManager.IsSpaceAt(point, true)) continue;
-				if (MatrixManager.IsPassableAtAllMatricesOneTile(point, true) == false) continue;
-				break;
-			}
-
-			return point;
+			new SpawnByPortal(mobsToSpawn.PickRandom(), portalPrefab, RandomUtils.GetRandomPointOnStation(true, true), portalSettings);
 		}
 	}
 }
