@@ -71,6 +71,17 @@ public partial class Chat : MonoBehaviour
 				continue;
 			}
 
+			// A temporary solution until proper telecomms is implemented
+			if (Channels.RadioChannels.HasFlag(channel))
+			{
+				if (InGameEvents.EventCommsBlackout.CommsDown) return;
+
+				if (InGameEvents.EventProcessorOverload.ProcessorOverload)
+				{
+					chatEvent.message = InGameEvents.EventProcessorOverload.ProcessMessage(chatEvent.message);
+				}
+			}
+
 			chatEvent.channels = channel;
 			Instance.addChatLogServer.Invoke(chatEvent);
 			discordMessageBuilder.Append($"[{channel}] ");

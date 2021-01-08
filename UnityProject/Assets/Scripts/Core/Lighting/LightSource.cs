@@ -46,7 +46,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private ItemTrait traitRequired;
 	private GameObject itemInMount;
-	private float integrityThreshBar;
+	public float integrityThreshBar { get; private set; }
 
 	[SerializeField]
 	private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
