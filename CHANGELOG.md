@@ -2,6 +2,10 @@
 ---
 
 
+* 2021/1/8: Added the Radiation Storm and Fugitives event. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5838](https://github.com/unitystation/unitystation/pull/5838)
+* 2021/1/8: Added potted plant crate to Food and Hydroponics category in cargo. by [PetMudstone](https://github.com/PetMudstone) in PR #[5837](https://github.com/unitystation/unitystation/pull/5837)
+* 2021/1/8: Fixed machine connectors spawning wrong object on deconstruct and missing sprites. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5833](https://github.com/unitystation/unitystation/pull/5833)
+* 2021/1/8: Added Carp Migration, Mice Migration and Portal Storm events. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5834](https://github.com/unitystation/unitystation/pull/5834)
 * 2021/1/8: Added a bunch more random events. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5825](https://github.com/unitystation/unitystation/pull/5825)
 * 2021/1/6: Ghost REVIVE button fixed. Ghost buttons animated. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5824](https://github.com/unitystation/unitystation/pull/5824)
 * 2021/1/6: Added ability for soap to clean floors and to slowly get used up every time it's used to clean. by [PetMudstone](https://github.com/PetMudstone) in PR #[5821](https://github.com/unitystation/unitystation/pull/5821)
