@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using DatabaseAPI;
 using Initialisation;
 using Mirror;
@@ -85,7 +86,10 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 		Instance.ToloadeCount = LoadCatalogues.Count;
 		foreach (var Catalogue in LoadCatalogues)
 		{
-			var Task = Addressables.LoadContentCatalogAsync(Catalogue);
+
+			HttpClient client = new HttpClient();
+			string result = await client.GetStringAsync(Catalogue);
+			var Task = Addressables.LoadContentCatalogAsync(result);
 			await Task.Task;
 			Instance.AssetBundleDownloadDependencies(Task, RegisterComplete);
 		}
