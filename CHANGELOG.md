@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/1/10: Added drink animations. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5851](https://github.com/unitystation/unitystation/pull/5851)
 * 2021/1/8: Added the Radiation Storm and Fugitives event. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5838](https://github.com/unitystation/unitystation/pull/5838)
 * 2021/1/8: Added potted plant crate to Food and Hydroponics category in cargo. by [PetMudstone](https://github.com/PetMudstone) in PR #[5837](https://github.com/unitystation/unitystation/pull/5837)
 * 2021/1/8: Fixed machine connectors spawning wrong object on deconstruct and missing sprites. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5833](https://github.com/unitystation/unitystation/pull/5833)
