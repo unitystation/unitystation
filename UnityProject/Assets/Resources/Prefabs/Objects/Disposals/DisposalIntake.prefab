@@ -59,6 +59,25 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+--- !u!114 &4765380784658319094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781006999364248419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChangingSO: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
+  spriteHandlers:
+  - {fileID: 6550372072434207161}
 --- !u!114 &5007995467691140660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +142,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -138,6 +162,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -150,16 +179,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -193,12 +212,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f07145802fad622419c4092f91dc468e,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Sprites.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
-      propertyPath: Sprites.Array.size
+      propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
@@ -212,12 +237,6 @@ PrefabInstance:
       propertyPath: SubCatalogue.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 637db9ce2c1e25e42872b57353b4f61d,
-        type: 2}
-    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: f07145802fad622419c4092f91dc468e,
         type: 2}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -259,3 +278,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1347533324463388387}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6550372072434207161 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
