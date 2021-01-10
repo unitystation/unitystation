@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,18 +7,17 @@ using Mirror;
 
 namespace Chemistry.Components
 {
-	[System.Serializable]
+	[Serializable]
 	public class ContainerCustomSprite
 	{
 		public string CustomName;
 		[TextArea]
 		public string CustomDescription = "";
-		public Sprite MainSprite;
+		public SpriteDataSO MainSpriteSO;
 	}
 
-	[System.Serializable]
-	public class DictionaryReagentCustomSprite
-		: SerializableDictionary<Chemistry.Reagent, ContainerCustomSprite>
+	[Serializable]
+	public class DictionaryReagentCustomSprite : SerializableDictionary<Reagent, ContainerCustomSprite>
 	{
 
 	}
@@ -28,10 +28,12 @@ namespace Chemistry.Components
 		[SerializeField]
 		private DictionaryReagentCustomSprite spritesData = new DictionaryReagentCustomSprite();
 
-		public ContainerCustomSprite Get(Chemistry.Reagent reagent)
+		public ContainerCustomSprite Get(Reagent reagent)
 		{
 			if (spritesData.ContainsKey(reagent))
+			{
 				return spritesData[reagent];
+			}
 
 			return null;
 		}
@@ -39,7 +41,7 @@ namespace Chemistry.Components
 		public ContainerCustomSprite Get(int reagentNameHash)
 		{
 			var pair = spritesData.FirstOrDefault((p) =>
-				p.Key.Name.GetStableHashCode() == reagentNameHash);
+					p.Key.Name.GetStableHashCode() == reagentNameHash);
 			return pair.Value;
 		}
 	}

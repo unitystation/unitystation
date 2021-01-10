@@ -20,7 +20,7 @@ namespace Chemistry.Components
 		public SpriteRenderer mainSpriteRender;
 		public MorphableReagentContainerData data;
 
-		private Chemistry.Reagent majorReagent;
+		private Reagent majorReagent;
 		[SyncVar(hook = "OnMajorReagentChanged")]
 		private int majorReagentNameHash = NoMajorReagent;
 
@@ -91,7 +91,7 @@ namespace Chemistry.Components
 		[Client]
 		private void ShowVisualisation(ContainerCustomSprite spriteData)
 		{
-			mainSpriteHandler.SetSprite(spriteData.MainSprite);
+			mainSpriteHandler.SetSpriteSO(spriteData.MainSpriteSO);
 			if (fillVisual && fillVisual.fillSpriteRender)
 				fillVisual.fillSpriteRender.gameObject.SetActive(false);
 
