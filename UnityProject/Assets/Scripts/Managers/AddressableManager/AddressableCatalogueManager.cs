@@ -87,11 +87,21 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 		foreach (var Catalogue in LoadCatalogues)
 		{
 
-			HttpClient client = new HttpClient();
-			string result = await client.GetStringAsync(Catalogue);
-			var Task = Addressables.LoadContentCatalogAsync(result);
-			await Task.Task;
-			Instance.AssetBundleDownloadDependencies(Task, RegisterComplete);
+			if (Catalogue.Contains("http"))
+			{
+				HttpClient client = new HttpClient();
+				string result = await client.GetStringAsync(Catalogue);
+				var Task = Addressables.LoadContentCatalogAsync(result);
+				await Task.Task;
+				Instance.AssetBundleDownloadDependencies(Task, RegisterComplete);
+			}
+			else
+			{
+				var Task = Addressables.LoadContentCatalogAsync(Catalogue);
+				await Task.Task;
+				Instance.AssetBundleDownloadDependencies(Task, RegisterComplete);
+			}
+
 		}
 	}
 
