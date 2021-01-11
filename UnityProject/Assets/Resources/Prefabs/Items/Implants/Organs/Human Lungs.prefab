@@ -13,25 +13,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthMaster: {fileID: 0}
+  RelatedPresentSprites: []
   storage: {fileID: 6924831777124808690}
   bodyPartType: 9
   containBodyParts: []
-  maxHealth: 100
   efficiency: 1
   isDimorphic: 0
-  gender: 0
-  maleSprite: []
-  femaleSprite: []
-  limbSpriteData:
-  - {fileID: 0}
+  BodyTypesSprites:
+    SpriteOrder:
+      Orders: 00000000000000000000000000000000
+    BodyTypes: []
   Root: {fileID: 0}
   ContainedIn: {fileID: 0}
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
+  BodySpriteSet: 0
+  LobbyCustomisation: {fileID: 0}
+  optionalOrgans: []
+  OptionalReplacementOrgan: []
   isBloodReagentConsumed: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  bloodReagentConsumed: 0.15
+  _bloodReagentConsumed: 0.1
+  bloodReagentProcessed: 0.15
   bloodReagentStoreAmount: 0.01
+  NutrimentConsumption: 0.02
+  NutrimentPassiveConsumption: 0.001
+  BloodContainer: {fileID: 0}
+  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+  TotalModified: 1
   BodyPartArmour:
     Melee: 0
     Bullet: 0
@@ -56,8 +65,11 @@ MonoBehaviour:
     Bio: 0
   SubOrganDamageIncreasePoint: 50
   DamageContributesToOverallHealth: 1
+  DamageEfficiencyMultiplier: 1
+  maxHealth: 100
   breatheCooldown: 4
   reagentSafeMin: 16
+  LungProcessAmount: 10
 --- !u!1001 &1441624991261802461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65,6 +77,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a6ca9a236adba34e83648a9bc942adc,
+        type: 2}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -74,6 +92,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Human Lungs
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -92,6 +115,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -104,16 +132,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -136,9 +154,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 039e529d92ae93549b9762b1afb9b916,
         type: 3}
-    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    - target: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: initialTraits.Array.size
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
@@ -148,13 +166,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: initialDescription
       value: A pair of human lungs... Rather spongey.
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: initialSize
-      value: 2
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
