@@ -136,27 +136,27 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public ObjectBehaviour OBehavior => objectBehaviour;
 
 
-	public float MaxNutrimentLevel = 30;
+	// public float MaxNutrimentLevel = 30;
 
-	public float NutrimentLevel = 20;
+	// public float NutrimentLevel = 20;
 
 	public HungerState hungerState => CalculateHungerState();
 
 	public HungerState CalculateHungerState()
 	{
 		//hummm
-		if (MaxNutrimentLevel < NutrimentLevel)
-		{
-			return HungerState.Full;
-		}
-		else if (NutrimentLevel != 0)
-		{
-			return HungerState.Normal;
-		}
-		else if (NutrimentLevel == 0)
-		{
-			return HungerState.Starving;
-		}
+		// if (MaxNutrimentLevel < NutrimentLevel)
+		// {
+			// return HungerState.Full;
+		// }
+		// else if (NutrimentLevel != 0)
+		// {
+			// return HungerState.Normal;
+		// }
+		// else if (NutrimentLevel == 0)
+		// {
+			// return HungerState.Starving;
+		// }
 
 		return HungerState.Normal;
 	}
