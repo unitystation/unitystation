@@ -17,11 +17,12 @@ You should have the following windows open. To open a window, to the __Window__ 
 
 ### Introduction to Scenes
 Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one. 
-1. Open an existing scene: UnityProject > Assets > Scenes > Mainstations > TestStation
-1. Make sure you have your Scene window focused
-1. Look around the Scene with the [Hand Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html) and to move prefabs around the Scene, use the [Move Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html)
 
-
+<ol>
+<li>Open an existing scene: UnityProject > Assets > Scenes > Mainstations > TestStation</li>
+<li>Make sure you have your Scene window focused</li>
+<li> Look around the Scene with the <a href="https://docs.unity3d.com/Manual/SceneViewNavigation.html">Hand Tool</a>. To move prefabs around the Scene, use the <a href="https://docs.unity3d.com/Manual/SceneViewNavigation.html">Move Tool</a></li>
+</ol>
 Notice that in the Hierarchy window selecting _TestStation_ selects the entire station, but not other shuttles, etc.
 You can save maps and areas as [prefabs](https://docs.unity3d.com/Manual/Prefabs.html) by dragging them from the Hierarchy tab into the Project tab.
 
@@ -76,8 +77,10 @@ Not necessary for mapping purposes.
 
 ## Creating a MainStation Map
 
-
 ### Part 1 - Populating Underfloor And Electrical Items
+
+#### Electrical
+
 1.	Copy and paste the TestStation Scene inside Asset/Scenes Folder, do not have Unity open when you do this. Be sure to relabel the TestStation Matrix!!!
 1.	Delete all the objects in the Object Layer of the MainStation, then open up the Tile Palette, erase all the tiles, select base floors and begin the process of painting the tiles to make up the Station.
 1.	Next you will want to designate where the departments should go and how big they should be. Move the spawn points to generally mark out the areas so you can keep track of where everything is going. How you approach the rest is up to you, Part 2 and 3 below is a suggested method for you to use if you wish.
@@ -86,6 +89,8 @@ Consider then mapping in all the power cables, atmos pipes and disposal pipes. T
 UnityStation’s Electrical Wiring differs from base SS13. Follow the guide below to make sure you correctly hook everything up.
 ![](../assets/images/HowToMap/wire_connections.png)
 Make sure to always put a machine connector (white square in diagram) on the lower voltage side of the device. If you are still stuck, consult the wiring on TestStation Scene in the Electrical Testing Area and inspect the relevant prefabs.
+
+#### Atmospherics
 
 ![](../assets/images/HowToMap/atmos_pipes.png)
 
@@ -98,7 +103,14 @@ The **atmos pipes** are colour coded to help keep track of a specific function, 
 * Green – Connects to Red Pipes has Filter prefabs littered through is section to filter out each gas to its specific canister chamber
 * Orange/Yellow – Connects to pumps to pump out gas from a particular gas chamber, yellow pipes connect up to the end of the Green and Blue pipes
 
-Make sure that the pumps to do with the air are turned on and that all the canisters in the chamber rooms have been set to open in the prefab, otherwise no gas will flow.
+The atmos prefabs have been laid out so you do not need to tinker too much with them, be sure to select the right one for the job. Here is a general guide to explain what prefab does what.
+
+* **GasFlowMeter** to be attached to pipes inside the atmos department, **GasFlowMeterAtmosWasteLoop** to attach to red pipes outside of the atmos department and **GasFlowMeterDistrubutionLoop** to attach to blue pipes outside of the atmos department
+* **GasFilter(GAS-NAME)** and **GasFilter(GAS-NAME)Flipped** are filter prefabs which sit on an empty tile connected to tiled pipes. They filter a particular gas out, usually into a designated atmos room.
+* **GasMixerAirMixer**, **GasMixerOff**, **GasMixerOffFlipped**, **GasMixerOn**, **GasMixerOnFlipped** are mixer prefabs which mixes two gases together in a particular proportion. The "Air" that the crew breathes on the station has been deliberately set in the AirMixer, make sure you use that one in the department.
+* **GasPumpOn**, **GasPumpOff** are the pump prefabs which are set to be on and off when the round starts.
+
+#### Disposals
 
 The **Disposal System** is straightforward to map in if do the following steps. Be sure to connect the  **ConveyorSwitch** prefab to the relevant **ConveyorBelt** prefabs.
 
@@ -112,7 +124,7 @@ The **Disposal System** is straightforward to map in if do the following steps. 
 To help with completing Part 3, click and drag all prefabs onto the scene, select them all in the Hierarchy and drag them into the Matrix’s Object layer when you feel you are finished.
 
 1.	Add in the Walls to designate the rooms, relevant floor tiles and tables to populate the rooms. Remember that floor tiles are not present in maintenance areas, unless it is in a room coming from a corridor.
-1.	To place objects into a scene search in the File manager with the prefab filter on, then click and drag the prefab onto the scene. All objects you place will need to go on the Station Matrix’s Object layer in the Hierarchy. IMPORTANT: make sure you keep consistent unique number or attach an “_name” (e.g. APC_Kitchen), this will help a lot when you need to add in references to other prefabs, as you can tell them apart.
+1.	To place objects into a scene search in the File manager with the prefab filter on, then click and drag the prefab onto the scene. All objects you place will need to go on the Station Matrix’s Object layer in the Hierarchy. (To avoid having to click and drag the list of prefabs into the object layer, highlight all the objects, click *cut* and then right click on the *Object Layer* and select **Paste as Child**). IMPORTANT: make sure you keep consistent unique number or attach an “_name” (e.g. APC_Kitchen), this will help a lot when you need to add in references to other prefabs, as you can tell them apart.
 
 ![](../assets/images/HowToMap/search_for_prefab.png)
 
@@ -130,9 +142,16 @@ Various objects which already have directional facing logic, such as wallmounts 
 ### Map Tips
 Here are some general tips to help you get when mapping in UnityStation:
 - Do not attempt to try and finish your map from scratch in one sitting, it is better if you break it down into sections.
+
 - If you find yourself unable to place tiles from the Tile Palette and are receiving a ton of warnings, it may be because you are missing a layer in the matrix. Duplicate an existing layer in the matrix and perform the necessary changes before trying to place anymore tiles.
+
 - Attaching an APC can be quite tedious, but can be made a lot easier if you place the APC first, relabel it and then attach the APCPoweredDevice by moving it close to the APC and hitting the Auto Connect Button.
-![](../assets/images/HowToMap/APC_autoconnect.gif)
+  ![](../assets/images/HowToMap/APC_autoconnect.gif)
+
+- If you have a lot of APCPowered Objects you need to connect, you can also connect them up by first turning on the *Gizmo* called *APCPoweredDevice* to show that the prefab is correctly disconnected and then scrolling through the APC prefab to find the **APC (script)** component and then click **Begin Selecting**. Remember to hit **Stop Selecting** when you are done, all the connections are listed in the Connected Devices in the same component, if you want to validate you have selected them all. 
+
+  ![](../assets/images/HowToMap/APC_multi_select.gif)
+
 - Make sure for jobs that will have 2 or more signing up to them that you have placed multiple spawn points in the department – this ensures that players do not spawn ontop of each other. To do this, copy an existing spawn point inside the SpawnPointsV2 object, alter its position and spawn name.
 
 ![](../assets/images/HowToMap/spawn_points.PNG)
