@@ -27,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: Populater.Contents.Array.size
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -47,6 +47,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2869098758643736549, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[3]
+      value: 
+      objectReference: {fileID: 7224950701661798677, guid: 5c61c3c9e64efa740accb280f8923222,
+        type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[4]
+      value: 
+      objectReference: {fileID: 2299572021521899153, guid: 43e80b782d31dac4384d245df9f34dcd,
+        type: 3}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: isSurface
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: isDimorphic

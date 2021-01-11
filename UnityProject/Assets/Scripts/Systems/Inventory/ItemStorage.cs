@@ -107,7 +107,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		ItemSlot.Free(this);
 	}
 
-
 	public bool ServerTrySpawnAndAdd(GameObject InGameObject)
 	{
 		var spawned = Spawn.ServerPrefab(InGameObject);
