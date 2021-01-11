@@ -7,7 +7,4 @@ public enum StepType
 	Barefoot,
 	Claw,
 	Shoes,
-	Suit,
-	Heavy,
-	Clown
 }
