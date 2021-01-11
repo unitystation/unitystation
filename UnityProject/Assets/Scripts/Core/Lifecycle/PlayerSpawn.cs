@@ -72,8 +72,6 @@ public static class PlayerSpawn
 
 		var player = oldBody.Player();
 		var oldGhost = forMind.ghost;
-		forMind.stepType = GetStepType(player.Script);
-
 		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null);
 
 		if (oldGhost)
@@ -97,7 +95,6 @@ public static class PlayerSpawn
 		var occupation = forMind.occupation;
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
-		forMind.stepType = GetStepType(forMind.body);
 
 		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false);
 	}
@@ -468,19 +465,19 @@ public static class PlayerSpawn
 
 	private static StepType GetStepType(PlayerScript player)
 	{
-		if (player == null || player.Equipment == null)
-		{
-			return StepType.Barefoot;
-		}
-
-		if (player.Equipment.GetClothingItem(NamedSlot.outerwear)?.gameObject.GetComponent<StepChanger>() != null)
-		{
-			return StepType.Suit;
-		}
-		else if (player.Equipment.GetClothingItem(NamedSlot.feet) != null)
-		{
-			return StepType.Shoes;
-		}
+		// if (player == null || player.Equipment == null)
+		// {
+		// 	return StepType.Barefoot;
+		// }
+		//
+		// if (player.Equipment.GetClothingItem(NamedSlot.outerwear)?.gameObject.GetComponent<StepChanger>() != null)
+		// {
+		// 	return StepType.Suit;
+		// }
+		// else if (player.Equipment.GetClothingItem(NamedSlot.feet) != null)
+		// {
+		// 	return StepType.Shoes;
+		// }
 
 		return StepType.Barefoot;
 	}

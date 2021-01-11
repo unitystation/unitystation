@@ -10,7 +10,10 @@ using UnityEngine.Tilemaps;
 public abstract class BasicTile : LayerTile
 {
 	[Tooltip("What it sounds like when walked over")] [ShowIf(nameof(passable))]
-	public FloorTileType floorTileType = FloorTileType.floor;
+	public FloorSounds floorTileSounds;
+
+	[Tooltip("can the sounds specified be overridden by objects like clown shoes")]
+	public bool CanSoundOverride = false;
 
 	[Tooltip("Allow gases to pass through the cell this tile occupies?")]
 	[FormerlySerializedAs("AtmosPassable")]

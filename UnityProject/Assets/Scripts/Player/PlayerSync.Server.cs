@@ -589,9 +589,7 @@ public partial class PlayerSync
 		if (!playerScript.IsGhost)
 		{
 			playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
-
-			//Jester
-			//SoundManager.FootstepAtPosition(nextState.WorldPosition, playerScript.mind.stepType, gameObject);
+			FootstepSounds.PlayerFootstepAtPosition(nextState.WorldPosition, this);
 		}
 
 		return nextState;
