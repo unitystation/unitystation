@@ -162,9 +162,13 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		//Aren't these set up with sync vars? Why are they set like this?
 		//They don't appear to ever get synced either.
-		RunSpeed = 1;
-		WalkSpeed = 1;
-		CrawlSpeed = 0f;
+		if (PlayerScript.IsGhost == false)
+		{
+			RunSpeed = 1;
+			WalkSpeed = 1;
+			CrawlSpeed = 0f;
+		}
+
 	}
 
 	public override void OnStartClient()
@@ -443,7 +447,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		playerScript?.PlayerSync?.RollbackPrediction();
 	}
 
-	private readonly List<IMovementEffect> MovementAffects = new List<IMovementEffect>();
+	private readonly HashSet<IMovementEffect> MovementAffects = new HashSet<IMovementEffect>();
 
 
 	public interface IMovementEffect

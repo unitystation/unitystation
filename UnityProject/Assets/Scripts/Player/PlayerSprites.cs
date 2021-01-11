@@ -66,6 +66,8 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 
 	public readonly List<SpriteHandlerNorder> OpenSprites = new List<SpriteHandlerNorder>();
 
+	public readonly List<BodyPartSprites> SurfaceSprite = new List<BodyPartSprites>();
+
 	//bodypart for each bodypart
 	//TODO: don't use string as the dictionary key
 	public readonly Dictionary<string, GameObject> bodyparts = new Dictionary<string, GameObject>();
@@ -271,7 +273,7 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 			var SpriteHandlerNorder =
 				Instantiate<SpriteHandlerNorder>(ToInstantiateSpriteCustomisation, CustomisationSprites.transform);
 			OpenSprites.Add(SpriteHandlerNorder);
-
+			//SubSetBodyPart
 			foreach (var Sprite_s in Customisation.CustomisationGroup.PlayerCustomisations)
 			{
 				if (Sprite_s.Name == externalCustomisation.SerialisedValue.SelectedName)
@@ -283,7 +285,12 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 					SpriteHandlerNorder.SpriteHandler.SetColor(setColor);
 				}
 			}
+
+
+
 		}
+
+
 
 
 		//TODOH
@@ -310,8 +317,7 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 
 		//Loop through dimrphic body parts
 		//SetupBodySpritesByGender();
-
-		SetupAllCustomisationSprites();
+		SetSurfaceColour();
 		OnDirectionChange(directional.CurrentDirection);
 	}
 
@@ -327,15 +333,28 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 		}
 	}
 
-	/// <summary>
-	/// Sets up the sprites for all customisations (Hair and underclothes)
-	/// </summary>
-	public void SetupAllCustomisationSprites()
+	public void SetSurfaceColour()
 	{
-		// SetupCustomisationSprite(CustomisationType.Underwear, "underwear", ThisCharacter.UnderwearName);
-		// SetupCustomisationSprite(CustomisationType.Socks, "socks", ThisCharacter.SocksName);
-		// SetupCustomisationSprite(CustomisationType.FacialHair, "beard", ThisCharacter.FacialHairName, ThisCharacter.FacialHairColor);
-		// SetupCustomisationSprite(CustomisationType.HairStyle, "Hair", ThisCharacter.HairStyleName, ThisCharacter.HairColor);
+		Color CurrentSurfaceColour = Color.white;
+		if (RaceBodyparts.Base.SkinColours.Count > 0)
+		{
+			ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
+
+			if (RaceBodyparts.Base.SkinColours.Contains(CurrentSurfaceColour) == false)
+			{
+				CurrentSurfaceColour = RaceBodyparts.Base.SkinColours[0];
+			}
+		}
+		else
+		{
+			ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
+		}
+
+		foreach (var sp in SurfaceSprite)
+		{
+			sp.baseSpriteHandler.SetColor(CurrentSurfaceColour);
+		}
+
 	}
 
 	/// <summary>
@@ -360,12 +379,12 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 	private void SetupCustomisationSprite(CustomisationType customisationType, string customisationKey,
 		string customisationName, Color? color = null)
 	{
-		if (customisationName != "None")
-		{
-			SpriteDataSO spriteDataSO = PlayerCustomisationDataSOs.Instance
-				.Get(customisationType, ThisCharacter.Gender, customisationName).SpriteEquipped;
-			SetupSprite(spriteDataSO, customisationKey, color);
-		}
+		// if (customisationName != "None")
+		// {
+			// SpriteDataSO spriteDataSO = PlayerCustomisationDataSOs.Instance
+				// .Get(customisationType, ThisCharacter.BodyType, customisationName).SpriteEquipped;
+			// SetupSprite(spriteDataSO, customisationKey, color);
+		// }
 	}
 
 	public void SetupBodySpritesByGender()

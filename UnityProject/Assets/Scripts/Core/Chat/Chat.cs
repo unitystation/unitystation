@@ -363,17 +363,17 @@ public partial class Chat : MonoBehaviour
 			victimName = "yourself";
 			if (player != null)
 			{
-				if (player.Script.characterSettings.Gender == Gender.Female)
+				if (player.Script.characterSettings.BodyType == BodyType.Female)
 				{
 					victimNameOthers = "herself";
 				}
 
-				if (player.Script.characterSettings.Gender == Gender.Male)
+				if (player.Script.characterSettings.BodyType == BodyType.Male)
 				{
 					victimNameOthers = "himself";
 				}
 
-				if (player.Script.characterSettings.Gender == Gender.Neuter)
+				if (player.Script.characterSettings.BodyType != BodyType.Female && player.Script.characterSettings.BodyType != BodyType.Male)
 				{
 					victimNameOthers = "itself";
 				}
