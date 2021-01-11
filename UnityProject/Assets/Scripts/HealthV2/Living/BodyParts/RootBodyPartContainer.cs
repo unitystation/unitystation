@@ -72,7 +72,9 @@ namespace HealthV2
 				implant.Root = this;
 				implant.healthMaster = healthMaster;
 				int i = 0;
-				foreach (var Sprite in implant.LimbSpriteData.Sprites)
+				bool IsSurfaceSprite = implant.isSurface;
+				var sprites = implant.GetBodyTypeSprites(PlayerSprites.ThisCharacter.BodyType);
+				foreach (var Sprite in sprites.Item2)
 				{
 					var Newspite = Instantiate(implant.SpritePrefab, this.transform);
 					Newspite.name = implant.name;
@@ -82,9 +84,14 @@ namespace HealthV2
 						ImplantBaseSpritesDictionary[implant] = new List<BodyPartSprites>();
 					}
 
+					if (IsSurfaceSprite)
+					{
+						PlayerSprites.SurfaceSprite.Add(Newspite);
+					}
+
 					implant.RelatedPresentSprites.Add(Newspite);
 					ImplantBaseSpritesDictionary[implant].Add(Newspite);
-					var newOrder = new SpriteOrder(implant.LimbSpriteData.SpriteOrder);
+					var newOrder = new SpriteOrder(sprites.Item1);
 					newOrder.Add(i);
 					Newspite.UpdateSpritesForImplant(implant, Sprite, this, newOrder);
 					i++;
@@ -102,9 +109,15 @@ namespace HealthV2
 				implant.Root = null;
 				foreach (var BodyPart in implant.GetAllBodyPartsAndItself(new List<BodyPart>()))
 				{
+
+
 					var oldone = ImplantBaseSpritesDictionary[BodyPart];
 					foreach (var Sprite in oldone)
 					{
+						if (BodyPart.isSurface)
+						{
+							PlayerSprites.SurfaceSprite.Remove(Sprite);
+						}
 						BodyPart.RelatedPresentSprites.Remove(Sprite);
 						PlayerSprites.Addedbodypart.Remove(Sprite);
 						Destroy(Sprite.gameObject);
@@ -157,7 +170,8 @@ namespace HealthV2
 
 		public virtual void SubBodyPartAdded(BodyPart implant)
 		{
-			foreach (var Sprite in implant.LimbSpriteData.Sprites)
+			var sprites = implant.GetBodyTypeSprites(PlayerSprites.ThisCharacter.BodyType);
+			foreach (var Sprite in sprites.Item2)
 			{
 				var Newspite = Instantiate(implant.SpritePrefab, this.transform);
 				PlayerSprites.Addedbodypart.Add(Newspite);
@@ -168,7 +182,7 @@ namespace HealthV2
 
 				implant.RelatedPresentSprites.Add(Newspite);
 				ImplantBaseSpritesDictionary[implant].Add(Newspite);
-				Newspite.UpdateSpritesForImplant(implant, Sprite, this, implant.LimbSpriteData.SpriteOrder);
+				Newspite.UpdateSpritesForImplant(implant, Sprite, this, sprites.Item1);
 			}
 		}
 
