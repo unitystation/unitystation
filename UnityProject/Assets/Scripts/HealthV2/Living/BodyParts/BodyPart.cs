@@ -22,9 +22,13 @@ namespace HealthV2
 			set
 			{
 				HealthMaster = value;
-				foreach (var BodyPart in containBodyParts)
+				for (int i = containBodyParts.Count; i >= 0; i--)
 				{
-					SetUpBodyPart(BodyPart);
+					if (i < containBodyParts.Count)
+					{
+						SetUpBodyPart(containBodyParts[i]);
+					}
+
 				}
 
 				HealthMasterSet();
@@ -89,7 +93,9 @@ namespace HealthV2
 		[Tooltip("The organ that this can be replaced with")]
 		public List<BodyPart> OptionalReplacementOrgan = new List<BodyPart>();
 
-		void HealthMasterSet()
+		public bool isSurface = false;
+
+		public virtual void HealthMasterSet()
 		{
 			if (BodySpriteSet == false)
 			{
@@ -131,7 +137,7 @@ namespace HealthV2
 				}
 			}
 
-			return null;
+			return new Tuple<SpriteOrder, List<SpriteDataSO>>(new SpriteOrder(), new List<SpriteDataSO>());
 		}
 
 		void Awake()
@@ -175,6 +181,7 @@ namespace HealthV2
 
 		public virtual void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
 		{
+			//TODOH backwards for i
 			foreach (BodyPart prop in containBodyParts)
 			{
 				prop.ImplantPeriodicUpdate(healthMaster);

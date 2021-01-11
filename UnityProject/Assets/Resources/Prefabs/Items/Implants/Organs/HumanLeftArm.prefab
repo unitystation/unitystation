@@ -9,6 +9,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: Nutriment
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
+    - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: isSurface
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: isDimorphic
       value: 0
       objectReference: {fileID: 0}
