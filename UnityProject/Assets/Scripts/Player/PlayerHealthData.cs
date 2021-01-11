@@ -29,6 +29,8 @@ public class RaceHealthData
 
 	public BodyTypeSettings bodyTypeSettings = new BodyTypeSettings();
 
+	public List<Color> SkinColours = new List<Color>();
+
 }
 
 
