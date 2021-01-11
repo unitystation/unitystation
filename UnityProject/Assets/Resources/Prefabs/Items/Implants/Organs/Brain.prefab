@@ -19,14 +19,18 @@ MonoBehaviour:
   containBodyParts: []
   efficiency: 1
   isDimorphic: 0
-  gender: 0
-  maleSprite: []
-  femaleSprite: []
-  limbSpriteData: []
+  BodyTypesSprites:
+    SpriteOrder:
+      Orders: 00000000000000000000000000000000
+    BodyTypes: []
   Root: {fileID: 0}
   ContainedIn: {fileID: 0}
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
+  BodySpriteSet: 0
+  LobbyCustomisation: {fileID: 0}
+  optionalOrgans: []
+  OptionalReplacementOrgan: []
   isBloodReagentConsumed: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   _bloodReagentConsumed: 0.1
@@ -34,7 +38,9 @@ MonoBehaviour:
   bloodReagentStoreAmount: 0.01
   NutrimentConsumption: 0.02
   NutrimentPassiveConsumption: 0.001
-  BloodContainer: {fileID: 4187505970342889626}
+  BloodContainer: {fileID: 0}
+  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+  TotalModified: 1
   BodyPartArmour:
     Melee: 0
     Bullet: 0
@@ -170,18 +176,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7946465884936551576}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4187505970342889626 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6078318946446652418, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7946465884936551576}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3442747058158572537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1900478478944793783 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,

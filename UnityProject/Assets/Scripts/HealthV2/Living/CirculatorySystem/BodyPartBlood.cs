@@ -42,6 +42,8 @@ namespace HealthV2
 
 		public ReagentContainerBody BloodContainer = null;
 
+		[SerializeField] [Tooltip("What does this live off?")]
+		public Reagent Nutriment;
 
 		public event Action ModifierChange;
 
@@ -102,28 +104,29 @@ namespace HealthV2
 
 			healthMaster.CirculatorySystem.UseBloodPool.Add(reagentMix);
 
-			if (TotalDamageWithoutOxyClone > 0 && healthMaster.NutrimentLevel > 0)
+			if (TotalDamageWithoutOxyClone > 0 && BloodContainer[Nutriment]> 0)
 			{
+
 				float toConsume = NutrimentConsumption;
-				if (NutrimentConsumption > healthMaster.NutrimentLevel)
+				if (NutrimentConsumption > BloodContainer[Nutriment])
 				{
-					toConsume = healthMaster.NutrimentLevel;
+					toConsume = BloodContainer[Nutriment];
 				}
 
-				healthMaster.NutrimentLevel -= toConsume;
+				BloodContainer.CurrentReagentMix.Remove(Nutriment,toConsume );
 				NutrimentHeal(toConsume);
 			}
 
-			if (healthMaster.NutrimentLevel > 0)
+			if (BloodContainer[Nutriment] > 0)
 			{
 				float toConsume = NutrimentPassiveConsumption;
-				if (NutrimentPassiveConsumption > healthMaster.NutrimentLevel)
+				if (NutrimentConsumption > BloodContainer[Nutriment])
 				{
-					toConsume = healthMaster.NutrimentLevel;
+					toConsume = BloodContainer[Nutriment];
 				}
 
-				healthMaster.NutrimentLevel -= toConsume;
-				if (healthMaster.NutrimentLevel < NutrimentPassiveConsumption * 1000)
+				BloodContainer.CurrentReagentMix.Remove(Nutriment,toConsume );
+				if (BloodContainer[Nutriment] < NutrimentPassiveConsumption * 1000)
 				{
 					//is Hungary
 				}

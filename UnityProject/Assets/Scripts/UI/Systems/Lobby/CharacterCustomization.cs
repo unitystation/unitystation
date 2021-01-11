@@ -59,7 +59,7 @@ namespace Lobby
 
 		public CharacterDir currentDir;
 
-		[SerializeField] public List<string> availableSkinColors = new List<string>();
+		[SerializeField] public List<Color> availableSkinColors = new List<Color>();
 		private CharacterSettings currentCharacter;
 
 		public ColorPicker colorPicker;
@@ -71,6 +71,9 @@ namespace Lobby
 		public BodyPartDropDownOrgans AdditionalOrgan;
 		public BodyPartDropDownReplaceOrgan ReplacementOrgan;
 
+		public int CurrentSurfaceInt = 0;
+
+		public Color CurrentSurfaceColour = Color.white;
 		/// <summary>
 		/// Empty, blank sprite texture used for selecting null customizations
 		/// (e.g. selecting or scrolling to "None" for hair, facial hair, underwear,
@@ -80,6 +83,9 @@ namespace Lobby
 
 		public List<CustomisationStorage> bodyPartCustomisationStorage = new List<CustomisationStorage>();
 		public List<ExternalCustomisation> ExternalCustomisationStorage = new List<ExternalCustomisation>();
+
+
+		public List<SpriteHandlerNorder> SurfaceSprite = new List<SpriteHandlerNorder>();
 
 		void OnEnable()
 		{
@@ -135,6 +141,7 @@ namespace Lobby
 			OpenBodySprites.Clear();
 			OpenBodyCustomisation.Clear();
 			OpenCustomisation.Clear();
+			SurfaceSprite.Clear();
 		}
 
 		private void LoadSettings()
@@ -163,11 +170,14 @@ namespace Lobby
 
 			AvailableBodyTypes = SetRace.Base.bodyTypeSettings.AvailableBodyTypes;
 			ThisSetRace = SetRace;
+
+			availableSkinColors = SetRace.Base.SkinColours;
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
 			DoInitChecks();
 		}
 
+		#region BodyPartsSprites
 		public void SetUpSpeciesBody(PlayerHealthData Race)
 		{
 			BasedBodyPart(Race.Base.Torso);
@@ -240,6 +250,7 @@ namespace Lobby
 			}
 
 
+
 			//Setup sprite//
 			//OpenBodySprites
 			if (Body_Part?.storage?.Populater?.Contents != null)
@@ -258,12 +269,16 @@ namespace Lobby
 			OpenBodySprites[Body_Part] = new List<SpriteHandlerNorder>();
 			var Sprites = Body_Part.GetBodyTypeSprites(ThisBodyType.bodyType); //Get the correct one
 
+
+
 			if (Sprites != null)
 			{
 				if (Sprites?.Item1?.Orders == null || Sprites.Item1.Orders.Count == 0)
 				{
 					Logger.LogError("Rendering order not specified on " + Body_Part.name);
 				}
+
+
 				int i = 0;
 				foreach (var SpriteData in Sprites.Item2)
 				{
@@ -275,11 +290,25 @@ namespace Lobby
 					OpenBodySprites[Body_Part].Add(newSprite);
 					i++;
 				}
+
+				if (Body_Part.isSurface)
+				{
+					SurfaceSprite.AddRange(OpenBodySprites[Body_Part]);
+				}
 			}
 		}
 
 		public void RemoveBodyPart(BodyPart Body_Part, bool removeBodyCustomisation = true)
 		{
+			if (Body_Part.isSurface)
+			{
+				foreach (var sp in OpenBodySprites[Body_Part])
+				{
+					SurfaceSprite.Remove(sp);
+				}
+
+			}
+
 			foreach (var Keyv in ParentDictionary)
 			{
 				if (Keyv.Value.Contains(Body_Part))
@@ -322,7 +351,7 @@ namespace Lobby
 			}
 		}
 
-
+		#endregion BodyPartsSprites
 		//First time setting up this character etc?
 		private void DoInitChecks()
 		{
@@ -339,6 +368,55 @@ namespace Lobby
 
 		private void RefreshAll()
 		{
+			if (ThisSetRace.Base.SkinColours.Count > 0)
+			{
+				ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out CurrentSurfaceColour);
+
+				bool match = false;
+				foreach (var skinColour in ThisSetRace.Base.SkinColours)
+				{
+					if (Math.Abs(skinColour.a - CurrentSurfaceColour.a) < 0.01f
+					    && Math.Abs(skinColour.r - CurrentSurfaceColour.r) < 0.01f
+					    && Math.Abs(skinColour.g - CurrentSurfaceColour.g) < 0.01f
+					    && Math.Abs(skinColour.b - CurrentSurfaceColour.b) < 0.01f)
+					{
+						match = true;
+					}
+				}
+				if (match == false)
+				{
+					CurrentSurfaceColour = ThisSetRace.Base.SkinColours[0];
+				}
+			}
+			else
+			{
+				ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out CurrentSurfaceColour);
+			}
+			SkinColourChange(CurrentSurfaceColour);
+
+			int i = 0;
+			bool Containing = false;
+			foreach (var bodyType in AvailableBodyTypes)
+			{
+				if (bodyType.bodyType == currentCharacter.BodyType)
+				{
+					Containing = true;
+					SelectedBodyType = i;
+					break;
+				}
+
+				i++;
+			}
+
+			if (Containing == false)
+			{
+				currentCharacter.BodyType = AvailableBodyTypes[0].bodyType;
+				SelectedBodyType = 0;
+			}
+
+
+
+
 		}
 
 		public void RollRandomCharacter()
@@ -357,7 +435,7 @@ namespace Lobby
 			// socksDropdown.value = UnityEngine.Random.Range(0, socksDropdown.options.Count - 1);
 
 			// Do gender specific randomisation
-			if (currentCharacter.Gender == Gender.Male)
+			if (currentCharacter.BodyType == BodyType.Male)
 			{
 				currentCharacter.Name = StringManager.GetRandomMaleName();
 				//currentCharacter.FacialHairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
@@ -465,6 +543,15 @@ namespace Lobby
 
 		private void SetAllDropdowns()
 		{
+			if (currentCharacter.SerialisedBodyPartCustom == null)
+			{
+				currentCharacter.SerialisedBodyPartCustom = new List<CustomisationStorage>();
+			}
+
+			if (currentCharacter.SerialisedExternalCustom == null)
+			{
+				currentCharacter.SerialisedExternalCustom = new List<ExternalCustomisation>();
+			}
 			bodyPartCustomisationStorage = new List<CustomisationStorage>(currentCharacter.SerialisedBodyPartCustom);
 			ExternalCustomisationStorage = new List<ExternalCustomisation>(currentCharacter.SerialisedExternalCustom);
 			if (bodyPartCustomisationStorage == null)
@@ -719,7 +806,7 @@ namespace Lobby
 
 		public void RandomNameBtn()
 		{
-			if (currentCharacter.Gender == Gender.Male)
+			if (currentCharacter.BodyType == BodyType.Male)
 			{
 				currentCharacter.Name = TruncateName(StringManager.GetRandomMaleName());
 			}
@@ -778,6 +865,7 @@ namespace Lobby
 				SetupBodyPartsSprites(KVP.Key);
 			}
 
+			currentCharacter.BodyType = AvailableBodyTypes[SelectedBodyType].bodyType;
 			SetRotation();
 		}
 
@@ -886,6 +974,41 @@ namespace Lobby
 		private void RefreshAccent()
 		{
 			accentText.text = currentCharacter.Speech.ToString();
+		}
+
+		public void OnSurfaceColourChange()
+		{
+			if (availableSkinColors.Count > 0)
+			{
+				CurrentSurfaceInt++;
+				if (CurrentSurfaceInt >= availableSkinColors.Count)
+				{
+					CurrentSurfaceInt = 0;
+				}
+
+				CurrentSurfaceColour = availableSkinColors[CurrentSurfaceInt];
+
+			}
+
+			else
+			{
+				OpenColorPicker(CurrentSurfaceColour, SkinColourChange, 32f);
+			}
+
+			SkinColourChange(CurrentSurfaceColour);
+
+
+		}
+
+		public void SkinColourChange(Color color)
+		{
+			CurrentSurfaceColour = color;
+			foreach (var SP in SurfaceSprite)
+			{
+				SP.SpriteHandler.SetColor(CurrentSurfaceColour);
+			}
+
+			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
 		}
 
 		//------------------
