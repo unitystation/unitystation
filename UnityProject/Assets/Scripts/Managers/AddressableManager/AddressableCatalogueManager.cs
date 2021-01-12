@@ -83,6 +83,24 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 
 	private static async void LoadCatalogue(List<string> LoadCatalogues, bool RegisterComplete = true)
 	{
+		if (GameData.Instance.DevBuild)
+		{
+			Logger.LogError("IS DevBuild");
+
+		}
+
+		if (Instance == null)
+		{
+			Logger.LogError("IS Instance null");
+			FinishLoaded = true;
+		}
+
+		if (LoadCatalogues == null)
+		{
+			Logger.LogError("LoadCatalogues IS null");
+			FinishLoaded = true;
+		}
+
 		Instance.ToloadeCount = LoadCatalogues.Count;
 		foreach (var Catalogue in LoadCatalogues)
 		{
