@@ -52,6 +52,14 @@ namespace Systems.Spells.Wizard
 		public static void AnimateObject(GameObject entity, PortalSpawnInfo settings)
 		{
 			Transform spriteObject = entity.transform.Find("Sprite");
+			if (spriteObject == null)
+			{
+				spriteObject = entity.transform.Find("sprite");
+			}
+			if (spriteObject == null)
+			{
+				Logger.LogError($"No Sprite object found on {entity}! Cannot animate with {nameof(SpawnByPortal)}.");
+			}
 			float fallingTime = GetFallingTime(settings.PortalHeight);
 
 			// Animate entity falling.

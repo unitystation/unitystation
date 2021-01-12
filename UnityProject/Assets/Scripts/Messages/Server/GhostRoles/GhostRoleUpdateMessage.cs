@@ -20,9 +20,9 @@ namespace Messages.Server
 		// To be run on client
 		public override void Process()
 		{
-			if (CustomNetworkManager.isHeadless || PlayerManager.LocalPlayer == null) return;
+			if (PlayerManager.LocalPlayer == null) return;
 
-			if (!MatrixManager.IsInitialized) return;
+			if (MatrixManager.IsInitialized == false) return;
 
 			GhostRoleManager.Instance.ClientAddOrUpdateRole(roleID, roleType, minPlayers, maxPlayers, playerCount, timeRemaining);
 		}
@@ -51,30 +51,6 @@ namespace Messages.Server
 			GhostRoleUpdateMessage msg = GetMessage(key, role);
 			msg.SendTo(player);
 			return msg;
-		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			base.Deserialize(reader);
-
-			roleID = reader.ReadUInt32();
-			roleType = reader.ReadInt32();
-			minPlayers = reader.ReadInt32();
-			maxPlayers = reader.ReadInt32();
-			playerCount = reader.ReadInt32();
-			timeRemaining = reader.ReadSingle();
-		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			base.Serialize(writer);
-
-			writer.WriteUInt32(roleID);
-			writer.WriteInt32(roleType);
-			writer.WriteInt32(minPlayers);
-			writer.WriteInt32(maxPlayers);
-			writer.WriteInt32(playerCount);
-			writer.WriteSingle(timeRemaining);
 		}
 
 		private static GhostRoleUpdateMessage GetMessage(uint key, GhostRoleServer role)

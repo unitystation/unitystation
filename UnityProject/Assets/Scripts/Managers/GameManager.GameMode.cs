@@ -97,19 +97,17 @@ public partial class GameManager
 	/// </summary>
 	public string GetGameModeName(bool overrideSecret = false)
 	{
-		if (overrideSecret)
+		if (SecretGameMode && overrideSecret == false)
 		{
-			if (GameMode == null)
-			{
-				return "null";
-			}
-			else
-			{
-				return GameMode.Name;
-			}
+			return "Secret";
 		}
 
-		return SecretGameMode ? "Secret" : GameMode.Name;
+		if (GameMode == null)
+		{
+			return "null";
+		}
+
+		return GameMode.Name;
 	}
 
 	/// <summary>

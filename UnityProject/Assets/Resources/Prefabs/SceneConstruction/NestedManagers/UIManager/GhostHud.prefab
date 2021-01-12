@@ -305,8 +305,10 @@ GameObject:
   - component: {fileID: 886095736332823428}
   - component: {fileID: 2976103843308114803}
   - component: {fileID: 573367250565357064}
+  - component: {fileID: 3687243864023100679}
   - component: {fileID: 4553894633473353236}
   - component: {fileID: 179453518968755828}
+  - component: {fileID: 9053589886049900368}
   m_Layer: 5
   m_Name: Jump to mob
   m_TagString: Untagged
@@ -371,6 +373,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3687243864023100679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819786889913424350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 0
+  SubCatalogue:
+  - {fileID: 11400000, guid: 811e367ad8bb36c408ebb7cd131363b8, type: 2}
+  - {fileID: 11400000, guid: 92b69c47e18d95c44bc20d5b7e79f8c3, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 811e367ad8bb36c408ebb7cd131363b8, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 0
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!114 &4553894633473353236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,6 +464,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useObjectName: 1
   hoverName: 
+--- !u!114 &9053589886049900368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819786889913424350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cd6da499ec9814c994c5bec94fd75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 3687243864023100679}
+  hoverSpriteIndex: 1
+  hoverSpriteVariant: 0
+  noHoverSpriteIndex: 0
+  noHoverSpriteVariant: 0
 --- !u!1 &2270553605341765193
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,6 +803,8 @@ GameObject:
   - component: {fileID: 5990661673811585451}
   - component: {fileID: 8047394494949727752}
   - component: {fileID: 6267276012862357132}
+  - component: {fileID: 6373383413246097320}
+  - component: {fileID: 5569988039204206820}
   m_Layer: 5
   m_Name: Teleport
   m_TagString: Untagged
@@ -895,6 +938,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useObjectName: 1
   hoverName: 
+--- !u!114 &6373383413246097320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5121836764961598259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 0
+  SubCatalogue:
+  - {fileID: 11400000, guid: 882b163c939f52942b0520a1010b3cb2, type: 2}
+  - {fileID: 11400000, guid: 416aeb5e97b8a3845a76f6de681c9fcb, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 882b163c939f52942b0520a1010b3cb2, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 0
+  variantIndex: 0
+  palette: []
+  Sprites: []
+--- !u!114 &5569988039204206820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5121836764961598259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cd6da499ec9814c994c5bec94fd75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 6373383413246097320}
+  hoverSpriteIndex: 1
+  hoverSpriteVariant: 0
+  noHoverSpriteIndex: 0
+  noHoverSpriteVariant: 0
 --- !u!1 &7324651201055438336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,6 +1152,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 4693deff76c85ce46b4513768b5bd770, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 4693deff76c85ce46b4513768b5bd770, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -1118,8 +1201,10 @@ GameObject:
   - component: {fileID: 611536918428712002}
   - component: {fileID: 7746417680508391139}
   - component: {fileID: 9006813639665277561}
+  - component: {fileID: 1232823609030655329}
   - component: {fileID: 1398321636126635911}
   - component: {fileID: 2203224601844660962}
+  - component: {fileID: 6208214947169742236}
   m_Layer: 5
   m_Name: Reenter corpse
   m_TagString: Untagged
@@ -1184,6 +1269,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1232823609030655329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7798651070204786658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 0
+  SubCatalogue:
+  - {fileID: 11400000, guid: d26589f59c77ddb4a8e26ee3cd168c60, type: 2}
+  - {fileID: 11400000, guid: 46b8b865cc5399c43a3af31addc57c74, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: d26589f59c77ddb4a8e26ee3cd168c60, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 0
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!114 &1398321636126635911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1253,6 +1360,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useObjectName: 1
   hoverName: 
+--- !u!114 &6208214947169742236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7798651070204786658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cd6da499ec9814c994c5bec94fd75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 1232823609030655329}
+  hoverSpriteIndex: 1
+  hoverSpriteVariant: 0
+  noHoverSpriteIndex: 0
+  noHoverSpriteVariant: 0
 --- !u!1 &8196869612237413341
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,8 +1686,10 @@ GameObject:
   - component: {fileID: 8099249455285850475}
   - component: {fileID: 8101551633130793595}
   - component: {fileID: 8281267064007830477}
+  - component: {fileID: 8262188415384631609}
   - component: {fileID: 1673967739001739332}
   - component: {fileID: 1671303719306414650}
+  - component: {fileID: 7645792700348589773}
   m_Layer: 5
   m_Name: Orbit
   m_TagString: Untagged
@@ -1628,6 +1754,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8262188415384631609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322551834956648785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 0
+  SubCatalogue:
+  - {fileID: 11400000, guid: 6771a34346a149b499a43db1c7f534d3, type: 2}
+  - {fileID: 11400000, guid: e99ea24b2fc6c7b4ba049a1150c09065, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 6771a34346a149b499a43db1c7f534d3, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 0
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!114 &1673967739001739332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1697,6 +1845,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useObjectName: 1
   hoverName: 
+--- !u!114 &7645792700348589773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322551834956648785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cd6da499ec9814c994c5bec94fd75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 8262188415384631609}
+  hoverSpriteIndex: 1
+  hoverSpriteVariant: 0
+  noHoverSpriteIndex: 0
+  noHoverSpriteVariant: 0
 --- !u!1 &9082599209927902890
 GameObject:
   m_ObjectHideFlags: 0

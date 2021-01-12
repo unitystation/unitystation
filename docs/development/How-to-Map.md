@@ -7,7 +7,7 @@ All mapping is done in Unity.
 ### Setting Up Your Workspace
 You should have the following windows open. To open a window, to the __Window__ tab at the top of Unity.
 
-<ul> 
+<ul>
     <li>Window > General > <b>Scene</b></li>
     <li>Window > General > <b>Project</b></li>
     <li>Window > General > <b>Hierarchy</b></li>
@@ -16,7 +16,7 @@ You should have the following windows open. To open a window, to the __Window__ 
 </ul>
 
 ### Introduction to Scenes
-Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one. 
+Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one.
 
 <ol>
 <li>Open an existing scene: UnityProject > Assets > Scenes > Mainstations > TestStation</li>
@@ -45,7 +45,7 @@ When you open the editor, there should be a sidebar open on the right hand side 
 
 ![](../assets/images/HowToMap/test_runner.PNG)
 
-Performs a variety of tests to check for Null references and other things. These tests are also used when you send a Pull Request. To run these tests, click __Run All__ and then leave it for a while, it is not a quick process (use this opportunity to get something to eat/drink or some other professional/recreational activity of your choice). 
+Performs a variety of tests to check for Null references and other things. These tests are also used when you send a Pull Request. To run these tests, click __Run All__ and then leave it for a while, it is not a quick process (use this opportunity to get something to eat/drink or some other professional/recreational activity of your choice).
 
 Errors will be denoted by a red cross, click on the individual test which has a red cross and read the error that appears in the bottom box to fix up the Scene. Be sure to click __Rerun Failed__ to see if you now pass these tests.
 
@@ -148,7 +148,7 @@ Here are some general tips to help you get when mapping in UnityStation:
 - Attaching an APC can be quite tedious, but can be made a lot easier if you place the APC first, relabel it and then attach the APCPoweredDevice by moving it close to the APC and hitting the Auto Connect Button.
   ![](../assets/images/HowToMap/APC_autoconnect.gif)
 
-- If you have a lot of APCPowered Objects you need to connect, you can also connect them up by first turning on the *Gizmo* called *APCPoweredDevice* to show that the prefab is correctly disconnected and then scrolling through the APC prefab to find the **APC (script)** component and then click **Begin Selecting**. Remember to hit **Stop Selecting** when you are done, all the connections are listed in the Connected Devices in the same component, if you want to validate you have selected them all. 
+- If you have a lot of APCPowered Objects you need to connect, you can also connect them up by first turning on the *Gizmo* called *APCPoweredDevice* to show that the prefab is correctly disconnected and then scrolling through the APC prefab to find the **APC (script)** component and then click **Begin Selecting**. Remember to hit **Stop Selecting** when you are done, all the connections are listed in the Connected Devices in the same component, if you want to validate you have selected them all.
 
   ![](../assets/images/HowToMap/APC_multi_select.gif)
 
@@ -156,7 +156,7 @@ Here are some general tips to help you get when mapping in UnityStation:
 
 ![](../assets/images/HowToMap/spawn_points.PNG)
 
-- So you can see what you are placing tile-wise on a particular layer, you can select obstructing layers to hide in the Hierarchy. You then can press the crossed-out eye above the scene view window to toggle the layers’ visibility. 
+- So you can see what you are placing tile-wise on a particular layer, you can select obstructing layers to hide in the Hierarchy. You then can press the crossed-out eye above the scene view window to toggle the layers’ visibility.
 
 ![](../assets/images/HowToMap/hireachy_hide.gif)
 
@@ -185,7 +185,7 @@ Once you have finished mapping a scene and it’s time to PR, follow the instruc
     - If the scene is a scene which connects to the Station Gateway, add it into the __Away World List SO__
     - If the scene is an asteroid (contains ores to mine), add it into the __Asteroid List SO__
     - If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the __Additional Scene List SO__
-    
+
 5. Add the Scene in by going to File -> Build Settings, then click open scene to add the scene you are in.
 
 ### Checklist
@@ -201,7 +201,7 @@ Make sure you go through the checklist below to check you have gotten the follow
 1. Check that Canisters in Atmos that are part of the pipes are open (Tick *Valve is Initially Open* inside the Canister Script)
 1. Ensure that no obvious extrusions will destroy or block the cargo and evac shuttle
 1. Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)
-1. If it's a MainStation, include a picture of your map for the wiki 
+1. If it's a MainStation, include a picture of your map for the wiki
 1. Commit MainStation.unity, MainStation.unity.meta, MainStation.lighting, MainStation.lighting.meta, maps.json, EditorBuildSettings.asset and the SO List (e.g. __Main Station List SO__). This is not an exhaustive list, so a general rule of thumb is to only commit files you touched.
 
 ## Pull Requests for Tile Palette Changes

@@ -63,31 +63,5 @@ namespace Systems.ElectricalArcs
 			msg.SendToAll();
 			return msg;
 		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			base.Deserialize(reader);
-
-			prefabAssetID = reader.ReadGuid();
-			startObject = reader.ReadGameObject();
-			endObject = reader.ReadGameObject();
-			startPosition = reader.ReadVector3();
-			endPosition = reader.ReadVector3();
-			arcCount = reader.ReadInt32();
-			duration = reader.ReadSingle();
-		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			base.Serialize(writer);
-
-			writer.WriteGuid(prefabAssetID);
-			writer.WriteGameObject(startObject);
-			writer.WriteGameObject(endObject);
-			writer.WriteVector3(startPosition);
-			writer.WriteVector3(endPosition);
-			writer.WriteInt32(arcCount);
-			writer.WriteSingle(duration);
-		}
 	}
 }

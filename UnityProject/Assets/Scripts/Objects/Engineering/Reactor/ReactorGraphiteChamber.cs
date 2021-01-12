@@ -218,7 +218,7 @@ namespace Objects.Engineering
 				LeakedNeutrons =
 					(((LeakedNeutrons / (LeakedNeutrons + ((decimal)Math.Pow((double)LeakedNeutrons, (double)0.82M)))) -
 					  0.5M) * 2 * 36000);
-				radiationProducer.Setlevel((float)LeakedNeutrons);
+				radiationProducer.SetLevel((float)LeakedNeutrons);
 			}
 		}
 

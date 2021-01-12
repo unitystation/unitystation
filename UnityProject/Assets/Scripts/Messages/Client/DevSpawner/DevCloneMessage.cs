@@ -67,22 +67,4 @@ public class DevCloneMessage : ClientMessage
 		};
 		msg.Send();
 	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		ToClone = reader.ReadUInt32();
-		WorldPosition = reader.ReadVector2();
-		AdminId = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(ToClone);
-		writer.WriteVector2(WorldPosition);
-		writer.WriteString(AdminId);
-		writer.WriteString(AdminToken);
-	}
 }

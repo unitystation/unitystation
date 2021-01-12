@@ -7,6 +7,7 @@ using UI.CharacterCreator;
 using UnityEngine;
 using UnityEngine.Serialization;
 using NaughtyAttributes;
+using Managers;
 
 namespace GameModes
 {
@@ -358,7 +359,7 @@ namespace GameModes
 				SpawnAntag(spawnReq);
 			}
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
-			EventManager.Broadcast(EVENT.RoundStarted);
+			EventManager.Broadcast(EVENT.RoundStarted, true);
 		}
 
 		/// <summary>

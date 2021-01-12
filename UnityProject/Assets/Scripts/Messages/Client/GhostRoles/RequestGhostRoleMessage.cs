@@ -31,19 +31,5 @@ namespace Messages.Client
 			msg.Send();
 			return msg;
 		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			base.Deserialize(reader);
-
-			roleID = reader.ReadUInt32();
-		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			base.Serialize(writer);
-
-			writer.WriteUInt32(roleID);
-		}
 	}
 }

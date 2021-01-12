@@ -1,56 +1,146 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Serialization;
 using Mirror;
 
-public class SpawnPoint : NetworkStartPosition
+namespace Systems.Spawns
 {
-	private static readonly Dictionary<JobDepartment, JobType[]> DepartmentJobs
-		= new Dictionary<JobDepartment, JobType[]>
-		{
-			{JobDepartment.TheGrayTide, new[] {JobType.ASSISTANT}},
-			{JobDepartment.Captain, new[] {JobType.CAPTAIN}},
-			{JobDepartment.HoP, new[] {JobType.HOP}},
-			{JobDepartment.Cargo, new[] {JobType.CARGOTECH}},
-			{JobDepartment.CargoHead, new[] {JobType.QUARTERMASTER}},
-			{JobDepartment.Mining, new[] {JobType.MINER}},
-			{JobDepartment.Medical, new[] {JobType.GENETICIST, JobType.DOCTOR, JobType.MEDSCI, JobType.VIROLOGIST, JobType.PARAMEDIC, JobType.PSYCHIATRIST}},
-			{JobDepartment.CMO, new[] {JobType.CMO}},
-			{JobDepartment.Chemist, new[] {JobType.CHEMIST}},
-			{JobDepartment.Research, new[] {JobType.SCIENTIST}},
-			{JobDepartment.ResearchHead, new[] {JobType.RD}},
-			{JobDepartment.Robotics, new[] {JobType.ROBOTICIST}},
-			{JobDepartment.Security, new[] {JobType.SECURITY_OFFICER}},
-			{JobDepartment.Warden, new[] {JobType.WARDEN}},
-			{JobDepartment.Detective, new[] {JobType.DETECTIVE}},
-			{JobDepartment.HOS, new[] {JobType.HOS}},
-			{JobDepartment.Lawyer, new[] {JobType.LAWYER,}},
-			{JobDepartment.Engineering, new[] {JobType.AI, JobType.ENGINEER, JobType.ENGSEC}},
-			{JobDepartment.EngineeringHead, new[] {JobType.CHIEF_ENGINEER}},
-			{JobDepartment.Atmos, new[] {JobType.ATMOSTECH}},
-			{JobDepartment.Janitor, new[] {JobType.JANITOR}},
-			{JobDepartment.Clown, new[] {JobType.CLOWN, }},
-			{JobDepartment.Mime, new[] {JobType.MIME}},
-			{JobDepartment.Personnel, new[] {JobType.CURATOR}},
-			{JobDepartment.Kitchen, new[] {JobType.COOK}},
-			{JobDepartment.Bar, new[] {JobType.BARTENDER}},
-			{JobDepartment.Botany, new[] {JobType.BOTANIST}},
-			{JobDepartment.Church, new[] {JobType.CHAPLAIN}},
-			{JobDepartment.Syndicate, new[] {JobType.SYNDICATE}},
-			{JobDepartment.CentCommCommander, new []{JobType.CENTCOMM_COMMANDER}},
-			{JobDepartment.DeathSquad, new [] {JobType.DEATHSQUAD}},
-			{JobDepartment.CentComm, new[] {JobType.CENTCOMM_OFFICER, JobType.CENTCOMM_INTERN}},
-			{JobDepartment.EmergencyResponseTeam, new[] {JobType.ERT_COMMANDER, JobType.ERT_SECURITY, JobType.ERT_MEDIC, JobType.ERT_ENGINEER, JobType.ERT_CHAPLAIN, JobType.ERT_JANITOR, JobType.ERT_CLOWN}},
-			{JobDepartment.MaintSpawns, new[] {JobType.FUGITIVE}},
-			{JobDepartment.WizardFederation, new[] {JobType.WIZARD}},
-		};
-
-	public IEnumerable<JobType> JobRestrictions =>
-		DepartmentJobs.ContainsKey(Department) ? DepartmentJobs[Department] : new JobType[0];
-
-	public JobDepartment Department;
-
-	public static JobDepartment GetJobDepartment(JobType job)
+	public class SpawnPoint : NetworkStartPosition
 	{
-		return DepartmentJobs.FirstOrDefault(x => x.Value.Contains(job)).Key;
+		private static readonly Dictionary<JobType, SpawnPointCategory> categoryByJob = new Dictionary<JobType, SpawnPointCategory>
+	{
+		{ JobType.CAPTAIN, SpawnPointCategory.Captain },
+		{ JobType.HOP, SpawnPointCategory.HoP },
+
+		{ JobType.AI, SpawnPointCategory.AI },
+
+		{ JobType.QUARTERMASTER, SpawnPointCategory.CargoHead },
+		{ JobType.CARGOTECH, SpawnPointCategory.Cargo },
+		{ JobType.MINER, SpawnPointCategory.Mining },
+
+		{ JobType.CMO, SpawnPointCategory.CMO },
+		{ JobType.DOCTOR, SpawnPointCategory.Medical },
+		{ JobType.VIROLOGIST, SpawnPointCategory.Medical }, // TODO: should be virology point.
+		{ JobType.PARAMEDIC, SpawnPointCategory.Medical },
+		{ JobType.PSYCHIATRIST, SpawnPointCategory.Medical },
+		{ JobType.CHEMIST, SpawnPointCategory.Chemist },
+		{ JobType.GENETICIST, SpawnPointCategory.Medical },
+		{ JobType.MEDSCI, SpawnPointCategory.Medical },
+
+		{ JobType.RD, SpawnPointCategory.ResearchHead },
+		{ JobType.SCIENTIST, SpawnPointCategory.Research },
+		{ JobType.ROBOTICIST, SpawnPointCategory.Robotics },
+
+		{ JobType.HOS, SpawnPointCategory.HOS },
+		{ JobType.SECURITY_OFFICER, SpawnPointCategory.Security },
+		{ JobType.WARDEN, SpawnPointCategory.Warden },
+		{ JobType.DETECTIVE, SpawnPointCategory.Detective },
+		{ JobType.LAWYER, SpawnPointCategory.Lawyer },
+
+		{ JobType.CHIEF_ENGINEER, SpawnPointCategory.EngineeringHead },
+		{ JobType.ENGINEER, SpawnPointCategory.Engineering },
+		{ JobType.ENGSEC, SpawnPointCategory.Engineering },
+		{ JobType.ATMOSTECH, SpawnPointCategory.Atmos },
+
+		{ JobType.ASSISTANT, SpawnPointCategory.TheGrayTide },
+		{ JobType.JANITOR, SpawnPointCategory.Janitor },
+		{ JobType.CLOWN, SpawnPointCategory.Clown },
+		{ JobType.MIME, SpawnPointCategory.Mime },
+		{ JobType.CURATOR, SpawnPointCategory.Personnel },
+		{ JobType.COOK, SpawnPointCategory.Kitchen },
+		{ JobType.BARTENDER, SpawnPointCategory.Bar },
+		{ JobType.BOTANIST, SpawnPointCategory.Botany },
+		{ JobType.CHAPLAIN, SpawnPointCategory.Church },
+
+		{ JobType.CENTCOMM_COMMANDER, SpawnPointCategory.CentCommCommander },
+		{ JobType.CENTCOMM_OFFICER, SpawnPointCategory.CentComm },
+		{ JobType.CENTCOMM_INTERN, SpawnPointCategory.CentComm },
+		{ JobType.ERT_COMMANDER, SpawnPointCategory.EmergencyResponseTeam },
+		{ JobType.ERT_SECURITY, SpawnPointCategory.EmergencyResponseTeam },
+		{ JobType.ERT_MEDIC, SpawnPointCategory.EmergencyResponseTeam },
+		{ JobType.ERT_ENGINEER, SpawnPointCategory.EmergencyResponseTeam },
+		{ JobType.ERT_CHAPLAIN, SpawnPointCategory.EmergencyResponseTeam },
+		{ JobType.ERT_JANITOR, SpawnPointCategory.EmergencyResponseTeam },
+		{ JobType.ERT_CLOWN, SpawnPointCategory.EmergencyResponseTeam },
+		{ JobType.DEATHSQUAD, SpawnPointCategory.DeathSquad },
+
+		{ JobType.FUGITIVE, SpawnPointCategory.MaintSpawns },
+
+		{ JobType.SYNDICATE, SpawnPointCategory.Syndicate },
+		{ JobType.WIZARD, SpawnPointCategory.WizardFederation },
+	};
+
+		[SerializeField, FormerlySerializedAs("Department")]
+		private SpawnPointCategory category = default;
+
+		public static IEnumerable<Transform> GetPointsForCategory(SpawnPointCategory category)
+		{
+			return NetworkManager.startPositions.Select(x => x.transform)
+					.Where(x => x.GetComponent<SpawnPoint>().category == category);
+		}
+
+		public static Transform GetRandomPointForLateSpawn()
+		{
+			return GetPointsForCategory(SpawnPointCategory.LateJoin).ToList().PickRandom();
+		}
+
+		public static Transform GetRandomPointForJob(JobType job)
+		{
+			Transform point;
+			if (categoryByJob.ContainsKey(job) &&
+					(point = GetPointsForCategory(categoryByJob[job]).ToList().PickRandom()) != null)
+			{
+				return point;
+			}
+
+			// Default to arrivals if there is no mapped spawn point for this job!
+			// Will still return null if there is no arrivals spawn points set (and people will just not spawn!).
+			return GetRandomPointForLateSpawn();
+		}
+	}
+
+	public enum SpawnPointCategory
+	{
+		TheGrayTide,
+		Medical,
+		Engineering,
+		Security,
+		Research,
+		ResearchHead,
+		Robotics,
+		AI,
+		EngineeringHead,
+		Atmos,
+		Lawyer,
+		Warden,
+		Detective,
+		HOS,
+		Kitchen,
+		Bar,
+		Personnel,
+		Syndicate,
+		Captain,
+		HoP,
+		Cargo,
+		CargoHead,
+		Janitor,
+		Mining,
+		Entertainers,
+		CMO,
+		Chemist,
+		Botany,
+		Church,
+		Clown,
+		Mime,
+		LateJoin,
+		GhostTeleportSites,
+		CentCommCommander,
+		CentComm,
+		DeathSquad,
+		EmergencyResponseTeam,
+		MaintSpawns,
+		WizardFederation,
+		SpaceExterior,
 	}
 }
