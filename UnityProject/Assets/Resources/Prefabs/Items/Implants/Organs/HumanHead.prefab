@@ -14,20 +14,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: a287909510702fa459ce9438065b085a,
-        type: 2}
-    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
-        type: 3}
-      propertyPath: itemStorageStructure
-      value: 
-      objectReference: {fileID: 11400000, guid: a5d824fe561730a4a98eff3f985fba4a,
-        type: 2}
-    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
-        type: 3}
       propertyPath: Populater.Contents.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -39,7 +27,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Populater.Contents.Array.data[1]
       value: 
-      objectReference: {fileID: 9217760166789040711, guid: 3dde9705fadbaff4dbad903670db7d08,
+      objectReference: {fileID: 2299572021521899153, guid: 43e80b782d31dac4384d245df9f34dcd,
         type: 3}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -180,12 +168,6 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A decapitated human head.
       objectReference: {fileID: 0}
-    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 8d9bddcf38348465eb528212d15282b5,
-        type: 2}
     - target: {fileID: 2733873253844105974, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_Sprite

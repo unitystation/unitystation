@@ -87,9 +87,14 @@ namespace Lobby
 
 		public List<SpriteHandlerNorder> SurfaceSprite = new List<SpriteHandlerNorder>();
 
+		public int SelectedSpecies = 0;
+
+
+		public InputField SerialiseData;
+
 		void OnEnable()
 		{
-			LoadSettings();
+			LoadSettings(PlayerManager.CurrentCharacterSettings);
 			colorPicker.gameObject.SetActive(false);
 			colorPicker.onValueChanged.AddListener(OnColorChange);
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
@@ -115,6 +120,12 @@ namespace Lobby
 				onCloseAction.Invoke();
 				onCloseAction = null;
 			}
+			Cleanup();
+		}
+
+		public void Cleanup()
+		{
+
 
 			foreach (var C in OpenCustomisation)
 			{
@@ -142,11 +153,12 @@ namespace Lobby
 			OpenBodyCustomisation.Clear();
 			OpenCustomisation.Clear();
 			SurfaceSprite.Clear();
+
 		}
 
-		private void LoadSettings()
+		private void LoadSettings(CharacterSettings inCharacterSettings)
 		{
-			currentCharacter = PlayerManager.CurrentCharacterSettings;
+			currentCharacter = inCharacterSettings;
 			//If we are playing locally offline, init character settings if they're null
 			if (currentCharacter == null)
 			{
@@ -157,7 +169,7 @@ namespace Lobby
 			PlayerHealthData SetRace = null;
 			foreach (var Race in RaceSOSingleton.Instance.Races)
 			{
-				if (Race.name == currentCharacter.Race)
+				if (Race.name == currentCharacter.Species)
 				{
 					SetRace = Race;
 				}
@@ -166,6 +178,17 @@ namespace Lobby
 			if (SetRace == null)
 			{
 				SetRace = RaceSOSingleton.Instance.Races.First();
+			}
+
+			//SelectedSpecies
+			SelectedSpecies = 0;
+			foreach (var Species in RaceSOSingleton.Instance.Races)
+			{
+				if (Species == SetRace)
+				{
+					break;
+				}
+				SelectedSpecies++;
 			}
 
 			AvailableBodyTypes = SetRace.Base.bodyTypeSettings.AvailableBodyTypes;
@@ -182,7 +205,6 @@ namespace Lobby
 		{
 			BasedBodyPart(Race.Base.Torso);
 			BasedBodyPart(Race.Base.Head);
-			BasedBodyPart(Race.Base.Eyes);
 			BasedBodyPart(Race.Base.ArmLeft);
 			BasedBodyPart(Race.Base.ArmRight);
 			BasedBodyPart(Race.Base.LegLeft);
@@ -414,9 +436,12 @@ namespace Lobby
 				SelectedBodyType = 0;
 			}
 
-
-
-
+			RefreshAge();
+			RefreshName();
+			RefreshAccent();
+			RefreshBodyType();
+			RefreshBackpack();
+			RefreshClothing();
 		}
 
 		public void RollRandomCharacter()
@@ -585,7 +610,6 @@ namespace Lobby
 
 			SetDropDownBody(ThisSetRace.Base.Torso);
 			SetDropDownBody(ThisSetRace.Base.Head);
-			SetDropDownBody(ThisSetRace.Base.Eyes);
 			SetDropDownBody(ThisSetRace.Base.ArmLeft);
 			SetDropDownBody(ThisSetRace.Base.ArmRight);
 			SetDropDownBody(ThisSetRace.Base.LegLeft);
@@ -671,7 +695,6 @@ namespace Lobby
 			bodyPartCustomisationStorage.Clear();
 			SaveBodyPart(ThisSetRace.Base.Torso);
 			SaveBodyPart(ThisSetRace.Base.Head);
-			SaveBodyPart(ThisSetRace.Base.Eyes);
 			SaveBodyPart(ThisSetRace.Base.ArmLeft);
 			SaveBodyPart(ThisSetRace.Base.ArmRight);
 			SaveBodyPart(ThisSetRace.Base.LegLeft);
@@ -854,6 +877,7 @@ namespace Lobby
 		private void RefreshBodyType()
 		{
 			genderText.text = ThisBodyType.Name;
+			SurfaceSprite.Clear();
 			var Copy = new Dictionary<BodyPart, List<SpriteHandlerNorder>>(OpenBodySprites);
 			foreach (var KVP in Copy)
 			{
@@ -863,9 +887,22 @@ namespace Lobby
 				}
 
 				SetupBodyPartsSprites(KVP.Key);
+
+
+			}
+
+			foreach (var BodyCustomisation in OpenBodyCustomisation)
+			{
+				BodyCustomisation.Value.Refresh();
+			}
+
+			foreach (var Customisation in OpenCustomisation)
+			{
+				Customisation.Refresh();
 			}
 
 			currentCharacter.BodyType = AvailableBodyTypes[SelectedBodyType].bodyType;
+			SkinColourChange(CurrentSurfaceColour);
 			SetRotation();
 		}
 
@@ -1018,21 +1055,63 @@ namespace Lobby
 
 		public void OnRaceChange()
 		{
-			// int race = (int) currentCharacter.Race;
-			// race++;
-			// if (race == (int)Race.Human)
-			// {
-			// race = 0;
-			// }
+			SelectedSpecies++;
+			if (SelectedSpecies >= RaceSOSingleton.Instance.Races.Count)
+			{
+				SelectedSpecies = 0;
+			}
 
-			// currentCharacter.Race = (Race)race;
+			currentCharacter.Species = RaceSOSingleton.Instance.Races[SelectedSpecies].name;
+
+			Cleanup();
+
 			RefreshRace();
 		}
 
 		private void RefreshRace()
 		{
-			raceText.text = currentCharacter.Race.ToString();
+			SaveData();
+			raceText.text = currentCharacter.Species.ToString();
+			var SetRace= RaceSOSingleton.Instance.Races[SelectedSpecies];
+			availableSkinColors = SetRace.Base.SkinColours;
+			SetUpSpeciesBody(SetRace);
+			PopulateAllDropdowns(SetRace);
+			DoInitChecks();
+
+			foreach (var BodyCustomisation in OpenBodyCustomisation)
+			{
+				BodyCustomisation.Value.Refresh();
+			}
+
+			foreach (var Customisation in OpenCustomisation)
+			{
+				Customisation.Refresh();
+			}
+
 		}
+
+
+		public void InputSerialiseData()
+		{
+			SaveData();
+			SerialiseData.text = JsonConvert.SerializeObject(currentCharacter);
+		}
+
+
+		public void LoadSerialisedData()
+		{
+			var inCharacter = JsonConvert.DeserializeObject<CharacterSettings>(SerialiseData.text);
+			if (inCharacter != null)
+			{
+				currentCharacter = inCharacter;
+				currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
+				Cleanup();
+				LoadSettings(currentCharacter);
+			}
+
+
+		}
+
 
 		public enum CharacterDir
 		{

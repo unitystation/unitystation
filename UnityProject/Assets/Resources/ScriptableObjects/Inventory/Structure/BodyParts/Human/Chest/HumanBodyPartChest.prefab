@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: cd30a2ac1bcd7c5498ea24f3df62fc09,
+  itemStorageStructure: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
     type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 6f0e29c7be781754896d30e71cf91c39,
+  itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
   UesAddlistPopulater: 1
@@ -67,9 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
-  optionalOrgans:
-  - {fileID: 6357466698164911791, guid: c2195214780ed23449c09a91ba0bd1b2, type: 3}
-  - {fileID: 3921053342176351096, guid: 36be3f4304ab4df4e95e66cf7b4118fd, type: 3}
+  optionalOrgans: []
   bodyPartType: 1
   ItemStorage: {fileID: 0}
   PlayerSprites: {fileID: 0}
