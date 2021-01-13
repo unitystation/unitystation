@@ -49,6 +49,10 @@ public class BodyPartDropDownReplaceOrgan : BodyPartCustomisationBase
 	public override void Deserialise(string InData)
 	{
 		var Newvalue = JsonConvert.DeserializeObject<int>(InData);
+		if (Newvalue >= ToChooseFromBodyParts.Count)
+		{
+			Newvalue = 0;
+		}
 		Dropdown.value = Newvalue;
 	}
 
@@ -61,7 +65,11 @@ public class BodyPartDropDownReplaceOrgan : BodyPartCustomisationBase
 		LivingHealthMasterBase LivingHealthMasterBase)
 	{
 		var PreviousOptions = JsonConvert.DeserializeObject<int>(InData);
-
+		if (PreviousOptions >= Body_Part.OptionalReplacementOrgan.Count)
+		{
+			return;
+		}
+		
 		var spawned = Spawn.ServerPrefab(Body_Part.OptionalReplacementOrgan[PreviousOptions].gameObject);
 		var Parent = Body_Part.GetParent();
 		if (Parent != null)

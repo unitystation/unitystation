@@ -30,7 +30,7 @@ public class CharacterSettings
 	public List<ExternalCustomisation> SerialisedExternalCustom;
 
 
-	public string Race = "Human";
+	public string Species = "Human";
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
 
