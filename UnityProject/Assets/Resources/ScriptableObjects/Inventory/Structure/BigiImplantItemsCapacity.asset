@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42dcf3d27d496c844b90e47d3112897f, type: 3}
-  m_Name: RaceSOSingleton
+  m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
+  m_Name: BigiImplantItemsCapacity
   m_EditorClassIdentifier: 
-  Races:
-  - {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
-  - {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
+  MaxItemSize: 4
+  Whitelist:
+  - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
+  Required: []
+  Blacklist: []
