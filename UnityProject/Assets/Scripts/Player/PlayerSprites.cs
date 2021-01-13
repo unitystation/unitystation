@@ -251,7 +251,7 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 		PlayerHealthData SetRace = null;
 		foreach (var Race in RaceSOSingleton.Instance.Races)
 		{
-			if (Race.name == ThisCharacter.Race)
+			if (Race.name == ThisCharacter.Species)
 			{
 				SetRace = Race;
 			}
@@ -549,6 +549,17 @@ public class PlayerSprites : MonoBehaviour, IOnLightningHit
 		}
 
 		ThisCharacter = characterSettings;
+
+		PlayerHealthData SetRace = null;
+		foreach (var Race in RaceSOSingleton.Instance.Races)
+		{
+			if (Race.name == ThisCharacter.Species)
+			{
+				RaceBodyparts = Race;
+			}
+		}
+
+
 		SetUpCharacter(characterSettings);
 		SetupCharacterData(characterSettings);
 		// FIXME: this probably shouldn't send ALL of the character settings to everyone
