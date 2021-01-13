@@ -16,12 +16,9 @@ public class PlayerHealthData : ScriptableObject
 public class RaceHealthData
 {
 	public GameObject Head;
-	public GameObject Eyes; //Implant should be in head damage area redirected
 	public GameObject Torso;
 	public GameObject ArmRight;
 	public GameObject ArmLeft;
-	public GameObject HandRight; //idk
-	public GameObject HandLeft; //idk
 	public GameObject LegRight;
 	public GameObject LegLeft;
 
