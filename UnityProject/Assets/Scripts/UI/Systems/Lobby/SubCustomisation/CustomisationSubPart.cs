@@ -146,7 +146,7 @@ public class CustomisationSubPart : MonoBehaviour
 		color = newColor;
 		Refresh();
 	}
-	private void Refresh()
+	public void Refresh()
 	{
 		if (Dropdown.value == 0)
 		{
