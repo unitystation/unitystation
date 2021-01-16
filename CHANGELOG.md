@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/1/16: Added ability for bike horns to honk when people step on them. by [PetMudstone](https://github.com/PetMudstone) in PR #[5871](https://github.com/unitystation/unitystation/pull/5871)
 * 2021/1/11: Added ability for toolboxes to sometimes have two or three latches instead of just one on their sprites. This does not affect gameplay. by [PetMudstone](https://github.com/PetMudstone) in PR #[5852](https://github.com/unitystation/unitystation/pull/5852)
 * 2021/1/11: Adjusted Boxstation armory to be more in line with other maps. No more LMGs and Uzis. by [PetMudstone](https://github.com/PetMudstone) in PR #[5852](https://github.com/unitystation/unitystation/pull/5852)
 * 2021/1/10: Added drink animations. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5851](https://github.com/unitystation/unitystation/pull/5851)
