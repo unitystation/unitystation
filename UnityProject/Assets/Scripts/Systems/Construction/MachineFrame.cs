@@ -59,6 +59,8 @@ namespace Objects.Construction
 
 		private StatefulState CurrentState => stateful.CurrentState;
 
+		private List<VendorItem> previousVendorContent;
+
 		private void Awake()
 		{
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
@@ -387,6 +389,17 @@ namespace Objects.Construction
 				spawnedObject.SetPartsInFrame(partsInFrame);
 				spawnedObject.SetMachineParts(machineParts);
 
+				//Restoring previous vendor content if possible
+				var vendor = spawnedObject.GetComponent<Vendor>();
+				if (vendor != null)
+				{
+					var vendorContent = GetPreviousVendorContent();
+					if(vendorContent != null)
+					{
+						vendor.VendorContent = vendorContent;
+					}
+				}
+
 				//Despawn frame
 				Despawn.ServerSingle(gameObject);
 			}
@@ -657,17 +670,22 @@ namespace Objects.Construction
 
 			// Basic items to the machine frame from the despawned machine
 			machineParts = machine.MachineParts;
+			partsInFrame = machine.PartsInFrame;
+			basicPartsUsed = machine.BasicPartsUsed;
+
+			// Save vendor content if necessary, which is stored temporarily in the machine frame and transferred to the restock item if it exists
+			var vendor = machine.GetComponent<Vendor>();
+			if (vendor != null)
+			{
+				previousVendorContent = vendor.VendorContent;
+			}
+			TryTransferVendorContent();
 
 			allowedTraits.Clear();
-
 			foreach (var list in machineParts.machineParts)
 			{
 				allowedTraits.Add(new AllowedTraitList(list.itemTrait));
 			}
-
-			partsInFrame = machine.PartsInFrame;
-
-			basicPartsUsed = machine.BasicPartsUsed;
 
 			// Put it in
 			Inventory.ServerAdd(board, circuitBoardSlot);
@@ -676,6 +694,34 @@ namespace Objects.Construction
 			objectBehaviour.ServerSetPushable(false);
 			stateful.ServerChangeState(partsAddedState);
 			putBoardInManually = false;
+		}
+
+		/// <summary>
+		/// Transfers vendor content data to the first restock item found in partsInFrame
+		/// </summary>
+		private void TryTransferVendorContent()
+		{
+			foreach(var part in partsInFrame)
+			{
+				var restock = part.Key.GetComponent<VendingRestock>();
+				if (restock != null)
+				{
+					restock.SetPreviousVendorContent(previousVendorContent);
+					previousVendorContent = null;
+					return;
+				}
+			}
+		}
+
+		private List<VendorItem> GetPreviousVendorContent()
+		{
+			foreach(var part in partsInFrame)
+			{
+				var restock = part.Key.GetComponent<VendingRestock>();
+				if (restock != null && restock.PreviousVendorContent != null)
+					return restock.PreviousVendorContent;
+			}
+			return previousVendorContent;
 		}
 
 		public void WhenDestroyed(DestructionInfo info)
@@ -698,7 +744,16 @@ namespace Objects.Construction
 			{
 				foreach (var part in machineParts.machineParts)
 				{
-					Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
+					//Spawn the part
+					var partObj = Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart).GameObject;
+
+					//Transfer vendor content if possible
+					var restock = partObj.GetComponent<VendingRestock>();
+					if (restock != null && previousVendorContent != null)
+					{
+						restock.SetPreviousVendorContent(previousVendorContent);
+						previousVendorContent = null;
+					}
 				}
 			}
 			else
