@@ -78,7 +78,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 		StartCoroutine( StartCooldown());
 	}
 
-	private void ClassicHonk()
+	public void ClassicHonk()
 	{
 		SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetHonkSoundObject());
 	}
