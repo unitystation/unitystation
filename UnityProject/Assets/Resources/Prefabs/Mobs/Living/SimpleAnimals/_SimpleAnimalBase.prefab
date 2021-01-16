@@ -29,22 +29,6 @@ MonoBehaviour:
   RTT: 0
   RadiationStacks: 0
   deadState: 0
---- !u!114 &4275609206241353299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7494601431046934675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fade882731d3484cb3c63dfcad2def4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activated: 0
-  tickRate: 1
-  status: 0
-  fleeTarget: {fileID: 0}
 --- !u!114 &4462273466969889628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +90,13 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 1
+  EatFoodA:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   target: 0
   actionPerformTime: 0
   hasFoodPrefereces: 0
@@ -158,6 +149,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3980776085601068092, guid: 7d1194368de61d14b85c45c90d409c20,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3980776085601068092, guid: 7d1194368de61d14b85c45c90d409c20,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -173,6 +169,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3980776085601068092, guid: 7d1194368de61d14b85c45c90d409c20,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3980776085601068092, guid: 7d1194368de61d14b85c45c90d409c20,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -184,16 +185,6 @@ PrefabInstance:
     - target: {fileID: 3980776085601068092, guid: 7d1194368de61d14b85c45c90d409c20,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3980776085601068092, guid: 7d1194368de61d14b85c45c90d409c20,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3980776085601068092, guid: 7d1194368de61d14b85c45c90d409c20,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3980776085601068092, guid: 7d1194368de61d14b85c45c90d409c20,

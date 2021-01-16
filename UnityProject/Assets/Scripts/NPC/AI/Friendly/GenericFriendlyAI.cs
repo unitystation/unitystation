@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using NaughtyAttributes;
+﻿using System.Collections;
 using UnityEngine;
 using WebSocketSharp;
 using Systems.Mob;
