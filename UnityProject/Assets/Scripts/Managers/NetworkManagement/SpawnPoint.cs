@@ -98,7 +98,61 @@ namespace Systems.Spawns
 			// Will still return null if there is no arrivals spawn points set (and people will just not spawn!).
 			return GetRandomPointForLateSpawn();
 		}
+
+	private string iconName => iconNames[category];
+
+	private void OnDrawGizmos()
+	{
+	Gizmos.DrawIcon(transform.position, iconName);
 	}
+	
+	private static readonly Dictionary<SpawnPointCategory, string> iconNames = new Dictionary<SpawnPointCategory, string>()
+	{
+		{SpawnPointCategory.Assistant, "Mapping/mapping_assistant.png"},
+		{SpawnPointCategory.Medical, "Mapping/mapping_medical_doctor.png"},
+		{SpawnPointCategory.StationEngineer, "Mapping/mapping_station_engineer.png"},
+		{SpawnPointCategory.SecurityOfficer, "Mapping/mapping_security_officer.png"},
+		{SpawnPointCategory.Scientist, "Mapping/mapping_scientist.png"},
+		{SpawnPointCategory.ResearchDirector, "Mapping/mapping_research_director.png"},
+		{SpawnPointCategory.Roboticist, "Mapping/mapping_roboticist.png"},
+		{SpawnPointCategory.AI, "Mapping/mapping_AI.png"},
+		{SpawnPointCategory.ChiefEngineer, "Mapping/mapping_chief_engineer.png"},
+		{SpawnPointCategory.AtmosphericTechnician, "Mapping/mapping_atmospheric_technician.png"},
+		{SpawnPointCategory.Lawyer, "Mapping/mapping_lawyer.png"},
+		{SpawnPointCategory.Warden, "Mapping/mapping_warden.png"},
+		{SpawnPointCategory.Detective, "Mapping/mapping_detective.png"},
+		{SpawnPointCategory.HeadOfSecurity, "Mapping/mapping_head_of_security.png"},
+		{SpawnPointCategory.Cook, "Mapping/mapping_cook.png"},
+		{SpawnPointCategory.Bartender, "Mapping/mapping_bartender.png"},
+		{SpawnPointCategory.Curator, "Mapping/mapping_curator.png"},
+		{SpawnPointCategory.NuclearOperative, "Mapping/mapping_snukeop_spawn.png"},
+		{SpawnPointCategory.Captain, "Mapping/mapping_captain.png"},
+		{SpawnPointCategory.HeadOfPersonnel, "Mapping/mapping_head_of_personnel.png"},
+		{SpawnPointCategory.CargoTechnician, "Mapping/mapping_cargo_technician.png"},
+		{SpawnPointCategory.Quartermaster, "Mapping/mapping_quartermaster.png"},
+		{SpawnPointCategory.Janitor, "Mapping/mapping_janitor.png"},
+		{SpawnPointCategory.ShaftMiner, "Mapping/mapping_shaft_miner.png"},
+		{SpawnPointCategory.ChiefMedicalOfficer, "Mapping/mapping_chief_medical_officer.png"},
+		{SpawnPointCategory.Chemist, "Mapping/mapping_chemist.png"},
+		{SpawnPointCategory.Botanist, "Mapping/mapping_botanist.png"},
+		{SpawnPointCategory.Chaplain, "Mapping/mapping_chaplain.png"},
+		{SpawnPointCategory.Clown, "Mapping/mapping_clown.png"},
+		{SpawnPointCategory.Mime, "Mapping/mapping_mime.png"},
+		{SpawnPointCategory.LateJoin, "Mapping/mapping_x2.png"},
+		{SpawnPointCategory.GhostTeleportSites, "Mapping/mapping_observer_start.png"},
+		{SpawnPointCategory.CentCommCommander, "Mapping/mapping_ert_spawn.png"},
+		{SpawnPointCategory.CentComm, "Mapping/mapping_ert_spawn.png"},
+		{SpawnPointCategory.DeathSquad, "Mapping/mapping_ert_spawn.png"},
+		{SpawnPointCategory.EmergencyResponseTeam, "Mapping/mapping_ert_spawn.png"},
+		{SpawnPointCategory.MaintSpawns, "Mapping/mapping_mouse.png"},
+		{SpawnPointCategory.WizardFederation, "Mapping/mapping_wiznerd_spawn.png"},
+		{SpawnPointCategory.SpaceExterior, "Mapping/mapping_carp_spawn.png"},
+	};
+
+	}
+
+
+
 
 	public enum SpawnPointCategory
 	{
