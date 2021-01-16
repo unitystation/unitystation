@@ -17,9 +17,6 @@ namespace Systems.MobAIs
 		[SerializeField, Tooltip("Check this if this chicken is a grown up chicken in age of laying eggs")]
 		private bool grownChicken = true;
 
-		[SerializeField, Tooltip("If this chicken's mood is at least this level, she will lay eggs")]
-		private int happyChicken = 50;
-
 		[SerializeField, Tooltip("The maximum amount of eggs this chicken can lay in her lifetime")]
 		private int maxEggsAmount = 4;
 
@@ -47,14 +44,14 @@ namespace Systems.MobAIs
 
 		protected override void DoRandomAction()
 		{
-			// Check if we're a happy chiken/chick or we alreday laid all possible egs
-			if (mood.Level < happyChicken || currentLaidEggs == maxEggsAmount)
+			// Check if we alreday laid all possible egs
+			if (currentLaidEggs == maxEggsAmount)
 			{
 				return;
 			}
 
 			// roll current mood level
-			if (!DMMath.Prob(mood.Level/2))
+			if (DMMath.Prob(mood.LevelPercent) == false)
 			{
 				return;
 			}
@@ -67,13 +64,14 @@ namespace Systems.MobAIs
 					gameObject.RegisterTile().WorldPosition,
 					scatterRadius: 1f);
 
-				if (eggGo.Successful)
-
+				if (!eggGo.Successful)
 				{
-					// chances of fertilized egg are equal to mommy's happiness
-					eggGo.GameObject.GetComponent<ChickenEgg>().SetFertilizedChance(mood.Level);
-					currentLaidEggs++;
+					return;
 				}
+
+				// chances of fertilized egg are equal to mommy's happiness
+				eggGo.GameObject.GetComponent<ChickenEgg>().SetFertilizedChance(mood.LevelPercent);
+				currentLaidEggs++;
 			}
 			else
 			{
