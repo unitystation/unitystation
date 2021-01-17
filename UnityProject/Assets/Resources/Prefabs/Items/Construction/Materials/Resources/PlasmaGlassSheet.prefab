@@ -66,8 +66,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: exportCost
+      value: 158
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: exportName
+      value: cm3 of plasma glass
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -82,15 +87,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: f44d6f21e4c4ec34081f548b0acaf32c,
-        type: 2}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 67ed46f181c5a3e4da7706470b4a49d3,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f44d6f21e4c4ec34081f548b0acaf32c,
         type: 2}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -100,8 +110,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: Resistances.AcidProof
-      value: 1
+      propertyPath: Armor.Acid
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -110,8 +120,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 100
+      propertyPath: Resistances.AcidProof
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -122,6 +132,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlasmaGlassSheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -140,6 +155,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -152,16 +172,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}

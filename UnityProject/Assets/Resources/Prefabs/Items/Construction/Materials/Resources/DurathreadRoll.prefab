@@ -21,14 +21,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: hitDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: initialDescription
-      value: A fabric sown from incredibly durable threads, known for its usefulness
-        in armor production.
+      propertyPath: exportCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: exportName
+      value: cm3 of durathread
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -42,8 +46,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: hitDamage
-      value: 0
+      propertyPath: initialDescription
+      value: A fabric sown from incredibly durable threads, known for its usefulness
+        in armor production.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -68,6 +78,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -83,6 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -95,16 +115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -127,5 +137,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2155ccca45fc26d45a954ae7b5070670,
         type: 3}
+    - target: {fileID: 8637049411140268899, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b56fec0300832ce48ade0ddf2e577ee7, type: 3}

@@ -15,13 +15,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: exportCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: exportName
+      value: cm3 of plastic
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: initialName
       value: plastic
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: throwDamage
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -31,9 +41,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: throwDamage
-      value: 7
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e30f16a346eacfc4bb67abdad70cbea0,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: da9db321f2302f944a50a4783e2cb5ad,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: bce1e22b358767846b605018df592bea,
+        type: 2}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
@@ -44,24 +72,6 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 1ab46d2b2968f7c46b54df16cc0187e6, type: 3}
-    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: da9db321f2302f944a50a4783e2cb5ad,
-        type: 2}
-    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: e30f16a346eacfc4bb67abdad70cbea0,
-        type: 2}
-    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: bce1e22b358767846b605018df592bea,
-        type: 2}
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_AssetId
@@ -71,6 +81,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlasticSheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -89,6 +104,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -101,16 +121,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -133,5 +143,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 157f7e8ac6c29ee498683ea3f85c3b56,
         type: 3}
+    - target: {fileID: 8637049411140268899, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b56fec0300832ce48ade0ddf2e577ee7, type: 3}
