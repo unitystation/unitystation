@@ -13532,6 +13532,86 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &1302938533
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 262739423847989213}
+    m_Modifications:
+    - target: {fileID: 614676293081359620, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_Name
+      value: ExplorationSite-Palace
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 41
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.001001
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 38.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7be3b1eb3cca1f64f94531200c4f1e0e, type: 3}
+--- !u!4 &1302938534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1302938533}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1303352494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16537,6 +16617,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 262739423847989213}
     m_Modifications:
+    - target: {fileID: 6468444567758293264, guid: 48215d170df22564f8730864a0fc91e2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c39d19bba0ae67943a58040a898fdf54,
+        type: 3}
     - target: {fileID: 7218137578837265514, guid: 48215d170df22564f8730864a0fc91e2,
         type: 3}
       propertyPath: sceneId
@@ -22412,7 +22498,7 @@ Transform:
   - {fileID: 3812817894432258693}
   - {fileID: 8995476134345302377}
   - {fileID: 8564029295820800983}
-  - {fileID: 2985934111177921790}
+  - {fileID: 1302938534}
   - {fileID: 7236619366620962895}
   - {fileID: 576359051}
   - {fileID: 15662853}
@@ -23511,7 +23597,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 26
+  m_SortingLayer: 27
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -26924,20 +27010,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2934075350316785197}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2985934111177921790
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7682429856797800749}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03, y: 38.11, z: 0.5}
-  m_LocalScale: {x: 1, y: 1.001001, z: 1}
-  m_Children: []
-  m_Father: {fileID: 262739423847989213}
-  m_RootOrder: 41
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3002690966314196425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76105,19 +76177,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6555647834648929591}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6561048893085935231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7682429856797800749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Department: 32
 --- !u!1001 &6561927650206054663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77477,23 +77536,6 @@ GameObject:
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &7682429856797800749
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2985934111177921790}
-  - component: {fileID: 6561048893085935231}
-  m_Layer: 0
-  m_Name: ExporationSite-Palace
-  m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
