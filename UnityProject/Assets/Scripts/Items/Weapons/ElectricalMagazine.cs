@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -18,6 +19,14 @@ public class ElectricalMagazine : MagazineBehaviour
 	{
 		magType = MagType.Cell;
 		battery = GetComponent<Battery>();
+	}
+
+	public override void InitLists()
+	{
+		containedProjectilesFired  = new List<int>(1);
+		containedBullets  = new List<GameObject>(1);
+		containedBullets.Add(initalProjectile);
+		containedProjectilesFired.Add(ProjectilesFired);
 	}
 
 	public override void ExpendAmmo(int amount = 1)
