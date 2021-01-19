@@ -36,20 +36,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
+      propertyPath: initialName
+      value: tomato juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
       propertyPath: initialDescription
       value: Well, at least it LOOKS like tomato juice. You can't tell with all that
         redness.
       objectReference: {fileID: 0}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: initialName
-      value: tomato juice
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f180f9405f9ad24b8195dbc1b1681cf,
+        type: 2}
+    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a15ebb6ad3276b40a5c74645251d0d1,
+        type: 2}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: bb630ccefb2d60d4a930a63dd19d80b5, type: 3}
+    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: d85b95fa86f0ddc4f9b9c0ec1cdda80b, type: 3}
+    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 0020cbe03614e124284904f855713165, type: 3}
+    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: d0c8f1ffdd1ae92448badaa2ab095d83, type: 3}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -76,16 +103,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 0020cbe03614e124284904f855713165, type: 3}
-    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: d85b95fa86f0ddc4f9b9c0ec1cdda80b, type: 3}
-    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: d85b95fa86f0ddc4f9b9c0ec1cdda80b,
@@ -108,23 +125,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: d85b95fa86f0ddc4f9b9c0ec1cdda80b,
         type: 3}
-    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: d0c8f1ffdd1ae92448badaa2ab095d83, type: 3}
-    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 9f180f9405f9ad24b8195dbc1b1681cf,
-        type: 2}
-    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 2a15ebb6ad3276b40a5c74645251d0d1,
-        type: 2}
     - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_AssetId
@@ -134,6 +134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TomatoJuice
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -152,6 +157,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -164,16 +174,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -196,5 +196,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 0fa384a153c11ee4b827613106b30eef,
         type: 3}
-    m_RemovedComponents: []
+    - target: {fileID: 6274066957328979703, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8615067477857975223, guid: f1a38b78ce2ca024a92744e263e5e94a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f1a38b78ce2ca024a92744e263e5e94a, type: 3}
