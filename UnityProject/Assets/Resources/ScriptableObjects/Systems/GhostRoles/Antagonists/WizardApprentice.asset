@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bf4d5e2bd850949b9b9f6afe22de9b, type: 3}
+  m_Name: WizardApprentice
+  m_EditorClassIdentifier: 
+  name: Apprentice Wizard
+  description: Do the bidding of your master.
+  sprite: {fileID: 11400000, guid: c251e51c37931a447966369525ec261e, type: 2}
+  respawnType: 2
+  targetOccupation: {fileID: 11400000, guid: 191fa13b4d14221479bf108a4c9628fa, type: 2}
+  targetAntagonist: {fileID: 11400000, guid: 7325a4893b19676439a5fdb39d2cc069, type: 2}
+  minPlayers: 1
+  maxPlayers: 1
+  timeout: 15
+  playerCountType: 2

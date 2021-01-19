@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Messages.Client;
 using Mirror;
 
 /// <summary>
@@ -10,7 +11,6 @@ public class RequestMoveMessage : ClientMessage
 
 	public override void Process()
 	{
-//		Logger.Log("Processed " + ToString());
 		SentByPlayer.Script.PlayerSync.ProcessAction(Action);
 	}
 

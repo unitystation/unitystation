@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using Messages.Client;
 using Mirror;
+using Doors;
 
 public class DoorNewPlayer: ClientMessage
 {
@@ -7,12 +9,14 @@ public class DoorNewPlayer: ClientMessage
 
 	public override void Process()
 	{
-		LoadNetworkObject(Door);
-		var doorController = NetworkObject.GetComponent<DoorController>();
-
-		if (doorController != null)
+		// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
+		if (LoadNetworkObject(Door))
 		{
-			doorController.UpdateNewPlayer(SentByPlayer.Connection);
+			// https://docs.unity3d.com/2019.3/Documentation/ScriptReference/Component.TryGetComponent.html
+			if (NetworkObject.TryGetComponent(out DoorController doorController))
+			{
+				doorController.UpdateNewPlayer(SentByPlayer.Connection);
+			}
 		}
 	}
 
@@ -24,17 +28,5 @@ public class DoorNewPlayer: ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Door = reader.ReadUInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(Door);
 	}
 }

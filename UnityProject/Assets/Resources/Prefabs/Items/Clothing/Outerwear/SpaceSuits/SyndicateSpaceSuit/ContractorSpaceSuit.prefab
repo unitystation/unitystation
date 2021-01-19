@@ -15,36 +15,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
-      propertyPath: Sprites.Array.size
+      propertyPath: SubCatalogue.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.size
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 13e81b2e364d87446ba06f578421a987,
+        type: 2}
     - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Texture
+      propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 2800000, guid: 2dbc0024eb6a3024cae7e788f52b5bfd, type: 3}
-    - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 2dbc0024eb6a3024cae7e788f52b5bfd,
-        type: 3}
-    - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300002, guid: 2dbc0024eb6a3024cae7e788f52b5bfd,
-        type: 3}
-    - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 987ce479e117aed4891baeb71860c302, type: 3}
+      objectReference: {fileID: 11400000, guid: 13e81b2e364d87446ba06f578421a987,
+        type: 2}
     - target: {fileID: 4427808407637942839, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
       propertyPath: runningSpeedDebuff
@@ -63,9 +48,9 @@ PrefabInstance:
     - target: {fileID: 8824115963441615701, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
       propertyPath: initialDescription
-      value: '"A specialised black and gold space suit that''s quicker, and more
-        compact than its standard Syndicate counterpart. Can be ultra-compressed
-        into even the tightest of spaces.'
+      value: A specialised black and red space suit that's quicker, and more compact
+        than its standard Syndicate counterpart. Can be ultra-compressed into even
+        the tightest of spaces.
       objectReference: {fileID: 0}
     - target: {fileID: 8824115963441615701, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}

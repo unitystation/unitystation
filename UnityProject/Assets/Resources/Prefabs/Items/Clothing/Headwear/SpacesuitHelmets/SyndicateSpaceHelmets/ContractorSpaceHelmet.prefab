@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 3732317202982782251, guid: 14560ef46420dc74987b83e71df1181b,
         type: 3}
       propertyPath: m_Name
-      value: ContractorSpaceSuit
+      value: ContractorSpaceHelmet
       objectReference: {fileID: 0}
     - target: {fileID: 3735833303697733727, guid: 14560ef46420dc74987b83e71df1181b,
         type: 3}
@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 3829818956363049545, guid: 14560ef46420dc74987b83e71df1181b,
         type: 3}
       propertyPath: initialDescription
-      value: A specialised black and gold helmet that's more compact than its standard
+      value: A specialised black and red helmet that's more compact than its standard
         Syndicate counterpart. Can be ultra-compressed into even the tightest of
         spaces.
       objectReference: {fileID: 0}
@@ -95,6 +95,12 @@ PrefabInstance:
       propertyPath: initialSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7389779781878611628, guid: 14560ef46420dc74987b83e71df1181b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fa9f8022762736945a05407c4a3b6913,
+        type: 2}
     - target: {fileID: 7761637519219103406, guid: 14560ef46420dc74987b83e71df1181b,
         type: 3}
       propertyPath: clothData

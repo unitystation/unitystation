@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Clown
   m_EditorClassIdentifier: 
   jobType: 12
+  isCrewmember: 1
+  lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: b3d4574084ed3407bb66a87f17a880f4, type: 2}
   limit: 1
   priority: 99
   allowedAccess: 180000004c00000022000000
+  spells: []
   progress: 65
   choiceColor: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
   previewSprite: {fileID: 21300000, guid: b4d07e97509a349408a91d89a773b5dc, type: 3}
@@ -32,3 +35,7 @@ MonoBehaviour:
     captain slip on a banana peel one too many times. Then you\u2019ll find yourself
     on the title screen.\r\n\r\nNot sure what to do? Try to stay alive, organize
     a comedy show, and HONK HONK HONK.\r"
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 1

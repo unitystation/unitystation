@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1392553746630242221
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1894789677739313904, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f717a8232afd319489869fc52fa63a4d,
+        type: 2}
+    - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: initialDescription
+      value: Contains a fertilizer that causes mild mutations and gradual plant growth
+        with each harvest.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: initialName
+      value: bottle of E-Z-Nutrient
+      objectReference: {fileID: 0}
+    - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ec0b4a1d2efcae4d93b816acf99db9f,
+        type: 2}
+    - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9935983888621df448290a33c2f2e47a,
+        type: 2}
+    - target: {fileID: 5663715803261177027, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5696413732617859447, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_Name
+      value: BottleOfEZNutrient
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784586889571695071, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784586889571695071, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784586889571695071, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5458b3a2fbbb709769a12535fe65de9f,
+        type: 2}
+    - target: {fileID: 6784586889571695071, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 50
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 752790e3dadac94449e7417e35974da5, type: 3}

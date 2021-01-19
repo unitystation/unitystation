@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Atmospherics;
-using PathFinding;
 using UnityEngine;
-using Mirror;
 using UnityEditor;
+using Systems.Atmospherics;
+using Systems.Cargo;
 using Random = UnityEngine.Random;
 using DatabaseAPI;
+using Items;
+using ScriptableObjects;
 
 namespace IngameDebugConsole
 {
@@ -131,6 +131,9 @@ namespace IngameDebugConsole
 
 		}
 
+#if UNITY_EDITOR
+		[MenuItem("Networking/Call shuttle")]
+#endif
 		[ConsoleMethod("call-shuttle", "Calls the escape shuttle. Server only command")]
 		public static void CallEscapeShuttle()
 		{
@@ -140,7 +143,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			if (GameManager.Instance.PrimaryEscapeShuttle.Status == ShuttleStatus.DockedCentcom)
+			if (GameManager.Instance.PrimaryEscapeShuttle.Status == EscapeShuttleStatus.DockedCentcom)
 			{
 				GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
 				Logger.Log("Called Escape shuttle from DebugConsole: "+result);
@@ -375,6 +378,22 @@ namespace IngameDebugConsole
 		}
 
 #if UNITY_EDITOR
+		[MenuItem("Networking/Give me some goddamn Gloves!")]
+#endif
+		private static void GiveGloves()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+				{
+					var InsulatedGloves = Spawn.ServerPrefab("InsulatedGloves").GameObject;
+					Inventory.ServerAdd(InsulatedGloves, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.hands), ReplacementStrategy.DropOther);
+				}
+
+			}
+		}
+
+#if UNITY_EDITOR
 		[MenuItem("Networking/Incinerate local player")]
 #endif
 		private static void Incinerate()
@@ -390,7 +409,7 @@ namespace IngameDebugConsole
 					var gasMix = matrix.MetaDataLayer.Get(localPos).GasMix;
 					gasMix.AddGas(Gas.Plasma, 100);
 					gasMix.AddGas(Gas.Oxygen, 100);
-					matrix.ReactionManager.ExposeHotspot(localPos, 1000, .2f);
+					matrix.ReactionManager.ExposeHotspot(localPos);
 				}
 			}
 		}
@@ -547,5 +566,60 @@ namespace IngameDebugConsole
 
 			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
 		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Calculate Cargo Export Costs")]
+		private static void SetCargoExportValues()
+		{
+			foreach (var cargoDataList in CargoManager.Instance.CargoData.Supplies)
+			{
+				foreach (var items in cargoDataList.Supplies)
+				{
+					int value = 0;
+					foreach (var item in items.Items)
+					{
+						if(item == null) continue;
+
+						var itemAttribute = item.GetComponent<ItemAttributesV2>();
+
+						if (itemAttribute != null)
+						{
+							value += itemAttribute.ExportCost;
+						}
+
+						var objectAttribute = item.GetComponent<ObjectAttributes>();
+
+						if (objectAttribute != null)
+						{
+							value += objectAttribute.ExportCost;
+						}
+					}
+
+					var itemAttributeCrate = items.Crate.GetComponent<ItemAttributesV2>();
+
+					if (items.Crate != null && itemAttributeCrate != null)
+					{
+						value += itemAttributeCrate.ExportCost;
+					}
+
+					var objectAttributesCrate = items.Crate.GetComponent<ObjectAttributes>();
+
+					if (items.Crate != null && objectAttributesCrate != null)
+					{
+						value += objectAttributesCrate.ExportCost;
+					}
+
+					items.TotalCreditExport = value;
+
+					if (value > items.CreditsCost)
+					{
+						Debug.LogError($"{items.OrderName}'s credit cost: {items.CreditsCost} is less than its export value: {value}, exploit possible!");
+					}
+
+					Debug.Log($"value: {value}, cost: {items.CreditsCost}, {items.OrderName}");
+				}
+			}
+			Debug.Log("Cost Calculation Complete");
+		}
+#endif
 	}
 }

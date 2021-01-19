@@ -19,6 +19,7 @@ TagManager:
   - APC
   - Abstract
   - Clothing
+  - Rcs
   layers:
   - Default
   - TransparentFX
@@ -62,17 +63,23 @@ TagManager:
   - name: Floors
     uniqueID: 322132419
     locked: 0
+  - name: GasPipeHidden
+    uniqueID: 250373215
+    locked: 0
+  - name: GasScrubber
+    uniqueID: 4262403347
+    locked: 0
+  - name: GasFilter
+    uniqueID: 3902669417
+    locked: 0
+  - name: GasPump
+    uniqueID: 1724189913
+    locked: 0
   - name: Blood
     uniqueID: 853167107
     locked: 0
   - name: Objects
     uniqueID: 4270805871
-    locked: 0
-  - name: Windows
-    uniqueID: 2192477027
-    locked: 0
-  - name: WindowDamage
-    uniqueID: 1908138053
     locked: 0
   - name: Walls
     uniqueID: 149917821
@@ -89,11 +96,23 @@ TagManager:
   - name: Items
     uniqueID: 2831759433
     locked: 0
+  - name: Windows
+    uniqueID: 2192477027
+    locked: 0
+  - name: WindowDamage
+    uniqueID: 1908138053
+    locked: 0
   - name: Bullets
     uniqueID: 2795705343
     locked: 0
   - name: Doors Open
     uniqueID: 2411169673
+    locked: 0
+  - name: Sign
+    uniqueID: 1855317293
+    locked: 0
+  - name: AboveSign
+    uniqueID: 2676502791
     locked: 0
   - name: Bodies
     uniqueID: 10580839
@@ -109,6 +128,12 @@ TagManager:
     locked: 0
   - name: Doors Closed
     uniqueID: 2469278067
+    locked: 0
+  - name: WallObject
+    uniqueID: 2330186233
+    locked: 0
+  - name: Fly
+    uniqueID: 2375682625
     locked: 0
   - name: Lighting
     uniqueID: 1085623217

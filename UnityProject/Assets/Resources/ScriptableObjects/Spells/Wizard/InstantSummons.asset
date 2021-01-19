@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
+  m_Name: InstantSummons
+  m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 0
+  callOnServer: 0
+  actionName: Instant Summons
+  description: This spell can be used to recall a previously marked item to your
+    hand from anywhere in the universe.
+  Sprites:
+  - {fileID: 11400000, guid: 1614448caa022bf47af36d46e7daa73a, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 8f7b96a7712804949a79f2ec18abee2c, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
+  spellImplementation: {fileID: 7469762742606550612, guid: bdb9771d5dc7d034e864aa8d662d1af0,
+    type: 3}
+  chargeType: 0
+  cooldownTime: 10
+  startingCharges: 10
+  castSound: SummonItemsGeneric
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 3
+  invocationMessage: GAR YOK
+  invocationMessageSelf: 
+  summonType: 0
+  summonObjects: []
+  summonTiles: []
+  summonPosition: 1
+  summonLifespan: 10
+  replaceExisting: 0
+  requireWizardGarb: 0
+  tierCount: 1
+  cooldownModifierPC: 20

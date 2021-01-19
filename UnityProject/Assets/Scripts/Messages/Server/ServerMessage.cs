@@ -35,7 +35,7 @@ public abstract class ServerMessage : GameMessageBase
 		Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
 	}
 
-	public void SendTo(GameObject recipient)
+	public virtual void SendTo(GameObject recipient)
 	{
 		if (recipient == null)
 		{
@@ -64,6 +64,12 @@ public abstract class ServerMessage : GameMessageBase
 		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 	}
 
+	public void SendTo(ConnectedPlayer recipient)
+	{
+		if (recipient == null) return;
+		SendTo(recipient.Connection);
+	}
+
 	public void SendTo(NetworkConnection recipient)
 	{
 		if (recipient == null) return;
@@ -78,7 +84,7 @@ public abstract class ServerMessage : GameMessageBase
 	{
 		var players = PlayerList.Instance.AllPlayers;
 
-		LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
+		LayerMask layerMask = LayerMask.GetMask( "Door Closed");
 		for (int i = players.Count - 1; i > 0; i--)
 		{
 			if (Vector2.Distance(worldPosition,
@@ -90,8 +96,8 @@ public abstract class ServerMessage : GameMessageBase
 			else
 			{
 				//within range, but check if they are in another room or hiding behind a wall
-				if (Physics2D.Linecast(worldPosition,
-					players[i].GameObject.transform.position, layerMask))
+				if (MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, layerMask,
+					players[i].GameObject.transform.position).ItHit)
 				{
 					//if it hit a wall remove that player
 					players.Remove(players[i]);
@@ -142,6 +148,28 @@ public abstract class ServerMessage : GameMessageBase
 
 	public void SendToAdmins()
 	{
+		var admins = PlayerList.Instance.GetAllAdmins();
+
+		foreach (var admin in admins)
+		{
+			if (PlayerList.Instance.ContainsConnection(admin.Connection))
+			{
+				admin.Connection.Send(this, 0);
+			}
+		}
+	}
+
+	public void SendToMentors()
+	{
+		var mentors = PlayerList.Instance.GetAllMentors();
+
+		foreach (var mentor in mentors)
+		{
+			if (PlayerList.Instance.ContainsConnection(mentor.Connection))
+			{
+				mentor.Connection.Send(this, 0);
+			}
+		}
 		var admins = PlayerList.Instance.GetAllAdmins();
 
 		foreach (var admin in admins)

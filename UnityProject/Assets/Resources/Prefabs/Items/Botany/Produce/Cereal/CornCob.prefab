@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &583448776967186467
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: throwSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: initialName
+      value: corn cob
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: initialSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: initialDescription
+      value: A reminder of meals gone by.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353717592831911221, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_Name
+      value: CornCob
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467490074185128065, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511048310713767529, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b84d169807e4344418d97d3921c0c15f,
+        type: 3}
+    - target: {fileID: 4511048310713767529, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6226849216177938727, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: seedPacket
+      value: 
+      objectReference: {fileID: 4067919374657561001, guid: f3bdddfdb45d67a48b3be064a3169fd8,
+        type: 3}
+    - target: {fileID: 7578885421250109106, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2faacbf81c2ce6c42a207a8c81394560,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 983b718a497883e46bb1b4c8927f9961, type: 3}

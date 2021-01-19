@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Mirror;
+using Messages.Client;
 using UnityEngine;
 
 public class OpenBookIDNetMessage : ClientMessage
@@ -30,21 +30,5 @@ public class OpenBookIDNetMessage : ClientMessage
 		msg.AdminToken = adminToken;
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		BookID = reader.ReadUInt64();
-		AdminId = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt64(BookID);
-		writer.WriteString(AdminId);
-		writer.WriteString(AdminToken);
 	}
 }

@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8891796486152224138}
   - component: {fileID: 83192708151968013}
+  - component: {fileID: 6191691069550133558}
   m_Layer: 12
-  m_Name: sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300004, guid: a3757f42ebbdcb040b27dbd518705d09, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a3757f42ebbdcb040b27dbd518705d09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -81,6 +83,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6191691069550133558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3392343644113499114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 66aea42329e6ec34383d84308d39e0b8, type: 2}
+  - {fileID: 11400000, guid: 66aea42329e6ec34383d84308d39e0b8, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 66aea42329e6ec34383d84308d39e0b8, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &4826224059160213873
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +294,8 @@ GameObject:
   - component: {fileID: 3708589072684735304}
   - component: {fileID: -4369164864226119832}
   - component: {fileID: 8301338061038059901}
+  - component: {fileID: -3465834309517996134}
+  - component: {fileID: -5969382635256605024}
   m_Layer: 12
   m_Name: NPC_Husk
   m_TagString: Untagged
@@ -346,11 +371,9 @@ MonoBehaviour:
   - {fileID: 4858910464699741597}
   allowKnifeHarvest: 0
   butcherResults: []
-  aliveSprite: {fileID: 21300006, guid: a3757f42ebbdcb040b27dbd518705d09, type: 3}
-  deadSprite: {fileID: 21300000, guid: d5f3feba589d6ad4281496cdf138e320, type: 3}
+  RTT: 0
+  RadiationStacks: 0
   deadState: 0
-  spriteRend: {fileID: 83192708151968013}
-  registerObject: {fileID: 0}
 --- !u!114 &4859231028589996057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +416,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  passableExclusionsToThis: []
 --- !u!114 &4859363408336224435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,6 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &4859381606111050923
 MonoBehaviour:
@@ -420,6 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &4859213822428636291
@@ -521,11 +547,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  spriteHandler: {fileID: 6191691069550133558}
   spriteRend: {fileID: 83192708151968013}
-  upSprite: {fileID: 21300002, guid: a3757f42ebbdcb040b27dbd518705d09, type: 3}
-  rightSprite: {fileID: 21300004, guid: a3757f42ebbdcb040b27dbd518705d09, type: 3}
-  downSprite: {fileID: 21300000, guid: a3757f42ebbdcb040b27dbd518705d09, type: 3}
-  leftSprite: {fileID: 21300006, guid: a3757f42ebbdcb040b27dbd518705d09, type: 3}
+  aliveSpriteIndex: 0
+  deadSpriteIndex: 1
+  burningPrefab: {fileID: 1558421102126524431, guid: 7a0d54e0877507a4eba1a70784ea9085,
+    type: 3}
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
 --- !u!114 &3651291330810827203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,6 +581,8 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+  hasFoodPrefereces: 0
+  foodPreferences: []
 --- !u!114 &3708589072684735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,6 +647,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3465834309517996134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
+  InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
+  ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
+--- !u!114 &-5969382635256605024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChangingSO: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
+  spriteHandlers:
+  - {fileID: 6191691069550133558}

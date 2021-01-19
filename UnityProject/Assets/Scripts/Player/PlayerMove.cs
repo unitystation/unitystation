@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+using Objects;
 
 /// <summary>
 ///     ** Now all movement input keys are sent to PlayerSync.Client
@@ -12,7 +12,8 @@ using UnityEngine.Serialization;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI
+public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI,
+	ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript PlayerScript => playerScript;
 
@@ -28,6 +29,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Object this player is buckled to (if buckled). Null if not buckled.
 	/// </summary>
 	public GameObject BuckledObject => buckledObject;
+
 	//cached for fast access
 	private GameObject buckledObject;
 
@@ -47,10 +49,14 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	public bool IsCuffed => cuffed;
 
 	/// <summary>
+	/// Whether the character is trapped in a closet (or similar)
+	/// </summary>
+	public bool IsTrapped = false;
+
+	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
 	/// </summary>
-	[NonSerialized]
-	public CuffEvent OnCuffChangeServer = new CuffEvent();
+	[NonSerialized] public CuffEvent OnCuffChangeServer = new CuffEvent();
 
 	/// <summary>
 	/// Whether this player meets all the conditions for being swapped with, but only
@@ -59,20 +65,19 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Doesn't incorporate any other conditions into this
 	/// flag, but IsSwappable does.
 	/// </summary>
-	[SyncVar]
-	private bool isSwappable;
+	[SyncVar] private bool isSwappable;
 
 	/// <summary>
 	/// server side only, tracks whether this player has indicated they are on help intent. Used
 	/// for checking for swaps.
 	/// </summary>
 	public bool IsHelpIntentServer => isHelpIntentServer;
+
 	//starts true because all players spawn with help intent.
 	private bool isHelpIntentServer = true;
 
 
-	[SerializeField]
-	private ActionData actionData = null;
+	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	/// <summary>
@@ -102,6 +107,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				//rely on server synced value
 				canSwap = isSwappable;
 			}
+
 			return canSwap
 			       //don't swap with ghosts
 			       && !PlayerScript.IsGhost
@@ -119,12 +125,16 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		MoveAction.MoveUp, MoveAction.MoveLeft, MoveAction.MoveDown, MoveAction.MoveRight
 	};
 
-	private Directional playerDirectional;
+	public Directional PlayerDirectional;
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
-	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
+	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))]
+	public float RunSpeed;
+
+	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))]
+	public float WalkSpeed;
+
 	[HideInInspector] public float CrawlSpeed;
 
 	/// <summary>
@@ -139,11 +149,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
-	}
-
-	private void Start()
-	{
-		playerDirectional = gameObject.GetComponent<Directional>();
+		PlayerDirectional = gameObject.GetComponent<Directional>();
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
@@ -207,11 +213,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		for (int i = 0; i < moveList.Length; i++)
 		{
-			if (actionKeys.Contains((int)moveList[i]) && !moveActionList.Contains(moveList[i]))
+			if (actionKeys.Contains((int) moveList[i]) && !moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Add(moveList[i]);
 			}
-			else if (!actionKeys.Contains((int)moveList[i]) && moveActionList.Contains(moveList[i]))
+			else if (!actionKeys.Contains((int) moveList[i]) && moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Remove(moveList[i]);
 			}
@@ -312,16 +318,16 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		var directionalObject = toObject.GetComponent<Directional>();
 		if (directionalObject != null)
 		{
-			playerDirectional.FaceDirection(directionalObject.CurrentDirection);
+			PlayerDirectional.FaceDirection(directionalObject.CurrentDirection);
 		}
 		else
 		{
-			playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
+			PlayerDirectional.FaceDirection(PlayerDirectional.CurrentDirection);
 		}
 
 		//force sync direction to current direction (If it is a real player and not a NPC)
 		if (PlayerScript.connectionToClient != null)
-			playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
+			PlayerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
 	}
 
 	/// <summary>
@@ -330,6 +336,23 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	[Command]
 	public void CmdUnbuckle()
 	{
+		if (IsCuffed)
+		{
+			Chat.AddActionMsgToChat(
+				playerScript.gameObject,
+				"You're trying to ubuckle yourself from the chair! (this will take some time...)",
+				playerScript.name + " is trying to ubuckle themself from the chair!"
+			);
+			StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
+				Unbuckle
+			).ServerStartProgress(
+				buckledObject.RegisterTile(),
+				buckledObject.GetComponent<BuckleInteract>().ResistTime,
+				playerScript.gameObject
+			);
+			return;
+		}
 		Unbuckle();
 	}
 
@@ -350,7 +373,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (previouslyBuckledTo == null) return;
 
 		var integrityBuckledObject = previouslyBuckledTo.GetComponent<Integrity>();
-		if(integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
+		if (integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
 
 		//we are unbuckled but still will drift with the object.
 		var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
@@ -368,11 +391,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	//invoked when buckledTo changes direction, so we can update our direction
 	private void OnBuckledObjectDirectionChange(Orientation newDir)
 	{
-		if (playerDirectional == null)
+		if (PlayerDirectional == null)
 		{
-			playerDirectional = gameObject.GetComponent<Directional>();
+			PlayerDirectional = gameObject.GetComponent<Directional>();
 		}
-		playerDirectional.FaceDirection(newDir);
+
+		PlayerDirectional.FaceDirection(newDir);
 	}
 
 	//syncvar hook invoked client side when the buckledTo changes
@@ -450,90 +474,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
 	}
 
-	[Server]
-	public void Cuff(HandApply interaction)
-	{
-		SyncCuffed(cuffed, true);
-
-		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
-
-		//transfer cuffs to the special cuff slot
-		ItemSlot handcuffSlot = targetStorage.GetNamedItemSlot(NamedSlot.handcuffs);
-		Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
-
-		//drop hand items
-		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
-		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
-
-		if(connectionToClient != null) TargetPlayerUIHandCuffToggle(connectionToClient, true);
-	}
-
-	[TargetRpc]
-	private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool activeState)
-	{
-		Sprite leftSprite = null;
-		Sprite rightSprite = null;
-
-		if (activeState)
-		{
-			leftSprite = UIManager.Hands.LeftHand.GetComponentInParent<Handcuff>().HandcuffSprite;
-			rightSprite = UIManager.Hands.RightHand.GetComponentInParent<Handcuff>().HandcuffSprite;
-		}
-
-		UIManager.Hands.LeftHand.SetSecondaryImage(leftSprite);
-		UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
-	}
-
-	/// <summary>
-	/// Use RequestUncuff() instead for validation purposes. Use this method
-	/// if you have done validation else where (like the cool down for self
-	/// uncuffing). Calling this from client will break your client.
-	/// </summary>
-	[Server]
-	public void Uncuff()
-	{
-		SyncCuffed(cuffed, false);
-
-		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
-		TargetPlayerUIHandCuffToggle(connectionToClient, false);
-	}
-
-	private void SyncCuffed(bool wasCuffed, bool cuffed)
-	{
-		var oldCuffed = this.cuffed;
-		this.cuffed = cuffed;
-
-		if (isServer)
-		{
-			OnCuffChangeServer.Invoke(oldCuffed, this.cuffed);
-		}
-	}
-
-	/// <summary>
-	/// Called by RequestUncuffMessage after the progress bar completes
-	/// Uncuffs this player after performing some legitimacy checks
-	/// </summary>
-	/// <param name="uncuffingPlayer"></param>
-	[Server]
-	public void RequestUncuff(GameObject uncuffingPlayer)
-	{
-		if (!cuffed || !uncuffingPlayer)
-			return;
-
-		if (!Validations.CanApply(uncuffingPlayer, gameObject, NetworkSide.Server))
-			return;
-
-		Uncuff();
-	}
-
-	/// <summary>
-	/// Used for the right click action, sends a message requesting uncuffing
-	/// </summary>
-	public void TryUncuffThis()
-	{
-		RequestUncuffMessage.Send(gameObject);
-	}
-
 	/// <summary>
 	/// Tell the server we are now on or not on help intent. This only affects
 	/// whether we are swappable or not. Other than this the client never tells the
@@ -559,28 +499,120 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		              !PlayerScript.pushPull.IsPullingSomethingServer;
 	}
 
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		SyncCuffed(cuffed, this.cuffed);
+	}
+
+	#region Cuffing
+
 	/// <summary>
 	/// Anything with PlayerMove can be cuffed and uncuffed. Might make sense to seperate that into its own behaviour
 	/// </summary>
 	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		var initiator = PlayerManager.LocalPlayerScript.playerMove;
+		var result = RightClickableResult.Create();
 
-		if (IsCuffed && initiator != this)
+		if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "Uncuff"), NetworkSide.Client)) return result;
+
+		return result.AddElement("Uncuff", OnUncuffClicked);
+	}
+
+	/// <summary>
+	/// Used for the right click action, sends a message requesting uncuffing
+	/// </summary>
+	public void OnUncuffClicked()
+	{
+		RequestInteractMessage.Send(ContextMenuApply.ByLocalPlayer(gameObject, "Uncuff"), this);
+	}
+
+	/// <summary>
+	/// Determines if the interaction request for uncuffing is valid clientside and if true, then serverside
+	/// </summary>
+	public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		return cuffed;
+	}
+
+	/// <summary>
+	/// Handles the interaction request for uncuffing serverside
+	/// </summary>
+	public void ServerPerformInteraction(ContextMenuApply interaction)
+	{
+		var handcuffs = interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs)
+			.ItemObject;
+		if (handcuffs == null) return;
+
+		var restraint = handcuffs.GetComponent<Restraint>();
+		if (restraint == null) return;
+
+		var ProgressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
+		StandardProgressAction.Create(ProgressConfig, Uncuff)
+			.ServerStartProgress(interaction.TargetObject.RegisterTile(), restraint.RemoveTime, interaction.Performer);
+	}
+
+	[Server]
+	public void Cuff(HandApply interaction)
+	{
+		SyncCuffed(cuffed, true);
+
+		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
+
+		//transfer cuffs to the special cuff slot
+		ItemSlot handcuffSlot = targetStorage.GetNamedItemSlot(NamedSlot.handcuffs);
+		Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
+
+		//drop hand items
+		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
+		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
+
+		if (connectionToClient != null) TargetPlayerUIHandCuffToggle(connectionToClient, true);
+	}
+
+	[TargetRpc]
+	private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool activeState)
+	{
+		Sprite leftSprite = null;
+		Sprite rightSprite = null;
+
+		if (activeState)
 		{
-			var result = RightClickableResult.Create();
-			result.AddElement("Uncuff", TryUncuffThis);
-			return result;
+			leftSprite = UIManager.Hands.LeftHand.GetComponentInParent<Handcuff>().HandcuffSprite;
+			rightSprite = UIManager.Hands.RightHand.GetComponentInParent<Handcuff>().HandcuffSprite;
 		}
 
-		return null;
+		UIManager.Hands.LeftHand.SetSecondaryImage(leftSprite);
+		UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
 	}
 
-	public void OnSpawnServer(SpawnInfo info)
+	/// <summary>
+	/// Request a ContextMenuApply interaction if you have not done your own validation.
+	/// Calling this clientside will break your client.
+	/// </summary>
+	[Server]
+	public void Uncuff()
 	{
-		SyncCuffed(cuffed, this.cuffed);
+		SyncCuffed(cuffed, false);
+
+		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
+		TargetPlayerUIHandCuffToggle(connectionToClient, false);
 	}
+
+	private void SyncCuffed(bool wasCuffed, bool cuffed)
+	{
+		var oldCuffed = this.cuffed;
+		this.cuffed = cuffed;
+
+		if (isServer)
+		{
+			OnCuffChangeServer.Invoke(oldCuffed, this.cuffed);
+		}
+	}
+
+	#endregion Cuffing
 }
 
 /// <summary>

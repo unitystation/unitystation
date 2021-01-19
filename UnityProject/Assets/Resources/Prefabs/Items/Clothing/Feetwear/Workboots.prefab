@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_Name
@@ -17,12 +22,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
-    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: a674bd982dfba2a40b10d7f0acb94566,
-        type: 2}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -78,11 +77,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
+    - target: {fileID: 1950443690361248320, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: m_AssetId
+      propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: 546d8cee5883e3840bcfaef02ae68097,
+        type: 3}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: initialName
@@ -93,11 +93,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Nanotrasen-issue Engineering lace-up work boots for the especially blue-collar.
       objectReference: {fileID: 0}
-    - target: {fileID: 1950443690361248320, guid: 502f496beb9034b9b9c97868e845ed7e,
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: clothData
       value: 
-      objectReference: {fileID: 21300000, guid: 546d8cee5883e3840bcfaef02ae68097,
+      objectReference: {fileID: 11400000, guid: a674bd982dfba2a40b10d7f0acb94566,
+        type: 2}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9710a57489b1bc747836565266719330,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 502f496beb9034b9b9c97868e845ed7e, type: 3}

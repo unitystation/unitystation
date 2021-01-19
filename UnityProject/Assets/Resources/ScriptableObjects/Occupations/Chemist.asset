@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Chemist
   m_EditorClassIdentifier: 
   jobType: 9
+  isCrewmember: 1
+  lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 2f0352dd65eed4792941053f944c8a53, type: 2}
   limit: 2
   priority: 99
   allowedAccess: 170000001a0000002200000033000000
+  spells: []
   progress: 30
   choiceColor: {r: 1, g: 0.93333334, b: 0.9411765, a: 1}
   previewSprite: {fileID: 21300000, guid: 041850facbfd8f94888f41156a3c4255, type: 3}
@@ -34,3 +37,7 @@ MonoBehaviour:
     for the stationeers. Experiment, learn all the different interactions between
     substances. Do not make lube grenades or transform your workplace into a drug
     lab. \r"
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 1

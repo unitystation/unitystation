@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Initialisation;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -18,7 +20,18 @@ public class Layer : MonoBehaviour
 	public LayerType LayerType;
 	protected Tilemap tilemap;
 
-	public Tilemap Tilemap => tilemap;
+	public Tilemap Tilemap
+	{
+		get
+		{
+			if (tilemap == null)
+			{
+				tilemap = GetComponent<Tilemap>();
+			}
+
+			return tilemap;
+		}
+	}
 
 	public TilemapDamage TilemapDamage { get; private set; }
 
@@ -28,6 +41,7 @@ public class Layer : MonoBehaviour
 	private Coroutine recalculateBoundsHandle;
 
 	public TileChangeEvent OnTileChanged = new TileChangeEvent();
+
 	/// <summary>
 	/// Current offset from our initially mapped orientation. This is used by tiles within the tilemap
 	/// to determine what sprite to display. This could be retrieved directly from MatrixMove but
@@ -56,8 +70,9 @@ public class Layer : MonoBehaviour
 		subsystemManager = GetComponentInParent<SubsystemManager>();
 		RecalculateBounds();
 		OnTileChanged.AddListener((pos, tile) => TryRecalculateBounds());
+
 		void TryRecalculateBounds()
-			{
+		{
 			if (recalculateBoundsHandle == null)
 			{
 				this.RestartCoroutine(RecalculateBoundsNextFrame(), ref recalculateBoundsHandle);
@@ -71,18 +86,23 @@ public class Layer : MonoBehaviour
 	/// </summary>
 	private IEnumerator RecalculateBoundsNextFrame()
 	{
-		//apparently waiting for next frame doesn't work when looking at Scene view!
+		//apparently waiting for next frame doesn't work when looking at Scene view! //TODO use editor routines for this functionality
 		yield return WaitFor.Seconds(0.015f);
 		RecalculateBounds();
 	}
 
-	public void RecalculateBounds()
+	public virtual void RecalculateBounds()
 	{
 		boundsCache = tilemap.cellBounds;
 		this.TryStopCoroutine(ref recalculateBoundsHandle);
 	}
 
-	public void Start()
+	private void Start()
+	{
+		LoadManager.RegisterAction(Init);
+	}
+
+	void Init()
 	{
 		if (!Application.isPlaying)
 		{
@@ -93,16 +113,6 @@ public class Layer : MonoBehaviour
 		{
 			Logger.LogError("Matrix Manager is missing from the scene", Category.Matrix);
 		}
-		else
-		{
-			// TODO Clean up
-
-			if (LayerType == LayerType.Walls)
-			{
-				MatrixManager.Instance.wallsTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
-			}
-
-		}
 
 		InitFromMatrix();
 	}
@@ -110,7 +120,11 @@ public class Layer : MonoBehaviour
 	public void InitFromMatrix()
 	{
 		RotationOffset = RotationOffset.Same;
-		matrixMove = transform.root.GetComponent<MatrixMove>();
+
+		if (this == null) return;
+		matrixMove = transform?.root?.GetComponent<MatrixMove>();
+
+
 		if (matrixMove != null)
 		{
 			Logger.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
@@ -126,37 +140,13 @@ public class Layer : MonoBehaviour
 		if (info.IsEnding || info.IsObjectBeingRegistered)
 		{
 			RotationOffset = info.RotationOffsetFromInitial;
-			Logger.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove, RotationOffset);
-			tilemap.RefreshAllTiles();
+			Logger.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove,
+				RotationOffset);
+			if (tilemap != null)
+			{
+				tilemap.RefreshAllTiles();
+			}
 		}
-	}
-
-	public virtual bool IsPassableAt(Vector3Int from, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null)
-	{
-		// There's not tile here so its passable.
-		if (!tilemap.HasTile(to))
-			return true;
-
-		var tile = tilemap.GetTile<BasicTile>(to);
-
-		// Return passable if the tile type is being excluded from checks.
-		if (excludeTiles != null && excludeTiles.Contains(tile.TileType))
-			return true;
-
-		return tile.IsPassable(collisionType);
-		//return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsPassable(collisionType);
-	}
-
-
-	public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to, bool isServer)
-		{
-			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsAtmosPassable();
-		}
-
-	public virtual bool IsSpaceAt(Vector3Int position, bool isServer)
-	{
-		return !tilemap.HasTile(position) || tilemap.GetTile<BasicTile>(position).IsSpace();
 	}
 
 	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
@@ -171,10 +161,12 @@ public class Layer : MonoBehaviour
 	/// <summary>
 	/// Set tile and invoke tile changed event.
 	/// </summary>
-	protected void InternalSetTile(Vector3Int position, GenericTile tile)
+	protected bool InternalSetTile(Vector3Int position, GenericTile tile)
 	{
+		bool HasTile = tilemap.HasTile(position);
 		tilemap.SetTile(position, tile);
 		OnTileChanged.Invoke(position, tile);
+		return HasTile;
 	}
 
 	public virtual LayerTile GetTile(Vector3Int position)
@@ -182,13 +174,34 @@ public class Layer : MonoBehaviour
 		return tilemap.GetTile<LayerTile>(position);
 	}
 
-	public virtual bool HasTile(Vector3Int position, bool isServer)
+	public virtual bool IsDifferent(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
+	{
+		if (tilemap.GetTile<LayerTile>(cellPosition) != layerTile) return true;
+
+		if (color != null)
+		{
+			if (tilemap.GetColor(cellPosition) != color.GetValueOrDefault(Color.white)) return true;
+		}
+
+		if (transformMatrix != null)
+		{
+			if (tilemap.GetTransformMatrix(cellPosition) !=
+			    transformMatrix.GetValueOrDefault(Matrix4x4.identity)) return true;
+		}
+
+		return false;
+	}
+
+
+	public virtual bool HasTile(Vector3Int position)
 	{
 		return tilemap.HasTile(position);
 	}
 
-	public virtual void RemoveTile(Vector3Int position, bool removeAll = false)
+	public virtual bool RemoveTile(Vector3Int position, bool removeAll = false)
 	{
+		bool TileREmoved = false;
 		if (removeAll)
 		{
 			//TODO: OVERLAYS - This wouldn't work reliably if there is something at level -3 but nothing at -1 and -2.
@@ -197,15 +210,17 @@ public class Layer : MonoBehaviour
 			{
 				InternalSetTile(position, null);
 				position.z--;
+				TileREmoved = true;
 			}
 		}
 		else
 		{
-			InternalSetTile(position, null);
+			TileREmoved = InternalSetTile(position, null);
 		}
 
 		position.z = 0;
 		subsystemManager.UpdateAt(position);
+		return TileREmoved;
 	}
 
 	public virtual void ClearAllTiles()

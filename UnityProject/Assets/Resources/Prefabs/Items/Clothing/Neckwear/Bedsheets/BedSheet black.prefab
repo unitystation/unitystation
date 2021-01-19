@@ -7,11 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3961673132676458627, guid: 423cab216aa4e354f8159742cc80d10a,
+    - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
-      propertyPath: m_Name
-      value: BedSheet black
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fdfd6989fb82a3948beba00506a0ad53,
+        type: 3}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,22 +68,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3961673132676458627, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: m_Name
+      value: BedSheet black
+      objectReference: {fileID: 0}
     - target: {fileID: 3994276298403714359, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7186812133261251332, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9862b3e3d39b60d4683f766ec2f4dbe9,
+        type: 2}
     - target: {fileID: 7964486416432102150, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 0dced42d266b35940b59cae2f4162f0e,
         type: 2}
-    - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: fdfd6989fb82a3948beba00506a0ad53,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 423cab216aa4e354f8159742cc80d10a, type: 3}

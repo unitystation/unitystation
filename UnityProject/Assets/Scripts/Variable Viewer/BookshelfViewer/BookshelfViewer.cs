@@ -101,7 +101,7 @@ public class BookshelfViewer : MonoBehaviour
 
 	public void PageDown()
 	{
-		if (!(_BookShelfView.HeldShelfIDs.Length <= (ListBottom + 1)))
+		if (_BookShelfView  != null && _BookShelfView.HeldShelfIDs != null && !(_BookShelfView.HeldShelfIDs.Length <= (ListBottom + 1)))
 		{
 			BookshelfList[0].BookShelfView = BookshelfList[1].BookShelfView;
 			BookshelfList[1].BookShelfView = BookshelfList[2].BookShelfView;
@@ -116,13 +116,16 @@ public class BookshelfViewer : MonoBehaviour
 
 	public void GoToObscuringBookshelf()
 	{
-		RequestBookshelfNetMessage.Send(_BookShelfView.ID, true,
-			ServerData.UserID, PlayerList.Instance.AdminToken);
+		if (_BookShelfView != null)
+		{
+			RequestBookshelfNetMessage.Send(_BookShelfView.ID, true,
+				ServerData.UserID, PlayerList.Instance.AdminToken);
+		}
 	}
 
 	public void Refresh()
 	{
-		if (_BookShelfView.HeldShelfIDs.Length > 0)
+		if (_BookShelfView != null && _BookShelfView.HeldShelfIDs.Length > 0)
 		{
 			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[0].ID, true,
 				ServerData.UserID, PlayerList.Instance.AdminToken);

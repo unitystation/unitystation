@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AdminTools;
-using Mirror;
+using Messages.Client;
 
 public class AdminCheckMessages : ClientMessage
 {
@@ -23,19 +22,5 @@ public class AdminCheckMessages : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		PlayerId = reader.ReadString();
-		CurrentCount = reader.ReadInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(PlayerId);
-		writer.WriteInt32(CurrentCount);
 	}
 }

@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4520221803203555702, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e5c433a9985f1249abae6b1aeade7cd,
+        type: 2}
     - target: {fileID: 7569679527290075565, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
       propertyPath: m_Sprite
@@ -87,6 +93,11 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
@@ -178,5 +189,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 19decb9d9f56a5f4b97cdb0d5dc07dd7,
         type: 3}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e5c433a9985f1249abae6b1aeade7cd,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b0004e16bfcc8a4bbd083df45131ff9,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b4c4699b721fdd418884557767f08d6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0bdfc0522dc2ef43add0458efd1c87c, type: 3}

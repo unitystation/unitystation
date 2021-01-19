@@ -27,11 +27,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -76,6 +71,39 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: Infos.AID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteList.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300002, guid: cfbf369a667bab1419fe01877da31c9f,
+        type: 3}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteList.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 3f5aa3f83d7ea954aa0bb16b692aa2d6,
+        type: 3}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 58b6dd249983efb4e9e6c85bfbcaf611,
+        type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
@@ -160,34 +188,24 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 8f950bc1bba8a1946b1660d23ef82afb, type: 3}
-    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: itemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 21300000, guid: 58b6dd249983efb4e9e6c85bfbcaf611,
+      objectReference: {fileID: 11400000, guid: 48ee0a2c22644c54784f2bb106415d44,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteList.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: Infos.AID
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteList.Array.data[0]
+      propertyPath: itemSprites.SpriteRightHand
       value: 
-      objectReference: {fileID: 21300002, guid: cfbf369a667bab1419fe01877da31c9f,
+      objectReference: {fileID: 11400000, guid: 42e5466ddef02874b982886c7c91632c,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteList.Array.data[1]
+      propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 21300002, guid: 3f5aa3f83d7ea954aa0bb16b692aa2d6,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: fc3afdda9419c04408b7aab9328db30b,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &1004031135681812318 stripped

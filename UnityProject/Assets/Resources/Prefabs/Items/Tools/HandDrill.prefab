@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8852648715883522900
+--- !u!114 &6165183157056971393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,15 +9,51 @@ MonoBehaviour:
   m_GameObject: {fileID: 4930866777566109869}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Script: {fileID: 11500000, guid: 76265263b12ffbbc0ab21ee84affc2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothData: {fileID: 11400000, guid: cd1897e9e67346946942af65d71b5949, type: 2}
-  variantIndex: -1
-  variantType: 0
-  hideClothingFlags: 0
+  initialStateIndex: 0
+  states:
+  - ExamineMessage: It is has the socket bit attached.
+    changeMessage: You attach the socket bit to the drill.
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/ChangeDrill.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+    spriteIndex: 0
+    traits:
+    - {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/DrillUse.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+  - ExamineMessage: It has the screwdriver bit attached.
+    changeMessage: You attach the screwdriver bit to the drill.
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/ChangeDrill.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+    spriteIndex: 1
+    traits:
+    - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/DrillUse.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
 --- !u!1001 &3679545742786352378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30,10 +66,33 @@ PrefabInstance:
       propertyPath: SpeedMultiplier
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 29d39ff9daeb968428812247ac39cd4d,
+        type: 2}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 29d39ff9daeb968428812247ac39cd4d,
+        type: 2}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b29e39efdbe8bb3468a2993c5cc6d62e,
+        type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -148,7 +207,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6,
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -167,12 +226,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: be5b5ebf719ba1d4aabccf6e3873c27a,
+        type: 2}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c9d1560a64c5b984f8f1030c3fe8d1fc,
+        type: 2}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: hitSound
+      value: DrillHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Items/DrillHit.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 60f0de61feba81c4fa7b1444a64585a9,
+      objectReference: {fileID: 21300000, guid: 0c69497574ba35f40807154c791b25c3,
         type: 3}
+    - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_AssetId

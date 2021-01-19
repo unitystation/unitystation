@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 161414568140501327, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: SpeedMultiplier
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: m_Name
@@ -71,11 +76,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 161414568140501327, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: SpeedMultiplier
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7130604612900027625, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}

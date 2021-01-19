@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114500746951952046
@@ -286,11 +287,11 @@ MonoBehaviour:
   InternalResistance: 0
   PreviousProducingWatts: 0
   ProducingWatts: 0
-  MaximumCurrentSupport: 8
+  MaximumCurrentSupport: 20
   MinimumSupportVoltage: 216
   StandardSupplyingVoltage: 240
-  CapacityMax: 432000
-  CurrentCapacity: 432000
+  CapacityMax: 3456000
+  CurrentCapacity: 3456000
   ExtraChargeCutOff: 240
   IncreasedChargeVoltage: 241
   StandardChargeNumber: 6
@@ -310,7 +311,6 @@ MonoBehaviour:
   VoltageAtChargePort: 0
   VoltageAtSupplyPort: 0
   isOnForInterface: 0
-  ResistanceSourceModule: {fileID: 1899468008703458127}
 --- !u!114 &8556410435183048791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +376,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -397,7 +399,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &-6614577757191591987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,10 +424,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 017b3c9cd22f04f4bb668954764b1381, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 1002c0247e412884e91c857ce6e51d9c,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
 --- !u!1 &1744594665423798
 GameObject:
@@ -474,6 +476,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -555,6 +558,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -636,6 +640,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -717,6 +722,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

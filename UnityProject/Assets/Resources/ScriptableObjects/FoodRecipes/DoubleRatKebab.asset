@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89423981fdf5b0d46af8718c36521ad8, type: 3}
+  m_Name: DoubleRatKebab
+  m_EditorClassIdentifier: 
+  Name: Double Rat Kebab
+  Ingredients:
+  - requiredAmount: 1
+    ingredientName: rat-kebab
+  - requiredAmount: 1
+    ingredientName: dead mouse
+  Output: {fileID: 4296264140864599532, guid: fe860678437cf6647a3e10b52f108497, type: 3}

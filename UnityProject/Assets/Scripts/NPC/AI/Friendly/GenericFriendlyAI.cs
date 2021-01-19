@@ -1,8 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using WebSocketSharp;
+using Systems.Mob;
+using Random = UnityEngine.Random;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	public class GenericFriendlyAI : MobAI, IServerSpawn
 	{
@@ -13,6 +18,8 @@ namespace NPC
 		protected float minTimeBetweenRandomActions = 10f;
 		[SerializeField]
 		protected float maxTimeBetweenRandomActions = 30f;
+		[SerializeField]
+		protected bool doRandomActionWhenInTask = false;
 
 		protected SimpleAnimal simpleAnimal;
 
@@ -31,6 +38,8 @@ namespace NPC
 			base.UpdateMe();
 			MonitorExtras();
 		}
+
+
 		protected override void AIStartServer()
 		{
 			exploringStopped.AddListener(OnExploringStopped);
@@ -40,7 +49,10 @@ namespace NPC
 
 		protected virtual void MonitorExtras()
 		{
-			if (IsPerformingTask) return;
+			if (IsPerformingTask && !doRandomActionWhenInTask)
+			{
+				return;
+			}
 
 			timeWaiting += Time.deltaTime;
 			if (timeWaiting < timeForNextRandomAction) return;
@@ -60,7 +72,7 @@ namespace NPC
 			{
 				for (int spriteDir = 1; spriteDir < 5; spriteDir++)
 				{
-					dirSprites.DoManualChange(spriteDir);
+					directional.FaceDirection(directional.CurrentDirection.Rotate(1));
 					yield return WaitFor.Seconds(0.3f);
 				}
 			}
@@ -72,18 +84,12 @@ namespace NPC
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			//FIXME This shouldn't be called by client yet it seems it is
-			if (!isServer)
-			{
-				return;
-			}
-
 			OnSpawnMob();
 		}
 
 		protected virtual void OnSpawnMob()
 		{
-			dirSprites.SetToNPCLayer();
+			mobSprite.SetToNPCLayer();
 			registerObject.RestoreAllToDefault();
 			if (simpleAnimal != null)
 			{
@@ -99,5 +105,6 @@ namespace NPC
 		protected virtual void OnExploringStopped(){}
 		protected virtual void OnFleeingStopped(){}
 		protected virtual void OnFollowStopped(){}
+
 	}
 }

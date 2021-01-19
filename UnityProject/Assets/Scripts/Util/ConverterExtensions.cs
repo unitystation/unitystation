@@ -3,6 +3,7 @@
 
 public static class ConverterExtensions
 {
+
 	public static Vector3Int RoundToInt(this Vector3 other)
 	{
 		return Vector3Int.RoundToInt(other);
@@ -134,6 +135,16 @@ public static class ConverterExtensions
 	{
 		return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(matrix));
 	}
+	public static Vector3 ToLocal(this Vector3 worldPos)
+	{
+		return MatrixManager.WorldToLocal(worldPos, MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
+	}
+
+	public static Vector3 ToWorld(this Vector3 localPos)
+	{
+		return MatrixManager.LocalToWorld(localPos, MatrixManager.AtPoint(Vector3Int.RoundToInt(localPos), CustomNetworkManager.Instance._isServer));
+	}
+
 
 	public static Vector3 ToWorld(this Vector3 localPos, Matrix matrix)
 	{
@@ -167,10 +178,5 @@ public static class ConverterExtensions
 	public static Vector3Int ToWorldInt(this Vector3 localPos, MatrixInfo matrix)
 	{
 		return MatrixManager.LocalToWorldInt(localPos, matrix);
-	}
-
-	public static Vector3 ToWorld(this Vector3 localPos)
-	{
-		return MatrixManager.LocalToWorld(localPos, MatrixManager.AtPoint(Vector3Int.RoundToInt(localPos), CustomNetworkManager.Instance._isServer));
 	}
 }

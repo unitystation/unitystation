@@ -12,6 +12,9 @@ using UnityEngine.Serialization;
 /// </summary>
 public class UpdateManager : MonoBehaviour
 {
+
+	public static float CashedDeltaTime = 0;
+
 	private static UpdateManager instance;
 
 	public static UpdateManager Instance
@@ -25,6 +28,8 @@ public class UpdateManager : MonoBehaviour
 	private List<Action> fixedUpdateActions = new List<Action>();
 	private List<Action> lateUpdateActions = new List<Action>();
 	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
+
+	private static int NumberOfUpdatesAdded = 0;
 
 	public List<TimedUpdate> pooledTimedUpdates = new List<TimedUpdate>();
 
@@ -65,6 +70,7 @@ public class UpdateManager : MonoBehaviour
 		public readonly Dictionary<Action, NamedAction> ActionDictionary = new Dictionary<Action, NamedAction>(128);
 	}
 
+
 	private void Awake()
 	{
 		if (instance != null)
@@ -92,6 +98,8 @@ public class UpdateManager : MonoBehaviour
 		if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
 		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
 		timedUpdate.SetUp(action, TimeInterval);
+		timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.1f;
+		NumberOfUpdatesAdded++;
 		Instance.periodicUpdateActions.Add(timedUpdate);
 	}
 
@@ -240,39 +248,36 @@ public class UpdateManager : MonoBehaviour
 
 	private void Update()
 	{
-		for (int i = updateActions.Count; i > 0; i--)
+		CashedDeltaTime = Time.deltaTime;
+		for (int i = updateActions.Count; i >= 0; i--)
 		{
-			if (i > 0 && i < updateActions.Count)
+			if (i < updateActions.Count)
 			{
-#if UNITY_EDITOR
 				if (Profile)
 				{
 					Profiler.BeginSample(updateActions[i]?.Method?.ReflectedType?.FullName);
 				}
-#endif
+
 				updateActions[i].Invoke();
-#if UNITY_EDITOR
+
 				if (Profile)
 				{
 					Profiler.EndSample();
 				}
-#endif
 			}
 		}
 
-#if UNITY_EDITOR
 		if (Profile)
 		{
 			Profiler.BeginSample(" Periodic update Process ");
 		}
-#endif
+
 		ProcessDelayUpdate();
-#if UNITY_EDITOR
+
 		if (Profile)
 		{
 			Profiler.EndSample();
 		}
-#endif
 	}
 
 	/// <summary>
@@ -280,9 +285,10 @@ public class UpdateManager : MonoBehaviour
 	/// </summary>
 	private void ProcessDelayUpdate()
 	{
+		NumberOfUpdatesAdded = 0;
 		for (int i = 0; i < periodicUpdateActions.Count; i++)
 		{
-			periodicUpdateActions[i].TimeTitleNext -= Time.deltaTime;
+			periodicUpdateActions[i].TimeTitleNext -= CashedDeltaTime;
 			if (periodicUpdateActions[i].TimeTitleNext <= 0)
 			{
 				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate;
@@ -294,9 +300,9 @@ public class UpdateManager : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		for (int i = fixedUpdateActions.Count; i > 0; i--)
+		for (int i = fixedUpdateActions.Count; i >= 0; i--)
 		{
-			if (i > 0 && i < fixedUpdateActions.Count)
+			if (i < fixedUpdateActions.Count)
 			{
 				fixedUpdateActions[i].Invoke();
 			}
@@ -305,9 +311,9 @@ public class UpdateManager : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		for (int i = lateUpdateActions.Count; i > 0; i--)
+		for (int i = lateUpdateActions.Count; i >= 0; i--)
 		{
-			if (i > 0 && i < lateUpdateActions.Count)
+			if (i < lateUpdateActions.Count)
 			{
 				lateUpdateActions[i].Invoke();
 			}

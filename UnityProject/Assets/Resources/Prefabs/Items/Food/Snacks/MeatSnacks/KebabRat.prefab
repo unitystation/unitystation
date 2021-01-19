@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5937644442730715380
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 218119940625843155, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: initialDescription
+      value: Not so delicious rat meat, on a stick.
+      objectReference: {fileID: 0}
+    - target: {fileID: 218119940625843155, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: initialName
+      value: rat-kebab
+      objectReference: {fileID: 0}
+    - target: {fileID: 324054398724280581, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 426558122298125489, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_Name
+      value: KebabRat
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 511868597304696813, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 70ba06852a5c7e947a8110d6cc72f356,
+        type: 3}
+    - target: {fileID: 1495612433917174809, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495612433917174809, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495612433917174809, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495612433917174809, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 1495612433917174809, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5813425210233296694, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a089ee6a417ec474392c628e42c26f38,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 36fc7777ec7adb649b33688a3fde3e67, type: 3}

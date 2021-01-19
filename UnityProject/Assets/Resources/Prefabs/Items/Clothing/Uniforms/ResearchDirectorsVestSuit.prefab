@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1580212734361834469, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 438fd7f3263d3be4fbad07952aafb763,
+        type: 2}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: clothData
@@ -16,7 +22,7 @@ PrefabInstance:
     - target: {fileID: 4658995992363608162, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: m_Name
-      value: ResearchDirectosrVestSuit
+      value: ResearchDirectorsVestSuit
       objectReference: {fileID: 0}
     - target: {fileID: 4658995992363608162, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
@@ -112,8 +118,8 @@ PrefabInstance:
     - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: initialDescription
-      value: It's a suit worn by those with the know-how to achieve the position of
-        "Research Director". Its fabric provides minor protection from biological
+      value: It's a suit worn by those with the know-how to achieve the position
+        of "Research Director". Its fabric provides minor protection from biological
         contaminants.
       objectReference: {fileID: 0}
     m_RemovedComponents: []

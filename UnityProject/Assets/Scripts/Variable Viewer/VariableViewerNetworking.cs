@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
@@ -89,6 +90,24 @@ public class VariableViewerNetworking : MonoBehaviour
 			return (Sentences);
 		}
 
+		/// <summary>
+		/// Get size of this object (in bytes)
+		/// </summary>
+		/// <returns>size of this object (in bytes)</returns>
+		public int GetSize()
+		{
+			// !	IMPORTANT	!
+			// remember to change this method content after modyfing data structure
+			return sizeof(uint)                             // SentenceID
+				+ sizeof(uint)                              // PagePosition
+				+ sizeof(char) * KeyVariable.Length         // KeyVariable
+				+ sizeof(char) * KeyVariableType.Length     // KeyVariableType
+				+ sizeof(char) * ValueVariable.Length       // ValueVariable
+				+ sizeof(char) * ValueVariableType.Length   // ValueVariableType
+				+ sizeof(ulong)                             // HeldBySentenceID
+				+ (Sentences == null ? 0 : Sentences.Sum(x => x.GetSize()));          // Size of all sentences
+		}
+
 	}
 
 	public class NetFriendlyPage
@@ -140,7 +159,20 @@ public class VariableViewerNetworking : MonoBehaviour
 			}
 		}
 
-
+		/// <summary>
+		/// Get size of this object (in bytes)
+		/// </summary>
+		/// <returns>size of this object (in bytes)</returns>
+		public int GetSize()
+		{
+			// !	IMPORTANT	!
+			// remember to change this method content after modyfing data structure
+			return sizeof(ulong)                        // ID
+				+ sizeof(char) * VariableName.Length    // VariableName
+				+ sizeof(char) * Variable.Length        // Variable
+				+ sizeof(char) * VariableType.Length    // VariableType
+				+ (Sentences == null ? 0 : Sentences.Sum(x => x.GetSize()));		// Size of all sentences
+		}
 	}
 
 	public class NetFriendlyBook
@@ -160,6 +192,21 @@ public class VariableViewerNetworking : MonoBehaviour
 			//logMessage.AppendLine(string.Join("\n", BindedPages));
 
 			return (logMessage.ToString());
+		}
+
+		/// <summary>
+		/// Get size of this object (in bytes)
+		/// </summary>
+		/// <returns>size of this object (in bytes)</returns>
+		public int GetSize()
+		{
+			// !	IMPORTANT	!
+			// remember to change this method content after modyfing data structure
+			return sizeof(ulong)
+				+ sizeof(char) * Title.Length
+				+ sizeof(char) * BookClassname.Length
+				+ (BindedPages == null ? 0 : BindedPages.Sum(x => x.GetSize()))
+				+ sizeof(bool);
 		}
 	}
 
@@ -250,6 +297,11 @@ public class VariableViewerNetworking : MonoBehaviour
 			UnGenerated = _book.UnGenerated
 		};
 
+		// get max possible packet size from current transform
+		int maxPacketSize = Mirror.Transport.activeTransport.GetMaxPacketSize(0);
+		// set currentSize start value to max TCP header size (60b)
+		int currentSize = 60;
+
 		List<NetFriendlyPage> ListPages = new List<NetFriendlyPage>();
 		foreach (var bob in _book.GetBindedPages())
 		{
@@ -276,6 +328,17 @@ public class VariableViewerNetworking : MonoBehaviour
 				RecursiveSentencePopulate(bob.Sentences, Sentences);
 			}
 			Page.Sentences = Sentences.ToArray();
+
+			//currentSize += Page.GetSize(); //TODO work out why this causes errors
+
+
+			// if currentSize is greater than the maxPacketSize - break loop and send message
+			if (currentSize > maxPacketSize)
+			{
+				Logger.LogError("[VariableViewerNetworking.ProcessBook] - message is to big to send in one packet", Category.NetMessage);
+				break;
+			}
+
 			ListPages.Add(Page);
 		}
 		Book.BindedPages = ListPages.ToArray();

@@ -18,6 +18,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  passableExclusionsToThis: []
 --- !u!114 &5835473227500181835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,7 +34,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 7926cc707a64f6b4ba7c4120747829c8, type: 2}
-  matsOnDeconstruct: {fileID: 5680136605834777345, guid: 4549e37f0d4967848a5f07a0913869fa,
+  matsOnDeconstruct: {fileID: 3024028113330201771, guid: d2f2400aac0da54468da76680579c29b,
     type: 3}
   countOfMatsOnDissasemle: 2
   soundOnDeconstruct: Wrench
@@ -41,7 +42,7 @@ MonoBehaviour:
     type: 3}
   minCountOfShardsOnDestroy: 1
   maxCountOfShardsOnDestroy: 2
-  rodsOnDestroy: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
+  rodsOnDestroy: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
     type: 3}
   minCountOfRodsOnDestroy: 1
   maxCountOfRodsOnDestroy: 4
@@ -53,9 +54,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1675096931836414152, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d320e0236bf67f4c8f0c8e98df40819,
+        type: 2}
     - target: {fileID: 2012595775094159134, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
       propertyPath: isInitiallyNotPushable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2097343077160748668, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2355948704887986032, guid: f2a16f12167ad5442a606bc9c87fd9fe,
@@ -149,11 +161,29 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7102296633336902387, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
     - {fileID: 6678957760347667284, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
     - {fileID: 5995271483118862400, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
     - {fileID: 4380518353706879345, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
+    - {fileID: 8154093894900665289, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
+    - {fileID: 142599475188719233, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
+    - {fileID: 2097343077160748668, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
 --- !u!1 &2861107897139715475 stripped
 GameObject:

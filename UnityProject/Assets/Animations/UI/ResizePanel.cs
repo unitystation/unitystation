@@ -60,7 +60,7 @@ using UnityEngine.EventSystems;
 
 		public void OnPointerExit(PointerEventData data)
 		{
-			if (!isDragging)
+			if (isDragging == false)
 			{
 				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 			}

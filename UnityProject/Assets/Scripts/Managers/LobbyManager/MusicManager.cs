@@ -75,12 +75,12 @@ namespace Audio.Containers
 		public String[] PlayRandomTrack()
 		{
 			StopMusic();
-
+			if (currentLobbyAudioSource == null) Init();
 			currentLobbyAudioSource.clip = audioClips.GetRandomClip();
 			currentLobbyAudioSource.mute = isMusicMute;
 			currentLobbyAudioSource.volume = Instance.MusicVolume;
 			currentLobbyAudioSource.Play();
-
+			if (currentLobbyAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
 			return currentLobbyAudioSource.clip.name.Split('_');
 		}
 

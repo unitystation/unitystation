@@ -912,6 +912,13 @@ public static class Librarian
 				}
 				else
 				{
+					if (InType == null || InObject == null || InObject as IConvertible == null)
+					{
+						Logger.LogError($"Can't convert {StringVariable} to {InObject.GetType()}  " +
+							$"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]", Category.NetUI);
+						return null;
+					}
+
 					return Convert.ChangeType(StringVariable, InObject.GetType());
 				}
 			}

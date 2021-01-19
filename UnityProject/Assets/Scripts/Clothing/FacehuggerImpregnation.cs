@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
+using Items;
 using Mirror;
 using UnityEngine;
 
@@ -25,7 +26,6 @@ namespace Clothing
 		private GameObject larvae = null;
 
 		private bool isAlive = true;
-		private RegisterPlayer registerPlayer;
 		private ClothingV2 clothingV2;
 		private ItemAttributesV2 itemAttributesV2;
 
@@ -74,7 +74,8 @@ namespace Clothing
 
 		private void OnReleasing()
 		{
-			if (!isAlive || isToy)
+			// check if gameObject is active because gameObject needs to be active to StartCoroutine
+			if (!isAlive || isToy || !gameObject.activeInHierarchy)
 			{
 				return;
 			}
@@ -89,7 +90,7 @@ namespace Clothing
 			yield return WaitFor.EndOfFrame;
 		}
 
-		private async Task Pregnancy(PlayerHealth player)
+		private async void Pregnancy(PlayerHealth player)
 		{
 			KillHugger();
 			await Task.Delay(TimeSpan.FromSeconds(pregnancyTime));
@@ -115,7 +116,9 @@ namespace Clothing
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+			RegisterPlayer registerPlayer;
+
+			if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
 			{
 				registerPlayer = info.ToRootPlayer;
 
@@ -125,7 +128,7 @@ namespace Clothing
 				}
 			}
 
-			if (info.FromSlot != null & info.FromSlot?.NamedSlot != null & info.ToSlot != null)
+			if (info.FromSlot != null && info.FromSlot?.NamedSlot != null && info.ToSlot != null)
 			{
 				registerPlayer = info.FromRootPlayer;
 
@@ -134,7 +137,7 @@ namespace Clothing
 					OnTakingOff();
 				}
 			}
-			else if (info.FromSlot != null & info.ToSlot == null)
+			else if (info.FromSlot != null && info.ToSlot == null)
 			{
 				OnReleasing();
 			}
@@ -151,18 +154,15 @@ namespace Clothing
 				return;
 			}
 
-			switch (info.ClientInventoryMoveType)
+			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
+				&& gameObject == playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject)
 			{
-				case ClientInventoryMoveType.Added
-					when playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject ==
-					     gameObject:
-					UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.crit);
-					break;
-				case ClientInventoryMoveType.Removed
-					when playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject !=
-					     gameObject:
-					UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.normal);
-					break;
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.crit);
+			}
+			else if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed
+				&& gameObject != playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject)
+			{
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.normal);
 			}
 		}
 	}

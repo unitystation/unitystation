@@ -82,6 +82,9 @@ public class GUI_VariableViewer : MonoBehaviour
 	}
 	public void Refresh()
 	{
+		if (CurrentlyOpenBook == null)
+			return;
+
 		OpenBookIDNetMessage.Send(CurrentlyOpenBook.ID, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 

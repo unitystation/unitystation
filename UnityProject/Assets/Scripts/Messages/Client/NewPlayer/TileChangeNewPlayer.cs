@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Mirror;
+using Messages.Client;
 
 public class TileChangeNewPlayer: ClientMessage
 {
@@ -20,17 +20,5 @@ public class TileChangeNewPlayer: ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		TileChangeManager = reader.ReadUInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(TileChangeManager);
 	}
 }

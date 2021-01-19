@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88bb5b421259954781bcdfb75018051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Colour: {r: 1, g: 1, b: 1, a: 1}
-  pipeTile: {fileID: 11400000, guid: 60485b5f9fbec594682cb01accda73ab, type: 2}
   SpriteHandler: {fileID: 0}
-  objectBehaviour: {fileID: 0}
+  registerItem: {fileID: 0}
+  pipeTile: {fileID: 11400000, guid: 60485b5f9fbec594682cb01accda73ab, type: 2}
 --- !u!1001 &1027771722991696777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27,7 +29,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: bd05b52ff0184fa4e82eb2dceda1d80c,
+      objectReference: {fileID: 21300000, guid: bd05b52ff0184fa4e82eb2dceda1d80c,
         type: 3}
     - target: {fileID: 4188294813493470828, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
         type: 3}
@@ -294,8 +296,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 2b39485c3c7f9d342bb81adac2b44176,
         type: 3}
+    - target: {fileID: 7984289908694917215, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f1112bc23c64a864592842ce787985d3,
+        type: 2}
+    - target: {fileID: 7984289908694917215, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e992198a50bcf54799c7603e56535f8,
+        type: 2}
+    - target: {fileID: 7984289908694917215, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8684a0075be20764d95a929d81d171db,
+        type: 2}
+    - target: {fileID: 7984289908694917215, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d32904ffeddc7c4988353dfd4e34e5e,
+        type: 2}
+    - target: {fileID: 7984289908694917215, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f1112bc23c64a864592842ce787985d3,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 7343457972493425774, guid: 59bffb44a6861484ca22d6edb4fbf5e5, type: 3}
+    - {fileID: 4188173932925032876, guid: 59bffb44a6861484ca22d6edb4fbf5e5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 59bffb44a6861484ca22d6edb4fbf5e5, type: 3}
 --- !u!1 &3875517383552655441 stripped
 GameObject:

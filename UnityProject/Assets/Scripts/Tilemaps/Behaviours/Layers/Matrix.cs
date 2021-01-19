@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
@@ -6,6 +6,8 @@ using Pipes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using Systems.Atmospherics;
+using TileManagement;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -14,6 +16,10 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class Matrix : MonoBehaviour
 {
+	private List<TilemapDamage> tilemapsDamage = new List<TilemapDamage>();
+
+	public List<TilemapDamage> TilemapsDamage => tilemapsDamage;
+
 	private MetaTileMap metaTileMap;
 	public MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
 
@@ -42,6 +48,7 @@ public class Matrix : MonoBehaviour
 
 	public bool IsSpaceMatrix;
 	public bool IsMainStation;
+	public bool IsLavaLand;
 
 	public MatrixMove MatrixMove { get; private set; }
 
@@ -86,7 +93,7 @@ public class Matrix : MonoBehaviour
 		MatrixMove = GetComponentInParent<MatrixMove>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
-
+		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
 		OnEarthquake.AddListener((worldPos, magnitude) =>
 		{
 			var cellPos = metaTileMap.WorldToCell(worldPos);
@@ -114,7 +121,7 @@ public class Matrix : MonoBehaviour
 
 	void Start()
 	{
-		MatrixManager.RegisterMatrix(this, IsSpaceMatrix, IsMainStation);
+		MatrixManager.RegisterMatrix(this, IsSpaceMatrix, IsMainStation, IsLavaLand);
 	}
 
 	public void CompressAllBounds()
@@ -137,11 +144,15 @@ public class Matrix : MonoBehaviour
 		OnConfigLoaded?.Invoke(matrixInfo);
 	}
 
-	public bool IsPassableAt(Vector3Int position, bool isServer, bool includingPlayers = true,
-		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+	/// <inheritdoc cref="IsPassableAtOneMatrix(Vector3Int, Vector3Int, bool, CollisionType, bool, GameObject, List{LayerType}, List{TileType}, bool, bool, bool)"/>
+	public bool IsPassableAtOneMatrixOneTile(Vector3Int position, bool isServer, bool includingPlayers = true,
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null, bool ignoreObjects = false,
+		bool onlyExcludeLayerOnDestination = false
+		)
 	{
-		return IsPassableAt(position, position, isServer, includingPlayers: includingPlayers,
-			excludeLayers: excludeLayers, excludeTiles: excludeTiles);
+		return IsPassableAtOneMatrix(position, position, isServer, context: context, includingPlayers: includingPlayers,
+			excludeLayers: excludeLayers, excludeTiles: excludeTiles, ignoreObjects: ignoreObjects,
+			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
 	}
 
 	/// <summary>
@@ -150,7 +161,7 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
-		return IsPassableAt(position, position, isServer) &&
+		return IsPassableAtOneMatrix(position, position, isServer) &&
 		       GetFirst<LivingHealthBehaviour>(position, isServer) == null;
 	}
 
@@ -159,13 +170,25 @@ public class Matrix : MonoBehaviour
 	/// <param name="position">Adjacent position object wants to move to</param>
 	/// <param name="includingPlayers">Set this to false to ignore players from check</param>
 	/// <param name="context">Is excluded from passable check</param>
+	/// <param name="isReach">True if we're seeing if an object can be reached through</param>
+	/// <param name="onlyExcludeLayerOnDestination">false if every involved tile should have the layers excluded, true if only the destination tile</param>
 	/// <returns></returns>
-	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
-		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+	public bool IsPassableAtOneMatrix(Vector3Int origin, Vector3Int position, bool isServer,
+			CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
+			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+			bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 	{
-		return MetaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType,
-			inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers, excludeTiles: excludeTiles);
+		return MetaTileMap.IsPassableAtOneTileMap(origin, position, isServer, collisionType: collisionType,
+			inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers,
+			excludeTiles: excludeTiles, ignoreObjects: ignoreObjects, isReach: isReach,
+			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
+	}
+
+
+	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
+	public bool HasAnyDepartureBlockedOneMatrix(Vector3Int to, bool isServer, RegisterTile context)
+	{
+		return MetaTileMap.ObjectLayer.HasAnyDepartureBlockedByRegisterTile(to, isServer, context);
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int position, bool isServer)
@@ -185,12 +208,17 @@ public class Matrix : MonoBehaviour
 
 	public bool IsTableAt(Vector3Int position, bool isServer)
 	{
-		return MetaTileMap.IsTileTypeAt(position, isServer, TileType.Table);
+		return MetaTileMap.IsTableAt(position);
 	}
 
 	public bool IsWallAt(Vector3Int position, bool isServer)
 	{
-		return MetaTileMap.HasTile(position, LayerType.Walls, isServer);
+		return MetaTileMap.HasTile(position, LayerType.Walls);
+	}
+
+	public bool IsWindowAt(Vector3Int position, bool isServer)
+	{
+		return MetaTileMap.HasTile(position, LayerType.Windows);
 	}
 
 	public bool IsEmptyAt(Vector3Int position, bool isServer)
@@ -223,7 +251,7 @@ public class Matrix : MonoBehaviour
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!MetaTileMap.IsNoGravityAt(pos, isServer))
+			if (MetaTileMap.IsNoGravityAt(pos, isServer) == false)
 			{
 				return false;
 			}
@@ -237,7 +265,7 @@ public class Matrix : MonoBehaviour
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!MetaTileMap.IsEmptyAt(context, pos, isServer))
+			if (MetaTileMap.IsEmptyAt(context, pos, isServer) == false)
 			{
 				return false;
 			}
@@ -260,6 +288,12 @@ public class Matrix : MonoBehaviour
 	public void ForEachRegisterTileSafe(IRegisterTileAction action, Vector3Int localPosition, bool isServer)
 	{
 		(isServer ? ServerObjects : ClientObjects).ForEachSafe(action, localPosition);
+	}
+
+
+	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
+	{
+		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}
 
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
@@ -318,29 +352,35 @@ public class Matrix : MonoBehaviour
 
 	public bool HasTile(Vector3Int position, bool isServer)
 	{
-		return MetaTileMap.HasTile(position, isServer);
+		return MetaTileMap.HasTile(position);
 	}
 
 	public bool IsClearUnderfloorConstruction(Vector3Int position, bool isServer)
 	{
-		if (MetaTileMap.HasTile(position, LayerType.Floors, isServer))
+		if (MetaTileMap.HasTile(position, LayerType.Floors))
 		{
 			return (false);
 		}
-		else if (MetaTileMap.HasTile(position, LayerType.Walls, isServer))
+		else if (MetaTileMap.HasTile(position, LayerType.Walls))
 		{
 			return (false);
 		}
-		else if (MetaTileMap.HasTile(position, LayerType.Windows, isServer))
+		else if (MetaTileMap.HasTile(position, LayerType.Windows))
 		{
 			return (false);
 		}
-		else if (MetaTileMap.HasTile(position, LayerType.Grills, isServer))
+		else if (MetaTileMap.HasTile(position, LayerType.Grills))
 		{
 			return (false);
 		}
 
 		return (true);
+	}
+
+	public IEnumerable<Objects.Disposals.DisposalPipe> GetDisposalPipesAt(Vector3Int position)
+	{
+		// Return a list, because we may allow disposal pipes to overlap each other - NS with EW e.g.
+		return UnderFloorLayer.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position);
 	}
 
 	public List<IntrinsicElectronicData> GetElectricalConnections(Vector3Int position)
@@ -385,8 +425,8 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-
-		foreach (var PipeNode in metaDataLayer.Get(position).PipeData)
+		var pipes =  metaDataLayer.Get(position).PipeData;
+		foreach (var PipeNode in pipes)
 		{
 			list.Add(PipeNode.pipeData);
 		}
@@ -482,14 +522,14 @@ public class Matrix : MonoBehaviour
 	}
 
 
-	public void RemoveUnderFloorTile(Vector3Int position, LayerTile tile)
+	public void RemoveUnderFloorTile(Vector3Int position, LayerTile tile, bool UseSpecifiedLocation = false)
 	{
 		if (UnderFloorLayer == null)
 		{
 			underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
 		}
 
-		UnderFloorLayer.RemoveSpecifiedTile(position, tile);
+		UnderFloorLayer.RemoveSpecifiedTile(position, tile,UseSpecifiedLocation);
 	}
 
 	//Visual debug

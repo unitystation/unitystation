@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using WebSocketSharp;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// AI brain for parrots
@@ -22,13 +22,21 @@ namespace NPC
 
 		public override void LocalChatReceived(ChatEvent chatEvent)
 		{
-			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
-			if (speaker.Script == null || speaker.Script.playerNetworkActions == null)
+			// check who said the message
+			var originator = chatEvent.originator;
+			if (originator == gameObject)
 			{
+				// parrot should ignore its own speech
 				return;
+
 			}
 
-			lastHeardMsg = chatEvent.message;
+			// parrot should listen only speech and ignore different action/examine/combat messages
+			var channels = chatEvent.channels;
+			if (!Chat.NonSpeechChannels.HasFlag(channels))
+			{
+				lastHeardMsg = chatEvent.message;
+			}
 		}
 
 		public override void OnPetted(GameObject performer)
@@ -64,9 +72,9 @@ namespace NPC
 		{
 			//TODO use the actual chat api when it allows it!
 			Chat.AddLocalMsgToChat(
-				$"<b>{mobNameCap} says</b>, \"{text}\"",
-				gameObject.transform.position,
-				gameObject);
+				text,
+				gameObject,
+				mobNameCap);
 			ChatBubbleManager.ShowAChatBubble(gameObject.transform, text);
 		}
 		private void SayRandomThing()

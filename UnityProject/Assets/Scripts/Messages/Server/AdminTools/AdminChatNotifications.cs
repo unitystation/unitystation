@@ -23,15 +23,20 @@ public class AdminChatNotifications : ServerMessage
 		{
 			UIManager.Instance.adminChatButtons.ClientUpdateNotifications(NotificationKey, TargetWindow,
 				Amount, ClearAll);
+			UIManager.Instance.mentorChatButtons.ClientUpdateNotifications(NotificationKey, TargetWindow,
+				Amount, ClearAll);
 		}
 		else
 		{
 			UIManager.Instance.adminChatButtons.ClearAllNotifications();
+			UIManager.Instance.mentorChatButtons.ClearAllNotifications();
 			var notiUpdate = JsonUtility.FromJson<AdminChatNotificationFullUpdate>(FullUpdateJson);
 
 			foreach (var n in notiUpdate.notificationEntries)
 			{
 				UIManager.Instance.adminChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
+					n.Amount, false);
+				UIManager.Instance.mentorChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
 					n.Amount, false);
 			}
 		}

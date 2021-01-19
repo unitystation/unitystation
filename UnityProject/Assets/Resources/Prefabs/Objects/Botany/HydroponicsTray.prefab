@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4309619294491644}
   - component: {fileID: 212536712376351936}
+  - component: {fileID: 6283305660238335982}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -46,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e6b73cd799c276b4c8c3b001a001e1e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -81,6 +83,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6283305660238335982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008563499804470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 7dfddd849e928f440aa8bd921b643aec, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &1609685257496530
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,10 +121,10 @@ GameObject:
   - component: {fileID: 3468170437254342443}
   - component: {fileID: 114193634347157676}
   - component: {fileID: 114519504495500056}
-  - component: {fileID: 17410868912263334}
   - component: {fileID: 107955457563787986}
   - component: {fileID: 7822907302678425537}
   - component: {fileID: -5825847811397951141}
+  - component: {fileID: 8465335936839843417}
   m_Layer: 11
   m_Name: HydroponicsTray
   m_TagString: Untagged
@@ -174,6 +196,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &114568927083047222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114130822872460300
 MonoBehaviour:
@@ -215,8 +240,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &1612245312422546373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,12 +267,39 @@ MonoBehaviour:
   isSoilPile: 0
   isWild: 0
   potentialWeeds:
-  - {fileID: 11400000, guid: 375fdb78e44a16f44bd8fed477aec2fa, type: 2}
-  - {fileID: 11400000, guid: 8381b65b5721d454cbe2b03391fd34c4, type: 2}
-  - {fileID: 11400000, guid: 4d0e5cc6d51fa0446b4907df06c35a48, type: 2}
-  - {fileID: 11400000, guid: c5c8c48fefd6af742a194210057456e6, type: 2}
-  - {fileID: 11400000, guid: e08fe974797d87d49980a832c69354ff, type: 2}
-  - {fileID: 11400000, guid: 53bb9f10c65e1dd4fa5b856a06b91f91, type: 2}
+  - {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21, type: 3}
+  - {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21, type: 3}
+  - {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21, type: 3}
+  - {fileID: 8824988080051254831, guid: ab1442ccdc53ec149820ae45ec942a3a, type: 3}
+  - {fileID: 8824988080051254831, guid: ab1442ccdc53ec149820ae45ec942a3a, type: 3}
+  - {fileID: 3050735359452578519, guid: c9011cdae105db947b62a63d5934fec3, type: 3}
+  - {fileID: 3050735359452578519, guid: c9011cdae105db947b62a63d5934fec3, type: 3}
+  - {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87, type: 3}
+  - {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87, type: 3}
+  - {fileID: 6192448916473654018, guid: 103ef0639f3940544afdbbfc8215a99a, type: 3}
+  - {fileID: 6192448916473654018, guid: 103ef0639f3940544afdbbfc8215a99a, type: 3}
+  - {fileID: 1991824238655534113, guid: d3223adb88ea9fa4885408cf982854e5, type: 3}
+  - {fileID: 1991824238655534113, guid: d3223adb88ea9fa4885408cf982854e5, type: 3}
+  - {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658, type: 3}
+  - {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658, type: 3}
+  - {fileID: 4623359582509876532, guid: c1ce6fa13648705408c2308794f9ce69, type: 3}
+  - {fileID: 4623359582509876532, guid: c1ce6fa13648705408c2308794f9ce69, type: 3}
+  - {fileID: 4623359582509876532, guid: c1ce6fa13648705408c2308794f9ce69, type: 3}
+  potentialWildPlants:
+  - {fileID: 1014945320445758551, guid: 9d7f5c511a8d02b4795a829f4893fa35, type: 3}
+  - {fileID: 5550356101914517609, guid: 1f8dd379db731934fb32a689389d8aad, type: 3}
+  - {fileID: 3115806534628904004, guid: e03ca27468a35fd489906cd9eb4854df, type: 3}
+  - {fileID: 4978174661751517706, guid: bfde317476b7ff843aec3fce79449da8, type: 3}
+  - {fileID: 658397812015304475, guid: 099cce22b8fa5714892f0ec86a9b7451, type: 3}
+  - {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21, type: 3}
+  - {fileID: 1619299131167382530, guid: 0962cc7b7ee82d14a975400b9762a9ca, type: 3}
+  - {fileID: 8423096099299282122, guid: 882b4a092eff060438657e9c0346ae7c, type: 3}
+  - {fileID: 3734552320259523273, guid: 988c654f569d5a843bba82e700c8edf7, type: 3}
+  - {fileID: 7396610180127803646, guid: 15e6625615ca78244aa7899d05e981d4, type: 3}
+  - {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f, type: 3}
+  - {fileID: 3677788203275075741, guid: ade1755b39122014e834e5d291d2179a, type: 3}
+  - {fileID: 8824988080051254831, guid: ab1442ccdc53ec149820ae45ec942a3a, type: 3}
+  - {fileID: 3050735359452578519, guid: c9011cdae105db947b62a63d5934fec3, type: 3}
   modification: 0
   reagentContainer: {fileID: 3468170437254342443}
   nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
@@ -254,22 +313,10 @@ MonoBehaviour:
   tickRate: 1
   plantData:
     ProduceObject: {fileID: 0}
-    Name: 
-    Plantname: 
-    Description: 
-    PacketsSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    GrowthSprites: []
-    FullyGrownSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+    PlantName: 
+    DeadSpriteSO: {fileID: 0}
+    FullyGrownSpriteSO: {fileID: 0}
+    GrowthSpritesSOs: []
     WeedResistance: 50
     WeedGrowthRate: 10
     GrowthSpeed: 60
@@ -279,7 +326,19 @@ MonoBehaviour:
     Lifespan: 25
     PlantTrays: 
     ReagentProduction: []
-    MutatesInTo: []
+    MutatesInToGameObject: []
+    plantEvolveStats:
+      WeedResistanceChange: 0
+      WeedGrowthRateChange: 0
+      GrowthSpeedChange: 0
+      PotencyChange: 0
+      EnduranceChange: 0
+      YieldChange: 0
+      LifespanChange: 0
+      PlantTrays: 
+      ReagentProduction: []
+      RemovePlantTrays: 
+      RemoveReagentProduction: []
     Age: 0
     NextGrowthStageProgress: 0
     Health: 0
@@ -314,6 +373,7 @@ MonoBehaviour:
       m_values:
       - 100
       - 100
+  destroyOnEmpty: 0
 --- !u!114 &114193634347157676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,7 +388,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  soundOnHit: 
+  initialIntegrity: 100
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -349,7 +417,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114519504495500056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,22 +433,6 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &17410868912263334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609685257496530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameOverride: Hydroponics Tray
-  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  iconOverride: {fileID: 0}
-  backgroundSprite: {fileID: 0}
 --- !u!114 &107955457563787986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,11 +478,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 3a2e910deacfcfd4facaa1e17a6c00d5, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 3964132422398169974, guid: c0cbb1853d350404685a523d617f3458,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
+--- !u!114 &8465335936839843417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609685257496530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.3, g: 0.55, b: 0.72, a: 0.7}
+  iconOverride: {fileID: 21300000, guid: e6b73cd799c276b4c8c3b001a001e1e5, type: 3}
+  backgroundSprite: {fileID: 0}
 --- !u!1 &1998759520953530410
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +547,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -501,9 +570,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300004, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -511,7 +580,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7881375107564956764
@@ -526,22 +595,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300002, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300004, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300006, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300008, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300010, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300012, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    EquippedData: {fileID: 4900000, guid: 50ef21e6e336cfb418b42593aa5f49c0, type: 3}
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: b2bcc48cd1fe1224fa63b46854d61731, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
+  Sprites: []
 --- !u!1 &2821288067960047100
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,6 +650,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -611,9 +673,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300004, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -621,7 +683,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1254092131188494499
@@ -636,22 +698,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300002, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300004, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300006, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300008, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300010, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300012, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    EquippedData: {fileID: 4900000, guid: 60a3c368792b5ba4aaf26bed6d8d93d8, type: 3}
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 9149d3bede9fd2240a3af3f95752d5b1, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
+  Sprites: []
 --- !u!1 &3663177110161525043
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +753,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -721,9 +776,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300004, guid: aea86856306566d43bfb7f194de93f06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -731,7 +786,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2269397715240448978
@@ -746,22 +801,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300002, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300004, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300006, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300008, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300010, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300012, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    EquippedData: {fileID: 4900000, guid: 8200e94d6a411ff47a4718cf685f1075, type: 3}
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: df36fe710569d8b45ad564d6fa3a1a98, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
+  Sprites: []
 --- !u!1 &5226030624696872044
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,6 +856,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -831,9 +879,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300004, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -841,7 +889,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4430441488956415440
@@ -856,22 +904,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300002, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300004, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300006, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300008, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300010, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300012, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    EquippedData: {fileID: 4900000, guid: 44ef32d51c580c7459f347a7de3828b6, type: 3}
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: de4912c9ed032ce498ce529b2ba9b1f9, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
+  Sprites: []
 --- !u!1 &8254462624725952794
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,6 +959,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -941,7 +982,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -966,9 +1007,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
+  Sprites: []

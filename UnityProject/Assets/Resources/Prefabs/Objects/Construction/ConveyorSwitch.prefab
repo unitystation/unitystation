@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4963249456697642776}
   - component: {fileID: 9179395053284328901}
+  - component: {fileID: 6300751590063715877}
   m_Layer: 0
   m_Name: BaseSprite
   m_TagString: Untagged
@@ -81,6 +82,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6300751590063715877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2239508276124512771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 99628abbeeb2fa94dbbaf303c070bb16, type: 2}
+  - {fileID: 11400000, guid: f050fac9a5067984b891f27cfb9f3170, type: 2}
+  - {fileID: 11400000, guid: 495e5511274623e458ab7a503baf90d5, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 99628abbeeb2fa94dbbaf303c070bb16, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &7144248469089430455
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &4436606494572318361
 MonoBehaviour:
@@ -232,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &1835757013911865864
@@ -248,7 +273,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 20
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -269,7 +296,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 20
 --- !u!114 &3348285834374005981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,13 +346,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteRenderer: {fileID: 9179395053284328901}
   conveyorBelts: []
-  spriteForward: {fileID: 21300000, guid: 2076e3faddc91074fa1b0cebfe9672b1, type: 3}
-  spriteBackward: {fileID: 21300000, guid: 32ff77b6e05d3aa4faee423469f979de, type: 3}
-  spriteOff: {fileID: 21300000, guid: dda53721035c8c44ba2b12f974f26488, type: 3}
   ConveyorBeltSpeed: 0.8
   currentState: 0
+  conType: 2
 --- !u!114 &-4847964719740510200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +362,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0

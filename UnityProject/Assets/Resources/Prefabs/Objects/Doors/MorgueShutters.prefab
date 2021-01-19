@@ -1,0 +1,203 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4781411525146574944
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: spritePath
+      value: icons/obj/doors/chapelmorgueshutters
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: openFrame
+      value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[0]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[1]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[2]
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[3]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[4]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[5]
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[6]
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[7]
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[8]
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[9]
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[10]
+      value: 44
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[11]
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[12]
+      value: 52
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: openSFX
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: closeSFX
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: doorType
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: damageOnClose
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: maxTimeOpen
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: openingDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: doorAnimationSize
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 720260447592516819, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: restriction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3768459764970815540, guid: c3269973bbcda6348ba60ebf7cba6c27,
+        type: 3}
+    - target: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_Name
+      value: MorgueShutters
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4986678559899695466, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}

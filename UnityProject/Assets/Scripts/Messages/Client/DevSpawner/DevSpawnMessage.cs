@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Messages.Client;
 using UnityEngine;
 using Mirror;
 
@@ -30,7 +31,7 @@ public class DevSpawnMessage : ClientMessage
 		{
 			Spawn.ServerPrefab(prefab, WorldPosition);
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{admin.ExpensiveName()} spawned a {prefab.name} at {WorldPosition}", AdminId);
+				$"{admin.Player().Username} spawned a {prefab.name} at {WorldPosition}", AdminId);
 		}
 		else
 		{
@@ -72,23 +73,5 @@ public class DevSpawnMessage : ClientMessage
 			Logger.LogWarningFormat("Prefab {0} which you are attempting to spawn has no NetworkIdentity, thus cannot" +
 			                        " be spawned.", Category.Admin, prefab);
 		}
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		PrefabAssetID = reader.ReadGuid();
-		WorldPosition = reader.ReadVector2();
-		AdminId = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteGuid(PrefabAssetID);
-		writer.WriteVector2(WorldPosition);
-		writer.WriteString(AdminId);
-		writer.WriteString(AdminToken);
 	}
 }

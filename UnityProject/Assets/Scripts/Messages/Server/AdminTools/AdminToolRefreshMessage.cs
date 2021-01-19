@@ -37,6 +37,16 @@ public class AdminToolRefreshMessage : ServerMessage
 		//Event Manager
 		pageData.randomEventsAllowed = InGameEventsManager.Instance.RandomEventsAllowed;
 
+		//Round Manager
+		pageData.nextMap = SubSceneManager.AdminForcedMainStation;
+		pageData.nextAwaySite = SubSceneManager.AdminForcedAwaySite;
+		pageData.allowLavaLand = SubSceneManager.AdminAllowLavaland;
+		pageData.alertLevel = GameManager.Instance.CentComm.CurrentAlertLevel.ToString();
+
+		//Centcom
+		pageData.blockCall = GameManager.Instance.PrimaryEscapeShuttle.blockCall;
+		pageData.blockRecall = GameManager.Instance.PrimaryEscapeShuttle.blockRecall;
+
 		//Player list info:
 		pageData.players = GetAllPlayerStates(adminID);
 
@@ -53,17 +63,23 @@ public class AdminToolRefreshMessage : ServerMessage
 	{
 		var playerList = new List<AdminPlayerEntryData>();
 		if (string.IsNullOrEmpty(adminID)) return playerList;
-		foreach (var player in PlayerList.Instance.AllPlayers)
+		var ToSearchThrough = PlayerList.Instance.AllPlayers.ToList();
+		ToSearchThrough.AddRange(PlayerList.Instance.loggedOff);
+		foreach (var player in ToSearchThrough)
 		{
 			if (player == null) continue;
-			if (player.Connection == null) continue;
+			//if (player.Connection == null) continue;
 
 			var entry = new AdminPlayerEntryData();
 			entry.name = player.Name;
 			entry.uid = player.UserId;
 			entry.currentJob = player.Job.ToString();
 			entry.accountName = player.Username;
-			entry.ipAddress = player.Connection.address;
+			if (player.Connection != null)
+			{
+				entry.ipAddress = player.Connection.address;
+			}
+
 			if (player.Script != null && player.Script.playerHealth != null)
 			{
 				entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;

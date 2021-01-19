@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Clothing;
-using NPC.AI;
 using UnityEngine;
+using Doors;
+using Systems.Mob;
 using Random = UnityEngine.Random;
+using AddressableReferences;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	public class FaceHuggerAI : MobAI, ICheckedInteractable<HandApply>, IServerSpawn
 	{
@@ -17,6 +19,7 @@ namespace NPC
 		[SerializeField]
 		[Range(0,100)]
 		private int randomSoundProbability = 20;
+		[SerializeField] private AddressableAudioSource Bite = null;
 		[SerializeField] private float searchTickRate = 0.5f;
 		private float movementTickRate = 1f;
 		private float moveWaitTime = 0f;
@@ -43,7 +46,7 @@ namespace NPC
 		{
 			base.OnEnable();
 			mobMeleeAction = gameObject.GetComponent<MobMeleeAction>();
-			hitMask = LayerMask.GetMask("Walls", "Players");
+			hitMask = LayerMask.GetMask( "Players");
 			playersLayer = LayerMask.NameToLayer("Players");
 			coneOfSight = GetComponent<ConeOfSight>();
 			PlayRandomSound();
@@ -96,17 +99,19 @@ namespace NPC
 		/// <returns>Gameobject of the first player it found</returns>
 		protected virtual GameObject SearchForTarget()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, dirSprites.CurrentFacingDirection, 10f, 20);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , directional.CurrentDirection.Vector, 10f, 20);
 			if (hits.Count == 0)
 			{
 				return null;
 			}
 
-			foreach (Collider2D coll in hits)
+			foreach (var coll in hits)
 			{
-				if (coll.gameObject.layer == playersLayer)
+				if (coll.GameObject == null) continue;
+
+				if (coll.GameObject.layer == playersLayer)
 				{
-					return coll.gameObject;
+					return coll.GameObject;
 				}
 			}
 
@@ -129,7 +134,7 @@ namespace NPC
 					{
 						continue;
 					}
-					if (registerObject.Matrix.IsPassableAt(checkTile, true))
+					if (registerObject.Matrix.IsPassableAtOneMatrixOneTile(checkTile, true))
 					{
 						nudgeDir = testDir;
 						break;
@@ -285,7 +290,7 @@ namespace NPC
 
 			//face towards the origin:
 			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
-			dirSprites.ChangeDirection(dir);
+			directional.FaceDirection(Orientation.From(dir));
 
 			//Then scan to see if anyone is there:
 			var findTarget = SearchForTarget();
@@ -328,7 +333,7 @@ namespace NPC
 				verb);
 
 			SoundManager.PlayNetworkedAtPos(
-				"bite",
+				Bite,
 				player.gameObject.RegisterTile().WorldPositionServer,
 				1f,
 				true,
@@ -429,7 +434,7 @@ namespace NPC
 			}
 
 			XenoQueenAI.CurrentHuggerAmt++;
-			dirSprites.SetToNPCLayer();
+			mobSprite.SetToNPCLayer();
 			registerObject.RestoreAllToDefault();
 			simpleAnimal.SetDeadState(false);
 			ResetBehaviours();
@@ -439,7 +444,7 @@ namespace NPC
 		public override void OnDespawnServer(DespawnInfo info)
 		{
 			base.OnDespawnServer(info);
-			dirSprites.SetToBodyLayer();
+			mobSprite.SetToBodyLayer();
 			deathSoundPlayed = false;
 			registerObject.Passable = true;
 		}

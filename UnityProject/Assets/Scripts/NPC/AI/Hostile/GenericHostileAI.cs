@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Doors;
+using Systems.Mob;
 using Random = UnityEngine.Random;
+using AddressableReferences;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Generic hostile AI that will attack all players
@@ -43,7 +46,7 @@ namespace NPC
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			hitMask = LayerMask.GetMask("Walls", "Players");
+			hitMask = LayerMask.GetMask( "Players");
 			playersLayer = LayerMask.NameToLayer("Players");
 			mobMeleeAttack = GetComponent<MobMeleeAttack>();
 			coneOfSight = GetComponent<ConeOfSight>();
@@ -99,15 +102,17 @@ namespace NPC
 		/// <returns>Gameobject of the first player it found</returns>
 		protected virtual GameObject SearchForTarget()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, dirSprites.CurrentFacingDirection, 10f, 20);
-			if (hits.Count == 0)
+			var player = Physics2D.OverlapCircleAll(transform.position, 20f, hitMask);
+			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
+			if (player.Length == 0)
 			{
 				return null;
 			}
 
-			foreach (Collider2D coll in hits)
+			foreach (var coll in player)
 			{
-				if (coll.gameObject.layer == playersLayer)
+				if (MatrixManager.Linecast(this.gameObject.WorldPosServer(), LayerTypeSelection.Walls, LayerMask.NameToLayer(""),
+					coll.gameObject.WorldPosServer()).ItHit)
 				{
 					return coll.gameObject;
 				}
@@ -134,7 +139,7 @@ namespace NPC
 					{
 						continue;
 					}
-					if (registerObject.Matrix.IsPassableAt(checkTile, true))
+					if (registerObject.Matrix.IsPassableAtOneMatrixOneTile(checkTile, true, context: gameObject))
 					{
 						nudgeDir = testDir;
 						break;
@@ -289,7 +294,7 @@ namespace NPC
 
 			//face towards the origin:
 			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
-			dirSprites.ChangeDirection(dir);
+			directional.FaceDirection(Orientation.From(dir));
 
 			//Then scan to see if anyone is there:
 			var findTarget = SearchForTarget();
@@ -312,7 +317,7 @@ namespace NPC
 
 		protected virtual void OnSpawnMob()
 		{
-			dirSprites.SetToNPCLayer();
+			mobSprite.SetToNPCLayer();
 			registerObject.RestoreAllToDefault();
 			if (simpleAnimal != null)
 			{
@@ -323,7 +328,7 @@ namespace NPC
 		public override void OnDespawnServer(DespawnInfo info)
 		{
 			base.OnDespawnServer(info);
-			dirSprites.SetToBodyLayer();
+			mobSprite.SetToBodyLayer();
 			deathSoundPlayed = false;
 			registerObject.Passable = true;
 		}

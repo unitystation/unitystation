@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AddressableReferences;
 
 /// <summary>
 /// Used for restraining a player (with handcuffs or zip ties etc)
@@ -34,8 +35,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// <summary>
 	/// Sound to be played when applying restraints
 	/// </summary>
-	[SerializeField]
-	private string sound = "Handcuffs";
+	[SerializeField] private AddressableAudioSource applySound = null;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -56,9 +56,11 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		void ProgressFinishAction()
 		{
-			if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false)
+			if(performer.GetComponent<PlayerScript>()?.IsGameObjectReachable(target, true) ?? false)
 			{
 				target.GetComponent<PlayerMove>().Cuff(interaction);
+				Chat.AddActionMsgToChat(performer, $"You successfully restrain {target.ExpensiveName()}.",
+					$"{performer.ExpensiveName()} successfully restrains {target.ExpensiveName()}.");
 			}
 		}
 
@@ -66,7 +68,10 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			.ServerStartProgress(target.RegisterTile(), applyTime, performer);
 		if (bar != null)
 		{
-			SoundManager.PlayNetworkedAtPos(sound, target.transform.position, sourceObj: target.gameObject);
+			SoundManager.PlayNetworkedAtPos(applySound, target.transform.position, sourceObj: target.gameObject);
+			Chat.AddActionMsgToChat(performer,
+				$"You begin restraining {target.ExpensiveName()}...",
+				$"{performer.ExpensiveName()} begins restraining {target.ExpensiveName()}...");
 		}
 	}
 }

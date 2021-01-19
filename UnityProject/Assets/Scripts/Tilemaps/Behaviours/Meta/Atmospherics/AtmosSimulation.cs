@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using System;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	/// <summary>
 	/// Main class which runs the atmospheric simulation for a given atmos thread. Since there is currently only
@@ -16,11 +17,6 @@ namespace Atmospherics
 	/// </summary>
 	public class AtmosSimulation
 	{
-		/// <summary>
-		/// True if the atmos simulation has no updates to perform
-		/// </summary>
-		public bool IsIdle => updateList.IsEmpty;
-
 		/// <summary>
 		/// Number of updates remaining for the atmos simulation to process
 		/// </summary>
@@ -41,7 +37,7 @@ namespace Atmospherics
 		/// Before we start telling the main thread to add/remove vfx, we can check to see if the tile has already been taken care of
 		/// While not nessecary for this feature to function, it should significantly reduce performance hits from this feature
 		/// </summary>
-		private HashSet<Vector3Int> fogTiles = new HashSet<Vector3Int>();
+		private IDictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
 
 		public bool IsInUpdateList(MetaDataNode node)
 		{
@@ -97,6 +93,9 @@ namespace Atmospherics
 				}
 			}
 
+			//Check to see if any reactions are needed
+			DoReactions(node);
+
 			//Check to see if node needs vfx applied
 			GasVisualEffects(node);
 		}
@@ -110,7 +109,7 @@ namespace Atmospherics
 			if (nodes.Count > 1)
 			{
 				//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
-				GasMix MeanGasMix = CalcMeanGasMix();
+				CalcMeanGasMix();
 
 				for (var i = 0; i < nodes.Count; i++)
 				{
@@ -118,29 +117,30 @@ namespace Atmospherics
 
 					if (!node.IsOccupied)
 					{
-						node.GasMix = CalcAtmos(node.GasMix, MeanGasMix);
-
-						if (node.IsSpace)
+						if (!node.IsSpace)
 						{
-							//Set to 0 if space
-							node.GasMix *= 0;
+							node.GasMix.Copy(meanGasMix);
+						}
+						else
+						{
+							node.GasMix.SetToEmpty();
 						}
 					}
 				}
 			}
 		}
 
-		private GasMix meanGasMix = new GasMix(GasMixes.Empty);
+		private GasMix meanGasMix = GasMix.NewGasMix(GasMixes.Empty);
 
 		/// <summary>
 		/// Calculate the average Gas tile if you averaged all the adjacent ones and itself
 		/// </summary>
 		/// <returns>The mean gas mix.</returns>
-		private GasMix CalcMeanGasMix()
+		private void CalcMeanGasMix()
 		{
 			meanGasMix.Copy(GasMixes.Empty);
 
-			int targetCount = 0;
+			var targetCount = 0;
 
 			for (var i = 0; i < nodes.Count; i++)
 			{
@@ -151,12 +151,8 @@ namespace Atmospherics
 					continue;
 				}
 
-				for (int j = 0; j < Gas.Count; j++)
-				{
-					meanGasMix.Gases[j] += node.GasMix.Gases[j];
-				}
-
-				meanGasMix.Pressure += node.GasMix.Pressure;
+				meanGasMix.Volume += node.GasMix.Volume;
+				GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles);
 
 				if (!node.IsOccupied)
 				{
@@ -165,64 +161,102 @@ namespace Atmospherics
 				else
 				{
 					//Decay if occupied
-					node.GasMix *= 0;
+					node.GasMix.SetToEmpty();
 				}
 			}
 
-			// Sometime, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos)
-			// This condition is to avoid a divide by zero error (or 0 / 0 that gives NaN)
-			if (targetCount != 0)
-			{
-				for (int j = 0; j < Gas.Count; j++)
-				{
-					meanGasMix.Gases[j] /= targetCount;
-				}
+			// Sometimes, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos, ie: walls)
+			if (targetCount == 0)
+				return;
 
-				meanGasMix.Pressure /= targetCount;
+			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
+			for (var i = 0; i < Gas.Count; i++)
+			{
+				meanGasMix.Gases[i] = meanGasMix.Gases[i] / targetCount;
 			}
 
-			return meanGasMix;
 		}
 
-		private GasMix CalcAtmos(GasMix atmos, GasMix gasMix)
-		{
-			//Used for updating tiles with the averagee Calculated gas
-			for (int i = 0; i < Gas.Count; i++)
-			{
-				atmos.Gases[i] = gasMix.Gases[i];
-			}
-
-			atmos.Pressure = gasMix.Pressure;
-
-			return atmos;
-		}
+		#region GasVisualEffects
 
 		//Handles checking for vfx changes
 		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
-		private void GasVisualEffects(MetaDataNode node){
+		private void GasVisualEffects(MetaDataNode node)
+		{
 			if (node == null || node.ReactionManager == null)
 			{
 				return;
 			}
-			if(node.GasMix.GetMoles(Gas.Plasma) > 0.4) 		//If node has an almost combustible ammount of plasma
+
+			foreach (var gas in Gas.All)
 			{
-				if(!fogTiles.Contains(node.Position)) 		//And if it hasn't already been identified as a tile that should have plasma fx
+				if(!gas.HasOverlay) continue;
+
+				var gasAmount = node.GasMix.GetMoles(gas);
+
+				if(gasAmount == 0) continue;
+
+				var data = new ReactionManager.FogEffect {metaDataNode = node, gas = gas};
+
+				if(gasAmount > gas.MinMolesToSee)
 				{
-					node.ReactionManager.AddFogEvent(node); //Add it to the atmos vfx queue in ReactionManager
-					fogTiles.Add(node.Position); 			//Add it to fogTiles
+					if (node.ReactionManager.fogTiles.ContainsKey(data.metaDataNode.Position) && node.ReactionManager.fogTiles[data.metaDataNode.Position].Contains(gas)) continue;
+
+					node.ReactionManager.AddFogEvent(data);
+				}
+				else
+				{
+					if (!node.ReactionManager.fogTiles.ContainsKey(data.metaDataNode.Position)) continue;
+
+					node.ReactionManager.RemoveFogEvent(data);
 				}
 			}
-
-			else											//If there isn't 0.4 moles of plasma, remove the fx
-			{
-				if(fogTiles.Contains(node.Position) && (node.GasMix.GetMoles(Gas.Plasma) < 0.3))
-				{
-					node.ReactionManager.RemoveFogEvent(node);
-					fogTiles.Remove(node.Position);
-				}
-			}
-
-
 		}
+
+		#endregion
+
+		#region GasReactions
+
+		private void DoReactions(MetaDataNode node)
+		{
+			if (node == null || node.ReactionManager == null)
+			{
+				return;
+			}
+
+			var gasMix = node.GasMix;
+
+			foreach (var gasReaction in GasReactions.All)
+			{
+				if(ReactionMoleCheck(gasReaction, gasMix)) continue;
+
+				if (gasMix.Temperature < gasReaction.MinimumTemperature || gasMix.Temperature > gasReaction.MaximumTemperature) continue;
+
+				if (gasMix.Pressure < gasReaction.MinimumPressure || gasMix.Pressure > gasReaction.MaximumPressure) continue;
+
+				if (gasMix.Moles < gasReaction.MinimumMoles || gasMix.Moles > gasReaction.MaximumMoles) continue;
+
+				if (node.ReactionManager.reactions.TryGetValue(node.Position, out var gasHashSet) && gasHashSet.Contains(gasReaction)) continue;
+
+				//If too much Hyper-Noblium theres no reactions!!!
+				if(gasMix.GetMoles(Gas.HyperNoblium) >= AtmosDefines.REACTION_OPPRESSION_THRESHOLD) break;
+
+				node.ReactionManager.AddReactionEvent(new ReactionManager.ReactionData{gasReaction = gasReaction, metaDataNode = node});
+			}
+		}
+
+		private static bool ReactionMoleCheck(GasReactions gasReaction, GasMix gasMix)
+		{
+			foreach (var data in gasReaction.GasReactionData)
+			{
+				if(gasMix.GetMoles(data.Key) == 0) return true;
+
+				if(gasMix.GetMoles(data.Key) < data.Value.minimumMolesToReact) return true;
+			}
+
+			return false;
+		}
+
+		#endregion
 	}
 }

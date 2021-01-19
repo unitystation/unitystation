@@ -16,10 +16,14 @@ theme:
   language: 'en'
   favicon: 'assets/images/favicon.ico'
   logo: 'assets/images/logo.png'
-    
+  
 markdown_extensions:
+  - attr_list
   - admonition
   - codehilite:
       guess_lang: false
   - toc:
       permalink: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg

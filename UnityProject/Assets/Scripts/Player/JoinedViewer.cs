@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using System.Collections;
-using System.Linq;
 using System.Net.NetworkInformation;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Messages.Server;
+using Messages.Client;
 
 /// <summary>
 /// This is the Viewer object for a joined player.
@@ -55,13 +56,20 @@ public class JoinedViewer : NetworkBehaviour
 			UserId = unverifiedUserid
 		});
 
+		//this validates Userid and Token
 		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(unverifiedClientId, unverifiedUsername,
 			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
-		if (!isValidPlayer) return; //this validates Userid and Token
+		if (isValidPlayer == false)
+		{
+			Logger.LogWarning("Set up new player: invalid player.");
+			return;
+		}
 
-		// Check if they have a player to rejoin. If not, assign them a new client ID
-		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId);
+		// Check if they have a player to rejoin. If not, assign them a new client ID.
+		GameObject loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId);
 
+		// If the player does not yet have an in-game object to control, they'll probably have a
+		// JoinedViewer assigned as they were only in the lobby. If so, destroy it and use the new one.
 		if (loggedOffPlayer != null)
 		{
 			var checkForViewer = loggedOffPlayer.GetComponent<JoinedViewer>();
@@ -74,7 +82,7 @@ public class JoinedViewer : NetworkBehaviour
 
 		UpdateConnectedPlayersMessage.Send();
 
-		// Only sync the pre-round countdown if it's already started
+		// Only sync the pre-round countdown if it's already started.
 		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 		{
 			if (GameManager.Instance.waitForStart)
@@ -87,19 +95,21 @@ public class JoinedViewer : NetworkBehaviour
 			}
 		}
 
-		//if there's a logged off player, we will force them to rejoin. Previous logic allowed client to reenter
-		//their body or not, which should not be up to the client!
+		// If there's a logged off player, we will force them to rejoin. Previous logic allowed client to re-enter
+		// their body or not, which should not be up to the client!
 		if (loggedOffPlayer != null)
 		{
 			StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer));
 		}
 		else
 		{
-			TargetLocalPlayerSetupNewPlayer(connectionToClient,
-				GameManager.Instance.CurrentRoundState);
+			TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
 		}
 
 		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);
+		PlayerList.Instance.CheckMentorState(unverifiedConnPlayer, unverifiedUserid);
+
+		PlayerList.ClientJobBanDataMessage.Send(unverifiedUserid);
 	}
 
 	/// <summary>
@@ -156,37 +166,15 @@ public class JoinedViewer : NetworkBehaviour
 	public void RequestJob(JobType job)
 	{
 		var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
-		CmdRequestJob(job, jsonCharSettings);
-	}
 
-	/// <summary>
-	/// Used for requesting a job at round start.
-	/// Assigns the occupation to the player and spawns them on the station.
-	/// Fails if no more slots for that occupation are available.
-	/// </summary>
-	[Command]
-	private void CmdRequestJob(JobType jobType, string jsonCharSettings)
-	{
-		var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
-		if (GameManager.Instance.CurrentRoundState != RoundState.Started)
+		if (PlayerList.Instance.ClientJobBanCheck(job) == false)
 		{
-			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
+			Logger.LogWarning($"Client failed local job-ban check for {job}.");
+			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(JobRequestError.JobBanned);
 			return;
 		}
 
-		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
-		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
-		if (slotsTaken >= slotsMax)
-		{
-			return;
-		}
-
-		var spawnRequest =
-			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
-
-		GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
-
-		GameManager.Instance.ProcessSpawnPlayerQueue();
+		ClientRequestJobMessage.Send(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 	}
 
 	public void Spectate()

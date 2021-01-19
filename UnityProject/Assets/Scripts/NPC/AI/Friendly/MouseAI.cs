@@ -1,34 +1,37 @@
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// AI brain for mice
-	/// used to get hunted by Runtime and squeak
+	/// used to get hunted by Runtime and squeak also annoy engis by chewing cables
 	/// </summary>
+
 	public class MouseAI : GenericFriendlyAI
 	{
-		private const bool WIRECHEW_ENABLED = true;
-		// Chance as percentage
-		private const int WIRECHEW_CHANCE = 3;
+		[SerializeField, Tooltip("If this mouse get to this mood level, it will start chewing cables")]
+		private int angryMouseLevel = -30;
+
+		private MobMood mood;
+
+		protected override void Awake()
+		{
+			base.Awake();
+			mood = GetComponent<MobMood>();
+		}
 
 		protected override void MonitorExtras()
 		{
-			timeWaiting += Time.deltaTime;
-			if (timeWaiting < timeForNextRandomAction)
-			{
-				return;
-			}
-			timeWaiting = 0f;
-			timeForNextRandomAction = Random.Range(minTimeBetweenRandomActions, maxTimeBetweenRandomActions);
+			base.MonitorExtras();
+			// If mouse not happy, mouse chew cable. Feed mouse. Or kill mouse, that would work too.
+			CheckMoodLevel();
+		}
 
-			if (WIRECHEW_ENABLED && Random.Range(0, 100) < WIRECHEW_CHANCE)
+		private void CheckMoodLevel()
+		{
+			if (mood.Level <= angryMouseLevel)
 			{
 				DoRandomWireChew();
-			}
-			else
-			{
-				DoRandomSqueak();
 			}
 		}
 
@@ -56,18 +59,13 @@ namespace NPC
 				$"{mobNameCap} squeaks!");
 		}
 
-		private void DoRandomSqueak()
-		{
-			Squeak();
-		}
-
 		private void DoRandomWireChew()
 		{
 			var metaTileMap = registerObject.TileChangeManager.MetaTileMap;
 			var matrix = metaTileMap.Layers[LayerType.Underfloor].matrix;
 
 			// Check if the floor plating is exposed.
-			if (metaTileMap.HasTile(registerObject.LocalPosition, LayerType.Floors, true)) return;
+			if (metaTileMap.HasTile(registerObject.LocalPosition, LayerType.Floors)) return;
 
 			// Check if there's cables at this position
 			var cables = matrix.GetElectricalConnections(registerObject.LocalPosition);
@@ -86,12 +84,12 @@ namespace NPC
 			// Remove the cable and spawn the item.
 			cable.DestroyThisPlease();
 			var electricalTile = registerObject.TileChangeManager
-					.GetLayerTile(registerObject.WorldPosition, LayerType.Underfloor) as ElectricalCableTile;
+				.GetLayerTile(registerObject.WorldPosition, LayerType.Underfloor) as ElectricalCableTile;
 			// Electrical tile is not null iff this is the first mousechew. Why?
 			if (electricalTile != null)
 			{
 				Spawn.ServerPrefab(electricalTile.SpawnOnDeconstruct, registerObject.WorldPosition,
-						count: electricalTile.SpawnAmountOnDeconstruct);
+					count: electricalTile.SpawnAmountOnDeconstruct);
 			}
 
 			Electrocute(voltage);
@@ -102,6 +100,15 @@ namespace NPC
 			var electrocution = new Electrocution(voltage, registerObject.WorldPosition);
 			var performerLHB = GetComponent<LivingHealthBehaviour>();
 			performerLHB.Electrocute(electrocution);
+
+			//doing a shit ton of damage because all mobs have too much hardcoded HP right now
+			//TODO get rid of this part once health rework is done!
+			performerLHB.ApplyDamage(gameObject, 200, AttackType.Internal, DamageType.Tox);
+		}
+
+		protected override void DoRandomAction()
+		{
+			Squeak();
 		}
 
 		protected override void OnSpawnMob()
@@ -109,5 +116,6 @@ namespace NPC
 			base.OnSpawnMob();
 			BeginExploring();
 		}
+
 	}
 }

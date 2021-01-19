@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 46f8c48d2d3f7da41b60d83614f8fee0,
         type: 2}
+    - target: {fileID: 4377197623706982477, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 15ee7fc32f7bcc74889f4b696da59496,
+        type: 2}
     - target: {fileID: 7521929656741835326, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
       propertyPath: Resistances.AcidProof
@@ -148,6 +154,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: It has WIZZARD written across it in sequins. Comes with a cool beard.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23fbdaf1fa5d71340be316ef7c51eae0, type: 3}

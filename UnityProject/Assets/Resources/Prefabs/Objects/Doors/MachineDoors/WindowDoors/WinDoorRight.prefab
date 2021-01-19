@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &9104645068567335294
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WanimFrames.Array.data[0]
+      value: 152
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WanimFrames.Array.data[1]
+      value: 148
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WanimFrames.Array.data[2]
+      value: 144
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WanimFrames.Array.data[3]
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WanimFrames.Array.data[4]
+      value: 136
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WanimFrames.Array.data[5]
+      value: 132
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WcloseFrame
+      value: 188
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WdeniedFrame
+      value: 192
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WopenFrame
+      value: 156
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: doorController
+      value: 
+      objectReference: {fileID: 8271463463794750628}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3862765748506000581, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_Name
+      value: WindowDoorRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 3961883525441312978, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300376, guid: f0f465f2e2128495683d9e4cb833c45a,
+        type: 3}
+    - target: {fileID: 4631562103800088999, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ddcfc3ab784dec1419565255774956c5, type: 3}
+--- !u!114 &8271463463794750628 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 905247996515214810, guid: ddcfc3ab784dec1419565255774956c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 9104645068567335294}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

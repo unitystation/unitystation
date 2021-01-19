@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Mirror;
 
 /// <summary>
@@ -40,6 +40,8 @@ public class ConnectedPlayer
 			gameObject = value;
 			if (gameObject != null)
 			{
+				// If player is in lobby, their controlled GameObject is JoinedViewer (which has JoinedViewer component).
+				// Else they're in the game and so have a GameObject that has PlayerScript attached.
 				Script = value.GetComponent<PlayerScript>();
 				ViewerScript = value.GetComponent<JoinedViewer>();
 			}
@@ -51,9 +53,19 @@ public class ConnectedPlayer
 		}
 	}
 
+	/// <summary>
+	/// The in-game name of the player. Does not take into account recognition (unknown identity).
+	/// </summary>
 	public string Name
 	{
-		get => name;
+		get
+		{
+			if (string.IsNullOrEmpty(name))
+			{
+				return gameObject.name;
+			}
+			return name;
+		}
 		set
 		{
 			TryChangeName(value);
@@ -95,7 +107,7 @@ public class ConnectedPlayer
 			return;
 		}
 
-		string uniqueName = GetUniqueName(playerName);
+		string uniqueName = GetUniqueName(playerName, UserId);
 		name = uniqueName;
 	}
 
@@ -105,7 +117,7 @@ public class ConnectedPlayer
 	/// <param name="name"></param>
 	/// <param name="sameNames"></param>
 	/// <returns></returns>
-	private static string GetUniqueName(string name, int sameNames = 0)
+	private static string GetUniqueName(string name, string _UserId ,int sameNames = 0)
 	{
 		while (true)
 		{
@@ -116,7 +128,7 @@ public class ConnectedPlayer
 				Logger.LogTrace($"TRYING: {proposedName}", Category.Connections);
 			}
 
-			if (!PlayerList.Instance.ContainsName(proposedName))
+			if (!PlayerList.Instance.ContainsName(proposedName,_UserId))
 			{
 				return proposedName;
 			}

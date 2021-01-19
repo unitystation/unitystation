@@ -32,7 +32,7 @@
 			}
 		}
 
-		private void Awake()
+		protected override void Awake()
 		{
 			base.Awake();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
@@ -56,12 +56,12 @@
 		private void OnWillDestroyServer(DestructionInfo arg0)
 		{
 			//spawn some metal for the door
-	        Spawn.ServerPrefab("Metal", WorldPosition, transform.parent, count: 2,
+	        Spawn.ServerPrefab("MetalSheet", WorldPosition, transform.parent, count: 2,
 		        scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		}
 
 
-		public override bool IsPassableTo( Vector3Int to, bool isServer )
+		public override bool IsPassableFromInside(Vector3Int leavingTo, bool isServer, GameObject context = null)
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
@@ -71,7 +71,7 @@
 
 				// Returns false if player is bumping door from the restricted direction
 				var position = isServer? LocalPositionServer : LocalPositionClient;
-				var direction = to - position;
+				var direction = leavingTo - position;
 
 				//Use Directional component if it exists
 				var tryGetDir = GetComponent<Directional>();
@@ -108,13 +108,13 @@
 			return true;
 		}
 
-		public override bool IsPassable( Vector3Int from, bool isServer )
+		public override bool IsPassableFromOutside( Vector3Int from, bool isServer, GameObject context = null)
 		{
 			// Entering and leaving is the same check
-			return IsPassableTo( from, isServer );
+			return IsPassableFromInside( from, isServer );
 		}
 
-		public override bool IsPassable(bool isServer)
+		public override bool IsPassable(bool isServer, GameObject context = null)
 		{
 			return !isClosed;
 		}

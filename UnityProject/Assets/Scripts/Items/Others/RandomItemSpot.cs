@@ -53,6 +53,8 @@ namespace Items
 
 				if (pool == null)
 				{
+					// didn't spawned anything - just destroy spawner
+					Despawn.ServerSingle(gameObject);
 					return;
 				}
 
@@ -65,6 +67,15 @@ namespace Items
 		private void SpawnItems(PoolData poolData)
 		{
 			if (poolData == null) return;
+
+            var itemPool = poolData.RandomItemPool;
+
+            if (itemPool == null)
+			{
+				Debug.LogError($"Item pool was null in {gameObject.name}");
+				return;
+			}
+
 			var item = poolData.RandomItemPool.Pool.PickRandom();
 			var spread = fanOut ? Random.Range(-0.5f,0.5f) : (float?) null;
 
@@ -74,10 +85,11 @@ namespace Items
 			}
 
 			var maxAmt = Random.Range(1, item.MaxAmount+1);
+			var worldPos = gameObject.RegisterTile().WorldPositionServer;
 
 			Spawn.ServerPrefab(
 				item.Prefab,
-				gameObject.RegisterTile().WorldPositionServer,
+				worldPos,
 				count: maxAmt,
 				scatterRadius: spread);
 		}

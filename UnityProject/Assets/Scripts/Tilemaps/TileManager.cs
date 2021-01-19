@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Initialisation;
 using UnityEngine;
 
 public static class TilePaths
@@ -35,7 +36,7 @@ public class TilePathEntry
 	public List<LayerTile> layerTiles = new List<LayerTile>();
 }
 
-public class TileManager : MonoBehaviour
+public class TileManager : MonoBehaviour, IInitialise
 {
 	private static TileManager tileManager;
 
@@ -62,7 +63,9 @@ public class TileManager : MonoBehaviour
 
 	[SerializeField] private List<TilePathEntry> layerTileCollections = new List<TilePathEntry>();
 
-	private void Start()
+	public InitialisationSystems Subsystem => InitialisationSystems.TileManager;
+
+	void IInitialise.Initialise()
 	{
 #if UNITY_EDITOR
 		CacheAllAssets();
@@ -72,6 +75,7 @@ public class TileManager : MonoBehaviour
 			StartCoroutine(LoadAllTiles(true));
 		}
 	}
+
 
 	[ContextMenu("Cache All Assets")]
 	public bool CacheAllAssets()

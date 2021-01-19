@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,10 +7,15 @@ using Mirror;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using DatabaseAPI;
+using Initialisation;
 
-public class CustomNetworkManager : NetworkManager
+public class CustomNetworkManager : NetworkManager, IInitialise
 {
 	public static bool IsServer => Instance._isServer;
+
+	// NetworkManager.isHeadless is removed in latest versions of Mirror,
+	// so we assume headless would be running in batch mode.
+	public static bool IsHeadless => Application.isBatchMode;
 
 	public static CustomNetworkManager Instance;
 
@@ -29,7 +34,7 @@ public class CustomNetworkManager : NetworkManager
 	[NonSerialized]
 	public UnityEvent OnClientDisconnected = new UnityEvent();
 
-	void Awake()
+	public override void Awake()
 	{
 		if (Instance == null)
 		{
@@ -40,8 +45,9 @@ public class CustomNetworkManager : NetworkManager
 			Destroy(gameObject);
 		}
 	}
+	public InitialisationSystems Subsystem => InitialisationSystems.CustomNetworkManager;
 
-	public override void Start()
+	void IInitialise.Initialise()
 	{
 		CheckTransport();
 		ApplyConfig();
@@ -109,29 +115,6 @@ public class CustomNetworkManager : NetworkManager
 		{
 			spawnPrefabs.Add(netObj.gameObject);
 		}
-
-		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources/Prefabs", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
-		foreach (string dir in dirs)
-		{
-			//Should yield For a frame to Increase performance
-			LoadFolder(dir);
-			foreach (string subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
-			{
-				LoadFolder(subdir);
-			}
-		}
-	}
-
-	private void LoadFolder(string folderpath)
-	{
-		folderpath = folderpath.Substring(folderpath.IndexOf("Resources", StringComparison.Ordinal) + "Resources".Length);
-		foreach (NetworkIdentity netObj in Resources.LoadAll<NetworkIdentity>(folderpath))
-		{
-			if (!spawnPrefabs.Contains(netObj.gameObject))
-			{
-				spawnPrefabs.Add(netObj.gameObject);
-			}
-		}
 	}
 
 	private void OnEnable()
@@ -156,10 +139,28 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
+	public override void OnStartHost()
+	{
+		StartCoroutine(WaitForInitialisation());
+	}
+
+	public IEnumerator WaitForInitialisation()
+	{
+		yield return null;
+		yield return null;
+		yield return null;
+		AddressableCatalogueManager.LoadHostCatalogues();
+	}
+
+	public override void OnStartClient()
+	{
+		AddressableCatalogueManager.Instance.LoadClientCatalogues();
+	}
+
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnection conn)
 	{
-		if (isHeadless || GameData.Instance.testServer)
+		if (IsHeadless || GameData.Instance.testServer)
 		{
 			if (conn == NetworkServer.localConnection)
 			{
@@ -215,7 +216,7 @@ public class CustomNetworkManager : NetworkManager
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		//register them as removed from our own player list
-		PlayerList.Instance.Remove(conn);
+		PlayerList.Instance.RemoveByConnection(conn);
 
 		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
 		//we want to keep the object around so player can rejoin and reenter their body.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using InGameEvents;
 using UnityEngine;
 using DiscordWebhook;
+using Messages.Client;
 
 public class RequestRandomEventAllowedChange : ClientMessage
 {
@@ -14,6 +15,8 @@ public class RequestRandomEventAllowedChange : ClientMessage
 	{
 		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
 		if (admin == null) return;
+
+		if(InGameEventsManager.Instance.RandomEventsAllowed == RandomEventsAllowed) return;
 
 		InGameEventsManager.Instance.RandomEventsAllowed = RandomEventsAllowed;
 

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: CommonLightSources
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3054840775880214024, guid: ec4c9091042d4b544b3b194affe62c91,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 1052293997073687485, guid: dd6e2e9864d545b4a8a1447881f61d7c,
+      type: 3}
+    maxAmount: 1
+    probability: 100

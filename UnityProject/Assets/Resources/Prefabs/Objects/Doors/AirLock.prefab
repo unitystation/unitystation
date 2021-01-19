@@ -90,8 +90,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  openSFX: AirlockOpen
-  closeSFX: AirlockClose
+  openSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  closeSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   doorAnimationSize: 6
   doorAnimator: {fileID: 114298626141523242}
   DoorDeniedSpriteOffset: 2
@@ -100,11 +112,14 @@ MonoBehaviour:
   DoorSpriteOffset: 2
   weldOverlay: {fileID: 5137714821279777868}
   weldSprite: {fileID: 21300000, guid: a02b4f763fa778d4ba5c9664ee50c42c, type: 3}
+  isEmagged: 0
   doorType: 13
   damageOnClose: 0
   damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 1
+  conType: 7
+  connectedDoorSwitch: {fileID: 0}
   isPerformingAction: 0
   isWindowedDoor: 1
   useSimpleLightAnimation: 1
@@ -115,6 +130,7 @@ MonoBehaviour:
   pressureLevel: 0
   openingDirection: 0
   spriteRenderer: {fileID: 0}
+  BlockAutoClose: 0
 --- !u!114 &114247149050027938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,8 +143,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114990158330489740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,6 +379,13 @@ MonoBehaviour:
   - {fileID: 21300156, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
   - {fileID: 21300158, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
   - {fileID: 21300160, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
+  TripleBeep:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114897681876509866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,6 +446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 1
 --- !u!114 &114936590258962662
 MonoBehaviour:
@@ -445,7 +476,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  soundOnHit: 
+  initialIntegrity: 350
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  damageDeflection: 21
   Armor:
     Melee: 30
     Bullet: 30
@@ -466,7 +505,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 350
 --- !u!114 &114842947250423336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,7 +573,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   wiresInitiallyExposed: 0
-  hackInitialStage: 0
   nodeInfo: {fileID: 11400000, guid: 70468a705c81370488f44537a6568005, type: 2}
   openPanelSFX: 
   closePanelSFX: 
@@ -555,9 +592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1000014101652626
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,6 +638,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -626,7 +661,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
-  m_SortingLayer: 13
+  m_SortingLayer: 17
   m_SortingOrder: 9
   m_Sprite: {fileID: 21300098, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -685,6 +720,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -707,7 +743,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
-  m_SortingLayer: 13
+  m_SortingLayer: 17
   m_SortingOrder: 12
   m_Sprite: {fileID: 21300026, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -766,6 +802,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -788,7 +825,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
-  m_SortingLayer: 13
+  m_SortingLayer: 17
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 349b9f3d6c6bf4c3083aa8a79a42ec7e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -847,6 +884,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -869,7 +907,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 18
+  m_SortingLayer: 25
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

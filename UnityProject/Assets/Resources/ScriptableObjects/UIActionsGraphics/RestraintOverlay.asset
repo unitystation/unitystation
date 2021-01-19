@@ -18,10 +18,7 @@ MonoBehaviour:
   description: You're handcuffed and can't act. If anyone drags you, you won't be
     able to move. Click the alert to free yourself.
   Sprites:
-  - Texture: {fileID: 2800000, guid: 4ec7654feae1a634d86565eade3ed7e5, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 4ec7654feae1a634d86565eade3ed7e5, type: 3}
-    EquippedData: {fileID: 0}
+  - {fileID: 11400000, guid: 0c3c1db3702490542a12d241056cb8ed, type: 2}
   Backgrounds: []
   PreventBeingControlledBy: 
   DisableOnEvent: 

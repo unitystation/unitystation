@@ -1,3 +1,4 @@
+using Items;
 using Mirror;
 using UnityEngine;
 using WebSocketSharp;
@@ -61,7 +62,7 @@ public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, 
 			return true;
 		}
 
-		if (!ps.IsInReach(cnt.RegisterTile, side == NetworkSide.Server))
+		if (!ps.IsRegisterTileReachable(cnt.RegisterTile, side == NetworkSide.Server))
 		{
 
 			return false;

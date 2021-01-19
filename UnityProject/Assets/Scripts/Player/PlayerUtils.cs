@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using AddressableReferences;
 
 /// <summary>
 /// Utilities for working with players
@@ -28,7 +29,7 @@ public static class PlayerUtils
 	{
 		return "April fools!";
 	}
-	
+
 	public static void DoReport()
 	{
 		if (!CustomNetworkManager.IsServer)
@@ -43,7 +44,7 @@ public static class PlayerUtils
 			{
 				continue;
 			}
-			
+
 			if (ps.mind != null &&
 			    ps.mind.occupation != null &&
 			    ps.mind.occupation.JobType == JobType.CLOWN)
@@ -68,14 +69,16 @@ public static class PlayerUtils
 				{
 					var plantPos = ps.WorldPos + ps.CurrentDirection.Vector;
 					Spawn.ServerPrefab("Banana peel", plantPos, cancelIfImpassable: true);
-					
+
 				}
 				foreach (var pos in ps.WorldPos.BoundsAround().allPositionsWithin)
 				{
-					MatrixManager.Instance.CleanTile(pos, true);
+					var matrixInfo = MatrixManager.AtPoint(pos, true);
+					var localPos = MatrixManager.WorldToLocalInt(pos, matrixInfo);
+					matrixInfo.MetaDataLayer.Clean(pos, localPos, true);
 				}
 			}
 		}
-		SoundManager.PlayNetworked("ClownHonk",Random.Range(0.2f,0.5f),true,true);
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, Random.Range(0.2f,0.5f),true,true);
 	}
 }

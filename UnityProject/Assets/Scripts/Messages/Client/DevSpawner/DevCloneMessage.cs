@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Messages.Client;
 using UnityEngine;
 using Mirror;
 
@@ -32,11 +33,11 @@ public class DevCloneMessage : ClientMessage
 		else
 		{
 			LoadNetworkObject(ToClone);
-			if (MatrixManager.IsPassableAt(WorldPosition.RoundToInt(), true))
+			if (MatrixManager.IsPassableAtAllMatricesOneTile(WorldPosition.RoundToInt(), true))
 			{
 				Spawn.ServerClone(NetworkObject, WorldPosition);
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-					$"{admin.ExpensiveName()} spawned a clone of {NetworkObject} at {WorldPosition}", AdminId);
+					$"{admin.Player().Username} spawned a clone of {NetworkObject} at {WorldPosition}", AdminId);
 			}
 		}
 	}
@@ -65,23 +66,5 @@ public class DevCloneMessage : ClientMessage
 			AdminToken = adminToken
 		};
 		msg.Send();
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		ToClone = reader.ReadUInt32();
-		WorldPosition = reader.ReadVector2();
-		AdminId = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(ToClone);
-		writer.WriteVector2(WorldPosition);
-		writer.WriteString(AdminId);
-		writer.WriteString(AdminToken);
 	}
 }

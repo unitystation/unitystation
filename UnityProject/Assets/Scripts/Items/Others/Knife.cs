@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Items;
 using UnityEngine;
 
 /// <summary>
@@ -27,40 +28,40 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>
 
 		return true;
 	}
+
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		//is the target item cuttable?
 		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
 		Ingredient ingredient = new Ingredient(attr.ArticleName);
 		GameObject cut = CraftingManager.Cuts.FindRecipe(new List<Ingredient> { ingredient });
-		if (cut && interaction.TargetObject.GetComponent<Stackable>() != null && ingredient.requiredAmount
-			== interaction.TargetObject.GetComponent<Stackable>().Amount)
-		{
-			Inventory.ServerDespawn(interaction.TargetSlot);
 
-			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Cuts.FindOutputMeal(cut.name),
-			SpawnDestination.At(), 1);
-
-			if (spwn.Successful)
-			{
-				Inventory.ServerAdd(spwn.GameObject, interaction.TargetSlot);
-			}
-		}
-		else if (cut)
-		{
-			Inventory.ServerDespawn(interaction.TargetSlot);
-
-			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Cuts.FindOutputMeal(cut.name),
-			SpawnDestination.At(), 1);
-
-			if (spwn.Successful)
-			{
-				Inventory.ServerAdd(spwn.GameObject, interaction.TargetSlot);
-			}
-		}
-		else
+		if (cut == null)
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't cut this.");
+			return;
+		}
+
+		if (interaction.TargetObject.TryGetComponent(out Stackable stackable) &&
+				stackable.Amount != ingredient.requiredAmount)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "Not enough or too much of the ingredient.");
+			return;
+		}
+
+		PerformCut(interaction, cut);
+	}
+
+	private void PerformCut(InventoryApply interaction, GameObject cut)
+	{
+		Inventory.ServerDespawn(interaction.TargetSlot);
+
+		SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Cuts.FindOutputMeal(cut.name),
+		SpawnDestination.At(), 1);
+
+		if (spwn.Successful)
+		{
+			Inventory.ServerAdd(spwn.GameObject, interaction.TargetSlot);
 		}
 	}
 }

@@ -26,6 +26,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e0d5635150f1249ad97e8674c561c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spritehandler: {fileID: 0}
+  SpawnOnDeconstruct: {fileID: 0}
+  registerTile: {fileID: 0}
   pipeData:
     PipeLayer: 1
     Connections:
@@ -33,31 +36,52 @@ MonoBehaviour:
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
     CustomLogic: 0
-    PipeType: 2
     NetCompatible: 0
     mixAndVolume:
-      Volume: 100
-      Mix:
+      mix:
         temperature: 273.15
         reagents:
-          m_keys:
-          - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
-          m_values:
-          - 100
-    MaxPressure: 15805.5
+          m_keys: []
+          m_values: []
+      gasMix:
+        Gases:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        Pressure: 0
+        Volume: 100
+        Temperature: 0
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
+  Water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   ConnectedCores: []
 --- !u!1001 &5634703418540122965
 PrefabInstance:
@@ -70,8 +94,23 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6762d6d1d2bf86b4fa11b646b13e6e23,
+      objectReference: {fileID: -6897867726815393058, guid: 27a0d28029b57644faee3086606670c2,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
@@ -147,6 +186,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: used to power the turbine when contents at high temperature.
       objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: palette.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f6a233297a6328489f7fa2b448d8c0c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &8390320911816615196 stripped

@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1663210955890943648
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -3697630692407340460, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: fillIcons.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3697630692407340460, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: fillIcons.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: b7e0ccc10af344d4d97fd40dff651609,
+        type: 3}
+    - target: {fileID: 67452166508508903, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bd3772c62a77c7c418be633cc4b1945e,
+        type: 3}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 152655092904150459, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_Name
+      value: ShotGlass
+      objectReference: {fileID: 0}
+    - target: {fileID: 255125625512851471, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 356853420293434073, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: initialDescription
+      value: A shot glass - the universal symbol for bad decisions.
+      objectReference: {fileID: 0}
+    - target: {fileID: 356853420293434073, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: initialName
+      value: shot glass
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383833446372969747, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383833446372969747, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: transferAmount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383833446372969747, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293861603302866492, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7abaf790469d81344a67a288b3e3c44d,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 4190863051787287766, guid: b11a6375f84ff814ea50a3309a00cc96, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: b11a6375f84ff814ea50a3309a00cc96, type: 3}

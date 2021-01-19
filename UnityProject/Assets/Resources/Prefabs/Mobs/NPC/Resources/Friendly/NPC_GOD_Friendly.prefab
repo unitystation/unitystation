@@ -25,10 +25,10 @@ GameObject:
   - component: {fileID: 8602547056562296912}
   - component: {fileID: 8093655862165673158}
   - component: {fileID: 1698261190327922250}
-  - component: {fileID: 4146971549855715412}
-  - component: {fileID: 5941598165320017927}
   - component: {fileID: 2133879513358567812}
   - component: {fileID: -6191687678756634214}
+  - component: {fileID: 5654320338845658687}
+  - component: {fileID: -8833776628061542668}
   m_Layer: 12
   m_Name: NPC_GOD_Friendly
   m_TagString: Untagged
@@ -44,7 +44,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722833055556988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 77, y: 55, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4152194380817414287}
@@ -104,11 +104,9 @@ MonoBehaviour:
   - {fileID: 186469482417783052}
   allowKnifeHarvest: 0
   butcherResults: []
-  aliveSprite: {fileID: 21300002, guid: 106277f633a313a4990add9de887d387, type: 3}
-  deadSprite: {fileID: 21300000, guid: 359410cfbfeb9b548bfc8e3c69653be4, type: 3}
+  RTT: 0
+  RadiationStacks: 0
   deadState: 0
-  spriteRend: {fileID: 4890346600101626888}
-  registerObject: {fileID: 0}
 --- !u!114 &114555785714625820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,6 +149,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  passableExclusionsToThis: []
 --- !u!114 &114386898746361270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114405087929252270
 MonoBehaviour:
@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114536369792164230
@@ -279,11 +280,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  spriteHandler: {fileID: 0}
   spriteRend: {fileID: 4890346600101626888}
-  upSprite: {fileID: 21300006, guid: 106277f633a313a4990add9de887d387, type: 3}
-  rightSprite: {fileID: 21300002, guid: 106277f633a313a4990add9de887d387, type: 3}
-  downSprite: {fileID: 21300002, guid: 106277f633a313a4990add9de887d387, type: 3}
-  leftSprite: {fileID: 21300002, guid: 106277f633a313a4990add9de887d387, type: 3}
+  aliveSpriteIndex: 0
+  deadSpriteIndex: 1
+  burningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
+    type: 3}
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
 --- !u!114 &8602547056562296912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +339,8 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+  hasFoodPrefereces: 0
+  foodPreferences: []
 --- !u!114 &1698261190327922250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,68 +353,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4146971549855715412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb350d8316826446843700e259cede7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRender: {fileID: 4890346600101626888}
-  Animations:
-  - Sprites:
-    - {fileID: 21300002, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300008, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300016, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300024, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300032, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300040, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300048, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300056, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300064, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300072, guid: 106277f633a313a4990add9de887d387, type: 3}
-    AnimationFrames: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
-    Simple: 0
-    SimpleResetDirection: 0
-    IsDeathAnimation: 0
-    Speed: 0.2
-    ComplexAnimationIndex: 01000000000000000000000000000000
-  - Sprites:
-    - {fileID: 21300006, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300014, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300022, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300030, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300038, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300046, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300054, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300062, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300070, guid: 106277f633a313a4990add9de887d387, type: 3}
-    - {fileID: 21300078, guid: 106277f633a313a4990add9de887d387, type: 3}
-    AnimationFrames: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
-    Simple: 0
-    SimpleResetDirection: 0
-    IsDeathAnimation: 0
-    Speed: 0.2
-    ComplexAnimationIndex: 01000000000000000000000000000000
---- !u!114 &5941598165320017927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daf23b0769d51a845ae64380380f9bda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AnimatorElement: 1
-  LoopEvery: 2
 --- !u!114 &2133879513358567812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,6 +369,7 @@ MonoBehaviour:
   knockedDownRotation: 90
   minTimeBetweenRandomActions: 10
   maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 0
   GenericSounds:
   - god1
   - god2
@@ -441,9 +386,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5654320338845658687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
+  InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
+  ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
+--- !u!114 &-8833776628061542668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChangingSO: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
+  spriteHandlers: []
 --- !u!1 &2123639465450100608
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +634,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -676,7 +657,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300002, guid: 106277f633a313a4990add9de887d387, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

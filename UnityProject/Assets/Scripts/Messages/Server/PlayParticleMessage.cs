@@ -14,8 +14,7 @@ public class PlayParticleMessage : ServerMessage
 	/// </summary>
 	public uint 	ParticleObject;
 	public uint 	ParentObject;
-	public float 	Angle;
-	public bool 	UseAngle;
+	public Vector2	TargetVector;
 
 	///To be run on client
 	public override void Process()
@@ -57,9 +56,10 @@ public class PlayParticleMessage : ServerMessage
 		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
 		renderer.enabled = true;
 
-		if ( UseAngle )
+		if ( TargetVector != Vector2.zero)
 		{
-			particleSystem.transform.rotation = Quaternion.Euler(0, 0, -Angle+90);
+			var angle = Orientation.AngleFromUp(TargetVector);
+			particleSystem.transform.rotation = Quaternion.Euler(0, 0, -angle+90);
 		}
 
 		if (parentObject != null)
@@ -77,8 +77,16 @@ public class PlayParticleMessage : ServerMessage
 
 		particleSystem.transform.localPosition = Vector3.zero;
 
-		//only needs to run on the clients other than the shooter
-		particleSystem.Play();
+		var customEffectBehaviour = particleSystem.GetComponent<CustomEffectBehaviour>();
+		if (customEffectBehaviour)
+		{
+			customEffectBehaviour.RunEffect(TargetVector);
+		}
+		else
+		{
+			//only needs to run on the clients other than the shooter
+			particleSystem.Play();
+		}
 	}
 
 	/// <summary>
@@ -100,8 +108,7 @@ public class PlayParticleMessage : ServerMessage
 		PlayParticleMessage msg = new PlayParticleMessage {
 			ParticleObject = obj.NetId(),
 			ParentObject = topContainer == null ? NetId.Invalid : topContainer.NetId(),
-			UseAngle = targetVector != Vector2.zero,
-			Angle = Orientation.AngleFromUp( targetVector ),
+			TargetVector = targetVector,
 		};
 		msg.SendToAll();
 		return msg;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Pipes;
 using UnityEngine;
@@ -14,52 +14,102 @@ public class UnderFloorLayer : Layer
 
 	public void InitialiseUnderFloorUtilities()
 	{
-		BoundsInt bounds = Tilemap.cellBounds;
-
-		for (int n = bounds.xMin; n < bounds.xMax; n++)
+		if (CustomNetworkManager.Instance._isServer)
 		{
-			for (int p = bounds.yMin; p < bounds.yMax; p++)
+			BoundsInt bounds = Tilemap.cellBounds;
+
+			for (int n = bounds.xMin; n < bounds.xMax; n++)
 			{
-				Vector3Int localPlace = (new Vector3Int(n, p, 0));
-
-				for (int i = 0; i < 50; i++)
+				for (int p = bounds.yMin; p < bounds.yMax; p++)
 				{
-					localPlace.z = -i + 1;
-					var getTile = tilemap.GetTile(localPlace) as LayerTile;
-					if (getTile != null)
+					Vector3Int localPlace = (new Vector3Int(n, p, 0));
+
+					for (int i = 0; i < 50; i++)
 					{
-						if (!TileStore.ContainsKey((Vector2Int) localPlace))
+						localPlace.z = -i + 1;
+						var getTile = tilemap.GetTile(localPlace) as LayerTile;
+						if (getTile != null)
 						{
-							TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
-						}
+							if (!TileStore.ContainsKey((Vector2Int) localPlace))
+							{
+								TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
+							}
 
-						TileStore[(Vector2Int) localPlace].Add(getTile);
+							TileStore[(Vector2Int) localPlace].Add(getTile);
 
-						var electricalCableTile = getTile as ElectricalCableTile;
-						if (electricalCableTile != null)
-						{
-							matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
-						}
+							var electricalCableTile = getTile as ElectricalCableTile;
+							if (electricalCableTile != null)
+							{
+								matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
+							}
 
-						var PipeTile = getTile as PipeTile;
-						if (PipeTile != null)
-						{
-							PipeTile.InitialiseNode(new Vector3Int(n, p, localPlace.z), matrix);
+							var PipeTile = getTile as PipeTile;
+							if (PipeTile != null)
+							{
+								PipeTile.InitialiseNode(new Vector3Int(n, p, localPlace.z), matrix);
+							}
 						}
 					}
 				}
 			}
 		}
+
+		UnderFloorUtilitiesInitialised = true;
 	}
 
+	public bool UnderFloorUtilitiesInitialised { get; private set; } = false;
 
+	public T GetFirstTileByType<T>(Vector3Int position) where T : LayerTile
+	{
+		if (!TileStore.ContainsKey((Vector2Int) position)) return default;
 
+		foreach (LayerTile Tile in TileStore[(Vector2Int) position])
+		{
+			if (Tile is T) return Tile as T;
+		}
+
+		return default;
+	}
+
+	public IEnumerable<T> GetAllTilesByType<T>(Vector3Int position) where T : LayerTile
+	{
+		List<T> tiles = new List<T>();
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			if (!TileStore.ContainsKey((Vector2Int) position)) return tiles;
+
+			foreach (LayerTile Tile in TileStore[(Vector2Int) position])
+			{
+				if (Tile is T) tiles.Add(Tile as T);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				var localPlace = position;
+				localPlace.z = -i + 1;
+				var getTile = tilemap.GetTile(localPlace) as LayerTile;
+				if (getTile != null)
+				{
+					if (getTile is T) tiles.Add(getTile as T);
+				}
+			}
+		}
+
+		return tiles;
+	}
 
 
 	public override LayerTile GetTile(Vector3Int position)
 	{
-		if (TileStore.ContainsKey((Vector2Int) position))
+		if (CustomNetworkManager.Instance._isServer)
 		{
+			if (TileStore.ContainsKey((Vector2Int) position) == false)
+			{
+				SetupNode(position);
+			}
+
 			foreach (var Tile in TileStore[(Vector2Int) position])
 			{
 				if (Tile != null)
@@ -67,6 +117,33 @@ public class UnderFloorLayer : Layer
 					return Tile;
 				}
 			}
+		}
+		else
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				var localPlace = position;
+				localPlace.z = -i + 1;
+				var getTile = tilemap.GetTile(localPlace) as LayerTile;
+				if (getTile != null)
+				{
+					return getTile;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Get tile using Z position instead of searching through the Z levels
+	/// </summary>
+	public LayerTile GetTileUsingZ(Vector3Int position)
+	{
+		var getTile = tilemap.GetTile(position) as LayerTile;
+		if (getTile != null)
+		{
+			return getTile;
 		}
 
 		return null;
@@ -89,7 +166,7 @@ public class UnderFloorLayer : Layer
 		{
 			foreach (var l in TileStore[position.To2Int()])
 			{
-				if (l == tile)
+				if ((tile as BasicTile).AreUnderfloorSame(transformMatrix, l as BasicTile, GetMatrix4x4(position, l)))
 				{
 					//duplicate found aborting
 					return;
@@ -102,26 +179,7 @@ public class UnderFloorLayer : Layer
 			Vector2Int position2 = position.To2Int();
 			if (!TileStore.ContainsKey(position2))
 			{
-				for (int i = 0; i < 50; i++)
-				{
-					var localPlace = position;
-					localPlace.z = -i + 1;
-					var getTile = tilemap.GetTile(localPlace) as LayerTile;
-					if (getTile != null)
-					{
-						if (!TileStore.ContainsKey((Vector2Int) localPlace))
-						{
-							TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
-						}
-
-						TileStore[(Vector2Int) localPlace].Add(getTile);
-					}
-				}
-
-				if (!TileStore.ContainsKey(position2))
-				{
-					TileStore[position2] = new List<LayerTile>();
-				}
+				SetupNode(position);
 			}
 
 			int index = FindFirstEmpty(TileStore[position2]);
@@ -139,13 +197,15 @@ public class UnderFloorLayer : Layer
 
 			if (Application.isPlaying)
 			{
-				matrix.TileChangeManager.UnderfloorUpdateTile(position, tile as BasicTile);
+				matrix.TileChangeManager.UnderfloorUpdateTile(position, tile as BasicTile, transformMatrix, color);
 			}
 			else
 			{
 				if (position.z < -49)
 				{
-					Logger.LogError("Tile has reached maximum Meta data system depth This could be from accidental placing of multiple tiles", Category.Editor);
+					Logger.LogError(
+						"Tile has reached maximum Meta data system depth This could be from accidental placing of multiple tiles",
+						Category.Editor);
 					return;
 				}
 			}
@@ -157,6 +217,7 @@ public class UnderFloorLayer : Layer
 			base.SetTile(position, tile, transformMatrix, color);
 		}
 	}
+
 
 	private int FindFirstEmpty(List<LayerTile> LookThroughList)
 	{
@@ -171,7 +232,7 @@ public class UnderFloorLayer : Layer
 		return (-1);
 	}
 
-	public override void RemoveTile(Vector3Int position, bool removeAll = false)
+	public override bool RemoveTile(Vector3Int position, bool removeAll = false)
 	{
 		if (Application.isPlaying)
 		{
@@ -181,19 +242,19 @@ public class UnderFloorLayer : Layer
 				{
 					TileStore[(Vector2Int) position][Math.Abs(position.z - 1)] = null;
 				}
-
 			}
-			base.RemoveTile(position, removeAll);
-			return;
+
+			return base.RemoveTile(position, removeAll);
 		}
 
+		bool HasTile = false;
 		//This is for the erase tool at edit time:
 		for (int i = 0; i < 50; i++)
 		{
 			position.z = -i + 1;
-			var getTile = tilemap.GetTile(position);
-			if (getTile != null)
+			if (tilemap.HasTile(position))
 			{
+				HasTile = true;
 				base.RemoveTile(position, removeAll);
 			}
 		}
@@ -202,10 +263,17 @@ public class UnderFloorLayer : Layer
 		{
 			TileStore[(Vector2Int) position] = new List<LayerTile>();
 		}
+
+		return HasTile;
 	}
 
-	public Color GetColour(Vector3Int position, LayerTile tile)
+	public Color GetColour(Vector3Int position, LayerTile tile, bool specifiedCoordinates = false)
 	{
+		if (specifiedCoordinates)
+		{
+			return tilemap.GetColor(position);
+		}
+
 		if (!TileStore.ContainsKey((Vector2Int) position)) return Color.white;
 		if (TileStore.ContainsKey((Vector2Int) position))
 		{
@@ -219,8 +287,38 @@ public class UnderFloorLayer : Layer
 		return Color.white;
 	}
 
-	public Matrix4x4 GetMatrix4x4(Vector3Int position, LayerTile tile)
+	public void SetupNode(Vector3Int position)
 	{
+		Vector2Int position2 = position.To2Int();
+		for (int i = 0; i < 50; i++)
+		{
+			var localPlace = position;
+			localPlace.z = -i + 1;
+			var getTile = tilemap.GetTile(localPlace) as LayerTile;
+			if (getTile != null)
+			{
+				if (!TileStore.ContainsKey((Vector2Int) localPlace))
+				{
+					TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
+				}
+
+				TileStore[(Vector2Int) localPlace].Add(getTile);
+			}
+		}
+
+		if (!TileStore.ContainsKey(position2))
+		{
+			TileStore[position2] = new List<LayerTile>();
+		}
+	}
+
+	public Matrix4x4 GetMatrix4x4(Vector3Int position, LayerTile tile, bool specifiedCoordinates = false)
+	{
+		if (specifiedCoordinates)
+		{
+			return tilemap.GetTransformMatrix(position);
+		}
+
 		if (!TileStore.ContainsKey((Vector2Int) position)) return Matrix4x4.identity;
 		if (TileStore.ContainsKey((Vector2Int) position))
 		{
@@ -234,8 +332,14 @@ public class UnderFloorLayer : Layer
 		return Matrix4x4.identity;
 	}
 
-	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile)
+	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile, bool UseSpecifiedLocation = false)
 	{
+		if (UseSpecifiedLocation)
+		{
+			RemoveTile(position);
+			return;
+		}
+
 		if (!TileStore.ContainsKey((Vector2Int) position)) return;
 
 		if (TileStore.ContainsKey((Vector2Int) position))

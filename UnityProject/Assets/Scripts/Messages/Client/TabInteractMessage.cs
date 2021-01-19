@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+using Messages.Client;
 using UnityEngine;
-using Mirror;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
 
 /// <summary>
 ///     Informs server of interaction with some object's tab element
@@ -27,6 +24,17 @@ public class TabInteractMessage : ClientMessage
 
 	private void ProcessFurther(ConnectedPlayer player, GameObject tabProvider)
 	{
+		if (player == null)
+		{
+			Logger.LogWarning("[TabInteractMessage.ProcessFurther] - player is null");
+			return;
+		}
+		else if (tabProvider == null)
+		{
+			Logger.LogWarning("[TabInteractMessage.ProcessFurther] - tabProvider is null");
+			return;
+		}
+
 		var playerScript = player.Script;
 		//First Validations is for objects in the world (computers, etc), second check is for items in active hand (null rod, PADs).
 		bool validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server)
@@ -107,23 +115,5 @@ public class TabInteractMessage : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		TabProvider = reader.ReadUInt32();
-		NetTabType = (NetTabType) reader.ReadInt32();
-		ElementId = reader.ReadString();
-		ElementValue = reader.ReadBytesAndSize();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(TabProvider);
-		writer.WriteInt32((int) NetTabType);
-		writer.WriteString(ElementId);
-		writer.WriteBytesAndSize(ElementValue);
 	}
 }

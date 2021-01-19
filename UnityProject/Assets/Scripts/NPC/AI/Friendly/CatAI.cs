@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using AddressableReferences;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// AI brain for mice
@@ -9,6 +10,12 @@ namespace NPC
 	/// </summary>
 	public class CatAI : GenericFriendlyAI
 	{
+		[SerializeField] private AddressableAudioSource PurrSFX = null;
+
+		[SerializeField] private AddressableAudioSource MeowSFX = null;
+
+		[SerializeField] private AddressableAudioSource CatHissSFX = null;
+
 		private bool isLayingDown = false;
 		private ConeOfSight coneOfSight;
 		private LayerMask mobMask;
@@ -23,7 +30,7 @@ namespace NPC
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			mobMask = LayerMask.GetMask("Walls", "NPC");
+			mobMask = LayerMask.GetMask( "NPC");
 			coneOfSight = GetComponent<ConeOfSight>();
 			mobAttack = GetComponent<MobMeleeAttack>();
 		}
@@ -71,17 +78,19 @@ namespace NPC
 
 		private MouseAI AnyMiceNearby()
 		{
-			var hits = coneOfSight.GetObjectsInSight(mobMask,
-				dirSprites.CurrentFacingDirection,
+			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls,
+				directional.CurrentDirection.Vector,
 				10f,
 				20);
 
-			foreach (Collider2D coll in hits)
+			foreach (var coll in hits)
 			{
-				if (coll.gameObject != gameObject && coll.gameObject.GetComponent<MouseAI>() != null
-				                                  && !coll.gameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+				if (coll.GameObject == null) continue;
+
+				if (coll.GameObject != gameObject && coll.GameObject.GetComponent<MouseAI>() != null
+				                                  && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead)
 				{
-					return coll.gameObject.GetComponent<MouseAI>();
+					return coll.GameObject.GetComponent<MouseAI>();
 				}
 			}
 			return null;
@@ -98,7 +107,7 @@ namespace NPC
 
 		private void Purr(GameObject purred = null)
 		{
-			SoundManager.PlayNetworkedAtPos("Purr", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(PurrSFX, gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
 
 			if (purred != null)
 			{
@@ -115,7 +124,7 @@ namespace NPC
 
 		private void Meow(GameObject meowed = null)
 		{
-			SoundManager.PlayNetworkedAtPos("Meow#", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(MeowSFX, gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
 
 			if (meowed != null)
 			{
@@ -132,7 +141,7 @@ namespace NPC
 
 		private void Hiss(GameObject hissed = null)
 		{
-			SoundManager.PlayNetworkedAtPos("CatHiss", gameObject.WorldPosServer(), Random.Range(.9f, 1f));
+			SoundManager.PlayNetworkedAtPos(CatHissSFX, gameObject.WorldPosServer(), Random.Range(.9f, 1f));
 
 			if (hissed != null)
 			{
@@ -151,8 +160,8 @@ namespace NPC
 		{
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} start licking its paws!",
-				$"{mobNameCap} start licking its paws!");
+				$"{mobNameCap} starts licking its paws!",
+				$"{mobNameCap} starts licking its paws!");
 		}
 
 		// Public method so it can be called from CorgiAI

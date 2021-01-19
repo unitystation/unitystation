@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Mirror;
+using Messages.Client;
 
 public class PlayerNewPlayer: ClientMessage
 {
@@ -25,17 +25,5 @@ public class PlayerNewPlayer: ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Player = reader.ReadUInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(Player);
 	}
 }

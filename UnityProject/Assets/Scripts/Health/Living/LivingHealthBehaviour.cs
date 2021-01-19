@@ -2,11 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Atmospherics;
+using Systems.Atmospherics;
 using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using UnityEngine.Profiling;
 
@@ -21,10 +20,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	//damage incurred per tick per fire stack
 	private static readonly float DAMAGE_PER_FIRE_STACK = 0.08f;
-
-	//volume and temp of hotspot exposed by this player when they are on fire
-	private static readonly float BURNING_HOTSPOT_VOLUME = .005f;
-	private static readonly float BURNING_HOTSPOT_TEMPERATURE = 700f;
 
 	/// <summary>
 	/// Invoked when conscious state changes. Provides old state and new state as 1st and 2nd args.
@@ -124,7 +119,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
 	private float tickRate = 1f;
-	private float tick = 0;
 	private RegisterTile registerTile;
 	private ConsciousState consciousState;
 
@@ -138,6 +132,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// </summary>
 	public bool IsCardiacArrest => bloodSystem.HeartStopped;
 
+	private int damageEffectAttempts = 0;
+	private int maxDamageEffectAttempts = 1;
+
 
 	/// ---------------------------
 	/// INIT METHODS
@@ -149,16 +146,26 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
+		}
+
+		UpdateManager.Add(PeriodicUpdate, 1f);
 	}
 
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
+		}
+
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 	}
 
 	/// Add any missing systems:
-	private void EnsureInit()
+	public void EnsureInit()
 	{
 		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
@@ -176,7 +183,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			respiratorySystem = gameObject.AddComponent<RespiratorySystem>();
 		}
 
-		respiratorySystem.canBreathAnywhere = canBreathAnywhere;
+		respiratorySystem.CanBreatheAnywhere = canBreathAnywhere;
 
 		var tryGetHead = FindBodyPart(BodyPartType.Head);
 		if (tryGetHead != null && brainSystem == null)
@@ -252,26 +259,39 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		OnClientFireStacksChange.Invoke(this.fireStacks);
 	}
 
+	/// <summary>
+	/// Check if target body part can take damage, if cannot then replace it
+	/// e.x. RightHand -> RightArm
+	/// </summary>
+	private BodyPartType GetDamageableBodyPart(BodyPartType bodyPartType)
+	{
+		if (bodyPartType == BodyPartType.Eyes || bodyPartType == BodyPartType.Mouth)
+			bodyPartType = BodyPartType.Head;
+		else if(bodyPartType == BodyPartType.LeftHand)
+			bodyPartType = BodyPartType.LeftArm;
+		else if(bodyPartType == BodyPartType.RightHand)
+			bodyPartType = BodyPartType.RightArm;
+		else if(bodyPartType == BodyPartType.LeftFoot)
+			bodyPartType = BodyPartType.LeftLeg;
+		else if(bodyPartType == BodyPartType.RightFoot)
+			bodyPartType = BodyPartType.RightLeg;
+
+		return bodyPartType;
+	}
+
 	/// ---------------------------
 	/// PUBLIC FUNCTIONS: HEAL AND DAMAGE:
 	/// ---------------------------
 	private BodyPartBehaviour GetBodyPart(float amount, DamageType damageType,
 		BodyPartType bodyPartAim = BodyPartType.Chest)
 	{
+
 		if (amount <= 0 || IsDead)
 		{
 			return null;
 		}
 
-		if (bodyPartAim == BodyPartType.Groin)
-		{
-			bodyPartAim = BodyPartType.Chest;
-		}
-
-		if (bodyPartAim == BodyPartType.Eyes || bodyPartAim == BodyPartType.Mouth)
-		{
-			bodyPartAim = BodyPartType.Head;
-		}
+		bodyPartAim = GetDamageableBodyPart(bodyPartAim);
 
 		if (BodyParts.Count == 0)
 		{
@@ -330,6 +350,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public void ApplyDamage(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType)
 	{
+
 		foreach (var bodyPart in BodyParts)
 		{
 			ApplyDamageToBodypart(damagedBy, damage / BodyParts.Count, attackType, damageType, bodyPart.Type);
@@ -362,14 +383,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
-		if (IsDead)
-		{
-			afterDeathDamage += damage;
-			if (afterDeathDamage >= GIB_THRESHOLD)
-			{
-				Harvest(); //Gib() instead when fancy gibs are in
-			}
-		}
+		TryGibbing(damage);
 
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
 		if (bodyPartBehaviour == null)
@@ -415,6 +429,33 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			damage, prevHealth, OverallHealth, gameObject.name, damageType, bodyPartAim, damagedBy);
 	}
 
+	private void TryGibbing(float damage)
+	{
+		if (!IsDead)
+		{
+			return;
+		}
+
+		afterDeathDamage += damage;
+
+		// if damage IS OVER NINE THOUSAND!!!11!!!1 it means it is coming from a shuttle collision.
+		if (damage > 9000f && GameManager.Instance.ShuttleGibbingAllowed)
+		{
+			Harvest();
+			return;
+		}
+
+		if (!GameManager.Instance.GibbingAllowed)
+		{
+			return;
+		}
+
+		if (afterDeathDamage >= GIB_THRESHOLD)
+		{
+			Harvest();
+		}
+	}
+
 	/// <summary>
 	///  Apply healing to a living thing. Server Only
 	/// </summary>
@@ -454,36 +495,37 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// ---------------------------
 
 	//Handled via UpdateManager
-	void UpdateMe()
+	void ServerPeriodicUpdate()
 	{
-		//Server Only:
-		if (isServer && !IsDead)
+		// TODO If becomes dead, why not remove from UpdateManager?
+		if (IsDead) return;
+
+		if (fireStacks > 0)
 		{
-			tick += Time.deltaTime;
-			if (tick > tickRate)
+			//TODO: Burn clothes (see species.dm handle_fire)
+			ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn);
+			//gradually deplete fire stacks
+			SyncFireStacks(fireStacks, fireStacks - 0.1f);
+			//instantly stop burning if there's no oxygen at this location
+			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 			{
-				tick = 0f;
-				if (fireStacks > 0)
-				{
-					//TODO: Burn clothes (see species.dm handle_fire)
-					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn);
-					//gradually deplete fire stacks
-					SyncFireStacks(fireStacks, fireStacks - 0.1f);
-					//instantly stop burning if there's no oxygen at this location
-					MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
-					if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
-					{
-						SyncFireStacks(fireStacks, 0);
-					}
-
-					registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(),
-						BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
-				}
-
-				CalculateRadiationDamage();
-				CalculateOverallHealth();
-				CheckHealthAndUpdateConsciousState();
+				SyncFireStacks(fireStacks, 0);
 			}
+
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
+		}
+
+		CalculateRadiationDamage();
+		CalculateOverallHealth();
+		CheckHealthAndUpdateConsciousState();
+	}
+
+	private void PeriodicUpdate()
+	{
+		if (damageEffectAttempts >= maxDamageEffectAttempts)
+		{
+			damageEffectAttempts = 0;
 		}
 	}
 
@@ -530,6 +572,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	[Server]
 	protected virtual void DetermineDamageEffects(DamageType damageType)
 	{
+		if (damageEffectAttempts >= maxDamageEffectAttempts)
+		{
+			return;
+		}
+
+		damageEffectAttempts++;
+
 		//Brute attacks
 		if (damageType == DamageType.Brute)
 		{
@@ -842,7 +891,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	protected virtual void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
 		// TODO: Add sparks VFX at shockSourcePos.
-		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
 
 		float damage = shockPower;
 		ApplyDamage(null, damage, AttackType.Internal, DamageType.Burn);
@@ -883,6 +932,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		{
 			return BodyParts[searchIndex];
 		}
+
+		bodyPartAim = GetDamageableBodyPart(bodyPartAim);
 
 		//If nothing is found then try to find a chest component:
 		searchIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.Chest);
@@ -930,49 +981,77 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// </summary>
 	public string Examine(Vector3 worldPos)
 	{
-		var healthFraction = OverallHealth / maxHealth;
-		var healthString = "";
-
-		if (!IsDead)
+		if (this is PlayerHealth)
 		{
-			if (healthFraction < 0.2f)
-			{
-				healthString = "heavily wounded.";
-			}
-			else if (healthFraction < 0.6f)
-			{
-				healthString = "wounded.";
-			}
-			else
-			{
-				healthString = "in good shape.";
-			}
-
-			// On fire?
-			if (FireStacks > 0)
-			{
-				healthString = "on fire!";
-			}
-
-			healthString = ConsciousState.ToString().ToLower().Replace("_", " ") + " and " + healthString;
-		}
-		else
-		{
-			healthString = "limp and unresponsive. There are no signs of life...";
+			// Let ExaminablePlayer take care of this.
+			return default;
 		}
 
+		return GetExamineText();
+	}
+
+	public string GetExamineText()
+	{
 		// Assume animal
-		string pronoun = "It";
+		string theyPronoun = "It";
+		string theirPronoun = "its";
+
 		var cs = GetComponentInParent<PlayerScript>()?.characterSettings;
 		if (cs != null)
 		{
-			pronoun = cs.TheyPronoun();
-			pronoun = pronoun[0].ToString().ToUpper() + pronoun.Substring(1);
+			theyPronoun = cs.TheyPronoun();
+			theyPronoun = theyPronoun[0].ToString().ToUpper() + theyPronoun.Substring(1);
+			theirPronoun = cs.TheirPronoun();
 		}
 
-		healthString = pronoun + " is " + healthString + (respiratorySystem.IsSuffocating && !IsDead
-			? " " + pronoun + " is having trouble breathing!"
-			: "");
+		var healthString = $"{theyPronoun} is ";
+		if (IsDead)
+		{
+			healthString += "limp and unresponsive; there are no signs of life";
+			if (this is PlayerHealth && GetComponent<PlayerScript>().mind.IsOnline() == false)
+			{
+				healthString += $" and {theirPronoun} soul has departed";
+			}
+
+			healthString += "...";
+		}
+		else // Is alive
+		{
+			healthString += $"{ConsciousState.ToString().ToLower().Replace("_", " ")} and ";
+
+			var healthFraction = OverallHealth / maxHealth;
+			string healthDescription;
+			if (healthFraction < 0.2f)
+			{
+				healthDescription = "heavily wounded.";
+			}
+			else if (healthFraction < 0.6f)
+			{
+				healthDescription = "wounded.";
+			}
+			else
+			{
+				healthDescription = "in good shape.";
+			}
+
+			if (respiratorySystem.IsSuffocating)
+			{
+				healthDescription = "having trouble breathing!";
+			}
+			// On fire?
+			if (FireStacks > 0)
+			{
+				healthDescription = "on fire!";
+			}
+			healthString += healthDescription;
+
+			if (this is PlayerHealth && GetComponent<PlayerScript>().mind.IsOnline() == false)
+			{
+				healthString += $"\n{theyPronoun} has a blank, absent-minded stare and appears completely unresponsive to anything. " +
+						$"{theyPronoun} may snap out of it soon.";
+			}
+		}
+
 		return healthString;
 	}
 

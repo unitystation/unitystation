@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Cargo Technician
   m_EditorClassIdentifier: 
   jobType: 7
+  isCrewmember: 1
+  lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 0f9824c9eb3044bcd945b7f5b3aa7c5a, type: 2}
   limit: 3
   priority: 99
   allowedAccess: 08000000090000001a00000022000000310000003000000035000000360000003700000045000000
+  spells: []
   progress: 70
   choiceColor: {r: 0.8627451, g: 0.7294118, b: 0.5921569, a: 1}
   previewSprite: {fileID: 21300000, guid: fea018972445d3e4b830afd5335c2a0d, type: 3}
@@ -36,3 +39,7 @@ MonoBehaviour:
     them pick it up instead of delivering to their department. Do not start a revolution
     and make the independent state of Cargonia. Keep security from putting their
     noses into your business.\r"
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 1

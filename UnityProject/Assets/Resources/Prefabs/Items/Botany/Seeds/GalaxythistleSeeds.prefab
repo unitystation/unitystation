@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &574707361257866836
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 23e6bed424bb41e43b244fabd0b3e228,
+        type: 2}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: bd37d343d8cbde047afbf2b0286cc332,
+        type: 2}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cff42a322fcfb647844098970165786,
+        type: 2}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 721a8d767c0aceb428b763f09d88ae7b,
+        type: 2}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 699087b987e54df42a11bec1fde9600a,
+        type: 2}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 705581024268000826, guid: 66ae74114620a8b4fa372feefe8923f4,
+        type: 3}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Galaxythistle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519981493251986205, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: initialDescription
+      value: An impressive species of weed that is thought to have evolved from the
+        simple milk thistle. Contains flavolignans that can help repair a damaged
+        liver.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519981493251986205, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: initialName
+      value: pack of galaxythistle seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802467091589828387, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d4332812e70d5e543beed41daa2ff400,
+        type: 3}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3905999873789803647, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_Name
+      value: GalaxythistleSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008436389711970763, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7166063765997520888, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d0fdc61622db89a4e827966e7dbff55a,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3681ff6246315294c9d3613edcd53e21, type: 3}

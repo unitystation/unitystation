@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Cook
   m_EditorClassIdentifier: 
   jobType: 14
+  isCrewmember: 1
+  lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 47e9e0778706c4908b3cdf0e2f0c8af3, type: 2}
   limit: 2
   priority: 99
   allowedAccess: 2d000000220000001a000000
+  spells: []
   progress: 40
   choiceColor: {r: 0.73333335, g: 0.8862745, b: 0.5686275, a: 1}
   previewSprite: {fileID: 21300000, guid: a0ebf24591b771643bdc9cf4a5974d7e, type: 3}
@@ -33,3 +36,7 @@ MonoBehaviour:
     peaceful station into anarchy, keep barbarism at bay!\r\n\r\nNot sure what to
     do? Experiment with new and exotic meat, make a burger that transcends everyone
     into ghosts. Do not serve the crewmembers meat from a dubious origin.\r"
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 1

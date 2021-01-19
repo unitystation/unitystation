@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AddressableReferences;
 
 public class ItemBreakable : MonoBehaviour
 {
@@ -12,14 +13,14 @@ public class ItemBreakable : MonoBehaviour
 
 	public GameObject brokenItem;
 
-	public string soundOnBreak;
+	[SerializeField] private AddressableAudioSource soundOnBreak = null;
 
 	// Start is called before the first frame update
 	void Awake()
 	{
 		integrity = GetComponent<Integrity>();
 
-		integrity.OnApllyDamage.AddListener(OnDamageReceived);
+		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
 	public void AddDamage()

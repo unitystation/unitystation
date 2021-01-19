@@ -64,11 +64,23 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 				}
 			}
 
+			var tag = "";
+
+			if (PlayerList.Instance.IsAdmin(c.UserId))
+			{
+				tag = "<color=red>[Admin]</color>";
+			} else if (PlayerList.Instance.IsMentor(c.UserId))
+			{
+				tag = "<color=#6400ff>[Mentor]</color>";
+			}
+
 			prepareConnectedPlayers.Add(new ClientConnectedPlayer
 			{
+				UserName = c.Username,
 				Name = c.Name,
 				Job = c.Job,
-				PendingSpawn = pendingSpawn
+				PendingSpawn = pendingSpawn,
+				Tag = tag
 			});
 		}
 

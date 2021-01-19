@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace NPC.AI
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Derives from MobMeleeAttack but instead of attacking, performs an action
@@ -49,7 +49,7 @@ namespace NPC.AI
 			base.OnEnable();
 			playersLayer = LayerMask.NameToLayer("Players");
 			npcLayer = LayerMask.NameToLayer("NPC");
-			checkMask = LayerMask.GetMask("Players", "NPC", "Windows", "Objects");
+			checkMask = LayerMask.GetMask("Players", "NPC", "Objects");
 			mobAI = GetComponent<MobAI>();
 		}
 
@@ -92,90 +92,93 @@ namespace NPC.AI
 			}
 
 			var dirToTarget = (followTarget.position - transform.position).normalized;
-			RaycastHit2D hitInfo = Physics2D.Linecast(
-				transform.position + dirToTarget,
-				followTarget.position,
-				checkMask);
+			var hitInfo = MatrixManager.Linecast(
+				transform.position + dirToTarget, LayerTypeSelection.Windows,checkMask,
+				followTarget.position);
 
-			if (hitInfo.collider == null)
+			if (hitInfo.ItHit == false)
 			{
 				return false;
 			}
 
-			if (!(Vector3.Distance(transform.position, hitInfo.point) < 1.5f))
+			if ((Vector3.Distance(transform.position, hitInfo.TileHitWorld) >= 1.5f))
 			{
 				return false;
 			}
 
-			var dir = ((Vector3) hitInfo.point - transform.position).normalized;
+			var dir = ((Vector3) hitInfo.TileHitWorld - transform.position).normalized;
 
-			//Only hit target
-			if (onlyActOnTarget)
+			if (hitInfo.CollisionHit.GameObject != null)
 			{
-				var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
-				if (hitInfo.transform != followTarget || healthBehaviour.IsDead)
+				//Only hit target
+				if (onlyActOnTarget)
 				{
-					return false;
-				}
-				else
-				{
-					mobAI.ActOnLiving(dir, healthBehaviour);
-					return true;
-				}
-			}
-
-			//What to do with player hit?
-			if (hitInfo.transform.gameObject.layer == playersLayer)
-			{
-				var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
-				if (healthBehaviour != null && healthBehaviour.IsDead)
-				{
-					return false;
-				}
-
-				mobAI.ActOnLiving(dir, healthBehaviour);
-
-				if (followTarget == null) return false;
-
-				if (followTarget.gameObject.layer != playersLayer)
-				{
-					return true;
-				}
-
-				if (followTarget == hitInfo.transform)
-				{
-					return true;
-				}
-
-				if (targetOtherPlayersWhoGetInWay)
-				{
-					followTarget = hitInfo.transform;
-				}
-
-				return true;
-			}
-
-			//What to do with NPC hit?
-			if (hitInfo.transform.gameObject.layer == npcLayer)
-			{
-				var mobAi = hitInfo.transform.GetComponent<MobAI>();
-				if (mobAi != null && mobAI != null)
-				{
-					if (mobAi.mobName.Equals(mobAI.mobName, StringComparison.OrdinalIgnoreCase))
+					var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+					if (hitInfo.CollisionHit.GameObject.transform != followTarget || healthBehaviour.IsDead)
 					{
 						return false;
 					}
+					else
+					{
+						mobAI.ActOnLiving(dir, healthBehaviour);
+						return true;
+					}
 				}
 
-				var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
-				if (healthBehaviour != null)
+				//What to do with player hit?
+				if (hitInfo.CollisionHit.GameObject.transform.gameObject.layer == playersLayer)
 				{
-					if (healthBehaviour.IsDead) return false;
+					var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+					if (healthBehaviour != null && healthBehaviour.IsDead)
+					{
+						return false;
+					}
 
 					mobAI.ActOnLiving(dir, healthBehaviour);
+
+					if (followTarget == null) return false;
+
+					if (followTarget.gameObject.layer != playersLayer)
+					{
+						return true;
+					}
+
+					if (followTarget == hitInfo.CollisionHit.GameObject.transform)
+					{
+						return true;
+					}
+
+					if (targetOtherPlayersWhoGetInWay)
+					{
+						followTarget = hitInfo.CollisionHit.GameObject.transform;
+					}
+
 					return true;
 				}
+
+				//What to do with NPC hit?
+				if (hitInfo.CollisionHit.GameObject.transform.gameObject.layer == npcLayer)
+				{
+					var mobAi = hitInfo.CollisionHit.GameObject.transform.GetComponent<MobAI>();
+					if (mobAi != null && mobAI != null)
+					{
+						if (mobAi.mobName.Equals(mobAI.mobName, StringComparison.OrdinalIgnoreCase))
+						{
+							return false;
+						}
+					}
+
+					var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+					if (healthBehaviour != null)
+					{
+						if (healthBehaviour.IsDead) return false;
+
+						mobAI.ActOnLiving(dir, healthBehaviour);
+						return true;
+					}
+				}
 			}
+
 
 			//What to do with Tile hits?
 			if (distanceToTarget > 4.5f)
@@ -184,19 +187,13 @@ namespace NPC.AI
 				return false;
 			}
 
-			mobAI.ActOnTile(hitInfo.point.RoundToInt(), dir);
+			mobAI.ActOnTile(hitInfo.TileHitWorld.RoundToInt(), dir);
 			return true;
 		}
 
 		public void ServerDoLerpAnimation(Vector2 dir)
 		{
-			var angleOfDir = Vector3.Angle(dir, transform.up);
-			if (dir.x < 0f)
-			{
-				angleOfDir = -angleOfDir;
-			}
-
-			dirSprites.CheckSpriteServer(angleOfDir);
+			directional.FaceDirection(Orientation.From(dir));
 
 			Pause = true;
 			isActing = true;
@@ -253,10 +250,10 @@ namespace NPC.AI
 			isForLerpBack = false;
 		}
 
-		protected override void UpdateMe()
+		protected override void ServerUpdateMe()
 		{
 			CheckLerping();
-			base.UpdateMe();
+			base.ServerUpdateMe();
 		}
 
 		private void CheckLerping()

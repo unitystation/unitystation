@@ -1,7 +1,6 @@
 ﻿using System.Collections;
+using Messages.Client;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
 
 /// <summary>
 ///     Request admin page data from the server
@@ -19,10 +18,13 @@ public class RequestAdminPlayerList : ClientMessage
 	void VerifyAdminStatus()
 	{
 		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
+		if (player == null)
 		{
-			AdminPlayerListRefreshMessage.Send(player, Userid);
+			player = PlayerList.Instance.GetMentor(Userid,AdminToken);
+			if(player == null)
+				return;
 		}
+		AdminPlayerListRefreshMessage.Send(player, Userid);
 	}
 
 	public static RequestAdminPlayerList Send(string userId, string adminToken)
@@ -34,19 +36,5 @@ public class RequestAdminPlayerList : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
 	}
 }

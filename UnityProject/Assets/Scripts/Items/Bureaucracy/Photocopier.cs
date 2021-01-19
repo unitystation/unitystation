@@ -2,6 +2,7 @@
 using UnityEngine;
 using Mirror;
 using System.Collections;
+using  AddressableReferences;
 
 namespace Assets.Scripts.Items.Bureaucracy
 {
@@ -16,11 +17,12 @@ namespace Assets.Scripts.Items.Bureaucracy
 		[SyncVar]
 		private Internal.Scanner scanner;
 
-		[SyncVar(hook = nameof(SyncPhotocopierState))]
 		private PhotocopierState photocopierState;
 
 		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterObject registerObject;
+
+		[SerializeField] private AddressableAudioSource Copier = null;
 
 		private void Awake()
 		{
@@ -38,7 +40,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 
 		#region Sprite Sync
 
-		private void SyncPhotocopierState(PhotocopierState oldState, PhotocopierState newState)
+		private void SyncPhotocopierState(PhotocopierState newState)
 		{
 			photocopierState = newState;
 			switch (newState)
@@ -55,13 +57,13 @@ namespace Assets.Scripts.Items.Bureaucracy
 
 		public override void OnStartClient()
 		{
-			SyncPhotocopierState(photocopierState, photocopierState);
+			SyncPhotocopierState( photocopierState);
 			base.OnStartClient();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			SyncPhotocopierState(photocopierState, photocopierState);
+			SyncPhotocopierState( photocopierState);
 		}
 
 		#endregion Sprite Sync
@@ -151,15 +153,15 @@ namespace Assets.Scripts.Items.Bureaucracy
 		[Server]
 		public void Print()
 		{
-			SyncPhotocopierState(photocopierState, PhotocopierState.Production);
-			SoundManager.PlayNetworkedAtPos("Copier", registerObject.WorldPosition);
+			SyncPhotocopierState( PhotocopierState.Production);
+			SoundManager.PlayNetworkedAtPos(Copier, registerObject.WorldPosition);
 			StartCoroutine(WaitForPrint());
 		}
 
 		private IEnumerator WaitForPrint()
 		{
 			yield return WaitFor.Seconds(4f);
-			SyncPhotocopierState(photocopierState, PhotocopierState.Idle);
+			SyncPhotocopierState( PhotocopierState.Idle);
 			printer = printer.Print(scanner.ScannedText, gameObject, photocopierState == PhotocopierState.Idle);
 			OnGuiRenderRequired();
 		}
@@ -169,14 +171,14 @@ namespace Assets.Scripts.Items.Bureaucracy
 		[Server]
 		public void Scan()
 		{
-			SyncPhotocopierState(photocopierState, PhotocopierState.Production);
+			SyncPhotocopierState( PhotocopierState.Production);
 			StartCoroutine(WaitForScan());
 		}
 
 		private IEnumerator WaitForScan()
 		{
 			yield return WaitFor.Seconds(4f);
-			SyncPhotocopierState(photocopierState, PhotocopierState.Idle);
+			SyncPhotocopierState( PhotocopierState.Idle);
 			scanner = scanner.Scan();
 			OnGuiRenderRequired();
 		}
