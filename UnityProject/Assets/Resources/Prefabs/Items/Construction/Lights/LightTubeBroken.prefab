@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5902793907765087467, guid: c51fa6d63cfcce3479b4420a95bba17e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5902793907765087467, guid: c51fa6d63cfcce3479b4420a95bba17e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5902793907765087467, guid: c51fa6d63cfcce3479b4420a95bba17e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5902793907765087467, guid: c51fa6d63cfcce3479b4420a95bba17e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5902793907765087467, guid: c51fa6d63cfcce3479b4420a95bba17e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5902793907765087467, guid: c51fa6d63cfcce3479b4420a95bba17e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5902793907765087467, guid: c51fa6d63cfcce3479b4420a95bba17e,
         type: 3}
@@ -86,10 +86,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6274912159508209405, guid: c51fa6d63cfcce3479b4420a95bba17e,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 11ce8d65a70014d4997c0bf4f1045b67,
-        type: 2}
+      propertyPath: initialName
+      value: broken light tube
+      objectReference: {fileID: 0}
     - target: {fileID: 6274912159508209405, guid: c51fa6d63cfcce3479b4420a95bba17e,
         type: 3}
       propertyPath: initialDescription
@@ -97,9 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6274912159508209405, guid: c51fa6d63cfcce3479b4420a95bba17e,
         type: 3}
-      propertyPath: initialName
-      value: broken light tube
-      objectReference: {fileID: 0}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 11ce8d65a70014d4997c0bf4f1045b67,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 1851366012458346349, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
+    - {fileID: -2234112497965333867, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}

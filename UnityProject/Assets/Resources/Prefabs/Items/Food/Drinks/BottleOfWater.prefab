@@ -93,7 +93,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -121,6 +121,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -140,8 +141,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
+      propertyPath: initialName
+      value: bottle of water
       objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -150,8 +151,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: initialName
-      value: bottle of water
+      propertyPath: initialTraits.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -171,6 +172,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -186,6 +192,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -198,16 +209,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -230,6 +231,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 559e693b18eb3a546b546ba025607fe1,
         type: 3}
+    - target: {fileID: 8024073914213612784, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: transferAmount
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -248,31 +264,22 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 49.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 4d51ff2b81592dadcb334ae9640eeca3,
         type: 2}
     - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 0.5
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 49.5
       objectReference: {fileID: 0}
     - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: transferAmount
-      value: 10
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5747741185675137456, guid: 46bb2fe95f4f66341aadfb4600751333, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 46bb2fe95f4f66341aadfb4600751333, type: 3}
 --- !u!1 &1342295621226366984 stripped
 GameObject:
