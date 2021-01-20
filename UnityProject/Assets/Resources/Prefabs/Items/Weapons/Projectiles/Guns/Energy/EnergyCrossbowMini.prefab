@@ -15,15 +15,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: FiringSound
-      value: ShootHeavySuppressed
+      propertyPath: WeaponType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
+      propertyPath: FiringSound
+      value: ShootHeavySuppressed
+      objectReference: {fileID: 0}
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: isSuppressed
@@ -36,24 +35,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: WeaponType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
-        type: 3}
       propertyPath: SuppressedSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 692222134788124967, guid: ad527ba4de069794796e314f236794f4,
-        type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
-        type: 2}
     - target: {fileID: 4092814885568586395, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
@@ -72,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -84,16 +82,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
@@ -123,6 +111,21 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: initialName
+      value: mini energy crossbow
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialDescription
+      value: A weapon favored by syndicate stealth specialists.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 1590047ee4158834e9e62332be73b1d0,
@@ -133,21 +136,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f35170e82cee2b14399b2137581cdebf,
         type: 2}
-    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
-        type: 3}
-      propertyPath: initialName
-      value: mini energy crossbow
-      objectReference: {fileID: 0}
-    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
-        type: 3}
-      propertyPath: initialDescription
-      value: A weapon favored by syndicate stealth specialists.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
-        type: 3}
-      propertyPath: initialSize
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: PresentSpriteSet

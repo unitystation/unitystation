@@ -43,7 +43,7 @@ public class GunPKA : Gun
 		{
 			if (serverHolder != null)
 			{
-				Chat.AddExamineMsgFromServer(serverHolder, $"The {gameObject.ExpensiveName()} silently recharges");
+				Chat.AddExamineMsgFromServer(serverHolder, $"The {gameObject.ExpensiveName()} silently recharges.");
 			}
 		}
 		else

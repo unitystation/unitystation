@@ -141,6 +141,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartHost()
 	{
+		StartCoroutine(WaitForInitialisation());
+	}
+
+	public IEnumerator WaitForInitialisation()
+	{
+		yield return null;
+		yield return null;
+		yield return null;
 		AddressableCatalogueManager.LoadHostCatalogues();
 	}
 

@@ -11,15 +11,15 @@ namespace Systems.Spawns
 		private static readonly Dictionary<JobType, SpawnPointCategory> categoryByJob = new Dictionary<JobType, SpawnPointCategory>
 	{
 		{ JobType.CAPTAIN, SpawnPointCategory.Captain },
-		{ JobType.HOP, SpawnPointCategory.HoP },
+		{ JobType.HOP, SpawnPointCategory.HeadOfPersonnel },
 
 		{ JobType.AI, SpawnPointCategory.AI },
 
-		{ JobType.QUARTERMASTER, SpawnPointCategory.CargoHead },
-		{ JobType.CARGOTECH, SpawnPointCategory.Cargo },
-		{ JobType.MINER, SpawnPointCategory.Mining },
+		{ JobType.QUARTERMASTER, SpawnPointCategory.Quartermaster },
+		{ JobType.CARGOTECH, SpawnPointCategory.CargoTechnician },
+		{ JobType.MINER, SpawnPointCategory.ShaftMiner },
 
-		{ JobType.CMO, SpawnPointCategory.CMO },
+		{ JobType.CMO, SpawnPointCategory.ChiefMedicalOfficer },
 		{ JobType.DOCTOR, SpawnPointCategory.Medical },
 		{ JobType.VIROLOGIST, SpawnPointCategory.Medical }, // TODO: should be virology point.
 		{ JobType.PARAMEDIC, SpawnPointCategory.Medical },
@@ -28,30 +28,30 @@ namespace Systems.Spawns
 		{ JobType.GENETICIST, SpawnPointCategory.Medical },
 		{ JobType.MEDSCI, SpawnPointCategory.Medical },
 
-		{ JobType.RD, SpawnPointCategory.ResearchHead },
-		{ JobType.SCIENTIST, SpawnPointCategory.Research },
-		{ JobType.ROBOTICIST, SpawnPointCategory.Robotics },
+		{ JobType.RD, SpawnPointCategory.ResearchDirector },
+		{ JobType.SCIENTIST, SpawnPointCategory.Scientist },
+		{ JobType.ROBOTICIST, SpawnPointCategory.Roboticist },
 
-		{ JobType.HOS, SpawnPointCategory.HOS },
-		{ JobType.SECURITY_OFFICER, SpawnPointCategory.Security },
+		{ JobType.HOS, SpawnPointCategory.HeadOfSecurity },
+		{ JobType.SECURITY_OFFICER, SpawnPointCategory.SecurityOfficer },
 		{ JobType.WARDEN, SpawnPointCategory.Warden },
 		{ JobType.DETECTIVE, SpawnPointCategory.Detective },
 		{ JobType.LAWYER, SpawnPointCategory.Lawyer },
 
-		{ JobType.CHIEF_ENGINEER, SpawnPointCategory.EngineeringHead },
-		{ JobType.ENGINEER, SpawnPointCategory.Engineering },
-		{ JobType.ENGSEC, SpawnPointCategory.Engineering },
-		{ JobType.ATMOSTECH, SpawnPointCategory.Atmos },
+		{ JobType.CHIEF_ENGINEER, SpawnPointCategory.ChiefEngineer },
+		{ JobType.ENGINEER, SpawnPointCategory.StationEngineer },
+		{ JobType.ENGSEC, SpawnPointCategory.StationEngineer },
+		{ JobType.ATMOSTECH, SpawnPointCategory.AtmosphericTechnician },
 
-		{ JobType.ASSISTANT, SpawnPointCategory.TheGrayTide },
+		{ JobType.ASSISTANT, SpawnPointCategory.Assistant },
 		{ JobType.JANITOR, SpawnPointCategory.Janitor },
 		{ JobType.CLOWN, SpawnPointCategory.Clown },
 		{ JobType.MIME, SpawnPointCategory.Mime },
-		{ JobType.CURATOR, SpawnPointCategory.Personnel },
-		{ JobType.COOK, SpawnPointCategory.Kitchen },
-		{ JobType.BARTENDER, SpawnPointCategory.Bar },
-		{ JobType.BOTANIST, SpawnPointCategory.Botany },
-		{ JobType.CHAPLAIN, SpawnPointCategory.Church },
+		{ JobType.CURATOR, SpawnPointCategory.Curator },
+		{ JobType.COOK, SpawnPointCategory.Cook },
+		{ JobType.BARTENDER, SpawnPointCategory.Bartender },
+		{ JobType.BOTANIST, SpawnPointCategory.Botanist },
+		{ JobType.CHAPLAIN, SpawnPointCategory.Chaplain },
 
 		{ JobType.CENTCOMM_COMMANDER, SpawnPointCategory.CentCommCommander },
 		{ JobType.CENTCOMM_OFFICER, SpawnPointCategory.CentComm },
@@ -67,7 +67,7 @@ namespace Systems.Spawns
 
 		{ JobType.FUGITIVE, SpawnPointCategory.MaintSpawns },
 
-		{ JobType.SYNDICATE, SpawnPointCategory.Syndicate },
+		{ JobType.SYNDICATE, SpawnPointCategory.NuclearOperative },
 		{ JobType.WIZARD, SpawnPointCategory.WizardFederation },
 	};
 
@@ -98,39 +98,93 @@ namespace Systems.Spawns
 			// Will still return null if there is no arrivals spawn points set (and people will just not spawn!).
 			return GetRandomPointForLateSpawn();
 		}
+
+	private string iconName => iconNames[category];
+
+	private void OnDrawGizmos()
+	{
+	Gizmos.DrawIcon(transform.position, iconName);
 	}
+	
+	private static readonly Dictionary<SpawnPointCategory, string> iconNames = new Dictionary<SpawnPointCategory, string>()
+	{
+		{SpawnPointCategory.Assistant, "Mapping/mapping_assistant.png"},
+		{SpawnPointCategory.Medical, "Mapping/mapping_medical_doctor.png"},
+		{SpawnPointCategory.StationEngineer, "Mapping/mapping_station_engineer.png"},
+		{SpawnPointCategory.SecurityOfficer, "Mapping/mapping_security_officer.png"},
+		{SpawnPointCategory.Scientist, "Mapping/mapping_scientist.png"},
+		{SpawnPointCategory.ResearchDirector, "Mapping/mapping_research_director.png"},
+		{SpawnPointCategory.Roboticist, "Mapping/mapping_roboticist.png"},
+		{SpawnPointCategory.AI, "Mapping/mapping_AI.png"},
+		{SpawnPointCategory.ChiefEngineer, "Mapping/mapping_chief_engineer.png"},
+		{SpawnPointCategory.AtmosphericTechnician, "Mapping/mapping_atmospheric_technician.png"},
+		{SpawnPointCategory.Lawyer, "Mapping/mapping_lawyer.png"},
+		{SpawnPointCategory.Warden, "Mapping/mapping_warden.png"},
+		{SpawnPointCategory.Detective, "Mapping/mapping_detective.png"},
+		{SpawnPointCategory.HeadOfSecurity, "Mapping/mapping_head_of_security.png"},
+		{SpawnPointCategory.Cook, "Mapping/mapping_cook.png"},
+		{SpawnPointCategory.Bartender, "Mapping/mapping_bartender.png"},
+		{SpawnPointCategory.Curator, "Mapping/mapping_curator.png"},
+		{SpawnPointCategory.NuclearOperative, "Mapping/mapping_snukeop_spawn.png"},
+		{SpawnPointCategory.Captain, "Mapping/mapping_captain.png"},
+		{SpawnPointCategory.HeadOfPersonnel, "Mapping/mapping_head_of_personnel.png"},
+		{SpawnPointCategory.CargoTechnician, "Mapping/mapping_cargo_technician.png"},
+		{SpawnPointCategory.Quartermaster, "Mapping/mapping_quartermaster.png"},
+		{SpawnPointCategory.Janitor, "Mapping/mapping_janitor.png"},
+		{SpawnPointCategory.ShaftMiner, "Mapping/mapping_shaft_miner.png"},
+		{SpawnPointCategory.ChiefMedicalOfficer, "Mapping/mapping_chief_medical_officer.png"},
+		{SpawnPointCategory.Chemist, "Mapping/mapping_chemist.png"},
+		{SpawnPointCategory.Botanist, "Mapping/mapping_botanist.png"},
+		{SpawnPointCategory.Chaplain, "Mapping/mapping_chaplain.png"},
+		{SpawnPointCategory.Clown, "Mapping/mapping_clown.png"},
+		{SpawnPointCategory.Mime, "Mapping/mapping_mime.png"},
+		{SpawnPointCategory.LateJoin, "Mapping/mapping_x2.png"},
+		{SpawnPointCategory.GhostTeleportSites, "Mapping/mapping_observer_start.png"},
+		{SpawnPointCategory.CentCommCommander, "Mapping/mapping_ert_spawn.png"},
+		{SpawnPointCategory.CentComm, "Mapping/mapping_ert_spawn.png"},
+		{SpawnPointCategory.DeathSquad, "Mapping/mapping_ert_spawn.png"},
+		{SpawnPointCategory.EmergencyResponseTeam, "Mapping/mapping_ert_spawn.png"},
+		{SpawnPointCategory.MaintSpawns, "Mapping/mapping_mouse.png"},
+		{SpawnPointCategory.WizardFederation, "Mapping/mapping_wiznerd_spawn.png"},
+		{SpawnPointCategory.SpaceExterior, "Mapping/mapping_carp_spawn.png"},
+	};
+
+	}
+
+
+
 
 	public enum SpawnPointCategory
 	{
-		TheGrayTide,
+		Assistant,
 		Medical,
-		Engineering,
-		Security,
-		Research,
-		ResearchHead,
-		Robotics,
+		StationEngineer,
+		SecurityOfficer,
+		Scientist,
+		ResearchDirector,
+		Roboticist,
 		AI,
-		EngineeringHead,
-		Atmos,
+		ChiefEngineer,
+		AtmosphericTechnician,
 		Lawyer,
 		Warden,
 		Detective,
-		HOS,
-		Kitchen,
-		Bar,
-		Personnel,
-		Syndicate,
+		HeadOfSecurity,
+		Cook,
+		Bartender,
+		Curator,
+		NuclearOperative,
 		Captain,
-		HoP,
-		Cargo,
-		CargoHead,
+		HeadOfPersonnel,
+		CargoTechnician,
+		Quartermaster,
 		Janitor,
-		Mining,
+		ShaftMiner,
 		Entertainers,
-		CMO,
+		ChiefMedicalOfficer,
 		Chemist,
-		Botany,
-		Church,
+		Botanist,
+		Chaplain,
 		Clown,
 		Mime,
 		LateJoin,

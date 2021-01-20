@@ -1937,6 +1937,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 846461820635790363, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.00000014901144
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4df6b632a40f5c448d93a5ac982967a, type: 3}
 --- !u!4 &1187785841 stripped
@@ -2868,6 +2873,86 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6240741128023194104, guid: 7bf36ad773bdc1f49b1d7b0b3314f2e4,
     type: 3}
   m_PrefabInstance: {fileID: 1861715661}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1864554310
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1998928700528175337}
+    m_Modifications:
+    - target: {fileID: 614676293081359620, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_Name
+      value: ExplorationSite-Caverna
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.001001
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.2582374
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7be3b1eb3cca1f64f94531200c4f1e0e, type: 3}
+--- !u!4 &1864554311 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 616985181830910736, guid: 7be3b1eb3cca1f64f94531200c4f1e0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1864554310}
   m_PrefabAsset: {fileID: 0}
 --- !u!21 &1868841744
 Material:
@@ -5138,7 +5223,7 @@ Transform:
   - {fileID: 7512992555517847529}
   - {fileID: 415076003563517872}
   - {fileID: 4517530831385182549}
-  - {fileID: 4631436279568616045}
+  - {fileID: 1864554311}
   - {fileID: 3274931282702428782}
   - {fileID: 7862040899338567008}
   - {fileID: 1912215552963628625}
@@ -7333,19 +7418,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3598204012374487519}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3667903843272415904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7719293508893529202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Department: 32
 --- !u!1001 &3722480816904032318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9011,20 +9083,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4533698071565277108}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &4631436279568616045
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7719293508893529202}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -7.2582374, z: 0.5}
-  m_LocalScale: {x: 1, y: 1.001001, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1998928700528175337}
-  m_RootOrder: 48
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4649813175051088803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9748,7 +9806,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 26
+  m_SortingLayer: 27
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -144426,23 +144484,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7653805817788536156}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7719293508893529202
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4631436279568616045}
-  - component: {fileID: 3667903843272415904}
-  m_Layer: 0
-  m_Name: ExporationSite-Caverna
-  m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1001 &7795361497545034529
 PrefabInstance:
   m_ObjectHideFlags: 0
