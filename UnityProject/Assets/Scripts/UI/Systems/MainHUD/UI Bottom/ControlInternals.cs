@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Objects.Atmospherics;
 using Systems.Atmospherics;
 using Items;
@@ -15,6 +16,9 @@ public class ControlInternals : TooltipMonoBehaviour
 	[SerializeField] private Color activeAirFlowTankColor = default;
 
 	[NonSerialized] private int _currentState = 1;
+
+	private List<ItemSlot> GasUseSlots = new List<ItemSlot>();
+	private ItemSlot maskSlot;
 	public int CurrentState
 	{
 		get => _currentState;
@@ -85,7 +89,7 @@ public class ControlInternals : TooltipMonoBehaviour
 		EventManager.RemoveHandler(EVENT.EnableInternals, OnEnableInternals);
 		EventManager.RemoveHandler(EVENT.DisableInternals, OnDisableInternals);
 
-		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsGhost == false)
+		if (PlayerManager.LocalPlayerScript != null)
 		{
 			RemoveListeners();
 		}
@@ -129,31 +133,30 @@ public class ControlInternals : TooltipMonoBehaviour
 	{
 		UpdateState();
 
-		ItemSlot maskSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask);
-		maskSlot.OnSlotContentsChangeClient.AddListener(() => OnMaskChanged(maskSlot));
+		maskSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask);
+		maskSlot.OnSlotContentsChangeClient.AddListener(OnMaskChanged);
 
+		GasUseSlots.Clear();
 		foreach (NamedSlot namedSlot in ItemStorage.GasUseSlots)
 		{
 			ItemSlot itemSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(namedSlot);
-			itemSlot.OnSlotContentsChangeClient.AddListener(() => OnOxygenTankEquipped());
+			GasUseSlots.Add(itemSlot);
+			itemSlot.OnSlotContentsChangeClient.AddListener(OnOxygenTankEquipped);
 		}
 	}
 
 	public void RemoveListeners()
 	{
-		ItemSlot maskSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask);
-		maskSlot.OnSlotContentsChangeClient.RemoveListener(() => OnMaskChanged(maskSlot));
-
-		foreach (NamedSlot namedSlot in ItemStorage.GasUseSlots)
+		maskSlot.OnSlotContentsChangeClient.RemoveListener(OnMaskChanged);
+		foreach (var itemSlot in GasUseSlots)
 		{
-			ItemSlot itemSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(namedSlot);
-			itemSlot.OnSlotContentsChangeClient.RemoveListener(() => OnOxygenTankEquipped());
+			itemSlot.OnSlotContentsChangeClient.RemoveListener(OnOxygenTankEquipped);
 		}
 	}
 
-	private void OnMaskChanged(ItemSlot itemSlot)
+	private void OnMaskChanged()
 	{
-		ItemAttributesV2 maskItemAttrs = itemSlot.ItemAttributes;
+		ItemAttributesV2 maskItemAttrs = maskSlot.ItemAttributes;
 		if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank)
 			isWearingMask = true;
 		else

@@ -38,6 +38,9 @@ public partial class PlayerList
 	public List<JobBanEntry> clientSideBanEntries = new List<JobBanEntry>();
 
 	public string AdminToken { get; private set; }
+
+	//does the client think he's an admin
+	public bool IsClientAdmin;
 	public string MentorToken { get; private set; }
 
 	[Server]
@@ -53,7 +56,7 @@ public partial class PlayerList
 		{
 			File.CreateText(adminsPath).Close();
 		}
-		
+
 		if (!File.Exists(mentorsPath))
 		{
 			File.CreateText(mentorsPath).Close();
@@ -80,7 +83,7 @@ public partial class PlayerList
 		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
 		adminListWatcher.Changed += LoadCurrentAdmins;
 		adminListWatcher.EnableRaisingEvents = true;
-		
+
 		mentorListWatcher = new FileSystemWatcher();
 		mentorListWatcher.Path = Path.GetDirectoryName(mentorsPath);
 		mentorListWatcher.Filter = Path.GetFileName(mentorsPath);
@@ -125,7 +128,7 @@ public partial class PlayerList
 	{
 		StartCoroutine(LoadAdmins());
 	}
-	
+
 	void LoadCurrentMentors(object source, FileSystemEventArgs e)
 	{
 		LoadCurrentMentors();
@@ -170,7 +173,7 @@ public partial class PlayerList
 		adminUsers.Clear();
 		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
 	}
-	
+
 	IEnumerator LoadMentors()
 	{
 		//ensure any writing has finished
@@ -227,7 +230,7 @@ public partial class PlayerList
 	{
 		return adminUsers.Contains(userID);
 	}
-	
+
 	[Server]
 	public GameObject GetMentor(string userID, string token)
 	{
@@ -865,6 +868,7 @@ public partial class PlayerList
 	public void SetClientAsAdmin(string _adminToken)
 	{
 		AdminToken = _adminToken;
+		IsClientAdmin = true;
 		ControlTabs.Instance.ToggleOnAdminTab();
 		Logger.Log("You have logged in as an admin. Admin tools are now available.");
 	}

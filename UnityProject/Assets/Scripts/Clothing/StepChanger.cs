@@ -13,7 +13,7 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 		NamedSlot slot = wearType == WearType.hardsuit ? NamedSlot.outerwear : NamedSlot.feet;
 
 		//Wearing
-		if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
+		if (info.ToSlot != null && info.ToSlot?.NamedSlot != null && info.ToRootPlayer)
 		{
 			var mind = info.ToRootPlayer.PlayerScript.mind;
 			if(mind != null && info.ToSlot.NamedSlot == slot)
@@ -22,7 +22,7 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 			}
 		}
 		//taking off
-		if (info.FromSlot != null && info.FromSlot?.NamedSlot != null)
+		if (info.FromSlot != null && info.FromSlot?.NamedSlot != null && info.FromPlayer)
 		{
 			var mind = info.FromPlayer.PlayerScript.mind;
 			if(mind != null && info.FromSlot.NamedSlot == slot)
@@ -58,12 +58,16 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 				mind.stepType = StepType.Barefoot;
 				return;
 			}
-
 			mind.stepType = (StepType)wearType;
 		}
 	}
 
-	private bool HasHardsuit(Mind mind, NamedSlot? changeSlot) => mind.stepType == StepType.Suit && changeSlot != NamedSlot.outerwear;
+	private bool HasHardsuit(Mind mind, NamedSlot? changeSlot)
+	{
+		if (mind.stepType == StepType.Suit && changeSlot != NamedSlot.outerwear)
+			return true;
+		return false;
+	}
 
 	private enum WearType
 	{
