@@ -25,6 +25,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9958f9426fa240541a2f13c7c32be913,
         type: 2}
+    - target: {fileID: 1969054859882783242, guid: fcb881ba1c51960459541b3bcfd049b7,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9958f9426fa240541a2f13c7c32be913,
+        type: 2}
     - target: {fileID: 3233124815913549234, guid: fcb881ba1c51960459541b3bcfd049b7,
         type: 3}
       propertyPath: m_AssetId
@@ -34,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Closet_Grey
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419381969867214346, guid: fcb881ba1c51960459541b3bcfd049b7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6419381969867214346, guid: fcb881ba1c51960459541b3bcfd049b7,
         type: 3}
@@ -52,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6419381969867214346, guid: fcb881ba1c51960459541b3bcfd049b7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419381969867214346, guid: fcb881ba1c51960459541b3bcfd049b7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6419381969867214346, guid: fcb881ba1c51960459541b3bcfd049b7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6419381969867214346, guid: fcb881ba1c51960459541b3bcfd049b7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6419381969867214346, guid: fcb881ba1c51960459541b3bcfd049b7,
         type: 3}

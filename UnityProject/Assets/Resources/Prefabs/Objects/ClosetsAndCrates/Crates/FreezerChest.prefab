@@ -27,6 +27,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A freezer chest.
       objectReference: {fileID: 0}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d8b3b6d703808874bb07913094c434db,
+        type: 2}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d8b3b6d703808874bb07913094c434db,
+        type: 2}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 86446db4f80510d4581d3b1367bfc4b9,
+        type: 2}
     - target: {fileID: 8429732818373960007, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_Sprite
@@ -37,6 +55,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -55,6 +78,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -67,16 +95,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
