@@ -115,8 +115,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		if (namedSlot != NamedSlot.none && forLocalPlayer)
 		{
 			var linkedSlot = ItemSlot.GetNamed(GetItemStorage(), namedSlot);
-			if(linkedSlot != null)
+			if (linkedSlot != null)
+			{
 				LinkSlot(linkedSlot);
+			}
 		}
 	}
 

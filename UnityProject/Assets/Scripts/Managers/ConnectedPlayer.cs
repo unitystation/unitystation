@@ -39,14 +39,18 @@ public class ConnectedPlayer
 		{
 			gameObject = value;
 			if (Script)
+			{
 				Script.connectedPlayer = null;
+			}
 			if (gameObject != null)
 			{
 				// If player is in lobby, their controlled GameObject is JoinedViewer (which has JoinedViewer component).
 				// Else they're in the game and so have a GameObject that has PlayerScript attached.
 				Script = value.GetComponent<PlayerScript>();
-				if(Script)
+				if (Script)
+				{
 					Script.connectedPlayer = this;
+				}
 				ViewerScript = value.GetComponent<JoinedViewer>();
 			}
 			else

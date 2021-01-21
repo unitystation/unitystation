@@ -168,10 +168,14 @@ public class PanelHudBottomController : MonoBehaviour
 	/// </summary>
 	public void RemoveListeners()
 	{
-		if(uniform != null)
+		if (uniform != null)
+		{
 			uniform.OnSlotContentsChangeClient.RemoveListener(OnUniformSlotUpdate);
-		if(OXsuit != null)
+		}
+		if (OXsuit != null)
+		{
 			OXsuit.OnSlotContentsChangeClient.RemoveListener(OnOXsuitSlotUpdate);
+		}
 	}
 
 	/// <summary>

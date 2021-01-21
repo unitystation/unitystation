@@ -44,13 +44,17 @@ public class UI_AdminItemSwap : TooltipMonoBehaviour, IPointerClickHandler
 		{
 			if (ui_itemSlot.Item == null)
 			{
-				if(adminHand.Item)
+				if (adminHand.Item)
+				{
 					AdminInventoryTransferMessage.Send(adminHand, ui_itemSlot.ItemSlot);
+				}
 			}
 			else
 			{
-				if(adminHand.Item == null)
+				if (adminHand.Item == null)
+				{
 					AdminInventoryTransferMessage.Send(ui_itemSlot.ItemSlot, adminHand);
+				}
 			}
 
 		}
