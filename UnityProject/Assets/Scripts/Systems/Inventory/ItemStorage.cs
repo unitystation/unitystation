@@ -161,6 +161,24 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
+	/// Change the number of available slots in the storage.
+	/// </summary>
+	public void AcceptNewStructure(ItemStorageStructure newStructure)
+	{
+		itemStorageStructure = newStructure;
+		definedSlots = null;
+		CacheDefinedSlots();
+	}
+
+	/// <summary>
+	/// Return the size of the storage.
+	/// </summary>
+	public int StorageSize()
+	{
+		return definedSlots.Count;
+	}
+
+	/// <summary>
 	///
 	/// </summary>
 	/// <param name="slotIdentifier"></param>

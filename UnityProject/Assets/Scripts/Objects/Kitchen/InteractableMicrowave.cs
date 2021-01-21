@@ -40,6 +40,7 @@ namespace Objects.Kitchen
 		{
 			return $"The microwave is currently {microwave.currentState.StateMsgForExamine}. " +
 					$"You see {(microwave.HasContents ? microwave.storageSlot.ItemObject.ExpensiveName() : "nothing")} inside. " +
+					$"There {(microwave.StorageSize() == 1 ? "is 1 slot" : $"are {microwave.StorageSize()} slots")} inside."+
 					$"The timer shows {Math.Ceiling(microwave.microwaveTimer)} seconds remaining.";
 		}
 

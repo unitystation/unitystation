@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}
@@ -80,6 +80,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2631623716977575168, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}
+      propertyPath: initialName
+      value: triphasic scanning module
+      objectReference: {fileID: 0}
+    - target: {fileID: 2631623716977575168, guid: a6a04b99723d3ae42958de4193b9920d,
+        type: 3}
       propertyPath: initialDescription
       value: A compact, ultra resolution triphasic scanning module used in the construction
         of certain devices.
@@ -90,10 +95,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 168832b86a111b945868dec5c2a677a5,
         type: 2}
-    - target: {fileID: 2631623716977575168, guid: a6a04b99723d3ae42958de4193b9920d,
+    - target: {fileID: 5465887359792347932, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}
-      propertyPath: initialName
-      value: triphasic scanning module
+      propertyPath: Tier
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5465887359792347932, guid: a6a04b99723d3ae42958de4193b9920d,
+        type: 3}
+      propertyPath: tier
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8588050373806019045, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}

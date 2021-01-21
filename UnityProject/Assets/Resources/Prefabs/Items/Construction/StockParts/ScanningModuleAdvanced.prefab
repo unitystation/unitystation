@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2484719566607390486, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}
@@ -89,6 +89,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ead9ccbff65e2ea46aba0a81cfa44218,
         type: 2}
+    - target: {fileID: 5465887359792347932, guid: a6a04b99723d3ae42958de4193b9920d,
+        type: 3}
+      propertyPath: Tier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5465887359792347932, guid: a6a04b99723d3ae42958de4193b9920d,
+        type: 3}
+      propertyPath: tier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8588050373806019045, guid: a6a04b99723d3ae42958de4193b9920d,
         type: 3}
       propertyPath: PresentSpriteSet
