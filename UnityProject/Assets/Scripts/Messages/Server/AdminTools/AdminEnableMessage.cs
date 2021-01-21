@@ -23,7 +23,6 @@ public class AdminEnableMessage : ServerMessage
 	{
 		UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player);
 		var adminGhostItemStorage = AdminManager.Instance.CreateItemSlotStorage();
-		var netIdentity = adminGhostItemStorage.GetComponent<NetworkIdentity>();
 		AdminEnableMessage msg = new AdminEnableMessage
 		{
 			AdminToken = adminToken,
