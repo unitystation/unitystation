@@ -13,23 +13,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 64326933076804260, guid: ead12d91b06d1d84faa1c6fd90a76059,
         type: 3}
-    - target: {fileID: 505096979424067052, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
-        type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-    - target: {fileID: 932195030499355897, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
-        type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
-        type: 2}
-    - target: {fileID: 4233841553354124691, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
-        type: 3}
-      propertyPath: initialDescription
-      value: A reverse engineered weapon using syndicate technology.
-      objectReference: {fileID: 0}
     - target: {fileID: 4233841553354124691, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       propertyPath: initialName
@@ -40,10 +23,20 @@ PrefabInstance:
       propertyPath: initialSize
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4233841553354124691, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
+        type: 3}
+      propertyPath: initialDescription
+      value: A reverse engineered weapon using syndicate technology.
+      objectReference: {fileID: 0}
     - target: {fileID: 4335905146119127793, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       propertyPath: m_Name
       value: EnergyCrossbow
+      objectReference: {fileID: 0}
+    - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
@@ -62,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}

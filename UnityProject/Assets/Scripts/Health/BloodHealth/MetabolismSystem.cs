@@ -166,7 +166,7 @@ public class MetabolismSystem : NetworkBehaviour
 			RemoveSpeedDebuff();
 		}
 
-		if (!NetworkManager.isHeadless && PlayerManager.LocalPlayer == gameObject)
+		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			Chat.AddExamineMsgToClient(GetHungerMessage());
 		}

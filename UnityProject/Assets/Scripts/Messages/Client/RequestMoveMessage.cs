@@ -11,7 +11,6 @@ public class RequestMoveMessage : ClientMessage
 
 	public override void Process()
 	{
-//		Logger.Log("Processed " + ToString());
 		SentByPlayer.Script.PlayerSync.ProcessAction(Action);
 	}
 

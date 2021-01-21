@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using DatabaseAPI;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 using DiscordWebhook;
 using Messages.Client;
 using Newtonsoft.Json;
@@ -223,6 +222,12 @@ public partial class PlayerList
 		}
 
 		return admins;
+	}
+
+	[Server]
+	public bool IsAdmin(ConnectedPlayer player)
+	{
+		return IsAdmin(player.ClientId);
 	}
 
 	[Server]

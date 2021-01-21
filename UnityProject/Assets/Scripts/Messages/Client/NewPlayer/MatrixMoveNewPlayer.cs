@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Messages.Client;
-using Mirror;
 
 public class MatrixMoveNewPlayer: ClientMessage
 {
@@ -24,17 +23,5 @@ public class MatrixMoveNewPlayer: ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		MatrixMove = reader.ReadUInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(MatrixMove);
 	}
 }

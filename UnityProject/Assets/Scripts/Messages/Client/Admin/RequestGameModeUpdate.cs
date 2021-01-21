@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using Messages.Client;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
 
 /// <summary>
 ///     Request to change game mode settings (admin only)
@@ -33,15 +31,6 @@ public class RequestGameModeUpdate : ClientMessage
 		}
 	}
 
-	void VerifyAdminStatus()
-	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
-		{
-			AdminToolRefreshMessage.Send(player, Userid);
-		}
-	}
-
 	public static RequestGameModeUpdate Send(string userId, string adminToken, string nextGameMode, bool isSecret)
 	{
 		RequestGameModeUpdate msg = new RequestGameModeUpdate
@@ -53,23 +42,5 @@ public class RequestGameModeUpdate : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-		NextGameMode = reader.ReadString();
-		IsSecret = reader.ReadBoolean();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
-		writer.WriteString(NextGameMode);
-		writer.WriteBoolean(IsSecret);
 	}
 }

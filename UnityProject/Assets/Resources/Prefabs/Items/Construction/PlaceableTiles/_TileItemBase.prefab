@@ -35,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -105,13 +105,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: throwDamage
-      value: 1
+      propertyPath: throwSpeed
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: throwSpeed
-      value: 3
+      propertyPath: initialName
+      value: broken tile
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -120,13 +120,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: initialDescription
-      value: A broken tile. This should not exist.
+      propertyPath: throwDamage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: initialName
-      value: broken tile
+      propertyPath: initialDescription
+      value: A broken tile. This should not exist.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}

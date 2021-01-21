@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public PlayerExaminationWindowUI playerExaminationWindow;
 	public ControlIntent intentControl;
 	public PlayerHealthUI playerHealthUI;
-	public PlayerListUI playerListUIControl;
+	public StatsTab statsTab;
 	public Text toolTip;
 	public Text pingDisplay;
 	[SerializeField]
@@ -159,7 +159,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public static ControlDisplays Display => Instance.displayControl;
 	public static ControlClothing ControlClothing => Instance.controlClothing;
 
-	public static PlayerListUI PlayerListUI => Instance.playerListUIControl;
+	public static StatsTab StatsTab => Instance.statsTab;
 
 	public static UI_StorageHandler StorageHandler
 	{

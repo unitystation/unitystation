@@ -6,19 +6,23 @@ All mapping is done in Unity.
 
 ### Setting Up Your Workspace
 You should have the following windows open. To open a window, to the __Window__ tab at the top of Unity.
-    - Window > General > __Scene__
-    - Window > General > __Project__
-    - Window > General > __Hierarchy__
-    - Window > General > __Inspector__
-    - Window > __Sidebar__
+
+<ul>
+    <li>Window > General > <b>Scene</b></li>
+    <li>Window > General > <b>Project</b></li>
+    <li>Window > General > <b>Hierarchy</b></li>
+    <li>Window > General > <b>Inspector</b></li>
+    <li>Window > <b>Sidebar</b></li>
+</ul>
 
 ### Introduction to Scenes
-Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one. 
-    - Open an existing scene: UnityProject > Assets > Scenes > Mainstations > TestStation
-        - Make sure you have your Scene window focused
-        - Look around the Scene with the [Hand Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html) and to move prefabs around the Scene, use the [Move Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html)
+Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one.
 
-
+<ol>
+<li>Open an existing scene: UnityProject > Assets > Scenes > Mainstations > TestStation</li>
+<li>Make sure you have your Scene window focused</li>
+<li> Look around the Scene with the <a href="https://docs.unity3d.com/Manual/SceneViewNavigation.html">Hand Tool</a>. To move prefabs around the Scene, use the <a href="https://docs.unity3d.com/Manual/SceneViewNavigation.html">Move Tool</a></li>
+</ol>
 Notice that in the Hierarchy window selecting _TestStation_ selects the entire station, but not other shuttles, etc.
 You can save maps and areas as [prefabs](https://docs.unity3d.com/Manual/Prefabs.html) by dragging them from the Hierarchy tab into the Project tab.
 
@@ -41,7 +45,7 @@ When you open the editor, there should be a sidebar open on the right hand side 
 
 ![](../assets/images/HowToMap/test_runner.PNG)
 
-Performs a variety of tests to check for Null references and other things. These tests are also used when you send a Pull Request. To run these tests, click __Run All__ and then leave it for a while, it is not a quick process (use this opportunity to get something to eat/drink or some other professional/recreational activity of your choice). 
+Performs a variety of tests to check for Null references and other things. These tests are also used when you send a Pull Request. To run these tests, click __Run All__ and then leave it for a while, it is not a quick process (use this opportunity to get something to eat/drink or some other professional/recreational activity of your choice).
 
 Errors will be denoted by a red cross, click on the individual test which has a red cross and read the error that appears in the bottom box to fix up the Scene. Be sure to click __Rerun Failed__ to see if you now pass these tests.
 
@@ -73,8 +77,10 @@ Not necessary for mapping purposes.
 
 ## Creating a MainStation Map
 
-
 ### Part 1 - Populating Underfloor And Electrical Items
+
+#### Electrical
+
 1.	Copy and paste the TestStation Scene inside Asset/Scenes Folder, do not have Unity open when you do this. Be sure to relabel the TestStation Matrix!!!
 1.	Delete all the objects in the Object Layer of the MainStation, then open up the Tile Palette, erase all the tiles, select base floors and begin the process of painting the tiles to make up the Station.
 1.	Next you will want to designate where the departments should go and how big they should be. Move the spawn points to generally mark out the areas so you can keep track of where everything is going. How you approach the rest is up to you, Part 2 and 3 below is a suggested method for you to use if you wish.
@@ -83,6 +89,8 @@ Consider then mapping in all the power cables, atmos pipes and disposal pipes. T
 UnityStation’s Electrical Wiring differs from base SS13. Follow the guide below to make sure you correctly hook everything up.
 ![](../assets/images/HowToMap/wire_connections.png)
 Make sure to always put a machine connector (white square in diagram) on the lower voltage side of the device. If you are still stuck, consult the wiring on TestStation Scene in the Electrical Testing Area and inspect the relevant prefabs.
+
+#### Atmospherics
 
 ![](../assets/images/HowToMap/atmos_pipes.png)
 
@@ -95,7 +103,14 @@ The **atmos pipes** are colour coded to help keep track of a specific function, 
 * Green – Connects to Red Pipes has Filter prefabs littered through is section to filter out each gas to its specific canister chamber
 * Orange/Yellow – Connects to pumps to pump out gas from a particular gas chamber, yellow pipes connect up to the end of the Green and Blue pipes
 
-Make sure that the pumps to do with the air are turned on and that all the canisters in the chamber rooms have been set to open in the prefab, otherwise no gas will flow.
+The atmos prefabs have been laid out so you do not need to tinker too much with them, be sure to select the right one for the job. Here is a general guide to explain what prefab does what.
+
+* **GasFlowMeter** to be attached to pipes inside the atmos department, **GasFlowMeterAtmosWasteLoop** to attach to red pipes outside of the atmos department and **GasFlowMeterDistrubutionLoop** to attach to blue pipes outside of the atmos department
+* **GasFilter(GAS-NAME)** and **GasFilter(GAS-NAME)Flipped** are filter prefabs which sit on an empty tile connected to tiled pipes. They filter a particular gas out, usually into a designated atmos room.
+* **GasMixerAirMixer**, **GasMixerOff**, **GasMixerOffFlipped**, **GasMixerOn**, **GasMixerOnFlipped** are mixer prefabs which mixes two gases together in a particular proportion. The "Air" that the crew breathes on the station has been deliberately set in the AirMixer, make sure you use that one in the department.
+* **GasPumpOn**, **GasPumpOff** are the pump prefabs which are set to be on and off when the round starts.
+
+#### Disposals
 
 The **Disposal System** is straightforward to map in if do the following steps. Be sure to connect the  **ConveyorSwitch** prefab to the relevant **ConveyorBelt** prefabs.
 
@@ -109,7 +124,7 @@ The **Disposal System** is straightforward to map in if do the following steps. 
 To help with completing Part 3, click and drag all prefabs onto the scene, select them all in the Hierarchy and drag them into the Matrix’s Object layer when you feel you are finished.
 
 1.	Add in the Walls to designate the rooms, relevant floor tiles and tables to populate the rooms. Remember that floor tiles are not present in maintenance areas, unless it is in a room coming from a corridor.
-1.	To place objects into a scene search in the File manager with the prefab filter on, then click and drag the prefab onto the scene. All objects you place will need to go on the Station Matrix’s Object layer in the Hierarchy. IMPORTANT: make sure you keep consistent unique number or attach an “_name” (e.g. APC_Kitchen), this will help a lot when you need to add in references to other prefabs, as you can tell them apart.
+1.	To place objects into a scene search in the File manager with the prefab filter on, then click and drag the prefab onto the scene. All objects you place will need to go on the Station Matrix’s Object layer in the Hierarchy. (To avoid having to click and drag the list of prefabs into the object layer, highlight all the objects, click *cut* and then right click on the *Object Layer* and select **Paste as Child**). IMPORTANT: make sure you keep consistent unique number or attach an “_name” (e.g. APC_Kitchen), this will help a lot when you need to add in references to other prefabs, as you can tell them apart.
 
 ![](../assets/images/HowToMap/search_for_prefab.png)
 
@@ -127,14 +142,21 @@ Various objects which already have directional facing logic, such as wallmounts 
 ### Map Tips
 Here are some general tips to help you get when mapping in UnityStation:
 - Do not attempt to try and finish your map from scratch in one sitting, it is better if you break it down into sections.
+
 - If you find yourself unable to place tiles from the Tile Palette and are receiving a ton of warnings, it may be because you are missing a layer in the matrix. Duplicate an existing layer in the matrix and perform the necessary changes before trying to place anymore tiles.
+
 - Attaching an APC can be quite tedious, but can be made a lot easier if you place the APC first, relabel it and then attach the APCPoweredDevice by moving it close to the APC and hitting the Auto Connect Button.
-![](../assets/images/HowToMap/APC_autoconnect.gif)
+  ![](../assets/images/HowToMap/APC_autoconnect.gif)
+
+- If you have a lot of APCPowered Objects you need to connect, you can also connect them up by first turning on the *Gizmo* called *APCPoweredDevice* to show that the prefab is correctly disconnected and then scrolling through the APC prefab to find the **APC (script)** component and then click **Begin Selecting**. Remember to hit **Stop Selecting** when you are done, all the connections are listed in the Connected Devices in the same component, if you want to validate you have selected them all.
+
+  ![](../assets/images/HowToMap/APC_multi_select.gif)
+
 - Make sure for jobs that will have 2 or more signing up to them that you have placed multiple spawn points in the department – this ensures that players do not spawn ontop of each other. To do this, copy an existing spawn point inside the SpawnPointsV2 object, alter its position and spawn name.
 
 ![](../assets/images/HowToMap/spawn_points.PNG)
 
-- So you can see what you are placing tile-wise on a particular layer, you can select obstructing layers to hide in the Hierarchy. You then can press the crossed-out eye above the scene view window to toggle the layers’ visibility. 
+- So you can see what you are placing tile-wise on a particular layer, you can select obstructing layers to hide in the Hierarchy. You then can press the crossed-out eye above the scene view window to toggle the layers’ visibility.
 
 ![](../assets/images/HowToMap/hireachy_hide.gif)
 
@@ -152,27 +174,35 @@ Enabling Gizmos for WallmountBehaviours will show helper arrows so that you woul
 Once you have finished mapping a scene and it’s time to PR, follow the instructions below so it gets submitted first time without needed rework. If you are working on an existing map, you only need to commit and PR the .scene file.
 
 1. Make a new branch by opening GitHub Desktop and pressing Ctrl + Shift + N and typing the name of your map. Make sure to bring your changes over from develop if you have already started making progress on a new Scene.
+
 2. Run the Unit tests. These can be accessed in editor by going into the sidebar menu or selecting the U logo on the right bar.
+
 3. If the scene you have created is a Main Station, add its name into to the *map.json* file. This file keeps track of what maps to randomly select from given the server population (low, medium, high pop).
+
 4. Next you will need to add the created scene into a Scriptable Object List. Search in the editor for the following.
 
     - If it is a Station where the crew will spawn in, add it into the __Main Station List SO__
     - If the scene is a scene which connects to the Station Gateway, add it into the __Away World List SO__
     - If the scene is an asteroid (contains ores to mine), add it into the __Asteroid List SO__
     - If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the __Additional Scene List SO__
+
 5. Add the Scene in by going to File -> Build Settings, then click open scene to add the scene you are in.
-6. Make sure you go through the checklist below to check you have gotten the following on the map.
-    1. In the Captain's Room, there should be a Nuke Disk, Nuke Pointer and a Captain's Spare ID
-    1. Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig cells
-    1. Fire alarms have been connected to the FireDoors
-    1. AirVents and Scrubbers are rotated correctly to match the particular pipe outlets from adjacent tiles
-    1. RCS thrusters are present on shuttle matrixes, test each shuttle in play mode to make sure they follow the directions like the WASD keys.
-    1. Multiple spawn points exist for the same job and that all jobs have a sensible spawn point
-    1. Check that Canisters in Atmos that are part of the pipes are open (Tick *Valve is Initially Open* inside the Canister Script)
-    1. Ensure that no obvious extrusions will destroy or block the cargo and evac shuttle
-    1. Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)
-    1. If it's a MainStation, include a picture of your map for the wiki 
-    1. Commit MainStation.unity, MainStation.unity.meta, MainStation.lighting, MainStation.lighting.meta, maps.json, EditorBuildSettings.asset and the SO List (e.g. __Main Station List SO__). This is not an exhaustive list, so a general rule of thumb is to only commit files you touched.
+
+### Checklist
+
+Make sure you go through the checklist below to check you have gotten the following on the map. Players will have a hard time using your map if it doesn't have these items!
+
+1. In the Captain's Room, there should be a Nuke Disk, Nuke Pointer and a Captain's Spare ID
+1. Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig cells
+1. Fire alarms have been connected to the FireDoors
+1. AirVents and Scrubbers are rotated correctly to match the particular pipe outlets from adjacent tiles
+1. RCS thrusters are present on shuttle matrixes, test each shuttle in play mode to make sure they follow the directions like the WASD keys.
+1. Multiple spawn points exist for the same job and that all jobs have a sensible spawn point
+1. Check that Canisters in Atmos that are part of the pipes are open (Tick *Valve is Initially Open* inside the Canister Script)
+1. Ensure that no obvious extrusions will destroy or block the cargo and evac shuttle
+1. Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)
+1. If it's a MainStation, include a picture of your map for the wiki
+1. Commit MainStation.unity, MainStation.unity.meta, MainStation.lighting, MainStation.lighting.meta, maps.json, EditorBuildSettings.asset and the SO List (e.g. __Main Station List SO__). This is not an exhaustive list, so a general rule of thumb is to only commit files you touched.
 
 ## Pull Requests for Tile Palette Changes
 Almost never would you need to actually PR a palette change, if you do please make sure __NOT__ to include anything other than the palette file and its .meta file.

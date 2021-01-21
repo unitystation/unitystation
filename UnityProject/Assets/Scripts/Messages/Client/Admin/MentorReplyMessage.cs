@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AdminTools;
 using Messages.Client;
-using Mirror;
 
 public class MentorReplyMessage : ClientMessage
 {
@@ -22,17 +20,5 @@ public class MentorReplyMessage : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Message = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Message);
 	}
 }

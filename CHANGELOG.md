@@ -2,6 +2,21 @@
 ---
 
 
+* 2021/1/16: Added ability for bike horns to honk when people step on them. by [PetMudstone](https://github.com/PetMudstone) in PR #[5871](https://github.com/unitystation/unitystation/pull/5871)
+* 2021/1/11: Added ability for toolboxes to sometimes have two or three latches instead of just one on their sprites. This does not affect gameplay. by [PetMudstone](https://github.com/PetMudstone) in PR #[5852](https://github.com/unitystation/unitystation/pull/5852)
+* 2021/1/11: Adjusted Boxstation armory to be more in line with other maps. No more LMGs and Uzis. by [PetMudstone](https://github.com/PetMudstone) in PR #[5852](https://github.com/unitystation/unitystation/pull/5852)
+* 2021/1/10: Added drink animations. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5851](https://github.com/unitystation/unitystation/pull/5851)
+* 2021/1/8: Added the Radiation Storm and Fugitives event. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5838](https://github.com/unitystation/unitystation/pull/5838)
+* 2021/1/8: Added potted plant crate to Food and Hydroponics category in cargo. by [PetMudstone](https://github.com/PetMudstone) in PR #[5837](https://github.com/unitystation/unitystation/pull/5837)
+* 2021/1/8: Fixed machine connectors spawning wrong object on deconstruct and missing sprites. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5833](https://github.com/unitystation/unitystation/pull/5833)
+* 2021/1/8: Added Carp Migration, Mice Migration and Portal Storm events. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5834](https://github.com/unitystation/unitystation/pull/5834)
+* 2021/1/8: Added a bunch more random events. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5825](https://github.com/unitystation/unitystation/pull/5825)
+* 2021/1/6: Ghost REVIVE button fixed. Ghost buttons animated. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5824](https://github.com/unitystation/unitystation/pull/5824)
+* 2021/1/6: Added ability for soap to clean floors and to slowly get used up every time it's used to clean. by [PetMudstone](https://github.com/PetMudstone) in PR #[5821](https://github.com/unitystation/unitystation/pull/5821)
+* 2021/1/3: Added ability to extract seeds from banana peels and other trash made by eating crops. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
+* 2021/1/3: Consolidated kitchen and botany categories in cargo console into Food and Hydroponics, added a few more items to buy in it. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
+* 2021/1/3: Fixed bug where dead plant sprites didn't appear in trays. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
+* 2021/1/3: Fixed bug that caused high amounts of weed in hydro trays to not create special plants when they were supposed to. by [PetMudstone](https://github.com/PetMudstone) in PR #[5806](https://github.com/unitystation/unitystation/pull/5806)
 * 2020/12/22: Added RockDrop spell. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5766](https://github.com/unitystation/unitystation/pull/5766)
 * 2020/12/15: Adds mentors by [craftxbox](https://github.com/craftxbox) in PR #[5365](https://github.com/unitystation/unitystation/pull/5365)
 * 2020/12/13: added ability to wrap all items, crates and lockers. by [corp-0](https://github.com/corp-0) in PR #[5680](https://github.com/unitystation/unitystation/pull/5680)

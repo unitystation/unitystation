@@ -34,6 +34,13 @@ public enum ChatChannel
 	[Description("")]	Blob		= 1 << 20
 }
 
+public static class Channels
+{
+	public static ChatChannel RadioChannels = ChatChannel.Common | ChatChannel.Command | ChatChannel.Syndicate
+			| ChatChannel.Engineering | ChatChannel.Supply | ChatChannel.Medical
+			| ChatChannel.Science | ChatChannel.Security | ChatChannel.Service;
+}
+
 /// <summary>
 /// A set of flags to show active chat modifiers. Be aware this can contain multiple active chat modifiers at once!
 /// </summary>

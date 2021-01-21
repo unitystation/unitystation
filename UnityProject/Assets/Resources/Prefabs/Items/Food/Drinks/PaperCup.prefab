@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -134,8 +135,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
+      propertyPath: initialName
+      value: paper cup
       objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -144,8 +145,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: initialName
-      value: paper cup
+      propertyPath: initialTraits.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -165,6 +166,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -180,6 +186,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -192,16 +203,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -224,17 +225,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 51ba4250b63aafc40ba7930bf2b941bd,
         type: 3}
-    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+    - target: {fileID: 8024073914213612784, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.size
-      value: 0
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: maxCapacity
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5747741185675137456, guid: 46bb2fe95f4f66341aadfb4600751333, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 46bb2fe95f4f66341aadfb4600751333, type: 3}
 --- !u!1 &603864730428163137 stripped
 GameObject:

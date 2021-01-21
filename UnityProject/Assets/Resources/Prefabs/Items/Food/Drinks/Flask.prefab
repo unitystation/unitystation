@@ -15,14 +15,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: initialDescription
-      value: Every good spaceman knows it's a good idea to bring along a couple of
-        pints of whiskey wherever they go.
+      propertyPath: initialName
+      value: flask
       objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
-      propertyPath: initialName
-      value: flask
+      propertyPath: initialDescription
+      value: Every good spaceman knows it's a good idea to bring along a couple of
+        pints of whiskey wherever they go.
       objectReference: {fileID: 0}
     - target: {fileID: 7799949450078925336, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -33,6 +33,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Flask
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -51,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -95,10 +95,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8b8a2b1db1ee33945947e7017316184c,
         type: 3}
+    - target: {fileID: 8024073914213612784, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: maxCapacity
       value: 60
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5747741185675137456, guid: 46bb2fe95f4f66341aadfb4600751333, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 46bb2fe95f4f66341aadfb4600751333, type: 3}

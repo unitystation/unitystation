@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2881235331250953825, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: useTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4128362409855863911, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -15,10 +20,10 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: 363a6ab98f2372a49a77dc05e233dddf,
-        type: 2}
+      propertyPath: initialDescription
+      value: An untrustworthy bar of soap made of strong chemical agents that dissolve
+        blood faster.
+      objectReference: {fileID: 0}
     - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -33,14 +38,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
-      propertyPath: initialDescription
-      value: An untrustworthy bar of soap made of strong chemical agents that dissolve
-        blood faster.
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 363a6ab98f2372a49a77dc05e233dddf,
+        type: 2}
     - target: {fileID: 7785875528613525472, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: m_Name
       value: SoapSyndicate
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
@@ -59,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -71,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
@@ -108,5 +113,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5e7e73b24d127264b8e2a483b98882d7,
         type: 3}
+    - target: {fileID: 8258904204275641670, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: useTime
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94dfead23e20498409009e55d3dfe3ca, type: 3}

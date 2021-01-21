@@ -38,11 +38,11 @@ public class SoundSpawn: MonoBehaviour
 		WaitForPlayToFinish();
 	}
 
+
+	[NaughtyAttributes.Button("PlayNormally")]
 	public void PlayNormally()
 	{
-		if (AudioSource == null)
-			return;
-
+		if (AudioSource == null) return;
 		AudioSource.Play();
 		WaitForPlayToFinish();
 	}
@@ -106,7 +106,6 @@ public class SoundSpawn: MonoBehaviour
 		AudioSource.bypassReverbZones = sourceToCopy.bypassReverbZones;
 		AudioSource.reverbZoneMix = sourceToCopy.reverbZoneMix;
 		AudioSource.spatializePostEffects = sourceToCopy.spatializePostEffects;
-		AudioSource.outputAudioMixerGroup = sourceToCopy.outputAudioMixerGroup;
 		AudioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, sourceToCopy.GetCustomCurve(AudioSourceCurveType.CustomRolloff));
 		AudioSource.SetCustomCurve(AudioSourceCurveType.Spread, sourceToCopy.GetCustomCurve(AudioSourceCurveType.Spread));
 		AudioSource.SetCustomCurve(AudioSourceCurveType.SpatialBlend, sourceToCopy.GetCustomCurve(AudioSourceCurveType.SpatialBlend));

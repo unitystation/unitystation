@@ -197,8 +197,7 @@ public partial class Chat
 		{
 			// /me message
 			channels = ChatChannel.Local;
-			speaker = AddMsgColor(channels, speaker);
-			message = $"<b>{speaker}</b>| <i>{message}</i>";
+			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
 			return message;
 		}
 
@@ -211,8 +210,7 @@ public partial class Chat
 			{
 				name = "nerd";
 			}
-			speaker = AddMsgColor(ChatChannel.OOC, speaker);
-			message = $"[ooc] <b>{speaker}</b>|:  <b>{message}</b>";
+			message = AddMsgColor(channels, $"[ooc] <b>{speaker}: {message}</b>");
 			return message;
 		}
 
@@ -220,8 +218,7 @@ public partial class Chat
 		if (channels.HasFlag(ChatChannel.Ghost))
 		{
 			string[] _ghostVerbs = {"cries", "moans"};
-			speaker = AddMsgColor(ChatChannel.Ghost, speaker);
-			return  $"[dead] <b>{speaker}</b>| {_ghostVerbs.PickRandom()}: {message}";
+			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
 		}
 		string verb = "says,";
 
@@ -262,22 +259,22 @@ public partial class Chat
 			verb = "asks,";
 		}
 
-		// var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
+		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
 
-		// if (channels.HasFlag(ChatChannel.Command))
-		// {
-		// 	chan = "[cmd] ";
-		// }
+		if (channels.HasFlag(ChatChannel.Command))
+		{
+			chan = "[cmd] ";
+		}
 
-		// if (channels.HasFlag(ChatChannel.Local))
-		// {
-		// 	chan = "";
-		// }
+		if (channels.HasFlag(ChatChannel.Local))
+		{
+			chan = "";
+		}
 
-		return
-			$"<b>{AddMsgColor(channels, speaker)}</b>|   {verb}"    // [cmd]  Username says,
-			+ "  "                              // Two hair spaces. This triggers Text-to-Speech.
-			+ "\"" + message + "\"";           // "This text will be spoken by TTS!"
+		return AddMsgColor(channels,
+			$"{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
+			+ "  " // Two hair spaces. This triggers Text-to-Speech.
+			+ "\"" + message + "\""); // "This text will be spoken by TTS!"
 	}
 
 	private static string StripTags(string input)

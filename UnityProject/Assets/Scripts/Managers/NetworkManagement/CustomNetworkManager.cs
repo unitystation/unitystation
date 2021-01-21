@@ -13,6 +13,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 {
 	public static bool IsServer => Instance._isServer;
 
+	// NetworkManager.isHeadless is removed in latest versions of Mirror,
+	// so we assume headless would be running in batch mode.
+	public static bool IsHeadless => Application.isBatchMode;
+
 	public static CustomNetworkManager Instance;
 
 	[HideInInspector] public bool _isServer;
@@ -137,6 +141,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartHost()
 	{
+		StartCoroutine(WaitForInitialisation());
+	}
+
+	public IEnumerator WaitForInitialisation()
+	{
+		yield return null;
+		yield return null;
+		yield return null;
 		AddressableCatalogueManager.LoadHostCatalogues();
 	}
 
@@ -148,7 +160,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnection conn)
 	{
-		if (isHeadless || GameData.Instance.testServer)
+		if (IsHeadless || GameData.Instance.testServer)
 		{
 			if (conn == NetworkServer.localConnection)
 			{

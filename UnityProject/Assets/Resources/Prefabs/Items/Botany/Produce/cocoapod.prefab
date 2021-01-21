@@ -1,401 +1,109 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &9117922635251265649
+--- !u!1001 &1399378566649226733
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.PacketsSprite.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[0].Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[1].Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[2].Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[3].Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[4].Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.FullyGrownSprite.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.DeadSprite.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.PlantTrays.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Name
-      value: cocoapod
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Plantname
-      value: Cocao Tree
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Description
-      value: These seeds grow into cacao trees. They look fattening.
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.PacketsSprite.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 899ac8c29177ffc498f706cbdeb79fd6, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.PacketsSprite.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 899ac8c29177ffc498f706cbdeb79fd6,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[0].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 5d7bedd23202931499c0021298711b37, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[0].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 5d7bedd23202931499c0021298711b37,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[1].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: fbd64466be1683b4798f96f4bf326223, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[1].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: fbd64466be1683b4798f96f4bf326223,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[2].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 107fdcac0f11d0244936634f9809f9d7, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[2].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 107fdcac0f11d0244936634f9809f9d7,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[3].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 15faf727c8c88dd429e940f870b4ecc0, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[3].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 15faf727c8c88dd429e940f870b4ecc0,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[4].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 534d53f5803b3b34f8c65cb4a557eb73, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[4].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 534d53f5803b3b34f8c65cb4a557eb73,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.FullyGrownSprite.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 376896d16fc9cd940bad9646eace5da6, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.FullyGrownSprite.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 376896d16fc9cd940bad9646eace5da6,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.DeadSprite.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 4d1bb6160a7ce054db34497bbeb249f8, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.DeadSprite.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 4d1bb6160a7ce054db34497bbeb249f8,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.WeedResistance
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.WeedGrowthRate
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSpeed
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Potency
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Yield
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Lifespan
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 600753371851395131, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: seedPacket
       value: 
-      objectReference: {fileID: 4459359506746162445, guid: 103868fe2f90c944b94f6ca90c2cc28c,
+      objectReference: {fileID: 3645792569818170068, guid: c10750ad2e97d7c449aa7a5518793cdc,
         type: 3}
-    - target: {fileID: 1294793839381664232, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 9db8a6ce0500b074088df8334656cdfa,
-        type: 2}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Amounts.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.data[0]
-      value: coco
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.data[1]
-      value: nutriment
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Amounts.Array.data[0]
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Amounts.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: initialName
-      value: cocoa pod
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: initialDescription
-      value: Fattening... Mmmmm... chucklate.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 0db5ebdf3af41304c922aa218b005f6a, type: 3}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 0db5ebdf3af41304c922aa218b005f6a,
-        type: 3}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6,
-        type: 2}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_Name
-      value: cocoapod
+      value: CocoaPod
       objectReference: {fileID: 0}
-    - target: {fileID: 4983833925385836507, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1290906528003875320, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 5066517181570930995, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1337560984964591376, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 0db5ebdf3af41304c922aa218b005f6a,
         type: 3}
-    - target: {fileID: 6259075970471028923, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1337560984964591376, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
-      propertyPath: NutritionLevel
-      value: 40
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7640553959568001153, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: initialName
+      value: cocoa pod
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: initialDescription
+      value: Fattening... Mmmmm... chucklate.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4987756423560292299, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 9db8a6ce0500b074088df8334656cdfa,
         type: 2}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 27208d0fc3f7c3544a8d1a7861253b52, type: 3}

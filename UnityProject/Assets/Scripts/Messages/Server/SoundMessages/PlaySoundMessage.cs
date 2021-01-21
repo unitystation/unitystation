@@ -183,27 +183,5 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			string shakeParametersValue = (ShakeParameters == null) ? "Null" : ShakeParameters.ToString();
 			return $"{nameof(SoundAddressablePath)}: {SoundAddressablePath}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
 		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			writer.WriteString(SoundAddressablePath);
-			writer.WriteVector3(Position);
-			writer.WriteBoolean(Polyphonic);
-			writer.WriteUInt32(TargetNetId);
-			writer.WriteString(JsonConvert.SerializeObject(ShakeParameters));
-			writer.WriteString(JsonConvert.SerializeObject(AudioSourceParameters));
-			writer.WriteString(SoundSpawnToken);
-		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			SoundAddressablePath = reader.ReadString();
-			Position = reader.ReadVector3();
-			Polyphonic = reader.ReadBoolean();
-			TargetNetId = reader.ReadUInt32();
-			ShakeParameters = JsonConvert.DeserializeObject<ShakeParameters>(reader.ReadString());
-			AudioSourceParameters = JsonConvert.DeserializeObject<AudioSourceParameters>(reader.ReadString());
-			SoundSpawnToken = reader.ReadString();
-		}
 	}
 }

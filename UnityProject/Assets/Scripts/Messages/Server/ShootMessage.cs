@@ -99,30 +99,6 @@ namespace Weapons
 		{
 			return " ";
 		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			base.Deserialize(reader);
-			Weapon = reader.ReadUInt32();
-			Direction = reader.ReadVector2();
-			DamageZone = (BodyPartType)reader.ReadUInt32();
-			Shooter = reader.ReadUInt32();
-			IsSuicideShot = reader.ReadBoolean();
-			ProjectileName = reader.ReadString();
-			Quantity = reader.ReadInt32();
-		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			base.Serialize(writer);
-			writer.WriteUInt32(Weapon);
-			writer.WriteVector2(Direction);
-			writer.WriteInt32((int)DamageZone);
-			writer.WriteUInt32(Shooter);
-			writer.WriteBoolean(IsSuicideShot);
-			writer.WriteString(ProjectileName);
-			writer.WriteInt32(Quantity);
-		}
 	}
 
 	/// <summary>
@@ -223,24 +199,6 @@ namespace Weapons
 			};
 			msg.SendToAll();
 			return msg;
-		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			base.Deserialize(reader);
-			Shooter = reader.ReadUInt32();
-			ProjectilePrefab = reader.ReadGuid();
-			Direction = reader.ReadVector2();
-			DamageZone = (BodyPartType)reader.ReadUInt32();
-		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			base.Serialize(writer);
-			writer.WriteUInt32(Shooter);
-			writer.WriteGuid(ProjectilePrefab);
-			writer.WriteVector2(Direction);
-			writer.WriteInt32((int)DamageZone);
 		}
 	}
 }

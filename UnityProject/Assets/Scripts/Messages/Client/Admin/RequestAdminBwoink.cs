@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AdminTools;
 using Messages.Client;
-using Mirror;
 
 public class RequestAdminBwoink : ClientMessage
 {
@@ -42,23 +40,5 @@ public class RequestAdminBwoink : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-		UserToBwoink = reader.ReadString();
-		Message = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
-		writer.WriteString(UserToBwoink);
-		writer.WriteString(Message);
 	}
 }

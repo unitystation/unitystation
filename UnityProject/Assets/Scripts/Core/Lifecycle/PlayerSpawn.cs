@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using UnityEngine;
 using Mirror;
-using Objects.Security;
 using Systems;
+using Systems.Spawns;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.
@@ -74,8 +72,6 @@ public static class PlayerSpawn
 
 		var player = oldBody.Player();
 		var oldGhost = forMind.ghost;
-		forMind.stepType = GetStepType(player.Script);
-
 		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null);
 
 		if (oldGhost)
@@ -99,7 +95,6 @@ public static class PlayerSpawn
 		var occupation = forMind.occupation;
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
-		forMind.stepType = GetStepType(forMind.body);
 
 		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false);
 	}
@@ -134,15 +129,15 @@ public static class PlayerSpawn
 			//Spawn normal location for special jobs or if less than 2 minutes passed
 			if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME || occupation.LateSpawnIsArrivals == false)
 			{
-				 spawnTransform = GetSpawnForJob(occupation.JobType);
+				spawnTransform = SpawnPoint.GetRandomPointForJob(occupation.JobType);
 			}
 			else
 			{
-				spawnTransform = GetSpawnForLateJoin(occupation.JobType);
+				spawnTransform = SpawnPoint.GetRandomPointForLateSpawn();
 				//Fallback to assistant spawn location if none found for late join
-				if(spawnTransform == null && occupation.JobType != JobType.NULL)
+				if (spawnTransform == null && occupation.JobType != JobType.NULL)
 				{
-					spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
+					spawnTransform = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT);
 				}
 			}
 
@@ -279,7 +274,7 @@ public static class PlayerSpawn
 		if (spawnPosition == TransformState.HiddenPos)
 		{
 			//spawn ghost at occupation location if we can't determine where their body is
-			Transform spawnTransform = GetSpawnForJob(forMind.occupation.JobType);
+			Transform spawnTransform = SpawnPoint.GetRandomPointForJob(forMind.occupation.JobType);
 			if (spawnTransform == null)
 			{
 				Logger.LogErrorFormat("Unable to determine spawn position for occupation {1}. Cannot spawn ghost.", Category.ItemSpawn,
@@ -317,7 +312,7 @@ public static class PlayerSpawn
 	public static void ServerSpawnGhost(JoinedViewer joinedViewer, CharacterSettings characterSettings)
 	{
 		//Hard coding to assistant
-		Vector3Int spawnPosition = GetSpawnForJob(JobType.ASSISTANT).transform.position.CutToInt();
+		Vector3Int spawnPosition = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT).transform.position.CutToInt();
 
 		//Get spawn location
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
@@ -337,7 +332,7 @@ public static class PlayerSpawn
 	public static void ServerSpawnDummy(Transform spawnTransform = null)
 	{
 		if(spawnTransform == null)
-			spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
+			spawnTransform = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT);
 		if (spawnTransform != null)
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
@@ -430,7 +425,7 @@ public static class PlayerSpawn
 			// {
 			// 	NetworkServer.ReplacePlayerForConnection(new NetworkConnectionToClient(0), oldBody);
 			// }
-			TriggerEventMessage.Send(newBody, eventType);
+			TriggerEventMessage.SendTo(newBody, eventType);
 
 			//can observe their new inventory
 			newBody.GetComponent<ItemStorage>()?.ServerAddObserverPlayer(newBody);
@@ -468,59 +463,21 @@ public static class PlayerSpawn
 		}
 	}
 
-	private static Transform GetSpawnForLateJoin(JobType jobType)
-	{
-		if (jobType == JobType.NULL)
-		{
-			return null;
-		}
-		List<SpawnPoint> spawnPoints = CustomNetworkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>())
-			.Where(x => x.Department == JobDepartment.LateJoin).ToList();
-
-		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
-	}
-	public static Transform GetSpawnForJob(JobType jobType)
-	{
-		if (jobType == JobType.NULL)
-		{
-			return null;
-		}
-
-		var spawns = CustomNetworkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>()).ToList();
-
-		var spawnPoints = spawns.Where(x => x.JobRestrictions.Contains(jobType)).ToList();
-		if (spawnPoints.Count != 0)
-		{
-			return spawnPoints.PickRandom().transform;
-		}
-
-		// Default to arrivals if there is no mapped spawn point for this job!
-		// Will still return null if there is no arrivals spawn points set (and people will just not spawn!).
-
-		var arrivals = spawns.Where(x => x.Department == JobDepartment.LateJoin).ToList();
-		if (arrivals.Count != 0)
-		{
-			return arrivals.PickRandom().transform;
-		}
-
-		return default;
-	}
-
 	private static StepType GetStepType(PlayerScript player)
 	{
-		if (player == null || player.Equipment == null)
-		{
-			return StepType.Barefoot;
-		}
-
-		if (player.Equipment.GetClothingItem(NamedSlot.outerwear)?.gameObject.GetComponent<StepChanger>() != null)
-		{
-			return StepType.Suit;
-		}
-		else if (player.Equipment.GetClothingItem(NamedSlot.feet) != null)
-		{
-			return StepType.Shoes;
-		}
+		// if (player == null || player.Equipment == null)
+		// {
+		// 	return StepType.Barefoot;
+		// }
+		//
+		// if (player.Equipment.GetClothingItem(NamedSlot.outerwear)?.gameObject.GetComponent<StepChanger>() != null)
+		// {
+		// 	return StepType.Suit;
+		// }
+		// else if (player.Equipment.GetClothingItem(NamedSlot.feet) != null)
+		// {
+		// 	return StepType.Shoes;
+		// }
 
 		return StepType.Barefoot;
 	}

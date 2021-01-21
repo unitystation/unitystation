@@ -47,13 +47,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: exportCost
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: initialDescription
-      value: Glass which seems to have rods or something stuck in them.
+      propertyPath: exportName
+      value: cm3 of reinforced glass
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -62,10 +62,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: d19286b34d74c144099285a94d7a0e01,
-        type: 2}
+      propertyPath: initialDescription
+      value: Glass which seems to have rods or something stuck in them.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -74,15 +78,16 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d19286b34d74c144099285a94d7a0e01,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: de3c46d05af11b74699683391ebd8c43,
         type: 2}
-    - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: Resistances.AcidProof
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: Armor.Acid
@@ -93,6 +98,11 @@ PrefabInstance:
       propertyPath: Armor.Fire
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_AssetId
@@ -102,6 +112,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ReinforcedGlassSheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -120,6 +135,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -132,16 +152,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}

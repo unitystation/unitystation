@@ -107,26 +107,6 @@ namespace Messages.Client.Admin
 			return msg;
 		}
 
-		public override void Deserialize(NetworkReader reader)
-		{
-			base.Deserialize(reader);
-			Userid = reader.ReadString();
-			AdminToken = reader.ReadString();
-			UserToRespawn = reader.ReadString();
-			OccupationToRespawn = reader.ReadString();
-			Type = reader.ReadInt32();
-		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			base.Serialize(writer);
-			writer.WriteString(Userid);
-			writer.WriteString(AdminToken);
-			writer.WriteString(UserToRespawn);
-			writer.WriteString(OccupationToRespawn);
-			writer.WriteInt32(Type);
-		}
-
 		public enum RespawnType
 		{
 			Normal = 0,

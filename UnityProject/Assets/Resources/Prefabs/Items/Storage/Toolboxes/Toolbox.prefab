@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &4699351480206158359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568672687853555390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackableMaterials: 1
+  materialCost: 10
+  reagentContainer: 0
+  craftItem:
+  - {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8, type: 3}
+  assembly: {fileID: 8622575264684028204, guid: 4ea433b6871fa2b4193194fd6be7a8ce,
+    type: 3}
+--- !u!114 &7381038148697665226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568672687853555390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498378a6a03686e4fa4b6e365b6e0d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StorageItemName: 2
 --- !u!1 &5625205706954716596
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,7 +102,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: d04e66db37d051241af5586e1bdfff93, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -96,44 +128,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
+  SubCatalogue:
+  - {fileID: 11400000, guid: 629838426e75c1047be7985e566681d3, type: 2}
+  - {fileID: 11400000, guid: 04c7957fa28bd9943b5e369a616719f7, type: 2}
+  - {fileID: 11400000, guid: ca5a5d1843e4fdd4aa11f726f13d283f, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 629838426e75c1047be7985e566681d3, type: 2}
+  randomInitialSprite: 1
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
---- !u!114 &4699351480206158359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568672687853555390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stackableMaterials: 1
-  materialCost: 10
-  reagentContainer: 0
-  craftItem:
-  - {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8, type: 3}
-  assembly: {fileID: 8622575264684028204, guid: 4ea433b6871fa2b4193194fd6be7a8ce,
-    type: 3}
---- !u!114 &7381038148697665226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568672687853555390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 498378a6a03686e4fa4b6e365b6e0d42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StorageItemName: 2
 --- !u!1001 &4934267206829871565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147,6 +151,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4da8f2a8fd5c1d9469e93b6e0b1103a8,
         type: 3}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -164,6 +173,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -176,16 +190,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -214,14 +218,61 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
+      propertyPath: hitDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: throwDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
       propertyPath: attackVerbs.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
+      propertyPath: attackVerbs.Array.data[0]
+      value: robusted
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b141c5d6b1f8b8245a182b3a94ed9948,
+        type: 2}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b5a3e682ce8ab64aa63a4044cc5cdd0,
+        type: 2}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 46c9aaf587dc6ff46a7485fc909dad5d, type: 3}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 131f554ffd2d77a48855a401bce14573, type: 3}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 2fd86fdd08e83d042b61774399527b13, type: 3}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: b418076004eeaff409518ba1a72e9e6a, type: 3}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -248,16 +299,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 2fd86fdd08e83d042b61774399527b13, type: 3}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 131f554ffd2d77a48855a401bce14573, type: 3}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: -7559086704959380403, guid: 131f554ffd2d77a48855a401bce14573,
@@ -280,43 +321,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -2037572223505060330, guid: 131f554ffd2d77a48855a401bce14573,
         type: 3}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: b418076004eeaff409518ba1a72e9e6a, type: 3}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: hitDamage
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: throwDamage
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: initialSize
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: b141c5d6b1f8b8245a182b3a94ed9948,
-        type: 2}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 3b5a3e682ce8ab64aa63a4044cc5cdd0,
-        type: 2}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[0]
-      value: robusted
-      objectReference: {fileID: 0}
     - target: {fileID: 6900997446700812531, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: denyStorageOfStorageItems
