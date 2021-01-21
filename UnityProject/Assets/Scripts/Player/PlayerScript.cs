@@ -17,9 +17,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	/// </summary>
 	public CharacterSettings characterSettings = new CharacterSettings();
 
-	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
+	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))]
+	public string playerName = " ";
 
-	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))] public string visibleName = " ";
+	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))]
+	public string visibleName = " ";
 	public PlayerNetworkActions playerNetworkActions { get; set; }
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
@@ -105,7 +107,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			UIManager.Internals.SetupListeners();
 			UIManager.Instance.panelHudBottomController.SetupListeners();
 		}
-		
+
 		isUpdateRTT = true;
 	}
 
@@ -344,15 +346,39 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		playerName = newName;
 	}
 
+	//Syncvisiblename
+	public void SyncVisibleName(string oldValue, string value)
+	{
+		visibleName = value;
+	}
+
+	//Update visible name.
+	public void RefreshVisibleName()
+	{
+		string newVisibleName;
+
+		if (IsGhost || Equipment.IsIdentityObscured() == false)
+		{
+			newVisibleName = playerName; // can see face so real identity is known
+		}
+		else
+		{
+			// Returns Unknown if identity could not be found via equipment (ID, PDA)
+			newVisibleName = Equipment.GetPlayerNameByEquipment();
+		}
+
+		SyncVisibleName(newVisibleName, newVisibleName);
+	}
+
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
 		if (IsDeadOrGhost && !IsPlayerSemiGhost)
 		{
-			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
-			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-				ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
-				ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-				| ChatChannel.Supply | ChatChannel.Syndicate;
+			var ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
+			var ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
+			                           ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+			                           ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+			                           | ChatChannel.Supply | ChatChannel.Syndicate;
 			if (transmitOnly)
 			{
 				return ghostTransmitChannels;
@@ -362,8 +388,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 		if (IsPlayerSemiGhost)
 		{
-			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
-			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+			var blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
+			var blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 
 			if (transmitOnly)
 			{
@@ -374,16 +400,20 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		}
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
-		ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
+		var transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			var playerStorage = gameObject.GetComponent<ItemStorage>();
 			if (playerStorage && !playerStorage.GetNamedItemSlot(NamedSlot.ear).IsEmpty)
 			{
-				Headset headset = playerStorage.GetNamedItemSlot(NamedSlot.ear)?.Item?.GetComponent<Headset>();
+				var headset = playerStorage.GetNamedItemSlot(NamedSlot.ear) != null
+					? playerStorage.GetNamedItemSlot(NamedSlot.ear).Item != null
+						? playerStorage.GetNamedItemSlot(NamedSlot.ear).Item.GetComponent<Headset>()
+						: null
+					: null;
 				if (headset)
 				{
-					EncryptionKeyType key = headset.EncryptionKey;
+					var key = headset.EncryptionKey;
 					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
 				}
 			}
@@ -410,30 +440,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		}
 
 		return transmitChannels | receiveChannels;
-	}
-
-	//Syncvisiblename
-	public void SyncVisibleName(string oldValue, string value)
-	{
-		visibleName = value;
-	}
-
-	//Update visible name.
-	public void RefreshVisibleName()
-	{
-		string newVisibleName;
-
-		if (IsGhost || Equipment.IsIdentityObscured() == false)
-		{
-			newVisibleName = playerName; // can see face so real identity is known
-		}
-		else
-		{
-			// Returns Unknown if identity could not be found via equipment (ID, PDA)
-			newVisibleName = Equipment.GetPlayerNameByEquipment();
-		}
-
-		SyncVisibleName(newVisibleName, newVisibleName);
 	}
 
 	//Tooltips inspector bar
@@ -469,14 +475,14 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		if (PlayerList.Instance.IsAntag(gameObject))
 		{
 			return $"<color=yellow>Name: {characterSettings.Name}\n" +
-				   $"Acc: {characterSettings.Username}\n" +
-				   $"Antag: True \n" +
-				   "Objectives : "+ mind.GetAntag().GetObjectiveSummary() + "</color>";
+			       $"Acc: {characterSettings.Username}\n" +
+			       "Antag: True \n" +
+			       "Objectives : "+ mind.GetAntag().GetObjectiveSummary() + "</color>";
 
 		}
 
 		return $"Name: {characterSettings.Name}\n" +
-			   $"Acc: {characterSettings.Username}\n" +
-			   $"Antag: False";
+		       $"Acc: {characterSettings.Username}\n" +
+		       "Antag: False";
 	}
 }

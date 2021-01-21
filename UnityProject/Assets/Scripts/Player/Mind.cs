@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 using Mirror;
 using Antagonists;
 using Systems.Spells;
-using Object = UnityEngine.Object;
 using ScriptableObjects.Systems.Spells;
 
 /// <summary>
@@ -27,6 +25,8 @@ public class Mind
 	public bool IsSpectator => occupation == null || body == null;
 
 	public bool ghostLocked;
+
+	public string Pseudonym;
 
 	private ObservableCollection<Spell> spells = new ObservableCollection<Spell>();
 	public ObservableCollection<Spell> Spells => spells;

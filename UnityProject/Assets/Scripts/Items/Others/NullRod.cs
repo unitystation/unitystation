@@ -20,13 +20,7 @@ public class NullRod : NetworkBehaviour, IInteractable<HandActivate>, IServerSpa
 	//Changes transformTimes syncvar.
 	private void SyncTransformTimes(int oldTimesLeft, int timesLeft)
 	{
-			this.transformTimes = timesLeft;
-	}
-
-	public void OnSpawnServer()
-	{
-		SyncTransformTimes(transformTimes, 2);
-
+		this.transformTimes = timesLeft;
 	}
 
 	public override void OnStartClient()
@@ -46,13 +40,6 @@ public class NullRod : NetworkBehaviour, IInteractable<HandActivate>, IServerSpa
 		SyncTransformTimes(transformTimes, 2);
 	}
 
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-
-		return true;
-	}
-
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		//UIManager.Instance.TextInputDialog.ShowDialog("Set label text", OnInputReceived);
@@ -61,15 +48,15 @@ public class NullRod : NetworkBehaviour, IInteractable<HandActivate>, IServerSpa
 			//Open null rod select screen if there are some transformation charges left.
 			TabUpdateMessage.Send( interaction.Performer, gameObject, NetTabType.NullRod, TabAction.Open );
 		}
-		else 
+		else
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "The item pulses once and fades. You're out of transformations!");
 		}
-		
+
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
-	{	
+	{
 		//NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType.NullRod);
 	}
 
@@ -92,10 +79,10 @@ public class NullRod : NetworkBehaviour, IInteractable<HandActivate>, IServerSpa
 
 		Inventory.ServerAdd(item, storage.GetActiveHandSlot());
 
-		Chat.AddActionMsgToChat(storage.gameObject, 
-		$"The {oldItem} flashes bright and changes into a {newItem}!", 
+		Chat.AddActionMsgToChat(storage.gameObject,
+		$"The {oldItem} flashes bright and changes into a {newItem}!",
 		$"The {oldItem} flashes bright and changes into a {newItem}!");
-		
+
 	}
 
 }

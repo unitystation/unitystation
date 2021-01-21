@@ -154,7 +154,7 @@ public class Equipment : NetworkBehaviour
 	{
 		// check if any worn mask or headwear obscures identity of the wearer
 		return (maskSlot.IsOccupied && maskSlot.Item.TryGetComponent<ClothingV2>(out var mask) && mask.HidesIdentity)
-				|| (headSlot.IsOccupied && headSlot.Item.TryGetComponent<ClothingV2>(out var headwear) && headwear.HidesIdentity);
+		       || (headSlot.IsOccupied && headSlot.Item.TryGetComponent<ClothingV2>(out var headwear) && headwear.HidesIdentity);
 	}
 
 	/// <summary>
@@ -164,13 +164,13 @@ public class Equipment : NetworkBehaviour
 	public string GetPlayerNameByEquipment()
 	{
 		if (idSlot.IsOccupied && idSlot.Item.TryGetComponent<IDCard>(out var idCard)
-				&& string.IsNullOrEmpty(idCard.RegisteredName) == false)
+		                      && string.IsNullOrEmpty(idCard.RegisteredName) == false)
 		{
 			return idCard.RegisteredName;
 		}
 
 		if (idSlot.IsOccupied && idSlot.Item.TryGetComponent<Items.PDA.PDALogic>(out var pda)
-				&& string.IsNullOrEmpty(pda.RegisteredPlayerName) == false)
+		                      && string.IsNullOrEmpty(pda.RegisteredPlayerName) == false)
 		{
 			return pda.RegisteredPlayerName;
 		}
