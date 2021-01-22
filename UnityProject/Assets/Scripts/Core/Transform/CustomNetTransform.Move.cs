@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using Objects;
+using Objects.Disposals;
 using Random = UnityEngine.Random;
 
 public enum SpinMode
@@ -628,6 +629,13 @@ public partial class CustomNetTransform
 			//if we can keep drifting and didn't hit anything, keep floating. If we did hit something, only stop if we are impassable (we bonked something),
 			//otherwise keep drifting through (we sliced / glanced off them)
 			return (creaturesToHit == null || creaturesToHit.Count == 0) ||  (registerTile && registerTile.IsPassable(true));
+		}
+
+		IReadOnlyCollection<DisposalBin> bins = MatrixManager.GetAt<DisposalBin>(targetPosition, isServer: true)
+			.Where(bin => CanHitObject(bin)).ToArray();
+		if (bins.Count > 0)
+		{
+			bins.First().OnFlyingObjectHit(gameObject);
 		}
 
 		return false;
