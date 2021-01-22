@@ -786,20 +786,20 @@ namespace Weapons
 
 			if (isSuicideShot)
 			{
-				GameObject bullet = Spawn.ClientPrefab(projectileName,
+				GameObject projectile = Spawn.ClientPrefab(projectileName,
 					shooter.transform.position, parent: shooter.transform.parent).GameObject;
-				var b = bullet.GetComponent<Projectile>();
-				b.Suicide(shooter, this, damageZone);
+				Projectile projectileComponent = projectile.GetComponent<Projectile>();
+				projectileComponent.Suicide(shooter, this, damageZone);
 			}
 			else
 			{
 				for (int n = 0; n < quantity; n++)
 				{
-					GameObject Abullet = Spawn.ClientPrefab(projectileName,
+					GameObject projectile = Spawn.ClientPrefab(projectileName,
 						shooter.transform.position, parent: shooter.transform.parent).GameObject;
-					var A = Abullet.GetComponent<Projectile>();
-					var finalDirectionOverride = CalcDirection(finalDirection, n);
-					A.Shoot(finalDirectionOverride, shooter, this, damageZone);
+					Projectile projectileComponent = projectile.GetComponent<Projectile>();
+					Vector2 finalDirectionOverride = CalcDirection(finalDirection, n);
+					projectileComponent.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
 			}
 			if (isSuppressed && SuppressedSoundA != null)
@@ -815,10 +815,22 @@ namespace Weapons
 
 		private Vector2 CalcDirection(Vector2 direction, int iteration)
 		{
+			if (iteration == 0) return direction;
+
+			// trying to get clientside prediction work with random spread
+			// is far too difficult/expensive, so set spread it is
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 			float angleVariance = iteration/1f;
-			float angleDeviation = UnityEngine.Random.Range(-angleVariance, angleVariance);
-			float newAngle = (angle+ angleDeviation) * Mathf.Deg2Rad;
+			float angleDeviation;
+			if (iteration % 2 == 0)
+			{
+				angleDeviation = angleVariance; //even
+			}
+			else
+			{
+				angleDeviation = -angleVariance; //odd
+			}
+			float newAngle = (angle + angleDeviation) * Mathf.Deg2Rad;
 			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
 			return vec2;
 		}

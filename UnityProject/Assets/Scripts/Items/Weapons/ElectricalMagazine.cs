@@ -49,7 +49,7 @@ public class ElectricalMagazine : MagazineBehaviour
 
 	public override String Examine(Vector3 pos)
 	{
-		double percent = (battery.Watts * 100 / battery.MaxWatts);
+		float percent = (battery.Watts * 100 / battery.MaxWatts);
 		return $"It seems to be compatible with energy weapons. The charge indicator displays {Math.Round(percent)} percent.";
 	}
 }

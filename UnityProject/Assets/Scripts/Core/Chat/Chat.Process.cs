@@ -385,13 +385,15 @@ public partial class Chat
 	public static void ProcessUpdateChatMessage(uint recipient, uint originator, string message,
 		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, bool stripTags = true)
 	{
-		//If there is a message in MessageOthers then determine
-		//if it should be the main message or not.
-		if (!string.IsNullOrEmpty(messageOthers))
+
+		var isOriginator = true;
+		if (recipient != originator)
 		{
-			//This is not the originator so use the messageOthers
-			if (recipient != originator)
+			isOriginator = false;
+			if (!string.IsNullOrEmpty(messageOthers))
 			{
+				//If there is a message in MessageOthers then determine
+				//if it should be the main message or not.
 				message = messageOthers;
 			}
 		}
@@ -399,7 +401,7 @@ public partial class Chat
 		if (GhostValidationRejection(originator, channels)) return;
 
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, stripTags);
-		Instance.addChatLogClient.Invoke(msg, channels);
+		Instance.addChatLogClient.Invoke(msg, channels, isOriginator);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
