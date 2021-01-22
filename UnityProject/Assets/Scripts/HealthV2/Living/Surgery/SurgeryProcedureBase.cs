@@ -22,8 +22,5 @@ namespace HealthV2
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 		}
-
-
-
 	}
 }

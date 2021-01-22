@@ -11,8 +11,7 @@ namespace HealthV2
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 			base.FinnishSurgeryProcedure(OnBodyPart, interaction, PresentProcedure);
-			PresentProcedure.ISon.SetBodyPartIsOpen(true,true);
-
+			PresentProcedure.ISon.BodyPartIsopen = true;
 		}
 
 		public override void UnsuccessfulStep(BodyPart OnBodyPart, PositionalHandApply interaction,

@@ -436,6 +436,7 @@ GameObject:
   - component: {fileID: 1354417930896543338}
   - component: {fileID: 2708192528502292653}
   - component: {fileID: 4232843736106124361}
+  - component: {fileID: -5098788322438649402}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1045,8 +1046,6 @@ MonoBehaviour:
   maxHealth: 100
   bodyPartContainers: []
   RootBodyPartContainers: []
-  MaxNutrimentLevel: 30
-  NutrimentLevel: 20
   PlayerMove: {fileID: 0}
 --- !u!114 &2708192528502292653
 MonoBehaviour:
@@ -1090,6 +1089,31 @@ MonoBehaviour:
   IsSuffocating: 0
   temperature: 293.15
   pressure: 101.325
+--- !u!114 &-5098788322438649402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3a4d93919206aa40bad0e7a3e0bb835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  LivingHealthMasterBase: {fileID: 1354417930896543338}
+  ProcedureInProgress: 0
+  currentlyOn: {fileID: 0}
+  BodyPartIsopen: 0
+  InitiateSurgeryItemTraits:
+  - {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c, type: 2}
+  - {fileID: 11400000, guid: 1e5559e895a286845ae6c1d616f3f26d, type: 2}
+  - {fileID: 11400000, guid: fc51d63cf9b06574ca78a62da76969e5, type: 2}
+  - {fileID: 11400000, guid: 96c07e6a6b942f645abf4ea7f9328eea, type: 2}
+  - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
+  - {fileID: 11400000, guid: d77ff6ca7ed1d5148a0a723b85721a3e, type: 2}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -7728,7 +7752,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -1841058614580174146, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8191,12 +8215,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4300145449095171559}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4299649681570296155 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4300145449095171559}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4196149980577959187 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
@@ -8209,3 +8227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4299649681570296155 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
