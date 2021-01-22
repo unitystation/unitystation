@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Moth
+  m_EditorClassIdentifier: 
+  Base:
+    Head: {fileID: 6241024877217184980, guid: 8503164d524ab674e8d3205fb07f5f7a, type: 3}
+    Torso: {fileID: 3377373078912138845, guid: ccdde90dffd7b284083abcee967830e9, type: 3}
+    ArmRight: {fileID: 3196827381206272960, guid: 1f5cca7aacb4f824db9b2304a9dafb03,
+      type: 3}
+    ArmLeft: {fileID: 5905009674070870211, guid: b437741367a48344398f4e8f30cd3b9c,
+      type: 3}
+    LegRight: {fileID: 8364845005446814664, guid: 83ad1d5dd3c5e684da59eba05ff8c72a,
+      type: 3}
+    LegLeft: {fileID: 8329628723992441300, guid: b33326e86b9cc4145b546c9b15d015c5,
+      type: 3}
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes:
+      - bodyType: 1
+        Name: Male
+      - bodyType: 2
+        Name: Female
+    SkinColours: []

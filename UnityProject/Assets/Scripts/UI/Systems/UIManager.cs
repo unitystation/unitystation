@@ -54,6 +54,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	[SerializeField] [Range(0.1f,10f)] private float PhoneZoomFactor = 1.6f;
 	public LobbyUIPlayerListController lobbyUIPlayerListController = null;
 
+	public SurgeryDialogue SurgeryDialogue;
+
 	public static bool PreventChatInput
 	{
 		get { return uiManager.preventChatInput; }
@@ -142,7 +144,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
-	
+
 	public static PlayerExaminationWindowUI PlayerExaminationWindow => Instance.playerExaminationWindow;
 
 	public static Hands Hands => Instance.hands;

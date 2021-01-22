@@ -14,8 +14,20 @@ TextureImporter:
   - first:
       213: 21300006
     second: m_moth_wings_atlas_FRONT_3
+  - first:
+      213: 2946014184497090444
+    second: wings_m_moth_wings_atlas_FRONT_0
+  - first:
+      213: -1437693838814782498
+    second: wings_m_moth_wings_atlas_FRONT_1
+  - first:
+      213: -4868045187577345432
+    second: wings_m_moth_wings_atlas_FRONT_3
+  - first:
+      213: -1552998715626315945
+    second: wings_m_moth_wings_atlas_FRONT_4
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -35,6 +47,7 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -69,6 +82,8 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -98,85 +113,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: m_moth_wings_atlas_FRONT_0
+      name: wings_m_moth_wings_atlas_FRONT_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 45
-        height: 34
+        y: 1
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: c8f063aca4852e820800000000000000
+      internalID: 2946014184497090444
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: m_moth_wings_atlas_FRONT_1
+      name: wings_m_moth_wings_atlas_FRONT_1
       rect:
         serializedVersion: 2
         x: 45
-        y: 0
-        width: 45
-        height: 34
+        y: 1
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: edb5da122194c0ce0800000000000000
+      internalID: -1437693838814782498
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: m_moth_wings_atlas_FRONT_2
+      name: wings_m_moth_wings_atlas_FRONT_3
       rect:
         serializedVersion: 2
         x: 90
-        y: 0
-        width: 45
-        height: 34
+        y: 1
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 86a07e3a1ba317cb0800000000000000
+      internalID: -4868045187577345432
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: m_moth_wings_atlas_FRONT_3
+      name: wings_m_moth_wings_atlas_FRONT_4
       rect:
         serializedVersion: 2
         x: 135
-        y: 0
-        width: 45
-        height: 34
+        y: 1
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: 75f947275e3a27ae0800000000000000
+      internalID: -1552998715626315945
       vertices: []
       indices: 
       edges: []

@@ -124,6 +124,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return Inventory.ServerAdd(InGameObject, slot);
 	}
 
+	public bool ServerTryTransferFrom(ItemSlot inSlot)
+	{
+		var Item = inSlot.Item.GetComponent<ItemAttributesV2>();
+		if (Item == null) return false;
+		var slot = GetBestSlotFor(inSlot.Item);
+		if (slot == null) return false;
+
+		return Inventory.ServerTransfer(inSlot, slot, ReplacementStrategy.Cancel);
+	}
+
 	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false)
 	{
 		var Item = InGameObject.GetComponent<ItemAttributesV2>();

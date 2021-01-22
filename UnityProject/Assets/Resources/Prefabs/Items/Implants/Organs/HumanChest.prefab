@@ -79,15 +79,80 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: OpenSurgerySteps.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: limbSpriteData.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: SurgeryProcedureBase.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].Time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].FailSelf
+      value: you FUCKed THE CUTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].FailOther
+      value: FUCKed THE CUTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].SuccessSelf
+      value: you CUT!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].SuccessOther
+      value: CUTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].RequiredTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c,
+        type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.size
