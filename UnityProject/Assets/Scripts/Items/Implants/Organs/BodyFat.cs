@@ -57,7 +57,7 @@ namespace HealthV2
 		{
 			base.ImplantPeriodicUpdate(healthMaster);
 			float NutrimentPercentage = (BloodContainer[Nutriment] / BloodContainer.ReagentMixTotal);
-			Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
+			// Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
 			if (NutrimentPercentage < ReleaseNutrimentAtPercent)
 			{
 				float ToRelease = ReleaseAmount;
@@ -68,7 +68,7 @@ namespace HealthV2
 
 				BloodContainer.CurrentReagentMix.Add(Nutriment, ToRelease);
 				AbsorbedAmount -= ToRelease;
-				Logger.Log("ToRelease >" + ToRelease);
+				// Logger.Log("ToRelease >" + ToRelease);
 			}
 			else if (NutrimentPercentage > AbsorbNutrimentAtPercent && AbsorbedAmount < MaxAmount)
 			{
@@ -80,16 +80,16 @@ namespace HealthV2
 
 				float Absorbing = BloodContainer.CurrentReagentMix.Remove(Nutriment, ToAbsorb);
 				AbsorbedAmount += Absorbing;
-				Logger.Log("Absorbing >" + Absorbing);
+				// Logger.Log("Absorbing >" + Absorbing);
 			}
 
-			Logger.Log("AbsorbedAmount >" + AbsorbedAmount);
+			// Logger.Log("AbsorbedAmount >" + AbsorbedAmount);
 			//TODOH Proby doesn't need to be updated so often
 			if (DebuffCutInPoint < AbsorbedAmount)
 			{
 				WasApplyingDebuff = true;
 				float DeBuffMultiplier = (AbsorbedAmount - DebuffCutInPoint) / (MaxAmount - DebuffCutInPoint);
-				Logger.Log("DeBuffMultiplier >" + DeBuffMultiplier);
+				// Logger.Log("DeBuffMultiplier >" + DeBuffMultiplier);
 				runSpeedDebuff = MaxRunSpeedDebuff * DeBuffMultiplier;
 				WalkingDebuff = MaxWalkingDebuff * DeBuffMultiplier;
 				CrawlDebuff = MaxCrawlDebuff * DeBuffMultiplier;

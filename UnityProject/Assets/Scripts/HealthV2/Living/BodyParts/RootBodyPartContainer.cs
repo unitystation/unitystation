@@ -128,6 +128,11 @@ namespace HealthV2
 			}
 		}
 
+		public virtual void RemoveSpecifiedFromThis(GameObject inOrgan)
+		{
+			storage.ServerTryRemove(inOrgan);
+		}
+
 		public void RemoveLimbs()
 		{
 			if (ItemStorage == null) ItemStorage = this.GetComponent<ItemStorage>();
@@ -191,7 +196,7 @@ namespace HealthV2
 			AttackType attackType, DamageType damageType)
 		{
 			Logger.Log("dmg  > " + damage + "attackType > " + attackType + " damageType > " + damageType);
-			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed iAddressableReference.cs:65)f we find a better solution for aiming at Specific body parts
+			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
 			if (attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
 				foreach (var ContainsLimb in ContainsLimbs)
