@@ -71,7 +71,10 @@ public enum KeyAction
 
 	PocketOne,
 	PocketTwo,
-	PocketThree
+	PocketThree,
+
+	//Interactions that only happen when this key is pressed
+	InteractionModifier
 }
 
 /// <summary>
@@ -346,10 +349,11 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.TargetRightArm, new KeybindMetadata("Target Right Arm", ActionType.Targeting)},
 		{ KeyAction.TargetLeftLeg,  new KeybindMetadata("Target Left Leg", ActionType.Targeting)},
 		{ KeyAction.TargetRightLeg, new KeybindMetadata("Target Right Leg", ActionType.Targeting)},
+		{ KeyAction.InteractionModifier, new KeybindMetadata("interaction modify", ActionType.Targeting)},
 
 		//Right click stuff
 		{ KeyAction.ShowAdminOptions, 	new KeybindMetadata("Show Admin Options", ActionType.RightClick)},
-		
+
 		// UI
 		// TODO: change ActionType
 		{ KeyAction.OpenBackpack, 	new KeybindMetadata("Open Backpack", ActionType.UI)},
@@ -358,7 +362,8 @@ public class KeybindManager : MonoBehaviour {
 
 		{ KeyAction.PocketOne, 		new KeybindMetadata("Open Pocket 1", ActionType.UI)},
 		{ KeyAction.PocketTwo, 		new KeybindMetadata("Open Pocket 2", ActionType.UI)},
-		{ KeyAction.PocketThree, 	new KeybindMetadata("Open Pocket 3", ActionType.UI)}
+		{ KeyAction.PocketThree, 	new KeybindMetadata("Open Pocket 3", ActionType.UI)},
+
 
 	};
 
@@ -412,9 +417,13 @@ public class KeybindManager : MonoBehaviour {
 		{KeyAction.OpenPDA, 		new DualKeyCombo(new KeyCombo(KeyCode.P), null)},
 		{KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)},
 
+
 		{KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1 ,KeyCode.LeftShift), null)},
 		{KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2 ,KeyCode.LeftShift), null)},
-		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)}
+		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)},
+
+		{KeyAction.InteractionModifier, 	new DualKeyCombo(new KeyCombo(KeyCode.LeftAlt), null)}
+
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 

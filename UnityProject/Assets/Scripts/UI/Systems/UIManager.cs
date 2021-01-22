@@ -56,6 +56,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	[SerializeField] [Range(0.1f,10f)] private float PhoneZoomFactor = 1.6f;
 	public LobbyUIPlayerListController lobbyUIPlayerListController = null;
 
+	public SurgeryDialogue SurgeryDialogue;
+
 	public static bool PreventChatInput
 	{
 		get { return uiManager.preventChatInput; }
