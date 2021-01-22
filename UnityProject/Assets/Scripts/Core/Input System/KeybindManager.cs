@@ -75,7 +75,11 @@ public enum KeyAction
 	PocketThree,
 
 	RadialScrollForward,
-	RadialScrollBackward
+	RadialScrollBackward,
+
+	//Interactions that only happen when this key is pressed
+	InteractionModifier
+
 }
 
 /// <summary>
@@ -351,6 +355,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.TargetRightArm, new KeybindMetadata("Target Right Arm", ActionType.Targeting)},
 		{ KeyAction.TargetLeftLeg,  new KeybindMetadata("Target Left Leg", ActionType.Targeting)},
 		{ KeyAction.TargetRightLeg, new KeybindMetadata("Target Right Leg", ActionType.Targeting)},
+		{ KeyAction.InteractionModifier, new KeybindMetadata("interaction modify", ActionType.Targeting)},
 
 		//Right click stuff
 		{ KeyAction.ShowAdminOptions, 	new KeybindMetadata("Show Admin Options", ActionType.RightClick)},
@@ -420,12 +425,15 @@ public class KeybindManager : MonoBehaviour {
 		{KeyAction.OpenPDA, 		new DualKeyCombo(new KeyCombo(KeyCode.P), null)},
 		{KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)},
 
+
 		{KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1 ,KeyCode.LeftShift), null)},
 		{KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2 ,KeyCode.LeftShift), null)},
 		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)},
 
 		{KeyAction.RadialScrollForward, new DualKeyCombo(new KeyCombo(KeyCode.E, KeyCode.LeftShift), null)},
-		{KeyAction.RadialScrollBackward, new DualKeyCombo(new KeyCombo(KeyCode.Q, KeyCode.LeftShift), null)}
+		{KeyAction.RadialScrollBackward, new DualKeyCombo(new KeyCombo(KeyCode.Q, KeyCode.LeftShift), null)},
+		{KeyAction.InteractionModifier, 	new DualKeyCombo(new KeyCombo(KeyCode.LeftAlt), null)}
+
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 
