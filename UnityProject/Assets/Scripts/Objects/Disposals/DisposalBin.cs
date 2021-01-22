@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using Mirror;
 using Systems.Disposals;
 using AddressableReferences;
+using Random = System.Random;
 
 namespace Objects.Disposals
 {
@@ -78,6 +80,12 @@ namespace Objects.Disposals
 		public int ChargePressure => chargePressure;
 		public bool BinCharged => chargePressure >= CHARGED_PRESSURE;
 		public bool ServerHasContents => virtualContainer != null ? virtualContainer.HasContents : false;
+
+		[Tooltip("The sound when throwing things in the bin.")] [SerializeField]
+		private List<AddressableAudioSource> trashDunkSounds = null;
+
+		[Tooltip("The sound when the item doesn't fall into the trash can.")] [SerializeField]
+		private AddressableAudioSource trashDunkMissSound = null;
 
 		#region Lifecycle
 
@@ -278,17 +286,42 @@ namespace Objects.Disposals
 
 		#endregion Interactions
 
-		private void StoreItem()
+		// gives the probability of an object falling into the bin. Yes, it's like basketball
+		public void OnFlyingObjectHit(GameObject obj)
+		{
+			var bin = gameObject;
+			if (DMMath.Prob(25))
+			{
+				Chat.AddLocalMsgToChat(obj.ExpensiveName() + " bounces off " + bin.ExpensiveName() + " and doesn't hit it.", bin);
+				SoundManager.PlayNetworkedAtPos(trashDunkMissSound, gameObject.WorldPosServer());
+				return;
+			}
+			Chat.AddLocalMsgToChat(obj.ExpensiveName() + " went straight into " + bin.ExpensiveName() + "!", bin);
+			StoreItem(obj);
+		}
+
+		private void StoreItem(GameObject obj)
 		{
 			if (virtualContainer == null)
 			{
 				virtualContainer = SpawnNewContainer();
 			}
 
-			Inventory.ServerDrop(currentInteraction.HandSlot, currentInteraction.TargetVector);
-			virtualContainer.AddItem(currentInteraction.HandObject.GetComponent<ObjectBehaviour>());
+			virtualContainer.AddItem(obj.GetComponent<ObjectBehaviour>());
+			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.WorldPosServer());
 
 			this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
+		}
+
+		private void StoreItem(ItemSlot handSlot, GameObject handObject, Vector2 targetVector2)
+		{
+			Inventory.ServerDrop(handSlot, targetVector2);
+			StoreItem(handObject);
+		}
+
+		private void StoreItem()
+		{
+			StoreItem(currentInteraction.HandSlot, currentInteraction.HandObject, currentInteraction.TargetVector);
 		}
 
 		// TODO This was copied from somewhere. Where?
