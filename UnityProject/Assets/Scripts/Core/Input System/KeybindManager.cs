@@ -38,6 +38,7 @@ public enum KeyAction
 	HandEquip,
 
 	// Intents
+	IntentSwap,
 	IntentLeft,
 	IntentRight,
 	IntentHelp,
@@ -331,6 +332,7 @@ public class KeybindManager : MonoBehaviour {
 		// Intents
 		{ KeyAction.IntentLeft,		new KeybindMetadata("Cycle Intent Left", ActionType.Intent)},
 		{ KeyAction.IntentRight, 	new KeybindMetadata("Cycle Intent Right", ActionType.Intent)},
+		{ KeyAction.IntentSwap, 	new KeybindMetadata("Toggle Help/Harm Intent", ActionType.Intent)},
 		{ KeyAction.IntentHelp, 	new KeybindMetadata("Help Intent", ActionType.Intent)},
 		{ KeyAction.IntentDisarm,	new KeybindMetadata("Disarm Intent", ActionType.Intent)},
 		{ KeyAction.IntentGrab, 	new KeybindMetadata("Grab Intent", ActionType.Intent)},
@@ -374,7 +376,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.MoveLeft, 		new DualKeyCombo(new KeyCombo(KeyCode.A), new KeyCombo(KeyCode.LeftArrow))},
 		{ KeyAction.MoveDown, 		new DualKeyCombo(new KeyCombo(KeyCode.S), new KeyCombo(KeyCode.DownArrow))},
 		{ KeyAction.MoveRight, 		new DualKeyCombo(new KeyCombo(KeyCode.D), new KeyCombo(KeyCode.RightArrow))},
-		{ KeyAction.ToggleWalkRun,   new DualKeyCombo(new KeyCombo(KeyCode.C), null)},
+		{ KeyAction.ToggleWalkRun,   new DualKeyCombo(new KeyCombo(KeyCode.Alpha5), null)},
 
 		// Actions
 		{ KeyAction.ActionThrow,	new DualKeyCombo(new KeyCombo(KeyCode.R),	new KeyCombo(KeyCode.End))},
@@ -390,6 +392,7 @@ public class KeybindManager : MonoBehaviour {
 		// Intents
 		{ KeyAction.IntentLeft,		new DualKeyCombo(new KeyCombo(KeyCode.F),		new KeyCombo(KeyCode.Insert))},
 		{ KeyAction.IntentRight, 	new DualKeyCombo(new KeyCombo(KeyCode.G),		new KeyCombo(KeyCode.Keypad0))},
+		{ KeyAction.IntentSwap, 	new DualKeyCombo(new KeyCombo(KeyCode.C), null)},
 		{ KeyAction.IntentHelp, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha1), null)},
 		{ KeyAction.IntentDisarm,	new DualKeyCombo(new KeyCombo(KeyCode.Alpha2), null)},
 		{ KeyAction.IntentGrab, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3), null)},
@@ -417,10 +420,9 @@ public class KeybindManager : MonoBehaviour {
 		{KeyAction.OpenPDA, 		new DualKeyCombo(new KeyCombo(KeyCode.P), null)},
 		{KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)},
 
-
-		{KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1 ,KeyCode.LeftShift), null)},
-		{KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2 ,KeyCode.LeftShift), null)},
-		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)},
+		{KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1), null)},
+		{KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2), null)},
+		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3), null)},
 
 		{KeyAction.InteractionModifier, 	new DualKeyCombo(new KeyCombo(KeyCode.LeftAlt), null)}
 

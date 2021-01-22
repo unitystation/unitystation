@@ -461,6 +461,18 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		}
 	}
 
+	public List<BodyPart> GetBodyPartsInZone( BodyPartType bodyPartAim)
+	{
+		foreach (var cntainers in RootBodyPartContainers)
+		{
+			if (cntainers.bodyPartType == bodyPartAim)
+			{
+				return new List<BodyPart>(cntainers.ContainsLimbs);
+			}
+		}
+		return new List<BodyPart>(0);
+	}
+
 	private void TryGibbing(float damage)
 	{
 		//idk
