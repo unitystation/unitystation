@@ -166,9 +166,9 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private void AddToChatLogClient(string message, ChatChannel channels)
+	private void AddToChatLogClient(string message, ChatChannel channels, bool isOriginator)
 	{
-		UpdateClientChat(message, channels);
+		UpdateClientChat(message, channels, isOriginator);
 	}
 
 	[Client]
@@ -188,7 +188,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private void UpdateClientChat(string message, ChatChannel channels)
+	private void UpdateClientChat(string message, ChatChannel channels, bool isOriginator)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -201,13 +201,10 @@ public class ChatRelay : NetworkBehaviour
 
 		if (channels != ChatChannel.None)
 		{
-			// TODO: remove hardcoded "You" check; chat bubbles should be on their own channel or similar - see issue #5775.
-
 			// replace action messages with chat bubble
 			if(channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) || channels.HasFlag(ChatChannel.Examine))
 			{
-				string cleanMessage = Regex.Replace(message, "<.*?>", string.Empty);
-				if(cleanMessage.StartsWith("You"))
+				if(isOriginator)
 				{
 					ChatBubbleManager.ShowAction(Regex.Replace(message, "<.*?>", string.Empty));
 					return;
