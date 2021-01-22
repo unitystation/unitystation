@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100804054715569759, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100804054715569759, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100804054715569759, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100804054715569759, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100804054715569759, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 100804054715569759, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100804054715569759, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
         type: 3}
@@ -80,19 +80,25 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 547249292177572937, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
         type: 3}
-      propertyPath: initialDescription
-      value: Closely related to carrots.
+      propertyPath: initialName
+      value: parsnip
       objectReference: {fileID: 0}
     - target: {fileID: 547249292177572937, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
         type: 3}
-      propertyPath: initialName
-      value: parsnip
+      propertyPath: initialDescription
+      value: Closely related to carrots.
       objectReference: {fileID: 0}
     - target: {fileID: 1827865371916543836, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
         type: 3}
       propertyPath: seedPacket
       value: 
       objectReference: {fileID: 1095886360091048086, guid: b627c8cce47c65e44bd56e8cc6736173,
+        type: 3}
+    - target: {fileID: 2349863726447401961, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
+        type: 3}
+      propertyPath: processedProduct
+      value: 
+      objectReference: {fileID: 1699194369077134056, guid: e53adf41e2cccad4bb687e3614e047ad,
         type: 3}
     - target: {fileID: 6067401855405346988, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
         type: 3}
