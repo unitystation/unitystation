@@ -191,6 +191,30 @@ namespace HealthV2
 		}
 
 
+		public virtual void AddBodyPart(GameObject IngameObject)
+		{
+			storage.ServerTryAdd(IngameObject);
+		}
+
+		public virtual void AddBodyPartSlot(ItemSlot ItemSlot)
+		{
+			storage.ServerTryTransferFrom(ItemSlot);
+		}
+
+		public virtual void RemoveFromBodyThis()
+		{
+			var parent = this.GetParent();
+			if (parent != null)
+			{
+				parent.RemoveSpecifiedFromThis(this.gameObject);
+			}
+		}
+
+		public virtual void RemoveSpecifiedFromThis(GameObject inOrgan)
+		{
+			storage.ServerTryRemove(inOrgan);
+		}
+
 		public virtual void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
 			if (ContainedIn != null)
@@ -274,6 +298,7 @@ namespace HealthV2
 				healthMaster.RemoveImplant(implant);
 				implant.RemovedFromBody(healthMaster);
 				implant.ContainedIn = null;
+				containBodyParts.Remove(implant);
 				//bodyPartSprites?.UpdateSpritesOnImplantRemoved(implant);
 			}
 		}
