@@ -425,13 +425,13 @@ public class KeybindManager : MonoBehaviour {
 		{KeyAction.OpenPDA, 		new DualKeyCombo(new KeyCombo(KeyCode.P), null)},
 		{KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)},
 
-
 		{KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1 ,KeyCode.LeftShift), null)},
 		{KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2 ,KeyCode.LeftShift), null)},
 		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)},
 
 		{KeyAction.RadialScrollForward, new DualKeyCombo(new KeyCombo(KeyCode.E, KeyCode.LeftShift), null)},
 		{KeyAction.RadialScrollBackward, new DualKeyCombo(new KeyCombo(KeyCode.Q, KeyCode.LeftShift), null)},
+
 		{KeyAction.InteractionModifier, 	new DualKeyCombo(new KeyCombo(KeyCode.LeftAlt), null)}
 
 	};
