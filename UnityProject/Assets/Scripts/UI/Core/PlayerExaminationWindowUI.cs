@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AdminCommands;
 using Assets.Scripts.Player;
 using UnityEngine;
 using UnityEngine.UI;
@@ -121,8 +122,24 @@ public class PlayerExaminationWindowUI : MonoBehaviour
 	/// </summary>
 	private void InteractWithOtherPlayersSlot(ItemSlot targetSlot)
 	{
-		var playerSlot = UIManager.Hands.CurrentSlot.ItemSlot;
-		OtherPlayerSlotTransferMessage.Send(playerSlot, targetSlot);
+		ItemSlot playerSlot;
+		var isGhost = PlayerManager.LocalPlayerScript.IsGhost;
+		if (isGhost)
+		{
+			if (PlayerList.Instance.IsClientAdmin)
+			{
+				playerSlot = AdminManager.Instance.LocalAdminGhostStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
+			}
+			else
+			{
+				return;
+			}
+		}
+		else
+		{
+			playerSlot = UIManager.Hands.CurrentSlot.ItemSlot;
+		}
+		OtherPlayerSlotTransferMessage.Send(playerSlot, targetSlot, isGhost);
 	}
 
 	/// <summary>

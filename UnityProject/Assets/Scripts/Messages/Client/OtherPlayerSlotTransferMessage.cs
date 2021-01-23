@@ -10,6 +10,7 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 	public uint TargetStorage;
 	public int TargetSlotIndex;
 	public NamedSlot TargetNamedSlot;
+	public bool IsGhost;
 
 	public override void Process()
 	{
@@ -23,7 +24,16 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 		var playerObject = playerScript.gameObject;
 		var targetObject = targetSlot.Player.gameObject;
 
-		if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server))
+		if (IsGhost)
+		{
+			if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.connectedPlayer.UserId))
+			{
+				FinishTransfer();
+			}
+			return;
+		}
+
+		if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server, IsGhost))
 			return;
 
 		int speed;
@@ -64,25 +74,25 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 		}
 	}
 
-	private static bool Validation(ItemSlot playerSlot, ItemSlot targetSlot, PlayerScript playerScript, GameObject target, NetworkSide networkSide)
+	private static bool Validation(ItemSlot playerSlot, ItemSlot targetSlot, PlayerScript playerScript, GameObject target, NetworkSide networkSide, bool isGhost)
 	{
 		if (!playerSlot.IsEmpty && targetSlot.IsEmpty)
 		{
-			if (!Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, targetSlot, playerSlot.Item, NetworkSide.Client, examineRecipient: PlayerManager.LocalPlayerScript.gameObject))
+			if(!Validations.CanFit(targetSlot, playerSlot.Item, NetworkSide.Client, examineRecipient: PlayerManager.LocalPlayerScript.gameObject))
 			{
 				return false;
 			}
 		}
-		if (!Validations.CanApply(playerScript, target, networkSide))
+		if (!isGhost && !Validations.CanApply(playerScript, target, networkSide))
 		{
 			return false;
 		}
 		return true;
 	}
 
-	public static void Send(ItemSlot playerSlot, ItemSlot targetSlot)
+	public static void Send(ItemSlot playerSlot, ItemSlot targetSlot, bool isGhost)
 	{
-		if (!Validation(playerSlot, targetSlot, PlayerManager.LocalPlayerScript, targetSlot.Player.gameObject, NetworkSide.Client))
+		if (!Validation(playerSlot, targetSlot, PlayerManager.LocalPlayerScript, targetSlot.Player.gameObject, NetworkSide.Client, isGhost))
 			return;
 
 		OtherPlayerSlotTransferMessage msg = new OtherPlayerSlotTransferMessage
@@ -92,7 +102,8 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 			PlayerNamedSlot = playerSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
 			TargetStorage = targetSlot.ItemStorageNetID,
 			TargetSlotIndex = targetSlot.SlotIdentifier.SlotIndex,
-			TargetNamedSlot = targetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
+			TargetNamedSlot = targetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
+			IsGhost = isGhost
 		};
 		msg.Send();
 	}

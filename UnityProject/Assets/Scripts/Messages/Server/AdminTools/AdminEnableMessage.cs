@@ -9,9 +9,11 @@ using UnityEngine;
 public class AdminEnableMessage : ServerMessage
 {
 	public string AdminToken;
-
+	public uint AdminGhostStorage;
 	public override void Process()
 	{
+		LoadNetworkObject(AdminGhostStorage);
+		AdminManager.Instance.LocalAdminGhostStorage = NetworkObject.GetComponent<ItemStorage>();
 		PlayerList.Instance.SetClientAsAdmin(AdminToken);
 		UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(true);
 		UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
@@ -20,7 +22,12 @@ public class AdminEnableMessage : ServerMessage
 	public static AdminEnableMessage Send(NetworkConnection player, string adminToken)
 	{
 		UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player);
-		AdminEnableMessage msg = new AdminEnableMessage {AdminToken = adminToken};
+		var adminGhostItemStorage = AdminManager.Instance.CreateItemSlotStorage();
+		AdminEnableMessage msg = new AdminEnableMessage
+		{
+			AdminToken = adminToken,
+			AdminGhostStorage = adminGhostItemStorage.GetComponent<NetworkIdentity>().netId
+		};
 
 		msg.SendTo(player);
 
