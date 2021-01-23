@@ -35,10 +35,4 @@ public class AdminManager : MonoBehaviour
 		return itemStorage;
 	}
 
-	public void SetLocalAdminGhostStorage()
-	{
-
-	}
-
-
 }
