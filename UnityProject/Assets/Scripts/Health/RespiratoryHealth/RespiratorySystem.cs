@@ -164,6 +164,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			plasmaDamage = (plasmaPressure - PLASMA_SAFE_MAX) / 5;
 
 			if ((bloodSystem.ToxinLevel += plasmaDamage) <= 100) bloodSystem.ToxinLevel += plasmaDamage;
+			else bloodSystem.ToxinLevel = 100;
 
 			if (Random.value < 0.1)
 			{
