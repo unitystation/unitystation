@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text;
+using Systems;
 using Items.PDA;
 using Objects.Security;
-using Systems;
 using UnityEngine;
 
-namespace Assets.Scripts.Player
+namespace Player
 {
 	public class ExaminablePlayer : MonoBehaviour, IExaminable
 	{
@@ -30,7 +29,7 @@ namespace Assets.Scripts.Player
 		/// Check if player is wearing a mask
 		/// </summary>
 		/// <returns>true if player don't wear mask</returns>
-		private bool isFaceVisible => script.ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty;
+		private bool IsFaceVisible => script.ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty;
 
 		[Tooltip("Slots from which other players can read ID card data")]
 		[SerializeField]
@@ -53,19 +52,21 @@ namespace Assets.Scripts.Player
 		/// <summary>
 		/// Try to find security record by player ID
 		/// </summary>
-		/// <param name="ID">player ID</param>
+		/// <param name="id">player ID</param>
 		/// <param name="securityRecord">player security record if found</param>
 		/// <returns>true if security record exists for provided ID</returns>
-		private bool TryFindPlayerSecurityRecord(string ID, out SecurityRecord securityRecord)
+		private bool TryFindPlayerSecurityRecord(string id, out SecurityRecord securityRecord)
 		{
-			List<SecurityRecord> records = CrewManifestManager.Instance.SecurityRecords;
+			var records = CrewManifestManager.Instance.SecurityRecords;
 			foreach (var record in records)
 			{
-				if (record.characterSettings.Name.Equals(ID))
+				if (record.characterSettings.Name.Equals(id) == false)
 				{
-					securityRecord = record;
-					return true;
+					continue;
 				}
+
+				securityRecord = record;
+				return true;
 			}
 
 			securityRecord = null;
@@ -81,64 +82,61 @@ namespace Assets.Scripts.Player
 		{
 			foreach (var slot in readableIDslots)
 			{
-				ItemSlot itemSlot = script.ItemStorage.GetNamedItemSlot(slot);
-				if (itemSlot.IsOccupied)
+				var itemSlot = script.ItemStorage.GetNamedItemSlot(slot);
+				if (itemSlot.IsOccupied == false)
 				{
-					// if item is ID card
-					if (itemSlot.ItemObject.TryGetComponent<IDCard>(out idCard))
-						return true;
-
-					// if item is PDA and IDCard is not null
-					if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out PDALogic pdaLogic) && pdaLogic.IDCard != null)
-					{
-						idCard = pdaLogic.IDCard;
-						return true;
-					}
+					continue;
 				}
+				// if item is ID card
+				if (itemSlot.ItemObject.TryGetComponent(out idCard))
+				{
+					return true;
+				}
+
+				// if item is PDA and IDCard is not null
+				if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out var pdaLogic) == false ||
+				    pdaLogic.IDCard == null)
+				{
+					continue;
+				}
+
+				idCard = pdaLogic.IDCard;
+				return true;
 			}
 
 			idCard = null;
 			return false;
 		}
 
-		/// <summary>
-		/// This is just a simple initial implementation of IExaminable to health;
-		/// can potentially be extended to return more details and let the server
-		/// figure out what to pass to the client, based on many parameters such as
-		/// role, medical skill (if they get implemented), equipped medical scanners,
-		/// etc. In principle takes care of building the string from start to finish,
-		/// so logic generating examine text can be completely separate from examine
-		/// request or netmessage processing.
-		/// </summary>
-		public string Examine(Vector3 worldPos = default)
+		public void Examine(GameObject sentByPlayer)
 		{
-			return $"This is <b>{VisibleName}</b>.\n" +
-					$"{Equipment.Examine()}" +
-					$"<color={LILAC_COLOR}>{Health.GetExamineText()}</color>";
-		}
-
-		public void Examine(GameObject SentByPlayer)
-		{
-			// if player is not inspecting self and distance is not too big
-			if (SentByPlayer != gameObject && Vector3.Distance(SentByPlayer.WorldPosServer(), gameObject.WorldPosServer()) <= maxInteractionDistance)
+			// if distance is too big or is self-examination, send normal examine message
+			if (Vector3.Distance(sentByPlayer.WorldPosServer(), gameObject.WorldPosServer()) >= maxInteractionDistance
+			    || sentByPlayer == gameObject)
 			{
-				// start itemslot observation
-				interactableStorage.ItemStorage.ServerAddObserverPlayer(SentByPlayer);
-				// send message to enable examination window
-				PlayerExaminationMessage.Send(SentByPlayer, this, true);
-
-				//stop observing when target player is too far away
-				var relationship = RangeRelationship.Between(
-					SentByPlayer,
-					gameObject,
-					maxInteractionDistance,
-					ServerOnObservationEndedd
-				);
-				SpatialRelationship.ServerActivate(relationship);
+				Chat.AddExamineMsg(sentByPlayer,
+					$"This is <b>{VisibleName}</b>.\n" +
+					$"{Equipment.Examine()}" +
+					$"<color={LILAC_COLOR}>{Health.GetExamineText()}</color>");
+				return;
 			}
+
+			// start itemslot observation
+			interactableStorage.ItemStorage.ServerAddObserverPlayer(sentByPlayer);
+			// send message to enable examination window
+			PlayerExaminationMessage.Send(sentByPlayer, this, true);
+
+			//stop observing when target player is too far away
+			var relationship = RangeRelationship.Between(
+				sentByPlayer,
+				gameObject,
+				maxInteractionDistance,
+				ServerOnObservationEnded
+			);
+			SpatialRelationship.ServerActivate(relationship);
 		}
 
-		private void ServerOnObservationEndedd(RangeRelationship cancelled)
+		private void ServerOnObservationEnded(RangeRelationship cancelled)
 		{
 			// stop observing item storage
 			interactableStorage.ItemStorage.ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
@@ -149,25 +147,28 @@ namespace Assets.Scripts.Player
 		public string GetPlayerNameString()
 		{
 			// first try to get name from id
-			if (TryFindIDCard(out IDCard idCard))
-				return idCard.RegisteredName;
-
 			// if can't get name from id get visible name
-			return VisibleName;
+			return TryFindIDCard(out var idCard) ? idCard.RegisteredName : VisibleName;
 		}
 
 		public string GetPlayerSpeciesString()
 		{
 			// if face is visible - get species by face
-			if (isFaceVisible)
+			if (IsFaceVisible)
 				// TODO: get player species
-				return "HUMAN";
-			// else - try get species from security records
-			else if (TryFindIDCard(out IDCard idCard))
 			{
-				string ID = idCard.RegisteredName;
-				if (TryFindPlayerSecurityRecord(ID, out SecurityRecord securityRecord))
+				return "HUMAN";
+			}
+
+			//  try get species from security records
+			if (TryFindIDCard(out var idCard))
+			{
+				string id = idCard.RegisteredName;
+
+				if (TryFindPlayerSecurityRecord(id, out var securityRecord))
+				{
 					return securityRecord.Species;
+				}
 			}
 
 			return UNKNOWN_VALUE;
@@ -176,15 +177,19 @@ namespace Assets.Scripts.Player
 		public string GetPlayerJobString()
 		{
 			// search for ID identity
-			if (TryFindIDCard(out IDCard idCard))
+			if (TryFindIDCard(out var idCard))
+			{
 				return idCard.JobType.ToString();
+			}
 
 			// search for face identity
-			if (isFaceVisible)
+			if (IsFaceVisible)
 			{
-				string ID = script.characterSettings.Name;
-				if (TryFindPlayerSecurityRecord(ID, out SecurityRecord securityRecord))
+				string id = script.characterSettings.Name;
+				if (TryFindPlayerSecurityRecord(id, out var securityRecord))
+				{
 					return securityRecord.Occupation.JobType.ToString();
+				}
 			}
 
 			return UNKNOWN_VALUE;
@@ -192,23 +197,30 @@ namespace Assets.Scripts.Player
 
 		public string GetPlayerStatusString()
 		{
-			// TODO: GetPlayerStatusString
-			return "TODO";
+			return Health.GetShortStatus();
 		}
 
 		/// <summary>
-		/// Get list of informations divided by ';'
+		/// Extra information to be presented on the extended examine view
 		/// </summary>
-		public string GetAdditionalInformations()
+		public string GetAdditionalInformation()
 		{
-			string result = "";
 
-			// '\n' is used to divide sentence to lines
-			if (isFaceVisible)
-				result += "face is visible\n";
+			var result = new StringBuilder();
 
-			return result;
+			if (IsFaceVisible)
+			{
+				result.Append("Face is visible.\n");
+			}
+
+			result.Append(Health.GetWoundsDescription());
+
+			return result.ToString();
 		}
 
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return string.Empty;
+		}
 	}
 }
