@@ -15,6 +15,8 @@ namespace UI.Core.RightClick
 		[Range(90, 180)]
 		[SerializeField]
 		private float angle = default;
+		
+		private Camera mainCamera;
 
 		private Vector3 menuPosition;
 
@@ -23,10 +25,21 @@ namespace UI.Core.RightClick
 			get => Origin.localPosition - Vector3.Scale(-CurrentQuadrant, menuPosition);
 			private set => menuPosition = value;
 		}
+		
+		private Camera Camera
+		{
+			get
+			{
+				if (mainCamera == null)
+				{
+					mainCamera = Camera.main;
+				}
+
+				return mainCamera;
+			}
+		}
 
 		public bool FollowWorldPosition { get; private set; }
-
-		private Camera Camera { get; set; }
 
 		public Vector3 WorldPosition { get; private set; }
 
@@ -41,7 +54,6 @@ namespace UI.Core.RightClick
 		public void Awake()
 		{
 			Origin = GetComponent<RectTransform>();
-			Camera = Camera.main;
 		}
 
 		/// <summary>
