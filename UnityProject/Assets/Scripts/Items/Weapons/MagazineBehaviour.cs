@@ -47,10 +47,10 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	public int ProjectilesFired = 1;
 
 	[NonSerialized]
-	public List<int> containedProjectilesFired = new List<int>();
+	public List<int> containedProjectilesFired;
 
 	[NonSerialized]
-	public List<GameObject> containedBullets = new List<GameObject>();
+	public List<GameObject> containedBullets;
 	public AmmoType ammoType; //SET IT IN INSPECTOR
 	public int magazineSize = 20;
 
@@ -88,10 +88,10 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		SetupRNG();
 	}
 
-	public void InitLists()
+	public virtual void InitLists()
 	{
-		containedBullets.Clear();
-		containedProjectilesFired.Clear();
+		containedProjectilesFired  = new List<int>(magazineSize);
+		containedBullets  = new List<GameObject>(magazineSize);
 		for (int i = magazineSize; i != 0; i--)
 		{
 			containedBullets.Add(initalProjectile);

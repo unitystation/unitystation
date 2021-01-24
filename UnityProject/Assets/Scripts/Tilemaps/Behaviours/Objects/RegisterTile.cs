@@ -287,8 +287,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//cancel all relationships
 		if (sameMatrixRelationships != null)
 		{
-			foreach (var relationship in sameMatrixRelationships)
+			for (int i = sameMatrixRelationships.Count-1; i >= 0; i--)
 			{
+				var relationship = sameMatrixRelationships[i];
 				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.",
 					Category.SpatialRelationship, relationship, this);
 				SpatialRelationship.ServerEnd(relationship);
@@ -297,8 +298,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		if (crossMatrixRelationships != null)
 		{
-			foreach (var relationship in crossMatrixRelationships)
+			for (int i = crossMatrixRelationships.Count - 1; i >= 0; i--)
 			{
+				var relationship = crossMatrixRelationships[i];
 				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.",
 					Category.SpatialRelationship, relationship, this);
 				SpatialRelationship.ServerEnd(relationship);

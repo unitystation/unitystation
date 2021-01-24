@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Player;
+using Player;
 using UnityEngine;
 
 public class PlayerExaminationMessage : ServerMessage
@@ -11,11 +11,11 @@ public class PlayerExaminationMessage : ServerMessage
 	public string Status;
 
 	/// <summary>
-	/// List of informations divided by ';'
+	/// Extra information to be displayed on the extended examination view
 	/// </summary>
-	public string AdditionalInformations;
+	public string AdditionalInformation;
 	public uint ItemStorage;
-	
+
 	public bool Observed;
 
 	public override void Process()
@@ -31,7 +31,7 @@ public class PlayerExaminationMessage : ServerMessage
 
 		var itemStorage = storageObject.GetComponent<ItemStorage>();
 		if(Observed)
-			UIManager.PlayerExaminationWindow.ExaminePlayer(itemStorage, VisibleName, Species, Job, Status, AdditionalInformations);
+			UIManager.PlayerExaminationWindow.ExaminePlayer(itemStorage, VisibleName, Species, Job, Status, AdditionalInformation);
 		else
 			UIManager.PlayerExaminationWindow.CloseWindow();
 	}
@@ -48,7 +48,7 @@ public class PlayerExaminationMessage : ServerMessage
 			Species = species,
 			Job = job,
 			Status = status,
-			AdditionalInformations = additionalInformations,
+			AdditionalInformation = additionalInformations,
 			Observed = observed
 		};
 
@@ -64,7 +64,7 @@ public class PlayerExaminationMessage : ServerMessage
 			Species = examinablePlayer.GetPlayerSpeciesString(),
 			Job = examinablePlayer.GetPlayerJobString(),
 			Status = examinablePlayer.GetPlayerStatusString(),
-			AdditionalInformations = examinablePlayer.GetAdditionalInformations(),
+			AdditionalInformation = examinablePlayer.GetAdditionalInformation(),
 			Observed = observed
 		};
 

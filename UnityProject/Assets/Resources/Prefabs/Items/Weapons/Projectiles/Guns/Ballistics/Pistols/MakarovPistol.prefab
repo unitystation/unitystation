@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: a6e19c7d6afcff246ae8a9c2c153b150, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -200,6 +201,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: f60c935ac9adc0046ae9bc0816e0a51f, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -304,6 +306,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: 448986a71cd816d4694be87d6fb2703c, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -317,20 +320,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: ammoType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
       propertyPath: FireRate
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 8399202269906357691, guid: 678d8623073f29f4cb23d4cb26359cd4,
-        type: 3}
+      propertyPath: ammoType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: Projectile
@@ -339,8 +336,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 8399202269906357691, guid: 678d8623073f29f4cb23d4cb26359cd4,
+        type: 3}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: isSuppressible
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: DryFireSound.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/Pistol/PistolDryFire.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -351,11 +359,6 @@ PrefabInstance:
         type: 3}
       propertyPath: SuppressedSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/Pistol/PistolShotSuppressed.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: DryFireSound.AssetAddress
-      value: Assets/Prefabs/Weapons/Gun/Pistol/PistolDryFire.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 4729653154424643162, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -375,6 +378,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -387,6 +395,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -405,16 +418,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -430,16 +433,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: initialDescription
-      value: A small, easily concealable 9mm handgun. Has a threaded barrel for suppressors.
-      objectReference: {fileID: 0}
-    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
       propertyPath: initialName
       value: Makarov pistol
       objectReference: {fileID: 0}
@@ -450,15 +443,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: initialTraits.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9de8996f385ec584399d6aa64bc676b3,
-        type: 2}
+      propertyPath: initialDescription
+      value: A small, easily concealable 9mm handgun. Has a threaded barrel for suppressors.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 142ee55c20971b54689d887a12602774,
+        type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9de8996f385ec584399d6aa64bc676b3,
         type: 2}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}

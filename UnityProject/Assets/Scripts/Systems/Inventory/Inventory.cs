@@ -531,7 +531,7 @@ public static class Inventory
 		}
 
 		//send the actual message.
-		RequestInventoryTransferMessage._Send(from, to);
+		RequestInventoryTransferMessage.Send(from, to);
 	}
 
 	/// <summary>

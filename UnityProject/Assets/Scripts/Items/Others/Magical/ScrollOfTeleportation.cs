@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Mirror;
+using Systems.Spawns;
 using Systems.Spells.Wizard;
 using ScriptableObjects.Systems.Spells;
 
@@ -38,7 +38,7 @@ namespace Items.Scrolls.TeleportScroll
 				return;
 			}
 
-			Transform spawnTransform = PlayerSpawn.GetSpawnForJob((JobType)destination);
+			Transform spawnTransform = SpawnPoint.GetRandomPointForJob((JobType)destination);
 			teleport.ServerTeleportWizard(teleportingPlayer.GameObject, spawnTransform.position.CutToInt());
 
 			SpellData teleportSpell = SpellList.Instance.Spells.Find(spell => spell.Name == "Teleport");

@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Mirror;
 
 /// <summary>
-/// Message that allows the server to broadcast an event to the client
+/// Message that allows the server to broadcast an event to clients.
 /// </summary>
 public class TriggerEventMessage : ServerMessage
 {
@@ -11,25 +10,36 @@ public class TriggerEventMessage : ServerMessage
 
 	public override void Process()
 	{
-		TriggerEvent();
-	}
-
-	/// Raise the specified event
-	private void TriggerEvent()
-	{
 		EventManager.Broadcast(EventType);
 	}
+
 	/// <summary>
-	/// Sends the event message to the player.
+	/// Send the event message to a specific player.
 	/// </summary>
-	/// <param name="recipient"></param>
-	/// <param name="eventType"></param>
-	/// <returns></returns>
-	public static TriggerEventMessage Send(GameObject recipient, EVENT eventType)
+	public static TriggerEventMessage SendTo(GameObject recipient, EVENT eventType)
 	{
-		TriggerEventMessage msg = new TriggerEventMessage();
-		msg.EventType = eventType;
+		var msg = CreateMessage(eventType);
+
 		msg.SendTo(recipient);
 		return msg;
+	}
+
+	/// <summary>
+	/// Send the event message to all players.
+	/// </summary>
+	public static TriggerEventMessage SendToAll(EVENT eventType)
+	{
+		var msg = CreateMessage(eventType);
+
+		msg.SendToAll();
+		return msg;
+	}
+
+	private static TriggerEventMessage CreateMessage(EVENT eventType)
+	{
+		return new TriggerEventMessage
+		{
+			EventType = eventType,
+		};
 	}
 }

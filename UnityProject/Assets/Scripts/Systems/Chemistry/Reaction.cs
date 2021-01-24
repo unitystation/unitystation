@@ -48,7 +48,7 @@ namespace Chemistry
 			}
 
 			if (!catalysts.All(catalyst =>
-				reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
+				reagentMix[catalyst.Key] >= catalyst.Value * reactionAmount))
 			{
 				return false;
 			}

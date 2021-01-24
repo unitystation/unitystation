@@ -11,6 +11,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	public const float interactionDistance = 1.5f;
 
 	public Mind mind;
+	public ConnectedPlayer connectedPlayer;
 
 	/// <summary>
 	/// Current character settings for this player.
@@ -105,7 +106,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			UIManager.Internals.SetupListeners();
 			UIManager.Instance.panelHudBottomController.SetupListeners();
 		}
-		
+
 		isUpdateRTT = true;
 	}
 
@@ -226,15 +227,16 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			UIManager.ResetAllUI();
 			GetComponent<MouseInputController>().enabled = true;
 
-			if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
+			if (!UIManager.Instance.statsTab.window.activeInHierarchy)
 			{
-				UIManager.Instance.playerListUIControl.window.SetActive(true);
+				UIManager.Instance.statsTab.window.SetActive(true);
 			}
 
 			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
 
 			if (IsGhost && !IsPlayerSemiGhost)
 			{
+				UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
 				//stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
@@ -246,7 +248,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			}
 			else if(!IsPlayerSemiGhost)
 			{
-				UIManager.LinkUISlots();
+				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
 				//play the spawn sound
 				SoundAmbientManager.PlayAudio("ambigen8");
 				//Hide ghosts
