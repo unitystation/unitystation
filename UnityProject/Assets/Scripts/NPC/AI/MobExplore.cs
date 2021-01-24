@@ -54,6 +54,7 @@ namespace Systems.MobAIs
 		// Position at which an action is performed
 		protected Vector3Int actionPosition;
 
+		public bool isEmagged = false;
 		private InteractableTiles interactableTiles {
 			get {
 				if (_interactableTiles == null)
@@ -133,23 +134,28 @@ namespace Systems.MobAIs
 
 		private bool IsTargetFound(Vector3Int checkPos)
 		{
-			switch (target)
-			{
-				case Target.food:
-					if (hasFoodPrefereces)
-						return registerObj.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
-					return registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null;
-				case Target.dirtyFloor:
-					return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
-				case Target.missingFloor:
-					// Checks the topmost tile if its the base layer (below the floor)
-					return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base;
-				case Target.injuredPeople:
-					return false;
-				// this includes ghosts!
-				case Target.players:
-					return registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
-			}
+				switch (target)
+				{
+					case Target.food:
+						if (hasFoodPrefereces)
+							return registerObj.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
+						return registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null;
+					case Target.dirtyFloor:
+					if (!isEmagged)
+						return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
+						else return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable) || !registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any());
+
+					case Target.missingFloor:
+						if (!isEmagged) return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Underfloor); // Checks the topmost tile if its the base or underfloor layer (below the floor)
+						else return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors;
+
+
+					case Target.injuredPeople:
+						return false;
+					// this includes ghosts!
+					case Target.players:
+						return registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
+				}
 			return false;
 		}
 
@@ -232,7 +238,9 @@ namespace Systems.MobAIs
 					matrixInfo.MetaDataLayer.Clean(worldPos, checkPos, false);
 					break;
 				case Target.missingFloor:
-					interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
+					if (!isEmagged) interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
+					else interactableTiles.TileChangeManager.RemoveTile(checkPos, LayerType.Floors, true);
+
 					break;
 				case Target.injuredPeople:
 					break;
