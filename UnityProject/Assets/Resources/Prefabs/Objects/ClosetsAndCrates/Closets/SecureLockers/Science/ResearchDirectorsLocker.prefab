@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8241659725597047630
+--- !u!1001 &8230171508652046730
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,20 +10,25 @@ PrefabInstance:
     - target: {fileID: -8391079196718515038, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: restriction
-      value: 0
+      value: 62
       objectReference: {fileID: 0}
-    - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: initialContents
-      value: 
-      objectReference: {fileID: 11400000, guid: 7ec4583be1e02b24cb00df638d76b5d0,
-        type: 2}
     - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: 21300000, guid: 746f8347d7fb9b14ebc1903b16df2a2f,
+      objectReference: {fileID: 21300000, guid: 5c4cd14e550602642a03da4922d5c245,
         type: 3}
+    - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: initialContents
+      value: 
+      objectReference: {fileID: 11400000, guid: 24c5548bd6bcc544bad7768190ebe44d,
+        type: 2}
+    - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
@@ -82,72 +82,69 @@ PrefabInstance:
     - target: {fileID: 684083229040743669, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Name
-      value: Closet_Locker_Fire_Yellow
+      value: ResearchDirectorsLocker
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 639820a8628540c478d0ea4a47b69f82,
+      objectReference: {fileID: 21300000, guid: b2b3de450d44a3d42a9f58cfb24ae228,
         type: 3}
     - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686299411022228870, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686299411022228870, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686299411022228870, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2705355635485535387, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8b76c45d3bec35a4fab797a62b01c933,
+      objectReference: {fileID: 21300000, guid: a50cfe2fcf413a4478513531ab9bc470,
         type: 3}
     - target: {fileID: 4630238151158220691, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f6a6c5126a3aab044ab757c2266febb0,
+      objectReference: {fileID: 21300000, guid: 16ace8852503bb749a657df52c410b00,
         type: 3}
     - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 2f5e096d3f3b5dd459b0bc694138bcae,
+      objectReference: {fileID: 11400000, guid: 63c6c319bda37e847a5c1fae17b3891a,
+        type: 2}
+    - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 63c6c319bda37e847a5c1fae17b3891a,
+        type: 2}
+    - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3418aebe671d7bf44b8ff274d40d250d,
         type: 2}
     - target: {fileID: 6240388854490930091, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: f5629432f69cf5c46b1bac644eef7507,
+      objectReference: {fileID: 11400000, guid: ed1fe5f593403e049a937fca626b7f3a,
         type: 2}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: initialName
-      value: engineering fire locker
+      value: research director's locker
       objectReference: {fileID: 0}
     - target: {fileID: 8260176341816705930, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}

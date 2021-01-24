@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &4259723647515189671
+--- !u!1001 &7089342666559146999
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,20 +10,25 @@ PrefabInstance:
     - target: {fileID: -8391079196718515038, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: restriction
-      value: 68
+      value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: initialContents
-      value: 
-      objectReference: {fileID: 11400000, guid: 90a867d7513ab774a9929fb7ea442d16,
-        type: 2}
     - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: 21300000, guid: d0f206c5abe8d854c99c942b140d4724,
+      objectReference: {fileID: 21300000, guid: 6c2f28eca2f83ec4b87ab723551094b8,
         type: 3}
+    - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: initialContents
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d06af9c5afa2c4418e7db9bfd5ffaea,
+        type: 2}
+    - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
@@ -82,18 +82,7 @@ PrefabInstance:
     - target: {fileID: 684083229040743669, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Name
-      value: Closet_Locker_Security_Prisoner
-      objectReference: {fileID: 0}
-    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9b87f63fcfd765246a10a302dfdf7454,
-        type: 3}
-    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
+      value: AtmosphericTechniciansLocker
       objectReference: {fileID: 0}
     - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
@@ -105,39 +94,57 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: adaf6923ced8d1d4eb94f6ff447657a1,
+        type: 3}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2705355635485535387, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: be9e8543bd4023044a902468be85745c,
+      objectReference: {fileID: 21300000, guid: 792ba051197ce294ab42bfd85a55cfaf,
         type: 3}
     - target: {fileID: 4630238151158220691, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8dd967fcb93b49440bebffd0ef2a2265,
+      objectReference: {fileID: 21300000, guid: 0ec140a6110861540966dd80c954d5f1,
         type: 3}
     - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 2ee73c7b8c9b5624e9fa3c14531aec0d,
+      objectReference: {fileID: 11400000, guid: 7faa616e1d53e724f86a2dc3e9a0c016,
+        type: 2}
+    - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7faa616e1d53e724f86a2dc3e9a0c016,
+        type: 2}
+    - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 629618f6c3b11ae458c71e3070ce7b36,
         type: 2}
     - target: {fileID: 6240388854490930091, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: f2ef0f2c6d352e540bc1179264bd1c79,
+      objectReference: {fileID: 11400000, guid: 18d8d53b8a64ef446bb375bf10004b58,
         type: 2}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: initialName
-      value: brig locker
-      objectReference: {fileID: 0}
-    - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
-        type: 3}
-      propertyPath: initialDescription
-      value: It's a card-locked storage unit. Used to store a prisoner's belongings.
+      value: atmospheric technician's locker
       objectReference: {fileID: 0}
     - target: {fileID: 8260176341816705930, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
