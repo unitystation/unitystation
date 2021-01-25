@@ -99,8 +99,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 2eb2447d130efe249a31999049d66d10, type: 2}
   - {fileID: 11400000, guid: 5fa94bf72f1f35b4ba953a9c950dd146, type: 2}
-  - {fileID: 11400000, guid: 0755a74700d5b3a4ebf817369ab29d01, type: 2}
   - {fileID: 11400000, guid: 685ad63ad497a884091a906925a2e525, type: 2}
+  - {fileID: 11400000, guid: 0755a74700d5b3a4ebf817369ab29d01, type: 2}
   - {fileID: 11400000, guid: ecb8e57d160749b4d96a1a9b89bfead5, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 0755a74700d5b3a4ebf817369ab29d01, type: 2}
   randomInitialSprite: 0
@@ -216,6 +216,7 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   lockLight: {fileID: 0}
   IsLockable: 0
+  hideLockWhenOpened: 1
   playerLimit: 1
   breakoutTime: 120
   matsOnDestroy: {fileID: 0}
