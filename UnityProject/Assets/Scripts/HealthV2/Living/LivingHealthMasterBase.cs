@@ -262,6 +262,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		}
 
 		CalculateOverallHealth();
+		//CalculateRadiationDamage();
 	}
 
 
@@ -493,7 +494,35 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		}
 		return Stomachs;
 	}
-
+	/// <summary>
+	/// Radiation damage Calculations
+	/// </summary>
+	//[Server]
+	// public void CalculateRadiationDamage()
+	// {
+	// 	var RadLevel = (registerTile.Matrix.GetRadiationLevel(registerTile.LocalPosition) * (tickRate / 5f) / 6);
+	// 	var Chest = BodyParts.First(part => part.Type == BodyPartType.Chest);
+	// 	RadiationStacks += Chest.armor.GetDamage(RadLevel, AttackType.Rad);
+	//
+	// 	var ProcessingRadiation = RadiationStacks * 0.001f;
+	// 	if (ProcessingRadiation < 20 && ProcessingRadiation > 0.5f)
+	// 	{
+	// 		ProcessingRadiation = 20;
+	// 	}
+	//
+	// 	RadiationStacks -= ProcessingRadiation;
+	// 	bloodSystem.ToxinLevel +=  ProcessingRadiation * 0.05f;
+	//
+	// 	//Natural healing
+	// 	//Problems should be in the metabolic system
+	// 	//but thats on players only
+	// 	bloodSystem.ToxinLevel -= 0.01f;
+	//
+	// 	if (RadiationStacks < 0)
+	// 	{
+	// 		RadiationStacks = 0;
+	// 	}
+	// }
 
 	/// <summary>
 	///  Apply healing to a living thing. Server Only
