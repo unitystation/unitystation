@@ -200,7 +200,8 @@ namespace Player
 
 		public string GetPlayerStatusString()
 		{
-			return Health.GetShortStatus();
+			return "";
+			//return Health.GetShortStatus();
 		}
 
 		/// <summary>
@@ -216,7 +217,7 @@ namespace Player
 				result.Append("Face is visible.\n");
 			}
 
-			result.Append(Health.GetWoundsDescription());
+			// result.Append(Health.GetWoundsDescription());
 
 			return result.ToString();
 		}
