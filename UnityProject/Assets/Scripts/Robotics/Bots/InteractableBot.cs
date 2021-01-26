@@ -3,52 +3,56 @@ using UnityEngine;
 using Mirror;
 using Systems.MobAIs;
 
-public class InteractableBot : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
+namespace Robotics
 {
-	HandApply interaction;
-	public SpriteRenderer spriteRenderer;
-	public Sprite emaggedSprite;
-
-	private MobExplore mobController;
-	public MobExplore MobController
+	public class InteractableBot : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
 	{
-		get
+		HandApply interaction;
+
+		[SerializeField] private SpriteRenderer SPRITE_RENDERER;
+		[SerializeField] private Sprite EMAGGED_SPRITE;
+
+		private MobExplore mobController;
+		public MobExplore MobController
 		{
-			if (!mobController)
+			get
 			{
-				mobController = GetComponent<MobExplore>();
+				if (!mobController)
+				{
+					mobController = GetComponent<MobExplore>();
+				}
+				return mobController;
 			}
-			return mobController;
 		}
-	}
-	public void ClientPredictInteraction(HandApply interaction) { }
+		public void ClientPredictInteraction(HandApply interaction) { }
 
-	public void ServerRollbackClient(HandApply interaction) { }
+		public void ServerRollbackClient(HandApply interaction) { }
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (interaction.TargetObject != gameObject) return false;
-		if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
-
-		return MobController != null;
-	}
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		this.interaction = interaction;
-
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
-			&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
-			&& emag.EmagHasCharges())
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			TryEmag(emag, interaction);
-		}		
-	}
-	public void TryEmag(Emag emag, HandApply interaction)
-	{
-		if (MobController == null) return;
-		MobController.isEmagged = true;
-		if(emaggedSprite != null && spriteRenderer != null) spriteRenderer.sprite = emaggedSprite;
-		emag.UseCharge(interaction);
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.TargetObject != gameObject) return false;
+			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
+
+			return MobController != null;
+		}
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			this.interaction = interaction;
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
+				&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
+				&& emag.EmagHasCharges())
+			{
+				TryEmag(emag, interaction);
+			}
+		}
+		public void TryEmag(Emag emag, HandApply interaction)
+		{
+			if (MobController == null) return;
+			MobController.IsEmagged = true;
+			if (EMAGGED_SPRITE != null && SPRITE_RENDERER != null) SPRITE_RENDERER.sprite = EMAGGED_SPRITE;
+			emag.UseCharge(interaction);
+		}
 	}
 }

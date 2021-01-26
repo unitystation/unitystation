@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5455455252294224591}
   - component: {fileID: 7304802151653684397}
   - component: {fileID: 9084638841217414174}
-  - component: {fileID: 5579325328306395513}
+  - component: {fileID: 5388507486581408330}
   m_Layer: 12
   m_Name: Floorbot
   m_TagString: Untagged
@@ -180,11 +180,12 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  CB_REAGENT: {fileID: 0}
   target: 2
   actionPerformTime: 3
   hasFoodPrefereces: 0
   foodPreferences: []
-  isEmagged: 0
+  IsEmagged: 0
 --- !u!114 &5455455252294224591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5579325328306395513
+--- !u!114 &5388507486581408330
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,13 +271,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2293724657804988958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df1ff7b4dd8bda40b50411f4993071a, type: 3}
+  m_Script: {fileID: 11500000, guid: afb628790013e924eaf42c312e660ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteRenderer: {fileID: 4443060873987540845}
-  emaggedSprite: {fileID: 21300000, guid: 1bb9bd1eab4a0454394041a1c21c90be, type: 3}
+  SPRITE_RENDERER: {fileID: 4443060873987540845}
+  EMAGGED_SPRITE: {fileID: 21300000, guid: 1bb9bd1eab4a0454394041a1c21c90be, type: 3}
 --- !u!1 &4825667868636187068
 GameObject:
   m_ObjectHideFlags: 0
