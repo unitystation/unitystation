@@ -63,6 +63,9 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField]
 	private List<SerialisationStanding> Sprites =new List<SerialisationStanding>();
 
+	[Tooltip("If checked, a random sprite SO will be selected during initialization from the catalogue of sprite SOs.")]
+	[SerializeField] private bool randomInitialSprite = false;
+
 	/// <summary>
 	/// The catalogue index representing the current sprite SO.
 	/// </summary>
@@ -83,6 +86,13 @@ public class SpriteHandler : MonoBehaviour
 	/// The amount of SubCatalogues defined for this SpriteHandler.
 	/// </summary>
 	public int CatalogueCount => SubCatalogue.Count;
+
+
+	/// <summary>
+	/// Invokes when sprite data scriptable object is changed
+	/// Null if sprite became hidden
+	/// </summary>
+	public event System.Action<SpriteDataSO> OnSpriteDataSOChanged;
 
 	/// <summary>
 	/// Current sprite from SpriteRender or Image
@@ -183,6 +193,7 @@ public class SpriteHandler : MonoBehaviour
 			{
 				NetUpdate(NewspriteDataSO);
 			}
+			OnSpriteDataSOChanged?.Invoke(NewspriteDataSO);
 		}
 
 		if (color != null)
@@ -287,7 +298,7 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
-
+		OnSpriteDataSOChanged?.Invoke(null);
 
 		if (Network)
 		{
@@ -692,7 +703,11 @@ public class SpriteHandler : MonoBehaviour
 		ImageComponentStatus(false);
 		Initialised = true;
 
-		if (PresentSpriteSet != null)
+		if (randomInitialSprite && CatalogueCount > 0)
+		{
+			ChangeSprite(Random.Range(0, CatalogueCount), NetworkThis);
+		}
+		else if (PresentSpriteSet != null)
 		{
 			if (HasImageComponent() && pushTextureOnStartUp)
 			{

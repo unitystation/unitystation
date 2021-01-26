@@ -130,14 +130,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))]
-	public float RunSpeed;
-
-	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))]
-	public float WalkSpeed;
-
-	[HideInInspector] public float CrawlSpeed;
-
 	[SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
 	[SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
 	[SyncVar(hook = nameof(SyncCrawlingSpeed))] public float CrawlSpeed;
