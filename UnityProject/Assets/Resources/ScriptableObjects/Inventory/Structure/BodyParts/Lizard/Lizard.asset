@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Lizard
+  m_EditorClassIdentifier: 
+  Base:
+    Head: {fileID: 6241024877217184980, guid: a930390a460bcce4ead49d3be8cb7b99, type: 3}
+    Torso: {fileID: 3377373078912138845, guid: f1ab090ff1e87a245bac3c855f1004fa, type: 3}
+    ArmRight: {fileID: 3196827381206272960, guid: 3fd27924be0e0664c9a7499c3f9c6b84,
+      type: 3}
+    ArmLeft: {fileID: 5905009674070870211, guid: 8f3b5cf5d885cf740886e8341a0b3a3f,
+      type: 3}
+    LegRight: {fileID: 8364845005446814664, guid: 11eaca1ac8079624a8d0f684ba8b267b,
+      type: 3}
+    LegLeft: {fileID: 8329628723992441300, guid: 13296641b50be0f4cae1fcf58bbcb4e9,
+      type: 3}
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes:
+      - bodyType: 1
+        Name: Male
+      - bodyType: 2
+        Name: Female
+    SkinColours: []
