@@ -382,12 +382,12 @@ public partial class Chat
 	/// This should only be called via UpdateChatMessage
 	/// on the client. Do not use for anything else!
 	/// </summary>
-	public static void ProcessUpdateChatMessage(uint recipient, uint originator, string message,
-		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, bool stripTags = true)
+	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, bool stripTags = true)
 	{
 
 		var isOriginator = true;
-		if (recipient != originator)
+		if (recipientUint != originatorUint)
 		{
 			isOriginator = false;
 			if (!string.IsNullOrEmpty(messageOthers))
@@ -398,10 +398,10 @@ public partial class Chat
 			}
 		}
 
-		if (GhostValidationRejection(originator, channels)) return;
+		if (GhostValidationRejection(originatorUint, channels)) return;
 
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, stripTags);
-		Instance.addChatLogClient.Invoke(msg, channels, isOriginator);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
