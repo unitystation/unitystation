@@ -12,6 +12,7 @@ using Objects.Atmospherics;
 public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 {
 	private const float OXYGEN_SAFE_MIN = 16;
+	private const float PLASMA_SAFE_MAX = 1;
 	public bool IsSuffocating;
 	public float temperature = 293.15f;
 	public float pressure = 101.325f;
@@ -153,8 +154,28 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private float HandleBreathing(GasMix gasMix)
 	{
 		float oxygenPressure = gasMix.GetPressure(Gas.Oxygen);
+		float plasmaPressure = gasMix.GetPressure(Gas.Plasma);
 
 		float oxygenUsed = 0;
+		float plasmaDamage = 0;
+
+		if (plasmaPressure > PLASMA_SAFE_MAX)
+		{
+			plasmaDamage = (plasmaPressure - PLASMA_SAFE_MAX) / 5;
+			bloodSystem.ToxinLevel = Mathf.Clamp(bloodSystem.ToxinLevel + plasmaDamage, 0, 100);
+		
+			if (Random.value < 0.1)
+			{
+				if (plasmaPressure < 5)
+				{
+					Chat.AddActionMsgToChat(gameObject, "Your throat stings as you draw a breath", $"{gameObject.ExpensiveName()} coughs");
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(gameObject, "Your throat burns as you draw a breath", $"{gameObject.ExpensiveName()} coughs frantically");
+				}
+			}
+		}
 
 		if (oxygenPressure < OXYGEN_SAFE_MIN)
 		{

@@ -13,18 +13,20 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 	{
 		// NamedSlot slot = wearType == WearType.hardsuit ? NamedSlot.outerwear : NamedSlot.feet;
 
-		if (info.FromPlayer != null)
+		//Wearing
+		if (info.ToSlot != null && info.ToRootPlayer)
 		{
-			var mind =info.FromPlayer.PlayerScript.mind;
+			var mind = info.ToPlayer.PlayerScript.mind;
 			if (mind.StepSound == SoundChange)
 			{
 				mind.StepSound = null;
 			}
 		}
-
-		if (info.ToPlayer != null)
+		//taking off
+		if (info.FromSlot != null && info.FromPlayer)
 		{
-			var mind =info.ToPlayer.PlayerScript.mind;
+			var mind = info.FromPlayer.PlayerScript.mind;
+
 			if (mind.StepSound == null)
 			{
 				Player = info.ToPlayer;

@@ -42,9 +42,18 @@ namespace Pipes
 
 		private void CheckAtmos()
 		{
+			// FIXME I'm just handling the exception here, I'm no atmos nerd so I don't know what's happening.
+			// maybe it is just an initialization order problem?
+			if (metaNode == null)
+			{
+				Logger.LogError("Scrubber found metadaNode to be null. Returning with no op.", Category.Atmos);
+				return;
+			}
+
 			if (SelfSufficient == false)
 			{
 				var pressureDensity = pipeData.mixAndVolume.Density();
+
 				if (pressureDensity.y > MaxInternalPressure || metaNode.GasMix.Pressure < MMinimumPressure )
 				{
 					return;

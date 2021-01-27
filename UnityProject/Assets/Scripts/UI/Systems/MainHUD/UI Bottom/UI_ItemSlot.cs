@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using AdminCommands;
 
 /// <summary>
 /// Represents an item slot rendered in the UI.
@@ -40,6 +41,9 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[Tooltip("Placeholder image that will be disabled when there is an item in slot")]
 	[SerializeField]
 	private Image placeholderImage = null;
+
+	[Tooltip("From where the item slot is linked from")]
+	public ItemStorageLinkOrigin ItemStorageLinkOrigin = ItemStorageLinkOrigin.localPlayer;
 
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
 	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributesV2>().ArticleName;
@@ -110,10 +114,25 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	{
 		if (namedSlot != NamedSlot.none && forLocalPlayer)
 		{
-			LinkSlot(ItemSlot.GetNamed(PlayerManager.LocalPlayerScript.ItemStorage, namedSlot));
+			var linkedSlot = ItemSlot.GetNamed(GetItemStorage(), namedSlot);
+			if (linkedSlot != null)
+			{
+				LinkSlot(linkedSlot);
+			}
 		}
 	}
 
+	private ItemStorage GetItemStorage()
+	{
+		if (ItemStorageLinkOrigin == ItemStorageLinkOrigin.localPlayer)
+		{
+			return PlayerManager.LocalPlayerScript.ItemStorage;
+		}
+		else
+		{
+			return AdminManager.Instance.LocalAdminGhostStorage;
+		}
+	}
 
 	/// <summary>
 	/// Link this item slot to display the contents of the indicated slot, updating whenever the contents change.
@@ -415,4 +434,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 		}
 	}
+}
+
+public enum ItemStorageLinkOrigin
+{
+	localPlayer = 0,
+	adminGhost = 1,
 }

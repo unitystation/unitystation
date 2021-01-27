@@ -4,6 +4,7 @@ using AdminTools;
 using Audio.Managers;
 using Initialisation;
 using Mirror;
+using UI.Core;
 using UI.Jobs;
 using UI.UI_Bottom;
 using UnityEngine;
@@ -71,7 +72,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	///Global flag for focused input field. Movement keystrokes are ignored if true.
 	/// <see cref="InputFieldFocus"/> handles this flag automatically
-	public static bool IsInputFocus 
+	public static bool IsInputFocus
 	{
 		get { return Instance && Instance.isInputFocus; }
 		set
@@ -143,7 +144,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
-	
+
 	public static PlayerExaminationWindowUI PlayerExaminationWindow => Instance.playerExaminationWindow;
 
 	public static Hands Hands => Instance.hands;
@@ -508,12 +509,15 @@ public class UIManager : MonoBehaviour, IInitialise
 	/// <summary>
 	/// Links the UI slots to the spawned local player. Should only be called after local player has been spawned / set
 	/// </summary>
-	public static void LinkUISlots()
+	public static void LinkUISlots(ItemStorageLinkOrigin itemStorageLinkOrigin)
 	{
 		//link the UI slots to this player
 		foreach (var uiSlot in Instance.GetComponentsInChildren<UI_ItemSlot>(true))
 		{
-			uiSlot.LinkToLocalPlayer();
+			if (uiSlot.ItemStorageLinkOrigin == itemStorageLinkOrigin)
+			{
+				uiSlot.LinkToLocalPlayer();
+			}
 		}
 	}
 

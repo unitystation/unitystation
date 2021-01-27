@@ -2,6 +2,9 @@
 ---
 
 
+* 2021/1/26: Fixed bug where igniter couldn't be put in machine frames, preventing certain machines such as the ore redemption machine from being built. by [PetMudstone](https://github.com/PetMudstone) in PR #[5895](https://github.com/unitystation/unitystation/pull/5895)
+* 2021/1/23: Adds new wounds description per body part visible on the new extended view of the examination window. by [corp-0](https://github.com/corp-0) in PR #[5877](https://github.com/unitystation/unitystation/pull/5877)
+* 2021/1/23: Readds self-examination by [corp-0](https://github.com/corp-0) in PR #[5877](https://github.com/unitystation/unitystation/pull/5877)
 * 2021/1/16: Added ability for bike horns to honk when people step on them. by [PetMudstone](https://github.com/PetMudstone) in PR #[5871](https://github.com/unitystation/unitystation/pull/5871)
 * 2021/1/11: Added ability for toolboxes to sometimes have two or three latches instead of just one on their sprites. This does not affect gameplay. by [PetMudstone](https://github.com/PetMudstone) in PR #[5852](https://github.com/unitystation/unitystation/pull/5852)
 * 2021/1/11: Adjusted Boxstation armory to be more in line with other maps. No more LMGs and Uzis. by [PetMudstone](https://github.com/PetMudstone) in PR #[5852](https://github.com/unitystation/unitystation/pull/5852)
