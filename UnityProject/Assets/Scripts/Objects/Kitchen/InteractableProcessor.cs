@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Objects.Kitchen
 {
 	/// <summary>
-	/// Allows Microwave to be interacted with. Player can put food in the microwave to cook it.
-	/// The microwave can be interacted with to, for example, check the remaining time.
+	/// Allows food processor to be interacted with. Player can put food in the processor to process it.
+	/// The processor can be toggled on and off, eject contents, or have something Processable put inside it.
 	/// </summary>
 	[RequireComponent(typeof(FoodProcessor))]
 	public class InteractableProcessor : MonoBehaviour, IExaminable, ICheckedInteractable<HandApply>,
