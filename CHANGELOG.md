@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/1/27: Fixed bug where plasma cutters couldn't fire more than once. by [PetMudstone](https://github.com/PetMudstone) in PR #[5907](https://github.com/unitystation/unitystation/pull/5907)
 * 2021/1/27: Makes common allergies a little less common. by [corp-0](https://github.com/corp-0) in PR #[5896](https://github.com/unitystation/unitystation/pull/5896)
 * 2021/1/27: Improves plasma intoxication symptoms. Plasma will only damage when its concentration is enough to be visible but still can be perceived before that. by [corp-0](https://github.com/corp-0) in PR #[5896](https://github.com/unitystation/unitystation/pull/5896)
 * 2021/1/26: Fixed bug where igniter couldn't be put in machine frames, preventing certain machines such as the ore redemption machine from being built. by [PetMudstone](https://github.com/PetMudstone) in PR #[5895](https://github.com/unitystation/unitystation/pull/5895)
