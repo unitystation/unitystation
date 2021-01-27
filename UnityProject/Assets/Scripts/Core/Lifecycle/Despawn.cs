@@ -74,6 +74,12 @@ public static class Despawn
 
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
 
+		var cnt = info.GameObject.GetComponent<CustomNetTransform>();
+		if (cnt != null)
+		{
+			cnt.DisappearFromWorldServer();
+		}
+
 		if (Spawn._ObjectPool.TryDespawnToPool(info.GameObject, false))
 		{
 			return DespawnResult.Single(info);
