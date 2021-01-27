@@ -5,11 +5,10 @@ using Systems.MobAIs;
 
 namespace Robotics
 {
-	public class InteractableBot : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
+	public class InteractableBot : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
-		HandApply interaction;
 
-		[SerializeField] private SpriteRenderer SPRITE_RENDERER;
+		[SerializeField] private SpriteHandler SPRITE_HANDLER;
 		[SerializeField] private Sprite EMAGGED_SPRITE;
 
 		private MobExplore mobController;
@@ -24,9 +23,6 @@ namespace Robotics
 				return mobController;
 			}
 		}
-		public void ClientPredictInteraction(HandApply interaction) { }
-
-		public void ServerRollbackClient(HandApply interaction) { }
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -38,20 +34,18 @@ namespace Robotics
 		}
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			this.interaction = interaction;
-
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
 				&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
 				&& emag.EmagHasCharges())
 			{
-				TryEmag(emag, interaction);
+				PerformEmag(emag, interaction);
 			}
 		}
-		public void TryEmag(Emag emag, HandApply interaction)
+		public void PerformEmag(Emag emag, HandApply interaction)
 		{
 			if (MobController == null) return;
 			MobController.IsEmagged = true;
-			if (EMAGGED_SPRITE != null && SPRITE_RENDERER != null) SPRITE_RENDERER.sprite = EMAGGED_SPRITE;
+			if (EMAGGED_SPRITE != null && SPRITE_HANDLER != null) SPRITE_HANDLER.SetSprite(EMAGGED_SPRITE);
 			emag.UseCharge(interaction);
 		}
 	}

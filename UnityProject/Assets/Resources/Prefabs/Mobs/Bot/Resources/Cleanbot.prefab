@@ -276,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SPRITE_RENDERER: {fileID: 7911763529354618204}
+  SPRITE_HANDLER: {fileID: 802417937811619490}
   EMAGGED_SPRITE: {fileID: 21300000, guid: 2847c9a92bb748c46a8c3fb227e116c7, type: 3}
 --- !u!1 &6180971314615384560
 GameObject:
@@ -288,6 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7877259472688728073}
   - component: {fileID: 7911763529354618204}
+  - component: {fileID: 802417937811619490}
   m_Layer: 12
   m_Name: Sprite
   m_TagString: Untagged
@@ -349,7 +350,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 21
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: b6deaa8f228322c4789b1c364991728e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0780c4ed6d62a6d4792f45ae36d4429b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -360,3 +361,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &802417937811619490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6180971314615384560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 03dfe5b183bb53c42bc38c702e7e8ca3, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []

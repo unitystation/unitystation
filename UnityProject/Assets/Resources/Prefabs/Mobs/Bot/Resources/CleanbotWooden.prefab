@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: EatFoodA.AssetAddress
       value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 802417937811619490, guid: 52e52506ef7e83e41a024f96fadc9304,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b642ad52ac41723428e8fb0940d84402,
+        type: 2}
     - target: {fileID: 822779961239697815, guid: 52e52506ef7e83e41a024f96fadc9304,
         type: 3}
       propertyPath: butcherSound.AssetAddress
@@ -98,7 +104,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 3093160451266126740, guid: d546bfef3536f9342894606705d01a9e,
+      objectReference: {fileID: 21300000, guid: 1ae605d0f683bf948aeb84d933d729d7,
         type: 3}
     m_RemovedComponents:
     - {fileID: -3116353301156381755, guid: 52e52506ef7e83e41a024f96fadc9304, type: 3}
