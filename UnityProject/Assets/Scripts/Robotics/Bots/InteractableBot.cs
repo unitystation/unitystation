@@ -8,7 +8,7 @@ namespace Robotics
 	public class InteractableBot : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 
-		[SerializeField] private SpriteHandler SPRITE_HANDLER;
+		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private Sprite EMAGGED_SPRITE;
 
 		private MobExplore mobController;
