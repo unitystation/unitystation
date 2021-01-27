@@ -8,7 +8,7 @@ namespace Robotics
 	public class InteractableBot : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 
-		[SerializeField] private SpriteHandler SPRITE_HANDLER;
+		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private Sprite EMAGGED_SPRITE;
 
 		private MobExplore mobController;
@@ -32,6 +32,7 @@ namespace Robotics
 
 			return MobController != null;
 		}
+
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
@@ -41,11 +42,12 @@ namespace Robotics
 				PerformEmag(emag, interaction);
 			}
 		}
+
 		public void PerformEmag(Emag emag, HandApply interaction)
 		{
 			if (MobController == null) return;
 			MobController.IsEmagged = true;
-			if (EMAGGED_SPRITE != null && SPRITE_HANDLER != null) SPRITE_HANDLER.SetSprite(EMAGGED_SPRITE);
+			if (EMAGGED_SPRITE != null && spriteHandler != null) spriteHandler.SetSprite(EMAGGED_SPRITE);
 			emag.UseCharge(interaction);
 		}
 	}
