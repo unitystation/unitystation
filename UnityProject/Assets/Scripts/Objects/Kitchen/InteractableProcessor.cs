@@ -95,6 +95,8 @@ namespace Objects.Kitchen
 				case "Eject":
 					foodProcessor.RequestEjectContents();
 					break;
+				default:
+					break;
 			}
 		}
 

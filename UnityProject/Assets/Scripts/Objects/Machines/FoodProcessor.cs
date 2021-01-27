@@ -216,7 +216,7 @@ namespace Objects.Kitchen
 			// Process time is determined by the number of items inside and the tier of the manipulator.
 			// time in seconds = 4 * items_in_processor / manipulator tier
 			int slotsOccupied = storage.GetNextFreeIndexedSlot().SlotIdentifier.SlotIndex;
-			processTimer = TIME_PER_ITEM * slotsOccupied / manipTier;
+			processTimer = (float)(TIME_PER_ITEM * slotsOccupied / manipTier);
 
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			playAudioLoop = true;
@@ -243,7 +243,7 @@ namespace Objects.Kitchen
 		private void AnimateProcessor(float toX)
 		{
 			
-			LeanTween.moveLocal(gameObject.transform.GetChild(0).gameObject, new Vector3(toX, 0, (int)1), 0);
+			LeanTween.moveLocal(gameObject.transform.GetChild(0).gameObject, new Vector3(toX, 0, 1), 0);
 			RpcShake(toX);
 		}
 
@@ -253,7 +253,7 @@ namespace Objects.Kitchen
 		[ClientRpc]
 		private void RpcShake(float toX)
 		{
-			LeanTween.moveLocal(gameObject.transform.GetChild(0).gameObject, new Vector3(toX, 0, (int)1), 0);
+			LeanTween.moveLocal(gameObject.transform.GetChild(0).gameObject, new Vector3(toX, 0, 1), 0);
 		}
 
 		private void OnSyncPlayAudioLoop(bool oldState, bool newState)
@@ -303,11 +303,8 @@ namespace Objects.Kitchen
 			
 		}
 
-
-		public void PowerNetworkUpdate(float Voltage)
-		{
-			return;
-		}
+		// Processor functionality doesn't care for voltage.
+		public void PowerNetworkUpdate(float Voltage) { }
 
 		#region ProcessorStates
 
