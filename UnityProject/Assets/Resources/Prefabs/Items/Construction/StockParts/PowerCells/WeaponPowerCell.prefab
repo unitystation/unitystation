@@ -18,7 +18,7 @@ MonoBehaviour:
   initalProjectile: {fileID: 0}
   ProjectilesFired: 1
   ammoType: 14
-  magazineSize: 20
+  magazineSize: 400
 --- !u!1001 &6655333940234197588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28,13 +28,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
+      propertyPath: initialName
+      value: weapon power cell
       objectReference: {fileID: 0}
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
-      propertyPath: initialName
-      value: weapon power cell
+      propertyPath: initialTraits.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -55,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -70,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -82,16 +92,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
