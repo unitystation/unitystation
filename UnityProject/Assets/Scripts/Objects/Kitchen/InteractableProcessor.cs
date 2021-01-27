@@ -96,6 +96,7 @@ namespace Objects.Kitchen
 					foodProcessor.RequestEjectContents();
 					break;
 				default:
+					Logger.LogError("Unexpected interaction request occurred in food processor context menu.", Category.Interaction);
 					break;
 			}
 		}
