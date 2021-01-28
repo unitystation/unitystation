@@ -46,11 +46,11 @@ public class UpdateTileMessage : ServerMessage
 		{
 			var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
 			tileChangerManager.InternalUpdateTile(Position, TileType, TileName, TransformMatrix, Colour);
-			TryDoUndone();
+			TryDoNotDoneTiles();
 		}
 	}
 
-	public void TryDoUndone()
+	public void TryDoNotDoneTiles()
 	{
 		for (int i = 0; i < DelayedStuff.Count; i++)
 		{
