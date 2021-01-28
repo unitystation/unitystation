@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using ScriptableObjects;
 using TileManagement;
 using AddressableReferences;
+using ScriptableObjects.Audio;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;

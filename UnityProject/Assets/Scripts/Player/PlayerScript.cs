@@ -4,6 +4,7 @@ using System;
 using Audio.Managers;
 using Blob;
 using Objects;
+using Player;
 
 public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 {

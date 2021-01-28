@@ -26,7 +26,7 @@ public class WearableSpeechMod : MonoBehaviour, IServerInventoryMove
 			var mind = info.ToRootPlayer.PlayerScript.mind;
 			if(mind != null && info.ToSlot.NamedSlot == slot)
 			{
-				mind.inventorySpeechModifiers |= modifier;
+				mind.InventorySpeechModifiers |= modifier;
 			}
 		}
 		//taking off
@@ -35,7 +35,7 @@ public class WearableSpeechMod : MonoBehaviour, IServerInventoryMove
 			var mind = info.FromPlayer.PlayerScript.mind;
 			if(mind != null && info.FromSlot.NamedSlot == slot)
 			{
-				mind.inventorySpeechModifiers &= ~modifier;
+				mind.InventorySpeechModifiers &= ~modifier;
 			}
 		}
 	}

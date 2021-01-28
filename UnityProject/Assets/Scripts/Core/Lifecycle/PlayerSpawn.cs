@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Systems;
 using Systems.Spawns;
+using Player;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.

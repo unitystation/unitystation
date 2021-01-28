@@ -7,6 +7,7 @@ using Items;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;
+using ScriptableObjects.Audio;
 
 public partial class PlayerSync
 {
@@ -790,7 +791,7 @@ public partial class PlayerSync
 
 	#endregion
 
-		/// Lerping and ensuring server authority for space walk
+	/// Lerping and ensuring server authority for space walk
 	[Server]
 	private void CheckMovementServer()
 	{

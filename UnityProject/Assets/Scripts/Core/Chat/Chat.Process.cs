@@ -145,7 +145,7 @@ public partial class Chat
 		//TODO Assign racial speech mods
 
 		// Assign inventory speech mods
-		chatModifiers |= sentByPlayer.Script.mind.inventorySpeechModifiers;
+		chatModifiers |= sentByPlayer.Script.mind.InventorySpeechModifiers;
 
 		/////// Process Speech mutations
 		message = SpeechModManager.Instance.ApplyMod(chatModifiers, message);

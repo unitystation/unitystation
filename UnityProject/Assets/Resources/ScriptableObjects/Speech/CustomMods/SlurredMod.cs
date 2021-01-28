@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AdminTools;
+using Player;
 using ScriptableObjects;
 
 [CreateAssetMenu(fileName = "CustomSpeechModifierCode", menuName = "ScriptableObjects/SpeechModifiers/SlurredSpeech")]
@@ -13,12 +14,12 @@ public class SlurredMod : CustomSpeechModifier
 	{
 		if (drunkSpeechTime > 0)
 		{
-			playerMind.inventorySpeechModifiers |= ChatModifier.Drunk;
+			playerMind.InventorySpeechModifiers |= ChatModifier.Drunk;
 			drunkSpeechTime--;
 		}
 		else
 		{
-			playerMind.inventorySpeechModifiers &= ~ChatModifier.Drunk;
+			playerMind.InventorySpeechModifiers &= ~ChatModifier.Drunk;
 		}
 	}
 	private static string Slur(Match m)
