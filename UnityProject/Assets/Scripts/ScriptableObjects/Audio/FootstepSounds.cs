@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,35 +10,48 @@ namespace ScriptableObjects.Audio
 	{
 		public FloorSounds DefaultFloorSound;
 
-		public static FootstepSounds Instant;
+		public static FootstepSounds Instance;
 
 		public void Awake()
 		{
-			Instant = this;
+			Instance = this;
 		}
 
-		public static void PlayerFootstepAtPosition(Vector3 worldPos,
-			PlayerSync PlayerSync)
+		public static void PlayerFootstepAtPosition(Vector3 worldPos, PlayerSync playerSync)
 		{
-			StepType stepType = GetFootSteptype(PlayerSync);
-			PlayerSync.Step = !PlayerSync.Step;
-			if (PlayerSync.Step)
+			var stepType = GetFootSteptype(playerSync);
+			playerSync.Step = !playerSync.Step;
+			if (playerSync.Step)
 			{
-				FootstepAtPosition(worldPos, stepType, PlayerSync.playerScript.mind.StepSound);
+				FootstepAtPosition(worldPos, stepType);
 			}
 		}
 
-		public static StepType GetFootSteptype(PlayerSync PlayerSync)
+		private static StepType GetFootSteptype(PlayerSync playerSync)
 		{
-			if (PlayerSync.playerScript.Equipment.ItemStorage.GetNamedItemSlot(NamedSlot.feet)?.Item != null)
+			//TODO find a more optimized way, this is getting items every step (like we did before I did the humongous dictionary lol).
+
+			var hardsuit = playerSync.playerScript.Equipment.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear)?.Item;
+
+			if (hardsuit != null && Validations.HasItemTrait(hardsuit.gameObject, CommonTraits.Instance.Hardsuit))
 			{
-				return StepType.Shoes;
+				return StepType.Hardsuit;
 			}
-			else
+
+			var shoes = playerSync.playerScript.Equipment.ItemStorage.GetNamedItemSlot(NamedSlot.feet)?.Item;
+
+			if (shoes == null)
 			{
-				//Add stuff for races
+				//TODO get the type of barefoot based on mob legs
 				return StepType.Barefoot;
 			}
+
+			if (Validations.HasItemTrait(shoes.gameObject, CommonTraits.Instance.Squeaky))
+			{
+				return StepType.ClownStep;
+			}
+
+			return StepType.Shoes;
 		}
 
 
@@ -47,57 +61,91 @@ namespace ScriptableObjects.Audio
 		/// </summary>
 		/// <param name="worldPos">Where in the world is this sound coming from. Also used to get the type of tile</param>
 		/// <param name="stepType">What kind of step does the creature walking have</param>
-		/// <param name="performer">The creature making the sound</param>
-		public static void FootstepAtPosition(Vector3 worldPos, StepType stepType,FloorSounds Override = null )
+		/// <param name="override"></param>
+		public static void FootstepAtPosition(Vector3 worldPos, StepType stepType)
 		{
-			MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
+			var matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
 			var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
 			var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
 
-			if (tile != null)
+			if (tile == null)
 			{
-				FloorSounds FloorTileSounds = tile.floorTileSounds;
-				List<AddressableAudioSource> AddressableAudioSource = null;
-				if (Override != null && tile.CanSoundOverride == false)
-				{
-					FloorTileSounds = Override;
-				}
-
-				switch (stepType)
-				{
-					case StepType.None:
-						return;
-					case StepType.Barefoot:
-						AddressableAudioSource = FloorTileSounds?.Barefoot;
-						if (FloorTileSounds == null || AddressableAudioSource.Count > 0)
-						{
-							AddressableAudioSource = Instant.DefaultFloorSound.Barefoot;
-						}
-						break;
-					case StepType.Shoes:
-						AddressableAudioSource = FloorTileSounds?.Shoes;
-						if (FloorTileSounds == null || AddressableAudioSource.Count > 0)
-						{
-							AddressableAudioSource = Instant.DefaultFloorSound.Shoes;
-						}
-						break;
-					case StepType.Claw:
-						AddressableAudioSource = FloorTileSounds?.Claw;
-						if (FloorTileSounds == null || AddressableAudioSource.Count > 0)
-						{
-							AddressableAudioSource = Instant.DefaultFloorSound.Claw;
-						}
-
-						break;
-				}
-
-				if (AddressableAudioSource == null)
-				{
-					return;
-				}
-				SoundManager.PlayNetworkedAtPos(AddressableAudioSource.PickRandom(), worldPos,pitch : Random.Range(0.7f, 1.2f), polyphonic: true);
-
+				return;
 			}
+
+			var floorTileSounds = tile.floorTileSounds;
+			List<AddressableAudioSource> addressableAudioSource = null;
+
+			switch (stepType)
+			{
+				case StepType.None:
+					return;
+				case StepType.Barefoot:
+					addressableAudioSource = floorTileSounds != null
+						? floorTileSounds.Barefoot
+						: Instance.DefaultFloorSound.Barefoot;
+
+					if (addressableAudioSource.Any() == false)
+					{
+						addressableAudioSource = Instance.DefaultFloorSound.Barefoot;
+					}
+					break;
+
+				case StepType.Shoes:
+					addressableAudioSource = floorTileSounds != null
+						? floorTileSounds.Shoes
+						: Instance.DefaultFloorSound.Shoes;
+
+					if (addressableAudioSource.Any() == false)
+					{
+						addressableAudioSource = Instance.DefaultFloorSound.Shoes;
+					}
+					break;
+
+				case StepType.Claw:
+					addressableAudioSource = floorTileSounds != null
+						? floorTileSounds.Claw
+						: Instance.DefaultFloorSound.Claw;
+
+					if (addressableAudioSource.Any() == false)
+					{
+						addressableAudioSource = Instance.DefaultFloorSound.Claw;
+					}
+
+					break;
+
+				case StepType.ClownStep:
+					addressableAudioSource = floorTileSounds != null
+						? floorTileSounds.Clown
+						: Instance.DefaultFloorSound.Clown;
+
+					if (addressableAudioSource.Any() == false)
+					{
+						addressableAudioSource = Instance.DefaultFloorSound.Clown;
+					}
+					break;
+
+				case StepType.Hardsuit:
+					addressableAudioSource = floorTileSounds != null
+						? floorTileSounds.Hardsuit
+						: Instance.DefaultFloorSound.Hardsuit;
+
+					if (addressableAudioSource.Any() == false)
+					{
+						addressableAudioSource = Instance.DefaultFloorSound.Hardsuit;
+					}
+					break;
+
+				default:
+					Logger.LogError($"Unexpected value for Steptype: {stepType} on tile: {tile}");
+					break;
+			}
+
+			if (addressableAudioSource == null)
+			{
+				return;
+			}
+			SoundManager.PlayNetworkedAtPos(addressableAudioSource.PickRandom(), worldPos,Random.Range(0.7f, 1.2f), polyphonic: true);
 		}
 	}
 }

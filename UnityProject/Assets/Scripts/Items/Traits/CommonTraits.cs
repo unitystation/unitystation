@@ -42,6 +42,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait RollingPin;
 	public ItemTrait Transforamble;
 	public ItemTrait Squeaky;
+	public ItemTrait Hardsuit;
 	public ItemTrait LightTube;
 	public ItemTrait LightBulb;
 	public ItemTrait LightReplacer;
