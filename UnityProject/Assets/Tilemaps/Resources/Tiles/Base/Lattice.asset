@@ -16,7 +16,7 @@ MonoBehaviour:
   LayerType: 4
   TileType: 7
   RequiredTiles: []
-  floorTileType: 0
+  floorTileSounds: {fileID: 11400000, guid: bef11150ca0e43e4fb1e673d4d334687, type: 2}
   atmosPassable: 1
   isSealed: 0
   SpawnWithNoAir: 0
@@ -44,7 +44,13 @@ MonoBehaviour:
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 11400000, guid: 3168c41b56d93884a92cdda1978cb2b5, type: 2}
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   connectCategory: 3
   connectType: 0
   spriteSheet:

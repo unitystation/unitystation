@@ -43,7 +43,19 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  Claw: []
+  Claw:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/claw/hardclaw1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/claw/hardclaw2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   Shoes:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/footsteps/floor/floor1.prefab
@@ -71,6 +83,50 @@ MonoBehaviour:
       m_SubObjectType: 
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/footsteps/floor/floor5.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  Clown:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/clownstep/clownstep1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/clownstep/clownstep2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  Hardsuit:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/hardsuit/suitstep1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/hardsuit/suitstep2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/hardsuit/suitstep3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/hardsuit/suitstep4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/hardsuit/suitstep5.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
