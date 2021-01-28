@@ -411,7 +411,7 @@ public partial class PlayerList
 			if (!loggedInAdmins.ContainsKey(Userid))
 			{
 				loggedInAdmins.Add(Userid, newToken);
-				AdminEnableMessage.Send(user.Connection, newToken);
+				AdminEnableMessage.Send(user, newToken);
 			}
 		}
 
@@ -841,7 +841,7 @@ public partial class PlayerList
 			if (!loggedInAdmins.ContainsKey(userid))
 			{
 				loggedInAdmins.Add(userid, newToken);
-				AdminEnableMessage.Send(playerConn.Connection, newToken);
+				AdminEnableMessage.Send(playerConn, newToken);
 			}
 		}
 	}
@@ -906,7 +906,7 @@ public partial class PlayerList
 		if (!loggedInAdmins.ContainsKey(userToPromote))
 		{
 			loggedInAdmins.Add(userToPromote, newToken);
-			AdminEnableMessage.Send(user.Connection, newToken);
+			AdminEnableMessage.Send(user, newToken);
 		}
 	}
 	#endregion
