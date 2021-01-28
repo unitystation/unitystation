@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 940d4f4d68b1650479777b8f9ea3e7de,
         type: 2}
+    - target: {fileID: 4835630698732451463, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
+      propertyPath: processedProduct
+      value: 
+      objectReference: {fileID: 1115219266762048610, guid: 69e02e3e9f243c64b8571fd4d263f432,
+        type: 3}
     - target: {fileID: 8180561906722366613, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
       propertyPath: m_Sprite
@@ -23,6 +29,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315129300047506109, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8315129300047506109, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
@@ -41,6 +52,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8315129300047506109, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315129300047506109, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +69,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8315129300047506109, guid: acc71df94cbb60a4abe979bc8d32a4d2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8315129300047506109, guid: acc71df94cbb60a4abe979bc8d32a4d2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8315129300047506109, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
@@ -86,13 +92,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8474471160286787755, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
-      propertyPath: initialDescription
-      value: Slices of neatly cut potato.
+      propertyPath: initialName
+      value: potato wedges
       objectReference: {fileID: 0}
     - target: {fileID: 8474471160286787755, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
-      propertyPath: initialName
-      value: potato wedges
+      propertyPath: initialDescription
+      value: Slices of neatly cut potato.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acc71df94cbb60a4abe979bc8d32a4d2, type: 3}

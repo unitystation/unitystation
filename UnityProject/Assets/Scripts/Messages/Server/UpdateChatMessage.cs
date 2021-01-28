@@ -24,7 +24,8 @@ public class UpdateChatMessage : ServerMessage
 	public override void Process()
 	{
 		LoadNetworkObject(Recipient);
-		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker, StripTags);
+		var recipientObject = NetworkObject;
+		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker, recipientObject, StripTags);
 	}
 
 	/// <summary>

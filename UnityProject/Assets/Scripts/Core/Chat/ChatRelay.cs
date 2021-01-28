@@ -16,7 +16,6 @@ public class ChatRelay : NetworkBehaviour
 	public static ChatRelay Instance;
 
 	private ChatChannel namelessChannels;
-	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
 	private LayerMask layerMask;
 	private LayerMask npcMask;
 
@@ -34,7 +33,6 @@ public class ChatRelay : NetworkBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-			Chat.RegisterChatRelay(Instance, PropagateChatToClients, AddToChatLogClient, AddAdminPrivMessageToClient, AddMentorPrivMessageToClient);
 		}
 		else
 		{
@@ -53,7 +51,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Server]
-	private void PropagateChatToClients(ChatEvent chatEvent)
+	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<ConnectedPlayer> players = PlayerList.Instance.AllPlayers;
 
@@ -165,14 +163,9 @@ public class ChatRelay : NetworkBehaviour
 		}
 	}
 
-	[Client]
-	private void AddToChatLogClient(string message, ChatChannel channels, bool isOriginator)
-	{
-		UpdateClientChat(message, channels, isOriginator);
-	}
 
 	[Client]
-	private void AddAdminPrivMessageToClient(string message)
+	public void AddAdminPrivMessageToClient(string message)
 	{
 		trySendingTTS(message);
 
@@ -180,7 +173,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private void AddMentorPrivMessageToClient(string message)
+	public void AddMentorPrivMessageToClient(string message)
 	{
 		trySendingTTS(message);
 
@@ -188,7 +181,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private void UpdateClientChat(string message, ChatChannel channels, bool isOriginator)
+	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -206,8 +199,7 @@ public class ChatRelay : NetworkBehaviour
 			{
 				if(isOriginator)
 				{
-					ChatBubbleManager.ShowAction(Regex.Replace(message, "<.*?>", string.Empty));
-					return;
+					ChatBubbleManager.Instance.ShowAction(Regex.Replace(message, "[.*?]", string.Empty), recipient);
 				}
 			}
 
