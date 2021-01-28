@@ -94,17 +94,14 @@ public class EventManager : MonoBehaviour
 	{
 		LogEventBroadcast(evnt);
 		if (eventTable.ContainsKey(evnt) == false || eventTable[evnt] == null) return;
-		
-		if (CustomNetworkManager.IsServer)
+
+		if (CustomNetworkManager.IsServer && network)
 		{
-			if (network)
-			{
-				TriggerEventMessage.SendToAll(evnt);
-			}
-			else
-			{
-				eventTable[evnt]();
-			}
+			TriggerEventMessage.SendToAll(evnt);
+		}
+		else
+		{
+			eventTable[evnt]();
 		}
 	}
 
