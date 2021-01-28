@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/1/28: Fixed Queens not laying eggs. by [corp-0](https://github.com/corp-0) in PR #[5909](https://github.com/unitystation/unitystation/pull/5909)
+* 2021/1/28: Xenomorphs can become Queens now if there are no Queens in the round. by [corp-0](https://github.com/corp-0) in PR #[5909](https://github.com/unitystation/unitystation/pull/5909)
 * 2021/1/27: Fixed bug where plasma cutters couldn't fire more than once. by [PetMudstone](https://github.com/PetMudstone) in PR #[5907](https://github.com/unitystation/unitystation/pull/5907)
 * 2021/1/27: Makes common allergies a little less common. by [corp-0](https://github.com/corp-0) in PR #[5896](https://github.com/unitystation/unitystation/pull/5896)
 * 2021/1/27: Improves plasma intoxication symptoms. Plasma will only damage when its concentration is enough to be visible but still can be perceived before that. by [corp-0](https://github.com/corp-0) in PR #[5896](https://github.com/unitystation/unitystation/pull/5896)
