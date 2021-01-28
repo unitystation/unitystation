@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Systems.MobAIs
 {
@@ -20,6 +21,13 @@ namespace Systems.MobAIs
 				return;
 			}
 
+			StartCoroutine(BecomeQueen());
+		}
+
+		IEnumerator BecomeQueen()
+		{
+			yield return WaitFor.Seconds(10);
+			if (QueenCapReached()) yield break;
 			Spawn.ServerPrefab(queenPrefab, gameObject.AssumedWorldPosServer());
 			Despawn.ServerSingle(gameObject);
 		}
