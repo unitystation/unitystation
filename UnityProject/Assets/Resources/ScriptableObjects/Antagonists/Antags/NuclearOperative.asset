@@ -14,8 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   antagName: Nuclear Operative
   antagJobType: 36
-  playSound: 1
-  spawnSound: ops
+  playSound: 0
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/Pistol/PistolDropSmall.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   textColor: {r: 1, g: 0, b: 0, a: 1}
   backgroundColor: {r: 0.54901963, g: 0, b: 0, a: 0.19607843}
   numberOfObjectives: 2

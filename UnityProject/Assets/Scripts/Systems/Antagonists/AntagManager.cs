@@ -158,7 +158,7 @@ namespace Antagonists
 			AntagBannerMessage.Send(
 				player.GameObject,
 				antag.AntagName,
-				antag.SpawnSound,
+				antag.SpawnSound.AssetAddress,
 				antag.TextColor,
 				antag.BackgroundColor,
 				antag.PlaySound);

@@ -14,8 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   antagName: Wizard Apprentice
   antagJobType: 54
-  playSound: 1
-  spawnSound: ambigen8
+  playSound: 0
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   textColor: {r: 0.35686275, g: 0.7254902, b: 0.96862745, a: 1}
   backgroundColor: {r: 0.25882354, g: 0.33333334, b: 0.4627451, a: 1}
   numberOfObjectives: 0
