@@ -6,21 +6,29 @@ using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using UnityEngine.Serialization;
 
 namespace Systems.MobAIs
 {
 	public class FaceHuggerAI : MobAI, ICheckedInteractable<HandApply>, IServerSpawn
 	{
-		[SerializeField] private List<string> deathSounds = new List<string>();
-		[SerializeField] private List<string> randomSound = new List<string>();
-		[Tooltip("Amount of time to wait between each random sound. Decreasing this value could affect performance!")]
+		[SerializeField] private List<AddressableAudioSource> deathSounds = default;
+
+		[SerializeField] private List<AddressableAudioSource> randomSound = default;
+
 		[SerializeField]
+		[Tooltip("Amount of time to wait between each random sound. Decreasing this value could affect performance!")]
 		private int playRandomSoundTimer = 3;
+
 		[SerializeField]
 		[Range(0,100)]
 		private int randomSoundProbability = 20;
-		[SerializeField] private AddressableAudioSource Bite = null;
+
+		[FormerlySerializedAs("Bite")] [SerializeField]
+		private AddressableAudioSource bite = null;
+
 		[SerializeField] private float searchTickRate = 0.5f;
+
 		private float movementTickRate = 1f;
 		private float moveWaitTime = 0f;
 		private float searchWaitTime = 0f;
@@ -191,7 +199,7 @@ namespace Systems.MobAIs
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
-			XenoQueenAI.CurrentHuggerAmt -= 1;
+			XenoQueenAI.RemoveFacehuggerFromCount();
 		}
 
 		/// <summary>
@@ -333,7 +341,7 @@ namespace Systems.MobAIs
 				verb);
 
 			SoundManager.PlayNetworkedAtPos(
-				Bite,
+				bite,
 				player.gameObject.RegisterTile().WorldPositionServer,
 				1f,
 				true,
@@ -427,13 +435,7 @@ namespace Systems.MobAIs
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			//FIXME This shouldn't be called by client yet it seems it is
-			if (!isServer)
-			{
-				return;
-			}
-
-			XenoQueenAI.CurrentHuggerAmt++;
+			XenoQueenAI.AddFacehuggerToCount();
 			mobSprite.SetToNPCLayer();
 			registerObject.RestoreAllToDefault();
 			simpleAnimal.SetDeadState(false);

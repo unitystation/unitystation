@@ -18,9 +18,13 @@ namespace Systems.MobAIs
 	public class GenericHostileAI : MobAI, IServerSpawn
 	{
 		[SerializeField]
-		protected List<string> deathSounds = new List<string>();
+		[Tooltip("Sounds played when this mob dies")]
+		protected List<AddressableAudioSource> deathSounds = default;
+
 		[SerializeField]
-		protected List<string> randomSound = new List<string>();
+		[Tooltip("Sounds played randomly while this mob is alive")]
+		protected List<AddressableAudioSource> randomSounds = default;
+
 		[Tooltip("Amount of time to wait between each random sound. Decreasing this value could affect performance!")]
 		[SerializeField]
 		protected int playRandomSoundTimer = 3;
@@ -162,7 +166,7 @@ namespace Systems.MobAIs
 
 		protected virtual void PlayRandomSound(bool force = false)
 		{
-			if (IsDead || IsUnconscious || randomSound.Count <= 0)
+			if (IsDead || IsUnconscious || randomSounds.Count <= 0)
 			{
 				return;
 			}
@@ -173,7 +177,7 @@ namespace Systems.MobAIs
 			}
 
 			SoundManager.PlayNetworkedAtPos(
-				randomSound.PickRandom(),
+				randomSounds,
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
@@ -190,7 +194,7 @@ namespace Systems.MobAIs
 			ResetBehaviours();
 			deathSoundPlayed = true;
 			SoundManager.PlayNetworkedAtPos(
-				deathSounds.PickRandom(),
+				deathSounds,
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);

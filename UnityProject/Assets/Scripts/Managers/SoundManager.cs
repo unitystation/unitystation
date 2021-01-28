@@ -726,7 +726,7 @@ public class SoundManager : MonoBehaviour
 	/// <summary>
 	/// Play sound locally at given world position.
 	/// </summary>
-	/// <param name="addressableAudioSources">Sound to be played.</param>
+	/// <param name="addressableAudioSource">Sound to be played.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	public static async Task PlayAtPosition(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		GameObject gameObject = null, string soundSpawnToken = "", bool polyphonic = false,
@@ -745,7 +745,7 @@ public class SoundManager : MonoBehaviour
 		}
 
 
-		PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource}, soundSpawnToken, worldPos,
+		_ = PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource}, soundSpawnToken, worldPos,
 			polyphonic, isGlobal, netId, audioSourceParameters);
 	}
 
