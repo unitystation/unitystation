@@ -6,6 +6,8 @@ namespace Systems.MobAIs
 {
 	public class XenoQueenAI: GenericHostileAI
 	{
+		[SerializeField][Tooltip("If true, this Queen won't be counted when spawned for the queen cap.")]
+		private bool ignoreForQueenCount = false;
 		[SerializeField]
 		[Tooltip("Max amount of active facehuggers that can be in the server at once")]
 		private int huggerCap = 0;
@@ -104,13 +106,20 @@ namespace Systems.MobAIs
 			}
 
 			BeginSearch();
-			currentQueensAmt ++;
+
+			if (ignoreForQueenCount == false)
+			{
+				currentQueensAmt ++;
+			}
 		}
 
 		protected override void HandleDeathOrUnconscious()
 		{
 			base.HandleDeathOrUnconscious();
-			currentQueensAmt--;
+			if (ignoreForQueenCount == false)
+			{
+				currentQueensAmt--;
+			}
 		}
 	}
 }

@@ -12,6 +12,10 @@ namespace Systems.MobAIs
 {
 	public class FaceHuggerAI : MobAI, ICheckedInteractable<HandApply>, IServerSpawn
 	{
+		[SerializeField]
+		[Tooltip("If true, this hugger won't be counted for the cap Queens use for lying eggs.")]
+		private bool ignoreInQueenCount = false;
+
 		[SerializeField] private List<AddressableAudioSource> deathSounds = default;
 
 		[SerializeField] private List<AddressableAudioSource> randomSound = default;
@@ -199,7 +203,11 @@ namespace Systems.MobAIs
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
-			XenoQueenAI.RemoveFacehuggerFromCount();
+
+			if (ignoreInQueenCount == false)
+			{
+				XenoQueenAI.RemoveFacehuggerFromCount();
+			}
 		}
 
 		/// <summary>
@@ -275,18 +283,19 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if (damagedBy != mobMeleeAction.followTarget)
+			if (damagedBy.transform == mobMeleeAction.followTarget)
 			{
-				//80% chance the mob decides to attack the new attacker
-				if (Random.value < 0.8f)
-				{
-					var playerScript = damagedBy.GetComponent<PlayerScript>();
-					if (playerScript != null)
-					{
-						BeginAttack(damagedBy);
-						return;
-					}
-				}
+				return;
+			}
+			//80% chance the mob decides to attack the new attacker
+			if (Random.value > 0.8f)
+			{
+				return;
+			}
+			var playerScript = damagedBy.GetComponent<PlayerScript>();
+			if (playerScript != null)
+			{
+				BeginAttack(damagedBy);
 			}
 		}
 
@@ -435,7 +444,11 @@ namespace Systems.MobAIs
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			XenoQueenAI.AddFacehuggerToCount();
+			if (ignoreInQueenCount == false)
+			{
+				XenoQueenAI.AddFacehuggerToCount();
+			}
+
 			mobSprite.SetToNPCLayer();
 			registerObject.RestoreAllToDefault();
 			simpleAnimal.SetDeadState(false);

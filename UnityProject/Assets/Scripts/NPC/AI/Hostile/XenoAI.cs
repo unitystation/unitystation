@@ -1,22 +1,28 @@
 ﻿using System.Collections;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Systems.MobAIs
 {
 	public class XenoAI: GenericHostileAI
 	{
+		[SerializeField][Tooltip("If true, this Xeno won't ever attempt to become Queen.")]
+		private bool disableAscension = false;
+
 		[SerializeField]
+		[HideIf(nameof(disableAscension))]
 		[Tooltip("How many queens could there be at once in a round. " +
 		         "If this cap is not reached, this Xeno could become a Queen to preserve the perfect life form!")]
 		private int queenCap = 1;
 
 		[SerializeField]
+		[HideIf(nameof(disableAscension))]
 		[Tooltip("Reference to the Queen prefab to be spawned if this xeno becomes a Queen")]
 		private GameObject queenPrefab = default;
 
 		private void TryBecomingQueen()
 		{
-			if (QueenCapReached())
+			if (disableAscension || QueenCapReached())
 			{
 				return;
 			}
@@ -24,7 +30,7 @@ namespace Systems.MobAIs
 			StartCoroutine(BecomeQueen());
 		}
 
-		IEnumerator BecomeQueen()
+		private IEnumerator BecomeQueen()
 		{
 			yield return WaitFor.Seconds(10);
 			if (QueenCapReached()) yield break;
