@@ -132,7 +132,10 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void ChangeCurrentState(LightMountState newState)
 	{
-		currentState = mountStatesMachine.LightMountStates[newState];
+		if (mountStatesMachine.LightMountStates.Contains(newState))
+		{
+			currentState = mountStatesMachine.LightMountStates[newState];
+		}
 		SetSprites();
 	}
 
