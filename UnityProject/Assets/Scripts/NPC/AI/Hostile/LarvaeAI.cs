@@ -18,7 +18,6 @@ namespace Systems.MobAIs
 		protected override void Awake()
 		{
 			base.Awake();
-			mobNameCap = mobName.IsNullOrEmpty() ? mobName : char.ToUpper(mobName[0]) + mobName.Substring(1);
 			simpleAnimal = GetComponent<SimpleAnimal>();
 			BeginExploring();
 		}

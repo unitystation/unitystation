@@ -1,8 +1,9 @@
 ﻿using System;
+using Systems.MobAIs;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Systems.MobAIs
+namespace NPC.Mood
 {
 	[RequireComponent(typeof(MobAI))]
 
@@ -10,7 +11,8 @@ namespace Systems.MobAIs
 	{
 		#region inspector exposed variables
 		[SerializeField, Tooltip("Set the initial mood level this creature will have once spawned")]
-		private int initialMoodLevel = 0;
+		[MinValue(0)]
+		private int initialMoodLevel = 50;
 
 		[SerializeField, Tooltip("Mood level will never go beyond this level")]
 		private int maxMoodLevel = 100;
@@ -51,6 +53,8 @@ namespace Systems.MobAIs
 		private int level;
 		public int Level => level;
 		public int LevelPercent => Mathf.RoundToInt(level / maxMoodLevel * 100);
+
+		public event Action MoodChanged;
 
 		private MobAI mobAi;
 		private MobExplore mobExplore;
@@ -153,6 +157,7 @@ namespace Systems.MobAIs
 		{
 			// maybe do a happy/unhappy face animation to represent this change?
 			level = Mathf.Clamp(amount, 1, maxMoodLevel);
+			MoodChanged?.Invoke();
 		}
 	}
 }

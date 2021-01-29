@@ -113,12 +113,12 @@ namespace Systems.MobAIs
 			{
 				Chat.AddActionMsgToChat(
 					purred,
-					$"{mobNameCap} purrs at you!",
-					$"{mobNameCap} purrs at {purred.ExpensiveName()}");
+					$"{MobName} purrs at you!",
+					$"{MobName} purrs at {purred.ExpensiveName()}");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} purrs!", $"{mobNameCap} purrs!");
+				Chat.AddActionMsgToChat(gameObject, $"{MobName} purrs!", $"{MobName} purrs!");
 			}
 		}
 
@@ -130,12 +130,12 @@ namespace Systems.MobAIs
 			{
 				Chat.AddActionMsgToChat(
 					meowed,
-					$"{mobNameCap} meows at you!",
-					$"{mobNameCap} meows at {meowed.ExpensiveName()}");
+					$"{MobName} meows at you!",
+					$"{MobName} meows at {meowed.ExpensiveName()}");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} meows!", $"{mobNameCap} meows!");
+				Chat.AddActionMsgToChat(gameObject, $"{MobName} meows!", $"{MobName} meows!");
 			}
 		}
 
@@ -147,12 +147,12 @@ namespace Systems.MobAIs
 			{
 				Chat.AddActionMsgToChat(
 					hissed,
-					$"{mobNameCap} hisses at you!",
-					$"{mobNameCap} hisses at {hissed.ExpensiveName()}");
+					$"{MobName} hisses at you!",
+					$"{MobName} hisses at {hissed.ExpensiveName()}");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} hisses!", $"{mobNameCap} hisses!");
+				Chat.AddActionMsgToChat(gameObject, $"{MobName} hisses!", $"{MobName} hisses!");
 			}
 		}
 
@@ -160,8 +160,8 @@ namespace Systems.MobAIs
 		{
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} starts licking its paws!",
-				$"{mobNameCap} starts licking its paws!");
+				$"{MobName} starts licking its paws!",
+				$"{MobName} starts licking its paws!");
 		}
 
 		// Public method so it can be called from CorgiAI

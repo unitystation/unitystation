@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Items;
 using Items.Others;
+using NPC.Mood;
 using UnityEngine;
 using AddressableReferences;
 
@@ -105,9 +106,9 @@ namespace Systems.MobAIs
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer,
-				$"You feed {mobNameCap} with {interaction.HandObject.ExpensiveName()}",
+				$"You feed {MobName} with {interaction.HandObject.ExpensiveName()}",
 				$"{interaction.Performer.ExpensiveName()}" +
-				$" feeds some {interaction.HandObject.ExpensiveName()} to {mobNameCap}");
+				$" feeds some {interaction.HandObject.ExpensiveName()} to {MobName}");
 		}
 	}
 }
