@@ -58,12 +58,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   milkReagent: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
-  baseAmountOnMoodPercent: 1
-  milkAmount: 30
-  requiredMoodPercentage: 60
-  reduceMoodWhenMilked: 1
-  reductionAmount: 10
-  actionWhenMilkedWithoutRequiredMood:
+  milkAmount: 25
+  milkTick: 200
+  milkProducePerTick: 10
+  maxMilk: 100
+  requiredMood: 60
+  moodPenalty: 10
+  milkMessageYou: You milk {0}.
+  milkMessageOthers: '{1} milks {0}'
+  noMilkMessage: You pull the teat but no milk is coming out!
+  onMilkedEmpty:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &7225003947232659167
