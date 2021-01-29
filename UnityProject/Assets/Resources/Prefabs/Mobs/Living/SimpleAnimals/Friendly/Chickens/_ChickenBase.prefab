@@ -39,17 +39,45 @@ MonoBehaviour:
   minTimeBetweenRandomActions: 60
   maxTimeBetweenRandomActions: 120
   doRandomActionWhenInTask: 1
-  EatFoodA:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
   grownChicken: 1
   maxEggsAmount: 4
   egg: {fileID: 2897339443933191501, guid: b12af25ca29fbde47882f31d6e84e6eb, type: 3}
   possibleGrownForms: []
+--- !u!114 &1795240317430841994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7871031768158401281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5d82fb72d52483fb520cc8b26639c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8180421202839227997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7871031768158401281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4497ffd350d542aaa0dbd389f722acb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  veryGoodMood:
+  - It looks incredibly happy and healthy!
+  goodMood:
+  - It looks happy.
+  - It looks healthy.
+  normalMood:
+  - 
+  badMood:
+  - It looks kind of sad.
+  - It looks stressed out.
+  - It looks badly treated.
 --- !u!1001 &376518942892139410
 PrefabInstance:
   m_ObjectHideFlags: 0

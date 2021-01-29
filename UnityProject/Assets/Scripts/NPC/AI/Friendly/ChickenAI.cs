@@ -1,20 +1,15 @@
 ﻿using System.Collections.Generic;
-using Items;
 using Items.Others;
 using NPC.Mood;
 using UnityEngine;
-using AddressableReferences;
 
 namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Generic AI for Chickens. Keep them happy and they will lay eggs!
 	/// </summary>
-	public class ChickenAI: GenericFriendlyAI, ICheckedInteractable<HandApply>
+	public class ChickenAI: GenericFriendlyAI
 	{
-
-		[SerializeField] private AddressableAudioSource EatFoodA = null;
-
 		[SerializeField, Tooltip("Check this if this chicken is a grown up chicken in age of laying eggs")]
 		private bool grownChicken = true;
 
@@ -80,35 +75,6 @@ namespace Systems.MobAIs
 				Spawn.ServerPrefab(possibleGrownForms.PickRandom(), gameObject.RegisterTile().WorldPosition);
 				Despawn.ServerSingle(gameObject);
 			}
-		}
-
-		// Manually feeding
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			return DefaultWillInteract.Default(interaction, side) &&
-			       !health.IsDead &&
-			       !health.IsCrit &&
-			       !health.IsSoftCrit &&
-			       !health.IsCardiacArrest &&
-			       interaction.Intent == Intent.Help &&
-			       mobExplore.IsInFoodPreferences(interaction.HandObject.GetComponent<ItemAttributesV2>());
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			Inventory.ServerConsume(interaction.HandSlot, 1);
-			mood.OnFoodEaten();
-			SoundManager.PlayNetworkedAtPos(
-				EatFoodA,
-				gameObject.RegisterTile().WorldPosition,
-				1f,
-				sourceObj: gameObject);
-
-			Chat.AddActionMsgToChat(
-				interaction.Performer,
-				$"You feed {MobName} with {interaction.HandObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()}" +
-				$" feeds some {interaction.HandObject.ExpensiveName()} to {MobName}");
 		}
 	}
 }
