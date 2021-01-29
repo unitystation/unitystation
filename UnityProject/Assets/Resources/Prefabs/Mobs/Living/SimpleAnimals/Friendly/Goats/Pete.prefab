@@ -45,6 +45,27 @@ MonoBehaviour:
   - It looks kind of sad.
   - It looks stressed out.
   - It looks badly treated.
+--- !u!114 &1856271386541915690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092666089846311182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a81875929d3411d82bd54cf010c43b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  milkReagent: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
+  baseAmountOnMoodPercent: 1
+  milkAmount: 30
+  requiredMoodPercentage: 60
+  reduceMoodWhenMilked: 1
+  reductionAmount: 10
+  actionWhenMilkedWithoutRequiredMood:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &7225003947232659167
 PrefabInstance:
   m_ObjectHideFlags: 0
