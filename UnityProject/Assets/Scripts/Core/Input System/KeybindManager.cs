@@ -50,6 +50,7 @@ public enum KeyAction
 	ChatRadio,
 	ChatOOC,
 	ToggleAHelp,
+	ToggleMHelp,
 
 	// Body Part Targeting
 	TargetHead,
@@ -349,7 +350,7 @@ public class KeybindManager : MonoBehaviour {
 
 		//Right click stuff
 		{ KeyAction.ShowAdminOptions, 	new KeybindMetadata("Show Admin Options", ActionType.RightClick)},
-		
+
 		// UI
 		// TODO: change ActionType
 		{ KeyAction.OpenBackpack, 	new KeybindMetadata("Open Backpack", ActionType.UI)},
@@ -395,6 +396,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ChatRadio,		new DualKeyCombo(new KeyCombo(KeyCode.Y), null)},
 		{ KeyAction.ChatOOC,   		new DualKeyCombo(new KeyCombo(KeyCode.U), null)},
 		{ KeyAction.ToggleAHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F1), null)},
+		{ KeyAction.ToggleMHelp,    new DualKeyCombo( new KeyCombo(KeyCode.F2), null )},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad8), null)},
