@@ -72,7 +72,10 @@ public enum KeyAction
 
 	PocketOne,
 	PocketTwo,
-	PocketThree
+	PocketThree,
+
+	RadialScrollForward,
+	RadialScrollBackward
 }
 
 /// <summary>
@@ -359,8 +362,10 @@ public class KeybindManager : MonoBehaviour {
 
 		{ KeyAction.PocketOne, 		new KeybindMetadata("Open Pocket 1", ActionType.UI)},
 		{ KeyAction.PocketTwo, 		new KeybindMetadata("Open Pocket 2", ActionType.UI)},
-		{ KeyAction.PocketThree, 	new KeybindMetadata("Open Pocket 3", ActionType.UI)}
+		{ KeyAction.PocketThree, 	new KeybindMetadata("Open Pocket 3", ActionType.UI)},
 
+		{ KeyAction.RadialScrollForward, new KeybindMetadata("Radial Scroll Forward", ActionType.UI)},
+		{ KeyAction.RadialScrollBackward, new KeybindMetadata("Radial Scroll Backward", ActionType.UI)},
 	};
 
 	private readonly KeybindDict defaultKeybinds = new KeybindDict
@@ -416,7 +421,10 @@ public class KeybindManager : MonoBehaviour {
 
 		{KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1 ,KeyCode.LeftShift), null)},
 		{KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2 ,KeyCode.LeftShift), null)},
-		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)}
+		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)},
+
+		{KeyAction.RadialScrollForward, new DualKeyCombo(new KeyCombo(KeyCode.E, KeyCode.LeftShift), null)},
+		{KeyAction.RadialScrollBackward, new DualKeyCombo(new KeyCombo(KeyCode.Q, KeyCode.LeftShift), null)}
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 

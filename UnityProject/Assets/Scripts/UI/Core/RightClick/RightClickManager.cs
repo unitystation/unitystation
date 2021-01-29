@@ -24,6 +24,10 @@ public class RightClickManager : MonoBehaviour
 {
 	public static readonly Color ButtonColor = new Color(0.3f, 0.55f, 0.72f, 0.7f);
 
+	private static readonly BranchWorldPosition BranchWorldPosition = new BranchWorldPosition();
+
+	private static readonly BranchScreenPosition BranchScreenPosition = new BranchScreenPosition();
+
 	[Tooltip("Ordering to use for right click options.")]
 	public RightClickOptionOrder rightClickOptionOrder;
 
@@ -116,10 +120,24 @@ public class RightClickManager : MonoBehaviour
 			var objects = GetGameObjects(mousePos, out var isUI);
 			//Generates menus
 			var options = Generate(objects);
-			if (options != null && options.Count > 0)
+
+			if (options == null || options.Count <= 0)
 			{
-				MenuController.SetupMenu(options, Camera.main.ScreenToWorldPoint(mousePos), !isUI);
+				return;
 			}
+
+			IBranchPosition branchPosition = BranchScreenPosition.SetPosition(mousePos);
+
+			if (isUI == false)
+			{
+				var tile = objects.Select(o => o.RegisterTile()).FirstOrDefault();
+				if (tile)
+				{
+					branchPosition = BranchWorldPosition.SetTile(tile);
+				}
+			}
+
+			MenuController.SetupMenu(options, branchPosition);
 		}
 	}
 

@@ -66,11 +66,12 @@ namespace UI.Core.RightClick
 			var altLabelTransform = altLabel.transform;
 			altLabelTransform.localPosition = Radial.ItemCenter;
 			altLabelTransform.localScale = Vector3.one;
+			SetInteractable(true);
 		}
 
 		public void SetInteractable(bool value)
 		{
-			if (mask.raycastTarget)
+			if (mask.raycastTarget && Button.interactable != value)
 			{
 				Button.interactable = value;
 				Mask.canvasRenderer.SetColor(colors.normalColor * colors.colorMultiplier);
