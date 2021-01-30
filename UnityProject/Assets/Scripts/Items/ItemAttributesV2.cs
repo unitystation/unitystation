@@ -21,9 +21,9 @@ namespace Items
 		[Tooltip("Initial traits of this item on spawn.")]
 		private List<ItemTrait> initialTraits = null;
 
-		[Tooltip("Size of this item when spawned. Defaults to medium, which you should change if needed.")]
+		[Tooltip("Size of this item when spawned. Is none by default, which you should probably change.")]
 		[SerializeField]
-		private ItemSize initialSize = ItemSize.Medium;
+		private ItemSize initialSize = ItemSize.None;
 
 		/// <summary>
 		/// Current size.
