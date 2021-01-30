@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8228696700783408618, guid: b73e69badd307444ea1fedc49b20d806,
         type: 3}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 4086796152908822152, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: m_AssetId
@@ -22,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RussianRevolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -40,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -86,14 +91,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-      propertyPath: initialDescription
-      value: A Russian-made revolver for drinking games. Uses .357 ammo, and has
-        a mechanism requiring you to spin the chamber before each trigger pull.
+      propertyPath: initialName
+      value: Russian revolver
       objectReference: {fileID: 0}
     - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-      propertyPath: initialName
-      value: Russian revolver
+      propertyPath: initialDescription
+      value: A Russian-made revolver for drinking games. Uses .357 ammo, and has
+        a mechanism requiring you to spin the chamber before each trigger pull.
       objectReference: {fileID: 0}
     - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}

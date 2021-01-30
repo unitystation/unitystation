@@ -9,19 +9,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1996529631628265754, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: initialDescription
-      value: An advanced shotgun with two separate magazine tubes, allowing you to
-        quickly toggle between ammo types.
+      propertyPath: initialName
+      value: cycler shotgun
       objectReference: {fileID: 0}
     - target: {fileID: 1996529631628265754, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: initialName
-      value: cycler shotgun
+      propertyPath: initialDescription
+      value: An advanced shotgun with two separate magazine tubes, allowing you to
+        quickly toggle between ammo types.
       objectReference: {fileID: 0}
     - target: {fileID: 2075233859075398604, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
@@ -91,13 +91,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: genericInternalMag
+      propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 3548435841490649705, guid: 4cc9fd651e73d8d48b911c08311a1845,
         type: 3}
     - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: ammoPrefab
+      propertyPath: genericInternalMag
       value: 
       objectReference: {fileID: 3548435841490649705, guid: 4cc9fd651e73d8d48b911c08311a1845,
         type: 3}
@@ -105,6 +105,11 @@ PrefabInstance:
         type: 3}
       propertyPath: allowMagazineRemoval
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 5196763216403881471, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}

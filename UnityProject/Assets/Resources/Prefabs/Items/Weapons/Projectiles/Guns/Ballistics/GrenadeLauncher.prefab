@@ -9,17 +9,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 84595747301293129, guid: 747c190858b67c84d9a9218621a2f190,
-        type: 3}
-    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: MagInternal
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
       propertyPath: ammoType
       value: 23
       objectReference: {fileID: 0}
@@ -31,6 +20,17 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 84595747301293129, guid: 747c190858b67c84d9a9218621a2f190,
+        type: 3}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: MagInternal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: allowMagazineRemoval
       value: 0
       objectReference: {fileID: 0}
@@ -38,6 +38,11 @@ PrefabInstance:
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/General/GeneralGrenadeLaunch.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 711826421371790644, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -57,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -72,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -84,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -118,11 +123,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-      propertyPath: initialDescription
-      value: A break-operated grenade launcher.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
       propertyPath: initialName
       value: grenade launcher
       objectReference: {fileID: 0}
@@ -130,6 +130,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialSize
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: initialDescription
+      value: A break-operated grenade launcher.
       objectReference: {fileID: 0}
     - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
