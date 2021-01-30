@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: aefba002b195baf4b9ebf4e3529d4a65, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -123,13 +124,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: MagInternal
+      propertyPath: MagSize
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: MagSize
-      value: 1
+      propertyPath: ammoType
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -139,15 +140,15 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: ammoType
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
       propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 3212608658101538330, guid: 895e8d0909213b44094eb90767c8b1cd,
         type: 3}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: MagInternal
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: genericInternalMag
@@ -164,15 +165,20 @@ PrefabInstance:
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/General/GeneralRocketLaunch.prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: initialName
       value: PML-9 RPGL
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -182,8 +188,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: initialSize
-      value: 4
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -193,15 +199,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 2d383c0d1536965438d0d103901621c4,
-        type: 2}
-    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 93d9bd23d2af8ae41b4a0664dd809bbf,
+        type: 2}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d383c0d1536965438d0d103901621c4,
         type: 2}
     - target: {fileID: 8958440777353242636, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -213,6 +219,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PML9RPGL
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -231,6 +242,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -243,16 +259,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
