@@ -82,22 +82,16 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 	/// Display a chat bubble and make it follow a transform target
 	/// </summary>
 	/// <param name="msg">Text to show in the Action</param>
-	public static void ShowAction(string msg)
+	public void ShowAction(string msg, GameObject recipient)
 	{
-
-		var index = Instance.actionPool.FindIndex(x => x.Text.text == msg);
+		var index = actionPool.FindIndex(x => x.Text.text == msg);
 
 		if (index != -1)
 		{
-			if (Instance.actionPool[index].gameObject.activeInHierarchy)
-			{
-				Instance.actionPool[index].AddCopy();
-				return;
-			}
+			actionPool[index].AddMultiplier();
+			return;
 		}
-
-
-		Instance.GetChatBubbleActionText().SetUp(msg);
+		GetChatBubbleActionText().SetUp(msg, recipient);
 	}
 
 
@@ -120,9 +114,7 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 	ActionText SpawnNewActionText()
 	{
 		var obj = Instantiate(ActionPrefab, Vector3.zero, Quaternion.identity);
-		obj.transform.SetParent(transform,
-			false); // Suggestion by compiler, instead of obj.transform.parent = transform;
-		obj.transform.localScale = Vector3.one * 2f;
+		obj.transform.SetParent(transform, false);
 		obj.SetActive(false);
 		return obj.GetComponent<ActionText>();
 	}
@@ -149,7 +141,6 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 		var obj = Instantiate(chatBubblePrefab, Vector3.zero, Quaternion.identity);
 		obj.transform.SetParent(transform,
 			false); // Suggestion by compiler, instead of obj.transform.parent = transform;
-		obj.transform.localScale = Vector3.one * 2f;
 		obj.SetActive(false);
 		return obj.GetComponent<ChatBubble>();
 	}

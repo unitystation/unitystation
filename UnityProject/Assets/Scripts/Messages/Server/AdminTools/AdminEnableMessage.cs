@@ -19,17 +19,17 @@ public class AdminEnableMessage : ServerMessage
 		UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
 	}
 
-	public static AdminEnableMessage Send(NetworkConnection player, string adminToken)
+	public static AdminEnableMessage Send(ConnectedPlayer player, string adminToken)
 	{
-		UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player);
-		var adminGhostItemStorage = AdminManager.Instance.CreateItemSlotStorage();
+		UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
+		var adminGhostItemStorage = AdminManager.Instance.CreateItemSlotStorage(player);
 		AdminEnableMessage msg = new AdminEnableMessage
 		{
 			AdminToken = adminToken,
 			AdminGhostStorage = adminGhostItemStorage.GetComponent<NetworkIdentity>().netId
 		};
 
-		msg.SendTo(player);
+		msg.SendTo(player.Connection);
 
 		return msg;
 	}

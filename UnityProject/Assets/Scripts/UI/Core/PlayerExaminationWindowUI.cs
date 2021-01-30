@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
 namespace UI.Core
 {
@@ -111,6 +112,11 @@ namespace UI.Core
 			}
 			else
 			{
+				if (KeyboardInputManager.IsShiftPressed() && targetSlot.Item != null)
+				{
+					RequestExamineMessage.Send(targetSlot.Item.GetComponent<NetworkIdentity>().netId);
+					return;
+				}
 				InteractWithOtherPlayersSlot(targetSlot);
 			}
 		}

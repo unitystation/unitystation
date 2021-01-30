@@ -18,9 +18,13 @@ namespace Systems.MobAIs
 	public class GenericHostileAI : MobAI, IServerSpawn
 	{
 		[SerializeField]
-		protected List<string> deathSounds = new List<string>();
+		[Tooltip("Sounds played when this mob dies")]
+		protected List<AddressableAudioSource> deathSounds = default;
+
 		[SerializeField]
-		protected List<string> randomSound = new List<string>();
+		[Tooltip("Sounds played randomly while this mob is alive")]
+		protected List<AddressableAudioSource> randomSounds = default;
+
 		[Tooltip("Amount of time to wait between each random sound. Decreasing this value could affect performance!")]
 		[SerializeField]
 		protected int playRandomSoundTimer = 3;
@@ -103,6 +107,7 @@ namespace Systems.MobAIs
 		protected virtual GameObject SearchForTarget()
 		{
 			var player = Physics2D.OverlapCircleAll(transform.position, 20f, hitMask);
+
 			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
 			if (player.Length == 0)
 			{
@@ -111,7 +116,10 @@ namespace Systems.MobAIs
 
 			foreach (var coll in player)
 			{
-				if (MatrixManager.Linecast(this.gameObject.WorldPosServer(), LayerTypeSelection.Walls, LayerMask.NameToLayer(""),
+				if (MatrixManager.Linecast(
+					gameObject.WorldPosServer(),
+					LayerTypeSelection.Walls,
+					LayerMask.NameToLayer(""),
 					coll.gameObject.WorldPosServer()).ItHit)
 				{
 					return coll.gameObject;
@@ -144,15 +152,13 @@ namespace Systems.MobAIs
 						nudgeDir = testDir;
 						break;
 					}
-					else
+
+					if (!registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
 					{
-						if (!registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
-						{
-							continue;
-						}
-						nudgeDir = testDir;
-						break;
+						continue;
 					}
+					nudgeDir = testDir;
+					break;
 				}
 			}
 
@@ -162,7 +168,7 @@ namespace Systems.MobAIs
 
 		protected virtual void PlayRandomSound(bool force = false)
 		{
-			if (IsDead || IsUnconscious || randomSound.Count <= 0)
+			if (IsDead || IsUnconscious || randomSounds.Count <= 0)
 			{
 				return;
 			}
@@ -173,7 +179,7 @@ namespace Systems.MobAIs
 			}
 
 			SoundManager.PlayNetworkedAtPos(
-				randomSound.PickRandom(),
+				randomSounds,
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
@@ -190,7 +196,7 @@ namespace Systems.MobAIs
 			ResetBehaviours();
 			deathSoundPlayed = true;
 			SoundManager.PlayNetworkedAtPos(
-				deathSounds.PickRandom(),
+				deathSounds,
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
@@ -271,19 +277,23 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if (damagedBy != mobMeleeAttack.followTarget)
+			if (damagedBy == null || damagedBy.transform == mobMeleeAttack.followTarget)
 			{
-				//80% chance the mob decides to attack the new attacker
-				if (Random.value < 0.8f)
-				{
-					var playerScript = damagedBy.GetComponent<PlayerScript>();
-					if (playerScript != null)
-					{
-						BeginAttack(damagedBy);
-						return;
-					}
-				}
+				return;
 			}
+
+			//80% chance the mob decides to attack the new attacker
+			if (Random.value > 0.8f)
+			{
+				return;
+			}
+			var playerScript = damagedBy.GetComponent<PlayerScript>();
+			if (playerScript == null)
+			{
+				return;
+			}
+
+			BeginAttack(damagedBy);
 		}
 
 		public override void LocalChatReceived(ChatEvent chatEvent)

@@ -16,7 +16,8 @@ MonoBehaviour:
   LayerType: 2
   TileType: 0
   RequiredTiles: []
-  floorTileType: 0
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 0
   isSealed: 0
   SpawnWithNoAir: 0
@@ -43,7 +44,13 @@ MonoBehaviour:
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   IsItem: 1
   KeepOrientation: 0
   Object: {fileID: 3250310938253979280, guid: cbae9a210d638ba4b9402e836c970fa2, type: 3}

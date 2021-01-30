@@ -43,6 +43,14 @@ namespace Pipes
 
 		private void CheckAtmos()
 		{
+			// FIXME I'm just handling the exception here, I'm no atmos nerd so I don't know what's happening.
+			// maybe it is just an initialization order problem?
+			if (metaNode == null)
+			{
+				Logger.LogError("Airvent found metadaNode to be null. Returning with no op.", Category.Atmos);
+				return;
+			}
+
 			//metaNode.GasMix = pipeData.mixAndVolume.EqualiseWithExternal(metaNode.GasMix);
 			if (metaNode.GasMix.Pressure > MaxOutletPressure)
 			{

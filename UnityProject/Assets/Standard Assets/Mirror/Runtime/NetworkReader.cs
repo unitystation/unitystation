@@ -46,7 +46,7 @@ namespace Mirror
         {
             if (Position + 1 > buffer.Count)
             {
-                throw new EndOfStreamException("ReadByte out of range:" + ToString());
+                throw new EndOfStreamException("ReadByte out of range:" );//+ ToString() If it's a massive packet can cause Game to lock up
             }
             return buffer.Array[buffer.Offset + Position++];
         }

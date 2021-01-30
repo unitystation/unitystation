@@ -14,13 +14,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: initialDescription
-      value: A trash bin, place your trash here for the janitor to collect.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: initialName
-      value: trash bin
+      propertyPath: exportCost
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -29,20 +24,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
+      propertyPath: initialName
+      value: trash bin
+      objectReference: {fileID: 0}
+    - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
       propertyPath: exportMessage
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: exportCost
-      value: 200
+      propertyPath: initialDescription
+      value: A trash bin, place your trash here for the janitor to collect.
       objectReference: {fileID: 0}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0905163854d56ad48badf680271a036a,
+        type: 2}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0905163854d56ad48badf680271a036a,
+        type: 2}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 19ab9abfcde4cb5479f095adec5bd91a,
+        type: 2}
     - target: {fileID: 8429732818373960007, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ea8e8735c02af9f4aa70ca0804e0b357,
+      objectReference: {fileID: 21300000, guid: 3ad36ab0a8db8924b81430511e1e6c4d,
         type: 3}
+    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -60,6 +83,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -72,16 +100,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}

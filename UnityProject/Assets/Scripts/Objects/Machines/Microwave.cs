@@ -320,7 +320,6 @@ namespace Objects.Kitchen
 						if (slotCooked.AddCookingTime(Time.deltaTime * LaserTierTimeEffect()) == true)
 						{
 							// Swap item for its cooked version, if applicable.
-							Chat.AddLocalMsgToChat($"The microwave processes { slot.Item.gameObject.ExpensiveName()}.", gameObject);
 							if (slotCooked.CookedProduct == null) return;
 
 							Despawn.ServerSingle(slotCooked.gameObject);
@@ -622,7 +621,7 @@ namespace Objects.Kitchen
 				// Close if nothing's in hand.
 				if (fromSlot.Item == null)
 				{
-					microwave.SetState(new MicrowaveIdle(microwave));
+					microwave.SetState(new MicrowaveUnpowered(microwave));
 					return;
 				}
 
@@ -639,7 +638,7 @@ namespace Objects.Kitchen
 				}
 
 				if (isFull == true)
-					microwave.SetState(new MicrowaveIdle(microwave));
+					microwave.SetState(new MicrowaveUnpowered(microwave));
 			}
 
 			public override void AddTime(int seconds) { }

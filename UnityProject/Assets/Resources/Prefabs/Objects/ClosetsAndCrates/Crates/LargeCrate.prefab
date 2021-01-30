@@ -18,6 +18,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!1001 &2408852499328209661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32,17 +34,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: initialDescription
-      value: A hefty wooden crate. You'll need a crowbar to get it open.
+      propertyPath: initialName
+      value: large crate
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: initialName
-      value: large crate
+      propertyPath: initialDescription
+      value: A hefty wooden crate. You'll need a crowbar to get it open.
       objectReference: {fileID: 0}
     - target: {fileID: 2609456052550460453, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0110e24fba3465649a1af2dca92fe1a2,
+        type: 2}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5773371694829651476, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
@@ -56,6 +69,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4d623677862ae47418c43ad900267c02,
         type: 3}
+    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -73,6 +91,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +108,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -118,14 +131,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: matsOnDestroy
-      value: 
-      objectReference: {fileID: 2663802320431471963, guid: 9ae38f6aa43b5cd4ba608cd31b462b24,
-        type: 3}
-    - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: matsDroppedOnDestroy
-      value: 4
+      propertyPath: IsPryable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -135,13 +142,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: IsPryable
-      value: 1
+      propertyPath: weldOverlay
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: weldOverlay
+      propertyPath: matsOnDestroy
       value: 
+      objectReference: {fileID: 2663802320431471963, guid: 9ae38f6aa43b5cd4ba608cd31b462b24,
+        type: 3}
+    - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: matsDroppedOnDestroy
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6590302535916000378, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}

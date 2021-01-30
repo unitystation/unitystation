@@ -132,12 +132,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public bool IsSSD => consciousState != ConsciousState.DEAD &&
 	                     this is PlayerHealth &&
 	                     TryGetComponent(out PlayerScript player) &&
-	                     player.mind.IsOnline() == false;
+	                     (player.mind == null || player.mind.IsOnline() == false);
+
 
 	public bool IsBrainDead => consciousState == ConsciousState.DEAD &&
 	                           this is PlayerHealth &&
 	                           TryGetComponent(out PlayerScript player) &&
-	                           player.mind.IsOnline() == false;
+	                           (player.mind == null || player.mind.IsOnline() == false);
 
 	/// <summary>
 	/// Has the heart stopped.

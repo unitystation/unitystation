@@ -2,28 +2,35 @@
 
 public class LockLightController : MonoBehaviour
 {
-	private Sprite spriteLocked;
-	public SpriteRenderer spriteRenderer;
-	public Sprite spriteUnlocked;
+	private SpriteHandler spriteHandler;
+
+	private SpriteRenderer spriteRenderer;
+
+	private enum LockState
+	{
+		Locked,
+		Unlocked,
+		Emagged
+	}
 
 	private void OnEnable()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
-		spriteLocked = spriteRenderer.sprite;
+		spriteHandler = GetComponent<SpriteHandler>();
 	}
 
 	public void Lock()
 	{
 		if (!CheckForSpriteRenderer()) return;
 
-		spriteRenderer.sprite = spriteLocked;
+		spriteHandler.ChangeSprite((int) LockState.Locked);
 	}
 
 	public void Unlock()
 	{
 		if (!CheckForSpriteRenderer()) return;
 
-		spriteRenderer.sprite = spriteUnlocked;
+		spriteHandler.ChangeSprite((int) LockState.Unlocked);
 	}
 
 	public void Show()

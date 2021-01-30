@@ -14,23 +14,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 896388481918339789, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: Resistances.Flammable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 896388481918339789, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
       propertyPath: initialIntegrity
       value: 70
       objectReference: {fileID: 0}
-    - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+    - target: {fileID: 896388481918339789, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: exportMessage
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: exportName
-      value: coffin
+      propertyPath: Resistances.Flammable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -39,19 +29,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: initialDescription
-      value: It's a burial receptacle for the dearly departed.
+      propertyPath: exportName
+      value: coffin
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: initialName
       value: coffin
       objectReference: {fileID: 0}
+    - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: exportMessage
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's a burial receptacle for the dearly departed.
+      objectReference: {fileID: 0}
     - target: {fileID: 2609456052550460453, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8bfa858c7cff67744af79ab6db2cff7f,
+        type: 2}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8bfa858c7cff67744af79ab6db2cff7f,
+        type: 2}
+    - target: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f996608eb1857b43a22b323dc5d95f5,
+        type: 2}
     - target: {fileID: 5773371694829651476, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_Enabled
@@ -75,6 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -90,6 +113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -102,16 +130,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -141,8 +159,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: matsDroppedOnDestroy
-      value: 5
+      propertyPath: weldOverlay
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -152,8 +170,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
-      propertyPath: weldOverlay
-      value: 
+      propertyPath: matsDroppedOnDestroy
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}

@@ -369,11 +369,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public void OnDespawnServer(DespawnInfo info)
 	{
 		OnServerDespawnEvent?.Invoke();
-		var cnt = GetComponent<CustomNetTransform>();
-		if (cnt != null)
-		{
-			cnt.DisappearFromWorldServer();
-		}
 	}
 }
 

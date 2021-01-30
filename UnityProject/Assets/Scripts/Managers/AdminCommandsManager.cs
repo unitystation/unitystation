@@ -428,6 +428,31 @@ namespace AdminCommands
 			ProfileMessage.SendToApplicable();
 		}
 
+		[Server]
+		public void CmdAdminGhostDropItem(string adminId, string adminToken)
+		{
+			if (IsAdmin(adminId, adminToken) == false) return;
+
+			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+			var connectedPlayer = admin.Player();
+			var itemStorage = AdminManager.Instance.GetItemSlotStorage(connectedPlayer);
+			var slot = itemStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
+			Inventory.ServerDrop(slot, admin.AssumedWorldPosServer());
+		}
+
+
+		[Server]
+		public void CmdAdminGhostSmashItem(string adminId, string adminToken)
+		{
+			if (IsAdmin(adminId, adminToken) == false) return;
+
+			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+			var connectedPlayer = admin.Player();
+			var itemStorage = AdminManager.Instance.GetItemSlotStorage(connectedPlayer);
+			var slot = itemStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
+			Inventory.ServerDespawn(slot);
+		}
+
 		#endregion
 	}
 
