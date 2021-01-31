@@ -342,6 +342,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ChatRadio,   new KeybindMetadata("Radio Chat", ActionType.Chat)},
 		{ KeyAction.ChatOOC,     new KeybindMetadata("OOC Chat", ActionType.Chat)},
 		{ KeyAction.ToggleAHelp, new KeybindMetadata("Toggle AHelp", ActionType.Chat)},
+		{ KeyAction.ToggleMHelp, new KeybindMetadata("Toggle MHelp", ActionType.Chat)},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new KeybindMetadata("Target Head, Eyes and Mouth", ActionType.Targeting)},
