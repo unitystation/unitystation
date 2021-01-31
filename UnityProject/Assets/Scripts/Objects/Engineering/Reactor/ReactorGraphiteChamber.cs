@@ -17,8 +17,8 @@ namespace Objects.Engineering
 		public float EditorEnergyReleased;
 		public GameObject UraniumOre;
 		public GameObject MetalOre;
-		public GameObject PlasSteel;
-
+		public GameObject ConstructMaterial; //Was set to PlasSteel. Changed to generic material in anticipation of changing to graphite in future.
+		[SerializeField] private int droppedMaterialAmount = 40;
 		private float tickCount;
 
 		[SerializeField] private ItemStorage RodStorage = default;
@@ -460,7 +460,7 @@ namespace Objects.Engineering
 					Inventory.ServerDespawn(Rod);
 				}
 
-				Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, registerObject.WorldPositionServer, count: 40);
+				Spawn.ServerPrefab(ConstructMaterial, registerObject.WorldPositionServer, count: droppedMaterialAmount);
 			}
 
 
