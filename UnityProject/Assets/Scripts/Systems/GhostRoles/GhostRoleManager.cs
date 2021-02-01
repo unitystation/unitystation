@@ -121,9 +121,9 @@ namespace Systems.GhostRoles
 					clientAvailableRoles.Remove(key);
 				};
 
-				UIManager.Display.hudBottomGhost.GetComponent<UI_GhostOptions>().NewGhostRoleAvailable(GhostRoles[typeIndex]);
+				UIManager.Display.hudBottomGhost.NewGhostRoleAvailable(GhostRoles[typeIndex]);
 			}
-			
+
 			GhostRoleClient role = clientAvailableRoles[key];
 			role.UpdateRole(minPlayers, maxPlayers, timeRemaining, playerCount);
 

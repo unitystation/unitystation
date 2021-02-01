@@ -25,8 +25,7 @@ namespace UI.Systems.Ghost
 		private TeleportWindow TeleportWindow => UIManager.TeleportWindow;
 		private GhostRoleWindow GhostRoleWindow => UIManager.GhostRoleWindow;
 
-		[SerializeField]
-		private GameObject AdminGhostInventory;
+		public GameObject AdminGhostInventory;
 
 		private bool roleBtnAnimating = false;
 
@@ -34,10 +33,6 @@ namespace UI.Systems.Ghost
 		{
 			TeleportWindow.onTeleportRequested += TeleportUtils.TeleportLocalGhostTo;
 			TeleportWindow.onTeleportToVector += TeleportUtils.TeleportLocalGhostTo;
-			if (PlayerList.Instance.IsClientAdmin == false)
-			{
-				AdminGhostInventory.SetActive(false);
-			}
 			DetermineGhostHearText();
 		}
 
