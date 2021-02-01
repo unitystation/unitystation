@@ -22,7 +22,7 @@ public class AdminEnableMessage : ServerMessage
 	public static AdminEnableMessage Send(ConnectedPlayer player, string adminToken)
 	{
 		UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
-		var adminGhostItemStorage = AdminManager.Instance.CreateItemSlotStorage(player);
+		var adminGhostItemStorage = AdminManager.Instance.GetItemSlotStorage(player);
 		AdminEnableMessage msg = new AdminEnableMessage
 		{
 			AdminToken = adminToken,
