@@ -199,7 +199,7 @@ public class ChatRelay : NetworkBehaviour
 			{
 				if(isOriginator)
 				{
-					ChatBubbleManager.Instance.ShowAction(Regex.Replace(message, "[.*?]", string.Empty), recipient);
+					ChatBubbleManager.Instance.ShowAction(Regex.Replace(message, "<.*?>", string.Empty), recipient);
 				}
 			}
 
