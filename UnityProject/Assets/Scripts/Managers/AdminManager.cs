@@ -30,7 +30,7 @@ public class AdminManager : MonoBehaviour
 		}
 	}
 
-	public ItemStorage CreateItemSlotStorage(ConnectedPlayer player)
+	private ItemStorage CreateItemSlotStorage(ConnectedPlayer player)
 	{
 		var holder = Spawn.ServerPrefab(ItemStorageHolderPrefab, null, gameObject.transform);
 		var itemStorage = holder.GameObject.GetComponent<ItemStorage>();
@@ -40,7 +40,11 @@ public class AdminManager : MonoBehaviour
 
 	public ItemStorage GetItemSlotStorage(ConnectedPlayer player)
 	{
-		return ghostStorageList[player.UserId];
+		if (ghostStorageList.ContainsKey(player.UserId))
+		{
+			return ghostStorageList[player.UserId];
+		}
+		return CreateItemSlotStorage(player);
 	}
 
 }
