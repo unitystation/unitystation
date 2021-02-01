@@ -46,6 +46,11 @@ namespace NPC.AI
 					return normalMood.PickRandom();
 				case int n when n.IsBetween(1, 40):
 					return badMood.PickRandom();
+				default:
+					Logger.LogError(
+						$"Examinable Mood got unexpected range of mood level: {mood.LevelPercent}",
+						Category.Interaction);
+					break;
 			}
 
 			return normalMood.PickRandom();
