@@ -379,6 +379,7 @@ MonoBehaviour:
   hoverName: feet
   initiallyHidden: 0
   placeholderImage: {fileID: 62659942576765912}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -690,6 +691,7 @@ MonoBehaviour:
   hoverName: neck
   initiallyHidden: 0
   placeholderImage: {fileID: 6179732795611761208}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -846,6 +848,7 @@ MonoBehaviour:
   hoverName: head
   initiallyHidden: 0
   placeholderImage: {fileID: 5007849627591708401}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -911,6 +914,7 @@ MonoBehaviour:
   hoverName: outerwear
   initiallyHidden: 0
   placeholderImage: {fileID: 1829760528224596229}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -1299,6 +1303,7 @@ MonoBehaviour:
   hoverName: storage3
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 2399076801370518900}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -1839,6 +1844,7 @@ MonoBehaviour:
   hoverName: ear
   initiallyHidden: 0
   placeholderImage: {fileID: 7202996334576291201}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -2842,6 +2848,7 @@ MonoBehaviour:
   hoverName: uniform
   initiallyHidden: 0
   placeholderImage: {fileID: 78461155227193039}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -3546,6 +3553,7 @@ MonoBehaviour:
   hoverName: hand
   initiallyHidden: 0
   placeholderImage: {fileID: 843367935163916504}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4836,6 +4844,7 @@ MonoBehaviour:
   hoverName: back
   initiallyHidden: 0
   placeholderImage: {fileID: 5267069694597433346}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4901,6 +4910,7 @@ MonoBehaviour:
   hoverName: belt
   initiallyHidden: 0
   placeholderImage: {fileID: 3336744420593632378}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -5723,6 +5733,7 @@ MonoBehaviour:
   hoverName: eyes
   initiallyHidden: 0
   placeholderImage: {fileID: 3514488802385227861}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -6410,6 +6421,7 @@ MonoBehaviour:
   hoverName: id
   initiallyHidden: 0
   placeholderImage: {fileID: 6937599457675614971}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -6681,6 +6693,7 @@ MonoBehaviour:
   hoverName: storage1
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 4156895741789320453}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -8179,6 +8192,7 @@ MonoBehaviour:
   hoverName: mask
   initiallyHidden: 0
   placeholderImage: {fileID: 6840901966249705651}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -8935,6 +8949,7 @@ MonoBehaviour:
   hoverName: storage2
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 3292608244821424188}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -9645,7 +9660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hudBottomHuman: {fileID: 8916763399579347746}
-  hudBottomGhost: {fileID: 5132426982416102989}
+  hudBottomGhost: {fileID: 5165949708381885836}
   hudBottomBlob: {fileID: 1645623885778184550}
   jobSelectWindow: {fileID: 8556394910883754237}
   teamSelectionWindow: {fileID: 8554602371908804983}
@@ -12920,18 +12935,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fad2bb29eacd43419afe1919a39360f, type: 3}
---- !u!1 &5132426982416102989 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8322412643209625539, guid: 8fad2bb29eacd43419afe1919a39360f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3766466217258256782}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4909276170178374455 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8098718680817705657, guid: 8fad2bb29eacd43419afe1919a39360f,
     type: 3}
   m_PrefabInstance: {fileID: 3766466217258256782}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5165949708381885836 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8355319641317481474, guid: 8fad2bb29eacd43419afe1919a39360f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3766466217258256782}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6a8488f83ae114e9e54f13a5cd9aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4329296173256866631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13127,7 +13148,7 @@ PrefabInstance:
     - target: {fileID: 5310848962886298822, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 489.34036
+      value: 489.34024
       objectReference: {fileID: 0}
     - target: {fileID: 5380185652939830920, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -13147,12 +13168,12 @@ PrefabInstance:
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Size
-      value: 0.00000013078962
+      value: 0.30094233
       objectReference: {fileID: 0}
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Value
-      value: 0.00000003118236
+      value: 0.00000012472947
       objectReference: {fileID: 0}
     - target: {fileID: 5420804678553840072, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -14575,7 +14596,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300016, guid: 5f4f6721c5bda204bafa4dfba79e645e,
+      objectReference: {fileID: 21300020, guid: 5f4f6721c5bda204bafa4dfba79e645e,
         type: 3}
     - target: {fileID: 766307428222084931, guid: 58f6348968bc83047b6bc0bf73e60380,
         type: 3}
@@ -14586,7 +14607,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7145856751783321575, guid: a08e177daac794cf680f161215685ce4,
+      objectReference: {fileID: 4659265657221884602, guid: a08e177daac794cf680f161215685ce4,
         type: 3}
     - target: {fileID: 1723243351732910187, guid: 58f6348968bc83047b6bc0bf73e60380,
         type: 3}

@@ -6,6 +6,7 @@ using Blob;
 using DatabaseAPI;
 using JetBrains.Annotations;
 using ServerInfo;
+using UI.Systems.Ghost;
 
 public class ControlDisplays : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class ControlDisplays : MonoBehaviour
 		JobSelect
 	}
 	public GameObject hudBottomHuman;
-	public GameObject hudBottomGhost;
+	public UI_GhostOptions hudBottomGhost;
 	public GameObject hudBottomBlob;
 	public GameObject jobSelectWindow;
 	public GameObject teamSelectionWindow;
@@ -131,6 +132,7 @@ public class ControlDisplays : MonoBehaviour
 			hudBottomBlob.SetActive(false);
 			hudBottomHuman.SetActive(false);
 			hudBottomGhost.SetActive(true);
+			hudBottomGhost.AdminGhostInventory.SetActive(PlayerList.Instance.IsClientAdmin);
 		}
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
