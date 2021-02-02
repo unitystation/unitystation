@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 1711149867fa7b54fb21f6f7dd606506, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -111,12 +112,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1914634472754848989, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 4980088718429394141, guid: 575c7259047dae94189596259407a197,
-        type: 3}
-    - target: {fileID: 1914634472754848989, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
-        type: 3}
       propertyPath: ammoType
       value: 21
       objectReference: {fileID: 0}
@@ -128,9 +123,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1914634472754848989, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
-      propertyPath: SpawnsCasing
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 4980088718429394141, guid: 575c7259047dae94189596259407a197,
+        type: 3}
     - target: {fileID: 1914634472754848989, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
       propertyPath: FiringSound
@@ -138,8 +134,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1914634472754848989, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
+      propertyPath: SpawnsCasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1914634472754848989, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
+        type: 3}
       propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/GunShots/ShootSyringe.prefab
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 1961794080483724190, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
@@ -151,6 +152,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3164301845646694626, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3164301845646694626, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
@@ -169,6 +175,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3164301845646694626, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3164301845646694626, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -181,16 +192,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3164301845646694626, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3164301845646694626, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3164301845646694626, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
@@ -219,14 +220,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3249280436497271540, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
-      propertyPath: initialDescription
-      value: A bullpup two-round burst toy SMG, designated the 'Stalker'. Ages 8
-        and up.
+      propertyPath: initialName
+      value: donksoft SMG
       objectReference: {fileID: 0}
     - target: {fileID: 3249280436497271540, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
-      propertyPath: initialName
-      value: donksoft SMG
+      propertyPath: initialDescription
+      value: A bullpup two-round burst toy SMG, designated the 'Stalker'. Ages 8
+        and up.
       objectReference: {fileID: 0}
     - target: {fileID: 8389838223081530612, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}

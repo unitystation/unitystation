@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2006231833280263201, guid: 718d1f376545f3643aa114f47282f5ae,
         type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2006231833280263201, guid: 718d1f376545f3643aa114f47282f5ae,
+        type: 3}
       propertyPath: initialDescription
       value: A block, empowered by dark magic. Sharp weapons will be enhanced when
         used on the stone.
@@ -22,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2101362077555336759, guid: 718d1f376545f3643aa114f47282f5ae,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2101362077555336759, guid: 718d1f376545f3643aa114f47282f5ae,
         type: 3}
@@ -40,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2101362077555336759, guid: 718d1f376545f3643aa114f47282f5ae,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2101362077555336759, guid: 718d1f376545f3643aa114f47282f5ae,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2101362077555336759, guid: 718d1f376545f3643aa114f47282f5ae,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2101362077555336759, guid: 718d1f376545f3643aa114f47282f5ae,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2101362077555336759, guid: 718d1f376545f3643aa114f47282f5ae,
         type: 3}

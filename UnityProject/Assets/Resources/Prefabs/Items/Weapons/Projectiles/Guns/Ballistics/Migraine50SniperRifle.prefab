@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: bcb3cbf69af1acd499695b858c921b80, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -200,6 +201,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: bcb3cbf69af1acd499695b858c921b80, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -220,6 +222,7 @@ MonoBehaviour:
   syncInterval: 0.1
   clothData: {fileID: 11400000, guid: 5f1350a734e527941bd7c6eec964a984, type: 2}
   variantType: 0
+  hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
   SpriteDataSO: []
@@ -243,19 +246,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: FireRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: ammoType
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: FiringSound
-      value: ShootLMG
-      objectReference: {fileID: 0}
-    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 21396104557255652, guid: b0bb7b40f7e10864e9bba0bd2123cfcb,
         type: 3}
-      propertyPath: FireRate
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: ammoPrefab
@@ -264,10 +268,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 21396104557255652, guid: b0bb7b40f7e10864e9bba0bd2123cfcb,
-        type: 3}
+      propertyPath: FiringSound
+      value: ShootLMG
+      objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: ProjectileVelocity
@@ -301,6 +304,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -316,6 +324,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -328,16 +341,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -367,20 +370,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: initialDescription
       value: A long ranged weapon that does significant damage. No, you can't quickscope.
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
-        type: 2}
-    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 7ca090b2c5e1be94cbf988d694775b43,
+        type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
         type: 2}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}

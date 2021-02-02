@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
+      propertyPath: initialName
+      value: dart pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
       propertyPath: initialSize
       value: 2
       objectReference: {fileID: 0}
@@ -28,11 +33,6 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A small spring-loaded sidearm that functions identically to a syringe
         gun.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
-        type: 3}
-      propertyPath: initialName
-      value: dart pistol
       objectReference: {fileID: 0}
     - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
@@ -59,6 +59,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -74,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -86,16 +96,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
@@ -115,7 +115,12 @@ PrefabInstance:
     - target: {fileID: 6338168785921865507, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
       propertyPath: m_Name
-      value: DarkPistol
+      value: DartPistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 7394293649742526056, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b39d85aa9080f014b9956cb59d760674, type: 3}

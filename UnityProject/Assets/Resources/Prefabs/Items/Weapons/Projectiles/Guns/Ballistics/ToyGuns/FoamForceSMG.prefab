@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 624c802034135c544bbbf700b476b1d2, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -200,6 +201,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: b1f765c91deeccb4aa65d49f71339847, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -302,6 +304,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: a536a2859c76b9444ae47139de0d031b, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -404,6 +407,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 12ce447deb3f3eb47b6b1d2978bb8998, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -428,12 +432,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 2455247520712074419, guid: 622826a49d3855f40be742325988c4de,
-        type: 3}
-    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
       propertyPath: ammoType
       value: 21
       objectReference: {fileID: 0}
@@ -450,9 +448,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: SpawnsCasing
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 2455247520712074419, guid: 622826a49d3855f40be742325988c4de,
+        type: 3}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: FiringSound
@@ -460,8 +459,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: SpawnsCasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/GunShots/ShootSyringe.prefab
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 4729653154424643162, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -481,6 +485,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -496,6 +505,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -508,16 +522,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -547,6 +551,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: initialName
+      value: foam force SMG
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: throwDamage
       value: 0
       objectReference: {fileID: 0}
@@ -554,11 +563,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A prototype three-round burst toy submachine gun. Ages 8 and up.
-      objectReference: {fileID: 0}
-    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: initialName
-      value: foam force SMG
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a940a8ef1ee65024fb0a322703040d98, type: 3}

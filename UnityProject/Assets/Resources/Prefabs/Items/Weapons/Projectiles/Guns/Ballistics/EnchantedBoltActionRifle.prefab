@@ -13,15 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1940949741191087747, guid: d10218c54fffc044994ea27f516323e0,
         type: 3}
-    - target: {fileID: 8190623173281498803, guid: 035def552b915ed429f1572133201dcb,
+    - target: {fileID: 5057286051627280538, guid: 035def552b915ed429f1572133201dcb,
         type: 3}
-      propertyPath: initialDescription
-      value: Careful not to lose your head.
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 8190623173281498803, guid: 035def552b915ed429f1572133201dcb,
         type: 3}
       propertyPath: initialName
       value: enchanted bolt action rifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8190623173281498803, guid: 035def552b915ed429f1572133201dcb,
+        type: 3}
+      propertyPath: initialDescription
+      value: Careful not to lose your head.
       objectReference: {fileID: 0}
     - target: {fileID: 8562292102157112421, guid: 035def552b915ed429f1572133201dcb,
         type: 3}
@@ -32,6 +37,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnchantedBoltActionRifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8598753728636343461, guid: 035def552b915ed429f1572133201dcb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8598753728636343461, guid: 035def552b915ed429f1572133201dcb,
         type: 3}
@@ -50,6 +60,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8598753728636343461, guid: 035def552b915ed429f1572133201dcb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8598753728636343461, guid: 035def552b915ed429f1572133201dcb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +77,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8598753728636343461, guid: 035def552b915ed429f1572133201dcb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8598753728636343461, guid: 035def552b915ed429f1572133201dcb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8598753728636343461, guid: 035def552b915ed429f1572133201dcb,
         type: 3}

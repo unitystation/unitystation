@@ -16,6 +16,7 @@ MonoBehaviour:
   syncInterval: 0.1
   clothData: {fileID: 11400000, guid: 5136111f1c6795443a96c4b75b3c571b, type: 2}
   variantType: 0
+  hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
   SpriteDataSO: []
@@ -40,14 +41,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: MagInternal
+      propertyPath: MagSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: FireRate
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: MagSize
-      value: 4
+      propertyPath: ammoType
+      value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 2003804624138751089, guid: 4adcadc588a9b69449a7184abef7ad19,
+        type: 3}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: ammoPrefab
@@ -56,23 +68,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: casingPrefabOverride
-      value: 
-      objectReference: {fileID: 7885110935015110955, guid: 4f1eb975ef940201eac8726b12289e87,
-        type: 3}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: ammoType
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
       propertyPath: FiringSound
       value: ShootLMG
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: FireRate
+      propertyPath: MagInternal
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
@@ -82,10 +83,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 2003804624138751089, guid: 4adcadc588a9b69449a7184abef7ad19,
-        type: 3}
+      propertyPath: MaxRecoilVariance
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: genericInternalMag
@@ -99,23 +99,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: MaxRecoilVariance
-      value: 0.05
-      objectReference: {fileID: 0}
+      propertyPath: casingPrefabOverride
+      value: 
+      objectReference: {fileID: 7885110935015110955, guid: 4f1eb975ef940201eac8726b12289e87,
+        type: 3}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/Shotgun/ShotgunShot.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
+      propertyPath: hitDamage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: initialName
       value: shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -125,21 +136,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: cc3b8cc0098b09d45acbb325c5ec8337,
         type: 2}
-    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 7bba6409a20d3484aa1b6d42aa8b6e9f,
-        type: 2}
-    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: initialSize
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: initialTraits.Array.data[1]
@@ -148,14 +153,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: hitDamage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: df0bff890a4657e459e7f19e84e47f5d,
+        type: 2}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bba6409a20d3484aa1b6d42aa8b6e9f,
         type: 2}
     - target: {fileID: 8958440777353242636, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -167,6 +173,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: _ShotgunBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -185,6 +196,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -197,16 +213,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
