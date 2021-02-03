@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/ResonatorBlast.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: SuppressedSoundA.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 4086796152908822152, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: m_AssetId
@@ -21,6 +26,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GoldenRevolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -85,14 +90,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-      propertyPath: initialDescription
-      value: This ain't no game, ain't never been no show, And I'll gladly gun down
-        the oldest lady you know. Uses .357 ammo.
+      propertyPath: initialName
+      value: golden revolver
       objectReference: {fileID: 0}
     - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-      propertyPath: initialName
-      value: golden revolver
+      propertyPath: initialDescription
+      value: This ain't no game, ain't never been no show, And I'll gladly gun down
+        the oldest lady you know. Uses .357 ammo.
       objectReference: {fileID: 0}
     - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}

@@ -14,19 +14,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1996529631628265754, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: initialDescription
-      value: A semi automatic shotgun with tactical furniture and a six-shell capacity
-        underneath.
+      propertyPath: initialSize
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1996529631628265754, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: initialSize
-      value: 5
+      propertyPath: initialDescription
+      value: A semi automatic shotgun with tactical furniture and a six-shell capacity
+        underneath.
       objectReference: {fileID: 0}
     - target: {fileID: 2075233859075398604, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
@@ -96,20 +96,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 2003804624138751089, guid: 4adcadc588a9b69449a7184abef7ad19,
-        type: 3}
-    - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
-        type: 3}
       propertyPath: MagSize
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: genericInternalMag
+      propertyPath: FireRate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: Projectile
       value: 
-      objectReference: {fileID: 5657126417423856911, guid: 290140d90b29b7b40823586216f597ca,
+      objectReference: {fileID: 2003804624138751089, guid: 4adcadc588a9b69449a7184abef7ad19,
         type: 3}
     - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
@@ -119,13 +118,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: allowMagazineRemoval
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: genericInternalMag
+      value: 
+      objectReference: {fileID: 5657126417423856911, guid: 290140d90b29b7b40823586216f597ca,
+        type: 3}
     - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: FireRate
-      value: 2
+      propertyPath: allowMagazineRemoval
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3787017684866724271, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
