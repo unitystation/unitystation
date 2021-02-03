@@ -65,6 +65,7 @@ public enum JobType
 	PSYCHIATRIST = 53,
 	WIZARD = 54,
 	BLOB = 55,
+	ANCIENT_ENGINEER = 56,
 }
 
 public static class JobCategories
