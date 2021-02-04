@@ -36,10 +36,10 @@ public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandAppl
 
 		if (GameManager.Instance.ShuttleSent) return;
 
-		Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=60><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
+		Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=30><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
 			MatrixManager.MainStationMatrix);
 
-		Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=60><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
+		Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=30><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
 			GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
 
 		SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
