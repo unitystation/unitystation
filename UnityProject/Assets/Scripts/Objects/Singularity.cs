@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Systems.Atmospherics;
+using Systems.Radiation;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,37 +22,40 @@ namespace Objects
 			{
 				currentStage = value;
 
-				spriteHandler.ChangeSprite((int)currentStage - 1);
+				spriteHandler.ChangeSprite((int)currentStage);
 			}
 		}
 
 		[SerializeField]
-		private SingularityStages startingStage = SingularityStages.Stage1;
+		private SingularityStages startingStage = SingularityStages.Stage0;
 
 		[SerializeField]
-		private List<SpriteDataSO> stageSprites = new List<SpriteDataSO>();
+		private int singularityPoints = 100;
+
+		[SerializeField]
+		private int maximumPoints = 3250;
 
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
+		private CustomNetTransform customNetTransform;
+
+		private bool eatenSuperMatter;
 
 		private List<Vector3Int> closestTiles = new List<Vector3Int>();
+		private List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
 
 		private List<Vector3Int> coords = new List<Vector3Int>
 		{
-			new Vector3Int(0, 0, 0),
 			new Vector3Int(0, 1, 0),
 			new Vector3Int(1, 0, 0),
 			new Vector3Int(0, -1, 0),
-			new Vector3Int(-1, 0, 0),
-			new Vector3Int(1, 1, 0),
-			new Vector3Int(1, -1, 0),
-			new Vector3Int(-1, 1, 0),
-			new Vector3Int(-1, -1, 0)
+			new Vector3Int(-1, 0, 0)
 		};
 
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
+			customNetTransform = GetComponent<CustomNetTransform>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
 			CurrentStage = startingStage;
@@ -69,26 +75,65 @@ namespace Objects
 		{
 			if(!CustomNetworkManager.IsServer) return;
 
-			GetRange();
+			if (singularityPoints <= 0)
+			{
+				Despawn.ServerSingle(gameObject);
+			}
+
+			//make it so particle accelerator blocks this
+			singularityPoints -= 1;
 
 			PullObjects();
 
 			DestroyObjects();
 
 			DestroyTiles();
-		}
 
-		private void GetRange()
-		{
-			closestTiles = GenerateCoords(registerTile.WorldPositionServer);
+			TryMove();
+
+			TryChangeStage();
+
+			var matrixInfo = MatrixManager.AtPoint(registerTile.WorldPositionServer, true);
+
+			RadiationManager.Instance.RequestPulse(matrixInfo.Matrix, MatrixManager.WorldToLocalInt(registerTile.WorldPositionServer, matrixInfo),
+				Mathf.Max((float)CurrentStage / 5 * 2000f, 0),
+				new System.Random().Next(Int32.MinValue, Int32.MaxValue));
 		}
 
 		private void PullObjects()
 		{
+			int distance;
+
+			switch (currentStage)
+			{
+				case SingularityStages.Stage0:
+					distance = 0;
+					break;
+				case SingularityStages.Stage1:
+					distance = 1;
+					break;
+				case SingularityStages.Stage2:
+					distance = 2;
+					break;
+				case SingularityStages.Stage3:
+					distance = 6;
+					break;
+				case SingularityStages.Stage4:
+					distance = 8;
+					break;
+				case SingularityStages.Stage5:
+					distance = 10;
+					break;
+				default:
+					distance = 1;
+					break;
+			}
+
+			closestTiles =
+				EffectShape.CreateEffectShape(EffectShapeType.Circle, registerTile.WorldPositionServer, distance).ToList();
+
 			foreach (var tile in closestTiles)
 			{
-				Debug.LogError($"{tile}");
-
 				var objects = MatrixManager.GetAt<PushPull>(tile, true);
 
 				foreach (var objectToMove in objects)
@@ -115,11 +160,13 @@ namespace Objects
 				{
 					if (objectToMove.registerTile.ObjectType == ObjectType.Player)
 					{
-						objectToMove.GetComponent<PlayerHealth>().ServerGibPlayer();
+						objectToMove.GetComponent<PlayerHealth>()?.ServerGibPlayer();
+						ChangeHealth(100);
 					}
 					else
 					{
-						objectToMove.GetComponent<Integrity>().ApplyDamage(100, AttackType.Melee, DamageType.Brute, true);
+						objectToMove.GetComponent<Integrity>()?.ApplyDamage(100, AttackType.Melee, DamageType.Brute, true);
+						ChangeHealth(5);
 					}
 				}
 			}
@@ -127,17 +174,127 @@ namespace Objects
 
 		private void DestroyTiles()
 		{
-			foreach (var coord in coords)
-			{
-				var worldPos = coord + registerTile.WorldPositionServer;
+			int radius;
 
-				var matrixInfo = MatrixManager.AtPoint(worldPos, true);
+			switch (currentStage)
+			{
+				case SingularityStages.Stage0:
+					radius = 0;
+					break;
+				case SingularityStages.Stage1:
+					radius = 1;
+					break;
+				case SingularityStages.Stage2:
+					radius = 2;
+					break;
+				case SingularityStages.Stage3:
+					radius = 3;
+					break;
+				case SingularityStages.Stage4:
+					radius = 4;
+					break;
+				case SingularityStages.Stage5:
+					radius = 5;
+					break;
+				default:
+					radius = 0;
+					break;
+			}
+
+			foreach (var coord in EffectShape.CreateEffectShape(EffectShapeType.Square, registerTile.WorldPositionServer, radius))
+			{
+				var matrixInfo = MatrixManager.AtPoint(coord, true);
+
+				var cellPos = MatrixManager.Instance.WorldToLocalInt(coord, matrixInfo.Matrix);
 
 				matrixInfo.Matrix.MetaTileMap.ApplyDamage(
-					MatrixManager.Instance.WorldToLocalInt(worldPos, matrixInfo.Matrix),
-					10 * (int)currentStage,
-					worldPos,
+					cellPos,
+					200,
+					coord,
 					AttackType.Bomb);
+
+				var node = matrixInfo.Matrix.GetMetaDataNode(cellPos);
+				if (node != null)
+				{
+					foreach (var electricalData in node.ElectricalData)
+					{
+						electricalData.InData.DestroyThisPlease();
+						ChangeHealth(5);
+					}
+
+					SavedPipes.Clear();
+					SavedPipes.AddRange(node.PipeData);
+					foreach (var pipe in SavedPipes)
+					{
+						pipe.pipeData.DestroyThis();
+						ChangeHealth(5);
+					}
+				}
+			}
+		}
+
+		private void TryMove()
+		{
+			var coord = coords.GetRandom() + registerTile.WorldPositionServer;
+
+			if(MatrixManager.IsPassableAtAllMatricesOneTile(coord, true, false) == false) return;
+
+			customNetTransform.SetPosition(coord);
+		}
+
+		private void ChangeHealth(int healthChange)
+		{
+			if (singularityPoints + healthChange >= maximumPoints)
+			{
+				singularityPoints = maximumPoints;
+				return;
+			}
+
+			if (singularityPoints + healthChange < maximumPoints)
+			{
+				singularityPoints += healthChange;
+				return;
+			}
+
+			if (singularityPoints < 0)
+			{
+				singularityPoints = 0;
+			}
+		}
+
+		private void TryChangeStage()
+		{
+			if (singularityPoints < 200)
+			{
+				ChangeStage(SingularityStages.Stage0);
+			}
+			else if (singularityPoints < 500)
+			{
+				ChangeStage(SingularityStages.Stage1);
+			}
+			else if (singularityPoints < 1000)
+			{
+				ChangeStage(SingularityStages.Stage2);
+			}
+			else if (singularityPoints < 2000)
+			{
+				ChangeStage(SingularityStages.Stage3);
+			}
+			else if ((singularityPoints >= 3000 && !eatenSuperMatter) || singularityPoints >= 2000)
+			{
+				ChangeStage(SingularityStages.Stage4);
+			}
+			else if (singularityPoints >= 3000 && eatenSuperMatter)
+			{
+				ChangeStage(SingularityStages.Stage5);
+			}
+		}
+
+		private void ChangeStage(SingularityStages newStage)
+		{
+			if (CurrentStage != newStage)
+			{
+				CurrentStage = newStage;
 			}
 		}
 
@@ -161,57 +318,19 @@ namespace Objects
 
 		private void PushObject(PushPull objectToPush, Vector3 pushVector)
 		{
-			objectToPush.GetComponent<RegisterPlayer>()?.ServerStun();
+			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
+			{
+				objectToPush.GetComponent<RegisterPlayer>()?.ServerStun();
+			}
+			else if (objectToPush.IsPushable == false)
+			{
+				//Dont push anchored objects unless stage 5 or 4
+				return;
+			}
 
 			//Push Twice
 			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
 			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
-		}
-
-		private List<Vector3Int> GenerateCoords(Vector3Int worldPos)
-		{
-			int distance;
-
-			switch (currentStage)
-			{
-				case SingularityStages.Stage1:
-					return new List<Vector3Int>{worldPos};
-				case SingularityStages.Stage2:
-					distance = 3;
-					break;
-				case SingularityStages.Stage3:
-					distance = 5;
-					break;
-				case SingularityStages.Stage4:
-					distance = 7;
-					break;
-				case SingularityStages.Stage5:
-					distance = 9;
-					break;
-				case SingularityStages.Stage6:
-					distance = 11;
-					break;
-				default:
-					distance = 1;
-					break;
-			}
-
-			int r2 = distance * distance;
-			int area = r2 << 2;
-			int rr = distance << 1;
-
-			var data = new List<Vector3Int>();
-
-			for (int i = 0; i < area; i++)
-			{
-				int tx = (i % rr) - distance;
-				int ty = (i / rr) - distance;
-
-				if (tx * tx + ty * ty <= r2)
-					data.Add(new Vector3Int(worldPos.x + tx, worldPos.y + ty, 0));
-			}
-
-			return data;
 		}
 
 		private SpinMode RandomSpin()
@@ -234,11 +353,11 @@ namespace Objects
 
 	public enum SingularityStages
 	{
+		Stage0 = 0,
 		Stage1 = 1,
 		Stage2 = 2,
 		Stage3 = 3,
 		Stage4 = 4,
-		Stage5 = 5,
-		Stage6 = 6
+		Stage5 = 5
 	}
 }

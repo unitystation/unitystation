@@ -12,14 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b137ecbc04593249b954730673929e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentStage: 1
-  stageSprites:
-  - {fileID: 11400000, guid: 1cff58010c1a5b9498db74a05de4daf4, type: 2}
-  - {fileID: 11400000, guid: 3d1f587843087794fa21159a2eefb119, type: 2}
-  - {fileID: 11400000, guid: 89dd1cf63d8467047aa706eade1ca06a, type: 2}
-  - {fileID: 11400000, guid: 4bdfef65336fab744879f4eedc1a7de6, type: 2}
-  - {fileID: 11400000, guid: 63c085999e8cd9f43b65af87a6f8a00b, type: 2}
-  - {fileID: 11400000, guid: 564cfc64db34a914bb54bf0bb64ead64, type: 2}
+  startingStage: 0
+  singularityHealth: 100
+  healthBetweenStages: 250
 --- !u!1001 &8884009795189538112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -116,7 +111,22 @@ PrefabInstance:
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Resistances.Indestructable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -131,12 +141,17 @@ PrefabInstance:
     - target: {fileID: 5971563122362279857, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5971563122362279857, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: isMeleeable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportCost
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -175,19 +190,19 @@ PrefabInstance:
         type: 3}
       propertyPath: SubCatalogue.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 89dd1cf63d8467047aa706eade1ca06a,
+      objectReference: {fileID: 11400000, guid: 4bdfef65336fab744879f4eedc1a7de6,
         type: 2}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: SubCatalogue.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 4bdfef65336fab744879f4eedc1a7de6,
+      objectReference: {fileID: 11400000, guid: 63c085999e8cd9f43b65af87a6f8a00b,
         type: 2}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: SubCatalogue.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: 63c085999e8cd9f43b65af87a6f8a00b,
+      objectReference: {fileID: 11400000, guid: 89dd1cf63d8467047aa706eade1ca06a,
         type: 2}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
