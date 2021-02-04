@@ -27,7 +27,7 @@ public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandAppl
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag);
 	}
@@ -59,7 +59,7 @@ public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandAppl
 
 	private void FinishHack(HandApply interaction)
 	{
-		if (Random.Range(0, 100) <= chanceToFailHack)
+		if (DMMath.Prob(chanceToFailHack))
 		{
 			Chat.AddActionMsgToChat(interaction.Performer, "Your attempt to hack the shuttle console failed",
 				$"{interaction.Performer.ExpensiveName()} failed to hack the shuttle console");
