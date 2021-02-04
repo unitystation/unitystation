@@ -55,6 +55,9 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	public override void Initialize()
 	{
+		if (!CustomNetworkManager.IsServer)
+			return;
+
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 
