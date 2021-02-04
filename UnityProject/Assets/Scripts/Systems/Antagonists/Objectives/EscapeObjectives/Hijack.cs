@@ -30,7 +30,7 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			//Must be alive
-			if (Owner.body.playerHealth.IsDead)
+			if (Owner.body.IsDeadOrGhost)
 			{
 				return false;
 			}
