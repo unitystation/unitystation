@@ -1,14 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Strings;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Escape shuttle logic
 /// </summary>
 public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 {
+	[SerializeField]
+	private float timeToHack = 20f;
+
+	[SerializeField]
+	private float chanceToFailHack = 25f;
+
 	private bool beenEmagged;
+
+	private RegisterTile registerTile;
+
+	private void Awake()
+	{
+		registerTile = GetComponent<RegisterTile>();
+	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -26,13 +41,35 @@ public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandAppl
 	{
 		if (beenEmagged)
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "The shuttle has already been emagged!");
+			Chat.AddExamineMsgFromServer(interaction.Performer, "The shuttle has already been hacked!");
 			return;
 		}
 
-		beenEmagged = true;
+		Chat.AddActionMsgToChat(interaction.Performer, $"You attempt to hack the shuttle console, this will take around {timeToHack} seconds",
+			$"{interaction.Performer.ExpensiveName()} starts hacking the shuttle console");
 
-		Chat.AddActionMsgToChat(interaction.Performer, "You emag the shuttle console", $"{interaction.Performer.ExpensiveName()} emags the shuttle console");
+		var cfg = new StandardProgressActionConfig(StandardProgressActionType.Restrain);
+
+		StandardProgressAction.Create(
+			cfg,
+			() => FinishHack(interaction)
+		).ServerStartProgress(ActionTarget.Object(registerTile), timeToHack, interaction.Performer);
+
+	}
+
+	private void FinishHack(HandApply interaction)
+	{
+		if (Random.Range(0, 100) <= chanceToFailHack)
+		{
+			Chat.AddActionMsgToChat(interaction.Performer, "Your attempt to hack the shuttle console failed",
+				$"{interaction.Performer.ExpensiveName()} failed to hack the shuttle console");
+			return;
+		}
+
+		Chat.AddActionMsgToChat(interaction.Performer, "You hack the shuttle console",
+			$"{interaction.Performer.ExpensiveName()} hacked the shuttle console");
+
+		beenEmagged = true;
 
 		if (GameManager.Instance.ShuttleSent) return;
 
