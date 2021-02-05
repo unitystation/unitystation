@@ -4,12 +4,13 @@ using System.Linq;
 using Systems.Atmospherics;
 using Systems.Radiation;
 using Light2D;
+using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Objects
 {
-	public class Singularity : MonoBehaviour
+	public class Singularity : NetworkBehaviour
 	{
 		private SingularityStages currentStage = SingularityStages.Stage1;
 
@@ -27,6 +28,9 @@ namespace Objects
 			}
 		}
 
+		[SyncVar(hook = nameof(SyncLightVector))]
+		private Vector3 lightVector = Vector3.zero;
+
 		[SerializeField]
 		private SingularityStages startingStage = SingularityStages.Stage0;
 
@@ -39,13 +43,13 @@ namespace Objects
 		[SerializeField]
 		private LightSprite light = null;
 
-		private Transform lightTransform = null;
+		[SerializeField]
+		private bool eatenSuperMatter;
 
+		private Transform lightTransform;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private CustomNetTransform customNetTransform;
-
-		private bool eatenSuperMatter;
 
 		private List<Vector3Int> closestTiles = new List<Vector3Int>();
 		private List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
@@ -76,6 +80,13 @@ namespace Objects
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SingularityUpdate);
+		}
+
+		//Sync light scale to clients
+		private void SyncLightVector(Vector3 oldVar, Vector3 newVar)
+		{
+			lightVector = newVar;
+			lightTransform.localScale = newVar;
 		}
 
 		private void SingularityUpdate()
@@ -302,7 +313,7 @@ namespace Objects
 			if (CurrentStage != newStage)
 			{
 				CurrentStage = newStage;
-				lightTransform.localScale = new Vector3(5 * ((int)newStage + 1), 5 * ((int)newStage + 1), 0);
+				lightVector = new Vector3(5 * ((int)newStage + 1), 5 * ((int)newStage + 1), 0);
 			}
 		}
 
