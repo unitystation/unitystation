@@ -11,6 +11,7 @@ using Audio.Containers;
 using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
+using DiscordWebhook;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -859,27 +860,33 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdAdminGib(GameObject toSmash, string adminId, string adminToken)
+	public void CmdAdminGib(GameObject toGib, string adminId, string adminToken)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		if (toSmash == null)
+		if (toGib == null)
 		{
 			return;
 		}
 
-		var health = toSmash.GetComponent<PlayerHealth>();
+		var health = toGib.GetComponent<PlayerHealth>();
 		if (health == null)
 		{
 			return;
 		}
 
-		var script = toSmash.GetComponent<PlayerScript>();
+		var script = toGib.GetComponent<PlayerScript>();
 		if (script == null || script.IsDeadOrGhost)
 		{
 			return;
 		}
+
+		var message = $"{toGib.ExpensiveName()} was gibbed by {PlayerList.Instance.GetByUserID(adminId).Username}";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message, "");
 
 		health.ServerGibPlayer();
 	}
