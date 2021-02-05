@@ -19,6 +19,11 @@ namespace Objects.Engineering
 		private ResistanceSourceModule resistanceSourceModule;
 
 		[SerializeField]
+		[Tooltip("Whether this emitter should start wrenched and welded")]
+		private bool startSetUp;
+
+		[SerializeField]
+		[Tooltip("Whether this emitter should always shoot even if no power")]
 		private bool alwaysShoot;
 
 		private bool isWelded;
@@ -39,6 +44,19 @@ namespace Objects.Engineering
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
+		private void Start()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			if (startSetUp)
+			{
+				isWelded = true;
+				isWrenched = true;
+				directional.LockDirection = true;
+				pushPull.ServerSetPushable(false);
+			}
+		}
+
 		private void OnEnable()
 		{
 			UpdateManager.Add(EmitterUpdate, 1f);
@@ -55,13 +73,13 @@ namespace Objects.Engineering
 
 			if(isOn == false && alwaysShoot == false) return;
 
-			if (voltage < 2700)
+			if (voltage < 1500)
 			{
 				spriteHandler.ChangeSprite(2);
 				return;
 			}
 
-			TogglePower(!isOn);
+			TogglePower(isOn);
 
 			ShootEmitter();
 		}
@@ -162,6 +180,12 @@ namespace Objects.Engineering
 				return;
 			}
 
+			if (!interaction.HandObject.GetComponent<Welder>().IsOn)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You need a fueled and lit welder");
+				return;
+			}
+
 			if (isWelded)
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
@@ -234,8 +258,6 @@ namespace Objects.Engineering
 		public void PowerNetworkUpdate()
 		{
 			voltage = electricalNodeControl.GetVoltage();
-			//resistanceSourceModule.Resistance = 50f;
-			Debug.LogError("voltage: " + voltage);
 		}
 	}
 }

@@ -301,6 +301,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: Reactions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: ListCanConnectTo.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -318,6 +323,51 @@ PrefabInstance:
         type: 3}
       propertyPath: ListCanConnectTo.Array.data[2]
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: Reactions.Array.data[0].ConnectingDevice
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: Reactions.Array.data[1].ConnectingDevice
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: Reactions.Array.data[2].ConnectingDevice
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: Reactions.Array.data[0].ResistanceReaction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: Reactions.Array.data[1].ResistanceReaction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: Reactions.Array.data[2].ResistanceReaction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: Reactions.Array.data[0].ResistanceReactionA.Resistance.Ohms
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: Reactions.Array.data[1].ResistanceReactionA.Resistance.Ohms
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: Reactions.Array.data[2].ResistanceReactionA.Resistance.Ohms
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}

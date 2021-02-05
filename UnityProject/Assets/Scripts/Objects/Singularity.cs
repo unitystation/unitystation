@@ -12,7 +12,7 @@ namespace Objects
 {
 	public class Singularity : NetworkBehaviour
 	{
-		private SingularityStages currentStage = SingularityStages.Stage1;
+		private SingularityStages currentStage = SingularityStages.Stage0;
 
 		public SingularityStages CurrentStage
 		{
@@ -51,7 +51,6 @@ namespace Objects
 		private SpriteHandler spriteHandler;
 		private CustomNetTransform customNetTransform;
 
-		private List<Vector3Int> closestTiles = new List<Vector3Int>();
 		private List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
 
 		private List<Vector3Int> adjacentCoords = new List<Vector3Int>
@@ -121,6 +120,109 @@ namespace Objects
 				Mathf.Max((float)CurrentStage / 5 * 2000f, 0),
 				new System.Random().Next(Int32.MinValue, Int32.MaxValue));
 		}
+
+		#region Throw/Push
+
+		private void PushPullObjects()
+		{
+			int distance;
+
+			switch (currentStage)
+			{
+				case SingularityStages.Stage0:
+					distance = 0;
+					break;
+				case SingularityStages.Stage1:
+					distance = 1;
+					break;
+				case SingularityStages.Stage2:
+					distance = 2;
+					break;
+				case SingularityStages.Stage3:
+					distance = 6;
+					break;
+				case SingularityStages.Stage4:
+					distance = 8;
+					break;
+				case SingularityStages.Stage5:
+					distance = 10;
+					break;
+				default:
+					distance = 1;
+					break;
+			}
+
+			foreach (var tile in EffectShape.CreateEffectShape(EffectShapeType.Circle, registerTile.WorldPositionServer, distance).ToList())
+			{
+				var objects = MatrixManager.GetAt<PushPull>(tile, true);
+
+				foreach (var objectToMove in objects)
+				{
+					if (objectToMove.registerTile.ObjectType == ObjectType.Item)
+					{
+						ThrowItem(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
+					}
+					else
+					{
+						PushObject(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
+					}
+				}
+			}
+		}
+
+		private void ThrowItem(PushPull item, Vector3 throwVector)
+		{
+			Vector3 vector = item.transform.rotation * throwVector;
+			var spin = RandomSpin();
+			ThrowInfo throwInfo = new ThrowInfo
+			{
+				ThrownBy = gameObject,
+				Aim = BodyPartType.Chest,
+				OriginWorldPos = transform.position,
+				WorldTrajectory = vector,
+				SpinMode = spin
+			};
+
+			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
+			if (itemTransform == null) return;
+			itemTransform.Throw(throwInfo);
+		}
+
+		private void PushObject(PushPull objectToPush, Vector3 pushVector)
+		{
+			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
+			{
+				objectToPush.GetComponent<RegisterPlayer>()?.ServerStun();
+			}
+			else if (objectToPush.IsPushable == false)
+			{
+				//Dont push anchored objects unless stage 5 or 4
+				return;
+			}
+
+			//Push Twice
+			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
+			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
+		}
+
+		private SpinMode RandomSpin()
+		{
+			var num = Random.Range(0, 3);
+
+			switch (num)
+			{
+				case 0:
+					return SpinMode.None;
+				case 1:
+					return SpinMode.Clockwise;
+				case 2:
+					return SpinMode.CounterClockwise;
+				default:
+					return SpinMode.Clockwise;
+			}
+		}
+
+		#endregion
 
 		#region Damage
 
@@ -290,30 +392,6 @@ namespace Objects
 
 		#endregion
 
-		#region Points
-
-		private void ChangePoints(int healthChange)
-		{
-			if (singularityPoints + healthChange >= maximumPoints)
-			{
-				singularityPoints = maximumPoints;
-				return;
-			}
-
-			if (singularityPoints + healthChange < maximumPoints)
-			{
-				singularityPoints += healthChange;
-				return;
-			}
-
-			if (singularityPoints < 0)
-			{
-				singularityPoints = 0;
-			}
-		}
-
-		#endregion
-
 		#region ChangeStage
 
 		private void TryChangeStage()
@@ -355,107 +433,25 @@ namespace Objects
 
 		#endregion
 
-		#region Throw/Push
+		#region Points
 
-		private void PushPullObjects()
+		private void ChangePoints(int healthChange)
 		{
-			int distance;
-
-			switch (currentStage)
+			if (singularityPoints + healthChange >= maximumPoints)
 			{
-				case SingularityStages.Stage0:
-					distance = 0;
-					break;
-				case SingularityStages.Stage1:
-					distance = 1;
-					break;
-				case SingularityStages.Stage2:
-					distance = 2;
-					break;
-				case SingularityStages.Stage3:
-					distance = 6;
-					break;
-				case SingularityStages.Stage4:
-					distance = 8;
-					break;
-				case SingularityStages.Stage5:
-					distance = 10;
-					break;
-				default:
-					distance = 1;
-					break;
-			}
-
-			closestTiles =
-				EffectShape.CreateEffectShape(EffectShapeType.Circle, registerTile.WorldPositionServer, distance).ToList();
-
-			foreach (var tile in closestTiles)
-			{
-				var objects = MatrixManager.GetAt<PushPull>(tile, true);
-
-				foreach (var objectToMove in objects)
-				{
-					if (objectToMove.registerTile.ObjectType == ObjectType.Item)
-					{
-						ThrowItem(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
-					}
-					else
-					{
-						PushObject(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
-					}
-				}
-			}
-		}
-
-		private void ThrowItem(PushPull item, Vector3 throwVector)
-		{
-			Vector3 vector = item.transform.rotation * throwVector;
-			var spin = RandomSpin();
-			ThrowInfo throwInfo = new ThrowInfo
-			{
-				ThrownBy = gameObject,
-				Aim = BodyPartType.Chest,
-				OriginWorldPos = transform.position,
-				WorldTrajectory = vector,
-				SpinMode = spin
-			};
-
-			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
-			if (itemTransform == null) return;
-			itemTransform.Throw(throwInfo);
-		}
-
-		private void PushObject(PushPull objectToPush, Vector3 pushVector)
-		{
-			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
-			{
-				objectToPush.GetComponent<RegisterPlayer>()?.ServerStun();
-			}
-			else if (objectToPush.IsPushable == false)
-			{
-				//Dont push anchored objects unless stage 5 or 4
+				singularityPoints = maximumPoints;
 				return;
 			}
 
-			//Push Twice
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
-		}
-
-		private SpinMode RandomSpin()
-		{
-			var num = Random.Range(0, 3);
-
-			switch (num)
+			if (singularityPoints + healthChange < maximumPoints)
 			{
-				case 0:
-					return SpinMode.None;
-				case 1:
-					return SpinMode.Clockwise;
-				case 2:
-					return SpinMode.CounterClockwise;
-				default:
-					return SpinMode.Clockwise;
+				singularityPoints += healthChange;
+				return;
+			}
+
+			if (singularityPoints < 0)
+			{
+				singularityPoints = 0;
 			}
 		}
 
