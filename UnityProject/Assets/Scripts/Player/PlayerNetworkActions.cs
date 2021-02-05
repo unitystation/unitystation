@@ -857,4 +857,30 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
+
+	[Command]
+	public void CmdAdminGib(GameObject toSmash, string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (toSmash == null)
+		{
+			return;
+		}
+
+		var health = toSmash.GetComponent<PlayerHealth>();
+		if (health == null)
+		{
+			return;
+		}
+
+		var script = toSmash.GetComponent<PlayerScript>();
+		if (script == null || script.IsDeadOrGhost)
+		{
+			return;
+		}
+
+		health.ServerGibPlayer();
+	}
 }

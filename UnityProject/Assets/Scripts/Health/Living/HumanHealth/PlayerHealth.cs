@@ -7,11 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
+using DatabaseAPI;
 
 /// <summary>
 /// Provides central access to the Players Health
 /// </summary>
-public class PlayerHealth : LivingHealthBehaviour
+public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 {
 
 	[SerializeField] private AddressableAudioSource SmallElectricShock = null;
@@ -421,4 +422,20 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 	#endregion Electrocution
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || !KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+		{
+			return null;
+		}
+
+		return RightClickableResult.Create()
+			.AddAdminElement("Gib Player", AdminGibPlayer);
+	}
+
+	private void AdminGibPlayer()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminGib(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+	}
 }
