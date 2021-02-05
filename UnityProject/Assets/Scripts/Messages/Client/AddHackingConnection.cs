@@ -1,11 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
-using System.Collections.Generic;
 using Messages.Client;
 using Newtonsoft.Json;
-using AddressableReferences;
 
 public class AddHackingConnection : ClientMessage
 {
@@ -40,21 +37,5 @@ public class AddHackingConnection : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Player = reader.ReadUInt32();
-		HackableObject = reader.ReadUInt32();
-		JsonData = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(Player);
-		writer.WriteUInt32(HackableObject);
-		writer.WriteString(JsonData);
 	}
 }

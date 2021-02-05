@@ -21,16 +21,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 1382392464201793277, guid: bc948ccbd770fff438862a32cd45a867,
-        type: 3}
-    - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: genericInternalMag
-      value: 
-      objectReference: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
-        type: 3}
+      propertyPath: FireRate
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: ammoType
@@ -38,18 +31,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: FireRate
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 1382392464201793277, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: FiringSound
       value: ShootSMG
-      objectReference: {fileID: 0}
-    - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: ProjectileVelocity
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -58,13 +47,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
+      propertyPath: ProjectileVelocity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: genericInternalMag
+      value: 
+      objectReference: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
+        type: 3}
+    - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
       propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/GunShots/ShootSyringe.prefab
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 8109205671878849838, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -83,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -95,16 +105,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -134,9 +134,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: initialDescription
-      value: A spring loaded rifle designed to fit syringes, used to incapacitate
-        unruly patients from a distance.
+      propertyPath: hitDamage
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: throwRange
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -145,13 +149,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: hitDamage
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: throwRange
-      value: 7
+      propertyPath: initialDescription
+      value: A spring loaded rifle designed to fit syringes, used to incapacitate
+        unruly patients from a distance.
       objectReference: {fileID: 0}
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}

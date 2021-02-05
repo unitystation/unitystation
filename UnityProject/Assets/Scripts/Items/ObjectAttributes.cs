@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-public class ObjectAttributes : Attributes
+﻿public class ObjectAttributes : Attributes
 {
 }

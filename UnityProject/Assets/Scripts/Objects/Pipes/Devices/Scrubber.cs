@@ -22,9 +22,12 @@ namespace Pipes
 		public override void Start()
 		{
 			pipeData.PipeAction = new MonoActions();
-			registerTile = this.GetComponent<RegisterTile>();
-
 			base.Start();
+		}
+
+		private void Awake()
+		{
+			registerTile = GetComponent<RegisterTile>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -45,6 +48,7 @@ namespace Pipes
 			if (SelfSufficient == false)
 			{
 				var pressureDensity = pipeData.mixAndVolume.Density();
+
 				if (pressureDensity.y > MaxInternalPressure || metaNode.GasMix.Pressure < MMinimumPressure )
 				{
 					return;

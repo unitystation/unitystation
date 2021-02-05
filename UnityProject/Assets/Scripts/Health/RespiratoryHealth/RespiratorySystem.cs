@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using Systems.Atmospherics;
 using Items;
 using Objects.Atmospherics;
+using Random = UnityEngine.Random;
 
 /// <inheritdoc />
 /// <summary>
@@ -12,6 +13,7 @@ using Objects.Atmospherics;
 public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 {
 	private const float OXYGEN_SAFE_MIN = 16;
+	private const float PLASMA_SAFE_MAX = 0.5F;//Minimum amount of plasma moles to be visible
 	public bool IsSuffocating;
 	public float temperature = 293.15f;
 	public float pressure = 101.325f;
@@ -34,6 +36,32 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private float breatheCooldown = 0;
 	public bool CanBreatheAnywhere { get; set; }
 
+	[SerializeField] private string[] plasmaLowYouMessages =
+	{
+		"Your nose is tingling!",
+		"You feel an urge to cough!",
+		"Your throat itches!",
+		"You sneeze."
+	};
+
+	[SerializeField] private string[] plasmaLowOthersMessages =
+	{
+		"{0} scratches {1} nose.",
+		"{0} clears {1} throat.",
+		"{0} sneezes."
+	};
+
+	[SerializeField] private string[] plasmaHighYouMessages =
+	{
+		"Your throat stings as you draw a breath!",
+		"Your throat burns as you draw a breath!"
+	};
+
+	[SerializeField] private string[] plasmaHighOthersMessages =
+	{
+		"{0} coughs.",
+		"{0} coughs frantically."
+	};
 
 	void Awake()
 	{
@@ -153,8 +181,14 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private float HandleBreathing(GasMix gasMix)
 	{
 		float oxygenPressure = gasMix.GetPressure(Gas.Oxygen);
+		float plasmaAmount = gasMix.GetMoles(Gas.Plasma);
 
 		float oxygenUsed = 0;
+
+		if (plasmaAmount > 0)
+		{
+			HandleBreathingPlasma(plasmaAmount);
+		}
 
 		if (oxygenPressure < OXYGEN_SAFE_MIN)
 		{
@@ -183,6 +217,57 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			breatheCooldown = 4;
 		}
 		return oxygenUsed;
+	}
+
+	/// <summary>
+	/// Placeholder method to add some effects for breathing plasma. Eventually this behavior should be
+	/// handled with interfaces we can implement so different species react differently.
+	/// </summary>
+	/// <param name="plasmaAmount"></param>
+	private void HandleBreathingPlasma(float plasmaAmount)
+	{
+		// there is some plasma in the ambient but it is still safe
+		if (plasmaAmount <= PLASMA_SAFE_MAX)
+		{
+			if (DMMath.Prob(90))
+			{
+				return;
+			}
+
+			// 10% chances of message
+			var theirPronoun = gameObject.Player() != null
+				? gameObject.Player().Script.characterSettings.TheirPronoun()
+				: "its";
+			Chat.AddActionMsgToChat(
+				gameObject,
+				plasmaLowYouMessages.PickRandom(),
+				string.Format(
+					plasmaLowOthersMessages.PickRandom(),
+					gameObject.ExpensiveName(),
+					string.Format(plasmaLowOthersMessages.PickRandom(), gameObject.ExpensiveName(), theirPronoun))
+			);
+		}
+		// enough plasma to be visible and damage us!
+		else
+		{
+			var plasmaDamage = (plasmaAmount - 0.5f) * 5;
+			bloodSystem.ToxinLevel = Mathf.Clamp(bloodSystem.ToxinLevel + plasmaDamage, 0, 200);
+
+			if (DMMath.Prob(90))
+			{
+				return;
+			}
+
+			// 10% chances of message
+			var theirPronoun = gameObject.Player() != null
+				? gameObject.Player().Script.characterSettings.TheirPronoun()
+				: "its";
+			Chat.AddActionMsgToChat(
+				gameObject,
+				plasmaHighYouMessages.PickRandom(),
+				string.Format(plasmaHighOthersMessages.PickRandom(), gameObject.ExpensiveName(), theirPronoun)
+			);
+		}
 	}
 
 	private void CheckPressureDamage()

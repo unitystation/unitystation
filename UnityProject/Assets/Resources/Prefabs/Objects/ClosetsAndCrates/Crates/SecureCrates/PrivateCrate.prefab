@@ -36,6 +36,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4233074960747258499, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233074960747258499, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4233074960747258499, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233074960747258499, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4233074960747258499, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4233074960747258499, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4233074960747258499, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
@@ -96,13 +96,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6777546918459128681, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
-      propertyPath: initialDescription
-      value: A crate cover designed to only open for who purchased its contents.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6777546918459128681, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
-        type: 3}
       propertyPath: initialName
       value: private crate
       objectReference: {fileID: 0}
+    - target: {fileID: 6777546918459128681, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: initialDescription
+      value: A crate cover designed to only open for who purchased its contents.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717739805835431555, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cb1ecb88cbf9c78409fdfbf5409d0b46,
+        type: 2}
+    - target: {fileID: 8717739805835431555, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: cb1ecb88cbf9c78409fdfbf5409d0b46,
+        type: 2}
+    - target: {fileID: 8717739805835431555, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6154b51f99f71b64896c3c51bafe307a,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9f5c9b81c30b4742b7859c8d2b045c3, type: 3}

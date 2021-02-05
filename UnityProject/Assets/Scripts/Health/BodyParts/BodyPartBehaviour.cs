@@ -1,24 +1,46 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Text;
+using UnityEngine;
 
 public class BodyPartBehaviour : MonoBehaviour
 {
 	//Different types of damages for medical.
 	private float bruteDamage;
 	private float burnDamage;
-	public float BruteDamage { get { return bruteDamage; } set { bruteDamage = Mathf.Clamp(value, 0, 200); } }
-	public float BurnDamage { get { return burnDamage; } set { burnDamage = Mathf.Clamp(value, 0, 200); } }
-	public int MaxDamage = 200;
+	public float BruteDamage
+	{
+		get => bruteDamage;
+		private set => bruteDamage = Mathf.Clamp(value, 0, MaxDamage);
+	}
+	public float BurnDamage
+	{
+		get => burnDamage;
+		private set => burnDamage = Mathf.Clamp(value, 0, MaxDamage);
+	}
+
+	public LivingHealthBehaviour livingHealthBehaviour;
 	public BodyPartType Type;
 	public bool isBleeding = false;
-	public LivingHealthBehaviour livingHealthBehaviour;
+
+	private int MaxDamage;
 
 	public DamageSeverity Severity; //{ get; private set; }
 	public float OverallDamage => BruteDamage + BurnDamage;
 	public Armor armor = new Armor();
 
+	private int brutePercentage => Mathf.RoundToInt(bruteDamage / MaxDamage * 100);
+	private int burnPercentage => Mathf.RoundToInt(burnDamage / MaxDamage * 100);
+
 	void Start()
 	{
 		UpdateIcons();
+	}
+
+	private void Awake()
+	{
+		//FIXME this is a bad patch for a bad problem. I don't know what's going on with the calculation behind curtains
+		// but if bodyparts have less maxDmg than maxHealth, then mobs never die.
+		MaxDamage = (int) (livingHealthBehaviour is null ? 99999 : livingHealthBehaviour.maxHealth);
 	}
 
 	//Apply damages from here.
@@ -93,7 +115,7 @@ public class BodyPartBehaviour : MonoBehaviour
 	private void UpdateSeverity()
 	{
 		// update UI limbs depending on their severity of damage
-		float severity = (float)OverallDamage / MaxDamage;
+		float severity = OverallDamage / MaxDamage;
 		// If the limb is uninjured
 		if (severity <= 0)
 		{
@@ -148,5 +170,97 @@ public class BodyPartBehaviour : MonoBehaviour
 		BruteDamage = _bruteDamage;
 		BurnDamage = _burnDamage;
 		UpdateSeverity();
+	}
+
+	public string GetDamageDescription()
+	{
+		if (OverallDamage.IsBetween(0f, 10f))
+		{
+			return string.Empty;
+		}
+
+		var description = new StringBuilder();
+		description.Append(SeverityDescription);
+		description.Append(BruteDamageDescription);
+
+		if (brutePercentage > 10 && burnPercentage > 9)
+		{
+			description.Append(" and ");
+		}
+
+		description.Append(BurnDamageDescription);
+
+		return description.ToString();
+	}
+
+	private string BruteDamageDescription
+	{
+		get
+		{
+			switch (brutePercentage)
+			{
+				case int n when n.IsBetween(10, 20):
+					return "it has some negligible bruises";
+				case int n when n.IsBetween(21, 40):
+					return "it has minor bruises";
+				case int n when n.IsBetween(41, 60):
+					return "it has moderate bruises";
+				case int n when n.IsBetween(61, 80):
+					return "it has heavy bruises";
+				case int n when n.IsBetween(81, 100):
+					return "it looks ready to fall apart";
+				default:
+					return ".";
+			}
+		}
+	}
+
+	private string BurnDamageDescription
+	{
+		get
+		{
+			switch (burnPercentage)
+			{
+				case int n when n.IsBetween(10, 20):
+					return "it has some negligible burns.";
+				case int n when n.IsBetween(21, 40):
+					return "it has minor burns.";
+				case int n when n.IsBetween(41, 60):
+					return "it has moderate burns.";
+				case int n when n.IsBetween(61, 80):
+					return "it has heavy burns.";
+				case int n when n.IsBetween(81, 100):
+					return "it looks charred and about to crumble.";
+				default:
+					return ".";
+			}
+		}
+	}
+
+
+	private string SeverityDescription
+	{
+		get
+		{
+			switch (Severity)
+			{
+				case DamageSeverity.Light:
+				case DamageSeverity.LightModerate:
+					return "lightly damaged, ";
+
+				case DamageSeverity.Moderate:
+					return "moderately damaged, ";
+
+				case DamageSeverity.Bad:
+					return "badly damaged, ";
+
+				case DamageSeverity.Critical:
+					return "critically damaged, ";
+				case DamageSeverity.Max:
+					return "totally destroyed, ";
+				default:
+					return string.Empty;
+			}
+		}
 	}
 }

@@ -50,6 +50,7 @@ public enum KeyAction
 	ChatRadio,
 	ChatOOC,
 	ToggleAHelp,
+	ToggleMHelp,
 
 	// Body Part Targeting
 	TargetHead,
@@ -71,7 +72,10 @@ public enum KeyAction
 
 	PocketOne,
 	PocketTwo,
-	PocketThree
+	PocketThree,
+
+	RadialScrollForward,
+	RadialScrollBackward
 }
 
 /// <summary>
@@ -338,6 +342,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ChatRadio,   new KeybindMetadata("Radio Chat", ActionType.Chat)},
 		{ KeyAction.ChatOOC,     new KeybindMetadata("OOC Chat", ActionType.Chat)},
 		{ KeyAction.ToggleAHelp, new KeybindMetadata("Toggle AHelp", ActionType.Chat)},
+		{ KeyAction.ToggleMHelp, new KeybindMetadata("Toggle MHelp", ActionType.Chat)},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new KeybindMetadata("Target Head, Eyes and Mouth", ActionType.Targeting)},
@@ -349,7 +354,7 @@ public class KeybindManager : MonoBehaviour {
 
 		//Right click stuff
 		{ KeyAction.ShowAdminOptions, 	new KeybindMetadata("Show Admin Options", ActionType.RightClick)},
-		
+
 		// UI
 		// TODO: change ActionType
 		{ KeyAction.OpenBackpack, 	new KeybindMetadata("Open Backpack", ActionType.UI)},
@@ -358,8 +363,10 @@ public class KeybindManager : MonoBehaviour {
 
 		{ KeyAction.PocketOne, 		new KeybindMetadata("Open Pocket 1", ActionType.UI)},
 		{ KeyAction.PocketTwo, 		new KeybindMetadata("Open Pocket 2", ActionType.UI)},
-		{ KeyAction.PocketThree, 	new KeybindMetadata("Open Pocket 3", ActionType.UI)}
+		{ KeyAction.PocketThree, 	new KeybindMetadata("Open Pocket 3", ActionType.UI)},
 
+		{ KeyAction.RadialScrollForward, new KeybindMetadata("Radial Scroll Forward", ActionType.UI)},
+		{ KeyAction.RadialScrollBackward, new KeybindMetadata("Radial Scroll Backward", ActionType.UI)},
 	};
 
 	private readonly KeybindDict defaultKeybinds = new KeybindDict
@@ -395,6 +402,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ChatRadio,		new DualKeyCombo(new KeyCombo(KeyCode.Y), null)},
 		{ KeyAction.ChatOOC,   		new DualKeyCombo(new KeyCombo(KeyCode.U), null)},
 		{ KeyAction.ToggleAHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F1), null)},
+		{ KeyAction.ToggleMHelp,    new DualKeyCombo( new KeyCombo(KeyCode.F2), null )},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad8), null)},
@@ -414,7 +422,10 @@ public class KeybindManager : MonoBehaviour {
 
 		{KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1 ,KeyCode.LeftShift), null)},
 		{KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2 ,KeyCode.LeftShift), null)},
-		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)}
+		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)},
+
+		{KeyAction.RadialScrollForward, new DualKeyCombo(new KeyCombo(KeyCode.E, KeyCode.LeftShift), null)},
+		{KeyAction.RadialScrollBackward, new DualKeyCombo(new KeyCombo(KeyCode.Q, KeyCode.LeftShift), null)}
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 

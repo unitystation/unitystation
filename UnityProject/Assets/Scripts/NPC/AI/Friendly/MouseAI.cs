@@ -1,3 +1,4 @@
+using NPC.Mood;
 using UnityEngine;
 
 namespace Systems.MobAIs
@@ -10,7 +11,7 @@ namespace Systems.MobAIs
 	public class MouseAI : GenericFriendlyAI
 	{
 		[SerializeField, Tooltip("If this mouse get to this mood level, it will start chewing cables")]
-		private int angryMouseLevel = -30;
+		private int angryMouseLevel = 10;
 
 		private MobMood mood;
 
@@ -55,8 +56,8 @@ namespace Systems.MobAIs
 
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} squeaks!",
-				$"{mobNameCap} squeaks!");
+				$"{MobName} squeaks!",
+				$"{MobName} squeaks!");
 		}
 
 		private void DoRandomWireChew()

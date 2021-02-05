@@ -29,6 +29,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[SerializeField]
 	private bool IsLockable = false;
 
+	[Tooltip("Whether or not the lock sprite is hidden when the container is opened.")]
+	[SerializeField]
+	private bool hideLockWhenOpened = true;
+
 	[Tooltip("Max amount of players that can fit in it at once.")]
 	[SerializeField]
 	private int playerLimit = 3;
@@ -58,13 +62,15 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[SerializeField]
 	private AddressableAudioSource soundOnEscape = null;
 
-	[Tooltip("Sprite to show when door is open.")]
+	[Tooltip("SpriteHandler for the door or other sprite with different opened and closed states.")]
 	[SerializeField]
-	private Sprite doorOpened = null;
+	protected SpriteHandler doorSpriteHandler;
 
-	[Tooltip("Renderer for the whole locker")]
-	[SerializeField]
-	protected SpriteRenderer spriteRenderer;
+	private enum DoorState
+	{
+		Closed,
+		Opened
+	}
 
 	[Tooltip("GameObject for the lock overlay")]
 	[SerializeField]
@@ -155,9 +161,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	private RegisterCloset registerTile;
 	private PushPull pushPull;
-	//cached closed door sprite, initialized from whatever sprite the sprite renderer is initially set
-	//to in the prefab
-	private Sprite doorClosed;
 
 	private Matrix Matrix => registerTile.Matrix;
 	private PushPull PushPull
@@ -184,7 +187,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	private void EnsureInit()
 	{
 		if (registerTile != null) return;
-		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
 
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
@@ -425,16 +427,16 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	{
 		if (statusSync == ClosetStatus.Open)
 		{
-			spriteRenderer.sprite = doorOpened;
-			if (lockLight && IsLockable)
+			doorSpriteHandler.ChangeSprite((int) DoorState.Opened);
+			if (lockLight && IsLockable && hideLockWhenOpened)
 			{
 				lockLight.Hide();
 			}
 		}
 		else
 		{
-			spriteRenderer.sprite = doorClosed;
-			if (lockLight && IsLockable)
+			doorSpriteHandler.ChangeSprite((int) DoorState.Closed);
+			if (lockLight && IsLockable && hideLockWhenOpened)
 			{
 				lockLight.Show();
 			}

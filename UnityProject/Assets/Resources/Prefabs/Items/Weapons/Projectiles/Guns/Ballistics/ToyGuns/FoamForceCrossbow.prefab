@@ -15,13 +15,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6564812001575373371, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
-      propertyPath: initialDescription
-      value: A weapon favored by many overactive children. Ages 8 and up.
+      propertyPath: initialName
+      value: foam force crossbow
       objectReference: {fileID: 0}
     - target: {fileID: 6564812001575373371, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
-      propertyPath: initialName
-      value: foam force crossbow
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564812001575373371, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
+        type: 3}
+      propertyPath: initialDescription
+      value: A weapon favored by many overactive children. Ages 8 and up.
       objectReference: {fileID: 0}
     - target: {fileID: 6564812001575373371, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
@@ -31,20 +36,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6564812001575373371, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: f35170e82cee2b14399b2137581cdebf,
-        type: 2}
-    - target: {fileID: 6564812001575373371, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
-        type: 3}
-      propertyPath: initialSize
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564812001575373371, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
-        type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 6564812001575373371, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f35170e82cee2b14399b2137581cdebf,
         type: 2}
     - target: {fileID: 6630479840410367475, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
@@ -55,6 +55,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765810922112325677, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6765810922112325677, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
@@ -73,6 +78,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6765810922112325677, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765810922112325677, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +95,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6765810922112325677, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6765810922112325677, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6765810922112325677, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
@@ -128,6 +128,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7053746915093191456, guid: 4aa80491623d49245995aa12a947e28f,
         type: 3}
+    - target: {fileID: 7826977993599869970, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8368194028616544910, guid: 60e97fd11e26a0c4cb7058adcf6d2be4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 60e97fd11e26a0c4cb7058adcf6d2be4, type: 3}

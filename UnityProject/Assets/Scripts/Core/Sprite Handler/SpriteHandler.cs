@@ -78,6 +78,12 @@ public class SpriteHandler : MonoBehaviour
 	public event System.Action<Sprite> OnSpriteChanged;
 
 	/// <summary>
+	/// Invokes when sprite data scriptable object is changed
+	/// Null if sprite became hidden
+	/// </summary>
+	public event System.Action<SpriteDataSO> OnSpriteDataSOChanged;
+
+	/// <summary>
 	/// Invoke when sprite handler has changed color of sprite
 	/// </summary>
 	public event System.Action<Color> OnColorChanged;
@@ -186,6 +192,7 @@ public class SpriteHandler : MonoBehaviour
 			{
 				NetUpdate(NewspriteDataSO);
 			}
+			OnSpriteDataSOChanged?.Invoke(NewspriteDataSO);
 		}
 
 		if (color != null)
@@ -291,6 +298,7 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
+		OnSpriteDataSOChanged?.Invoke(null);
 		
 
 		if (Network)

@@ -7,7 +7,9 @@ using ScriptableObjects;
 using UI.Core.Windows;
 using UI.Windows;
 using Systems.Teleport;
+using AdminCommands;
 using Effects;
+using DatabaseAPI;
 
 namespace UI.Systems.Ghost
 {
@@ -22,6 +24,8 @@ namespace UI.Systems.Ghost
 
 		private TeleportWindow TeleportWindow => UIManager.TeleportWindow;
 		private GhostRoleWindow GhostRoleWindow => UIManager.GhostRoleWindow;
+
+		public GameObject AdminGhostInventory;
 
 		private bool roleBtnAnimating = false;
 
@@ -114,6 +118,24 @@ namespace UI.Systems.Ghost
 			ghostRoleSpriteHandler.ChangeSprite(0, Network: false);
 
 			roleBtnAnimating = false;
+		}
+
+		public void AdminGhostInventoryDrop()
+		{
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			if (PlayerManager.PlayerScript != null)
+			{
+				AdminCommandsManager.Instance.CmdAdminGhostDropItem(ServerData.UserID, PlayerList.Instance.AdminToken);
+			}
+		}
+
+		public void AdminGhostInvSmash()
+		{
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			if (PlayerManager.PlayerScript != null)
+			{
+				AdminCommandsManager.Instance.CmdAdminGhostSmashItem(ServerData.UserID, PlayerList.Instance.AdminToken);
+			}
 		}
 	}
 }

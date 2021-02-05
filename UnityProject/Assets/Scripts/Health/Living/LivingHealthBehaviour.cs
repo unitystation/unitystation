@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Systems.Atmospherics;
 using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using UnityEngine.Profiling;
+using WebSocketSharp;
 
 /// <summary>
 /// The Required component for all living creatures
@@ -122,10 +124,21 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	private RegisterTile registerTile;
 	private ConsciousState consciousState;
 
-	public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
-	public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
+	public bool IsCrit => consciousState == ConsciousState.UNCONSCIOUS;
+	public bool IsSoftCrit => consciousState == ConsciousState.BARELY_CONSCIOUS;
 
-	public bool IsDead => ConsciousState == ConsciousState.DEAD;
+	public bool IsDead => consciousState == ConsciousState.DEAD;
+
+	public bool IsSSD => consciousState != ConsciousState.DEAD &&
+	                     this is PlayerHealth &&
+	                     TryGetComponent(out PlayerScript player) &&
+	                     (player.mind == null || player.mind.IsOnline() == false);
+
+
+	public bool IsBrainDead => consciousState == ConsciousState.DEAD &&
+	                           this is PlayerHealth &&
+	                           TryGetComponent(out PlayerScript player) &&
+	                           (player.mind == null || player.mind.IsOnline() == false);
 
 	/// <summary>
 	/// Has the heart stopped.
@@ -385,7 +398,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	{
 		TryGibbing(damage);
 
-		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
+		var bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
 		if (bodyPartBehaviour == null)
 		{
 			return;
@@ -596,7 +609,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	[Server]
 	public void CalculateOverallHealth()
 	{
-		float newHealth = 100;
+		float newHealth = maxHealth;
 		newHealth -= CalculateOverallBodyPartDamage();
 		newHealth -= CalculateOverallBloodLossDamage();
 		newHealth -= bloodSystem.OxygenDamage;
@@ -999,8 +1012,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		var cs = GetComponentInParent<PlayerScript>()?.characterSettings;
 		if (cs != null)
 		{
-			theyPronoun = cs.TheyPronoun();
-			theyPronoun = theyPronoun[0].ToString().ToUpper() + theyPronoun.Substring(1);
+			theyPronoun = cs.TheyPronoun().Capitalize();
 			theirPronoun = cs.TheirPronoun();
 		}
 
@@ -1008,7 +1020,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		if (IsDead)
 		{
 			healthString += "limp and unresponsive; there are no signs of life";
-			if (this is PlayerHealth && GetComponent<PlayerScript>().mind.IsOnline() == false)
+			if (IsSSD)
 			{
 				healthString += $" and {theirPronoun} soul has departed";
 			}
@@ -1048,11 +1060,51 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			if (this is PlayerHealth && GetComponent<PlayerScript>().mind.IsOnline() == false)
 			{
 				healthString += $"\n{theyPronoun} has a blank, absent-minded stare and appears completely unresponsive to anything. " +
-						$"{theyPronoun} may snap out of it soon.";
+				                $"{theyPronoun} may snap out of it soon.";
 			}
 		}
 
 		return healthString;
+	}
+
+	public string GetShortStatus()
+	{
+		if (IsBrainDead)
+		{
+			return "BRAINDEAD";
+		}
+		if (IsDead)
+		{
+			return "DEAD";
+		}
+
+		if (IsSSD)
+		{
+			return "SSD";
+		}
+
+		if (IsCrit || IsSoftCrit)
+		{
+			return "CRITICAL";
+		}
+
+		return "OK";
+	}
+
+	public string GetWoundsDescription()
+	{
+		var description = new StringBuilder();
+
+		foreach (var part in BodyParts)
+		{
+			if (part.GetDamageDescription().IsNullOrEmpty())
+			{
+				continue;
+			}
+			description.AppendFormat("\n<b>{0}</b> is {1}.\n", part.Type.ToString(), part.GetDamageDescription());
+		}
+
+		return description.ToString();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)

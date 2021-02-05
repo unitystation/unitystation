@@ -63,17 +63,5 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			string audioSourceParametersValue = (AudioSourceParameters == null) ? "Null" : AudioSourceParameters.ToString();
 			return $"{nameof(SoundSpawnToken)}: {SoundSpawnToken}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
 		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			writer.WriteString(SoundSpawnToken);
-			writer.WriteString(JsonConvert.SerializeObject(AudioSourceParameters));
-		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			SoundSpawnToken = reader.ReadString();
-			AudioSourceParameters = JsonConvert.DeserializeObject<AudioSourceParameters>(reader.ReadString());
-		}
 	}
 }

@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 16
+  m_SortingLayer: 21
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 27136b33862b18d4ba78141b64b98d1f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,6 +100,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 168b86a8105cfe24e9d8e8355fc1630b, type: 2}
   - {fileID: 11400000, guid: 89bf18cf883b5694787c1667470999e3, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 168b86a8105cfe24e9d8e8355fc1630b, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -147,13 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 200
   Type: 1
   isBleeding: 0
@@ -213,13 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 200
   Type: 0
   isBleeding: 0
@@ -292,10 +279,10 @@ GameObject:
   - component: {fileID: 3493423571535560689}
   - component: {fileID: 3651291330810827203}
   - component: {fileID: 3708589072684735304}
-  - component: {fileID: 8135233970803992685}
   - component: {fileID: -6344764635065190701}
   - component: {fileID: -9007657092435569662}
   - component: {fileID: -1428658440444101596}
+  - component: {fileID: 4330355114301591593}
   m_Layer: 12
   m_Name: NPC_Xenomorph
   m_TagString: Untagged
@@ -395,7 +382,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -420,6 +413,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &4859363408336224435
 MonoBehaviour:
@@ -451,7 +445,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &4859213822428636291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,10 +583,19 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 1
+  EatFoodA:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  CB_REAGENT: {fileID: 0}
   target: 0
   actionPerformTime: 0
   hasFoodPrefereces: 0
   foodPreferences: []
+  IsEmagged: 0
 --- !u!114 &3708589072684735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,32 +624,17 @@ MonoBehaviour:
   spriteHolder: {fileID: 3392343644113499114}
   targetOtherPlayersWhoGetInWay: 1
   onlyHitTarget: 0
+  attackSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   hitDamage: 15
   attackVerb: slashed
   defaultTarget: 0
   meleeCoolDown: 0.4
---- !u!114 &8135233970803992685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4827737755655954553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 243a3c078e195af4dadbc9f673627997, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: Xenomorph
-  knockedDownRotation: -90
-  deathSounds:
-  - xenodie
-  randomSound:
-  - Hiss#
-  playRandomSoundTimer: 3
-  randomSoundProbability: 20
-  searchTickRate: 0.5
-  currentStatus: 0
 --- !u!114 &-6344764635065190701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,3 +686,62 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 1984430505557485568}
+--- !u!114 &4330355114301591593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab0b22d0dd164c31bcc4746cd3300663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: Xenomorph
+  knockedDownRotation: -90
+  deathSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Xenodie.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  randomSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss5.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  playRandomSoundTimer: 3
+  randomSoundProbability: 20
+  searchTickRate: 0.5
+  currentStatus: 0
+  queenCap: 1
+  queenPrefab: {fileID: 4827737755655954553, guid: 0ba932c09bd6f294384e8a4b9cef2160,
+    type: 3}

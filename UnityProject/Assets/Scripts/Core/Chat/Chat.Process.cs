@@ -197,8 +197,7 @@ public partial class Chat
 		{
 			// /me message
 			channels = ChatChannel.Local;
-			speaker = AddMsgColor(channels, speaker);
-			message = $"<b>{speaker}</b>| <i>{message}</i>";
+			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
 			return message;
 		}
 
@@ -211,8 +210,7 @@ public partial class Chat
 			{
 				name = "nerd";
 			}
-			speaker = AddMsgColor(ChatChannel.OOC, speaker);
-			message = $"[ooc] <b>{speaker}</b>|:  <b>{message}</b>";
+			message = AddMsgColor(channels, $"[ooc] <b>{speaker}: {message}</b>");
 			return message;
 		}
 
@@ -220,8 +218,7 @@ public partial class Chat
 		if (channels.HasFlag(ChatChannel.Ghost))
 		{
 			string[] _ghostVerbs = {"cries", "moans"};
-			speaker = AddMsgColor(ChatChannel.Ghost, speaker);
-			return  $"[dead] <b>{speaker}</b>| {_ghostVerbs.PickRandom()}: {message}";
+			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
 		}
 		string verb = "says,";
 
@@ -262,22 +259,22 @@ public partial class Chat
 			verb = "asks,";
 		}
 
-		// var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
+		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
 
-		// if (channels.HasFlag(ChatChannel.Command))
-		// {
-		// 	chan = "[cmd] ";
-		// }
+		if (channels.HasFlag(ChatChannel.Command))
+		{
+			chan = "[cmd] ";
+		}
 
-		// if (channels.HasFlag(ChatChannel.Local))
-		// {
-		// 	chan = "";
-		// }
+		if (channels.HasFlag(ChatChannel.Local))
+		{
+			chan = "";
+		}
 
-		return
-			$"<b>{AddMsgColor(channels, speaker)}</b>|   {verb}"    // [cmd]  Username says,
-			+ "  "                              // Two hair spaces. This triggers Text-to-Speech.
-			+ "\"" + message + "\"";           // "This text will be spoken by TTS!"
+		return AddMsgColor(channels,
+			$"{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
+			+ "  " // Two hair spaces. This triggers Text-to-Speech.
+			+ "\"" + message + "\""); // "This text will be spoken by TTS!"
 	}
 
 	private static string StripTags(string input)
@@ -385,24 +382,26 @@ public partial class Chat
 	/// This should only be called via UpdateChatMessage
 	/// on the client. Do not use for anything else!
 	/// </summary>
-	public static void ProcessUpdateChatMessage(uint recipient, uint originator, string message,
-		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, bool stripTags = true)
+	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, bool stripTags = true)
 	{
-		//If there is a message in MessageOthers then determine
-		//if it should be the main message or not.
-		if (!string.IsNullOrEmpty(messageOthers))
+
+		var isOriginator = true;
+		if (recipientUint != originatorUint)
 		{
-			//This is not the originator so use the messageOthers
-			if (recipient != originator)
+			isOriginator = false;
+			if (!string.IsNullOrEmpty(messageOthers))
 			{
+				//If there is a message in MessageOthers then determine
+				//if it should be the main message or not.
 				message = messageOthers;
 			}
 		}
 
-		if (GhostValidationRejection(originator, channels)) return;
+		if (GhostValidationRejection(originatorUint, channels)) return;
 
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, stripTags);
-		Instance.addChatLogClient.Invoke(msg, channels);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)

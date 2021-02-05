@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.Build;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -20,9 +22,17 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 
 	public void OnPreprocessBuild(BuildTarget target, string path)
 	{
+
+
+		AddressableAssetSettings.CleanPlayerContent(AddressableAssetSettingsDefaultObject.Settings.ActivePlayerDataBuilder);
+		AddressableAssetSettings.BuildPlayerContent();
+
 		var Gamedata = AssetDatabase.LoadAssetAtPath<GameObject>(
 			"Assets/Resources/Prefabs/SceneConstruction/NestedManagers/GameData.prefab");
-		Gamedata.GetComponent<GameData>().DevBuild = true;
+		if (Gamedata.GetComponent<GameData>().DevBuild == false)
+		{
+			return;
+		}
 		EditorUtility.SetDirty(Gamedata);
 		AssetDatabase.SaveAssets();
 

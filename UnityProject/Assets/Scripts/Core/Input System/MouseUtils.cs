@@ -97,7 +97,7 @@ public static class MouseUtils
 			.Select(r => r is TilemapRenderer ? r.GetComponentInParent<InteractableTiles>().gameObject :
 				r.GetComponentInParent<RegisterTile>().gameObject)
 			//each gameobject should only show up once
-			.Distinct().Append(IInteractableTiles);
+			.Append(IInteractableTiles).Distinct();
 	}
 
 	/// <summary>

@@ -56,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4781140486872850506, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4781140486872850506, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -71,6 +76,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4781140486872850506, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4781140486872850506, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -83,16 +93,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4781140486872850506, guid: f99b98719ad16074496e272268d289f9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4781140486872850506, guid: f99b98719ad16074496e272268d289f9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4781140486872850506, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
@@ -116,13 +116,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
-      propertyPath: initialSize
-      value: 2
+      propertyPath: initialName
+      value: foam force pistol
       objectReference: {fileID: 0}
     - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
-      propertyPath: initialName
-      value: foam force pistol
+      propertyPath: initialSize
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
@@ -175,5 +175,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8670478144276522147, guid: 215c07b6aa6d556439078165149ba3a5,
         type: 3}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f99b98719ad16074496e272268d289f9, type: 3}

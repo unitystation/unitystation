@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 502919bc4e09ee34295e27012c544287, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -128,18 +129,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
-      propertyPath: SpawnsCasing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
-        type: 3}
       propertyPath: FiringSound
       value: ShootSyringe
       objectReference: {fileID: 0}
     - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
+      propertyPath: SpawnsCasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
       propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/GunShots/ShootSyringe.prefab
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 1426280140011400311, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
@@ -159,6 +160,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -171,6 +177,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
@@ -189,16 +200,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -214,14 +215,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2730685772635794717, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
-      propertyPath: initialDescription
-      value: A heavily modified toy light machine gun, designated the 'Buzzsaw'.
-        Ages 8 and up.
+      propertyPath: initialName
+      value: donksoft LMG
       objectReference: {fileID: 0}
     - target: {fileID: 2730685772635794717, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
-      propertyPath: initialName
-      value: donksoft LMG
+      propertyPath: initialDescription
+      value: A heavily modified toy light machine gun, designated the 'Buzzsaw'.
+        Ages 8 and up.
       objectReference: {fileID: 0}
     - target: {fileID: 8979097940314571549, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}

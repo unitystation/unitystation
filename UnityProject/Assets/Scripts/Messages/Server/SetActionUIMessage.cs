@@ -16,7 +16,7 @@ public class SetActionUIMessage : ServerMessage
 	public uint NetObject;
 	public bool showAlert;
 	public float cooldown;
-	public Type ComponentType;
+	public ushort ComponentID;
 	public UpdateType ProposedAction;
 
 	public override void Process()
@@ -46,7 +46,7 @@ public class SetActionUIMessage : ServerMessage
 		{
 			//Action pre-placed on a networked object
 			LoadNetworkObject(NetObject);
-			var actions = NetworkObject.GetComponentsInChildren(ComponentType);
+			var actions = NetworkObject.GetComponentsInChildren(DeserializeType(ComponentID));
 			if ((actions.Length > ComponentLocation))
 			{
 				action = (actions[ComponentLocation] as IActionGUI);
@@ -73,7 +73,6 @@ public class SetActionUIMessage : ServerMessage
 		}
 	}
 
-
 	private static SetActionUIMessage _Send(GameObject recipient,
 		IActionGUI action,
 		UpdateType ProposedAction,
@@ -91,7 +90,7 @@ public class SetActionUIMessage : ServerMessage
 				cooldown = cooldown,
 				SpriteLocation = location,
 				ProposedAction = ProposedAction,
-				ComponentType = actionFromSO.GetType()
+				ComponentID = SerializeType(actionFromSO.GetType()),
 			};
 			msg.SendTo(recipient);
 			return msg;
@@ -106,7 +105,7 @@ public class SetActionUIMessage : ServerMessage
 				cooldown = cooldown,
 				SpriteLocation = location,
 				ProposedAction = ProposedAction,
-				ComponentType = spellAction.GetType()
+				ComponentID = SerializeType(spellAction.GetType()),
 			};
 			msg.SendTo(recipient);
 			return msg;
@@ -136,7 +135,7 @@ public class SetActionUIMessage : ServerMessage
 				{
 					NetObject = netObject.netId,
 					ComponentLocation = componentLocation,
-					ComponentType = type,
+					ComponentID = SerializeType(type),
 					cooldown = cooldown,
 					showAlert = show,
 					SpriteLocation = location,
@@ -151,7 +150,7 @@ public class SetActionUIMessage : ServerMessage
 			}
 		}
 
-		return (null);
+		return null;
 	}
 
 	public static SetActionUIMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, bool _showAlert)
@@ -175,35 +174,16 @@ public class SetActionUIMessage : ServerMessage
 		return (_Send(recipient, iServerActionGUI, UpdateType.BackgroundIcon, location: FrontIconlocation));
 	}
 
-
-	public override void Deserialize(NetworkReader reader)
+	private static ushort SerializeType(Type type)
 	{
-		base.Deserialize(reader);
-
-		actionListID = reader.ReadUInt16();
-		spellListIndex = reader.ReadInt16();
-		SpriteLocation = reader.ReadInt32();
-		ComponentLocation = reader.ReadInt32();
-		NetObject = reader.ReadUInt32();
-		showAlert = reader.ReadBoolean();
-		cooldown = reader.ReadSingle();
-		ComponentType = RequestGameAction.componentIDToComponentType[reader.ReadUInt16()];
-		ProposedAction = (UpdateType) reader.ReadInt32();
+		return RequestGameAction.componentTypeToComponentID[type];
 	}
 
-	public override void Serialize(NetworkWriter writer)
+	private static Type DeserializeType(ushort id)
 	{
-		base.Serialize(writer);
-		writer.WriteUInt16(actionListID);
-		writer.WriteInt16(spellListIndex);
-		writer.WriteInt32(SpriteLocation);
-		writer.WriteInt32(ComponentLocation);
-		writer.WriteUInt32(NetObject);
-		writer.WriteBoolean(showAlert);
-		writer.WriteSingle(cooldown);
-		writer.WriteUInt16(RequestGameAction.componentTypeToComponentID[ComponentType]);
-		writer.WriteInt32((int) ProposedAction);
+		return RequestGameAction.componentIDToComponentType[id];
 	}
+
 	public enum UpdateType
 	{
 		StateChange,

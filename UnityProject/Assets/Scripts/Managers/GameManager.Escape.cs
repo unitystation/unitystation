@@ -12,6 +12,11 @@ public partial class GameManager
 	[SerializeField]
 	private EscapeShuttle primaryEscapeShuttle;
 
+	private Coroutine departCoroutine;
+	private bool shuttleSent;
+
+	public bool ShuttleSent => shuttleSent;
+
 	private void InitEscapeShuttle ()
 	{
 		//Primary escape shuttle lookup
@@ -125,7 +130,7 @@ public partial class GameManager
 				SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleDocked);
 				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix);
 				//should be changed to manual send later
-				StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
+				departCoroutine = StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
 			}
 			else if (status == EscapeShuttleStatus.DockedStation && primaryEscapeShuttle.hostileEnvironment)
 			{
@@ -136,9 +141,16 @@ public partial class GameManager
 		} );
 	}
 
-	public void ForceSendEscapeShuttleFromStation()
+	public void ForceSendEscapeShuttleFromStation(int departTime)
 	{
-		StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
+		if(shuttleSent || PrimaryEscapeShuttle.Status != EscapeShuttleStatus.DockedStation) return;
+
+		if (departCoroutine != null)
+		{
+			StopCoroutine(departCoroutine);
+		}
+
+		departCoroutine = StartCoroutine( SendEscapeShuttle(departTime));
 	}
 
 	private void TrackETA(int eta)
@@ -165,10 +177,11 @@ public partial class GameManager
 			yield return WaitFor.Seconds(1);
 		}
 
+		shuttleSent = true;
 		PrimaryEscapeShuttle.SendShuttle();
 
 		//centcom round end countdown
-		int timeToCentcom = (seconds * 2 - 2);
+		int timeToCentcom = (ShuttleDepartTime * 2 - 2);
 		for ( int i = timeToCentcom - 1; i >= 0; i-- )
 		{
 			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "CENTCOM\nETA: ") );

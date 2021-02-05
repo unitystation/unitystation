@@ -891,7 +891,10 @@ public class ChatUI : MonoBehaviour
 		else
 		{
 			adminHelpChat.gameObject.SetActive(true);
-			helpSelectionPanel.gameObject.SetActive(false);
+			if (helpSelectionPanel != null && helpSelectionPanel.activeInHierarchy)
+			{
+				helpSelectionPanel.gameObject.SetActive(false);
+			}
 		}
 	}
 
@@ -908,7 +911,10 @@ public class ChatUI : MonoBehaviour
 		else
 		{
 			mentorHelpChat.gameObject.SetActive(true);
-			helpSelectionPanel.gameObject.SetActive(false);
+			if (helpSelectionPanel != null && helpSelectionPanel.activeInHierarchy)
+			{
+				helpSelectionPanel.gameObject.SetActive(false);
+			}
 		}
 	}
 }

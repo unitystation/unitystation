@@ -12,6 +12,9 @@ public class PanelHudBottomController : MonoBehaviour
 	[FormerlySerializedAs("pocketThreeItemSlot")] public UI_ItemSlot suitStorageSlot = default;
 
 	private bool _isWearingUniform;
+
+	private ItemSlot OXsuit;
+	private ItemSlot uniform;
 	/// <summary>
 	/// Do player have item in uniform slot
 	/// </summary>
@@ -140,7 +143,7 @@ public class PanelHudBottomController : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsGhost == false)
+		if (PlayerManager.LocalPlayerScript != null)
 		{
 			RemoveListeners();
 		}
@@ -151,12 +154,12 @@ public class PanelHudBottomController : MonoBehaviour
 	/// </summary>
 	public void SetupListeners()
 	{
-		ItemSlot uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
-		uniform.OnSlotContentsChangeClient.AddListener(() => OnUniformSlotUpdate());
+		uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
+		uniform.OnSlotContentsChangeClient.AddListener(OnUniformSlotUpdate);
 		OnUniformSlotUpdate();
 
-		ItemSlot OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
-		OXsuit.OnSlotContentsChangeClient.AddListener(() => OnOXsuitSlotUpdate());
+		OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
+		OXsuit.OnSlotContentsChangeClient.AddListener(OnOXsuitSlotUpdate);
 		OnOXsuitSlotUpdate();
 	}
 
@@ -165,11 +168,14 @@ public class PanelHudBottomController : MonoBehaviour
 	/// </summary>
 	public void RemoveListeners()
 	{
-		ItemSlot uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
-		uniform.OnSlotContentsChangeClient.RemoveListener(() => OnUniformSlotUpdate());
-
-		ItemSlot OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
-		OXsuit.OnSlotContentsChangeClient.RemoveListener(() => OnOXsuitSlotUpdate());
+		if (uniform != null)
+		{
+			uniform.OnSlotContentsChangeClient.RemoveListener(OnUniformSlotUpdate);
+		}
+		if (OXsuit != null)
+		{
+			OXsuit.OnSlotContentsChangeClient.RemoveListener(OnOXsuitSlotUpdate);
+		}
 	}
 
 	/// <summary>

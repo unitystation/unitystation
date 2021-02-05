@@ -26,9 +26,9 @@ namespace Messages.Server
 		// To be run on client
 		public override void Process()
 		{
-			if (CustomNetworkManager.isHeadless || PlayerManager.LocalPlayer == null) return;
+			if (PlayerManager.LocalPlayer == null) return;
 
-			if (!MatrixManager.IsInitialized) return;
+			if (MatrixManager.IsInitialized == false) return;
 
 			UIManager.GhostRoleWindow.DisplayResponseMessage(roleID, (GhostRoleResponseCode)responseCode);
 		}
@@ -46,22 +46,6 @@ namespace Messages.Server
 
 			msg.SendTo(player);
 			return msg;
-		}
-
-		public override void Deserialize(NetworkReader reader)
-		{
-			base.Deserialize(reader);
-
-			roleID = reader.ReadUInt32();
-			responseCode = reader.ReadInt32();
-		}
-
-		public override void Serialize(NetworkWriter writer)
-		{
-			base.Serialize(writer);
-
-			writer.WriteUInt32(roleID);
-			writer.WriteInt32(responseCode);
 		}
 
 		/// <summary>

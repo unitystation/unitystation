@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1238463003248877335, guid: bb018450ceda0b24d83c74bfd253bdc1,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238463003248877335, guid: bb018450ceda0b24d83c74bfd253bdc1,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1238463003248877335, guid: bb018450ceda0b24d83c74bfd253bdc1,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238463003248877335, guid: bb018450ceda0b24d83c74bfd253bdc1,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1238463003248877335, guid: bb018450ceda0b24d83c74bfd253bdc1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1238463003248877335, guid: bb018450ceda0b24d83c74bfd253bdc1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1238463003248877335, guid: bb018450ceda0b24d83c74bfd253bdc1,
         type: 3}
@@ -80,10 +80,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1716433438106799361, guid: bb018450ceda0b24d83c74bfd253bdc1,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 11ce8d65a70014d4997c0bf4f1045b67,
-        type: 2}
+      propertyPath: initialName
+      value: broken light bulb
+      objectReference: {fileID: 0}
     - target: {fileID: 1716433438106799361, guid: bb018450ceda0b24d83c74bfd253bdc1,
         type: 3}
       propertyPath: initialDescription
@@ -91,9 +90,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1716433438106799361, guid: bb018450ceda0b24d83c74bfd253bdc1,
         type: 3}
-      propertyPath: initialName
-      value: broken light bulb
-      objectReference: {fileID: 0}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 11ce8d65a70014d4997c0bf4f1045b67,
+        type: 2}
     - target: {fileID: 4934391158846134756, guid: bb018450ceda0b24d83c74bfd253bdc1,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -102,4 +102,5 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 6445873545581884561, guid: bb018450ceda0b24d83c74bfd253bdc1, type: 3}
+    - {fileID: 6745869943638027713, guid: bb018450ceda0b24d83c74bfd253bdc1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bb018450ceda0b24d83c74bfd253bdc1, type: 3}

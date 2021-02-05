@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3783067603822704685, guid: 4325ff5e8c92fee47b53476d3cd97788,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3783067603822704685, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3783067603822704685, guid: 4325ff5e8c92fee47b53476d3cd97788,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3783067603822704685, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783067603822704685, guid: 4325ff5e8c92fee47b53476d3cd97788,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783067603822704685, guid: 4325ff5e8c92fee47b53476d3cd97788,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783067603822704685, guid: 4325ff5e8c92fee47b53476d3cd97788,
         type: 3}
@@ -91,18 +91,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5778241252380090823, guid: 4325ff5e8c92fee47b53476d3cd97788,
         type: 3}
-      propertyPath: initialDescription
-      value: A large cart for hauling around large amounts of laundry.
+      propertyPath: initialName
+      value: laundry cart
       objectReference: {fileID: 0}
     - target: {fileID: 5778241252380090823, guid: 4325ff5e8c92fee47b53476d3cd97788,
         type: 3}
-      propertyPath: initialName
-      value: laundry cart
+      propertyPath: initialDescription
+      value: A large cart for hauling around large amounts of laundry.
       objectReference: {fileID: 0}
     - target: {fileID: 7439777199561940866, guid: 4325ff5e8c92fee47b53476d3cd97788,
         type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8558355401010680877, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 252fdb12b9cb823438cfacab939aa928,
+        type: 2}
+    - target: {fileID: 8558355401010680877, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 252fdb12b9cb823438cfacab939aa928,
+        type: 2}
+    - target: {fileID: 8558355401010680877, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d926cdbe60159064fa697335b2db3be7,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4325ff5e8c92fee47b53476d3cd97788, type: 3}

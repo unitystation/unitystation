@@ -119,7 +119,6 @@ MonoBehaviour:
   ignorePassableChecks: 0
   IsAutomatic: 1
   conType: 7
-  connectedDoorSwitch: {fileID: 0}
   isPerformingAction: 0
   isWindowedDoor: 1
   useSimpleLightAnimation: 1
@@ -381,7 +380,7 @@ MonoBehaviour:
   - {fileID: 21300160, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
   TripleBeep:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -907,7 +906,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 25
+  m_SortingLayer: 24
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

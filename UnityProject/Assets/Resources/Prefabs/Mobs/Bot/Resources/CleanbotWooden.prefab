@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: EatFoodA.AssetAddress
       value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 802417937811619490, guid: 52e52506ef7e83e41a024f96fadc9304,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b642ad52ac41723428e8fb0940d84402,
+        type: 2}
     - target: {fileID: 822779961239697815, guid: 52e52506ef7e83e41a024f96fadc9304,
         type: 3}
       propertyPath: butcherSound.AssetAddress
@@ -21,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153581049189395837, guid: 52e52506ef7e83e41a024f96fadc9304,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2153581049189395837, guid: 52e52506ef7e83e41a024f96fadc9304,
         type: 3}
@@ -39,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2153581049189395837, guid: 52e52506ef7e83e41a024f96fadc9304,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153581049189395837, guid: 52e52506ef7e83e41a024f96fadc9304,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2153581049189395837, guid: 52e52506ef7e83e41a024f96fadc9304,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2153581049189395837, guid: 52e52506ef7e83e41a024f96fadc9304,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2153581049189395837, guid: 52e52506ef7e83e41a024f96fadc9304,
         type: 3}
@@ -82,11 +88,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: CleanbotWooden
       objectReference: {fileID: 0}
+    - target: {fileID: 7814011675513677028, guid: 52e52506ef7e83e41a024f96fadc9304,
+        type: 3}
+      propertyPath: emaggedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bd95a76ea5bef07478a4a984d8605672,
+        type: 3}
+    - target: {fileID: 7814011675513677028, guid: 52e52506ef7e83e41a024f96fadc9304,
+        type: 3}
+      propertyPath: EMAGGED_SPRITE
+      value: 
+      objectReference: {fileID: 21300000, guid: bd95a76ea5bef07478a4a984d8605672,
+        type: 3}
     - target: {fileID: 7911763529354618204, guid: 52e52506ef7e83e41a024f96fadc9304,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 3093160451266126740, guid: d546bfef3536f9342894606705d01a9e,
+      objectReference: {fileID: 21300000, guid: 1ae605d0f683bf948aeb84d933d729d7,
         type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3116353301156381755, guid: 52e52506ef7e83e41a024f96fadc9304, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 52e52506ef7e83e41a024f96fadc9304, type: 3}

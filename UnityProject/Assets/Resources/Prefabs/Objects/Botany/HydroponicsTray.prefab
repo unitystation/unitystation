@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4309619294491644}
   - component: {fileID: 212536712376351936}
+  - component: {fileID: 6283305660238335982}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -82,6 +83,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6283305660238335982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008563499804470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 7dfddd849e928f440aa8bd921b643aec, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &1609685257496530
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,12 +267,39 @@ MonoBehaviour:
   isSoilPile: 0
   isWild: 0
   potentialWeeds:
-  - {fileID: 11400000, guid: 375fdb78e44a16f44bd8fed477aec2fa, type: 2}
-  - {fileID: 11400000, guid: 8381b65b5721d454cbe2b03391fd34c4, type: 2}
-  - {fileID: 11400000, guid: 4d0e5cc6d51fa0446b4907df06c35a48, type: 2}
-  - {fileID: 11400000, guid: c5c8c48fefd6af742a194210057456e6, type: 2}
-  - {fileID: 11400000, guid: e08fe974797d87d49980a832c69354ff, type: 2}
-  - {fileID: 11400000, guid: 53bb9f10c65e1dd4fa5b856a06b91f91, type: 2}
+  - {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21, type: 3}
+  - {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21, type: 3}
+  - {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21, type: 3}
+  - {fileID: 8824988080051254831, guid: ab1442ccdc53ec149820ae45ec942a3a, type: 3}
+  - {fileID: 8824988080051254831, guid: ab1442ccdc53ec149820ae45ec942a3a, type: 3}
+  - {fileID: 3050735359452578519, guid: c9011cdae105db947b62a63d5934fec3, type: 3}
+  - {fileID: 3050735359452578519, guid: c9011cdae105db947b62a63d5934fec3, type: 3}
+  - {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87, type: 3}
+  - {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87, type: 3}
+  - {fileID: 6192448916473654018, guid: 103ef0639f3940544afdbbfc8215a99a, type: 3}
+  - {fileID: 6192448916473654018, guid: 103ef0639f3940544afdbbfc8215a99a, type: 3}
+  - {fileID: 1991824238655534113, guid: d3223adb88ea9fa4885408cf982854e5, type: 3}
+  - {fileID: 1991824238655534113, guid: d3223adb88ea9fa4885408cf982854e5, type: 3}
+  - {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658, type: 3}
+  - {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658, type: 3}
+  - {fileID: 4623359582509876532, guid: c1ce6fa13648705408c2308794f9ce69, type: 3}
+  - {fileID: 4623359582509876532, guid: c1ce6fa13648705408c2308794f9ce69, type: 3}
+  - {fileID: 4623359582509876532, guid: c1ce6fa13648705408c2308794f9ce69, type: 3}
+  potentialWildPlants:
+  - {fileID: 1014945320445758551, guid: 9d7f5c511a8d02b4795a829f4893fa35, type: 3}
+  - {fileID: 5550356101914517609, guid: 1f8dd379db731934fb32a689389d8aad, type: 3}
+  - {fileID: 3115806534628904004, guid: e03ca27468a35fd489906cd9eb4854df, type: 3}
+  - {fileID: 4978174661751517706, guid: bfde317476b7ff843aec3fce79449da8, type: 3}
+  - {fileID: 658397812015304475, guid: 099cce22b8fa5714892f0ec86a9b7451, type: 3}
+  - {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21, type: 3}
+  - {fileID: 1619299131167382530, guid: 0962cc7b7ee82d14a975400b9762a9ca, type: 3}
+  - {fileID: 8423096099299282122, guid: 882b4a092eff060438657e9c0346ae7c, type: 3}
+  - {fileID: 3734552320259523273, guid: 988c654f569d5a843bba82e700c8edf7, type: 3}
+  - {fileID: 7396610180127803646, guid: 15e6625615ca78244aa7899d05e981d4, type: 3}
+  - {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f, type: 3}
+  - {fileID: 3677788203275075741, guid: ade1755b39122014e834e5d291d2179a, type: 3}
+  - {fileID: 8824988080051254831, guid: ab1442ccdc53ec149820ae45ec942a3a, type: 3}
+  - {fileID: 3050735359452578519, guid: c9011cdae105db947b62a63d5934fec3, type: 3}
   modification: 0
   reagentContainer: {fileID: 3468170437254342443}
   nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
@@ -265,9 +313,7 @@ MonoBehaviour:
   tickRate: 1
   plantData:
     ProduceObject: {fileID: 0}
-    Name: 
-    Plantname: 
-    Description: 
+    PlantName: 
     DeadSpriteSO: {fileID: 0}
     FullyGrownSpriteSO: {fileID: 0}
     GrowthSpritesSOs: []
@@ -526,7 +572,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -552,6 +598,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: b2bcc48cd1fe1224fa63b46854d61731, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -628,7 +675,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+  m_Sprite: {fileID: 21300004, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -654,6 +701,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 9149d3bede9fd2240a3af3f95752d5b1, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -730,7 +778,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+  m_Sprite: {fileID: 21300004, guid: aea86856306566d43bfb7f194de93f06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -756,6 +804,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: df36fe710569d8b45ad564d6fa3a1a98, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -832,7 +881,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -858,6 +907,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: de4912c9ed032ce498ce529b2ba9b1f9, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -960,6 +1010,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []

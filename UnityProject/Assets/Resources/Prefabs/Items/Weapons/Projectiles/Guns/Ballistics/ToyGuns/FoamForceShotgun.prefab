@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 5772d8438f7db5c47ab1447274cc44a7, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -111,14 +112,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 7016178210582250300, guid: 721ddd4a34986b74394f6d2493d07fb4,
-        type: 3}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: casingPrefabOverride
-      value: 
+      propertyPath: ammoType
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -128,13 +123,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: ProjectilesFired
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 7016178210582250300, guid: 721ddd4a34986b74394f6d2493d07fb4,
+        type: 3}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: ammoType
-      value: 21
+      propertyPath: FiringSound
+      value: ShootSyringe
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -143,24 +139,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: FiringSound
-      value: ShootSyringe
+      propertyPath: ProjectilesFired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: casingPrefabOverride
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/GunShots/ShootSyringe.prefab
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: initialName
+      value: foam force shotgun
       objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: initialDescription
       value: A toy shotgun with wood furniture and a four-shell capacity underneath.
         Ages 8 and up.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: initialName
-      value: foam force shotgun
       objectReference: {fileID: 0}
     - target: {fileID: 3365730268199074847, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -171,6 +172,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FoamForceShotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -189,6 +195,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -201,16 +212,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}

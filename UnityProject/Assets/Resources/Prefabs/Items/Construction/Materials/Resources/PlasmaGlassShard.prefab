@@ -9,9 +9,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 876689034008534668, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
-      propertyPath: glassSprites.Array.data[2]
+      propertyPath: glassSprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 052554e1cc713b041822420baba2357e,
+      objectReference: {fileID: 21300000, guid: c1385663d9f07704480c104a0e414c4f,
         type: 3}
     - target: {fileID: 876689034008534668, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
@@ -21,20 +21,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 876689034008534668, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
-      propertyPath: glassSprites.Array.data[0]
+      propertyPath: glassSprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300000, guid: c1385663d9f07704480c104a0e414c4f,
+      objectReference: {fileID: 21300000, guid: 052554e1cc713b041822420baba2357e,
         type: 3}
-    - target: {fileID: 1845672625718104569, guid: 82677ff961fa72944936cc923625a1bc,
-        type: 3}
-      propertyPath: initialName
-      value: plasma glass shard
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845672625718104569, guid: 82677ff961fa72944936cc923625a1bc,
-        type: 3}
-      propertyPath: initialDescription
-      value: A nasty looking shard of plasma glass.
-      objectReference: {fileID: 0}
     - target: {fileID: 1845672625718104569, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
       propertyPath: hitDamage
@@ -42,8 +32,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1845672625718104569, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
+      propertyPath: exportCost
+      value: 158
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845672625718104569, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: initialName
+      value: plasma glass shard
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845672625718104569, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
       propertyPath: throwDamage
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845672625718104569, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: initialDescription
+      value: A nasty looking shard of plasma glass.
       objectReference: {fileID: 0}
     - target: {fileID: 2126062213985717703, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
@@ -55,6 +60,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2261719527957890031, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2261719527957890031, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
@@ -73,6 +83,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2261719527957890031, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2261719527957890031, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +100,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2261719527957890031, guid: 82677ff961fa72944936cc923625a1bc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2261719527957890031, guid: 82677ff961fa72944936cc923625a1bc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2261719527957890031, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}

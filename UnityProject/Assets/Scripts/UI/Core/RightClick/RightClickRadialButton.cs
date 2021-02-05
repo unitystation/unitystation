@@ -33,6 +33,10 @@ namespace UI.Core.RightClick
 		[SerializeField]
 		private RectTransform divider = default;
 
+		[Min(0)]
+		[SerializeField]
+		private float selectionDelay = default;
+
 		private Image mask;
 
 		private RightClickButton button;
@@ -40,6 +44,17 @@ namespace UI.Core.RightClick
 		private Image Mask => this.GetComponentByRef(ref mask);
 
 		private RightClickButton Button => this.GetComponentByRef(ref button);
+
+		private int SelectionDelayId { get; set; }
+
+		private System.Action SelectionDelegate { get; set; }
+
+		private PointerEventData LastPointerEnterData { get; set; }
+
+		private void Awake()
+		{
+			SelectionDelegate = Select;
+		}
 
 		public override void Setup(Radial<RightClickRadialButton> parent, int index)
 		{
@@ -51,11 +66,12 @@ namespace UI.Core.RightClick
 			var altLabelTransform = altLabel.transform;
 			altLabelTransform.localPosition = Radial.ItemCenter;
 			altLabelTransform.localScale = Vector3.one;
+			SetInteractable(true);
 		}
 
 		public void SetInteractable(bool value)
 		{
-			if (mask.raycastTarget)
+			if (mask.raycastTarget && Button.interactable != value)
 			{
 				Button.interactable = value;
 				Mask.canvasRenderer.SetColor(colors.normalColor * colors.colorMultiplier);
@@ -154,24 +170,47 @@ namespace UI.Core.RightClick
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			var selected = Radial.Selected;
-			if (selected != this)
-			{
-				selected.OrNull()?.FadeOut(eventData);
-				Radial.Selected = this;
-			}
+			LastPointerEnterData = eventData;
 
-			if (eventData.dragging || Button.interactable == false)
+			if (ReferenceEquals(Radial.Selected, null) || selectionDelay < 0.01f)
+			{
+				Select();
+			}
+			else
+			{
+				SelectionDelayId = LeanTween.delayedCall(selectionDelay, SelectionDelegate).id;
+			}
+		}
+
+		private void Select()
+		{
+			if (LastPointerEnterData == null || Radial.isActiveAndEnabled == false)
 			{
 				return;
 			}
+
+			var selected = Radial.Selected;
+			if (selected != this)
+			{
+				selected.OrNull()?.FadeOut(LastPointerEnterData);
+				Radial.Selected = this;
+			}
+
+			if (LastPointerEnterData.dragging || Button.interactable == false)
+			{
+				return;
+			}
+
 			SetColor(colors.highlightedColor);
-			Button.OnPointerEnter(eventData);
-			Radial.Invoke(PointerEventType.PointerEnter, eventData, this);
+			Button.OnPointerEnter(LastPointerEnterData);
+			Radial.Invoke(PointerEventType.PointerEnter, LastPointerEnterData, this);
+			SelectionDelayId = 0;
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
+			LeanTween.cancel(SelectionDelayId);
+			SelectionDelayId = 0;
 			Radial.Invoke(PointerEventType.PointerExit, eventData, this);
 		}
 

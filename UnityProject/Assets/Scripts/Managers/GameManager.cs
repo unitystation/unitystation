@@ -159,6 +159,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
 		InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
 		RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
+		RespawnCurrentlyAllowed = RespawnAllowed;
 		ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
 		GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
@@ -372,7 +373,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			PendingSpaceBodies = new Queue<MatrixMove>();
 
 			CurrentRoundState = RoundState.PreRound;
-			EventManager.Broadcast(EVENT.PreRoundStarted);
+			EventManager.Broadcast(EVENT.PreRoundStarted, true);
 
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
@@ -463,6 +464,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 
 			CurrentRoundState = RoundState.Ended;
+			EventManager.Broadcast(EVENT.RoundEnded, true);
 			counting = false;
 
 			GameMode.EndRound();
@@ -689,10 +691,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	IEnumerator ServerRoundRestart()
 	{
 		Logger.Log("Server restarting round now.", Category.Round);
-		Chat.AddGameWideSystemMsgToChat("The round is now restarting...");
+		Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
 
 		//Notify all clients that the round has ended
-		ServerToClientEventsMsg.SendToAll(EVENT.RoundEnded);
+		EventManager.Broadcast(EVENT.RoundEnded, true);
 
 		yield return WaitFor.Seconds(0.2f);
 

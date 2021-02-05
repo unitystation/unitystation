@@ -17,10 +17,30 @@ PrefabInstance:
       propertyPath: mobName
       value: space cat
       objectReference: {fileID: 0}
+    - target: {fileID: 2103681918909080673, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: MeowSFX.AssetAddress
+      value: Assets/Prefabs/NPC/Meow01.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103681918909080673, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: PurrSFX.AssetAddress
+      value: Assets/Prefabs/NPC/Purr.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103681918909080673, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: CatHissSFX.AssetAddress
+      value: Assets/Prefabs/NPC/CatHiss.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 2144788095502372098, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
       propertyPath: m_Name
       value: CatSpace
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
@@ -39,6 +59,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -50,16 +75,6 @@ PrefabInstance:
     - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
@@ -85,15 +100,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4854922354611821423, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: a716fb39c31a9524b9e124f2a7c3dbea,
-        type: 2}
-    - target: {fileID: 4854922354611821423, guid: e481edcb288d49f488b609f15236afbe,
-        type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 498513210e4a3f94bb8c1d69151cceab,
+        type: 2}
+    - target: {fileID: 4854922354611821423, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a716fb39c31a9524b9e124f2a7c3dbea,
         type: 2}
     - target: {fileID: 6631108641706263434, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}

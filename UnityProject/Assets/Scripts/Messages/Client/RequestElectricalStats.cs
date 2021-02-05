@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Messages.Client;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 
 /// <summary>
@@ -44,19 +43,5 @@ public class RequestElectricalStats : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Player = reader.ReadUInt32();
-		ElectricalItem = reader.ReadUInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(Player);
-		writer.WriteUInt32(ElectricalItem);
 	}
 }

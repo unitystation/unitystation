@@ -31,31 +31,12 @@ public partial class Chat : MonoBehaviour
 		}
 	}
 
-	//Connections to scene based ChatRelay. This is null if in the lobby
-	private ChatRelay chatRelay;
-	private Action<ChatEvent> addChatLogServer;
-	private Action<string, ChatChannel> addChatLogClient;
-	private Action<string> addAdminPriv;
-	private Action<string> addMentorPriv;
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
 	public bool OOCMute = false;
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
-
-	/// <summary>
-	/// Set the scene based chat relay at the start of every round
-	/// </summary>
-	public static void RegisterChatRelay(ChatRelay relay, Action<ChatEvent> serverChatMethod,
-		Action<string, ChatChannel> clientChatMethod, Action<string> adminMethod, Action<string> mentorMethod)
-	{
-		Instance.chatRelay = relay;
-		Instance.addChatLogServer = serverChatMethod;
-		Instance.addChatLogClient = clientChatMethod;
-		Instance.addAdminPriv = adminMethod;
-		Instance.addMentorPriv = mentorMethod;
-	}
 
 	public static void InvokeChatEvent(ChatEvent chatEvent)
 	{
@@ -71,8 +52,19 @@ public partial class Chat : MonoBehaviour
 				continue;
 			}
 
+			// A temporary solution until proper telecomms is implemented
+			if (Channels.RadioChannels.HasFlag(channel))
+			{
+				if (InGameEvents.EventCommsBlackout.CommsDown) return;
+
+				if (InGameEvents.EventProcessorOverload.ProcessorOverload)
+				{
+					chatEvent.message = InGameEvents.EventProcessorOverload.ProcessMessage(chatEvent.message);
+				}
+			}
+
 			chatEvent.channels = channel;
-			Instance.addChatLogServer.Invoke(chatEvent);
+			ChatRelay.Instance.PropagateChatToClients(chatEvent);
 			discordMessageBuilder.Append($"[{channel}] ");
 		}
 
@@ -158,7 +150,7 @@ public partial class Chat : MonoBehaviour
 				}
 			}
 
-			Instance.addChatLogServer.Invoke(chatEvent);
+			ChatRelay.Instance.PropagateChatToClients(chatEvent);
 
 			//Sends OOC message to a discord webhook
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
@@ -240,7 +232,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (!IsServer()) return;
 
-		Instance.addChatLogServer.Invoke(new ChatEvent
+		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
 		{
 			message = message,
 			channels = ChatChannel.System,
@@ -257,7 +249,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (!IsServer()) return;
 
-		Instance.addChatLogServer.Invoke(new ChatEvent
+		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
 		{
 			message = message,
 			channels = ChatChannel.System
@@ -280,7 +272,7 @@ public partial class Chat : MonoBehaviour
 		//dont send message if originator message is blank
 		if (string.IsNullOrWhiteSpace(originatorMessage)) return;
 
-		Instance.addChatLogServer.Invoke(new ChatEvent
+		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
 		{
 			channels = ChatChannel.Action,
 			speaker = originator.name,
@@ -313,7 +305,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (!IsServer()) return;
 
-		Instance.addChatLogServer.Invoke(new ChatEvent
+		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
 			message = originatorMsg,
@@ -426,7 +418,7 @@ public partial class Chat : MonoBehaviour
 			pos = posOverride;
 		}
 
-		Instance.addChatLogServer.Invoke(new ChatEvent
+		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
 			message = message,
@@ -456,7 +448,7 @@ public partial class Chat : MonoBehaviour
 
 		var message =
 			$"{victim.ExpensiveName()} has been hit by a {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
-		Instance.addChatLogServer.Invoke(new ChatEvent
+		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
 			message = message,
@@ -500,7 +492,7 @@ public partial class Chat : MonoBehaviour
 		if (!IsServer()) return;
 		Instance.TryStopCoroutine(ref composeMessageHandle);
 
-		Instance.addChatLogServer.Invoke(new ChatEvent
+		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
 		{
 			channels = ChatChannel.Local,
 			message = message,
@@ -553,7 +545,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message"> The message to add to the client chat stream</param>
 	public static void AddExamineMsgToClient(string message)
 	{
-		Instance.addChatLogClient.Invoke(message, ChatChannel.Examine);
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Examine, true, PlayerManager.LocalPlayer);
 	}
 
 	/// <summary>
@@ -589,17 +581,17 @@ public partial class Chat : MonoBehaviour
 	public static void AddWarningMsgToClient(string message)
 	{
 		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None); //TODO: Put processing in a unified place for server and client.
-		Instance.addChatLogClient.Invoke(message, ChatChannel.Warning);
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayer);
 	}
 
 	public static void AddAdminPrivMsg(string message)
 	{
-		Instance.addAdminPriv.Invoke(message);
+		ChatRelay.Instance.AddAdminPrivMessageToClient(message);
 	}
 
 	public static void AddMentorPrivMsg(string message)
 	{
-		Instance.addMentorPriv.Invoke(message);
+		ChatRelay.Instance.AddMentorPrivMessageToClient(message);
 	}
 
 	/// <summary>

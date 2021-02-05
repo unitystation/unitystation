@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +13,11 @@ namespace Systems.Botany
 	{
 		private static readonly System.Random random = new System.Random();
 
+		[Tooltip("What the growing plant produces when harvested.")]
 		public GameObject ProduceObject;
-		public string Name;
-		public string Plantname;
 
-		public string Description;
+		[Tooltip("Name of the growing plant, NOT the produce itself.")]
+		public string PlantName;
 
 		//public SpriteSheetAndData ProduceSprite;
 		//public List<SpriteSheetAndData> GrowthSprites = new List<SpriteSheetAndData>();
@@ -33,13 +33,14 @@ namespace Systems.Botany
 		public int WeedResistance = 50; //Dank
 		public int WeedGrowthRate = 10;
 		public int GrowthSpeed = 60;
-		public int Potency = 15;
+		public int Potency = 10;
 		public int Endurance = 15;
-		public int Yield = 40;
+		[Tooltip("Determines how much produce is harvested from a plant. Final amount of produce harvested is the yield divided by 10 rounded to the nearest integer.")]
+		public int Yield = 30;
+		[Tooltip("Determines how long the plant lives for.")]
 		public int Lifespan = 25;
 		public List<PlantTrays> PlantTrays = new List<PlantTrays>();
 		public List<Reagent> ReagentProduction = new List<Reagent>();
-		//public List<DefaultPlantData> MutatesInTo = new List<DefaultPlantData>();
 
 		public List<GameObject> MutatesInToGameObject = new List<GameObject>();
 
@@ -54,20 +55,6 @@ namespace Systems.Botany
 		//Use static methods to create new instances of PlantData
 		private PlantData()
 		{
-		}
-
-		/// <summary>
-		/// Gets a new instance of PlantData based on param
-		/// </summary>
-		/// <param name="defaultPlantData">DefaultPlantData to copy</param>
-		/// <returns></returns>
-		public static PlantData CreateNewPlant(DefaultPlantData defaultPlantData)
-		{
-			PlantData newPlant = new PlantData();
-			newPlant.SetValues(defaultPlantData);
-			newPlant.Health = 100;
-			newPlant.Age = 0;
-			return newPlant;
 		}
 
 		/// <summary>
@@ -101,9 +88,7 @@ namespace Systems.Botany
 		public void MutateTo(PlantData _PlantData)
 		{
 			if (_PlantData.plantEvolveStats == null) return;
-			Plantname = _PlantData.Plantname;
-			Description = _PlantData.Description;
-			Name = _PlantData.Name;
+			PlantName = _PlantData.PlantName;
 			ProduceObject = _PlantData.ProduceObject;
 
 
@@ -132,9 +117,7 @@ namespace Systems.Botany
 		/// <param name="_PlantData">data to copy</param>
 		private void SetValues(PlantData _PlantData)
 		{
-			Plantname = _PlantData.Plantname;
-			Description = _PlantData.Description;
-			Name = _PlantData.Name;
+			PlantName = _PlantData.PlantName;
 			ProduceObject = _PlantData.ProduceObject;
 			GrowthSpritesSOs = _PlantData.GrowthSpritesSOs;
 			FullyGrownSpriteSO = _PlantData.FullyGrownSpriteSO;
@@ -149,50 +132,6 @@ namespace Systems.Botany
 			PlantTrays = _PlantData.PlantTrays;
 			ReagentProduction = _PlantData.ReagentProduction;
 			MutatesInToGameObject = _PlantData.MutatesInToGameObject;
-		}
-
-		/// <summary>
-		/// Initializes plant with data from default plant
-		/// </summary>
-		/// <param name="DefaultPlantData">DefaultPlantData.plantdata's values are copied</param>
-		private void SetValues(DefaultPlantData DefaultPlantData)
-		{
-			var _PlantData = DefaultPlantData.plantData;
-			Name = _PlantData.Name;
-			Plantname = _PlantData.Plantname;
-			Description = _PlantData.Description;
-			if (ProduceObject == null)
-			{
-				ProduceObject = _PlantData.ProduceObject;
-			}
-
-			if (GrowthSpritesSOs.Count == 0)
-			{
-				GrowthSpritesSOs = _PlantData.GrowthSpritesSOs;
-			}
-
-			if (FullyGrownSpriteSO == null)
-			{
-				FullyGrownSpriteSO = _PlantData.FullyGrownSpriteSO;
-			}
-
-			if (DeadSpriteSO == null)
-			{
-				DeadSpriteSO = _PlantData.DeadSpriteSO;
-			}
-
-			WeedResistance = _PlantData.WeedResistance;
-			WeedGrowthRate = _PlantData.WeedGrowthRate;
-			GrowthSpeed = _PlantData.GrowthSpeed;
-			Potency = _PlantData.Potency;
-			Endurance = _PlantData.Endurance;
-			Yield = _PlantData.Yield;
-			Lifespan = _PlantData.Lifespan;
-
-
-			PlantTrays = (_PlantData.PlantTrays.Union(PlantTrays)).ToList();
-			MutatesInToGameObject = (_PlantData.MutatesInToGameObject.Union(MutatesInToGameObject)).ToList();
-			CombineReagentProduction(_PlantData.ReagentProduction);
 		}
 
 		/// <summary>
@@ -211,7 +150,7 @@ namespace Systems.Botany
 					{
 						if (_Reagent.Name == Reagent.Name)
 						{
-							if (_Reagent.Ammount > Reagent.Ammount)
+							if (_Reagent.Amount > Reagent.Amount)
 							{
 								ToRemove.Add(Reagent);
 							}
@@ -358,20 +297,6 @@ namespace Systems.Botany
 			public List<PlantTrays> RemovePlantTrays = new List<PlantTrays>();
 			public List<Reagent> RemoveReagentProduction = new List<Reagent>();
 
-			public void copyFrom(DefaultPlantData defaultPlantData)
-			{
-				WeedResistanceChange = defaultPlantData.WeedResistanceChange;
-				WeedGrowthRateChange = defaultPlantData.WeedGrowthRateChange;
-				GrowthSpeedChange = defaultPlantData.GrowthSpeedChange;
-				PotencyChange = defaultPlantData.PotencyChange; ;
-				EnduranceChange = defaultPlantData.EnduranceChange;
-				YieldChange = defaultPlantData.YieldChange;
-				LifespanChange = defaultPlantData.LifespanChange;
-				PlantTrays = defaultPlantData.PlantTrays;
-				ReagentProduction = defaultPlantData.ReagentProduction;
-				RemovePlantTrays = defaultPlantData.RemovePlantTrays;
-				RemoveReagentProduction = defaultPlantData.RemoveReagentProduction;
-			}
 		}
 	}
 
@@ -382,7 +307,7 @@ namespace Systems.Botany
 	public class Reagent
 	{
 		public string Name;
-		public int Ammount;
+		public int Amount;
 	}
 
 

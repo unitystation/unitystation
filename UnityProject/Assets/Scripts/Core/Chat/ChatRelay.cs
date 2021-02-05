@@ -16,7 +16,6 @@ public class ChatRelay : NetworkBehaviour
 	public static ChatRelay Instance;
 
 	private ChatChannel namelessChannels;
-	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
 	private LayerMask layerMask;
 	private LayerMask npcMask;
 
@@ -34,7 +33,6 @@ public class ChatRelay : NetworkBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-			Chat.RegisterChatRelay(Instance, PropagateChatToClients, AddToChatLogClient, AddAdminPrivMessageToClient, AddMentorPrivMessageToClient);
 		}
 		else
 		{
@@ -53,7 +51,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Server]
-	private void PropagateChatToClients(ChatEvent chatEvent)
+	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<ConnectedPlayer> players = PlayerList.Instance.AllPlayers;
 
@@ -165,14 +163,9 @@ public class ChatRelay : NetworkBehaviour
 		}
 	}
 
-	[Client]
-	private void AddToChatLogClient(string message, ChatChannel channels)
-	{
-		UpdateClientChat(message, channels);
-	}
 
 	[Client]
-	private void AddAdminPrivMessageToClient(string message)
+	public void AddAdminPrivMessageToClient(string message)
 	{
 		trySendingTTS(message);
 
@@ -180,7 +173,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private void AddMentorPrivMessageToClient(string message)
+	public void AddMentorPrivMessageToClient(string message)
 	{
 		trySendingTTS(message);
 
@@ -188,7 +181,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private void UpdateClientChat(string message, ChatChannel channels)
+	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -201,16 +194,12 @@ public class ChatRelay : NetworkBehaviour
 
 		if (channels != ChatChannel.None)
 		{
-			// TODO: remove hardcoded "You" check; chat bubbles should be on their own channel or similar - see issue #5775.
-
 			// replace action messages with chat bubble
 			if(channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) || channels.HasFlag(ChatChannel.Examine))
 			{
-				string cleanMessage = Regex.Replace(message, "<.*?>", string.Empty);
-				if(cleanMessage.StartsWith("You"))
+				if(isOriginator)
 				{
-					ChatBubbleManager.ShowAction(Regex.Replace(message, "<.*?>", string.Empty));
-					return;
+					ChatBubbleManager.Instance.ShowAction(Regex.Replace(message, "<.*?>", string.Empty), recipient);
 				}
 			}
 

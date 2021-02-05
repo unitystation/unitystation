@@ -18,9 +18,13 @@ namespace Systems.MobAIs
 	public class GenericHostileAI : MobAI, IServerSpawn
 	{
 		[SerializeField]
-		protected List<string> deathSounds = new List<string>();
+		[Tooltip("Sounds played when this mob dies")]
+		protected List<AddressableAudioSource> deathSounds = default;
+
 		[SerializeField]
-		protected List<string> randomSound = new List<string>();
+		[Tooltip("Sounds played randomly while this mob is alive")]
+		protected List<AddressableAudioSource> randomSounds = default;
+
 		[Tooltip("Amount of time to wait between each random sound. Decreasing this value could affect performance!")]
 		[SerializeField]
 		protected int playRandomSoundTimer = 3;
@@ -42,6 +46,8 @@ namespace Systems.MobAIs
 		protected MobMeleeAttack mobMeleeAttack;
 		protected ConeOfSight coneOfSight;
 		protected SimpleAnimal simpleAnimal;
+		protected int fleeChance = 30;
+		protected int attackLastAttackerChance = 80;
 
 		public override void OnEnable()
 		{
@@ -111,7 +117,10 @@ namespace Systems.MobAIs
 
 			foreach (var coll in player)
 			{
-				if (MatrixManager.Linecast(this.gameObject.WorldPosServer(), LayerTypeSelection.Walls, LayerMask.NameToLayer(""),
+				if (MatrixManager.Linecast(
+					gameObject.WorldPosServer(),
+					LayerTypeSelection.Walls,
+					LayerMask.NameToLayer(""),
 					coll.gameObject.WorldPosServer()).ItHit)
 				{
 					return coll.gameObject;
@@ -144,15 +153,13 @@ namespace Systems.MobAIs
 						nudgeDir = testDir;
 						break;
 					}
-					else
+
+					if (!registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
 					{
-						if (!registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
-						{
-							continue;
-						}
-						nudgeDir = testDir;
-						break;
+						continue;
 					}
+					nudgeDir = testDir;
+					break;
 				}
 			}
 
@@ -162,7 +169,7 @@ namespace Systems.MobAIs
 
 		protected virtual void PlayRandomSound(bool force = false)
 		{
-			if (IsDead || IsUnconscious || randomSound.Count <= 0)
+			if (IsDead || IsUnconscious || randomSounds.Count <= 0)
 			{
 				return;
 			}
@@ -173,7 +180,7 @@ namespace Systems.MobAIs
 			}
 
 			SoundManager.PlayNetworkedAtPos(
-				randomSound.PickRandom(),
+				randomSounds,
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
@@ -190,7 +197,7 @@ namespace Systems.MobAIs
 			ResetBehaviours();
 			deathSoundPlayed = true;
 			SoundManager.PlayNetworkedAtPos(
-				deathSounds.PickRandom(),
+				deathSounds,
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
@@ -264,25 +271,26 @@ namespace Systems.MobAIs
 			if (health.OverallHealth < -20f)
 			{
 				//30% chance the mob decides to flee:
-				if (Random.value < 0.3f)
+				if (DMMath.Prob(fleeChance))
 				{
 					StartFleeing(damagedBy, 5f);
 					return;
 				}
 			}
 
-			if (damagedBy != mobMeleeAttack.followTarget)
+			if ((damagedBy is null) != false || damagedBy.transform == mobMeleeAttack.followTarget)
 			{
-				//80% chance the mob decides to attack the new attacker
-				if (Random.value < 0.8f)
-				{
-					var playerScript = damagedBy.GetComponent<PlayerScript>();
-					if (playerScript != null)
-					{
-						BeginAttack(damagedBy);
-						return;
-					}
-				}
+				return;
+			}
+			//80% chance the mob decides to attack the new attacker
+			if (DMMath.Prob(attackLastAttackerChance) == false)
+			{
+				return;
+			}
+			var playerScript = damagedBy.GetComponent<PlayerScript>();
+			if (playerScript != null)
+			{
+				BeginAttack(damagedBy);
 			}
 		}
 

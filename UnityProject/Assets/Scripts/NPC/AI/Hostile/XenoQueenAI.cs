@@ -6,33 +6,34 @@ namespace Systems.MobAIs
 {
 	public class XenoQueenAI: GenericHostileAI
 	{
-		[Tooltip("Max amount of active facehuggers that can be in the server at once")][SerializeField]
+		[SerializeField][Tooltip("If true, this Queen won't be counted when spawned for the queen cap.")]
+		private bool ignoreForQueenCount = false;
+		[SerializeField]
+		[Tooltip("Max amount of active facehuggers that can be in the server at once")]
 		private int huggerCap = 0;
 
-		[Tooltip("Chances of laying an egg. This gets rolled every time the Queen has no cd")]
 		[SerializeField]
 		[Range(0, 100)]
+		[Tooltip("Chances of laying an egg. This gets rolled every time the Queen has no cd")]
 		private int fertility = 30;
 
-		[Tooltip("Time in seconds between each roll for laying eggs")] [SerializeField]
+		[SerializeField]
+		[Tooltip("Time in seconds between each roll for laying eggs")]
 		private float eggCooldown = 400;
 
-		[Tooltip("Alien egg reference so we can spawn")][SerializeField]
+		[SerializeField]
+		[Tooltip("Alien egg reference so we can spawn")]
 		private GameObject alienEgg = null;
 
 		private static int currentHuggerAmt;
+		private static int currentQueensAmt;
 		private static bool resetHandlerAdded = false;
 
-		public static int CurrentHuggerAmt
-		{
-			get => currentHuggerAmt;
-			set => currentHuggerAmt = value;
-		}
+		public static int CurrentQueensAmt => currentQueensAmt;
 
-
-		private bool CapReached()
+		private bool HuggerCapReached()
 		{
-			if (currentHuggerAmt < 0)
+			if (huggerCap < 0)
 			{
 				return false;
 			}
@@ -42,7 +43,7 @@ namespace Systems.MobAIs
 
 		private void FertilityLoop()
 		{
-			if (CapReached())
+			if (HuggerCapReached())
 			{
 				StartCoroutine(Cooldown());
 				return;
@@ -62,14 +63,25 @@ namespace Systems.MobAIs
 			FertilityLoop();
 		}
 
+		public static void AddFacehuggerToCount()
+		{
+			currentHuggerAmt ++;
+		}
+
+		public static void RemoveFacehuggerFromCount()
+		{
+			currentHuggerAmt --;
+		}
+
 		private void LayEgg()
 		{
 			Spawn.ServerPrefab(alienEgg, gameObject.transform.position);
 		}
 
-		private static void ResetHuggerAmount()
+		private static void ResetStaticCounters()
 		{
 			currentHuggerAmt = 0;
+			currentQueensAmt = 0;
 		}
 
 		private static void AddResetHandler()
@@ -79,7 +91,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			EventManager.AddHandler(EVENT.RoundStarted, ResetHuggerAmount);
+			EventManager.AddHandler(EVENT.RoundStarted, ResetStaticCounters);
 			resetHandlerAdded = true;
 		}
 
@@ -94,6 +106,20 @@ namespace Systems.MobAIs
 			}
 
 			BeginSearch();
+
+			if (ignoreForQueenCount == false)
+			{
+				currentQueensAmt ++;
+			}
+		}
+
+		protected override void HandleDeathOrUnconscious()
+		{
+			base.HandleDeathOrUnconscious();
+			if (ignoreForQueenCount == false)
+			{
+				currentQueensAmt--;
+			}
 		}
 	}
 }

@@ -235,6 +235,244 @@ MonoBehaviour:
   minStrength: 1000
   maxStrength: 1500
   timeBetweenExplosions: 0.25
+--- !u!1 &2176390301219290958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318916917475401147}
+  - component: {fileID: 7849438823070064729}
+  m_Layer: 0
+  m_Name: Fugitives
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1318916917475401147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2176390301219290958}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7849438823070064729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2176390301219290958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e60c8a1f7899e2408bce7cd56fb3d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Fugitives
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 1
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  ghostRole: {fileID: 11400000, guid: af2384fe291fd1e469745e1438edc9e4, type: 2}
+  message: 
+--- !u!1 &2185954026833562878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6017755624213906674}
+  - component: {fileID: 8688883408302241468}
+  m_Layer: 0
+  m_Name: PortalStorm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6017755624213906674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2185954026833562878}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8688883408302241468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2185954026833562878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99ba868a435a5454285e51dc49bdb12b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Portal Storm
+  StartTimer: 10
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 10
+  MinPlayersToTrigger: 15
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  portalPrefab: {fileID: 4686069471335676681, guid: 6ca11e1a2337f494d8337d3d47f0a042,
+    type: 3}
+  mobsToSpawn:
+  - {fileID: 4827737755655954553, guid: 4fe2cf096b27c6941a4dbba9ed330511, type: 3}
+  - {fileID: 4827737755655954553, guid: 08ebaeaeb951697418ef10fd5a29b20a, type: 3}
+  - {fileID: 4827737755655954553, guid: 48ca1df96ab586c4ba5c94543ddef212, type: 3}
+  - {fileID: 4827737755655954553, guid: d1623ba741c4f3b4390392f2d10b0bce, type: 3}
+  - {fileID: 4827737755655954553, guid: d30b0035d9975224584aec6a00f117dc, type: 3}
+  - {fileID: 4827737755655954553, guid: 80c40dd07fbf2424a9920c463dfff500, type: 3}
+  - {fileID: 4827737755655954553, guid: a584e12b597a2d54bb7c5b3779a05a90, type: 3}
+  - {fileID: 4827737755655954553, guid: cf77ca3da89942b49b4a5b8a0827c407, type: 3}
+  - {fileID: 4827737755655954553, guid: f3b9533aa54316045aa5f484ea9f3300, type: 3}
+  - {fileID: 4827737755655954553, guid: d7889ed590a4ec74f8fc3d247b53e196, type: 3}
+  - {fileID: 4827737755655954553, guid: 4fcfea36870632c4296f648df3077a85, type: 3}
+  - {fileID: 4827737755655954553, guid: 4506c48e4fecb07488553acde583adb3, type: 3}
+  - {fileID: 4827737755655954553, guid: 8eb9df99f3d2dd54cab91b4d69a4fe56, type: 3}
+  - {fileID: 4827737755655954553, guid: 017526359d2bfe146bc0bc49c7dd25cb, type: 3}
+  mobCount: {x: 5, y: 10}
+--- !u!1 &2330691836870820202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1614149104379286000}
+  - component: {fileID: 1444185421979299837}
+  m_Layer: 0
+  m_Name: RadiationStorm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1614149104379286000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2330691836870820202}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1444185421979299837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2330691836870820202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6530a412ec3f61e4ab316ba7c6e27681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Radiation Storm
+  StartTimer: 10
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 1
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  radiationSourcePrefab: {fileID: 17891910219878129, guid: 8eba7f110a40abb4891c1a0b3412faa3,
+    type: 3}
+  numberOfStorms: {x: 10, y: 20}
+--- !u!1 &2418359854451674301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6740344816744190755}
+  - component: {fileID: 9013609522436419745}
+  m_Layer: 0
+  m_Name: CarpMigration
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6740344816744190755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2418359854451674301}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9013609522436419745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2418359854451674301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55bc4a1673bff30469e9922bd4c98776, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Carp Migration
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  mobPrefabs:
+  - {fileID: 4827737755655954553, guid: e341f517b9c5b2645b960fd7239f25f5, type: 3}
+  rareMobPrefabs:
+  - {fileID: 4827737755655954553, guid: 1da1c098ab803b64d9a67f8663201166, type: 3}
+  spawnPointCategory: 39
+  spawnCount: {x: 5, y: 15}
+  rareMobChance: 5
 --- !u!1 &2929328024764174348
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,6 +590,58 @@ MonoBehaviour:
   maxStrength: 1500
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
+--- !u!1 &2961505858790993329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8107459317429369441}
+  - component: {fileID: 2610571774784088097}
+  m_Layer: 0
+  m_Name: PowernetCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8107459317429369441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2961505858790993329}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2610571774784088097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2961505858790993329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d9861a6eb83a744995f87f0c1bb7a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Powernet Check
+  StartTimer: 0
+  EndTimer: 60
+  EventType: 1
+  ChanceToHappen: 10
+  MinPlayersToTrigger: 1
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
 --- !u!1 &2976795245637686985
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +706,17 @@ Transform:
   - {fileID: 5866069805973481999}
   - {fileID: 2229250345173143171}
   - {fileID: 698688857389952623}
+  - {fileID: 6034400332780565072}
+  - {fileID: 6740344816744190755}
+  - {fileID: 1590283313530423313}
+  - {fileID: 4130085576290714883}
+  - {fileID: 1318916917475401147}
+  - {fileID: 1368603534518432520}
+  - {fileID: 6017755624213906674}
+  - {fileID: 8107459317429369441}
+  - {fileID: 2967834443619550631}
+  - {fileID: 1614149104379286000}
+  - {fileID: 7644278449202499015}
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -554,6 +855,58 @@ MonoBehaviour:
   FakeEvent: 0
   AnnounceEvent: 1
   blobAntag: {fileID: 11400000, guid: 4e33e3c5bcb99b34cbab164bcfa68951, type: 2}
+--- !u!1 &4778382546232297221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4130085576290714883}
+  - component: {fileID: 5844188118944054632}
+  m_Layer: 0
+  m_Name: ElectricalStorm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4130085576290714883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4778382546232297221}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5844188118944054632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4778382546232297221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782345698547dfb4eac9b38e8f60a5de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Electrical Storm
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
 --- !u!1 &4938991384554239466
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,6 +939,204 @@ Transform:
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4944346756115273505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6034400332780565072}
+  - component: {fileID: 2385929994502848429}
+  m_Layer: 0
+  m_Name: Blob
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6034400332780565072
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944346756115273505}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2385929994502848429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944346756115273505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e60c8a1f7899e2408bce7cd56fb3d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Blob
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 1
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  ghostRole: {fileID: 11400000, guid: e0bcf33d6a9ef0443960a18ba45b742e, type: 2}
+  message: 
+--- !u!1 &5514556414432881390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1368603534518432520}
+  - component: {fileID: 2934142359551454669}
+  m_Layer: 0
+  m_Name: MiceMigration
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1368603534518432520
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5514556414432881390}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2934142359551454669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5514556414432881390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa77dc68a19e9c64bb2bbcd6ff48b69e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Mice Migration
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  mobPrefabs:
+  - {fileID: 4267452151052300856, guid: 959aef1c36706b7428a7e700a978e648, type: 3}
+  - {fileID: 7161211515976270597, guid: fe372e5eb4602664ba2bf856c4ffc47f, type: 3}
+  - {fileID: 7276965238237120900, guid: 7dfd431fc77359d47bd657505877f763, type: 3}
+  rareMobPrefabs:
+  - {fileID: 7211410574268338187, guid: 55dca02dfb005cf4e8bc3686c0229b90, type: 3}
+  spawnPointCategory: 37
+  spawnCount: {x: 5, y: 15}
+  rareMobChance: 5
+  reasons:
+  - space-winter
+  - budget-cuts
+  - Ragnarok
+  - space being cold
+  - '[REDACTED]'
+  - climate change
+  - bad luck
+  groupNames:
+  - a number of
+  - a horde of
+  - a pack of
+  - a swarm of
+  - a whoop of
+  mobNames:
+  - rodents
+  - mice
+  - squeaking things
+  - wire-eating mammals
+  - '[REDACTED]'
+  - energy-draining parasites
+  movementVerbs:
+  - migrated
+  - swarmed
+  - stampeded
+  - descended
+  locations:
+  - maintenance tunnels
+  - maintenance areas
+  - '[REDACTED]'
+  - place with all those juicy wires
+--- !u!1 &6093678303304513412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2967834443619550631}
+  - component: {fileID: 1734058573413260740}
+  m_Layer: 0
+  m_Name: ProcessorOverload
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2967834443619550631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6093678303304513412}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1734058573413260740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6093678303304513412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e298447b3cc14964db9fba631c1d394d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Processor Overload
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
 --- !u!1 &6744402598111110196
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,6 +1429,58 @@ MonoBehaviour:
   itemList:
   - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
   announceText: A gift from the gods!
+--- !u!1 &8370716410027618602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1590283313530423313}
+  - component: {fileID: 6462514027336449978}
+  m_Layer: 0
+  m_Name: CommsBlackout
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1590283313530423313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370716410027618602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6462514027336449978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370716410027618602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5efd24f9ec367e42949ed8086f70879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Communications Blackout
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
 --- !u!1 &8929341582706713524
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,7 +1531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerEventInterval: 1200
-  chanceItIsFake: 50
+  chanceItIsFake: 20
   RandomEventsAllowed: 1
   minPlayersForRandomEventsToHappen: 5
   EnumListCache: []
@@ -1000,3 +1603,61 @@ Transform:
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9019151151982202521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7644278449202499015}
+  - component: {fileID: 5219137714795788897}
+  m_Layer: 0
+  m_Name: ScrubberSurge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7644278449202499015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9019151151982202521}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5219137714795788897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9019151151982202521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71eaa0e8f701f82478bc2e15b2690d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Scrubber Surge
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 0
+  reagentContainer: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
+    type: 3}
+  dispersionAgents:
+  - {fileID: 11400000, guid: 89e87c0935d40e6249cef390e612f90a, type: 2}
+  - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
+  spawnDelayRange: {x: 3, y: 10}

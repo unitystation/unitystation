@@ -34,6 +34,16 @@ namespace UI.Action
 		private void Awake()
 		{
 			pickupable = GetComponent<Pickupable>();
+
+			if(useSpriteHandler)
+			{
+				spriteHandler.OnSpriteDataSOChanged += SpriteHandlerSOChanged;
+			}
+		}
+
+		private void SpriteHandlerSOChanged(SpriteDataSO obj)
+		{
+			UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), false, spriteHandler.Palette);
 		}
 
 		public void CallActionClient()

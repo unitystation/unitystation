@@ -1,364 +1,109 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5878934765515946838
+--- !u!1001 &6571757499017881315
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.PacketsSprite.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[0].Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[1].Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[2].Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.FullyGrownSprite.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.DeadSprite.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.PlantTrays.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Name
-      value: sugarcane
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Plantname
-      value: Sugarcane
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Description
-      value: These seeds grow into sugarcane.
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.PacketsSprite.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 3c914da8345da1d48bf30b94341bcfc8, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.PacketsSprite.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 3c914da8345da1d48bf30b94341bcfc8,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[0].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: f7d3d901d84ef2d4db6b3686578efdce, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[0].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: f7d3d901d84ef2d4db6b3686578efdce,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[1].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 6b6e1c8e6fc8edb4d92dcc91c6da5fe5, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[1].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 6b6e1c8e6fc8edb4d92dcc91c6da5fe5,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[2].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: e46b13fbf3973164d9b2f60589ab6eeb, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSprites.Array.data[2].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: e46b13fbf3973164d9b2f60589ab6eeb,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.FullyGrownSprite.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 2e0297d162ada8049adb8f7ea22c9b43, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.FullyGrownSprite.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 2e0297d162ada8049adb8f7ea22c9b43,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.DeadSprite.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 22d4516556f5a6a4e8120e5542b54fdd, type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.DeadSprite.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 22d4516556f5a6a4e8120e5542b54fdd,
-        type: 3}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.WeedResistance
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.WeedGrowthRate
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.GrowthSpeed
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Potency
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Endurance
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Yield
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: plantData.Lifespan
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 600753371851395131, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: seedPacket
       value: 
-      objectReference: {fileID: 2137730739785068106, guid: 136edf62b0583ca4bb9be826a8e06a54,
+      objectReference: {fileID: 3655365403910077050, guid: b35a262356250504fbfa735d183f9998,
         type: 3}
-    - target: {fileID: 1294793839381664232, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: cdf032112e8e57b4fa046a430164532e,
-        type: 2}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Amounts.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Reagents.Array.data[0]
-      value: sugar
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: Amounts.Array.data[0]
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: initialName
-      value: sugarcane
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: initialDescription
-      value: Sickly sweet.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: cf3aee16008ea3f4e8d08b160c34f6e5, type: 3}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: cf3aee16008ea3f4e8d08b160c34f6e5,
-        type: 3}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6,
-        type: 2}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_Name
-      value: sugarcane
+      value: Sugarcane
       objectReference: {fileID: 0}
-    - target: {fileID: 4983833925385836507, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1290906528003875320, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 5066517181570930995, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1337560984964591376, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: cf3aee16008ea3f4e8d08b160c34f6e5,
         type: 3}
-    - target: {fileID: 6259075970471028923, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1337560984964591376, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
-      propertyPath: NutritionLevel
-      value: 80
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7640553959568001153, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: initialDescription
+      value: Sickly sweet.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: initialName
+      value: sugarcane
+      objectReference: {fileID: 0}
+    - target: {fileID: 4987756423560292299, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: cdf032112e8e57b4fa046a430164532e,
         type: 2}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 27208d0fc3f7c3544a8d1a7861253b52, type: 3}

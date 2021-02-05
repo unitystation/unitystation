@@ -22,10 +22,12 @@ namespace Pipes
 		public override void Start()
 		{
 			pipeData.PipeAction = new MonoActions();
-			registerTile = this.GetComponent<RegisterTile>();
-
-
 			base.Start();
+		}
+
+		private void Awake()
+		{
+			registerTile = GetComponent<RegisterTile>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
