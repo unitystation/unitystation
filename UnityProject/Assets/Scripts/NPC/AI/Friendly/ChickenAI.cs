@@ -41,7 +41,7 @@ namespace Systems.MobAIs
 		protected override void DoRandomAction()
 		{
 			// Check if we alreday laid all possible egs
-			if (currentLaidEggs == maxEggsAmount)
+			if (currentLaidEggs >= maxEggsAmount)
 			{
 				return;
 			}
