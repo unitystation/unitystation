@@ -27,6 +27,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 3294328072042417454, guid: cb2dd6c06a988d947b53d2dcf0ec9575,
     type: 3}
+  startSetUp: 0
   alwaysShoot: 0
 --- !u!114 &3879102292432146991
 MonoBehaviour:
@@ -224,6 +225,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: mustBeUnanchored
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: exportCost
@@ -231,8 +237,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: exportName
+      value: emitter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: initialName
       value: emitter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: exportMessage
+      value: pew pew
       objectReference: {fileID: 0}
     - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
@@ -369,7 +385,8 @@ PrefabInstance:
       propertyPath: Reactions.Array.data[2].ResistanceReactionA.Resistance.Ohms
       value: 50
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
 --- !u!1 &4194276244320548660 stripped
 GameObject:
