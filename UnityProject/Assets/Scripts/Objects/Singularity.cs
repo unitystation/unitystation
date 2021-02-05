@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems.Atmospherics;
 using Systems.Radiation;
+using Light2D;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -35,6 +36,11 @@ namespace Objects
 		[SerializeField]
 		private int maximumPoints = 3250;
 
+		[SerializeField]
+		private LightSprite light = null;
+
+		private Transform lightTransform = null;
+
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private CustomNetTransform customNetTransform;
@@ -57,6 +63,7 @@ namespace Objects
 			registerTile = GetComponent<RegisterTile>();
 			customNetTransform = GetComponent<CustomNetTransform>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			lightTransform = light.transform;
 
 			CurrentStage = startingStage;
 		}
@@ -295,6 +302,7 @@ namespace Objects
 			if (CurrentStage != newStage)
 			{
 				CurrentStage = newStage;
+				lightTransform.localScale = new Vector3(5 * ((int)newStage + 1), 5 * ((int)newStage + 1), 0);
 			}
 		}
 
