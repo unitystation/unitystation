@@ -43,13 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 200
   Type: 1
   isBleeding: 0
@@ -109,13 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 200
   Type: 0
   isBleeding: 0
@@ -289,7 +275,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -314,6 +306,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &114386898746361270
 MonoBehaviour:
@@ -345,7 +338,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114536369792164230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,28 +501,13 @@ MonoBehaviour:
   performingAction: 0
   activated: 1
   tickRate: 1
+  CB_REAGENT: {fileID: 0}
   target: 0
   actionPerformTime: 0
   hasFoodPrefereces: 1
   foodPreferences:
-  - {fileID: 770905702833930762, guid: 3ede8088b8e6f3e43a90cdc28055f000, type: 3}
-  - {fileID: 890274508382664436, guid: b2835df5b2c36ab4eacd0a4201b6e4d5, type: 3}
-  - {fileID: 2665738819526573663, guid: 889e07bdc4d5b6647ad086b365afc0e3, type: 3}
-  - {fileID: 2100762529698844898, guid: a0efe5981eb9c1a4981af12d1eb1ea39, type: 3}
-  - {fileID: 6780896140138582708, guid: ac911d82b35aedf43af8f87be89572f9, type: 3}
-  - {fileID: 4487687077596473494, guid: afa23d721ee8be546a51fc6714a91c1b, type: 3}
-  - {fileID: 5065144362221351965, guid: 8e164497e1bb1da4899d077954e2c0fd, type: 3}
-  - {fileID: 3722755314271837471, guid: 3b06fcecfcc6e8c40af68347c9644ba0, type: 3}
-  - {fileID: 6041984200622467946, guid: 02fd4b3f2a75ae74db68f80085ed0b48, type: 3}
-  - {fileID: 5632659155931154499, guid: 390fe18001db296458ff6e26a4b079a0, type: 3}
-  - {fileID: 773683976701909403, guid: dae0cbe22cdb0e6478da04587c4e38e1, type: 3}
-  - {fileID: 4574939532575719906, guid: 8e17c9d2a242e0b44b3aee4e531bf391, type: 3}
-  - {fileID: 2717702614898470369, guid: b7f9ffc5f19a51546bc9474d372c12c4, type: 3}
-  - {fileID: 4998208017804391878, guid: 05ed8f660caf3c4488c148436d487b56, type: 3}
-  - {fileID: 1931456197757473819, guid: 1eea6c0e153fb2343bf1097664784d9c, type: 3}
-  - {fileID: 2102246942251672770, guid: 056109d8307020c4483e3ae4fa8148dc, type: 3}
-  - {fileID: 4414483273744636164, guid: becf33b74a41462418a65ab34e21df88, type: 3}
-  - {fileID: 6593377461839908636, guid: e303b373d5802f74a8b0e2772752b988, type: 3}
+  - {fileID: 11400000, guid: 77ecf8292d96402488afcc99b057daab, type: 2}
+  IsEmagged: 0
 --- !u!114 &2158891972721267445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,7 +641,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 16
+  m_SortingLayer: 21
   m_SortingOrder: 11
   m_Sprite: {fileID: 2290313375226641300, guid: b9d2427783440ee41a36a95e4a27a1b3,
     type: 3}
@@ -688,6 +672,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9e21424206dd67e4b9aa7ee8454a0783, type: 2}
   - {fileID: 11400000, guid: 67ce0fdea3a15bb4886b2e9ee56ab1bd, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 9e21424206dd67e4b9aa7ee8454a0783, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []

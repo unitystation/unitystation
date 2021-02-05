@@ -7,6 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1496767234896278968, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
+        type: 3}
+      propertyPath: mobName
+      value: Wisdom
+      objectReference: {fileID: 0}
+    - target: {fileID: -1496767234896278968, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
+        type: 3}
+      propertyPath: doRandomActionWhenInTask
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2665997096216502993, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,16 +60,6 @@ PrefabInstance:
     - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
@@ -65,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 2697589973473458253, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
         type: 3}
       propertyPath: m_Name
-      value: Cow
+      value: CowWisdom
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 738fd5d21d2b347498cb8cafcdc1d43f, type: 3}

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using NaughtyAttributes;
+﻿using System.Collections;
 using UnityEngine;
 using WebSocketSharp;
 using Systems.Mob;
@@ -11,7 +8,6 @@ namespace Systems.MobAIs
 {
 	public class GenericFriendlyAI : MobAI, IServerSpawn
 	{
-		protected string mobNameCap;
 		protected float timeForNextRandomAction;
 		protected float timeWaiting;
 		[SerializeField]
@@ -20,13 +16,12 @@ namespace Systems.MobAIs
 		protected float maxTimeBetweenRandomActions = 30f;
 		[SerializeField]
 		protected bool doRandomActionWhenInTask = false;
-
 		protected SimpleAnimal simpleAnimal;
+		public string MobName => mobName.Capitalize();
 
 		protected override void Awake()
 		{
 			base.Awake();
-			mobNameCap = mobName.IsNullOrEmpty() ? mobName : char.ToUpper(mobName[0]) + mobName.Substring(1);
 			simpleAnimal = GetComponent<SimpleAnimal>();
 			BeginExploring();
 		}
@@ -65,8 +60,8 @@ namespace Systems.MobAIs
 		{
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} starts chasing its own tail!",
-				$"{mobNameCap} starts chasing its own tail!");
+				$"{MobName} starts chasing its own tail!",
+				$"{MobName} starts chasing its own tail!");
 
 			for (int timesSpun = 0; timesSpun <= times; timesSpun++)
 			{
