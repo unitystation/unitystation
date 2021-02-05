@@ -23,7 +23,7 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource ExplosionCreak3 = null;
    public AddressableAudioSource Notice1 = null;
    public AddressableAudioSource Notice2 = null;
-   
+
    public AddressableAudioSource GunEmptyAlarm = null;
    public AddressableAudioSource KineticReload = null;
 
@@ -83,6 +83,8 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
 
    public AddressableAudioSource CritState;
    public AddressableAudioSource ambigen8;
+
+   public AddressableAudioSource EatFood;
 
 
 }

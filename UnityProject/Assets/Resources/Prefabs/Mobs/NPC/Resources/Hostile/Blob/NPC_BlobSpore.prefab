@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 16
+  m_SortingLayer: 21
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: baf8e67f379720d4e897d2054879ff95, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,6 +100,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 17ee385f895d1b342b95d67fbacd184a, type: 2}
   - {fileID: 11400000, guid: 17ee385f895d1b342b95d67fbacd184a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 17ee385f895d1b342b95d67fbacd184a, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -147,13 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 200
   Type: 1
   isBleeding: 0
@@ -213,13 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
   MaxDamage: 200
   Type: 0
   isBleeding: 0
@@ -393,7 +380,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -418,6 +411,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &4859363408336224435
 MonoBehaviour:
@@ -449,7 +443,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &4859213822428636291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,6 +581,13 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 1
+  EatFoodA:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   target: 4
   actionPerformTime: 0
   hasFoodPrefereces: 0
@@ -613,6 +620,13 @@ MonoBehaviour:
   spriteHolder: {fileID: 3392343644113499114}
   targetOtherPlayersWhoGetInWay: 1
   onlyHitTarget: 0
+  attackSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   hitDamage: 10
   attackVerb: slashed
   defaultTarget: 0
@@ -661,20 +675,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bd855d631f2a24ab40487ec0405ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCore: 0
-  isNode: 0
-  isResource: 0
-  isFactory: 0
-  isReflective: 0
-  isStrong: 0
-  isNormal: 0
+  blobType: 0
   lightSprite: {fileID: 0}
   spriteHandler: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   integrity: {fileID: 0}
   expandCoords: []
   healthPulseCoords: []
   nodeDepleted: 0
   location: {x: 0, y: 0, z: 0}
+  overmindName: 
+  initialArmor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  initialResistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  connectedToBlobNet: 0
+  connectedNode: {fileID: 0}
+  connectedPath: []
+  lineRenderer: {fileID: 0}
 --- !u!114 &-8387645216536072966
 MonoBehaviour:
   m_ObjectHideFlags: 0

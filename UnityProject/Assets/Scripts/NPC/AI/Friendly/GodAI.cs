@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 namespace Systems.MobAIs
 {
 	public class GodAI : GenericFriendlyAI
 	{
-		public List<string> GenericSounds = new List<string>();
+		public List<AddressableAudioSource> GenericSounds = new List<AddressableAudioSource>();
 
 		/// <summary>
 		/// Changes Time that a sound has the chance to play

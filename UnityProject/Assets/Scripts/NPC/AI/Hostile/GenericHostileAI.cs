@@ -46,6 +46,8 @@ namespace Systems.MobAIs
 		protected MobMeleeAttack mobMeleeAttack;
 		protected ConeOfSight coneOfSight;
 		protected SimpleAnimal simpleAnimal;
+		protected int fleeChance = 30;
+		protected int attackLastAttackerChance = 80;
 
 		public override void OnEnable()
 		{
@@ -107,7 +109,6 @@ namespace Systems.MobAIs
 		protected virtual GameObject SearchForTarget()
 		{
 			var player = Physics2D.OverlapCircleAll(transform.position, 20f, hitMask);
-
 			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
 			if (player.Length == 0)
 			{
@@ -270,30 +271,27 @@ namespace Systems.MobAIs
 			if (health.OverallHealth < -20f)
 			{
 				//30% chance the mob decides to flee:
-				if (Random.value < 0.3f)
+				if (DMMath.Prob(fleeChance))
 				{
 					StartFleeing(damagedBy, 5f);
 					return;
 				}
 			}
 
-			if (damagedBy == null || damagedBy.transform == mobMeleeAttack.followTarget)
+			if ((damagedBy is null) != false || damagedBy.transform == mobMeleeAttack.followTarget)
 			{
 				return;
 			}
-
 			//80% chance the mob decides to attack the new attacker
-			if (Random.value > 0.8f)
+			if (DMMath.Prob(attackLastAttackerChance) == false)
 			{
 				return;
 			}
 			var playerScript = damagedBy.GetComponent<PlayerScript>();
-			if (playerScript == null)
+			if (playerScript != null)
 			{
-				return;
+				BeginAttack(damagedBy);
 			}
-
-			BeginAttack(damagedBy);
 		}
 
 		public override void LocalChatReceived(ChatEvent chatEvent)

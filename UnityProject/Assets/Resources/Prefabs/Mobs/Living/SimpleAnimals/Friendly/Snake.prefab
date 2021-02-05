@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2054885408292973363, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2054885408292973363, guid: 38ec040ecea27f74dad0e315030ca53d,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2054885408292973363, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2054885408292973363, guid: 38ec040ecea27f74dad0e315030ca53d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,16 +45,6 @@ PrefabInstance:
     - target: {fileID: 2054885408292973363, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2054885408292973363, guid: 38ec040ecea27f74dad0e315030ca53d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2054885408292973363, guid: 38ec040ecea27f74dad0e315030ca53d,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2054885408292973363, guid: 38ec040ecea27f74dad0e315030ca53d,
@@ -79,6 +79,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4768786808380070746, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f608b3f76f1d5554dbce1ae349227ca2,
+        type: 2}
+    - target: {fileID: 4768786808380070746, guid: 38ec040ecea27f74dad0e315030ca53d,
+        type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: f608b3f76f1d5554dbce1ae349227ca2,
@@ -89,17 +95,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 400afa54cac54ae4dadf3b79f41b26bd,
         type: 2}
-    - target: {fileID: 4768786808380070746, guid: 38ec040ecea27f74dad0e315030ca53d,
+    - target: {fileID: 6237937272759942530, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: f608b3f76f1d5554dbce1ae349227ca2,
-        type: 2}
+      propertyPath: attackSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 6869620749315484739, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 2ea74600231aed749abb753a4e510f48,
         type: 3}
+    - target: {fileID: 6869620749315484739, guid: 38ec040ecea27f74dad0e315030ca53d,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38ec040ecea27f74dad0e315030ca53d, type: 3}
