@@ -54,7 +54,7 @@ namespace Objects
 		private List<Vector3Int> closestTiles = new List<Vector3Int>();
 		private List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
 
-		private List<Vector3Int> coords = new List<Vector3Int>
+		private List<Vector3Int> adjacentCoords = new List<Vector3Int>
 		{
 			new Vector3Int(0, 1, 0),
 			new Vector3Int(1, 0, 0),
@@ -83,12 +83,16 @@ namespace Objects
 		}
 
 		//Sync light scale to clients
+		[Client]
 		private void SyncLightVector(Vector3 oldVar, Vector3 newVar)
 		{
 			lightVector = newVar;
 			lightTransform.localScale = newVar;
 		}
 
+		/// <summary>
+		/// Update loop, runs every 0.5 seconds
+		/// </summary>
 		private void SingularityUpdate()
 		{
 			if(!CustomNetworkManager.IsServer) return;
@@ -98,19 +102,19 @@ namespace Objects
 				Despawn.ServerSingle(gameObject);
 			}
 
-			//make it so particle accelerator blocks this
+			//TODO, make it so particle accelerator blocks this
+			//Points decrease by 1 every 0.5 seconds
 			singularityPoints -= 1;
 
-			PullObjects();
+			PushPullObjects();
 
-			DestroyObjects();
-
-			DestroyTiles();
+			DestroyObjectsAndTiles();
 
 			TryMove();
 
 			TryChangeStage();
 
+			//Radiation Pulse
 			var matrixInfo = MatrixManager.AtPoint(registerTile.WorldPositionServer, true);
 
 			RadiationManager.Instance.RequestPulse(matrixInfo.Matrix, MatrixManager.WorldToLocalInt(registerTile.WorldPositionServer, matrixInfo),
@@ -118,7 +122,242 @@ namespace Objects
 				new System.Random().Next(Int32.MinValue, Int32.MaxValue));
 		}
 
-		private void PullObjects()
+		#region Damage
+
+		private void DestroyObjectsAndTiles()
+		{
+			int radius;
+
+			switch (currentStage)
+			{
+				case SingularityStages.Stage0:
+					radius = 0;
+					break;
+				case SingularityStages.Stage1:
+					radius = 1;
+					break;
+				case SingularityStages.Stage2:
+					radius = 2;
+					break;
+				case SingularityStages.Stage3:
+					radius = 3;
+					break;
+				case SingularityStages.Stage4:
+					radius = 4;
+					break;
+				case SingularityStages.Stage5:
+					radius = 5;
+					break;
+				default:
+					radius = 0;
+					break;
+			}
+
+			var coords =
+				EffectShape.CreateEffectShape(EffectShapeType.Square, registerTile.WorldPositionServer, radius);
+
+			DestroyObjects(coords);
+			DamageTiles(coords);
+		}
+
+		private void DestroyObjects(IEnumerable<Vector3Int> coords)
+		{
+			var damage = 100;
+
+			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
+			{
+				damage *= (int)CurrentStage;
+			}
+
+			foreach (var coord in coords)
+			{
+				var objects = MatrixManager.GetAt<RegisterTile>(coord, true);
+
+				foreach (var objectToMove in objects)
+				{
+					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealth>(out var health) && health != null)
+					{
+						health.ServerGibPlayer();
+						ChangePoints(100);
+					}
+					else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
+					{
+						integrity.ApplyDamage(damage, AttackType.Melee, DamageType.Brute, true);
+						ChangePoints(5);
+					}
+				}
+			}
+		}
+
+		private void DamageTiles(IEnumerable<Vector3Int> coords)
+		{
+			foreach (var coord in coords)
+			{
+				var matrixInfo = MatrixManager.AtPoint(coord, true);
+
+				var cellPos = MatrixManager.Instance.WorldToLocalInt(coord, matrixInfo.Matrix);
+
+				matrixInfo.Matrix.MetaTileMap.ApplyDamage(
+					cellPos,
+					200,
+					coord,
+					AttackType.Bomb);
+
+				var node = matrixInfo.Matrix.GetMetaDataNode(cellPos);
+				if (node != null)
+				{
+					foreach (var electricalData in node.ElectricalData)
+					{
+						electricalData.InData.DestroyThisPlease();
+						ChangePoints(5);
+					}
+
+					SavedPipes.Clear();
+					SavedPipes.AddRange(node.PipeData);
+					foreach (var pipe in SavedPipes)
+					{
+						pipe.pipeData.DestroyThis();
+						ChangePoints(5);
+					}
+				}
+			}
+		}
+
+		#endregion
+
+		#region Movement
+
+		private void TryMove()
+		{
+			int radius;
+
+			switch (currentStage)
+			{
+				case SingularityStages.Stage0:
+					radius = 0;
+					break;
+				case SingularityStages.Stage1:
+					radius = 1;
+					break;
+				case SingularityStages.Stage2:
+					radius = 2;
+					break;
+				case SingularityStages.Stage3:
+					radius = 3;
+					break;
+				case SingularityStages.Stage4:
+					radius = 3;
+					break;
+				case SingularityStages.Stage5:
+					radius = 3;
+					break;
+				default:
+					radius = 0;
+					break;
+			}
+
+			//Get random coordinate adjacent to current
+			var coord = adjacentCoords.GetRandom() + registerTile.WorldPositionServer;
+
+			bool noObstructions = true;
+
+			//See whether we can move to that place, as we need to take into account our size
+			if (CurrentStage != SingularityStages.Stage5 && CurrentStage != SingularityStages.Stage4)
+			{
+				foreach (var squareCoord in EffectShape.CreateEffectShape(EffectShapeType.OutlineSquare, coord, radius))
+				{
+					if (MatrixManager.IsPassableAtAllMatricesOneTile(squareCoord, true, false) == false)
+					{
+						noObstructions = false;
+					}
+				}
+			}
+
+			//If could not fit, damage coords around ourself
+			if (!noObstructions)
+			{
+				var squareCoord = EffectShape.CreateEffectShape(EffectShapeType.OutlineSquare,
+					registerTile.WorldPositionServer, radius + 1, false);
+
+				DestroyObjects(squareCoord);
+				DamageTiles(squareCoord);
+				return;
+			}
+
+			//Move
+			customNetTransform.SetPosition(coord);
+		}
+
+		#endregion
+
+		#region Points
+
+		private void ChangePoints(int healthChange)
+		{
+			if (singularityPoints + healthChange >= maximumPoints)
+			{
+				singularityPoints = maximumPoints;
+				return;
+			}
+
+			if (singularityPoints + healthChange < maximumPoints)
+			{
+				singularityPoints += healthChange;
+				return;
+			}
+
+			if (singularityPoints < 0)
+			{
+				singularityPoints = 0;
+			}
+		}
+
+		#endregion
+
+		#region ChangeStage
+
+		private void TryChangeStage()
+		{
+			if (singularityPoints < 200)
+			{
+				ChangeStage(SingularityStages.Stage0);
+			}
+			else if (singularityPoints < 500)
+			{
+				ChangeStage(SingularityStages.Stage1);
+			}
+			else if (singularityPoints < 1000)
+			{
+				ChangeStage(SingularityStages.Stage2);
+			}
+			else if (singularityPoints < 2000)
+			{
+				ChangeStage(SingularityStages.Stage3);
+			}
+			else if ((singularityPoints >= 3000 && !eatenSuperMatter) || singularityPoints >= 2000)
+			{
+				ChangeStage(SingularityStages.Stage4);
+			}
+			else if (singularityPoints >= 3000 && eatenSuperMatter)
+			{
+				ChangeStage(SingularityStages.Stage5);
+			}
+		}
+
+		private void ChangeStage(SingularityStages newStage)
+		{
+			if (CurrentStage != newStage)
+			{
+				CurrentStage = newStage;
+				lightVector = new Vector3(5 * ((int)newStage + 1), 5 * ((int)newStage + 1), 0);
+			}
+		}
+
+		#endregion
+
+		#region Throw/Push
+
+		private void PushPullObjects()
 		{
 			int distance;
 
@@ -165,155 +404,6 @@ namespace Objects
 						PushObject(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
 					}
 				}
-			}
-		}
-
-		private void DestroyObjects()
-		{
-			foreach (var coord in coords)
-			{
-				var objects = MatrixManager.GetAt<PushPull>(coord + registerTile.WorldPositionServer, true);
-
-				foreach (var objectToMove in objects)
-				{
-					if (objectToMove.registerTile.ObjectType == ObjectType.Player)
-					{
-						objectToMove.GetComponent<PlayerHealth>()?.ServerGibPlayer();
-						ChangeHealth(100);
-					}
-					else
-					{
-						objectToMove.GetComponent<Integrity>()?.ApplyDamage(100, AttackType.Melee, DamageType.Brute, true);
-						ChangeHealth(5);
-					}
-				}
-			}
-		}
-
-		private void DestroyTiles()
-		{
-			int radius;
-
-			switch (currentStage)
-			{
-				case SingularityStages.Stage0:
-					radius = 0;
-					break;
-				case SingularityStages.Stage1:
-					radius = 1;
-					break;
-				case SingularityStages.Stage2:
-					radius = 2;
-					break;
-				case SingularityStages.Stage3:
-					radius = 3;
-					break;
-				case SingularityStages.Stage4:
-					radius = 4;
-					break;
-				case SingularityStages.Stage5:
-					radius = 5;
-					break;
-				default:
-					radius = 0;
-					break;
-			}
-
-			foreach (var coord in EffectShape.CreateEffectShape(EffectShapeType.Square, registerTile.WorldPositionServer, radius))
-			{
-				var matrixInfo = MatrixManager.AtPoint(coord, true);
-
-				var cellPos = MatrixManager.Instance.WorldToLocalInt(coord, matrixInfo.Matrix);
-
-				matrixInfo.Matrix.MetaTileMap.ApplyDamage(
-					cellPos,
-					200,
-					coord,
-					AttackType.Bomb);
-
-				var node = matrixInfo.Matrix.GetMetaDataNode(cellPos);
-				if (node != null)
-				{
-					foreach (var electricalData in node.ElectricalData)
-					{
-						electricalData.InData.DestroyThisPlease();
-						ChangeHealth(5);
-					}
-
-					SavedPipes.Clear();
-					SavedPipes.AddRange(node.PipeData);
-					foreach (var pipe in SavedPipes)
-					{
-						pipe.pipeData.DestroyThis();
-						ChangeHealth(5);
-					}
-				}
-			}
-		}
-
-		private void TryMove()
-		{
-			var coord = coords.GetRandom() + registerTile.WorldPositionServer;
-
-			if(MatrixManager.IsPassableAtAllMatricesOneTile(coord, true, false) == false) return;
-
-			customNetTransform.SetPosition(coord);
-		}
-
-		private void ChangeHealth(int healthChange)
-		{
-			if (singularityPoints + healthChange >= maximumPoints)
-			{
-				singularityPoints = maximumPoints;
-				return;
-			}
-
-			if (singularityPoints + healthChange < maximumPoints)
-			{
-				singularityPoints += healthChange;
-				return;
-			}
-
-			if (singularityPoints < 0)
-			{
-				singularityPoints = 0;
-			}
-		}
-
-		private void TryChangeStage()
-		{
-			if (singularityPoints < 200)
-			{
-				ChangeStage(SingularityStages.Stage0);
-			}
-			else if (singularityPoints < 500)
-			{
-				ChangeStage(SingularityStages.Stage1);
-			}
-			else if (singularityPoints < 1000)
-			{
-				ChangeStage(SingularityStages.Stage2);
-			}
-			else if (singularityPoints < 2000)
-			{
-				ChangeStage(SingularityStages.Stage3);
-			}
-			else if ((singularityPoints >= 3000 && !eatenSuperMatter) || singularityPoints >= 2000)
-			{
-				ChangeStage(SingularityStages.Stage4);
-			}
-			else if (singularityPoints >= 3000 && eatenSuperMatter)
-			{
-				ChangeStage(SingularityStages.Stage5);
-			}
-		}
-
-		private void ChangeStage(SingularityStages newStage)
-		{
-			if (CurrentStage != newStage)
-			{
-				CurrentStage = newStage;
-				lightVector = new Vector3(5 * ((int)newStage + 1), 5 * ((int)newStage + 1), 0);
 			}
 		}
 
@@ -368,6 +458,8 @@ namespace Objects
 					return SpinMode.Clockwise;
 			}
 		}
+
+		#endregion
 	}
 
 	public enum SingularityStages
