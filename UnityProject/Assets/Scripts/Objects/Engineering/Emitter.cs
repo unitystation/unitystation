@@ -5,7 +5,7 @@ using Weapons;
 
 namespace Objects.Engineering
 {
-	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl
 	{
 		[SerializeField]
 		private GameObject projectilePrefab = default;
@@ -15,6 +15,8 @@ namespace Objects.Engineering
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private AccessRestrictions accessRestrictions;
+		private ElectricalNodeControl electricalNodeControl;
+		private ResistanceSourceModule resistanceSourceModule;
 
 		[SerializeField]
 		private bool alwaysShoot;
@@ -24,7 +26,7 @@ namespace Objects.Engineering
 		private bool isOn;
 		private bool isLocked;
 
-		private bool notEnoughPower;
+		private float voltage;
 
 		private void Awake()
 		{
@@ -32,6 +34,8 @@ namespace Objects.Engineering
 			pushPull = GetComponent<PushPull>();
 			registerTile = GetComponent<RegisterTile>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
+			electricalNodeControl = GetComponent<ElectricalNodeControl>();
+			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
@@ -51,9 +55,7 @@ namespace Objects.Engineering
 
 			if(isOn == false && alwaysShoot == false) return;
 
-			//TODO shoot only if it has power as well, change to orange sprite if no power
-
-			if (notEnoughPower)
+			if (voltage < 2700)
 			{
 				spriteHandler.ChangeSprite(2);
 				return;
@@ -227,6 +229,13 @@ namespace Objects.Engineering
 						pushPull.ServerSetPushable(false);
 					});
 			}
+		}
+
+		public void PowerNetworkUpdate()
+		{
+			voltage = electricalNodeControl.GetVoltage();
+			//resistanceSourceModule.Resistance = 50f;
+			Debug.LogError("voltage: " + voltage);
 		}
 	}
 }
