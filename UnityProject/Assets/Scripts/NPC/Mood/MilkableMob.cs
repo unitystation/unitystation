@@ -29,7 +29,7 @@ namespace NPC.Mood
 
 		[BoxGroup("Reagent")]
 		[SerializeField]
-		[Tooltip("Max amount of milk the mob can produce before it starts losing mood.")]
+		[Tooltip("The amount of milk the mob can produce each update period.")]
 		private float milkProducePerTick = 10;
 
 		[BoxGroup("Reagent")]
