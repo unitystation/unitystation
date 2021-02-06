@@ -64,10 +64,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Tooltip("This object's initial \"HP\"")]
 	public float initialIntegrity = 100f;
 
-	[Tooltip("Sound to play when damage applied.")]
-	[Foldout("soundOnHit")]
-	public AddressableAudioSource soundOnHit;
-
 	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
 	public float damageDeflection = 0;
 
@@ -88,6 +84,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// </summary>
 	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
+
+	[Tooltip("Sound to play when damage applied.")]
+	[Foldout("soundOnHit")]
+	public AddressableAudioSource soundOnHit = null;
 
 	[SyncVar(hook = nameof(SyncOnFire))]
 	private bool onFire = false;

@@ -164,11 +164,6 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		SyncIsNotPushable(isNotPushable, isPushable == false);
 	}
 
-	[Tooltip("The sound to play when pushed/pulled")]
-	[SerializeField]
-	[Foldout("pushPullSound")]
-	private AddressableAudioSource pushPullSound = null;
-
 	[Tooltip("A minimum delay for the sound to be played again (in milliseconds)")]
 	[SerializeField]
 	private int soundDelayTime = 0;
@@ -180,6 +175,11 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	[Tooltip("A maximum pitch variance from original sound for random effect (ex: 0.5 = 50% normal pitch)")]
 	[SerializeField]
 	private float soundMaximumPitchVariance = 1;
+
+	[Tooltip("The sound to play when pushed/pulled")]
+	[SerializeField]
+	[Foldout("pushPullSound")]
+	private AddressableAudioSource pushPullSound = null;
 
 	private float lastPlayedSoundTime;
 
