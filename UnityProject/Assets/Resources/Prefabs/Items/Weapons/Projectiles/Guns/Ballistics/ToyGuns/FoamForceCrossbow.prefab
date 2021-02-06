@@ -124,10 +124,21 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7826977993599869970, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
+      propertyPath: pinPrefab
+      value: 
+      objectReference: {fileID: 2924494414112422035, guid: 12279ffb7a1786457b2cb1622619a80c,
+        type: 3}
+    - target: {fileID: 7826977993599869970, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
+        type: 3}
       propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 7053746915093191456, guid: 4aa80491623d49245995aa12a947e28f,
         type: 3}
+    - target: {fileID: 7826977993599869970, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
+        type: 3}
+      propertyPath: allowPinSwap
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7826977993599869970, guid: 60e97fd11e26a0c4cb7058adcf6d2be4,
         type: 3}
       propertyPath: FiringSoundA.AssetAddress

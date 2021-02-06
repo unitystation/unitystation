@@ -11,12 +11,29 @@ namespace Weapons
 		private bool allowClumsy;
 		[SerializeField]
 		private bool allowNonClumsy;
+		[SerializeField]
+		private bool alwaysFail;
 
 		[HideInInspector, SyncVar(hook = nameof(SyncPredictionCanFire))]
 		public bool PredictionCanFire;
 
+		public string DeniedMessage;
+
+		public bool playHONK; //honk.
+		private float randomPitch => Random.Range( 0.7f, 1.2f );
+
 		public int TriggerPull(GameObject shotBy)
 		{
+			if (playHONK)
+			{
+				SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetSourceObj());
+			}
+
+			if (alwaysFail)
+			{
+				return 0;
+			}
+
 			JobType job = PlayerList.Instance.Get(shotBy).Job;
 
 			if (job == setRestriction || (setRestriction == JobType.NULL &&
@@ -27,7 +44,7 @@ namespace Weapons
 			}
 			else if (setRestriction == JobType.NULL && (job == JobType.CLOWN && !allowClumsy))
 			{
-				//shooting a non-clusmy weapon as a clusmy person
+				//shooting a non-clumsy weapon as a clumsy person
 				return 3;
 			}
 			else if (setRestriction == JobType.NULL && (job != JobType.CLOWN && !allowNonClumsy))
@@ -70,6 +87,12 @@ namespace Weapons
 		private void SyncPredictionCanFire(bool oldValue, bool newValue)
 		{
 			PredictionCanFire = newValue;
+		}
+
+		private GameObject GetSourceObj()
+		{
+			ItemSlot itemslot = gameObject.GetComponent<Pickupable>().ItemSlot;
+			return itemslot != null ? itemslot.ItemStorage.gameObject : gameObject;
 		}
 
 	}

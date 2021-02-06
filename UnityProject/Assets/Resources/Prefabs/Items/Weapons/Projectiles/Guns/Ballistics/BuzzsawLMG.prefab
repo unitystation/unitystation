@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 42
   m_Sprite: {fileID: 21300000, guid: c0b04291170124b44b3bf2d024805e93, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 4f57749cea3a42f438cd8e62d34dd09d, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -172,7 +173,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: 4662033bc850185499d918f016b7da2d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -200,6 +201,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 1d69824cf81322f49a32f340ef4ac35f, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -274,7 +276,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: 190faac9aa8e4f746bb6018dbcd36335, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -302,6 +304,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 414529b7583f44c4dae2dffa78f64590, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -326,24 +329,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: ammoType
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: FiringSound
-      value: ShootLMG
-      objectReference: {fileID: 0}
-    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
       propertyPath: FireRate
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: MaxRecoilVariance
-      value: 0.1
+      propertyPath: ammoType
+      value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: pinPrefab
+      value: 
+      objectReference: {fileID: 109032868588680718, guid: 445a2ff9261814a549e8c255bb2580aa,
+        type: 3}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 8102588510461803122, guid: b1795817e9b5b8949a120fba7a7fa53f,
+        type: 3}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: WeaponType
@@ -357,10 +362,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 8102588510461803122, guid: b1795817e9b5b8949a120fba7a7fa53f,
+      propertyPath: FiringSound
+      value: ShootLMG
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: allowPinSwap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: MaxRecoilVariance
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4729653154424643162, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: itemStorageCapacity
@@ -379,6 +393,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -394,6 +413,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -406,16 +430,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -440,8 +454,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
+      propertyPath: initialName
+      value: Buzzsaw LMG
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: initialSize
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -451,18 +470,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: initialName
-      value: Buzzsaw LMG
-      objectReference: {fileID: 0}
-    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
-        type: 3}
-      propertyPath: initialSize
-      value: 5
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -470,6 +479,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c77ff2e08ec6dd741bb289f35dea2446,
         type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
