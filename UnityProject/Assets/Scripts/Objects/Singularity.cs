@@ -105,6 +105,8 @@ namespace Objects
 			//Points decrease by 1 every 0.5 seconds
 			singularityPoints -= 1;
 
+			TryChangeStage();
+
 			PushPullObjects();
 
 			DestroyObjectsAndTiles();
@@ -130,22 +132,22 @@ namespace Objects
 			switch (currentStage)
 			{
 				case SingularityStages.Stage0:
-					distance = 0;
-					break;
-				case SingularityStages.Stage1:
 					distance = 1;
 					break;
-				case SingularityStages.Stage2:
+				case SingularityStages.Stage1:
 					distance = 2;
 					break;
-				case SingularityStages.Stage3:
-					distance = 6;
+				case SingularityStages.Stage2:
+					distance = 3;
 					break;
-				case SingularityStages.Stage4:
+				case SingularityStages.Stage3:
 					distance = 8;
 					break;
-				case SingularityStages.Stage5:
+				case SingularityStages.Stage4:
 					distance = 10;
+					break;
+				case SingularityStages.Stage5:
+					distance = 14;
 					break;
 				default:
 					distance = 1;
@@ -277,6 +279,8 @@ namespace Objects
 
 				foreach (var objectToMove in objects)
 				{
+					if(objectToMove.gameObject == gameObject) continue;
+
 					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealth>(out var health) && health != null)
 					{
 						health.ServerGibPlayer();
@@ -284,6 +288,14 @@ namespace Objects
 					}
 					else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
 					{
+						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
+						    && fieldGenerator != null
+						    && CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5)
+						{
+							//Only stage 4 and 5 can damage field generators
+							return;
+						}
+
 						integrity.ApplyDamage(damage, AttackType.Melee, DamageType.Brute, true);
 						ChangePoints(5);
 					}
@@ -331,32 +343,7 @@ namespace Objects
 
 		private void TryMove()
 		{
-			int radius;
-
-			switch (currentStage)
-			{
-				case SingularityStages.Stage0:
-					radius = 0;
-					break;
-				case SingularityStages.Stage1:
-					radius = 1;
-					break;
-				case SingularityStages.Stage2:
-					radius = 2;
-					break;
-				case SingularityStages.Stage3:
-					radius = 3;
-					break;
-				case SingularityStages.Stage4:
-					radius = 3;
-					break;
-				case SingularityStages.Stage5:
-					radius = 3;
-					break;
-				default:
-					radius = 0;
-					break;
-			}
+			int radius = GetRadius(CurrentStage);
 
 			//Get random coordinate adjacent to current
 			var coord = adjacentCoords.GetRandom() + registerTile.WorldPositionServer;
@@ -368,16 +355,21 @@ namespace Objects
 			{
 				foreach (var squareCoord in EffectShape.CreateEffectShape(EffectShapeType.OutlineSquare, coord, radius))
 				{
-					if (MatrixManager.IsPassableAtAllMatricesOneTile(squareCoord, true, false) == false)
+					if (MatrixManager.IsPassableAtAllMatricesOneTile(squareCoord, true, false, new List<LayerType>{LayerType.Objects}) == false)
 					{
 						noObstructions = false;
 					}
 				}
 			}
 
-			//If could not fit, damage coords around ourself
+			//If could not fit, damage coords around ourself if stage big enough
 			if (!noObstructions)
 			{
+				if (CurrentStage != SingularityStages.Stage5 && CurrentStage != SingularityStages.Stage4)
+				{
+					return;
+				}
+
 				var squareCoord = EffectShape.CreateEffectShape(EffectShapeType.OutlineSquare,
 					registerTile.WorldPositionServer, radius + 1, false);
 
@@ -424,7 +416,25 @@ namespace Objects
 
 		private void ChangeStage(SingularityStages newStage)
 		{
-			if (CurrentStage != newStage)
+			if (CurrentStage == newStage) return;
+
+			int radius = GetRadius(newStage);
+
+			bool noObstructions = true;
+
+			//See whether we can move to that place, as we need to take into account our size
+			if (newStage != SingularityStages.Stage5 && newStage != SingularityStages.Stage4)
+			{
+				foreach (var squareCoord in EffectShape.CreateEffectShape(EffectShapeType.OutlineSquare, registerTile.WorldPositionServer, radius))
+				{
+					if (MatrixManager.IsPassableAtAllMatricesOneTile(squareCoord, true, false) == false)
+					{
+						noObstructions = false;
+					}
+				}
+			}
+
+			if (noObstructions)
 			{
 				CurrentStage = newStage;
 				lightVector = new Vector3(5 * ((int)newStage + 1), 5 * ((int)newStage + 1), 0);
@@ -456,6 +466,30 @@ namespace Objects
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Gets size radius for movement and stage change
+		/// </summary>
+		private int GetRadius(SingularityStages stage)
+		{
+			switch (stage)
+			{
+				case SingularityStages.Stage0:
+					return 0;
+				case SingularityStages.Stage1:
+					return 1;
+				case SingularityStages.Stage2:
+					return 2;
+				case SingularityStages.Stage3:
+					return 3;
+				case SingularityStages.Stage4:
+					return 3;
+				case SingularityStages.Stage5:
+					return 3;
+				default:
+					return 0;
+			}
+		}
 	}
 
 	public enum SingularityStages

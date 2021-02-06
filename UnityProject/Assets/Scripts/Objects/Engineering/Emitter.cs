@@ -7,9 +7,6 @@ namespace Objects.Engineering
 {
 	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl
 	{
-		[SerializeField]
-		private GameObject projectilePrefab = default;
-
 		private Directional directional;
 		private PushPull pushPull;
 		private RegisterTile registerTile;
@@ -19,6 +16,9 @@ namespace Objects.Engineering
 		private ResistanceSourceModule resistanceSourceModule;
 
 		[SerializeField]
+		private GameObject projectilePrefab = default;
+
+		[SerializeField]
 		[Tooltip("Whether this emitter should start wrenched and welded")]
 		private bool startSetUp;
 
@@ -26,12 +26,19 @@ namespace Objects.Engineering
 		[Tooltip("Whether this emitter should always shoot even if no power")]
 		private bool alwaysShoot;
 
+		[SerializeField]
+		[Tooltip("The minimum voltage necessary to shoot")]
+		private float minVoltage = 1500f;
+
 		private bool isWelded;
 		private bool isWrenched;
 		private bool isOn;
 		private bool isLocked;
 
+		//Voltage in wire
 		private float voltage;
+
+		#region LifeCycle
 
 		private void Awake()
 		{
@@ -67,19 +74,28 @@ namespace Objects.Engineering
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, EmitterUpdate);
 		}
 
+		#endregion
+
+		/// <summary>
+		/// Update Loop, runs every 1 second
+		/// </summary>
 		private void EmitterUpdate()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
 			if(isOn == false && alwaysShoot == false) return;
 
-			if (voltage < 1500)
+			if (voltage < minVoltage && alwaysShoot == false)
 			{
 				spriteHandler.ChangeSprite(2);
 				return;
 			}
 
+			//Reset sprite if power is now available
 			TogglePower(isOn);
+
+			//Shoot 75% of the time, to add variation
+			if(DMMath.Prob(25)) return;
 
 			ShootEmitter();
 		}
@@ -88,6 +104,13 @@ namespace Objects.Engineering
 		{
 			CastProjectileMessage.SendToAll(gameObject, projectilePrefab, directional.CurrentDirection.Vector, default);
 		}
+
+		public void PowerNetworkUpdate()
+		{
+			voltage = electricalNodeControl.GetVoltage();
+		}
+
+		#region Interaction
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -124,6 +147,10 @@ namespace Objects.Engineering
 			}
 		}
 
+		#endregion
+
+		#region Lock
+
 		private void TryToggleLock(HandApply interaction)
 		{
 			if (accessRestrictions.CheckAccessCard(interaction.HandObject))
@@ -136,6 +163,10 @@ namespace Objects.Engineering
 			}
 		}
 
+		#endregion
+
+		#region Power
+
 		private void TryToggleOnOff(HandApply interaction)
 		{
 			if (isLocked)
@@ -146,10 +177,16 @@ namespace Objects.Engineering
 
 			if (isOn)
 			{
+				Chat.AddActionMsgToChat(interaction.Performer, "You turn the emitter off",
+					$"{interaction.Performer.ExpensiveName()} turns the emitter off");
+
 				TogglePower(false);
 			}
 			else if (isWelded)
 			{
+				Chat.AddActionMsgToChat(interaction.Performer, "You turn the emitter on",
+					$"{interaction.Performer.ExpensiveName()} turns the emitter on");
+
 				TogglePower(true);
 			}
 			else
@@ -171,6 +208,10 @@ namespace Objects.Engineering
 				spriteHandler.ChangeSprite(0);
 			}
 		}
+
+		#endregion
+
+		#region Weld
 
 		private void TryWeld(HandApply interaction)
 		{
@@ -209,6 +250,10 @@ namespace Objects.Engineering
 					() => { isWelded = true; });
 			}
 		}
+
+		#endregion
+
+		#region Wrench
 
 		private void TryWrench(HandApply interaction)
 		{
@@ -255,9 +300,6 @@ namespace Objects.Engineering
 			}
 		}
 
-		public void PowerNetworkUpdate()
-		{
-			voltage = electricalNodeControl.GetVoltage();
-		}
+		#endregion
 	}
 }

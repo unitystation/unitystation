@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ScriptableObjects.Gun;
 using UnityEngine;
+using Weapons.Projectiles.Behaviours;
 
-public class FieldGenerator : MonoBehaviour
+public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IOnHitDetect
 {
 	[SerializeField]
 	private SpriteHandler topSpriteHandler = null;
@@ -19,6 +21,11 @@ public class FieldGenerator : MonoBehaviour
 	private AnimatedTile horizontal = null;
 
 	[SerializeField]
+	[Tooltip("Whether this field generator should start wrenched and welded")]
+	private bool startSetUp;
+
+	[SerializeField]
+	[Tooltip("Whether this field generator should ignore power requirements")]
 	private bool alwaysOn;
 
 	[SerializeField]
@@ -28,10 +35,15 @@ public class FieldGenerator : MonoBehaviour
 	[SerializeField]
 	private int maxEnergy = 100;
 
+	[SerializeField]
+	[Tooltip("How much energy is lost every second")]
+	[Min(0)]
+	private int energyLossRate = 1;
+
 	/// <summary>
 	/// Having energy means that the field will stay on, shared between connecting generators
 	/// Emitters used to increase energy
-	/// DO NOT SET DIRECTLY USE SetEnergy()
+	/// DO NOT SET DIRECTLY USE SetEnergy() when changing in script
 	/// </summary>
 	[SerializeField]
 	private int energy;
@@ -46,21 +58,21 @@ public class FieldGenerator : MonoBehaviour
 	/// </summary>
 	private Dictionary<Direction, Tuple<GameObject, bool>> connectedGenerator = new Dictionary<Direction, Tuple<GameObject, bool>>();
 
+	private bool isWelded;
+	private bool isWrenched;
+	private bool isOn;
+
 	private Integrity integrity;
 	private RegisterTile registerTile;
+	private PushPull pushPull;
 
-	private List<Vector3Int> adjacentCoords = new List<Vector3Int>
-	{
-		new Vector3Int(0, 1, 0),
-		new Vector3Int(1, 0, 0),
-		new Vector3Int(0, -1, 0),
-		new Vector3Int(-1, 0, 0)
-	};
+	#region LifeCycle
 
 	private void Awake()
 	{
 		integrity = GetComponent<Integrity>();
 		registerTile = GetComponent<RegisterTile>();
+		pushPull = GetComponent<PushPull>();
 	}
 
 	private void OnEnable()
@@ -75,26 +87,57 @@ public class FieldGenerator : MonoBehaviour
 		integrity.OnWillDestroyServer.RemoveListener(OnDestroySelf);
 	}
 
+	private void Start()
+	{
+		if(CustomNetworkManager.IsServer == false) return;
+
+		if (startSetUp)
+		{
+			isWelded = true;
+			isWrenched = true;
+			pushPull.ServerSetPushable(false);
+		}
+	}
+
+	#endregion
+
+	/// <summary>
+	/// Field Gen Update loop, runs every 1 second
+	/// </summary>
 	private void FieldGenUpdate()
 	{
 		if (CustomNetworkManager.IsServer == false) return;
 
-		energy--;
+		if(isOn == false && alwaysOn == false) return;
+
+		//Lose energy every second
+		SetEnergy(-energyLossRate);
 
 		BalanceEnergy();
 
-		DetectGenerators();
-
 		if (energy <= 0 && alwaysOn == false)
 		{
-			RemoveAllShields();
+			TogglePower(false);
 			return;
 		}
+
+		DetectGenerators();
 
 		TrySpawnShields();
 	}
 
 	#region Energy
+
+	/// <summary>
+	/// This is called via interface when a laser hits an object
+	/// </summary>
+	/// <param name="damageData"></param>
+	public void OnHitDetect(DamageData damageData)
+	{
+		if (damageData.AttackType != AttackType.Laser) return;
+
+		SetEnergy(5);
+	}
 
 	/// <summary>
 	/// Get all connected energy values, average then set them
@@ -107,7 +150,11 @@ public class FieldGenerator : MonoBehaviour
 
 		foreach (var generator in connectedGenerator.ToArray())
 		{
-			newEnergy += generator.Value.Item1.GetComponent<FieldGenerator>().energy;
+			var genEnergy = generator.Value.Item1.GetComponent<FieldGenerator>().energy;
+
+			if(genEnergy <= 0) continue;
+
+			newEnergy += genEnergy;
 		}
 
 		newEnergy += energy;
@@ -124,34 +171,66 @@ public class FieldGenerator : MonoBehaviour
 			newEnergy = 0;
 		}
 
-		SetEnergy(newEnergy);
+		SetEnergy(newEnergy, true);
 
 		foreach (var generator in connectedGenerator.ToArray())
 		{
-			generator.Value.Item1.GetComponent<FieldGenerator>().SetEnergy(newEnergy);
+			generator.Value.Item1.GetComponent<FieldGenerator>().SetEnergy(newEnergy, true);
 		}
 	}
 
 	/// <summary>
 	/// Use when changing energy values
 	/// </summary>
-	public void SetEnergy(int energyChange)
+	public void SetEnergy(int energyChange, bool overrideCurrentEnergy = false)
 	{
+		if (overrideCurrentEnergy)
+		{
+			energy = energyChange;
+			SetEnergySprite();
+			return;
+		}
+
 		if (energy + energyChange >= maxEnergy)
 		{
 			energy = maxEnergy;
+			SetEnergySprite();
 			return;
 		}
 
 		if (energy + energyChange < maxEnergy)
 		{
 			energy += energyChange;
+			SetEnergySprite();
 			return;
 		}
 
 		if (energy < 0)
 		{
 			energy = 0;
+			SetEnergySprite();
+		}
+	}
+
+	private void SetEnergySprite()
+	{
+		if (energy <= 0)
+		{
+			topSpriteHandler.PushClear();
+			return;
+		}
+
+		if (energy <= maxEnergy / 3)
+		{
+			powerSpriteHandler.ChangeSprite(0);
+		}
+		else if (energy <= maxEnergy / 1.5)
+		{
+			powerSpriteHandler.ChangeSprite(1);
+		}
+		else
+		{
+			powerSpriteHandler.ChangeSprite(2);
 		}
 	}
 
@@ -188,6 +267,7 @@ public class FieldGenerator : MonoBehaviour
 					//Add to connected gen dictionary
 					connectedGenerator.Add((Direction)value, new Tuple<GameObject, bool>(objects[0].gameObject, false));
 					objects[0].integrity.OnWillDestroyServer.AddListener(OnConnectedDestroy);
+					break;
 				}
 			}
 		}
@@ -199,6 +279,8 @@ public class FieldGenerator : MonoBehaviour
 
 	private void TrySpawnShields()
 	{
+		if(energy < maxEnergy / 3) return;
+
 		foreach (var generator in connectedGenerator.ToArray())
 		{
 			if (generator.Value.Item2 == false)
@@ -216,6 +298,12 @@ public class FieldGenerator : MonoBehaviour
 						break;
 					}
 
+					//If it is impassable dont check further
+					if (!MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false))
+					{
+						break;
+					}
+
 					coords.Add(pos);
 				}
 
@@ -229,6 +317,14 @@ public class FieldGenerator : MonoBehaviour
 				}
 
 				connectedGenerator[generator.Key] = new Tuple<GameObject, bool>(generator.Value.Item1, true);
+
+				var field = generator.Value.Item1.GetComponent<FieldGenerator>();
+
+				topSpriteHandler.ChangeSprite(0);
+				field.topSpriteHandler.ChangeSprite(0);
+				field.TogglePower(true);
+				field.SetEnergy(10);
+				SetEnergy(-10);
 			}
 		}
 	}
@@ -259,7 +355,13 @@ public class FieldGenerator : MonoBehaviour
 
 				var matrix = MatrixManager.AtPoint(pos, true);
 
-				matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Windows);
+				var tileName = matrix.TileChangeManager.MetaTileMap
+					.GetTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Windows).name;
+
+				if (tileName == horizontal.name || tileName == vertical.name)
+				{
+					matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Windows);
+				}
 			}
 		}
 
@@ -356,6 +458,174 @@ public class FieldGenerator : MonoBehaviour
 		Down,
 		Left,
 		Right
+	}
+
+	#endregion
+
+	#region Interaction
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
+
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Welder)) return true;
+
+		if (interaction.HandObject == null) return true;
+
+		return false;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
+		{
+			TryWrench(interaction);
+		}
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Welder))
+		{
+			TryWeld(interaction);
+		}
+		else
+		{
+			TryToggleOnOff(interaction);
+		}
+	}
+
+	#endregion
+
+	#region Power
+
+	private void TryToggleOnOff(HandApply interaction)
+	{
+		if (energy <= 0)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter needs energy before it can be turned on");
+			return;
+		}
+
+		if (isOn)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter will only shutdown when it has no energy");
+		}
+		else if (isWelded)
+		{
+			Chat.AddActionMsgToChat(interaction.Performer, "You turn the field generator on",
+				$"{interaction.Performer.ExpensiveName()} turns the field generator on");
+
+			TogglePower(true);
+		}
+		else
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter needs to be wrench and welded down first");
+		}
+	}
+
+	public void TogglePower(bool newIsOn)
+	{
+		if (newIsOn)
+		{
+			isOn = true;
+		}
+		else
+		{
+			isOn = false;
+			RemoveAllShields();
+			topSpriteHandler.PushClear();
+			powerSpriteHandler.PushClear();
+			healthSpriteHandler.PushClear();
+			energy = 0;
+		}
+	}
+
+	#endregion
+
+	#region Weld
+
+		private void TryWeld(HandApply interaction)
+		{
+			if (isOn)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The field generator needs to be turned off first");
+				return;
+			}
+
+			if (!interaction.HandObject.GetComponent<Welder>().IsOn)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You need a fueled and lit welder");
+				return;
+			}
+
+			if (isWelded)
+			{
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
+					"You start to unweld the field generator...",
+					$"{interaction.Performer.ExpensiveName()} starts to unweld the field generator...",
+					"You unweld the field generator from the floor.",
+					$"{interaction.Performer.ExpensiveName()} unwelds the field generator from the floor.",
+					() =>
+					{
+						isWelded = false;
+						TogglePower(false);
+					});
+			}
+			else
+			{
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
+					"You start to weld the field generator...",
+					$"{interaction.Performer.ExpensiveName()} starts to weld the field generator...",
+					"You weld the field generator to the floor.",
+					$"{interaction.Performer.ExpensiveName()} welds the field generator to the floor.",
+					() => { isWelded = true; });
+			}
+		}
+
+		#endregion
+
+	#region Wrench
+
+	private void TryWrench(HandApply interaction)
+	{
+		if (isWrenched && isWelded)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter needs to be unwelded first");
+		}
+		else if (isWrenched)
+		{
+			//unwrench
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
+				"You start to wrench the emitter...",
+				$"{interaction.Performer.ExpensiveName()} starts to wrench the emitter...",
+				"You wrench the emitter off the floor.",
+				$"{interaction.Performer.ExpensiveName()} wrenches the emitter off the floor.",
+				() =>
+				{
+					isWrenched = false;
+					pushPull.ServerSetPushable(true);
+					TogglePower(false);
+				});
+		}
+		else
+		{
+			if (!registerTile.Matrix.MetaTileMap.HasTile(registerTile.WorldPositionServer, LayerType.Base))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter needs to be on a base floor");
+				return;
+			}
+
+			//wrench
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
+				"You start to wrench the emitter...",
+				$"{interaction.Performer.ExpensiveName()} starts to wrench the emitter...",
+				"You wrench the emitter onto the floor.",
+				$"{interaction.Performer.ExpensiveName()} wrenches the emitter onto the floor.",
+				() =>
+				{
+					isWrenched = true;
+					pushPull.ServerSetPushable(false);
+				});
+		}
 	}
 
 	#endregion
