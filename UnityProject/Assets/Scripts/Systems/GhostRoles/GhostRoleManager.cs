@@ -222,6 +222,12 @@ namespace Systems.GhostRoles
 			}
 
 			GhostRoleServer role = serverAvailableRoles[key];
+
+			if (PlayerList.Instance.CheckJobBanState(player.UserId, role.RoleData.TargetOccupation.JobType) == false)
+			{
+				return GhostRoleResponseCode.JobBanned;
+			}
+
 			if (role.WaitingPlayers.Contains(player))
 			{
 				return GhostRoleResponseCode.AlreadyWaiting;
