@@ -842,9 +842,9 @@ Transform:
   - {fileID: 1639242823}
   - {fileID: 178005413}
   - {fileID: 560234930}
-  - {fileID: 1137389253}
   - {fileID: 872091792}
   - {fileID: 1338072859}
+  - {fileID: 1137389253}
   m_Father: {fileID: 1791291094}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4076,12 +4076,12 @@ PrefabInstance:
         type: 3}
       propertyPath: listOfLights.Array.data[0]
       value: 
-      objectReference: {fileID: 1137389251}
+      objectReference: {fileID: 1338072860}
     - target: {fileID: 5448639519452539588, guid: f2432d244a6b7774ea00ff013beb7dcb,
         type: 3}
       propertyPath: listOfLights.Array.data[1]
       value: 
-      objectReference: {fileID: 1338072860}
+      objectReference: {fileID: 1137389251}
     - target: {fileID: 8799116497260486352, guid: f2432d244a6b7774ea00ff013beb7dcb,
         type: 3}
       propertyPath: RelatedAPC
@@ -4566,6 +4566,11 @@ PrefabInstance:
       propertyPath: RelatedAPC
       value: 
       objectReference: {fileID: 1566132478}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: relatedLightSwitch
+      value: 
+      objectReference: {fileID: 971804752}
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_Sprite
@@ -4580,7 +4585,7 @@ PrefabInstance:
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_RootOrder
-      value: 45
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -4876,7 +4881,7 @@ PrefabInstance:
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_RootOrder
-      value: 44
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
