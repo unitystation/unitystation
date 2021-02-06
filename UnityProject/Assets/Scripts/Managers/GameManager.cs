@@ -388,6 +388,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
 			MappedOnSpawnServer(iServerSpawns);
 		}
+
+		EventManager.Broadcast(EVENT.PostRoundStarted);
 	}
 
 	public void MappedOnSpawnServer(IEnumerable<IServerSpawn> iServerSpawns)
