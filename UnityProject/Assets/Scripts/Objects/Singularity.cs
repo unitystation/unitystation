@@ -114,6 +114,8 @@ namespace Objects
 			if (singularityPoints <= 0 && zeroPointDeath)
 			{
 				Despawn.ServerSingle(gameObject);
+				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, maxRadiation, objectId);
+				return;
 			}
 
 			//TODO, make it so particle accelerator blocks this

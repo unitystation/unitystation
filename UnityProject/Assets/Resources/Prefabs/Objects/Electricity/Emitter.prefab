@@ -29,6 +29,14 @@ MonoBehaviour:
     type: 3}
   startSetUp: 0
   alwaysShoot: 0
+  minVoltage: 1500
+  sound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Emitter1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &3879102292432146991
 MonoBehaviour:
   m_ObjectHideFlags: 0

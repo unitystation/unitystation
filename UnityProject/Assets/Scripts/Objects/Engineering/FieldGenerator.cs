@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Systems.ElectricalArcs;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
@@ -19,6 +20,10 @@ public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IO
 	private AnimatedTile vertical = null;
 	[SerializeField]
 	private AnimatedTile horizontal = null;
+
+	[SerializeField]
+	[Tooltip("electrical shield effect")]
+	private GameObject electricalArc = null;
 
 	[SerializeField]
 	[Tooltip("Whether this field generator should start wrenched and welded")]
@@ -124,6 +129,8 @@ public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IO
 		DetectGenerators();
 
 		TrySpawnShields();
+
+		DoArcEffects();
 	}
 
 	#region Energy
@@ -625,6 +632,23 @@ public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IO
 					isWrenched = true;
 					pushPull.ServerSetPushable(false);
 				});
+		}
+	}
+
+	#endregion
+
+	#region ArcEffect
+
+	private void DoArcEffects()
+	{
+		foreach (var generator in connectedGenerator)
+		{
+			if(generator.Value.Item2 == false) continue;
+
+			var settings = new ElectricalArcSettings(electricalArc, gameObject, generator.Value.Item1,
+				Vector3.zero, Vector3.zero, 1, 1f);
+
+			ElectricalArc.ServerCreateNetworkedArcs(settings);
 		}
 	}
 

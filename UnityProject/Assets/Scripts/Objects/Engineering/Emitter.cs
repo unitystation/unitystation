@@ -1,5 +1,7 @@
 ﻿using System;
+using AddressableReferences;
 using Core.Directionals;
+using NaughtyAttributes;
 using UnityEngine;
 using Weapons;
 
@@ -13,7 +15,6 @@ namespace Objects.Engineering
 		private SpriteHandler spriteHandler;
 		private AccessRestrictions accessRestrictions;
 		private ElectricalNodeControl electricalNodeControl;
-		private ResistanceSourceModule resistanceSourceModule;
 
 		[SerializeField]
 		private GameObject projectilePrefab = default;
@@ -29,6 +30,11 @@ namespace Objects.Engineering
 		[SerializeField]
 		[Tooltip("The minimum voltage necessary to shoot")]
 		private float minVoltage = 1500f;
+
+		[SerializeField]
+		[Tooltip("Sound made when emitter shoots")]
+		[Foldout("AddressableSound")]
+		private AddressableAudioSource sound = null;
 
 		private bool isWelded;
 		private bool isWrenched;
@@ -47,7 +53,6 @@ namespace Objects.Engineering
 			registerTile = GetComponent<RegisterTile>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
-			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
@@ -103,6 +108,8 @@ namespace Objects.Engineering
 		public void ShootEmitter()
 		{
 			CastProjectileMessage.SendToAll(gameObject, projectilePrefab, directional.CurrentDirection.Vector, default);
+
+			SoundManager.PlayNetworkedAtPos(sound, registerTile.WorldPositionServer);
 		}
 
 		public void PowerNetworkUpdate()

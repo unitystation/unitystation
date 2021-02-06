@@ -156,7 +156,7 @@ MonoBehaviour:
   ApplianceType: 5
   WireEndB: 9
   WireEndA: 0
-  ListCanConnectTo: 0b000000
+  ListCanConnectTo: 0b0000000800000001000000
   SelfDestruct: 0
   Reactions:
   - ConnectingDevice: 11
@@ -204,9 +204,9 @@ MonoBehaviour:
   Previouscurrent: 0
   current: 0
   PreviousSupplyingVoltage: 760000
-  SupplyingVoltage: 760000
+  SupplyingVoltage: 0
   PreviousInternalResistance: 76000
-  InternalResistance: 76000
+  InternalResistance: 0
   PreviousProducingWatts: 0
   ProducingWatts: 0
 --- !u!114 &114779656264558364
@@ -281,8 +281,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decbbef8933914e4db80a8f7026d2ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSpriteHandler: {fileID: 0}
+  mainSpriteHandler: {fileID: 8106342113633906247}
   slotHandler: {fileID: 0}
+  startSetUp: 0
+  radiationWatts: 100
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

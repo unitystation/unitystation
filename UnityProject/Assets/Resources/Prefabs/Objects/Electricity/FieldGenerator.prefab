@@ -230,8 +230,13 @@ MonoBehaviour:
   healthSpriteHandler: {fileID: 2446990718313052257}
   vertical: {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
   horizontal: {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
+  electricalArc: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
+  startSetUp: 0
   alwaysOn: 0
   detectionRange: 8
+  maxEnergy: 100
+  energyLossRate: 1
+  energy: 0
 --- !u!1 &7895098804929828835
 GameObject:
   m_ObjectHideFlags: 0
