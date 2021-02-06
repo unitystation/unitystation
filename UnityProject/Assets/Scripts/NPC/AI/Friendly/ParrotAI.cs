@@ -74,7 +74,7 @@ namespace Systems.MobAIs
 			Chat.AddLocalMsgToChat(
 				text,
 				gameObject,
-				mobNameCap);
+				MobName);
 			ChatBubbleManager.ShowAChatBubble(gameObject.transform, text);
 		}
 		private void SayRandomThing()
@@ -102,8 +102,8 @@ namespace Systems.MobAIs
 			string[]  _sounds = {"squawks", "screeches"};
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} {_sounds.PickRandom()}!",
-				$"{mobNameCap} {_sounds.PickRandom()}!");
+				$"{MobName} {_sounds.PickRandom()}!",
+				$"{MobName} {_sounds.PickRandom()}!");
 		}
 
 		protected override void DoRandomAction()

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Messages.Server;
 using Messages.Client;
+using NaughtyAttributes;
 using ScriptableObjects;
 using UI.Systems.Ghost;
 
@@ -19,6 +20,12 @@ namespace Systems.GhostRoles
 		private GhostRoleList ghostRoleList = default;
 		/// <summary> A list of all ghost roles that can be created.</summary>
 		public List<GhostRoleData> GhostRoles => ghostRoleList.GhostRoles;
+
+		[SerializeField]
+		[ReorderableList]
+		[Foldout("Always available roles")]
+		[Tooltip("These roles will always be available when a round starts")]
+		private List<GhostRoleData> alwaysAvailableRoles = default;
 
 		public static GhostRoleManager Instance { get; private set; }
 
@@ -56,6 +63,12 @@ namespace Systems.GhostRoles
 		{
 			serverAvailableRoles.Clear();
 			clientAvailableRoles.Clear();
+
+			if (CustomNetworkManager.IsServer == false) return;
+			foreach (var role in alwaysAvailableRoles)
+			{
+				ServerCreateRole(role);
+			}
 		}
 
 		#endregion Lifecycle
@@ -72,7 +85,7 @@ namespace Systems.GhostRoles
 			if (roleIndex < 0)
 			{
 				Logger.LogError(
-						$"Ghost role \"{roleData}\" was not found in {nameof(GhostRoleList)} SO! Cannot inform clients about the ghost role.");
+					$"Ghost role \"{roleData}\" was not found in {nameof(GhostRoleList)} SO! Cannot inform clients about the ghost role.");
 				return default;
 			}
 
@@ -104,7 +117,7 @@ namespace Systems.GhostRoles
 		/// <param name="key">The key used to identify the role for modifying.</param>
 		/// <returns>Returns the GhostRoleClient generated or found by the key.</returns>
 		public GhostRoleClient ClientAddOrUpdateRole(
-				uint key, int typeIndex, int minPlayers, int maxPlayers, int playerCount, float timeRemaining)
+			uint key, int typeIndex, int minPlayers, int maxPlayers, int playerCount, float timeRemaining)
 		{
 			if (typeIndex > GhostRoles.Count)
 			{
@@ -121,9 +134,9 @@ namespace Systems.GhostRoles
 					clientAvailableRoles.Remove(key);
 				};
 
-				UIManager.Display.hudBottomGhost.GetComponent<UI_GhostOptions>().NewGhostRoleAvailable(GhostRoles[typeIndex]);
+				UIManager.Display.hudBottomGhost.NewGhostRoleAvailable(GhostRoles[typeIndex]);
 			}
-			
+
 			GhostRoleClient role = clientAvailableRoles[key];
 			role.UpdateRole(minPlayers, maxPlayers, timeRemaining, playerCount);
 
@@ -134,11 +147,9 @@ namespace Systems.GhostRoles
 				clientAvailableRoles.Remove(key);
 				return default;
 			}
-			else
-			{
-				UIManager.GhostRoleWindow.AddOrUpdateEntry(key, role);
-				return clientAvailableRoles[key];
-			}
+
+			UIManager.GhostRoleWindow.AddOrUpdateEntry(key, role);
+			return clientAvailableRoles[key];
 		}
 
 		/// <summary>

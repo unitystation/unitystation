@@ -74,6 +74,15 @@ namespace Antagonists
 		/// </summary>
 		public bool NeedsEscapeObjective => needsEscapeObjective;
 
+		[Tooltip("The chance to add one gimmick objective in addition to the other objectives")]
+		[SerializeField]
+		[Range(0,100)]
+		protected float chanceForGimmickObjective = 0;
+		/// <summary>
+		/// The chance to add one gimmick objective in addition to the other objectives
+		/// </summary>
+		public float ChanceForGimmickObjective => chanceForGimmickObjective;
+
 		[Tooltip("The core objectives only this type of antagonist can get")]
 		[SerializeField]
 		protected List<Objective> coreObjectives = new List<Objective>();

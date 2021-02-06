@@ -620,7 +620,7 @@ public class EscapeShuttle : NetworkBehaviour
 		if(Status != EscapeShuttleStatus.DockedStation) return;
 
 		Chat.AddSystemMsgToChat($"<color=white>Hostile Environment has been removed! Crew has {TimeSpan.FromSeconds(GameManager.Instance.ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix);
-		GameManager.Instance.ForceSendEscapeShuttleFromStation();
+		GameManager.Instance.ForceSendEscapeShuttleFromStation(GameManager.Instance.ShuttleDepartTime);
 	}
 }
 

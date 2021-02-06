@@ -6,6 +6,7 @@ using Blob;
 using DatabaseAPI;
 using JetBrains.Annotations;
 using ServerInfo;
+using UI.Systems.Ghost;
 
 public class ControlDisplays : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class ControlDisplays : MonoBehaviour
 		JobSelect
 	}
 	public GameObject hudBottomHuman;
-	public GameObject hudBottomGhost;
+	public UI_GhostOptions hudBottomGhost;
 	public GameObject hudBottomBlob;
 	public GameObject jobSelectWindow;
 	public GameObject teamSelectionWindow;
@@ -83,32 +84,7 @@ public class ControlDisplays : MonoBehaviour
 			HumanUI();
 		}
 	}
-
-	void Update()
-	{
-		TempFixMissingRightHud();
-	}
-
-	//Temp fix for strange bug where right hud is missing when joining headless server
-	void TempFixMissingRightHud()
-	{
-		if (CustomNetworkManager.Instance == null) return;
-		if (CustomNetworkManager.Instance._isServer) return;
-		if (PlayerManager.LocalPlayerScript == null) return;
-		if (PlayerManager.LocalPlayerScript.playerHealth == null) return;
-		if (!PlayerManager.LocalPlayerScript.playerHealth.IsDead &&
-		    !UIManager.PlayerHealthUI.gameObject.activeInHierarchy)
-		{
-			UIManager.PlayerHealthUI.gameObject.SetActive(true);
-		}
-		if (!PlayerManager.LocalPlayerScript.playerHealth.IsDead &&
-		    !UIManager.PlayerHealthUI.humanUI)
-		{
-			UIManager.PlayerHealthUI.humanUI = true;
-		}
-
-	}
-
+	
 	void HumanUI()
 	{
 		if (hudBottomHuman != null && hudBottomGhost != null)
@@ -131,6 +107,7 @@ public class ControlDisplays : MonoBehaviour
 			hudBottomBlob.SetActive(false);
 			hudBottomHuman.SetActive(false);
 			hudBottomGhost.SetActive(true);
+			hudBottomGhost.AdminGhostInventory.SetActive(PlayerList.Instance.IsClientAdmin);
 		}
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);

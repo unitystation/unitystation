@@ -12,6 +12,10 @@ PrefabInstance:
       value: HandLabelerRoll
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +28,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -34,14 +42,6 @@ PrefabInstance:
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -62,14 +62,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: Infos.SpriteAndData.Sprites.Array.size
-      value: 4
-      objectReference: {fileID: 0}
+      propertyPath: spriteList.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300006, guid: 27d0b71f2eef1d9419111d91bf41ba24,
+        type: 3}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteList.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300006, guid: 34eac1a7e9d2a2a4a8ff9f1a3301965c,
+        type: 3}
     - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: Infos.SpriteAndData.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 27d0b71f2eef1d9419111d91bf41ba24, type: 3}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: Infos.SpriteAndData.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 57c99858e8232684f8e4db94f2d8c087, type: 3}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: Infos.SpriteAndData.Sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: Infos.SpriteAndData.Sprites.Array.data[0]
@@ -94,23 +111,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 27d0b71f2eef1d9419111d91bf41ba24,
         type: 3}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: Infos.SpriteAndData.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 57c99858e8232684f8e4db94f2d8c087, type: 3}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteList.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300006, guid: 27d0b71f2eef1d9419111d91bf41ba24,
-        type: 3}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteList.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300006, guid: 34eac1a7e9d2a2a4a8ff9f1a3301965c,
-        type: 3}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
@@ -122,9 +122,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1e9f0ebe7c7564b44a2700b49d79e91c,
         type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.size
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -134,8 +134,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: initialSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialDescription
       value: A roll of paper. Use it on a hand labeler to refill it.
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

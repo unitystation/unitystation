@@ -117,11 +117,8 @@ public class UpdateManager : MonoBehaviour
 
 		if (type == CallbackType.UPDATE)
 		{
-			if (Instance.updateActions.Contains(action))
-			{
-				Instance.updateActions.Remove(action);
-				return;
-			}
+			Instance.updateActions.Remove(action);
+			return;
 		}
 
 		if (type == CallbackType.FIXED_UPDATE)
@@ -210,29 +207,20 @@ public class UpdateManager : MonoBehaviour
 	{
 		if (type == CallbackType.UPDATE)
 		{
-			if (!Instance.updateActions.Contains(action))
-			{
-				Instance.updateActions.Add(action);
-				return;
-			}
+			Instance.updateActions.Add(action);
+			return;
 		}
 
 		if (type == CallbackType.FIXED_UPDATE)
 		{
-			if (!Instance.fixedUpdateActions.Contains(action))
-			{
-				Instance.fixedUpdateActions.Add(action);
-				return;
-			}
+			Instance.fixedUpdateActions.Add(action);
+			return;
 		}
 
 		if (type == CallbackType.LATE_UPDATE)
 		{
-			if (!Instance.lateUpdateActions.Contains(action))
-			{
-				Instance.lateUpdateActions.Add(action);
-				return;
-			}
+			Instance.lateUpdateActions.Add(action);
+			return;
 		}
 	}
 
