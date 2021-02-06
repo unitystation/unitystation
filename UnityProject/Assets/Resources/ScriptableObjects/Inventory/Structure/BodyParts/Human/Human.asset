@@ -14,14 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Base:
     Head: {fileID: 1045759822470683399, guid: 0e2fd113e04f27146b40ea10474270d8, type: 3}
-    Eyes: {fileID: 0}
     Torso: {fileID: 1316443453218355798, guid: dedd963dc20d9af42b12138620f8202c, type: 3}
     ArmRight: {fileID: 14184388709808837, guid: 48be2c23950789040881a5499bda0f4a,
       type: 3}
     ArmLeft: {fileID: 4567146495128738110, guid: 9cf1a28021c545f4380b9595f51db3fb,
       type: 3}
-    HandRight: {fileID: 0}
-    HandLeft: {fileID: 0}
     LegRight: {fileID: 1309926505914675287, guid: ab73b7f4ffe5ec946b7f731ee6384e6b,
       type: 3}
     LegLeft: {fileID: 7371357466681334470, guid: a5d9a63aa51bfe043a0e5d75880858f2,
@@ -43,3 +40,4 @@ MonoBehaviour:
       - bodyType: 2
         Name: Female
     SkinColours: []
+    BloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}

@@ -149,7 +149,7 @@ namespace HealthV2
 		//Probably custom curves would be good here
 		public void RecalculateEffectiveness()
 		{
-			DamageModifier.Multiplier = (health / maxHealth);
+			DamageModifier.Multiplier = (Mathf.Max(health, 0)  / maxHealth);
 		}
 	}
 }

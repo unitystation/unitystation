@@ -32,6 +32,7 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   isSurface: 0
+  SurgeryProcedureBase: []
   isBloodReagentConsumed: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   _bloodReagentConsumed: 0.1
@@ -110,7 +111,7 @@ MonoBehaviour:
   possibleTransferAmounts: []
   transferAmount: 20
   maxCapacity: 0.5
-  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   initialReagentMix:
     temperature: 273.15
     reagents:

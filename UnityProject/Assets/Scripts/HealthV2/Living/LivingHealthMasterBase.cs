@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Chemistry;
 using Health.Sickness;
 using HealthV2;
 using JetBrains.Annotations;
@@ -140,6 +142,8 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	// public float NutrimentLevel = 20;
 
+	public Reagent Cem;
+
 	public HungerState hungerState => CalculateHungerState();
 
 	public HungerState CalculateHungerState()
@@ -218,7 +222,16 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public void DODMG()
 	{
 		var bit =  RootBodyPartContainers.PickRandom();
-		bit.TakeDamage(null, 20, AttackType.Melee, DamageType.Brute);
+		bit.TakeDamage(null, 1, AttackType.Melee, DamageType.Brute);
+	}
+
+
+	[RightClickMethod]
+	public void TestChemistry()
+	{
+		circulatorySystem.UseBloodPool.Add(Cem, 20);
+
+
 	}
 
 	/// <summary>
@@ -246,11 +259,13 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	private void UpdateMe()
 	{
-		foreach (var implant in RootBodyPartContainers)
+		if (CustomNetworkManager.Instance._isServer)
 		{
-			implant.ImplantUpdate(this);
+			foreach (var implant in RootBodyPartContainers)
+			{
+				implant.ImplantUpdate(this);
+			}
 		}
-
 		//do Separate delayed blood update
 	}
 
@@ -266,13 +281,45 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	}
 
 
+	public float GetOxyDamage()
+	{
+		return brain.Oxy;
+	}
+
+	public float GetTotalBruteDamage()
+	{
+		float toReturn = 0;
+		foreach (var implant in implantList)
+		{
+			if (implant.DamageContributesToOverallHealth == false) continue;
+			toReturn -= implant.Brute;
+		}
+
+		return toReturn;
+	}
+
+
+	public float GetTotalBurnDamage()
+	{
+		float toReturn = 0;
+		foreach (var implant in implantList)
+		{
+			if (implant.DamageContributesToOverallHealth == false) continue;
+			toReturn -= implant.Burn;
+		}
+
+		return toReturn;
+	}
+
+
+
 	public void CalculateOverallHealth()
 	{
 		float CurrentHealth = maxHealth;
 		foreach (var implant in implantList)
 		{
 			if (implant.DamageContributesToOverallHealth == false) continue;
-			CurrentHealth -= implant.TotalDamageWithoutOxy;
+			CurrentHealth -= implant.TotalDamageWithoutOxyClone;
 		}
 
 		CurrentHealth -= brain.Oxy; //Assuming has brain
@@ -342,18 +389,6 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	}
 
 
-	public void TriggerHeartAttack()
-	{
-		foreach (var Implant in ImplantList)
-		{
-			var heart = Implant as Heart;
-			if (heart != null)
-			{
-				heart.DoHeartAttack();
-			}
-		}
-	}
-
 	// This is the DNA SyncVar hook
 	private void DNASync(string oldDNA, string updatedDNA)
 	{
@@ -369,8 +404,41 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	/// <param name="damage">Damage Amount. will be distributed evenly across all bodyparts</param>
 	/// <param name="attackType">type of attack that is causing the damage</param>
 	/// <param name="damageType">The Type of Damage</param>
+	/// <param name="damageSplit">Should the damage be divided by number of body parts or applied to each body part separately</param>
 	[Server]
-	public void ApplyDamage(GameObject damagedBy, float damage,
+	public void ApplyDamageAll(GameObject damagedBy, float damage,
+		AttackType attackType, DamageType damageType, bool damageSplit = true)
+	{
+		float BodyParts = 0;
+		if (damageSplit)
+		{
+			BodyParts += RootBodyPartContainers.Sum(Container => Container.ContainsLimbs.Count());
+		}
+
+		foreach (var Container in RootBodyPartContainers)
+		{
+			if (damageSplit)
+			{
+				Container.TakeDamage(damagedBy, damage *  (Container.ContainsLimbs.Count / BodyParts) , attackType, damageType);
+			}
+			else
+			{
+				Container.TakeDamage(damagedBy, damage * Container.ContainsLimbs.Count , attackType, damageType, true);
+			}
+
+		}
+	}
+
+
+	/// <summary>
+	///  Apply Damage to Random body part body of this Living thing. Server only
+	/// </summary>
+	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+	/// <param name="damage">Damage Amount.</param>
+	/// <param name="attackType">type of attack that is causing the damage</param>
+	/// <param name="damageType">The Type of Damage</param>
+	[Server]
+	public void ApplyDamageToRandom(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType)
 	{
 		var body = RootBodyPartContainers.PickRandom();
@@ -611,6 +679,19 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	{
 		respiratorySystem.pressure = value;
 	}
+
+	public void OnFullyInitialised(Action TODO)
+	{
+		StartCoroutine(WaitForPlayerinitialisation(TODO));
+	}
+
+	public IEnumerator WaitForPlayerinitialisation(Action TODO)
+	{
+		yield return null;
+		TODO.Invoke();
+	}
+
+
 
 	/// <summary>
 	/// Updates the blood health stats from the server via NetMsg

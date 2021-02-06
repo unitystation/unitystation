@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System;
+using HealthV2;
 
 [CreateAssetMenu(fileName = "PlayerHealthData", menuName = "ScriptableObjects/PlayerHealthData", order = 1)]
 public class PlayerHealthData : ScriptableObject
@@ -27,6 +28,9 @@ public class RaceHealthData
 	public BodyTypeSettings bodyTypeSettings = new BodyTypeSettings();
 
 	public List<Color> SkinColours = new List<Color>();
+
+
+	public BloodType BloodType;
 
 }
 
