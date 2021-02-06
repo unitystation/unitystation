@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
+using NaughtyAttributes;
 
 /// <summary>
 /// Handles the overlays for the handcuff sprites
@@ -17,6 +18,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	private float healthCache;
 	private Vector3Int positionCache;
 
+	[Foldout("restraintRemovalSound")]
 	[SerializeField] private AddressableAudioSource restraintRemovalSound = null;
 
 	[SerializeField]

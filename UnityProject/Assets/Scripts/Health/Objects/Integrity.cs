@@ -11,6 +11,7 @@ using Objects;
 using Object = System.Object;
 using Random = UnityEngine.Random;
 using Effects.Overlays;
+using NaughtyAttributes;
 
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),
@@ -64,6 +65,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public float initialIntegrity = 100f;
 
 	[Tooltip("Sound to play when damage applied.")]
+	[Foldout("soundOnHit")]
 	public AddressableAudioSource soundOnHit;
 
 	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]

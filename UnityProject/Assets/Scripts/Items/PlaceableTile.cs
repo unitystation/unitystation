@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using AddressableReferences;
+using NaughtyAttributes;
 
 /// <summary>
 /// Allows an item to be placed in order to create a tile on the ground.
@@ -22,7 +23,9 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 	[SerializeField]
 	private float placeTime = 1.0f;
 
-	[SerializeField] private AddressableAudioSource placeSound = null;
+	[SerializeField]
+	[Foldout("placeSound")]
+	private AddressableAudioSource placeSound = null;
 
 	[SerializeField]
 	private static readonly StandardProgressActionConfig ProgressConfig

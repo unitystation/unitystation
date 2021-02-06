@@ -3,6 +3,7 @@ using System.Linq;
 using AddressableReferences;
 using Mirror;
 using AddressableReferences;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Items
@@ -111,6 +112,7 @@ namespace Items
 
 		[Tooltip("Sound to be played when we click someone with harm intent")]
 		[SerializeField]
+		[Foldout("hitSound")]
 		private AddressableAudioSource hitSound = null;
 
 

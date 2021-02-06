@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
+using NaughtyAttributes;
 
 /// <summary>
 /// Provides central access to the Players Health
@@ -14,6 +15,7 @@ using AddressableReferences;
 public class PlayerHealth : LivingHealthBehaviour
 {
 
+	[Foldout("SmallElectricShock")]
 	[SerializeField] private AddressableAudioSource SmallElectricShock = null;
 
 	[SerializeField]

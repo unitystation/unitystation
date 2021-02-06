@@ -5,6 +5,7 @@ using AddressableReferences;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using NaughtyAttributes;
 using UnityEngine.Serialization;
 using Objects;
 using Objects.Construction;
@@ -165,6 +166,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 
 	[Tooltip("The sound to play when pushed/pulled")]
 	[SerializeField]
+	[Foldout("pushPullSound")]
 	private AddressableAudioSource pushPullSound = null;
 
 	[Tooltip("A minimum delay for the sound to be played again (in milliseconds)")]
