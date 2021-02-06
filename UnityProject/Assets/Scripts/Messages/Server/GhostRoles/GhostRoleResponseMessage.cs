@@ -21,6 +21,7 @@ namespace Messages.Server
 			{ GhostRoleResponseCode.AlreadyQueued, "You're already queued for a role!" },
 			{ GhostRoleResponseCode.QueueFull, "All positions have been filled for this role! You're too late." },
 			{ GhostRoleResponseCode.Error, "There was a problem giving you the role." },
+			{ GhostRoleResponseCode.JobBanned, "You are job banned from this role" }
 		};
 
 		// To be run on client
@@ -65,5 +66,6 @@ namespace Messages.Server
 		AlreadyQueued,
 		QueueFull,
 		Error,
+		JobBanned
 	}
 }
