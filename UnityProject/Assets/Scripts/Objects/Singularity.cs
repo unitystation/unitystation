@@ -5,12 +5,14 @@ using Systems.Atmospherics;
 using Systems.Radiation;
 using Light2D;
 using Mirror;
+using ScriptableObjects.Gun;
 using UnityEngine;
+using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
 
 namespace Objects
 {
-	public class Singularity : NetworkBehaviour
+	public class Singularity : NetworkBehaviour, IOnHitDetect
 	{
 		private SingularityStages currentStage = SingularityStages.Stage0;
 
@@ -60,6 +62,8 @@ namespace Objects
 		private SpriteHandler spriteHandler;
 		private CustomNetTransform customNetTransform;
 		private int objectId;
+		private int lockTimer;
+		private bool pointLock;
 
 		private List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
 
@@ -111,6 +115,16 @@ namespace Objects
 		{
 			if(!CustomNetworkManager.IsServer) return;
 
+			if (lockTimer > 0)
+			{
+				lockTimer--;
+			}
+
+			if (lockTimer == 0)
+			{
+				pointLock = false;
+			}
+
 			if (singularityPoints <= 0 && zeroPointDeath)
 			{
 				Despawn.ServerSingle(gameObject);
@@ -118,9 +132,11 @@ namespace Objects
 				return;
 			}
 
-			//TODO, make it so particle accelerator blocks this
-			//Points decrease by 1 every 0.5 seconds
-			singularityPoints -= pointLossRate;
+			//Points decrease by 4 every 0.5 seconds, unless locked by PA at setting 0
+			if (pointLock == false)
+			{
+				singularityPoints -= pointLossRate;
+			}
 
 			TryChangeStage();
 
@@ -478,6 +494,21 @@ namespace Objects
 			{
 				singularityPoints = 0;
 			}
+		}
+
+		public void OnHitDetect(DamageData damageData)
+		{
+			if(damageData.AttackType != AttackType.Rad) return;
+
+			if (damageData.Damage <= 20f)
+			{
+				//PA at setting 0 will do 20 damage
+				pointLock = true;
+				lockTimer = 5;
+				return;
+			}
+
+			ChangePoints((int)damageData.Damage);
 		}
 
 		#endregion

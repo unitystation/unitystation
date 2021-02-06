@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: FieldGenVertical
   m_EditorClassIdentifier: 
   displayName: shield
-  LayerType: 1
-  TileType: 2
+  LayerType: 0
+  TileType: 1
   RequiredTiles: []
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
@@ -52,23 +52,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  Sprites:
-  - {fileID: 21300000, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300008, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300016, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300024, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300032, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300040, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300048, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300056, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300064, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300072, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300080, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300088, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300096, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300104, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300112, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
-  - {fileID: 21300120, guid: a8153b39c0c498e4dba87110cb1c09da, type: 3}
+  Sprites: []
   AnimationSpeed: 16
   AnimationStartTime: 0
   randomizeStartTime: 0
