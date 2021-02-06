@@ -67,7 +67,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   SubOrganDamageIncreasePoint: 50
-  DamageContributesToOverallHealth: 1
+  DamageContributesToOverallHealth: 0
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
   breatheCooldown: 4
@@ -85,6 +85,12 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6a6ca9a236adba34e83648a9bc942adc,
+        type: 2}
+    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: reactionSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c72c6cb9aeee57d40a5d73c1f476cd20,
         type: 2}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}

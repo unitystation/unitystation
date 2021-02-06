@@ -10,6 +10,14 @@ namespace HealthV2
 	[RequireComponent(typeof(LivingHealthMasterBase))]
 	public class CirculatorySystemBase : MonoBehaviour
 	{
+
+		[System.Serializable]
+		public struct BloodStat
+		{
+
+
+		}
+
 		[SerializeField]
 		[Required("Must have a blood type in a circulatory system.")]
 		private BloodType bloodType = null;
@@ -18,6 +26,11 @@ namespace HealthV2
 		public ReagentMix UseBloodPool;
 		public ReagentMix ReadyBloodPool;
 
+
+
+		//Just one for now feel free to add the code for more if needed tho will get a bit messy
+
+		//set From race data
 
 		//How much of our blood reagent we have.
 		//In a human, this would be oxygen.
@@ -28,7 +41,7 @@ namespace HealthV2
 		// public float BloodAmount => bloodAmount;
 
 		//The actual reagent our blood uses.
-		public Chemistry.Reagent BloodReagent => bloodType.CirculatedReagent;
+		public Chemistry.Reagent BloodReagent => bloodType.Blood;
 
 		//This is the list of the toxins in the circulatory system.
 		//Different toxins can have different effects on different parts of the body.
@@ -67,10 +80,18 @@ namespace HealthV2
 
 		private LivingHealthMasterBase healthMaster;
 
+		public void SetBloodType(BloodType inBloodType)
+		{
+			bloodType = inBloodType;
+			ReadyBloodPool.Add(BloodReagent,5);
+			ReadyBloodPool.Add(bloodType.CirculatedReagent,2.5f);
+		}
+
 		private void Awake()
 		{
 			healthMaster = GetComponent<LivingHealthMasterBase>();
-			ReadyBloodPool.Add(BloodReagent,5);
+			// ReadyBloodPool.Add(BloodReagent,5);
+			// ReadyBloodPool.Add(bloodType.CirculatedReagent,2.5f);
 			// bloodReagentAmount = BloodInfo.BLOOD_REAGENT_DEFAULT;
 			// bloodAmount = BloodInfo.BLOOD_DEFAULT;
 		}
