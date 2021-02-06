@@ -41,15 +41,25 @@ namespace Objects
 		private int maximumPoints = 3250;
 
 		[SerializeField]
+		private int pointLossRate = 4;
+
+		[SerializeField]
+		private float maxRadiation = 5000f;
+
+		[SerializeField]
 		private LightSprite light = null;
 
 		[SerializeField]
 		private bool eatenSuperMatter;
 
+		[SerializeField]
+		private bool zeroPointDeath = true;
+
 		private Transform lightTransform;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private CustomNetTransform customNetTransform;
+		private int objectId;
 
 		private List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
 
@@ -61,12 +71,15 @@ namespace Objects
 			new Vector3Int(-1, 0, 0)
 		};
 
+		#region LifeCycle
+
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
 			customNetTransform = GetComponent<CustomNetTransform>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightTransform = light.transform;
+			objectId = GetInstanceID();
 
 			CurrentStage = startingStage;
 		}
@@ -89,6 +102,8 @@ namespace Objects
 			lightTransform.localScale = newVar;
 		}
 
+		#endregion
+
 		/// <summary>
 		/// Update loop, runs every 0.5 seconds
 		/// </summary>
@@ -96,14 +111,14 @@ namespace Objects
 		{
 			if(!CustomNetworkManager.IsServer) return;
 
-			if (singularityPoints <= 0)
+			if (singularityPoints <= 0 && zeroPointDeath)
 			{
 				Despawn.ServerSingle(gameObject);
 			}
 
 			//TODO, make it so particle accelerator blocks this
 			//Points decrease by 1 every 0.5 seconds
-			singularityPoints -= 1;
+			singularityPoints -= pointLossRate;
 
 			TryChangeStage();
 
@@ -116,11 +131,9 @@ namespace Objects
 			TryChangeStage();
 
 			//Radiation Pulse
-			var matrixInfo = MatrixManager.AtPoint(registerTile.WorldPositionServer, true);
+			var strength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
 
-			RadiationManager.Instance.RequestPulse(matrixInfo.Matrix, MatrixManager.WorldToLocalInt(registerTile.WorldPositionServer, matrixInfo),
-				Mathf.Max((float)CurrentStage / 5 * 2000f, 0),
-				new System.Random().Next(Int32.MinValue, Int32.MaxValue));
+			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, strength, objectId);
 		}
 
 		#region Throw/Push
@@ -404,7 +417,7 @@ namespace Objects
 			{
 				ChangeStage(SingularityStages.Stage3);
 			}
-			else if ((singularityPoints >= 3000 && !eatenSuperMatter) || singularityPoints >= 2000)
+			else if ((singularityPoints >= 2000 && !eatenSuperMatter) || (singularityPoints >= 3000 && !eatenSuperMatter))
 			{
 				ChangeStage(SingularityStages.Stage4);
 			}
