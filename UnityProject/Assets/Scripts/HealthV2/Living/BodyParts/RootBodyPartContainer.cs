@@ -8,7 +8,7 @@ namespace HealthV2
 {
 	//Used for handling multiple sprites meant for base limbs and stuff
 	//for example if have 2 arms this would generate a Sprite for each arm
-	public class RootBodyPartContainer : MonoBehaviour, IBodyPartDropDownOrgans
+	public class RootBodyPartContainer : MonoBehaviour, IBodyPartDropDownOrgans, IServerSpawn
 	{
 		[SerializeField]
 		[Required("Need a health master to send updates too." +
@@ -24,6 +24,12 @@ namespace HealthV2
 
 
 		[SerializeField] public BodyPartType bodyPartType;
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			healthMaster = GetComponentInParent<LivingHealthMasterBase>();
+			PlayerSprites = GetComponentInParent<PlayerSprites>();
+		}
 
 		void Awake()
 		{
@@ -157,6 +163,7 @@ namespace HealthV2
 			}
 		}
 
+		//yes is uesd
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
 			foreach (var BodyPart in implant.GetAllBodyPartsAndItself(new List<BodyPart>()))
@@ -173,6 +180,8 @@ namespace HealthV2
 			}
 		}
 
+
+		//yes is uesd
 		public virtual void SubBodyPartAdded(BodyPart implant)
 		{
 			var sprites = implant.GetBodyTypeSprites(PlayerSprites.ThisCharacter.BodyType);
@@ -193,7 +202,7 @@ namespace HealthV2
 
 
 		public void TakeDamage(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType)
+			AttackType attackType, DamageType damageType, bool SplitDamage = false)
 		{
 			Logger.Log("dmg  > " + damage + "attackType > " + attackType + " damageType > " + damageType);
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
@@ -206,8 +215,19 @@ namespace HealthV2
 			}
 			else
 			{
-				var OrganToDamage = ContainsLimbs.PickRandom();
-				OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType);
+				if (SplitDamage)
+				{
+					foreach (var ContainsLimb in ContainsLimbs)
+					{
+						ContainsLimb.TakeDamage(damagedBy, damage / ContainsLimbs.Count, attackType, damageType);
+					}
+				}
+				else
+				{
+					var OrganToDamage = ContainsLimbs.PickRandom();
+					OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType);
+				}
+
 			}
 		}
 

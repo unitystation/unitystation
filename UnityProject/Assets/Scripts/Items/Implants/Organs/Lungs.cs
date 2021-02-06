@@ -21,6 +21,8 @@ public class Lungs : BodyPart
 
 	public float LungProcessAmount = 10;
 
+	public BloodType InteractsWith;
+
 	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
 	{
 		base.ImplantPeriodicUpdate(healthMaster);
@@ -56,21 +58,27 @@ public class Lungs : BodyPart
 		//Can probably edit this to use the volume of the lungs instead.
 		GasMix gasMix = container.GasMix;
 
+
 		var AvailableBlood = healthMaster.CirculatorySystem.UseBloodPool.Take(LungProcessAmount * TotalModified);
 		float reagentUsed = HandleBreathing(gasMix);
 		float gasUsed = reagentUsed;
 		reagentUsed = reagentUsed * 10000f;
-		if (reagentUsed > AvailableBlood[requiredReagent])
+
+
+		if (reagentUsed > InteractsWith.GetSpareCapacity(AvailableBlood))
 		{
-			reagentUsed = AvailableBlood[requiredReagent];
+			//Calculate it better
+			reagentUsed = InteractsWith.GetSpareCapacity(AvailableBlood);
 			gasUsed = reagentUsed / 10000f;
 		}
 		else
 		{
-			var Bloodremove = (AvailableBlood[requiredReagent] - reagentUsed);
-			AvailableBlood.Remove(requiredReagent, Bloodremove);
-			healthMaster.CirculatorySystem.UseBloodPool.Add(requiredReagent, Bloodremove);
+			// var Bloodremove = (AvailableBlood[requiredReagent] - reagentUsed);
+			// AvailableBlood.Remove(requiredReagent, Bloodremove);
+			// healthMaster.CirculatorySystem.UseBloodPool.Add(requiredReagent, Bloodremove);
 		}
+
+		AvailableBlood.Add(requiredReagent, reagentUsed);
 
 
 		// Logger.Log("Lungs produced " + reagentUsed + " Of useful blood");

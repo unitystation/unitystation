@@ -120,6 +120,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1051931730128558
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,6 +273,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1106181757792460
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +394,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1133514949248654
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +636,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerMove: {fileID: 114792299177679754}
+  playerScript: {fileID: 0}
+  Step: 0
 --- !u!114 &114644792539986700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -681,7 +686,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -759,7 +770,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &6017414943583453005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,6 +1063,7 @@ MonoBehaviour:
   maxHealth: 100
   bodyPartContainers: []
   RootBodyPartContainers: []
+  Cem: {fileID: 11400000, guid: 442231bc33df82e49ace4a567c7aed5c, type: 2}
   PlayerMove: {fileID: 0}
 --- !u!114 &2708192528502292653
 MonoBehaviour:
@@ -1234,6 +1252,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1332325770335918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,6 +1373,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1392646042361530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,6 +1494,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1442926995363424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,6 +1615,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1456517064699986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1714,6 +1736,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1562215114468348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1834,6 +1857,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1626073062007556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,6 +1978,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1653009388007362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,6 +2099,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1659484884520852
 GameObject:
   m_ObjectHideFlags: 0
@@ -2289,6 +2315,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1889549945948160
 GameObject:
   m_ObjectHideFlags: 0
@@ -2409,6 +2436,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1894933337466704
 GameObject:
   m_ObjectHideFlags: 0
@@ -7791,6 +7819,7 @@ MonoBehaviour:
   - Texture: {fileID: 2800000, guid: 37e6c24b3c7e32f4e85502799da9c86b, type: 3}
   - Texture: {fileID: 2800000, guid: 1d6a4a738a10d7642afdbb67afc5bc14, type: 3}
   - Texture: {fileID: 2800000, guid: 4713bd3c8ac12ad4c847a7b3d17d95dc, type: 3}
+  randomInitialSprite: 0
 --- !u!1 &4023795424898428014
 GameObject:
   m_ObjectHideFlags: 0
@@ -7927,6 +7956,13 @@ MonoBehaviour:
   - {fileID: 7057434370678830746, guid: d0b2a654fbecfa346af5d50335a739ea, type: 3}
   - {fileID: 6543762784068199679, guid: d0b2a654fbecfa346af5d50335a739ea, type: 3}
   spriteRend: {fileID: 6479668554434910921}
+  restraintRemovalSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   actionData: {fileID: 11400000, guid: 82e905f8f9e96df499feb90ee421b2ee, type: 2}
 --- !u!1 &7080345705200580939
 GameObject:

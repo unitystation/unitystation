@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7916986443111434170}
   - component: {fileID: 8743692895850166169}
   - component: {fileID: 5565683871287517617}
+  - component: {fileID: 5669679831113116020}
   m_Layer: 8
   m_Name: HumanBodyPartRightArm
   m_TagString: Untagged
@@ -74,3 +75,19 @@ MonoBehaviour:
     MergeMode: 0
     Contents:
     - {fileID: 7468114191605762846, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}
+--- !u!114 &5669679831113116020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14184388709808837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 

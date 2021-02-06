@@ -10,7 +10,7 @@ using Messages.Server;
 using HealthV2;
 using Lobby;
 using HealthV2;
-
+using Mirror.Websocket;
 
 /// <summary>
 /// Handle displaying the sprites related to player, which includes underwear and the body.
@@ -154,12 +154,15 @@ public class PlayerSprites : MonoBehaviour
 	public void SetUpCharacter(CharacterSettings Character)
 	{
 		//TODOH Get race file from character settings
-		InstantiateAndSetUp(RaceBodyparts.Base.Head, bodyparts["Head"].transform);
-		InstantiateAndSetUp(RaceBodyparts.Base.Torso, bodyparts["Chest"].transform);
-		InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft, bodyparts["LeftArm"].transform);
-		InstantiateAndSetUp(RaceBodyparts.Base.ArmRight, bodyparts["RightArm"].transform);
-		InstantiateAndSetUp(RaceBodyparts.Base.LegLeft, bodyparts["LeftLeg"].transform);
-		InstantiateAndSetUp(RaceBodyparts.Base.LegRight, bodyparts["RightLeg"].transform);
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			InstantiateAndSetUp(RaceBodyparts.Base.Head, bodyparts["Head"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.Torso, bodyparts["Chest"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft, bodyparts["LeftArm"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.ArmRight, bodyparts["RightArm"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.LegLeft, bodyparts["LeftLeg"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.LegRight, bodyparts["RightLeg"].transform);
+		}
 	}
 
 
@@ -325,14 +328,32 @@ public class PlayerSprites : MonoBehaviour
 
 	public void InstantiateAndSetUp(GameObject ToSpawn, Transform InWhere)
 	{
-		var rootBodyPartContainer = Instantiate(ToSpawn, InWhere).GetComponent<RootBodyPartContainer>();
-		if (rootBodyPartContainer != null)
+
+		if (ToSpawn != null)
 		{
+			// var Set = ToSpawn.GetComponent<RootBodyPartContainer>();
+			// Set.PlayerSprites = this;
+			// Set.healthMaster = playerHealth;
+			var InSpawnResult = Spawn.ServerPrefab(ToSpawn, Vector3.zero, InWhere, AutoOnSpawnServerHook: false);
+			InSpawnResult.GameObject.transform.localPosition = Vector3.zero;
+
+			var rootBodyPartContainer = InSpawnResult.GameObject.GetComponent<RootBodyPartContainer>();
 			rootBodyPartContainer.name = ToSpawn.name;
 			livingHealthMasterBase.RootBodyPartContainers.Add(rootBodyPartContainer);
 			rootBodyPartContainer.PlayerSprites = this;
 			rootBodyPartContainer.healthMaster = playerHealth;
+
+			Spawn._ServerFireClientServerSpawnHooks(InSpawnResult);
 		}
+
+		// var rootBodyPartContainer = Spawn.ServerPrefab(ToSpawn, null ,InWhere).GameObject.GetComponent<RootBodyPartContainer>();
+		// if (rootBodyPartContainer != null)
+		// {
+			// rootBodyPartContainer.name = ToSpawn.name;
+			// livingHealthMasterBase.RootBodyPartContainers.Add(rootBodyPartContainer);
+			// rootBodyPartContainer.PlayerSprites = this;
+			// rootBodyPartContainer.healthMaster = playerHealth;
+		// }
 	}
 
 	public void SetSurfaceColour()
@@ -558,6 +579,7 @@ public class PlayerSprites : MonoBehaviour
 
 
 		SetUpCharacter(characterSettings);
+		livingHealthMasterBase.CirculatorySystem.SetBloodType (RaceBodyparts.Base.BloodType);
 		SetupCharacterData(characterSettings);
 		// FIXME: this probably shouldn't send ALL of the character settings to everyone
 		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
