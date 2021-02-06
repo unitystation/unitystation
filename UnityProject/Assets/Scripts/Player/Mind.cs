@@ -177,10 +177,10 @@ public class Mind
 		if (!IsGhosting)
 		{
 			var livingHealthBehaviour = currentMob.GetComponent<LivingHealthMasterBase>();
-			if (!livingHealthBehaviour.IsDead)
-			{
-				return CloneableStatus.StillAlive;
-			}
+			// if (!livingHealthBehaviour.IsDead)
+			// {
+				// return CloneableStatus.StillAlive;
+			// }
 		}
 		if (!IsOnline())
 		{

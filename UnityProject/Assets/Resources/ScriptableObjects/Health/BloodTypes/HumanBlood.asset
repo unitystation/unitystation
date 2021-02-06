@@ -12,10 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f64d4f5b1b1d304bb037fa918fad45f, type: 3}
   m_Name: HumanBlood
   m_EditorClassIdentifier: 
+  Blood: {fileID: 11400000, guid: eea05337a284c407e926bf3110b00916, type: 2}
   CirculatedReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  CompleteBloodMix:
-    temperature: 0
-    reagents:
-      m_keys: []
-      m_values: []
-  Color: {r: 0.6698113, g: 0.015797434, b: 0.015797434, a: 0}
+  Color: {r: 0.6698113, g: 0.015797434, b: 0.015797434, a: 1}
+  BloodCapacityOf: 2

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3049269795352695691}
   - component: {fileID: 6651703914028125853}
   - component: {fileID: 4347910371414452086}
+  - component: {fileID: 2829980888498435033}
   m_Layer: 8
   m_Name: HumanBodyPartHead
   m_TagString: Untagged
@@ -74,3 +75,19 @@ MonoBehaviour:
     MergeMode: 0
     Contents:
     - {fileID: 7761316997644922781, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
+--- !u!114 &2829980888498435033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045759822470683399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 

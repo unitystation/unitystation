@@ -57,6 +57,7 @@ namespace Chemistry.Components
 		/// </summary>
 		[NonSerialized] public UnityEvent OnReagentMixChanged = new UnityEvent();
 
+
 		private ReagentMix currentReagentMix;
 		/// <summary>
 		/// Server side only. Current reagent mix inside container.
@@ -95,6 +96,7 @@ namespace Chemistry.Components
 			{
 				CurrentReagentMix.Temperature = value;
 				OnReagentMixChanged?.Invoke();
+				ReagentsChanged();
 			}
 		}
 
@@ -142,6 +144,15 @@ namespace Chemistry.Components
 			if (integrity)
 			{
 				integrity.OnWillDestroyServer.AddListener(info => SpillAll());
+			}
+			//OnReagentMixChanged.AddListener(ReagentsChanged);
+		}
+
+		public void ReagentsChanged()
+		{
+			if (ReactionSet != null)
+			{
+				ReactionSet.Apply(this, CurrentReagentMix);
 			}
 		}
 
@@ -211,13 +222,9 @@ namespace Chemistry.Components
 
 			// add addition to reagent mix
 			CurrentReagentMix.Add(addition);
-			//Reactions happen here
-			if (ReactionSet != null)
-			{
-				ReactionSet.Apply(this, CurrentReagentMix);
-			}
+			ReagentsChanged();
 
-			// get mix total after all reactions
+			// get mix total after all reactions,
 			var afterReactionTotal = CurrentReagentMix.Total;
 
 			var message = string.Empty;
@@ -229,6 +236,7 @@ namespace Chemistry.Components
 			}
 
 			OnReagentMixChanged?.Invoke();
+			ReagentsChanged();
 			return new TransferResult { Success = true, TransferAmount = transferAmount, Message = message };
 		}
 
@@ -241,6 +249,7 @@ namespace Chemistry.Components
 		{
 			CurrentReagentMix.Subtract(reagents);
 			OnReagentMixChanged?.Invoke();
+			ReagentsChanged();
 		}
 
 		/// <summary>
@@ -250,6 +259,7 @@ namespace Chemistry.Components
 		{
 			var takeMix = CurrentReagentMix.Take(amount);
 			OnReagentMixChanged?.Invoke();
+			ReagentsChanged(); //Maybe not needed?
 			return takeMix;
 		}
 
@@ -280,6 +290,7 @@ namespace Chemistry.Components
 		{
 			CurrentReagentMix.Multiply(multiplier);
 			OnReagentMixChanged?.Invoke();
+			ReagentsChanged();
 		}
 
 		/// <summary>

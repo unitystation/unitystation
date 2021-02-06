@@ -30,7 +30,7 @@ namespace HealthV2
 		public float BloodReagentStoreAmount => bloodReagentStoreAmount;
 
 		[Tooltip("Can we store any blood reagent?")]
-		private float bloodReagentStoredMax = 0.5f;
+		public  float bloodReagentStoredMax = 0.5f;
 
 		private float BloodDamageLow = 0;
 
@@ -56,7 +56,7 @@ namespace HealthV2
 			TotalModified = 1;
 			foreach (var Modifier in AppliedModifiers)
 			{
-				TotalModified *= Modifier.Multiplier;
+				TotalModified *= Mathf.Max(0, Modifier.Multiplier);
 			}
 			ModifierChange?.Invoke();
 		}
@@ -84,27 +84,35 @@ namespace HealthV2
 			BloodContainer.ContentsSet = true;
 		}
 
-		public void BloodUpdate()
+		public virtual void BloodUpdate()
 		{
 			//Can do something about purity
 			//low Blood content punishment but no damage
 
 			//Logger.Log("Available blood"  + BloodContainer[requiredReagent]);
 
-			if (BloodContainer[requiredReagent] < BloodDamageLow)
+			if (isBloodReagentConsumed)
 			{
-				AffectDamage(1f, (int) DamageType.Oxy);
-			}
-			else
-			{
-				AffectDamage(-1f, (int) DamageType.Oxy);
+				if (BloodContainer[requiredReagent] < BloodDamageLow)
+				{
+					AffectDamage(1f, (int) DamageType.Oxy);
+				}
+				else
+				{
+					AffectDamage(-1f, (int) DamageType.Oxy);
+				}
+
 			}
 
 			ReagentMix reagentMix = BloodContainer.TakeReagents(bloodReagentProcessed);
+			if (isBloodReagentConsumed)
+			{
+				reagentMix.Remove(requiredReagent, Single.MaxValue);
+			}
 
 			healthMaster.CirculatorySystem.UseBloodPool.Add(reagentMix);
 
-			if (TotalDamageWithoutOxyClone > 0 && BloodContainer[Nutriment]> 0)
+			if (TotalDamageWithoutOxy > 0 && BloodContainer[Nutriment]> 0)
 			{
 
 				float toConsume = NutrimentConsumption;
@@ -139,12 +147,11 @@ namespace HealthV2
 
 		public void NutrimentHeal(double Amount)
 		{
-			double DamageMultiplier = TotalDamageWithoutOxyClone / Amount;
+			double DamageMultiplier = TotalDamageWithoutOxy / Amount;
 
 			for (int i = 0; i < Damages.Length; i++)
 			{
 				if ((int) DamageType.Oxy == i) continue;
-				if ((int) DamageType.Clone == i) continue;
 				HealDamage(null, (float) (Damages[i] / DamageMultiplier), i);
 			}
 		}
@@ -170,12 +177,14 @@ namespace HealthV2
 				float BloodToTake = (BloodContainer.MaxCapacity - BloodContainer.ReagentMixTotal );
 				bloodReagent.TransferTo(BloodContainer.CurrentReagentMix, BloodToTake);
 				BloodContainer.OnReagentMixChanged?.Invoke();
+				BloodContainer.ReagentsChanged();
 				return bloodReagent;
 			}
 			else
 			{
 				bloodReagent.TransferTo(BloodContainer.CurrentReagentMix, bloodReagent.Total);
 				BloodContainer.OnReagentMixChanged?.Invoke();
+				BloodContainer.ReagentsChanged();
 			}
 
 			return bloodReagent;
