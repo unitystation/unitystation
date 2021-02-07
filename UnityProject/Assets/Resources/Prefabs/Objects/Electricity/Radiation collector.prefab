@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 1999094162665485661}
   - component: {fileID: 4997349939610282033}
   - component: {fileID: 7688260226702700199}
+  - component: {fileID: 5933879109768817857}
   m_Layer: 11
   m_Name: Radiation collector
   m_TagString: Untagged
@@ -372,6 +373,24 @@ MonoBehaviour:
   exportCost: 100
   exportName: radiation collector
   exportMessage: 
+--- !u!114 &5933879109768817857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 6684f6484cbb9674f9522a2c07aa3aab, type: 2}
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 2f9708f30e072384b90ff2e8c13583b6,
+    type: 3}
+  canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
+  secondsToScrewdrive: 2
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
