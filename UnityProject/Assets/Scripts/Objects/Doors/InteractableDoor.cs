@@ -59,8 +59,8 @@ namespace Doors
 		{
 			this.interaction = interaction;
 
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) 
-				&& interaction.HandObject.TryGetComponent<Emag>(out var emag) 
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
+				&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
 				&& emag.EmagHasCharges())
 			{
 				TryEmag(emag, interaction);
@@ -123,7 +123,7 @@ namespace Doors
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4.5f,
 				"You start prying open the door...",
 				$"{interaction.Performer.ExpensiveName()} starts prying open the door...",
-				$"You force the door open with your {gameObject.ExpensiveName()}!",
+				$"You force the door open with your {interaction.HandObject.ExpensiveName()}!",
 				$"{interaction.Performer.ExpensiveName()} forces the door open!",
 				() =>
 				{

@@ -63,7 +63,7 @@ namespace Weapons
 		/// The firing pin currently inside the weapon
 		/// </summary>
 		public GunTrigger FiringPin =>
-			pinSlot.Item.GetComponent<GunTrigger>();
+			pinSlot.Item != null ? pinSlot.Item.GetComponent<GunTrigger>() : null;
 
 		/// <summary>
 		/// The firing pin to initally spawn within the gun
@@ -160,6 +160,12 @@ namespace Weapons
 		/// </summary>
 		[Tooltip("The firemode this weapon will use")]
 		public WeaponType WeaponType;
+
+		/// <summary>
+		/// Bool that dictates if players can switch out the firing pin
+		/// </summary>
+		[SerializeField]
+		protected bool allowPinSwap = true;
 
 		/// <summary>
 		/// Used only in server, the queued up shots that need to be performed when the weapon FireCountDown hits
@@ -372,7 +378,10 @@ namespace Weapons
 			//only reload if the gun is the target and mag/clip is in hand slot
 			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot && side == NetworkSide.Client)
 			{
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) || interaction.IsAltClick)
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) ||
+					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) ||
+					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin)  ||
+					interaction.IsAltClick)
 				{
 					return true;
 				}
@@ -412,6 +421,10 @@ namespace Weapons
 					DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
 				}
 			}
+			else
+			{
+				Chat.AddExamineMsgToClient("The " + gameObject.ExpensiveName() + "'s trigger is locked. It doesn't have a firing pin installed!");
+			}
 		}
 
 		//nothing to rollback
@@ -439,8 +452,8 @@ namespace Weapons
 				switch (shotResult) {
 
 					case 0:
-						// job requirement not met
-						Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} displays \'User authentication failed\'");
+						//requirement to fire not met
+						Chat.AddExamineMsg(interaction.Performer, FiringPin.DeniedMessage);
 						break;
 
 					case 1:
@@ -479,6 +492,10 @@ namespace Weapons
 						break;
 				}
 			}
+			else if (PlayerManager.LocalPlayer)
+			{
+				Chat.AddExamineMsgToClient("The " + gameObject.ExpensiveName() + "'s trigger is locked. It doesn't have a firing pin installed!");
+			}
 		}
 
 		public virtual void ServerPerformInteraction(HandActivate interaction)
@@ -505,6 +522,14 @@ namespace Weapons
 						SyncIsSuppressed(isSuppressed, true);
 						Inventory.ServerTransfer(interaction.FromSlot, suppressorSlot);
 					}
+					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
+					{
+						Inventory.ServerDrop(pinSlot);
+					}
+					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
+					{
+						Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
+					}
 				}
 				else if (isSuppressed && isSuppressible && suppressorSlot.Item != null)
 				{
@@ -516,7 +541,9 @@ namespace Weapons
 
 		public virtual string Examine(Vector3 pos)
 		{
-			return WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")";
+			return WeaponType + " - Fires " + ammoType + " ammunition (" + 
+			(CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")\n" + 
+			(FiringPin != null ? "It has a " + FiringPin.gameObject.ExpensiveName() + " installed." : "It doesn't have a firing pin installed, and won't fire.");
 		}
 
 		#endregion
@@ -621,7 +648,7 @@ namespace Weapons
 			}
 			else if (ammoType == magazine.ammoType)
 			{
-				Chat.AddExamineMsgToClient("You weapon is already loaded, you can't fit more Magazines in it, silly!");
+				Chat.AddExamineMsgToClient("Your weapon is already loaded, you can't fit more Magazines in it, silly!");
 				return false;
 			}
 			return false;

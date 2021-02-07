@@ -13,6 +13,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	[BoxGroup("Guns")] public ItemTrait Gun;
 	[BoxGroup("Guns")] public ItemTrait Suppressor;
 	[BoxGroup("Guns")] public ItemTrait WeaponCell;
+	[BoxGroup("Guns")] public ItemTrait FiringPin;
 
 	[BoxGroup("Food and related")] public ItemTrait Ingredient;
 	[BoxGroup("Food and related")] public ItemTrait Food;

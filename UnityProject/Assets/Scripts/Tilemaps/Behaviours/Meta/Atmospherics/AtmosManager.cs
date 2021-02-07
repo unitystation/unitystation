@@ -93,19 +93,19 @@ namespace Systems.Atmospherics
 
 		void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
+			EventManager.AddHandler(EVENT.PostRoundStarted, OnPostRoundStart);
 			EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
 			SceneManager.activeSceneChanged += OnSceneChange;
 		}
 
 		void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
+			EventManager.RemoveHandler(EVENT.PostRoundStarted, OnPostRoundStart);
 			EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
 			SceneManager.activeSceneChanged -= OnSceneChange;
 		}
 
-		void OnRoundStart()
+		void OnPostRoundStart()
 		{
 			if (Mode != AtmosMode.Manual)
 			{

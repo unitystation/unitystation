@@ -166,6 +166,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
+      propertyPath: pinPrefab
+      value: 
+      objectReference: {fileID: 2924494414112422035, guid: 12279ffb7a1786457b2cb1622619a80c,
+        type: 3}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
       propertyPath: WeaponType
       value: 0
       objectReference: {fileID: 0}
@@ -175,6 +181,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8670478144276522147, guid: 215c07b6aa6d556439078165149ba3a5,
         type: 3}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: allowPinSwap
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
