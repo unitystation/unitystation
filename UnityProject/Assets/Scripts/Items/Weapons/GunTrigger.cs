@@ -26,7 +26,7 @@ namespace Weapons
 		{
 			if (playHONK)
 			{
-				SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetSourceObj());
+				SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.ClownHonk, shotBy.AssumedWorldPosServer(), randomPitch, true, sourceObj: shotBy);
 			}
 
 			if (alwaysFail)
@@ -88,12 +88,5 @@ namespace Weapons
 		{
 			PredictionCanFire = newValue;
 		}
-
-		private GameObject GetSourceObj()
-		{
-			ItemSlot itemslot = gameObject.GetComponent<Pickupable>().ItemSlot;
-			return itemslot != null ? itemslot.ItemStorage.gameObject : gameObject;
-		}
-
 	}
 }

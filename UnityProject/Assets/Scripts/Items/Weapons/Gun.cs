@@ -492,6 +492,10 @@ namespace Weapons
 						break;
 				}
 			}
+			else if (PlayerManager.LocalPlayer)
+			{
+				Chat.AddExamineMsgToClient("The " + gameObject.ExpensiveName() + "'s trigger is locked. It doesn't have a firing pin installed!");
+			}
 		}
 
 		public virtual void ServerPerformInteraction(HandActivate interaction)
