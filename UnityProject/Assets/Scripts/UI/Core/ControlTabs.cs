@@ -193,7 +193,7 @@ public class ControlTabs : MonoBehaviour
 		Instance.HideTab(ClientTabType.ItemList);
 		Instance.HideTab(ClientTabType.Admin);
 
-		SelectTab(ClientTabType.Stats);
+		SelectTab(ClientTabType.Stats, false);
 	}
 
 	/// <summary>
@@ -202,7 +202,7 @@ public class ControlTabs : MonoBehaviour
 	public void ToggleOnAdminTab()
 	{
 		Instance.UnhideTab(ClientTabType.Admin);
-		Instance.SelectTab(ClientTabType.Stats);
+		Instance.SelectTab(ClientTabType.Stats, false);
 	}
 
 	//for every non-hidden tab: create new header and set its index value according to the tab index.

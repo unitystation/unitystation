@@ -9,7 +9,7 @@ namespace Messages.Server.LocalGuiMessages
 		public string AntagSound;
 		public Color TextColor;
 		public Color BackgroundColor;
-		private bool PlaySound;
+		public bool PlaySound;
 
 		public static AntagBannerMessage Send(
 			GameObject player,

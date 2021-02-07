@@ -112,9 +112,13 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// <summary>
 	/// Closes all menu panels (Menu and disclaimer)
 	/// </summary>
-	public void CloseMenuPanel()
+	public void CloseMenuPanel(bool doSound = true)
 	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		if (doSound)
+		{
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		}
+
 		Logger.Log($"Closing {menuWindow.name} menu", Category.UI);
 		HideAllMenus();
 	}

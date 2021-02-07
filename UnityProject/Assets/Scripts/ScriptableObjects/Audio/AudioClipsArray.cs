@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Audio.Containers
@@ -9,11 +12,12 @@ namespace Audio.Containers
 	[CreateAssetMenu(fileName = "AudioClipsArray", menuName = "ScriptableObjects/Audio/AudioClipsArray", order = 0)]
 	public class AudioClipsArray : ScriptableObject
 	{
-		[SerializeField] private List<AudioClip> audioClips = new List<AudioClip>();
+		[FormerlySerializedAs("audioClips")] [SerializeField]
+		private List<AddressableAudioSource> addressableAudioSource = new List<AddressableAudioSource>();
 
-		[NonSerialized] private List<AudioClip> shuffledClips = new List<AudioClip>();
+		[NonSerialized] private List<AddressableAudioSource> shuffledClips = new List<AddressableAudioSource>();
 
-		public List<AudioClip> AudioClips => audioClips;
+		public List<AddressableAudioSource> AddressableAudioSource => addressableAudioSource;
 
 		private int i = 0;
 
@@ -21,7 +25,7 @@ namespace Audio.Containers
 		/// Return null if there are no clips
 		/// </summary>
 		/// <returns> Random clip in range </returns>
-		public AudioClip GetRandomClip()
+		public AddressableAudioSource GetRandomClip()
 		{
 			if (shuffledClips.Count == 0)
 			{
@@ -37,55 +41,13 @@ namespace Audio.Containers
 
 		private bool Shuffle()
 		{
-			if (audioClips.Count == 0)
+			if (addressableAudioSource.Count == 0)
 			{
 				return false;
 			}
 
-			shuffledClips = audioClips.OrderBy(clip => Random.value).ToList();
+			shuffledClips = addressableAudioSource.OrderBy(clip => Random.value).ToList();
 			return true;
 		}
-
-		#region Editor
-
-		private void OnValidate()
-		{
-			RemoveNulls();
-			RemoveDuplicates();
-		}
-
-		private void RemoveNulls()
-		{
-			if (audioClips.Count == 0) return;
-			var audioList = audioClips.ToList();
-			for (int i = audioList.Count - 1; i >= 0; i--)
-			{
-				if (audioList[i] == null)
-				{
-					audioList.RemoveAt(i);
-				}
-			}
-
-			audioClips = audioList;
-		}
-
-		private void RemoveDuplicates()
-		{
-			if (audioClips.Count == 0) return;
-			var audioList = audioClips.ToList();
-			if (audioList.GroupBy(x => x.name).Any(g => g.Count() > 1) == false) return;
-			audioList = audioList.OrderBy(c => c.name).ToList();
-			for (int i = audioList.Count - 2; i >= 0; i--)
-			{
-				if (audioList[i] == audioList[i + 1])
-				{
-					audioList.RemoveAt(i);
-				}
-			}
-
-			audioClips = audioList;
-		}
-
-		#endregion
 	}
 }

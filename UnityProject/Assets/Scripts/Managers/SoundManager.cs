@@ -138,6 +138,14 @@ public class SoundManager : MonoBehaviour
 		AudioSource audioSource;
 		GameObject gameObject = await addressableAudioSource.Load();
 
+		if (gameObject == null)
+		{
+			Logger.LogError(
+				$"{addressableAudioSource.AudioSource.name} in SoundManager failed to load from address: {addressableAudioSource.AssetAddress}",
+				Category.Addressables);
+			return null;
+		}
+
 		if (!gameObject.TryGetComponent(out audioSource))
 		{
 			Logger.LogError(
@@ -198,7 +206,7 @@ public class SoundManager : MonoBehaviour
 		if (soundSpawnToken != string.Empty)
 		{
 			soundSpawn.Token = soundSpawnToken;
-			SoundSpawns[soundSpawn.Token] = soundSpawn;
+			SoundSpawns.Add(soundSpawnToken, soundSpawn);
 		}
 
 		return soundSpawn;
