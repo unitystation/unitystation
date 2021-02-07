@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Objects.Engineering
 {
-	public class RadiationCollector : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class RadiationCollector : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		private ElectricalNodeControl electricalNodeControl;
 		private ModuleSupplyingDevice moduleSupplyingDevice;
@@ -26,6 +26,9 @@ namespace Objects.Engineering
 		[SerializeField]
 		[Tooltip("radiationWatts * radiation tile level = watts this device will supply")]
 		private float radiationWatts = 100f;
+
+		private float generatedWatts = 0f;
+		private float radiationLevel = 0f;
 
 		#region LifeCycle
 
@@ -65,9 +68,17 @@ namespace Objects.Engineering
 			if(CustomNetworkManager.IsServer == false) return;
 
 			MetaDataNode node = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPositionServer);
-			if (node  == null) return;
+			if (node == null)
+			{
+				radiationLevel = 0;
+				moduleSupplyingDevice.ProducingWatts = 0;
+				return;
+			}
 
-			moduleSupplyingDevice.ProducingWatts = node.RadiationNode.RadiationLevel * radiationWatts;
+			radiationLevel = node.RadiationNode.RadiationLevel;
+			generatedWatts = radiationLevel * radiationWatts;
+
+			moduleSupplyingDevice.ProducingWatts = generatedWatts;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -145,12 +156,14 @@ namespace Objects.Engineering
 			if (isOn)
 			{
 				ChangePowerState(false);
+				mainSpriteHandler.AnimateOnce(3);
 				Chat.AddActionMsgToChat(interaction.Performer, "You turn off the radiation collector",
 					$"{interaction.Performer.ExpensiveName()} turns off the radiation collector");
 			}
 			else if (isWrenched)
 			{
 				ChangePowerState(true);
+				mainSpriteHandler.AnimateOnce(1);
 				Chat.AddActionMsgToChat(interaction.Performer, "You turn on the radiation collector",
 					$"{interaction.Performer.ExpensiveName()} turns on the radiation collector");
 			}
@@ -172,6 +185,11 @@ namespace Objects.Engineering
 				isOn = false;
 				electricalNodeControl.TurnOffSupply();
 			}
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return $"Radiation level is {radiationLevel}\nGenerating {generatedWatts} watts of energy";
 		}
 	}
 }

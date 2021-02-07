@@ -7,7 +7,7 @@ using Weapons;
 
 namespace Objects.Engineering
 {
-	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl
+	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable
 	{
 		private Directional directional;
 		private PushPull pushPull;
@@ -308,5 +308,10 @@ namespace Objects.Engineering
 		}
 
 		#endregion
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return $"Status: {isOn} and {isLocked}{(voltage < minVoltage && !alwaysShoot? $", voltage needs to be {minVoltage} to fire" : "")}";
+		}
 	}
 }

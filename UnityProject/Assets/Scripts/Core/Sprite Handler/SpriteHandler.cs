@@ -46,6 +46,8 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool isAnimation = false;
 
+	private bool animateOnce;
+
 	private Color? setColour = null;
 
 	[Tooltip("The palette that is applied to the Sprite Renderer, if the Present Sprite Set is paletted.")]
@@ -176,6 +178,33 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+	public void AnimateOnce(int SubCataloguePage, bool Network = true)
+	{
+		if (cataloguePage > -1 && SubCataloguePage == cataloguePage) return;
+
+		if (SubCataloguePage >= SubCatalogue.Count)
+		{
+			Logger.LogError("new SubCataloguePage Is out of bounds on " + this.transform.parent.gameObject);
+			return;
+		}
+
+		cataloguePage = SubCataloguePage;
+		if (isSubCatalogueChanged)
+		{
+			SetSpriteSO(SubCatalogue[SubCataloguePage]);
+		}
+		else
+		{
+			SetSpriteSO(SubCatalogue[SubCataloguePage], Network: false);
+			if (Network)
+			{
+				NetUpdate(NewCataloguePage: SubCataloguePage, NewAnimateOnce: true);
+			}
+		}
+
+		animateOnce = true;
+	}
+
 
 	public void SetSpriteSO(SpriteDataSO NewspriteDataSO, Color? color = null, int NewvariantIndex = -1,
 		bool Network = true)
@@ -299,7 +328,7 @@ public class SpriteHandler : MonoBehaviour
 		PushClear(false);
 		PresentSpriteSet = null;
 		OnSpriteDataSOChanged?.Invoke(null);
-		
+
 
 		if (Network)
 		{
@@ -420,7 +449,8 @@ public class SpriteHandler : MonoBehaviour
 		bool NewPushClear = false,
 		bool NewClearPallet = false,
 		Color? NewSetColour = null,
-		List<Color> NewPalette = null)
+		List<Color> NewPalette = null,
+		bool NewAnimateOnce = false)
 	{
 		if (NetworkThis == false) return;
 		if (SpriteHandlerManager.Instance == null) return;
@@ -497,6 +527,12 @@ public class SpriteHandler : MonoBehaviour
 		{
 			if (spriteChange.PushTexture) spriteChange.PushTexture = false;
 			spriteChange.PushClear = NewPushClear;
+		}
+
+		if (NewAnimateOnce)
+		{
+			if (spriteChange.AnimateOnce) spriteChange.AnimateOnce = false;
+			spriteChange.AnimateOnce = NewAnimateOnce;
 		}
 
 		if (NewClearPallet)
@@ -779,6 +815,18 @@ public class SpriteHandler : MonoBehaviour
 				if (animationIndex >= PresentSpriteSet.Variance[variantIndex].Frames.Count)
 				{
 					animationIndex = 0;
+
+					if (animateOnce)
+					{
+						if (CustomNetworkManager.IsServer)
+						{
+							ChangeSprite(SubCatalogue.Count - 1 >= CataloguePage + 1 ? CataloguePage + 1 : 0);
+						}
+
+						isAnimation = false;
+						UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+						return;
+					}
 				}
 				var frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 				SetSprite(frame);

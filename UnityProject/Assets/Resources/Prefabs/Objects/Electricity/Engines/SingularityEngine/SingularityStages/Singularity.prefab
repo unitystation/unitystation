@@ -103,10 +103,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b137ecbc04593249b954730673929e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   startingStage: 0
-  singularityPoints: 100
+  singularityPoints: 150
   maximumPoints: 3250
+  pointLossRate: 4
+  maxRadiation: 5000
   light: {fileID: 1404268602364526087}
+  eatenSuperMatter: 0
+  preventDowngrade: 0
+  zeroPointDeath: 1
 --- !u!1001 &8884009795189538112
 PrefabInstance:
   m_ObjectHideFlags: 0
