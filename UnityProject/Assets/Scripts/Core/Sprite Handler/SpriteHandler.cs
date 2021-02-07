@@ -155,6 +155,16 @@ public class SpriteHandler : MonoBehaviour
 
 	public void ChangeSprite(int SubCataloguePage, bool Network = true)
 	{
+		InternalChangeSprite(SubCataloguePage, Network);
+	}
+
+	public void AnimateOnce(int SubCataloguePage, bool Network = true)
+	{
+		InternalChangeSprite(SubCataloguePage, Network, true);
+	}
+
+	private void InternalChangeSprite(int SubCataloguePage, bool Network = true, bool AnimateOnce = false)
+	{
 		if (cataloguePage > -1 && SubCataloguePage == cataloguePage) return;
 
 		if (SubCataloguePage >= SubCatalogue.Count)
@@ -176,33 +186,8 @@ public class SpriteHandler : MonoBehaviour
 				NetUpdate(NewCataloguePage: SubCataloguePage);
 			}
 		}
-	}
 
-	public void AnimateOnce(int SubCataloguePage, bool Network = true)
-	{
-		if (cataloguePage > -1 && SubCataloguePage == cataloguePage) return;
-
-		if (SubCataloguePage >= SubCatalogue.Count)
-		{
-			Logger.LogError("new SubCataloguePage Is out of bounds on " + this.transform.parent.gameObject);
-			return;
-		}
-
-		cataloguePage = SubCataloguePage;
-		if (isSubCatalogueChanged)
-		{
-			SetSpriteSO(SubCatalogue[SubCataloguePage]);
-		}
-		else
-		{
-			SetSpriteSO(SubCatalogue[SubCataloguePage], Network: false);
-			if (Network)
-			{
-				NetUpdate(NewCataloguePage: SubCataloguePage, NewAnimateOnce: true);
-			}
-		}
-
-		animateOnce = true;
+		animateOnce = AnimateOnce;
 	}
 
 

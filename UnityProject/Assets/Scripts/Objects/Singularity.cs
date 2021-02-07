@@ -69,6 +69,7 @@ namespace Objects
 		private SpriteHandler spriteHandler;
 		private CustomNetTransform customNetTransform;
 		private int objectId;
+
 		private int lockTimer;
 		private bool pointLock;
 
@@ -134,8 +135,9 @@ namespace Objects
 
 			if (singularityPoints <= 0 && zeroPointDeath)
 			{
-				Despawn.ServerSingle(gameObject);
+				Chat.AddLocalMsgToChat("The singularity implodes", gameObject);
 				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, maxRadiation, objectId);
+				Despawn.ServerSingle(gameObject);
 				return;
 			}
 
@@ -326,6 +328,16 @@ namespace Objects
 					}
 					else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
 					{
+						if (objectToMove.TryGetComponent<SuperMatter>(out var superMatter) && superMatter != null)
+						{
+							//End of the world
+							eatenSuperMatter = true;
+							ChangePoints(3250);
+							Despawn.ServerSingle(objectToMove.gameObject);
+							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>", gameObject);
+							return;
+						}
+
 						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
 						    && fieldGenerator != null
 						    && CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5)
@@ -476,6 +488,7 @@ namespace Objects
 
 			if (noObstructions)
 			{
+				Chat.AddLocalMsgToChat($"The singularity fluctuates and {(newStage < CurrentStage ? "decreases" : "increases")} in size", gameObject);
 				CurrentStage = newStage;
 				lightVector = new Vector3(5 * ((int)newStage + 1), 5 * ((int)newStage + 1), 0);
 			}
