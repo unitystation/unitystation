@@ -71,6 +71,9 @@ public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IO
 	private RegisterTile registerTile;
 	private PushPull pushPull;
 
+	[SerializeField]
+	private Vector3 arcOffSet = new Vector3(0 ,0.5f, 0);
+
 	#region LifeCycle
 
 	private void Awake()
@@ -396,6 +399,7 @@ public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IO
 				}
 
 				connectedGenerator.Remove(generator.Key);
+				info.Destroyed.OnWillDestroyServer.RemoveListener(OnConnectedDestroy);
 				break;
 			}
 		}
@@ -646,7 +650,7 @@ public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IO
 			if(generator.Value.Item2 == false) continue;
 
 			var settings = new ElectricalArcSettings(electricalArc, gameObject, generator.Value.Item1,
-				Vector3.zero, Vector3.zero, 1, 1f);
+				arcOffSet, arcOffSet, 1, 1f, false, false);
 
 			ElectricalArc.ServerCreateNetworkedArcs(settings);
 		}

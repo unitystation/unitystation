@@ -5,7 +5,7 @@
 // Source code may NOT be redistributed or sold.
 //
 // Standard Asset Unitystation changes: make Random static, add event after lightning trigger.
-// 
+//
 
 using System;
 using UnityEngine;
@@ -289,11 +289,15 @@ namespace DigitalRuby.LightningBolt
             SelectOffsetFromAnimationMode();
         }
 
+        private void Awake()
+        {
+	        lineRenderer = GetComponent<LineRenderer>();
+	        lineRenderer.positionCount = 0;
+        }
+
         private void Start()
         {
             orthographic = (Camera.main != null && Camera.main.orthographic);
-            lineRenderer = GetComponent<LineRenderer>();
-            lineRenderer.positionCount = 0;
             UpdateFromMaterialChange();
         }
 
