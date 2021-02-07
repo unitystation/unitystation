@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Access;
 using Items;
 using UnityEngine;
 using Mirror;
@@ -66,12 +67,16 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	private Pickupable pickupable;
 
 	private ItemAttributesV2 itemAttributes;
+	private AccessHolder accessHolder;
+
+	public List<Systems.Access.AccessRestrictions> Restrictions => accessHolder.OrNull()?.Restrictions;
 
 	private void Awake()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		pickupable = GetComponent<Pickupable>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
+		accessHolder = GetComponent<AccessHolder>();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)

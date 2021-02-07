@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using Systems.Access;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
@@ -68,6 +70,8 @@ namespace Items.PDA
 		public bool IsUplinkLocked { get; private set; } = true;
 		/// <summary> The count of how many telecrystals this PDA has </summary>
 		public int UplinkTC { get; private set; }
+
+		public List<Systems.Access.AccessRestrictions> Restrictions => IDCard.gameObject.OrNull()?.GetComponent<AccessHolder>().Restrictions;
 
 		public bool FlashlightOn => flashlight.IsOn;
 

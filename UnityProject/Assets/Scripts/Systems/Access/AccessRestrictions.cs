@@ -1,6 +1,6 @@
 ﻿namespace Systems.Access
 {
-	public enum AccessDefinitions
+	public enum AccessRestrictions
 	{
 		NONE = 0,
 		// Security equipment, security records, gulag item storage, secbots
