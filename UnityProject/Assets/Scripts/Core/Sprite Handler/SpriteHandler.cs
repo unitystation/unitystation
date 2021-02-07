@@ -183,7 +183,7 @@ public class SpriteHandler : MonoBehaviour
 			SetSpriteSO(SubCatalogue[SubCataloguePage], Network: false);
 			if (Network)
 			{
-				NetUpdate(NewCataloguePage: SubCataloguePage);
+				NetUpdate(NewCataloguePage: SubCataloguePage, NewAnimateOnce: AnimateOnce);
 			}
 		}
 
