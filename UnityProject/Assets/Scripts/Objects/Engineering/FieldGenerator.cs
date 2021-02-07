@@ -365,10 +365,12 @@ public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IO
 
 				var matrix = MatrixManager.AtPoint(pos, true);
 
-				var tileName = matrix.TileChangeManager.MetaTileMap
-					.GetTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Windows).name;
+				var layerTile = matrix.TileChangeManager.MetaTileMap
+					.GetTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Windows);
 
-				if (tileName == horizontal.name || tileName == vertical.name)
+				if (layerTile == null) continue;
+
+				if (layerTile.name == horizontal.name || layerTile.name == vertical.name)
 				{
 					matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Windows);
 				}

@@ -52,9 +52,15 @@ namespace Objects
 		private LightSprite light = null;
 
 		[SerializeField]
+		[Tooltip("Allows singularity to be stage 6")]
 		private bool eatenSuperMatter;
 
 		[SerializeField]
+		[Tooltip("If true singularity wont go down a stage if it loses points")]
+		private bool preventDowngrade = false;
+
+		[SerializeField]
+		[Tooltip("If true singularity wont die at 0 points")]
 		private bool zeroPointDeath = true;
 
 		private Transform lightTransform;
@@ -135,7 +141,7 @@ namespace Objects
 			//Points decrease by 4 every 0.5 seconds, unless locked by PA at setting 0
 			if (pointLock == false)
 			{
-				singularityPoints -= pointLossRate;
+				ChangePoints(-pointLossRate);
 			}
 
 			TryChangeStage();
@@ -448,6 +454,8 @@ namespace Objects
 		private void ChangeStage(SingularityStages newStage)
 		{
 			if (CurrentStage == newStage) return;
+
+			if(preventDowngrade && newStage < CurrentStage) return;
 
 			int radius = GetRadius(newStage);
 

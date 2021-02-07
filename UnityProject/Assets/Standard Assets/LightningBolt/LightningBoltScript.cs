@@ -97,7 +97,7 @@ namespace DigitalRuby.LightningBolt
         private List<KeyValuePair<Vector3, Vector3>> segments = new List<KeyValuePair<Vector3, Vector3>>();
         private int startIndex;
         private Vector2 size;
-        private Vector2[] offsets;
+        private Vector2[] offsets = new Vector2[0];
         private int animationOffsetIndex;
         private int animationPingPongDirection = 1;
         private bool orthographic;
@@ -223,9 +223,11 @@ namespace DigitalRuby.LightningBolt
         {
             int index;
 
+            if(offsets.Length == 0) return;
+
             if (AnimationMode == LightningBoltAnimationMode.None)
             {
-                lineRenderer.material.mainTextureOffset = offsets[0];
+	            lineRenderer.material.mainTextureOffset = offsets[0];
                 return;
             }
             else if (AnimationMode == LightningBoltAnimationMode.PingPong)
