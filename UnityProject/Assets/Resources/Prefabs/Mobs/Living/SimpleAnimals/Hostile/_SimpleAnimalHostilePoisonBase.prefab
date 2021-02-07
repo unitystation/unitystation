@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,16 +45,6 @@ PrefabInstance:
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
@@ -65,7 +65,32 @@ PrefabInstance:
     - target: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_Name
-      value: _SimpleAnimalHostileBase
+      value: _SimpleAnimalHostilePoisonBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: tickRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: activated
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: targetOtherPlayersWhoGetInWay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: agentParameters.onDemandDecision
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
