@@ -35,7 +35,7 @@ namespace Systems.ElectricalArcs
 				return;
 			}
 
-			var settings = new ElectricalArcSettings(prefab, startObject, endObject, startPosition, endPosition, arcCount, duration, reachCheck);
+			var settings = new ElectricalArcSettings(prefab, startObject, endObject, startPosition, endPosition, arcCount, duration, reachCheck, addRandomness);
 			new ElectricalArc().CreateArcs(settings);
 		}
 
