@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 969f370ba378d7e479e68212bf295e8f, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -200,6 +201,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 6345ccfc8983cdd489aa04c42d86260c, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -219,6 +221,17 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: FireRate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: pinPrefab
+      value: 
+      objectReference: {fileID: 109032868588680718, guid: 445a2ff9261814a549e8c255bb2580aa,
+        type: 3}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 3417397333577640349, guid: 857e3b9968507b6419c8eefb3f1dfd9b,
@@ -230,23 +243,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: allowPinSwap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: allowMagazineRemoval
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: FireRate
-      value: 2
+      propertyPath: DryFireSound.AssetAddress
+      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/Shotgun/ShotgunShotAlt.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: DryFireSound.AssetAddress
-      value: Assets/Prefabs/AmbientTracks/Ambient04.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 2297580117821714339, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -256,13 +269,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: initialName
+      value: Bulldozer shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: initialSize
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: initialName
-      value: Bulldozer shotgun
+      propertyPath: initialDescription
+      value: A semi-auto, mag-fed shotgun for combat in narrow corridors, used by
+        boarding parties. Compatible only with specialized 8-round drum magazines.
       objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -276,12 +295,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dc212bdd1c009e54facfad0baf16a9ab,
         type: 2}
-    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: initialDescription
-      value: A semi-auto, mag-fed shotgun for combat in narrow corridors, used by
-        boarding parties. Compatible only with specialized 8-round drum magazines.
-      objectReference: {fileID: 0}
     - target: {fileID: 3301342883353866999, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: m_Sprite
@@ -300,6 +313,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -315,6 +333,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -327,16 +350,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}

@@ -256,6 +256,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: pinPrefab
+      value: 
+      objectReference: {fileID: 109032868588680718, guid: 445a2ff9261814a549e8c255bb2580aa,
+        type: 3}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 21396104557255652, guid: b0bb7b40f7e10864e9bba0bd2123cfcb,
@@ -270,6 +276,11 @@ PrefabInstance:
         type: 3}
       propertyPath: FiringSound
       value: ShootLMG
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: allowPinSwap
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}

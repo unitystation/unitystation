@@ -82,5 +82,16 @@ PrefabInstance:
       propertyPath: initialSize
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7753174079917532174, guid: 24b21da59a1c48248805096709dceca1,
+        type: 3}
+      propertyPath: pinPrefab
+      value: 
+      objectReference: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+        type: 3}
+    - target: {fileID: 7753174079917532174, guid: 24b21da59a1c48248805096709dceca1,
+        type: 3}
+      propertyPath: allowPinSwap
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24b21da59a1c48248805096709dceca1, type: 3}
