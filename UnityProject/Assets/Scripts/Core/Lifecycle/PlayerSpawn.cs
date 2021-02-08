@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Systems;
 using Systems.Spawns;
+using Messages.Server.LocalGuiMessages;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.
@@ -23,13 +24,26 @@ public static class PlayerSpawn
 	/// <param name="joinedViewer">viewer who should control the player</param>
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
+	/// <param name="showBanner">whether to show banner when spawned</param>
 	/// <returns>the game object of the spawned player</returns>
-	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings)
+	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
 	{
 		NetworkConnection conn = joinedViewer.connectionToClient;
 
 		// TODO: add a nice cutscene/animation for the respawn transition
 		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null);
+
+		if (occupation != null && showBanner)
+		{
+			SpawnBannerMessage.Send(
+				newPlayer,
+				occupation.DisplayName,
+				occupation.SpawnSound.AssetAddress,
+				occupation.TextColor,
+				occupation.BackgroundColor,
+				occupation.PlaySound);
+		}
+
 		if (newPlayer != null && occupation.IsCrewmember)
 		{
 			CrewManifestManager.Instance.AddMember(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);

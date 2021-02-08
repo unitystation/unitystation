@@ -15,12 +15,19 @@ MonoBehaviour:
   antagName: Nuclear Operative
   antagJobType: 36
   playSound: 1
-  spawnSound: ops
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/Ops.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   textColor: {r: 1, g: 0, b: 0, a: 1}
   backgroundColor: {r: 0.54901963, g: 0, b: 0, a: 0.19607843}
   numberOfObjectives: 2
   canUseSharedObjectives: 0
   needsEscapeObjective: 0
+  chanceForGimmickObjective: 0
   coreObjectives:
   - {fileID: 11400000, guid: 1a15330eccadc7044b35b5a49a4154b4, type: 2}
   - {fileID: 11400000, guid: b6107e1c868bada4da25dc2fc840e411, type: 2}

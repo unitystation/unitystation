@@ -35,24 +35,10 @@ namespace Audio.Managers
 		private Dictionary<AddressableAudioSource, string> playingSource = new Dictionary<AddressableAudioSource, string>();
 
 		[SerializeField] private AudioClipsArray ambientSoundsArray = null;
-		[SerializeField] private AudioMixerGroup audioMixerGroup = null;
 
-		public static void StopAudio(AddressableAudioSource audioSource)
+		public static void PlayAudio(string assetAddress)
 		{
-			if (audioSource == null || Instance.playingSource.ContainsKey(audioSource) == false) return;
-
-			audioSource.AudioSource.loop = false;
-			SoundManager.Stop(Instance.playingSource[audioSource]);
-		}
-
-		public static void PlayAudio(string trackName)
-		{
-			var audioSource = GetAudioSourceOrNull(trackName);
-			if (audioSource == null)
-			{
-				Debug.LogError($"tried to find {trackName}");
-				return;
-			}
+			var audioSource = new AddressableAudioSource(assetAddress);
 
 			if (Instance.playingSource.ContainsKey(audioSource))
 			{
@@ -65,28 +51,40 @@ namespace Audio.Managers
 			SoundManager.Play(audioSource, guid);
 		}
 
-		private static AddressableAudioSource GetAudioSourceOrNull(string trackName)
+		public static void PlayAudio(AddressableAudioSource source)
 		{
-			if (trackName == null)
+			if (source == null)
 			{
-				Logger.LogError("Track name is null.", Category.SoundFX);
-				return null;
+				return;
 			}
 
-			return TryFindAudioSource(trackName);
+			if (Instance.playingSource.ContainsKey(source))
+			{
+				SoundManager.Stop(Instance.playingSource[source]);
+				Instance.playingSource.Remove(source);
+			}
+
+			var guid = Guid.NewGuid().ToString();
+			Instance.playingSource.Add(source, guid);
+			SoundManager.Play(source, guid);
 		}
 
-		private static AddressableAudioSource TryFindAudioSource(string trackName)
+		public static void StopAudio(string assetAddress)
 		{
-			var audioSource = FindAudioSource(trackName);
+			var audioSource = new AddressableAudioSource(assetAddress);
 
-			if (audioSource == null)
-			{
-				Logger.LogError($"Didn't find track: {trackName}", Category.SoundFX);
-				return null;
-			}
+			if (Instance.playingSource.ContainsKey(audioSource) == false) return;
 
-			return audioSource;
+			audioSource.AudioSource.loop = false;
+			SoundManager.Stop(Instance.playingSource[audioSource]);
+		}
+
+		public static void StopAudio(AddressableAudioSource audioSource)
+		{
+			if (audioSource == null || Instance.playingSource.ContainsKey(audioSource) == false) return;
+
+			audioSource.AudioSource.loop = false;
+			SoundManager.Stop(Instance.playingSource[audioSource]);
 		}
 
 		private static AddressableAudioSource FindAudioSource(string trackName)

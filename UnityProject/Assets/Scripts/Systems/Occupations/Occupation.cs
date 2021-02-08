@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using AddressableReferences;
+using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -126,4 +128,30 @@ public class Occupation : ScriptableObject
 	[SerializeField] private bool isTargeteable=true;
 
 	public bool IsTargeteable => isTargeteable;
+
+	[BoxGroup("Spawn Banner")]
+	[Tooltip("Should this occupation play a sound cue on spawn?")]
+	[SerializeField]
+	private bool playSound = false;
+	public bool PlaySound => playSound;
+
+	[BoxGroup("Spawn Banner")]
+	[ShowIf(nameof(playSound))]
+	[Tooltip("The sound a player hears when they spawn as this occupation.")]
+	[SerializeField]
+	private AddressableAudioSource spawnSound = null;
+
+	public AddressableAudioSource SpawnSound => spawnSound;
+
+	[BoxGroup("Spawn Banner")]
+	[Tooltip("What color should the text in the spawn banner be for this occupation.")]
+	[SerializeField]
+	private Color textColor = Color.red;
+	public Color TextColor => textColor;
+
+	[BoxGroup("Spawn Banner")]
+	[Tooltip("The color for the background of the banner")]
+	[SerializeField]
+	private Color backgroundColor = Color.red;
+	public Color BackgroundColor => backgroundColor;
 }
