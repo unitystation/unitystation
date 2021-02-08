@@ -80,4 +80,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait RawCottonBundle;
 	public ItemTrait RawDurathreadBundle;
 	public ItemTrait BluespaceActivity;
+	public ItemTrait Id;
 }

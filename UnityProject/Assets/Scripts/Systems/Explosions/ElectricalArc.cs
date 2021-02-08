@@ -40,7 +40,7 @@ namespace Systems.ElectricalArcs
 		{
 			Settings = settings;
 
-			if (CanReach() == false) return;
+			if (settings.reachCheck && CanReach() == false) return;
 
 			arcs = new LightningBoltScript[settings.arcCount];
 			for (int i = 0; i < settings.arcCount; i++)
@@ -66,15 +66,20 @@ namespace Systems.ElectricalArcs
 			foreach (var arc in arcs)
 			{
 				// Add some random end position variation for flavour.
-				arc.EndPosition = Settings.endPosition +
-						new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.3f, 0.3f), 1);
+				arc.EndPosition = Settings.endPosition;
+
+				if (Settings.addRandomness)
+				{
+					arc.EndPosition += new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.3f, 0.3f), 1);
+				}
+
 				arc.Trigger();
 			}
 		}
 
 		private void DoPulse()
 		{
-			if (CanReach() == false)
+			if (Settings.reachCheck && CanReach() == false)
 			{
 				EndArcs();
 			}
@@ -149,9 +154,12 @@ namespace Systems.ElectricalArcs
 		public readonly Vector3 endPosition;
 		public readonly int arcCount;
 		public readonly float duration;
+		public readonly bool reachCheck;
+		public readonly bool addRandomness;
 
 		public ElectricalArcSettings(GameObject arcEffectPrefab, GameObject startObject, GameObject endObject,
-				Vector3 startWorldPos, Vector3 endWorldPos, int arcCount = 1, float duration = 2)
+				Vector3 startWorldPos, Vector3 endWorldPos, int arcCount = 1, float duration = 2, bool reachCheck = true,
+				bool addRandomness = true)
 		{
 			this.arcEffectPrefab = arcEffectPrefab;
 			this.startObject = startObject;
@@ -160,6 +168,8 @@ namespace Systems.ElectricalArcs
 			endPosition = endWorldPos;
 			this.arcCount = arcCount;
 			this.duration = duration;
+			this.reachCheck = reachCheck;
+			this.addRandomness = addRandomness;
 		}
 	}
 }

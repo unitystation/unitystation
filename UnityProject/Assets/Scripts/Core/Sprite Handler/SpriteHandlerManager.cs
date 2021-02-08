@@ -189,6 +189,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		public bool ClearPallet = false;
 		public Color? SetColour = null;
 		public List<Color> Pallet = null;
+		public bool AnimateOnce = false;
 
 		public void Clean()
 		{
@@ -201,6 +202,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 			ClearPallet = false;
 			SetColour = null;
 			Pallet = null;
+			AnimateOnce = false;
 		}
 
 
@@ -244,6 +246,12 @@ public class SpriteHandlerManager : NetworkBehaviour
 			{
 				if (PushTexture) PushTexture = false;
 				PushClear = spriteChange.PushClear;
+			}
+
+			if (spriteChange.AnimateOnce)
+			{
+				if (AnimateOnce) AnimateOnce = false;
+				AnimateOnce = spriteChange.AnimateOnce;
 			}
 
 			if (spriteChange.SetColour != null)
