@@ -458,7 +458,7 @@ namespace Weapons
 
 					case 1:
 						// shooting a clusmy weapon as a non-clusmy person
-						ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, true);
+						ServerShoot(interaction.Performer, interaction.TargetVector.normalized, BodyPartType.Head, true);
 						Chat.AddActionMsgToChat(interaction.Performer,
 						"You somehow shoot yourself in the face! How the hell?!",
 						$"{interaction.Performer.ExpensiveName()} somehow manages to shoot themself in the face!");

@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -69,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 40
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -97,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -114,12 +116,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 80b6946b53e48b944b0b60b7ee05ce56,
         type: 2}
-    - target: {fileID: 4881930153370599954, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+    - target: {fileID: 2877372072106784990, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
-      propertyPath: genericInternalMag
+      propertyPath: SubCatalogue.Array.data[0]
       value: 
-      objectReference: {fileID: 484621910317547679, guid: 4a6e2f5fc0231d74fb2bb97ddc3fd9d8,
+      objectReference: {fileID: 11400000, guid: 80b6946b53e48b944b0b60b7ee05ce56,
+        type: 2}
+    - target: {fileID: 2877372072106784990, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4660db7e1cecec14d86fd414926bd104,
+        type: 2}
     - target: {fileID: 4881930153370599954, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
       propertyPath: MagSize
@@ -128,6 +136,12 @@ PrefabInstance:
     - target: {fileID: 4881930153370599954, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
       propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 484621910317547679, guid: 4a6e2f5fc0231d74fb2bb97ddc3fd9d8,
+        type: 3}
+    - target: {fileID: 4881930153370599954, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+        type: 3}
+      propertyPath: genericInternalMag
       value: 
       objectReference: {fileID: 484621910317547679, guid: 4a6e2f5fc0231d74fb2bb97ddc3fd9d8,
         type: 3}
@@ -149,6 +163,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8267456284761734701, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267456284761734701, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -164,6 +183,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8267456284761734701, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267456284761734701, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -176,16 +200,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8267456284761734701, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8267456284761734701, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8267456284761734701, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
@@ -209,11 +223,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8378383212809989179, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8378383212809989179, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
-        type: 3}
       propertyPath: initialName
       value: improvised shotgun
       objectReference: {fileID: 0}
@@ -221,6 +230,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Essentially a tube that aims shotgun shells.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8378383212809989179, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8378383212809989179, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
