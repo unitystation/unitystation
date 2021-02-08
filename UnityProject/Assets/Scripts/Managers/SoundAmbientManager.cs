@@ -87,19 +87,6 @@ namespace Audio.Managers
 			SoundManager.Stop(Instance.playingSource[audioSource]);
 		}
 
-		private static AddressableAudioSource FindAudioSource(string trackName)
-		{
-			foreach (var audioSource in Instance.ambientAudioSources)
-			{
-				if (audioSource.Value.AudioSource.clip.name == trackName)
-				{
-					return audioSource.Value;
-				}
-			}
-
-			return null;
-		}
-
 		/// <summary>
 		/// Stops all AudioSources on this manager
 		/// </summary>
