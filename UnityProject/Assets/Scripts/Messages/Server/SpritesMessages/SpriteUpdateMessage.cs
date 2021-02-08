@@ -180,6 +180,13 @@ public class SpriteUpdateMessage : ServerMessage
 			Scanning = GotoIndexOfNextControlCharacter(SerialiseData, Scanning);
 		}
 
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '#')
+		{
+			Scanning += 1;
+			Start = Scanning;
+			Scanning = GotoIndexOfNextControlCharacter(SerialiseData, Scanning);
+		}
+
 		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == ',')
 		{
 			Scanning++;
@@ -326,6 +333,12 @@ public class SpriteUpdateMessage : ServerMessage
 		if (spriteChange.CataloguePage != -1)
 		{
 			ToReturn.Append("&");
+			ToReturn.Append(spriteChange.CataloguePage.ToString());
+		}
+
+		if (spriteChange.AnimateOnce)
+		{
+			ToReturn.Append("#");
 			ToReturn.Append(spriteChange.CataloguePage.ToString());
 		}
 

@@ -264,7 +264,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.5
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -276,9 +276,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.227451, g: 0.30588236, b: 0.8000001, a: 0.7058824}
-      key1: {r: 0.827451, g: 0.79607844, b: 1, a: 0.7058824}
-      key2: {r: 0, g: 0, b: 0, a: 0.84313726}
+      key0: {r: 0.23137255, g: 0.30980393, b: 0.8000001, a: 0.53333336}
+      key1: {r: 0.23137255, g: 0.30980393, b: 0.8000001, a: 0.38039216}
+      key2: {r: 0.23137255, g: 0.30980393, b: 0.8, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -286,7 +286,7 @@ LineRenderer:
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 65535
-      ctime2: 0
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -300,7 +300,7 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -610,12 +610,12 @@ PrefabInstance:
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: Color.g
-      value: 0.33333334
+      value: 0.30980393
       objectReference: {fileID: 0}
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: Color.r
-      value: 0.2627451
+      value: 0.23137255
       objectReference: {fileID: 0}
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
