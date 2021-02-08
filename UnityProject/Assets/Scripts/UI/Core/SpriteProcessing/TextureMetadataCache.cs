@@ -14,7 +14,7 @@ namespace UI.Core.SpriteProcessing
 			cache = new Dictionary<Texture2D, TextureMetadata>();
 		}
 		#else
-		private static readonly Dictionary<Texture2D, TextureMetadata> texturesMetadata =
+		private static readonly Dictionary<Texture2D, TextureMetadata> cache =
 			new Dictionary<Texture2D, TextureMetadata>();
 		#endif
 
