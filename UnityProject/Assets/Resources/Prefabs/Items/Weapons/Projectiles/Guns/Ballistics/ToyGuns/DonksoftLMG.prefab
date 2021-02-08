@@ -117,6 +117,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
+      propertyPath: pinPrefab
+      value: 
+      objectReference: {fileID: 2924494414112422035, guid: 12279ffb7a1786457b2cb1622619a80c,
+        type: 3}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 8926349090719206047, guid: f29df69b3b938f941b3064a2cb7dc4b6,
@@ -135,6 +141,11 @@ PrefabInstance:
     - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
       propertyPath: SpawnsCasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: allowPinSwap
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,

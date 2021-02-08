@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: pinPrefab
+      value: 
+      objectReference: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+        type: 3}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: allowPinSwap
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2494139950867988427, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
       propertyPath: m_AssetId
@@ -16,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BuzzsawLMGUnrestricted
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
@@ -34,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2529686714885275403, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}

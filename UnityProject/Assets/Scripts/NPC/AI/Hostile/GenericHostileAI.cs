@@ -120,11 +120,12 @@ namespace Systems.MobAIs
 				if (MatrixManager.Linecast(
 					gameObject.WorldPosServer(),
 					LayerTypeSelection.Walls,
-					LayerMask.NameToLayer(""),
-					coll.gameObject.WorldPosServer()).ItHit)
+					null,
+					coll.gameObject.WorldPosServer()).ItHit == false)
 				{
 					return coll.gameObject;
 				}
+
 			}
 
 			return null;
