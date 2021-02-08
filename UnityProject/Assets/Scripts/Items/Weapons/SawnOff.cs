@@ -50,12 +50,6 @@ public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>
 			//TODO: switch this trait to the circular saw when that is implemented
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder))
 			{
-				// Don't overwrite recoil conf if it isn't setup
-				// TODO: network this change using a syncvar serverside so it effects all clients
-				if (SawnCameraRecoilConfig.Distance != 0f)
-				{
-					gunComp.CameraRecoilConfig = SawnCameraRecoilConfig;
-				}
 				return true;
 			}
 		}
@@ -79,7 +73,7 @@ public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>
 				{
 					gunComp.ServerShoot(interaction.Performer, Vector2.zero, BodyPartType.Head, true);
 					Chat.AddActionMsgToChat(interaction.Performer,
-					$"The {gameObject.ExpensiveName()} goes off in  your face!",
+					$"The {gameObject.ExpensiveName()} goes off in your face!",
 					$"The {gameObject.ExpensiveName()} goes off in {interaction.Performer.ExpensiveName()}'s face!");
 				}
 				else
@@ -92,10 +86,9 @@ public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>
    					spriteHandler.ChangeSprite(1);
 
 					// Don't overwrite recoil conf if it isn't setup
-					// TODO: network this change using a syncvar serverside so it effects all clients
 					if (SawnCameraRecoilConfig.Distance != 0f)
 					{
-						gunComp.CameraRecoilConfig = SawnCameraRecoilConfig;
+						gunComp.SyncCameraRecoilConfig(gunComp.CameraRecoilConfig, SawnCameraRecoilConfig);
 					}
 
    					gunComp.MaxRecoilVariance = sawnMaxRecoilVariance;

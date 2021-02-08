@@ -152,8 +152,13 @@ namespace Weapons
 		/// <summary>
 		/// Describes the recoil behavior of the camera when this gun is fired
 		/// </summary>
-		[Tooltip("Describes the recoil behavior of the camera when this gun is fired")]
-		public CameraRecoilConfig CameraRecoilConfig;
+		[Tooltip("Describes the recoil behavior of the camera when this gun is fired"), SyncVar(hook = nameof(SyncCameraRecoilConfig))]
+		public CameraRecoilConfig CameraRecoilConfig = new CameraRecoilConfig
+		{
+			Distance = 0.2f,
+			RecoilDuration = 0.05f,
+			RecoveryDuration = 0.6f
+		};
 
 		/// <summary>
 		/// The firemode this weapon will use (burst,semi,auto)
@@ -798,16 +803,6 @@ namespace Weapons
 				//add additional recoil after shooting for the next round
 				AppendRecoil();
 
-				//Default camera recoil params until each gun is configured separately
-				if (CameraRecoilConfig == null || CameraRecoilConfig.Distance == 0f)
-				{
-					CameraRecoilConfig = new CameraRecoilConfig
-					{
-						Distance = 0.2f,
-						RecoilDuration = 0.05f,
-						RecoveryDuration = 0.6f
-					};
-				}
 				Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 			}
 
@@ -961,11 +956,19 @@ namespace Weapons
 		#region Weapon Network Supporting Methods
 
 		/// <summary>
-		/// Syncs server and client ammo.
+		/// Syncs suppressed bool.
 		/// </summary>
 		private void SyncIsSuppressed(bool oldValue, bool newValue)
 		{
 			isSuppressed = newValue;
+		}
+
+		/// <summary>
+		/// Syncs the recoil config.
+		/// </summary>
+		public void SyncCameraRecoilConfig(CameraRecoilConfig oldValue, CameraRecoilConfig newValue)
+		{
+			CameraRecoilConfig = newValue;
 		}
 
 		/// <summary>
