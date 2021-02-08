@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Audio.Containers
@@ -128,7 +129,7 @@ namespace Audio.Containers
 			}
 		}
 
-		private async void PlayRandomTrack()
+		private async Task PlayRandomTrack()
 		{
 			if (CustomNetworkManager.IsHeadless) return;
 

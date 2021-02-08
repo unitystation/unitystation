@@ -2,6 +2,7 @@
 using Mirror;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 using Systems.Electricity;
 using AddressableReferences;
@@ -147,7 +148,12 @@ namespace Objects
 		}
 
 		// Start is called before the first frame update
-		private async void Start()
+		private void Start()
+		{
+			InternalStart();
+		}
+
+		private async Task InternalStart()
 		{
 			// We want the same musics that are in the lobby,
 			// so, I copy it's playlist here instead of managing two different playlists in UnityEditor.
@@ -184,7 +190,7 @@ namespace Objects
 			}
 		}
 
-		public async void Play()
+		public async Task Play()
 		{
 			// Too much damage stops the jukebox from being able to play
 			if (integrity.integrity > integrity.initialIntegrity / 2)

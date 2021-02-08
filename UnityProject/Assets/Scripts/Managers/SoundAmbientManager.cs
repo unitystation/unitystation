@@ -151,7 +151,7 @@ namespace Audio.Managers
 			LoadClips(Instance.ambientSoundsArray.AddressableAudioSource);
 		}
 
-		public async void LoadClips(List<AddressableAudioSource> audioSources)
+		public async Task LoadClips(List<AddressableAudioSource> audioSources)
 		{
 			foreach (var source in audioSources)
 			{
