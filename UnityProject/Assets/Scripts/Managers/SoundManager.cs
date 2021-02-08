@@ -182,6 +182,11 @@ public class SoundManager : MonoBehaviour
 
 	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
+		foreach (var sound in Instance.SoundSpawns)
+		{
+			sound.Value.AudioSource.Stop();
+		}
+
 		Instance.SoundSpawns.Clear();
 	}
 
@@ -220,6 +225,8 @@ public class SoundManager : MonoBehaviour
 		{
 			var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
 			NonplayingSounds[addressableAudioSource.AssetAddress].RemoveAt(0);
+			ToReturn.Token = soundSpawnToken;
+			SoundSpawns.Add(soundSpawnToken, ToReturn);
 			return ToReturn;
 		}
 
