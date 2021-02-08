@@ -17,6 +17,9 @@ namespace UI.Core
 			if (image == null || sprite == null) return SpriteMetadata.Default;
 
 			var texData = TextureMetadataCache.GetTextureMetadataFor(sprite);
+
+			if (texData == null) return SpriteMetadata.Default;
+
 			var spriteData = texData.GetSpriteData(sprite);
 			var imageTransform = (RectTransform)image.transform;
 			var imageRect = imageTransform.rect;
