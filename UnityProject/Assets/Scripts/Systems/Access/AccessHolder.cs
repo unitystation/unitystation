@@ -11,7 +11,7 @@ namespace Systems.Access
 		[SerializeField]
 		[ReorderableList]
 		[Tooltip("Assign all acceses this object should store to be checked against the relevant objects that require access.")]
-		private List<AccessRestrictions> restrictions;
+		private List<AccessRestrictions> restrictions = default;
 
 		private PDALogic pdaLogic;
 
