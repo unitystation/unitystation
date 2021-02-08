@@ -78,7 +78,7 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 	{
 		if (!playerSlot.IsEmpty && targetSlot.IsEmpty)
 		{
-			if(!Validations.CanFit(targetSlot, playerSlot.Item, NetworkSide.Client, examineRecipient: PlayerManager.LocalPlayerScript.gameObject))
+			if(!Validations.CanFit(targetSlot, playerSlot.Item, NetworkSide.Client, examineRecipient: playerScript.gameObject))
 			{
 				return false;
 			}
