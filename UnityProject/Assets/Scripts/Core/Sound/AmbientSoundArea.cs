@@ -1,5 +1,9 @@
-﻿using Audio.Containers;
+﻿using System;
+using System.Collections.Generic;
+using AddressableReferences;
+using Audio.Containers;
 using Audio.Managers;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +15,7 @@ public class AmbientSoundArea : MonoBehaviour
 {
 	[SerializeField] private AudioClipsArray enteringSoundTrack = null;
 	[SerializeField] private AudioClipsArray leavingSoundTrack = null;
-	private AudioClip currentTrack = null;
+	private string guid = "";
 
 	public void OnTriggerEnter2D(Collider2D coll)
 	{
@@ -30,20 +34,20 @@ public class AmbientSoundArea : MonoBehaviour
 
 		if (isEntering)
 		{
-			PlayAudio(enteringSoundTrack.GetRandomClip());
+			PlayAudio(enteringSoundTrack.AddressableAudioSource.GetRandom());
 		}
 		else
 		{
-			PlayAudio(leavingSoundTrack.GetRandomClip());
+			PlayAudio(leavingSoundTrack.AddressableAudioSource.GetRandom());
 		}
 	}
 
-	private void PlayAudio(AudioClip clipToPlay)
+	private void PlayAudio(AddressableAudioSource clipToPlay)
 	{
 		if (clipToPlay == null) return;
 
-		SoundAmbientManager.StopAudio(currentTrack);
-		currentTrack = clipToPlay;
-		SoundAmbientManager.PlayAudio(currentTrack, isLooped: true);
+		SoundManager.Stop(guid);
+		guid = Guid.NewGuid().ToString();
+		SoundManager.Play(clipToPlay, guid);
 	}
 }

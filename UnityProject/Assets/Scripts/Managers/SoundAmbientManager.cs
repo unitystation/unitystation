@@ -1,12 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using AddressableReferences;
 using Audio.Containers;
+using Initialisation;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 namespace Audio.Managers
 {
-	public class SoundAmbientManager : MonoBehaviour
+	public class SoundAmbientManager : MonoBehaviour, IInitialise
 	{
 		private static SoundAmbientManager soundAmbientManager;
 		public static SoundAmbientManager Instance
@@ -25,94 +30,61 @@ namespace Audio.Managers
 		/// <summary>
 		/// Cache of audioSources on the Manager
 		/// </summary>
-		private List<AudioSource> ambientAudioSources = new List<AudioSource>();
+		private Dictionary<string, AddressableAudioSource> ambientAudioSources = new Dictionary<string, AddressableAudioSource>();
 
-		[SerializeField] private AudioClipsArray audioClips = null;
-		[SerializeField] private AudioMixerGroup audioMixerGroup = null;
+		private Dictionary<AddressableAudioSource, string> playingSource = new Dictionary<AddressableAudioSource, string>();
 
-		public static void StopAudio(string trackName)
+		[SerializeField] private AudioClipsArray ambientSoundsArray = null;
+
+		public static void PlayAudio(string assetAddress)
 		{
-			var audioSource = GetAudioSourceOrNull(trackName);
-			if (audioSource == null) return;
+			var audioSource = new AddressableAudioSource(assetAddress);
 
-			audioSource.loop = false;
-			audioSource.Stop();
-		}
-
-		public static void PlayAudio(string trackName, bool isLooped = false)
-		{
-			var audioSource = GetAudioSourceOrNull(trackName);
-			if (audioSource == null) return;
-
-			audioSource.loop = isLooped;
-			audioSource.Play();
-		}
-
-		private static AudioSource GetAudioSourceOrNull(string trackName)
-		{
-			if (trackName == null)
+			if (Instance.playingSource.ContainsKey(audioSource))
 			{
-				Logger.LogError("Track name is null.", Category.SoundFX);
-				return null;
+				SoundManager.Stop(Instance.playingSource[audioSource]);
+				Instance.playingSource.Remove(audioSource);
 			}
 
-			return TryFindAudioSource(trackName);
+			var guid = Guid.NewGuid().ToString();
+			Instance.playingSource.Add(audioSource, guid);
+			SoundManager.Play(audioSource, guid);
 		}
 
-		public static void StopAudio(AudioClip clip)
+		public static void PlayAudio(AddressableAudioSource source)
 		{
-			var audioSource = GetAudioSourceOrNull(clip);
-			if (audioSource == null) return;
-
-			audioSource.loop = false;
-			audioSource.Stop();
-
-		}
-
-		public static void PlayAudio(AudioClip clip, bool isLooped = false)
-		{
-			var audioSource = GetAudioSourceOrNull(clip);
-			if (audioSource == null) return;
-
-			audioSource.loop = isLooped;
-			audioSource.Play();
-		}
-
-		private static AudioSource GetAudioSourceOrNull(AudioClip clip)
-		{
-			if (clip == null)
+			if (source == null)
 			{
-				Logger.LogError("Clip is null.", Category.SoundFX);
-				return null;
+				return;
 			}
 
-			return TryFindAudioSource(clip.name);
-		}
-
-		private static AudioSource TryFindAudioSource(string trackName)
-		{
-			var audioSource = FindAudioSource(trackName);
-
-			if (audioSource == null)
+			if (Instance.playingSource.ContainsKey(source))
 			{
-				Logger.LogWarning($"Didn't find track: {trackName}", Category.SoundFX);
-				return null;
+				SoundManager.Stop(Instance.playingSource[source]);
+				Instance.playingSource.Remove(source);
 			}
 
-			return audioSource;
+			var guid = Guid.NewGuid().ToString();
+			Instance.playingSource.Add(source, guid);
+			SoundManager.Play(source, guid);
 		}
 
-		private static AudioSource FindAudioSource(string trackName)
+		public static void StopAudio(string assetAddress)
 		{
-			foreach (var audioSource in Instance.ambientAudioSources)
-			{
-				if (audioSource.name == trackName)
-				{
-					return audioSource;
-				}
-			}
+			var audioSource = new AddressableAudioSource(assetAddress);
 
-			return null;
+			if (Instance.playingSource.ContainsKey(audioSource) == false) return;
+
+			audioSource.AudioSource.loop = false;
+			SoundManager.Stop(Instance.playingSource[audioSource]);
+		}
+
+		public static void StopAudio(AddressableAudioSource audioSource)
+		{
+			if (audioSource == null || Instance.playingSource.ContainsKey(audioSource) == false) return;
+
+			audioSource.AudioSource.loop = false;
+			SoundManager.Stop(Instance.playingSource[audioSource]);
 		}
 
 		/// <summary>
@@ -120,9 +92,9 @@ namespace Audio.Managers
 		/// </summary>
 		public static void StopAllAudio()
 		{
-			foreach (var audioSource in Instance.ambientAudioSources)
+			foreach (var audioSource in Instance.playingSource)
 			{
-				audioSource.Stop();
+				SoundManager.Stop(audioSource.Value);
 			}
 		}
 
@@ -134,7 +106,7 @@ namespace Audio.Managers
 		{
 			foreach (var audioSource in Instance.ambientAudioSources)
 			{
-				audioSource.volume = newVolume;
+				audioSource.Value.AudioSource.volume = newVolume;
 			}
 
 			PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, newVolume);
@@ -160,118 +132,22 @@ namespace Audio.Managers
 			}
 		}
 
-		private void OnEnable()
+		public InitialisationSystems Subsystem { get; }
+		public void Initialise()
 		{
-			CreateAudioSources();
-
-			// Cache AudioSources on the manager
-			var managerAudioSources = gameObject.GetComponentsInChildren<AudioSource>(true);
-			CacheAudioSources(managerAudioSources);
+			LoadClips(Instance.ambientSoundsArray.AddressableAudioSource);
 		}
 
-		/// <summary>
-		/// Cache audioSources so we can control them at runtime
-		/// </summary>
-		/// <param name="managerAudioSources"> AudioSources on the manager </param>
-		private void CacheAudioSources(IEnumerable<AudioSource> managerAudioSources)
-		{
-			foreach (var audioSource in managerAudioSources)
-			{
-				if (ambientAudioSources.Contains(audioSource) == false
-				    && audioClips.AudioClips.Any(a => a.name == audioSource.name))
-				{
-					ambientAudioSources.Add(audioSource);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Manager creates GameObjects with AudiosSource for each clip
-		/// </summary>
-		private void CreateAudioSources()
-		{
-			if (audioClips == null)
-			{
-				var audioSources = gameObject.GetComponentsInChildren<AudioSource>(true);
-				DestroyGameObjects(audioSources);
-				ambientAudioSources.Clear();
-			}
-			else
-			{
-				// Compare AudioSources on the manager and create new
-				var managerAudioSources = gameObject.GetComponentsInChildren<AudioSource>(true);
-				CreateNewAudioSources(GetMissingClips(managerAudioSources));
-
-				// Clearing Manager children from audio sources which are not in audioClips
-				DestroyGameObjects(GetRedundantAudioSources(managerAudioSources));
-			}
-		}
-
-		/// <summary>
-		/// Destroys GameObjects with AudioSource component
-		/// </summary>
-		/// <param name="audioSources"> GameObjects to destroy </param>
-		private void DestroyGameObjects(IEnumerable<AudioSource> audioSources)
+		public async Task LoadClips(List<AddressableAudioSource> audioSources)
 		{
 			foreach (var source in audioSources)
 			{
-				DestroyImmediate(source.gameObject);
+				var sound = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{source});
+
+				if(Instance.ambientAudioSources.ContainsKey(sound.AudioSource.clip.name)) continue;
+
+				Instance.ambientAudioSources.Add(sound.AudioSource.clip.name, sound);
 			}
-		}
-
-		/// <summary>
-		/// Creates GameObjects with AudioSource component for each clip
-		/// </summary>
-		/// <param name="newClips"> Clips to add as AudioSources </param>
-		private void CreateNewAudioSources(IEnumerable<AudioClip> newClips)
-		{
-			foreach (var clip in newClips)
-			{
-				var newGameObject = new GameObject(clip.name);
-				newGameObject.transform.parent = gameObject.transform;
-
-				var audioSource = newGameObject.AddComponent<AudioSource>();
-				audioSource.outputAudioMixerGroup = audioMixerGroup;
-				audioSource.clip = clip;
-				audioSource.playOnAwake = false;
-			}
-		}
-
-		/// <summary>
-		/// Get clips which are not on the manager as AudioSources
-		/// </summary>
-		/// <returns> Array of new clips </returns>
-		private IEnumerable<AudioClip> GetMissingClips(IEnumerable<AudioSource> managerAudioSources)
-		{
-			var newClips = new List<AudioClip>();
-
-			foreach (var clip in audioClips.AudioClips)
-			{
-				if(managerAudioSources.Any( a => a.name == clip.name)) continue;
-
-				newClips.Add(clip);
-			}
-
-			return newClips;
-		}
-
-		/// <summary>
-		/// Compares clips names with Manager children which have AudioSource component
-		/// </summary>
-		/// <param name="audioSources"></param>
-		/// <returns> AudiosSources on Manager which are not in audioClips</returns>
-		private IEnumerable<AudioSource> GetRedundantAudioSources(IEnumerable<AudioSource> audioSources)
-		{
-			var redundantAudioSources = new List<AudioSource>();
-
-			foreach (var source in audioSources)
-			{
-				if(audioClips.AudioClips.Any(c => c.name == source.name)) continue;
-				Logger.Log(source.name);
-				redundantAudioSources.Add(source);
-			}
-
-			return redundantAudioSources;
 		}
 
 		#endregion

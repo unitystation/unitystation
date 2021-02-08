@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using System;
+using AddressableReferences;
 using Audio.Managers;
 using Blob;
 using Objects;
@@ -249,8 +250,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			else if(!IsPlayerSemiGhost)
 			{
 				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
-				//play the spawn sound
-				SoundAmbientManager.PlayAudio("ambigen8");
 				//Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));

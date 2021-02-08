@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -72,11 +75,12 @@ namespace Audio.Containers
 		/// Plays a random music track.
 		/// <returns>String[] that represents the picked song's name.</returns>
 		/// </summary>
-		public String[] PlayRandomTrack()
+		public async Task<String[]> PlayRandomTrack()
 		{
 			StopMusic();
 			if (currentLobbyAudioSource == null) Init();
-			currentLobbyAudioSource.clip = audioClips.GetRandomClip();
+			var audioSource = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioClips.GetRandomClip()});
+			currentLobbyAudioSource.clip = audioSource.AudioSource.clip;
 			currentLobbyAudioSource.mute = isMusicMute;
 			currentLobbyAudioSource.volume = Instance.MusicVolume;
 			currentLobbyAudioSource.Play();

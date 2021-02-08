@@ -83,7 +83,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &1225539788758698613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +114,7 @@ MonoBehaviour:
   MaxSoundDistance: 14
   Volume: 1
   Spread: 192
+  adminMusic: {fileID: 11400000, guid: 8f0c7210e66131a4980538619cd9d9cc, type: 2}
 --- !u!114 &114977697586778270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +133,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &114348264163667782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,7 +180,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -254,18 +269,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 100
-  ExpectedRunningVoltage: 120
-  MaximumWorkingVoltage: 150
+  minimumWorkingVoltage: 100
+  expectedRunningVoltage: 120
+  maximumWorkingVoltage: 150
   deviceType: 0
   isSelfPowered: 0
   wattusage: 600
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
 --- !u!114 &5903341338632580079
 MonoBehaviour:
@@ -327,6 +340,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -349,9 +363,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300004, guid: caea9604c8c2d954b95ff42a3b71876a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: caea9604c8c2d954b95ff42a3b71876a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -377,6 +391,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 92d17c50f2351c94cb27834ffd5b9009, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []

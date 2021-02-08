@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Audio.Containers
@@ -128,11 +129,11 @@ namespace Audio.Containers
 			}
 		}
 
-		private void PlayRandomTrack()
+		private async Task PlayRandomTrack()
 		{
 			if (CustomNetworkManager.IsHeadless) return;
 
-			var songInfo = MusicManager.Instance.PlayRandomTrack();
+			var songInfo = await MusicManager.Instance.PlayRandomTrack();
 			trackName.text = songInfo[0];
 			// If the name of the artist is included, add it as well
 			if (songInfo.Length == 2)

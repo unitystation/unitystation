@@ -138,6 +138,14 @@ public class SoundManager : MonoBehaviour
 		AudioSource audioSource;
 		GameObject gameObject = await addressableAudioSource.Load();
 
+		if (gameObject == null)
+		{
+			Logger.LogError(
+				$"{addressableAudioSource.AudioSource.name} in SoundManager failed to load from address: {addressableAudioSource.AssetAddress}",
+				Category.Addressables);
+			return null;
+		}
+
 		if (!gameObject.TryGetComponent(out audioSource))
 		{
 			Logger.LogError(
@@ -174,6 +182,11 @@ public class SoundManager : MonoBehaviour
 
 	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
+		foreach (var sound in Instance.SoundSpawns)
+		{
+			sound.Value.AudioSource.Stop();
+		}
+
 		Instance.SoundSpawns.Clear();
 	}
 
@@ -198,7 +211,7 @@ public class SoundManager : MonoBehaviour
 		if (soundSpawnToken != string.Empty)
 		{
 			soundSpawn.Token = soundSpawnToken;
-			SoundSpawns[soundSpawn.Token] = soundSpawn;
+			SoundSpawns.Add(soundSpawnToken, soundSpawn);
 		}
 
 		return soundSpawn;
@@ -212,6 +225,8 @@ public class SoundManager : MonoBehaviour
 		{
 			var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
 			NonplayingSounds[addressableAudioSource.AssetAddress].RemoveAt(0);
+			ToReturn.Token = soundSpawnToken;
+			SoundSpawns.Add(soundSpawnToken, ToReturn);
 			return ToReturn;
 		}
 

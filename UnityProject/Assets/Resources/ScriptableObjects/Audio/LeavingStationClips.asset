@@ -12,6 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: LeavingStationClips
   m_EditorClassIdentifier: 
-  audioClips:
-  - {fileID: 8300000, guid: 694a700a2c1f34736ab9a8203c8f3182, type: 3}
-  - {fileID: 8300000, guid: a8d4fbd56313a2743a847c6a60c8bb2f, type: 3}
+  addressableAudioSource:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/SpaceAmbience.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/SpaceAmbience2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 

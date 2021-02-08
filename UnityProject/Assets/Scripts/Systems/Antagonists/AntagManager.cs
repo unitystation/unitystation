@@ -155,10 +155,10 @@ namespace Antagonists
 		/// <param name="antag">What antag data</param>
 		private static void ShowAntagBanner(ConnectedPlayer player, Antagonist antag)
 		{
-			AntagBannerMessage.Send(
+			SpawnBannerMessage.Send(
 				player.GameObject,
 				antag.AntagName,
-				antag.SpawnSound,
+				antag.SpawnSound.AssetAddress,
 				antag.TextColor,
 				antag.BackgroundColor,
 				antag.PlaySound);
