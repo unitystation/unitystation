@@ -23,6 +23,7 @@ public enum PowerTypeCategory { //The standard way of identifying what machinery
 	Turbine,
 	VoltageProbe,
 	WaterPump,
+	Emitter
 
 }//hey Be careful when changing this because it's stored as numbers in prefabs/saved scenes for some stupid reason so addon never Change the order
 

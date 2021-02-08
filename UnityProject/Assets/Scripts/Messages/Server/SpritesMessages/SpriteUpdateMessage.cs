@@ -12,7 +12,7 @@ public class SpriteUpdateMessage : ServerMessage
 {
 	private static List<char> ControlCharacters = new List<char>()
 	{
-		'>', '<', '&', ',', '?', '~', '`', '@', '{', '%', '^', '£'
+		'>', '<', '&', ',', '?', '~', '`', '@', '{', '%', '^', '£', '#'
 	};
 
 	public string SerialiseData;
@@ -26,6 +26,7 @@ public class SpriteUpdateMessage : ServerMessage
 	//` = SetColour
 	//% = Pallet
 	//^ = ClearPallet
+	//# = AnimateOnce
 
 	private static StringBuilder ToReturn = new StringBuilder("", 2000);
 
@@ -80,6 +81,14 @@ public class SpriteUpdateMessage : ServerMessage
 					Start = Scanning;
 					Scanning = GotoIndexOfNextControlCharacter(SerialiseData, Scanning);
 					SP.ChangeSprite(int.Parse(SerialiseData.Substring(Start, Scanning - Start)), false);
+				}
+
+				if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '#')
+				{
+					Scanning += 1;
+					Start = Scanning;
+					Scanning = GotoIndexOfNextControlCharacter(SerialiseData, Scanning);
+					SP.AnimateOnce(int.Parse(SerialiseData.Substring(Start, Scanning - Start)), false);
 				}
 
 				if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == ',')
@@ -165,6 +174,13 @@ public class SpriteUpdateMessage : ServerMessage
 		}
 
 		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '&')
+		{
+			Scanning += 1;
+			Start = Scanning;
+			Scanning = GotoIndexOfNextControlCharacter(SerialiseData, Scanning);
+		}
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '#')
 		{
 			Scanning += 1;
 			Start = Scanning;
@@ -320,6 +336,12 @@ public class SpriteUpdateMessage : ServerMessage
 			ToReturn.Append(spriteChange.CataloguePage.ToString());
 		}
 
+		if (spriteChange.AnimateOnce)
+		{
+			ToReturn.Append("#");
+			ToReturn.Append(spriteChange.CataloguePage.ToString());
+		}
+
 		if (spriteChange.PushTexture)
 		{
 			ToReturn.Append(",");
@@ -367,7 +389,7 @@ public class SpriteUpdateMessage : ServerMessage
 				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.g * 255)));
 				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.b * 255)));
 				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.a * 255)));
-				
+
 			}
 		}
 

@@ -32,8 +32,13 @@ namespace Weapons.Projectiles.Behaviours
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
 			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
-			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
+			Logger.LogTraceFormat("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,
 				integrity.gameObject.name, damageData.Damage);
+
+			foreach (var hitDetect in coll.GetComponents<IOnHitDetect>())
+			{
+				hitDetect.OnHitDetect(damageData);
+			}
 
 			return true;
 		}

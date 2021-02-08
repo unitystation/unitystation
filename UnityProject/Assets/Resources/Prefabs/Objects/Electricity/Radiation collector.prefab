@@ -15,8 +15,14 @@ GameObject:
   - component: {fileID: 8275105296698566321}
   - component: {fileID: 4896273805710721720}
   - component: {fileID: 672904832946805518}
-  - component: {fileID: 7344875649816476101}
   - component: {fileID: 114779656264558364}
+  - component: {fileID: 3912874886522507892}
+  - component: {fileID: 1685684229242937336}
+  - component: {fileID: 5442183917185828166}
+  - component: {fileID: 1999094162665485661}
+  - component: {fileID: 4997349939610282033}
+  - component: {fileID: 7688260226702700199}
+  - component: {fileID: 5933879109768817857}
   m_Layer: 11
   m_Name: Radiation collector
   m_TagString: Untagged
@@ -83,6 +89,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &114703946515217786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,10 +160,28 @@ MonoBehaviour:
   ApplianceType: 5
   WireEndB: 9
   WireEndA: 0
-  ListCanConnectTo: 0b000000
+  ListCanConnectTo: 0b0000000800000001000000
   SelfDestruct: 0
   Reactions:
   - ConnectingDevice: 11
+    DirectionReaction: 1
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 1e+10
+        ResistanceAvailable: 1
+  - ConnectingDevice: 1
+    DirectionReaction: 1
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 1e+10
+        ResistanceAvailable: 1
+  - ConnectingDevice: 8
     DirectionReaction: 1
     ResistanceReaction: 1
     DirectionReactionA:
@@ -176,33 +202,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc0599350d172f4b97acd59a6626136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModuleType: 0
+  ModuleType: 2
   ControllingNode: {fileID: 0}
   StartOnStartUp: 0
   Previouscurrent: 0
   current: 0
   PreviousSupplyingVoltage: 760000
-  SupplyingVoltage: 760000
+  SupplyingVoltage: 0
   PreviousInternalResistance: 76000
-  InternalResistance: 76000
+  InternalResistance: 0
   PreviousProducingWatts: 0
   ProducingWatts: 0
---- !u!114 &7344875649816476101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6415106dad0ebcd43b2704093600f0c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isOn: 0
-  ElectricalNodeControl: {fileID: 4896273805710721720}
 --- !u!114 &114779656264558364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,6 +227,170 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+--- !u!114 &3912874886522507892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+--- !u!114 &1685684229242937336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5442183917185828166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: decbbef8933914e4db80a8f7026d2ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainSpriteHandler: {fileID: 8106342113633906247}
+  slotHandler: {fileID: 0}
+  startSetUp: 0
+  radiationWatts: 100
+--- !u!114 &1999094162665485661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMeleeable: 1
+  butcherTime: 2
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+--- !u!114 &4997349939610282033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialIntegrity: 100
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  damageDeflection: 0
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &7688260226702700199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: radiation collector
+  initialDescription: generates power from radiation
+  willHighlight: 1
+  exportCost: 100
+  exportName: radiation collector
+  exportMessage: 
+--- !u!114 &5933879109768817857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 6684f6484cbb9674f9522a2c07aa3aab, type: 2}
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 2f9708f30e072384b90ff2e8c13583b6,
+    type: 3}
+  canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
+  secondsToScrewdrive: 2
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4920401221825478}
   - component: {fileID: 212514117955345912}
+  - component: {fileID: 8106342113633906247}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -263,6 +438,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -285,9 +461,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 4
+  m_SortingLayer: 8
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: af773103cb6542143aa4cbafa8c9bb0b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f82c29833791d594ca23009ffddb08f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -298,3 +474,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8106342113633906247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744594665423798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: d7874798bfaf4ac4491ec0b7c3c88171, type: 2}
+  - {fileID: 11400000, guid: c032dc072fdac624c8309ae05ae577a8, type: 2}
+  - {fileID: 11400000, guid: f556963d59bf090438a2ae83b9cf472a, type: 2}
+  - {fileID: 11400000, guid: 22bd67fd274607e4080c296c5306a0d6, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: d7874798bfaf4ac4491ec0b7c3c88171, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []

@@ -44,6 +44,9 @@ public abstract class BasicTile : LayerTile
 
 	public bool DoesReflectBullet => doesReflectBullet;
 
+	[Tooltip("Can this tile be damaged at all?")]
+	public bool indestructible;
+
 	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
 	[FormerlySerializedAs("PassableException")]
 	[SerializeField]

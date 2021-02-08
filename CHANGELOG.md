@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/2/8: Adds field generators, emitters and radiation collectors by [ThatDan123](https://github.com/ThatDan123) in PR #[5960](https://github.com/unitystation/unitystation/pull/5960)
+* 2021/2/8: Adds singularity by [ThatDan123](https://github.com/ThatDan123) in PR #[5960](https://github.com/unitystation/unitystation/pull/5960)
 * 2021/2/5: fixed NRE when interacting with chickens with no item in hand. by [corp-0](https://github.com/corp-0) in PR #[5914](https://github.com/unitystation/unitystation/pull/5914)
 * 2021/2/5: added feedable component as a generic way to make mobs able to be fed by hand. by [corp-0](https://github.com/corp-0) in PR #[5914](https://github.com/unitystation/unitystation/pull/5914)
 * 2021/2/5: added milkable component to milk mobs based on their mood. by [corp-0](https://github.com/corp-0) in PR #[5914](https://github.com/unitystation/unitystation/pull/5914)
