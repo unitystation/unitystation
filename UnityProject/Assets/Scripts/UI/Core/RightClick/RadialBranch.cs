@@ -151,9 +151,8 @@ namespace UI.Core.RightClick
 
 			var xPos = targetPos.x + (length * CurrentQuadrant.x);
 			var yPos = originPos.y + (LineToRadial.rect.height / 2) * CurrentQuadrant.y;
-			var newPos = new Vector2(xPos, yPos);
 
-			RepositionLineToRadial(newPos);
+			RepositionLineToRadial(new Vector2(xPos, yPos));
 			SetLineSize(LineFromOrigin, Math.Abs(originPos.x - (Origin.rect.width / 2 * CurrentQuadrant.x) - LineToRadial.anchoredPosition.x));
 
 			var lineToRadialLength = length <= 0 ? absDeltaY : distanceToRadial;

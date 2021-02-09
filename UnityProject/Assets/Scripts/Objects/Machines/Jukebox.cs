@@ -79,6 +79,7 @@ namespace Objects
 		private RegisterTile registerTile;
 		private int currentSongTrackIndex = 0;
 		private float startPlayTime;
+		private bool secondLoadAttempt;
 
 		public bool IsPlaying { get; set; } = false;
 
@@ -157,10 +158,6 @@ namespace Objects
 		{
 			// We want the same musics that are in the lobby,
 			// so, I copy it's playlist here instead of managing two different playlists in UnityEditor.
-			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-			APCConnectionHandler = GetComponent<APCPoweredDevice>();
-			power = GetComponent<APCPoweredDevice>();
-			registerTile = GetComponent<RegisterTile>();
 			musics = new List<AddressableAudioSource>();
 
 			foreach (var audioSource in adminMusic.AddressableAudioSource)
@@ -174,6 +171,10 @@ namespace Objects
 
 		private void Awake()
 		{
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+			APCConnectionHandler = GetComponent<APCPoweredDevice>();
+			power = GetComponent<APCPoweredDevice>();
+			registerTile = GetComponent<RegisterTile>();
 			integrity = GetComponent<Integrity>();
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 		}
@@ -287,6 +288,17 @@ namespace Objects
 
 		private void UpdateGUI()
 		{
+			if (musics == null || musics.Count == 0)
+			{
+				if (secondLoadAttempt == false)
+				{
+					secondLoadAttempt = true;
+					InternalStart();
+				}
+
+				return;
+			}
+
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 			valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes(TrackPosition) });
 			valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(SongName) });
