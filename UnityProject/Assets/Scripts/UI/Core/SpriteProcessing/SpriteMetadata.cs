@@ -18,7 +18,7 @@ namespace UI.Core.SpriteProcessing
 			Scale = scale;
 		}
 
-		public static unsafe SpriteMetadata Create(Texture2D texture, in Rect spriteRect)
+		public static unsafe SpriteMetadata Create(Texture2D texture, ref Rect spriteRect)
 		{
 			// Using GetPixelData and native arrays to avoid garbage created from GetPixels32. Indexing a native array
 			// is slow though, so access the pointers directly.

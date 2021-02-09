@@ -21,14 +21,14 @@ namespace UI.Core.SpriteProcessing
 			SpritesMetadata.TryGetValue(key, out var spriteData);
 			if (spriteData.Scale <= 0)
 			{
-				spriteData = CreateSpriteData(sprite.texture, rect);
+				spriteData = CreateSpriteData(sprite.texture, ref rect);
 				SpritesMetadata.Add(key, spriteData);
 			}
 
 			return spriteData;
 		}
 
-		private SpriteMetadata CreateSpriteData(Texture2D texture, in Rect spriteRect)
+		private SpriteMetadata CreateSpriteData(Texture2D texture, ref Rect spriteRect)
 		{
 			if (texture.isReadable == false)
 			{
@@ -38,7 +38,7 @@ namespace UI.Core.SpriteProcessing
 				return SpriteMetadata.Default;
 			}
 
-			return SpriteMetadata.Create(texture, spriteRect);
+			return SpriteMetadata.Create(texture, ref spriteRect);
 		}
 	}
 }
