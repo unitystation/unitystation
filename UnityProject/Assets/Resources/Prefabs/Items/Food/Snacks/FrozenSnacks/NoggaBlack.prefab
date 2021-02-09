@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &120572585568897523
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3194054077450859374, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 273
+      objectReference: {fileID: 0}
+    - target: {fileID: 5525576654264826294, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5525576654264826294, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5525576654264826294, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5525576654264826294, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6,
+        type: 2}
+    - target: {fileID: 5525576654264826294, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[4]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6097223914283758766, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 50574d2d790c68a468f9d3b6d0481ae9,
+        type: 3}
+    - target: {fileID: 6586896859430772348, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: initialDescription
+      value: A salty licorice icecream recently reintroduced due to all the records
+        of the controversy being lost to time. Those who cannot remember the past
+        are doomed to repeat it.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586896859430772348, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: initialName
+      value: nogga black
+      objectReference: {fileID: 0}
+    - target: {fileID: 6634071525805919402, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6738723695642816798, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_Name
+      value: NoggaBlack
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6912188aeedf08e4597674ede9f0c62d, type: 3}

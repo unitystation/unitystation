@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5f87a270c04ff585c8a23897a9f934, type: 3}
+  m_Name: LightTubeMissingTube
+  m_EditorClassIdentifier: 
+  spritesDirectional: {fileID: 11400000, guid: 8ddd732832c26b0478f3408d3d7dbb6f, type: 2}
+  state: 3
+  tube: {fileID: 0}
+  traitRequired: {fileID: 11400000, guid: 82327368297d15b41971f9a171ce14cf, type: 2}
+  multiplierIntegrity: 0
+  lootDrop: {fileID: 11400000, guid: 7fed0dc1aa4592e46a65c6e972157ca9, type: 2}
+  lightColor: {r: 0, g: 0, b: 0, a: 0}

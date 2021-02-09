@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AddressableReferences;
 
 /// <summary>
 /// Used for restraining a player (with handcuffs or zip ties etc)
@@ -15,27 +16,26 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// How long it takes to apply the restraints
 	/// </summary>
 	[SerializeField]
-	private float applyTime;
+	private float applyTime = 0;
 
 	/// <summary>
 	/// How long it takes for another person to remove the restraints
 	/// </summary>
 	[SerializeField]
-	private float removeTime;
+	private float removeTime = 0;
 	public float RemoveTime => removeTime;
 
 	/// <summary>
 	/// How long it takes for self to remove the restraints
 	/// </summary>
 	[SerializeField]
-	private float resistTime;
+	private float resistTime = 0;
 	public float ResistTime => resistTime;
 
 	/// <summary>
 	/// Sound to be played when applying restraints
 	/// </summary>
-	[SerializeField]
-	private string sound = "Handcuffs";
+	[SerializeField] private AddressableAudioSource applySound = null;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -56,9 +56,11 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		void ProgressFinishAction()
 		{
-			if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false)
+			if(performer.GetComponent<PlayerScript>()?.IsGameObjectReachable(target, true) ?? false)
 			{
 				target.GetComponent<PlayerMove>().Cuff(interaction);
+				Chat.AddActionMsgToChat(performer, $"You successfully restrain {target.ExpensiveName()}.",
+					$"{performer.ExpensiveName()} successfully restrains {target.ExpensiveName()}.");
 			}
 		}
 
@@ -66,7 +68,10 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			.ServerStartProgress(target.RegisterTile(), applyTime, performer);
 		if (bar != null)
 		{
-			SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
+			SoundManager.PlayNetworkedAtPos(applySound, target.transform.position, sourceObj: target.gameObject);
+			Chat.AddActionMsgToChat(performer,
+				$"You begin restraining {target.ExpensiveName()}...",
+				$"{performer.ExpensiveName()} begins restraining {target.ExpensiveName()}...");
 		}
 	}
 }

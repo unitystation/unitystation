@@ -17,6 +17,12 @@ PrefabInstance:
       propertyPath: spriteData.isPaletteds.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1580212734361834469, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 44028a003b9395e44920ac47c1887bb7,
+        type: 2}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: clothData
@@ -102,12 +108,12 @@ PrefabInstance:
     - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: initialName
-      value: captain's suit
+      value: captain's jumpsuit
       objectReference: {fileID: 0}
     - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: initialDescription
-      value: A green suit and yellow necktie. Exemplifies authority.
+      value: It's a blue jumpsuit with some gold markings denoting the rank of "Captain".
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de234d793cfd842599c9c8726207f217, type: 3}

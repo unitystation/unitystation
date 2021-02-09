@@ -1,23 +1,21 @@
 ﻿using System.Collections;
+using Messages.Client;
 using UnityEngine;
-using Mirror;
 
 /// <summary>
 ///     Attempts to send a chat message to the server
 /// </summary>
 public class PostToChatMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.PostToChatMessage;
 	public ChatChannel Channels;
 	public string ChatMessageText;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
 			Chat.AddChatMsgToChat(SentByPlayer, ChatMessageText, Channels);
 		}
-		yield return null;
 	}
 
 	//This is only used to send the chat input on the client to the server
@@ -31,19 +29,5 @@ public class PostToChatMessage : ClientMessage
 		msg.Send();
 
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Channels = (ChatChannel) reader.ReadUInt32();
-		ChatMessageText = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteInt32((int) Channels);
-		writer.WriteString(ChatMessageText);
 	}
 }

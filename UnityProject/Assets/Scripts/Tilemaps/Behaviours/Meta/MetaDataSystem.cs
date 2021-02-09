@@ -10,6 +10,9 @@ using UnityEngine;
 /// </summary>
 public class MetaDataSystem : SubsystemBehaviour
 {
+	// for Conditional updating
+	public override SystemType SubsystemType =>SystemType.MetaDataSystem;
+
 	// Set higher priority to ensure that it is executed before other systems
 	public override int Priority => 100;
 
@@ -34,24 +37,38 @@ public class MetaDataSystem : SubsystemBehaviour
 		externalNodes = new ConcurrentDictionary<MetaDataNode, MetaDataNode>();
 	}
 
-	void OnEnable()
+	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
+		}
 	}
 
-	void OnDisable()
+	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, ServerUpdateMe);
+		}
 	}
 
 	public override void Initialize()
 	{
+		if (!CustomNetworkManager.IsServer)
+			return;
+
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 
 		if (MatrixManager.IsInitialized)
 		{
 			LocateRooms();
+			Stopwatch Dsw = new Stopwatch();
+			Dsw.Start();
+			matrix.UnderFloorLayer.InitialiseUnderFloorUtilities();
+			Dsw.Stop();
+			Logger.Log("Initialise Station Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
 		}
 
 		sw.Stop();
@@ -72,7 +89,6 @@ public class MetaDataSystem : SubsystemBehaviour
 		if (metaTileMap.IsAtmosPassableAt(localPosition, true))
 		{
 			node.ClearNeighbors();
-
 			node.Type = metaTileMap.IsSpaceAt(localPosition, true) ? NodeType.Space : NodeType.Room;
 			SetupNeighbors(node);
 			MetaUtils.AddToNeighbors(node);
@@ -85,16 +101,20 @@ public class MetaDataSystem : SubsystemBehaviour
 				node.IsClosedAirlock = true;
 			}
 		}
+
 	}
 
 	private void LocateRooms()
 	{
 		BoundsInt bounds = metaTileMap.GetBounds();
 
+		var watch = new Stopwatch();
+		watch.Start();
 		foreach (Vector3Int position in bounds.allPositionsWithin)
 		{
 			FindRoomAt(position);
 		}
+		Logger.LogFormat("Created rooms in {0}ms", Category.TileMaps, watch.ElapsedMilliseconds);
 	}
 
 	private void FindRoomAt(Vector3Int position)
@@ -119,6 +139,10 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void CreateRoom(Vector3Int origin)
 	{
+		if (metaDataLayer.Get(origin).RoomNumber != -1)
+		{
+			return;
+		}
 		var roomPositions = new HashSet<Vector3Int>();
 		var freePositions = new UniqueQueue<Vector3Int>();
 
@@ -205,11 +229,11 @@ public class MetaDataSystem : SubsystemBehaviour
 
 			if (metaTileMap.IsSpaceAt(neighbor, true))
 			{
-				// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
-				if (node.IsRoom && !externalNodes.ContainsKey(node))
-				{
-					externalNodes[node] = node;
-				}
+				// // if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
+				// if (node.IsRoom && !externalNodes.ContainsKey(node) && metaTileMap.IsSpaceAt(node.Position, true) == false)
+				// {
+				// 	externalNodes[node] = node;
+				// }
 
 				// If the node is not space, check other matrices if it has a tile next to this node.
 				if (!node.IsSpace)
@@ -254,9 +278,11 @@ public class MetaDataSystem : SubsystemBehaviour
 				node.AddNeighbor(neighborNode, dir);
 			}
 		}
+
+
 	}
 
-	void UpdateMe()
+	private void ServerUpdateMe()
 	{
 		foreach (MetaDataNode node in externalNodes.Keys)
 		{

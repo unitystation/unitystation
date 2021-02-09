@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6001e9fdf4c400d809990a27b869c71, type: 3}
+  m_Name: crowbar
+  m_EditorClassIdentifier: 
+  sprites:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 80d67963021327d4c9a7726aac941d4d, type: 3}
+      Sprites:
+      - {fileID: 7398687956713181485, guid: 80d67963021327d4c9a7726aac941d4d, type: 3}
+      - {fileID: -193345410308690765, guid: 80d67963021327d4c9a7726aac941d4d, type: 3}
+      - {fileID: 1493258355213284673, guid: 80d67963021327d4c9a7726aac941d4d, type: 3}
+      - {fileID: -2051218657116965245, guid: 80d67963021327d4c9a7726aac941d4d, type: 3}
+      EquippedData: {fileID: 4900000, guid: 7ede979ad11e29e498cccf073236683e, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+      - {fileID: 21300002, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+      - {fileID: 21300004, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+      - {fileID: 21300006, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+      EquippedData: {fileID: 4900000, guid: 03b8ad3fdec905b4db486666b620c9db, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+      - {fileID: 21300002, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+      - {fileID: 21300004, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+      - {fileID: 21300006, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+      EquippedData: {fileID: 4900000, guid: 2cc33fbf92056914499478474e7282bc, type: 3}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: aa93d7a28ce23824baadff2d2121be13, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: b803ae66801c09d46b58f56b5b587cc6,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 77d404601fd8516418f0e0747b787721,
+      type: 2}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0

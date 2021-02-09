@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Messages.Client;
 using Mirror;
 
 /// <summary>
@@ -6,14 +7,11 @@ using Mirror;
 /// </summary>
 public class RequestMoveMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestMoveMessage;
 	public PlayerAction Action;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-//		Logger.Log("Processed " + ToString());
 		SentByPlayer.Script.PlayerSync.ProcessAction(Action);
-		yield return null;
 	}
 
 	public static RequestMoveMessage Send(PlayerAction action)

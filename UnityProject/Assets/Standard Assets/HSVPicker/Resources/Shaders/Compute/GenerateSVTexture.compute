@@ -1,0 +1,37 @@
+﻿#pragma kernel CSMain
+
+RWTexture2D<float4> Texture;
+
+float2 TextureSize;
+float Hue;
+bool linearColorSpace;
+
+float4 HUEtoRGB(float h)
+{
+	float r = abs(h * 6 - 3) - 1;
+	float g = 2 - abs(h * 6 - 2);
+	float b = 2 - abs(h * 6 - 4);
+	return saturate(float4(r, g, b, 1));
+}
+
+float4 HSVtoRGB(float h, float s, float v)
+{
+	float4 rgb = HUEtoRGB(h);
+
+	float4 shiftedRgb = ((rgb - 1) * s + 1) * v;
+
+	if (linearColorSpace) {
+		shiftedRgb = pow(abs(shiftedRgb), 2.2);
+	}
+
+	return shiftedRgb;
+}
+
+[numthreads(32, 32, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+	if (id.x > (uint)TextureSize.x || id.y > (uint)TextureSize.y)
+		return;
+
+	Texture[id.xy] = HSVtoRGB(Hue, id.x / TextureSize.x, id.y / TextureSize.y);
+}

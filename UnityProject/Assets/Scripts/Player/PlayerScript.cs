@@ -1,24 +1,27 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using Mirror;
 using System;
+using AddressableReferences;
+using Audio.Managers;
+using Blob;
+using Objects;
 
-public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
+public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
 
 	public Mind mind;
+	public ConnectedPlayer connectedPlayer;
 
 	/// <summary>
 	/// Current character settings for this player.
 	/// </summary>
 	public CharacterSettings characterSettings = new CharacterSettings();
 
-	[SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
+	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
 
-	[SyncVar(hook = nameof(SyncVisibleName))] public string visibleName = " ";
+	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))] public string visibleName = " ";
 	public PlayerNetworkActions playerNetworkActions { get; set; }
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
@@ -52,6 +55,18 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 
 	public HitIcon hitIcon { get; set; }
 
+	public ChatIcon chatIcon { get; private set; }
+
+	/// <summary>
+	/// Serverside world position.
+	/// Outputs correct world position even if you're hidden (e.g. in a locker)
+	/// </summary>
+	public Vector3Int AssumedWorldPos => pushPull.AssumedWorldPositionServer();
+
+	/// <summary>
+	/// Serverside world position.
+	/// Returns InvalidPos if you're hidden (e.g. in a locker)
+	/// </summary>
 	public Vector3Int WorldPos => registerTile.WorldPositionServer;
 
 	/// <summary>
@@ -65,6 +80,16 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
 	public Vector3IntEvent OnTileReached() => onTileReached;
 
+	public float RTT;
+
+	[HideInInspector]
+	[SyncVar]
+	public bool RcsMode;
+	public MatrixMove RcsMatrixMove { get; set; }
+
+	private bool isUpdateRTT;
+	private float waitTimeForRTTUpdate = 0f;
+
 	public override void OnStartClient()
 	{
 		Init();
@@ -75,6 +100,15 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	public override void OnStartLocalPlayer()
 	{
 		Init();
+		waitTimeForRTTUpdate = 0f;
+
+		if (IsGhost == false)
+		{
+			UIManager.Internals.SetupListeners();
+			UIManager.Instance.panelHudBottomController.SetupListeners();
+		}
+
+		isUpdateRTT = true;
 	}
 
 	//You know the drill
@@ -90,6 +124,39 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		EventManager.AddHandler(EVENT.PlayerRejoined, Init);
 		EventManager.AddHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.AddHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
+	}
+
+	public override void UpdateMe()
+	{
+		if (isUpdateRTT && !isServer)
+		{
+			RTTUpdate();
+		}
+	}
+
+	void RTTUpdate()
+	{
+		waitTimeForRTTUpdate += Time.deltaTime;
+		if (waitTimeForRTTUpdate > 0.5f)
+		{
+			waitTimeForRTTUpdate = 0f;
+			RTT = (float)NetworkTime.rtt;
+			if (playerHealth != null)
+			{
+				playerHealth.RTT = RTT;
+			}
+			CmdUpdateRTT(RTT);
+		}
+	}
+
+	[Command]
+	void CmdUpdateRTT(float rtt)
+	{
+		RTT = rtt;
+		if (playerHealth != null)
+		{
+			playerHealth.RTT = rtt;
+		}
 	}
 
 	/// <summary>
@@ -140,11 +207,17 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
 		hitIcon = GetComponentInChildren<HitIcon>(true);
+		chatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
 		ItemStorage = GetComponent<ItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
+
+		if (GetComponent<BlobPlayer>() != null)
+		{
+			IsPlayerSemiGhost = true;
+		}
 	}
 
 	public void Init()
@@ -153,18 +226,18 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		{
 			EnableLighting(true);
 			UIManager.ResetAllUI();
-			UIManager.DisplayManager.SetCameraFollowPos();
 			GetComponent<MouseInputController>().enabled = true;
 
-			if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
+			if (!UIManager.Instance.statsTab.window.activeInHierarchy)
 			{
-				UIManager.Instance.playerListUIControl.window.SetActive(true);
+				UIManager.Instance.statsTab.window.SetActive(true);
 			}
 
-			PlayerManager.SetPlayerForControl(gameObject);
+			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
 
-			if (IsGhost)
+			if (IsGhost && !IsPlayerSemiGhost)
 			{
+				UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
 				//stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
@@ -174,21 +247,25 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 
 			}
-			else
+			else if(!IsPlayerSemiGhost)
 			{
-
-				UIManager.LinkUISlots();
-				//play the spawn sound
-				SoundManager.Play("Ambient#");
-				SoundManager.PlayAmbience("ShipAmbience");
+				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
 				//Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 			}
+			else
+			{
+				//stop the crit notification and change overlay to ghost mode
+				SoundManager.Stop("Critstate");
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+				//show ghosts
+				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+				Camera2DFollow.followControl.cam.cullingMask = mask;
+			}
 
-			//				Request sync to get all the latest transform data
-			new RequestSyncMessage().Send();
 			EventManager.Broadcast(EVENT.UpdateChatChannels);
 		}
 	}
@@ -197,6 +274,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	{
 		playerName = value;
 		gameObject.name = value;
+		RefreshVisibleName();
 	}
 
 	public bool IsHidden => !PlayerSync.ClientState.Active;
@@ -222,36 +300,54 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		}
 	}
 
-	public bool IsInReach(GameObject go, bool isServer, float interactDist = interactionDistance)
+	[HideInInspector]
+	//If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
+	public bool IsPlayerSemiGhost;
+
+	public object Chat { get; internal set; }
+
+	public bool IsGameObjectReachable(GameObject go, bool isServer, float interactDist = interactionDistance, GameObject context=null)
 	{
 		var rt = go.RegisterTile();
 		if (rt)
 		{
-			return IsInReach(rt, isServer, interactDist);
+			return IsRegisterTileReachable(rt, isServer, interactDist, context: context);
 		}
 		else
 		{
-			return IsInReach(go.transform.position, isServer, interactDist);
+			return IsPositionReachable(go.transform.position, isServer, interactDist, context: context);
 		}
 	}
 
 	/// The smart way:
-	///  <inheritdoc cref="IsInReach(Vector3,float)"/>
-	public bool IsInReach(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance)
+	///  <inheritdoc cref="IsPositionReachable(Vector3, bool, float, GameObject)"/>
+	public bool IsRegisterTileReachable(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance, GameObject context=null)
 	{
-		return Validations.IsInReach(registerTile, otherObject, isServer, interactDist);
+		return Validations.IsReachableByRegisterTiles(registerTile, otherObject, isServer, interactDist, context: context);
 	}
 	///     Checks if the player is within reach of something
 	/// <param name="otherPosition">The position of whatever we are trying to reach</param>
+	/// <param name="isServer">True if being executed on server, false otherwise</param>
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
-	public bool IsInReach(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance)
+	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
+	public bool IsPositionReachable(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance, GameObject context = null)
 	{
-		return Validations.IsInReach(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, interactDist);
+		return Validations.IsReachableByPositions(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, isServer, interactDist, context: context);
+	}
+
+	/// <summary>
+	/// Sets the IC name for this player and refreshes the visible name. Name will be kept if respawned.
+	/// </summary>
+	/// <param name="newName">The new name to give to the player.</param>
+	public void SetPermanentName(string newName)
+	{
+		characterSettings.Name = newName;
+		playerName = newName;
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (IsDeadOrGhost)
+		if (IsDeadOrGhost && !IsPlayerSemiGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
@@ -265,6 +361,19 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 			return ghostTransmitChannels | ghostReceiveChannels;
 		}
 
+		if (IsPlayerSemiGhost)
+		{
+			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
+			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+
+			if (transmitOnly)
+			{
+				return blobTransmitChannels;
+			}
+
+			return blobTransmitChannels | blobReceiveChannels;
+		}
+
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
 		ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 		if (CustomNetworkManager.Instance._isServer)
@@ -272,7 +381,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 			var playerStorage = gameObject.GetComponent<ItemStorage>();
 			if (playerStorage && !playerStorage.GetNamedItemSlot(NamedSlot.ear).IsEmpty)
 			{
-				Headset headset =  playerStorage.GetNamedItemSlot(NamedSlot.ear)?.Item?.GetComponent<Headset>();
+				Headset headset = playerStorage.GetNamedItemSlot(NamedSlot.ear)?.Item?.GetComponent<Headset>();
 				if (headset)
 				{
 					EncryptionKeyType key = headset.EncryptionKey;
@@ -300,6 +409,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		{
 			return transmitChannels;
 		}
+
 		return transmitChannels | receiveChannels;
 	}
 
@@ -312,34 +422,29 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	//Update visible name.
 	public void RefreshVisibleName()
 	{
-		// TODO: Check inventory for head/mask items that hide face - atm just check you are not wearing a mask.
-		// needs helmet/hideface trait to be added and checked for. This way, we start with a "face name" our characters might know...
-		if (ItemSlot.GetNamed(ItemStorage, NamedSlot.mask).IsEmpty)
+		string newVisibleName;
+
+		if (IsGhost || Equipment.IsIdentityObscured() == false)
 		{
-			SyncVisibleName(playerName, playerName);
+			newVisibleName = playerName; // can see face so real identity is known
 		}
 		else
 		{
-			SyncVisibleName("Unknown", "Unknown");
+			// Returns Unknown if identity could not be found via equipment (ID, PDA)
+			newVisibleName = Equipment.GetPlayerNameByEquipment();
 		}
-		
-		// ...but if ID card is in belt slot, override with ID card data.
-		string idname = Equipment.GetIdentityFromID();
-		if (!String.Equals(idname, ""))
-		{
-			SyncVisibleName(idname, idname);
-		}
-		
-		
+
+		SyncVisibleName(newVisibleName, newVisibleName);
 	}
 
 	//Tooltips inspector bar
-	public void OnHoverStart()
+	public void OnMouseEnter()
 	{
+		if (gameObject.IsAtHiddenPos()) return;
 		UIManager.SetToolTip = visibleName;
 	}
 
-	public void OnHoverEnd()
+	public void OnMouseExit()
 	{
 		UIManager.SetToolTip = "";
 	}
@@ -358,5 +463,21 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
 			}
 		}
+	}
+
+	public string AdminInfoString()
+	{
+		if (PlayerList.Instance.IsAntag(gameObject))
+		{
+			return $"<color=yellow>Name: {characterSettings.Name}\n" +
+				   $"Acc: {characterSettings.Username}\n" +
+				   $"Antag: True \n" +
+				   "Objectives : "+ mind.GetAntag().GetObjectiveSummary() + "</color>";
+
+		}
+
+		return $"Name: {characterSettings.Name}\n" +
+			   $"Acc: {characterSettings.Username}\n" +
+			   $"Antag: False";
 	}
 }

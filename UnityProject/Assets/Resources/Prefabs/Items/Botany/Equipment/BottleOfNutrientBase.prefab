@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6997631829194348831
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: initialName
+      value: bottle of nutrient
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ec0b4a1d2efcae4d93b816acf99db9f,
+        type: 2}
+    - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9935983888621df448290a33c2f2e47a,
+        type: 2}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3319486117027293288, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_Name
+      value: BottleOfNutrientBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424172302466455004, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[2]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[3]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: transferAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[4]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[5]
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[6]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887625435062604783, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f717a8232afd319489869fc52fa63a4d,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e29b1fbcef2694d41b261271fecf09dc, type: 3}

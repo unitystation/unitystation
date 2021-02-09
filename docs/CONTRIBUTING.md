@@ -11,14 +11,14 @@ If you have never used git before, you can look up our general reference on our 
 GIT is a fantastic system, but while using it we have a few guidelines to keep it fantastic for everyone. 
 
 * Submit complete PR's.
-* Add [DNM] if you do not want your PR merged yet.
+* Mark your PR as a draft if you do not want it merged yet.
 * Always try and fill in the whole form, even for small PR's.
 * Don't close when a reviewer requests changes (just push the changes).
 * Explain what you did in your PR.
 * Be thorough, A door is not the same as a shutter.
 * If you can add screenshots to clarify.
 * Always try to add "Fixes #000" (where 000 is the Issue your PR fixes)
-* found something you want to fix yourself? Please do make an issue too.
+* Found something you want to fix yourself? Please do make an issue too.
 
 ### Structure Guidelines
 ***

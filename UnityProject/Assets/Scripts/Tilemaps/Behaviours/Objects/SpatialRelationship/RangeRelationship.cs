@@ -1,7 +1,7 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.TestTools.Constraints;
+using Objects;
 
 /// <summary>
 /// spatial relationship which fires some logic and ends the relationship

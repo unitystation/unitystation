@@ -44,23 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdd149a73a974c77bd23df0cb28c844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  primaryEscapeShuttle: {fileID: 0}
+  GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
+  SecretGameMode: 1
+  Rebels: 
   counting: 0
-  MinPlayersForCountdown: 1
-  startTime: 0
   NextGameMode: Random
-  RespawnAllowed: 1
   roundTimer: {fileID: 0}
   waitForStart: 0
-  RoundsPerMap: 10
-  Maps:
-  - Assets/scenes/PogStation.unity
   SpaceBodies: []
   minDistanceBetweenSpaceBodies: 200
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
-  primaryEscapeShuttle: {fileID: 0}
-  GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
-  SecretGameMode: 1
+  QuickLoad: 0
 --- !u!114 &5244294626086762232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,4 +69,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720905f6b612243a6b1e6bbeaafda241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  welcomeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AI/Welcome.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  interceptedMessageSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AI/InterceptMessage.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   gameManager: {fileID: 5243784332070655206}
+  paperPrefab: {fileID: 8734328976324889014, guid: d3c71176f32c1274b929f3a88695a795,
+    type: 3}
+  CurrentAlertLevel: 1
+  coolDownAlertChange: 5

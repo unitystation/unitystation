@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: suspension1
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -2494785923601423638, guid: e1c544a05f2b5564081707ed99a929d5,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1081405555365202986, guid: e1c544a05f2b5564081707ed99a929d5,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4184424028159257070, guid: e1c544a05f2b5564081707ed99a929d5,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 8744354945239105654, guid: e1c544a05f2b5564081707ed99a929d5,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 23003

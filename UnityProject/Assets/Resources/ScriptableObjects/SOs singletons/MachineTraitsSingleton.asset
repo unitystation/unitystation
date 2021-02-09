@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2405d508dac8da479e239bf3ab4c864, type: 3}
+  m_Name: MachineTraitsSingleton
+  m_EditorClassIdentifier: 
+  Manipulator: {fileID: 11400000, guid: 2f43c5f3e48dc7d4f954a6c847dbf9ef, type: 2}
+  MatterBin: {fileID: 11400000, guid: 2b530cc6dc3250f4e97d022110dbf1f8, type: 2}
+  MicroLaser: {fileID: 11400000, guid: bc6313255779d8c40b24dee25c4db605, type: 2}
+  ScanningModule: {fileID: 11400000, guid: 84c0cb58a2cfad2429207d1bf6e2e7f0, type: 2}
+  Capacitor: {fileID: 11400000, guid: 6745069dc8b5c0e44939b2b4795e997f, type: 2}
+  MicroManipulator: {fileID: 11400000, guid: 915d36e62dc204d43b3448234a65280b, type: 2}
+  NanoManipulator: {fileID: 11400000, guid: 61500fa8ffe16794293fd10a07d9fcb8, type: 2}
+  PicoManipulator: {fileID: 11400000, guid: 9e5a28bdb401cc34aac690445af80e69, type: 2}
+  FemtoManipulator: {fileID: 11400000, guid: d3fc59c320f1f13448a8e565b9b09556, type: 2}
+  BasicMatterBin: {fileID: 11400000, guid: 1a01cc3a3c94fdb4d93f37f4c9fee31e, type: 2}
+  AdvancedMatterBin: {fileID: 11400000, guid: 9d878553be4e0294dad6af6a06be0cc0, type: 2}
+  SuperMatterBin: {fileID: 11400000, guid: 59d68a789b0a4b3429aa85a6e75ec330, type: 2}
+  BluespaceMatterBin: {fileID: 11400000, guid: cd1f6b8711110344abd6cb5096214ac5, type: 2}
+  BasicMicroLaser: {fileID: 11400000, guid: 3d6922e590a7e654c8b7f00b89f10ace, type: 2}
+  HighPowerMicroLaser: {fileID: 11400000, guid: 28547306d5c419e4e8613ebdce01b74c,
+    type: 2}
+  UltraHighPowerMicroLaser: {fileID: 11400000, guid: 9be571109c085c246bda783c6d246a42,
+    type: 2}
+  QuadUltraMicroLaser: {fileID: 11400000, guid: 9a06ea4313bf93e408c2f40af531b2ee,
+    type: 2}
+  BasicScanningModule: {fileID: 11400000, guid: fcd7c618ff520e948ba127f6f8275b0e,
+    type: 2}
+  AdvancedScanningModule: {fileID: 11400000, guid: ead9ccbff65e2ea46aba0a81cfa44218,
+    type: 2}
+  PhasicScanningModule: {fileID: 11400000, guid: bca60357368bd0140ab8600847d289ce,
+    type: 2}
+  TriphasicScanningModule: {fileID: 11400000, guid: 168832b86a111b945868dec5c2a677a5,
+    type: 2}
+  BasicCapacitor: {fileID: 11400000, guid: 9384e19cdbc8ed74c8fc8bacf6763bee, type: 2}
+  AdvancedCapacitor: {fileID: 11400000, guid: b39f23f912fc9854ba45746bc8d974a9, type: 2}
+  SuperCapacitor: {fileID: 11400000, guid: 9b2cef321edfe1644a7919e0c1b9a07a, type: 2}
+  QuadraticCapacitor: {fileID: 11400000, guid: 1e98b657dc221e3429a41e3dc6dbe15d, type: 2}

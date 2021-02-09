@@ -45,6 +45,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -67,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 148d701db3c61814ea1432da38890c50, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -96,10 +98,11 @@ GameObject:
   - component: {fileID: 114793930797753706}
   - component: {fileID: 114465014309967340}
   - component: {fileID: 114272959470978344}
-  - component: {fileID: 934759992999344732}
   - component: {fileID: 4996135738252831923}
   - component: {fileID: 114141448509805176}
   - component: {fileID: -5958612390385248796}
+  - component: {fileID: 4597987211440370757}
+  - component: {fileID: 3226492502455936700}
   m_Layer: 11
   m_Name: CloningPod
   m_TagString: Untagged
@@ -115,7 +118,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671969700958660}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: 26, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4572578570582794}
@@ -160,9 +163,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
+  isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &8210323885322932869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,8 +188,8 @@ MonoBehaviour:
   syncInterval: 0.1
   statusSync: 0
   spriteRenderer: {fileID: 212392876378255176}
-  cloningSprite: {fileID: 21300000, guid: 6b02511c94942644d905be085342b7cc, type: 3}
-  emptySprite: {fileID: 21300000, guid: ddf80a356ac2d614aa9847a70f6b6636, type: 3}
+  cloningSprite: {fileID: 21300002, guid: 53f08645fc7d8aa47abb61b96d176a64, type: 3}
+  emptySprite: {fileID: 21300000, guid: 148d701db3c61814ea1432da38890c50, type: 3}
   statusString: 
   console: {fileID: 0}
 --- !u!114 &3673450989709832100
@@ -225,6 +234,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &114465014309967340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114272959470978344
 MonoBehaviour:
@@ -253,22 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &934759992999344732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671969700958660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameOverride: 
-  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  iconOverride: {fileID: 0}
-  backgroundSprite: {fileID: 0}
+  ignoreExtraRotation: []
 --- !u!114 &4996135738252831923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +280,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -303,7 +309,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114141448509805176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,10 +321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2881786103
 --- !u!114 &-5958612390385248796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,6 +341,38 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Cloning Pod
   initialDescription: 
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &4597987211440370757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671969700958660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 2f6f01c41ec0f4841aa63519acc366ef, type: 2}
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
+    type: 3}
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 27fc1b3085c201f49914af0105be9480,
+    type: 3}
+  canNotBeDeconstructed: 0
+  secondsToScrewdrive: 2
+--- !u!114 &3226492502455936700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671969700958660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

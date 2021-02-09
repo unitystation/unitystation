@@ -1,21 +1,17 @@
 ﻿using System.Collections;
+using Messages.Client;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
 
 /// <summary>
 ///     Request admin page data from the server
 /// </summary>
 public class RequestAdminPageRefresh : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestAdminPageRefresh;
-
 	public string Userid;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 
@@ -37,19 +33,5 @@ public class RequestAdminPageRefresh : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
 	}
 }

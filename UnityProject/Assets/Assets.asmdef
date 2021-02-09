@@ -3,9 +3,23 @@
     "references": [
         "Mirror",
         "Mirror.Components",
-	"Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Chemistry",
+        "YamlDotNet",
+        "SerializableDictionary",
+        "NaughtyAttributes.Core",
+        "Utils",
+        "Unity.2D.PixelPerfect",
+        "Unity.EditorCoroutines.Editor",
+        "MLAgent",
+        "Logger",
+        "GameInfo",
+        "Lighting",
+        "LeanTween",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "SpriteProcessing"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -13,5 +27,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

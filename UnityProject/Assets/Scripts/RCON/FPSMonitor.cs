@@ -4,6 +4,21 @@ using System.Collections.Generic;
 
     public class FPSMonitor : MonoBehaviour
     {
+	    private static FPSMonitor _fpsMonitor;
+
+	    public static FPSMonitor Instance
+	    {
+		    get
+		    {
+			    if (_fpsMonitor == null)
+			    {
+				    _fpsMonitor = FindObjectOfType<FPSMonitor>();
+			    }
+
+			    return _fpsMonitor;
+		    }
+	    }
+
         private List<float> avgSamples = new List<float>();
 
         public float Current { get; private set; }

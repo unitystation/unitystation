@@ -7,16 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 788905237837345984, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: toggleSprites.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2199116066298673672, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+      objectReference: {fileID: 21300000, guid: b06c9a84a39cecf4f907a787858e0dc9,
         type: 3}
-      propertyPath: m_Mesh
+    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: fd15daec664d95741b4e7ca36cd32d20,
+        type: 3}
     - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: clothData
@@ -30,13 +32,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714036432172209818, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: Intensity
-      value: 0.9
+      propertyPath: Colour.a
+      value: 0.43137255
       objectReference: {fileID: 0}
-    - target: {fileID: 3714036432172209818, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+    - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: Size
-      value: 10
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b800579b467d28c4d98eb607eef8829a,
+        type: 2}
+    - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b800579b467d28c4d98eb607eef8829a,
+        type: 2}
+    - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 29fcc8b854f1f85438495d5f44d33b46,
+        type: 2}
+    - target: {fileID: 5936454131396164911, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: bodyPartsCovered
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
@@ -112,8 +132,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b06c9a84a39cecf4f907a787858e0dc9,
+      objectReference: {fileID: 21300000, guid: fd15daec664d95741b4e7ca36cd32d20,
         type: 3}
+    - target: {fileID: 8004422176852823208, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: initialName
@@ -123,6 +148,41 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A firefighter's helmet, able to keep the user cool in any situation.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ba923436cf6803a4f99a5ed73f885d61,
+        type: 2}
+    - target: {fileID: 8626702741117139027, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fd15daec664d95741b4e7ca36cd32d20,
+        type: 3}
+    - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b800579b467d28c4d98eb607eef8829a,
+        type: 2}
+    - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b800579b467d28c4d98eb607eef8829a,
+        type: 2}
+    - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 29fcc8b854f1f85438495d5f44d33b46,
+        type: 2}
+    - target: {fileID: 8626702741117329122, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}

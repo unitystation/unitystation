@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618246b5f03aca141b4ac0f9f9eabe59, type: 3}
+  m_Name: hair_style_country
+  m_EditorClassIdentifier: 
+  SpriteEquipped: {fileID: 11400000, guid: 881c4208b1554b3439156186bcb2538f, type: 2}
+  Equipped:
+    Texture: {fileID: 2800000, guid: c0fd14b2258d9ee42882f274e3f988f0, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: c0fd14b2258d9ee42882f274e3f988f0, type: 3}
+    - {fileID: 21300002, guid: c0fd14b2258d9ee42882f274e3f988f0, type: 3}
+    - {fileID: 21300004, guid: c0fd14b2258d9ee42882f274e3f988f0, type: 3}
+    - {fileID: 21300006, guid: c0fd14b2258d9ee42882f274e3f988f0, type: 3}
+    EquippedData: {fileID: 4900000, guid: 251bdef336b0fb14a96c0faf9f40e7e1, type: 3}
+  Name: Country
+  Type: 2
+  gender: 2

@@ -1,99 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Mirror;
+using Objects;
 
-
-/// <summary>
-/// Holds player state information used for interpolation, such as player position, flight direction etc.
-/// Gives client enough information to be able to smoothly interpolate the player position.
-/// </summary>
-public struct PlayerState
-{
-	public bool Active => Position != TransformState.HiddenPos;
-
-	///Don't set directly, use Speed instead.
-	///public in order to be serialized :\
-	public float speed;
-
-	public float Speed
-	{
-		get => speed;
-		set => speed = value < 0 ? 0 : value;
-	}
-
-	public int MoveNumber;
-	public Vector3 Position;
-
-	[NonSerialized] public Vector3 LastNonHiddenPosition;
-
-	public Vector3 WorldPosition
-	{
-		get
-		{
-			if (!Active)
-			{
-				return TransformState.HiddenPos;
-			}
-
-			return MatrixManager.LocalToWorld(Position, MatrixManager.Get(MatrixId));
-		}
-		set
-		{
-			if (value == TransformState.HiddenPos)
-			{
-				Position = TransformState.HiddenPos;
-			}
-			else
-			{
-				Position = MatrixManager.WorldToLocal(value, MatrixManager.Get(MatrixId));
-				LastNonHiddenPosition = value;
-			}
-		}
-	}
-
-	/// Flag means that this update is a pull follow update,
-	/// So that puller could ignore them
-	public bool IsFollowUpdate;
-
-	public bool NoLerp;
-
-	///Direction of flying in world position coordinates
-	public Vector2 WorldImpulse;
-
-	/// <summary>
-	/// Direction of flying in local position coordinates
-	/// </summary>
-	/// <param name="forPlayer">player for which the local impulse should be calculated</param>
-	public Vector2 LocalImpulse(PlayerSync forPlayer) =>
-		Quaternion.Inverse(forPlayer.transform.parent.rotation) * WorldImpulse;
-
-	///Flag for clients to reset their queue when received
-	public bool ResetClientQueue;
-
-	/// Flag for server to ensure that clients receive that flight update:
-	/// Only important flight updates (ones with impulse) are being sent out by server (usually start only)
-	[NonSerialized] public bool ImportantFlightUpdate;
-
-	public int MatrixId;
-
-	/// Means that this player is hidden
-	public static readonly PlayerState HiddenState =
-		new PlayerState {Position = TransformState.HiddenPos, MatrixId = 0};
-
-	public override string ToString()
-	{
-		return
-			Equals(HiddenState)
-				? "[Hidden]"
-				: $"[Move #{MoveNumber}, localPos:{(Vector2) Position}, worldPos:{(Vector2) WorldPosition} {nameof(NoLerp)}:{NoLerp}, {nameof(WorldImpulse)}:{WorldImpulse}, " +
-				  $"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, follow: {IsFollowUpdate}, matrix #{MatrixId}]";
-	}
-}
-
-public partial class PlayerSync : NetworkBehaviour, IPushable
+public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllable
 {
 	public bool VisibleState {
 		get => ServerPosition != TransformState.HiddenPos;
@@ -135,8 +47,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	public bool IsMoving => isServer ? IsMovingServer : IsMovingClient;
 
 	public PlayerMove playerMove;
-	private PlayerScript playerScript;
+	public PlayerScript playerScript;
 	private Directional playerDirectional;
+
+	public bool Step = false;
 
 	private Matrix Matrix => registerPlayer != null ? registerPlayer.Matrix : null;
 
@@ -287,6 +201,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		return bump;
 	}
+
 
 	#region spess interaction logic
 
@@ -453,6 +368,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
 		//prevents player temporarily showing up at 0,0 when they spawn before they receive their first position
 		playerState.WorldPosition = transform.localPosition;
+		PlayerNewPlayer.Send(netId);
 	}
 
 	public override void OnStartServer()
@@ -470,11 +386,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
 		onTileReached.AddListener(Cross);
 		EventManager.AddHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 	private void OnDisable()
 	{
 		onTileReached.RemoveListener(Cross);
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	/// <summary>
@@ -486,46 +404,74 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			pendingActions = new Queue<PlayerAction>();
 			UpdatePredictedState();
-			predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
+			predictedSpeedClient = UIManager.Intent.Running ? playerMove.RunSpeed : playerMove.WalkSpeed;
 		}
 	}
 
 	/// <summary>
-	/// true when player tries to break pull or leave locker.
-	/// DoAction() is not executed in this case
+	/// true when player tries to break pull or leave container (e.g. locker).
 	/// </summary>
 	private bool didWiggle = false;
 
-	private void Update()
+	[Client]
+	public void TryEscapeContainer()
+	{
+		if (Camera2DFollow.followControl.target.TryGetComponent(out ClosetControl closet))
+		{
+			CmdTryEscapeCloset();
+		}
+		else if (Camera2DFollow.followControl.target.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
+		{
+			CmdTryEscapeDisposals();
+		}
+	}
+
+	[Command]
+	private void CmdTryEscapeCloset()
+	{
+		if (pushPull?.parentContainer == null) return;
+		GameObject parentContainer = pushPull.parentContainer.gameObject;
+
+		if (parentContainer.TryGetComponent(out ClosetControl closet))
+		{
+			closet.PlayerTryEscaping(gameObject);
+		}
+	}
+	[Command]
+	private void CmdTryEscapeDisposals()
+	{
+		if (pushPull?.parentContainer == null) return;
+		GameObject parentContainer = pushPull.parentContainer.gameObject;
+
+		if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
+		{
+			disposalContainer.PlayerTryEscaping(gameObject);
+		}
+	}
+
+	private void UpdateMe()
 	{
 		if (isLocalPlayer && playerMove != null)
 		{
-			didWiggle = false;
-
-			if (Validations.CanInteract(playerScript, isServer ? NetworkSide.Server : NetworkSide.Client) && KeyboardInputManager.IsMovementPressed())
+			if (PlayerManager.MovementControllable == this)
 			{
-				//	If being pulled by another player and you try to break free
-				if (pushPull != null && pushPull.IsBeingPulledClient)
+				didWiggle = false;
+				if (KeyboardInputManager.IsMovementPressed() && Validations.CanInteract(playerScript,
+					    isServer ? NetworkSide.Server : NetworkSide.Client))
 				{
-					pushPull.CmdStopFollowing();
-					didWiggle = true;
-				}
-				else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
-				{
-					//	Leaving locker
-					var closet = Camera2DFollow.followControl.target.GetComponent<ClosetControl>();
-					if (closet)
+					//	If being pulled by another player and you try to break free
+					if (pushPull != null && pushPull.IsBeingPulledClient)
 					{
-						InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
+						pushPull.CmdStopFollowing();
+						didWiggle = true;
+					}
+					// Player inside something
+					else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
+					{
+						TryEscapeContainer();
 						didWiggle = true;
 					}
 				}
-			}
-
-			//Not requesting directional move if we're attempting to leave locker/break pull
-			if (!didWiggle && ClientPositionReady)
-			{
-				DoAction();
 			}
 		}
 
@@ -563,7 +509,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			{
 				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
 				{
-					PlayerSpawn.ServerSpawnDummy();
+					PlayerSpawn.ServerSpawnDummy(gameObject.transform);
 				}
 
 				if (serverState.Position != serverLerpState.Position)
@@ -703,4 +649,26 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 	}
 #endif
+
+	public void RecievePlayerMoveAction(PlayerAction moveActions)
+	{
+		if (moveActions.moveActions.Length != 0 && !MoveCooldown
+		                                        && isLocalPlayer && playerMove != null
+		                                        && !didWiggle && ClientPositionReady)
+		{
+			bool beingDraggedWithCuffs = playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient;
+
+			if (playerMove.allowInput && !playerMove.IsBuckled && !beingDraggedWithCuffs && !UIManager.IsInputFocus)
+			{
+				StartCoroutine(DoProcess(moveActions));
+			}
+			else // Player tried to move but isn't allowed
+			{
+				if (!playerScript.IsGhost && playerScript.playerHealth.IsDead)
+				{
+					playerScript.playerNetworkActions.CmdSpawnPlayerGhost();
+				}
+			}
+		}
+	}
 }

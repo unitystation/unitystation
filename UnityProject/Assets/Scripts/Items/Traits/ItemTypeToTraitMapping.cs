@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ScriptableObjects;
 using UnityEngine;
 
 /// <summary>
@@ -19,7 +20,7 @@ public class ItemTypeToTraitMapping : SingletonScriptableObject<ItemTypeToTraitM
 	}
 
 	[SerializeField]
-	private List<TypeToTraitEntry> Mappings;
+	private List<TypeToTraitEntry> Mappings = null;
 
 	public ItemTrait GetTrait(ItemType forType)
 	{

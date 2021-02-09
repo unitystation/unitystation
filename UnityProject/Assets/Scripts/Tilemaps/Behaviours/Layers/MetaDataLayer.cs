@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Atmospherics;
+using Systems.Atmospherics;
+using Chemistry;
 using UnityEngine;
+using Objects.Construction;
 
 /// <summary>
 /// Holds and provides functionality for all the MetaDataTiles for a given matrix.
@@ -13,23 +15,23 @@ public class MetaDataLayer : MonoBehaviour
 	private SubsystemManager subsystemManager;
 	private ReactionManager reactionManager;
 	private Matrix matrix;
-	private MetaTileMap metaTileMap;
 
 	private void Awake()
 	{
 		subsystemManager = GetComponentInParent<SubsystemManager>();
 		reactionManager = GetComponentInParent<ReactionManager>();
 		matrix = GetComponent<Matrix>();
-		metaTileMap = GetComponent<MetaTileMap>();
 	}
 
 	public MetaDataNode Get(Vector3Int localPosition, bool createIfNotExists = true)
 	{
+		localPosition.z = 0; //Z Positions are always on 0
+
 		if (!nodes.ContainsKey(localPosition))
 		{
 			if (createIfNotExists)
 			{
-				nodes[localPosition] = new MetaDataNode(localPosition, reactionManager);
+				nodes[localPosition] = new MetaDataNode(localPosition, reactionManager, matrix);
 			}
 			else
 			{
@@ -92,7 +94,7 @@ public class MetaDataLayer : MonoBehaviour
 	/// <summary>
 	/// Release reagents at provided coordinates, making them react with world
 	/// </summary>
-	public void ReagentReact(Dictionary<string, float> reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
+	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
 		if (MatrixManager.IsTotallyImpassable(worldPosInt, true))
 		{
@@ -101,46 +103,51 @@ public class MetaDataLayer : MonoBehaviour
 
 		bool didSplat = false;
 
-		foreach (KeyValuePair<string, float> reagent in reagents)
+		foreach (var reagent in reagents)
 		{
 			if(reagent.Value < 1)
 			{
 				continue;
 			}
-			if (reagent.Key == "water")
-			{
-				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 
-				foreach (var livingHealthBehaviour in matrix.Get<LivingHealthBehaviour>(localPosInt, true))
+			switch (reagent.Key.name)
+			{
+				case "Water":
 				{
-					livingHealthBehaviour.Extinguish();
-				}
+					matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 
-				Clean(worldPosInt, localPosInt, true);
-			}
-			else if (reagent.Key == "cleaner")
-			{
-				Clean(worldPosInt, localPosInt, false);
-			}
-			else if (reagent.Key == "welding_fuel")
-			{
-				//temporary: converting spilled fuel to plasma
-				Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
-			}
-			else if (reagent.Key == "lube")
-			{ //( ͡° ͜ʖ ͡°)
-				if (!Get(localPosInt).IsSlippery)
-				{
-					EffectsFactory.WaterSplat(worldPosInt);
-					MakeSlipperyAt(localPosInt, false);
+					foreach (var livingHealthBehaviour in matrix.Get<LivingHealthBehaviour>(localPosInt, true))
+					{
+						livingHealthBehaviour.Extinguish();
+					}
+
+					Clean(worldPosInt, localPosInt, true);
+					break;
 				}
-			}
-			else
-			{ //for all other things leave a chem splat
-				if (!didSplat)
+				case "SpaceCleaner":
+					Clean(worldPosInt, localPosInt, false);
+					break;
+				case "SpaceLube":
 				{
-					EffectsFactory.ChemSplat(worldPosInt);
-					didSplat = true;
+					//( ͡° ͜ʖ ͡°)
+					if (!Get(localPosInt).IsSlippery)
+					{
+						EffectsFactory.WaterSplat(worldPosInt);
+						MakeSlipperyAt(localPosInt, false);
+					}
+
+					break;
+				}
+				default:
+				{
+					//for all other things leave a chem splat
+					if (!didSplat)
+					{
+						EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor);
+						didSplat = true;
+					}
+
+					break;
 				}
 			}
 		}
@@ -156,6 +163,9 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			floorDecals[i].TryClean();
 		}
+
+		//check for any moppable overlays
+		matrix.TileChangeManager.RemoveOverlay(localPosInt, LayerType.Floors);
 
 		if (!MatrixManager.IsSpaceAt(worldPosInt, true) && makeSlippery)
 		{
@@ -183,8 +193,8 @@ public class MetaDataLayer : MonoBehaviour
 	}
 
 
-	public void UpdateSystemsAt(Vector3Int localPosition)
+	public void UpdateSystemsAt(Vector3Int localPosition, SystemType ToUpDate = SystemType.All)
 	{
-		subsystemManager.UpdateAt(localPosition);
+		subsystemManager.UpdateAt(localPosition, ToUpDate);
 	}
 }

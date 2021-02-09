@@ -8,6 +8,41 @@ using UnityEngine.UI;
 /// </summary>
 public static class GameObjectExtensions
 {
+	/// <summary>
+	/// Returns the unity engine object or null if it has been destroyed. Useful for null coalescing or propagation.
+	/// </summary>
+	/// <param name="obj"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static T OrNull<T>(this T obj) where T : Object => obj ? obj : null;
+
+	/// <summary>
+	/// Tries to activate/deactivate the gameObject associated with this component.
+	/// </summary>
+	/// <param name="component"></param>
+	/// <param name="active"></param>
+	/// <typeparam name="T"></typeparam>
+	public static void SetActive<T>(this T component, bool active) where T : Component =>
+		component.OrNull()?.gameObject.SetActive(active);
+
+	/// <summary>
+	/// Returns the existing component stored in the reference. If the reference is null, it will get the component from
+	/// the object, set the reference, and return it. Prefer Awake over this unless you need to be able get a component
+	/// on an instantiated but not yet activated game object.
+	/// </summary>
+	/// <param name="obj">The object to get the component from if the component is null.</param>
+	/// <param name="component">A reference to the component.</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static T GetComponentByRef<T>(this Component obj, ref T component) where T : Component
+	{
+		if (component != null)
+		{
+			return component;
+		}
+		component = obj.GetComponent<T>();
+		return component;
+	}
 
 	/// <summary>
 	/// Creates garbage, use sparingly.
@@ -111,5 +146,22 @@ public static class GameObjectExtensions
 				tertiaryImage.enabled = false;
 			}
 		}
+	}
+
+	/// <summary>
+	/// performant, robust, alloc free way to check if the object is hidden (at hiddenpos), which occurs when it is pooled (despawned)
+	/// or otherwise obscured from players (items in inventory / things in lockers).
+	///
+	/// Merely checking if its transform is at hiddenpos won't work, because objects may be moved / rotated
+	/// when their parent matrix is moved (even hidden objects exist within a matrix)...instead we
+	/// just rely on the z coordinate
+	/// </summary>
+	/// <param name="gameObject"></param>
+	/// <returns></returns>
+	public static bool IsAtHiddenPos(this GameObject gameObject)
+	{
+		// just to be sure, we give a little buffer in z coordinate, so -90 or lower will
+		// be considered hidden (nothing in the game should be this low except hidden stuff)
+		return gameObject.transform.position.z <= (TransformState.HiddenPos.z + 10);
 	}
 }

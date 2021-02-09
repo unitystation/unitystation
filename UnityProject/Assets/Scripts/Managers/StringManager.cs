@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Initialisation;
 using UnityEngine;
 
-public class StringManager : MonoBehaviour
+public class StringManager : MonoBehaviour, IInitialise
 {
 	private static StringManager stringManager;
 	public static StringManager Instance
@@ -30,7 +31,9 @@ public class StringManager : MonoBehaviour
 
 	public List<TextAsset> nameTextFiles;
 
-	void Start()
+	public InitialisationSystems Subsystem => InitialisationSystems.StringManager;
+
+	void IInitialise.Initialise()
 	{
 		for (int i = 0; i < nameTextFiles.Count; i++)
 		{

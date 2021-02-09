@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6001e9fdf4c400d809990a27b869c71, type: 3}
+  m_Name: cable coil cyan
+  m_EditorClassIdentifier: 
+  sprites:
+    Equipped:
+      Texture: {fileID: 2800000, guid: c063ed4550d8bc348b3e252e0c84b28c, type: 3}
+      Sprites:
+      - {fileID: -1206501798132951126, guid: c063ed4550d8bc348b3e252e0c84b28c, type: 3}
+      - {fileID: 4316668487210905212, guid: c063ed4550d8bc348b3e252e0c84b28c, type: 3}
+      - {fileID: -3478187741408328744, guid: c063ed4550d8bc348b3e252e0c84b28c, type: 3}
+      - {fileID: -1216120013809506240, guid: c063ed4550d8bc348b3e252e0c84b28c, type: 3}
+      EquippedData: {fileID: 4900000, guid: 2e3ba4dd8f21c844eb7612c6597cb718, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 3bb0d0104720a4b4b99be8a5a406548f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 3bb0d0104720a4b4b99be8a5a406548f, type: 3}
+      - {fileID: 21300002, guid: 3bb0d0104720a4b4b99be8a5a406548f, type: 3}
+      - {fileID: 21300004, guid: 3bb0d0104720a4b4b99be8a5a406548f, type: 3}
+      - {fileID: 21300006, guid: 3bb0d0104720a4b4b99be8a5a406548f, type: 3}
+      EquippedData: {fileID: 4900000, guid: 63e45c40abcfeec48b2afa19c35ee227, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: b631ce147d9787c46871b9ba9c41d743, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: b631ce147d9787c46871b9ba9c41d743, type: 3}
+      - {fileID: 21300002, guid: b631ce147d9787c46871b9ba9c41d743, type: 3}
+      - {fileID: 21300004, guid: b631ce147d9787c46871b9ba9c41d743, type: 3}
+      - {fileID: 21300006, guid: b631ce147d9787c46871b9ba9c41d743, type: 3}
+      EquippedData: {fileID: 4900000, guid: ba83949cbec2c2f4fa779a8494d58cde, type: 3}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: c45d348e653efad4090cb96de4b93490, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: d54b7f135b62cfe41a1f74b66061cae2,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: ab99640c8330fd74e9d02b419af2147e,
+      type: 2}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0

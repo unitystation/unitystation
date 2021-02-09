@@ -12,22 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070914b0fa83e4540b98a98820fe27ae, type: 3}
   m_Name: grey backpack
   m_EditorClassIdentifier: 
-  PrefabVariant: {fileID: 0}
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 11
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    IsEVACapable: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []
   Sprites:
     Equipped:
       Texture: {fileID: 2800000, guid: e56068607c4ca6e4598963f8e42236de, type: 3}
@@ -58,6 +42,22 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 298efc3197e5fd34f87f478691d47745, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 026bd9159827faf48a1007134b37fc58, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: 5d6005f2a7ea9464598a6c366d1a7f0f,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 6515d4e0e7989c243a6c17474cbd5802,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: 8833980720d76624ab562a21628e3d05, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   StorageData:
     maxSlots: 7
     maxItemSize: 4

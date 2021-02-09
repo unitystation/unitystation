@@ -4,12 +4,14 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
+using Systems.Teleport;
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(UprightSprites))]
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile, IServerSpawn
 {
+	const int HELP_CHANCE = 33; // Percent.
 
 	// tracks whether player is down or upright.
 	[SyncVar(hook = nameof(SyncIsLayingDown))]
@@ -32,6 +34,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	public SlipEvent OnSlipChangeServer = new SlipEvent();
 
 	private PlayerScript playerScript;
+	public PlayerScript PlayerScript => playerScript;
 	private Directional playerDirectional;
 	private UprightSprites uprightSprites;
 
@@ -46,7 +49,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	//cached spriteRenderers of this gameobject
 	protected SpriteRenderer[] spriteRenderers;
 
-	private void Awake()
+	protected override void Awake()
 	{
 		base.Awake();
 		EnsureInit();
@@ -75,12 +78,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		SyncIsLayingDown(isLayingDown, false);
 	}
 
-	public override bool IsPassable(bool isServer)
+	public override bool IsPassable(bool isServer, GameObject context = null)
 	{
 		return isServer ? !IsBlockingServer : !IsBlockingClient;
 	}
 
-	public override bool IsPassable(Vector3Int from, bool isServer)
+	public override bool IsPassableFromOutside(Vector3Int from, bool isServer, GameObject context = null)
 	{
 		return IsPassable(isServer);
 	}
@@ -147,6 +150,20 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	}
 
 	/// <summary>
+	/// Try to help the player stand back up.
+	/// </summary>
+	[Server]
+	public void ServerHelpUp()
+	{
+		if (!IsLayingDown) return;
+
+		// Check if lying down because of stun. If stunned, there is a chance helping can fail.
+		if (IsSlippingServer && Random.Range(0, 100) > HELP_CHANCE) return;
+
+		ServerRemoveStun();
+	}
+
+	/// <summary>
 	/// Slips and stuns the player.
 	/// </summary>
 	/// <param name="slipWhileWalking">Enables slipping while walking.</param>
@@ -159,17 +176,19 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		}
 		// Don't slip while walking unless its enabled with "slipWhileWalking".
 		// Don't slip while player's consious state is crit, soft crit, or dead.
+		// Don't slip while the players hunger state is Strarving
 		if (IsSlippingServer
 			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit
-			|| playerScript.playerHealth.IsDead)
+			|| playerScript.playerHealth.IsDead
+			|| playerScript.playerHealth.Metabolism.HungerState == HungerState.Starving)
 		{
 			return;
 		}
 
 		ServerStun();
-		SoundManager.PlayNetworkedAtPos("Slip", WorldPositionServer, Random.Range(0.9f, 1.1f));
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, WorldPositionServer, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 		// Let go of pulled items.
 		playerScript.pushPull.ServerStopPulling();
 	}
@@ -199,7 +218,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	private IEnumerator StunTimer(float stunTime)
 	{
 		yield return WaitFor.Seconds(stunTime);
-		ServerRemoveStun();
+
+		// Check if player is still stunned when timer ends
+		// (may have been helped up by another player, for example)
+		if (IsSlippingServer)
+		{
+			ServerRemoveStun();
+		}
 	}
 
 	private void ServerRemoveStun()
@@ -220,6 +245,19 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			playerScript.playerMove.allowInput = true;
 		}
+	}
+	// <summary>
+	/// Performs bluespace activity (teleports randomly) on player if they have slipped on an object
+	/// with bluespace activity or are hit by an object with bluespace acivity and
+	/// has Liquid Contents.
+	/// Assumes max potency if none is given.
+	/// </summary>
+	///
+	public void ServerBluespaceActivity(int potency = 100)
+	{
+		int maxRange = 11;
+		int potencyStrength = (int)Math.Round((potency * .01f) * maxRange, 0);
+		TeleportUtils.ServerTeleportRandom(playerScript.gameObject, 0, potencyStrength, false, true);
 	}
 }
 

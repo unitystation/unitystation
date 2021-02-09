@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using Systems.Explosions;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -26,33 +27,33 @@ public partial class MatrixManager
 	public List<MatrixIntersection> TrackedIntersections => trackedIntersections;
 
 	private static LayerType[] layersToRemove = { LayerType.Effects };
-	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills, LayerType.Objects };
+	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills};
 
-	private void InitCollisions()
+	private void InitCollisions(MatrixInfo matrixInfo)
 	{
 		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
 		{
 			return;
 		}
 
-		foreach ( var movableMatrix in MovableMatrices )
+		if (matrixInfo.MatrixMove != null)
 		{
-			movableMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
+			matrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
 			{
-				if ( !movingMatrices.Contains( movableMatrix ) )
+				if ( !movingMatrices.Contains( matrixInfo ) )
 				{
-					movingMatrices.Add( movableMatrix );
+					movingMatrices.Add( matrixInfo );
 				}
 			} );
 
-			movableMatrix.MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener( () =>
+			matrixInfo.MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener( () =>
 			{
-				if ( movingMatrices.Contains( movableMatrix ) )
+				if ( movingMatrices.Contains( matrixInfo ) )
 				{
-					var participatingIntersections = trackedIntersections.FindAll( intersection => intersection.Matrix1 == movableMatrix );
-					movableMatrix.MatrixMove.MatrixMoveEvents.OnFullStopClient.AddListener( CollideBeforeStop( movableMatrix, participatingIntersections ) );
-					movingMatrices.Remove( movableMatrix );
-					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == movableMatrix );
+					var participatingIntersections = trackedIntersections.FindAll( intersection => intersection.Matrix1 == matrixInfo );
+					matrixInfo.MatrixMove.MatrixMoveEvents.OnFullStopClient.AddListener( CollideBeforeStop( matrixInfo, participatingIntersections ) );
+					movingMatrices.Remove( matrixInfo );
+					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == matrixInfo );
 				}
 			} );
 		}
@@ -307,8 +308,8 @@ public partial class MatrixManager
 			ApplyWireDamage( i.Matrix2, cellPos2 );
 
 			//Heat shit up
-			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, resistance2, resistance2/1000f );
-			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, resistance1, resistance1/1000f );
+			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1 );
+			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2 );
 
 			//Other
 			foreach ( var layer in layersToRemove )
@@ -318,8 +319,8 @@ public partial class MatrixManager
 			}
 			foreach ( var layer in effectsToRemove )
 			{
-				i.Matrix1.TileChangeManager.RemoveEffect( cellPos1, layer );
-				i.Matrix2.TileChangeManager.RemoveEffect( cellPos2, layer );
+				i.Matrix1.TileChangeManager.RemoveOverlay( cellPos1, layer );
+				i.Matrix2.TileChangeManager.RemoveOverlay( cellPos2, layer );
 			}
 		}
 
@@ -364,8 +365,23 @@ public partial class MatrixManager
 			//TilemapDamage
 			ApplyTilemapDamage( victimMatrix, cellPos, 9001, worldPos);
 
-//			//Integrity
+			//Integrity
 			ApplyIntegrityDamage( victimMatrix, cellPos, 9001 );
+
+			//Underfloor
+			RemoveUnderfloor(victimMatrix, cellPos);
+		}
+
+		void RemoveUnderfloor(MatrixInfo matrix, Vector3Int cellPos)
+		{
+			var Node = matrix.Matrix.GetMetaDataNode(cellPos);
+			if (Node != null)
+			{
+				foreach (var electricalData in Node.ElectricalData)
+				{
+					electricalData.InData.DestroyThisPlease();
+				}
+			}
 		}
 
 		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos )
@@ -375,7 +391,8 @@ public partial class MatrixManager
 			{
 				foreach ( var damageableLayer in matrix.MetaTileMap.LayersValues )
 				{
-					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType );
+					if (damageableLayer.LayerType == LayerType.Objects) continue;
+					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType);
 				}
 			}
 		}

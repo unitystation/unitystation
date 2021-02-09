@@ -8,6 +8,7 @@ using TMPro;
 
 public class GUI_P_Eume : PageElement
 {
+	public override PageElementEnum PageElementType => PageElementEnum.Enum;
 	public TMP_Dropdown TDropdown;
 
 	public override bool IsThisType(Type TType)
@@ -49,9 +50,7 @@ public class GUI_P_Eume : PageElement
 	{
 		if (PageID != 0)
 		{
-			RequestChangeVariableNetMessage.Send(PageID, TDropdown.options[intloc].text, ServerData.UserID, PlayerList.Instance.AdminToken);
-		}
-		else {
+			RequestChangeVariableNetMessage.Send(PageID, TDropdown.options[intloc].text, UISendToClientToggle.toggle, ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
 	}
 

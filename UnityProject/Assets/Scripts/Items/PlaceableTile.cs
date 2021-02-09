@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
+using AddressableReferences;
 
 /// <summary>
 /// Allows an item to be placed in order to create a tile on the ground.
 /// </summary>
 public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
+	[NonSerialized]
+	public LayerTypeSelection layerTypeSelection = LayerTypeSelection.Underfloor | LayerTypeSelection.Effects;
 
 	[FormerlySerializedAs("entries")]
 	[Tooltip("Defines each possible way this item can be placed as a tile.")]
 	[SerializeField]
-	private List<PlaceableTileEntry> waysToPlace;
+	private List<PlaceableTileEntry> waysToPlace = null;
 
 	[Tooltip("How many seconds it takes to place.")]
 	[SerializeField]
 	private float placeTime = 1.0f;
 
-	[SerializeField]
-	private string placeSound = null;
+	[SerializeField] private AddressableAudioSource placeSound = null;
 
 	[SerializeField]
 	private static readonly StandardProgressActionConfig ProgressConfig
@@ -37,7 +39,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 		//check if we are clicking a spot we can place a tile on
 		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, side);
-		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget,layerTypeSelection);
 
 		foreach (var entry in waysToPlace)
 		{
@@ -53,7 +55,6 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 				return true;
 			}
 		}
-
 		return false;
 	}
 	public void ClientPredictInteraction(PositionalHandApply interaction)
@@ -68,7 +69,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		//which matrix are we clicking on
 		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, true);
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
-		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget,layerTypeSelection);
 
 		PlaceableTileEntry placeableTileEntry = null;
 
@@ -113,7 +114,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 				Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
 				SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);
 			}
-			
+
 			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
 				.ServerStartProgress(targetPosition, placeTime, performer);
 		}
@@ -126,15 +127,15 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 	private class PlaceableTileEntry
 	{
 		[Tooltip("Layer tile which this will create when placed.")]
-		public LayerTile layerTile;
+		public LayerTile layerTile = null;
 
 		[Tooltip("What layer this can be placed on top of. Choose None to allow placing on empty space.")]
 		[SerializeField]
-		public LayerType placeableOn;
+		public LayerType placeableOn = LayerType.Base;
 
 		[Tooltip("Particular tile this is placeable on. Leave empty to allow placing on any tile.")]
 		[SerializeField]
-		public LayerTile placeableOnlyOnTile;
+		public LayerTile placeableOnlyOnTile = null;
 
 		[Tooltip("The amount of this item required to place tile.")]
 		[SerializeField]

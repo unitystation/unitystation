@@ -48,39 +48,35 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private float minimumHeight = 200f;
 
-		/// <summary>
-		/// Should command input field be cleared after pressing Enter
-		/// </summary>
-		[SerializeField]
-		private bool startInPopupMode = true;
-
 		[SerializeField]
 		private bool clearCommandAfterExecution = true;
 
 		[Header("Visuals")]
 		[SerializeField]
-		private DebugLogItem logItemPrefab;
+		private DebugLogItem logItemPrefab = null;
 
 		/// <summary>
 		/// Visuals for info log type
 		/// </summary>
 		[SerializeField]
-		private Sprite infoLog;
+		private Sprite infoLog = null;
 
 		/// <summary>
 		/// Visuals for warning log type
 		/// </summary>
 		[SerializeField]
-		private Sprite warningLog;
+		private Sprite warningLog = null;
 
 		/// <summary>
 		/// Visuals for error log type
 		/// </summary>
 		[SerializeField]
-		private Sprite errorLog;
+		private Sprite errorLog = null;
 
 		private Dictionary<LogType, Sprite> logSpriteRepresentations;
 
+		//Default value warning
+#pragma warning disable CS0649
 		[SerializeField]
 		private Color collapseButtonNormalColor;
 		[SerializeField]
@@ -90,38 +86,39 @@ namespace IngameDebugConsole
 		private Color filterButtonsNormalColor;
 		[SerializeField]
 		private Color filterButtonsSelectedColor;
+#pragma warning restore CS0649
 
 		[Header("Internal References")]
 		[SerializeField]
-		private RectTransform logWindowTR;
+		private RectTransform logWindowTR = null;
 
 		private RectTransform canvasTR;
 
 		[SerializeField]
-		private RectTransform logItemsContainer;
+		private RectTransform logItemsContainer = null;
 
 		[SerializeField]
-		private InputField commandInputField;
+		private InputField commandInputField = null;
 
 		[SerializeField]
-		private Image collapseButton;
+		private Image collapseButton = null;
 
 		[SerializeField]
-		private Image filterInfoButton;
+		private Image filterInfoButton = null;
 		[SerializeField]
-		private Image filterWarningButton;
+		private Image filterWarningButton = null;
 		[SerializeField]
-		private Image filterErrorButton;
+		private Image filterErrorButton = null;
 
 		[SerializeField]
-		private Text infoEntryCountText;
+		private Text infoEntryCountText = null;
 		[SerializeField]
-		private Text warningEntryCountText;
+		private Text warningEntryCountText = null;
 		[SerializeField]
-		private Text errorEntryCountText;
+		private Text errorEntryCountText = null;
 
 		[SerializeField]
-		private GameObject snapToBottomButton;
+		private GameObject snapToBottomButton = null;
 		public FPSCounter fpsCounter;
 
 		/// <summary>
@@ -133,22 +130,22 @@ namespace IngameDebugConsole
 		/// Canvas group to modify visibility of the log window
 		/// </summary>
 		[SerializeField]
-		private CanvasGroup logWindowCanvasGroup;
+		private CanvasGroup logWindowCanvasGroup = null;
 
 		private bool isLogWindowVisible = false;
 		private bool screenDimensionsChanged = false;
 
 		[SerializeField]
-		private DebugLogPopup popupManager;
+		private DebugLogPopup popupManager = null;
 
 		[SerializeField]
-		private ScrollRect logItemsScrollRect;
+		private ScrollRect logItemsScrollRect = null;
 
 		/// <summary>
 		/// Recycled list view to handle the log items efficiently
 		/// </summary>
 		[SerializeField]
-		private DebugLogRecycledListView recycledListView;
+		private DebugLogRecycledListView recycledListView = null;
 
 		/// <summary>
 		/// Determine whether Debug Log is collapsed
@@ -290,6 +287,8 @@ namespace IngameDebugConsole
 		/// </summary>
 		private void LateUpdate()
 		{
+			Debug.developerConsoleVisible = false;	//makes the default unity console disappear, rather hacky but unity doesnt give us a way to properly disable it
+
 			if (screenDimensionsChanged)
 			{
 				// Update the recycled list view
@@ -376,7 +375,7 @@ namespace IngameDebugConsole
 			// Check if this entry is a duplicate (i.e. has been received before)
 			int logEntryIndex;
 			bool isEntryInCollapsedEntryList = collapsedLogEntriesMap.TryGetValue(logEntry, out logEntryIndex);
-			if (!isEntryInCollapsedEntryList)
+			if (isEntryInCollapsedEntryList == false)
 			{
 				// It is not a duplicate,
 				// add it to the list of unique debug entries
@@ -428,7 +427,7 @@ namespace IngameDebugConsole
 				infoEntryCountText.text = infoEntryCount.ToString();
 
 				// If debug popup is visible, notify it of the new debug entry
-				if (!isLogWindowVisible)
+				if (isLogWindowVisible == false)
 					popupManager.NewInfoLogArrived();
 			}
 			else if (logType == LogType.Warning)
@@ -437,7 +436,7 @@ namespace IngameDebugConsole
 				warningEntryCountText.text = warningEntryCount.ToString();
 
 				// If debug popup is visible, notify it of the new debug entry
-				if (!isLogWindowVisible)
+				if (isLogWindowVisible == false)
 					popupManager.NewWarningLogArrived();
 			}
 			else
@@ -446,7 +445,7 @@ namespace IngameDebugConsole
 				errorEntryCountText.text = errorEntryCount.ToString();
 
 				// If debug popup is visible, notify it of the new debug entry
-				if (!isLogWindowVisible)
+				if (isLogWindowVisible == false)
 					popupManager.NewErrorLogArrived();
 			}
 		}

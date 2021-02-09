@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4468710205692153823
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 45843885946286961, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: bd750bc0624929342986dfd8ba85858e,
+        type: 2}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2059204682891483120, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_Name
+      value: _DepartmentProtolatheBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588022720072639122, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662179417289967808, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: initialDescription
+      value: A special protolathe with a built in interface meant for departmental
+        usage, with built in ExoSync receivers allowing it to print designs researched
+        that match its ROM-encoded department type.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662179417289967808, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: initialName
+      value: department protolathe
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f68661a1266c7104a8e88709444da749, type: 3}

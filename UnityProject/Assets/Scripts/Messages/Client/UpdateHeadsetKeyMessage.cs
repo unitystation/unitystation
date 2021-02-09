@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Messages.Client;
 using UnityEngine;
 using Mirror;
 
@@ -7,24 +8,24 @@ using Mirror;
 /// </summary>
 public class UpdateHeadsetKeyMessage : ClientMessage
 {
-	public static short MessageType = ( short ) MessageTypes.UpdateHeadsetKeyMessage;
 	public uint EncryptionKey;
 	public uint HeadsetItem;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		if ( HeadsetItem.Equals(NetId.Invalid) )
 		{
 			//Failfast
 
 			Logger.LogWarning($"Headset invalid, processing stopped: {ToString()}",Category.Telecoms);
-			yield break;
+			return;
 		}
 
 		if ( EncryptionKey.Equals(NetId.Invalid) )
 		{
 			//No key passed in message -> Removes EncryptionKey from a headset
-			yield return WaitFor(HeadsetItem);
+			LoadNetworkObject(HeadsetItem);
+
 			var player = SentByPlayer;
 			var headsetGO = NetworkObject;
 			if ( ValidRemoval(headsetGO) )
@@ -35,7 +36,8 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		else
 		{
 			//Key was passed -> Puts it into headset
-			yield return WaitFor(HeadsetItem, EncryptionKey);
+			LoadMultipleObjects(new uint[] {HeadsetItem, EncryptionKey});
+
 			var player = SentByPlayer;
 			var headsetGO = NetworkObjects[0];
 			var keyGO = NetworkObjects[1];
@@ -122,19 +124,5 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 	public override string ToString()
 	{
 		return $"[UpdateHeadsetKeyMessage SentBy={SentByPlayer} HeadsetItem={HeadsetItem} EncryptionKey={EncryptionKey}]";
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		HeadsetItem = reader.ReadUInt32();
-		EncryptionKey = reader.ReadUInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(HeadsetItem);
-		writer.WriteUInt32(EncryptionKey);
 	}
 }

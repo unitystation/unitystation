@@ -1,182 +1,304 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using AddressableReferences;
+using Initialisation;
+using Objects.Command;
+using Objects.Wallmounts;
+using Strings;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-///------------
-/// CENTRAL COMMAND HQ
-///------------
-public class CentComm : MonoBehaviour
+namespace Managers
 {
-	public GameManager gameManager;
-
-	public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
-
-	//Server only:
-	private List<Vector2> AsteroidLocations = new List<Vector2>();
-	private int PlasmaOrderRequestAmt;
-	private GameObject paperPrefab;
-
-	public static string CaptainAnnounceTemplate =
-		"\n\n<color=white><size=60><b>Captain Announces</b></size></color>\n\n"
-	  + "<color=#FF151F><b>{0}</b></color>\n\n";
-
-	public static string PriorityAnnouncementTemplate =
-		"\n\n<color=white><size=60><b>Priority Announcement</b></size></color>\n\n"
-	  + "<color=#FF151F>{0}</color>\n\n";
-
-	public static string ShuttleCallSubTemplate =
-		"\n\nThe emergency shuttle has been called. It will arrive in {0} minutes." +
-		"\nNature of emergency:" +
-		"\n\n{1}";
-	// Not traced yet, but eventually will:
-//		+"\n\nCall signal traced. Results can be viewed on any communications console.";
-
-	public static string ShuttleRecallSubTemplate =
-		"\n\nThe emergency shuttle has been recalled. " +
-	// Not traced yet, but eventually will:
-//		+"Recall signal traced. Results can be viewed on any communications console.";
-		"\n\n{0}";
-
-	void Start()
+	public class CentComm : MonoBehaviour
 	{
-		paperPrefab = Resources.Load<GameObject>("Paper");
-	}
+		public GameManager gameManager;
 
-	private void OnEnable()
-	{
-		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
-	}
+		[SerializeField][Tooltip("Reference to the paper prefab. Needed to send reports.")]
+		private GameObject paperPrefab = default;
 
-	private void OnDisable()
-	{
-		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
-	}
+		public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
+		[NonSerialized] public string CommandStatusString;
+		[NonSerialized] public string EscapeShuttleTimeString;
 
-	private void OnRoundStart()
-	{
-		AsteroidLocations.Clear();
-		StartCoroutine(WaitToPrepareReport());
-	}
-
-	IEnumerator WaitToPrepareReport()
-	{
-		yield return WaitFor.EndOfFrame; //OnStartServer starts one frame after OnRoundStart
-		//Server only:
-		if (!CustomNetworkManager.Instance._isServer)
+		public void UpdateStatusDisplay(StatusDisplayChannel channel, string text)
 		{
-			yield break;
-		}
-		//Wait some time after the round has started
-		yield return WaitFor.Seconds(60f);
-
-		//Gather asteroid locations:
-		for (int i = 0; i < gameManager.SpaceBodies.Count; i++)
-		{
-			var asteroid = gameManager.SpaceBodies[i].GetComponent<Asteroid>();
-			if (asteroid != null)
+			if (channel == StatusDisplayChannel.EscapeShuttle)
 			{
-				AsteroidLocations.Add(gameManager.SpaceBodies[i].ServerState.Position);
+				EscapeShuttleTimeString = text;
+			}
+			else if(channel == StatusDisplayChannel.Command)
+			{
+				CommandStatusString = text;
+			}
+			OnStatusDisplayUpdate.Invoke(channel);
+		}
+
+		[SerializeField] [Tooltip("What should the initial Alert level be on the round.")]
+		private AlertLevel initialAlertLevel = AlertLevel.Green;
+
+		[NonSerialized] public AlertLevel CurrentAlertLevel;
+
+		//Server only:
+		private List<Vector2> asteroidLocations = new List<Vector2>();
+		private int plasmaOrderRequestAmt;
+		public DateTime lastAlertChange;
+		public double coolDownAlertChange = 5;
+
+		public InitialisationSystems Subsystem => InitialisationSystems.CentComm;
+
+		private static Dictionary<UpdateSound, AddressableAudioSource> updateTypes;
+
+		private void Awake()
+		{
+			updateTypes = new Dictionary<UpdateSound, AddressableAudioSource>
+			{
+				{UpdateSound.Notice, SingletonSOSounds.Instance.Notice2},
+				{UpdateSound.Alert, SingletonSOSounds.Instance.Notice1},
+				{UpdateSound.Announce, SingletonSOSounds.Instance.AnnouncementAnnounce}
+			};
+		}
+
+		private void OnEnable()
+		{
+			EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
+		}
+
+		private void OnDisable()
+		{
+			EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
+		}
+
+		private void OnRoundStart()
+		{
+			asteroidLocations.Clear();
+			ChangeAlertLevel(initialAlertLevel, false);
+			StartCoroutine(WaitToPrepareReport());
+		}
+
+		private IEnumerator WaitToPrepareReport()
+		{
+			yield return WaitFor.EndOfFrame; //OnStartServer starts one frame after OnRoundStart
+			//Server only:
+			if (!CustomNetworkManager.Instance._isServer)
+			{
+				yield break;
+			}
+
+			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementWelcome);
+
+			yield return WaitFor.Seconds(60f);
+
+			//Gather asteroid locations:
+			foreach (var body in gameManager.SpaceBodies)
+			{
+				if (body.TryGetComponent<Asteroid>(out _))
+				{
+					asteroidLocations.Add(body.ServerState.Position);
+				}
+			}
+
+			//Add in random positions
+			int randomPosCount = Random.Range(1, 5);
+			for (int i = 0; i <= randomPosCount; i++)
+			{
+				asteroidLocations.Add(gameManager.RandomPositionInSolarSystem());
+			}
+
+			//Shuffle the list:
+			asteroidLocations = asteroidLocations.OrderBy(x => Random.value).ToList();
+			plasmaOrderRequestAmt = Random.Range(5, 50);
+
+
+			// Checks if there will be antags this round and sets the initial update/report
+			if (GameManager.Instance.GetGameModeName(true) != "Extended")
+			{
+				lastAlertChange = GameManager.Instance.stationTime;
+				SendAntagUpdate();
+			}
+			else
+			{
+				SendExtendedUpdate();
+			}
+
+			StartCoroutine(WaitToGenericReport());
+		}
+
+		private void SendExtendedUpdate()
+		{
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce, string.Format(ReportTemplates.InitialUpdate, ReportTemplates.ExtendedInitial),
+				UpdateSound.Notice);
+			SpawnReports(StationObjectiveReport());
+		}
+		private void SendAntagUpdate()
+		{
+			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementIntercept);
+			MakeAnnouncement(
+				ChatTemplates.CentcomAnnounce,
+				string.Format(
+					ReportTemplates.InitialUpdate,
+					ReportTemplates.AntagInitialUpdate+"\n\n"+
+					ChatTemplates.GetAlertLevelMessage(AlertLevelChange.UpToBlue)),
+				UpdateSound.Alert);
+			SpawnReports(StationObjectiveReport());
+			SpawnReports(ReportTemplates.AntagThreat);
+			ChangeAlertLevel(AlertLevel.Blue, false);
+		}
+
+		IEnumerator WaitToGenericReport()
+		{
+			if (!PlayerUtils.IsOk(gameObject))
+			{
+				yield break;
+			}
+			yield return WaitFor.Seconds(Random.Range(300f,1500f));
+			PlayerUtils.DoReport();
+
+			yield return WaitFor.Seconds(10);
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce, PlayerUtils.GetGenericReport(), UpdateSound.Announce);
+		}
+
+		/// <summary>
+		/// Changes current Alert Level. You can omit the announcement! Must be called on server.
+		/// </summary>
+		/// <param name="toLevel">Value from AlertLevel that represent the desired level</param>
+		/// <param name="announce">Optional, Should we announce the change? Default is true.</param>
+		public void ChangeAlertLevel(AlertLevel toLevel, bool announce = true)
+		{
+			if (CurrentAlertLevel == toLevel) return;
+
+			if (CurrentAlertLevel > toLevel && toLevel == AlertLevel.Green)
+			{
+				MakeAnnouncement(ChatTemplates.CentcomAnnounce,
+					ChatTemplates.GetAlertLevelMessage(AlertLevelChange.DownToGreen),
+					UpdateSound.Notice);
+			}
+			else if (CurrentAlertLevel > toLevel && announce)
+			{
+				var levelString = (int) toLevel * -1;
+				MakeAnnouncement(ChatTemplates.CentcomAnnounce,
+					ChatTemplates.GetAlertLevelMessage((AlertLevelChange)levelString),
+					UpdateSound.Notice);
+			}
+			else if (CurrentAlertLevel < toLevel && announce)
+			{
+				MakeAnnouncement(ChatTemplates.CentcomAnnounce,
+					ChatTemplates.GetAlertLevelMessage((AlertLevelChange)toLevel),
+					UpdateSound.Alert);
+			}
+
+			lastAlertChange = gameManager.stationTime;
+			CurrentAlertLevel = toLevel;
+		}
+
+		/// <summary>
+		/// Spawns written reports at every comms console. Must be called on server.
+		/// </summary>
+		/// <param name="text">String that will be the report body</param>
+		private void SpawnReports(string text)
+		{
+			var commConsoles = FindObjectsOfType<CommsConsole>();
+			foreach (var console in commConsoles)
+			{
+				var p = Spawn.ServerPrefab(paperPrefab, console.gameObject.RegisterTile().WorldPositionServer, console.transform.parent).GameObject;
+				var paper = p.GetComponent<Paper>();
+				paper.SetServerString(string.Format(ReportTemplates.CentcomReport, text));
 			}
 		}
 
-		//Add in random positions
-		int randomPosCount = Random.Range(1, 5);
-		for (int i = 0; i <= randomPosCount; i++)
+		/// <summary>
+		/// Makes and announce a written report that will spawn at all comms consoles. Must be called on server.
+		/// </summary>
+		/// <param name="text">String that will be the report body</param>
+		/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
+		public void MakeCommandReport(string text, UpdateSound type)
 		{
-			AsteroidLocations.Add(gameManager.RandomPositionInSolarSystem());
+			SpawnReports(text);
+
+			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix);
+
+			_ = SoundManager.PlayNetworked(updateTypes[type], 1f);
+			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
 		}
 
-		//Shuffle the list:
-		AsteroidLocations = AsteroidLocations.OrderBy(x => Random.value).ToList();
-
-		//Determine Plasma order:
-		PlasmaOrderRequestAmt = Random.Range(5, 50);
-		SendReportToStation();
-	}
-
-	private void SendReportToStation()
-	{
-		var commConsoles = FindObjectsOfType<CommsConsole>();
-		foreach (CommsConsole console in commConsoles)
+		/// <summary>
+		/// Makes an announcement for all players. Must be called on server.
+		/// </summary>
+		/// <param name="template">String that will be the header of the annoucement. We have a couple ready to use </param>
+		/// <param name="text">String that will be the message body</param>
+		/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
+		public static void MakeAnnouncement( string template, string text, UpdateSound type )
 		{
-			var p = Spawn.ServerPrefab(paperPrefab, console.transform.position, console.transform.parent).GameObject;
-			var paper = p.GetComponent<Paper>();
-			paper.SetServerString(CreateStartGameReport());
+			if ( text.Trim() == string.Empty )
+			{
+				return;
+			}
+
+			if (type != UpdateSound.NoSound)
+			{
+				_ = SoundManager.PlayNetworked( updateTypes[type] );
+			}
+
+			Chat.AddSystemMsgToChat(string.Format( template, text ), MatrixManager.MainStationMatrix);
 		}
 
-		Chat.AddSystemMsgToChat(CommandUpdateAnnouncementString(), MatrixManager.MainStationMatrix);
-
-		SoundManager.PlayNetworked("Notice1", 1f);
-		SoundManager.PlayNetworked("InterceptMessage", 1f);
-	}
-
-	public static void MakeCaptainAnnouncement( string text )
-	{
-		if ( text.Trim() == string.Empty )
+		/// <summary>
+		/// Text should be no less than 10 chars
+		/// </summary>
+		public static void MakeShuttleCallAnnouncement( string minutes, string text, bool bypassLength = false )
 		{
-			return;
+			if (!bypassLength && (text.Trim() == string.Empty || text.Trim().Length < 10))
+			{
+				return;
+			}
+
+			Chat.AddSystemMsgToChat(
+				string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleCallSub,minutes,text) ),
+				MatrixManager.MainStationMatrix);
+
+			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleCalled);
 		}
 
-		SoundManager.PlayNetworked( "Announce" );
-		Chat.AddSystemMsgToChat(string.Format( CaptainAnnounceTemplate, text ), MatrixManager.MainStationMatrix);
-	}
-
-	/// <summary>
-	/// Text should be no less than 10 chars
-	/// </summary>
-	public static void MakeShuttleCallAnnouncement( int minutes, string text )
-	{
-		if ( text.Trim() == string.Empty || text.Trim().Length < 10)
+		/// <summary>
+		/// Text can be empty
+		/// </summary>
+		public static void MakeShuttleRecallAnnouncement( string text )
 		{
-			return;
+			Chat.AddSystemMsgToChat(
+				string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleRecallSub,text)),
+				MatrixManager.MainStationMatrix);
+
+			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleRecalled);
 		}
 
-		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) ),
-			MatrixManager.MainStationMatrix);
-		PlaySoundMessage.SendToAll("ShuttleCalled", Vector3.zero, 1f);
-	}
-
-	/// <summary>
-	/// Text can be empty
-	/// </summary>
-	public static void MakeShuttleRecallAnnouncement( string text )
-	{
-		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) ),
-			MatrixManager.MainStationMatrix);
-		PlaySoundMessage.SendToAll("ShuttleRecalled", Vector3.zero, 1f);
-	}
-
-	private string CreateStartGameReport()
-	{
-		string report = "<size=38>CentComm Report</size> \n __________________________________ \n \n" +
-			" <size=26>Asteroid bodies have been sighted in the local area around " +
-			"OutpostStation IV. Locate and exploit local sources for plasma deposits.</size>\n \n " +
-			"<color=blue><size=32>Crew Objectives:</size></color>\n \n <size=24>- Locate and mine " +
-			"local Plasma Deposits\n \n - Fulfill order of " + PlasmaOrderRequestAmt + " Solid Plasma units and dispatch to " +
-			"Central Command via Cargo Shuttle</size>\n \n <size=32>Latest Asteroid Sightings:" +
-			"</size>\n \n";
-
-		for (int i = 0; i < AsteroidLocations.Count; i++)
+		private string StationObjectiveReport()
 		{
-			report += " <size=24>" + Vector2Int.RoundToInt(AsteroidLocations[i]).ToString() + "</size> ";
+			var report = new StringBuilder();
+			report.AppendFormat(ReportTemplates.StationObjective, plasmaOrderRequestAmt);
+
+			foreach (var location in asteroidLocations)
+			{
+				report.AppendFormat(" <size=24>{0}</size> ", Vector2Int.RoundToInt(location));
+			}
+
+			return report.ToString();
 		}
 
-		return report;
-	}
+		public enum UpdateSound {
+			Notice,
+			Alert,
+			Announce,
+			NoSound
+		}
 
-	private string CommandUpdateAnnouncementString()
-	{
-		return "\n\n<color=white><size=60><b>Central Command Update</b></size>"
-		+ "\n\n<b><size=40>Enemy communication intercepted. Security level elevated."
-		+ "</size></b></color>\n\n<color=#FF151F><size=36>A summary has been copied and"
-		+ " printed to all communications consoles. </size></color>\n\n<color=#FF151F><b>"
-		+ "Attention! Security level elevated to blue:</b></color>\n<color=white><size=36>"
-		+ "<b>The station has received reliable information about possible hostile activity"
-		+ " on the station. Security staff may have weapons visible. Searches are permitted"
-		+ " only with probable cause.</b></size></color>\n\n";
+		public enum AlertLevel {
+			Green = 1,
+			Blue = 2,
+			Red = 3,
+			Delta = 4
+		}
 	}
 }

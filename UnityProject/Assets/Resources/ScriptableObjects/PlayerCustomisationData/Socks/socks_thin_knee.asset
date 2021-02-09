@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618246b5f03aca141b4ac0f9f9eabe59, type: 3}
+  m_Name: socks_thin_knee
+  m_EditorClassIdentifier: 
+  SpriteEquipped: {fileID: 11400000, guid: 8a2f2f26f17c3674cb06f68534b3ae6d, type: 2}
+  Equipped:
+    Texture: {fileID: 2800000, guid: 62363d02c0bde1c4db983187d886b1ee, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 62363d02c0bde1c4db983187d886b1ee, type: 3}
+    - {fileID: 21300002, guid: 62363d02c0bde1c4db983187d886b1ee, type: 3}
+    - {fileID: 21300004, guid: 62363d02c0bde1c4db983187d886b1ee, type: 3}
+    - {fileID: 21300006, guid: 62363d02c0bde1c4db983187d886b1ee, type: 3}
+    EquippedData: {fileID: 4900000, guid: 5040b48f92e6f7345aa58f9973dad39f, type: 3}
+  Name: Knee-high (Thin)
+  Type: 5
+  gender: 2

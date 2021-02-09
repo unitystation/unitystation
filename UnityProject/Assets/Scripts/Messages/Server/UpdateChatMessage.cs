@@ -10,7 +10,6 @@ using Mirror;
 /// </summary>
 public class UpdateChatMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;
 	public ChatModifier ChatModifiers;
 	public string Message;
@@ -20,11 +19,13 @@ public class UpdateChatMessage : ServerMessage
 	public uint Recipient;
 	public uint Originator;
 	public string Speaker;
+	public bool StripTags;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Recipient);
-		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker);
+		LoadNetworkObject(Recipient);
+		var recipientObject = NetworkObject;
+		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker, recipientObject, StripTags);
 	}
 
 	/// <summary>
@@ -33,7 +34,7 @@ public class UpdateChatMessage : ServerMessage
 	/// i.e syndi special roles)
 	/// </summary>
 	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage, string othersMsg = "",
-		GameObject originator = null, string speaker = "")
+		GameObject originator = null, string speaker = "", bool stripTags = true)
 	{
 		uint origin = NetId.Empty;
 		if (originator != null)
@@ -48,10 +49,40 @@ public class UpdateChatMessage : ServerMessage
 				Message = chatMessage,
 				OthersMessage = othersMsg,
 				Originator = origin,
-				Speaker = speaker
+				Speaker = speaker,
+				StripTags = stripTags
 			};
 
 		msg.SendTo(recipient);
 		return msg;
+	}
+
+	public override void SendTo(GameObject recipient)
+	{
+		if (recipient == null)
+		{
+			return;
+		}
+
+		NetworkConnection connection = recipient.GetComponent<NetworkIdentity>().connectionToClient;
+
+		if (connection == null)
+		{
+			return;
+		}
+
+		//			only send to players that are currently controlled by a client
+		if (PlayerList.Instance.ContainsConnection(connection))
+		{
+			connection.Send(this, 0);
+			Logger.LogTraceFormat("SentTo {0}: {1}", Category.Chat, recipient.name, this);
+		}
+		else
+		{
+			Logger.LogTraceFormat("Not sending message {0} to {1}", Category.Chat, this, recipient.name);
+		}
+
+		//Obsolete version:
+		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 	}
 }

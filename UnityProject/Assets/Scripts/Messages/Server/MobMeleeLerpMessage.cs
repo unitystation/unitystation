@@ -2,36 +2,50 @@
 using Mirror;
 using UnityEngine;
 
-public class MobMeleeLerpMessage : ServerMessage
+namespace Systems.MobAIs
 {
-	public static short MessageType = (short) MessageTypes.MobMeleeLerpMessage;
-
-	public uint mob;
-	public Vector2 dir;
-
-	public override IEnumerator Process()
+	public class MobMeleeLerpMessage : ServerMessage
 	{
-		yield return null;
-		if (mob == NetId.Empty) yield break;
+		public uint mob;
+		public Vector2 dir;
 
-		var getMob = NetworkIdentity.spawned[mob];
-		var mobMelee = getMob.GetComponent<MobMeleeAttack>();
-		mobMelee.ClientDoLerpAnimation(dir);
-	}
-
-	public static MobMeleeLerpMessage Send(GameObject mob, Vector2 dir)
-	{
-		//Only send to players in the area so that clients cannot snoop on mob positions
-		//by watching debug log outputs from the process coroutine on this message
-
-		MobMeleeLerpMessage msg = new MobMeleeLerpMessage
+		public override void Process()
 		{
-			mob = mob.GetComponent<NetworkIdentity>().netId,
-			dir = dir
-		};
+			LoadNetworkObject(mob);
 
-		msg.SendToVisiblePlayers(mob.transform.position);
+			if (NetworkObject == null) return;
 
-		return msg;
+			var getMob = NetworkObject;
+			var mobMelee = getMob.GetComponent<MobMeleeAttack>();
+			var mobAction = getMob.GetComponent<MobMeleeAction>();
+			if (mobMelee == null & mobAction == null)
+			{
+				return;
+			}
+
+			if (mobMelee == null)
+			{
+				mobAction.ClientDoLerpAnimation(dir);
+				return;
+			}
+
+			mobMelee.ClientDoLerpAnimation(dir);
+		}
+
+		public static MobMeleeLerpMessage Send(GameObject mob, Vector2 dir)
+		{
+			//Only send to players in the area so that clients cannot snoop on mob positions
+			//by watching debug log outputs from the process coroutine on this message
+
+			MobMeleeLerpMessage msg = new MobMeleeLerpMessage
+			{
+				mob = mob.GetComponent<NetworkIdentity>().netId,
+				dir = dir
+			};
+
+			msg.SendToVisiblePlayers(mob.transform.position);
+
+			return msg;
+		}
 	}
 }

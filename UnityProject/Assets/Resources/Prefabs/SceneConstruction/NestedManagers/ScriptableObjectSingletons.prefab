@@ -46,6 +46,7 @@ MonoBehaviour:
   ItemTypeToTraitMapping: {fileID: 11400000, guid: 8fcf7f22b82254402a12b37d29c01f15,
     type: 2}
   CommonTraits: {fileID: 11400000, guid: f1856add7b34a46bbb89affcb4ed86b7, type: 2}
+  DepartmentList: {fileID: 11400000, guid: 78ed418d17146c04e84a65952c123008, type: 2}
   OccupationList: {fileID: 11400000, guid: 372aeb2f97f7d4617b83a6e8fe6adb92, type: 2}
   BestSlotForTrait: {fileID: 11400000, guid: dff0c37c86ee24ca38580199556fd932, type: 2}
   PlayerCustomisationDataSOs: {fileID: 11400000, guid: 7b7c979c23fabbd468b77ee8fe7526a4,
@@ -56,6 +57,19 @@ MonoBehaviour:
     type: 2}
   CommonPrefabs: {fileID: 11400000, guid: bf1ea2a89b19143c996995d650266ff2, type: 2}
   CommonCooldowns: {fileID: 11400000, guid: 5b45f6c0f9827844aa17cd49d2e888f1, type: 2}
-  AmmoPrefabs: {fileID: 11400000, guid: 80457940d6023324eb9a2f1fc72d6a49, type: 2}
   UIActionSOSingleton: {fileID: 11400000, guid: d38d84ecfca1745468564bd1c98c6f4c,
     type: 2}
+  SpeechModManager: {fileID: 11400000, guid: 2f02c52b1b323a142abd56f9f7c805c1, type: 2}
+  MachinePartsItemTraits: {fileID: 11400000, guid: a84d259454cb98e4990ace9bf9d1f3fa,
+    type: 2}
+  MachinePartsPrefabs: {fileID: 11400000, guid: ebe4fd558906b2a40a9c3dff78eab886,
+    type: 2}
+  AdminJobsList: {fileID: 11400000, guid: 6b15d1e22706d4c4fb81d921267e1910, type: 2}
+  PoolConfig: {fileID: 11400000, guid: ba0cea4a88b2c264fa8969b25b5d57b5, type: 2}
+  UplinkCategoryList: {fileID: 11400000, guid: 3e118927af58f5f41aaac7d4af0f0081, type: 2}
+  UplinkPasswordList: {fileID: 11400000, guid: bc84517cba08ceeaeac746f3f0cea751, type: 2}
+  PipeTileSingleton: {fileID: 11400000, guid: c0669af0689d8b648a196419302e25f9, type: 2}
+  AlcoholicDrinksSOScript: {fileID: 11400000, guid: b9adb4f35ed62f745b31648d615dada0,
+    type: 2}
+  SpriteCatalogue: {fileID: 11400000, guid: f592904d182d90741972e3001e15cab3, type: 2}
+  SingletonSOSounds: {fileID: 11400000, guid: e36b49a1ab9b591419f4c0f983abd38f, type: 2}

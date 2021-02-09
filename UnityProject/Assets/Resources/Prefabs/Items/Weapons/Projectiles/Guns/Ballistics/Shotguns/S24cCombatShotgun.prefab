@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7412540439428907396
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4224065138865924073, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ac635ecb665bd94c8102ccb5c3cd0b7,
+        type: 2}
+    - target: {fileID: 6823102837704580389, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: MagSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6823102837704580389, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: genericInternalMag
+      value: 
+      objectReference: {fileID: 7867408350706620705, guid: 47493b21cc48e4b4baf28fadcea2f2fe,
+        type: 3}
+    - target: {fileID: 6823102837704580389, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 7867408350706620705, guid: 47493b21cc48e4b4baf28fadcea2f2fe,
+        type: 3}
+    - target: {fileID: 6823102837704580389, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: allowMagazineRemoval
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581072607275496204, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: initialDescription
+      value: A compact version of the semi automatic combat shotgun. For close encounters.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581072607275496204, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: initialName
+      value: S24c combat shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581072607275496204, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581072607275496204, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 7865834125967585074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4edae7d085e5cfd41b1488c0990c585e,
+        type: 3}
+    - target: {fileID: 7947954434337300954, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055666269723042074, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059468518805232750, guid: 8976db5cf8f59bc4cb85f61e8737b468,
+        type: 3}
+      propertyPath: m_Name
+      value: S24cCombatShotgun
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8976db5cf8f59bc4cb85f61e8737b468, type: 3}

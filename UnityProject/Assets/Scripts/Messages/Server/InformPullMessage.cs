@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Mirror;
+using Objects;
 
 ///     Message that tells client that "Subject" is now pulled by "PulledBy"
 public class InformPullMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.InformPull;
-
 	public uint Subject;
 	public uint PulledBy;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Subject, PulledBy);
+		LoadMultipleObjects(new uint [] {Subject, PulledBy});
+
 		if ( NetworkObjects[0] == null )
 		{
-			yield break;
+			return;
 		}
 
 		PushPull subject = NetworkObjects[0].GetComponent<PushPull>();

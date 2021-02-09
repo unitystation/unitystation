@@ -29,11 +29,32 @@ namespace Lobby
 		{
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
+			EventManager.AddHandler(EVENT.LoggedOut, SetOnLogOut);
+			CustomNetworkManager.Instance.OnClientDisconnected.AddListener(OnClientDisconnect);
+		}
+
+		private void OnDisable()
+		{
+			EventManager.RemoveHandler(EVENT.LoggedOut, SetOnLogOut);
+			CustomNetworkManager.Instance?.OnClientDisconnected?.RemoveListener(OnClientDisconnect);
+		}
+
+		public void OnClientDisconnect()
+		{
+			lobbyDialogue.OnClientDisconnect();
 		}
 
 		void DetermineUIScale()
 		{
-			if (!Application.isMobilePlatform)
+			if (Application.isMobilePlatform)
+			{
+				if (!UIManager.IsTablet)
+				{
+					characterCustomization.transform.localScale *= 1.25f;
+					lobbyDialogue.transform.localScale *= 2.0f;
+				}
+			}
+			else
 			{
 				if (Screen.height > 720f)
 				{
@@ -46,16 +67,6 @@ namespace Lobby
 					lobbyDialogue.transform.localScale *= 0.9f;
 				}
 			}
-		}
-
-		void OnEnable()
-		{
-			EventManager.AddHandler(EVENT.LoggedOut, SetOnLogOut);
-		}
-
-		void OnDisable()
-		{
-			EventManager.RemoveHandler(EVENT.LoggedOut, SetOnLogOut);
 		}
 
 		private void SetOnLogOut()

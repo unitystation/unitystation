@@ -10,11 +10,9 @@ using Mirror;
 public class GhostSprites : MonoBehaviour
 {
 	//sprite renderer showing the ghost
-	private SpriteRenderer spriteRenderer;
-	//ghost sprites for each direction
-	private readonly Dictionary<Orientation, Sprite> ghostSprites = new Dictionary<Orientation, Sprite>();
+	private SpriteHandler SpriteHandler;
 
-	public SpriteSheetAndData GhostSpritese;
+	public List<SpriteDataSO> GhostSpritesSOs = new List<SpriteDataSO>();
 
 	private Directional directional;
 
@@ -22,18 +20,30 @@ public class GhostSprites : MonoBehaviour
 	{
 		directional = GetComponent<Directional>();
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
-		ghostSprites.Add(Orientation.Down, GhostSpritese.Sprites[0]);
-		ghostSprites.Add(Orientation.Up, GhostSpritese.Sprites[1]);
-		ghostSprites.Add(Orientation.Right, GhostSpritese.Sprites[2]);
-		ghostSprites.Add(Orientation.Left, GhostSpritese.Sprites[3]);
-
-		spriteRenderer = GetComponent<SpriteRenderer>();
+		SpriteHandler = GetComponentInChildren<SpriteHandler>();
+		if (CustomNetworkManager.Instance._isServer == false) return;
 
 
+		SpriteHandler.SetSpriteSO(GhostSpritesSOs.PickRandom());
 	}
 
 	private void OnDirectionChange(Orientation direction)
 	{
-		spriteRenderer.sprite = ghostSprites[direction];
+		if (Orientation.Down == direction)
+		{
+			SpriteHandler.ChangeSpriteVariant(0, NetWork:false);
+		}
+		else if (Orientation.Up == direction)
+		{
+			SpriteHandler.ChangeSpriteVariant(1, NetWork:false);
+		}
+		else if (Orientation.Right == direction)
+		{
+			SpriteHandler.ChangeSpriteVariant(2, NetWork:false);
+		}
+		else
+		{
+			SpriteHandler.ChangeSpriteVariant(3, NetWork:false);
+		}
 	}
 }

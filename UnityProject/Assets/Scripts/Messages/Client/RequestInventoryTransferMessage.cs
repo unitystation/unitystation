@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Messages.Client;
 using UnityEngine;
 using Mirror;
 
@@ -11,8 +12,6 @@ using Mirror;
 /// </summary>
 public class RequestInventoryTransferMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestSlotTransferMessage;
-
 	public uint FromStorage;
 	public int FromSlotIndex;
 	public NamedSlot FromNamedSlot;
@@ -20,24 +19,24 @@ public class RequestInventoryTransferMessage : ClientMessage
 	public int ToSlotIndex;
 	public NamedSlot ToNamedSlot;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(FromStorage, ToStorage);
+		LoadMultipleObjects(new uint[]{FromStorage, ToStorage});
+		if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
 		var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), FromNamedSlot, FromSlotIndex);
 		var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), ToNamedSlot, ToSlotIndex);
 
-		bool valid = true;
 		if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server, examineRecipient: SentByPlayer.GameObject))
 		{
 			HandleFail(fromSlot, toSlot);
-			yield return null;
+			return;
 		}
 		//the slots must both be either in this player's inv or in an observed InteractableStorage
 		if (!ValidSlot(toSlot) || !ValidSlot(fromSlot))
 		{
 			HandleFail(fromSlot, toSlot);
-			yield return null;
+			return;
 		}
 
 		Inventory.ServerTransfer(fromSlot, toSlot);
@@ -82,7 +81,7 @@ public class RequestInventoryTransferMessage : ClientMessage
 	/// o</param>
 	/// <param name="toSlot"></param>
 	/// <returns></returns>
-	public static void _Send(ItemSlot fromSlot, ItemSlot toSlot)
+	public static void Send(ItemSlot fromSlot, ItemSlot toSlot)
 	{
 		RequestInventoryTransferMessage msg = new RequestInventoryTransferMessage
 		{

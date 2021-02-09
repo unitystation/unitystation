@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using Objects;
 
 public partial class PlayerSync
 {
@@ -41,6 +41,10 @@ public partial class PlayerSync
 	/// Does client's transform pos match state pos? Ignores Z-axis. Unity's vectors might have 1E-05 of difference
 	private bool ClientPositionReady => Vector2.Distance( predictedState.Position, transform.localPosition ) < 0.001f
 	                                    || playerState.WorldPosition == TransformState.HiddenPos;
+
+	//Pending Init state cache when the client is still loading in
+	private Queue<PlayerState> pendingInitStates = new Queue<PlayerState>();
+	private bool isWaitingForMatrix = false;
 
 	private bool IsWeightlessClient
 	{
@@ -84,32 +88,24 @@ public partial class PlayerSync
 	private bool blockClientMovement = false;
 
 	private bool MoveCooldown = false; //cooldown is here just for client performance
-	private void DoAction()
-	{
-		PlayerAction action = playerMove.SendAction();
-		if (action.moveActions.Length != 0 && !MoveCooldown)
-		{
-			StartCoroutine(DoProcess(action));
-		}
-	}
 
-	public bool DoAction(PlayerAction action)
+	//Extracted to its own function, to make reasoning about it easier for me.
+	private bool ShouldPlayerMove()
 	{
-		if (action.moveActions.Length != 0 && !MoveCooldown)
-		{
-			StartCoroutine(DoProcess(action));
-			return true;
-		}
-		return false;
+		return !blockClientMovement && !KeyboardInputManager.IsControlPressed() && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost);
 	}
-
+	//Extracted to slightly reduce code duplication.
+	private void UpdateFacingDirection(PlayerAction action)
+	{
+		playerDirectional.FaceDirection(Orientation.From(action.Direction()));
+	}
 	//main client prediction and validation logic lives here
 	private IEnumerator DoProcess(PlayerAction action)
 	{
 		MoveCooldown = true;
 		//experiment: not enqueueing or processing action if floating.
 		//arguably it shouldn't really be like that in the future
-		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
+		if (ShouldPlayerMove())
 		{
 			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement,
 				action.Direction(), pendingActions.Count, ClientState, predictedState );
@@ -123,10 +119,18 @@ public partial class PlayerSync
 				//RequestMoveMessage.Send(action);
 				BumpType clientBump = CheckSlideAndBump(predictedState, false, ref action);
 
-				action.isRun = UIManager.WalkRun.running;
+				action.isRun = UIManager.Intent.Running;
 
+				// handle predictions here
+				if(playerScript.RcsMode)
+				{
+					Vector2Int dir = action.Direction();
+					// try to move shuttle on client side
+					playerScript.RcsMatrixMove.RcsMoveClient(Orientation.From(dir));
+
+				}
 				//can only move freely if we are grounded or adjacent to another player
-				if (CanMoveFreely(isGrounded, clientBump))
+				else if (CanMoveFreely(isGrounded, clientBump))
 				{
 					//move freely
 					pendingActions.Enqueue(action);
@@ -169,12 +173,13 @@ public partial class PlayerSync
 						var dir = action.Direction();
 						if (!(dir.x != 0 && dir.y != 0 && clientBump == BumpType.ClosedDoor))
 						{
-							playerDirectional.FaceDirection( Orientation.From( action.Direction() ) );
+							UpdateFacingDirection(action);
 						}
 					}
 				}
 				else
 				{
+
 					//cannot move but it's not due to bumping, so don't even send it.
 					cancelMove = true;
 					Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
@@ -194,6 +199,11 @@ public partial class PlayerSync
 		}
 		else
 		{
+			//Update Facing Direction anyways, as it seems to work in all relevant cases for now. For Being downed, this can be a source of Bugs in the future, as being downed
+			//currently only has one direction to it.
+			//Currently allows setting the position in free floating.
+			//This is to keep it behaving the same as with setting the direction via mouse.
+			UpdateFacingDirection(action);
 			//don't even check the bump, just cancel the move
 			Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
 				, Category.Movement, blockClientMovement, isPseudoFloatingClient, isFloatingClient, ClientState, predictedState );
@@ -220,25 +230,49 @@ public partial class PlayerSync
 	/// <param name="direction">Direction you're pushing</param>
 	private void PredictiveBumpInteract(Vector3Int worldTile, Vector2Int direction)
 	{
+		Vector3Int worldOrigin = worldTile - (Vector3Int)direction;
+
 		if (!Validations.CanInteract(playerScript, NetworkSide.Client, allowCuffed: true))
 		{
 			return;
 		}
 		// Is the object pushable (iterate through all of the objects at the position):
-		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile, false);
+		List<PushPull> pushPulls = MatrixManager.GetPushableAt(worldOrigin, direction, gameObject, false, true);
 		for (int i = 0; i < pushPulls.Count; i++)
 		{
-			var pushPull = pushPulls[i];
-			if (pushPull && pushPull.gameObject != gameObject && pushPull.IsSolidClient)
+			var potentialPushed = pushPulls[i];
+			if (potentialPushed && potentialPushed.gameObject != gameObject)
 			{
+				// whether or not we actually manage to push it, make sure we aren't pulling it!
+				if (pushPull.PulledObjectClient == potentialPushed)
+				{
+					pushPull.CmdStopPulling();
+				}
+
+				// if player can't reach, player can't push
+				if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, worldTile, isServer: false, includingPlayers: false, 
+						context: potentialPushed.gameObject, isReach: true) == false)
+				{
+					continue;
+				}
+				
+
+				// If its movement is blocked, don't push it
+				if (potentialPushed.CanPushClient(worldTile, direction) == false)
+				{
+					continue;
+				}
+
 				//					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
-				if (pushPull.TryPredictivePush(worldTile, direction))
+				if (potentialPushed.TryPredictivePush(worldTile, direction))
 				{
 					//telling server what we just predictively pushed this thing
 					//so that server could rollback it for client if it was wrong
 					//instead of leaving it messed up permanently on client side
-					CmdValidatePush(pushPull.gameObject);
+					CmdValidatePush(potentialPushed.gameObject);
 				}
+
+				//If we managed to push, stop trying any more
 				break;
 			}
 		}
@@ -262,7 +296,7 @@ public partial class PlayerSync
 
 		Vector3Int target3int = target.To3Int();
 
-		if (!followMode && !MatrixManager.IsPassableAt(target3int, target3int, false)) //might have issues with windoors
+		if (!followMode && !MatrixManager.IsPassableAtAllMatrices(target3int, target3int, false)) //might have issues with windoors
 		{
 			return false;
 		}
@@ -356,7 +390,7 @@ public partial class PlayerSync
 				SpeedClient = playerMove.CrawlSpeed;
 			}
 		}
-
+			
 		var nextState = NextState(state, action, isReplay);
 
 		nextState.Speed = SpeedClient;
@@ -364,9 +398,37 @@ public partial class PlayerSync
 		return nextState;
 	}
 
+	IEnumerator WaitForMatrix()
+	{
+		isWaitingForMatrix = true;
+		while (!MatrixManager.IsInitialized)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		isWaitingForMatrix = false;
+
+		while (pendingInitStates.Count > 0)
+		{
+			UpdateClientState(pendingInitStates.Dequeue());
+		}
+	}
+
 	/// Called when PlayerMoveMessage is received
 	public void UpdateClientState(PlayerState newState)
 	{
+		if (!MatrixManager.IsInitialized)
+		{
+			newState.NoLerp = true;
+			pendingInitStates.Enqueue(newState);
+			if (!isWaitingForMatrix)
+			{
+				StartCoroutine(WaitForMatrix());
+			}
+
+			return;
+		}
+
 		var newWorldPos = Vector3Int.RoundToInt(newState.WorldPosition);
 		OnUpdateRecieved().Invoke(newWorldPos);
 

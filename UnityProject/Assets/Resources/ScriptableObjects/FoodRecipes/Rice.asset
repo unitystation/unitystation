@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5d4714a6118a334db88670f86c81753, type: 3}
+  m_Name: Rice
+  m_EditorClassIdentifier: 
+  Name: Rice
+  Ingredients:
+  - requiredAmount: 1
+    ingredientName: rice
+  resultingAmount: 2
+  Output: {fileID: 11400000, guid: 5492c9211fc87fdb7bdab55f9cdcfccc, type: 2}

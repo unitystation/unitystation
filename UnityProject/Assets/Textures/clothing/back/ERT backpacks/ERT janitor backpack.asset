@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070914b0fa83e4540b98a98820fe27ae, type: 3}
+  m_Name: ERT janitor backpack
+  m_EditorClassIdentifier: 
+  Sprites:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 0b08a2e2433074b4fb82d435a381d895, type: 3}
+      Sprites:
+      - {fileID: -2019208251083299118, guid: 0b08a2e2433074b4fb82d435a381d895, type: 3}
+      - {fileID: 7785066121562653146, guid: 0b08a2e2433074b4fb82d435a381d895, type: 3}
+      - {fileID: 7362999703341760711, guid: 0b08a2e2433074b4fb82d435a381d895, type: 3}
+      - {fileID: 8048148019497650713, guid: 0b08a2e2433074b4fb82d435a381d895, type: 3}
+      EquippedData: {fileID: 4900000, guid: 40d436f31086f024d9549effc0191fe7, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 6f331327697cbf746a9a141ba22b9d23, type: 3}
+      Sprites:
+      - {fileID: -6834450207377024650, guid: 6f331327697cbf746a9a141ba22b9d23, type: 3}
+      - {fileID: -4052271404613274193, guid: 6f331327697cbf746a9a141ba22b9d23, type: 3}
+      - {fileID: -2936207440173022339, guid: 6f331327697cbf746a9a141ba22b9d23, type: 3}
+      - {fileID: -7746891492532551840, guid: 6f331327697cbf746a9a141ba22b9d23, type: 3}
+      EquippedData: {fileID: 4900000, guid: 2fcf9132f06e9d14eb07b8f6f1ee8db9, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: a446ef5fe0cde154985fc1498aec7541, type: 3}
+      Sprites:
+      - {fileID: -6834450207377024650, guid: a446ef5fe0cde154985fc1498aec7541, type: 3}
+      - {fileID: -4052271404613274193, guid: a446ef5fe0cde154985fc1498aec7541, type: 3}
+      - {fileID: -2936207440173022339, guid: a446ef5fe0cde154985fc1498aec7541, type: 3}
+      - {fileID: -7746891492532551840, guid: a446ef5fe0cde154985fc1498aec7541, type: 3}
+      EquippedData: {fileID: 4900000, guid: 2c7089c0680cb2541a3a8cfda593784d, type: 3}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: b3472235da4d18d4586a0cafc4ac46d7, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: b3472235da4d18d4586a0cafc4ac46d7, type: 3}
+      EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 501ed934d44d65145a65cb6b84883a0c, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: e85e23a46f048934a92d55467f6f5a72,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: f55dbe3e08bb08d4a93374485402e535,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: 16a79b8f0a203e74ba40e970bb5c0b8b, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  StorageData:
+    maxSlots: 7
+    maxItemSize: 4

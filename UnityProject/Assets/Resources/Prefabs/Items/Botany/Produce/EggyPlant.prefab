@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2080426664039965326
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2995035487439332361, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: initialName
+      value: eggy-plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2995035487439332361, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: initialDescription
+      value: There MUST be a chicken inside.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3282261839041951799, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: de1590c0d17a6704d837c4bd57287dad,
+        type: 3}
+    - target: {fileID: 3282261839041951799, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380285515758663391, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417836826913355295, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421920275624577899, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: m_Name
+      value: EggyPlant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3987191329779353372, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: seedPacket
+      value: 
+      objectReference: {fileID: 7690917261163495813, guid: f6b6f17027e814b4db18ad2cff338753,
+        type: 3}
+    - target: {fileID: 6821357363608144155, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: leavings
+      value: 
+      objectReference: {fileID: 2897339443933191501, guid: b12af25ca29fbde47882f31d6e84e6eb,
+        type: 3}
+    - target: {fileID: 8807639457360376044, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e5bcf059f3f7c5140a227d9b93b4c053,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9da2f8923c588ec42ab9693f707da84f, type: 3}

@@ -34,15 +34,15 @@ public class NetworkTabManager : MonoBehaviour {
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 	}
 
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
 		Instance.ResetManager();
 	}
@@ -71,13 +71,15 @@ public class NetworkTabManager : MonoBehaviour {
 		if ( tabDescriptor.Equals( NetTabDescriptor.Invalid ) ) {
 			return;
 		}
-
-		if ( !openTabs.ContainsKey( tabDescriptor ) ) {
+		if (!openTabs.TryGetValue(tabDescriptor, out var tab)) {
 			//Spawning new one
-			openTabs.Add( tabDescriptor, tabDescriptor.Spawn(transform) );
+			tab = tabDescriptor.Spawn(transform);
+			if (tab == null)
+			{
+				return;
+			}
+			openTabs.Add( tabDescriptor, tab );
 		}
-		NetTab tab = openTabs[tabDescriptor];
-//		tab.gameObject.SetActive( true );
 		tab.AddPlayer( player );
 	}
 	public void Add( GameObject provider, NetTabType type, GameObject player ) {
@@ -156,7 +158,16 @@ public struct NetTabDescriptor {
 		if ( provider == null ) {
 			return null;
 		}
-		var tabObject = Object.Instantiate( Resources.Load( $"Tab{type}" ) as GameObject, parent );
+
+		GameObject toInstantiate = Resources.Load($"Tab{type}") as GameObject;
+
+		if(toInstantiate == null)
+		{
+			Logger.LogWarning($"[NetworkTabManager.Spawn] - Couldn't load 'Tab{type}' from resources", Category.NetUI);
+			return null;
+		}
+
+		var tabObject = Object.Instantiate(toInstantiate, parent );
 		NetTab netTab = tabObject.GetComponent<NetTab>();
 		netTab.Provider = provider.gameObject;
 		netTab.ProviderRegisterTile = provider.RegisterTile();

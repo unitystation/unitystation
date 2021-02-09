@@ -26,6 +26,9 @@ public enum EncryptionKeyType
 	CentComm,
 	Mining,
 	Genetics,
+	SrvSec,
+	CentCommPlus,
+	SrvMed,
 }
 
 /// <summary>
@@ -46,7 +49,7 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.HeadOfSecurity, ChatChannel.Common | ChatChannel.Security | ChatChannel.Command},
 		{EncryptionKeyType.ResearchDirector, ChatChannel.Common | ChatChannel.Science | ChatChannel.Command},
 		{EncryptionKeyType.Supply, ChatChannel.Common | ChatChannel.Supply},
-		{EncryptionKeyType.QuarterMaster, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Command},
+		{EncryptionKeyType.QuarterMaster, ChatChannel.Common | ChatChannel.Supply},
 		{EncryptionKeyType.CentComm, ChatChannel.Common | ChatChannel.CentComm},
 		{EncryptionKeyType.Engineering, ChatChannel.Common | ChatChannel.Engineering},
 		{EncryptionKeyType.Medical, ChatChannel.Common | ChatChannel.Medical},
@@ -55,7 +58,11 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Service, ChatChannel.Common | ChatChannel.Service},
 		{EncryptionKeyType.Syndicate, ChatChannel.Syndicate },
 		{EncryptionKeyType.Mining, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Science},
-		{EncryptionKeyType.Genetics, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Science}
+		{EncryptionKeyType.Genetics, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Science},
+		{EncryptionKeyType.SrvSec, ChatChannel.Common | ChatChannel.Security | ChatChannel.Service},
+		{EncryptionKeyType.SrvMed, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Service},
+		{EncryptionKeyType.CentCommPlus, ChatChannel.Common | ChatChannel.Command | ChatChannel.Security | ChatChannel.Engineering |
+									ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science | ChatChannel.CentComm},
 	};
 
 	/// <summary>
@@ -82,7 +89,10 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Security, ChatChannel.Security },
 		{EncryptionKeyType.Service, ChatChannel.Service },
 		{EncryptionKeyType.Supply, ChatChannel.Supply },
-		{EncryptionKeyType.Syndicate, ChatChannel.Syndicate }
+		{EncryptionKeyType.Syndicate, ChatChannel.Syndicate },
+		{EncryptionKeyType.SrvSec, ChatChannel.Security},
+		{EncryptionKeyType.SrvMed, ChatChannel.Medical},
+		{EncryptionKeyType.CentCommPlus, ChatChannel.CentComm}
 	};
 
 	private static readonly string genericDescription = "An encryption key for a radio headset. \n";
@@ -166,6 +176,9 @@ public class EncryptionKey : NetworkBehaviour
 
 	public Sprite supplySprite;
 	public Sprite syndicateSprite;
+	public Sprite srvsecSprite;
+	public Sprite centCommPlusSprite;
+	public Sprite srvmedSprite;
 
 	[SerializeField] //to show in inspector
 	private EncryptionKeyType type;
@@ -196,7 +209,7 @@ public class EncryptionKey : NetworkBehaviour
 /// Downside – all players will get that info (same with syncvars)
 	public override bool OnSerialize(NetworkWriter writer, bool initialState)
 	{
-		writer.Write(type.ToString());
+		writer.WriteString(type.ToString());
 		return base.OnSerialize(writer, initialState);
 	}
 	public override void OnDeserialize(NetworkReader reader, bool initialState)
@@ -263,6 +276,15 @@ public class EncryptionKey : NetworkBehaviour
 				break;
 			case EncryptionKeyType.Syndicate:
 				spriteRenderer.sprite = syndicateSprite;
+				break;
+			case EncryptionKeyType.SrvSec:
+				spriteRenderer.sprite = srvsecSprite;
+				break;
+			case EncryptionKeyType.SrvMed:
+				spriteRenderer.sprite = srvmedSprite;
+				break;
+			case EncryptionKeyType.CentCommPlus:
+				spriteRenderer.sprite = centCommPlusSprite;
 				break;
 			default:
 				spriteRenderer.sprite = commonSprite;

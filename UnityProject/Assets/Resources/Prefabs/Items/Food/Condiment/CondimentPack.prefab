@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1088830546607216778
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5003536389538966795, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: bccd612dc4c77114ea39012b81f58abc,
+        type: 2}
+    - target: {fileID: 1632096134032418045, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328885821399808152, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 84eaa267ec51f314a8f27fd3dca43f66,
+        type: 2}
+    - target: {fileID: 7223151104655182775, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223151104655182775, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223151104655182775, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: transferAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357089723576347773, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: initialDescription
+      value: A small plastic pack with condiments to put on your food.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357089723576347773, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: initialName
+      value: condiment pack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8395826806974201515, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431935078031720043, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8437426176302514975, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_Name
+      value: CondimentPack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8639654489432600643, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8a6d5e4d554caa0409bce951d7d58e9a,
+        type: 3}
+    m_RemovedComponents:
+    - {fileID: -2575248337170886117, guid: 32a48818544878d4c8e14ac2fd2b195a, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 32a48818544878d4c8e14ac2fd2b195a, type: 3}

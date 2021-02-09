@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6366570981695378946
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 149022340165360907, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: initialDescription
+      value: The latest and greatest in custodial convenience, a trashbag that is
+        capable of holding vast quantities of garbage.
+      objectReference: {fileID: 0}
+    - target: {fileID: 149022340165360907, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: initialName
+      value: trash bag of holding
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 359432221073519209, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_Name
+      value: TrashBagOfHolding
+      objectReference: {fileID: 0}
+    - target: {fileID: 389772660589236189, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 436004943746269493, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 53e10e0c52a12524fb9cdafc3c5aadb4,
+        type: 3}
+    - target: {fileID: 488793516611416908, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: dfa2f775342bc33479a3dea278303c0b,
+        type: 2}
+    - target: {fileID: 5889277318652234222, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c5052644711aba4daa0b905d3d59a57,
+        type: 2}
+    - target: {fileID: 7621932155683203204, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: actionData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cc605fc1b6c0414d9f4c9532dc7ae42,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}

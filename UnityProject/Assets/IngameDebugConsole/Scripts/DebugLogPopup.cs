@@ -28,28 +28,31 @@ namespace IngameDebugConsole
 		private CanvasGroup canvasGroup;
 
 		[SerializeField]
-		private DebugLogManager debugManager;
+		private DebugLogManager debugManager = null;
 
 		[SerializeField]
-		private Text newInfoCountText;
+		private Text newInfoCountText = null;
 		[SerializeField]
-		private Text newWarningCountText;
+		private Text newWarningCountText = null;
 		[SerializeField]
-		private Text newErrorCountText;
+		private Text newErrorCountText = null;
 
 		/// <summary>
 		/// Number of new debug entries since the log window has been closed
 		/// </summary>
 		private int newInfoCount = 0, newWarningCount = 0, newErrorCount = 0;
-		
+
 		private Color normalColor;
 
+		// Ignore default color warning
+#pragma warning disable CS0649
 		[SerializeField]
 		private Color alertColorInfo;
 		[SerializeField]
 		private Color alertColorWarning;
 		[SerializeField]
 		private Color alertColorError;
+#pragma warning disable CS0649
 
 		public bool isLogPopupVisible = false;
 		private bool isPopupBeingDragged = false;
@@ -141,7 +144,7 @@ namespace IngameDebugConsole
 		public void OnPointerClick( PointerEventData data )
 		{
 			// Hide the popup and show the log window
-			if( !isPopupBeingDragged )
+			if(isPopupBeingDragged == false)
 			{
 				debugManager.Show();
 				Hide();

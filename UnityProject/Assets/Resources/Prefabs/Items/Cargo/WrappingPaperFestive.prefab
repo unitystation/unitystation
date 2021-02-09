@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6130692990045491198
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5852743292816086088, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: itemParcel
+      value: 
+      objectReference: {fileID: 7230278577656183976, guid: b8b3979fac13b304c948ef72851ced85,
+        type: 3}
+    - target: {fileID: -5852743292816086088, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: objectParcel
+      value: 
+      objectReference: {fileID: 989532514442120172, guid: bba003073444ea344a3c1f58fba1edc5,
+        type: 3}
+    - target: {fileID: -5852743292816086088, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: wrapType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968200009823084304, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ace964660365bf44d83711029187906f,
+        type: 2}
+    - target: {fileID: 6964265182918039499, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 69f1a120044b7ff4d85a4153169a6d87,
+        type: 3}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080923008892803555, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086413832420484247, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_Name
+      value: WrappingPaperFestive
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188811865976756515, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7258225220171566069, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cd39f8372d68e6438bf6b9b5359c26e,
+        type: 2}
+    - target: {fileID: 7258225220171566069, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c6d52302231a8f7468cbf5f50b5a78dd,
+        type: 2}
+    - target: {fileID: 7258225220171566069, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: initialName
+      value: Festive wrapping paper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7258225220171566069, guid: 24acfe3e8c412064ab3e3aeab2759c1d,
+        type: 3}
+      propertyPath: initialDescription
+      value: A roll of festive paper used for gifts!
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 24acfe3e8c412064ab3e3aeab2759c1d, type: 3}

@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2217112796090616495
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3025732205117961624, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ac32896ad9a83204098b2df7ef72d61e,
+        type: 2}
+    - target: {fileID: 7715921484515741906, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: cb75e8c15a3f2274c99acb5b977fc404,
+        type: 2}
+    - target: {fileID: 8320049738121725893, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 898b750de92d9f245a1ef81872f2207f,
+        type: 2}
+    - target: {fileID: 8815245327015387517, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: initialDescription
+      value: Space Santa uses this to deliver presents to all the nice children in
+        space in Christmas! Wow, it's pretty big!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815245327015387517, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: initialName
+      value: Santa's Gift Bag
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815245327015387517, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 399f66b0cd1f7624e8820826642270f4,
+        type: 2}
+    - target: {fileID: 8815245327015387517, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3698cfab704b5bd4a971ab4300e4c7f4,
+        type: 2}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8987936220996783647, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_Name
+      value: SantasGiftBag
+      objectReference: {fileID: 0}
+    - target: {fileID: 9100197888029654339, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 540234feb7760da469ecdb29d08537df,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6fdb43db19eedc84ab031aa637204114, type: 3}

@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6261702595716134626
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3260335517349816954, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ec8dba8bf946c040be171aed5402a80,
+        type: 2}
+    - target: {fileID: 8625597999473072167, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: a443079e2b521ba40b6f1b0204357815,
+        type: 2}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680994867995415037, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_Name
+      value: BottleOfAntipsychoticPills
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785717269132291145, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121069500737191583, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: initialName
+      value: bottle of antipsychotic pills
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121069500737191583, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: initialDescription
+      value: '!FOR THERAPEUTIC USE ONLY! Contains pills used to alleviate the symptoms
+        of Reality Dissociation Syndrome.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121069500737191583, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d997ce31e7fb9a4081ce5909a9a876a,
+        type: 2}
+    - target: {fileID: 9121069500737191583, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 91876baef4e3f084fa10d85d3c63cacd,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dd97c290495c57e47b54b45eb7d49a38, type: 3}

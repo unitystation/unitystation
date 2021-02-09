@@ -51,7 +51,7 @@ public class SingleBookshelf : MonoBehaviour
 	{
 		PoolBooks();
 		ShelfInformation.text = "ID > " + _BookShelfView.ID + "  " + _BookShelfView.SN;
-						
+
 		for (int i = 0; i < _BookShelfView.HB.Length; i++)
 		{
 			HeldBook SingleBookEntry;
@@ -62,7 +62,8 @@ public class SingleBookshelf : MonoBehaviour
 				SingleBookEntry.gameObject.SetActive(true);
 				SingleBookEntry.transform.SetParent(booksPanel.transform, true);
 			}
-			else {				SingleBookEntry = Instantiate(UIHeldBook) as HeldBook;
+			else {
+				SingleBookEntry = Instantiate(UIHeldBook) as HeldBook;
 				SingleBookEntry.transform.SetParent(booksPanel.transform);
 				SingleBookEntry.transform.localScale = Vector3.one;
 			}
@@ -95,7 +96,8 @@ public class SingleBookshelf : MonoBehaviour
 				PresentSUBBookShelfs[(int)i].gameObject.SetActive(true);
 				PresentSUBBookShelfs[(int)i].IDANName = _BookShelfView.OBS[i];
 			}
-			else {				BottomBookshelves = i;
+			else {
+				BottomBookshelves = i;
 				PresentSUBBookShelfs[(int)i].gameObject.SetActive(false);
 			}
 		}
@@ -142,7 +144,8 @@ public class SingleBookshelf : MonoBehaviour
 			{
 				book.gameObject.SetActive(true);
 			}
-		}	}
+		}
+	}
 
 	public void BooksRight()
 	{
@@ -154,7 +157,6 @@ public class SingleBookshelf : MonoBehaviour
 			{
 				book.gameObject.SetActive(false);
 			}
-			Logger.Log(CurrentlyVisible.ToString() + " < > " + TotalBooks.Count);
 			VisibleBooks = TotalBooks[(int)CurrentlyVisible];
 			foreach (var book in VisibleBooks)
 			{
@@ -165,7 +167,6 @@ public class SingleBookshelf : MonoBehaviour
 
 	public void BookShelveUp()
 	{
-		Logger.Log("PageUp");
 		if (TopBookshelves != 0)
 		{
 			PresentSUBBookShelfs[3].IDANName = PresentSUBBookShelfs[2].IDANName;
@@ -180,7 +181,6 @@ public class SingleBookshelf : MonoBehaviour
 
 	public void BookShelveDown()
 	{
-		Logger.Log("PageDown" + _BookShelfView.OBS.Length + " < > " + BottomBookshelves);
 		if (!(_BookShelfView.OBS.Length <= (BottomBookshelves + 1)))
 		{
 			PresentSUBBookShelfs[0].IDANName = PresentSUBBookShelfs[1].IDANName;

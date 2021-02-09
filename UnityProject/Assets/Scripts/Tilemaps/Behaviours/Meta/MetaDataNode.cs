@@ -1,17 +1,44 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Atmospherics;
+using Systems.Atmospherics;
+using Systems.Explosions;
+using Systems.Radiation;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
 /// <summary>
 /// Holds all of the metadata associated with an individual tile, such as for atmospherics simulation, damage.
 /// </summary>
-public class MetaDataNode: IGasMixContainer
+public class MetaDataNode : IGasMixContainer
 {
 	public static readonly MetaDataNode None;
+
+	/// <summary>
+	/// Contains the matrix of the current node
+	/// </summary>
+	public Matrix PositionMatrix = null;
+
+	/// <summary>
+	/// Used for calculating explosion data
+	/// </summary>
+	public ExplosionNode ExplosionNode = null;
+
+	/// <summary>
+	/// Used for storing useful information for the radiation system and The radiation level
+	/// </summary>
+	public RadiationNode RadiationNode = new RadiationNode();
+
+	/// <summary>
+	/// Contains all electrical data for this tile
+	/// </summary>
+	public List<ElectricalMetaData> ElectricalData = new List<ElectricalMetaData>();
+
+	/// <summary>
+	/// This contains all the pipe data needed On the tile
+	/// </summary>
+	public List<Pipes.PipeNode> PipeData = new List<Pipes.PipeNode>();
+
 
 	/// <summary>
 	/// Local position of this tile in its parent matrix.
@@ -39,21 +66,36 @@ public class MetaDataNode: IGasMixContainer
 	/// </summary>
 	public Hotspot Hotspot;
 
-	/// <summary>
-	/// Current damage inflicted on this tile.
-	/// </summary>
-	public float Damage
+	private Dictionary<LayerType, float> damageInfo  = new Dictionary<LayerType, float>();
+
+	public float GetTileDamage(LayerType layerType)
 	{
-		get => damage;
-		set
-		{
-			previousDamage = damage;
-			damage = value;
-		}
+		TryCreateDamageInfo(layerType);
+		return damageInfo[layerType];
 	}
 
-	private float damage;
-	private float previousDamage;
+	public void AddTileDamage(LayerType layerType, float damage)
+	{
+		TryCreateDamageInfo(layerType);
+		damageInfo[layerType] += damage;
+	}
+
+	public void RemoveTileDamage(LayerType layerType)
+	{
+		damageInfo.Remove(layerType);
+	}
+
+	public void ResetDamage(LayerType layerType)
+	{
+		TryCreateDamageInfo(layerType);
+		damageInfo[layerType] = 0;
+	}
+
+	public void TryCreateDamageInfo(LayerType layerType)
+	{
+		if (damageInfo.ContainsKey(layerType)) return;
+		damageInfo.Add(layerType, 0);
+	}
 
 	/// <summary>
 	/// Direction of wind in local coordinates
@@ -72,11 +114,6 @@ public class MetaDataNode: IGasMixContainer
 	public IEnumerator CurrentDrying;
 
 	/// <summary>
-	/// Whether tile is already scorched
-	/// </summary>
-	public bool IsScorched;
-
-	/// <summary>
 	/// The current neighbor nodes. Nodes can be Null!
 	/// </summary>
 	public readonly MetaDataNode[] Neighbors = new MetaDataNode[4];
@@ -91,21 +128,22 @@ public class MetaDataNode: IGasMixContainer
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
 	/// </summary>
 	/// <param name="position">local position (within the matrix) the node exists on</param>
-	public MetaDataNode(Vector3Int position, ReactionManager reactionManager)
+	public MetaDataNode(Vector3Int position, ReactionManager reactionManager, Matrix matrix)
 	{
+		PositionMatrix = matrix;
 		Position = position;
 		neighborList = new List<MetaDataNode>(4);
 		for (var i = 0; i < neighborList.Capacity; i++)
 		{
 			neighborList.Add(null);
 		}
-		GasMix = new GasMix(GasMixes.Space);
+		GasMix = GasMix.NewGasMix(GasMixes.Space);
 		this.reactionManager = reactionManager;
 	}
 
 	static MetaDataNode()
 	{
-		None = new MetaDataNode(Vector3Int.one * -1000000, null);
+		None = new MetaDataNode(Vector3Int.one * -1000000, null, null);
 	}
 
 	/// <summary>
@@ -158,6 +196,22 @@ public class MetaDataNode: IGasMixContainer
 		}
 	}
 
+	public bool IsNeighbourToNonSpace()
+	{
+		lock (neighborList)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (neighborList[i].IsSpace == false)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public void AddNeighbor(MetaDataNode neighbor, Vector3Int direction)
 	{
 		if (neighbor != this)
@@ -199,26 +253,6 @@ public class MetaDataNode: IGasMixContainer
 				SyncNeighbors();
 			}
 		}
-	}
-
-	/// <summary>
-	/// The level of damage that a window has received if the node is a window.
-	/// </summary>
-	public WindowDamageLevel WindowDamage { get; set; } = WindowDamageLevel.Undamaged;
-
-	/// <summary>
-	/// The level of damage that a grill has received if the node is a grill.
-	/// </summary>
-	public GrillDamageLevel GrillDamage { get; set; } = GrillDamageLevel.Undamaged;
-
-	/// <returns>Damage before reset</returns>
-	public float ResetDamage()
-	{
-		Damage = 0;
-		IsScorched = false;
-		WindowDamage = WindowDamageLevel.Undamaged;
-		GrillDamage = GrillDamageLevel.Undamaged;
-		return previousDamage;
 	}
 
 	public override string ToString()

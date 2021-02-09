@@ -12,19 +12,22 @@ namespace IngameDebugConsole
 	{
 		// Cached components
 		[SerializeField]
-		private RectTransform transformComponent;
+		private RectTransform transformComponent = null;
 		[SerializeField]
-		private RectTransform viewportTransform;
+		private RectTransform viewportTransform = null;
 
 		[SerializeField]
-		private DebugLogManager debugManager;
+		private DebugLogManager debugManager = null;
 
+		// Ignore default color warning
+		#pragma warning disable CS0649
 		[SerializeField]
 		private Color logItemNormalColor1;
 		[SerializeField]
 		private Color logItemNormalColor2;
 		[SerializeField]
 		private Color logItemSelectedColor;
+		#pragma warning restore CS0649
 
 		private DebugLogManager manager;
 

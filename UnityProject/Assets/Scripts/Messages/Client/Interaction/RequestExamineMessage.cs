@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Messages.Client;
 using Mirror;
+using Player;
 using UnityEngine;
 
 /// <summary>
@@ -11,9 +13,6 @@ using UnityEngine;
 /// </summary>
 public class RequestExamineMessage : ClientMessage
 {
-	//TODO: Is this constant needed anymore
-	public static short MessageType = (short) MessageTypes.RequestExamine;
-
 	//members
 	// netid of target
 	public uint examineTarget;
@@ -21,49 +20,59 @@ public class RequestExamineMessage : ClientMessage
 	static RequestExamineMessage()
 	{
 		//constructor
-
 	}
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-
-		
 		//TODO: check break conditions
 		if (SentByPlayer == null || SentByPlayer.Script == null)
 		{
-			yield break;
+			return;
 		}
 
-		// Sort of translates one or more netId to gameobjects contained in NetworkObjects[]
-		// it's confusing AF to me atm.
-		yield return WaitFor(examineTarget);
+		LoadNetworkObject(examineTarget);
 
-		// Here we build the message to send, by looking at the target's components. 
+		if (NetworkObject == null) return;
+		// Here we build the message to send, by looking at the target's components.
 		// anyone extending IExaminable gets a say in it.
 		// Look for examinables.
 		var examinables = NetworkObject.GetComponents<IExaminable>();
 		string msg = "";
 		IExaminable examinable;
 
-		for (int i = 0; i < examinables.Count(); i++) 
+		for (int i = 0; i < examinables.Length; i++)
 		{
 			examinable = examinables[i];
+			// don't send text message target is player - instead send PlayerExaminationMessage
 
-			msg += $"{examinable.Examine(mousePosition)}";
+			// Exception for player examine window.
+			//TODO make this be based on a setting clients can turn off
+			if (examinable is ExaminablePlayer examinablePlayer)
+			{
+				examinablePlayer.Examine(SentByPlayer.GameObject);
+			}
 
-			if (i != examinables.Count() - 1)
+			var examinableMsg = examinable.Examine(mousePosition);
+			if (string.IsNullOrEmpty(examinableMsg))
+				continue;
+
+			msg += examinableMsg;
+
+			if (i != examinables.Length - 1)
 			{
 				msg += "\n";
 			}
 		}
 
 		// Send the message.
-		Chat.AddExamineMsgFromServer(SentByPlayer.GameObject, msg);
+		if (msg.Length > 0)
+		{
+			Chat.AddExamineMsgFromServer(SentByPlayer.GameObject, msg);
+		}
 	}
 
 	public static void Send(uint targetNetId)
 	{
-		// TODO: Log something?
 		var msg = new RequestExamineMessage()
 		{
 			examineTarget = targetNetId
@@ -73,7 +82,6 @@ public class RequestExamineMessage : ClientMessage
 
 	public static void Send(uint targetNetId, Vector3 mousePos)
 	{
-		// TODO: Log something?
 		var msg = new RequestExamineMessage()
 		{
 			examineTarget = targetNetId,
@@ -81,17 +89,4 @@ public class RequestExamineMessage : ClientMessage
 		};
 		msg.Send();
 	}
-
-	// //TODO: Figure out serial/deserialization?
-	// public override void Deserialize(NetworkReader reader)
-	// {
-
-	// }
-
-	// public override void Serialize(NetworkWriter writer)
-	// {
-	
-	// }
-
 }
-

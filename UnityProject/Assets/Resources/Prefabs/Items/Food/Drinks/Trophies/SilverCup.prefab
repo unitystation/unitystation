@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6823690504727189204
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3271311413352047274, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b8ce91e096773d64392d547fb55f2357,
+        type: 2}
+    - target: {fileID: 7568893588068389253, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: transferAmount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7568893588068389253, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8655944126193539373, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_Name
+      value: SilverCup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769672626535343257, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8850104119378061937, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 89fd03c80bb31674bb3a170ff424bbf1,
+        type: 3}
+    - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: initialName
+      value: silver cup
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: initialDescription
+      value: Best loser!
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: hitDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: throwDamage
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8396fd38ae379ec468d261d584a05953, type: 3}

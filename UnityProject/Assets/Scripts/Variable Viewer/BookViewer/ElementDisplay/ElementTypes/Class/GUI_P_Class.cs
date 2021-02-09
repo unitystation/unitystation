@@ -8,6 +8,8 @@ using TMPro;
 
 public class GUI_P_Class : PageElement
 {
+	public override PageElementEnum PageElementType => PageElementEnum.Class;
+
 	public Button TButton;
 	public TMP_Text TText;
 	public bool IsSentence;
@@ -21,7 +23,7 @@ public class GUI_P_Class : PageElement
 		}
 		//Need testing
 		else if (TType.IsValueType && !TType.IsPrimitive && !(TType == typeof(string)) ){
-			Logger.Log(TType.ToString());
+			//Logger.Log(TType.ToString());
 			return (true);
 		}
 		else {
@@ -45,6 +47,13 @@ public class GUI_P_Class : PageElement
 			IsSentence = true;
 			iskey = Iskey;
 		}
+	}
+
+
+	public override void Pool()
+	{
+		IsSentence = false;
+		iskey = false;
 	}
 
 	public void RequestOpenBookOnPage() {

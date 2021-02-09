@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Items;
+using ScriptableObjects;
 using UnityEngine;
 
 /// <summary>
@@ -26,7 +28,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 	         " list for other possible matches. If no matches are found, it will" +
 	         " be placed in an arbitrary available slot.")]
 	[ArrayElementTitle("Trait", "Any")]
-	[SerializeField] private List<TraitSlotMapping> BestSlots;
+	[SerializeField] private List<TraitSlotMapping> BestSlots = null;
 
 
 	/// <summary>

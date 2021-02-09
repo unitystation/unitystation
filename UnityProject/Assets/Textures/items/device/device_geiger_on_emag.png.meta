@@ -26,8 +26,26 @@ TextureImporter:
   - first:
       213: 21300014
     second: geiger_on_emag_7
+  - first:
+      213: -4352986922162145875
+    second: geiger_on_emag_0
+  - first:
+      213: 2298274531860881532
+    second: geiger_on_emag_1
+  - first:
+      213: 2317872066432988278
+    second: geiger_on_emag_2
+  - first:
+      213: 5877061357460170590
+    second: geiger_on_emag_3
+  - first:
+      213: 3521859140394204602
+    second: geiger_on_emag_4
+  - first:
+      213: -595482319657691715
+    second: geiger_on_emag_5
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -81,6 +99,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -124,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: da5ba9815751793c0800000000000000
+      internalID: -4352986922162145875
       vertices: []
       indices: 
       edges: []
@@ -145,8 +164,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: c7025eb828c15ef10800000000000000
+      internalID: 2298274531860881532
       vertices: []
       indices: 
       edges: []
@@ -166,8 +185,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 674f9822d5cba2020800000000000000
+      internalID: 2317872066432988278
       vertices: []
       indices: 
       edges: []
@@ -187,8 +206,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: e57a696aa248f8150800000000000000
+      internalID: 5877061357460170590
       vertices: []
       indices: 
       edges: []
@@ -208,8 +227,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300008
+      spriteID: abdb8248a3820e030800000000000000
+      internalID: 3521859140394204602
       vertices: []
       indices: 
       edges: []
@@ -229,50 +248,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300010
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: geiger_on_emag_6
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300012
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: geiger_on_emag_7
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300014
+      spriteID: db517ca3cfb6cb7f0800000000000000
+      internalID: -595482319657691715
       vertices: []
       indices: 
       edges: []

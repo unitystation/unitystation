@@ -4,16 +4,16 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using AdminTools;
+using InGameEvents;
 
 public class AdminToolRefreshMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.AdminToolRefreshMessage;
 	public string JsonData;
 	public uint Recipient;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Recipient);
+		LoadNetworkObject(Recipient);
 		var adminPageData = JsonUtility.FromJson<AdminPageRefreshData>(JsonData);
 
 		var pages = GameObject.FindObjectsOfType<AdminPage>();
@@ -25,8 +25,6 @@ public class AdminToolRefreshMessage : ServerMessage
 
 	public static AdminToolRefreshMessage Send(GameObject recipient, string adminID)
 	{
-
-
 		//Gather the data:
 		var pageData = new AdminPageRefreshData();
 
@@ -35,6 +33,19 @@ public class AdminToolRefreshMessage : ServerMessage
 		pageData.isSecret = GameManager.Instance.SecretGameMode;
 		pageData.currentGameMode = GameManager.Instance.GetGameModeName(true);
 		pageData.nextGameMode = GameManager.Instance.NextGameMode;
+
+		//Event Manager
+		pageData.randomEventsAllowed = InGameEventsManager.Instance.RandomEventsAllowed;
+
+		//Round Manager
+		pageData.nextMap = SubSceneManager.AdminForcedMainStation;
+		pageData.nextAwaySite = SubSceneManager.AdminForcedAwaySite;
+		pageData.allowLavaLand = SubSceneManager.AdminAllowLavaland;
+		pageData.alertLevel = GameManager.Instance.CentComm.CurrentAlertLevel.ToString();
+
+		//Centcom
+		pageData.blockCall = GameManager.Instance.PrimaryEscapeShuttle.blockCall;
+		pageData.blockRecall = GameManager.Instance.PrimaryEscapeShuttle.blockRecall;
 
 		//Player list info:
 		pageData.players = GetAllPlayerStates(adminID);
@@ -52,19 +63,23 @@ public class AdminToolRefreshMessage : ServerMessage
 	{
 		var playerList = new List<AdminPlayerEntryData>();
 		if (string.IsNullOrEmpty(adminID)) return playerList;
-
-		var checkMessages = PlayerList.Instance.CheckAdminInbox(adminID);
-		foreach (var player in PlayerList.Instance.AllPlayers)
+		var ToSearchThrough = PlayerList.Instance.AllPlayers.ToList();
+		ToSearchThrough.AddRange(PlayerList.Instance.loggedOff);
+		foreach (var player in ToSearchThrough)
 		{
 			if (player == null) continue;
-			if (player.Connection == null) continue;
+			//if (player.Connection == null) continue;
 
 			var entry = new AdminPlayerEntryData();
 			entry.name = player.Name;
 			entry.uid = player.UserId;
 			entry.currentJob = player.Job.ToString();
 			entry.accountName = player.Username;
-			entry.ipAddress = player.Connection.address;
+			if (player.Connection != null)
+			{
+				entry.ipAddress = player.Connection.address;
+			}
+
 			if (player.Script != null && player.Script.playerHealth != null)
 			{
 				entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
@@ -75,14 +90,6 @@ public class AdminToolRefreshMessage : ServerMessage
 			entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 			entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
 			entry.isOnline = true;
-
-			foreach (var msg in checkMessages)
-			{
-				if (msg.fromUserid == entry.uid)
-				{
-					entry.newMessages.Add(msg);
-				}
-			}
 
 			playerList.Add(entry);
 		}

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Represents armor which provides resistance against various kinds of attacks.
@@ -12,16 +13,16 @@ using System;
 [Serializable]
 public class Armor
 {
-	public float Melee;
-	public float Bullet;
-	public float Laser;
-	public float Energy;
-	public float Bomb;
-	public float Rad;
-	public float Fire;
-	public float Acid;
-	public float Magic;
-	public float Bio;
+	[Range(-100,100)] public float Melee;
+	[Range(-100,100)] public float Bullet;
+	[Range(-100,100)] public float Laser;
+	[Range(-100,100)] public float Energy;
+	[Range(-100,100)] public float Bomb;
+	[Range(-100,100)] public float Rad;
+	[Range(-100,100)] public float Fire;
+	[Range(-100,100)] public float Acid;
+	[Range(-100,100)] public float Magic;
+	[Range(-100,100)] public float Bio;
 
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance
@@ -31,8 +32,19 @@ public class Armor
 	/// <returns>new damage after applying protection values</returns>
 	public float GetDamage(float damage, AttackType attackType)
 	{
-		return damage * (100 - GetRating(attackType)) * .01f;
+		return damage * GetRatingValue(attackType);
 	}
+
+	public float GetRatingValue(AttackType attackType)
+	{
+		float rating = GetRating(attackType);
+		if (rating > 100)
+		{
+			rating = 100;
+		}
+		return  (1 - rating / 100);
+	}
+
 
 	/// <summary>
 	/// Get the armor rating against a certain type of attack
@@ -68,6 +80,50 @@ public class Armor
 		}
 
 		return 0;
+	}
+
+	/// <summary>
+	/// Operator override to add all armor types with ease. Thank you, Redline.
+	/// </summary>
+	public static Armor operator +(Armor a, Armor b)
+	{
+		var armor = new Armor
+		{
+			Melee = a.Melee + b.Melee,
+			Bullet = a.Bullet + b.Bullet,
+			Laser = a.Laser + b.Laser,
+			Energy = a.Energy + b.Energy,
+			Bomb = a.Bomb + b.Bomb,
+			Rad = a.Rad + b.Rad,
+			Fire = a.Fire + b.Fire,
+			Acid = a.Acid + b.Acid,
+			Magic = a.Magic + b.Magic,
+			Bio = a.Bio + b.Bio
+		};
+
+		return armor;
+	}
+
+	/// <summary>
+	/// Operator override to subtract all armor types with ease. Thank you, Redline.
+	/// </summary>
+	public static Armor operator -(Armor a, Armor b)
+	{
+		var armor = new Armor
+		{
+			Melee = a.Melee - b.Melee,
+			Bullet = a.Bullet - b.Bullet,
+			Laser = a.Laser - b.Laser,
+			Energy = a.Energy - b.Energy,
+			Bomb = a.Bomb - b.Bomb,
+			Rad = a.Rad - b.Rad,
+			Fire = a.Fire - b.Fire,
+			Acid = a.Acid - b.Acid,
+			Magic = a.Magic - b.Magic,
+			Bio = a.Bio - b.Bio
+		};
+
+		return armor;
 	}
 }
 

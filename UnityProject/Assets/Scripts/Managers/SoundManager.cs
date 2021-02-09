@@ -1,13 +1,20 @@
 ﻿using System;
+using AddressableReferences;
+using Assets.Scripts.Messages.Server.SoundMessages;
+using Mirror;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UnityEngine;
-using Mirror;
-using Random = UnityEngine.Random;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
+using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Manager that allows to play sounds.
+/// Should they be local (single client) or networked across one or more client.
+/// </summary>
 public class SoundManager : MonoBehaviour
 {
 	public AudioMixerGroup DefaultMixer;
@@ -18,151 +25,50 @@ public class SoundManager : MonoBehaviour
 
 	private static SoundManager soundManager;
 
-	private readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+	[SerializeField] private GameObject soundSpawnPrefab = null;
 
-	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
-
-	private static readonly System.Random RANDOM = new System.Random();
-
-	private static AudioSource currentLobbyAudioSource;
-
-	private readonly Dictionary<Footstep, List<string>> FootSteps = new Dictionary<Footstep, List<string>>(){
-		{ Footstep.floor,
-			 new List<string> {"floor1","floor2","floor3","floor4","floor5"}},
-		{Footstep.asteroid,
-			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
-		{Footstep.carpet,
-			 new List<string> {"carpet1","carpet2","carpet3","carpet4","carpet5"}},
-		{Footstep.catwalk,
-			 new List<string> {"catwalk1","catwalk2","catwalk3","catwalk4","catwalk5"}},
-		{Footstep.grass,
-			 new List<string> {"grass1","grass2","grass3","grass4"}},
-		{Footstep.lava, //not literally
-			 new List<string> {"lava1","lava2","lava3"}},
-		{Footstep.plating,
-			 new List<string> {"plating1","plating2","plating3","plating4", "plating5" }},
-		{Footstep.wood,
-			 new List<string> {"wood1","wood2","wood3","wood4", "wood5" }},
-		{Footstep.sand,
-			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
-		{Footstep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}},
-		{Footstep.clownstep,
-			 new List<string> {"clownstep1","clownstep2" }},
-	};
-
-	private readonly Dictionary<BareFootstep, List<string>> BareFootsteps = new Dictionary<BareFootstep, List<string>>(){
-		{BareFootstep.floor,
-			 new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}},
-		{BareFootstep.asteroid,
-			 new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}},
-		{BareFootstep.carpet,
-			 new List<string> {"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}},
-		{BareFootstep.catwalk,
-			 new List<string> {"catwalk1","catwalk2","catwalk3","catwalk4","catwalk5"}},
-		{BareFootstep.grass,
-			 new List<string> {"grass1","grass2","grass3","grass4"}},
-		{BareFootstep.lava, //not literally
-			 new List<string> {"lava1","lava2","lava3"}},
-		{BareFootstep.plating,
-			new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}},
-		{BareFootstep.wood,
-			 new List<string> {"woodbarefoot1", "woodbarefoot2", "woodbarefoot3", "woodbarefoot4", "woodbarefoot5"}},
-		{BareFootstep.sand,
-			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
-		{BareFootstep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}},
-		{BareFootstep.clownstep,
-			 new List<string> {"clownstep1","clownstep2" }}
-	};
-
-	private readonly Dictionary<ClawFootstep, List<string>> ClawFootsteps = new Dictionary<ClawFootstep, List<string>>(){
-		{ClawFootstep.floor,
-			 new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}},
-		{ClawFootstep.asteroid,
-			 new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}},
-		{ClawFootstep.carpet,
-			 new List<string> {"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}},
-		{ClawFootstep.catwalk,
-			 new List<string> {"catwalk1","catwalk2","catwalk3","catwalk4","catwalk5"}},
-		{ClawFootstep.grass,
-			 new List<string> {"grass1","grass2","grass3","grass4"}},
-		{ClawFootstep.lava, //not literally
-			 new List<string> {"lava1","lava2","lava3"}},
-		{ClawFootstep.plating,
-			new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}},
-		{ClawFootstep.wood,
-			 new List<string> {"woodclaw1", "woodclaw2", "woodclaw3", "woodclaw4", "woodclaw5"}},
-		{ClawFootstep.sand,
-			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
-		{ClawFootstep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}}
-	};
-
-	private readonly Dictionary<HeavyFootstep, List<string>> HeavyFootsteps = new Dictionary<HeavyFootstep, List<string>>(){
-		{HeavyFootstep.floor,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.asteroid,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.carpet,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.catwalk,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.grass,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.lava,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.plating,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.wood,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.sand,
-			 new List<string> {"lava1", "lava2", "lava3"}},
-		{HeavyFootstep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}}
-
-	};
-
-	private readonly Dictionary<ClownFoostep, List<string>> ClownFootsteps = new Dictionary<ClownFoostep, List<string>>(){
-		{ClownFoostep.floor,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.asteroid,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.carpet,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.catwalk,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.grass,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.lava,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.plating,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.wood,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.sand,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}}
-
-	};
-
-	private static bool Step;
-	private bool isMusicMute;
-
-	private List<AudioSource> ambientTracks = new List<AudioSource>();
-	public AudioSource ambientTrack;
-
-	// Use this for initialization
-	//public AudioSource[] sounds;
-	public List<AudioSource> musicTracks = new List<AudioSource>();
-
-	[SerializeField]
-	private SongTracker songTracker;
 	/// <summary>
-	/// For controlling the song play list. Includes random shuffle and auto play
+	/// Library of AddressableAudioSource.  Might be loaded or not.
 	/// </summary>
-	public static SongTracker SongTracker => soundManager.songTracker;
+	/// <remarks>Always use GetAddressableAudioSourceFromCache if you want a loaded version</remarks>
+	[HideInInspector] public readonly List<AddressableAudioSource> SoundsLibrary = new List<AddressableAudioSource>();
+
+	/// <summary>
+	/// Library of music paths (primaryKey)
+	/// </summary>
+	[HideInInspector] public readonly List<string> MusicLibrary = new List<string>();
+
+	/// <summary>
+	/// A list of all sounds currently playing
+	/// </summary>
+	/// <remarks>
+	/// Thats useful for interrupting playing sounds, and preventing a sound to play over itself.
+	/// Key is a Guid representing the token of the current playing sound.
+	/// </remarks>
+	public Dictionary<string, SoundSpawn> SoundSpawns = new Dictionary<string, SoundSpawn>();
+
+	/// <summary>
+	/// Dictionary of all sounds that have finished playing and are cashed for Quick playing
+	/// </summary>
+	public Dictionary<string, List<SoundSpawn>> NonplayingSounds = new Dictionary<string, List<SoundSpawn>>();
+
+	/// <summary>
+	/// Adds all musics to the music library.
+	/// </summary>
+	/// <remarks>
+	/// Musics are identified in Addressable groups with a special label "Music"
+	/// </remarks>
+	private async Task AddMusicsToLibraryAsync()
+	{
+		// We build the library of musics location (by a special Label that identifies them).
+		IList<IResourceLocation> resourceLocations =
+			await Addressables.LoadResourceLocationsAsync("Music", typeof(GameObject)).Task;
+
+		foreach (IResourceLocation resourceLocation in resourceLocations)
+		{
+			MusicLibrary.Add(resourceLocation.PrimaryKey);
+		}
+	}
 
 	public static SoundManager Instance
 	{
@@ -177,570 +83,830 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	[Range(0f, 1f)]
-	public float MusicVolume = 1;
-
-	[SerializeField]
-	private string[] RoundEndSounds = new string[]
-	{
-		"ApcDestroyed",
-		"BanginDonk",
-		"Disappointed",
-		"ItsOnlyGame",
-		"LeavingTG",
-		"NewRoundSexy",
-		"Scrunglartiy",
-		"Yeehaw"
-	};
-
-	public AudioSource this[string key]
-	{
-		get
-		{
-			AudioSource source;
-			return sounds.TryGetValue(key, out source) ? source : null;
-		}
-	}
-
-	void Awake()
+	private void Awake()
 	{
 		Init();
 	}
 
+	private void Start()
+	{
+		// Load all musics in the music library
+		AddMusicsToLibraryAsync();
+	}
+
 	private void Init()
 	{
-		//Mute Music Preference
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
+		//Master Volume
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey))
 		{
-			isMusicMute = PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0;
-		}
-
-		//Ambient Volume Preference
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey))
-		{
-			AmbientVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey));
+			MasterVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey));
 		}
 		else
 		{
-			AmbientVolume(1f);
+			MasterVolume(1f);
 		}
+
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
-		// Cache all sounds in the tree
-		var audioSources = gameObject.GetComponentsInChildren<AudioSource>(true);
-		for (int i = 0; i < audioSources.Length; i++)
-		{
-			var audioSource = audioSources[i];
-			if (audioSource.gameObject.CompareTag("AmbientSound"))
-			{
-				ambientTracks.Add(audioSource);
-				continue;
-
-			}
-			if (audioSource.gameObject.CompareTag("Music"))
-			{
-				musicTracks.Add(audioSource);
-				continue;
-			}
-			if (audioSource.gameObject.CompareTag("SoundFX"))
-			{
-				if (sounds.ContainsKey(audioSource.name))
-				{
-					Logger.LogErrorFormat("SoundManager: Duplicate sound name {0} on scene {1}, skipping!", Category.SoundFX,
-						audioSource.name, SceneManager.GetActiveScene().name);
-					continue;
-				}
-				sounds.Add(audioSource.name, audioSource);
-			}
-		}
 	}
 
 	/// <summary>
-	/// Chooses a random sound matching the given pattern if the name contains a wildcard. (#)
-	/// Otherwise, it returns the same name.
+	/// Add an addressable audio source to the common source pool.
+	/// Caching it and loading it in RAM in the same process.
 	/// </summary>
-	private string ResolveSoundPattern(string sndName)
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, a single one will be picked at random</param>
+	/// <returns>The addressable audio source with it's component loaded</returns>
+	private static async Task<AddressableAudioSource> EnsureAddressableAudioSourceFromCache(
+		List<AddressableAudioSource> addressableAudioSources)
 	{
-		if (!sounds.ContainsKey(sndName) && sndName.Contains('#'))
+		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
+		AddressableAudioSource addressableAudioSourceFromCache = null;
+		lock (Instance.SoundsLibrary)
 		{
-			var soundNames = GetMatchingSounds(sndName);
-			if (soundNames.Length > 0)
+			addressableAudioSourceFromCache =
+				Instance.SoundsLibrary.FirstOrDefault(p => p.AssetAddress == addressableAudioSource.AssetAddress);
+		}
+
+		if (addressableAudioSourceFromCache == null)
+		{
+			lock (Instance.SoundsLibrary)
 			{
-				return soundNames[Random.Range(0, soundNames.Length)];
+				Instance.SoundsLibrary.Add(addressableAudioSource);
 			}
 		}
-		return sndName;
-	}
 
-	/// <summary>
-	/// Returns a list of known sounds that match the given pattern.
-	/// </summary>
-	private string[] GetMatchingSounds(string pattern)
-	{
-		if (soundPatterns.ContainsKey(pattern))
+		// Ensure it's loaded and valid
+		AudioSource audioSource;
+		GameObject gameObject = await addressableAudioSource.Load();
+
+		if (gameObject == null)
 		{
-			return soundPatterns[pattern];
+			Logger.LogError(
+				$"{addressableAudioSource.AudioSource.name} in SoundManager failed to load from address: {addressableAudioSource.AssetAddress}",
+				Category.Addressables);
+			return null;
 		}
-		var regex = new Regex(Regex.Escape(pattern).Replace(@"\#", @"\d+"));
-		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>)regex.IsMatch).ToArray();
+
+		if (!gameObject.TryGetComponent(out audioSource))
+		{
+			Logger.LogError(
+				$"AddressableAudioSource in SoundManager doesn't contain an AudioSource: {addressableAudioSource.AssetAddress}",
+				Category.Addressables);
+			return null;
+		}
+
+		return addressableAudioSource;
 	}
 
 	/// <summary>
-	/// Serverside: Play sound for all clients.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// Get a fully loaded addressableAudioSource from the loaded cache.  This ensures that everything is ready to use.
+	/// If more than one addressableAudioSource is provided, one will be picked at random.
 	/// </summary>
-	public static void PlayNetworked(string sndName, float pitch = -1,
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
+	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(
+		List<AddressableAudioSource> addressableAudioSources)
+	{
+		var addressableAudioSource = await EnsureAddressableAudioSourceFromCache(addressableAudioSources);
+		return addressableAudioSource;
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnSceneChange;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneChange;
+	}
+
+	private void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		foreach (var sound in Instance.SoundSpawns)
+		{
+			sound.Value.AudioSource.Stop();
+		}
+
+		Instance.SoundSpawns.Clear();
+	}
+
+	/// <summary>
+	/// Generates a SoundSpawn and put it the SoundSpawns list.
+	/// This copies the AudioSource settings to the new SoundSpawn instance and returns it.
+	/// </summary>
+	/// <param name="audioSource">The AudioSource to copy</param>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
+	/// <returns>The SoundSpawn to be played</returns>
+	private SoundSpawn GetNewSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource,
+		string soundSpawnToken)
+	{
+		// The position doesn't matter at this point, but we need to provide one.
+		GameObject soundSpawnObject = Instantiate(Instance.soundSpawnPrefab, Vector3.zero, Quaternion.identity);
+		soundSpawnObject.transform.SetParent(this.gameObject.transform);
+		soundSpawnObject.name = audioSource.name;
+		SoundSpawn soundSpawn = soundSpawnObject.GetComponent<SoundSpawn>();
+		soundSpawn.AudioSource.outputAudioMixerGroup = DefaultMixer;
+		soundSpawn.SetAudioSource(audioSource);
+		soundSpawn.assetAddress = addressableAudioSource.AssetAddress;
+		if (soundSpawnToken != string.Empty)
+		{
+			soundSpawn.Token = soundSpawnToken;
+			SoundSpawns.Add(soundSpawnToken, soundSpawn);
+		}
+
+		return soundSpawn;
+	}
+
+
+	private SoundSpawn GetSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource,
+		string soundSpawnToken)
+	{
+		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress) && NonplayingSounds[addressableAudioSource.AssetAddress].Count > 0)
+		{
+			var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
+			NonplayingSounds[addressableAudioSource.AssetAddress].RemoveAt(0);
+			ToReturn.Token = soundSpawnToken;
+			SoundSpawns.Add(soundSpawnToken, ToReturn);
+			return ToReturn;
+		}
+
+		return GetNewSoundSpawn(addressableAudioSource, audioSource, soundSpawnToken);
+	}
+
+	public static void PlayNetworked(string addressableAudioSources, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
-		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll(sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSources);
+	}
+
+
+	/// <summary>
+	/// Play sound for all clients.
+	/// If more than one sound is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
+	public static async Task PlayNetworked(AddressableAudioSource addressableAudioSources, float pitch = -1,
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+	{
+		if (addressableAudioSources == null || addressableAudioSources.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning(
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
+
+		var Toplay = new List<AddressableAudioSource>();
+		Toplay.Add(addressableAudioSources);
+		PlayNetworked(Toplay, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+	}
+
+	/// <summary>
+	/// Play sound for all clients.
+	/// If more than one sound is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
+	public static async Task PlayNetworked(List<AddressableAudioSource> addressableAudioSources, float pitch = -1,
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+	{
+		ShakeParameters shakeParameters = null;
+		if (shakeGround == true)
+		{
+			shakeParameters = new ShakeParameters
+			{
+				ShakeGround = shakeGround,
+				ShakeIntensity = shakeIntensity,
+				ShakeRange = shakeRange
+			};
+		}
+
+		AudioSourceParameters audioSourceParameters = null;
+		if (pitch > 0)
+		{
+			audioSourceParameters = new AudioSourceParameters
+			{
+				Pitch = pitch
+			};
+		}
+
+		AddressableAudioSource addressableAudioSource =
+			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+		PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters,
+			audioSourceParameters);
+	}
+
+
+	public static string PlayNetworkedAtPos(string addressableAudioSource, Vector3 worldPos,
+		AudioSourceParameters audioSourceParameters,
+		bool polyphonic = false, bool Global = true, GameObject sourceObj = null,
+		ShakeParameters shakeParameters = null)
+	{
+		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSource);
+		return "";
 	}
 
 	/// <summary>
 	/// Serverside: Play sound at given position for all clients.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, float pitch = -1,
-		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool Global = true)
+	/// <param name="addressableAudioSources">The sound to be played.</param>
+	/// <param name="worldPos">The position at which the sound is played</param>
+	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
+	/// <param name="audioSourceParameters">Extra parameters of the audio source.</param>
+	/// <param name="Global">Does everyone will receive the sound our just nearby players</param>
+	/// <param name="sourceObj">The object that is the source of the sound</param>
+	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
+	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
+	public static Task<string> PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+		AudioSourceParameters audioSourceParameters,
+		bool polyphonic = false, bool Global = true, GameObject sourceObj = null,
+		ShakeParameters shakeParameters = null)
 	{
-		sndName = Instance.ResolveSoundPattern(sndName);
-		if (Global)
+		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
 		{
-			PlaySoundMessage.SendToAll(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+			Logger.LogWarning(
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return null;
 		}
-		else {
-			PlaySoundMessage.SendToNearbyPlayers(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
-		}
+
+		return PlayNetworkedAtPos(new List<AddressableAudioSource> {addressableAudioSource}, worldPos,
+			audioSourceParameters, polyphonic, Global, sourceObj, shakeParameters);
 	}
 
 	/// <summary>
-	/// Serverside: Play sound for particular player.
-	/// ("Doctor, there are voices in my head!")
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// Serverside: Play sound at given position for all clients.
+	/// If more than one sound is specified, the sound will be chosen at random
 	/// </summary>
-	public static void PlayNetworkedForPlayer(GameObject recipient, string sndName, float pitch = -1,
-		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, a single one will be picked at random</param>
+	/// <param name="worldPos">The position at which the sound is played</param>
+	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
+	/// <param name="audioSourceParameters">Extra parameters of the audio source.</param>
+	/// <param name="Global">Does everyone will receive the sound our just nearby players</param>
+	/// <param name="sourceObj">The object that is the source of the sound</param>
+	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
+	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
+	public static async Task<string> PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources,
+		Vector3 worldPos, AudioSourceParameters audioSourceParameters,
+		bool polyphonic = false, bool Global = true, GameObject sourceObj = null,
+		ShakeParameters shakeParameters = null)
 	{
-		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+		AddressableAudioSource addressableAudioSource =
+			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+
+		if (Global)
+		{
+			return PlaySoundMessage.SendToAll(addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
+				audioSourceParameters);
+		}
+		else
+		{
+			return PlaySoundMessage.SendToNearbyPlayers(addressableAudioSource, worldPos, polyphonic, sourceObj,
+				shakeParameters, audioSourceParameters);
+		}
+	}
+
+
+	public static void PlayNetworkedAtPos(string addressableAudioSource, Vector3 worldPos, float pitch = -1,
+		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30,
+		bool global = true, GameObject sourceObj = null)
+	{
+		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSource);
+		return;
+	}
+
+
+	/// <summary>
+	/// Play sound at given position for all clients.
+	/// </summary>
+	/// If more than one is specified, one will be picked at random.
+	/// <param name="addressableAudioSource">The sound to be played.</param>
+	public static void PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+		float pitch = -1,
+		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30,
+		bool global = true, GameObject sourceObj = null)
+	{
+		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning(
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
+
+		PlayNetworkedAtPos(new List<AddressableAudioSource>() {addressableAudioSource}, worldPos, pitch, polyphonic,
+			shakeGround, shakeIntensity, shakeRange, global, sourceObj);
+	}
+
+	/// <summary>
+	/// Play sound at given position for all clients.
+	/// </summary>
+	/// If more than one is specified, one will be picked at random.
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	public static void PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources, Vector3 worldPos,
+		float pitch = -1,
+		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30,
+		bool global = true, GameObject sourceObj = null)
+	{
+		ShakeParameters shakeParameters = null;
+		if (shakeGround == true)
+		{
+			shakeParameters = new ShakeParameters
+			{
+				ShakeGround = shakeGround,
+				ShakeIntensity = shakeIntensity,
+				ShakeRange = shakeRange
+			};
+		}
+
+		AudioSourceParameters audioSourceParameters = null;
+		if (pitch > 0)
+		{
+			audioSourceParameters = new AudioSourceParameters
+			{
+				Pitch = pitch
+			};
+		}
+
+		PlayNetworkedAtPos(addressableAudioSources, worldPos, audioSourceParameters, polyphonic, global, sourceObj,
+			shakeParameters);
+	}
+
+	public static async Task PlayNetworkedForPlayer(GameObject recipient,
+		AddressableAudioSource addressableAudioSources, float? pitch = null,
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
+	{
+		if (addressableAudioSources == null || addressableAudioSources.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning(
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
+
+		var Toplay = new List<AddressableAudioSource>();
+		Toplay.Add(addressableAudioSources);
+		PlayNetworkedForPlayer(recipient, Toplay, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange,
+			sourceObj);
+	}
+
+	/// <summary>
+	/// Play sound for particular player.
+	/// ("Doctor, there are voices in my head!")
+	/// If more than one is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="recipient">The player that will receive the sound</param>
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="pitch">The pitch variation of the sound.  Null for default pitch.</param>
+	public static async Task PlayNetworkedForPlayer(GameObject recipient,
+		List<AddressableAudioSource> addressableAudioSources, float? pitch = null,
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
+	{
+		ShakeParameters shakeParameters = null;
+		if (shakeGround == true)
+		{
+			shakeParameters = new ShakeParameters
+			{
+				ShakeGround = shakeGround,
+				ShakeIntensity = shakeIntensity,
+				ShakeRange = shakeRange
+			};
+		}
+
+		AudioSourceParameters audioSourceParameters = null;
+		if (pitch != null)
+		{
+			audioSourceParameters = new AudioSourceParameters
+			{
+				Pitch = pitch
+			};
+		}
+
+		AddressableAudioSource addressableAudioSource =
+			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+		PlaySoundMessage.Send(recipient, addressableAudioSource, TransformState.HiddenPos, polyphonic, sourceObj,
+			shakeParameters, audioSourceParameters);
+	}
+
+	public static async Task PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos,
+		string addressableAudioSources,
+		float pitch = -1,
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
+	{
+		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSources);
+		return;
 	}
 
 	/// <summary>
 	/// Serverside: Play sound at given position for particular player.
 	/// ("Doctor, there are voices in my head!")
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// If more than one is specified, one will be picked at random.
 	/// </summary>
-	public static void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos, string sndName, float pitch = -1,
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	public static async Task PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos,
+		List<AddressableAudioSource> addressableAudioSources,
+		float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
-		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
-	}
+		ShakeParameters shakeParameters = null;
+		if (shakeGround)
+		{
+			shakeParameters = new ShakeParameters
+			{
+				ShakeGround = shakeGround,
+				ShakeIntensity = shakeIntensity,
+				ShakeRange = shakeRange
+			};
+		}
 
-	/// <summary>
-	/// Play sound locally.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
-	/// </summary>
-	public static void Play(string name, float volume, float pitch = -1, float time = 0, bool oneShot = false, float pan = 0)
-	{
-		name = Instance.ResolveSoundPattern(name);
+		AudioSourceParameters audioSourceParameters = null;
 		if (pitch > 0)
 		{
-			Instance.sounds[name].pitch = pitch;
+			audioSourceParameters = new AudioSourceParameters
+			{
+				Pitch = pitch
+			};
 		}
-		Instance.sounds[name].time = time;
-		Instance.sounds[name].volume = volume;
-		Instance.sounds[name].panStereo = pan;
-		Play(name, oneShot);
+
+		AddressableAudioSource addressableAudioSource =
+			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+		PlaySoundMessage.Send(recipient, addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
+			audioSourceParameters);
+	}
+
+
+	/// <summary>
+	/// Play a sound locally
+	/// If more than one is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
+	/// <param name="polyphonic">Should the sound be played polyphonically</param>
+	public static async Task Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken,
+		AudioSourceParameters audioSourceParameters, bool polyphonic = false)
+	{
+		if (addressableAudioSource.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning(
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
+
+		Play(new List<AddressableAudioSource>() {addressableAudioSource}, soundSpawnToken, audioSourceParameters,
+			polyphonic);
 	}
 
 	/// <summary>
-	/// Gets the sound for playing locally and allowing full control over it without
-	/// having to go through sound manager. For playing local sounds only (such as in UI).
+	/// Play a sound locally
+	/// If more than one is specified, one will be picked at random.
 	/// </summary>
-	/// <param name="name">Accepts "#" wildcards for sound variations. (Example: "Punch#")</param>
-	/// <returns>audiosource of the sound</returns>
-	public static AudioSource GetSound(string name)
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
+	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
+	/// <param name="polyphonic">Should the sound be played polyphonically</param>
+	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken,
+		AudioSourceParameters audioSourceParameters, bool polyphonic = false)
 	{
-		name = Instance.ResolveSoundPattern(name);
-		return Instance.sounds[name];
+		AddressableAudioSource addressableAudioSource =
+			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+		SoundSpawn soundSpawn =
+			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
+		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
+
+		Instance.PlaySource(soundSpawn, polyphonic,
+			forceMixer: audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
+
+	public static async Task Play(AddressableAudioSource addressableAudioSources, string soundSpawnToken,
+		float volume, float pitch = -1, float time = 0, bool oneShot = false,
+		float pan = 0)
+	{
+		if (addressableAudioSources.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning(
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
+
+		Play(new List<AddressableAudioSource>() {addressableAudioSources}, soundSpawnToken, volume, pitch, time,
+			oneShot, pan);
+	}
 
 
 	/// <summary>
 	/// Play sound locally.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// If more than one is specified, one will be picked at random.
 	/// </summary>
-	public static void Play(string name, bool polyphonic = false, bool Global = true)
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
+	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken,
+		float volume, float pitch = -1, float time = 0, bool oneShot = false,
+		float pan = 0)
 	{
-		name = Instance.ResolveSoundPattern(name);
-		var sound = Instance.sounds[name];
+		AddressableAudioSource addressableAudioSource =
+			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+		SoundSpawn soundSpawn =
+			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 
-		if (!Global
-			&& PlayerManager.LocalPlayer != null
-			&& Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), sound.transform.position, layerMask))
+		if (pitch > 0)
 		{
-			//Logger.Log("MuffledMixer");
-			sound.outputAudioMixerGroup = soundManager.MuffledMixer;
+			soundSpawn.AudioSource.pitch = pitch;
 		}
-		else {
-			sound.outputAudioMixerGroup = soundManager.DefaultMixer;
+
+		soundSpawn.AudioSource.time = time;
+		soundSpawn.AudioSource.volume = volume;
+		soundSpawn.AudioSource.panStereo = pan;
+		Instance.PlaySource(soundSpawn, oneShot);
+	}
+
+	/// <summary>
+	/// Play sound locally.
+	/// If more than one element is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
+	/// <param name="polyphonic">Should the sound be played polyphonically</param>
+	/// <param name="global">Should the sound be played for the default mixer or false to check if it should play muffled</param>
+	/// <remarks>
+	///		If Global is true, the sound may still be muffled if the source is configured with the muffled mixer.
+	/// </remarks>
+	public static async Task Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken = "",
+		bool polyphonic = false, bool global = true)
+	{
+		if (addressableAudioSource.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning(
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
 		}
+
+		Play(new List<AddressableAudioSource>() {addressableAudioSource}, soundSpawnToken, polyphonic, global);
+	}
+
+	/// <summary>
+	/// Play sound locally.
+	/// If more than one element is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
+	/// <param name="polyphonic">Should the sound be played polyphonically</param>
+	/// <param name="global">Should the sound be played for the default mixer or false to check if it should play muffled</param>
+	/// <remarks>
+	///		If Global is true, the sound may still be muffled if the source is configured with the muffled mixer.
+	/// </remarks>
+	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken,
+		bool polyphonic = false, bool global = true)
+	{
+		AddressableAudioSource addressableAudioSource =
+			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+		var sound = Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
+		Instance.PlaySource(sound, polyphonic, global);
+	}
+
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true, bool forceMixer = false)
+	{
+		if (!forceMixer)
+		{
+			if (!Global
+			    && PlayerManager.LocalPlayer != null
+			    && (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
+					    LayerTypeSelection.Walls, layerMask, source.RegisterTile.WorldPositionClient.To2Int().To3Int())
+				    .ItHit))
+			{
+				source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+			}
+		}
+
 		if (polyphonic)
 		{
-			sound.PlayOneShot(sound.clip);
+			source.PlayOneShot();
 		}
 		else
 		{
-			sound.Play();
+			source.PlayNormally();
 		}
 	}
 
-	/// <summary>
-	/// Play Footstep at given world position.
-	/// </summary>
-
-	//TODO creature has claws
-
-	// Creature is barefoot (with humanlike foot)
-	private static void BarefootAtPosition(Vector3 worldPos, BasicTile tile)
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
+	public static void PlayAtPosition(AddressableAudioSource addressableAudioSource, string soundSpawnToken,
+		Vector3 worldPos, GameObject sourceObj,
+		bool polyphonic = false,
+		bool isGlobal = false,
+		AudioSourceParameters audioSourceParameters = null)
 	{
-		var WalkingSoundCategory = tile.BarefootWalkingSoundCategory;
-		PlayNetworkedAtPos(Instance.BareFootsteps[WalkingSoundCategory][RANDOM.Next(Instance.BareFootsteps[WalkingSoundCategory].Count)],
-									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-									Global: false, polyphonic: true);
-	}
-
-	// TODO Creature is wearing hardsuit
-
-	// Creature is wearing clown shoes
-	private static void ClownStepAtPos(Vector3 worldPos, BasicTile tile)
-	{
-		var WalkingSoundCategory = tile.ClownFootstepSoundCategory;
-		PlayNetworkedAtPos(Instance.ClownFootsteps[WalkingSoundCategory][RANDOM.Next(Instance.ClownFootsteps[WalkingSoundCategory].Count)],
-									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-									Global: false, polyphonic: true);
-	}
-
-	// Normal footsteps
-	public static void FootstepAtPosition(Vector3 worldPos, Pickupable feetSlot)
-	{
-		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
-
-		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
-		var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
-
-		if (tile != null)
+		if (addressableAudioSource.AssetAddress == string.Empty)
 		{
-			if (Step)
-			{
-				if (feetSlot == null) 
-				{
-					//TODO when we have creatures with claws, check here to make proper claw sound
-					BarefootAtPosition(worldPos, tile);
-				}
-				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Squeaky))
-				{
-					ClownStepAtPos(worldPos, tile);
-				}
-				else
-				{
-					PlayNetworkedAtPos(Instance.FootSteps[tile.WalkingSoundCategory][RANDOM.Next(Instance.FootSteps[tile.WalkingSoundCategory].Count)],
-									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-									Global: false, polyphonic: true);
-				}
-			}
-			Step = !Step;
+			Logger.LogWarning(
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
 		}
+
+		PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource},
+			soundSpawnToken, worldPos, sourceObj, polyphonic, isGlobal, audioSourceParameters);
 	}
 
-
 	/// <summary>
-	/// Play Glassknock at given world position.
+	/// Play sound locally at given world position.
+	/// If more than one element is specified, one will be picked at random.
+	/// This static method is for specifically attaching sound play to a target object (it will
+	/// parent itself to the target and set its local position to Vector3.zero before playing)
+	/// This is useful for moving objects that play sounds
 	/// </summary>
-	public static void GlassknockAtPosition(Vector3 worldPos)
+	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
+	public static void PlayAtPosition(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken,
+		Vector3 worldPos, GameObject sourceObj,
+		bool polyphonic = false,
+		bool isGlobal = false,
+		AudioSourceParameters audioSourceParameters = null)
 	{
-		PlayNetworkedAtPos("GlassKnock", worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-						   Global: false, polyphonic: true);
+		var netId = NetId.Empty;
+		if (sourceObj != null)
+		{
+			var netB = sourceObj.GetComponent<NetworkBehaviour>();
+			if (netB != null)
+			{
+				netId = netB.netId;
+			}
+		}
+
+		PlayAtPosition(addressableAudioSources, soundSpawnToken, worldPos, polyphonic, isGlobal, netId,
+			audioSourceParameters);
 	}
 
 
 	/// <summary>
 	/// Play sound locally at given world position.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayAtPosition(string name, Vector3 worldPos, float pitch = -1, bool polyphonic = false)
+	/// <param name="addressableAudioSource">Sound to be played.</param>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
+	public static async Task PlayAtPosition(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+		GameObject gameObject = null, string soundSpawnToken = "", bool polyphonic = false,
+		bool isGlobal = false, AudioSourceParameters audioSourceParameters = null)
 	{
-		name = Instance.ResolveSoundPattern(name);
-		if (Instance.sounds.ContainsKey(name))
+		uint netId = NetId.Empty;
+		if (gameObject != null)
 		{
-			var sound = Instance.sounds[name];
-			if (pitch > 0)
+			netId = gameObject.NetId();
+			if (netId == NetId.Invalid)
 			{
-				sound.pitch = pitch;
+				Logger.LogError("Provided Game object for PlayAtPosition  does not have a network identity " +
+				                addressableAudioSource.AssetAddress);
+				return;
 			}
-			sound.transform.position = worldPos;
-			Play(name, polyphonic, false);
 		}
+
+
+		_ = PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource}, soundSpawnToken, worldPos,
+			polyphonic, isGlobal, netId, audioSourceParameters);
+	}
+
+	/// <summary>
+	/// Play sound locally at given world position.
+	/// If more than one element is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="soundSpawnToken">The token that identifies the SoundSpawn uniquely among the server and all clients </param>
+	public static async Task PlayAtPosition(List<AddressableAudioSource> addressableAudioSources,
+		string soundSpawnToken, Vector3 worldPos, bool polyphonic = false,
+		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = null)
+	{
+		AddressableAudioSource addressableAudioSource =
+			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+		SoundSpawn soundSpawn =
+			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
+
+		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
+
+		if (netId != NetId.Empty)
+		{
+			if (NetworkIdentity.spawned.ContainsKey(netId))
+			{
+				soundSpawn.transform.parent = NetworkIdentity.spawned[netId].transform;
+				soundSpawn.transform.localPosition = Vector3.zero;
+			}
+			else
+			{
+				soundSpawn.transform.parent = Instance.transform;
+				soundSpawn.transform.position = worldPos;
+			}
+		}
+		else
+		{
+			soundSpawn.transform.parent = Instance.transform;
+			soundSpawn.transform.position = worldPos;
+		}
+
+		Instance.PlaySource(soundSpawn, polyphonic, isGlobal,
+			audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
+	}
+
+	private static void ApplyAudioSourceParameters(AudioSourceParameters audioSourceParameters, SoundSpawn soundSpawn)
+	{
+		AudioSource audioSource = soundSpawn.AudioSource;
+
+		if (audioSourceParameters != null)
+		{
+			if (audioSourceParameters.MixerType != MixerType.Unspecified)
+				audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master
+					? Instance.DefaultMixer
+					: Instance.MuffledMixer;
+
+			if (audioSourceParameters.Pitch != null)
+				audioSource.pitch = audioSourceParameters.Pitch.Value;
+			else
+				audioSource.pitch = 1;
+
+			if (audioSourceParameters.Time != null)
+				audioSource.time = audioSourceParameters.Time.Value;
+
+			if (audioSourceParameters.Volume != null)
+				audioSource.volume = audioSourceParameters.Volume.Value;
+
+			if (audioSourceParameters.Pan != null)
+				audioSource.panStereo = audioSourceParameters.Pan.Value;
+
+			if (audioSourceParameters.SpatialBlend != null)
+				audioSource.spatialBlend = audioSourceParameters.SpatialBlend.Value;
+
+			if (audioSourceParameters.MinDistance != null)
+				audioSource.minDistance = audioSourceParameters.MinDistance.Value;
+
+			if (audioSourceParameters.MaxDistance != null)
+				audioSource.maxDistance = audioSourceParameters.MaxDistance.Value;
+
+			if (audioSourceParameters.Spread != null)
+				audioSource.spread = audioSourceParameters.Spread.Value;
+
+			switch (audioSourceParameters.VolumeRolloffType)
+			{
+				case VolumeRolloffType.EaseInAndOut:
+					audioSource.rolloffMode = AudioRolloffMode.Custom;
+					audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff,
+						AnimationCurve.EaseInOut(0, 1, 1, 0));
+					break;
+				case VolumeRolloffType.Linear:
+					audioSource.rolloffMode = AudioRolloffMode.Linear;
+					break;
+				case VolumeRolloffType.Logarithmic:
+					audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+					break;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Tell all clients to stop playing a sound
+	/// </summary>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the sound to be stopped</returns>
+	public static void StopNetworked(string soundSpawnToken)
+	{
+		StopSoundMessage.SendToAll(soundSpawnToken);
 	}
 
 	/// <summary>
 	/// Stops a given sound from playing locally.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void Stop(string name)
+	/// <param name="soundSpawnToken">The Token of the soundSpawn to stop</param>
+	public static void Stop(string soundSpawnToken)
 	{
-		if (Instance.sounds.ContainsKey(name))
-		{
-			Instance.sounds[name].Stop();
-		}
-		else
-		{
-			foreach (var sound in Instance.GetMatchingSounds(name))
-			{
-				Instance.sounds[sound].Stop();
-			}
-		}
-	}
-
-	public static void StopMusic()
-	{
-		foreach (AudioSource track in Instance.musicTracks)
-		{
-			track.Stop();
-		}
-		Synth.Instance.StopMusic();
-	}
-
-	public static void StopAmbient()
-	{
-		foreach (AudioSource source in Instance.ambientTracks)
-		{
-			source.Stop();
-		}
-	}
-
-	[ContextMenu("PlayRandomMusicTrack")]
-	public void PlayRndTrackEditor()
-	{
-		PlayRandomTrack();
+		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
+			Instance.SoundSpawns[soundSpawnToken].AudioSource.Stop();
 	}
 
 	/// <summary>
-	/// Plays a random music track.
-	/// Using two diiferent ways to play tracks, some tracks are normal audio and some are tracker files played by sunvox.
-	/// <returns>String[] that represents the picked song's name.</returns>
-	/// </summary>
-	public static String[] PlayRandomTrack()
-	{
-		StopMusic();
-		String[] songInfo;
-
-		// To make sure not to play the last song that just played,
-		// every time a track is played, it's either a normal audio or track played by sunvox, alternatively.
-		if (currentLobbyAudioSource == null)
-		{
-			//Traditional music
-			int randTrack = Random.Range(0, Instance.musicTracks.Count);
-			currentLobbyAudioSource = Instance.musicTracks[randTrack];
-			var volume = Instance.MusicVolume;
-			if (Instance.isMusicMute)
-			{
-				volume = 0f;
-			}
-			currentLobbyAudioSource.volume = volume;
-			currentLobbyAudioSource.Play();
-			songInfo = currentLobbyAudioSource.clip.name.Split('_'); // Spliting to get the song and artist name
-		}
-		else
-		{
-			currentLobbyAudioSource = null;
-			//Tracker music
-			var trackerMusic = new[]
-			{
-				"Spaceman_HERB.xm",
-				"Echo sound_4mat.xm",
-				"Tintin on the Moon_Jeroen Tel.xm"
-			};
-			var songPicked = trackerMusic.Wrap(Random.Range(1, 100));
-			var vol = 255 * Instance.MusicVolume;
-
-			if (Instance.isMusicMute)
-			{
-				vol = 0f;
-			}
-
-			Synth.Instance.PlayMusic(songPicked, false, (byte)(int)vol);
-			songPicked = songPicked.Split('.')[0]; // Throwing away the .xm extension in the string
-			songInfo = songPicked.Split('_'); // Spliting to get the song and artist name
-		}
-		return songInfo;
-	}
-
-	public void ToggleMusicMute(bool mute)
-	{
-		isMusicMute = mute;
-		foreach (var m in musicTracks)
-		{
-			m.mute = mute;
-		}
-
-		if (mute)
-		{
-			Synth.Instance.SetMusicVolume(Byte.MinValue);
-		}
-		else
-		{
-			var vol = 255 * Instance.MusicVolume;
-			Synth.Instance.SetMusicVolume((byte) (int) vol);
-		}
-	}
-
-	public static void PlayAmbience(string ambientTrackName)
-	{
-		void PlayAmbientTrack(AudioSource track)
-		{
-			Logger.Log($"Playing ambient track: {track.name}", Category.SoundFX);
-			Instance.ambientTrack = track;
-			//Ambient Volume
-			if (PlayerPrefs.HasKey("AmbientVol"))
-			{
-				track.volume = Mathf.Clamp(PlayerPrefs.GetFloat("AmbientVol"),0f,0.25f);
-			}
-			track.Play();
-		}
-
-		foreach (var track in Instance.ambientTracks)
-		{
-			if (track.name == ambientTrackName)
-			{
-				PlayAmbientTrack(track);
-			}
-			else
-			{
-				track.Stop();
-			}
-		}
-	}
-
-	/// <summary>
-	/// Sets all ambient tracks to a certain volume
+	/// Sets all Sounds volume
 	/// </summary>
 	/// <param name="volume"></param>
-	public static void AmbientVolume(float volume)
+	public static void MasterVolume(float volume)
 	{
-		volume = Mathf.Clamp(volume, 0f, 0.25f);
-		foreach (AudioSource s in Instance.ambientTracks)
-		{
-			s.volume = volume;
-		}
-
-		PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, volume);
+		AudioListener.volume = volume;
+		PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
 		PlayerPrefs.Save();
 	}
 
 	/// <summary>
-	/// Checks if music in lobby is being played or not.
-	/// <returns> true if music is being played.</returns>
+	/// Changes the Audio Source Parameters of a sound currently playing
 	/// </summary>
-	public static bool isLobbyMusicPlaying()
-    {
-		// Checks if an audiosource or a track by sunvox is being played(Since there are two diiferent ways to play tracks)
-		if (currentLobbyAudioSource != null && currentLobbyAudioSource.isPlaying || !(SunVox.sv_end_of_song((int)Slot.Music) == 1))
-			return true;
-
-		return false;
-	}
-
-	public double GetRandomNumber(double minimum, double maximum)
+	/// <param name="soundSpawnToken">The Token of the sound spawn to change the parameters</param>
+	/// <param name="audioSourceParameters">The Audio Source Parameters to apply</param>
+	public static void ChangeAudioSourceParameters(string soundSpawnToken, AudioSourceParameters audioSourceParameters)
 	{
-		return  RANDOM.NextDouble() * (maximum - minimum) + minimum;
+		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
+		{
+			SoundSpawn soundSpawn = Instance.SoundSpawns[soundSpawnToken];
+			ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
+		}
 	}
 
-	/// <summary>
-	/// Plays a random round end sound using sounds picked from RoundEndSounds
-	/// </summary>
-	public void PlayRandomRoundEndSound()
+	public bool IsSoundPlaying(string soundSpawnToken)
 	{
-		var rand = RANDOM.Next(RoundEndSounds.Length);
-		PlayNetworked(RoundEndSounds[rand], 1f);
+		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
+			return Instance.SoundSpawns[soundSpawnToken].IsPlaying;
+		else
+			return false;
 	}
-
-}
-
-public enum Footstep
-{
-	floor,
-	asteroid,
-	carpet,
-	catwalk,
-	grass,
-	lava,
-	plating,
-	wood,
-	sand,
-	water,
-	clownstep
-}
-public enum BareFootstep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
-	clownstep = Footstep.clownstep
-}
-
-public enum HeavyFootstep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
-	clownstep = Footstep.clownstep
-}
-
-public enum ClawFootstep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
-	clownstep = Footstep.clownstep
-}
-
-public enum ClownFoostep 
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
 }

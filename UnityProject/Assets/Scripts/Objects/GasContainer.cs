@@ -1,102 +1,134 @@
-using Atmospherics;
-using Mirror;
+using System;
 using UnityEngine;
+using Mirror;
+using Systems.Atmospherics;
+using Systems.Explosions;
 
-namespace Objects
+namespace Objects.Atmospherics
 {
 	[RequireComponent(typeof(Integrity))]
-	public class GasContainer : NetworkBehaviour, IGasMixContainer
+	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn
 	{
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
 
 		public GasMix GasMix { get; set; }
 
-		public bool Opened;
+		public bool IsVenting { get; private set; } = false;
+
 		[Tooltip("This is the maximum moles the container should be able to contain without exploding.")]
 		public float MaximumMoles = 0f;
+
 		public float ReleasePressure = 101.325f;
 
 		// Keeping a copy of these values for initialization and the editor
 		public float Volume;
 
 		//hide these values as they're defined in GasContainerEditor.cs
-		[HideInInspector]
-		public float Temperature;
-		[HideInInspector]
-		public float[] Gases = new float[Gas.Count];
+		[HideInInspector] public float Temperature;
+		[HideInInspector] public float[] Gases = new float[Gas.Count];
+
+		private Integrity integrity;
+
+		public Action ServerContainerExplode;
 
 		public float ServerInternalPressure => GasMix.Pressure;
+		private Vector3Int WorldPosition => gameObject.RegisterTile().WorldPosition;
+		private Vector3Int LocalPosition => gameObject.RegisterTile().LocalPosition;
 
-		public override void OnStartServer()
+		private bool gasIsInitialised = false;
+
+		#region Lifecycle
+
+		private void Awake()
 		{
-			UpdateGasMix();
-			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-
+			integrity = GetComponent<Integrity>();
 		}
 
-		private void OnWillDestroyServer(DestructionInfo info)
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			var tileWorldPosition = gameObject.TileWorldPosition().To3Int();
-			//release all of our gases at once when destroyed
-			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(tileWorldPosition, true).MetaDataLayer;
-			Vector3Int position = transform.localPosition.RoundToInt();
-			MetaDataNode node = metaDataLayer.Get(position, false);
-			var shakeIntensity = (byte) Mathf.Lerp( byte.MinValue, byte.MaxValue / 2, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
-			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
-			node.GasMix += GasMix;
-			metaDataLayer.UpdateSystemsAt(position);
-			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject.TileWorldPosition());
-
-			Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
-				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
-
-			ExplosionUtils.PlaySoundAndShake(tileWorldPosition, shakeIntensity, (int) shakeDistance);
-		}
-
-		private void Update()
-		{
-			if (isServer)
+			if (!gasIsInitialised)
 			{
-				CheckRelease();
+				UpdateGasMix();
+			}
+
+			integrity.OnApplyDamage.AddListener(OnServerDamage);
+		}
+
+		private void OnDisable()
+		{
+			integrity.OnApplyDamage.RemoveListener(OnServerDamage);
+		}
+
+		private void OnServerDamage(DamageInfo info)
+		{
+			if (integrity.integrity - info.Damage <= 0)
+			{
+				ExplodeContainer();
+				integrity.RestoreIntegrity(integrity.initialIntegrity);
 			}
 		}
 
+		#endregion Lifecycle
+
 		[Server]
-		private void CheckRelease()
+		private void ExplodeContainer()
 		{
-			if (Opened)
+			var shakeIntensity = (byte)Mathf.Lerp(
+					byte.MinValue, byte.MaxValue / 2, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
+			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
+
+			//release all of our gases at once when destroyed
+			ReleaseContentsInstantly();
+
+			ExplosionUtils.PlaySoundAndShake(WorldPosition, shakeIntensity, (int)shakeDistance);
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject);
+
+			ServerContainerExplode?.Invoke();
+			// Disable this script, gameObject has no valid container now.
+			enabled = false;
+		}
+
+		private void ReleaseContentsInstantly()
+		{
+			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(WorldPosition, true).MetaDataLayer;
+			MetaDataNode node = metaDataLayer.Get(LocalPosition, false);
+
+			GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
+			metaDataLayer.UpdateSystemsAt(LocalPosition, SystemType.AtmosSystem);
+		}
+
+		[Server]
+		public void VentContents()
+		{
+			var metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position), true).MetaDataLayer;
+
+			Vector3Int localPosition = transform.localPosition.RoundToInt();
+			MetaDataNode node = metaDataLayer.Get(localPosition, false);
+
+			float deltaPressure = Mathf.Min(GasMix.Pressure, ReleasePressure) - node.GasMix.Pressure;
+
+			if (deltaPressure > 0)
 			{
-				MetaDataLayer metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position), true).MetaDataLayer;
+				float ratio = deltaPressure * Time.deltaTime;
 
-				Vector3Int position = transform.localPosition.RoundToInt();
-				MetaDataNode node = metaDataLayer.Get(position, false);
+				GasMix.TransferGas(node.GasMix, GasMix, ratio);
 
-				float deltaPressure = Mathf.Min(GasMix.Pressure, ReleasePressure) - node.GasMix.Pressure;
+				metaDataLayer.UpdateSystemsAt(localPosition, SystemType.AtmosSystem);
 
-				if (deltaPressure > 0)
+				Volume = GasMix.Volume;
+				Temperature = GasMix.Temperature;
+
+				foreach (Gas gas in Gas.All)
 				{
-					float ratio = deltaPressure / GasMix.Pressure * Time.deltaTime;
-
-					node.GasMix += GasMix * ratio;
-
-					GasMix *= (1 - ratio);
-
-					metaDataLayer.UpdateSystemsAt(position);
-
-					Volume = GasMix.Volume;
-					Temperature = GasMix.Temperature;
-
-					foreach (Gas gas in Gas.All)
-					{
-						Gases[gas] = GasMix.Gases[gas];
-					}
+					Gases[gas] = GasMix.Gases[gas];
 				}
 			}
 		}
 
 		public void UpdateGasMix()
 		{
+			gasIsInitialised = true;
 			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
 		}
 	}

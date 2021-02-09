@@ -8,6 +8,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemTrait", menuName = "Traits/ItemTrait")]
 public class ItemTrait : ScriptableObject
 {
+	// Is used in editor, so "unused" warning is ignored.
+	#pragma warning disable CS0414
 	[TextArea]
 	[SerializeField] string traitDescription = "Describe me!"; // A short description of the trait and what it does
+	#pragma warning restore CS0414
 }

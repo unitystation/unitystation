@@ -34,13 +34,16 @@ public class PlayerTextureData : ScriptableObject
 
 	private void OnEnable()
 	{
-
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-		SceneManager.sceneLoaded += OnSceneLoaded;
+		SceneManager.activeSceneChanged += OnSceneLoaded;
 	}
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-	{
 
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneLoaded;
+	}
+
+	void OnSceneLoaded(Scene scene, Scene newScene)
+	{
 		InitializePool();
 	}
 
@@ -69,15 +72,15 @@ public class PlayerTextureData : ScriptableObject
 [System.Serializable]
 public class RaceVariantTextureData
 {
-	public SpriteSheetAndData Head;
-	public SpriteSheetAndData Eyes;
-	public SpriteSheetAndData Torso;
-	public SpriteSheetAndData ArmRight;
-	public SpriteSheetAndData ArmLeft;
-	public SpriteSheetAndData HandRight;
-	public SpriteSheetAndData HandLeft;
-	public SpriteSheetAndData LegRight;
-	public SpriteSheetAndData LegLeft;
+	public SpriteDataSO Head;
+	public SpriteDataSO Eyes;
+	public SpriteDataSO Torso;
+	public SpriteDataSO ArmRight;
+	public SpriteDataSO ArmLeft;
+	public SpriteDataSO HandRight;
+	public SpriteDataSO HandLeft;
+	public SpriteDataSO LegRight;
+	public SpriteDataSO LegLeft;
 }
 
 

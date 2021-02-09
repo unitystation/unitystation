@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
+  m_Name: dark green space helmet
+  m_EditorClassIdentifier: 
+  Base:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 81c22eae97594104091f07756a8395b4, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 81c22eae97594104091f07756a8395b4, type: 3}
+      - {fileID: 21300002, guid: 81c22eae97594104091f07756a8395b4, type: 3}
+      - {fileID: 21300004, guid: 81c22eae97594104091f07756a8395b4, type: 3}
+      - {fileID: 21300006, guid: 81c22eae97594104091f07756a8395b4, type: 3}
+      EquippedData: {fileID: 4900000, guid: 579e3193d4997ee449761d0f299a6306, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 1a1faf755fb8b344190599d66fe738d8, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 1a1faf755fb8b344190599d66fe738d8, type: 3}
+      - {fileID: 21300002, guid: 1a1faf755fb8b344190599d66fe738d8, type: 3}
+      - {fileID: 21300004, guid: 1a1faf755fb8b344190599d66fe738d8, type: 3}
+      - {fileID: 21300006, guid: 1a1faf755fb8b344190599d66fe738d8, type: 3}
+      EquippedData: {fileID: 4900000, guid: 253a1dce828efbb498988c48b2763239, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: 1f3766651548c7f4ebd39a3b261c4130, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 1f3766651548c7f4ebd39a3b261c4130, type: 3}
+      - {fileID: 21300002, guid: 1f3766651548c7f4ebd39a3b261c4130, type: 3}
+      - {fileID: 21300004, guid: 1f3766651548c7f4ebd39a3b261c4130, type: 3}
+      - {fileID: 21300006, guid: 1f3766651548c7f4ebd39a3b261c4130, type: 3}
+      EquippedData: {fileID: 4900000, guid: a5c037bb0c0a38a4b947a10cdd7a7c8b, type: 3}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: 7f8e59afa675d4d49a84971992a0b85f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7f8e59afa675d4d49a84971992a0b85f, type: 3}
+      EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 2444ef4673bfd494f980ac94bf3f5512, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: 0b144a9de4fcbb64f80d3ad724c9e998,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: bc32597cf3880594695cb5967408a95b,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: 88b3f9029b9840646bb125642c915b27, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  Base_Adjusted:
+    Equipped:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  DressVariant:
+    Equipped:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  Variants: []

@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1721604302402341619}
   - component: {fileID: 1567170016700135650}
   - component: {fileID: 1140414460732144086}
+  - component: {fileID: -7731008137819855807}
   m_Layer: 19
   m_Name: Poster
   m_TagString: Untagged
@@ -86,6 +87,8 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  ReachableThrough: 1
+  passableExclusionsToThis: []
 --- !u!114 &7435736029181534324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directional: {fileID: 0}
 --- !u!114 &2849084297104663897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &2005314267733314395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +131,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &842841108259978593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &5636789531504822047
 MonoBehaviour:
@@ -154,9 +164,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
+  isMeleeable: 0
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &7154680421102874471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +190,13 @@ MonoBehaviour:
   sprite: {fileID: 5092856197715381086}
   rolledPosterPrefab: {fileID: 5074129411573611090, guid: 96145b3165f5248b78302cd49658b0b2,
     type: 3}
+  RipSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PosterRipped.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   posterVariant: 85
   OfficialPosters:
   - Name: Here For Your Safety
@@ -691,7 +714,8 @@ MonoBehaviour:
     PosterName: 83
     Type: 1
   - Name: Bounty Hunters
-    Description: A poster advertising bounty hunting services. "I hear you got a problem."
+    Description: A poster advertising bounty hunting services. "I hear you got a
+      problem."
     Icon: poster47
     sprite: {fileID: 0}
     PosterName: 84
@@ -718,6 +742,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 25
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -738,7 +771,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 25
 --- !u!114 &1567170016700135650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,10 +783,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1915794502
 --- !u!114 &1140414460732144086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,6 +803,18 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+--- !u!114 &-7731008137819855807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5466995241280763689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5583455716784618316
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +860,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -838,7 +884,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: bbcac2fc148dc4c56836c755377537d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

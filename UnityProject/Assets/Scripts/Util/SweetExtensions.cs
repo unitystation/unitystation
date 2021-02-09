@@ -4,7 +4,10 @@ using System.Globalization;
 using System.Linq;
 using Mirror;
 using UnityEngine;
+using Objects;
 using Random = UnityEngine.Random;
+using System.Text;
+using Items;
 
 public static class SweetExtensions
 {
@@ -23,13 +26,46 @@ public static class SweetExtensions
 		return go.GetComponent<ItemAttributesV2>();
 	}
 
+	public static ObjectAttributes Object(this GameObject go)
+	{
+		return go.GetComponent<ObjectAttributes>();
+	}
+
+	/// <summary>
+	/// Returns human-readable object name for IC texts
+	/// </summary>
 	public static string ExpensiveName(this GameObject go)
 	{
 		var item = go.Item();
-		if (item != null && !String.IsNullOrWhiteSpace(item.ArticleName)) return item.ArticleName;
+		if (item)
+		{
+			// try get current instance name
+			if (!String.IsNullOrWhiteSpace(item.ArticleName))
+			{
+				return item.ArticleName;
+			}
+
+			// maybe it's non-instanced prefab - get initial name
+			if (!String.IsNullOrWhiteSpace(item.InitialName))
+			{
+				return item.InitialName;
+			}
+		}
+
+		var entityObject = go.Object();
+		if (entityObject != null)
+		{
+			if (!string.IsNullOrWhiteSpace(entityObject.InitialName))
+			{
+				return entityObject.InitialName;
+			}
+		}
 
 		var player = go.Player();
-		if (player != null && !String.IsNullOrWhiteSpace(player.Name)) return player.Name;
+		if (player != null && !String.IsNullOrWhiteSpace(player.Script.visibleName))
+		{
+			return player.Script.visibleName;
+		}
 
 		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
 	}
@@ -87,12 +123,20 @@ public static class SweetExtensions
 	/// Wraps provided index value if it's more than array length or is negative
 	public static T Wrap<T>(this T[] array, int index)
 	{
+		if (array == null || array.Length == 0)
+		{
+			return default(T);
+		}
 		return array[((index % array.Length) + array.Length) % array.Length];
 	}
 
 	/// Wraps provided index value if it's more than list length or is negative
 	public static T Wrap<T>(this List<T> list, int index)
 	{
+		if (list == null || list.Count == 0)
+		{
+			return default(T);
+		}
 		return list[((index % list.Count) + list.Count) % list.Count];
 	}
 
@@ -191,7 +235,7 @@ public static class SweetExtensions
 	/// Good looking job name
 	public static string JobString(this JobType job)
 	{
-		return job.ToString().Equals("NULL") ? "*just joined" : textInfo.ToTitleCase(job.ToString().ToLower());
+		return job.ToString().Equals("NULL") ? "*just joined" : textInfo.ToTitleCase(job.ToString().ToLower()).Replace("_", " ");
 	}
 	//For job formatting purposes
 	private static readonly TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
@@ -305,6 +349,17 @@ public static class SweetExtensions
 	}
 
 	/// <summary>
+	/// Removes all KeyValuePairs where each pair matches the given predicate.
+	/// Courtesy of https://www.codeproject.com/Tips/494499/Implementing-Dictionary-RemoveAll.
+	/// </summary>
+	public static void RemoveAll<K, V>(this IDictionary<K, V> dict, Func<K, V, bool> match)
+	{
+		foreach (var key in dict.Keys.ToArray()
+				.Where(key => match(key, dict[key])))
+			dict.Remove(key);
+	}
+
+	/// <summary>
 	/// Enumerate all flags as IEnumerable
 	/// </summary>
 	/// <param name="input"></param>
@@ -314,5 +369,71 @@ public static class SweetExtensions
 		foreach (Enum value in Enum.GetValues(input.GetType()))
 			if (input.HasFlag(value))
 				yield return value;
+	}
+
+	/// <summary>
+	/// direct port of java's Map.getOrDefault
+	/// </summary>
+	public static V GetOrDefault<T,V>(this Dictionary<T, V> dic, T key, V defaultValue)
+	{
+		V v;
+		return (dic.ContainsKey(key) && ((v = dic[key]) != null))
+			? v
+			: defaultValue;
+
+	}
+
+	/// <summary>
+	/// Removes the last instance of the given string from the given StringBuilder.
+	/// </summary>
+	/// <returns>the final StringBuilder</returns>
+	public static StringBuilder RemoveLast(this StringBuilder sb, string str)
+	{
+		if (sb.Length < 1) return sb;
+
+		sb.Remove(sb.ToString().LastIndexOf(str), str.Length);
+		return sb;
+	}
+
+	public static Vector3 GetRandomPoint(this Bounds bounds)
+	{
+		return new Vector3(
+			UnityEngine.Random.Range(bounds.min.x, bounds.max.x),
+			UnityEngine.Random.Range(bounds.min.y, bounds.max.y),
+			UnityEngine.Random.Range(bounds.min.z, bounds.max.z)
+		);
+	}
+
+	public static Vector3 GetRandomPoint(this BoundsInt bounds)
+	{
+		return new Vector3(
+			UnityEngine.Random.Range(bounds.min.x, bounds.max.x),
+			UnityEngine.Random.Range(bounds.min.y, bounds.max.y),
+			UnityEngine.Random.Range(bounds.min.z, bounds.max.z)
+		);
+	}
+
+	public static string Capitalize(this string text)
+	{
+		return text[0].ToString().ToUpper() + text.Substring(1);
+	}
+
+	/// <summary>
+	/// Extension for all IComparables, like numbers and dates. Returns true if given data
+	/// is between the min and max values. By default, it is inclusive.
+	/// </summary>
+	/// <param name="value">Value to compare</param>
+	/// <param name="min">Minimum value in the range</param>
+	/// <param name="max">Maximum value in the range</param>
+	/// <param name="inclusive">Changes the behavior for min and max, true by default</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>True if the given value is  between the given range</returns>
+	public static bool IsBetween<T>(this T value, T min, T max, bool inclusive=true) where T : IComparable
+	{
+		return inclusive
+			? Comparer<T>.Default.Compare(value, min) >= 0
+			  && Comparer<T>.Default.Compare(value, max) <= 0
+			: Comparer<T>.Default.Compare(value, min) > 0
+			  && Comparer<T>.Default.Compare(value, max) < 0;
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,14 +11,15 @@ using Newtonsoft.Json;
 
 public class VariableViewerNetworking : MonoBehaviour
 {
-	public class IDnName { 
+	public class IDnName {
 		public ulong ID;
 		/// <summary>
 		/// The name of the shelf.
 		/// ShelfName
 		/// </summary>
 		public string SN;
-	} 
+	}
+
 	public class NetFriendlyBookShelfView
 	{
 		public ulong ID;
@@ -40,7 +42,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		public bool IE;
 
 		/// <summary>
-		/// ObscuredBookShelves 
+		/// ObscuredBookShelves
 		/// </summary>
 		public IDnName[] OBS;
 
@@ -86,6 +88,24 @@ public class VariableViewerNetworking : MonoBehaviour
 		public List<NetFriendlySentence> GetSentences()
 		{
 			return (Sentences);
+		}
+
+		/// <summary>
+		/// Get size of this object (in bytes)
+		/// </summary>
+		/// <returns>size of this object (in bytes)</returns>
+		public int GetSize()
+		{
+			// !	IMPORTANT	!
+			// remember to change this method content after modyfing data structure
+			return sizeof(uint)                             // SentenceID
+				+ sizeof(uint)                              // PagePosition
+				+ sizeof(char) * KeyVariable.Length         // KeyVariable
+				+ sizeof(char) * KeyVariableType.Length     // KeyVariableType
+				+ sizeof(char) * ValueVariable.Length       // ValueVariable
+				+ sizeof(char) * ValueVariableType.Length   // ValueVariableType
+				+ sizeof(ulong)                             // HeldBySentenceID
+				+ (Sentences == null ? 0 : Sentences.Sum(x => x.GetSize()));          // Size of all sentences
 		}
 
 	}
@@ -139,7 +159,20 @@ public class VariableViewerNetworking : MonoBehaviour
 			}
 		}
 
-
+		/// <summary>
+		/// Get size of this object (in bytes)
+		/// </summary>
+		/// <returns>size of this object (in bytes)</returns>
+		public int GetSize()
+		{
+			// !	IMPORTANT	!
+			// remember to change this method content after modyfing data structure
+			return sizeof(ulong)                        // ID
+				+ sizeof(char) * VariableName.Length    // VariableName
+				+ sizeof(char) * Variable.Length        // Variable
+				+ sizeof(char) * VariableType.Length    // VariableType
+				+ (Sentences == null ? 0 : Sentences.Sum(x => x.GetSize()));		// Size of all sentences
+		}
 	}
 
 	public class NetFriendlyBook
@@ -160,6 +193,21 @@ public class VariableViewerNetworking : MonoBehaviour
 
 			return (logMessage.ToString());
 		}
+
+		/// <summary>
+		/// Get size of this object (in bytes)
+		/// </summary>
+		/// <returns>size of this object (in bytes)</returns>
+		public int GetSize()
+		{
+			// !	IMPORTANT	!
+			// remember to change this method content after modyfing data structure
+			return sizeof(ulong)
+				+ sizeof(char) * Title.Length
+				+ sizeof(char) * BookClassname.Length
+				+ (BindedPages == null ? 0 : BindedPages.Sum(x => x.GetSize()))
+				+ sizeof(bool);
+		}
 	}
 
 	public static IDnName ProcessBookShelfToID(Librarian.BookShelf _BookShelf)
@@ -177,7 +225,7 @@ public class VariableViewerNetworking : MonoBehaviour
 
 	public static NetFriendlyBookShelf ProcessSUBBookShelf(Librarian.BookShelf _BookShelf)  {
 		if (_BookShelf.IsPartiallyGenerated) {
-			Librarian.PopulateBookShelf(_BookShelf);
+			_BookShelf.PopulateBookShelf();
 		}
 
 		NetFriendlyBookShelf BookShelf = new NetFriendlyBookShelf
@@ -228,7 +276,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		};
 		List<IDnName> NetFriendlyBookShelfs = new List<IDnName>();
 		if (_BookShelf.IsPartiallyGenerated) {
-			Librarian.PopulateBookShelf(_BookShelf);
+			_BookShelf.PopulateBookShelf();
 		}
 		foreach (var ObscuredBookShelve in _BookShelf.ObscuredBookShelves) {
 			NetFriendlyBookShelfs.Add(ProcessBookShelfToID(ObscuredBookShelve));
@@ -238,18 +286,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		return (TopBookShelf);
 	}
 
-	//		public ulong ID;
-	//public string ShelfName;
-	//public bool IsEnabled;
-	//public GameObject Shelf;
-
-	////public NetFriendlyBookShelf[] ObscuredBookShelves;
-	//public string ObscuredBookShelves;
-	////public NetFriendlyBookShelf ObscuredBy;
-	//public string ObscuredBy;
-	//public NetFriendlyBook[] HeldBooks;
-
-	public static NetFriendlyBook ProcessBook(Librarian.Book _book) { 
+	public static NetFriendlyBook ProcessBook(Librarian.Book _book) {
 		string Classe;
 		Classe = _book.BookClass.GetType().Name;
 		NetFriendlyBook Book = new NetFriendlyBook()
@@ -260,6 +297,11 @@ public class VariableViewerNetworking : MonoBehaviour
 			UnGenerated = _book.UnGenerated
 		};
 
+		// get max possible packet size from current transform
+		int maxPacketSize = Mirror.Transport.activeTransport.GetMaxPacketSize(0);
+		// set currentSize start value to max TCP header size (60b)
+		int currentSize = 60;
+
 		List<NetFriendlyPage> ListPages = new List<NetFriendlyPage>();
 		foreach (var bob in _book.GetBindedPages())
 		{
@@ -267,7 +309,7 @@ public class VariableViewerNetworking : MonoBehaviour
 			NetFriendlyPage Page = new NetFriendlyPage
 			{
 				ID = bob.ID,
-				Variable = bob.Variable.ToString(),
+				Variable = VVUIElementHandler.Serialise(bob.Variable, bob.VariableType),
 				VariableName = bob.VariableName,
 				VariableType = bob.VariableType.ToString()
 			};
@@ -286,6 +328,17 @@ public class VariableViewerNetworking : MonoBehaviour
 				RecursiveSentencePopulate(bob.Sentences, Sentences);
 			}
 			Page.Sentences = Sentences.ToArray();
+
+			//currentSize += Page.GetSize(); //TODO work out why this causes errors
+
+
+			// if currentSize is greater than the maxPacketSize - break loop and send message
+			if (currentSize > maxPacketSize)
+			{
+				Logger.LogError("[VariableViewerNetworking.ProcessBook] - message is to big to send in one packet", Category.NetMessage);
+				break;
+			}
+
 			ListPages.Add(Page);
 		}
 		Book.BindedPages = ListPages.ToArray();
@@ -304,7 +357,8 @@ public class VariableViewerNetworking : MonoBehaviour
 				{
 					PagePosition = _Sentence.PagePosition,
 					SentenceID = _Sentence.SentenceID,
-					ValueVariable = _Sentence.ValueVariable.ToString(),
+
+					ValueVariable = VVUIElementHandler.Serialise(_Sentence.ValueVariable, _Sentence.ValueVariableType),
 					ValueVariableType = _Sentence.ValueVariableType.ToString(),
 					OnPageID = _Sentence.OnPageID,
 					HeldBySentenceID = LibrarianSentence.SentenceID
@@ -315,14 +369,15 @@ public class VariableViewerNetworking : MonoBehaviour
 				}
 				if (_Sentence.KeyVariable != null)
 				{
-					FriendlySentence.KeyVariable = _Sentence.KeyVariable.ToString();
+					FriendlySentence.KeyVariable =
+						VVUIElementHandler.Serialise(_Sentence.KeyVariable, _Sentence.KeyVariableType);
 					FriendlySentence.KeyVariableType = _Sentence.KeyVariableType.ToString();
 					if ((FriendlySentence.KeyVariableType == null) || (Librarian.UEGetType(FriendlySentence.KeyVariableType) == null))
 					{
 						FriendlySentence.KeyVariableType = _Sentence.KeyVariableType.AssemblyQualifiedName;
 					}
 				}
-		
+
 
 				if (_Sentence.Sentences != null)
 				{

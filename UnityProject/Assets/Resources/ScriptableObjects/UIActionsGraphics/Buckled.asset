@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175001bada3c3ba47945b92e3bfa2bd2, type: 3}
   m_Name: Buckled
   m_EditorClassIdentifier: 
-  CallOnClient: 1
-  CallOnServer: 0
+  callOnClient: 1
+  callOnServer: 0
+  actionName: Buckled
+  description: You've been buckled to something. Click the alert to unbuckle unless
+    you're handcuffed.
   Sprites:
-  - Texture: {fileID: 2800000, guid: 9a6528e88fd95cc428ec583643de7cac, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 9a6528e88fd95cc428ec583643de7cac, type: 3}
-    EquippedData: {fileID: 0}
+  - {fileID: 11400000, guid: 31baad5011b44aa45b41f8d3da30287e, type: 2}
   Backgrounds: []
   PreventBeingControlledBy: 
+  DisableOnEvent: 

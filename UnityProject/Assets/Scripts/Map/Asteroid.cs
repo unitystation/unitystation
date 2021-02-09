@@ -7,9 +7,12 @@ public class Asteroid : NetworkBehaviour
 {
 	private MatrixMove mm;
 
+	// TODO Find a use for these variables or delete them.
+	/*
 	private float asteroidDistance = 550; //How far can asteroids be spawned
 
 	private float distanceFromStation = 175; //Offset from station so it doesnt spawn into station
+	*/
 
 	void OnEnable()
 	{

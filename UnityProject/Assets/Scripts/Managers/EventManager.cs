@@ -17,6 +17,7 @@ public enum EVENT
 	ChatUnfocused,
 	LoggedOut,
 	RoundStarted,
+	PostRoundStarted,
 	RoundEnded,
 	DisableInternals,
 	EnableInternals,
@@ -27,7 +28,9 @@ public enum EVENT
 	UpdateChatChannels,
 	ToggleChatBubbles,
 	PlayerRejoined,
-	PreRoundStarted
+	PreRoundStarted,
+	MatrixManagerInit,
+	BlobSpawned
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
@@ -74,6 +77,7 @@ public class EventManager : MonoBehaviour
 
 	public static void RemoveHandler(EVENT evnt, Action action)
 	{
+		if (!eventTable.ContainsKey(evnt)) return;
 		if (eventTable[evnt] != null)
 		{
 			eventTable[evnt] -= action;
@@ -84,21 +88,27 @@ public class EventManager : MonoBehaviour
 		}
 	}
 
-	// Fires the event
-	public static void Broadcast(EVENT evnt)
+	/// <summary>
+	/// Trigger the given event. If networked, will trigger the event on all clients.
+	/// </summary>
+	public static void Broadcast(EVENT evnt, bool network = false)
 	{
 		LogEventBroadcast(evnt);
-		if (eventTable.ContainsKey(evnt) && eventTable[evnt] != null)
+		if (eventTable.ContainsKey(evnt) == false || eventTable[evnt] == null) return;
+
+		if (CustomNetworkManager.IsServer && network)
+		{
+			TriggerEventMessage.SendToAll(evnt);
+		}
+		else
 		{
 			eventTable[evnt]();
-
 		}
 	}
 
 	/// <summary>
 	/// Calls the appropriate logging category for the event
 	/// </summary>
-	/// <param name="evnt"></param>
 	private static void LogEventBroadcast(EVENT evnt)
 	{
 		string msg = "Broadcasting a " + evnt + " event";

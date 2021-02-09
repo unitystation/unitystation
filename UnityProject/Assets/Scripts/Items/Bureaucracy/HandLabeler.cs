@@ -10,7 +10,7 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 	private const int LABEL_CAPACITY = 30;
 
 	[SerializeField]
-	private ItemTrait refillTrait;
+	private ItemTrait refillTrait = null;
 
 	[SyncVar]
 	private int labelAmount;

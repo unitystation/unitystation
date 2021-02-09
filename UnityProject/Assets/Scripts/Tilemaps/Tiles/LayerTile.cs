@@ -1,12 +1,12 @@
 ﻿using System;
 using UnityEngine;
 
-
+[Serializable]
 public class LayerTile : GenericTile
 {
 	[Tooltip("Name to dispay to the player for this tile.")]
 	[SerializeField]
-	private string displayName;
+	private string displayName = null;
 
 	/// <summary>
 	/// Name to display to the player for this tile. Defaults to the tile type.
@@ -24,6 +24,7 @@ public class LayerTile : GenericTile
 
 	public virtual Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise = true, int count = 1)
 	{
+
 		return transformMatrix;
 	}
 }

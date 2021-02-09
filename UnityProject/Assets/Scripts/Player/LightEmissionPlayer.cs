@@ -22,7 +22,7 @@ public class LightEmissionPlayer : NetworkBehaviour
 	private PlayerLightData CurrentLight = new PlayerLightData();
 
 	[SerializeField]
-	private LightSprite lightSprite;
+	private LightSprite lightSprite = null;
 	public GameObject mLightRendererObject;
 
 	[SyncVar(hook = nameof(UpdateHook))]
@@ -95,6 +95,11 @@ public class LightEmissionPlayer : NetworkBehaviour
 	{
 		if(CurrentLight == null){
 			//CurrentLight not updated yet
+			return;
+		}
+		if(lightSprite == null)
+		{
+			Logger.LogWarning("lightSprite is null (probably blank field in inspector)", Category.Lighting);
 			return;
 		}
 		lightSprite.Color = CurrentLight.Colour;

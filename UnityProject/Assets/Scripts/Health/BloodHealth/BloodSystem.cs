@@ -14,8 +14,8 @@ public class BloodSystem : MonoBehaviour
 	/// </summary>
 	public float ToxinLevel
 	{
-		get { return Mathf.Clamp(toxinLevel, 0, 101); }
-		set { toxinLevel = Mathf.Clamp(value, 0, 101); }
+		get { return Mathf.Clamp(toxinLevel, 0, 200); }
+		set { toxinLevel = Mathf.Clamp(value, 0, 200); }
 	}
 
 	/// <summary>
@@ -42,10 +42,8 @@ public class BloodSystem : MonoBehaviour
 	private float toxinLevel = 0;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private DNAandBloodType bloodType;
-	private readonly float bleedRate = 2f;
 	public float BloodLevel = (int)BloodVolume.NORMAL;
 	public bool IsBleeding { get; private set; }
-	private float tickRate = 1f;
 	private float tick = 0f;
 
 	private BloodSplatType bloodSplatColor;
@@ -57,12 +55,18 @@ public class BloodSystem : MonoBehaviour
 
 	void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
+		}
 	}
 
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, ServerUpdateMe);
+		}
 	}
 
 	//Initial setting for blood type. Server only
@@ -73,32 +77,28 @@ public class BloodSystem : MonoBehaviour
 	}
 
 	//Handle by UpdateManager
-	void UpdateMe()
+	void ServerUpdateMe()
 	{
-		//Server Only:
-		if (CustomNetworkManager.Instance._isServer)
+		if (livingHealthBehaviour.IsDead)
 		{
-			if (livingHealthBehaviour.IsDead)
-			{
-				HeartRate = 0;
-				return;
-			}
+			HeartRate = 0;
+			return;
+		}
 
-			tick += Time.deltaTime;
-			if (HeartRate == 0)
-			{
-				// TODO Add ability to start heart again via CPR
-				// Player needs to be in respiratory arrest and not
-				// have any injuries that are incompatible with life
-				tick = 0;
-				return;
-			}
+		tick += Time.deltaTime;
+		if (HeartRate == 0)
+		{
+			// TODO Add ability to start heart again via CPR
+			// Player needs to be in respiratory arrest and not
+			// have any injuries that are incompatible with life
+			tick = 0;
+			return;
+		}
 
-			if (tick >= 60f / (float)HeartRate) //Heart rate determines loop time
-			{
-				tick = 0f;
-				PumpBlood();
-			}
+		if (tick >= 60f / (float)HeartRate) //Heart rate determines loop time
+		{
+			tick = 0f;
+			PumpBlood();
 		}
 	}
 
