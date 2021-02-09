@@ -243,7 +243,7 @@ namespace Objects
 				if (DMMath.Prob(10) && TryGetComponent<PlayerHealth>(out var playerHealth) && playerHealth != null
 				&& !playerHealth.IsDead)
 				{
-					playerHealth.GetComponent<RegisterPlayer>()?.ServerStun();
+					playerHealth.GetComponent<RegisterPlayer>().ServerStun();
 					Chat.AddActionMsgToChat(objectToPush.gameObject, "You are knocked down by the singularity",
 						$"{objectToPush.gameObject.ExpensiveName()} is knocked down by the singularity");
 				}
