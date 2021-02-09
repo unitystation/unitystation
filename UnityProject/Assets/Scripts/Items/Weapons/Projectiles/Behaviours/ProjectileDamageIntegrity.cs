@@ -12,6 +12,11 @@ namespace Weapons.Projectiles.Behaviours
 
 		[SerializeField] private DamageData damageData = null;
 
+		[HideInInspector]
+		public bool damageOverride = false;
+		[HideInInspector]
+		public float damageOverrideValue = 0f;
+
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.targetZone = targetZone;
@@ -22,13 +27,19 @@ namespace Weapons.Projectiles.Behaviours
 			return TryDamage(hit);
 		}
 
-		private bool TryDamage(MatrixManager.CustomPhysicsHit  hit)
+		private bool TryDamage(MatrixManager.CustomPhysicsHit hit)
 		{
 			if (hit.CollisionHit.GameObject == null) return false;
 			var coll = hit.CollisionHit.GameObject;
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
 			if (damageData == null) return true;
+
+			if (damageOverride)
+			{
+				damageData.SetDamage(damageOverrideValue);
+			}
+
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
 			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
