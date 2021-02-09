@@ -96,6 +96,11 @@ namespace Objects
 			CurrentStage = startingStage;
 		}
 
+		private void Start()
+		{
+			lightVector = new Vector3(5 * ((int)CurrentStage + 1), 5 * ((int)CurrentStage + 1), 0);
+		}
+
 		private void OnEnable()
 		{
 			UpdateManager.Add(SingularityUpdate, 0.5f);
@@ -234,7 +239,14 @@ namespace Objects
 		{
 			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
 			{
-				objectToPush.GetComponent<RegisterPlayer>()?.ServerStun();
+				//Try stun player
+				if (DMMath.Prob(10) && TryGetComponent<PlayerHealth>(out var playerHealth) && playerHealth != null
+				&& !playerHealth.IsDead)
+				{
+					playerHealth.GetComponent<RegisterPlayer>().ServerStun();
+					Chat.AddActionMsgToChat(objectToPush.gameObject, "You are knocked down by the singularity",
+						$"{objectToPush.gameObject.ExpensiveName()} is knocked down by the singularity");
+				}
 			}
 			else if (objectToPush.IsPushable == false)
 			{
