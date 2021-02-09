@@ -57,6 +57,7 @@ namespace UI.Core.RightClick
 
 		private void Awake()
 		{
+			icon.material = Instantiate(icon.material);
 			SelectionDelegate = Select;
 			UpdateColorDelegate = UpdateColor;
 		}

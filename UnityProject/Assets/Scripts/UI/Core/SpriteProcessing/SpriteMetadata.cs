@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace UI.Core.SpriteProcessing
@@ -17,25 +18,30 @@ namespace UI.Core.SpriteProcessing
 			Scale = scale;
 		}
 
-		public static SpriteMetadata Create(float texWidth, float texHeight, in Rect spriteRect, Color32[] pixels)
+		public static unsafe SpriteMetadata Create(Texture2D texture, in Rect spriteRect)
 		{
-			var spriteX = spriteRect.x;
-			var spriteY = spriteRect.y;
-			var xMax = spriteRect.xMax;
-			var yMax = spriteRect.yMax;
+			// Using GetPixelData and native arrays to avoid garbage created from GetPixels32. Indexing a native array
+			// is slow though, so access the pointers directly.
+			var pixels = texture.GetPixelData<Color32>(0);
+			var texWidth = texture.width;
+			int spriteX = (int)spriteRect.x;
+			int spriteY = (int)spriteRect.y;
+			int xMax = (int)spriteRect.xMax;
+			int yMax = (int)spriteRect.yMax;
 			var left = xMax;
 			var top = spriteY;
+			Color32* arrayPtr = (Color32*)pixels.GetUnsafeReadOnlyPtr();
 
 			// Start in the top left. Check left to right, top to bottom (note: texture pixel data is stored bottom to top),
 			// to find the top most and left most pixels. Loop through the x dimension using the left most non-transparent
 			// pixel as the bound.
-			for (var y = yMax; y > spriteY && left > spriteX; --y)
+			for (int y = yMax; y > spriteY && left > spriteX; --y)
 			{
-				int pixelIndex = (int)((y - 1) * texWidth + spriteX);
+				Color32* pixelPtr = arrayPtr + ((y - 1) * texWidth + spriteX);
 
-				for (var x = spriteX; x < left; ++x, ++pixelIndex)
+				for (int x = spriteX; x < left; ++x, ++pixelPtr)
 				{
-					if (pixels[pixelIndex].a <= 0) continue;
+					if (pixelPtr->a <= 0) continue;
 
 					left = x;
 					if (y > top)
@@ -50,12 +56,13 @@ namespace UI.Core.SpriteProcessing
 
 			// Now start in the bottom right to find the furthest bottom and right pixels. Loop through the x dimension
 			// using the right most non-transparent pixel as the bound.
-			for (var y = spriteY; y < top && right < xMax; ++y)
+			for (int y = spriteY; y < top && right < xMax; ++y)
 			{
-				int pixelIndex = (int)((texHeight - (yMax - y)) * texWidth + xMax - 1);
-				for (var x = xMax; x > right; --x, --pixelIndex)
+				Color32* pixelPtr = arrayPtr + (y * texWidth + xMax - 1);
+
+				for (int x = xMax; x > right; --x, --pixelPtr)
 				{
-					if (pixels[pixelIndex].a <= 0) continue;
+					if (pixelPtr->a <= 0) continue;
 
 					right = x;
 					if (y < bottom)
