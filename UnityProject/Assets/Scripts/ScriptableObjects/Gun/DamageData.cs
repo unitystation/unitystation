@@ -25,5 +25,15 @@ namespace ScriptableObjects.Gun
 		{
 			damage = Damage;
 		}
+
+		public void SetDamageType(DamageType DamageType)
+		{
+			damageType = DamageType;
+		}
+
+		public void SetAttackType(AttackType AttackType)
+		{
+			attackType = AttackType;
+		}
 	}
 }

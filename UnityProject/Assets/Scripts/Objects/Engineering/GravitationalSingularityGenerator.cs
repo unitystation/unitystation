@@ -36,7 +36,7 @@ public class GravitationalSingularityGenerator : MonoBehaviour, IOnHitDetect
 
 	private void SpawnSingularity()
 	{
-		Spawn.ServerPrefab(singularityPrefab, registerTile.WorldPositionServer, gameObject.transform.parent);
+		Spawn.ServerPrefab(singularityPrefab, registerTile.WorldPositionServer, transform.parent.transform);
 		Despawn.ServerSingle(gameObject);
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons;
 using Weapons.Projectiles.Behaviours;
@@ -24,6 +26,8 @@ namespace Objects.Engineering
 
 		[SerializeField]
 		private GameObject particleAcceleratorBulletPrefab = null;
+
+		private DamageData damageData = null;
 
 		[SerializeField]
 		private bool isAlwaysOn;
@@ -55,6 +59,10 @@ namespace Objects.Engineering
 			selfPart = GetComponent<ParticleAcceleratorPart>();
 			registerTile = GetComponent<RegisterTile>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
+
+			damageData = DamageData.CreateInstance<DamageData>();
+			damageData.SetAttackType(AttackType.Rad);
+			damageData.SetDamageType(DamageType.Clone);
 		}
 
 		private void Start()
@@ -87,7 +95,12 @@ namespace Objects.Engineering
 
 			if(isOn == false && isAlwaysOn == false) return;
 
-			if(voltage < voltageIncreasePerPowerLevel * ((int)CurrentState - 3) && isAlwaysOn == false) return;
+			powerUsage = "0";
+			var powerNeeded = voltageIncreasePerPowerLevel * ((int) CurrentState - 3);
+
+			if (voltage < powerNeeded && isAlwaysOn == false) return;
+
+			powerUsage = $"{powerNeeded}";
 
 			if(DMMath.Prob(50)) return;
 
@@ -97,9 +110,8 @@ namespace Objects.Engineering
 		private void ShootParticleAccelerator()
 		{
 			var damageIntegrity = particleAcceleratorBulletPrefab.GetComponent<ProjectileDamageIntegrity>();
-
-			damageIntegrity.damageOverride = true;
-			damageIntegrity.damageOverrideValue = 20 * ((int)CurrentState - 3);
+			damageData.SetDamage(20 * ((int)CurrentState - 3));
+			damageIntegrity.damageData = damageData;
 
 			foreach (var connectedPart in connectedParts)
 			{
@@ -114,10 +126,13 @@ namespace Objects.Engineering
 
 		public void ConnectToParts()
 		{
+			if(connected) return;
+
 			if (TryFindParts() == false)
 			{
 				//Failed to find all set up parts
 				status = "<color=red>Not Connected</color>";
+				UpdateGUI();
 				return;
 			}
 
@@ -218,20 +233,20 @@ namespace Objects.Engineering
 		/// <param name="newState"></param>
 		public void ChangePower(ParticleAcceleratorState newState)
 		{
-			if(connected == false) return;
+			if (connected == false)
+			{
+				UpdateGUI();
+				return;
+			}
 
 			if(newState == ParticleAcceleratorState.Frame || newState == ParticleAcceleratorState.Wired || newState == ParticleAcceleratorState.Closed) return;
 
 			status = newState == ParticleAcceleratorState.Off ? "Off" : ((int)newState - 4).ToString();
 
-			Debug.LogError($"current voltage: {voltage}, needed voltage: {voltageIncreasePerPowerLevel * ((int)CurrentState - 3)}");
-
-			if (voltage < voltageIncreasePerPowerLevel * ((int)CurrentState - 3) && isAlwaysOn == false && newState != ParticleAcceleratorState.Off)
+			if (voltage < voltageIncreasePerPowerLevel * ((int)newState - 3) && isAlwaysOn == false && newState != ParticleAcceleratorState.Off)
 			{
-				newState = ParticleAcceleratorState.Off;
 				status = "<color=red>Not Enough Voltage</color>";
 			}
-
 
 			isOn = newState != ParticleAcceleratorState.Off;
 
@@ -243,9 +258,22 @@ namespace Objects.Engineering
 			}
 
 			selfPart.ChangeState(newState);
+
+			UpdateGUI();
 		}
 
 		#endregion
+
+		private void UpdateGUI()
+		{
+			List<ElementValue> valuesToSend = new List<ElementValue>();
+			valuesToSend.Add(new ElementValue() { Id = "TextSetting", Value = Encoding.UTF8.GetBytes(status) });
+			valuesToSend.Add(new ElementValue() { Id = "TextPower", Value = Encoding.UTF8.GetBytes(powerUsage + " volts") });
+			valuesToSend.Add(new ElementValue() { Id = "SliderVolume", Value = Encoding.UTF8.GetBytes(((int)(CurrentState - 3) * 100).ToString()) });
+
+			// Update all UI currently opened.
+			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.ParticleAccelerator, TabAction.Update, valuesToSend.ToArray());
+		}
 
 		//Rotate vector 90 degrees ANTI-clockwise
 		private Vector3Int RotateVector90(Vector2Int vector)

@@ -151,10 +151,10 @@ namespace Objects.Engineering
 				{
 					if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable != null)
 					{
-						if (stackable.Amount >= amountOfWiresNeeded)
+						if (stackable.Amount >= amountOfWiresNeeded - amountOfWiresUsed)
 						{
-							amountOfWiresUsed = amountOfWiresNeeded;
-							stackable.ServerConsume(amountOfWiresNeeded);
+							amountOfWiresUsed = amountOfWiresNeeded - amountOfWiresUsed;
+							stackable.ServerConsume(amountOfWiresUsed);
 							ChangeState(ParticleAcceleratorState.Wired);
 						}
 						else
@@ -197,7 +197,7 @@ namespace Objects.Engineering
 		{
 			if (CurrentState == ParticleAcceleratorState.Frame)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "Frame must be wired first");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{amountOfWiresNeeded - amountOfWiresUsed} more wires needed");
 			}
 			else if (CurrentState == ParticleAcceleratorState.Wired)
 			{

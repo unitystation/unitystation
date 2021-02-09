@@ -10,12 +10,7 @@ namespace Weapons.Projectiles.Behaviours
 	{
 		private BodyPartType targetZone;
 
-		[SerializeField] private DamageData damageData = null;
-
-		[HideInInspector]
-		public bool damageOverride = false;
-		[HideInInspector]
-		public float damageOverrideValue = 0f;
+		public DamageData damageData = null;
 
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
@@ -34,11 +29,6 @@ namespace Weapons.Projectiles.Behaviours
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
 			if (damageData == null) return true;
-
-			if (damageOverride)
-			{
-				damageData.SetDamage(damageOverrideValue);
-			}
 
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 

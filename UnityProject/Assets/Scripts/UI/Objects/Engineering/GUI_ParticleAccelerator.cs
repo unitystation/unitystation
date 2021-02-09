@@ -29,7 +29,7 @@ namespace UI.Objects.Engineering
 		{
 			powerSetting.Value = ParticleAccelerator.Status;
 			powerUse.Value = ParticleAccelerator.PowerUsage + " volts";
-			OnOffSwitch.Value = ((int) (ParticleAccelerator.CurrentState - 3) * 100).ToString();
+			OnOffSwitch.Value = ((int)(ParticleAccelerator.CurrentState - 3) * 100).ToString();
 		}
 
 		public void ClosePanel()
@@ -39,7 +39,7 @@ namespace UI.Objects.Engineering
 
 		public void PowerChange()
 		{
-			ParticleAccelerator.ChangePower((ParticleAcceleratorState) (int.Parse(OnOffSwitch.Value) / 100 + 3));
+			ParticleAccelerator.ChangePower((ParticleAcceleratorState)(int.Parse(OnOffSwitch.Value) / 100 + 3));
 			powerSetting.Value = ParticleAccelerator.Status;
 			powerUse.Value = ParticleAccelerator.PowerUsage + " volts";
 		}

@@ -167,9 +167,9 @@ MonoBehaviour:
   ModuleType: 0
   ControllingNode: {fileID: 0}
   resistance:
-    Ohms: 0
+    Ohms: 1000
     ResistanceAvailable: 1
-  EditorResistance: 0
+  EditorResistance: 500
   NotEditorResistanceset: 1
   ReactionTo:
     ConnectingDevice: 1
@@ -179,7 +179,7 @@ MonoBehaviour:
       YouShallNotPass: 0
     ResistanceReactionA:
       Resistance:
-        Ohms: 0
+        Ohms: 1000
         ResistanceAvailable: 1
 --- !u!1001 &7192913138366226162
 PrefabInstance:
