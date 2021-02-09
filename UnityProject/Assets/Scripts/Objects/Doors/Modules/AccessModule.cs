@@ -1,13 +1,13 @@
-﻿using UnityEngine;
+﻿using Systems.Access;
+using UnityEngine;
 using Systems.Electricity;
 using Random = UnityEngine.Random;
 
 namespace Doors.Modules
 {
-	[RequireComponent(typeof(AccessRestrictions))]
 	public class AccessModule : DoorModuleBase
 	{
-		private AccessRestrictions accessRestrictions;
+		private AccessCheckable accessCheckable;
 
 		[SerializeField]
 		[Tooltip("When the door is at low voltage, this is the chance that the access check gives a false positive.")]
@@ -16,7 +16,7 @@ namespace Doors.Modules
 		protected override void Awake()
 		{
 			base.Awake();
-			accessRestrictions = GetComponent<AccessRestrictions>();
+			accessCheckable = GetComponentInParent<AccessCheckable>();
 		}
 
 		public override ModuleSignal OpenInteraction(HandApply interaction)
@@ -51,7 +51,13 @@ namespace Doors.Modules
 
 		private bool CheckAccess(GameObject player)
 		{
-			if (accessRestrictions.CheckAccess(player))
+			// If for whatever reason there is no accessCheckable component, the door just opens.
+			if (accessCheckable == null)
+			{
+				return true;
+			}
+			
+			if (accessCheckable.HasAccess(player))
 			{
 				return true;
 			}

@@ -15,7 +15,7 @@ namespace Systems.Access
 		[SerializeField]
 		[Tooltip("What type of check will be done. \"Any\" means the access requester must have at least one of the " +
 		         "definitions, while \"All\" means the requester must have all of them.")]
-		private AccessType type;
+		private AccessType type = AccessType.Any;
 
 		/// <summary>
 		/// Checks if the list of access a requester has coincides with the required access this game object has defined.
