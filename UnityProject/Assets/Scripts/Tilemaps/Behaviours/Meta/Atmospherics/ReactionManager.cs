@@ -291,8 +291,7 @@ namespace Systems.Atmospherics
 						}
 
 						tileChangeManager.UpdateTile(
-							new Vector3Int(addFogNode.metaDataNode.Position.x, addFogNode.metaDataNode.Position.y,
-								addFogNode.gas.OverlayIndex),
+							new Vector3Int(addFogNode.metaDataNode.Position.x, addFogNode.metaDataNode.Position.y, 0),
 							TileType.Effects, addFogNode.gas.TileName);
 					}
 				}
@@ -314,8 +313,7 @@ namespace Systems.Atmospherics
 						if (!fogTiles[removeFogNode.metaDataNode.Position].Contains(removeFogNode.gas)) continue;
 
 						tileChangeManager.RemoveTile(
-							new Vector3Int(removeFogNode.metaDataNode.Position.x, removeFogNode.metaDataNode.Position.y,
-								removeFogNode.gas.OverlayIndex),
+							new Vector3Int(removeFogNode.metaDataNode.Position.x, removeFogNode.metaDataNode.Position.y, 0),
 							LayerType.Effects, false);
 
 						if (fogTiles[removeFogNode.metaDataNode.Position].Count == 1)
