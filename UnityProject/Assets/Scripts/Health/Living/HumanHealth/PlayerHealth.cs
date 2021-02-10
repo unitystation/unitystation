@@ -52,6 +52,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	/// Cached register player
 	/// </summary>
 	private RegisterPlayer registerPlayer;
+	public RegisterPlayer RegisterPlayer => registerPlayer;
 
 	private ItemStorage itemStorage;
 

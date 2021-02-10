@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   singularityPrefab: {fileID: 4686069471335676681, guid: e4bc61a6fcb60ad42a9ae65e7678d70c,
     type: 3}
+  radDamageNeedToSpawn: 200
 --- !u!1001 &7692339049185974434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,6 +128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: creates a high power anomaly
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

@@ -296,6 +296,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
+	[Server]
+	public void ForceDestroy()
+	{
+		integrity = 0;
+		CheckDestruction();
+	}
+
 	public string Examine(Vector3 worldPos)
 	{
 		string str = "";

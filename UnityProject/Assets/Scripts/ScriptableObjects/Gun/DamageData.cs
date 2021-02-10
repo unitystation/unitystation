@@ -20,5 +20,20 @@ namespace ScriptableObjects.Gun
 
 		[SerializeField] private AttackType attackType = AttackType.Bullet;
 		public AttackType AttackType => attackType;
+
+		public void SetDamage(float Damage)
+		{
+			damage = Damage;
+		}
+
+		public void SetDamageType(DamageType DamageType)
+		{
+			damageType = DamageType;
+		}
+
+		public void SetAttackType(AttackType AttackType)
+		{
+			attackType = AttackType;
+		}
 	}
 }
