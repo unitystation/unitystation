@@ -286,9 +286,9 @@ namespace Objects.Engineering
 			}
 			else
 			{
-				if (!registerTile.Matrix.MetaTileMap.HasTile(registerTile.WorldPositionServer, LayerType.Base))
+				if (MatrixManager.IsSpaceAt(registerTile.WorldPositionServer, true))
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter needs to be on a base floor");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter needs to be on a floor or plating");
 					return;
 				}
 
