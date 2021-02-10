@@ -342,7 +342,7 @@ namespace Objects.Engineering
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 			valuesToSend.Add(new ElementValue() { Id = "TextSetting", Value = Encoding.UTF8.GetBytes(status) });
 			valuesToSend.Add(new ElementValue() { Id = "TextPower", Value = Encoding.UTF8.GetBytes(powerUsage + " volts") });
-			valuesToSend.Add(new ElementValue() { Id = "SliderVolume", Value = Encoding.UTF8.GetBytes(((int)(CurrentState - 3) * 100).ToString()) });
+			valuesToSend.Add(new ElementValue() { Id = "SliderPower", Value = Encoding.UTF8.GetBytes(((int)(CurrentState - 3) * 100).ToString()) });
 
 			// Update all UI currently opened.
 			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.ParticleAccelerator, TabAction.Update, valuesToSend.ToArray());
