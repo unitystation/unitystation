@@ -10,7 +10,7 @@ namespace Systems.Access
 		[SerializeField]
 		[ReorderableList]
 		[Tooltip("All access definitions this object checks for")]
-		private List<AccessRestrictions> requiredAccess = new List<AccessRestrictions>{AccessRestrictions.NONE};
+		private List<AccessDefinitions> requiredAccess = new List<AccessDefinitions>{AccessDefinitions.NONE};
 
 		[SerializeField]
 		[Tooltip("What type of check will be done. \"Any\" means the access requester must have at least one of the " +
@@ -22,12 +22,12 @@ namespace Systems.Access
 		/// </summary>
 		/// <param name="requesterAccess">List of AccessDefinitions the requester of access has on them.</param>
 		/// <returns>True if the access should be granted</returns>
-		public bool HasAccess(List<AccessRestrictions> requesterAccess)
+		public bool HasAccess(List<AccessDefinitions> requesterAccess)
 		{
 			// If null or no defined access, access is granted immediately
 			if (requiredAccess == null ||
 			    requiredAccess.Any() == false ||
-			    requiredAccess.Equals(new List<AccessRestrictions> {AccessRestrictions.NONE}))
+			    requiredAccess.Equals(new List<AccessDefinitions> {AccessDefinitions.NONE}))
 			{
 				return true;
 			}
@@ -66,17 +66,26 @@ namespace Systems.Access
 			var idSlot = playerStorage.OrNull()?.GetNamedItemSlot(NamedSlot.id).ItemObject;
 			if (idSlot != null && idSlot.TryGetComponent<AccessHolder>(out var idAccess))
 			{
-				return HasAccess(idAccess.Restrictions);
+				return HasAccess(idAccess.Access);
 			}
 
 			// Nothing worked, let's go with active hand
 			var activeHandObject = playerStorage.GetActiveHandSlot().ItemObject;
 			if (activeHandObject != null && activeHandObject.TryGetComponent<AccessHolder>(out var handAccess))
 			{
-				return HasAccess(handAccess.Restrictions);
+				return HasAccess(handAccess.Access);
 			}
 
 			return false;
+		}
+
+		/// <summary>
+		/// Public interface to set access for this object.
+		/// </summary>
+		/// <param name="newAccess">List of all access that this object will check for.</param>
+		public void SetAccess(List<AccessDefinitions> newAccess)
+		{
+			requiredAccess = newAccess;
 		}
 	}
 }
