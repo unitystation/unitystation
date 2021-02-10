@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using Systems.Access;
 using Items;
 using UnityEngine;
 using Mirror;
@@ -25,6 +27,11 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[SerializeField]
 	private Sprite commandSprite = null;
 
+
+	[Tooltip("Custom job name this ID would get once initialized.")]
+	[SerializeField]
+	private string initialCustomJobName = default;
+
 	[Tooltip("This is used to place ID cards via map editor and then setting their initial access type")]
 	[FormerlySerializedAs("ManuallyAddedAccess")]
 	[SerializeField]
@@ -42,7 +49,6 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	private bool autoInitOnPickup = false;
 	private bool initialized;
 
-
 	public JobType JobType => jobType;
 	public Occupation Occupation => OccupationList.Instance.Get(JobType);
 	public string RegisteredName => registeredName;
@@ -58,6 +64,9 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	private string registeredName;
 
 	public int[] currencies = new int[(int)CurrencyType.Total];
+	[SyncVar(hook = nameof(SyncCustomJobName))]
+	private string customJobName;
+
 
 	//The actual list of access allowed set via the server and synced to all clients
 	private readonly SyncList<int> accessSyncList = new SyncList<int>();
@@ -138,6 +147,10 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		//Set all the synced properties for the card
 		SyncName(registeredName, name);
 		SyncJobType(jobType, newJobType);
+		if (customJobName.IsNullOrEmpty() == false)
+		{
+			SyncCustomJobName(string.Empty, customJobName);
+		}
 		SyncIDCardType(idCardType, idCardType);
 		ServerAddAccess(allowedAccess);
 	}
@@ -145,6 +158,12 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public void SyncName(string oldName, string newName)
 	{
 		registeredName = newName;
+		RenameIDObject();
+	}
+
+	public void SyncCustomJobName(string oldName, string newName)
+	{
+		customJobName = newName;
 		RenameIDObject();
 	}
 
@@ -156,17 +175,28 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 	private void RenameIDObject()
 	{
-		var newName = "";
-		if (!RegisteredName.IsNullOrEmpty())
+		var newName = new StringBuilder();
+		if (registeredName.IsNullOrEmpty() == false)
 		{
-			newName += $"{RegisteredName}'s ";
+			newName.AppendFormat("{0}'s ", registeredName);
 		}
-		newName += "ID Card";
-		if (JobType != JobType.NULL)
+
+		newName.Append(" ID Card");
+
+		if (customJobName.IsNullOrEmpty() == false)
 		{
-			newName += $" ({JobType})";
+			newName.AppendFormat(" {0}", customJobName);
 		}
-		itemAttributes.ServerSetArticleName(newName);
+		else if (Occupation != null)
+		{
+			newName.AppendFormat(" {0}", Occupation.DisplayName);
+		}
+		else
+		{
+			newName.AppendFormat(" {0}", jobType.ToString());
+		}
+
+		itemAttributes.ServerSetArticleName(newName.ToString());
 	}
 
 	public void SyncIDCardType(IDCardType oldCardType, IDCardType cardType)
@@ -273,6 +303,17 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public void ServerSetRegisteredName(string newName)
 	{
 		SyncName(registeredName, newName);
+	}
+
+	/// <summary>
+	/// Public interface to set a custom job name for this id.
+	/// </summary>
+	/// <param name="newName"></param>
+
+	[Server]
+	public void ServerSetCustomJobName(string newName)
+	{
+		SyncCustomJobName(customJobName, newName);
 	}
 
 	public string Examine(Vector3 pos)

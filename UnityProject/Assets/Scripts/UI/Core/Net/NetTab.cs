@@ -50,6 +50,7 @@ public enum NetTabType
 	SyndicateOpConsole = 37,
 	ChemMaster = 38,
 	CondimasterNeo = 39,
+	IdConsoleV2 = 40,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
