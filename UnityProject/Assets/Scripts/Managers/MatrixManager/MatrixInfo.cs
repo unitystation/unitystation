@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
 using TileManagement;
 
-/// Struct that helps identify matrices
-public class MatrixInfo
+/// Class that helps identify matrices
+public class MatrixInfo : IEquatable<MatrixInfo>
 {
 	public string Name => Matrix.gameObject.name;
 	public int Id;
