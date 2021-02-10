@@ -91,6 +91,7 @@ MonoBehaviour:
   particleAcceleratorBulletPrefab: {fileID: 3294328072042417454, guid: 51e37bcfda438bc45bae02a757a88dbb,
     type: 3}
   isAlwaysOn: 0
+  isHacked: 0
 --- !u!114 &1971649633990310126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +175,7 @@ MonoBehaviour:
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
-    ResistanceReaction: 0
+    ResistanceReaction: 1
     DirectionReactionA:
       YouShallNotPass: 0
     ResistanceReactionA:

@@ -9,7 +9,7 @@ using Weapons.Projectiles.Behaviours;
 namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ParticleAcceleratorPart))]
-	public class ParticleAcceleratorControl : MonoBehaviour, INodeControl
+	public class ParticleAcceleratorControl : MonoBehaviour, INodeControl, ICheckedInteractable<HandApply>
 	{
 		private ParticleAcceleratorPart selfPart;
 		private List<ParticleAcceleratorPart> connectedParts = new List<ParticleAcceleratorPart>();
@@ -33,6 +33,12 @@ namespace Objects.Engineering
 		[SerializeField]
 		[Tooltip("Whether to ignore voltage requirements")]
 		private bool isAlwaysOn;
+
+		[SerializeField]
+		private float timeToHack = 20f;
+
+		[SerializeField]
+		private float chanceToFailHack = 25f;
 
 		[SerializeField]
 		private bool isHacked;
@@ -271,6 +277,62 @@ namespace Objects.Engineering
 			selfPart.ChangeState(newState);
 
 			UpdateGUI();
+		}
+
+		#endregion
+
+		#region Interaction
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+
+			return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag);
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			TryEmagController(interaction);
+		}
+
+		#endregion
+
+		#region Hack
+
+		//For now allow only emag hacking for setting 3
+		private void TryEmagController(HandApply interaction)
+		{
+			if (isHacked)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} has already been hacked!");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You attempt to hack the {gameObject.ExpensiveName()}, this will take around {timeToHack} seconds",
+				$"{interaction.Performer.ExpensiveName()} starts hacking the {gameObject.ExpensiveName()}");
+
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Restrain);
+
+			StandardProgressAction.Create(
+				cfg,
+				() => FinishHack(interaction)
+			).ServerStartProgress(ActionTarget.Object(registerTile), timeToHack, interaction.Performer);
+
+		}
+
+		private void FinishHack(HandApply interaction)
+		{
+			if (DMMath.Prob(chanceToFailHack))
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, $"Your attempt to hack the {gameObject.ExpensiveName()} failed",
+					$"{interaction.Performer.ExpensiveName()} failed to hack the {gameObject.ExpensiveName()}");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You hack the {gameObject.ExpensiveName()}",
+				$"{interaction.Performer.ExpensiveName()} hacked the {gameObject.ExpensiveName()}");
+
+			isHacked = true;
 		}
 
 		#endregion
