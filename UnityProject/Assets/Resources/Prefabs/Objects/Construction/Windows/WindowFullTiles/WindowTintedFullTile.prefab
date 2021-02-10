@@ -18,6 +18,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &5835473227500181835
 MonoBehaviour:
@@ -37,7 +38,13 @@ MonoBehaviour:
   matsOnDeconstruct: {fileID: 3024028113330201771, guid: d2f2400aac0da54468da76680579c29b,
     type: 3}
   countOfMatsOnDissasemle: 2
-  soundOnDeconstruct: Wrench
+  soundOnDeconstruct:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Wrench.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   shardsOnDestroy: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
     type: 3}
   minCountOfShardsOnDestroy: 1
@@ -46,7 +53,13 @@ MonoBehaviour:
     type: 3}
   minCountOfRodsOnDestroy: 1
   maxCountOfRodsOnDestroy: 4
-  soundOnDestroy: GlassBreak01
+  soundOnDestroy:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &8276315866856210305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,6 +77,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isInitiallyNotPushable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012595775094159134, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 2097343077160748668, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
@@ -87,6 +105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6159348541360612552, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6159348541360612552, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -102,6 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6159348541360612552, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6159348541360612552, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -113,16 +141,6 @@ PrefabInstance:
     - target: {fileID: 6159348541360612552, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6159348541360612552, guid: f2a16f12167ad5442a606bc9c87fd9fe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6159348541360612552, guid: f2a16f12167ad5442a606bc9c87fd9fe,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6159348541360612552, guid: f2a16f12167ad5442a606bc9c87fd9fe,
@@ -142,10 +160,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 084c75aff6b8dfe4a986eccabeae626e,
         type: 3}
+    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
       propertyPath: m_SortingOrder
@@ -158,22 +191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
-        type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
-        type: 3}
-      propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:

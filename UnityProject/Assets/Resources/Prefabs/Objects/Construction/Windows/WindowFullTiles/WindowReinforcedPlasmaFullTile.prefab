@@ -18,6 +18,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &8553434195301175642
 MonoBehaviour:
@@ -37,7 +38,13 @@ MonoBehaviour:
   matsOnDeconstruct: {fileID: 77673353444578627, guid: b6a0d928019a24a4f9cee04a1d06b3b1,
     type: 3}
   countOfMatsOnDissasemle: 2
-  soundOnDeconstruct: Wrench
+  soundOnDeconstruct:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Wrench.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   shardsOnDestroy: {fileID: 3508732299770147791, guid: f610372b0de613b499d0e53b49c4e605,
     type: 3}
   minCountOfShardsOnDestroy: 1
@@ -46,7 +53,13 @@ MonoBehaviour:
     type: 3}
   minCountOfRodsOnDestroy: 1
   maxCountOfRodsOnDestroy: 4
-  soundOnDestroy: GlassBreak01
+  soundOnDestroy:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &2837126099607863622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65,6 +78,11 @@ PrefabInstance:
       propertyPath: isInitiallyNotPushable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1743697883923330276, guid: 9028811e852742d40ac5ae72a716a679,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 2217939973043340678, guid: 9028811e852742d40ac5ae72a716a679,
         type: 3}
       propertyPath: m_Enabled
@@ -82,18 +100,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6184314419280250367, guid: 9028811e852742d40ac5ae72a716a679,
         type: 3}
-      propertyPath: m_SortingOrder
+      propertyPath: m_Size.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6184314419280250367, guid: 9028811e852742d40ac5ae72a716a679,
         type: 3}
-      propertyPath: m_SortingLayerID
-      value: 142874271
-      objectReference: {fileID: 0}
-    - target: {fileID: 6184314419280250367, guid: 9028811e852742d40ac5ae72a716a679,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 10
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6184314419280250367, guid: 9028811e852742d40ac5ae72a716a679,
         type: 3}
@@ -103,13 +116,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6184314419280250367, guid: 9028811e852742d40ac5ae72a716a679,
         type: 3}
-      propertyPath: m_Size.x
+      propertyPath: m_SortingLayer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184314419280250367, guid: 9028811e852742d40ac5ae72a716a679,
+        type: 3}
+      propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6184314419280250367, guid: 9028811e852742d40ac5ae72a716a679,
         type: 3}
-      propertyPath: m_Size.y
-      value: 1
+      propertyPath: m_SortingLayerID
+      value: 142874271
+      objectReference: {fileID: 0}
+    - target: {fileID: 6243836332925740850, guid: 9028811e852742d40ac5ae72a716a679,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6243836332925740850, guid: 9028811e852742d40ac5ae72a716a679,
         type: 3}
@@ -128,6 +151,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6243836332925740850, guid: 9028811e852742d40ac5ae72a716a679,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6243836332925740850, guid: 9028811e852742d40ac5ae72a716a679,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -139,16 +167,6 @@ PrefabInstance:
     - target: {fileID: 6243836332925740850, guid: 9028811e852742d40ac5ae72a716a679,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6243836332925740850, guid: 9028811e852742d40ac5ae72a716a679,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6243836332925740850, guid: 9028811e852742d40ac5ae72a716a679,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6243836332925740850, guid: 9028811e852742d40ac5ae72a716a679,

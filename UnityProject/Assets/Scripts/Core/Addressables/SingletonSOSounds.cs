@@ -86,5 +86,7 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
 
    public AddressableAudioSource EatFood;
 
+   public AddressableAudioSource PosterRipped;
+
 
 }

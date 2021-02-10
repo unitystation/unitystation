@@ -21,7 +21,7 @@ namespace Objects.Drawers
 			/// <summary> Red morgue lights. </summary>
 			ShutWithPlayer = 2
 		}
-		
+
 		[SerializeField] private AddressableAudioSource emaggedSound;
 
 		[SerializeField] private AddressableAudioSource buzzerToggleSound;
@@ -140,7 +140,7 @@ namespace Objects.Drawers
 		private void ToggleBuzzer()
 		{
 			buzzerEnabled = !buzzerEnabled;
-			SoundManager.PlayNetworkedAtPos("Pop", DrawerWorldPosition, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(buzzerToggleSound, DrawerWorldPosition, sourceObj: gameObject);
 			StartCoroutine(PlayAlarm());
 		}
 
