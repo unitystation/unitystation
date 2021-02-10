@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deconstructToolTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91,
     type: 2}
+  deconstructTime: 3
 --- !u!1001 &2408852499328209661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25,6 +26,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: exportCost
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}

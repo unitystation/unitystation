@@ -78,7 +78,7 @@ MonoBehaviour:
       Items:
       - {fileID: 1778400137840477013, guid: 7cb77338112306243bbcdc1e68130e80, type: 3}
       - {fileID: 1778400137840477013, guid: 7cb77338112306243bbcdc1e68130e80, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
   - CategoryName: Medical
     Supplies:
     - OrderName: First Aid Kit Crate
@@ -224,14 +224,14 @@ MonoBehaviour:
         type: 3}
       Items:
       - {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 550
     - OrderName: Field Generator Crate
       CreditsCost: 800
       Crate: {fileID: 6264972350131591085, guid: dde361d656542f048bdeebf4e87dd7d3,
         type: 3}
       Items:
       - {fileID: 6675068259735517415, guid: 1cbf5ea7cbc745545a7b382eeac3de03, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 550
     - OrderName: Particle Accelerator Crate
       CreditsCost: 2000
       Crate: {fileID: 6264972350131591085, guid: dde361d656542f048bdeebf4e87dd7d3,
@@ -244,7 +244,14 @@ MonoBehaviour:
       - {fileID: 7626373619265571698, guid: ca2ad7d951ead6a4996aac36dd2f0174, type: 3}
       - {fileID: 7626373619265571698, guid: cbcc432a2edd69144b15e211d9952653, type: 3}
       - {fileID: 7626373619265571698, guid: eecfad9cd6442d545abd06b18e530c70, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 1000
+    - OrderName: Gravitational Singularity Generator
+      CreditsCost: 600
+      Crate: {fileID: 6264972350131591085, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      Items:
+      - {fileID: 6972878001720233250, guid: f8286efb730db254eaba52139b874824, type: 3}
+      TotalCreditExport: 550
   - CategoryName: Service
     Supplies:
     - OrderName: Cleaning supplies Crate
