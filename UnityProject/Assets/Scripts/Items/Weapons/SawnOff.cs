@@ -58,42 +58,40 @@ public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
+		if (interaction.TargetObject != gameObject && !interaction.IsFromHandSlot) return;
+
+		//TODO: switch this trait to the circular saw when that is implemented
+		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) && gunComp.FireCountDown == 0)
 		{
-			//TODO: switch this trait to the circular saw when that is implemented
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) && gunComp.FireCountDown == 0)
+			if (isSawn)
 			{
-				if (isSawn)
+				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is already shortened!");
+			}
+
+			if (ammoBackfire && gunComp.CurrentMagazine.ServerAmmoRemains != 0)
+			{
+				gunComp.ServerShoot(interaction.Performer, Vector2.zero, BodyPartType.Head, true);
+				Chat.AddActionMsgToChat(interaction.Performer,
+				$"The {gameObject.ExpensiveName()} goes off in your face!",
+				$"The {gameObject.ExpensiveName()} goes off in {interaction.Performer.ExpensiveName()}'s face!");
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You shorten the {gameObject.ExpensiveName()}.",
+					$"{interaction.Performer.ExpensiveName()} shortens the {gameObject.ExpensiveName()}");
+
+				itemAttComp.ServerSetSize(sawnSize);
+				spriteHandler.ChangeSprite(1);
+
+				// Don't overwrite recoil conf if it isn't setup
+				if (SawnCameraRecoilConfig.Distance != 0f)
 				{
-					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is already shortened!");
+					gunComp.SyncCameraRecoilConfig(gunComp.CameraRecoilConfig, SawnCameraRecoilConfig);
 				}
 
-				WaitFor.Seconds(0.25f);
-				if (ammoBackfire && gunComp.CurrentMagazine.ServerAmmoRemains != 0)
-				{
-					gunComp.ServerShoot(interaction.Performer, Vector2.zero, BodyPartType.Head, true);
-					Chat.AddActionMsgToChat(interaction.Performer,
-					$"The {gameObject.ExpensiveName()} goes off in your face!",
-					$"The {gameObject.ExpensiveName()} goes off in {interaction.Performer.ExpensiveName()}'s face!");
-				}
-				else
-				{
-					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You shorten the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.ExpensiveName()} shortens the {gameObject.ExpensiveName()}");
-
-					itemAttComp.ServerSetSize(sawnSize);
-   					spriteHandler.ChangeSprite(1);
-
-					// Don't overwrite recoil conf if it isn't setup
-					if (SawnCameraRecoilConfig.Distance != 0f)
-					{
-						gunComp.SyncCameraRecoilConfig(gunComp.CameraRecoilConfig, SawnCameraRecoilConfig);
-					}
-
-   					gunComp.MaxRecoilVariance = sawnMaxRecoilVariance;
-					isSawn = true;
-				}
+				gunComp.MaxRecoilVariance = sawnMaxRecoilVariance;
+				isSawn = true;
 			}
 		}
 	}
