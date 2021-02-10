@@ -260,6 +260,11 @@ namespace Objects.Engineering
 
 			status = newState == ParticleAcceleratorState.Off ? "Off" : ((int)newState - 4).ToString();
 
+			if (newState == ParticleAcceleratorState.On3)
+			{
+				status = "<color=red>3</color>";
+			}
+
 			if (voltage < voltageIncreasePerPowerLevel * ((int)newState - 3) && isAlwaysOn == false && newState != ParticleAcceleratorState.Off)
 			{
 				status = "<color=red>Not Enough Voltage</color>";
