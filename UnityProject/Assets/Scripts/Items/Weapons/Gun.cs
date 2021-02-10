@@ -963,7 +963,6 @@ namespace Weapons
 		/// <summary>
 		/// Syncs suppressed bool.
 		/// </summary>
-		[Server]
 		private void SyncIsSuppressed(bool oldValue, bool newValue)
 		{
 			isSuppressed = newValue;
@@ -972,7 +971,6 @@ namespace Weapons
 		/// <summary>
 		/// Syncs the recoil config.
 		/// </summary>
-		[Server]
 		public void SyncCameraRecoilConfig(CameraRecoilConfig oldValue, CameraRecoilConfig newValue)
 		{
 			CameraRecoilConfig = newValue;
@@ -981,7 +979,6 @@ namespace Weapons
 		/// <summary>
 		/// Syncs the prediction bool
 		/// </summary>
-		[Server]
 		private void SyncPredictionCanFire(bool oldValue, bool newValue)
 		{
 			predictionCanFire = newValue;
