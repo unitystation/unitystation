@@ -168,7 +168,7 @@ namespace Systems.Access
 			}
 		}
 
-		public static Dictionary<AccessRegion, List<AccessDefinitions>> AccessPerRegion =
+		public static readonly Dictionary<AccessRegion, List<AccessDefinitions>> AccessPerRegion =
 			new Dictionary<AccessRegion, List<AccessDefinitions>>()
 			{
 				{AccessRegion.All, GetAllStationAccess()},
