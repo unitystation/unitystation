@@ -5,7 +5,7 @@ using Systems.Atmospherics;
 using TileManagement;
 
 /// Struct that helps identify matrices
-public struct MatrixInfo
+public class MatrixInfo
 {
 	public string Name => Matrix.gameObject.name;
 	public int Id;
