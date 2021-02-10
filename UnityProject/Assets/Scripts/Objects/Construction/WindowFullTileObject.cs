@@ -28,7 +28,7 @@ namespace Objects.Construction
 		public int countOfMatsOnDissasemle;
 		[Tooltip("Sound on deconstruction.")]
 
-		public string soundOnDeconstruct;
+		public AddressableAudioSource soundOnDeconstruct;
 
 		//PM: Objects below don't have to be shards or rods, but it's more convenient for me to put "shards" and "rods" in the variable names.
 

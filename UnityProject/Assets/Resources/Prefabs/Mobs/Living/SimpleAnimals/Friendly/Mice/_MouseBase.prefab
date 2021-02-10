@@ -55,6 +55,13 @@ MonoBehaviour:
   maxTimeBetweenRandomActions: 30
   doRandomActionWhenInTask: 1
   angryMouseLevel: 10
+  squeekSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/MouseSqueek.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &5406587717983825944
 PrefabInstance:
   m_ObjectHideFlags: 0
