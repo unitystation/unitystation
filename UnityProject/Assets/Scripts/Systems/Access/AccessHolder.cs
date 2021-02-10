@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Items.PDA;
 using NaughtyAttributes;
 using UnityEngine;
@@ -11,12 +10,30 @@ namespace Systems.Access
 		[SerializeField]
 		[ReorderableList]
 		[Tooltip("Assign all acceses this object should store to be checked against the relevant objects that require access.")]
-		private List<AccessRestrictions> restrictions = default;
+		private List<AccessDefinitions> access = default;
+
+		[SerializeField]
+		[ReorderableList]
+		[Tooltip("Assign accesses this object should store to be checked against the relevant objects that require access when the round is lowpop.")]
+		private List<AccessDefinitions> minimalAccess = default;
 
 		private PDALogic pdaLogic;
 
-		// If PDA, let's get the restrictions from the ID inside PDA.
-		public List<AccessRestrictions> Restrictions => pdaLogic != null ? pdaLogic.IDCard.Restrictions : restrictions;
+		public List<AccessDefinitions> Access
+		{
+			get
+			{
+				// If PDA, let's get the Access from the ID inside PDA.
+				if (pdaLogic != null)
+				{
+					return pdaLogic.Access;
+				}
+
+				//TODO check for lowpop here
+				if (false) return minimalAccess;
+				return access;
+			}
+		}
 
 		private void Awake()
 		{
@@ -26,16 +43,18 @@ namespace Systems.Access
 		/// <summary>
 		/// Interface to update access restrictions on this access holder.
 		/// </summary>
-		/// <param name="newRestrictions">Complete list of wanted restrictions</param>
-		public void SetRestrictions(List<AccessRestrictions> newRestrictions)
+		/// <param name="newAccess">Complete list of wanted access</param>
+		public void SetAccess(List<AccessDefinitions> newAccess)
 		{
 			if (pdaLogic)
 			{
-				pdaLogic.IDCard.gameObject.GetComponent<AccessHolder>().SetRestrictions(newRestrictions);
+				pdaLogic.IDCard.gameObject.GetComponent<AccessHolder>().SetAccess(newAccess);
 				return;
 			}
 
-			restrictions = newRestrictions;
+			access = newAccess;
+			//TODO handle this better maybe. This means any custom access would override the lowpop list.
+			minimalAccess = newAccess;
 		}
 	}
 }
