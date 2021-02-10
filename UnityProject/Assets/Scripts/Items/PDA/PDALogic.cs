@@ -71,7 +71,7 @@ namespace Items.PDA
 		/// <summary> The count of how many telecrystals this PDA has </summary>
 		public int UplinkTC { get; private set; }
 
-		public List<Systems.Access.AccessRestrictions> Restrictions => IDCard.gameObject.OrNull()?.GetComponent<AccessHolder>().Restrictions;
+		public List<AccessDefinitions> Access => IDCard.gameObject.OrNull()?.GetComponent<AccessHolder>().Access;
 
 		public bool FlashlightOn => flashlight.IsOn;
 

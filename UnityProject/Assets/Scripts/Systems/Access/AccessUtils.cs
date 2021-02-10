@@ -6,140 +6,140 @@ namespace Systems.Access
 {
 	public static class AccessUtils
 	{
-		public static List<AccessRestrictions> GetAllStationAccess()
+		public static List<AccessDefinitions> GetAllStationAccess()
 		{
-			return new List<AccessRestrictions>
+			return new List<AccessDefinitions>
 			{
-				AccessRestrictions.SECURITY,
-				AccessRestrictions.SEC_DOORS,
-				AccessRestrictions.BRIG,
-				AccessRestrictions.ARMORY,
-				AccessRestrictions.FORENSICS_LOCKERS,
-				AccessRestrictions.COURT,
-				AccessRestrictions.MEDICAL,
-				AccessRestrictions.GENETICS,
-				AccessRestrictions.MORGUE,
-				AccessRestrictions.RD,
-				AccessRestrictions.RND,
-				AccessRestrictions.TOXINS,
-				AccessRestrictions.CHEMISTRY,
-				AccessRestrictions.ENGINE,
-				AccessRestrictions.ENGINE_EQUIP,
-				AccessRestrictions.MAINT_TUNNELS,
-				AccessRestrictions.EXTERNAL_AIRLOCKS,
-				AccessRestrictions.CHANGE_IDS,
-				AccessRestrictions.AI_UPLOAD,
-				AccessRestrictions.TELEPORTER,
-				AccessRestrictions.EVA,
-				AccessRestrictions.HEADS,
-				AccessRestrictions.CAPTAIN,
-				AccessRestrictions.ALL_PERSONAL_LOCKERS,
-				AccessRestrictions.TECH_STORAGE,
-				AccessRestrictions.CHAPEL_OFFICE,
-				AccessRestrictions.ATMOSPHERICS,
-				AccessRestrictions.KITCHEN,
-				AccessRestrictions.BAR,
-				AccessRestrictions.JANITOR,
-				AccessRestrictions.CREMATORIUM,
-				AccessRestrictions.ROBOTICS,
-				AccessRestrictions.CARGO,
-				AccessRestrictions.CONSTRUCTION,
-				AccessRestrictions.AUX_BASE,
-				AccessRestrictions.HYDROPONICS,
-				AccessRestrictions.LIBRARY,
-				AccessRestrictions.LAWYER,
-				AccessRestrictions.VIROLOGY,
-				AccessRestrictions.CMO,
-				AccessRestrictions.QM,
-				AccessRestrictions.SURGERY,
-				AccessRestrictions.PSYCHOLOGY,
-				AccessRestrictions.THEATRE,
-				AccessRestrictions.RESEARCH,
-				AccessRestrictions.MINING,
-				AccessRestrictions.MAILSORTING,
-				AccessRestrictions.WEAPONS,
-				AccessRestrictions.MECH_MINING,
-				AccessRestrictions.MECH_ENGINE,
-				AccessRestrictions.MECH_SCIENCE,
-				AccessRestrictions.MECH_SECURITY,
-				AccessRestrictions.MECH_MEDICAL,
-				AccessRestrictions.VAULT,
-				AccessRestrictions.MINING_STATION,
-				AccessRestrictions.XENOBIOLOGY,
-				AccessRestrictions.CE,
-				AccessRestrictions.HOP,
-				AccessRestrictions.HOS,
-				AccessRestrictions.PHARMACY,
-				AccessRestrictions.RC_ANNOUNCE,
-				AccessRestrictions.KEYCARD_AUTH,
-				AccessRestrictions.TCOMSAT,
-				AccessRestrictions.GATEWAY,
-				AccessRestrictions.MINERAL_STOREROOM,
-				AccessRestrictions.MINISAT,
-				AccessRestrictions.NETWORK,
-				AccessRestrictions.TOXINS_STORAGE
+				AccessDefinitions.SECURITY,
+				AccessDefinitions.SEC_DOORS,
+				AccessDefinitions.BRIG,
+				AccessDefinitions.ARMORY,
+				AccessDefinitions.FORENSICS_LOCKERS,
+				AccessDefinitions.COURT,
+				AccessDefinitions.MEDICAL,
+				AccessDefinitions.GENETICS,
+				AccessDefinitions.MORGUE,
+				AccessDefinitions.RD,
+				AccessDefinitions.RND,
+				AccessDefinitions.TOXINS,
+				AccessDefinitions.CHEMISTRY,
+				AccessDefinitions.ENGINE,
+				AccessDefinitions.ENGINE_EQUIP,
+				AccessDefinitions.MAINT_TUNNELS,
+				AccessDefinitions.EXTERNAL_AIRLOCKS,
+				AccessDefinitions.CHANGE_IDS,
+				AccessDefinitions.AI_UPLOAD,
+				AccessDefinitions.TELEPORTER,
+				AccessDefinitions.EVA,
+				AccessDefinitions.HEADS,
+				AccessDefinitions.CAPTAIN,
+				AccessDefinitions.ALL_PERSONAL_LOCKERS,
+				AccessDefinitions.TECH_STORAGE,
+				AccessDefinitions.CHAPEL_OFFICE,
+				AccessDefinitions.ATMOSPHERICS,
+				AccessDefinitions.KITCHEN,
+				AccessDefinitions.BAR,
+				AccessDefinitions.JANITOR,
+				AccessDefinitions.CREMATORIUM,
+				AccessDefinitions.ROBOTICS,
+				AccessDefinitions.CARGO,
+				AccessDefinitions.CONSTRUCTION,
+				AccessDefinitions.AUX_BASE,
+				AccessDefinitions.HYDROPONICS,
+				AccessDefinitions.LIBRARY,
+				AccessDefinitions.LAWYER,
+				AccessDefinitions.VIROLOGY,
+				AccessDefinitions.CMO,
+				AccessDefinitions.QM,
+				AccessDefinitions.SURGERY,
+				AccessDefinitions.PSYCHOLOGY,
+				AccessDefinitions.THEATRE,
+				AccessDefinitions.RESEARCH,
+				AccessDefinitions.MINING,
+				AccessDefinitions.MAILSORTING,
+				AccessDefinitions.WEAPONS,
+				AccessDefinitions.MECH_MINING,
+				AccessDefinitions.MECH_ENGINE,
+				AccessDefinitions.MECH_SCIENCE,
+				AccessDefinitions.MECH_SECURITY,
+				AccessDefinitions.MECH_MEDICAL,
+				AccessDefinitions.VAULT,
+				AccessDefinitions.MINING_STATION,
+				AccessDefinitions.XENOBIOLOGY,
+				AccessDefinitions.CE,
+				AccessDefinitions.HOP,
+				AccessDefinitions.HOS,
+				AccessDefinitions.PHARMACY,
+				AccessDefinitions.RC_ANNOUNCE,
+				AccessDefinitions.KEYCARD_AUTH,
+				AccessDefinitions.TCOMSAT,
+				AccessDefinitions.GATEWAY,
+				AccessDefinitions.MINERAL_STOREROOM,
+				AccessDefinitions.MINISAT,
+				AccessDefinitions.NETWORK,
+				AccessDefinitions.TOXINS_STORAGE
 			};
 		}
 
-		public static List<AccessRestrictions> GetAllCentcomAccess()
+		public static List<AccessDefinitions> GetAllCentcomAccess()
 		{
-			return new List<AccessRestrictions>
+			return new List<AccessDefinitions>
 			{
-				AccessRestrictions.CENT_GENERAL,
-				AccessRestrictions.CENT_THUNDER,
-				AccessRestrictions.CENT_SPECOPS,
-				AccessRestrictions.CENT_MEDICAL,
-				AccessRestrictions.CENT_LIVING,
-				AccessRestrictions.CENT_STORAGE,
-				AccessRestrictions.CENT_TELEPORTER,
-				AccessRestrictions.CENT_CAPTAIN
+				AccessDefinitions.CENT_GENERAL,
+				AccessDefinitions.CENT_THUNDER,
+				AccessDefinitions.CENT_SPECOPS,
+				AccessDefinitions.CENT_MEDICAL,
+				AccessDefinitions.CENT_LIVING,
+				AccessDefinitions.CENT_STORAGE,
+				AccessDefinitions.CENT_TELEPORTER,
+				AccessDefinitions.CENT_CAPTAIN
 			};
 		}
 
-		public static List<AccessRestrictions> GetERTAccess(JobType job)
+		public static List<AccessDefinitions> GetERTAccess(JobType job)
 		{
 			switch (job)
 			{
 				case JobType.ERT_COMMANDER:
 					return GetAllCentcomAccess();
 				case JobType.ERT_SECURITY:
-					return new List<AccessRestrictions>
+					return new List<AccessDefinitions>
 					{
-						AccessRestrictions.CENT_GENERAL, AccessRestrictions.CENT_SPECOPS,
-						AccessRestrictions.CENT_LIVING
+						AccessDefinitions.CENT_GENERAL, AccessDefinitions.CENT_SPECOPS,
+						AccessDefinitions.CENT_LIVING
 					};
 				case JobType.ERT_ENGINEER:
-					return new List<AccessRestrictions>
+					return new List<AccessDefinitions>
 					{
-						AccessRestrictions.CENT_GENERAL, AccessRestrictions.CENT_SPECOPS,
-						AccessRestrictions.CENT_LIVING, AccessRestrictions.CENT_STORAGE
+						AccessDefinitions.CENT_GENERAL, AccessDefinitions.CENT_SPECOPS,
+						AccessDefinitions.CENT_LIVING, AccessDefinitions.CENT_STORAGE
 					};
 				case JobType.ERT_MEDIC:
-					return new List<AccessRestrictions>
+					return new List<AccessDefinitions>
 					{
-						AccessRestrictions.CENT_GENERAL, AccessRestrictions.CENT_SPECOPS,
-						AccessRestrictions.CENT_LIVING, AccessRestrictions.CENT_MEDICAL
+						AccessDefinitions.CENT_GENERAL, AccessDefinitions.CENT_SPECOPS,
+						AccessDefinitions.CENT_LIVING, AccessDefinitions.CENT_MEDICAL
 					};
 				case JobType.ERT_CHAPLAIN:
 				case JobType.ERT_JANITOR:
 				case JobType.ERT_CLOWN:
-					return new List<AccessRestrictions>
+					return new List<AccessDefinitions>
 					{
-						AccessRestrictions.CENT_GENERAL, AccessRestrictions.CENT_SPECOPS,
-						AccessRestrictions.CENT_LIVING
+						AccessDefinitions.CENT_GENERAL, AccessDefinitions.CENT_SPECOPS,
+						AccessDefinitions.CENT_LIVING
 					};
 				default:
 					Debug.LogError($"GetERTAccess got unvalid job type as argument. Expected ERT job, got {job.ToString()}." +
 					               $" Returning an empty list of access restriction instead.");
-					return new List<AccessRestrictions>();
+					return new List<AccessDefinitions>();
 			}
 		}
 
-		public static List<AccessRestrictions> GetAllSyndicateAccess()
+		public static List<AccessDefinitions> GetAllSyndicateAccess()
 		{
-			return new List<AccessRestrictions>
+			return new List<AccessDefinitions>
 			{
-				AccessRestrictions.SYNDICATE, AccessRestrictions.SYNDICATE_LEADER
+				AccessDefinitions.SYNDICATE, AccessDefinitions.SYNDICATE_LEADER
 			};
 		}
 
@@ -168,145 +168,145 @@ namespace Systems.Access
 			}
 		}
 
-		public static string GetStationAccessDesc(AccessRestrictions access)
+		public static string GetStationAccessDesc(AccessDefinitions access)
 		{
 			switch (access)
 			{
-				case AccessRestrictions.CARGO:
+				case AccessDefinitions.CARGO:
 					return "Cargo Bay";
-				case AccessRestrictions.SECURITY:
+				case AccessDefinitions.SECURITY:
 					return "Security";
-				case AccessRestrictions.BRIG:
+				case AccessDefinitions.BRIG:
 					return "Holding Cells";
-				case AccessRestrictions.COURT:
+				case AccessDefinitions.COURT:
 					return "Courtroom";
-				case AccessRestrictions.FORENSICS_LOCKERS:
+				case AccessDefinitions.FORENSICS_LOCKERS:
 					return "Forensics";
-				case AccessRestrictions.MEDICAL:
+				case AccessDefinitions.MEDICAL:
 					return "Medical";
-				case AccessRestrictions.GENETICS:
+				case AccessDefinitions.GENETICS:
 					return "Genetics Lab";
-				case AccessRestrictions.MORGUE:
+				case AccessDefinitions.MORGUE:
 					return "Morgue";
-				case AccessRestrictions.RND:
+				case AccessDefinitions.RND:
 					return "R&D Lab";
-				case AccessRestrictions.TOXINS:
+				case AccessDefinitions.TOXINS:
 					return "Toxins Lab";
-				case AccessRestrictions.TOXINS_STORAGE:
+				case AccessDefinitions.TOXINS_STORAGE:
 					return "Toxins Storage";
-				case AccessRestrictions.CHEMISTRY:
+				case AccessDefinitions.CHEMISTRY:
 					return "Chemistry Lab";
-				case AccessRestrictions.RD:
+				case AccessDefinitions.RD:
 					return "RD Office";
-				case AccessRestrictions.BAR:
+				case AccessDefinitions.BAR:
 					return "Bar";
-				case AccessRestrictions.JANITOR:
+				case AccessDefinitions.JANITOR:
 					return "Custodial Closet";
-				case AccessRestrictions.ENGINE:
+				case AccessDefinitions.ENGINE:
 					return "Engineering";
-				case AccessRestrictions.ENGINE_EQUIP:
+				case AccessDefinitions.ENGINE_EQUIP:
 					return "Power and Engineering Equipment";
-				case AccessRestrictions.MAINT_TUNNELS:
+				case AccessDefinitions.MAINT_TUNNELS:
 					return "Maintenance";
-				case AccessRestrictions.EXTERNAL_AIRLOCKS:
+				case AccessDefinitions.EXTERNAL_AIRLOCKS:
 					return "External Airlocks";
-				case AccessRestrictions.CHANGE_IDS:
+				case AccessDefinitions.CHANGE_IDS:
 					return "ID Console";
-				case AccessRestrictions.AI_UPLOAD:
+				case AccessDefinitions.AI_UPLOAD:
 					return "AI Chambers";
-				case AccessRestrictions.TELEPORTER:
+				case AccessDefinitions.TELEPORTER:
 					return "Teleporter";
-				case AccessRestrictions.EVA:
+				case AccessDefinitions.EVA:
 					return "EVA";
-				case AccessRestrictions.HEADS:
+				case AccessDefinitions.HEADS:
 					return "Bridge";
-				case AccessRestrictions.CAPTAIN:
+				case AccessDefinitions.CAPTAIN:
 					return "Captain";
-				case AccessRestrictions.ALL_PERSONAL_LOCKERS:
+				case AccessDefinitions.ALL_PERSONAL_LOCKERS:
 					return "Personal Lockers";
-				case AccessRestrictions.CHAPEL_OFFICE:
+				case AccessDefinitions.CHAPEL_OFFICE:
 					return "Chapel Office";
-				case AccessRestrictions.TECH_STORAGE:
+				case AccessDefinitions.TECH_STORAGE:
 					return "Technical Storage";
-				case AccessRestrictions.ATMOSPHERICS:
+				case AccessDefinitions.ATMOSPHERICS:
 					return "Atmospherics";
-				case AccessRestrictions.CREMATORIUM:
+				case AccessDefinitions.CREMATORIUM:
 					return "Crematorium";
-				case AccessRestrictions.ARMORY:
+				case AccessDefinitions.ARMORY:
 					return "Armory";
-				case AccessRestrictions.CONSTRUCTION:
+				case AccessDefinitions.CONSTRUCTION:
 					return "Construction";
-				case AccessRestrictions.KITCHEN:
+				case AccessDefinitions.KITCHEN:
 					return "Kitchen";
-				case AccessRestrictions.HYDROPONICS:
+				case AccessDefinitions.HYDROPONICS:
 					return "Hydroponics";
-				case AccessRestrictions.LIBRARY:
+				case AccessDefinitions.LIBRARY:
 					return "Library";
-				case AccessRestrictions.LAWYER:
+				case AccessDefinitions.LAWYER:
 					return "Law Office";
-				case AccessRestrictions.ROBOTICS:
+				case AccessDefinitions.ROBOTICS:
 					return "Robotics";
-				case AccessRestrictions.VIROLOGY:
+				case AccessDefinitions.VIROLOGY:
 					return "Virology";
-				case AccessRestrictions.PSYCHOLOGY:
+				case AccessDefinitions.PSYCHOLOGY:
 					return "Psychology";
-				case AccessRestrictions.CMO:
+				case AccessDefinitions.CMO:
 					return "CMO Office";
-				case AccessRestrictions.QM:
+				case AccessDefinitions.QM:
 					return "Quartermaster";
-				case AccessRestrictions.SURGERY:
+				case AccessDefinitions.SURGERY:
 					return "Surgery";
-				case AccessRestrictions.THEATRE:
+				case AccessDefinitions.THEATRE:
 					return "Theatre";
-				case AccessRestrictions.RESEARCH:
+				case AccessDefinitions.RESEARCH:
 					return "Science";
-				case AccessRestrictions.MINING:
+				case AccessDefinitions.MINING:
 					return "Mining";
-				case AccessRestrictions.MAILSORTING:
+				case AccessDefinitions.MAILSORTING:
 					return "Cargo Office";
-				case AccessRestrictions.VAULT:
+				case AccessDefinitions.VAULT:
 					return "Main Vault";
-				case AccessRestrictions.MINING_STATION:
+				case AccessDefinitions.MINING_STATION:
 					return "Mining EVA";
-				case AccessRestrictions.XENOBIOLOGY:
+				case AccessDefinitions.XENOBIOLOGY:
 					return "Xenobiology Lab";
-				case AccessRestrictions.HOP:
+				case AccessDefinitions.HOP:
 					return "HoP Office";
-				case AccessRestrictions.HOS:
+				case AccessDefinitions.HOS:
 					return "HoS Office";
-				case AccessRestrictions.CE:
+				case AccessDefinitions.CE:
 					return "CE Office";
-				case AccessRestrictions.PHARMACY:
+				case AccessDefinitions.PHARMACY:
 					return "Pharmacy";
-				case AccessRestrictions.RC_ANNOUNCE:
+				case AccessDefinitions.RC_ANNOUNCE:
 					return "RC Announcements";
-				case AccessRestrictions.KEYCARD_AUTH:
+				case AccessDefinitions.KEYCARD_AUTH:
 					return "Keycode Auth.";
-				case AccessRestrictions.TCOMSAT:
+				case AccessDefinitions.TCOMSAT:
 					return "Telecommunications";
-				case AccessRestrictions.GATEWAY:
+				case AccessDefinitions.GATEWAY:
 					return "Gateway";
-				case AccessRestrictions.SEC_DOORS:
+				case AccessDefinitions.SEC_DOORS:
 					return "Brig";
-				case AccessRestrictions.MINERAL_STOREROOM:
+				case AccessDefinitions.MINERAL_STOREROOM:
 					return "Mineral Storage";
-				case AccessRestrictions.MINISAT:
+				case AccessDefinitions.MINISAT:
 					return "AI Satellite";
-				case AccessRestrictions.WEAPONS:
+				case AccessDefinitions.WEAPONS:
 					return "Weapon Permit";
-				case AccessRestrictions.NETWORK:
+				case AccessDefinitions.NETWORK:
 					return "Network Access";
-				case AccessRestrictions.MECH_MINING:
+				case AccessDefinitions.MECH_MINING:
 					return "Mining Mech Access";
-				case AccessRestrictions.MECH_MEDICAL:
+				case AccessDefinitions.MECH_MEDICAL:
 					return "Medical Mech Access";
-				case AccessRestrictions.MECH_SECURITY:
+				case AccessDefinitions.MECH_SECURITY:
 					return "Security Mech Access";
-				case AccessRestrictions.MECH_SCIENCE:
+				case AccessDefinitions.MECH_SCIENCE:
 					return "Science Mech Access";
-				case AccessRestrictions.MECH_ENGINE:
+				case AccessDefinitions.MECH_ENGINE:
 					return "Engineering Mech Access";
-				case AccessRestrictions.AUX_BASE:
+				case AccessDefinitions.AUX_BASE:
 					return "Auxiliary Base";
 
 				default:
@@ -316,27 +316,27 @@ namespace Systems.Access
 			}
 		}
 
-		public static string GetCentcomAccessDesc(AccessRestrictions access)
+		public static string GetCentcomAccessDesc(AccessDefinitions access)
 		{
 			switch (access)
 			{
-				case AccessRestrictions.CENT_GENERAL:
+				case AccessDefinitions.CENT_GENERAL:
 					return "Code Grey";
-				case AccessRestrictions.CENT_THUNDER:
+				case AccessDefinitions.CENT_THUNDER:
 					return "Code Yellow";
-				case AccessRestrictions.CENT_STORAGE:
+				case AccessDefinitions.CENT_STORAGE:
 					return "Code Orange";
-				case AccessRestrictions.CENT_LIVING:
+				case AccessDefinitions.CENT_LIVING:
 					return "Code Green";
-				case AccessRestrictions.CENT_MEDICAL:
+				case AccessDefinitions.CENT_MEDICAL:
 					return "Code White";
-				case AccessRestrictions.CENT_TELEPORTER:
+				case AccessDefinitions.CENT_TELEPORTER:
 					return "Code Blue";
-				case AccessRestrictions.CENT_SPECOPS:
+				case AccessDefinitions.CENT_SPECOPS:
 					return "Code Black";
-				case AccessRestrictions.CENT_CAPTAIN:
+				case AccessDefinitions.CENT_CAPTAIN:
 					return "Code Gold";
-				case AccessRestrictions.CENT_BAR:
+				case AccessDefinitions.CENT_BAR:
 					return "Code Scotch";
 				default:
 					Logger.LogError($"{nameof(GetCentcomAccessDesc)} got unexpected access: {access} " +
