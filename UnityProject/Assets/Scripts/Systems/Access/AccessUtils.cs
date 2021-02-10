@@ -168,6 +168,14 @@ namespace Systems.Access
 			}
 		}
 
+		public static Dictionary<AccessRegion, List<AccessDefinitions>> AccessPerRegion =
+			new Dictionary<AccessRegion, List<AccessDefinitions>>()
+			{
+				{AccessRegion.All, GetAllStationAccess()},
+
+			};
+
+
 		public static string GetStationAccessDesc(AccessDefinitions access)
 		{
 			switch (access)
