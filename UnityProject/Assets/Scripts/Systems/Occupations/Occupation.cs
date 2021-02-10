@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Systems.Access;
+using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -53,6 +55,22 @@ public class Occupation : ScriptableObject
 	[Tooltip("Default access allowed for this occupation.")]
 	private List<Access> allowedAccess = null;
 	public List<Access> AllowedAccess => allowedAccess;
+
+	/*
+	 * Access rework
+	 *
+	 */
+	[SerializeField]
+	[ReorderableList]
+	[Tooltip("Default access allowed for this occupation.")]
+	private List<AccessDefinitions> access = default;
+	public List<AccessDefinitions> Access => access;
+
+	[SerializeField]
+	[ReorderableList]
+	[Tooltip("Default access allowed for this occupation when in lowpop rounds.")]
+	private List<AccessDefinitions> minimalAccess = default;
+	public List<AccessDefinitions> MinimalAccess => minimalAccess;
 
 	[SerializeField]
 	[Tooltip("Default spells available for this occupation.")]
