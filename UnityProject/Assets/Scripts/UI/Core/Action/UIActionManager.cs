@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -109,8 +110,10 @@ public class UIActionManager : MonoBehaviour
 		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
 			var _UIAction = Instance.DicIActionGUI[iActionGUI];
-			_UIAction.IconFront.SetSpriteSO(sprite, Network: networked);		
-			_UIAction.IconFront.SetPaletteOfCurrentSprite(palette);
+			var _IconFront = _UIAction.IconFront;
+			_IconFront.SetSpriteSO(sprite, Network: networked);
+			_IconFront.SetPaletteOfCurrentSprite(palette);
+			_UIAction.IconImage.ApplySpriteScaling(_IconFront.CurrentSprite);
 		}
 		else
 		{

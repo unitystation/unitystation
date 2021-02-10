@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Items;
+using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -75,6 +76,9 @@ public class UI_ItemImage
 		var spriteHandlers = item.GetComponentsInChildren<SpriteHandler>(includeInactive: true);
 		spriteHandlers = spriteHandlers.Where(x => x != Highlight.instance.spriteRenderer).ToArray();
 
+		// Use the main sprite to scale all the other sprites
+		var firstSprite = spriteHandlers.FirstOrDefault().OrNull()?.CurrentSprite;
+
 		foreach (var handler in spriteHandlers)
 		{
 			// get unused image from stack and subscribe it handler updates
@@ -86,6 +90,7 @@ public class UI_ItemImage
 			// set sprite
 			var sprite = handler.CurrentSprite;
 			image.sprite = sprite;
+			image.ApplySpriteScaling(firstSprite);
 
 			// set color
 			if (forcedColor != null)
