@@ -147,7 +147,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		//Set all the synced properties for the card
 		SyncName(registeredName, name);
 		SyncJobType(jobType, newJobType);
-		if (customJobName.IsNullOrEmpty() == false)
+		if (initialCustomJobName.IsNullOrEmpty() == false)
 		{
 			SyncCustomJobName(string.Empty, customJobName);
 		}
