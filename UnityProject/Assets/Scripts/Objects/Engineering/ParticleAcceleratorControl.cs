@@ -22,6 +22,7 @@ namespace Objects.Engineering
 		private bool isOn;
 
 		[SerializeField]
+		[Tooltip("How much power each next level will need, eg level three will need 800, 4 * value")]
 		private float voltageIncreasePerPowerLevel = 200;
 
 		[SerializeField]
@@ -30,7 +31,12 @@ namespace Objects.Engineering
 		private DamageData damageData = null;
 
 		[SerializeField]
+		[Tooltip("Whether to ignore voltage requirements")]
 		private bool isAlwaysOn;
+
+		[SerializeField]
+		private bool isHacked;
+		public bool IsHacked => isHacked;
 
 		private string status = "";
 		public string Status => status;
@@ -110,7 +116,7 @@ namespace Objects.Engineering
 		private void ShootParticleAccelerator()
 		{
 			var damageIntegrity = particleAcceleratorBulletPrefab.GetComponent<ProjectileDamageIntegrity>();
-			damageData.SetDamage(20 * ((int)CurrentState - 3));
+			damageData.SetDamage(10 * ((int)CurrentState - 3));
 			damageIntegrity.damageData = damageData;
 
 			foreach (var connectedPart in connectedParts)
@@ -240,6 +246,11 @@ namespace Objects.Engineering
 			}
 
 			if(newState == ParticleAcceleratorState.Frame || newState == ParticleAcceleratorState.Wired || newState == ParticleAcceleratorState.Closed) return;
+
+			if (newState == ParticleAcceleratorState.On3 && IsHacked == false)
+			{
+				newState = ParticleAcceleratorState.On2;
+			}
 
 			status = newState == ParticleAcceleratorState.Off ? "Off" : ((int)newState - 4).ToString();
 

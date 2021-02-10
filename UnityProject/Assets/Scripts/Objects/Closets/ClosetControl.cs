@@ -123,6 +123,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	private Sprite weldSprite = null;
 	private static readonly float weldTime = 5.0f;
 
+	[SerializeField] private bool isUnLockable = true;
+
+	[SerializeField] private bool isWeldable = true;
+
 	private string closetName;
 	private ObjectAttributes closetAttributes;
 
@@ -520,7 +524,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
 			&& emag.EmagHasCharges())
 		{
-			if (IsClosed && !isEmagged)
+			if (IsClosed && !isEmagged && isUnLockable)
 			{
 				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, gameObject);
 				//ServerHandleContentsOnStatusChange(false);
@@ -534,7 +538,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		else if (Validations.HasUsedActiveWelder(interaction))
 		{
 			// Is the player trying to weld closet?
-			if (IsWeldable && interaction.Intent == Intent.Harm)
+			if (IsWeldable && interaction.Intent == Intent.Harm && isWeldable)
 			{
 				ToolUtils.ServerUseToolWithActionMessages(
 						interaction, weldTime,
@@ -584,7 +588,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		}
 
 		// player trying to unlock locker?
-		if (IsLockable && AccessRestrictions != null && ClosetStatus.Equals(ClosetStatus.Closed))
+		if (IsLockable && AccessRestrictions != null && ClosetStatus.Equals(ClosetStatus.Closed) && isUnLockable)
 		{
 			// player trying to open lock by card?
 			if (AccessRestrictions.CheckAccessCard(interaction.HandObject))
