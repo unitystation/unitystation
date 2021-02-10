@@ -30,7 +30,7 @@ namespace Systems.Access
 				}
 
 				//TODO check for lowpop here
-				if (false) return minimalAccess;
+				// if (lowpop) return minimalAccess;
 				return access;
 			}
 		}
