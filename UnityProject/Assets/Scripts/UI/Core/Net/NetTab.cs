@@ -42,6 +42,7 @@ public enum NetTabType
 	TeleportScroll = 31,
 	MagicMirror = 32,
 	ContractOfApprenticeship = 33,
+	IdConsoleV2 = 34
 
 	//add your tabs here
 }
