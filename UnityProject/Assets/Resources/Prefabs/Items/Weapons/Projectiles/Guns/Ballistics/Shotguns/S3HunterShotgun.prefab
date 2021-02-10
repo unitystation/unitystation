@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1369005104990738433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8261965186490909529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ea89a879a2d3c8ba477fca535a2332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sawnSize: 3
+  sawnMaxRecoilVariance: 0.1
+  SawnCameraRecoilConfig:
+    Distance: 0.5
+    RecoilDuration: 0.1
+    RecoveryDuration: 0.6
 --- !u!1001 &6739964293130240754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15,23 +33,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: ammoType
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: MagInternal
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
       propertyPath: MagSize
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: FiringSound
-      value: ShootLMG
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -40,22 +43,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 3210688012413455863, guid: 7920d9c4fad7b044c99cec907164f7e8,
-        type: 3}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: casingPrefabOverride
-      value: 
-      objectReference: {fileID: 7885110935015110955, guid: 4f1eb975ef940201eac8726b12289e87,
-        type: 3}
+      propertyPath: ammoType
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 2003804624138751089, guid: 0db28ea7632de0b4593a32bba473e844,
         type: 3}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 3210688012413455863, guid: 7920d9c4fad7b044c99cec907164f7e8,
+        type: 3}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootLMG
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: MagInternal
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: ProjectilesFired
@@ -72,15 +84,21 @@ PrefabInstance:
       propertyPath: allowMagazineRemoval
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: initialDescription
-      value: A double-barreled shotgun. A true classic.
-      objectReference: {fileID: 0}
+      propertyPath: casingPrefabOverride
+      value: 
+      objectReference: {fileID: 7885110935015110955, guid: 4f1eb975ef940201eac8726b12289e87,
+        type: 3}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: initialName
       value: S3 Hunter shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: initialDescription
+      value: A double-barreled shotgun. A true classic.
       objectReference: {fileID: 0}
     - target: {fileID: 3301342883353866999, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -100,6 +118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -115,6 +138,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -127,16 +155,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -159,5 +177,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8fa9714320a32e947afac4d56ab8be39,
         type: 2}
+    - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fa9714320a32e947afac4d56ab8be39,
+        type: 2}
+    - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f06bf921f31f79542aa93f8e6ae24eb2,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3da1d244806a96340a48e959ecc816e4, type: 3}
+--- !u!1 &8261965186490909529 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3396079434555916715, guid: 3da1d244806a96340a48e959ecc816e4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6739964293130240754}
+  m_PrefabAsset: {fileID: 0}

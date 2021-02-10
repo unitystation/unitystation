@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3522461120287781946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3814654046910142495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ea89a879a2d3c8ba477fca535a2332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoBackfire: 1
+  sawnSize: 3
+  sawnMaxRecoilVariance: 0.1
+  SawnCameraRecoilConfig:
+    Distance: 0.5
+    RecoilDuration: 0.1
+    RecoveryDuration: 0.6
 --- !u!1001 &2004405186287819188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15,24 +34,24 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: MagSize
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 2003804624138751089, guid: 6479114d4021fcc4480f216b37acc883,
         type: 3}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: MagSize
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: genericInternalMag
+      propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 5857423046154764512, guid: 743525ecb25075c4a931a26989c82712,
         type: 3}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: ammoPrefab
+      propertyPath: genericInternalMag
       value: 
       objectReference: {fileID: 5857423046154764512, guid: 743525ecb25075c4a931a26989c82712,
         type: 3}
@@ -43,14 +62,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: initialDescription
-      value: A sturdy shotgun with a longer magazine and a fixed tactical stock designed
-        for non-lethal riot control.
+      propertyPath: initialName
+      value: riot shotgun
       objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: initialName
-      value: riot shotgun
+      propertyPath: initialDescription
+      value: A sturdy shotgun with a longer magazine and a fixed tactical stock designed
+        for non-lethal riot control.
       objectReference: {fileID: 0}
     - target: {fileID: 3301342883353866999, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -70,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -85,6 +109,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -97,16 +126,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -129,5 +148,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 281b21add084733448db245b3d4c8070,
         type: 2}
+    - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 281b21add084733448db245b3d4c8070,
+        type: 2}
+    - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f1c60a43de133542bfc54d90e898ea2,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3da1d244806a96340a48e959ecc816e4, type: 3}
+--- !u!1 &3814654046910142495 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3396079434555916715, guid: 3da1d244806a96340a48e959ecc816e4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2004405186287819188}
+  m_PrefabAsset: {fileID: 0}

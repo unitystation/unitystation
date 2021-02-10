@@ -152,7 +152,7 @@ namespace Weapons
 		/// <summary>
 		/// Describes the recoil behavior of the camera when this gun is fired
 		/// </summary>
-		[Tooltip("Describes the recoil behavior of the camera when this gun is fired")]
+		[Tooltip("Describes the recoil behavior of the camera when this gun is fired"), SyncVar(hook = nameof(SyncCameraRecoilConfig))]
 		public CameraRecoilConfig CameraRecoilConfig;
 
 		/// <summary>
@@ -190,6 +190,9 @@ namespace Weapons
 
 		// used for clusmy self shooting randomness
 		private System.Random rnd = new System.Random();
+
+		[SyncVar(hook = nameof(SyncPredictionCanFire))]
+		private bool predictionCanFire;
 
 		/// <summary>
 		/// If true, displays a message whenever a gun is shot
@@ -247,6 +250,18 @@ namespace Weapons
 				allowMagazineRemoval = false;
 			}
 
+			//Default recoil if one has not been set already
+			if (CameraRecoilConfig == null || CameraRecoilConfig.Distance == 0f)
+			{
+				var Recoil = new CameraRecoilConfig
+				{
+					Distance = 0.2f,
+					RecoilDuration = 0.05f,
+					RecoveryDuration = 0.6f
+				};
+				SyncCameraRecoilConfig(CameraRecoilConfig, Recoil);
+			}
+
 			if (ammoPrefab == null)
 			{
 				Debug.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.");
@@ -277,19 +292,13 @@ namespace Weapons
 			{
 				serverHolder = info.ToPlayer.gameObject;
 				shooterRegisterTile = serverHolder.GetComponent<RegisterTile>();
-				if (FiringPin != null)
-				{
-					FiringPin.UpdatePredictionCanFire(serverHolder);
-				}
+				UpdatePredictionCanFire(serverHolder);
 			}
 			else
 			{
 				serverHolder = null;
 				shooterRegisterTile = null;
-				if (FiringPin != null)
-				{
-					FiringPin.ClearPredictionCanFire();
-				}
+				SyncPredictionCanFire(predictionCanFire, false);
 			}
 		}
 
@@ -415,8 +424,7 @@ namespace Weapons
 
 			if (FiringPin != null)
 			{
-				bool canFire = FiringPin.TriggerPullClient();
-				if (canFire)
+				if (predictionCanFire)
 				{
 					DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
 				}
@@ -458,7 +466,7 @@ namespace Weapons
 
 					case 1:
 						// shooting a clusmy weapon as a non-clusmy person
-						ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, true);
+						ServerShoot(interaction.Performer, interaction.TargetVector.normalized, BodyPartType.Head, true);
 						Chat.AddActionMsgToChat(interaction.Performer,
 						"You somehow shoot yourself in the face! How the hell?!",
 						$"{interaction.Performer.ExpensiveName()} somehow manages to shoot themself in the face!");
@@ -524,10 +532,12 @@ namespace Weapons
 					}
 					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
 					{
+						SyncPredictionCanFire(predictionCanFire, false);
 						Inventory.ServerDrop(pinSlot);
 					}
 					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
 					{
+						UpdatePredictionCanFire(serverHolder);
 						Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
 					}
 				}
@@ -798,16 +808,6 @@ namespace Weapons
 				//add additional recoil after shooting for the next round
 				AppendRecoil();
 
-				//Default camera recoil params until each gun is configured separately
-				if (CameraRecoilConfig == null || CameraRecoilConfig.Distance == 0f)
-				{
-					CameraRecoilConfig = new CameraRecoilConfig
-					{
-						Distance = 0.2f,
-						RecoilDuration = 0.05f,
-						RecoveryDuration = 0.6f
-					};
-				}
 				Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 			}
 
@@ -961,13 +961,42 @@ namespace Weapons
 		#region Weapon Network Supporting Methods
 
 		/// <summary>
-		/// Syncs server and client ammo.
+		/// Syncs suppressed bool.
 		/// </summary>
 		private void SyncIsSuppressed(bool oldValue, bool newValue)
 		{
 			isSuppressed = newValue;
 		}
 
+		/// <summary>
+		/// Syncs the recoil config.
+		/// </summary>
+		public void SyncCameraRecoilConfig(CameraRecoilConfig oldValue, CameraRecoilConfig newValue)
+		{
+			CameraRecoilConfig = newValue;
+		}
+
+		/// <summary>
+		/// Syncs the prediction bool
+		/// </summary>
+		private void SyncPredictionCanFire(bool oldValue, bool newValue)
+		{
+			predictionCanFire = newValue;
+		}
+
+		[Server]
+		public void UpdatePredictionCanFire(GameObject holder)
+		{
+			JobType job = PlayerList.Instance.Get(holder).Job;
+			if (FiringPin != null && (job == FiringPin.SetRestriction || FiringPin.SetRestriction == JobType.NULL))
+			{
+				SyncPredictionCanFire(predictionCanFire, true);
+			}
+			else
+			{
+				SyncPredictionCanFire(predictionCanFire, false);
+			}
+		}
 		/// <summary>
 		/// Applies recoil to calcuate the final direction of the shot
 		/// </summary>
