@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 7688260226702700199}
   - component: {fileID: 5933879109768817857}
   m_Layer: 11
-  m_Name: Radiation collector
+  m_Name: RadiationCollector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -288,7 +288,7 @@ MonoBehaviour:
   mainSpriteHandler: {fileID: 8106342113633906247}
   slotHandler: {fileID: 0}
   startSetUp: 0
-  radiationWatts: 100
+  radiationWatts: 10
 --- !u!114 &1999094162665485661
 MonoBehaviour:
   m_ObjectHideFlags: 0

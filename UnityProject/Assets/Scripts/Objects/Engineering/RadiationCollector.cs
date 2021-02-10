@@ -25,7 +25,7 @@ namespace Objects.Engineering
 
 		[SerializeField]
 		[Tooltip("radiationWatts * radiation tile level = watts this device will supply")]
-		private float radiationWatts = 100f;
+		private float radiationWatts = 10f;
 
 		private float generatedWatts = 0f;
 		private float radiationLevel = 0f;
