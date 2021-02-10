@@ -1409,8 +1409,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4702759, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -3, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2500793083066963195
 CanvasRenderer:
@@ -1437,6 +1437,7 @@ MonoBehaviour:
   hoverName: i_clothing
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -2458,8 +2459,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.47, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: 2, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7603206355193095390
 CanvasRenderer:
@@ -2486,6 +2487,7 @@ MonoBehaviour:
   hoverName: shoes
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -2702,7 +2704,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4437136176625891310
 CanvasRenderer:
@@ -2729,6 +2731,7 @@ MonoBehaviour:
   hoverName: right hand
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 6303621425200999732}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4046,8 +4049,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4697266, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -3, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6983931670922323497
 CanvasRenderer:
@@ -4074,6 +4077,7 @@ MonoBehaviour:
   hoverName: ears
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4187,8 +4191,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4697266, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -2.5, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4134127694609889637
 CanvasRenderer:
@@ -4215,6 +4219,7 @@ MonoBehaviour:
   hoverName: neck
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4460,6 +4465,7 @@ MonoBehaviour:
   hoverName: SuitStorage
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 9027438441449657414}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4603,8 +4609,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4702148, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -2, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2636595048863171052
 CanvasRenderer:
@@ -4631,6 +4637,7 @@ MonoBehaviour:
   hoverName: gloves
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4668,8 +4675,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.25, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 44, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2461016108056355578
 CanvasRenderer:
@@ -4696,6 +4703,7 @@ MonoBehaviour:
   hoverName: back
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4976,8 +4984,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4702148, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -2, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5629835511929480729
 CanvasRenderer:
@@ -5004,6 +5012,7 @@ MonoBehaviour:
   hoverName: o_clothing
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -5400,8 +5409,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.47, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8452904978129691098
 CanvasRenderer:
@@ -5428,6 +5437,7 @@ MonoBehaviour:
   hoverName: suit storage
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -5848,7 +5858,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6125228456945751067
 CanvasRenderer:
@@ -5875,6 +5885,7 @@ MonoBehaviour:
   hoverName: left hand
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 7509826716592249208}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -6316,7 +6327,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 44, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &906143327401627505
 CanvasRenderer:
@@ -6343,6 +6354,7 @@ MonoBehaviour:
   hoverName: belt
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -6380,8 +6392,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4697266, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -2, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4637551198183803032
 CanvasRenderer:
@@ -6408,6 +6420,7 @@ MonoBehaviour:
   hoverName: mask
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -6446,7 +6459,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 44, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5737818514463376101
 CanvasRenderer:
@@ -6473,6 +6486,7 @@ MonoBehaviour:
   hoverName: storage1
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 462445106604139935}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -7208,6 +7222,7 @@ MonoBehaviour:
   hoverName: 
   initiallyHidden: 1
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -7373,8 +7388,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.75, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 44, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &493065027078685199
 CanvasRenderer:
@@ -7401,6 +7416,7 @@ MonoBehaviour:
   hoverName: id
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -9603,8 +9619,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4702148, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -2, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2564860162184923264
 CanvasRenderer:
@@ -9631,6 +9647,7 @@ MonoBehaviour:
   hoverName: head
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -10337,8 +10354,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4702148, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -3, y: 0}
+  m_SizeDelta: {x: 52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8374752580340765814
 CanvasRenderer:
@@ -10365,6 +10382,7 @@ MonoBehaviour:
   hoverName: eyes
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -11398,7 +11416,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 44, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &160838315759064267
 CanvasRenderer:
@@ -11425,6 +11443,7 @@ MonoBehaviour:
   hoverName: storage2
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 4949455730005461735}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -12433,8 +12452,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.5400009, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101612470002431539
 CanvasRenderer:
@@ -12461,6 +12480,7 @@ MonoBehaviour:
   hoverName: right hand
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 4820603719642766245}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -13243,8 +13263,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.31000137, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101621723694315347
 CanvasRenderer:
@@ -13271,6 +13291,7 @@ MonoBehaviour:
   hoverName: left hand
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 3725035644177709530}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -13423,7 +13444,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101718117441353593
 CanvasRenderer:
@@ -13450,6 +13471,7 @@ MonoBehaviour:
   hoverName: neck
   initiallyHidden: 1
   placeholderImage: {fileID: 8281058639250155227}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -13780,7 +13802,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101509097842269039
 CanvasRenderer:
@@ -13807,6 +13829,7 @@ MonoBehaviour:
   hoverName: gloves
   initiallyHidden: 1
   placeholderImage: {fileID: 8281196515086637841}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -14956,7 +14979,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101130166968092431
 CanvasRenderer:
@@ -14983,6 +15006,7 @@ MonoBehaviour:
   hoverName: back
   initiallyHidden: 0
   placeholderImage: {fileID: 6364260957554802200}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15020,8 +15044,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4697266, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101494330673529677
 CanvasRenderer:
@@ -15048,6 +15072,7 @@ MonoBehaviour:
   hoverName: mask
   initiallyHidden: 1
   placeholderImage: {fileID: 8277999282005555175}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15191,7 +15216,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101490006922318485
 CanvasRenderer:
@@ -15218,6 +15243,7 @@ MonoBehaviour:
   hoverName: o_clothing
   initiallyHidden: 1
   placeholderImage: {fileID: 8281666249806141003}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15256,7 +15282,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8100935773811530077
 CanvasRenderer:
@@ -15283,6 +15309,7 @@ MonoBehaviour:
   hoverName: i_clothing
   initiallyHidden: 1
   placeholderImage: {fileID: 8278030082089836185}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15422,8 +15449,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4697266, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8100888712101019609
 CanvasRenderer:
@@ -15450,6 +15477,7 @@ MonoBehaviour:
   hoverName: ears
   initiallyHidden: 1
   placeholderImage: {fileID: 8281585469773882971}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15562,7 +15590,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101965252194186965
 CanvasRenderer:
@@ -15589,6 +15617,7 @@ MonoBehaviour:
   hoverName: belt
   initiallyHidden: 0
   placeholderImage: {fileID: 5491501073979613826}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -16967,7 +16996,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101430561426888141
 CanvasRenderer:
@@ -16994,6 +17023,7 @@ MonoBehaviour:
   hoverName: head
   initiallyHidden: 1
   placeholderImage: {fileID: 8281131112353500217}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17107,7 +17137,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101957372675838553
 CanvasRenderer:
@@ -17134,6 +17164,7 @@ MonoBehaviour:
   hoverName: shoes
   initiallyHidden: 0
   placeholderImage: {fileID: 8277947513816033171}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17444,7 +17475,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101620328297340559
 CanvasRenderer:
@@ -17471,6 +17502,7 @@ MonoBehaviour:
   hoverName: storage2
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 2053330118055208131}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17509,7 +17541,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101753050253455583
 CanvasRenderer:
@@ -17536,6 +17568,7 @@ MonoBehaviour:
   hoverName: storage1
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 6806866905320476867}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17574,7 +17607,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8100997567498785421
 CanvasRenderer:
@@ -17601,6 +17634,7 @@ MonoBehaviour:
   hoverName: eyes
   initiallyHidden: 1
   placeholderImage: {fileID: 8281055785561640595}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17785,7 +17819,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8101005726861327053
 CanvasRenderer:
@@ -17812,6 +17846,7 @@ MonoBehaviour:
   hoverName: pda
   initiallyHidden: 0
   placeholderImage: {fileID: 5612918694531810790}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
