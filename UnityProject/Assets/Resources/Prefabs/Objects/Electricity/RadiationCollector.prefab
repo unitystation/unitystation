@@ -17,12 +17,12 @@ GameObject:
   - component: {fileID: 672904832946805518}
   - component: {fileID: 114779656264558364}
   - component: {fileID: 3912874886522507892}
-  - component: {fileID: 1685684229242937336}
-  - component: {fileID: 5442183917185828166}
   - component: {fileID: 1999094162665485661}
   - component: {fileID: 4997349939610282033}
-  - component: {fileID: 7688260226702700199}
+  - component: {fileID: 1773004346421643381}
+  - component: {fileID: 5442183917185828166}
   - component: {fileID: 5933879109768817857}
+  - component: {fileID: 7688260226702700199}
   m_Layer: 11
   m_Name: RadiationCollector
   m_TagString: Untagged
@@ -243,52 +243,6 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &1685684229242937336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 0
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &5442183917185828166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: decbbef8933914e4db80a8f7026d2ac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainSpriteHandler: {fileID: 8106342113633906247}
-  slotHandler: {fileID: 0}
-  startSetUp: 0
-  radiationWatts: 10
 --- !u!114 &1999094162665485661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +307,70 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &1773004346421643381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5442183917185828166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: decbbef8933914e4db80a8f7026d2ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainSpriteHandler: {fileID: 8106342113633906247}
+  slotHandler: {fileID: 0}
+  startSetUp: 0
+  radiationWatts: 10
+--- !u!114 &5933879109768817857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 6684f6484cbb9674f9522a2c07aa3aab, type: 2}
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 2f9708f30e072384b90ff2e8c13583b6,
+    type: 3}
+  canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
+  secondsToScrewdrive: 2
 --- !u!114 &7688260226702700199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,24 +391,6 @@ MonoBehaviour:
   exportCost: 100
   exportName: radiation collector
   exportMessage: 
---- !u!114 &5933879109768817857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MachineParts: {fileID: 11400000, guid: 6684f6484cbb9674f9522a2c07aa3aab, type: 2}
-  machineBoardPrefab: {fileID: 8026946951644424067, guid: 2f9708f30e072384b90ff2e8c13583b6,
-    type: 3}
-  canNotBeDeconstructed: 0
-  mustBeUnanchored: 0
-  secondsToScrewdrive: 2
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

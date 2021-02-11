@@ -67,6 +67,12 @@ namespace Objects.Engineering
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
+			if (isOn == false)
+			{
+				moduleSupplyingDevice.ProducingWatts = 0;
+				return;
+			}
+
 			MetaDataNode node = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPositionServer);
 			if (node == null)
 			{
@@ -83,7 +89,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.HandApply(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
 
@@ -189,6 +195,11 @@ namespace Objects.Engineering
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
+			if (isOn == false)
+			{
+				return "Collector is off";
+			}
+
 			return $"Radiation level is {radiationLevel}\nGenerating {generatedWatts} watts of energy";
 		}
 	}
