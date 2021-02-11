@@ -208,6 +208,12 @@ namespace Objects
 					if (objectToMove.registerTile.ObjectType == ObjectType.Item)
 					{
 						ThrowItem(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
+
+						if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
+						{
+							//Just to stop never ending items being thrown about
+							integrity.ApplyDamage(10, AttackType.Melee, DamageType.Brute, true);
+						}
 					}
 					else
 					{
