@@ -15,13 +15,37 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 4
+      propertyPath: plantData.PlantName
+      value: Death Cannabis Plant
       objectReference: {fileID: 0}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Death Cannabis Plant
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 8794f2c167ec5f04aaad215e436dbf6c,
+        type: 2}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 1113958565994357908, guid: 2976bddacd5dfc949a9470a0406f3c01,
+        type: 3}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 707ce2ca68a3ffb4bb620257b6c1b045,
+        type: 2}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 056ec811644937d46b2740e24e7abd74,
+        type: 2}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -46,39 +70,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7870897892368066856, guid: 4e7c05186b807ce49b80fdb5b8b0403b,
         type: 3}
-    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 707ce2ca68a3ffb4bb620257b6c1b045,
-        type: 2}
-    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: plantData.DeadSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 8794f2c167ec5f04aaad215e436dbf6c,
-        type: 2}
-    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 056ec811644937d46b2740e24e7abd74,
-        type: 2}
-    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 1113958565994357908, guid: 2976bddacd5dfc949a9470a0406f3c01,
-        type: 3}
-    - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into death cannabis. Not groovy.
-      objectReference: {fileID: 0}
     - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
       propertyPath: initialName
       value: pack of death cannabis seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into death cannabis. Not groovy.
       objectReference: {fileID: 0}
     - target: {fileID: 6067438808337380045, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -90,6 +90,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DeathCannabisSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -108,6 +113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -120,16 +130,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
