@@ -96,6 +96,7 @@ namespace Pipes
 					$"{interaction.Performer.ExpensiveName()} deconstruct the WaterPump.",
 					() =>
 					{
+						Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, gameObject.AssumedWorldPosServer(), count: 25);
 						Despawn.ServerSingle(gameObject);
 					});
 			}
@@ -104,10 +105,11 @@ namespace Pipes
 		/// <summary>
 		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 		/// </summary>
-		public override void OnDespawnServer(DespawnInfo info)
-		{
-			base.OnDespawnServer(info);
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 25 );
-		}
+		//Cannot be used as electrical inheritance interferes with onserverdespawn
+		//public override void OnDespawnServer(DespawnInfo info)
+		//{
+		//	base.OnDespawnServer(info);
+		//	Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 25 );
+		//}
 	}
 }
