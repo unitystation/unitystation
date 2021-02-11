@@ -48,7 +48,7 @@ namespace Pipes
 		public override void OnDespawnServer(DespawnInfo info)
 		{
 			base.OnDespawnServer(info);
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 10 );
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 20 );
 		}
 	}
 }
