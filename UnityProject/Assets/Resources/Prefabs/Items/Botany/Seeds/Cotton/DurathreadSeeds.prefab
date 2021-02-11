@@ -9,14 +9,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3031481749879274156, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
+      propertyPath: initialName
+      value: pack of durathread seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3031481749879274156, guid: f93f1ab0ed9820742b43e07cb9375aec,
+        type: 3}
       propertyPath: initialDescription
       value: A pack of seeds that'll grow into an extremely durable thread that could
         easily rival plasteel if woven properly.
       objectReference: {fileID: 0}
-    - target: {fileID: 3031481749879274156, guid: f93f1ab0ed9820742b43e07cb9375aec,
+    - target: {fileID: 3238057358945659066, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
-      propertyPath: initialName
-      value: pack of durathread seeds
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3238057358945659066, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3238057358945659066, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3238057358945659066, guid: f93f1ab0ed9820742b43e07cb9375aec,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3238057358945659066, guid: f93f1ab0ed9820742b43e07cb9375aec,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3238057358945659066, guid: f93f1ab0ed9820742b43e07cb9375aec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3238057358945659066, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
@@ -91,10 +91,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 2645472602443849948, guid: b91254c97c5b1f549926dd80b9498079,
+      propertyPath: plantData.Lifespan
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
+      propertyPath: plantData.Endurance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
       propertyPath: plantData.PlantName
@@ -102,21 +106,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      propertyPath: plantData.ProduceObject
       value: 
-      objectReference: {fileID: 11400000, guid: dc76971229c10bf4f8e8b4b933e11a5f,
-        type: 2}
+      objectReference: {fileID: 2645472602443849948, guid: b91254c97c5b1f549926dd80b9498079,
+        type: 3}
     - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: 3271593ca5ccfe04080126ea0c0f133b,
-        type: 2}
-    - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 89c389d6887e31d48bec8dcfe3d41c2a,
         type: 2}
     - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
@@ -126,13 +124,20 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
-      propertyPath: plantData.Lifespan
-      value: 80
-      objectReference: {fileID: 0}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 89c389d6887e31d48bec8dcfe3d41c2a,
+        type: 2}
     - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
-      propertyPath: plantData.Endurance
-      value: 50
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: dc76971229c10bf4f8e8b4b933e11a5f,
+        type: 2}
+    - target: {fileID: 4251485853764669303, guid: f93f1ab0ed9820742b43e07cb9375aec,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8771456354009050697, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
