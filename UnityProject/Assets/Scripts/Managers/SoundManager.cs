@@ -184,6 +184,10 @@ public class SoundManager : MonoBehaviour
 	{
 		foreach (var sound in Instance.SoundSpawns)
 		{
+			if (sound.Value == null)
+			{
+				continue;
+			}
 			sound.Value.AudioSource.Stop();
 		}
 
