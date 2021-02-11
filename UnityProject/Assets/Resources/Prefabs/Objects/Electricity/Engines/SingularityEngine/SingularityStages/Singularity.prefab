@@ -114,6 +114,8 @@ MonoBehaviour:
   eatenSuperMatter: 0
   preventDowngrade: 0
   zeroPointDeath: 1
+  vertical: {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
+  horizontal: {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
 --- !u!1001 &8884009795189538112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -140,7 +142,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 5e98f507e5003bc42a894effba848e78,
+      objectReference: {fileID: 21300000, guid: 5e98f507e5003bc42a894effba848e78,
         type: 3}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
