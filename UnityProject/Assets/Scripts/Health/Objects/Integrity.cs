@@ -89,9 +89,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public float HeatResistance = 100;
 
 	/// <summary>
-	/// The explosion strength of this object is set to explode on destroy
+	/// The explosion strength of this object if is set to explode on destroy
 	/// </summary>
-	[Tooltip("The explosion strength of this object is set to explode on destroy")]
+	[Tooltip("The explosion strength of this object if is set to explode on destroy")]
 	public float ExplosionsDamage = 100f;
 
 	[SyncVar(hook = nameof(SyncOnFire))]

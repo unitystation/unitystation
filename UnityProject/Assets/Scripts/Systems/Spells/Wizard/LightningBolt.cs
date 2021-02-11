@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Systems.ElectricalArcs;
+using Systems.Explosions;
 using Systems.Mob;
 
 namespace Systems.Spells.Wizard
@@ -100,13 +101,14 @@ namespace Systems.Spells.Wizard
 			ElectricalArcSettings arcSettings = new ElectricalArcSettings(
 					arcEffect, originatingObject, targetObject, default, targetPosition, arcs, duration);
 
-			if (targetObject != null && targetObject.TryGetComponent<PlayerSprites>(out var playerSprites))
+			if (targetObject != null)
 			{
-				playerSprites.EnableElectrocutedOverlay(duration + 1);
-			}
-			else if (targetObject != null && targetObject.TryGetComponent<MobSprite>(out var mobSprites))
-			{
-				mobSprites.EnableElectrocutedOverlay(duration + 1);
+				var interfaces = targetObject.GetComponents<IOnLightningHit>();
+
+				foreach (var lightningHit in interfaces)
+				{
+					lightningHit.OnLightningHit(duration + 1, damage * arcSettings.arcCount);
+				}
 			}
 
 			ElectricalArc.ServerCreateNetworkedArcs(arcSettings).OnArcPulse += OnPulse;
