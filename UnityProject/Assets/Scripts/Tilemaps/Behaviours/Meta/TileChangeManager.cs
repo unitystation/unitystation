@@ -239,7 +239,7 @@ public class TileChangeManager : NetworkBehaviour
 			transformMatrix = transformMatrix.GetValueOrDefault(Matrix4x4.identity);
 		}
 
-		UpdateTileMessage.Send(networkIdentity.netId, position, tileType, tileName, (Matrix4x4)transformMatrix, (Color)color);
+		SpawnSafeThread.UpdateTileMessageSend(networkIdentity.netId, position, tileType, tileName, (Matrix4x4)transformMatrix, (Color)color);
 	}
 
 	public void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName,
