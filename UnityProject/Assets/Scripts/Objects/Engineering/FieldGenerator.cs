@@ -367,13 +367,13 @@ namespace Objects.Engineering
 					var matrix = MatrixManager.AtPoint(pos, true);
 
 					var layerTile = matrix.TileChangeManager.MetaTileMap
-						.GetTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Windows);
+						.GetTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
 
 					if (layerTile == null) continue;
 
 					if (layerTile.name == horizontal.name || layerTile.name == vertical.name)
 					{
-						matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Windows);
+						matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
 					}
 				}
 			}
@@ -398,7 +398,15 @@ namespace Objects.Engineering
 
 						var matrix = MatrixManager.AtPoint(pos, true);
 
-						matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Windows);
+						var layerTile = matrix.TileChangeManager.MetaTileMap
+							.GetTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
+
+						if (layerTile == null) continue;
+
+						if (layerTile.name == horizontal.name || layerTile.name == vertical.name)
+						{
+							matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
+						}
 					}
 
 					connectedGenerator.Remove(generator.Key);
