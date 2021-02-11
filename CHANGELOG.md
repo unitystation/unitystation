@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/2/11: Adds grounding rods and tesla coils by [ThatDan123](https://github.com/ThatDan123) in PR #[5998](https://github.com/unitystation/unitystation/pull/5998)
+* 2021/2/11: Adds Tesla Energy Ball by [ThatDan123](https://github.com/ThatDan123) in PR #[5998](https://github.com/unitystation/unitystation/pull/5998)
 * 2021/2/10: Added particle accelerator, can be obtained through cargo by [ThatDan123](https://github.com/ThatDan123) in PR #[5975](https://github.com/unitystation/unitystation/pull/5975)
 * 2021/2/8: Adds job banner when spawning as non-antag, though to distinguish from antag spawn there's no background colour by [ThatDan123](https://github.com/ThatDan123) in PR #[5970](https://github.com/unitystation/unitystation/pull/5970)
 * 2021/2/8: Fixed bad bug in sound manager, which broke logic for changing sounds after they have started playing. by [ThatDan123](https://github.com/ThatDan123) in PR #[5970](https://github.com/unitystation/unitystation/pull/5970)
