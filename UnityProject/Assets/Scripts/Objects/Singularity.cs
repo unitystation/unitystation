@@ -13,7 +13,7 @@ using Random = UnityEngine.Random;
 
 namespace Objects
 {
-	public class Singularity : NetworkBehaviour, IOnHitDetect
+	public class Singularity : NetworkBehaviour, IOnHitDetect, IExaminable
 	{
 		private SingularityStages currentStage = SingularityStages.Stage0;
 
@@ -211,8 +211,8 @@ namespace Objects
 
 						if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
 						{
-							//Just to stop never ending items being thrown about
-							integrity.ApplyDamage(10, AttackType.Melee, DamageType.Brute, true);
+							//Just to stop never ending items being thrown about, and increasing points forever
+							integrity.ApplyDamage(10, AttackType.Melee, DamageType.Brute, true, ignoreArmor: true);
 						}
 					}
 					else
@@ -575,6 +575,11 @@ namespace Objects
 				default:
 					return 0;
 			}
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return pointLock ? "Singularity looks stable" : "Singularity looks unstable";
 		}
 	}
 

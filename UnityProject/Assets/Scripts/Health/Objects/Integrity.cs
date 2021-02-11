@@ -193,7 +193,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <param name="damage"></param>
 	/// <param name="damageType"></param>
 	[Server]
-	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false, bool triggerEvent = true)
+	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false, bool triggerEvent = true, bool ignoreArmor = false)
 	{
 		//already destroyed, don't apply damage
 		if (destroyed || Resistances.Indestructable || (!ignoreDeflection && damage < damageDeflection)) return;
@@ -202,7 +202,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 		var damageInfo = new DamageInfo(damage, attackType, damageType, this);
 
-		damage = Armor.GetDamage(damage, attackType);
+		damage = ignoreArmor ? damage : Armor.GetDamage(damage, attackType);
 		if (damage > 0)
 		{
 			if (attackType == AttackType.Fire && !onFire && !destroyed && Resistances.Flammable)

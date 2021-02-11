@@ -107,12 +107,18 @@ namespace Objects.Engineering
 
 			if(isOn == false && isAlwaysOn == false) return;
 
-			powerUsage = "0";
 			var powerNeeded = voltageIncreasePerPowerLevel * ((int) CurrentState - 3);
 
-			if (voltage < powerNeeded && isAlwaysOn == false) return;
+			if (voltage < powerNeeded && isAlwaysOn == false)
+			{
+				powerUsage = "0";
+				status = "<color=red>Not Enough Voltage</color>";
+				UpdateGUI();
+				return;
+			}
 
 			powerUsage = $"{powerNeeded}";
+			UpdateGUI();
 
 			if(DMMath.Prob(50)) return;
 
@@ -247,6 +253,8 @@ namespace Objects.Engineering
 		{
 			if (connected == false)
 			{
+				powerUsage = "0";
+				status = "<color=red>Not Connected</color>";
 				UpdateGUI();
 				return;
 			}
