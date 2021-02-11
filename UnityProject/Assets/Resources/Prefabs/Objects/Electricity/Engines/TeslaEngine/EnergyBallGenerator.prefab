@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-14448276431080970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972878001720233250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b9e3785faa37146897db74a209937b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabToSpawn: {fileID: 4686069471335676681, guid: dc99674f0fbee4e418905101c63ad564,
+    type: 3}
+  radDamageNeedToSpawn: 200
 --- !u!114 &4974847281923665477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18,6 +33,9 @@ MonoBehaviour:
   isExposedFloorPlatingRequired: 0
   secondsToSecure: 5
   secondsToUnsecure: 5
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: 
 --- !u!1001 &7692339049185974434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -136,6 +154,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: creates an energy ball via particle accelerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

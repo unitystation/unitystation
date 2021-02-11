@@ -1097,7 +1097,8 @@ namespace TileManagement
 			Vector2 origin,
 			Vector2 direction,
 			float distance,
-			LayerTypeSelection layerMask, Vector2? To = null)
+			LayerTypeSelection layerMask, Vector2? To = null,
+			LayerTile[] tileNamesToIgnore = null)
 		{
 			if (To == null)
 			{
@@ -1288,6 +1289,8 @@ namespace TileManagement
 
 						if (TileLcation != null)
 						{
+							if(tileNamesToIgnore != null && tileNamesToIgnore.Any( c => c.name == TileLcation.Tile.name)) continue;
+
 							Vector2 normal;
 
 							if (LeftFaceHit)

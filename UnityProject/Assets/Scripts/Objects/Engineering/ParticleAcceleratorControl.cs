@@ -175,7 +175,13 @@ namespace Objects.Engineering
 				//Check to see if the system has been set up
 				foreach (var section in machineBluePrint)
 				{
-					var objects = MatrixManager.GetAt<ParticleAcceleratorPart>(registerTile.WorldPositionServer + (RotateVector90(section.Key) * (int) enumDirection), true);
+					var coord = section.Key;
+					for (int i = 1; i <= (int) enumDirection; i++)
+					{
+						coord = RotateVector90(coord).To2Int();
+					}
+
+					var objects = MatrixManager.GetAt<ParticleAcceleratorPart>(registerTile.WorldPositionServer + coord.To3Int() , true);
 
 					if (objects.Count > 0 && section.Value == objects[0].ParticleAcceleratorType)
 					{

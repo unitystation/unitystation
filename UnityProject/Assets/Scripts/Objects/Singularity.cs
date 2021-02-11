@@ -64,6 +64,11 @@ namespace Objects
 		[Tooltip("If true singularity wont die at 0 points")]
 		private bool zeroPointDeath = true;
 
+		[SerializeField]
+		private LayerTile vertical = null;
+		[SerializeField]
+		private LayerTile horizontal = null;
+
 		private Transform lightTransform;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
@@ -341,6 +346,16 @@ namespace Objects
 
 					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealth>(out var health) && health != null)
 					{
+						if (health.RegisterPlayer.PlayerScript != null &&
+						    health.RegisterPlayer.PlayerScript.mind != null &&
+						    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
+						    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
+						{
+							health.ServerGibPlayer();
+							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
+							return;
+						}
+
 						health.ServerGibPlayer();
 						ChangePoints(100);
 					}
@@ -379,6 +394,12 @@ namespace Objects
 
 				var cellPos = MatrixManager.Instance.WorldToLocalInt(coord, matrixInfo.Matrix);
 
+				var layerTile = matrixInfo.TileChangeManager.MetaTileMap
+					.GetTile(MatrixManager.WorldToLocalInt(coord, matrixInfo), LayerType.Walls);
+
+				if (CurrentStage != SingularityStages.Stage5 && CurrentStage != SingularityStages.Stage4 &&
+					layerTile != null && (layerTile.name == horizontal.name || layerTile.name == vertical.name)) continue;
+
 				matrixInfo.Matrix.MetaTileMap.ApplyDamage(
 					cellPos,
 					200,
@@ -414,7 +435,8 @@ namespace Objects
 			int radius = GetRadius(CurrentStage);
 
 			//Get random coordinate adjacent to current
-			var coord = adjacentCoords.GetRandom() + registerTile.WorldPositionServer;
+			var adjacentCoord = adjacentCoords.GetRandom();
+			var coord = adjacentCoord + registerTile.WorldPositionServer;
 
 			bool noObstructions = true;
 
@@ -435,6 +457,8 @@ namespace Objects
 			{
 				if (CurrentStage != SingularityStages.Stage5 && CurrentStage != SingularityStages.Stage4)
 				{
+					//Hit in front, to give a bump effect so smaller singularity doesnt get stuck in walls
+					HitLineInFront(radius, adjacentCoord);
 					return;
 				}
 
@@ -448,6 +472,53 @@ namespace Objects
 
 			//Move
 			customNetTransform.SetPosition(coord);
+		}
+
+		/// <summary>
+		/// This method hits a line of coords at radius + 1, effectively causes the singularity to bump into a blocked
+		/// direction doing damage if possible
+		/// </summary>
+		/// <param name="radius"></param>
+		/// <param name="adjacentCoord"></param>
+		private void HitLineInFront(int radius, Vector3Int adjacentCoord)
+		{
+			var hitCoords = new List<Vector3Int>();
+
+			var baseCoord = Vector3Int.right * (radius + 1);
+
+			hitCoords.Add(baseCoord);
+
+			for (int i = 1; i <= radius; i++)
+			{
+				var newCoord = baseCoord;
+				newCoord.y += i;
+				hitCoords.Add(newCoord);
+				newCoord.y -= i * 2;
+				hitCoords.Add(newCoord);
+			}
+
+			var orientation = Orientation.Right.RotationsTo(Orientation.From(adjacentCoord.To2Int()));
+
+			if (orientation == -1)
+			{
+				orientation = 3;
+			}
+
+			var damageCoords = new List<Vector3Int>();
+
+			foreach (var hit in hitCoords)
+			{
+				var rotatedVector = hit;
+				for (int i = 1; i <= orientation; i++)
+				{
+					rotatedVector = RotateVector90(rotatedVector.To2Int());
+				}
+
+				damageCoords.Add(rotatedVector + registerTile.WorldPositionServer);
+			}
+
+			DestroyObjects(damageCoords);
+			DamageTiles(damageCoords);
 		}
 
 		#endregion
@@ -575,6 +646,13 @@ namespace Objects
 				default:
 					return 0;
 			}
+		}
+
+		//Rotate vector 90 degrees ANTI-clockwise
+		private Vector3Int RotateVector90(Vector2Int vector)
+		{
+			//Woo for easy math
+			return new Vector3Int(-vector.y, vector.x, 0);
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

@@ -219,7 +219,8 @@ public partial class MatrixManager : MonoBehaviour
 	public static CustomPhysicsHit RayCast(Vector3 Worldorigin,
 		Vector2 direction,
 		float distance,
-		LayerTypeSelection layerMask, LayerMask? Layermask2D = null, Vector3? WorldTo = null)
+		LayerTypeSelection layerMask, LayerMask? Layermask2D = null, Vector3? WorldTo = null,
+		LayerTile[] tileNamesToIgnore = null)
 	{
 
 
@@ -253,7 +254,7 @@ public partial class MatrixManager : MonoBehaviour
 				{
 					Checkhit = mat.MetaTileMap.Raycast(Worldorigin.ToLocal(mat.Matrix), Vector2.zero, distance,
 						layerMask,
-						WorldTo.Value.ToLocal(mat.Matrix));
+						WorldTo.Value.ToLocal(mat.Matrix), tileNamesToIgnore);
 
 
 					if (Checkhit != null)
