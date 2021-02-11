@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -79,23 +79,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Armor.Melee
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Armor.Energy
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Armor.Laser
-      value: 5
+      propertyPath: Armor.Rad
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -104,13 +89,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Armor.Rad
+      propertyPath: Armor.Fire
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 100
+      propertyPath: Armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2469720285121718043, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -120,27 +125,27 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: toggleSprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: c437e383e8323b24fadbf4aad6ffff1a,
-        type: 3}
-    - target: {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
       propertyPath: toggleSprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: fd17e85d41effb3459a2f2fab7084414,
         type: 3}
+    - target: {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: c437e383e8323b24fadbf4aad6ffff1a,
+        type: 3}
+    - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: initialName
+      value: prototype RIG hardsuit helmet
+      objectReference: {fileID: 0}
     - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: initialDescription
       value: Early prototype RIG hardsuit helmet, designed to quickly shift over
         a user's head. Design constraints of the helmet mean it has no inbuilt cameras,
         thus it restricts the users visability.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: initialName
-      value: prototype RIG hardsuit helmet
       objectReference: {fileID: 0}
     - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -164,15 +169,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1b5c09bba108a8a41891a8a57ee980ae,
         type: 2}
+    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
