@@ -42,6 +42,10 @@ namespace Objects
 		[Tooltip("arc effect")]
 		private GameObject arcEffect = null;
 
+		[SerializeField]
+		[Tooltip("layer tiles to ignore")]
+		private LayerTile[] layerTilesToIgnore = null;
+
 		[Tooltip("How many primary arcs to form from the caster to the target. Also affects how many secondary targets there are.")]
 		[SerializeField, Range(1, 5)]
 		public int arcCount = 3;
@@ -219,22 +223,33 @@ namespace Objects
 
 			if(objectsToShoot.Count == 0) return;
 
-			var target = GetTarget(objectsToShoot);
+			for (int i = 0; i < arcCount; i++)
+			{
+				var target = GetTarget(objectsToShoot, doTeslaFirst: false);
 
-			if(target == null) return;
+				if(target == null) break;
 
-			ShootLightning(target);
+				ShootLightning(target);
 
+				objectsToShoot.Remove(target);
+			}
 		}
 
-		private GameObject GetTarget(List<GameObject> objectsToShoot, bool random = true)
+		private GameObject GetTarget(List<GameObject> objectsToShoot, bool random = true, bool doTeslaFirst = true)
 		{
+			if (objectsToShoot.Count == 0) return null;
+
 			var teslaCoils = objectsToShoot.Where(o => o.TryGetComponent<TeslaCoil>(out var teslaCoil) && teslaCoil != null && teslaCoil.IsWrenched).ToList();
 
 			if (teslaCoils.Any())
 			{
 				var groundingRods = teslaCoils.Where(o => o.TryGetComponent<TeslaCoil>(out var teslaCoil) && teslaCoil != null &&
 				                                          teslaCoil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
+
+				if (doTeslaFirst == false)
+				{
+					return groundingRods.Any() ? groundingRods.PickRandom() : objectsToShoot.PickRandom();
+				}
 
 				if (random)
 				{
@@ -287,7 +302,8 @@ namespace Objects
 		private void Zap(GameObject originatingObject, GameObject targetObject, int arcs, Vector3 targetPosition = default)
 		{
 			ElectricalArcSettings arcSettings = new ElectricalArcSettings(
-					arcEffect, originatingObject, targetObject, default, targetPosition, arcs, duration);
+					arcEffect, originatingObject, targetObject, default, targetPosition, arcs, duration,
+					false);
 
 			if (targetObject != null)
 			{
@@ -344,7 +360,7 @@ namespace Objects
 		{
 			return MatrixManager.RayCast(start, default, primaryRange,
 					LayerTypeSelection.Walls, LayerMask.GetMask("Door Closed"),
-					end);
+					end, layerTilesToIgnore);
 		}
 
 		private IEnumerable<Collider2D> GetNearbyEntities(Vector3 centrepoint, int mask, int range, GameObject[] ignored = default)
