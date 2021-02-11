@@ -5,10 +5,10 @@ using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
 
-public class GravitationalSingularityGenerator : MonoBehaviour, IOnHitDetect
+public class ParticleAcceleratorHitSpawner : MonoBehaviour, IOnHitDetect
 {
 	[SerializeField]
-	private GameObject singularityPrefab = null;
+	private GameObject prefabToSpawn = null;
 
 	private RegisterTile registerTile;
 
@@ -30,13 +30,13 @@ public class GravitationalSingularityGenerator : MonoBehaviour, IOnHitDetect
 
 		if (damageTaken >= radDamageNeedToSpawn)
 		{
-			SpawnSingularity();
+			SpawnPrefab();
 		}
 	}
 
-	private void SpawnSingularity()
+	private void SpawnPrefab()
 	{
-		Spawn.ServerPrefab(singularityPrefab, registerTile.WorldPositionServer, transform.parent.transform);
+		Spawn.ServerPrefab(prefabToSpawn, registerTile.WorldPositionServer, transform.parent.transform);
 		Despawn.ServerSingle(gameObject);
 	}
 }

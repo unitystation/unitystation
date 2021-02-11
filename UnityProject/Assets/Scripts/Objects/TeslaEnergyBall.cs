@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using Systems.ElectricalArcs;
+using Systems.Explosions;
 using Systems.Mob;
 using Mirror;
+using Objects.Engineering;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
 
 namespace Objects
 {
-	public class TeslaEnergyBall : MonoBehaviour, IOnHitDetect
+	public class TeslaEnergyBall : NetworkBehaviour, IOnHitDetect
 	{
 		[SerializeField]
 		private TeslaEnergyBallStages startingStage = TeslaEnergyBallStages.Stage0;
@@ -69,7 +71,11 @@ namespace Objects
 		};
 
 		//[SyncVar(hook = nameof(SyncStage))]
+		//Cant sync enums on this version of Mirror, pls update Mirror!
 		private TeslaEnergyBallStages currentStage = TeslaEnergyBallStages.Stage0;
+
+		[SyncVar(hook = nameof(SyncStage))]
+		private int stage;
 
 		#region LifeCycle
 
@@ -84,7 +90,7 @@ namespace Objects
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			currentStage = startingStage;
+			ChangeStage(startingStage);
 		}
 
 		private void OnEnable()
@@ -133,18 +139,65 @@ namespace Objects
 			TryMove();
 		}
 
-		private void SyncStage(TeslaEnergyBallStages oldStage, TeslaEnergyBallStages newStage)
-		{
-			currentStage = newStage;
-
-			//TODO set orbiting balls active
-		}
-
 		#region StageChange
 
 		private void TryChangeStage()
 		{
+			if (teslaPoints < 200)
+			{
+				ChangeStage(TeslaEnergyBallStages.Stage0);
+			}
+			else if (teslaPoints < 500)
+			{
+				ChangeStage(TeslaEnergyBallStages.Stage1);
+			}
+			else if (teslaPoints < 1000)
+			{
+				ChangeStage(TeslaEnergyBallStages.Stage2);
+			}
+			else if (teslaPoints < 2000)
+			{
+				ChangeStage(TeslaEnergyBallStages.Stage3);
+			}
+			else if (teslaPoints >= 2000)
+			{
+				ChangeStage(TeslaEnergyBallStages.Stage4);
+			}
+			else if (teslaPoints >= 3000)
+			{
+				ChangeStage(TeslaEnergyBallStages.Stage5);
+			}
+		}
 
+		private void ChangeStage(TeslaEnergyBallStages newStage)
+		{
+			if (currentStage == newStage) return;
+
+			if(preventDowngrade && newStage < currentStage) return;
+
+			Chat.AddLocalMsgToChat($"The energy ball fluctuates and {(newStage < currentStage ? "decreases" : "increases")} in size", gameObject);
+
+			currentStage = newStage;
+
+			stage = (int)newStage;
+		}
+
+		private void SyncStage(int oldStage, int newStage)
+		{
+			stage = newStage;
+			currentStage = (TeslaEnergyBallStages)newStage;
+
+			for (int i = 0; i <= 5; i++)
+			{
+				if (stage <= i)
+				{
+					orbitingBalls[i].SetActive(true);
+				}
+				else
+				{
+					orbitingBalls[i].SetActive(false);
+				}
+			}
 		}
 
 		#endregion
@@ -155,67 +208,57 @@ namespace Objects
 		{
 			var objectsToShoot = new List<GameObject>();
 
-			//TODO serialise shoot range
-			foreach (var coord in EffectShape.CreateEffectShape(EffectShapeType.Circle, registerTile.WorldPositionServer, 6))
+			var machines = GetNearbyEntities(registerTile.WorldPositionServer, LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC"), primaryRange).ToList();
+
+			foreach (Collider2D entity in machines)
 			{
-				var objects = MatrixManager.GetAt<PushPull>(coord, true);
+				if (entity.gameObject == gameObject) continue;
 
-				if(objects.Count == 0) continue;
-
-				foreach (var itemObject in objects)
-				{
-					if(itemObject.registerTile.ObjectType == ObjectType.Item) continue;
-
-					objectsToShoot.Add(itemObject.gameObject);
-				}
+				objectsToShoot.Add(entity.gameObject);
 			}
 
 			if(objectsToShoot.Count == 0) return;
 
-			var teslaCoils = objectsToShoot.Where(o => o.TryGetComponent<TeslaCoil>(out var teslaCoil) && teslaCoil != null).ToList();
+			var target = GetTarget(objectsToShoot);
+
+			if(target == null) return;
+
+			ShootLightning(target);
+
+		}
+
+		private GameObject GetTarget(List<GameObject> objectsToShoot, bool random = true)
+		{
+			var teslaCoils = objectsToShoot.Where(o => o.TryGetComponent<TeslaCoil>(out var teslaCoil) && teslaCoil != null && teslaCoil.IsWrenched).ToList();
 
 			if (teslaCoils.Any())
 			{
-				ShootLightning(teslaCoils.PickRandom().WorldPosServer());
+				var groundingRods = teslaCoils.Where(o => o.TryGetComponent<TeslaCoil>(out var teslaCoil) && teslaCoil != null &&
+				                                          teslaCoil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
+
+				if (random)
+				{
+					return groundingRods.Any() ? groundingRods.PickRandom() : teslaCoils.PickRandom();
+				}
+
+				return groundingRods.Any() ? groundingRods[0] : teslaCoils[0];
 			}
-			else
-			{
-				ShootLightning(objectsToShoot.PickRandom().WorldPosServer());
-			}
+
+			return random ? objectsToShoot.PickRandom() : objectsToShoot[0];
 		}
 
-		public bool ShootLightning(Vector3 targetPosition)
+		private void ShootLightning(GameObject targetObject)
 		{
-			if (Vector3.Distance(registerTile.WorldPositionServer, targetPosition) > primaryRange)
-			{
-				var direction = (targetPosition - registerTile.WorldPositionServer).normalized;
-				targetPosition = registerTile.WorldPositionServer + (direction * primaryRange);
-			}
-
-			GameObject primaryTarget = ZapPrimaryTarget(targetPosition);
+			GameObject primaryTarget = ZapPrimaryTarget(targetObject);
 			if (primaryTarget != null)
 			{
-				ZapSecondaryTargets(primaryTarget, targetPosition);
+				ZapSecondaryTargets(primaryTarget, targetObject.AssumedWorldPosServer());
 			}
-
-			return true;
 		}
 
-		private GameObject ZapPrimaryTarget(Vector3 targetPosition)
+		private GameObject ZapPrimaryTarget(GameObject targetObject)
 		{
-			GameObject targetObject = default;
-
-			var raycast = RaycastToTarget(registerTile.WorldPositionServer, targetPosition);
-			if (raycast.ItHit)
-			{
-				targetPosition = raycast.HitWorld;
-			}
-			else
-			{
-				targetObject = TryGetGameObjectAt(targetPosition);
-			}
-
-			Zap(gameObject, targetObject, arcCount, targetObject == null ? targetPosition : default);
+			Zap(gameObject, targetObject, arcCount, targetObject == null ? targetObject.AssumedWorldPosServer() : default);
 
 			return targetObject;
 		}
@@ -223,27 +266,21 @@ namespace Objects
 		private void ZapSecondaryTargets(GameObject originatingObject, Vector3 centrepoint)
 		{
 			var ignored = new GameObject[2] { gameObject, originatingObject };
-			int i = 0;
 
-			var mobs = GetNearbyEntities(centrepoint, LayerMask.GetMask("Players", "NPC"), ignored);
-			foreach (Collider2D entity in mobs)
+			var targets = new List<GameObject>();
+
+			foreach (var entity in GetNearbyEntities(centrepoint, LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC"), secondaryRange, ignored))
 			{
-				if (i >= arcCount) return;
-				if (entity.gameObject == originatingObject) continue;
-
-				Zap(originatingObject, entity.gameObject, 1);
-				i++;
+				targets.Add(entity.gameObject);
 			}
 
-			// Not enough mobs around, try zapping nearby machines.
-			var machines = GetNearbyEntities(centrepoint, LayerMask.GetMask("Machines", "Wallmounts", "Objects"), ignored);
-			foreach (Collider2D entity in machines)
+			for (int i = 0; i < arcCount; i++)
 			{
-				if (i >= arcCount) return;
-				if (entity.gameObject == originatingObject) continue;
+				if(targets.Count == 0) break;
 
-				Zap(originatingObject, entity.gameObject, 1);
-				i++;
+				var target = GetTarget(targets, false);
+				Zap(originatingObject, target, 1);
+				targets.Remove(target);
 			}
 		}
 
@@ -252,13 +289,14 @@ namespace Objects
 			ElectricalArcSettings arcSettings = new ElectricalArcSettings(
 					arcEffect, originatingObject, targetObject, default, targetPosition, arcs, duration);
 
-			if (targetObject != null && targetObject.TryGetComponent<PlayerSprites>(out var playerSprites))
+			if (targetObject != null)
 			{
-				playerSprites.EnableElectrocutedOverlay(duration + 1);
-			}
-			else if (targetObject != null && targetObject.TryGetComponent<MobSprite>(out var mobSprites))
-			{
-				mobSprites.EnableElectrocutedOverlay(duration + 1);
+				var interfaces = targetObject.GetComponents<IOnLightningHit>();
+
+				foreach (var lightningHit in interfaces)
+				{
+					lightningHit.OnLightningHit(duration + 1, damage * arcSettings.arcCount);
+				}
 			}
 
 			ElectricalArc.ServerCreateNetworkedArcs(arcSettings).OnArcPulse += OnPulse;
@@ -272,7 +310,7 @@ namespace Objects
 			{
 				health.ApplyDamage(gameObject, damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn);
 			}
-			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity))
+			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity.Resistances.LightningDamageProof == false)
 			{
 				integrity.ApplyDamage(damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn);
 			}
@@ -305,16 +343,16 @@ namespace Objects
 		private MatrixManager.CustomPhysicsHit RaycastToTarget(Vector3 start, Vector3 end)
 		{
 			return MatrixManager.RayCast(start, default, primaryRange,
-					LayerTypeSelection.Walls | LayerTypeSelection.Windows, LayerMask.GetMask("Door Closed"),
+					LayerTypeSelection.Walls, LayerMask.GetMask("Door Closed"),
 					end);
 		}
 
-		private IEnumerable<Collider2D> GetNearbyEntities(Vector3 centrepoint, int mask, GameObject[] ignored = default)
+		private IEnumerable<Collider2D> GetNearbyEntities(Vector3 centrepoint, int mask, int range, GameObject[] ignored = default)
 		{
-			Collider2D[] entities = Physics2D.OverlapCircleAll(centrepoint, secondaryRange, mask);
+			Collider2D[] entities = Physics2D.OverlapCircleAll(centrepoint, range, mask);
 			foreach (Collider2D coll in entities)
 			{
-				if (ignored.Contains(coll.gameObject)) continue;
+				if (ignored != null && ignored.Contains(coll.gameObject)) continue;
 
 				if (RaycastToTarget(centrepoint, coll.transform.position).ItHit == false)
 				{
