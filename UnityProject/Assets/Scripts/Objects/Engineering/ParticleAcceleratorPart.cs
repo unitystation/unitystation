@@ -153,8 +153,8 @@ namespace Objects.Engineering
 					{
 						if (stackable.Amount >= amountOfWiresNeeded - amountOfWiresUsed)
 						{
-							amountOfWiresUsed = amountOfWiresNeeded - amountOfWiresUsed;
-							stackable.ServerConsume(amountOfWiresUsed);
+							stackable.ServerConsume(amountOfWiresNeeded - amountOfWiresUsed);
+							amountOfWiresUsed = amountOfWiresNeeded;
 							ChangeState(ParticleAcceleratorState.Wired);
 						}
 						else
