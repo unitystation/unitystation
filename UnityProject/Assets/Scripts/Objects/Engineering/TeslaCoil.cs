@@ -13,6 +13,8 @@ namespace Objects.Engineering
 
 		private ModuleSupplyingDevice moduleSupplyingDevice;
 		private WrenchSecurable wrenchSecurable;
+		private Integrity integrity;
+
 		public bool IsWrenched => wrenchSecurable.IsAnchored;
 
 		private bool hitRecently;
@@ -40,6 +42,7 @@ namespace Objects.Engineering
 				moduleSupplyingDevice = GetComponent<ModuleSupplyingDevice>();
 			}
 			wrenchSecurable = GetComponent<WrenchSecurable>();
+			integrity = GetComponent<Integrity>();
 		}
 
 		private void OnEnable()
@@ -80,6 +83,10 @@ namespace Objects.Engineering
 				hitTimer = 0;
 				hitRecently = false;
 			}
+			else
+			{
+				hitRecently = true;
+			}
 
 			if (CurrentState == TeslaCoilState.Power)
 			{
@@ -107,7 +114,13 @@ namespace Objects.Engineering
 		//On hit set timer to 5 seconds, generate 5 seconds worth of power then stop unless hit again
 		public void OnLightningHit(float duration, float damage)
 		{
-			if (IsWrenched == false) return;
+			if (IsWrenched == false)
+			{
+				//We do damage here as the lightning check in TeslaEnergyBall ignores these machines as
+				//they are lightning proof, but we dont want that when they're unwrenched
+				integrity.ApplyDamage(damage, AttackType.Magic, DamageType.Burn, explodeOnDestroy: true);
+				return;
+			}
 
 			hitTimer = 5;
 

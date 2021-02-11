@@ -52,7 +52,7 @@ namespace Systems.Spells.Wizard
 		private GameObject ZapPrimaryTarget(ConnectedPlayer caster, Vector3 targetPosition)
 		{
 			GameObject targetObject = default;
-			
+
 			var raycast = RaycastToTarget(caster.Script.WorldPos, targetPosition);
 			if (raycast.ItHit)
 			{
@@ -84,7 +84,7 @@ namespace Systems.Spells.Wizard
 			}
 
 			// Not enough mobs around, try zapping nearby machines.
-			var machines = GetNearbyEntities(centrepoint, LayerMask.GetMask("Machines", "Wallmounts", "Objects"), ignored);
+			var machines = GetNearbyEntities(centrepoint, LayerMask.GetMask("Machines", "WallMounts", "Objects"), ignored);
 			foreach (Collider2D entity in machines)
 			{
 				if (i >= arcCount) return;

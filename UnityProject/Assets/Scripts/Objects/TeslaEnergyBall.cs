@@ -4,6 +4,7 @@ using System.Linq;
 using Systems.ElectricalArcs;
 using Systems.Explosions;
 using Systems.Mob;
+using AddressableReferences;
 using Mirror;
 using Objects.Engineering;
 using ScriptableObjects.Gun;
@@ -48,16 +49,19 @@ namespace Objects
 
 		[Tooltip("How many primary arcs to form from the caster to the target. Also affects how many secondary targets there are.")]
 		[SerializeField, Range(1, 5)]
-		public int arcCount = 3;
+		private int arcCount = 3;
 		[SerializeField, Range(0.5f, 10)]
-		public float duration = 2;
+		private float duration = 2;
 		[SerializeField, Range(0, 20)]
 		[Tooltip("How much damage should each electrical arc apply every arc pulse (0.5 seconds)")]
-		public float damage = 3;
+		private float damage = 3;
 		[SerializeField, Range(3, 12)]
-		public int primaryRange = 8;
+		private int primaryRange = 8;
 		[SerializeField, Range(3, 12)]
-		public int secondaryRange = 4;
+		private int secondaryRange = 4;
+
+		[SerializeField]
+		private AddressableAudioSource lightningSound = null;
 
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
@@ -223,7 +227,7 @@ namespace Objects
 
 			if(objectsToShoot.Count == 0) return;
 
-			for (int i = 0; i < arcCount; i++)
+			for (int i = 0; i < arcCount * ((int)currentStage + 1); i++)
 			{
 				var target = GetTarget(objectsToShoot, doTeslaFirst: false);
 
@@ -275,6 +279,8 @@ namespace Objects
 		{
 			Zap(gameObject, targetObject, arcCount, targetObject == null ? targetObject.AssumedWorldPosServer() : default);
 
+			SoundManager.PlayNetworkedAtPos(lightningSound, targetObject == null ? targetObject.AssumedWorldPosServer() : default, sourceObj: targetObject);
+
 			return targetObject;
 		}
 
@@ -289,7 +295,7 @@ namespace Objects
 				targets.Add(entity.gameObject);
 			}
 
-			for (int i = 0; i < arcCount; i++)
+			for (int i = 0; i < Mathf.CeilToInt(arcCount / 2f); i++)
 			{
 				if(targets.Count == 0) break;
 
@@ -302,7 +308,7 @@ namespace Objects
 		private void Zap(GameObject originatingObject, GameObject targetObject, int arcs, Vector3 targetPosition = default)
 		{
 			ElectricalArcSettings arcSettings = new ElectricalArcSettings(
-					arcEffect, originatingObject, targetObject, default, targetPosition, arcs, duration,
+					arcEffect, originatingObject, targetObject, default, targetPosition, arcs / ((int) currentStage + 1), duration,
 					false);
 
 			if (targetObject != null)
@@ -328,7 +334,7 @@ namespace Objects
 			}
 			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity.Resistances.LightningDamageProof == false)
 			{
-				integrity.ApplyDamage(damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn);
+				integrity.ApplyDamage(damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn, explodeOnDestroy: true);
 			}
 		}
 
@@ -427,11 +433,11 @@ namespace Objects
 		{
 			if(damageData.AttackType != AttackType.Rad) return;
 
-			if (damageData.Damage <= 20f)
+			if (damageData.Damage >= 20f)
 			{
 				//PA at setting 0 will do 20 damage
 				pointLock = true;
-				lockTimer = 5;
+				lockTimer = 20;
 				return;
 			}
 

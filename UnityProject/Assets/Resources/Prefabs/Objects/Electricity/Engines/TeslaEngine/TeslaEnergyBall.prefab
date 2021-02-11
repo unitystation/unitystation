@@ -739,7 +739,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   startingStage: 0
-  teslaPoints: 1000
+  teslaPoints: 150
   maximumPoints: 3250
   pointLossRate: 4
   preventDowngrade: 0
@@ -755,11 +755,18 @@ MonoBehaviour:
   layerTilesToIgnore:
   - {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
   - {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
-  arcCount: 3
+  arcCount: 1
   duration: 0.5
   damage: 3
   primaryRange: 8
   secondaryRange: 4
+  lightningSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/SuperMatter.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1 &5478954080418723350
 GameObject:
   m_ObjectHideFlags: 0
