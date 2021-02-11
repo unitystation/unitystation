@@ -538,7 +538,7 @@ namespace Objects
 			{
 				//PA at setting 0 will do 20 damage
 				pointLock = true;
-				lockTimer = 5;
+				lockTimer = 20;
 				return;
 			}
 
