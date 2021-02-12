@@ -395,12 +395,13 @@ namespace Objects
 			//Get random coordinate adjacent to current
 			var coord = adjacentCoords.GetRandom() + registerTile.WorldPositionServer;
 
-			//TODO might not need to exclude objects
-			if (MatrixManager.IsPassableAtAllMatricesOneTile(coord, true, false, new List<LayerType>{LayerType.Objects}) == false)
-			{
-				//Tile blocked
-				return;
-			}
+			var matrixInfo = MatrixManager.AtPoint(coord, true);
+
+			var layerTile = matrixInfo.TileChangeManager.MetaTileMap
+				.GetTile(MatrixManager.WorldToLocalInt(coord, matrixInfo), LayerType.Walls);
+
+			//Cant go through shields
+			if (layerTile != null && layerTilesToIgnore.Any(l => l.name == layerTile.name )) return;
 
 			//Move
 			customNetTransform.SetPosition(coord);
