@@ -97,13 +97,14 @@ namespace Objects
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
-
-			CurrentStage = startingStage;
 		}
 
 		private void Start()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			lightVector = new Vector3(5 * ((int)CurrentStage + 1), 5 * ((int)CurrentStage + 1), 0);
+			CurrentStage = startingStage;
 		}
 
 		private void OnEnable()

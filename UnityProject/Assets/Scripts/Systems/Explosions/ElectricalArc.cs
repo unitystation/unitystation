@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using DigitalRuby.LightningBolt;
 using Core.Lighting;
@@ -20,7 +22,7 @@ namespace Systems.ElectricalArcs
 
 		public ElectricalArcSettings Settings { get; private set; }
 
-		private LightningBoltScript[] arcs;
+		private List<LightningBoltScript> arcs = new List<LightningBoltScript>();
 
 		/// <summary>
 		/// Informs all clients and the server to create arcs with the given settings.
@@ -42,11 +44,12 @@ namespace Systems.ElectricalArcs
 
 			if (settings.reachCheck && CanReach() == false) return;
 
-			arcs = new LightningBoltScript[settings.arcCount];
+			var newArcs = new LightningBoltScript[settings.arcCount];
 			for (int i = 0; i < settings.arcCount; i++)
 			{
-				arcs[i] = CreateSingleArc(settings);
+				newArcs[i] = CreateSingleArc(settings);
 			}
+			arcs = newArcs.ToList();
 
 			UpdateManager.Add(TriggerArc, arcs[0].Duration);
 			UpdateManager.Add(DoPulse, PULSE_INTERVAL);
@@ -127,6 +130,8 @@ namespace Systems.ElectricalArcs
 
 		private void DespawnArcs()
 		{
+			arcs.RemoveAll(arc => arc == null);
+
 			foreach (LightningBoltScript arc in arcs)
 			{
 				GameObject.Destroy(arc.gameObject);

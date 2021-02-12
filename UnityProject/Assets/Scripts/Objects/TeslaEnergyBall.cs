@@ -329,13 +329,13 @@ namespace Objects
 		{
 			if (arc.Settings.endObject == null) return;
 
-			if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var health))
+			if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var health) && health != null)
 			{
 				health.ApplyDamage(gameObject, damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn);
 			}
-			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity.Resistances.LightningDamageProof == false)
+			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity != null && integrity.Resistances.LightningDamageProof == false)
 			{
-				integrity.ApplyDamage(damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn, explodeOnDestroy: true);
+				integrity.ApplyDamage(damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn, true, explodeOnDestroy: true);
 			}
 		}
 
@@ -395,12 +395,13 @@ namespace Objects
 			//Get random coordinate adjacent to current
 			var coord = adjacentCoords.GetRandom() + registerTile.WorldPositionServer;
 
-			//TODO might not need to exclude objects
-			if (MatrixManager.IsPassableAtAllMatricesOneTile(coord, true, false, new List<LayerType>{LayerType.Objects}) == false)
-			{
-				//Tile blocked
-				return;
-			}
+			var matrixInfo = MatrixManager.AtPoint(coord, true);
+
+			var layerTile = matrixInfo.TileChangeManager.MetaTileMap
+				.GetTile(MatrixManager.WorldToLocalInt(coord, matrixInfo), LayerType.Walls);
+
+			//Cant go through shields
+			if (layerTile != null && layerTilesToIgnore.Any(l => l.name == layerTile.name )) return;
 
 			//Move
 			customNetTransform.SetPosition(coord);

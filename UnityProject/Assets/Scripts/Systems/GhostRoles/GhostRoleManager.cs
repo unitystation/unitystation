@@ -51,15 +51,15 @@ namespace Systems.GhostRoles
 
 		private void OnEnable()
 		{
-			SceneManager.activeSceneChanged += OnRoundRestart;
+			EventManager.AddHandler(EVENT.PreRoundStarted, OnRoundRestart);
 		}
 
 		private void OnDisable()
 		{
-			SceneManager.activeSceneChanged -= OnRoundRestart;
+			EventManager.RemoveHandler(EVENT.PreRoundStarted, OnRoundRestart);
 		}
 
-		private void OnRoundRestart(Scene scene, Scene newScene)
+		private void OnRoundRestart()
 		{
 			serverAvailableRoles.Clear();
 			clientAvailableRoles.Clear();
