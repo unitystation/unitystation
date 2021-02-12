@@ -5079,7 +5079,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1048135641}
-  - component: {fileID: 1048135647}
   - component: {fileID: 1048135646}
   - component: {fileID: 1048135645}
   - component: {fileID: 1048135651}
@@ -5192,29 +5191,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &1048135647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1048135640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 487c0aa989e8d4d7cb70ffa12c1794cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixColliderType: 1
-  uiType: 1
-  initialFacing: 0
-  MaxSpeed: 20
-  SafetyProtocolsOn: 1
-  IsForceStopped: 0
-  RequiresFuel: 0
-  rcsModeActive: 0
-  IsNotPilotable: 0
 --- !u!114 &1048135648
 MonoBehaviour:
   m_ObjectHideFlags: 0
