@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UI.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,7 +10,6 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	public SpriteDataSO DefaultIconBackground;
 	public SpriteHandler IconBackground;
 	public SpriteHandler IconFront;
-	public Image IconImage;
 	public Transform CooldownOpacity;
 	public Text CooldownNumber;
 
