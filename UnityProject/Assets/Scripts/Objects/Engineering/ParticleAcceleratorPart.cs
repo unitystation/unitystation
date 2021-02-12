@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Objects.Engineering
 {
-	public class ParticleAcceleratorPart : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class ParticleAcceleratorPart : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		private ParticleAcceleratorState currentState = ParticleAcceleratorState.Frame;
 		public ParticleAcceleratorState CurrentState => currentState;
@@ -252,6 +252,11 @@ namespace Objects.Engineering
 		}
 
 		#endregion
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return Directional != null ? $"Is pointing {Directional.CurrentDirection}" : "";
+		}
 	}
 
 	public enum ParticleAcceleratorState

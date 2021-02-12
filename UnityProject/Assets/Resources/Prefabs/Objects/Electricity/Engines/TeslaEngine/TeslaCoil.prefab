@@ -309,6 +309,7 @@ MonoBehaviour:
     FreezeProof: 0
     LightningDamageProof: 1
   HeatResistance: 100
+  ExplosionsDamage: 100
 --- !u!114 &7688260226702700199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +363,7 @@ MonoBehaviour:
   currentState: 0
   spriteHandler: {fileID: 8106342113633906247}
   startSetUp: 0
-  lightningHitWatts: 10
+  lightningHitWatts: 80
 --- !u!114 &588005893669932203
 MonoBehaviour:
   m_ObjectHideFlags: 0
