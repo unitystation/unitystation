@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
@@ -85,14 +85,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
-      propertyPath: initialDescription
-      value: A formal security suitskirt for officers complete with Nanotrasen belt
-        buckle.
+      propertyPath: initialName
+      value: security suitskirt
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
-      propertyPath: initialName
-      value: security suitskirt
+      propertyPath: initialDescription
+      value: A formal security suitskirt for officers complete with Nanotrasen belt
+        buckle.
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484472030, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
@@ -102,14 +102,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7594101368484477531, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
-      propertyPath: initialDescription
-      value: A formal security suitskirt for officers complete with Nanotrasen belt
-        buckle.
+      propertyPath: initialName
+      value: security suitskirt
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484477531, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
-      propertyPath: initialName
-      value: security suitskirt
+      propertyPath: initialDescription
+      value: A formal security suitskirt for officers complete with Nanotrasen belt
+        buckle.
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484478512, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
@@ -132,6 +132,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 3f22fe9e3ade6694fa56937ffb122c26,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f22fe9e3ade6694fa56937ffb122c26,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: bcdf11d45da8358459da1af3c7e4e036,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}

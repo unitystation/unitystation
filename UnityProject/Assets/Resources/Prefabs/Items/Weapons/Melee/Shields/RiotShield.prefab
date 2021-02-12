@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothData: {fileID: 11400000, guid: d451aa32bb780a34ba00e7e24059e933, type: 2}
-  variantType: 0
+  currentClothData: {fileID: 11400000, guid: d451aa32bb780a34ba00e7e24059e933, type: 2}
+  allClothingData:
+  - {fileID: 11400000, guid: 4e3d74e40a5e3da4f866357f821aa35e, type: 2}
+  randomInitialClothData: 0
+  hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
-  SpriteDataSO: []
 --- !u!1001 &8950212089357661985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,6 +40,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 478eb5154c1025746973bd35d5fac1f6,
         type: 3}
+    - target: {fileID: 5295549301877665671, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5338970647686303023, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: initialIntegrity
@@ -52,6 +59,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RiotShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -70,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -82,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -110,30 +117,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 340532e8ab171c4489ebc590b660e8ac,
-        type: 2}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 268345415e6a6554082b3c7b352162d2,
-        type: 2}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: initialSize
-      value: 4
+      propertyPath: hitDamage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -142,13 +127,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
+      propertyPath: initialName
+      value: riot shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
       propertyPath: throwDamage
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: hitDamage
-      value: 10
+      propertyPath: initialDescription
+      value: A shield adept at blocking blunt objects from connecting with the torso
+        of the shield wielder.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -162,20 +168,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: initialDescription
-      value: A shield adept at blocking blunt objects from connecting with the torso
-        of the shield wielder.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: initialName
-      value: riot shield
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 340532e8ab171c4489ebc590b660e8ac,
+        type: 2}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
+        type: 2}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 268345415e6a6554082b3c7b352162d2,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8e28939643d5a34095fed9b0898c45b, type: 3}

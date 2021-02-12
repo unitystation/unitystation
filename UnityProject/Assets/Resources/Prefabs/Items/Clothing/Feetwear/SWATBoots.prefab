@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7101127380728846657, guid: 640362304f8197943af8d02267686221,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101127380728846657, guid: 640362304f8197943af8d02267686221,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7101127380728846657, guid: 640362304f8197943af8d02267686221,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101127380728846657, guid: 640362304f8197943af8d02267686221,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7101127380728846657, guid: 640362304f8197943af8d02267686221,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7101127380728846657, guid: 640362304f8197943af8d02267686221,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7101127380728846657, guid: 640362304f8197943af8d02267686221,
         type: 3}
@@ -69,16 +69,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7134956946767869377, guid: 640362304f8197943af8d02267686221,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 7134956946767869377, guid: 640362304f8197943af8d02267686221,
-        type: 3}
-      propertyPath: Armor.Bullet
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7134956946767869377, guid: 640362304f8197943af8d02267686221,
-        type: 3}
       propertyPath: Armor.Bio
       value: 30
       objectReference: {fileID: 0}
@@ -92,6 +82,16 @@ PrefabInstance:
       propertyPath: Armor.Fire
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 7134956946767869377, guid: 640362304f8197943af8d02267686221,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134956946767869377, guid: 640362304f8197943af8d02267686221,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7137064127981083009, guid: 640362304f8197943af8d02267686221,
         type: 3}
       propertyPath: m_AssetId
@@ -99,8 +99,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7237950006102920023, guid: 640362304f8197943af8d02267686221,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: initialName
+      value: SWAT boots
       objectReference: {fileID: 0}
     - target: {fileID: 7237950006102920023, guid: 640362304f8197943af8d02267686221,
         type: 3}
@@ -109,8 +109,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7237950006102920023, guid: 640362304f8197943af8d02267686221,
         type: 3}
-      propertyPath: initialName
-      value: SWAT boots
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7237950006102920023, guid: 640362304f8197943af8d02267686221,
         type: 3}

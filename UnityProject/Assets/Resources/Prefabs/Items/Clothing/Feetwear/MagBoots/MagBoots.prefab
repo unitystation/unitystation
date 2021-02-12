@@ -62,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -77,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -138,17 +138,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4a6f711137720a946a4151d214c5ad85,
         type: 2}
-    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a6f711137720a946a4151d214c5ad85,
+        type: 2}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: fe2137f0414ae4e40bd481fba1b5613f,
+        type: 2}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 96603839976303545b0f02be6edb7921,
+        type: 2}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e7a9c4058739e964dacc0b6f7eeb548f,
         type: 2}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]

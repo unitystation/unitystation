@@ -25,6 +25,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b0c73d0e4d486c6429896647a1868de0,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b0c73d0e4d486c6429896647a1868de0,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e1cc2aa0718b3d4c9746ef153b82d46,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: e840da738fd819c47a81e5753df522dc,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -50,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -65,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,16 +105,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
@@ -127,13 +145,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 9ea85ae0b8f64e247b92e19d4a145f8a,
         type: 2}
     - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9ea85ae0b8f64e247b92e19d4a145f8a,
         type: 2}

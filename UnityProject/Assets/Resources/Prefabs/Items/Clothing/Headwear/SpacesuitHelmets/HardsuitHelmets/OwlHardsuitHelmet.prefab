@@ -13,17 +13,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ae9b583bff105154e848f667416eab22,
         type: 2}
-    - target: {fileID: 3361379250480077595, guid: b05f31cc06e66ee43a22ce2771dba99d,
+    - target: {fileID: 2566243792841683737, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ae9b583bff105154e848f667416eab22,
+        type: 2}
+    - target: {fileID: 2566243792841683737, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: allClothingData.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2566243792841683737, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 15f2c905e2aff4a49a2ac0a3a4091560,
+        type: 2}
+    - target: {fileID: 2566243792841683737, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 77c810f8f10a5f1498a800720a6cd289,
+        type: 2}
     - target: {fileID: 3361379250480077595, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: de7616e6921646f429d1e392c02312d4,
         type: 2}
+    - target: {fileID: 3361379250480077595, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3361379250480077595, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -38,8 +61,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: Color.r
-      value: 1
+      propertyPath: Color.b
+      value: 0.95686275
       objectReference: {fileID: 0}
     - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
@@ -48,12 +71,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: Color.b
-      value: 0.95686275
+      propertyPath: Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: Colour.r
+      propertyPath: Colour.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
@@ -63,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: Colour.b
+      propertyPath: Colour.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8724015864702849984, guid: b05f31cc06e66ee43a22ce2771dba99d,
@@ -84,6 +107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -96,6 +124,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
@@ -114,16 +147,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -139,14 +162,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9011000394600714238, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: initialDescription
-      value: A dual-mode advanced helmet designed for any crime-fighting situation.
-        It is in travel mode.
+      propertyPath: initialName
+      value: owl hardsuit helmet
       objectReference: {fileID: 0}
     - target: {fileID: 9011000394600714238, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: initialName
-      value: owl hardsuit helmet
+      propertyPath: initialDescription
+      value: A dual-mode advanced helmet designed for any crime-fighting situation.
+        It is in travel mode.
       objectReference: {fileID: 0}
     - target: {fileID: 9014358831195836223, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}

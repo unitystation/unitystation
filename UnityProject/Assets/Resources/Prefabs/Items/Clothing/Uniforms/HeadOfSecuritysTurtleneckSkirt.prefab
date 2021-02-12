@@ -37,6 +37,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1089361609128861486, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089361609128861486, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -52,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1089361609128861486, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089361609128861486, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1089361609128861486, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1089361609128861486, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1089361609128861486, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
         type: 3}
@@ -102,14 +102,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2321628657233272480, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
         type: 3}
-      propertyPath: initialDescription
-      value: A stylish alternative to the normal head of security jumpsuit, complete
-        with a tactical skirt.
+      propertyPath: initialName
+      value: head of security's turtleneck skirt
       objectReference: {fileID: 0}
     - target: {fileID: 2321628657233272480, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
         type: 3}
-      propertyPath: initialName
-      value: head of security's turtleneck skirt
+      propertyPath: initialDescription
+      value: A stylish alternative to the normal head of security jumpsuit, complete
+        with a tactical skirt.
       objectReference: {fileID: 0}
     - target: {fileID: 2604342679142220446, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
         type: 3}
@@ -138,6 +138,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 344ea70353ee0794482a867543fc6a11,
+        type: 2}
+    - target: {fileID: 9126743421568164423, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 344ea70353ee0794482a867543fc6a11,
+        type: 2}
+    - target: {fileID: 9126743421568164423, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126743421568164423, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e21177aeedb658c40a3d5428c04d9934,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e, type: 3}

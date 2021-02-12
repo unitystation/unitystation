@@ -14,13 +14,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
-      propertyPath: initialDescription
-      value: A set of denim overalls.
+      propertyPath: initialName
+      value: coveralls
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
-      propertyPath: initialName
-      value: coveralls
+      propertyPath: initialDescription
+      value: A set of denim overalls.
       objectReference: {fileID: 0}
     - target: {fileID: 3791466462619397166, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
@@ -32,6 +32,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Coveralls
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
@@ -104,6 +104,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 752596c79cabed9428f194753c802d89,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 752596c79cabed9428f194753c802d89,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6344c85f3423e414a9b4a622067ef037,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}

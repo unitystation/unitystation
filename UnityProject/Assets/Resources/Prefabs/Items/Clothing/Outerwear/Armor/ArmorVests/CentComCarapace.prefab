@@ -15,6 +15,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3651223454833807820, guid: 72025a70a455d9e4fbbdfefff40695df,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651223454833807820, guid: 72025a70a455d9e4fbbdfefff40695df,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -30,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3651223454833807820, guid: 72025a70a455d9e4fbbdfefff40695df,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651223454833807820, guid: 72025a70a455d9e4fbbdfefff40695df,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +52,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3651223454833807820, guid: 72025a70a455d9e4fbbdfefff40695df,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3651223454833807820, guid: 72025a70a455d9e4fbbdfefff40695df,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3651223454833807820, guid: 72025a70a455d9e4fbbdfefff40695df,
         type: 3}
@@ -80,14 +80,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3771158818396308442, guid: 72025a70a455d9e4fbbdfefff40695df,
         type: 3}
-      propertyPath: initialDescription
-      value: A CentCom green alteration of the captain's carapace. Issued only to
-        Nanotrasen's finest, although it does chafe your pecks.
+      propertyPath: initialName
+      value: CentCom carapace
       objectReference: {fileID: 0}
     - target: {fileID: 3771158818396308442, guid: 72025a70a455d9e4fbbdfefff40695df,
         type: 3}
-      propertyPath: initialName
-      value: CentCom carapace
+      propertyPath: initialDescription
+      value: A CentCom green alteration of the captain's carapace. Issued only to
+        Nanotrasen's finest, although it does chafe your pecks.
       objectReference: {fileID: 0}
     - target: {fileID: 7493529585493432127, guid: 72025a70a455d9e4fbbdfefff40695df,
         type: 3}
@@ -100,6 +100,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 7c278ab7200ca4a45a002fa060cad2f3,
+        type: 2}
+    - target: {fileID: 7693688342485778237, guid: 72025a70a455d9e4fbbdfefff40695df,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c278ab7200ca4a45a002fa060cad2f3,
+        type: 2}
+    - target: {fileID: 7693688342485778237, guid: 72025a70a455d9e4fbbdfefff40695df,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e1373546b7bb4484988213df9dec0e8d,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72025a70a455d9e4fbbdfefff40695df, type: 3}

@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dbc08ea3f9d38a74495c751ec6da7f38,
         type: 2}
+    - target: {fileID: 1480034237117244506, guid: ae4a690ad52c79c4fab73ca540cde5ac,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: dbc08ea3f9d38a74495c751ec6da7f38,
+        type: 2}
+    - target: {fileID: 1480034237117244506, guid: ae4a690ad52c79c4fab73ca540cde5ac,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: baa883bcdf013944ea630f23e447202f,
+        type: 2}
     - target: {fileID: 1851268551660325976, guid: ae4a690ad52c79c4fab73ca540cde5ac,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,8 +33,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5339724841748502717, guid: ae4a690ad52c79c4fab73ca540cde5ac,
         type: 3}
-      propertyPath: initialDescription
-      value: Believe in us humans.
+      propertyPath: hitDamage
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5339724841748502717, guid: ae4a690ad52c79c4fab73ca540cde5ac,
         type: 3}
@@ -31,13 +43,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5339724841748502717, guid: ae4a690ad52c79c4fab73ca540cde5ac,
         type: 3}
-      propertyPath: hitDamage
+      propertyPath: throwDamage
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5339724841748502717, guid: ae4a690ad52c79c4fab73ca540cde5ac,
         type: 3}
-      propertyPath: throwDamage
-      value: 12
+      propertyPath: initialDescription
+      value: Believe in us humans.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540724861373385387, guid: ae4a690ad52c79c4fab73ca540cde5ac,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540724861373385387, guid: ae4a690ad52c79c4fab73ca540cde5ac,
         type: 3}
@@ -56,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540724861373385387, guid: ae4a690ad52c79c4fab73ca540cde5ac,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540724861373385387, guid: ae4a690ad52c79c4fab73ca540cde5ac,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5540724861373385387, guid: ae4a690ad52c79c4fab73ca540cde5ac,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5540724861373385387, guid: ae4a690ad52c79c4fab73ca540cde5ac,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540724861373385387, guid: ae4a690ad52c79c4fab73ca540cde5ac,
         type: 3}

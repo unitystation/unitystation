@@ -15,9 +15,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: abfdcf245aeed774599b72940a4a8827,
+        type: 2}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 736
       objectReference: {fileID: 0}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a1ed8f6487765b47a1a6a8887fd3b71,
+        type: 2}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -36,6 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -106,13 +123,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7600730730152645010, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: initialDescription
-      value: A close-fitting tactical mask that can be connected to an air supply.
+      propertyPath: initialName
+      value: syndicate mask
       objectReference: {fileID: 0}
     - target: {fileID: 7600730730152645010, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: initialName
-      value: syndicate mask
+      propertyPath: initialDescription
+      value: A close-fitting tactical mask that can be connected to an air supply.
       objectReference: {fileID: 0}
     - target: {fileID: 7600730730152647953, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -132,13 +149,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: initialDescription
-      value: A close-fitting tactical mask that can be connected to an air supply.
+      propertyPath: initialSize
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: initialSize
-      value: 2
+      propertyPath: initialDescription
+      value: A close-fitting tactical mask that can be connected to an air supply.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}

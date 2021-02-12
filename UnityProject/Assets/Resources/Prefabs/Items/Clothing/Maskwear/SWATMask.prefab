@@ -9,14 +9,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 44155453462962640, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e87523797c430744a3647210825ac9e,
+        type: 2}
+    - target: {fileID: 44155453462962640, guid: e560948fdd6edc3448ac06d10906c4fc,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e87523797c430744a3647210825ac9e,
+        type: 2}
+    - target: {fileID: 44155453462962640, guid: e560948fdd6edc3448ac06d10906c4fc,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 992
       objectReference: {fileID: 0}
     - target: {fileID: 44155453462962640, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
-      propertyPath: clothData
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 44155453462962640, guid: e560948fdd6edc3448ac06d10906c4fc,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 6e87523797c430744a3647210825ac9e,
+      objectReference: {fileID: 11400000, guid: d122dbfccdf6481469a79642bb66ee51,
         type: 2}
     - target: {fileID: 984030586657343954, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
@@ -28,6 +45,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SWATMask
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: e560948fdd6edc3448ac06d10906c4fc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
@@ -46,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: e560948fdd6edc3448ac06d10906c4fc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: e560948fdd6edc3448ac06d10906c4fc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: e560948fdd6edc3448ac06d10906c4fc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}

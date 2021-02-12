@@ -13,6 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9c9a6fdcc6d027546a7a897c45722490,
         type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 9c9a6fdcc6d027546a7a897c45722490,
+        type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b53e1fe558ad7884b89fbca32beb9508,
+        type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ffa22ee49d19764c97795b9dbb92ed7,
+        type: 2}
     - target: {fileID: 3153813430929650140, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,14 +44,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
-      propertyPath: initialDescription
-      value: Bluer than the standard model. Issued to Chief Medical Officers, keeping
-        them visible at all times among the sea of the wounded and other doctors.
+      propertyPath: initialName
+      value: chief medical officer's labcoat
       objectReference: {fileID: 0}
     - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
-      propertyPath: initialName
-      value: chief medical officer's labcoat
+      propertyPath: initialDescription
+      value: Bluer than the standard model. Issued to Chief Medical Officers, keeping
+        them visible at all times among the sea of the wounded and other doctors.
       objectReference: {fileID: 0}
     - target: {fileID: 8967636835189487879, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
@@ -40,6 +63,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ChiefMedicalOfficersLabcoat
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
@@ -58,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -70,16 +103,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}

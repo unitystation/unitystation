@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 34826a843ffc8e741b978518b916fe95,
         type: 2}
+    - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 34826a843ffc8e741b978518b916fe95,
+        type: 2}
+    - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 287dbd0379afff04e8c6dad482b86803,
+        type: 2}
     - target: {fileID: 2697906132478500034, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -31,12 +48,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2697906132478500034, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2697906132478500034, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3654515168179534600, guid: d2991f5505400ab479c5262137eed380,
@@ -48,6 +65,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A slice of delicious banana bread.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
@@ -66,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -78,16 +105,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
@@ -120,6 +137,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 15247eb4b92ad8d46ac273df1d988cdc,
         type: 3}
+    - target: {fileID: 3939274210823038774, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5011845196938696218, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: NutritionLevel

@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a17d436f9ac4ba14886d211700436367,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: a17d436f9ac4ba14886d211700436367,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 564a3070577514149853b549bb2ce62d,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +35,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
         type: 3}
@@ -41,6 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +75,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
         type: 3}
@@ -92,13 +104,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8004422176852823208, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
         type: 3}
-      propertyPath: initialDescription
-      value: Worn only by Captains with an abundance of class.
+      propertyPath: initialName
+      value: captain's parade cap
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
         type: 3}
-      propertyPath: initialName
-      value: captain's parade cap
+      propertyPath: initialDescription
+      value: Worn only by Captains with an abundance of class.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97b4b6e6d0aac46f6ad3fb58fb826008, type: 3}

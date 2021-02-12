@@ -9,19 +9,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4283365345761481680, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
         type: 3}
-      propertyPath: initialDescription
-      value: A spacious backpack with lots of pockets, worn by Medical Officers of
-        an Emergency Response Team.
+      propertyPath: initialName
+      value: emergency response team medical backpack
       objectReference: {fileID: 0}
     - target: {fileID: 4283365345761481680, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
         type: 3}
-      propertyPath: initialName
-      value: emergency response team medical backpack
+      propertyPath: initialDescription
+      value: A spacious backpack with lots of pockets, worn by Medical Officers of
+        an Emergency Response Team.
       objectReference: {fileID: 0}
     - target: {fileID: 4325774763116396806, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4435916450741174726, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4435916450741174726, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4435916450741174726, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4435916450741174726, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4435916450741174726, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4435916450741174726, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4435916450741174726, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
         type: 3}
@@ -94,6 +94,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 6ca83329815198c41a9f172d9753c453,
+        type: 2}
+    - target: {fileID: 7341204022170316599, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ca83329815198c41a9f172d9753c453,
+        type: 2}
+    - target: {fileID: 7341204022170316599, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a8942d6281ec96645af5325f4fcb0077,
         type: 2}
     - target: {fileID: 7555377257183414069, guid: 7911a84496c2da348b8f32fd3d5c8b4f,
         type: 3}

@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 46e9a65fa189a4ae98dc1686675a6fab,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 46e9a65fa189a4ae98dc1686675a6fab,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 46e9a65fa189a4ae98dc1686675a6fab,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 46e9a65fa189a4ae98dc1686675a6fab,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 46e9a65fa189a4ae98dc1686675a6fab,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 46e9a65fa189a4ae98dc1686675a6fab,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 46e9a65fa189a4ae98dc1686675a6fab,
         type: 3}
@@ -85,20 +85,37 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 46e9a65fa189a4ae98dc1686675a6fab,
         type: 3}
-      propertyPath: initialDescription
-      value: It's a black jumpskirt. If you wear this, you probably need religious
-        help more than you will be providing it.
+      propertyPath: initialName
+      value: chaplain's jumpskirt
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 46e9a65fa189a4ae98dc1686675a6fab,
         type: 3}
-      propertyPath: initialName
-      value: chaplain's jumpskirt
+      propertyPath: initialDescription
+      value: It's a black jumpskirt. If you wear this, you probably need religious
+        help more than you will be providing it.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 46e9a65fa189a4ae98dc1686675a6fab,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 731c2bf2b32e9664287160efc60856a0,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 46e9a65fa189a4ae98dc1686675a6fab,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 731c2bf2b32e9664287160efc60856a0,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 46e9a65fa189a4ae98dc1686675a6fab,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 46e9a65fa189a4ae98dc1686675a6fab,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c230938b674ff66489299137152399cc,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 46e9a65fa189a4ae98dc1686675a6fab,
         type: 3}

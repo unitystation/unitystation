@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2906749483332524240, guid: cb7e5ca96c976e74cb550187a84e94b3,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2906749483332524240, guid: cb7e5ca96c976e74cb550187a84e94b3,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2906749483332524240, guid: cb7e5ca96c976e74cb550187a84e94b3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2906749483332524240, guid: cb7e5ca96c976e74cb550187a84e94b3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2906749483332524240, guid: cb7e5ca96c976e74cb550187a84e94b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2906749483332524240, guid: cb7e5ca96c976e74cb550187a84e94b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2906749483332524240, guid: cb7e5ca96c976e74cb550187a84e94b3,
         type: 3}
@@ -85,11 +85,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3362150243410660038, guid: cb7e5ca96c976e74cb550187a84e94b3,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3362150243410660038, guid: cb7e5ca96c976e74cb550187a84e94b3,
-        type: 3}
       propertyPath: initialName
       value: atmos envirogloves
       objectReference: {fileID: 0}
@@ -97,6 +92,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Covers up those scandalous boney hands. This pair is insulated.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3362150243410660038, guid: cb7e5ca96c976e74cb550187a84e94b3,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3362150243410660038, guid: cb7e5ca96c976e74cb550187a84e94b3,
         type: 3}
@@ -109,6 +109,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 64c50053d71619b4994ba91b6aa25531,
+        type: 2}
+    - target: {fileID: 8086320792411436577, guid: cb7e5ca96c976e74cb550187a84e94b3,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 64c50053d71619b4994ba91b6aa25531,
+        type: 2}
+    - target: {fileID: 8086320792411436577, guid: cb7e5ca96c976e74cb550187a84e94b3,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8086320792411436577, guid: cb7e5ca96c976e74cb550187a84e94b3,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 231b3524acdb71d4a9d2c96e34ba7b01,
         type: 2}
     - target: {fileID: 9008118818392972835, guid: cb7e5ca96c976e74cb550187a84e94b3,
         type: 3}

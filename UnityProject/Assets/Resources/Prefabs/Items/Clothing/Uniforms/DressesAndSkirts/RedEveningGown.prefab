@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
@@ -85,19 +85,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
-      propertyPath: initialDescription
-      value: Fancy dress for space bar singers.
+      propertyPath: initialName
+      value: red evening gown
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
-      propertyPath: initialName
-      value: red evening gown
+      propertyPath: initialDescription
+      value: Fancy dress for space bar singers.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 28f2869bd9455b249b778b5a5b8497d6,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 28f2869bd9455b249b778b5a5b8497d6,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 60e04dab8f49d624da9b189da3e2835e,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}

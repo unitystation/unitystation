@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3495234765619245072, guid: d0a8e4c118a58f64a9266c1823b2fcad,
         type: 3}
-      propertyPath: initialDescription
-      value: Your classic, non-racist poncho. This one is green.
+      propertyPath: initialName
+      value: green poncho
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: d0a8e4c118a58f64a9266c1823b2fcad,
         type: 3}
-      propertyPath: initialName
-      value: green poncho
+      propertyPath: initialDescription
+      value: Your classic, non-racist poncho. This one is green.
       objectReference: {fileID: 0}
     - target: {fileID: 3791466462619397166, guid: d0a8e4c118a58f64a9266c1823b2fcad,
         type: 3}
@@ -27,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GreenPoncho
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: d0a8e4c118a58f64a9266c1823b2fcad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: d0a8e4c118a58f64a9266c1823b2fcad,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: d0a8e4c118a58f64a9266c1823b2fcad,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: d0a8e4c118a58f64a9266c1823b2fcad,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: d0a8e4c118a58f64a9266c1823b2fcad,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: d0a8e4c118a58f64a9266c1823b2fcad,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: d0a8e4c118a58f64a9266c1823b2fcad,
         type: 3}
@@ -99,6 +99,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 1af9aa3752f26194285feb9ebe7b56ea,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: d0a8e4c118a58f64a9266c1823b2fcad,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1af9aa3752f26194285feb9ebe7b56ea,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: d0a8e4c118a58f64a9266c1823b2fcad,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931175119129480439, guid: d0a8e4c118a58f64a9266c1823b2fcad,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 04eebe6925948a342b1c3effcf16613c,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0a8e4c118a58f64a9266c1823b2fcad, type: 3}

@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
@@ -80,20 +80,38 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
-      propertyPath: initialDescription
-      value: A stylish alternative to the normal head of security jumpsuit, complete
-        with tactical pants.
+      propertyPath: initialName
+      value: head of security's turtleneck
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
-      propertyPath: initialName
-      value: head of security's turtleneck
+      propertyPath: initialDescription
+      value: A stylish alternative to the normal head of security jumpsuit, complete
+        with tactical pants.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 4ed2ab2f734185e46b10665298d130c1,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ed2ab2f734185e46b10665298d130c1,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ea50de3fd4207ec4cbf7ad9335ee95c1,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a022398e2ee148c40b366dc7ffc0db9a,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}

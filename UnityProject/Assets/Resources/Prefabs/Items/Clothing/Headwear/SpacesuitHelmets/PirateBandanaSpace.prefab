@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 870464114898427496, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 870464114898427496, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 870464114898427496, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 870464114898427496, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 870464114898427496, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 870464114898427496, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 870464114898427496, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
         type: 3}
@@ -94,6 +94,23 @@ PrefabInstance:
       propertyPath: hidesIdentity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6087241806471426201, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f80f4bb8ca25244690cbb2db6adddf0,
+        type: 2}
+    - target: {fileID: 6087241806471426201, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087241806471426201, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a5275d63a325d942ae5b205d17b3ada,
+        type: 2}
     - target: {fileID: 6431456478879029403, guid: 6f89cd3560254ff4ca7d644a8a72ba16,
         type: 3}
       propertyPath: PresentSpriteSet

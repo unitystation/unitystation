@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f6c8f404e62d92446b84a5d82ca238d1,
         type: 2}
+    - target: {fileID: 205618192967141394, guid: 70e762212c1501d49bbcd7004162631a,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f6c8f404e62d92446b84a5d82ca238d1,
+        type: 2}
+    - target: {fileID: 205618192967141394, guid: 70e762212c1501d49bbcd7004162631a,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d9c247e800a1ad248afdc2b438748f03,
+        type: 2}
     - target: {fileID: 1144377286929211408, guid: 70e762212c1501d49bbcd7004162631a,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -32,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6535910548812736227, guid: 70e762212c1501d49bbcd7004162631a,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535910548812736227, guid: 70e762212c1501d49bbcd7004162631a,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -47,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6535910548812736227, guid: 70e762212c1501d49bbcd7004162631a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535910548812736227, guid: 70e762212c1501d49bbcd7004162631a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6535910548812736227, guid: 70e762212c1501d49bbcd7004162631a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6535910548812736227, guid: 70e762212c1501d49bbcd7004162631a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6535910548812736227, guid: 70e762212c1501d49bbcd7004162631a,
         type: 3}

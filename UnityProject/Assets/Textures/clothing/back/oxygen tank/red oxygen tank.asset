@@ -9,55 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 070914b0fa83e4540b98a98820fe27ae, type: 3}
+  m_Script: {fileID: 11500000, guid: cd5a08c3d2a815a459870fba3d969bfc, type: 3}
   m_Name: red oxygen tank
   m_EditorClassIdentifier: 
-  Sprites:
-    Equipped:
-      Texture: {fileID: 2800000, guid: 29e3d0e5e4c07b94baed92fd328c5ccd, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 29e3d0e5e4c07b94baed92fd328c5ccd, type: 3}
-      - {fileID: 21300002, guid: 29e3d0e5e4c07b94baed92fd328c5ccd, type: 3}
-      - {fileID: 21300004, guid: 29e3d0e5e4c07b94baed92fd328c5ccd, type: 3}
-      - {fileID: 21300006, guid: 29e3d0e5e4c07b94baed92fd328c5ccd, type: 3}
-      EquippedData: {fileID: 4900000, guid: 0dd329ffd724fed4184de28d89144b6b, type: 3}
-    InHandsLeft:
-      Texture: {fileID: 2800000, guid: e8e70d9e65f1f8545833c91e5137cb20, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: e8e70d9e65f1f8545833c91e5137cb20, type: 3}
-      - {fileID: 21300002, guid: e8e70d9e65f1f8545833c91e5137cb20, type: 3}
-      - {fileID: 21300004, guid: e8e70d9e65f1f8545833c91e5137cb20, type: 3}
-      - {fileID: 21300006, guid: e8e70d9e65f1f8545833c91e5137cb20, type: 3}
-      EquippedData: {fileID: 4900000, guid: bbba4ab244e28ed46966e9b96cac63a0, type: 3}
-    InHandsRight:
-      Texture: {fileID: 2800000, guid: de33073d8dba85e48ba5ec01b690b84d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: de33073d8dba85e48ba5ec01b690b84d, type: 3}
-      - {fileID: 21300002, guid: de33073d8dba85e48ba5ec01b690b84d, type: 3}
-      - {fileID: 21300004, guid: de33073d8dba85e48ba5ec01b690b84d, type: 3}
-      - {fileID: 21300006, guid: de33073d8dba85e48ba5ec01b690b84d, type: 3}
-      EquippedData: {fileID: 4900000, guid: d86b79909805c7f43b1625c61f511d0c, type: 3}
-    ItemIcon:
-      Texture: {fileID: 2800000, guid: 96e37939f30673e49b122ee72063e77f, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 96e37939f30673e49b122ee72063e77f, type: 3}
-      EquippedData: {fileID: 0}
-    SpriteEquipped: {fileID: 11400000, guid: eeffb443f3477784597c1f58c39de2eb, type: 2}
-    SpriteInHandsLeft: {fileID: 11400000, guid: 5cf1a231b3a292247a01e1c076b63f0d,
-      type: 2}
-    SpriteInHandsRight: {fileID: 11400000, guid: e0b48f0a6da787545a013449ede8a508,
-      type: 2}
-    SpriteItemIcon: {fileID: 11400000, guid: 8b863a23507a0e84c9a8b21c0f1afa56, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  StorageData:
-    maxSlots: 0
-    maxItemSize: 0
+  SpriteEquipped: {fileID: 11400000, guid: eeffb443f3477784597c1f58c39de2eb, type: 2}
+  SpriteInHandsLeft: {fileID: 11400000, guid: 5cf1a231b3a292247a01e1c076b63f0d, type: 2}
+  SpriteInHandsRight: {fileID: 11400000, guid: e0b48f0a6da787545a013449ede8a508, type: 2}
+  SpriteItemIcon: {fileID: 11400000, guid: 8b863a23507a0e84c9a8b21c0f1afa56, type: 2}
+  Palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  IsPaletted: 0

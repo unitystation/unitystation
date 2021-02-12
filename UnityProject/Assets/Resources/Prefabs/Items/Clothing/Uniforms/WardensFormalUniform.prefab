@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
@@ -80,20 +80,38 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
-      propertyPath: initialDescription
-      value: The insignia on this uniform tells you that this uniform belongs to
-        the Warden.
+      propertyPath: initialName
+      value: warden's formal uniform
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
-      propertyPath: initialName
-      value: warden's formal uniform
+      propertyPath: initialDescription
+      value: The insignia on this uniform tells you that this uniform belongs to
+        the Warden.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: c62cc4b101c5e4d4e9351a488ec9a154,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c62cc4b101c5e4d4e9351a488ec9a154,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ed939d7b10317954ca9d4cc3811a1dc0,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b8aacd5f7b004b4fbb9e9c064d3c43d,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}

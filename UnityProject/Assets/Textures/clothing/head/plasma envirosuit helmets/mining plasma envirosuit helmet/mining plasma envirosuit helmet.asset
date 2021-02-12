@@ -9,40 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
+  m_Script: {fileID: 11500000, guid: cd5a08c3d2a815a459870fba3d969bfc, type: 3}
   m_Name: mining plasma envirosuit helmet
   m_EditorClassIdentifier: 
-  Base:
-    SpriteEquipped: {fileID: 11400000, guid: cbd66b3c92bc28d48b92af820e4a2e1e, type: 2}
-    SpriteInHandsLeft: {fileID: 11400000, guid: 5692d36c1757e924b97d6da1bac16218,
-      type: 2}
-    SpriteInHandsRight: {fileID: 11400000, guid: 33ef6be4d9a1fb64fadd4b443704d572,
-      type: 2}
-    SpriteItemIcon: {fileID: 11400000, guid: d9f80b8dbc837e547ab0b4d83415ee46, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  Base_Adjusted:
-    SpriteEquipped: {fileID: 11400000, guid: a223f4343b749804cb1f9ed383495f86, type: 2}
-    SpriteInHandsLeft: {fileID: 11400000, guid: 5692d36c1757e924b97d6da1bac16218,
-      type: 2}
-    SpriteInHandsRight: {fileID: 11400000, guid: 33ef6be4d9a1fb64fadd4b443704d572,
-      type: 2}
-    SpriteItemIcon: {fileID: 11400000, guid: 774910ebee375b946aaf9f58eec59dd0, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
+  SpriteEquipped: {fileID: 11400000, guid: cbd66b3c92bc28d48b92af820e4a2e1e, type: 2}
+  SpriteInHandsLeft: {fileID: 11400000, guid: 5692d36c1757e924b97d6da1bac16218, type: 2}
+  SpriteInHandsRight: {fileID: 11400000, guid: 33ef6be4d9a1fb64fadd4b443704d572, type: 2}
+  SpriteItemIcon: {fileID: 11400000, guid: d9f80b8dbc837e547ab0b4d83415ee46, type: 2}
+  Palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  IsPaletted: 0

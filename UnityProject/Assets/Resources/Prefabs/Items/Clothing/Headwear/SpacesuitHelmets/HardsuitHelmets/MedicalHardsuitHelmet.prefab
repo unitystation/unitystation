@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -74,11 +74,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
       propertyPath: Armor.Rad
       value: 60
       objectReference: {fileID: 0}
@@ -86,6 +81,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Armor.Fire
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2469720285121718043, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -107,20 +107,15 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: initialName
+      value: medical hardsuit helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: initialDescription
       value: A special helmet designed for work in a hazardous, low pressure environment.
         Built with lightweight materials for extra comfort, but does not protect
         the eyes from intense light.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: initialName
-      value: medical hardsuit helmet
-      objectReference: {fileID: 0}
-    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -128,6 +123,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 35770b9f3342aab44954ce3a2602f98d,
         type: 2}
+    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -145,6 +145,29 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 5d77f63ac58e0a144977ace95afbd3ec,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d77f63ac58e0a144977ace95afbd3ec,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f05b1c97ec6171a4594d555aab8b6f76,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: cede67d2c59a75d47bb8fe0e51d83552,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}

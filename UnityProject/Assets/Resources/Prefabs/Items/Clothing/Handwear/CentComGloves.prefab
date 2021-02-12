@@ -13,12 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d0162b91b7f784341b72d6d60f84d512,
         type: 2}
+    - target: {fileID: 3479958121192379650, guid: b0a94fc3923d35042b9bfbd733b953e4,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: d0162b91b7f784341b72d6d60f84d512,
+        type: 2}
+    - target: {fileID: 3479958121192379650, guid: b0a94fc3923d35042b9bfbd733b953e4,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 52344b06f36483745ba8a444b605fdeb,
+        type: 2}
     - target: {fileID: 4427160227262151936, guid: b0a94fc3923d35042b9bfbd733b953e4,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d8e03a06b7c6d43428cf141c3669cab7,
         type: 2}
+    - target: {fileID: 7504672441519864819, guid: b0a94fc3923d35042b9bfbd733b953e4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7504672441519864819, guid: b0a94fc3923d35042b9bfbd733b953e4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36,6 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7504672441519864819, guid: b0a94fc3923d35042b9bfbd733b953e4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504672441519864819, guid: b0a94fc3923d35042b9bfbd733b953e4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +70,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504672441519864819, guid: b0a94fc3923d35042b9bfbd733b953e4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504672441519864819, guid: b0a94fc3923d35042b9bfbd733b953e4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7504672441519864819, guid: b0a94fc3923d35042b9bfbd733b953e4,
         type: 3}
@@ -92,14 +104,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7988237053821053413, guid: b0a94fc3923d35042b9bfbd733b953e4,
         type: 3}
-      propertyPath: initialDescription
-      value: Regal green gloves, with a nice gold trim, a diamond anti-shock coating,
-        and an integrated thermal barrier. Swanky.
+      propertyPath: initialName
+      value: CentCom gloves
       objectReference: {fileID: 0}
     - target: {fileID: 7988237053821053413, guid: b0a94fc3923d35042b9bfbd733b953e4,
         type: 3}
-      propertyPath: initialName
-      value: CentCom gloves
+      propertyPath: initialDescription
+      value: Regal green gloves, with a nice gold trim, a diamond anti-shock coating,
+        and an integrated thermal barrier. Swanky.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0a94fc3923d35042b9bfbd733b953e4, type: 3}

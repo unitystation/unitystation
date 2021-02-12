@@ -14,12 +14,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: Resistances.FireProof
+      propertyPath: Resistances.AcidProof
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: Resistances.AcidProof
+      propertyPath: Resistances.FireProof
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -39,8 +39,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1865400966918320598, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: initialName
+      value: magic sandals
       objectReference: {fileID: 0}
     - target: {fileID: 1865400966918320598, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -49,8 +49,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1865400966918320598, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: initialName
-      value: magic sandals
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1865400966918320598, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -77,6 +77,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -92,6 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -104,16 +114,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -138,11 +138,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
       propertyPath: initialName
       value: Magic Sandals
       objectReference: {fileID: 0}
@@ -150,6 +145,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A pair of sandals imbued with magic.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -162,6 +162,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: ede69123142b799d78c97b86795551ee,
+        type: 2}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ede69123142b799d78c97b86795551ee,
+        type: 2}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f400cc18ca1c7ca42b58bfd89b34e662,
         type: 2}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}

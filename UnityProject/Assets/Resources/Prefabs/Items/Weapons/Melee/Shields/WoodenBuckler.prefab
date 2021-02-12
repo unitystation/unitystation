@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
-      propertyPath: initialDescription
-      value: A medieval wooden buckler.
+      propertyPath: initialName
+      value: wooden buckler
       objectReference: {fileID: 0}
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
-      propertyPath: initialName
-      value: wooden buckler
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: initialDescription
+      value: A medieval wooden buckler.
       objectReference: {fileID: 0}
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
@@ -29,11 +34,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8ae974ceda08ff44887f4e17fe42d8f3,
         type: 2}
-    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
-        type: 3}
-      propertyPath: initialSize
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3839345559943878822, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: m_Sprite
@@ -42,18 +42,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3900785770759567886, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
-      propertyPath: Resistances.Flammable
-      value: 1
+      propertyPath: initialIntegrity
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 3900785770759567886, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
-      propertyPath: initialIntegrity
-      value: 55
+      propertyPath: Resistances.Flammable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3904014449823356494, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
@@ -72,6 +77,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -84,16 +94,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
@@ -126,6 +126,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 0c8691f2b757ff840ac510bef3cf97ab,
+        type: 2}
+    - target: {fileID: 7802048611900235560, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c8691f2b757ff840ac510bef3cf97ab,
+        type: 2}
+    - target: {fileID: 7802048611900235560, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 868fedf5141d03c478bb491d017c2533,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f9896c0cca80e14f8144be44d05e0a0, type: 3}

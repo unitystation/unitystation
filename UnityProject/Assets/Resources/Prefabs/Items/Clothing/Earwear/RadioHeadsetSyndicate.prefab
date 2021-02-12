@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4f4735af74e992843ad64f32c7bd0b1e,
         type: 2}
+    - target: {fileID: 1546171526804525473, guid: 24b9c6501c7eda64d91eb11c94bff56e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f4735af74e992843ad64f32c7bd0b1e,
+        type: 2}
+    - target: {fileID: 1546171526804525473, guid: 24b9c6501c7eda64d91eb11c94bff56e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1546171526804525473, guid: 24b9c6501c7eda64d91eb11c94bff56e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 629c09446c529fb4fb0b6d7eed01e55f,
+        type: 2}
     - target: {fileID: 2980123151534148442, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
       propertyPath: m_Sprite
@@ -31,6 +48,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3150814994793039218, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3150814994793039218, guid: 24b9c6501c7eda64d91eb11c94bff56e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -43,6 +65,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3150814994793039218, guid: 24b9c6501c7eda64d91eb11c94bff56e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3150814994793039218, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
@@ -61,16 +88,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3150814994793039218, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3150814994793039218, guid: 24b9c6501c7eda64d91eb11c94bff56e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3150814994793039218, guid: 24b9c6501c7eda64d91eb11c94bff56e,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -86,14 +103,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3262832775940839268, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
-      propertyPath: initialDescription
-      value: A syndicate headset that can be used to hear all radio frequencies.
-        Protects ears from flashbangs.
+      propertyPath: initialName
+      value: syndicate headset
       objectReference: {fileID: 0}
     - target: {fileID: 3262832775940839268, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
-      propertyPath: initialName
-      value: syndicate headset
+      propertyPath: initialDescription
+      value: A syndicate headset that can be used to hear all radio frequencies.
+        Protects ears from flashbangs.
       objectReference: {fileID: 0}
     - target: {fileID: 9145804364720096129, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}

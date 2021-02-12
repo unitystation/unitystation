@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d85b122fd9ba00e46a10ad0d1c1172d5,
         type: 2}
+    - target: {fileID: 2357952952862320962, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: d85b122fd9ba00e46a10ad0d1c1172d5,
+        type: 2}
+    - target: {fileID: 2357952952862320962, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d9244c5c2d5b0114f83a8669c900c6ff,
+        type: 2}
     - target: {fileID: 3279187927244718400, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -36,6 +48,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
@@ -96,8 +108,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 30
+      propertyPath: Armor.Bio
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
@@ -106,13 +118,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: Armor.Bio
-      value: 100
+      propertyPath: Armor.Fire
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 60
+      propertyPath: Armor.Melee
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8806207020331714971, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
@@ -122,14 +134,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9090939745550505381, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: initialDescription
-      value: A special suit that protects against hazardous, low pressure environments.
-        Built with lightweight materials for easier movement.
+      propertyPath: initialName
+      value: medical hardsuit
       objectReference: {fileID: 0}
     - target: {fileID: 9090939745550505381, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: initialName
-      value: medical hardsuit
+      propertyPath: initialDescription
+      value: A special suit that protects against hazardous, low pressure environments.
+        Built with lightweight materials for easier movement.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5da2eb22d55c9c045bd7c22925c9b948, type: 3}

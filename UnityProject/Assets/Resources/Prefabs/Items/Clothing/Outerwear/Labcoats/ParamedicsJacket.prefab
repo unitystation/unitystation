@@ -13,6 +13,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3473c6eb620db7548877606258f9c6e4,
         type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3473c6eb620db7548877606258f9c6e4,
+        type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: da733a594f039ae4cb8b1596911d92ae,
+        type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 841cffce6b882c0449fda267411fb967,
+        type: 2}
     - target: {fileID: 3153813430929650140, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,13 +39,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
-      propertyPath: initialDescription
-      value: A dark blue jacket for paramedics with reflective stripes.
+      propertyPath: initialName
+      value: paramedic's jacket
       objectReference: {fileID: 0}
     - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
-      propertyPath: initialName
-      value: paramedic's jacket
+      propertyPath: initialDescription
+      value: A dark blue jacket for paramedics with reflective stripes.
       objectReference: {fileID: 0}
     - target: {fileID: 8967636835189487879, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
@@ -39,6 +57,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ParamedicsJacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
@@ -57,6 +80,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +97,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}

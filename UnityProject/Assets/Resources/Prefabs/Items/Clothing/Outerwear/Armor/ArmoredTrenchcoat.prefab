@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1814568061751154130, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814568061751154130, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1814568061751154130, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814568061751154130, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1814568061751154130, guid: f7b1874a6ebd85a439111098540d72d7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1814568061751154130, guid: f7b1874a6ebd85a439111098540d72d7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1814568061751154130, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
@@ -80,20 +80,32 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2292539596511889348, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
-      propertyPath: initialDescription
-      value: A trenchcoat enhanced with a special lightweight kevlar. The epitome
-        of tactical plainclothes.
+      propertyPath: initialName
+      value: armored trenchcoat
       objectReference: {fileID: 0}
     - target: {fileID: 2292539596511889348, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
-      propertyPath: initialName
-      value: armored trenchcoat
+      propertyPath: initialDescription
+      value: A trenchcoat enhanced with a special lightweight kevlar. The epitome
+        of tactical plainclothes.
       objectReference: {fileID: 0}
     - target: {fileID: 4701789493151038243, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 87d60c05621a3884e85bd85192e533c6,
+        type: 2}
+    - target: {fileID: 4701789493151038243, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 87d60c05621a3884e85bd85192e533c6,
+        type: 2}
+    - target: {fileID: 4701789493151038243, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 90de6fe486032d64f88c6de70fe8aa10,
         type: 2}
     - target: {fileID: 5511061372054836001, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}

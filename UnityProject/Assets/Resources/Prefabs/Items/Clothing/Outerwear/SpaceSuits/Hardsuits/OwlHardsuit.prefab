@@ -8,13 +8,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 493121677726252, guid: eec487290ececeb4db71bab916465099, type: 3}
+      propertyPath: initialName
+      value: owl hardsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 493121677726252, guid: eec487290ececeb4db71bab916465099, type: 3}
       propertyPath: initialDescription
       value: A dual-mode advanced hardsuit designed for any crime-fighting situation.
         It is in travel mode.
-      objectReference: {fileID: 0}
-    - target: {fileID: 493121677726252, guid: eec487290ececeb4db71bab916465099, type: 3}
-      propertyPath: initialName
-      value: owl hardsuit
       objectReference: {fileID: 0}
     - target: {fileID: 296585930201255442, guid: eec487290ececeb4db71bab916465099,
         type: 3}
@@ -26,6 +26,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OwlHardsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 504360181892055098, guid: eec487290ececeb4db71bab916465099,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 504360181892055098, guid: eec487290ececeb4db71bab916465099,
         type: 3}
@@ -44,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 504360181892055098, guid: eec487290ececeb4db71bab916465099,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 504360181892055098, guid: eec487290ececeb4db71bab916465099,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -56,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 504360181892055098, guid: eec487290ececeb4db71bab916465099,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 504360181892055098, guid: eec487290ececeb4db71bab916465099,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 504360181892055098, guid: eec487290ececeb4db71bab916465099,
         type: 3}
@@ -98,6 +98,29 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: f836c974e7b65534f86a20e58e395c22,
+        type: 2}
+    - target: {fileID: 6814333548009041611, guid: eec487290ececeb4db71bab916465099,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f836c974e7b65534f86a20e58e395c22,
+        type: 2}
+    - target: {fileID: 6814333548009041611, guid: eec487290ececeb4db71bab916465099,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6814333548009041611, guid: eec487290ececeb4db71bab916465099,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dd9576e76324544891d447a129cfa18,
+        type: 2}
+    - target: {fileID: 6814333548009041611, guid: eec487290ececeb4db71bab916465099,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e52a8782ccb2c44e8ed96986ed43fa8,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eec487290ececeb4db71bab916465099, type: 3}

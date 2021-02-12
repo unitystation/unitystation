@@ -220,12 +220,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothData: {fileID: 11400000, guid: 5f1350a734e527941bd7c6eec964a984, type: 2}
-  variantType: 0
+  currentClothData: {fileID: 11400000, guid: 5f1350a734e527941bd7c6eec964a984, type: 2}
+  allClothingData:
+  - {fileID: 11400000, guid: acc8946229aa8834f8dd2ea8533648ff, type: 2}
+  randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
-  SpriteDataSO: []
 --- !u!1001 &3139079831027586327
 PrefabInstance:
   m_ObjectHideFlags: 0

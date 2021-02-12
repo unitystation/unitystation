@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1967846948629829625, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Colour.r
+      propertyPath: Colour.b
       value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 1967846948629829625, guid: c60440956ff96af4b84ba3e95e41c3e0,
@@ -19,8 +19,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1967846948629829625, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Colour.b
+      propertyPath: Colour.r
       value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -89,6 +89,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: Armor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: Armor.Melee
       value: 40
       objectReference: {fileID: 0}
@@ -99,33 +124,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
       propertyPath: Armor.Energy
       value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Armor.Rad
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2469720285121718043, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -158,7 +158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Colour.r
+      propertyPath: Colour.b
       value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
@@ -168,12 +168,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Colour.b
+      propertyPath: Colour.r
       value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Color.r
+      propertyPath: Color.b
       value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
@@ -183,13 +183,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Color.b
+      propertyPath: Color.r
       value: 0.5019608
-      objectReference: {fileID: 0}
-    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -197,6 +192,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3e1e09f3f03f48646b05a25f4b730575,
         type: 2}
+    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -220,6 +220,29 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 6a75b09ca69d8a045adc47a8f8997112,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a75b09ca69d8a045adc47a8f8997112,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ce9c7bc86bb3fd46a49e7b94ab4e771,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: cc95291d878ff5543b85ec04fda39dcb,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}

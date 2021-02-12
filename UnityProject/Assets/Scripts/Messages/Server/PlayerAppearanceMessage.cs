@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
+using Systems.Clothing;
 
 /// <summary>
 /// Message telling a player the new outward appearance of a player, which includes

@@ -19,6 +19,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1d4bf561a9cf2f94d824877bf77d19b2,
         type: 2}
+    - target: {fileID: 1784936325833278036, guid: a6929d031bed4c4498c7e01e2c36d596,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d4bf561a9cf2f94d824877bf77d19b2,
+        type: 2}
+    - target: {fileID: 1784936325833278036, guid: a6929d031bed4c4498c7e01e2c36d596,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 830e53b885033f241af45739ef25b818,
+        type: 2}
+    - target: {fileID: 4660071721324768421, guid: a6929d031bed4c4498c7e01e2c36d596,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4660071721324768421, guid: a6929d031bed4c4498c7e01e2c36d596,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36,6 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4660071721324768421, guid: a6929d031bed4c4498c7e01e2c36d596,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660071721324768421, guid: a6929d031bed4c4498c7e01e2c36d596,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +70,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4660071721324768421, guid: a6929d031bed4c4498c7e01e2c36d596,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4660071721324768421, guid: a6929d031bed4c4498c7e01e2c36d596,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4660071721324768421, guid: a6929d031bed4c4498c7e01e2c36d596,
         type: 3}

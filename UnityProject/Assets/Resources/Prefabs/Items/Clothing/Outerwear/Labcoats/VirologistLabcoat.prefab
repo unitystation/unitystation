@@ -13,6 +13,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 46e25e807862993468a589987f25683d,
         type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 46e25e807862993468a589987f25683d,
+        type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 822961d764aedb749a2116182a73a3fe,
+        type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f84919c866859184bb0dfd44915eab13,
+        type: 2}
     - target: {fileID: 3153813430929650140, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,15 +39,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
+      propertyPath: initialName
+      value: virologist labcoat
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
       propertyPath: initialDescription
       value: A suit that protects against minor chemical spills. Offers slightly
         more protection against biohazards than the standard model. Has a green stripe
         on the shoulder.
-      objectReference: {fileID: 0}
-    - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
-        type: 3}
-      propertyPath: initialName
-      value: virologist labcoat
       objectReference: {fileID: 0}
     - target: {fileID: 8967636835189487879, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
@@ -41,6 +59,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VirologistLabcoat
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
@@ -59,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -71,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}

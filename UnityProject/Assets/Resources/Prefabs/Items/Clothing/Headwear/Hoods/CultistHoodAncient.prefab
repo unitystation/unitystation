@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 83f807f8f4723af46ae5dbbe19bec703,
         type: 2}
+    - target: {fileID: 2674187374520393135, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 83f807f8f4723af46ae5dbbe19bec703,
+        type: 2}
+    - target: {fileID: 2674187374520393135, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 728ce35c80c125e43904e1f6aa8784b6,
+        type: 2}
     - target: {fileID: 2893486360940098989, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,13 +33,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8902559834540007752, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
-      propertyPath: initialDescription
-      value: A torn, dust-caked hood. Strange letters line the inside.
+      propertyPath: initialName
+      value: ancient cultist hood
       objectReference: {fileID: 0}
     - target: {fileID: 8902559834540007752, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
-      propertyPath: initialName
-      value: ancient cultist hood
+      propertyPath: initialDescription
+      value: A torn, dust-caked hood. Strange letters line the inside.
       objectReference: {fileID: 0}
     - target: {fileID: 9004261550291760030, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
@@ -38,6 +50,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CultistHoodAncient
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
@@ -56,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}

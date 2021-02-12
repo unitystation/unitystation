@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothData: {fileID: 11400000, guid: dfad156b753add9478face9e6ac287ce, type: 2}
-  variantType: 0
+  currentClothData: {fileID: 11400000, guid: dfad156b753add9478face9e6ac287ce, type: 2}
+  allClothingData:
+  - {fileID: 11400000, guid: a2cd446b8404d07418881deebc5be79f, type: 2}
+  randomInitialClothData: 0
+  hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
-  SpriteDataSO: []
 --- !u!1001 &1726377833014340054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26,6 +28,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -43,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -55,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
@@ -84,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_Name
-      value: AmbrosiaBranchBase
+      value: _AmbrosiaBranchBase
       objectReference: {fileID: 0}
     - target: {fileID: 1290906528003875320, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
@@ -97,10 +99,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 16e7cccc397d9d7488a9f08e18a320a2,
         type: 3}
-    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+    - target: {fileID: 1337560984964591376, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 5
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
@@ -111,6 +113,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: This is a plant.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}

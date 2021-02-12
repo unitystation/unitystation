@@ -21,32 +21,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
-        type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
-        type: 3}
-      propertyPath: initialName
-      value: security HUD gar glasses
-      objectReference: {fileID: 0}
-    - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
-        type: 3}
-      propertyPath: initialDescription
-      value: GAR glasses with a HUD.
+      propertyPath: hitSound
+      value: BladeSlice
       objectReference: {fileID: 0}
     - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
       propertyPath: hitDamage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
-        type: 3}
-      propertyPath: throwDamage
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
@@ -56,15 +36,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
-      propertyPath: hitSound
-      value: BladeSlice
+      propertyPath: initialName
+      value: security HUD gar glasses
       objectReference: {fileID: 0}
     - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
-        type: 2}
+      propertyPath: throwDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
+      propertyPath: initialDescription
+      value: GAR glasses with a HUD.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
       propertyPath: attackVerbs.Array.data[0]
@@ -72,13 +71,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3080782600334742475, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
-      propertyPath: hitSound.AssetAddress
-      value: Assets/Prefabs/Effects/BladeSlice.prefab
-      objectReference: {fileID: 0}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
+        type: 2}
     - target: {fileID: 3183123304414575785, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
       propertyPath: m_Name
       value: SecurityHUDGarGlasses
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188332928111313373, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3188332928111313373, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
@@ -97,6 +102,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3188332928111313373, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188332928111313373, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -109,16 +119,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3188332928111313373, guid: 0bcb9423721f44a418353bfcc987a1b9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3188332928111313373, guid: 0bcb9423721f44a418353bfcc987a1b9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3188332928111313373, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}
@@ -151,6 +151,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: b884234d12da84b49a54945710bc48e7,
+        type: 2}
+    - target: {fileID: 8381624744278863660, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b884234d12da84b49a54945710bc48e7,
+        type: 2}
+    - target: {fileID: 8381624744278863660, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381624744278863660, guid: 0bcb9423721f44a418353bfcc987a1b9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7873bb6a44ce7444a8115c1261eafedc,
         type: 2}
     - target: {fileID: 8748988777588279086, guid: 0bcb9423721f44a418353bfcc987a1b9,
         type: 3}

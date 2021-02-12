@@ -13,6 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 96b702926e8fa6348a8964fd996b1761,
         type: 2}
+    - target: {fileID: 2357952952862320962, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 96b702926e8fa6348a8964fd996b1761,
+        type: 2}
+    - target: {fileID: 2357952952862320962, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357952952862320962, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 25f58b34d82ba5f41ba3f908f65c20a1,
+        type: 2}
+    - target: {fileID: 2357952952862320962, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ba17e57cebc93d547bf7a6ecb6ec4470,
+        type: 2}
     - target: {fileID: 3279187927244718400, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -36,6 +59,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +96,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
@@ -96,6 +119,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
+      propertyPath: Armor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
       propertyPath: Armor.Melee
       value: 40
       objectReference: {fileID: 0}
@@ -106,33 +154,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
       propertyPath: Armor.Energy
       value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: Armor.Rad
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8806207020331714971, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
@@ -147,14 +170,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9090939745550505381, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: initialDescription
-      value: A dual-mode advanced hardsuit designed for work in special operations.
-        It is in EVA mode. Property of Gorlex Marauders.
+      propertyPath: initialSize
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9090939745550505381, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: initialSize
-      value: 3
+      propertyPath: initialDescription
+      value: A dual-mode advanced hardsuit designed for work in special operations.
+        It is in EVA mode. Property of Gorlex Marauders.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5da2eb22d55c9c045bd7c22925c9b948, type: 3}

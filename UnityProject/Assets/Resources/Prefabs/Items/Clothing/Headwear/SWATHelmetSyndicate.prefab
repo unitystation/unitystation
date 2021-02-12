@@ -13,37 +13,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 70e1799337cc2ae458db2d95dc8c46f9,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 70e1799337cc2ae458db2d95dc8c46f9,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: bbe71fe6cc1d8c147abf12d1267d1662,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4caeef9766cfaf448a51c7be7d26db39,
         type: 2}
-    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
-        type: 3}
-      propertyPath: HeatResistance
-      value: 1500
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
-        type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
-        type: 3}
-      propertyPath: Resistances.AcidProof
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
-        type: 3}
-      propertyPath: Armor.Melee
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
       propertyPath: Armor.Bio
@@ -56,18 +43,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
+      propertyPath: Armor.Acid
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
       propertyPath: Armor.Fire
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 100
+      propertyPath: Armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: HeatResistance
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
@@ -86,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -98,16 +120,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}

@@ -13,6 +13,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3fed841b6244a624493203744eaca44f,
         type: 2}
+    - target: {fileID: 330543501781463734, guid: 73fb1065e91882f4c922dca73145be22,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fed841b6244a624493203744eaca44f,
+        type: 2}
+    - target: {fileID: 330543501781463734, guid: 73fb1065e91882f4c922dca73145be22,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ae453e545f5f8641b76cefaf4182a21,
+        type: 2}
+    - target: {fileID: 330543501781463734, guid: 73fb1065e91882f4c922dca73145be22,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 854916febd13b5c4b98c54bbae08b2d3,
+        type: 2}
     - target: {fileID: 697343449688808116, guid: 73fb1065e91882f4c922dca73145be22,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -33,19 +51,24 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6487140248870112849, guid: 73fb1065e91882f4c922dca73145be22,
         type: 3}
-      propertyPath: initialDescription
-      value: A plasmaman containment helmet designed for the warden, a pair of white
-        stripes being added to differentiate them from other members of security.
+      propertyPath: initialName
+      value: warden's envirohelmet
       objectReference: {fileID: 0}
     - target: {fileID: 6487140248870112849, guid: 73fb1065e91882f4c922dca73145be22,
         type: 3}
-      propertyPath: initialName
-      value: warden's envirohelmet
+      propertyPath: initialDescription
+      value: A plasmaman containment helmet designed for the warden, a pair of white
+        stripes being added to differentiate them from other members of security.
       objectReference: {fileID: 0}
     - target: {fileID: 6695560838365258035, guid: 73fb1065e91882f4c922dca73145be22,
         type: 3}
       propertyPath: m_Name
       value: WardensEnvirohelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699363086511594567, guid: 73fb1065e91882f4c922dca73145be22,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6699363086511594567, guid: 73fb1065e91882f4c922dca73145be22,
         type: 3}
@@ -64,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6699363086511594567, guid: 73fb1065e91882f4c922dca73145be22,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699363086511594567, guid: 73fb1065e91882f4c922dca73145be22,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -76,16 +104,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6699363086511594567, guid: 73fb1065e91882f4c922dca73145be22,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6699363086511594567, guid: 73fb1065e91882f4c922dca73145be22,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6699363086511594567, guid: 73fb1065e91882f4c922dca73145be22,
         type: 3}

@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b55911e973b517a40a39ff10468ca308,
         type: 2}
+    - target: {fileID: 1331033949632882704, guid: 31017c31c01102c43a4bc47f230ce2d8,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b55911e973b517a40a39ff10468ca308,
+        type: 2}
+    - target: {fileID: 1331033949632882704, guid: 31017c31c01102c43a4bc47f230ce2d8,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331033949632882704, guid: 31017c31c01102c43a4bc47f230ce2d8,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f7e881e465e5a0c4583cad000edbb969,
+        type: 2}
     - target: {fileID: 2252905850651836434, guid: 31017c31c01102c43a4bc47f230ce2d8,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -32,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5338578622796416737, guid: 31017c31c01102c43a4bc47f230ce2d8,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338578622796416737, guid: 31017c31c01102c43a4bc47f230ce2d8,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -47,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5338578622796416737, guid: 31017c31c01102c43a4bc47f230ce2d8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338578622796416737, guid: 31017c31c01102c43a4bc47f230ce2d8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5338578622796416737, guid: 31017c31c01102c43a4bc47f230ce2d8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5338578622796416737, guid: 31017c31c01102c43a4bc47f230ce2d8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5338578622796416737, guid: 31017c31c01102c43a4bc47f230ce2d8,
         type: 3}
@@ -92,14 +109,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5541794158566429943, guid: 31017c31c01102c43a4bc47f230ce2d8,
         type: 3}
-      propertyPath: initialDescription
-      value: A dark purple turtleneck and tan khaki skirt, for a director with a
-        superior sense of style.
+      propertyPath: initialName
+      value: research director's turtleneck skirt
       objectReference: {fileID: 0}
     - target: {fileID: 5541794158566429943, guid: 31017c31c01102c43a4bc47f230ce2d8,
         type: 3}
-      propertyPath: initialName
-      value: research director's turtleneck skirt
+      propertyPath: initialDescription
+      value: A dark purple turtleneck and tan khaki skirt, for a director with a
+        superior sense of style.
       objectReference: {fileID: 0}
     - target: {fileID: 8696397490959733504, guid: 31017c31c01102c43a4bc47f230ce2d8,
         type: 3}

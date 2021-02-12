@@ -9,55 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 070914b0fa83e4540b98a98820fe27ae, type: 3}
+  m_Script: {fileID: 11500000, guid: cd5a08c3d2a815a459870fba3d969bfc, type: 3}
   m_Name: botanist satchel
   m_EditorClassIdentifier: 
-  Sprites:
-    Equipped:
-      Texture: {fileID: 2800000, guid: 9614271ad8322d24f98525fed6c81724, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 9614271ad8322d24f98525fed6c81724, type: 3}
-      - {fileID: 21300002, guid: 9614271ad8322d24f98525fed6c81724, type: 3}
-      - {fileID: 21300004, guid: 9614271ad8322d24f98525fed6c81724, type: 3}
-      - {fileID: 21300006, guid: 9614271ad8322d24f98525fed6c81724, type: 3}
-      EquippedData: {fileID: 4900000, guid: da8fb54ac80e296448e1f60b28b4a0ef, type: 3}
-    InHandsLeft:
-      Texture: {fileID: 2800000, guid: 950d9c511292c2e4183763c243c7996d, type: 3}
-      Sprites:
-      - {fileID: 6274087191490931188, guid: 950d9c511292c2e4183763c243c7996d, type: 3}
-      - {fileID: -1559048608886145583, guid: 950d9c511292c2e4183763c243c7996d, type: 3}
-      - {fileID: 732764566721328609, guid: 950d9c511292c2e4183763c243c7996d, type: 3}
-      - {fileID: -5535346000671217059, guid: 950d9c511292c2e4183763c243c7996d, type: 3}
-      EquippedData: {fileID: 4900000, guid: 4d5ae2724f9074f4faa1ae21ceab7318, type: 3}
-    InHandsRight:
-      Texture: {fileID: 2800000, guid: 311a737b51d4fce44843cb3d26134fdf, type: 3}
-      Sprites:
-      - {fileID: 6274087191490931188, guid: 311a737b51d4fce44843cb3d26134fdf, type: 3}
-      - {fileID: -1559048608886145583, guid: 311a737b51d4fce44843cb3d26134fdf, type: 3}
-      - {fileID: 732764566721328609, guid: 311a737b51d4fce44843cb3d26134fdf, type: 3}
-      - {fileID: -5535346000671217059, guid: 311a737b51d4fce44843cb3d26134fdf, type: 3}
-      EquippedData: {fileID: 4900000, guid: f97c968db4357524988adbae93967ad3, type: 3}
-    ItemIcon:
-      Texture: {fileID: 2800000, guid: d7edd181e2de32744b35532c08395536, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: d7edd181e2de32744b35532c08395536, type: 3}
-      EquippedData: {fileID: 0}
-    SpriteEquipped: {fileID: 11400000, guid: 7c05a58d0b4fe1042a0abb91117687d3, type: 2}
-    SpriteInHandsLeft: {fileID: 11400000, guid: 290bc3467218c9d4ab6823182d2650d9,
-      type: 2}
-    SpriteInHandsRight: {fileID: 11400000, guid: cacfed3e1b3ce834c9879bc8ef89d94a,
-      type: 2}
-    SpriteItemIcon: {fileID: 11400000, guid: e49b492abe4f9944eb24c468157281fd, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  StorageData:
-    maxSlots: 7
-    maxItemSize: 4
+  SpriteEquipped: {fileID: 11400000, guid: 7c05a58d0b4fe1042a0abb91117687d3, type: 2}
+  SpriteInHandsLeft: {fileID: 11400000, guid: 290bc3467218c9d4ab6823182d2650d9, type: 2}
+  SpriteInHandsRight: {fileID: 11400000, guid: cacfed3e1b3ce834c9879bc8ef89d94a, type: 2}
+  SpriteItemIcon: {fileID: 11400000, guid: e49b492abe4f9944eb24c468157281fd, type: 2}
+  Palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  IsPaletted: 0

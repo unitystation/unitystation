@@ -29,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -44,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -56,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -90,16 +90,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.InventoryIcon.Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
       propertyPath: initialName
       value: shoes
       objectReference: {fileID: 0}
@@ -110,7 +100,65 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.Palette.Array.data[0].r
+      propertyPath: itemSprites.IsPaletted
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e0aedacbcc1539469ec0609f1c41ce5,
+        type: 2}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 652954f902db4e34d8147519b1dc0af7,
+        type: 2}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 2a4ed28ece05c7e47b75b237247d0323, type: 3}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: f36b28fdbba3655408414a2ae9e174fb, type: 3}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.Palette.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: febbc8fe4e6d49b4096d99b7b5650b31,
+        type: 2}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 70dc6e4ab189a2447984771a2b4a5596, type: 3}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: f6af00a610ec5664f83feeb67b41bb0a, type: 3}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 8dc9897013b6aa64c9832f0bb1baf955, type: 3}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.Palette.Array.data[0].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.Palette.Array.data[0].b
       value: 0.1792453
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -120,17 +168,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.Palette.Array.data[0].b
+      propertyPath: itemSprites.Palette.Array.data[0].r
       value: 0.1792453
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.Palette.Array.data[1].r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.data[1].g
+      propertyPath: itemSprites.Palette.Array.data[1].a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -140,7 +183,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.Palette.Array.data[2].r
+      propertyPath: itemSprites.Palette.Array.data[1].g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.Palette.Array.data[1].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.Palette.Array.data[2].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.Palette.Array.data[2].b
       value: 0.6320754
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -150,12 +208,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.Palette.Array.data[2].b
+      propertyPath: itemSprites.Palette.Array.data[2].r
       value: 0.6320754
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.Palette.Array.data[3].r
+      propertyPath: itemSprites.Palette.Array.data[3].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.Palette.Array.data[3].b
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -165,19 +228,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.Palette.Array.data[3].b
+      propertyPath: itemSprites.Palette.Array.data[3].r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.IsPaletted
+      propertyPath: itemSprites.Palette.Array.data[4].a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 2a4ed28ece05c7e47b75b237247d0323, type: 3}
+      propertyPath: itemSprites.Palette.Array.data[4].b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.Palette.Array.data[4].g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.Palette.Array.data[4].r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -204,16 +277,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: f6af00a610ec5664f83feeb67b41bb0a, type: 3}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: f36b28fdbba3655408414a2ae9e174fb, type: 3}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: -8695199725890209218, guid: f36b28fdbba3655408414a2ae9e174fb,
@@ -238,87 +301,41 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 8dc9897013b6aa64c9832f0bb1baf955, type: 3}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.InventoryIcon.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 70dc6e4ab189a2447984771a2b4a5596, type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: 70dc6e4ab189a2447984771a2b4a5596,
         type: 3}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.data[0].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.data[1].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.data[2].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.data[3].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.data[4].r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.data[4].g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.data[4].b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.Palette.Array.data[4].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: febbc8fe4e6d49b4096d99b7b5650b31,
-        type: 2}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 4e0aedacbcc1539469ec0609f1c41ce5,
-        type: 2}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 652954f902db4e34d8147519b1dc0af7,
-        type: 2}
     - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 8dc94143a69f613479aecde9255e9c1c,
         type: 2}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8dc94143a69f613479aecde9255e9c1c,
+        type: 2}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b849324932079ce4f991e06f8d4ffce2,
+        type: 2}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: spriteData.isPaletteds.Array.size
+      propertyPath: SetSpriteOnStartUp
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -328,17 +345,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: spriteData.isPaletteds.Array.data[0]
+      propertyPath: palette.Array.data[0].a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: SetSpriteOnStartUp
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: palette.Array.data[0].r
+      propertyPath: palette.Array.data[0].b
       value: 0.18039216
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -348,22 +360,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: palette.Array.data[0].b
+      propertyPath: palette.Array.data[0].r
       value: 0.18039216
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: palette.Array.data[0].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: palette.Array.data[1].r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: palette.Array.data[1].g
+      propertyPath: palette.Array.data[1].a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -373,12 +375,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: palette.Array.data[1].a
+      propertyPath: palette.Array.data[1].g
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: palette.Array.data[2].r
+      propertyPath: palette.Array.data[1].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: palette.Array.data[2].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: palette.Array.data[2].b
       value: 0.6313726
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -388,17 +400,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: palette.Array.data[2].b
+      propertyPath: palette.Array.data[2].r
       value: 0.6313726
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: palette.Array.data[2].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: palette.Array.data[4].r
+      propertyPath: palette.Array.data[4].b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -408,7 +415,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: palette.Array.data[4].b
+      propertyPath: palette.Array.data[4].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: spriteData.isPaletteds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: spriteData.isPaletteds.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -21,18 +21,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 1
+      propertyPath: hitDamage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
-        type: 3}
-      propertyPath: initialDescription
-      value: Do the impossible, see the invisible!
+      propertyPath: throwSpeed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
@@ -41,18 +36,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
-      propertyPath: hitDamage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
-        type: 3}
       propertyPath: throwDamage
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
-      propertyPath: throwSpeed
-      value: 4
+      propertyPath: initialDescription
+      value: Do the impossible, see the invisible!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
@@ -65,11 +70,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
         type: 2}
-    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
-        type: 3}
-      propertyPath: hitSound.AssetAddress
-      value: Assets/Prefabs/Effects/BladeSlice.prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 3273994478765017941, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: m_Sprite
@@ -80,6 +80,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
@@ -98,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -110,16 +120,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: e6f80a7fd02e2c14ea72a1410452b690,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: e6f80a7fd02e2c14ea72a1410452b690,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
@@ -146,6 +146,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 2a947ca3a4ae4dc4ba7d2483245cc74d,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a947ca3a4ae4dc4ba7d2483245cc74d,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638853748845472652, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a63d21b8173a0c844aaee5b2461ca7cb,
         type: 2}
     - target: {fileID: 8851959254138389390, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
