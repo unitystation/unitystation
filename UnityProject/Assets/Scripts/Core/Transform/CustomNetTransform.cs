@@ -573,7 +573,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 		//Don't lerp (instantly change pos) if active state was changed
-		if (predictedState.Active != newState.Active /*|| newState.Speed == 0*/)
+		if (predictedState.Active != newState.Active || newState.Active == false /*|| newState.Speed == 0*/)
 		{
 			transform.position = newState.WorldPosition;
 		}
