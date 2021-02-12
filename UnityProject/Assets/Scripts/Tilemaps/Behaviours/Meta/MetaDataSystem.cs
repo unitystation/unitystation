@@ -246,7 +246,7 @@ public class MetaDataSystem : SubsystemBehaviour
 						MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt(), true);
 
 						// ignore tilemap of current node
-						if (matrixInfo.MetaTileMap != metaTileMap)
+						if (matrixInfo != null && matrixInfo.MetaTileMap != metaTileMap)
 						{
 							// Check if atmos can pass to the neighboring position
 							Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);

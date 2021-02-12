@@ -85,12 +85,8 @@ namespace Antagonists
 			}
 
 			//If target is on functional escape shuttle, we failed
-			if (ValidShuttles.Any( shuttle => Target.registerTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters))
-			{
-				return false;
-			}
-
-			return true;
+			return ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
+				&& Target.registerTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters) == false;
 		}
 	}
 }

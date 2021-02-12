@@ -43,7 +43,7 @@ public partial class GameManager
 		if (PrimaryEscapeShuttle == null)
 		{
 			var shuttles = FindObjectsOfType<EscapeShuttle>();
-			if (shuttles.Length != 1)
+			if (shuttles.Length < 1)
 			{
 				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
@@ -54,12 +54,17 @@ public partial class GameManager
 
 		//later, maybe: keep a list of all computers and call the shuttle automatically with a 25 min timer if they are deleted
 
+		if (primaryEscapeShuttle.MatrixInfo == null)
+		{
+			Logger.LogError("Primary escape shuttle has no associated matrix!");
+			return;
+		}
+
 		//Starting up at Centcom coordinates
 		if (GameManager.Instance.QuickLoad)
 		{
-			if (primaryEscapeShuttle?.MatrixInfo == null) return;
-			if (primaryEscapeShuttle?.MatrixInfo.MatrixMove == null) return;
-			if (primaryEscapeShuttle?.MatrixInfo.MatrixMove.InitialFacing == null) return;
+			if (primaryEscapeShuttle.MatrixInfo == null) return;
+			if (primaryEscapeShuttle.MatrixInfo.MatrixMove == null) return;
 		}
 
 		var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;

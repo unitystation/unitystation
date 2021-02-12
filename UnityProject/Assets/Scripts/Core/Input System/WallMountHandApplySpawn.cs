@@ -20,7 +20,7 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 	{
 		var roundTargetWorldPosition = interaction.WorldPositionTarget.RoundToInt();
 		MatrixInfo matrix = MatrixManager.AtPoint(roundTargetWorldPosition, true);
-		if (matrix.Matrix == null)
+		if (matrix?.Matrix == null)
 		{
 			return;
 		}

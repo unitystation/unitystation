@@ -305,7 +305,7 @@ namespace IngameDebugConsole
 
 				foreach ( var movableMatrix in matrices )
 				{
-					if ( movableMatrix.GameObject.name.ToLower().Contains( "verylarge" ) )
+					if ( movableMatrix == null || movableMatrix.GameObject.name.ToLower().Contains( "verylarge" ) )
 					{
 						continue;
 					}
