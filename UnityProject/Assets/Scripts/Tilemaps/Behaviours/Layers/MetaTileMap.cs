@@ -1289,7 +1289,7 @@ namespace TileManagement
 
 						if (TileLcation != null)
 						{
-							if(tileNamesToIgnore != null && tileNamesToIgnore.Any( c => c.name == TileLcation.Tile.name)) continue;
+							if(tileNamesToIgnore != null && tileNamesToIgnore.Any( c => c.name == TileLcation?.Tile.name)) continue;
 
 							Vector2 normal;
 

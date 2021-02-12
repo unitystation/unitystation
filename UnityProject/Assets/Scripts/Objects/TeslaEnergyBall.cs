@@ -329,11 +329,11 @@ namespace Objects
 		{
 			if (arc.Settings.endObject == null) return;
 
-			if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var health))
+			if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var health) && health != null)
 			{
 				health.ApplyDamage(gameObject, damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn);
 			}
-			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity.Resistances.LightningDamageProof == false)
+			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity != null && integrity.Resistances.LightningDamageProof == false)
 			{
 				integrity.ApplyDamage(damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn, explodeOnDestroy: true);
 			}
