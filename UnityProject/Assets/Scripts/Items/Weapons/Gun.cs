@@ -320,6 +320,16 @@ namespace Weapons
 				return false;
 			}
 
+			if (FiringPin == null)
+			{
+				if (interaction.Performer == PlayerManager.LocalPlayer)
+				{
+					Chat.AddExamineMsgToClient("The " + gameObject.ExpensiveName() + "'s trigger is locked. It doesn't have a firing pin installed!");
+				}
+				Logger.LogTrace("Rejected shot - no firing pin", Category.Firearms);
+				return false;
+			}
+
 			//note: fire count down is only checked local player side, as server processes all the shots in a queue
 			//anyway so client cannot exceed that firing rate no matter what. If we validate firing rate server
 			//side at the moment of interaction, it will reject client's shots because of lag between server / client
@@ -420,18 +430,10 @@ namespace Weapons
 				AllowSuicide = isSuicide;
 			}
 
-			var dir = ApplyRecoil(interaction.TargetVector.normalized);
-
-			if (FiringPin != null)
+			if (predictionCanFire)
 			{
-				if (predictionCanFire)
-				{
-					DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
-				}
-			}
-			else
-			{
-				Chat.AddExamineMsgToClient("The " + gameObject.ExpensiveName() + "'s trigger is locked. It doesn't have a firing pin installed!");
+				var dir = ApplyRecoil(interaction.TargetVector.normalized);
+				DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
 			}
 		}
 
@@ -499,10 +501,6 @@ namespace Weapons
 						Debug.LogError($"{gameObject.name} returned a unexpected result when calling TriggerPull serverside!");
 						break;
 				}
-			}
-			else if (PlayerManager.LocalPlayer)
-			{
-				Chat.AddExamineMsgToClient("The " + gameObject.ExpensiveName() + "'s trigger is locked. It doesn't have a firing pin installed!");
 			}
 		}
 
