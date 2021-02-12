@@ -35,7 +35,13 @@ MonoBehaviour:
   chargeType: 0
   cooldownTime: 10
   startingCharges: 10
-  castSound: SummonItemsGeneric
+  castSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Magic/SummonItemsGeneric.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   range: 0
   stillRechargingMessage: The spell is still recharging!
   affectedMessage: 

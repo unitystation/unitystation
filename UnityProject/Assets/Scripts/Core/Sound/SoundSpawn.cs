@@ -61,6 +61,7 @@ public class SoundSpawn: MonoBehaviour
 	// JESTER
 	private void OnDisable()
 	{
+		SoundManager.Instance.SoundSpawns.Remove(Token);
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}
 

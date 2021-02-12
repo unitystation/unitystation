@@ -32,15 +32,26 @@ namespace Messages.Server
 		/// </summary>
 		public static GhostRoleUpdateMessage SendToDead(uint key)
 		{
-			GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[key];
-
-			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+			if (GhostRoleManager.Instance != null)
 			{
-				if (player.Script.IsDeadOrGhost == false) continue;
-				SendTo(player, key, role);
+				GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[key];
+
+				foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+				{
+					if (player?.Script == null) { Logger.LogError("SendToDead, player?.Script == null"); continue; }
+					if (player.Script.IsDeadOrGhost == false) continue;
+					SendTo(player, key, role);
+				}
+				return GetMessage(key, role);
+			}
+			else
+			{
+				Logger.LogError("SendToDead, GhostRoleManager.Instance == null");
 			}
 
-			return GetMessage(key, role);
+			return null;
+
+
 		}
 
 		/// <summary>

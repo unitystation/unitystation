@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Systems.Explosions;
 using UnityEngine;
 using Mirror;
 using Core.Directionals;
@@ -10,7 +11,7 @@ namespace Systems.Mob
 	/// Easy to use Directional sprite handler for mobs
 	/// </summary>
 	[RequireComponent(typeof(DirectionalSpriteV2))]
-	public class MobSprite : NetworkBehaviour
+	public class MobSprite : NetworkBehaviour, IOnLightningHit
 	{
 		[Header("References")]
 		[SerializeField]
@@ -217,6 +218,11 @@ namespace Systems.Mob
 		{
 			yield return WaitFor.Seconds(seconds);
 			DisableElectrocutedOverlay();
+		}
+
+		public void OnLightningHit(float duration, float damage)
+		{
+			EnableElectrocutedOverlay(duration);
 		}
 	}
 }

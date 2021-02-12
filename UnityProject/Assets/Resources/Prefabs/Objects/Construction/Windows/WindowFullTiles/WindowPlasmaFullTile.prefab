@@ -18,6 +18,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!114 &-3839959352144189932
 MonoBehaviour:
@@ -37,7 +38,13 @@ MonoBehaviour:
   matsOnDeconstruct: {fileID: 1151981523841236988, guid: dfe30ea3b0c7a1a48ab584f1f6776309,
     type: 3}
   countOfMatsOnDissasemle: 2
-  soundOnDeconstruct: Wrench
+  soundOnDeconstruct:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Wrench.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   shardsOnDestroy: {fileID: 3508732299770147791, guid: f610372b0de613b499d0e53b49c4e605,
     type: 3}
   minCountOfShardsOnDestroy: 1
@@ -45,7 +52,13 @@ MonoBehaviour:
   rodsOnDestroy: {fileID: 0}
   minCountOfRodsOnDestroy: 0
   maxCountOfRodsOnDestroy: 0
-  soundOnDestroy: GlassBreak01
+  soundOnDestroy:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &5159078157064168478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69,6 +82,11 @@ PrefabInstance:
       propertyPath: isInitiallyNotPushable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2109706411221417743, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 2745789640134156129, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
       propertyPath: m_AssetId
@@ -81,17 +99,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5811591870276980244, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
-      propertyPath: m_SortingLayerID
-      value: 142874271
+      propertyPath: m_Size.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5811591870276980244, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5811591870276980244, guid: 7020b235ecf8ece4ca00af70a60258f8,
-        type: 3}
-      propertyPath: m_SortingOrder
+      propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5811591870276980244, guid: 7020b235ecf8ece4ca00af70a60258f8,
@@ -102,18 +115,28 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5811591870276980244, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
-      propertyPath: m_Size.x
+      propertyPath: m_SortingLayer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5811591870276980244, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5811591870276980244, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
-      propertyPath: m_Size.y
-      value: 1
+      propertyPath: m_SortingLayerID
+      value: 142874271
       objectReference: {fileID: 0}
     - target: {fileID: 6036742058309347843, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
       propertyPath: m_Name
       value: WindowPlasmaFullTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
@@ -132,6 +155,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -143,16 +171,6 @@ PrefabInstance:
     - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,

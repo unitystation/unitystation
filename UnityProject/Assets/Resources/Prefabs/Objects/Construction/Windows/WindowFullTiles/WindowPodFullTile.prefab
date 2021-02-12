@@ -18,7 +18,13 @@ MonoBehaviour:
   matsOnDeconstruct: {fileID: 232070049008415734, guid: 6d8f04f09fd70254ead647566210cd74,
     type: 3}
   countOfMatsOnDissasemle: 2
-  soundOnDeconstruct: Wrench
+  soundOnDeconstruct:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Wrench.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   shardsOnDestroy: {fileID: 232070049008415734, guid: 6d8f04f09fd70254ead647566210cd74,
     type: 3}
   minCountOfShardsOnDestroy: 1
@@ -26,7 +32,13 @@ MonoBehaviour:
   rodsOnDestroy: {fileID: 0}
   minCountOfRodsOnDestroy: 0
   maxCountOfRodsOnDestroy: 0
-  soundOnDestroy: GlassBreak01
+  soundOnDestroy:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &5869293705316556465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,6 +57,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  ReachableThrough: 1
   passableExclusionsToThis: []
 --- !u!1001 &9088965797356890092
 PrefabInstance:
@@ -53,6 +66,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2939970109283838604, guid: 2687df960de8f3f4aa407993936cf69a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2939970109283838604, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -70,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2939970109283838604, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2939970109283838604, guid: 2687df960de8f3f4aa407993936cf69a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -81,16 +104,6 @@ PrefabInstance:
     - target: {fileID: 2939970109283838604, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2939970109283838604, guid: 2687df960de8f3f4aa407993936cf69a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2939970109283838604, guid: 2687df960de8f3f4aa407993936cf69a,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2939970109283838604, guid: 2687df960de8f3f4aa407993936cf69a,
@@ -115,13 +128,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3150644102531434561, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}
-      propertyPath: m_SortingLayerID
-      value: 142874271
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: abdf02845ba095d4eac61a665441c119,
+        type: 3}
     - target: {fileID: 3150644102531434561, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3150644102531434561, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}
@@ -130,10 +144,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3150644102531434561, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: abdf02845ba095d4eac61a665441c119,
-        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 142874271
+      objectReference: {fileID: 0}
     - target: {fileID: 5995883027397321675, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}
       propertyPath: initialIntegrity
@@ -153,6 +166,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isInitiallyNotPushable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7374808011888392538, guid: 2687df960de8f3f4aa407993936cf69a,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 7676836542119888524, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}

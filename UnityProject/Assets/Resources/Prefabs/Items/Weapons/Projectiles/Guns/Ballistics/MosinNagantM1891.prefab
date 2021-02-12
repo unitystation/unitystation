@@ -123,6 +123,25 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   SpriteDataSO: []
+--- !u!114 &4221194372170591464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594955878468889041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ea89a879a2d3c8ba477fca535a2332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoBackfire: 0
+  sawnSize: 3
+  sawnMaxRecoilVariance: 0.1
+  SawnCameraRecoilConfig:
+    Distance: 0.5
+    RecoilDuration: 0.1
+    RecoveryDuration: 0.6
 --- !u!1001 &5300130788311338973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278,6 +297,23 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2817cc103e3fa5543b69878737228fde,
+        type: 2}
+    - target: {fileID: 7749759532473064843, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749759532473064843, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2817cc103e3fa5543b69878737228fde,
+        type: 2}
+    - target: {fileID: 7749759532473064843, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e96408f537cdd748984a7c3b4337162,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0c995ee924eb904dae952cd56a8c1d6, type: 3}

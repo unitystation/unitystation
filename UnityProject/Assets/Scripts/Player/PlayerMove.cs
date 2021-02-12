@@ -237,7 +237,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		direction.y = Mathf.Clamp(direction.y, -1, 1);
 		//			Logger.LogTrace(direction.ToString(), Category.Movement);
 
-		if (matrixInfo.MatrixMove)
+		if (matrixInfo?.MatrixMove)
 		{
 			// Converting world direction to local direction
 			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *

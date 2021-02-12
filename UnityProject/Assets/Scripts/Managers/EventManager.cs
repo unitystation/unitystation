@@ -17,6 +17,7 @@ public enum EVENT
 	ChatUnfocused,
 	LoggedOut,
 	RoundStarted,
+	PostRoundStarted,
 	RoundEnded,
 	DisableInternals,
 	EnableInternals,

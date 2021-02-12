@@ -79,7 +79,7 @@ note: goals that are crossed out are goals that have been completed
           <li>Races support</li>
           <li>Wizard</li>
           <li>Mapping revamp</li>
-          <li>Add one of the other ss13 engines (Singulo)</li>
+          <li><del>Add one of the other ss13 engines (Singulo)</del></li>
         </ul>
       </td>
     </tr>
@@ -92,7 +92,7 @@ note: goals that are crossed out are goals that have been completed
               <li>Research Gameplay</li>
               <li>Admin tool remapping(could be in 0.5)</li>
               <li>Gravity generator for station</li>
-              <li>Tesla engine</li>
+              <li><del>Tesla engine</del></li>
               <li>Tile and Item overlays</li>
               <li>Pills/medical chemistry</li>
           </ul>

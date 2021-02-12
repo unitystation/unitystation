@@ -68,6 +68,12 @@ namespace Mirror
             }
 
             PooledNetworkWriter writer = pool[next];
+            if (writer == null)
+            {
+	            //Not really the best way of handling it but see if this works Unitystation Mirror Modification
+	            next--;
+	            writer = pool[next];
+            }
             pool[next] = null;
             next--;
 

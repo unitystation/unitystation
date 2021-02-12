@@ -2,9 +2,11 @@
 using Mirror;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 using Systems.Electricity;
 using AddressableReferences;
+using Audio.Containers;
 
 namespace Objects
 {
@@ -53,9 +55,14 @@ namespace Objects
 		[Range(0, 360)]
 		private float Spread = 0;
 
-		private List<AudioSource> musics;
+		[SerializeField]
+		private AudioClipsArray adminMusic = null;
+
+		private List<AddressableAudioSource> musics;
 
 		private SpriteRenderer spriteRenderer;
+
+		private string guid = "";
 
 		/// <summary>
 		/// The current state of the jukebox powered/overpowered/underpowered/no power
@@ -72,6 +79,7 @@ namespace Objects
 		private RegisterTile registerTile;
 		private int currentSongTrackIndex = 0;
 		private float startPlayTime;
+		private bool secondLoadAttempt;
 
 		public bool IsPlaying { get; set; } = false;
 
@@ -83,14 +91,14 @@ namespace Objects
 
 		public string SongName {
 			get {
-				string songName = musics[currentSongTrackIndex].clip.name;
+				string songName = musics[currentSongTrackIndex].AudioSource.clip.name;
 				return $"{songName.Split('_')[0]}";
 			}
 		}
 
 		public string Artist {
 			get {
-				string songName = musics[currentSongTrackIndex].clip.name;
+				string songName = musics[currentSongTrackIndex].AudioSource.clip.name;
 				string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
 				return $"{artist}";
 			}
@@ -143,25 +151,19 @@ namespace Objects
 		// Start is called before the first frame update
 		private void Start()
 		{
+			InternalStart();
+		}
+
+		private async Task InternalStart()
+		{
 			// We want the same musics that are in the lobby,
 			// so, I copy it's playlist here instead of managing two different playlists in UnityEditor.
-			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-			APCConnectionHandler = GetComponent<APCPoweredDevice>();
-			power = GetComponent<APCPoweredDevice>();
-			registerTile = GetComponent<RegisterTile>();
-			musics = new List<AudioSource>();
+			musics = new List<AddressableAudioSource>();
 
-			Transform transformAdminMusic = SoundManager.Instance.transform.Find("AdminMusic");
-
-			if (transformAdminMusic == null)
+			foreach (var audioSource in adminMusic.AddressableAudioSource)
 			{
-				Logger.LogWarning("Update Jukebox to sound addressables.");
-				return; // stop NRE in foreach
-			}
-
-			foreach (Transform transform in transformAdminMusic)
-			{
-				musics.Add(transform.GetComponent<AudioSource>());
+				var song = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioSource});
+				musics.Add(song);
 			}
 
 			UpdateGUI();
@@ -169,6 +171,10 @@ namespace Objects
 
 		private void Awake()
 		{
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+			APCConnectionHandler = GetComponent<APCPoweredDevice>();
+			power = GetComponent<APCPoweredDevice>();
+			registerTile = GetComponent<RegisterTile>();
 			integrity = GetComponent<Integrity>();
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 		}
@@ -177,7 +183,7 @@ namespace Objects
 		{
 			// Check if the jukebox is in play mode and if the sound is finished playing.
 			// We didn't use "AudioSource.isPlaying" here because of a racing condition between PlayNetworkAtPos latency and Update.
-			if (IsPlaying && Time.time > startPlayTime + musics[currentSongTrackIndex].clip.length)
+			if (IsPlaying && Time.time > startPlayTime + musics[currentSongTrackIndex].AudioSource.clip.length)
 			{
 				// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
 				if (!NextSong())
@@ -185,11 +191,12 @@ namespace Objects
 			}
 		}
 
-		public void Play()
+		public async Task Play()
 		{
 			// Too much damage stops the jukebox from being able to play
 			if (integrity.integrity > integrity.initialIntegrity / 2)
 			{
+				SoundManager.StopNetworked(guid);
 				IsPlaying = true;
 				spriteHandler.SetSpriteSO(SpritePlaying);
 
@@ -205,7 +212,7 @@ namespace Objects
 
 				};
 
-				SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
+				guid  = await SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
 				startPlayTime = Time.time;
 				UpdateGUI();
 			}
@@ -220,7 +227,7 @@ namespace Objects
 			else
 				spriteHandler.SetSpriteSO(SpriteDamaged);
 
-			SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
+			SoundManager.StopNetworked(guid);
 
 			UpdateGUI();
 		}
@@ -230,7 +237,7 @@ namespace Objects
 			if (currentSongTrackIndex > 0)
 			{
 				if (IsPlaying)
-					SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
+					SoundManager.StopNetworked(guid);
 
 				currentSongTrackIndex--;
 				UpdateGUI();
@@ -245,7 +252,7 @@ namespace Objects
 			if (currentSongTrackIndex < musics.Count - 1)
 			{
 				if (IsPlaying)
-					SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
+					SoundManager.StopNetworked(guid);
 
 				currentSongTrackIndex++;
 				UpdateGUI();
@@ -268,7 +275,7 @@ namespace Objects
 				Volume = newVolume,
 			};
 
-			ChangeAudioSourceParametersMessage.SendToAll(musics[currentSongTrackIndex].name, audioSourceParameters);
+			ChangeAudioSourceParametersMessage.SendToAll(guid, audioSourceParameters);
 		}
 
 		private void OnDamageReceived(DamageInfo damageInfo)
@@ -281,6 +288,17 @@ namespace Objects
 
 		private void UpdateGUI()
 		{
+			if (musics == null || musics.Count == 0)
+			{
+				if (secondLoadAttempt == false)
+				{
+					secondLoadAttempt = true;
+					InternalStart();
+				}
+
+				return;
+			}
+
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 			valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes(TrackPosition) });
 			valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(SongName) });

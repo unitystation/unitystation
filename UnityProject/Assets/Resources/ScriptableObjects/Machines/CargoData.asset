@@ -34,7 +34,7 @@ MonoBehaviour:
       - {fileID: 7781396554342910705, guid: 6ec2cf5e4acf23543ba1612545d2fca4, type: 3}
       - {fileID: 7781396554342910705, guid: 6ec2cf5e4acf23543ba1612545d2fca4, type: 3}
       - {fileID: 7781396554342910705, guid: 6ec2cf5e4acf23543ba1612545d2fca4, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Shotgun Crate
       CreditsCost: 5000
       Crate: {fileID: 3660769828800606216, guid: 8e84a0677b6a4364386bae0efa717939,
@@ -43,7 +43,7 @@ MonoBehaviour:
       - {fileID: 650305787758157290, guid: 4bd7026a3da7b0143b5fb4d06bc94a5f, type: 3}
       - {fileID: 650305787758157290, guid: 4bd7026a3da7b0143b5fb4d06bc94a5f, type: 3}
       - {fileID: 650305787758157290, guid: 4bd7026a3da7b0143b5fb4d06bc94a5f, type: 3}
-      TotalCreditExport: 1650
+      TotalCreditExport: 500
     - OrderName: R550c PDW Crate
       CreditsCost: 5000
       Crate: {fileID: 3660769828800606216, guid: 8e84a0677b6a4364386bae0efa717939,
@@ -52,7 +52,7 @@ MonoBehaviour:
       - {fileID: 5906183653279542145, guid: 176e0188c0d52184ca00dcaf9607abca, type: 3}
       - {fileID: 5906183653279542145, guid: 176e0188c0d52184ca00dcaf9607abca, type: 3}
       - {fileID: 5906183653279542145, guid: 176e0188c0d52184ca00dcaf9607abca, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Laser Carbine Crate
       CreditsCost: 4500
       Crate: {fileID: 3660769828800606216, guid: 8e84a0677b6a4364386bae0efa717939,
@@ -61,7 +61,7 @@ MonoBehaviour:
       - {fileID: 7611817970648562498, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
       - {fileID: 7611817970648562498, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
       - {fileID: 7611817970648562498, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Energy Carbine Crate
       CreditsCost: 4000
       Crate: {fileID: 3660769828800606216, guid: 8e84a0677b6a4364386bae0efa717939,
@@ -70,7 +70,15 @@ MonoBehaviour:
       - {fileID: 6733076708105069041, guid: d589c17f6fd91da4190edfdd2cb5aa53, type: 3}
       - {fileID: 6733076708105069041, guid: d589c17f6fd91da4190edfdd2cb5aa53, type: 3}
       - {fileID: 6733076708105069041, guid: d589c17f6fd91da4190edfdd2cb5aa53, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
+    - OrderName: Electronic Firing Pins Crate
+      CreditsCost: 2000
+      Crate: {fileID: 3660769828800606216, guid: 8e84a0677b6a4364386bae0efa717939,
+        type: 3}
+      Items:
+      - {fileID: 1778400137840477013, guid: 7cb77338112306243bbcdc1e68130e80, type: 3}
+      - {fileID: 1778400137840477013, guid: 7cb77338112306243bbcdc1e68130e80, type: 3}
+      TotalCreditExport: 500
   - CategoryName: Medical
     Supplies:
     - OrderName: First Aid Kit Crate
@@ -120,7 +128,7 @@ MonoBehaviour:
       - {fileID: 6515444984644878765, guid: 11f558128ddef354c8d610913d2079a0, type: 3}
       - {fileID: 5162418143041738271, guid: f25a6f263584e6848819e145b53ee65b, type: 3}
       - {fileID: 5162418143041738271, guid: f25a6f263584e6848819e145b53ee65b, type: 3}
-      TotalCreditExport: 550
+      TotalCreditExport: 500
   - CategoryName: Engineering
     Supplies:
     - OrderName: Tool Crate
@@ -178,7 +186,7 @@ MonoBehaviour:
         type: 3}
       Items:
       - {fileID: 1853426429102140, guid: 69c27c4a07b053d458c6fec363e66403, type: 3}
-      TotalCreditExport: 500
+      TotalCreditExport: 550
     - OrderName: Reactor Starting Rod Crate
       CreditsCost: 1000
       Crate: {fileID: 3657931253695786815, guid: d38a25ea933e7a14c9c4c0134c741b6e,
@@ -210,6 +218,47 @@ MonoBehaviour:
       - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
       - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
       TotalCreditExport: 1000
+    - OrderName: Emitter Crate
+      CreditsCost: 800
+      Crate: {fileID: 6264972350131591085, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      Items:
+      - {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f, type: 3}
+      TotalCreditExport: 550
+    - OrderName: Field Generator Crate
+      CreditsCost: 800
+      Crate: {fileID: 6264972350131591085, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      Items:
+      - {fileID: 6675068259735517415, guid: 1cbf5ea7cbc745545a7b382eeac3de03, type: 3}
+      TotalCreditExport: 550
+    - OrderName: Particle Accelerator Crate
+      CreditsCost: 2000
+      Crate: {fileID: 6264972350131591085, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      Items:
+      - {fileID: 7626373619265571698, guid: 70ae7aa3a24e47d47b73ff1d5e299334, type: 3}
+      - {fileID: 7626373619265571698, guid: 3c17dd06c10d41546a933b249c71a1b4, type: 3}
+      - {fileID: 7626373619265571698, guid: fa0202b6d0eed884e97dae9581945714, type: 3}
+      - {fileID: 7626373619265571698, guid: 083cc5ef38feb934ba1d2d2511330190, type: 3}
+      - {fileID: 7626373619265571698, guid: ca2ad7d951ead6a4996aac36dd2f0174, type: 3}
+      - {fileID: 7626373619265571698, guid: cbcc432a2edd69144b15e211d9952653, type: 3}
+      - {fileID: 7626373619265571698, guid: eecfad9cd6442d545abd06b18e530c70, type: 3}
+      TotalCreditExport: 1000
+    - OrderName: Gravitational Singularity Generator
+      CreditsCost: 600
+      Crate: {fileID: 6264972350131591085, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      Items:
+      - {fileID: 6972878001720233250, guid: f8286efb730db254eaba52139b874824, type: 3}
+      TotalCreditExport: 550
+    - OrderName: Energy Ball Generator
+      CreditsCost: 600
+      Crate: {fileID: 6264972350131591085, guid: dde361d656542f048bdeebf4e87dd7d3,
+        type: 3}
+      Items:
+      - {fileID: 6972878001720233250, guid: 6492961d6593b354fa50b4d1829a6317, type: 3}
+      TotalCreditExport: 550
   - CategoryName: Service
     Supplies:
     - OrderName: Cleaning supplies Crate
@@ -264,7 +313,7 @@ MonoBehaviour:
       Items:
       - {fileID: 2991859853499052220, guid: 987af98a4bcb1e24bbffa24c28dab810, type: 3}
       - {fileID: 9142150440339612764, guid: 47d3f801b00a01447bdceb8fe2c9142a, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Donk Pocket Variety Crate
       CreditsCost: 4000
       Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56,
@@ -277,14 +326,14 @@ MonoBehaviour:
       - {fileID: 4858025108857819275, guid: f5d5f3f9ed71a7143a3add4cdabd5234, type: 3}
       - {fileID: 5519980735549114617, guid: b2635e9d9a9147f499bb49f9e17c6acd, type: 3}
       - {fileID: 4137765648563881622, guid: fae7c477fdabcd24ebbffd2e9718e4c5, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Dinnerware Vendor Refill
       CreditsCost: 4000
       Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       Items:
       - {fileID: 5003903431476434660, guid: 6368adaf461713a46813d47be62c2331, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Exotic Seeds Crate
       CreditsCost: 1500
       Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56,
@@ -300,7 +349,7 @@ MonoBehaviour:
       - {fileID: 7690917261163495813, guid: f6b6f17027e814b4db18ad2cff338753, type: 3}
       - {fileID: 6473116280690192913, guid: 468844fb60616b941940e0e60813be19, type: 3}
       - {fileID: 6473116280690192913, guid: 468844fb60616b941940e0e60813be19, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Hydroponics Vendor Refills
       CreditsCost: 2000
       Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56,
@@ -308,7 +357,7 @@ MonoBehaviour:
       Items:
       - {fileID: 6145501849856939213, guid: 7e7a11b69474c2e4098f7ec4acc9f20a, type: 3}
       - {fileID: 5478126468329474099, guid: b52bef604c5ebf045b3549d897a08478, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Imported Food Vendor Refills
       CreditsCost: 2000
       Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
@@ -316,7 +365,7 @@ MonoBehaviour:
       Items:
       - {fileID: 7477498448512949268, guid: ce8d9e4648ed4794d91a815a070e4094, type: 3}
       - {fileID: 1023378195920529956, guid: 64d6a4799de2602438ad6f10e698ec22, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Ingredients Crate
       CreditsCost: 1000
       Crate: {fileID: 7260015131607416311, guid: ed8901b8487af7841b732663341262ca,
@@ -335,7 +384,7 @@ MonoBehaviour:
       - {fileID: 8750944094386566729, guid: b29d3b3d0eac3a84d9ef700d10f41b3a, type: 3}
       - {fileID: 8750944094386566729, guid: b29d3b3d0eac3a84d9ef700d10f41b3a, type: 3}
       - {fileID: 8750944094386566729, guid: b29d3b3d0eac3a84d9ef700d10f41b3a, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Potted Plants Crate
       CreditsCost: 700
       Crate: {fileID: 6829341300379324721, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
@@ -346,14 +395,14 @@ MonoBehaviour:
       - {fileID: 6495039292157115771, guid: bd0b61b5f22871e40bdf20387ae9d642, type: 3}
       - {fileID: 6495039292157115771, guid: bd0b61b5f22871e40bdf20387ae9d642, type: 3}
       - {fileID: 6495039292157115771, guid: bd0b61b5f22871e40bdf20387ae9d642, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Snack Vendor Refill
       CreditsCost: 1500
       Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       Items:
       - {fileID: 4889044400386516301, guid: 1673a9fc3c1434d4e96ded34f8ab2bbe, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Seeds Crate
       CreditsCost: 1000
       Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56,
@@ -373,14 +422,14 @@ MonoBehaviour:
       - {fileID: 7599149358166298399, guid: 625f31aec34e13f48a1ece855fc4fe87, type: 3}
       - {fileID: 3279069433607158746, guid: 4f7ce98391b8ec54493a831134aa65be, type: 3}
       - {fileID: 3655365403910077050, guid: b35a262356250504fbfa735d183f9998, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
     - OrderName: Softdrink Vendor Refill
       CreditsCost: 1000
       Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       Items:
       - {fileID: 6786961899524531326, guid: 9ba56c018e6293b46893343ff4b8fb45, type: 3}
-      TotalCreditExport: 750
+      TotalCreditExport: 500
   - CategoryName: Mining
     Supplies:
     - OrderName: Advanced Plasma Cutter Crate
@@ -403,7 +452,7 @@ MonoBehaviour:
       - {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
       - {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4, type: 3}
       - {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4, type: 3}
-      TotalCreditExport: 500
+      TotalCreditExport: 520
     - OrderName: Plasma Cutter Crate
       CreditsCost: 3000
       Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
@@ -1159,53 +1208,53 @@ MonoBehaviour:
       Crate: {fileID: 5818151817506838785, guid: a7e39788d7a36384389f8e7f619dd9f3,
         type: 3}
       Items: []
-      TotalCreditExport: 500
+      TotalCreditExport: 0
     - OrderName: Carbon Dioxide Canister
       CreditsCost: 3000
       Crate: {fileID: 3321916833831160622, guid: 9759789a5180a46419c8a7e2e50748e2,
         type: 3}
       Items:
       - {fileID: 0}
-      TotalCreditExport: 500
+      TotalCreditExport: 0
     - OrderName: Firefighting Foam Tank
       CreditsCost: 1500
       Crate: {fileID: 5015001732466038892, guid: 49467935b2f2a65438aac34a481bce03,
         type: 3}
       Items:
       - {fileID: 0}
-      TotalCreditExport: 500
+      TotalCreditExport: 0
     - OrderName: Fuel Tank
       CreditsCost: 800
       Crate: {fileID: 3385388350690225477, guid: f223683e503b6d14e8ada71a7bab7247,
         type: 3}
       Items:
       - {fileID: 0}
-      TotalCreditExport: 500
+      TotalCreditExport: 0
     - OrderName: Large Water Tank
       CreditsCost: 1200
       Crate: {fileID: 3126868273280614643, guid: 66f05879999b49141bbfc4e0fdc9903a,
         type: 3}
       Items:
       - {fileID: 0}
-      TotalCreditExport: 500
+      TotalCreditExport: 0
     - OrderName: Nitrogen Canister
       CreditsCost: 2000
       Crate: {fileID: 4045535016109707588, guid: 9944313d68658b341966d43e2c218eaa,
         type: 3}
       Items: []
-      TotalCreditExport: 500
+      TotalCreditExport: 0
     - OrderName: Nitrous Oxide Canister
       CreditsCost: 3000
       Crate: {fileID: 3300659230888592933, guid: 9f9ee7218e29057428d789e482e3477d,
         type: 3}
       Items: []
-      TotalCreditExport: 500
+      TotalCreditExport: 0
     - OrderName: Oxygen Canister
       CreditsCost: 1500
       Crate: {fileID: 4045535016109707588, guid: dd86caf1f673b7642be83819773021d8,
         type: 3}
       Items: []
-      TotalCreditExport: 500
+      TotalCreditExport: 0
     - OrderName: Vending Resupply
       CreditsCost: 1500
       Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
@@ -1219,13 +1268,13 @@ MonoBehaviour:
         type: 3}
       Items:
       - {fileID: 0}
-      TotalCreditExport: 500
+      TotalCreditExport: 0
     - OrderName: Water Vapor Canister
       CreditsCost: 2500
       Crate: {fileID: 24053578946406583, guid: c3b1e85e5c3e2e740bb058b62c306be4, type: 3}
       Items:
       - {fileID: 0}
-      TotalCreditExport: 500
+      TotalCreditExport: 0
   - CategoryName: Miscellaneous
     Supplies:
     - OrderName: Robusting Crate

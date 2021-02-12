@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public AdminChatWindows adminChatWindows;
 	public ProfileScrollView profileScrollView;
 	public PlayerAlerts playerAlerts;
-	public GUIAntagBanner antagBanner;
+	[FormerlySerializedAs("antagBanner")] public GUIAntagBanner spawnBanner;
 	private bool preventChatInput;
 	[SerializeField] [Range(0.1f,10f)] private float PhoneZoomFactor = 1.6f;
 	public LobbyUIPlayerListController lobbyUIPlayerListController = null;

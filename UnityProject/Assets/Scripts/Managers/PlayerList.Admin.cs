@@ -465,6 +465,9 @@ public partial class PlayerList
 
 	#region JobBans
 
+	/// <summary>
+	/// Checks job ban state, FALSE if banned
+	/// </summary>
 	public bool CheckJobBanState(string userID, JobType jobType)
 	{
 		//jobbanlist checking:

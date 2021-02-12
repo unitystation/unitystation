@@ -404,12 +404,12 @@ public static class Validations
 		if (IsNotBlocked(fromWorldPos, toWorldPos, isServer: isServer, context: context))
 		{
 			Vector3Int toWorldPosInt = toWorldPos.RoundToInt();
-	
+
 			return IsInReachDistanceByPositions(fromWorldPos, toWorldPos, interactDist: interactDist);
 		}
 
 		return false;
-		
+
 	}
 
 	private static bool IsNotBlocked(Vector3 worldPosA, Vector3 worldPosB, bool isServer, GameObject context = null)
@@ -444,11 +444,11 @@ public static class Validations
 	{
 		if ( isServer )
 		{
-			return from.Matrix == to.Matrix && IsReachableByPositions(from.WorldPositionServer, to.WorldPositionServer, isServer, interactDist, context: context);
+			return IsReachableByPositions(from.WorldPositionServer, to.WorldPositionServer, isServer, interactDist, context: context);
 		}
 		else
 		{
-			return from.Matrix == to.Matrix && IsReachableByPositions(from.WorldPositionClient, to.WorldPositionClient, isServer, interactDist, context: context);
+			return IsReachableByPositions(from.WorldPositionClient, to.WorldPositionClient, isServer, interactDist, context: context);
 		}
 	}
 

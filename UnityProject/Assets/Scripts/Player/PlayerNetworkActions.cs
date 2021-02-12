@@ -11,6 +11,7 @@ using Audio.Containers;
 using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
+using DiscordWebhook;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -592,7 +593,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//Only force to ghost if the mind belongs in to that body
 		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
 		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
-		    playerScript.mind.bodyMobID == currentMobID)
+		    playerScript.mind.bodyMobID == currentMobID && !playerScript.mind.IsGhosting)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
@@ -856,5 +857,37 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				return;
 			}
 		}
+	}
+
+	[Command]
+	public void CmdAdminGib(GameObject toGib, string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (toGib == null)
+		{
+			return;
+		}
+
+		var health = toGib.GetComponent<PlayerHealth>();
+		if (health == null)
+		{
+			return;
+		}
+
+		var script = toGib.GetComponent<PlayerScript>();
+		if (script == null || script.IsDeadOrGhost)
+		{
+			return;
+		}
+
+		var message = $"{toGib.ExpensiveName()} was gibbed by {PlayerList.Instance.GetByUserID(adminId).Username}";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message, "");
+
+		health.ServerGibPlayer();
 	}
 }

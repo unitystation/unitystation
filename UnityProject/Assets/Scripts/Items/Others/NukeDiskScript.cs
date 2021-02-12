@@ -98,7 +98,8 @@ namespace Items.Command
 
 			if (escapeShuttle != null && escapeShuttle.Status != EscapeShuttleStatus.DockedCentcom)
 			{
-				if (escapeShuttle.MatrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
+				var matrixInfo = escapeShuttle.MatrixInfo;
+				if (matrixInfo == null || matrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
 				{
 					return false;
 				}

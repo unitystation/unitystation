@@ -21,7 +21,7 @@ namespace Doors.Modules
 			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
 				"You start prying open the door...",
 				$"{interaction.Performer.ExpensiveName()} starts prying close the door...",
-				$"You force the door open with your {gameObject.ExpensiveName()}!",
+				$"You force the door open with your {interaction.HandObject.ExpensiveName()}!",
 				$"{interaction.Performer.ExpensiveName()} forces the door close!",
 				TryPry);
 
@@ -43,7 +43,7 @@ namespace Doors.Modules
 			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
 				"You start prying open the door...",
 				$"{interaction.Performer.ExpensiveName()} starts prying open the door...",
-				$"You force the door open with your {gameObject.ExpensiveName()}!",
+				$"You force the door open with your {interaction.HandObject.ExpensiveName()}!",
 				$"{interaction.Performer.ExpensiveName()} forces the door open!",
 				TryPry);
 

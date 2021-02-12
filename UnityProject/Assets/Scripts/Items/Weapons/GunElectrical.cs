@@ -46,7 +46,9 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		//only reload if the gun is the target and mag/clip is in hand slot
 		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot && side == NetworkSide.Client)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && allowScrewdriver)
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && allowScrewdriver ||
+				Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) ||
+				Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin))
 			{
 				return true;
 			}
@@ -112,6 +114,14 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 			{
 				base.RequestReload(mag.gameObject);
 			}
+			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
+			{
+				Inventory.ServerDrop(pinSlot);
+			}
+			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
+			{
+				Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
+			}
 		}
 	}
 
@@ -124,7 +134,9 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 
 	public override String Examine(Vector3 pos)
 	{
-		string returnstring = WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null ? (Mathf.Floor(battery.Watts / firemodeUsage[currentFiremode]) + " rounds loaded in magazine") : "It's empty!") + ")";
+		string returnstring = WeaponType + " - Fires " + ammoType + " ammunition (" +
+		(CurrentMagazine != null ? (Mathf.Floor(battery.Watts / firemodeUsage[currentFiremode]) + " rounds loaded in magazine") : "It's empty!") + ")\n" +
+		(FiringPin != null ? "It has a " + FiringPin.gameObject.ExpensiveName() + " installed." : "It doesn't have a firing pin installed, and won't fire.");
 
 		if (firemodeProjectiles.Count > 1) {
 			returnstring += "\nIt is set to " + firemodeName[currentFiremode] + " mode.";

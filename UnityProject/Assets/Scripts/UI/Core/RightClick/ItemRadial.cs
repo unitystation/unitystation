@@ -204,16 +204,8 @@ namespace UI.Core.RightClick
 		{
 			var scale = TotalRotation % ItemArcMeasure / ItemArcMeasure;
 
-			if (Mathf.Round(scale * 10) / 10 < 1)
-			{
-				LowerMaskItem.ScaleIcon(LeanTween.easeOutCirc(1, 0, scale));
-			}
-			else
-			{
-				LowerMaskItem.ScaleIcon(1);
-			}
-
-			UpperMaskItem.ScaleIcon(LeanTween.easeInCirc(0, 1, scale));
+			LowerMaskItem.ScaleIcon(scale, true);
+			UpperMaskItem.ScaleIcon(scale, false);
 		}
 
 		private void TweenArrows(bool forward)

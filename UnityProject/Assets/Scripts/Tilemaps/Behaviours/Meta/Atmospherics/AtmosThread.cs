@@ -46,9 +46,8 @@ public static class AtmosThread
 	{
 		if (!running)
 		{
-			new Thread(Run).Start();
-
 			running = true;
+			new Thread(Run).Start();
 		}
 	}
 

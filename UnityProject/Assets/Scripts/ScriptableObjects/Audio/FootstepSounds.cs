@@ -50,7 +50,10 @@ public class FootstepSounds : MonoBehaviour
 	/// <param name="performer">The creature making the sound</param>
 	public static void FootstepAtPosition(Vector3 worldPos, StepType stepType,FloorSounds Override = null )
 	{
-		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
+		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.RoundToInt(), false);
+
+		if (matrix == null) return;
+
 		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
 		var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
 

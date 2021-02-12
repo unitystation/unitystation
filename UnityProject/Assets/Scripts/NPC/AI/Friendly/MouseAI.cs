@@ -1,3 +1,4 @@
+using AddressableReferences;
 using NPC.Mood;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ namespace Systems.MobAIs
 		private int angryMouseLevel = 10;
 
 		private MobMood mood;
+
+		[SerializeField]
+		private AddressableAudioSource squeekSound = null;
 
 		protected override void Awake()
 		{
@@ -50,7 +54,7 @@ namespace Systems.MobAIs
 		private void Squeak()
 		{
 			SoundManager.PlayNetworkedAtPos(
-				"MouseSqueek",
+				squeekSound,
 				gameObject.transform.position,
 				Random.Range(.6f, 1.2f));
 

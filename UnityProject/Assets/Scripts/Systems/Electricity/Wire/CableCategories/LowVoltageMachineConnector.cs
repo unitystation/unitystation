@@ -49,10 +49,11 @@ public class LowVoltageMachineConnector : NetworkBehaviour, ICheckedInteractable
 	{
 		//wirecutters can be used to cut this cable
 		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
-		MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
-		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
+		var matrixInfo = MatrixManager.AtPoint(worldPosInt, true);
+		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixInfo);
+		var matrix = matrixInfo?.Matrix;
 
-		if (matrix.Matrix == null || !matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
+		if (matrix == null || matrix.IsClearUnderfloorConstruction(localPosInt, true) == false)
 		{
 			return;
 		}

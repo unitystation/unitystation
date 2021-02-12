@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 namespace Systems.MobAIs
@@ -23,6 +24,9 @@ namespace Systems.MobAIs
 		private LayerMask mobMask;
 		private string dogName;
 
+		[SerializeField]
+		private AddressableAudioSource barkSound = null;
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -39,7 +43,7 @@ namespace Systems.MobAIs
 
 		private void SingleBark(GameObject barked = null)
 		{
-			SoundManager.PlayNetworkedAtPos("Bark",
+			SoundManager.PlayNetworkedAtPos(barkSound,
 				gameObject.transform.position,
 				Random.Range(.8F, 1.3F));
 

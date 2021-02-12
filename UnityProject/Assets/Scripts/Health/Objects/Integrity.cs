@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Explosions;
 using AddressableReferences;
 using DatabaseAPI;
 using UnityEngine;
@@ -86,6 +87,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// </summary>
 	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
+
+	/// <summary>
+	/// The explosion strength of this object if is set to explode on destroy
+	/// </summary>
+	[Tooltip("The explosion strength of this object if is set to explode on destroy")]
+	public float ExplosionsDamage = 100f;
 
 	[SyncVar(hook = nameof(SyncOnFire))]
 	private bool onFire = false;
@@ -193,7 +200,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <param name="damage"></param>
 	/// <param name="damageType"></param>
 	[Server]
-	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false, bool triggerEvent = true)
+	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false, bool triggerEvent = true, bool ignoreArmor = false,
+		bool explodeOnDestroy = false)
 	{
 		//already destroyed, don't apply damage
 		if (destroyed || Resistances.Indestructable || (!ignoreDeflection && damage < damageDeflection)) return;
@@ -202,7 +210,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 		var damageInfo = new DamageInfo(damage, attackType, damageType, this);
 
-		damage = Armor.GetDamage(damage, attackType);
+		damage = ignoreArmor ? damage : Armor.GetDamage(damage, attackType);
 		if (damage > 0)
 		{
 			if (attackType == AttackType.Fire && !onFire && !destroyed && Resistances.Flammable)
@@ -217,7 +225,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 				OnApplyDamage.Invoke(damageInfo);
 			}
 
-			CheckDestruction();
+			CheckDestruction(explodeOnDestroy);
 
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}
@@ -261,7 +269,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	}
 
 	[Server]
-	private void CheckDestruction()
+	private void CheckDestruction(bool explodeOnDestroy = false)
 	{
 		if (!destroyed && integrity <= 0)
 		{
@@ -274,6 +282,11 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			{
 				//ensure we stop burning
 				SyncOnFire(onFire, false);
+			}
+
+			if (explodeOnDestroy)
+			{
+				Explosion.StartExplosion(registerTile.LocalPositionServer, ExplosionsDamage, registerTile.Matrix);
 			}
 
 			if (destructInfo.DamageType == DamageType.Burn)
@@ -294,6 +307,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 			destroyed = true;
 		}
+	}
+
+	[Server]
+	public void ForceDestroy()
+	{
+		integrity = 0;
+		CheckDestruction();
 	}
 
 	public string Examine(Vector3 worldPos)

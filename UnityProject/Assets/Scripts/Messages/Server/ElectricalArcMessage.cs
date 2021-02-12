@@ -17,6 +17,8 @@ namespace Systems.ElectricalArcs
 		public Vector3 endPosition;
 		public int arcCount;
 		public float duration;
+		public bool reachCheck;
+		public bool addRandomness;
 
 		// To be run on client
 		public override void Process()
@@ -33,7 +35,7 @@ namespace Systems.ElectricalArcs
 				return;
 			}
 
-			var settings = new ElectricalArcSettings(prefab, startObject, endObject, startPosition, endPosition, arcCount, duration);
+			var settings = new ElectricalArcSettings(prefab, startObject, endObject, startPosition, endPosition, arcCount, duration, reachCheck, addRandomness);
 			new ElectricalArc().CreateArcs(settings);
 		}
 
@@ -59,6 +61,8 @@ namespace Systems.ElectricalArcs
 				endPosition = arcSettings.endPosition,
 				arcCount = arcSettings.arcCount,
 				duration = arcSettings.duration,
+				reachCheck = arcSettings.reachCheck,
+				addRandomness = arcSettings.addRandomness
 			};
 			msg.SendToAll();
 			return msg;
