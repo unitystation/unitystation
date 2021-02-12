@@ -19,6 +19,8 @@ public class GUI_IngameMenu : MonoBehaviour
 
 	public GameObject serverInfo;
 
+	public GameObject HelpMenu;
+
 	private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
 
 	private CustomNetworkManager networkManager => CustomNetworkManager.Instance;
@@ -129,6 +131,17 @@ public class GUI_IngameMenu : MonoBehaviour
 		HideAllMenus();
 	}
 
+	public void HelpScreen()
+	{
+		HelpMenu.SetActive(true);
+		CloseMenuPanel();
+	}
+
+	public void closeHelp()
+	{
+		HelpMenu.SetActive(false);
+	}
+
 	public void InitiateRestartVote()
 	{
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
@@ -139,6 +152,16 @@ public class GUI_IngameMenu : MonoBehaviour
 		PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateRestartVote();
 
 		CloseMenuPanel();
+	}
+
+	public void GoToWiki()
+	{
+		Application.OpenURL("https://unitystation.github.io/unitystation-wiki/");
+	}
+
+	public void MentorHelp()
+	{
+
 	}
 
 	// Logout confirmation window functions
