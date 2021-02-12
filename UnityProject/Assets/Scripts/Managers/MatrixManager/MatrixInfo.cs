@@ -4,7 +4,6 @@ using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
 using TileManagement;
-using Object = UnityEngine.Object;
 
 /// Class that helps identify matrices
 public class MatrixInfo : IEquatable<MatrixInfo>
