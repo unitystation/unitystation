@@ -18,7 +18,13 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			int playersFound = 0;
-			foreach (Transform t in GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo.Objects.transform)
+			var primaryEscape = GameManager.Instance.PrimaryEscapeShuttle;
+			var objects = primaryEscape.OrNull()?.MatrixInfo?.Objects;
+			var objectsTransform = objects.OrNull()?.transform;
+
+			if (objectsTransform == null) return false;
+
+			foreach (Transform t in objectsTransform)
 			{
 				var player = t.GetComponent<PlayerScript>();
 				if (player != null)

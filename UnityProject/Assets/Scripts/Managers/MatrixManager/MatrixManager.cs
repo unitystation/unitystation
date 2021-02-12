@@ -176,9 +176,8 @@ public partial class MatrixManager : MonoBehaviour
 	private static MatrixInfo CreateMatrixInfoFromMatrix(Matrix matrix, int id)
 	{
 		var gameObj = matrix.gameObject;
-		return new MatrixInfo
+		return new MatrixInfo(id)
 		{
-			Id = id,
 			Matrix = matrix,
 			GameObject = gameObj,
 			Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
@@ -355,11 +354,15 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BoundsInt r)
 	{
-		//return true;
-		return LineIntersectsLine(p1, p2, new Vector2(r.xMin, r.yMin), new Vector2(r.xMin, r.yMax)) ||
-		       LineIntersectsLine(p1, p2, new Vector2(r.xMin, r.yMin), new Vector2(r.xMax, r.yMin)) ||
-		       LineIntersectsLine(p1, p2, new Vector2(r.xMax, r.yMax), new Vector2(r.xMin, r.yMax)) ||
-		       LineIntersectsLine(p1, p2, new Vector2(r.xMax, r.yMax), new Vector2(r.xMax, r.yMin)) ||
+		var xMin = r.xMin;
+		var yMin = r.yMin;
+		var xMax = r.xMax;
+		var yMax = r.yMax;
+
+		return LineIntersectsLine(p1, p2, new Vector2(xMin, yMin), new Vector2(xMin, yMax)) ||
+		       LineIntersectsLine(p1, p2, new Vector2(xMin, yMin), new Vector2(xMax, yMin)) ||
+		       LineIntersectsLine(p1, p2, new Vector2(xMax, yMax), new Vector2(xMin, yMax)) ||
+		       LineIntersectsLine(p1, p2, new Vector2(xMax, yMax), new Vector2(xMax, yMin)) ||
 		       (FindPoint(r.min, r.max, p1) && FindPoint(r.min, r.max, p2));
 	}
 
@@ -659,6 +662,8 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
+			if (mat == null) continue;
+
 			Vector3Int position = WorldToLocalInt(worldPosition, mat);
 			MetaDataNode node = mat.MetaDataLayer.Get(position, false);
 
@@ -909,17 +914,17 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static bool IsTableAtAnyMatrix(Vector3Int worldTarget, bool isServer)
 	{
-		return AnyMatchInternal(mat => mat.Matrix.IsTableAt(WorldToLocalInt(worldTarget, mat), isServer));
+		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsTableAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
 	public static bool IsWallAtAnyMatrix(Vector3Int worldTarget, bool isServer)
 	{
-		return AnyMatchInternal(mat => mat.Matrix.IsWallAt(WorldToLocalInt(worldTarget, mat), isServer));
+		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWallAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
 	public static bool IsWindowAtAnyMatrix(Vector3Int worldTarget, bool isServer)
 	{
-		return AnyMatchInternal(mat => mat.Matrix.IsWindowAt(WorldToLocalInt(worldTarget, mat), isServer));
+		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWindowAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
 	/// <Summary>
@@ -959,13 +964,13 @@ public partial class MatrixManager : MonoBehaviour
 	/// Get MatrixInfo by gameObject containing Matrix component
 	public static MatrixInfo Get(GameObject go)
 	{
-		return getInternal(mat => mat.GameObject == go);
+		return getInternal(mat => mat != null && mat.GameObject == go);
 	}
 
 	/// Get MatrixInfo by Objects layer transform
 	public static MatrixInfo Get(Transform objectParent)
 	{
-		return getInternal(mat => mat.ObjectParent == objectParent);
+		return getInternal(mat => mat != null && mat.ObjectParent == objectParent);
 	}
 
 	/// Get MatrixInfo by Matrix component
@@ -1090,7 +1095,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState state = default(MatrixState))
 	{
 		//Invalid matrix info provided
-		if (matrix.Equals(MatrixInfo.Invalid) || localPos == TransformState.HiddenPos)
+		if (matrix == null || matrix.Equals(MatrixInfo.Invalid) || localPos == TransformState.HiddenPos)
 		{
 			return TransformState.HiddenPos;
 		}
@@ -1121,7 +1126,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{
 		//Invalid matrix info provided
-		if (matrix.Equals(MatrixInfo.Invalid) || worldPos == TransformState.HiddenPos)
+		if (matrix == null || matrix.Equals(MatrixInfo.Invalid) || worldPos == TransformState.HiddenPos)
 		{
 			return TransformState.HiddenPos;
 		}

@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using Systems.Explosions;
@@ -36,7 +34,7 @@ public partial class MatrixManager
 			return;
 		}
 
-		if (matrixInfo.MatrixMove != null)
+		if (matrixInfo?.MatrixMove != null)
 		{
 			matrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
 			{
@@ -99,12 +97,7 @@ public partial class MatrixManager
 						toUpdate = new List<MatrixIntersection>();
 					}
 
-					toUpdate.Add( new MatrixIntersection
-					{
-						Matrix1 = trackedIntersection.Matrix1,
-						Matrix2 = trackedIntersection.Matrix2,
-						Rect = hotZone
-					} );
+					toUpdate.Add(trackedIntersection.Clone(ref hotZone));
 				}
 				else
 				{ //stop tracking non-intersecting ones
@@ -166,7 +159,7 @@ public partial class MatrixManager
 		List<MatrixIntersection> intersections = null;
 		foreach ( var otherMatrix in ActiveMatrices )
 		{
-			if ( matrix == otherMatrix )
+			if ( matrix == null || matrix == otherMatrix )
 			{
 				continue;
 			}
@@ -177,12 +170,7 @@ public partial class MatrixManager
 					intersections = new List<MatrixIntersection>();
 				}
 
-				intersections.Add( new MatrixIntersection
-				{
-					Matrix1 = matrix,
-					Matrix2 = otherMatrix,
-					Rect = hotZone
-				} );
+				intersections.Add(new MatrixIntersection(matrix, otherMatrix, hotZone));
 			}
 		}
 
@@ -221,9 +209,12 @@ public partial class MatrixManager
 
 	private void CheckTileCollisions( MatrixIntersection i )
 	{
+		if (i.Matrix1 == null || i.Matrix2 == null) return;
+
 		byte collisions = 0;
 		foreach ( Vector3Int worldPos in i.Rect.ToBoundsInt().allPositionsWithin )
 		{
+
 			Vector3Int cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
 
 			if ( !i.Matrix1.Matrix.HasTile( cellPos1, true) )
@@ -374,6 +365,8 @@ public partial class MatrixManager
 
 		void RemoveUnderfloor(MatrixInfo matrix, Vector3Int cellPos)
 		{
+			if (matrix == null) return;
+
 			var Node = matrix.Matrix.GetMetaDataNode(cellPos);
 			if (Node != null)
 			{
@@ -386,6 +379,8 @@ public partial class MatrixManager
 
 		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos )
 		{
+			if (matrix == null) return;
+
 			matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos );
 			if ( damage > 9000 )
 			{
@@ -399,6 +394,8 @@ public partial class MatrixManager
 
 		void ApplyWireDamage( MatrixInfo matrix, Vector3Int cellPos )
 		{
+			if (matrix == null) return;
+
 			foreach ( var wire in matrix.Matrix.Get<CableInheritance>( cellPos, true ) )
 			{
 				if ( Random.value >= 0.5 )
@@ -414,6 +411,8 @@ public partial class MatrixManager
 
 		float ApplyIntegrityDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
 		{
+			if (matrix == null) return 0;
+
 			float resistance = 0f;
 			foreach ( var integrity in matrix.Matrix.Get<Integrity>( cellPos, true ) )
 			{
@@ -426,6 +425,8 @@ public partial class MatrixManager
 
 		float ApplyLivingDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
 		{
+			if (matrix == null) return 0;
+
 			byte count = 0;
 			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthBehaviour>( cellPos, true ) )
 			{
@@ -438,10 +439,8 @@ public partial class MatrixManager
 
 		void TryPushing( MatrixInfo matrix, Vector3Int cellPos, Vector2Int pushVector, float speed )
 		{
-			if ( pushVector == Vector2Int.zero )
-			{
-				return;
-			}
+			if (matrix == null || pushVector == Vector2Int.zero) return;
+
 			foreach ( var pushPull in matrix.Matrix.Get<PushPull>( cellPos, true ) )
 			{
 				byte pushes = (byte) Mathf.Clamp( speed / 4, 1, 4 );
@@ -510,21 +509,31 @@ public partial class MatrixManager
 /// First and second matrix are swappable – intersections (m1,m2) and (m2,m1) will be considered equal.
 /// Rect isn't checked for equality
 /// </summary>
-public struct MatrixIntersection
+public readonly struct MatrixIntersection
 {
-	public MatrixInfo Matrix1;
-	public MatrixInfo Matrix2;
-	public Rect Rect;
+	public readonly MatrixInfo Matrix1;
+	public readonly MatrixInfo Matrix2;
+	public readonly Rect Rect;
+
+	public MatrixIntersection(MatrixInfo matrix1, MatrixInfo matrix2, Rect rect)
+	{
+		Matrix1 = matrix1;
+		Matrix2 = matrix2;
+		Rect = rect;
+	}
+
+	public MatrixIntersection Clone() => new MatrixIntersection(Matrix1, Matrix2, Rect);
+
+	public MatrixIntersection Clone(ref Rect rect) => new MatrixIntersection(Matrix1, Matrix2, rect);
 
 	public override int GetHashCode()
 	{
 		return Matrix1.GetHashCode() ^ Matrix2.GetHashCode();
 	}
 
-	public bool Equals( MatrixIntersection other )
-	{
-		return (Matrix1.Equals( other.Matrix1 ) && Matrix2.Equals( other.Matrix2 ))
-		       || (Matrix1.Equals( other.Matrix2 ) && Matrix2.Equals( other.Matrix1 ));	}
+	public bool Equals(MatrixIntersection other) =>
+		Matrix1 == other.Matrix1 && Matrix2 == other.Matrix2
+		|| Matrix1 == other.Matrix2 && Matrix2 == other.Matrix1;
 
 	public override bool Equals( object obj )
 	{

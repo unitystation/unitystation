@@ -58,11 +58,15 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<ConnectionApply>
 		if (cableCoil != null)
 		{
 			Vector3Int worldPosInt = Vector3Int.RoundToInt(interaction.WorldPositionTarget);
-			MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
-			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
+			var matrixInfo = MatrixManager.AtPoint(worldPosInt, true);
+			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixInfo);
+			var matrix = matrixInfo?.Matrix;
 
 			// if there is no matrix or IsClearUnderfloor == false - return
-			if (matrix.Matrix == null || !matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true)) return;
+			if (matrix == null || matrix.IsClearUnderfloorConstruction(localPosInt, true) == false)
+			{
+				return;
+			}
 
 			Connection WireEndB = interaction.WireEndB;
 			Connection WireEndA = interaction.WireEndA;

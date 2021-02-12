@@ -14,7 +14,12 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			foreach (Transform t in GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo.Objects.transform)
+			var transform = GameManager.Instance.PrimaryEscapeShuttle.OrNull()?.MatrixInfo?.Objects.OrNull()?.transform;
+
+			// If the primary shuttle doesn't exist in some form, should this return true?
+			if (transform == null) return true;
+
+			foreach (Transform t in transform)
 			{
 				var player = t.GetComponent<PlayerScript>();
 				if (player != null)
