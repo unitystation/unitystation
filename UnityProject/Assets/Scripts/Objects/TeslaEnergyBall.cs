@@ -335,7 +335,7 @@ namespace Objects
 			}
 			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity != null && integrity.Resistances.LightningDamageProof == false)
 			{
-				integrity.ApplyDamage(damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn, explodeOnDestroy: true);
+				integrity.ApplyDamage(damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn, true, explodeOnDestroy: true);
 			}
 		}
 
