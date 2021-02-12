@@ -19,6 +19,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ad5e8238cfcff0548a5d7b449c352102,
         type: 2}
+    - target: {fileID: 578143999024126661, guid: 73cdfe4bc89fe6548bd9e4cb0462e36c,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ad5e8238cfcff0548a5d7b449c352102,
+        type: 2}
+    - target: {fileID: 578143999024126661, guid: 73cdfe4bc89fe6548bd9e4cb0462e36c,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1653a2d386d70084aa26248c60fb8136,
+        type: 2}
+    - target: {fileID: 5794798242617586740, guid: 73cdfe4bc89fe6548bd9e4cb0462e36c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5794798242617586740, guid: 73cdfe4bc89fe6548bd9e4cb0462e36c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36,6 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5794798242617586740, guid: 73cdfe4bc89fe6548bd9e4cb0462e36c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5794798242617586740, guid: 73cdfe4bc89fe6548bd9e4cb0462e36c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +70,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5794798242617586740, guid: 73cdfe4bc89fe6548bd9e4cb0462e36c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5794798242617586740, guid: 73cdfe4bc89fe6548bd9e4cb0462e36c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5794798242617586740, guid: 73cdfe4bc89fe6548bd9e4cb0462e36c,
         type: 3}

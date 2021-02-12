@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
@@ -80,13 +80,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
-      propertyPath: initialDescription
-      value: The ideal outfit for burning the unfaithful.
+      propertyPath: initialName
+      value: adept robes
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
-      propertyPath: initialName
-      value: adept robes
+      propertyPath: initialDescription
+      value: The ideal outfit for burning the unfaithful.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
@@ -96,9 +96,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 13eb715818a7a034fbae11a462d0dd5d,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1cad3a8b85999f945b25e808d05ce561,
+        type: 2}
     - target: {fileID: 8975007657035133986, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: PresentSpriteSet

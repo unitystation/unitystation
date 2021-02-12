@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2987011942256334699, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
-      propertyPath: initialDescription
-      value: An eyepatch with built-in thermal optics.
+      propertyPath: initialName
+      value: eyepatch
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
-      propertyPath: initialName
-      value: eyepatch
+      propertyPath: initialDescription
+      value: An eyepatch with built-in thermal optics.
       objectReference: {fileID: 0}
     - target: {fileID: 3273994478765017941, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
@@ -27,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
@@ -98,6 +98,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 809185f81a2d0ab4fafd7be8ad3f260d,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 809185f81a2d0ab4fafd7be8ad3f260d,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638853748845472652, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ec98147e96735ab49a1df98a2b0b445a,
         type: 2}
     - target: {fileID: 8851959254138389390, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}

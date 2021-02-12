@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
@@ -80,8 +80,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
-      propertyPath: initialDescription
-      value: Made in the finest space jeans factory this side of Alpha Centauri.
+      propertyPath: exportCost
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
@@ -90,14 +90,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
-      propertyPath: exportCost
-      value: 180
+      propertyPath: initialDescription
+      value: Made in the finest space jeans factory this side of Alpha Centauri.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 61a669b5302b4d647a28d396050d81f7,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 61a669b5302b4d647a28d396050d81f7,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c0f45b0947987e458a62bb074c0fca6,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}

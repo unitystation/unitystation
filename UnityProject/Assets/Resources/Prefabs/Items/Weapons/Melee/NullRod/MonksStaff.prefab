@@ -15,8 +15,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 4
+      propertyPath: initialName
+      value: monk's staff
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -26,18 +26,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
-      propertyPath: initialName
-      value: monk's staff
+      propertyPath: attackVerbs.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
-      propertyPath: attackVerbs.Array.data[3]
-      value: thwacked
-      objectReference: {fileID: 0}
-    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[2]
-      value: whacked
+      propertyPath: attackVerbs.Array.data[0]
+      value: smashed
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -46,8 +41,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
-      value: smashed
+      propertyPath: attackVerbs.Array.data[2]
+      value: whacked
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[3]
+      value: thwacked
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -74,6 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -89,6 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -101,16 +111,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -137,6 +137,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 1c8d0c3fed92a0e459dc7685224c6d71,
+        type: 2}
+    - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c8d0c3fed92a0e459dc7685224c6d71,
+        type: 2}
+    - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f6243741d85b87d4fa379cde30a8e94c,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c123336301845541830989cb9e3d606, type: 3}

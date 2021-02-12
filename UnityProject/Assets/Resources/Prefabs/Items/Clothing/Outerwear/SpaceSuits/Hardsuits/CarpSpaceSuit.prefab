@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c8f201171cc31654cb61291bf16f21e7,
         type: 2}
+    - target: {fileID: 2357952952862320962, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c8f201171cc31654cb61291bf16f21e7,
+        type: 2}
+    - target: {fileID: 2357952952862320962, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8bc9bdff75ff60e4a96a7c9d269564f2,
+        type: 2}
     - target: {fileID: 3279187927244718400, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +35,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CarpSpaceSuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
@@ -41,6 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +75,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8707596752211740595, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
@@ -86,6 +98,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
+      propertyPath: Armor.Bomb
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
+        type: 3}
       propertyPath: Armor.Melee
       value: 20
       objectReference: {fileID: 0}
@@ -96,23 +123,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
       propertyPath: Armor.Energy
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8745895010437983027, guid: 5da2eb22d55c9c045bd7c22925c9b948,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8806207020331714971, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
@@ -122,14 +134,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9090939745550505381, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: initialDescription
-      value: A slimming piece of dubious space carp technology, you suspect it won't
-        stand up to hand-to-hand blows.
+      propertyPath: initialName
+      value: carp space suit
       objectReference: {fileID: 0}
     - target: {fileID: 9090939745550505381, guid: 5da2eb22d55c9c045bd7c22925c9b948,
         type: 3}
-      propertyPath: initialName
-      value: carp space suit
+      propertyPath: initialDescription
+      value: A slimming piece of dubious space carp technology, you suspect it won't
+        stand up to hand-to-hand blows.
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4120428031018886343, guid: 5da2eb22d55c9c045bd7c22925c9b948, type: 3}

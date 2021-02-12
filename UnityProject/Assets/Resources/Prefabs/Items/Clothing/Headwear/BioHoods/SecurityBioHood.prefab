@@ -13,12 +13,34 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: de85910363a15fc4d839f139b19b8798,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: de85910363a15fc4d839f139b19b8798,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f90da9457fe6dd2439d9d8d0a84f19cd,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 00ce24ef0fb79a14994837c17ad5b4b0,
         type: 2}
+    - target: {fileID: 7521929656741835326, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521929656741835326, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
         type: 3}
       propertyPath: Armor.Melee
@@ -31,23 +53,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
-        type: 3}
       propertyPath: Armor.Energy
       value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
         type: 3}
@@ -66,6 +83,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -78,16 +100,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 1d1397c88f2d0ab48a7d57adf3b29881,
         type: 3}

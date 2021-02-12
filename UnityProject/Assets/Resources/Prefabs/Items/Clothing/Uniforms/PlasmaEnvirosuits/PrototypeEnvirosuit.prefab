@@ -9,21 +9,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
+      propertyPath: initialName
+      value: prototype envirosuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
       propertyPath: initialDescription
       value: Made out of a modified voidsuit, this suit was Nano-Trasen's first solution
         to the *logistical problems* that come with employing plasmamen. Due to the
         modifications, the suit is no longer space-worthy. Despite their limitations,
         these suits are still in used by historian and old-styled plasmamen alike.
       objectReference: {fileID: 0}
-    - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
-        type: 3}
-      propertyPath: initialName
-      value: prototype envirosuit
-      objectReference: {fileID: 0}
     - target: {fileID: 3189476086581078171, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: m_Name
       value: PrototypeEnvirosuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
@@ -42,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -54,16 +64,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
@@ -96,6 +96,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 392b8768cb1e7224681f007b20bf3706,
+        type: 2}
+    - target: {fileID: 8376256678827195166, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 392b8768cb1e7224681f007b20bf3706,
+        type: 2}
+    - target: {fileID: 8376256678827195166, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: fed46db1e2f78a94ba038a7547a9c6d6,
         type: 2}
     - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}

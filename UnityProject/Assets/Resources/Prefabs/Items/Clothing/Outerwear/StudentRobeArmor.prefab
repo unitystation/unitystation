@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
@@ -85,14 +85,26 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
-      propertyPath: initialDescription
-      value: The uniform of a bygone institute of learning.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3397443007502491847, guid: 548b2e942a9ec6d69af3374e3be7dd50,
-        type: 3}
       propertyPath: initialName
       value: student robe
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: initialDescription
+      value: The uniform of a bygone institute of learning.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 07ee11881cad43d40b730ef7217b3ead,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 07ee11881cad43d40b730ef7217b3ead,
+        type: 2}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: hideClothingFlags
@@ -100,9 +112,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
-      propertyPath: clothData
+      propertyPath: allClothingData.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 07ee11881cad43d40b730ef7217b3ead,
+      objectReference: {fileID: 11400000, guid: a041075bf65db954d83c51312aeb234b,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}

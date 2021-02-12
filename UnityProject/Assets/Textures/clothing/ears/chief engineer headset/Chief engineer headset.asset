@@ -9,54 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29426ca7d955d2c429f6808f9fd5e786, type: 3}
+  m_Script: {fileID: 11500000, guid: cd5a08c3d2a815a459870fba3d969bfc, type: 3}
   m_Name: Chief engineer headset
-  m_EditorClassIdentifier: 
-  Sprites:
-    Equipped:
-      Texture: {fileID: 2800000, guid: 5d15a6e204d0231c782bf7fd872cf820, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 5d15a6e204d0231c782bf7fd872cf820, type: 3}
-      - {fileID: 21300002, guid: 5d15a6e204d0231c782bf7fd872cf820, type: 3}
-      - {fileID: 21300004, guid: 5d15a6e204d0231c782bf7fd872cf820, type: 3}
-      - {fileID: 21300006, guid: 5d15a6e204d0231c782bf7fd872cf820, type: 3}
-      EquippedData: {fileID: 4900000, guid: 693b7056aaedcae0a8671d6ad60c5af4, type: 3}
-    InHandsLeft:
-      Texture: {fileID: 2800000, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      - {fileID: 21300002, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      - {fileID: 21300004, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      - {fileID: 21300006, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      EquippedData: {fileID: 4900000, guid: 147e5145073b5f44b9df5fcbc08146b0, type: 3}
-    InHandsRight:
-      Texture: {fileID: 2800000, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      - {fileID: 21300002, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      - {fileID: 21300004, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      - {fileID: 21300006, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      EquippedData: {fileID: 4900000, guid: 34cf85f5368714b489f878dd7831f68a, type: 3}
-    ItemIcon:
-      Texture: {fileID: 2800000, guid: b16fb0215cc7974b686f8d9f0df38709, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: b16fb0215cc7974b686f8d9f0df38709, type: 3}
-      EquippedData: {fileID: 0}
-    SpriteEquipped: {fileID: 11400000, guid: d98d742351861b84887a82b8e51d1771, type: 2}
-    SpriteInHandsLeft: {fileID: 11400000, guid: f6cdfdd6871648349a045be11f42af2b,
-      type: 2}
-    SpriteInHandsRight: {fileID: 11400000, guid: b94e20227c573f945ab19acee6a2b483,
-      type: 2}
-    SpriteItemIcon: {fileID: 11400000, guid: c2e092531e029b942bfca41dc32932e4, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  Key:
-    EncryptionKey: 13
+  m_EditorClassIdentifier: Assets::HeadsetDataV2
+  SpriteEquipped: {fileID: 11400000, guid: d98d742351861b84887a82b8e51d1771, type: 2}
+  SpriteInHandsLeft: {fileID: 11400000, guid: f6cdfdd6871648349a045be11f42af2b, type: 2}
+  SpriteInHandsRight: {fileID: 11400000, guid: b94e20227c573f945ab19acee6a2b483, type: 2}
+  SpriteItemIcon: {fileID: 11400000, guid: c2e092531e029b942bfca41dc32932e4, type: 2}
+  Palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  IsPaletted: 0

@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -95,6 +95,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: initialDescription
       value: It's a cape that can be worn around your neck.
       objectReference: {fileID: 0}
@@ -104,11 +109,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 03d313a9668074d24b7a143b70a86327,
         type: 2}
-    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: initialSize
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7325966862900394647, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -123,8 +123,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ecb00a2d440f7d447be85326033eaee3,
+        type: 2}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 367cb52c9b3c9f849bca75d3c84a7499,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0c29a11d2c864b7982765b5340eed0e, type: 3}

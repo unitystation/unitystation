@@ -19,6 +19,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 49d6b638746a20d44be932c95851b17a,
         type: 2}
+    - target: {fileID: 4556521786833149450, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 49d6b638746a20d44be932c95851b17a,
+        type: 2}
+    - target: {fileID: 4556521786833149450, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3cefc8dfe5058e848a9c463bceda6195,
+        type: 2}
+    - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: initialName
+      value: scientist satchel
+      objectReference: {fileID: 0}
     - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
       propertyPath: exportMessage
@@ -28,11 +45,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Useful for holding research materials.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
-        type: 3}
-      propertyPath: initialName
-      value: scientist satchel
       objectReference: {fileID: 0}
     - target: {fileID: 7327580324930125523, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
@@ -52,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -67,6 +84,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -79,16 +101,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}

@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 113741948671488, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113741948671488, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -20,6 +24,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 113741948671488, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 113741948671488, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -30,14 +38,6 @@ PrefabInstance:
     - target: {fileID: 113741948671488, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 113741948671488, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 113741948671488, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 113741948671488, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -78,14 +78,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 503980836322526230, guid: 42314b61cae71bf43b6dacdb1b81fc2e,
         type: 3}
-      propertyPath: initialDescription
-      value: A special suit that protects against hazardous, low pressure environments.
-        Has thermal shielding.
+      propertyPath: initialName
+      value: atmospherics hardsuit
       objectReference: {fileID: 0}
     - target: {fileID: 503980836322526230, guid: 42314b61cae71bf43b6dacdb1b81fc2e,
         type: 3}
-      propertyPath: initialName
-      value: atmospherics hardsuit
+      propertyPath: initialDescription
+      value: A special suit that protects against hazardous, low pressure environments.
+        Has thermal shielding.
       objectReference: {fileID: 0}
     - target: {fileID: 6149096178508402931, guid: 42314b61cae71bf43b6dacdb1b81fc2e,
         type: 3}
@@ -98,6 +98,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: b3e6b094f0b2aaa46a6728bc5f68ec53,
+        type: 2}
+    - target: {fileID: 6372276647402305777, guid: 42314b61cae71bf43b6dacdb1b81fc2e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b3e6b094f0b2aaa46a6728bc5f68ec53,
+        type: 2}
+    - target: {fileID: 6372276647402305777, guid: 42314b61cae71bf43b6dacdb1b81fc2e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6372276647402305777, guid: 42314b61cae71bf43b6dacdb1b81fc2e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 16cd02dfdbd0e374ea912a78b010d7c0,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}

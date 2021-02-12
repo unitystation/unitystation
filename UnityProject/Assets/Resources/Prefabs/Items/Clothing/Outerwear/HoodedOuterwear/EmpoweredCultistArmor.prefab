@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -32,6 +37,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
@@ -50,16 +60,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -72,31 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Melee
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Bullet
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Laser
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Energy
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
@@ -115,7 +90,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
+      propertyPath: Armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
       propertyPath: Armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: Armor.Energy
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 844810168840007048, guid: f165d0512a4d5ef44ba3d22decd038b7,
@@ -125,19 +125,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 918999802101595998, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
-      propertyPath: initialDescription
-      value: Empowered armor which creates a powerful shield around the user."
+      propertyPath: initialName
+      value: empowered cultist armor
       objectReference: {fileID: 0}
     - target: {fileID: 918999802101595998, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
-      propertyPath: initialName
-      value: empowered cultist armor
+      propertyPath: initialDescription
+      value: Empowered armor which creates a powerful shield around the user."
       objectReference: {fileID: 0}
     - target: {fileID: 5931330098935284665, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: ea471b3bb9434d445becc55dd74001b5,
+        type: 2}
+    - target: {fileID: 5931330098935284665, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ea471b3bb9434d445becc55dd74001b5,
+        type: 2}
+    - target: {fileID: 5931330098935284665, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ee464de48bf017042a364e6cf60d43ad,
+        type: 2}
+    - target: {fileID: 5931330098935284665, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c6b0c89c211622f458355a996d81cf54,
         type: 2}
     - target: {fileID: 6875717833805015995, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}

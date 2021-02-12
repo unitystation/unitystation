@@ -135,13 +135,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100984610350504696, guid: f92b2950637a12c408848cede6089288,
         type: 3}
-      propertyPath: initialDescription
-      value: Eating this makes you immortal
+      propertyPath: initialName
+      value: ambrosia gaia branch
       objectReference: {fileID: 0}
     - target: {fileID: 100984610350504696, guid: f92b2950637a12c408848cede6089288,
         type: 3}
-      propertyPath: initialName
-      value: ambrosia gaia branch
+      propertyPath: initialDescription
+      value: Eating this makes you immortal
       objectReference: {fileID: 0}
     - target: {fileID: 394816891661698758, guid: f92b2950637a12c408848cede6089288,
         type: 3}
@@ -161,6 +161,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -176,6 +181,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -188,16 +198,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,
         type: 3}

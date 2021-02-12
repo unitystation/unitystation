@@ -18,6 +18,24 @@ PrefabInstance:
       propertyPath: hidesIdentity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 44155453462962640, guid: dce8e376d2eca40eabe3f055b41a021c,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c6527d6fadb93b4a976552eb96fc5e3,
+        type: 2}
+    - target: {fileID: 44155453462962640, guid: dce8e376d2eca40eabe3f055b41a021c,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ee2367129776de4a96951f217fea87b,
+        type: 2}
+    - target: {fileID: 44155453462962640, guid: dce8e376d2eca40eabe3f055b41a021c,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: eb7cad530ee2d324c937777d50572dbf,
+        type: 2}
     - target: {fileID: 984030586657343954, guid: dce8e376d2eca40eabe3f055b41a021c,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -28,6 +46,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MedicalMask
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: dce8e376d2eca40eabe3f055b41a021c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: dce8e376d2eca40eabe3f055b41a021c,
         type: 3}
@@ -46,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: dce8e376d2eca40eabe3f055b41a021c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: dce8e376d2eca40eabe3f055b41a021c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: dce8e376d2eca40eabe3f055b41a021c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: dce8e376d2eca40eabe3f055b41a021c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: dce8e376d2eca40eabe3f055b41a021c,
         type: 3}

@@ -25,6 +25,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3735833303697733727, guid: 14560ef46420dc74987b83e71df1181b,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3735833303697733727, guid: 14560ef46420dc74987b83e71df1181b,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -37,6 +42,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3735833303697733727, guid: 14560ef46420dc74987b83e71df1181b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3735833303697733727, guid: 14560ef46420dc74987b83e71df1181b,
         type: 3}
@@ -55,16 +65,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3735833303697733727, guid: 14560ef46420dc74987b83e71df1181b,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3735833303697733727, guid: 14560ef46420dc74987b83e71df1181b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3735833303697733727, guid: 14560ef46420dc74987b83e71df1181b,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -80,13 +80,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3829818956363049545, guid: 14560ef46420dc74987b83e71df1181b,
         type: 3}
-      propertyPath: initialDescription
-      value: A specialised black and red helmet that's more compact than its standard
-        Syndicate counterpart. Can be ultra-compressed into even the tightest of
-        spaces.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3829818956363049545, guid: 14560ef46420dc74987b83e71df1181b,
-        type: 3}
       propertyPath: initialName
       value: contractor helmet
       objectReference: {fileID: 0}
@@ -94,6 +87,13 @@ PrefabInstance:
         type: 3}
       propertyPath: initialSize
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829818956363049545, guid: 14560ef46420dc74987b83e71df1181b,
+        type: 3}
+      propertyPath: initialDescription
+      value: A specialised black and red helmet that's more compact than its standard
+        Syndicate counterpart. Can be ultra-compressed into even the tightest of
+        spaces.
       objectReference: {fileID: 0}
     - target: {fileID: 7389779781878611628, guid: 14560ef46420dc74987b83e71df1181b,
         type: 3}
@@ -106,6 +106,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: afb608e11520a3d439719e7be39c2dfd,
+        type: 2}
+    - target: {fileID: 7761637519219103406, guid: 14560ef46420dc74987b83e71df1181b,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: afb608e11520a3d439719e7be39c2dfd,
+        type: 2}
+    - target: {fileID: 7761637519219103406, guid: 14560ef46420dc74987b83e71df1181b,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761637519219103406, guid: 14560ef46420dc74987b83e71df1181b,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: be597714fb3e4d8468dc9fb1540ceb13,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14560ef46420dc74987b83e71df1181b, type: 3}

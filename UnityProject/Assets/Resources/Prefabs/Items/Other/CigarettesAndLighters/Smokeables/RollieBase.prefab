@@ -19,6 +19,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a975dd8ebdf0cb3499dc62ecd9976952,
         type: 2}
+    - target: {fileID: 4443546477690345710, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: a975dd8ebdf0cb3499dc62ecd9976952,
+        type: 2}
+    - target: {fileID: 4443546477690345710, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 60a722fc77527dc47a82c21041141d7e,
+        type: 2}
     - target: {fileID: 5733160862123623072, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
       propertyPath: buttPrefab
@@ -27,8 +39,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
+      propertyPath: initialName
+      value: rollie
       objectReference: {fileID: 0}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
@@ -37,8 +49,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
-      propertyPath: initialName
-      value: rollie
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
@@ -50,6 +62,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
@@ -68,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -80,16 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
@@ -119,6 +131,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
+      propertyPath: maxCapacity
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -126,11 +143,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77b0f36047b1a0e48ba9f97f954035fd, type: 3}

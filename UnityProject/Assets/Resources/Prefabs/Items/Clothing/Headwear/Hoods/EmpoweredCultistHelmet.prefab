@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8902559834540007752, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
-      propertyPath: initialDescription
-      value: Empowered helmet which creates a powerful shield around the user.
+      propertyPath: initialName
+      value: empowered cultist helmet
       objectReference: {fileID: 0}
     - target: {fileID: 8902559834540007752, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
-      propertyPath: initialName
-      value: empowered cultist helmet
+      propertyPath: initialDescription
+      value: Empowered helmet which creates a powerful shield around the user.
       objectReference: {fileID: 0}
     - target: {fileID: 9004261550291760030, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
@@ -24,23 +24,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9005536400395345886, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 50
+      propertyPath: Armor.Bio
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9005536400395345886, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
-      propertyPath: Armor.Bullet
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 9005536400395345886, guid: d0e6cbda5c639f54ba60b282149842aa,
-        type: 3}
-      propertyPath: Armor.Laser
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 9005536400395345886, guid: d0e6cbda5c639f54ba60b282149842aa,
-        type: 3}
-      propertyPath: Armor.Energy
-      value: 50
+      propertyPath: Armor.Acid
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 9005536400395345886, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
@@ -54,18 +44,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9005536400395345886, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 60
+      propertyPath: Armor.Laser
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9005536400395345886, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
-      propertyPath: Armor.Bio
-      value: 30
+      propertyPath: Armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 9005536400395345886, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 9005536400395345886, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9034684521901395498, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
       propertyPath: m_Name
       value: EmpoweredCultistHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
@@ -84,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -96,16 +106,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9039330920565535582, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}

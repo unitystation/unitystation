@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f12aa7553500a9948b90b20977e5cf76,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: dc3081345b70d284788d7ad8823dbd96,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f12aa7553500a9948b90b20977e5cf76,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: dc3081345b70d284788d7ad8823dbd96,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9c0336a5359f1c541ba4fffc8a639d88,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: dc3081345b70d284788d7ad8823dbd96,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +35,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: dc3081345b70d284788d7ad8823dbd96,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: dc3081345b70d284788d7ad8823dbd96,
         type: 3}
@@ -41,6 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: dc3081345b70d284788d7ad8823dbd96,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: dc3081345b70d284788d7ad8823dbd96,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +75,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: dc3081345b70d284788d7ad8823dbd96,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: dc3081345b70d284788d7ad8823dbd96,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: dc3081345b70d284788d7ad8823dbd96,
         type: 3}
@@ -92,13 +104,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8004422176852823208, guid: dc3081345b70d284788d7ad8823dbd96,
         type: 3}
-      propertyPath: initialDescription
-      value: Now you're ready for some 50 dollar bling water.
+      propertyPath: initialName
+      value: leader hood
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: dc3081345b70d284788d7ad8823dbd96,
         type: 3}
-      propertyPath: initialName
-      value: leader hood
+      propertyPath: initialDescription
+      value: Now you're ready for some 50 dollar bling water.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc3081345b70d284788d7ad8823dbd96, type: 3}

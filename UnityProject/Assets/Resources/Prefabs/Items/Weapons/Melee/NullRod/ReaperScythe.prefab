@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothData: {fileID: 11400000, guid: 81e9982ded3174c4a8bcc34e988abc23, type: 2}
-  variantType: 0
+  currentClothData: {fileID: 11400000, guid: 81e9982ded3174c4a8bcc34e988abc23, type: 2}
+  allClothingData:
+  - {fileID: 11400000, guid: 2ea56582806167147b900eeeabcd01ac, type: 2}
+  randomInitialClothData: 0
+  hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
-  SpriteDataSO: []
 --- !u!1001 &6937887239154367810
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -60,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -72,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
@@ -105,12 +107,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: initialName
+      value: reaper scythe
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: attackVerbs.Array.size
+      propertyPath: initialSize
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
@@ -120,15 +122,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: initialName
-      value: reaper scythe
+      propertyPath: attackVerbs.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
-        type: 2}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: attackVerbs.Array.data[0]
@@ -157,15 +158,16 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 1c5bd0594185ffc44bfd31534d6c2ab4,
         type: 2}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: initialSize
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d70fb70bc4fe6534a85996e49221bb53, type: 3}
 --- !u!1 &843652382478579635 stripped

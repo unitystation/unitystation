@@ -49,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -64,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -76,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -110,11 +110,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
       propertyPath: initialName
       value: galoshes
       objectReference: {fileID: 0}
@@ -122,6 +117,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A pair of yellow rubber boots, designed to prevent slipping on wet surfaces.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -140,6 +140,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 558ed004722a6b74fbbb8231a618cd9d,
+        type: 2}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 558ed004722a6b74fbbb8231a618cd9d,
+        type: 2}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 87a96c2697a1e3a47b8e0fc3df29c6cc,
         type: 2}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}

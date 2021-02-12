@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 8fd881065be8b411d84cfc10b38be725,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 8fd881065be8b411d84cfc10b38be725,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 8fd881065be8b411d84cfc10b38be725,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 8fd881065be8b411d84cfc10b38be725,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
@@ -85,19 +85,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
-      propertyPath: initialDescription
-      value: A simple maid uniform for housekeeping.
+      propertyPath: initialName
+      value: maid uniform
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
-      propertyPath: initialName
-      value: maid uniform
+      propertyPath: initialDescription
+      value: A simple maid uniform for housekeeping.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 51ae08cf0a9300442bc28df604d9a9ef,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 8fd881065be8b411d84cfc10b38be725,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 51ae08cf0a9300442bc28df604d9a9ef,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 8fd881065be8b411d84cfc10b38be725,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 8fd881065be8b411d84cfc10b38be725,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1fd0b0bc88d57b74a9833232bd9e64da,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}

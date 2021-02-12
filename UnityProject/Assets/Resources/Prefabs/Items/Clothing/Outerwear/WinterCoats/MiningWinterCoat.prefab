@@ -13,6 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c7923793c99bb654997cd3ff28b7af20,
         type: 2}
+    - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c7923793c99bb654997cd3ff28b7af20,
+        type: 2}
+    - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a1ab006227cb644aa7afc2073b63733,
+        type: 2}
+    - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e19e6b9378940c44abb082a725ee37f,
+        type: 2}
     - target: {fileID: 1028637337542569492, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -42,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -57,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}

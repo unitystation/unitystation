@@ -14,13 +14,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
-      propertyPath: initialDescription
-      value: A tribal armor plate, crafted from animal bone.
+      propertyPath: initialName
+      value: bone armor
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
-      propertyPath: initialName
-      value: bone armor
+      propertyPath: initialDescription
+      value: A tribal armor plate, crafted from animal bone.
       objectReference: {fileID: 0}
     - target: {fileID: 3791466462619397166, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
@@ -32,6 +32,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BoneArmor
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
@@ -90,12 +90,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4032895559081938566, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
-      propertyPath: Armor.Bullet
+      propertyPath: Armor.Laser
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4032895559081938566, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
-      propertyPath: Armor.Laser
+      propertyPath: Armor.Bullet
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4032895559081938566, guid: e606c25f8104ffa4e94b68151182a216,
@@ -119,6 +119,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 263004d1566c5de40ab475b7810bd18b,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 263004d1566c5de40ab475b7810bd18b,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931175119129480439, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b3745b27a8a100f4e89b801994c2e311,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e606c25f8104ffa4e94b68151182a216, type: 3}

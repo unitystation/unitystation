@@ -13,10 +13,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 550f325bccae0b50a8b5e7fc52693aad,
         type: 2}
+    - target: {fileID: 534031145482441555, guid: f0eaf27830684a4468f1786b2a5df3c8,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 550f325bccae0b50a8b5e7fc52693aad,
+        type: 2}
+    - target: {fileID: 534031145482441555, guid: f0eaf27830684a4468f1786b2a5df3c8,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e041692c34e161448734bafe0b8e1ac,
+        type: 2}
     - target: {fileID: 4044828966941312832, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153912305842980736, guid: f0eaf27830684a4468f1786b2a5df3c8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4153912305842980736, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
@@ -35,6 +52,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4153912305842980736, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153912305842980736, guid: f0eaf27830684a4468f1786b2a5df3c8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +69,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4153912305842980736, guid: f0eaf27830684a4468f1786b2a5df3c8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4153912305842980736, guid: f0eaf27830684a4468f1786b2a5df3c8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4153912305842980736, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
@@ -86,14 +98,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4565438015787013526, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
-      propertyPath: initialDescription
-      value: A headset especially for emergency response personnel. Protects ears
-        from flashbangs.
+      propertyPath: initialName
+      value: CentCom bowman headset
       objectReference: {fileID: 0}
     - target: {fileID: 4565438015787013526, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
-      propertyPath: initialName
-      value: CentCom bowman headset
+      propertyPath: initialDescription
+      value: A headset especially for emergency response personnel. Protects ears
+        from flashbangs.
       objectReference: {fileID: 0}
     - target: {fileID: 7849831515770044787, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}

@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: de7c66806376e49fd871dfce32fb6d26,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: de7c66806376e49fd871dfce32fb6d26,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
@@ -80,19 +80,37 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
-      propertyPath: initialDescription
-      value: A hard-boiled private investigator's grey suit, complete with tie clip.
+      propertyPath: initialName
+      value: noir suit
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
-      propertyPath: initialName
-      value: noir suit
+      propertyPath: initialDescription
+      value: A hard-boiled private investigator's grey suit, complete with tie clip.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 48bc2ec68f3896940907b08dd4b2b67c,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 48bc2ec68f3896940907b08dd4b2b67c,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ee2a041ac8d41204f955a71f4617114c,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a26b82dbb5ca859438124b7920a6340a,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}

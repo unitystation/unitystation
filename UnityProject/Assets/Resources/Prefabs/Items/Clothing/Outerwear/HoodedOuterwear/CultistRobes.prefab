@@ -9,14 +9,37 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 54523f1abbca0e34c8d798fa4e30d8d1,
+        type: 2}
+    - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 54523f1abbca0e34c8d798fa4e30d8d1,
+        type: 2}
+    - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: clothData
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 54523f1abbca0e34c8d798fa4e30d8d1,
+      objectReference: {fileID: 11400000, guid: 52c577abf84787d44a5b37486689437b,
+        type: 2}
+    - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6307a2979166a14428455c3b3d1b4e9e,
         type: 2}
     - target: {fileID: 738165133181011156, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
@@ -26,13 +49,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6455339164689371185, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: initialDescription
-      value: An armored set of robes worn by the followers of Nar'Sie.
+      propertyPath: initialName
+      value: cultist robes
       objectReference: {fileID: 0}
     - target: {fileID: 6455339164689371185, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: initialName
-      value: cultist robes
+      propertyPath: initialDescription
+      value: An armored set of robes worn by the followers of Nar'Sie.
       objectReference: {fileID: 0}
     - target: {fileID: 6740085358925630479, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
@@ -42,8 +65,28 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: HeatResistance
-      value: 600
+      propertyPath: Armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
@@ -57,38 +100,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
       propertyPath: Armor.Energy
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: Armor.Bomb
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
-      propertyPath: Armor.Bio
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 10
+      propertyPath: HeatResistance
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 6839938590819599079, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
@@ -107,6 +135,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -119,16 +152,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}

@@ -19,6 +19,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4dacf4b6267c66e40a0ce97339f5847b,
         type: 2}
+    - target: {fileID: 2057328618789337408, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4dacf4b6267c66e40a0ce97339f5847b,
+        type: 2}
+    - target: {fileID: 2057328618789337408, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2057328618789337408, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e407950f90c64347b5824186dd27ce4,
+        type: 2}
+    - target: {fileID: 2057328618789337408, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 50927a7463c76484eba691aede41ff46,
+        type: 2}
     - target: {fileID: 4764167688397997479, guid: b9f24bba431b4954d90487de487848e9,
         type: 3}
       propertyPath: initialName
@@ -28,6 +51,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Peering into the eyes of the helmet is enough to seal damnation.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963989134448449457, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4963989134448449457, guid: b9f24bba431b4954d90487de487848e9,
         type: 3}
@@ -46,6 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963989134448449457, guid: b9f24bba431b4954d90487de487848e9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963989134448449457, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +91,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963989134448449457, guid: b9f24bba431b4954d90487de487848e9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963989134448449457, guid: b9f24bba431b4954d90487de487848e9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4963989134448449457, guid: b9f24bba431b4954d90487de487848e9,
         type: 3}
@@ -96,14 +119,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5044548823623637401, guid: b9f24bba431b4954d90487de487848e9,
         type: 3}
-      propertyPath: m_SortingOrder
-      value: 41
-      objectReference: {fileID: 0}
-    - target: {fileID: 5044548823623637401, guid: b9f24bba431b4954d90487de487848e9,
-        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: a64b71bb4df90ac488c8085bb9551d3e,
         type: 3}
+    - target: {fileID: 5044548823623637401, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 41
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9f24bba431b4954d90487de487848e9, type: 3}

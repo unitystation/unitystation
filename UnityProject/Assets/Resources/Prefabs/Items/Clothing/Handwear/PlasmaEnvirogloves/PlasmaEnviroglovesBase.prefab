@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 044934cefb8b38c428f6bf360f5e98da,
         type: 2}
+    - target: {fileID: 137204755874420642, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 044934cefb8b38c428f6bf360f5e98da,
+        type: 2}
+    - target: {fileID: 137204755874420642, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 137204755874420642, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 415f9c0d4a57da24a842b4b81ec9ea78,
+        type: 2}
     - target: {fileID: 926711572434878368, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,8 +38,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6341625060856878547, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
-      propertyPath: HeatResistance
-      value: 1500
+      propertyPath: Armor.Bio
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6341625060856878547, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
@@ -36,13 +53,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6341625060856878547, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
-      propertyPath: Armor.Bio
-      value: 100
+      propertyPath: HeatResistance
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: 6345147379047856531, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
@@ -61,6 +83,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -73,16 +100,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
@@ -112,8 +129,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: initialName
+      value: plasma envirogloves
       objectReference: {fileID: 0}
     - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
@@ -122,8 +139,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
-      propertyPath: initialName
-      value: plasma envirogloves
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}

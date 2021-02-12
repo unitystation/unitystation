@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothData: {fileID: 11400000, guid: ae11a2c90809700428d5aa97848f8ea1, type: 2}
-  variantType: 0
+  currentClothData: {fileID: 11400000, guid: ae11a2c90809700428d5aa97848f8ea1, type: 2}
+  allClothingData:
+  - {fileID: 11400000, guid: af2df8b74c8123d478dac1098e7def39, type: 2}
+  CurrentClothIndex: 3
+  randomInitialClothData: 0
+  hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
-  SpriteDataSO: []
 --- !u!1001 &2336324483576872014
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -54,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -66,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -101,8 +104,38 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 8926179640925629959, guid: c87f3b21bf81b1148b1956ef763cdaff,
+      objectReference: {fileID: 2184457648898155496, guid: c87f3b21bf81b1148b1956ef763cdaff,
         type: 3}
+    - target: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: hitDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: initialName
+      value: eldritch longsword
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: throwDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: initialDescription
+      value: A sword humming with unholy energy. It glows with a dim red light.
+      objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: attackVerbs.Array.size
@@ -112,31 +145,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.size
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: initialName
-      value: eldritch longsword
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: initialDescription
-      value: A sword humming with unholy energy. It glows with a dim red light.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: initialSize
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: hitDamage
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: throwDamage
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -186,12 +194,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: ba0d688a60f87c84bb7ce5941db8f51c,
-        type: 2}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
@@ -201,6 +203,12 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
+        type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ba0d688a60f87c84bb7ce5941db8f51c,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}

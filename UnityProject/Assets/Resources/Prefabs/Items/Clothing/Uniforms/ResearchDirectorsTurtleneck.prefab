@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
@@ -80,20 +80,43 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
-      propertyPath: initialDescription
-      value: A dark purple turtleneck and tan khakis, for a director with a superior
-        sense of style.
+      propertyPath: initialName
+      value: research director's turtleneck
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
-      propertyPath: initialName
-      value: research director's turtleneck
+      propertyPath: initialDescription
+      value: A dark purple turtleneck and tan khakis, for a director with a superior
+        sense of style.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: ca66ea0f2af30a94c803a55b5bd69189,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ca66ea0f2af30a94c803a55b5bd69189,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d84a1828bb9e8d4428b587d2ece5f26c,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: efe1e9b7f56f0894d8f45edb49d099a4,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}

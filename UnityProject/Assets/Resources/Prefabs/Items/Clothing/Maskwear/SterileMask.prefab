@@ -20,14 +20,37 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: hidesIdentity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d9a1c1616e97be67a10b9eb423201bd,
+        type: 2}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: hidesIdentity
-      value: 0
+      propertyPath: allClothingData.Array.size
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: adaaeeffbf0db75449658ef7e3b6a7a6,
+        type: 2}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 54029eb2f20a8e34fb15eec209cd8505,
+        type: 2}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -36,18 +59,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: Resistances.Flammable
-      value: 1
+      propertyPath: Armor.Bio
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: Armor.Bio
-      value: 25
+      propertyPath: Resistances.Flammable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -66,6 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -78,16 +111,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -127,8 +150,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: initialDescription
-      value: A sterile mask designed to help prevent the spread of diseases.
+      propertyPath: initialSize
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -137,8 +160,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: initialSize
-      value: 1
+      propertyPath: initialDescription
+      value: A sterile mask designed to help prevent the spread of diseases.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}

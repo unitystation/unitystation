@@ -26,6 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2340983050137638129, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2340983050137638129, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2340983050137638129, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2340983050137638129, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2340983050137638129, guid: 2d2fc37c5598dcf428d140e8774aad83,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2340983050137638129, guid: 2d2fc37c5598dcf428d140e8774aad83,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2340983050137638129, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
@@ -92,23 +92,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
-        type: 3}
-      propertyPath: initialDescription
-      value: Do the impossible, see the invisible!
-      objectReference: {fileID: 0}
-    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
-        type: 3}
-      propertyPath: initialName
-      value: gar material scanner
+      propertyPath: hitSound
+      value: BladeSlice
       objectReference: {fileID: 0}
     - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
@@ -117,18 +102,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
-      propertyPath: throwDamage
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
-        type: 3}
       propertyPath: throwSpeed
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
-      propertyPath: hitSound
-      value: BladeSlice
+      propertyPath: initialName
+      value: gar material scanner
+      objectReference: {fileID: 0}
+    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      propertyPath: throwDamage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      propertyPath: initialDescription
+      value: Do the impossible, see the invisible!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
@@ -141,11 +146,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
         type: 2}
-    - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
-        type: 3}
-      propertyPath: hitSound.AssetAddress
-      value: Assets/Prefabs/Effects/BladeSlice.prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 8442361138761224706, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -157,6 +157,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 2a947ca3a4ae4dc4ba7d2483245cc74d,
+        type: 2}
+    - target: {fileID: 8652099904052017664, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a947ca3a4ae4dc4ba7d2483245cc74d,
+        type: 2}
+    - target: {fileID: 8652099904052017664, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652099904052017664, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a63d21b8173a0c844aaee5b2461ca7cb,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d2fc37c5598dcf428d140e8774aad83, type: 3}

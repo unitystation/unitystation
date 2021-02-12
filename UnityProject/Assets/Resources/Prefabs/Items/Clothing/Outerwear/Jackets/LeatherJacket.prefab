@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3495234765619245072, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
         type: 3}
-      propertyPath: initialDescription
-      value: Pompadour not included.
+      propertyPath: initialName
+      value: leather jacket
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
         type: 3}
-      propertyPath: initialName
-      value: leather jacket
+      propertyPath: initialDescription
+      value: Pompadour not included.
       objectReference: {fileID: 0}
     - target: {fileID: 3791466462619397166, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
         type: 3}
@@ -27,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LeatherJacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
         type: 3}
@@ -104,6 +104,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 5bd31a5561b823947ba3b7016eefc00d,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5bd31a5561b823947ba3b7016eefc00d,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ba7878ab610ebd4f90dabe842fafbda,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd5aab29695d7184bb5bbd12f3b1c5dd, type: 3}

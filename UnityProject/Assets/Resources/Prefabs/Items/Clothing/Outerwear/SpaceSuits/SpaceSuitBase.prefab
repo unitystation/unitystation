@@ -39,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +56,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -69,16 +79,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -94,6 +94,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: Armor.Bio
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: Armor.Melee
       value: 0
       objectReference: {fileID: 0}
@@ -104,48 +134,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
       propertyPath: Armor.Energy
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: Armor.Rad
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: Armor.Bio
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: Resistances.FireProof
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: HeatResistance
       value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3564945054494194852, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -165,9 +165,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
-      propertyPath: initialDescription
-      value: A suit that protects against low pressure environments. Has a big 13
-        on the back.
+      propertyPath: initialSize
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -176,8 +175,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
-      propertyPath: initialSize
-      value: 4
+      propertyPath: initialDescription
+      value: A suit that protects against low pressure environments. Has a big 13
+        on the back.
       objectReference: {fileID: 0}
     - target: {fileID: 7325966862900394647, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -193,14 +193,31 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: hidesSlots
+      value: 2120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f018cf5cd22e354187cbe1317eba861,
+        type: 2}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
-      propertyPath: hidesSlots
-      value: 2120
+      propertyPath: allClothingData.Array.size
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 165ee62ea3b6c584aa0ca2b872376d83,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0c29a11d2c864b7982765b5340eed0e, type: 3}
 --- !u!1 &3921521694364753778 stripped

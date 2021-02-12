@@ -13,15 +13,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bf883714db0eb35489155b02411f93e1,
         type: 2}
-    - target: {fileID: 2534401073920195852, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+    - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
-      propertyPath: initialDescription
-      value: Made specifically for the roboticists, who cannot decide between departments.
-      objectReference: {fileID: 0}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: bf883714db0eb35489155b02411f93e1,
+        type: 2}
+    - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 96cacfb625bcb3041ad82fbbf9bad7ee,
+        type: 2}
     - target: {fileID: 2534401073920195852, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: initialName
       value: robotics radio headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534401073920195852, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Made specifically for the roboticists, who cannot decide between departments.
       objectReference: {fileID: 0}
     - target: {fileID: 2618191676536156122, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
@@ -32,6 +44,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RadioHeadsetRobotics
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
@@ -50,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}

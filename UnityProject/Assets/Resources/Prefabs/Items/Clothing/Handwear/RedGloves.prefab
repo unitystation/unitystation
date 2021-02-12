@@ -19,6 +19,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b51df6fbc8f6d8645a16b34c31e26ce9,
         type: 2}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b51df6fbc8f6d8645a16b34c31e26ce9,
+        type: 2}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e957fd193cb8b2741b57b117e4d9e98a,
+        type: 2}
     - target: {fileID: 5799337935409317762, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_Sprite
@@ -29,6 +46,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RedGloves
+      objectReference: {fileID: 0}
+    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
@@ -47,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}

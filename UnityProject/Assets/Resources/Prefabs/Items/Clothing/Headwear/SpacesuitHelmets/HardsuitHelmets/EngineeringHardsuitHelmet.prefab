@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -74,8 +74,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 30
+      propertyPath: Armor.Bomb
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -84,13 +89,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: Armor.Bomb
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 100
+      propertyPath: Armor.Melee
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -127,15 +127,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7a2e7233c238f284f97e0efa63685428,
         type: 2}
+    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -153,6 +153,29 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: c5389b81c367a404aa5fc69096b6f967,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c5389b81c367a404aa5fc69096b6f967,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 556b08fe7fb0bcf438d7d8679d32f1b4,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: bc0319d83a8fe2e4aad33502f2e9f978,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}

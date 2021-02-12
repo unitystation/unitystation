@@ -19,6 +19,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1bd81b53cbb3a364487478f96210139d,
         type: 2}
+    - target: {fileID: 3025411225682985613, guid: 259354123db311145a0ccc3922005d0f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bd81b53cbb3a364487478f96210139d,
+        type: 2}
+    - target: {fileID: 3025411225682985613, guid: 259354123db311145a0ccc3922005d0f,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025411225682985613, guid: 259354123db311145a0ccc3922005d0f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 53c40fcd46ac452429ddf4b336897f07,
+        type: 2}
     - target: {fileID: 8076471909809007804, guid: 259354123db311145a0ccc3922005d0f,
         type: 3}
       propertyPath: m_AssetId
@@ -28,6 +45,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WardensArmoredJacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183836368440159356, guid: 259354123db311145a0ccc3922005d0f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8183836368440159356, guid: 259354123db311145a0ccc3922005d0f,
         type: 3}
@@ -46,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8183836368440159356, guid: 259354123db311145a0ccc3922005d0f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183836368440159356, guid: 259354123db311145a0ccc3922005d0f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8183836368440159356, guid: 259354123db311145a0ccc3922005d0f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8183836368440159356, guid: 259354123db311145a0ccc3922005d0f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8183836368440159356, guid: 259354123db311145a0ccc3922005d0f,
         type: 3}
@@ -92,13 +109,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8605476485851381354, guid: 259354123db311145a0ccc3922005d0f,
         type: 3}
-      propertyPath: initialDescription
-      value: A red jacket with silver rank pips and body armor strapped on top.
+      propertyPath: initialName
+      value: warden's armored jacket
       objectReference: {fileID: 0}
     - target: {fileID: 8605476485851381354, guid: 259354123db311145a0ccc3922005d0f,
         type: 3}
-      propertyPath: initialName
-      value: warden's armored jacket
+      propertyPath: initialDescription
+      value: A red jacket with silver rank pips and body armor strapped on top.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 259354123db311145a0ccc3922005d0f, type: 3}

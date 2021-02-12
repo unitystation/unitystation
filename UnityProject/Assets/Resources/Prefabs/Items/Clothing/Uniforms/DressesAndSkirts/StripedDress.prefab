@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
@@ -85,19 +85,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
-      propertyPath: initialDescription
-      value: Fashion in space.
+      propertyPath: initialName
+      value: striped dress
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
-      propertyPath: initialName
-      value: striped dress
+      propertyPath: initialDescription
+      value: Fashion in space.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: a7fb2e81820c75a4d83bcb5a2c613ee9,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: a7fb2e81820c75a4d83bcb5a2c613ee9,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d70274e18538de408e4f0239908cf16,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}

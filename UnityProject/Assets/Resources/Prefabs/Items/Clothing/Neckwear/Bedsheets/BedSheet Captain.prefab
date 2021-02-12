@@ -9,15 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
+      propertyPath: initialName
+      value: captain's bedsheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
       propertyPath: initialDescription
       value: It has a Nanotrasen symbol on it, and was woven with a revolutionary
         new kind of thread guaranteed to have 0.01% permeability for most non-chemical
         substances, popular among most modern captains.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: initialName
-      value: captain's bedsheet
       objectReference: {fileID: 0}
     - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
@@ -25,6 +25,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: dfcd3d147e5099249a4fba34183f2c35,
         type: 3}
+    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -42,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -54,16 +64,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
@@ -101,6 +101,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: ea671b24d13a879499e94e17374c514c,
+        type: 2}
+    - target: {fileID: 7964486416432102150, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ea671b24d13a879499e94e17374c514c,
+        type: 2}
+    - target: {fileID: 7964486416432102150, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 665778312108508429b4ae155a5ebf41,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 423cab216aa4e354f8159742cc80d10a, type: 3}

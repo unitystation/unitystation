@@ -13,6 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c467bcd0062d3d141bcf7969fed7bd34,
         type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c467bcd0062d3d141bcf7969fed7bd34,
+        type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ef5176cd650b23f4aadff883b5435e82,
+        type: 2}
+    - target: {fileID: 2810172669535721950, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4fbbb6c9b67a3d14b8081c7a8b4d3e40,
+        type: 2}
     - target: {fileID: 3153813430929650140, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,14 +44,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
-      propertyPath: initialDescription
-      value: A suit that protects against minor chemical spills. Has a blue stripe
-        on the shoulder.
+      propertyPath: initialName
+      value: geneticist labcoat
       objectReference: {fileID: 0}
     - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
-      propertyPath: initialName
-      value: geneticist labcoat
+      propertyPath: initialDescription
+      value: A suit that protects against minor chemical spills. Has a blue stripe
+        on the shoulder.
       objectReference: {fileID: 0}
     - target: {fileID: 8967636835189487879, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
@@ -40,6 +63,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GeneticistLabcoat
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
@@ -58,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -70,16 +103,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9120076822135715631, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}

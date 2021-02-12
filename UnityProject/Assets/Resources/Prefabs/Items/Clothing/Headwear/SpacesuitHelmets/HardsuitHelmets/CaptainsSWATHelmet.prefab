@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0d7a942f127503742b212baa3614d817,
         type: 2}
+    - target: {fileID: 1220986605490524607, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d7a942f127503742b212baa3614d817,
+        type: 2}
+    - target: {fileID: 1220986605490524607, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1220986605490524607, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: fcb3215b30a5c5c44b39a05c4a6070fc,
+        type: 2}
     - target: {fileID: 2146797987687250365, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CaptainsSWATHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 5233016135046790990, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5233016135046790990, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
         type: 3}
@@ -41,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5233016135046790990, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5233016135046790990, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5233016135046790990, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5233016135046790990, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5233016135046790990, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
         type: 3}
@@ -92,14 +109,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5647919544731200856, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
         type: 3}
-      propertyPath: initialDescription
-      value: A tactical MK.II SWAT helmet boasting better protection and a reasonable
-        fashion sense.
+      propertyPath: initialName
+      value: captain's SWAT helmet
       objectReference: {fileID: 0}
     - target: {fileID: 5647919544731200856, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
         type: 3}
-      propertyPath: initialName
-      value: captain's SWAT helmet
+      propertyPath: initialDescription
+      value: A tactical MK.II SWAT helmet boasting better protection and a reasonable
+        fashion sense.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68ff916d2f0053c4ab145dfd70a7aa0f, type: 3}

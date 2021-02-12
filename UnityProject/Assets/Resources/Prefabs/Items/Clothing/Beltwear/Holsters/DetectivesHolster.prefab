@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
@@ -74,13 +74,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3919968998321081025, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
-      propertyPath: initialDescription
-      value: 'A holster to carry a handgun and ammo. WARNING: Badasses only.'
+      propertyPath: initialName
+      value: detective's holster
       objectReference: {fileID: 0}
     - target: {fileID: 3919968998321081025, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
-      propertyPath: initialName
-      value: detective's holster
+      propertyPath: initialDescription
+      value: 'A holster to carry a handgun and ammo. WARNING: Badasses only.'
       objectReference: {fileID: 0}
     - target: {fileID: 4559416078757244025, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
@@ -93,6 +93,17 @@ PrefabInstance:
       propertyPath: itemStorageStructure
       value: 
       objectReference: {fileID: 11400000, guid: ee76ba24a0cd443b1a308dd04cdb3678,
+        type: 2}
+    - target: {fileID: 5185682996409656404, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5185682996409656404, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d097da87563db9f45afe909d5e1e2067,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f81f054e54c0164459e94a191cf3ac9e, type: 3}

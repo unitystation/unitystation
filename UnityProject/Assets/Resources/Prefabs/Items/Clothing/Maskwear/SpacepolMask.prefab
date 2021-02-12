@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 597683966577981909, guid: 518823bf8eeebc848b0d18a293a1f56f,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 597683966577981909, guid: 518823bf8eeebc848b0d18a293a1f56f,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 597683966577981909, guid: 518823bf8eeebc848b0d18a293a1f56f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 597683966577981909, guid: 518823bf8eeebc848b0d18a293a1f56f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 597683966577981909, guid: 518823bf8eeebc848b0d18a293a1f56f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 597683966577981909, guid: 518823bf8eeebc848b0d18a293a1f56f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 597683966577981909, guid: 518823bf8eeebc848b0d18a293a1f56f,
         type: 3}
@@ -80,20 +80,37 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1059892868337511363, guid: 518823bf8eeebc848b0d18a293a1f56f,
         type: 3}
-      propertyPath: initialDescription
-      value: A close-fitting tactical mask created in cooperation with a certain
-        megacorporation, comes with an especially aggressive Compli-o-nator 3000.
+      propertyPath: initialName
+      value: spacepol mask
       objectReference: {fileID: 0}
     - target: {fileID: 1059892868337511363, guid: 518823bf8eeebc848b0d18a293a1f56f,
         type: 3}
-      propertyPath: initialName
-      value: spacepol mask
+      propertyPath: initialDescription
+      value: A close-fitting tactical mask created in cooperation with a certain
+        megacorporation, comes with an especially aggressive Compli-o-nator 3000.
       objectReference: {fileID: 0}
     - target: {fileID: 5775267070921905956, guid: 518823bf8eeebc848b0d18a293a1f56f,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 9b12e8cc7a8cb744897da4971fa88966,
+        type: 2}
+    - target: {fileID: 5775267070921905956, guid: 518823bf8eeebc848b0d18a293a1f56f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 9b12e8cc7a8cb744897da4971fa88966,
+        type: 2}
+    - target: {fileID: 5775267070921905956, guid: 518823bf8eeebc848b0d18a293a1f56f,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5775267070921905956, guid: 518823bf8eeebc848b0d18a293a1f56f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c5e2539ad689d34696fe3ade3276472,
         type: 2}
     - target: {fileID: 6710076958083219238, guid: 518823bf8eeebc848b0d18a293a1f56f,
         type: 3}

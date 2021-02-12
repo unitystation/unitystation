@@ -9,15 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
+      propertyPath: initialName
+      value: research director's bedsheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
       propertyPath: initialDescription
       value: It appears to have a beaker emblem, and is made out of fire-resistant
         material, although it probably won't protect you in the event of fires you're
         familiar with every day.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: initialName
-      value: research director's bedsheet
       objectReference: {fileID: 0}
     - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
@@ -25,6 +25,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 70467a18157c8b3478e44bd85f8cb2cc,
         type: 3}
+    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -42,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -54,16 +64,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
@@ -101,6 +101,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 945aa1897a61c4f479c7610b7576e49e,
+        type: 2}
+    - target: {fileID: 7964486416432102150, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 945aa1897a61c4f479c7610b7576e49e,
+        type: 2}
+    - target: {fileID: 7964486416432102150, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c994b2e90290ef940a12f56c64e2ea55,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 423cab216aa4e354f8159742cc80d10a, type: 3}

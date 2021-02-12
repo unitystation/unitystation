@@ -19,15 +19,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fea6f6678ed71aa4f9899a4aa1f7d82f,
         type: 2}
-    - target: {fileID: 5994170879913261061, guid: 119a19b7af9f24a4eae413817fdef76d,
+    - target: {fileID: 990566071399204066, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
-      propertyPath: initialDescription
-      value: A formal black suitskirt and red tie, intended for the station's finest.
-      objectReference: {fileID: 0}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: fea6f6678ed71aa4f9899a4aa1f7d82f,
+        type: 2}
+    - target: {fileID: 990566071399204066, guid: 119a19b7af9f24a4eae413817fdef76d,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ddfe5111b6eb3424db048903e68d531d,
+        type: 2}
     - target: {fileID: 5994170879913261061, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
       propertyPath: initialName
       value: executive suitskirt
+      objectReference: {fileID: 0}
+    - target: {fileID: 5994170879913261061, guid: 119a19b7af9f24a4eae413817fdef76d,
+        type: 3}
+      propertyPath: initialDescription
+      value: A formal black suitskirt and red tie, intended for the station's finest.
       objectReference: {fileID: 0}
     - target: {fileID: 6077112385209608915, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
@@ -38,6 +50,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ExecutiveSuitskirt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6183875754645907987, guid: 119a19b7af9f24a4eae413817fdef76d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6183875754645907987, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
@@ -56,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6183875754645907987, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6183875754645907987, guid: 119a19b7af9f24a4eae413817fdef76d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6183875754645907987, guid: 119a19b7af9f24a4eae413817fdef76d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6183875754645907987, guid: 119a19b7af9f24a4eae413817fdef76d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6183875754645907987, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}

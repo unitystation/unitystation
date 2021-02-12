@@ -9,14 +9,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
-      propertyPath: initialDescription
-      value: A shield with a built in, high intensity light capable of blinding and
-        disorienting suspects. Takes regular handheld flashes as bulbs.
+      propertyPath: initialName
+      value: strobe shield
       objectReference: {fileID: 0}
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
-      propertyPath: initialName
-      value: strobe shield
+      propertyPath: initialDescription
+      value: A shield with a built in, high intensity light capable of blinding and
+        disorienting suspects. Takes regular handheld flashes as bulbs.
       objectReference: {fileID: 0}
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
@@ -43,6 +43,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -58,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -70,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
@@ -112,6 +112,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: fdb5e6a6c1714c742a1d782ef45a4263,
+        type: 2}
+    - target: {fileID: 7802048611900235560, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: fdb5e6a6c1714c742a1d782ef45a4263,
+        type: 2}
+    - target: {fileID: 7802048611900235560, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 21d19e975b5b6e847b8252d383fc2187,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f9896c0cca80e14f8144be44d05e0a0, type: 3}

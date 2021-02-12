@@ -31,10 +31,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bda5c032e1f380843a9267e20b24da38,
         type: 2}
+    - target: {fileID: 4443546477690345710, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: bda5c032e1f380843a9267e20b24da38,
+        type: 2}
+    - target: {fileID: 4443546477690345710, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a138eeddc6ca11f4d9e2b4bfa3859456,
+        type: 2}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
+      propertyPath: initialName
+      value: smoking pipe
       objectReference: {fileID: 0}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
@@ -43,8 +55,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
-      propertyPath: initialName
-      value: smoking pipe
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
@@ -55,6 +67,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
@@ -73,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +107,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7333018328190416415, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
@@ -124,6 +136,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
+      propertyPath: maxCapacity
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -131,11 +148,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77b0f36047b1a0e48ba9f97f954035fd, type: 3}

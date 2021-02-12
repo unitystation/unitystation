@@ -125,6 +125,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -149,6 +150,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &7239056572238450974
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -169,16 +171,27 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4548501816867735510, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4548501816867735510, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bc524b932e63a04382723e5219d3f65,
+        type: 2}
+    - target: {fileID: 7029879816411904817, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: initialName
+      value: hardsuit helmet
+      objectReference: {fileID: 0}
     - target: {fileID: 7029879816411904817, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: initialDescription
       value: A special helmet designed for work in a hazardous, low-pressure environment.
         Has radiation shielding.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7029879816411904817, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-        type: 3}
-      propertyPath: initialName
-      value: hardsuit helmet
       objectReference: {fileID: 0}
     - target: {fileID: 7319274473113495311, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
@@ -193,6 +206,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
+      propertyPath: Armor.Rad
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
       propertyPath: Armor.Melee
       value: 10
       objectReference: {fileID: 0}
@@ -203,33 +241,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-        type: 3}
       propertyPath: Armor.Energy
       value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-        type: 3}
-      propertyPath: Armor.Rad
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
@@ -239,7 +252,12 @@ PrefabInstance:
     - target: {fileID: 7449724294196008019, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: m_Name
-      value: HardsuitHelmetBase
+      value: _HardsuitHelmetBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
@@ -258,6 +276,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -270,16 +293,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}

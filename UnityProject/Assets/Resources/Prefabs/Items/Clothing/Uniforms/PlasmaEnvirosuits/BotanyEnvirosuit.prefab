@@ -9,19 +9,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
-      propertyPath: initialDescription
-      value: A green and blue envirosuit designed to protect plasmamen from minor
-        plant-related injuries.
+      propertyPath: initialName
+      value: botany envirosuit
       objectReference: {fileID: 0}
     - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
-      propertyPath: initialName
-      value: botany envirosuit
+      propertyPath: initialDescription
+      value: A green and blue envirosuit designed to protect plasmamen from minor
+        plant-related injuries.
       objectReference: {fileID: 0}
     - target: {fileID: 3189476086581078171, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: m_Name
       value: BotanyEnvirosuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
@@ -94,6 +94,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 77512a5393f3a2944a02d80940f365c8,
+        type: 2}
+    - target: {fileID: 8376256678827195166, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 77512a5393f3a2944a02d80940f365c8,
+        type: 2}
+    - target: {fileID: 8376256678827195166, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8376256678827195166, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d0e32335f1623134f883afb2efc2f87e,
         type: 2}
     - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}

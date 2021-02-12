@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothData: {fileID: 11400000, guid: 5136111f1c6795443a96c4b75b3c571b, type: 2}
-  variantType: 0
+  currentClothData: {fileID: 11400000, guid: 5136111f1c6795443a96c4b75b3c571b, type: 2}
+  allClothingData:
+  - {fileID: 11400000, guid: 6124f5ad0b4878c4992cdf40e6805df8, type: 2}
+  randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
-  SpriteDataSO: []
 --- !u!1001 &5873397258599373563
 PrefabInstance:
   m_ObjectHideFlags: 0

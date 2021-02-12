@@ -9,18 +9,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2987011942256334699, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
-      propertyPath: initialDescription
-      value: A pair of xray goggles manufactured by the Syndicate.
+      propertyPath: initialName
+      value: syndicate xray goggles
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
-      propertyPath: initialName
-      value: syndicate xray goggles
+      propertyPath: initialDescription
+      value: A pair of xray goggles manufactured by the Syndicate.
       objectReference: {fileID: 0}
     - target: {fileID: 3317552745358689725, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}

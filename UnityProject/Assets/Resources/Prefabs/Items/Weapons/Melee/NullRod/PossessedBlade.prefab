@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 839573331411225287, guid: 0776de7177938cb48a6339d82019bab9,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 839573331411225287, guid: 0776de7177938cb48a6339d82019bab9,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 839573331411225287, guid: 0776de7177938cb48a6339d82019bab9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 839573331411225287, guid: 0776de7177938cb48a6339d82019bab9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 839573331411225287, guid: 0776de7177938cb48a6339d82019bab9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 839573331411225287, guid: 0776de7177938cb48a6339d82019bab9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 839573331411225287, guid: 0776de7177938cb48a6339d82019bab9,
         type: 3}
@@ -80,11 +80,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 961760323801569489, guid: 0776de7177938cb48a6339d82019bab9,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 961760323801569489, guid: 0776de7177938cb48a6339d82019bab9,
-        type: 3}
       propertyPath: initialName
       value: possessed blade
       objectReference: {fileID: 0}
@@ -93,6 +88,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: When the station falls into chaos, it's nice to have a friend by your
         side.
+      objectReference: {fileID: 0}
+    - target: {fileID: 961760323801569489, guid: 0776de7177938cb48a6339d82019bab9,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 961760323801569489, guid: 0776de7177938cb48a6339d82019bab9,
         type: 3}
@@ -111,6 +111,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: c31e2397d610bf44fbe657499dc10a83,
+        type: 2}
+    - target: {fileID: 3902997239584466560, guid: 0776de7177938cb48a6339d82019bab9,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c31e2397d610bf44fbe657499dc10a83,
+        type: 2}
+    - target: {fileID: 3902997239584466560, guid: 0776de7177938cb48a6339d82019bab9,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902997239584466560, guid: 0776de7177938cb48a6339d82019bab9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f4c75bfcd4c1fa458ef84e5e462adf3,
         type: 2}
     - target: {fileID: 6841916062232906804, guid: 0776de7177938cb48a6339d82019bab9,
         type: 3}

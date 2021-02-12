@@ -9,14 +9,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
-      propertyPath: initialDescription
-      value: A pair of tacky purple sunglasses that allow the wearer to recognize
-        various chemical compounds with only a glance.
+      propertyPath: initialName
+      value: science glasses
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
-      propertyPath: initialName
-      value: science glasses
+      propertyPath: initialDescription
+      value: A pair of tacky purple sunglasses that allow the wearer to recognize
+        various chemical compounds with only a glance.
       objectReference: {fileID: 0}
     - target: {fileID: 3273994478765017941, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
@@ -28,6 +28,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
@@ -94,6 +94,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: eb52ad3c8540c5d4ea5d77666ca3e7f6,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: eb52ad3c8540c5d4ea5d77666ca3e7f6,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638853748845472652, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: bbf59ff649c9bee4a93448fd2597faad,
         type: 2}
     - target: {fileID: 8851959254138389390, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}

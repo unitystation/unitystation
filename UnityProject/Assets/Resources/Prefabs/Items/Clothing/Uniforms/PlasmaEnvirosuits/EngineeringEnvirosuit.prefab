@@ -9,20 +9,25 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
+      propertyPath: initialName
+      value: engineering envirosuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
       propertyPath: initialDescription
       value: An air-tight suit designed to be used by plasmamen exployed as engineers,
         the usual purple stripes being replaced by engineer's orange. It protects
         the user from fire and acid damage.
       objectReference: {fileID: 0}
-    - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
-        type: 3}
-      propertyPath: initialName
-      value: engineering envirosuit
-      objectReference: {fileID: 0}
     - target: {fileID: 3189476086581078171, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: m_Name
       value: EngineeringEnvirosuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193273937419097583, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
@@ -100,6 +100,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 37d6365ef355a5f4baa5520466187676,
+        type: 2}
+    - target: {fileID: 8376256678827195166, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 37d6365ef355a5f4baa5520466187676,
+        type: 2}
+    - target: {fileID: 8376256678827195166, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8376256678827195166, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ebc5a028fd7e9d74ba1ed61de492cb2a,
         type: 2}
     - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}

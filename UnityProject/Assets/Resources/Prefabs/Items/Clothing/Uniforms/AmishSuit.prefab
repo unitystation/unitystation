@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
         type: 3}
@@ -80,19 +80,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
         type: 3}
-      propertyPath: initialDescription
-      value: It's a very amish looking suit.
+      propertyPath: initialName
+      value: amish suit
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
         type: 3}
-      propertyPath: initialName
-      value: amish suit
+      propertyPath: initialDescription
+      value: It's a very amish looking suit.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 4fb3f0bc51caa0e43b8f0fff2524166a,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4fb3f0bc51caa0e43b8f0fff2524166a,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0daeac9b081aee140bf193d9889384d8,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
         type: 3}

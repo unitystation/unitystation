@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468660300893093792, guid: 9607a5c8270f6084e9ecdda639c9b97d,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 468660300893093792, guid: 9607a5c8270f6084e9ecdda639c9b97d,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -26,6 +31,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 468660300893093792, guid: 9607a5c8270f6084e9ecdda639c9b97d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 468660300893093792, guid: 9607a5c8270f6084e9ecdda639c9b97d,
         type: 3}
@@ -44,16 +54,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468660300893093792, guid: 9607a5c8270f6084e9ecdda639c9b97d,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 468660300893093792, guid: 9607a5c8270f6084e9ecdda639c9b97d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 468660300893093792, guid: 9607a5c8270f6084e9ecdda639c9b97d,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -69,14 +69,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468660300893112539, guid: 9607a5c8270f6084e9ecdda639c9b97d,
         type: 3}
-      propertyPath: initialDescription
-      value: Worn by Cargonia, supplying the station with the necessary tools for
-        survival.
+      propertyPath: initialName
+      value: quartermaster's cloak
       objectReference: {fileID: 0}
     - target: {fileID: 468660300893112539, guid: 9607a5c8270f6084e9ecdda639c9b97d,
         type: 3}
-      propertyPath: initialName
-      value: quartermaster's cloak
+      propertyPath: initialDescription
+      value: Worn by Cargonia, supplying the station with the necessary tools for
+        survival.
       objectReference: {fileID: 0}
     - target: {fileID: 468660300893112849, guid: 9607a5c8270f6084e9ecdda639c9b97d,
         type: 3}
@@ -85,14 +85,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: 9607a5c8270f6084e9ecdda639c9b97d,
         type: 3}
-      propertyPath: initialDescription
-      value: Worn by Cargonia, supplying the station with the necessary tools for
-        survival.
+      propertyPath: initialName
+      value: quartermaster's cloak
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: 9607a5c8270f6084e9ecdda639c9b97d,
         type: 3}
-      propertyPath: initialName
-      value: quartermaster's cloak
+      propertyPath: initialDescription
+      value: Worn by Cargonia, supplying the station with the necessary tools for
+        survival.
       objectReference: {fileID: 0}
     - target: {fileID: 3921521694364753778, guid: 9607a5c8270f6084e9ecdda639c9b97d,
         type: 3}
