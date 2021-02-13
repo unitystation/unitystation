@@ -42,6 +42,8 @@ namespace TileManagement
 		public Layer[] LayersValues { get; private set; }
 		public ObjectLayer ObjectLayer { get; private set; }
 
+		public UnderFloorLayer UnderFloorLayer { get; private set; }
+
 
 		public List<Layer> ffLayersValues;
 
@@ -102,6 +104,11 @@ namespace TileManagement
 				{
 					ObjectLayer = layer as ObjectLayer;
 					continue;
+				}
+
+				if (layer.LayerType == LayerType.Underfloor)
+				{
+					UnderFloorLayer = layer as UnderFloorLayer;
 				}
 
 				var ToInsertDictionary = new Dictionary<Vector3Int, TileLocation>();
@@ -283,23 +290,24 @@ namespace TileManagement
 			TileLocation TileLcation = null;
 			for (var i = 0; i < SolidLayersValues.Length; i++)
 			{
+				var solidLayer = SolidLayersValues[i];
 				// Skip floor & base collisions if this is not a shuttle
 				if (collisionType != CollisionType.Shuttle &&
-				    (SolidLayersValues[i].LayerType == LayerType.Floors ||
-				     SolidLayersValues[i].LayerType == LayerType.Base))
+				    (solidLayer.LayerType == LayerType.Floors ||
+				     solidLayer.LayerType == LayerType.Base))
 				{
 					continue;
 				}
 
 				// Skip if the current tested layer is being excluded.
-				if (excludeLayers != null && excludeLayers.Contains(SolidLayersValues[i].LayerType))
+				if (excludeLayers != null && excludeLayers.Contains(solidLayer.LayerType))
 				{
 					continue;
 				}
 
 				lock (PresentTiles)
 				{
-					PresentTiles[SolidLayersValues[i]].TryGetValue(to, out TileLcation);
+					PresentTiles[solidLayer].TryGetValue(to, out TileLcation);
 				}
 
 				if (TileLcation?.Tile == null) continue;
@@ -698,7 +706,8 @@ namespace TileManagement
 			for (var index = 0; index < LayersKeys.Length; index++)
 			{
 				LayerType layer = LayersKeys[index];
-				if (layer != LayerType.Objects && HasTile(position, layer))
+				//Use unchecked as we are looping through LayerKeys which should be accurate
+				if (layer != LayerType.Objects && HasTileUnSafeCheck(position, layer))
 				{
 					return false;
 				}
@@ -879,6 +888,42 @@ namespace TileManagement
 			return false;
 		}
 
+		/// <summary>
+		/// Use this method instead of above if you 100% know the layer you are looking for exists
+		/// so it is more performant
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="layerType"></param>
+		/// <returns></returns>
+		public bool HasTileUnSafeCheck(Vector3Int position, LayerType layerType)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return false;
+			}
+
+			var layer = Layers[layerType];
+
+			if (layer.LayerType == LayerType.Underfloor)
+			{
+				return layer.HasTile(position);
+			}
+
+			TileLocation TileLcation = null;
+			lock (PresentTiles)
+			{
+				PresentTiles[layer].TryGetValue(position, out TileLcation);
+			}
+
+			if (TileLcation != null)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
 		public void RemoveTile(Vector3Int position, bool RemoveAll = true)
 		{
 			TileLocation TileLcation = null;
@@ -1050,6 +1095,16 @@ namespace TileManagement
 			}
 
 			return new BoundsInt(minPosition, maxPosition - minPosition);
+		}
+
+		public Vector3 GetCentreWorld()
+		{
+			return UnderFloorLayer.WorldBoundsCentre;
+		}
+
+		public Vector3Int GetCentreWorldInt()
+		{
+			return UnderFloorLayer.WorldBoundsCentreInt;
 		}
 
 		public Vector3Int WorldToCell(Vector3 worldPosition)

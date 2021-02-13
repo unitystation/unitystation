@@ -38,6 +38,12 @@ public class Layer : MonoBehaviour
 	public BoundsInt Bounds => boundsCache;
 	private BoundsInt boundsCache;
 
+	public Vector3 WorldBoundsCentre => worldBoundsCentre;
+	private Vector3 worldBoundsCentre;
+
+	public Vector3Int WorldBoundsCentreInt => worldBoundsCentreInt;
+	private Vector3Int worldBoundsCentreInt;
+
 	private Coroutine recalculateBoundsHandle;
 
 	public TileChangeEvent OnTileChanged = new TileChangeEvent();
@@ -94,6 +100,8 @@ public class Layer : MonoBehaviour
 	public virtual void RecalculateBounds()
 	{
 		boundsCache = tilemap.cellBounds;
+		worldBoundsCentre = CellToWorld(boundsCache.center.RoundToInt());
+		worldBoundsCentreInt = CellToWorld(worldBoundsCentre.RoundToInt()).RoundToInt();
 		this.TryStopCoroutine(ref recalculateBoundsHandle);
 	}
 

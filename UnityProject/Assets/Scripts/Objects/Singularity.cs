@@ -205,26 +205,28 @@ namespace Objects
 					break;
 			}
 
-			foreach (var tile in EffectShape.CreateEffectShape(EffectShapeType.Circle, registerTile.WorldPositionServer, distance).ToList())
+			//GetAt is expensive need to find better way/optimise, would use raycast, but items dont have colliders
+			var objects = MatrixManager.GetAtMulti<PushPull>(EffectShape.CreateEffectShape(EffectShapeType.Circle, registerTile.WorldPositionServer, distance).ToArray(), true);
+
+			objects = objects.PickRandom(count: 30).ToList();
+
+			foreach (var objectToMove in objects)
 			{
-				var objects = MatrixManager.GetAt<PushPull>(tile, true);
+				if (DMMath.Prob(50)) continue;
 
-				foreach (var objectToMove in objects)
+				if (objectToMove.registerTile.ObjectType == ObjectType.Item)
 				{
-					if (objectToMove.registerTile.ObjectType == ObjectType.Item)
-					{
-						ThrowItem(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
+					ThrowItem(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
 
-						if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
-						{
-							//Just to stop never ending items being thrown about, and increasing points forever
-							integrity.ApplyDamage(10, AttackType.Melee, DamageType.Brute, true, ignoreArmor: true);
-						}
-					}
-					else
+					if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
 					{
-						PushObject(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
+						//Just to stop never ending items being thrown about, and increasing points forever
+						integrity.ApplyDamage(10, AttackType.Melee, DamageType.Brute, true, ignoreArmor: true);
 					}
+				}
+				else
+				{
+					PushObject(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
 				}
 			}
 		}
@@ -322,13 +324,13 @@ namespace Objects
 			}
 
 			var coords =
-				EffectShape.CreateEffectShape(EffectShapeType.Square, registerTile.WorldPositionServer, radius);
+				EffectShape.CreateEffectShape(EffectShapeType.Square, registerTile.WorldPositionServer, radius).ToList();
 
-			DestroyObjects(coords);
+			DestroyObjects(coords, radius);
 			DamageTiles(coords);
 		}
 
-		private void DestroyObjects(IEnumerable<Vector3Int> coords)
+		private void DestroyObjects(List<Vector3Int> coords, int radius)
 		{
 			var damage = 100;
 
@@ -337,94 +339,103 @@ namespace Objects
 				damage *= (int)CurrentStage;
 			}
 
-			foreach (var coord in coords)
+			var objects = GetNearbyEntities(registerTile.WorldPositionServer, LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC"),
+				radius);
+
+			foreach (var objectToMove in objects)
 			{
-				var objects = MatrixManager.GetAt<RegisterTile>(coord, true);
+				if(objectToMove.gameObject == gameObject) continue;
 
-				foreach (var objectToMove in objects)
+				if(coords.Contains(objectToMove.gameObject.WorldPosServer().RoundToInt()) == false) continue;
+
+				if (objectToMove.TryGetComponent<PlayerHealth>(out var health) && health != null)
 				{
-					if(objectToMove.gameObject == gameObject) continue;
-
-					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealth>(out var health) && health != null)
+					if (health.RegisterPlayer.PlayerScript != null &&
+					    health.RegisterPlayer.PlayerScript.mind != null &&
+					    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
+					    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 					{
-						if (health.RegisterPlayer.PlayerScript != null &&
-						    health.RegisterPlayer.PlayerScript.mind != null &&
-						    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
-						    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
-						{
-							health.ServerGibPlayer();
-							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
-							return;
-						}
-
 						health.ServerGibPlayer();
-						ChangePoints(100);
+						ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
+						return;
 					}
-					else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
+
+					health.ServerGibPlayer();
+					ChangePoints(100);
+				}
+				else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
+				{
+					if (objectToMove.TryGetComponent<SuperMatter>(out var superMatter) && superMatter != null)
 					{
-						if (objectToMove.TryGetComponent<SuperMatter>(out var superMatter) && superMatter != null)
-						{
-							//End of the world
-							eatenSuperMatter = true;
-							ChangePoints(3250);
-							Despawn.ServerSingle(objectToMove.gameObject);
-							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>", gameObject);
-							return;
-						}
-
-						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
-						    && fieldGenerator != null
-						    && CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5)
-						{
-							//Only stage 4 and 5 can damage field generators
-							return;
-						}
-
-						integrity.ApplyDamage(damage, AttackType.Melee, DamageType.Brute, true);
-						ChangePoints(5);
+						//End of the world
+						eatenSuperMatter = true;
+						ChangePoints(3250);
+						Despawn.ServerSingle(objectToMove.gameObject);
+						Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>", gameObject);
+						return;
 					}
+
+					if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
+					    && fieldGenerator != null
+					    && CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5)
+					{
+						//Only stage 4 and 5 can damage field generators
+						return;
+					}
+
+					integrity.ApplyDamage(damage, AttackType.Melee, DamageType.Brute, true);
+					ChangePoints(5);
 				}
 			}
 		}
 
 		private void DamageTiles(IEnumerable<Vector3Int> coords)
 		{
-			foreach (var coord in coords)
+			var multiCoords = MatrixManager.AtPointMulti(coords as Vector3Int[] ?? coords.ToArray(), true);
+
+			foreach (var matrixInfoVectors in multiCoords)
 			{
-				var matrixInfo = MatrixManager.AtPoint(coord, true);
+				var cellPositions = MatrixManager.Instance.WorldToLocalIntMulti(matrixInfoVectors.Value.ToArray(), matrixInfoVectors.Key.Matrix);
 
-				var cellPos = MatrixManager.Instance.WorldToLocalInt(coord, matrixInfo.Matrix);
-
-				var layerTile = matrixInfo.TileChangeManager.MetaTileMap
-					.GetTile(MatrixManager.WorldToLocalInt(coord, matrixInfo), LayerType.Walls);
-
-				if (CurrentStage != SingularityStages.Stage5 && CurrentStage != SingularityStages.Stage4 &&
-					layerTile != null && (layerTile.name == horizontal.name || layerTile.name == vertical.name)) continue;
-
-				matrixInfo.Matrix.MetaTileMap.ApplyDamage(
-					cellPos,
-					200,
-					coord,
-					AttackType.Bomb);
-
-				var node = matrixInfo.Matrix.GetMetaDataNode(cellPos);
-				if (node != null)
+				for (int i = 0; i < matrixInfoVectors.Value.Count; i++)
 				{
-					foreach (var electricalData in node.ElectricalData)
-					{
-						electricalData.InData.DestroyThisPlease();
-						ChangePoints(5);
-					}
+					var cellPos = cellPositions[i];
 
-					SavedPipes.Clear();
-					SavedPipes.AddRange(node.PipeData);
-					foreach (var pipe in SavedPipes)
+					var layerTile = matrixInfoVectors.Key.TileChangeManager.MetaTileMap.GetTile(cellPos, LayerType.Walls);
+
+					if (CurrentStage != SingularityStages.Stage5 && CurrentStage != SingularityStages.Stage4 &&
+					    layerTile != null && (layerTile.name == horizontal.name || layerTile.name == vertical.name)) continue;
+
+					matrixInfoVectors.Key.Matrix.MetaTileMap.ApplyDamage(
+						cellPos,
+						200,
+						matrixInfoVectors.Value[i],
+						AttackType.Bomb);
+
+					var node = matrixInfoVectors.Key.Matrix.GetMetaDataNode(cellPos);
+					if (node != null)
 					{
-						pipe.pipeData.DestroyThis();
-						ChangePoints(5);
+						foreach (var electricalData in node.ElectricalData)
+						{
+							electricalData.InData.DestroyThisPlease();
+							ChangePoints(5);
+						}
+
+						SavedPipes.Clear();
+						SavedPipes.AddRange(node.PipeData);
+						foreach (var pipe in SavedPipes)
+						{
+							pipe.pipeData.DestroyThis();
+							ChangePoints(5);
+						}
 					}
 				}
 			}
+		}
+
+		private IEnumerable<Collider2D> GetNearbyEntities(Vector3 centrePoint, int mask, int radius)
+		{
+			return Physics2D.OverlapBoxAll(centrePoint, new Vector2(radius * 2 + 1, radius * 2 + 1), mask);
 		}
 
 		#endregion
@@ -464,9 +475,9 @@ namespace Objects
 				}
 
 				var squareCoord = EffectShape.CreateEffectShape(EffectShapeType.OutlineSquare,
-					registerTile.WorldPositionServer, radius + 1, false);
+					registerTile.WorldPositionServer, radius + 1, false).ToList();
 
-				DestroyObjects(squareCoord);
+				DestroyObjects(squareCoord, radius + 1);
 				DamageTiles(squareCoord);
 				return;
 			}
@@ -518,7 +529,7 @@ namespace Objects
 				damageCoords.Add(rotatedVector + registerTile.WorldPositionServer);
 			}
 
-			DestroyObjects(damageCoords);
+			DestroyObjects(damageCoords, radius + 1);
 			DamageTiles(damageCoords);
 		}
 

@@ -65,6 +65,11 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
+	// The distance that will be checked from a point to the centre of a matrix to increase performance of
+	// all matrix checks, so not all matrix are checked only nearby ones
+	// This might need increasing?
+	private const int matrixCheckDistance = 300;
+
 	private IEnumerator WaitForLoad()
 	{
 		while (Instance.spaceMatrix == null || Instance.mainStationMatrix == null)
@@ -192,19 +197,58 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	/// Finds first matrix that is not empty at given world pos
-	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
+	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer, bool forceCheckAll = false)
 	{
-		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+		var instance = Instance;
+
+		for (var i = instance.ActiveMatrices.Count - 1; i >= 0; i--)
 		{
-			MatrixInfo mat = Instance.ActiveMatrices[i];
-			if (mat.Matrix == Instance.spaceMatrix) continue;
+			MatrixInfo mat = instance.ActiveMatrices[i];
+			if (mat.Matrix == instance.spaceMatrix) continue;
+
+			//Performance check: dont check matrices further away then matrixCheckDistance from centre
+			if(forceCheckAll == false && Vector3Int.Distance(mat.MetaTileMap.GetCentreWorldInt(), worldPos) > matrixCheckDistance) continue;
+
 			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
 				return mat;
 			}
 		}
 
-		return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
+		return instance.ActiveMatrices[Instance.spaceMatrix.Id];
+	}
+
+	/// Finds first matrix that is not empty at given world pos
+	public static Dictionary<MatrixInfo, List<Vector3Int>> AtPointMulti(Vector3Int[] worldPos, bool isServer, bool forceCheckAll = false)
+	{
+		var matrixInfoList = new Dictionary<MatrixInfo, List<Vector3Int>>();
+		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+		{
+			MatrixInfo mat = Instance.ActiveMatrices[i];
+
+			var centre = mat.MetaTileMap.GetCentreWorldInt();
+			var coords = WorldToLocalIntMulti(worldPos, mat);
+
+			for (int j = 0; j < coords.Count(); j++)
+			{
+				//Performance check: dont check matrices further away then matrixCheckDistance from centre
+				if(forceCheckAll == false && Vector3Int.Distance(centre,  worldPos[j]) > matrixCheckDistance) continue;
+
+				if (mat.Matrix.IsEmptyAt(coords[j], isServer) == false)
+				{
+					if (matrixInfoList.ContainsKey(mat))
+					{
+						matrixInfoList[mat].Add(worldPos[j]);
+					}
+					else
+					{
+						matrixInfoList.Add(mat, new List<Vector3Int>{worldPos[j]});
+					}
+				}
+			}
+		}
+
+		return matrixInfoList;
 	}
 
 	public static CustomPhysicsHit Linecast(Vector3 Worldorigin, LayerTypeSelection layerMask, LayerMask? Layermask2D,
@@ -213,13 +257,11 @@ public partial class MatrixManager : MonoBehaviour
 		return RayCast(Worldorigin, Vector2.zero, 0, layerMask, Layermask2D, WorldTo);
 	}
 
-
-
 	public static CustomPhysicsHit RayCast(Vector3 Worldorigin,
 		Vector2 direction,
 		float distance,
 		LayerTypeSelection layerMask, LayerMask? Layermask2D = null, Vector3? WorldTo = null,
-		LayerTile[] tileNamesToIgnore = null)
+		LayerTile[] tileNamesToIgnore = null, bool forceCheckAll = false)
 	{
 
 
@@ -245,9 +287,16 @@ public partial class MatrixManager : MonoBehaviour
 
 		if (layerMask != LayerTypeSelection.None)
 		{
-			for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+			var worldToRounded = WorldTo.Value.RoundToInt();
+
+			for (var i = GetValidMatrixes(Worldorigin.RoundToInt(), worldToRounded).Length - 1; i >= 0; i--)
 			{
 				MatrixInfo mat = Instance.ActiveMatrices[i];
+
+				//Performance check: dont check matrices further away then matrixCheckDistance from Worldorigin, or WorldTo
+				if(forceCheckAll == false && Vector3Int.Distance(mat.MetaTileMap.GetCentreWorldInt(), worldToRounded) > matrixCheckDistance &&
+				   Vector3Int.Distance(mat.MetaTileMap.GetCentreWorldInt(), worldToRounded) > matrixCheckDistance) continue;
+
 				//if (mat.Matrix == Instance.spaceMatrix) continue;
 				if (LineIntersectsRect(Worldorigin, (Vector2) WorldTo, mat.WorldBounds))
 				{
@@ -410,21 +459,21 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsFloatingAt(Vector3Int worldPos, bool isServer)
 	{
-		return AllMatchInternal(mat => mat.Matrix.IsFloatingAt(WorldToLocalInt(worldPos, mat), isServer));
+		return AllMatchInternal(mat => mat.Matrix.IsFloatingAt(WorldToLocalInt(worldPos, mat), isServer), GetValidMatrixes(worldPos));
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
 	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer)
 	{
-		return AllMatchInternal(mat => mat.Matrix.IsNonStickyAt(WorldToLocalInt(worldPos, mat), isServer));
+		return AllMatchInternal(mat => mat.Matrix.IsNonStickyAt(WorldToLocalInt(worldPos, mat), isServer), GetValidMatrixes(worldPos));
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsNoGravityAt"/>
 	///<inheritdoc cref="Matrix.IsNoGravityAt"/>
 	public static bool IsNoGravityAt(Vector3Int worldPos, bool isServer)
 	{
-		return AllMatchInternal(mat => mat.Matrix.IsNoGravityAt(WorldToLocalInt(worldPos, mat), isServer));
+		return AllMatchInternal(mat => mat.Matrix.IsNoGravityAt(WorldToLocalInt(worldPos, mat), isServer), GetValidMatrixes(worldPos));
 	}
 
 	/// <summary>
@@ -441,21 +490,21 @@ public partial class MatrixManager : MonoBehaviour
 	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer)
 	{
 		return AllMatchInternal(mat =>
-			mat.Matrix.IsFloatingAt(new[] {context}, WorldToLocalInt(worldPos, mat), isServer));
+			mat.Matrix.IsFloatingAt(new[] {context}, WorldToLocalInt(worldPos, mat), isServer), GetValidMatrixes(worldPos));
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
 	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
 	public static bool IsFloatingAt(GameObject[] context, Vector3Int worldPos, bool isServer)
 	{
-		return AllMatchInternal(mat => mat.Matrix.IsFloatingAt(context, WorldToLocalInt(worldPos, mat), isServer));
+		return AllMatchInternal(mat => mat.Matrix.IsFloatingAt(context, WorldToLocalInt(worldPos, mat), isServer), GetValidMatrixes(worldPos));
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
-	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer)
+	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer, bool forceCheckAll = false)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		foreach (MatrixInfo mat in GetValidMatrixes(worldPos))
 		{
 			if (mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
@@ -468,9 +517,9 @@ public partial class MatrixManager : MonoBehaviour
 
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
-	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer)
+	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer, bool forceCheckAll = false)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		foreach (MatrixInfo mat in GetValidMatrixes(worldPos))
 		{
 			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
@@ -484,7 +533,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
 	public static bool HasAnyDepartureBlockedAnyMatrix(Vector3Int to, bool isServer, RegisterTile context)
 	{
-		return AnyMatchInternal(mat => mat.Matrix.HasAnyDepartureBlockedOneMatrix(WorldToLocalInt(to, mat), isServer, context));
+		return AnyMatchInternal(mat => mat.Matrix.HasAnyDepartureBlockedOneMatrix(WorldToLocalInt(to, mat), isServer, context), GetValidMatrixes(to));
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
@@ -494,9 +543,9 @@ public partial class MatrixManager : MonoBehaviour
 		int[] excludeList = null, List<LayerType> excludeLayers = null, bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 	{
 		// Gets the list of Matrixes to actually check
-		MatrixInfo[] includeList = excludeList != null
+		MatrixInfo[] includeList = GetValidMatrixes(worldOrigin, excludeList != null
 			? ExcludeFromAllMatrixes(GetList(excludeList)).ToArray()
-			: Instance.ActiveMatrices.ToArray();
+			: null);
 
 		return AllMatchInternal(mat =>
 			mat.Matrix.IsPassableAtOneMatrix(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat), isServer,
@@ -681,14 +730,18 @@ public partial class MatrixManager : MonoBehaviour
 	/// Picks best matching matrix at provided coords and releases reagents to that tile.
 	/// <inheritdoc cref="MetaDataLayer.ReagentReact"/>
 	/// </summary>
-	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos)
+	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos, MatrixInfo matrixInfo = null)
 	{
 		if (CustomNetworkManager.IsServer == false)
 		{
 			return;
 		}
 
-		var matrixInfo = AtPoint(worldPos, true);
+		if (matrixInfo == null)
+		{
+			matrixInfo = AtPoint(worldPos, true);
+		}
+
 		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
 		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos);
 	}
@@ -813,7 +866,7 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		return AllMatchInternal(mat =>
 			mat.Matrix.IsPassableAtOneMatrixOneTile(WorldToLocalInt(worldTarget, mat), isServer, includingPlayers,
-				excludeLayers, excludeTiles, context, ignoreObjects, onlyExcludeLayerOnDestination));
+				excludeLayers, excludeTiles, context, ignoreObjects, onlyExcludeLayerOnDestination), GetValidMatrixes(worldTarget));
 	}
 
 	/// <summary>
@@ -821,25 +874,49 @@ public partial class MatrixManager : MonoBehaviour
 	/// </summary>
 	public static bool IsSlipperyAt(Vector3Int worldPos)
 	{
-
-
-		return AnyMatchInternal(mat => mat.MetaDataLayer.IsSlipperyAt(WorldToLocalInt(worldPos, mat)));
+		return AnyMatchInternal(mat => mat.MetaDataLayer.IsSlipperyAt(WorldToLocalInt(worldPos, mat)), GetValidMatrixes(worldPos));
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
 	///<inheritdoc cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsAtmosPassableAt(Vector3Int worldTarget, bool isServer)
 	{
-		return AllMatchInternal(mat => mat.Matrix.IsAtmosPassableAt(WorldToLocalInt(worldTarget, mat), isServer));
+		return AllMatchInternal(mat => mat.Matrix.IsAtmosPassableAt(WorldToLocalInt(worldTarget, mat), isServer), GetValidMatrixes(worldTarget));
 	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
-	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
+	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer, bool forceCheckAll = false) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
+		var matrixes = GetValidMatrixes(worldPos);
+
+		for (var i = 0; i < matrixes.Length; i++)
+		{
+			var matrixInfo = Get(i);
+
+			t.AddRange(matrixInfo.Matrix.Get<T>(WorldToLocalInt(worldPos, matrixInfo), isServer));
+		}
+
+		return t;
+	}
+
+	//Better way to get list of T, if running through multi coords, as only checks each matrix once
+	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
+	public static List<T> GetAtMulti<T>(Vector3Int[] worldPos, bool isServer, bool forceCheckAll = false) where T : MonoBehaviour
+	{
+		List<T> t = new List<T>();
+
 		for (var i = 0; i < Instance.ActiveMatrices.Count; i++)
 		{
-			t.AddRange(Get(i).Matrix.Get<T>(WorldToLocalInt(worldPos, i), isServer));
+			var matrixInfo = Get(i);
+			//Performance check: dont check matrices further away then matrixCheckDistance from centre
+			if(forceCheckAll == false && matrixInfo.Matrix != Instance.spaceMatrix && Vector3Int.Distance(matrixInfo.MetaTileMap.GetCentreWorldInt(), worldPos[0]) > matrixCheckDistance) continue;
+
+			var vector3Ints = WorldToLocalIntMulti(worldPos, matrixInfo);
+			for (var j = 0; j < vector3Ints.Count; j++)
+			{
+				t.AddRange(matrixInfo.Matrix.Get<T>(vector3Ints[j], isServer));
+			}
 		}
 
 		return t;
@@ -875,6 +952,41 @@ public partial class MatrixManager : MonoBehaviour
 		return GetAt<T>((Vector3Int) targetObject.TileWorldPosition(), side == NetworkSide.Server);
 	}
 
+	private static MatrixInfo[] GetValidMatrixes(Vector3Int worldPos, MatrixInfo[] listOverride = null, bool forceCheckAll = false)
+	{
+		var activeMatrixes = listOverride != null ? listOverride : Instance.ActiveMatrices.ToArray();
+		var matrixes = new List<MatrixInfo>();
+
+		for (int i = 0; i < activeMatrixes.Length; i++)
+		{
+			var matrixInfo = activeMatrixes[i];
+			//Performance check: dont check matrices further away then matrixCheckDistance from centre
+			if(forceCheckAll == false && matrixInfo.Matrix != Instance.spaceMatrix && Vector3Int.Distance(matrixInfo.MetaTileMap.GetCentreWorldInt(), worldPos) > matrixCheckDistance) continue;
+
+			matrixes.Add(matrixInfo);
+		}
+
+		return matrixes.ToArray();
+	}
+
+	private static MatrixInfo[] GetValidMatrixes(Vector3Int worldPos, Vector3Int targetPos, MatrixInfo[] listOverride = null, bool forceCheckAll = false)
+	{
+		var activeMatrixes = listOverride != null ? listOverride : Instance.ActiveMatrices.ToArray();
+		var matrixes = new List<MatrixInfo>();
+
+		for (int i = 0; i < activeMatrixes.Length; i++)
+		{
+			var matrixInfo = activeMatrixes[i];
+			//Performance check: dont check matrices further away then matrixCheckDistance from centre
+			if(forceCheckAll == false && matrixInfo.Matrix != Instance.spaceMatrix && Vector3Int.Distance(matrixInfo.MetaTileMap.GetCentreWorldInt(), worldPos) > matrixCheckDistance &&
+			   Vector3Int.Distance(matrixInfo.MetaTileMap.GetCentreWorldInt(), targetPos) > matrixCheckDistance) continue;
+
+			matrixes.Add(matrixInfo);
+		}
+
+		return matrixes.ToArray();
+	}
+
 	private static bool AllMatchInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
 	{
 		for (var i = 0; i < matrixInfos.Length; i++)
@@ -886,12 +998,6 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		return true;
-	}
-
-	// By default will just check every Matrix
-	private static bool AllMatchInternal(Func<MatrixInfo, bool> condition)
-	{
-		return AllMatchInternal(condition, Instance.ActiveMatrices.ToArray());
 	}
 
 	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
@@ -907,24 +1013,19 @@ public partial class MatrixManager : MonoBehaviour
 		return false;
 	}
 
-	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition)
-	{
-		return AnyMatchInternal(condition, Instance.ActiveMatrices.ToArray());
-	}
-
 	public static bool IsTableAtAnyMatrix(Vector3Int worldTarget, bool isServer)
 	{
-		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsTableAt(WorldToLocalInt(worldTarget, mat), isServer));
+		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsTableAt(WorldToLocalInt(worldTarget, mat), isServer), GetValidMatrixes(worldTarget));
 	}
 
 	public static bool IsWallAtAnyMatrix(Vector3Int worldTarget, bool isServer)
 	{
-		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWallAt(WorldToLocalInt(worldTarget, mat), isServer));
+		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWallAt(WorldToLocalInt(worldTarget, mat), isServer), GetValidMatrixes(worldTarget));
 	}
 
 	public static bool IsWindowAtAnyMatrix(Vector3Int worldTarget, bool isServer)
 	{
-		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWindowAt(WorldToLocalInt(worldTarget, mat), isServer));
+		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWindowAt(WorldToLocalInt(worldTarget, mat), isServer), GetValidMatrixes(worldTarget));
 	}
 
 	/// <Summary>
@@ -1131,7 +1232,6 @@ public partial class MatrixManager : MonoBehaviour
 			return TransformState.HiddenPos;
 		}
 
-
 		if (matrix.MatrixMove == null)
 		{
 			return worldPos - matrix.Offset;
@@ -1178,6 +1278,65 @@ public partial class MatrixManager : MonoBehaviour
 	public Vector3 WorldToLocal(Vector3 worldPos, Matrix matrix)
 	{
 		return WorldToLocal(worldPos, Get(matrix));
+	}
+
+	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	public static List<Vector3Int> WorldToLocalIntMulti(Vector3Int[] worldPos, MatrixInfo matrix)
+	{
+		var locals = new Vector3Int[worldPos.Length];
+
+		if (matrix == null || matrix.Equals(MatrixInfo.Invalid))
+		{
+			locals = Enumerable.Repeat(TransformState.HiddenPos, worldPos.Length).ToArray();
+			return locals.ToList();
+		}
+
+		if (matrix.MatrixMove == null)
+		{
+			for (var i = 0; i < worldPos.Length; i++)
+			{
+				if (worldPos[i] == TransformState.HiddenPos)
+				{
+					locals[i] = TransformState.HiddenPos;
+					continue;
+				}
+
+				locals[i] = worldPos[i] - matrix.Offset ;
+			}
+		}
+		else
+		{
+			var state = matrix.MatrixMove.ClientState;
+			var pivot = matrix.MatrixMove.Pivot;
+			var facing = state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted;
+			var offSet = matrix.GetOffset(state);
+			var pivotOffset = pivot - offSet;
+
+			for (var i = 0; i < worldPos.Length; i++)
+			{
+				if (worldPos[i] == TransformState.HiddenPos)
+				{
+					locals[i] = TransformState.HiddenPos;
+					continue;
+				}
+
+				locals[i] = ((facing * (worldPos[i] - pivotOffset)) + pivot).RoundToInt();
+			}
+		}
+
+		return locals.ToList();
+	}
+
+	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	public static List<Vector3Int> WorldToLocalIntMulti(Vector3Int[] worldPos, int id)
+	{
+		return WorldToLocalIntMulti(worldPos, Get(id));
+	}
+
+	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	public List<Vector3Int> WorldToLocalIntMulti(Vector3Int[] worldPos, Matrix matrix)
+	{
+		return WorldToLocalIntMulti(worldPos, Get(matrix));
 	}
 
 	/// <summary>

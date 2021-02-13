@@ -178,6 +178,7 @@ public class Matrix : MonoBehaviour
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
 			bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 	{
+
 		return MetaTileMap.IsPassableAtOneTileMap(origin, position, isServer, collisionType: collisionType,
 			inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers,
 			excludeTiles: excludeTiles, ignoreObjects: ignoreObjects, isReach: isReach,
