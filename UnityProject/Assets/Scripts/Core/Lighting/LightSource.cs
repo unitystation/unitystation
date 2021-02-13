@@ -94,19 +94,6 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		}
 	}
 
-	public override void OnStartClient()
-	{
-		//EnsureInit();
-		base.OnStartClient();
-		GetComponent<RegisterTile>().WaitForMatrixInit(InitClientValues);
-
-	}
-
-	void InitClientValues(MatrixInfo matrixInfo)
-	{
-		SyncLightState(mState, mState);
-	}
-
 	private void OnEnable()
 	{
 		integrity.OnApplyDamage.AddListener(OnDamageReceived);
