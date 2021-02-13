@@ -288,14 +288,11 @@ public partial class MatrixManager : MonoBehaviour
 		if (layerMask != LayerTypeSelection.None)
 		{
 			var worldToRounded = WorldTo.Value.RoundToInt();
+			var matrixes = GetValidMatrixes(Worldorigin.RoundToInt(), worldToRounded, forceCheckAll: forceCheckAll);
 
-			for (var i = GetValidMatrixes(Worldorigin.RoundToInt(), worldToRounded).Length - 1; i >= 0; i--)
+			for (var i = matrixes.Length - 1; i >= 0; i--)
 			{
-				MatrixInfo mat = Instance.ActiveMatrices[i];
-
-				//Performance check: dont check matrices further away then matrixCheckDistance from Worldorigin, or WorldTo
-				if(forceCheckAll == false && Vector3Int.Distance(mat.MetaTileMap.GetCentreWorldInt(), worldToRounded) > matrixCheckDistance &&
-				   Vector3Int.Distance(mat.MetaTileMap.GetCentreWorldInt(), worldToRounded) > matrixCheckDistance) continue;
+				MatrixInfo mat = matrixes[i];
 
 				//if (mat.Matrix == Instance.spaceMatrix) continue;
 				if (LineIntersectsRect(Worldorigin, (Vector2) WorldTo, mat.WorldBounds))
@@ -504,7 +501,7 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
 	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer, bool forceCheckAll = false)
 	{
-		foreach (MatrixInfo mat in GetValidMatrixes(worldPos))
+		foreach (MatrixInfo mat in GetValidMatrixes(worldPos, forceCheckAll: forceCheckAll))
 		{
 			if (mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
@@ -519,7 +516,7 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
 	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer, bool forceCheckAll = false)
 	{
-		foreach (MatrixInfo mat in GetValidMatrixes(worldPos))
+		foreach (MatrixInfo mat in GetValidMatrixes(worldPos, forceCheckAll: forceCheckAll))
 		{
 			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
@@ -543,7 +540,7 @@ public partial class MatrixManager : MonoBehaviour
 		int[] excludeList = null, List<LayerType> excludeLayers = null, bool isReach = false, bool onlyExcludeLayerOnDestination = false)
 	{
 		// Gets the list of Matrixes to actually check
-		MatrixInfo[] includeList = GetValidMatrixes(worldOrigin, excludeList != null
+		MatrixInfo[] includeList = GetValidMatrixes(worldOrigin, worldTarget, excludeList != null
 			? ExcludeFromAllMatrixes(GetList(excludeList)).ToArray()
 			: null);
 
@@ -737,7 +734,7 @@ public partial class MatrixManager : MonoBehaviour
 			return;
 		}
 
-		if (matrixInfo == null)
+		if (matrixInfo is null)
 		{
 			matrixInfo = AtPoint(worldPos, true);
 		}
@@ -888,7 +885,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer, bool forceCheckAll = false) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
-		var matrixes = GetValidMatrixes(worldPos);
+		var matrixes = GetValidMatrixes(worldPos, forceCheckAll: forceCheckAll);
 
 		for (var i = 0; i < matrixes.Length; i++)
 		{
@@ -1227,7 +1224,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{
 		//Invalid matrix info provided
-		if (matrix == null || matrix.Equals(MatrixInfo.Invalid) || worldPos == TransformState.HiddenPos)
+		if (matrix is null || matrix.Equals(MatrixInfo.Invalid) || worldPos == TransformState.HiddenPos)
 		{
 			return TransformState.HiddenPos;
 		}
