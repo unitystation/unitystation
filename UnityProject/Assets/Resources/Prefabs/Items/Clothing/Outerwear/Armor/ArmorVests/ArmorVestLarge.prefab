@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: de9925f421dae6a469b53c90513cbe2e,
         type: 2}
+    - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: de9925f421dae6a469b53c90513cbe2e,
+        type: 2}
+    - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a617f723d310b1d4b815a3b673aaeb5a,
+        type: 2}
     - target: {fileID: 2961741670957096338, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,13 +33,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
-      propertyPath: initialDescription
-      value: A large, yet comfortable piece of armor, protecting you from some threats.
+      propertyPath: initialName
+      value: large armor vest
       objectReference: {fileID: 0}
     - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
-      propertyPath: initialName
-      value: large armor vest
+      propertyPath: initialDescription
+      value: A large, yet comfortable piece of armor, protecting you from some threats.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
@@ -46,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}

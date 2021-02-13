@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 278131bd4cea9d047a99c5818502a3a0,
         type: 2}
+    - target: {fileID: 1480034237117244506, guid: c0567681ea7a62b45b1d22bc477d4e36,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 278131bd4cea9d047a99c5818502a3a0,
+        type: 2}
+    - target: {fileID: 1480034237117244506, guid: c0567681ea7a62b45b1d22bc477d4e36,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: fa0251c0c7bf9df4689aa83f371aa4d1,
+        type: 2}
     - target: {fileID: 1851268551660325976, guid: c0567681ea7a62b45b1d22bc477d4e36,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,8 +33,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5339724841748502717, guid: c0567681ea7a62b45b1d22bc477d4e36,
         type: 3}
+      propertyPath: hitDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5339724841748502717, guid: c0567681ea7a62b45b1d22bc477d4e36,
+        type: 3}
       propertyPath: initialName
       value: giga gar glasses
+      objectReference: {fileID: 0}
+    - target: {fileID: 5339724841748502717, guid: c0567681ea7a62b45b1d22bc477d4e36,
+        type: 3}
+      propertyPath: throwDamage
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5339724841748502717, guid: c0567681ea7a62b45b1d22bc477d4e36,
         type: 3}
@@ -30,15 +52,10 @@ PrefabInstance:
       value: We evolve past the person we were a minute before. Little by little
         we advance with each turn. That's how a drill works!
       objectReference: {fileID: 0}
-    - target: {fileID: 5339724841748502717, guid: c0567681ea7a62b45b1d22bc477d4e36,
+    - target: {fileID: 5540724861373385387, guid: c0567681ea7a62b45b1d22bc477d4e36,
         type: 3}
-      propertyPath: hitDamage
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 5339724841748502717, guid: c0567681ea7a62b45b1d22bc477d4e36,
-        type: 3}
-      propertyPath: throwDamage
-      value: 12
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540724861373385387, guid: c0567681ea7a62b45b1d22bc477d4e36,
         type: 3}
@@ -57,6 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540724861373385387, guid: c0567681ea7a62b45b1d22bc477d4e36,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540724861373385387, guid: c0567681ea7a62b45b1d22bc477d4e36,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +91,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5540724861373385387, guid: c0567681ea7a62b45b1d22bc477d4e36,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5540724861373385387, guid: c0567681ea7a62b45b1d22bc477d4e36,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540724861373385387, guid: c0567681ea7a62b45b1d22bc477d4e36,
         type: 3}

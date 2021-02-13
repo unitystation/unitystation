@@ -368,6 +368,7 @@ public class GenerateSpriteSO : EditorWindow
 		}
 	 */
 
+	/*
 	public static EquippedData PullOutEquippedData(EquippedData ToProcess)
 	{
 		//ToProcess.SpriteEquipped = PullOutSO(ToProcess.Equipped.Texture);
@@ -376,6 +377,7 @@ public class GenerateSpriteSO : EditorWindow
 		//ToProcess.SpriteInHandsRight = PullOutSO(ToProcess.InHandsRight.Texture);
 		return ToProcess;
 	}
+	*/
 
 	public static SpriteDataSO PullOutSO(Texture2D In2D)
 	{

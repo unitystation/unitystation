@@ -15,6 +15,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1938660432816320580, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938660432816320580, guid: 83c862ecf47a1fc44be594cc5e19b980,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -30,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1938660432816320580, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938660432816320580, guid: 83c862ecf47a1fc44be594cc5e19b980,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +52,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938660432816320580, guid: 83c862ecf47a1fc44be594cc5e19b980,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938660432816320580, guid: 83c862ecf47a1fc44be594cc5e19b980,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1938660432816320580, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
@@ -85,13 +85,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2024818765580378706, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
-      propertyPath: initialDescription
-      value: A thick vest with a rubbery, water-resistant shell.
+      propertyPath: initialName
+      value: puffer vest
       objectReference: {fileID: 0}
     - target: {fileID: 2024818765580378706, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
-      propertyPath: initialName
-      value: puffer vest
+      propertyPath: initialDescription
+      value: A thick vest with a rubbery, water-resistant shell.
       objectReference: {fileID: 0}
     - target: {fileID: 2844133956285234767, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
@@ -103,6 +103,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: ea19a7dc4f0c0894da41b678adea98cc,
+        type: 2}
+    - target: {fileID: 4794426842226564789, guid: 83c862ecf47a1fc44be594cc5e19b980,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ea19a7dc4f0c0894da41b678adea98cc,
+        type: 2}
+    - target: {fileID: 4794426842226564789, guid: 83c862ecf47a1fc44be594cc5e19b980,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 93e86974593f8ba40b7472cdd33d36c5,
         type: 2}
     - target: {fileID: 5742683758786115255, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}

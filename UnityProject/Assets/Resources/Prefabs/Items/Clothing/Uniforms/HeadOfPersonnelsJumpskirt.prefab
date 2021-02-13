@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
@@ -85,20 +85,37 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
-      propertyPath: initialDescription
-      value: It's a jumpskirt worn by someone who works in the position of "Head
-        of Personnel".
+      propertyPath: initialName
+      value: head of personnel's jumpskirt
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
-      propertyPath: initialName
-      value: head of personnel's jumpskirt
+      propertyPath: initialDescription
+      value: It's a jumpskirt worn by someone who works in the position of "Head
+        of Personnel".
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: e77702bd28b8d8f49a829e8e0b6bdb0f,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: e77702bd28b8d8f49a829e8e0b6bdb0f,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b894cb479be21944a74cc8fdaf1fd18,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}

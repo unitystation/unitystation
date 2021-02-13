@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3feeff27729ce7f429ecaa57c2872732,
         type: 2}
+    - target: {fileID: 3696664957502459903, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3feeff27729ce7f429ecaa57c2872732,
+        type: 2}
+    - target: {fileID: 3696664957502459903, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3696664957502459903, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 624923aff3c57ae4cbac46a4f5849500,
+        type: 2}
     - target: {fileID: 4500807473808762877, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -32,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7720165483630928142, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7720165483630928142, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -47,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7720165483630928142, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7720165483630928142, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7720165483630928142, guid: 91aad833277815d498e0686d9fc85bed,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7720165483630928142, guid: 91aad833277815d498e0686d9fc85bed,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7720165483630928142, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
@@ -92,17 +109,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7916643212354401048, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
+      propertyPath: initialName
+      value: captain's SWAT suit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916643212354401048, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
       propertyPath: initialDescription
       value: A MK.II SWAT suit with streamlined joints and armor made out of superior
         materials, insulated against intense heat with the complementary gas mask.
         The most advanced tactical armor available. Usually reserved for heavy hitter
         corporate security, this one has a regal finish in Nanotrasen company colors.
         Better not let the assistants get a hold of it.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7916643212354401048, guid: 91aad833277815d498e0686d9fc85bed,
-        type: 3}
-      propertyPath: initialName
-      value: captain's SWAT suit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91aad833277815d498e0686d9fc85bed, type: 3}

@@ -43,6 +43,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 297e71e9e7cf53b46a76e8436956f3ab,
         type: 2}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 297e71e9e7cf53b46a76e8436956f3ab,
+        type: 2}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: cd74e0ac4b6be904ab60bf01f7e20523,
+        type: 2}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -53,6 +70,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -71,6 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -83,16 +110,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -122,13 +139,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: initialDescription
-      value: 'A classy and highly sophisticated electronic cigarette, for classy
-        and dignified gentlemen. A warning label reads "Warning: Do not fill with
-        flammable materials.'
-      objectReference: {fileID: 0}
-    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
-        type: 3}
       propertyPath: initialName
       value: e-cigarette
       objectReference: {fileID: 0}
@@ -136,6 +146,13 @@ PrefabInstance:
         type: 3}
       propertyPath: initialSize
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'A classy and highly sophisticated electronic cigarette, for classy
+        and dignified gentlemen. A warning label reads "Warning: Do not fill with
+        flammable materials.'
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}

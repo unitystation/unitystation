@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2987011942256334699, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
         type: 3}
-      propertyPath: initialDescription
-      value: Made by Uncool. Co.
+      propertyPath: initialName
+      value: hipster glasses
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
         type: 3}
-      propertyPath: initialName
-      value: hipster glasses
+      propertyPath: initialDescription
+      value: Made by Uncool. Co.
       objectReference: {fileID: 0}
     - target: {fileID: 3273994478765017941, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
         type: 3}
@@ -27,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426649003253581181, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426649003253581181, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
         type: 3}
@@ -93,6 +93,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: a5c1b9bd4e7f4da43842f8e654fc33fb,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: a5c1b9bd4e7f4da43842f8e654fc33fb,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638853748845472652, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c4afc1d84873b4c40a533ee94df70d56,
         type: 2}
     - target: {fileID: 8851959254138389390, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
         type: 3}

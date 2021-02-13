@@ -9,14 +9,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4159236212715709040, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
-      propertyPath: initialDescription
-      value: A space-worthy helmet specially designed for atmos technician plasmamen,
-        the usual purple stripes being replaced by engineering's blue.
+      propertyPath: initialName
+      value: atmospherics envirohelmet
       objectReference: {fileID: 0}
     - target: {fileID: 4159236212715709040, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
-      propertyPath: initialName
-      value: atmospherics envirohelmet
+      propertyPath: initialDescription
+      value: A space-worthy helmet specially designed for atmos technician plasmamen,
+        the usual purple stripes being replaced by engineering's blue.
       objectReference: {fileID: 0}
     - target: {fileID: 4441952640308657742, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
@@ -28,6 +28,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4559485435225960550, guid: fb326cff61a55704ca244f0116325115,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4559485435225960550, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4559485435225960550, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4559485435225960550, guid: fb326cff61a55704ca244f0116325115,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4559485435225960550, guid: fb326cff61a55704ca244f0116325115,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4559485435225960550, guid: fb326cff61a55704ca244f0116325115,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4559485435225960550, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
@@ -94,6 +94,29 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: c8e0a7d44222b4b49b3231007f1ddb1d,
+        type: 2}
+    - target: {fileID: 7433247755527118487, guid: fb326cff61a55704ca244f0116325115,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c8e0a7d44222b4b49b3231007f1ddb1d,
+        type: 2}
+    - target: {fileID: 7433247755527118487, guid: fb326cff61a55704ca244f0116325115,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433247755527118487, guid: fb326cff61a55704ca244f0116325115,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: aa2efd91b281b0640923b4b83ac52eab,
+        type: 2}
+    - target: {fileID: 7433247755527118487, guid: fb326cff61a55704ca244f0116325115,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c7407bb507fe93e4092d487b54e11682,
         type: 2}
     - target: {fileID: 7643478071444715157, guid: fb326cff61a55704ca244f0116325115,
         type: 3}

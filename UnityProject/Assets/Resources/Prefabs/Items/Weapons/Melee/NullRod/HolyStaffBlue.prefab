@@ -31,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5135293055082260102, guid: 3a9dc82e105bca24b98088346144b56e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135293055082260102, guid: 3a9dc82e105bca24b98088346144b56e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5135293055082260102, guid: 3a9dc82e105bca24b98088346144b56e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135293055082260102, guid: 3a9dc82e105bca24b98088346144b56e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5135293055082260102, guid: 3a9dc82e105bca24b98088346144b56e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5135293055082260102, guid: 3a9dc82e105bca24b98088346144b56e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5135293055082260102, guid: 3a9dc82e105bca24b98088346144b56e,
         type: 3}
@@ -94,6 +94,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: e09674b82cd6a774ab9b5f7cc86936ed,
+        type: 2}
+    - target: {fileID: 9175554150376375194, guid: 3a9dc82e105bca24b98088346144b56e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: e09674b82cd6a774ab9b5f7cc86936ed,
+        type: 2}
+    - target: {fileID: 9175554150376375194, guid: 3a9dc82e105bca24b98088346144b56e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175554150376375194, guid: 3a9dc82e105bca24b98088346144b56e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a72c16b2ed90434294502876c608419,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a9dc82e105bca24b98088346144b56e, type: 3}

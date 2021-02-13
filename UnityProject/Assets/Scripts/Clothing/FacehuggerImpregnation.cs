@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Items;
 using Mirror;
 using UnityEngine;
+using Systems.Clothing;
 
 namespace Clothing
 {
@@ -47,7 +48,7 @@ namespace Clothing
 		public void KillHugger()
 		{
 			isAlive = false;
-			clothingV2.ServerChangeVariant(ClothingV2.ClothingVariantType.Tucked);
+			clothingV2.ChangeSprite(1);
 			itemAttributesV2.ServerSetArticleDescription("It is not moving anymore.");
 		}
 

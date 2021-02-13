@@ -9,14 +9,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
-      propertyPath: initialDescription
-      value: It's a sterilized* blanket commonly used in the Medbay.  *Sterilization
-        is voided if a virologist is present onboard the station.
+      propertyPath: initialName
+      value: medical blanket
       objectReference: {fileID: 0}
     - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
-      propertyPath: initialName
-      value: medical blanket
+      propertyPath: initialDescription
+      value: It's a sterilized* blanket commonly used in the Medbay.  *Sterilization
+        is voided if a virologist is present onboard the station.
       objectReference: {fileID: 0}
     - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
@@ -24,6 +24,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2e00dc6ba11ee8242b9043f2fe035365,
         type: 3}
+    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
@@ -100,6 +100,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 42db7a7e59f4b1044a5a6b001d21e1df,
+        type: 2}
+    - target: {fileID: 7964486416432102150, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 42db7a7e59f4b1044a5a6b001d21e1df,
+        type: 2}
+    - target: {fileID: 7964486416432102150, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9280f92098f36b444b9773869e576291,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 423cab216aa4e354f8159742cc80d10a, type: 3}

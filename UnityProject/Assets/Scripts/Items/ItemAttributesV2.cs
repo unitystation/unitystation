@@ -4,6 +4,7 @@ using AddressableReferences;
 using Mirror;
 using AddressableReferences;
 using UnityEngine;
+using Systems.Clothing;
 
 namespace Items
 {

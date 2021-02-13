@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7101127380728846657, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101127380728846657, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7101127380728846657, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101127380728846657, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7101127380728846657, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7101127380728846657, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7101127380728846657, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
@@ -69,6 +69,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
+      propertyPath: Armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
+        type: 3}
       propertyPath: Armor.Melee
       value: 25
       objectReference: {fileID: 0}
@@ -79,33 +104,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
-        type: 3}
       propertyPath: Armor.Energy
       value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
-        type: 3}
-      propertyPath: Armor.Bio
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 7134956946767869377, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7137064127981083009, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
@@ -114,8 +114,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7237950006102920023, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
+      propertyPath: initialName
+      value: combat clown shoes
       objectReference: {fileID: 0}
     - target: {fileID: 7237950006102920023, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
@@ -125,8 +125,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7237950006102920023, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
-      propertyPath: initialName
-      value: combat clown shoes
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7237950006102920023, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}

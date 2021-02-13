@@ -19,8 +19,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
-      propertyPath: HeatResistance
-      value: 600
+      propertyPath: Armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
@@ -34,28 +49,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
-        type: 3}
       propertyPath: Armor.Energy
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
-      propertyPath: Armor.Bio
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 10
+      propertyPath: HeatResistance
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 880922137936671746, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
@@ -66,6 +66,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CultistHood
+      objectReference: {fileID: 0}
+    - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
@@ -84,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -96,16 +106,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
@@ -135,14 +135,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6183623809446730291, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: eccebf2868c0a3442bb9c8aec055ee36,
+        type: 2}
+    - target: {fileID: 6183623809446730291, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: eccebf2868c0a3442bb9c8aec055ee36,
+        type: 2}
+    - target: {fileID: 6183623809446730291, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 416
       objectReference: {fileID: 0}
     - target: {fileID: 6183623809446730291, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
-      propertyPath: clothData
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6183623809446730291, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: eccebf2868c0a3442bb9c8aec055ee36,
+      objectReference: {fileID: 11400000, guid: 00e16693bcc1d6348a2a891f79fc073e,
         type: 2}
     - target: {fileID: 6407356370313720369, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}

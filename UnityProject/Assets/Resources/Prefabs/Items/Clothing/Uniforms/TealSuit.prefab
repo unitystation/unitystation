@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
@@ -80,19 +80,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
-      propertyPath: initialDescription
-      value: A teal suit and yellow necktie. An authoritative yet tacky ensemble.
+      propertyPath: initialName
+      value: teal suit
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
-      propertyPath: initialName
-      value: teal suit
+      propertyPath: initialDescription
+      value: A teal suit and yellow necktie. An authoritative yet tacky ensemble.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 021d0c0fde9bc254880d0299d2a96894,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 021d0c0fde9bc254880d0299d2a96894,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: aea7110a65f378d4cb7f66a40ef92036,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}

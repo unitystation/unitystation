@@ -29,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -41,6 +46,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
@@ -59,16 +69,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 738284569127742792, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -84,6 +84,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
+      propertyPath: Armor.Bio
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
       propertyPath: Armor.Melee
       value: -45
       objectReference: {fileID: 0}
@@ -94,38 +124,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
-      propertyPath: Armor.Laser
-      value: -45
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
       propertyPath: Armor.Energy
       value: -55
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: -45
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Rad
-      value: -45
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Bio
-      value: -45
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 844101499983987144, guid: f165d0512a4d5ef44ba3d22decd038b7,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 844810168840007048, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}

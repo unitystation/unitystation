@@ -19,6 +19,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 99dd095bed036a74e943577985a4fed9,
         type: 2}
+    - target: {fileID: 4215291408532946830, guid: 1fee08a0a538bef4e93fba638aaf57ba,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 99dd095bed036a74e943577985a4fed9,
+        type: 2}
+    - target: {fileID: 4215291408532946830, guid: 1fee08a0a538bef4e93fba638aaf57ba,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 109779ac2caa8fc4399e5e5cdc09bf81,
+        type: 2}
     - target: {fileID: 6986057347718307671, guid: 1fee08a0a538bef4e93fba638aaf57ba,
         type: 3}
       propertyPath: m_Sprite
@@ -29,6 +41,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SkillcapeGeneticistGilded
+      objectReference: {fileID: 0}
+    - target: {fileID: 7066431042948731263, guid: 1fee08a0a538bef4e93fba638aaf57ba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7066431042948731263, guid: 1fee08a0a538bef4e93fba638aaf57ba,
         type: 3}
@@ -47,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7066431042948731263, guid: 1fee08a0a538bef4e93fba638aaf57ba,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7066431042948731263, guid: 1fee08a0a538bef4e93fba638aaf57ba,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7066431042948731263, guid: 1fee08a0a538bef4e93fba638aaf57ba,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7066431042948731263, guid: 1fee08a0a538bef4e93fba638aaf57ba,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7066431042948731263, guid: 1fee08a0a538bef4e93fba638aaf57ba,
         type: 3}

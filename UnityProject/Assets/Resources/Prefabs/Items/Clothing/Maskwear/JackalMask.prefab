@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4f4c06426e77ddd4b88dfbf44b349a50,
         type: 2}
+    - target: {fileID: 44155453462962640, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f4c06426e77ddd4b88dfbf44b349a50,
+        type: 2}
+    - target: {fileID: 44155453462962640, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 44155453462962640, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7280969e23c881541822ca42bb254b8b,
+        type: 2}
     - target: {fileID: 984030586657343954, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: JackalMask
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
         type: 3}
@@ -41,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
         type: 3}

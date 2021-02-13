@@ -19,6 +19,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8f5b78a1f226c9c4c9f94c6613882dc7,
         type: 2}
+    - target: {fileID: 4548069566186762711, guid: e0962543599222b419e2b55fd2a2b6c7,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f5b78a1f226c9c4c9f94c6613882dc7,
+        type: 2}
+    - target: {fileID: 4548069566186762711, guid: e0962543599222b419e2b55fd2a2b6c7,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7a6542e40927c6e4d859526c62443838,
+        type: 2}
     - target: {fileID: 7029376932301376816, guid: e0962543599222b419e2b55fd2a2b6c7,
         type: 3}
       propertyPath: initialName
@@ -42,6 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7454378257518927654, guid: e0962543599222b419e2b55fd2a2b6c7,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7454378257518927654, guid: e0962543599222b419e2b55fd2a2b6c7,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -57,6 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7454378257518927654, guid: e0962543599222b419e2b55fd2a2b6c7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7454378257518927654, guid: e0962543599222b419e2b55fd2a2b6c7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +91,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7454378257518927654, guid: e0962543599222b419e2b55fd2a2b6c7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7454378257518927654, guid: e0962543599222b419e2b55fd2a2b6c7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7454378257518927654, guid: e0962543599222b419e2b55fd2a2b6c7,
         type: 3}

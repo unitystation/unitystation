@@ -9,14 +9,37 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: a825a9e9722a6c14297fb10103d0d782,
+        type: 2}
+    - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: a825a9e9722a6c14297fb10103d0d782,
+        type: 2}
+    - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: clothData
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: a825a9e9722a6c14297fb10103d0d782,
+      objectReference: {fileID: 11400000, guid: 73fbab18887f0a141a0d5137b8cd1925,
+        type: 2}
+    - target: {fileID: 505908370080771286, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f41f8844134f26549a1a90d092e8e025,
         type: 2}
     - target: {fileID: 738165133181011156, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
@@ -26,13 +49,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6455339164689371185, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: initialDescription
-      value: An armoured suit for exploring harsh environments.
+      propertyPath: initialName
+      value: explorer suit
       objectReference: {fileID: 0}
     - target: {fileID: 6455339164689371185, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: initialName
-      value: explorer suit
+      propertyPath: initialDescription
+      value: An armoured suit for exploring harsh environments.
       objectReference: {fileID: 0}
     - target: {fileID: 6740085358925630479, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
@@ -42,27 +65,22 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
-      propertyPath: HeatResistance
-      value: 30000
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
       propertyPath: Armor.Bio
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
+      propertyPath: Armor.Rad
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
       propertyPath: Armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: Armor.Bomb
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
@@ -72,8 +90,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: Armor.Rad
-      value: 50
+      propertyPath: Armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
@@ -82,23 +110,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: Armor.Bomb
-      value: 50
+      propertyPath: HeatResistance
+      value: 30000
       objectReference: {fileID: 0}
     - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837537771288719015, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
-      propertyPath: Armor.Bullet
-      value: 10
+      propertyPath: Resistances.FireProof
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6839938590819599079, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
@@ -117,6 +145,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -129,16 +162,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}

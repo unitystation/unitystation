@@ -9,20 +9,25 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 741549383598998161, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
+      propertyPath: initialName
+      value: botany envirohelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 741549383598998161, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
       propertyPath: initialDescription
       value: A green and blue envirohelmet designating it's wearer as a botanist.
         While not specially designed for it, it protects against minor plant-related
         injuries.
       objectReference: {fileID: 0}
-    - target: {fileID: 741549383598998161, guid: 2c46f309a45d8714f9c5db5361e854e6,
-        type: 3}
-      propertyPath: initialName
-      value: botany envirohelmet
-      objectReference: {fileID: 0}
     - target: {fileID: 911725522681720307, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: m_Name
-      value: BotanyEnvirohelm
+      value: BotanyEnvirohelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
@@ -95,6 +95,29 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 5df9ba9914e64304cb3d0b7665c3b792,
+        type: 2}
+    - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5df9ba9914e64304cb3d0b7665c3b792,
+        type: 2}
+    - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d509feca30c14da4180e81301a9dc9e7,
+        type: 2}
+    - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ccb7ba7604f27b045ac019363c03cd22,
         type: 2}
     - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}

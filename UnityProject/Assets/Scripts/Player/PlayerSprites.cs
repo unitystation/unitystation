@@ -6,6 +6,7 @@ using Light2D;
 using Mirror;
 using UnityEngine;
 using Effects.Overlays;
+using Systems.Clothing;
 
 /// <summary>
 /// Handle displaying the sprites related to player, which includes underwear and the body.

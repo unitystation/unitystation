@@ -9,18 +9,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
+      propertyPath: initialName
+      value: wizard's bedsheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
       propertyPath: initialDescription
       value: A special fabric enchanted with magic so you can have an enchanted night.
         It even glows!
       objectReference: {fileID: 0}
-    - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: initialName
-      value: wizard's bedsheet
-      objectReference: {fileID: 0}
     - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
-      propertyPath: m_Color.r
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 067b83adf2558cd4ea58434c463395b0,
+        type: 3}
+    - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
@@ -30,15 +36,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
-      propertyPath: m_Color.b
+      propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
+    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 067b83adf2558cd4ea58434c463395b0,
-        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -56,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3956749382267164151, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
@@ -115,6 +115,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: e67d6f7b914a9a34687d3927ec315f25,
+        type: 2}
+    - target: {fileID: 7964486416432102150, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: e67d6f7b914a9a34687d3927ec315f25,
+        type: 2}
+    - target: {fileID: 7964486416432102150, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 08ecafbe08d90b043911647d05620298,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 423cab216aa4e354f8159742cc80d10a, type: 3}

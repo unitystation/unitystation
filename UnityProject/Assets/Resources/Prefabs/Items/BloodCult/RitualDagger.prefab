@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8163040800572224643, guid: 2d38bd05b126a474fb2bb0bc351220ee,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8163040800572224643, guid: 2d38bd05b126a474fb2bb0bc351220ee,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8163040800572224643, guid: 2d38bd05b126a474fb2bb0bc351220ee,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8163040800572224643, guid: 2d38bd05b126a474fb2bb0bc351220ee,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8163040800572224643, guid: 2d38bd05b126a474fb2bb0bc351220ee,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8163040800572224643, guid: 2d38bd05b126a474fb2bb0bc351220ee,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8163040800572224643, guid: 2d38bd05b126a474fb2bb0bc351220ee,
         type: 3}
@@ -86,14 +86,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8626340314741286549, guid: 2d38bd05b126a474fb2bb0bc351220ee,
         type: 3}
-      propertyPath: initialName
-      value: ritual dagger
+      propertyPath: hitDamage
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8626340314741286549, guid: 2d38bd05b126a474fb2bb0bc351220ee,
         type: 3}
-      propertyPath: initialDescription
-      value: A strange dagger said to be used by sinister groups for "preparing"
-        a corpse before sacrificing it to their dark gods.
+      propertyPath: initialName
+      value: ritual dagger
       objectReference: {fileID: 0}
     - target: {fileID: 8626340314741286549, guid: 2d38bd05b126a474fb2bb0bc351220ee,
         type: 3}
@@ -102,13 +101,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8626340314741286549, guid: 2d38bd05b126a474fb2bb0bc351220ee,
         type: 3}
-      propertyPath: hitDamage
-      value: 15
+      propertyPath: throwDamage
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8626340314741286549, guid: 2d38bd05b126a474fb2bb0bc351220ee,
         type: 3}
-      propertyPath: throwDamage
-      value: 25
+      propertyPath: initialDescription
+      value: A strange dagger said to be used by sinister groups for "preparing"
+        a corpse before sacrificing it to their dark gods.
       objectReference: {fileID: 0}
     - target: {fileID: 8626340314741286549, guid: 2d38bd05b126a474fb2bb0bc351220ee,
         type: 3}

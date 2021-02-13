@@ -19,6 +19,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f9a06bfe8b8b92643aa16ec99fced5fa,
         type: 2}
+    - target: {fileID: 2648506063311982055, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f9a06bfe8b8b92643aa16ec99fced5fa,
+        type: 2}
+    - target: {fileID: 2648506063311982055, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 07c9b952018b3464b809a830cfcff397,
+        type: 2}
     - target: {fileID: 5858256426857283404, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
         type: 3}
       propertyPath: m_Sprite
@@ -29,6 +41,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029970884532072804, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6029970884532072804, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
         type: 3}
@@ -47,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6029970884532072804, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029970884532072804, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6029970884532072804, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6029970884532072804, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6029970884532072804, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
         type: 3}
@@ -92,13 +104,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6147653212218516338, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
         type: 3}
-      propertyPath: initialDescription
-      value: Unique and versatile chest rig, can hold security gear.
+      propertyPath: initialName
+      value: security webbing
       objectReference: {fileID: 0}
     - target: {fileID: 6147653212218516338, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
         type: 3}
-      propertyPath: initialName
-      value: security webbing
+      propertyPath: initialDescription
+      value: Unique and versatile chest rig, can hold security gear.
       objectReference: {fileID: 0}
     - target: {fileID: 6660843412095075786, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
         type: 3}

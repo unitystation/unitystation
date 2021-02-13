@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
@@ -85,19 +85,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
-      propertyPath: initialDescription
-      value: It's a blue jumpskirt with some gold markings denoting the rank of "Captain".
+      propertyPath: initialName
+      value: captain's jumpskirt
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
-      propertyPath: initialName
-      value: captain's jumpskirt
+      propertyPath: initialDescription
+      value: It's a blue jumpskirt with some gold markings denoting the rank of "Captain".
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: f28784210cc1fc8488fe1f24d3c5b0e1,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f28784210cc1fc8488fe1f24d3c5b0e1,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 166213683e679e34385e6e4eccfeaa5e,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}

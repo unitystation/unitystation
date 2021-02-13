@@ -30,13 +30,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
-      propertyPath: initialDescription
-      value: A tactical security jumpsuit with the legs replaced by a skirt.
+      propertyPath: initialName
+      value: security jumpskirt
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
-      propertyPath: initialName
-      value: security jumpskirt
+      propertyPath: initialDescription
+      value: A tactical security jumpsuit with the legs replaced by a skirt.
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484472030, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
@@ -56,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484497100, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594101368484497100, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -71,6 +76,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484497100, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594101368484497100, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -83,16 +93,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7594101368484497100, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7594101368484497100, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484497100, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
@@ -125,6 +125,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 1fb7782323104b94bbb92b35d1dd4d36,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1fb7782323104b94bbb92b35d1dd4d36,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a2209eff0512ef4da11fbd1ae2de6fa,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}

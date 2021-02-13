@@ -19,6 +19,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 615657c05dc0a5e48b16a0680b391a61,
         type: 2}
+    - target: {fileID: 3118957259161963395, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 615657c05dc0a5e48b16a0680b391a61,
+        type: 2}
+    - target: {fileID: 3118957259161963395, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118957259161963395, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e3535fd788bddb44cb34634b5c3110a2,
+        type: 2}
     - target: {fileID: 8197690472314235738, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
       propertyPath: m_Sprite
@@ -37,6 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8297455367565452658, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8297455367565452658, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -52,6 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8297455367565452658, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8297455367565452658, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +91,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8297455367565452658, guid: a9c4649a88c0143b68f95ac8adfa3067,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8297455367565452658, guid: a9c4649a88c0143b68f95ac8adfa3067,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8297455367565452658, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
@@ -97,13 +114,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
-      propertyPath: initialDescription
-      value: Protects your hearing from loud noises, and quiet ones as well."
+      propertyPath: initialName
+      value: earmuffs
       objectReference: {fileID: 0}
     - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
-      propertyPath: initialName
-      value: earmuffs
+      propertyPath: initialDescription
+      value: Protects your hearing from loud noises, and quiet ones as well."
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9c4649a88c0143b68f95ac8adfa3067, type: 3}

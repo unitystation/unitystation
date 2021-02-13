@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7da7ce2b86062e549bc400dfa261fc60,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7da7ce2b86062e549bc400dfa261fc60,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b868edbaf625e3f4a8475d415bc3078d,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
@@ -41,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
@@ -92,13 +109,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8004422176852823208, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
-      propertyPath: initialDescription
-      value: If you're going on a worldwide hike, you'll need some cold protection.
+      propertyPath: initialName
+      value: red striped bobble hat
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
-      propertyPath: initialName
-      value: red striped bobble hat
+      propertyPath: initialDescription
+      value: If you're going on a worldwide hike, you'll need some cold protection.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9542c9504316c3845bbb5f541ec22cfb, type: 3}

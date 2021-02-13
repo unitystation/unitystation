@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 924b2ca28655cdd49bbc03b35b770b78,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: 77556be90466a4737b39e556f8ff1d41,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 924b2ca28655cdd49bbc03b35b770b78,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 77556be90466a4737b39e556f8ff1d41,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 088d8d92b61bd5c43baab45042a45d21,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: 77556be90466a4737b39e556f8ff1d41,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +35,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 77556be90466a4737b39e556f8ff1d41,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 77556be90466a4737b39e556f8ff1d41,
         type: 3}
@@ -41,6 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 77556be90466a4737b39e556f8ff1d41,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 77556be90466a4737b39e556f8ff1d41,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +75,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 77556be90466a4737b39e556f8ff1d41,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 77556be90466a4737b39e556f8ff1d41,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 77556be90466a4737b39e556f8ff1d41,
         type: 3}
@@ -92,14 +104,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8004422176852823208, guid: 77556be90466a4737b39e556f8ff1d41,
         type: 3}
-      propertyPath: initialDescription
-      value: A special armored campaign hat with the security insignia emblazoned
-        on it. Uses reinforced fabric to offer sufficient protection.
+      propertyPath: initialName
+      value: warden's campaign hat
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: 77556be90466a4737b39e556f8ff1d41,
         type: 3}
-      propertyPath: initialName
-      value: warden's campaign hat
+      propertyPath: initialDescription
+      value: A special armored campaign hat with the security insignia emblazoned
+        on it. Uses reinforced fabric to offer sufficient protection.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77556be90466a4737b39e556f8ff1d41, type: 3}

@@ -28,38 +28,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: b889eab1ad626f84fa959ed4e1c739c3,
-        type: 2}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
       propertyPath: MagSize
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c5dd25000c848a247b3f528547ec6da4,
+        type: 2}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: Projectile
       value: 
-      objectReference: {fileID: 2003804624138751089, guid: 6479114d4021fcc4480f216b37acc883,
-        type: 3}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 5857423046154764512, guid: 743525ecb25075c4a931a26989c82712,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: genericInternalMag
       value: 
       objectReference: {fileID: 5857423046154764512, guid: 743525ecb25075c4a931a26989c82712,
         type: 3}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: allowMagazineRemoval
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: initialName

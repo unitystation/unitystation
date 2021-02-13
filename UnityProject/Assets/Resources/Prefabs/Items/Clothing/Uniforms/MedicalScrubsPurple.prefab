@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 604161a1d792749539a5f1b0eb6e4749,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 604161a1d792749539a5f1b0eb6e4749,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 604161a1d792749539a5f1b0eb6e4749,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 604161a1d792749539a5f1b0eb6e4749,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
@@ -80,14 +80,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
-      propertyPath: initialDescription
-      value: It's made of a special fiber that provides minor protection against
-        biohazards. This one is in deep purple.
+      propertyPath: initialName
+      value: purple medical scrubs
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
-      propertyPath: initialName
-      value: purple medical scrubs
+      propertyPath: initialDescription
+      value: It's made of a special fiber that provides minor protection against
+        biohazards. This one is in deep purple.
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484472030, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
@@ -97,14 +97,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7594101368484477531, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
-      propertyPath: initialDescription
-      value: It's made of a special fiber that provides minor protection against
-        biohazards. This one is in deep purple.
+      propertyPath: initialName
+      value: purple medical scrubs
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484477531, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
-      propertyPath: initialName
-      value: purple medical scrubs
+      propertyPath: initialDescription
+      value: It's made of a special fiber that provides minor protection against
+        biohazards. This one is in deep purple.
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484478512, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
@@ -133,6 +133,23 @@ PrefabInstance:
       propertyPath: variantIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 604161a1d792749539a5f1b0eb6e4749,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 95e9fea5c1ed62145b479398c0178eaf,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 604161a1d792749539a5f1b0eb6e4749,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 604161a1d792749539a5f1b0eb6e4749,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 455ee0031e275a646b84b3462086dd3f,
+        type: 2}
     - target: {fileID: 8975007657035133986, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 669c8831af14a4225968399b65b23461,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 669c8831af14a4225968399b65b23461,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
@@ -80,19 +80,42 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
-      propertyPath: initialDescription
-      value: A high visibility jumpsuit made from heat and radiation resistant materials.
+      propertyPath: initialName
+      value: engineer's hazard jumpsuit
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
-      propertyPath: initialName
-      value: engineer's hazard jumpsuit
+      propertyPath: initialDescription
+      value: A high visibility jumpsuit made from heat and radiation resistant materials.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 923f25bf2fe450846bc79805d568b27f,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 923f25bf2fe450846bc79805d568b27f,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ca5694847410e644f8276ed2cef88e73,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7dc90b53d692e6a459425aea03cfd733,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 669c8831af14a4225968399b65b23461,
         type: 3}

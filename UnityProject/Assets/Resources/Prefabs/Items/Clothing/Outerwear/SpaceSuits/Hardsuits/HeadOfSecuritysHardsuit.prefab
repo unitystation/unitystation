@@ -26,13 +26,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3933791279982349479, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 3933791279982349479, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
-        type: 3}
-      propertyPath: Armor.Bullet
-      value: 25
+      propertyPath: Armor.Acid
+      value: 95
       objectReference: {fileID: 0}
     - target: {fileID: 3933791279982349479, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
         type: 3}
@@ -46,8 +41,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3933791279982349479, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 95
+      propertyPath: Armor.Melee
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3933791279982349479, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3933935898568401127, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
         type: 3}
@@ -58,6 +58,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HeadOfSecuritysHardsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3972054351690194983, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3972054351690194983, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
         type: 3}
@@ -76,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3972054351690194983, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3972054351690194983, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -88,16 +98,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3972054351690194983, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3972054351690194983, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3972054351690194983, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
         type: 3}
@@ -125,6 +125,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: f948fa07fe2ae844aab4b3a09859c2fd,
+        type: 2}
+    - target: {fileID: 8030246651536199382, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f948fa07fe2ae844aab4b3a09859c2fd,
+        type: 2}
+    - target: {fileID: 8030246651536199382, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030246651536199382, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1511d1ffc434e4f47bdb490f5291a736,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b, type: 3}

@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1833c1e2a1e94684384a007ca12c4b0c,
         type: 2}
+    - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1833c1e2a1e94684384a007ca12c4b0c,
+        type: 2}
+    - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ad8c5dda397ada48821523b9c331883,
+        type: 2}
     - target: {fileID: 2961741670957096338, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -26,14 +38,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
+      propertyPath: initialName
+      value: warden's jacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
       propertyPath: initialDescription
       value: A navy-blue armored jacket with blue shoulder designations and '/Warden/'
         stitched into one of the chest pockets.
       objectReference: {fileID: 0}
-    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
-      propertyPath: initialName
-      value: warden's jacket
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
@@ -52,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}

@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 63a533c1b77d3454eae56c8c142b9cf7,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 63a533c1b77d3454eae56c8c142b9cf7,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: de4fcfd867f185f45af3f4677ffed367,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,23 +38,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7521929656741835326, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 9542c9504316c3845bbb5f541ec22cfb,
-        type: 3}
-      propertyPath: Armor.Bullet
+      propertyPath: Armor.Acid
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 9542c9504316c3845bbb5f541ec22cfb,
-        type: 3}
-      propertyPath: Armor.Laser
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 9542c9504316c3845bbb5f541ec22cfb,
-        type: 3}
-      propertyPath: Armor.Energy
-      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
@@ -51,13 +53,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
-      propertyPath: Armor.Acid
+      propertyPath: Armor.Laser
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521929656741835326, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521929656741835326, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: Armor.Bullet
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521929656741835326, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
@@ -76,6 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -88,16 +115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
@@ -127,14 +144,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8004422176852823208, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
-      propertyPath: initialDescription
-      value: A beanie made from durathread, its resilient fibres provide some protection
-        to the wearer.
+      propertyPath: initialName
+      value: durathread beanie
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: 9542c9504316c3845bbb5f541ec22cfb,
         type: 3}
-      propertyPath: initialName
-      value: durathread beanie
+      propertyPath: initialDescription
+      value: A beanie made from durathread, its resilient fibres provide some protection
+        to the wearer.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9542c9504316c3845bbb5f541ec22cfb, type: 3}

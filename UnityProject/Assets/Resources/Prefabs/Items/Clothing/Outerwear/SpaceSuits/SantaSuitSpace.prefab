@@ -14,13 +14,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
-      propertyPath: initialDescription
-      value: Festive!
+      propertyPath: initialName
+      value: Santa's suit
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
-      propertyPath: initialName
-      value: Santa's suit
+      propertyPath: initialDescription
+      value: Festive!
       objectReference: {fileID: 0}
     - target: {fileID: 3791466462619397166, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
@@ -32,6 +32,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SantaSuitSpace
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: bb9351dcbe298544e9475ae3e599f329,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: bb9351dcbe298544e9475ae3e599f329,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: bb9351dcbe298544e9475ae3e599f329,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: bb9351dcbe298544e9475ae3e599f329,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
@@ -88,6 +88,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4033042375367942854, guid: bb9351dcbe298544e9475ae3e599f329,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7145545764318209269, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -99,6 +104,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 1659a2c98167b4c488e877b9c96f52d5,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: bb9351dcbe298544e9475ae3e599f329,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1659a2c98167b4c488e877b9c96f52d5,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: bb9351dcbe298544e9475ae3e599f329,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931175119129480439, guid: bb9351dcbe298544e9475ae3e599f329,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 149dbd3f96c889742b68a60fd093fd9b,
         type: 2}
     m_RemovedComponents:
     - {fileID: -610620934610402958, guid: bb9351dcbe298544e9475ae3e599f329, type: 3}
