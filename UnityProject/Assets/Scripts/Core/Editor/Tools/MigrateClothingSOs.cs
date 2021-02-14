@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// Converts old clothing sprite SO data to new SO. Restores references to SOs in ClothingV2.
 /// 1. Generate the new SOs. Confirm they look good. Unless they are adjusted SOs, they will have a temporary name as the old SOs will still exist.
 /// 2. Update Clothing V2 to use new SOs. Confirm they look good.
@@ -7,14 +7,15 @@
 /// </summary>
 
 /* 
- * If you wish to use this tool, uncomment all this and set the relevant fields in ClothingV2 public until you're done.
- * 
+ * If you wish to use this tool:
+ * Uncomment all this.
+ * Add `public BaseClothData currentClothData;` to ClothingV2 and set `allClothingData` public until you're done.
+ * Acquire the original clothing SO scripts (and associated .meta files) if they're no longer part of the project.
+ * Confirm ClothingV2 currentClothData is populated on the clothing you wish to convert.
+ * Confirm the clothing SOs to be converted are also populated, and their disabled `Script` fields are not empty.
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Systems.Clothing;
@@ -69,20 +70,19 @@ namespace Core.Editor.Tools
 		private static void ConvertCloth(BaseClothData cloth)
 		{
 			string path = AssetDatabase.GetAssetPath(cloth);
-			string newPath = GeneratePath(path, tempSuffix);
 			ClothingDataV2 dataV2 = default;
 
 			if (cloth is ClothingData clothing)
 			{
 				countClothing++;
-				dataV2 = CreateNewDataForBase(newPath, clothing.Base);
+				dataV2 = CreateNewDataForBase(clothing.Base);
 				
 				if (clothing.Base_Adjusted.SpriteEquipped != null ||
 					clothing.Base_Adjusted.SpriteInHandsLeft != null ||
 					clothing.Base_Adjusted.SpriteInHandsRight != null ||
 					clothing.Base_Adjusted.SpriteItemIcon != null)
 				{
-					AssetDatabase.CreateAsset(CreateNewDataForBase(GeneratePath(path, adjustedSuffix), clothing.Base_Adjusted, clothing.Base));
+					AssetDatabase.CreateAsset(CreateNewDataForAdjusted(clothing.Base, clothing.Base_Adjusted), GeneratePath(path, adjustedSuffix));
 					countClothingAdjusted++;
 				}
 			}
@@ -102,7 +102,7 @@ namespace Core.Editor.Tools
 				countHeadsets++;
 			}
 
-			AssetDatabase.CreateAsset(dataV2, path);
+			AssetDatabase.CreateAsset(dataV2, GeneratePath(path, tempSuffix));
 		}
 
 		private static ClothingDataV2 CreateNewDataForBase(EquippedData data)
@@ -124,13 +124,13 @@ namespace Core.Editor.Tools
 			ClothingDataV2 dataV2 = ScriptableObject.CreateInstance<ClothingDataV2>();
 
 			dataV2.SpriteEquipped = adjustedData.SpriteEquipped == null ? baseData.SpriteEquipped : adjustedData.SpriteEquipped;
-			dataV2.InHandsLeft = adjustedData.InHandsRight == null ? baseData.InHandsLeft : adjustedData.InHandsLeft;
-			dataV2.InHandsRight = adjustedData.InHandsRight == null ? baseData.InHandsRight : adjustedData.InHandsRight;
+			dataV2.SpriteInHandsLeft = adjustedData.SpriteInHandsLeft == null ? baseData.SpriteInHandsLeft : adjustedData.SpriteInHandsLeft;
+			dataV2.SpriteInHandsRight = adjustedData.SpriteInHandsRight == null ? baseData.SpriteInHandsRight : adjustedData.SpriteInHandsRight;
 			dataV2.SpriteItemIcon = adjustedData.SpriteItemIcon == null ? baseData.SpriteItemIcon : adjustedData.SpriteItemIcon;
 			dataV2.Palette = adjustedData.Palette;
 			dataV2.IsPaletted = adjustedData.IsPaletted;
 			
-			return datav2;
+			return dataV2;
 		}
 
 		#endregion
@@ -164,7 +164,8 @@ namespace Core.Editor.Tools
 
 				string adjustedClothPath = baseClothPath.Replace(tempSuffix, adjustedSuffix);
 				ClothingDataV2 adjustedClothingData = AssetDatabase.LoadAssetAtPath<ClothingDataV2>(adjustedClothPath);
-				if (adjustedClothingData != null) // If null, this is fine: probably means we didn't generate an SO for adjusted (original was empty)
+				// If null, this is fine: probably means we didn't generate an SO for adjusted (original was empty)
+				if (adjustedClothingData != null)
 				{
 					clothing.allClothingData.Add(adjustedClothingData);
 					adjustedCount++;
@@ -232,7 +233,7 @@ namespace Core.Editor.Tools
 
 		private static string GeneratePath(string filepath, string suffix)
 		{
-			return Path.GetDirectoryName(filepath) + Path.GetFileNameWithoutExtension(filepath) + suffix + Path.GetExtension();
+			return Path.GetDirectoryName(filepath) + Path.GetFileNameWithoutExtension(filepath) + suffix + Path.GetExtension(filepath);
 		}
 	}
 }

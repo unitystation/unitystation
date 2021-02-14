@@ -43,12 +43,13 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 				$"{playerObject.ExpensiveName()} tries to remove {targetObject.ExpensiveName()}'s {targetSlot.ItemObject.ExpensiveName()}.");
 			speed = 3;
 		}
-		else
+		else if (playerSlot.IsOccupied)
 		{
 			Chat.AddActionMsgToChat(playerObject, $"You try to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}...",
 				$"{playerObject.ExpensiveName()} tries to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}.");
 			speed = 1;
 		}
+		else return;
 
 		var progressAction = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.ItemTransfer), FinishTransfer);
 		progressAction.ServerStartProgress(targetObject.RegisterTile(), speed, playerObject);

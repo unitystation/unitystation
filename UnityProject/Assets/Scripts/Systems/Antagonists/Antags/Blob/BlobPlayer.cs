@@ -1508,16 +1508,7 @@ namespace Blob
 				if (factoryBlob.Key == null) continue;
 
 				factoryBlob.Value.Remove(null);
-
-				var spores = factoryBlob.Value;
-
-				foreach (var spore in spores)
-				{
-					if (spore.GetComponent<LivingHealthBehaviour>().IsDead)
-					{
-						factoryBlob.Value.Remove(spore);
-					}
-				}
+				factoryBlob.Value.RemoveWhere(spore => spore.GetComponent<LivingHealthBehaviour>().IsDead);
 
 				//Dont produce spores unless connected
 				if(!factoryBlob.Key.connectedToBlobNet) continue;
