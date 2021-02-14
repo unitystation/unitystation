@@ -188,6 +188,7 @@ public class SoundManager : MonoBehaviour
 			{
 				continue;
 			}
+
 			sound.Value.AudioSource.Stop();
 		}
 
@@ -225,7 +226,8 @@ public class SoundManager : MonoBehaviour
 	private SoundSpawn GetSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource,
 		string soundSpawnToken)
 	{
-		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress) && NonplayingSounds[addressableAudioSource.AssetAddress].Count > 0)
+		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress) &&
+		    NonplayingSounds[addressableAudioSource.AssetAddress].Count > 0)
 		{
 			var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
 			NonplayingSounds[addressableAudioSource.AssetAddress].RemoveAt(0);
@@ -675,12 +677,22 @@ public class SoundManager : MonoBehaviour
 		if (!forceMixer)
 		{
 			if (!Global
-			    && PlayerManager.LocalPlayer != null
-			    && (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
-					    LayerTypeSelection.Walls, layerMask, source.RegisterTile.WorldPositionClient.To2Int().To3Int())
-				    .ItHit))
+			    && PlayerManager.LocalPlayer != null)
 			{
-				source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				if ((PlayerManager.LocalPlayer.TileWorldPosition().To3Int() -  source.RegisterTile.WorldPositionClient.To2Int().To3Int()).magnitude < 50)
+				{
+					if (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
+							LayerTypeSelection.Walls, layerMask,
+							source.RegisterTile.WorldPositionClient.To2Int().To3Int())
+						.ItHit)
+					{
+						source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+					}
+				}
+				else
+				{
+					source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				}
 			}
 		}
 
