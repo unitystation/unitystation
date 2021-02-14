@@ -1,15 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Pipes;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using Objects.Wallmounts;
-using System.Collections.Concurrent;
-using Mirror;
 
 public class AdminManager : MonoBehaviour
 {

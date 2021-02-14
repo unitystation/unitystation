@@ -184,7 +184,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else if (playerScript.playerMove.IsTrapped) // Check if trapped.
 		{
-			playerScript.PlayerSync.TryEscapeContainer();
+			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}
 	}
 
@@ -520,6 +520,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerScript.mind.occupation = job;
 				break;
 			}
+		}
+
+		if (playerScript.mind.occupation == null)
+		{
+			// Might be a spectator trying to respawn themselves (when server allows this), default to Assistant
+			playerScript.mind.occupation = OccupationList.Instance.Occupations.First();
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);

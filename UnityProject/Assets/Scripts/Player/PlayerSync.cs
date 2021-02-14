@@ -413,37 +413,23 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	private bool didWiggle = false;
 
-	[Client]
-	public void TryEscapeContainer()
+	[Command]
+	public void CmdTryEscapeContainer()
 	{
-		if (Camera2DFollow.followControl.target.TryGetComponent(out ClosetControl closet))
-		{
-			CmdTryEscapeCloset();
-		}
-		else if (Camera2DFollow.followControl.target.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
-		{
-			CmdTryEscapeDisposals();
-		}
+		ServerTryEscapeContainer();
 	}
 
-	[Command]
-	private void CmdTryEscapeCloset()
+	[Server]
+	public void ServerTryEscapeContainer()
 	{
-		if (pushPull?.parentContainer == null) return;
+		if (pushPull == null || pushPull.parentContainer == null) return;
 		GameObject parentContainer = pushPull.parentContainer.gameObject;
 
 		if (parentContainer.TryGetComponent(out ClosetControl closet))
 		{
 			closet.PlayerTryEscaping(gameObject);
 		}
-	}
-	[Command]
-	private void CmdTryEscapeDisposals()
-	{
-		if (pushPull?.parentContainer == null) return;
-		GameObject parentContainer = pushPull.parentContainer.gameObject;
-
-		if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
+		else if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
 		{
 			disposalContainer.PlayerTryEscaping(gameObject);
 		}
@@ -468,7 +454,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 					// Player inside something
 					else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
 					{
-						TryEscapeContainer();
+						CmdTryEscapeContainer();
 						didWiggle = true;
 					}
 				}

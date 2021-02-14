@@ -182,7 +182,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//Reusing mouse drop logic for efficiency
-		ServerPerformInteraction(MouseDrop.ByLocalPlayer(interaction.TargetObject, interaction.Performer));
+		ServerPerformInteraction(MouseDrop.ByClient(interaction.Performer, interaction.TargetObject, interaction.Performer, interaction.Intent));
 	}
 
 	/// <summary>
