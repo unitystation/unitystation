@@ -679,7 +679,7 @@ public class SoundManager : MonoBehaviour
 			if (!Global
 			    && PlayerManager.LocalPlayer != null)
 			{
-				if ((PlayerManager.LocalPlayer.TileWorldPosition().To3Int() -  source.RegisterTile.WorldPositionClient.To2Int().To3Int()).magnitude < 50)
+				if ((Vector2.Distance(PlayerManager.LocalPlayer.TileWorldPosition(),source.RegisterTile.WorldPositionClient.To2Int()) < 50))
 				{
 					if (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
 							LayerTypeSelection.Walls, layerMask,
