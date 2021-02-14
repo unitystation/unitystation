@@ -24,6 +24,11 @@ PrefabInstance:
       value: The headset of the man in charge of keeping order and protecting the
         station.
       objectReference: {fileID: 0}
+    - target: {fileID: 6719972196587897998, guid: 0b535cf7390c5134ab33bf0ba595c24e,
+        type: 3}
+      propertyPath: EncryptionKey
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6732036590712927209, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: m_Sprite
@@ -99,14 +104,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6741b78d17531ad4fabc6f20e67fd388,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7008273254636693778, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6741b78d17531ad4fabc6f20e67fd388,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7008273254636693778, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
