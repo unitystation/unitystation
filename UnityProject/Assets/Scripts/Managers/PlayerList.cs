@@ -345,6 +345,7 @@ public partial class PlayerList : NetworkBehaviour
 			return;
 		}
 
+		SetPlayerReady(player, false);
 		CheckForLoggedOffAdmin(player.UserId, player.Username);
 		TryMoveClientToOfflineList(player);
 	}
