@@ -30,12 +30,6 @@ public class RemoveTileMessage : ServerMessage
 		LoadNetworkObject(TileChangeManager);
 		if (NetworkObject == null)
 		{
-
-		}
-
-
-		if (NetworkObject == null)
-		{
 			DelayedStuff.Add(new delayedData(Position, LayerType, RemoveAll, TileChangeManager));
 		}
 		else
