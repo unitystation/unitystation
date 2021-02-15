@@ -837,9 +837,12 @@ public partial class MatrixManager : MonoBehaviour
 	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
-		for (var i = 0; i < Instance.ActiveMatrices.Count; i++)
+		var activeMatrices = Instance.ActiveMatrices;
+		for (var i = 0; i < activeMatrices.Count; i++)
 		{
-			t.AddRange(Get(i).Matrix.Get<T>(WorldToLocalInt(worldPos, i), isServer));
+			var matrixInfo = activeMatrices[i];
+			var position = WorldToLocalInt(worldPos, matrixInfo);
+			t.AddRange(matrixInfo.Matrix.Get<T>(position, isServer));
 		}
 
 		return t;
