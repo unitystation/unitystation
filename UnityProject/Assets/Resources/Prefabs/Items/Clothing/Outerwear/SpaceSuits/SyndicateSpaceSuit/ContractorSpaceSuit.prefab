@@ -13,6 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6afffaab7f4b32347b0470d67c76a0e9,
         type: 2}
+    - target: {fileID: 2658582319530454962, guid: a0464cf17ad00fc4fb536118710d6ab6,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6afffaab7f4b32347b0470d67c76a0e9,
+        type: 2}
+    - target: {fileID: 2658582319530454962, guid: a0464cf17ad00fc4fb536118710d6ab6,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2658582319530454962, guid: a0464cf17ad00fc4fb536118710d6ab6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3a23aacca1cd013409e846d07e000f35,
+        type: 2}
+    - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 13e81b2e364d87446ba06f578421a987,
+        type: 2}
     - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -21,12 +44,6 @@ PrefabInstance:
     - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 13e81b2e364d87446ba06f578421a987,
-        type: 2}
-    - target: {fileID: 3016861121889290160, guid: a0464cf17ad00fc4fb536118710d6ab6,
-        type: 3}
-      propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 13e81b2e364d87446ba06f578421a987,
         type: 2}
@@ -47,15 +64,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8824115963441615701, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824115963441615701, guid: a0464cf17ad00fc4fb536118710d6ab6,
+        type: 3}
       propertyPath: initialDescription
       value: A specialised black and red space suit that's quicker, and more compact
         than its standard Syndicate counterpart. Can be ultra-compressed into even
         the tightest of spaces.
       objectReference: {fileID: 0}
-    - target: {fileID: 8824115963441615701, guid: a0464cf17ad00fc4fb536118710d6ab6,
+    - target: {fileID: 8974431761398432067, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
-      propertyPath: initialSize
-      value: 2
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8974431761398432067, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
@@ -74,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974431761398432067, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974431761398432067, guid: a0464cf17ad00fc4fb536118710d6ab6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -86,16 +113,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974431761398432067, guid: a0464cf17ad00fc4fb536118710d6ab6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974431761398432067, guid: a0464cf17ad00fc4fb536118710d6ab6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8974431761398432067, guid: a0464cf17ad00fc4fb536118710d6ab6,
         type: 3}

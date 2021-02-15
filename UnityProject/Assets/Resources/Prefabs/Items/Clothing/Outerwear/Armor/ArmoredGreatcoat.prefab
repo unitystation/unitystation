@@ -14,14 +14,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
-      propertyPath: initialDescription
-      value: A greatcoat enhanced with a special alloy for some extra protection
-        and style for those with a commanding presence.
+      propertyPath: initialName
+      value: armored greatcoat
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
-      propertyPath: initialName
-      value: armored greatcoat
+      propertyPath: initialDescription
+      value: A greatcoat enhanced with a special alloy for some extra protection
+        and style for those with a commanding presence.
       objectReference: {fileID: 0}
     - target: {fileID: 3791466462619397166, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
@@ -33,6 +33,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArmoredGreatcoat
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
@@ -51,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
@@ -91,13 +91,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4032895559081938566, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 70
+      propertyPath: Armor.Acid
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4032895559081938566, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 90
+      propertyPath: Armor.Fire
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 4033042375367942854, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
@@ -115,6 +115,23 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 21ce4585ec041a742a84f8f744c190fb,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 21ce4585ec041a742a84f8f744c190fb,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931175119129480439, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: afe664a7766d75b47b541730063c32a6,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e606c25f8104ffa4e94b68151182a216, type: 3}

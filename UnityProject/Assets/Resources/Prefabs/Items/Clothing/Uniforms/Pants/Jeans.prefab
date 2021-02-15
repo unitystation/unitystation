@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
@@ -85,19 +85,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
-      propertyPath: initialDescription
-      value: A nondescript pair of tough blue jeans.
+      propertyPath: initialName
+      value: jeans
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
-      propertyPath: initialName
-      value: jeans
+      propertyPath: initialDescription
+      value: A nondescript pair of tough blue jeans.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: e827572cd802f96428ea06f35deea3e5,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: e827572cd802f96428ea06f35deea3e5,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a37a372c40f5834e86325006b2e972f,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}

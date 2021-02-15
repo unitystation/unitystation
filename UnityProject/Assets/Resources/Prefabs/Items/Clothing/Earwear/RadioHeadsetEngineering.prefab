@@ -13,15 +13,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f25ffc90a5fe9314eb665e3c68f9976c,
         type: 2}
-    - target: {fileID: 2534401073920195852, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+    - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
-      propertyPath: initialDescription
-      value: When the engineers wish to chat like girls.
-      objectReference: {fileID: 0}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f25ffc90a5fe9314eb665e3c68f9976c,
+        type: 2}
+    - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: db54df99a23dcff41a00789ddc1244ac,
+        type: 2}
     - target: {fileID: 2534401073920195852, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: initialName
       value: engineering radio headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534401073920195852, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: initialDescription
+      value: When the engineers wish to chat like girls.
       objectReference: {fileID: 0}
     - target: {fileID: 2618191676536156122, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
@@ -32,6 +44,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RadioHeadsetEngineering
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
@@ -50,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}

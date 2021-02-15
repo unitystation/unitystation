@@ -19,6 +19,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c32ea37b0620cbf499381bd3d012819b,
         type: 2}
+    - target: {fileID: 4477950965163888822, guid: b9825a5141678d44688ad322d1858eb6,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c32ea37b0620cbf499381bd3d012819b,
+        type: 2}
+    - target: {fileID: 4477950965163888822, guid: b9825a5141678d44688ad322d1858eb6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5cefdca89400a9647ab15587a796beae,
+        type: 2}
     - target: {fileID: 6968265521947192401, guid: b9825a5141678d44688ad322d1858eb6,
         type: 3}
       propertyPath: initialName
@@ -30,6 +42,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4915406034485915254, guid: 486676f01a6f07246b94c8315c1e1f81,
         type: 3}
+    - target: {fileID: 7370800526137114183, guid: b9825a5141678d44688ad322d1858eb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7370800526137114183, guid: b9825a5141678d44688ad322d1858eb6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -47,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7370800526137114183, guid: b9825a5141678d44688ad322d1858eb6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7370800526137114183, guid: b9825a5141678d44688ad322d1858eb6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7370800526137114183, guid: b9825a5141678d44688ad322d1858eb6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7370800526137114183, guid: b9825a5141678d44688ad322d1858eb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7370800526137114183, guid: b9825a5141678d44688ad322d1858eb6,
         type: 3}

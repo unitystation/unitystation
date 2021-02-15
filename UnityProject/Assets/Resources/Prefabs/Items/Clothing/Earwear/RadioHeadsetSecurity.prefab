@@ -13,15 +13,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d84334d1f54004fed85513285d12222e,
         type: 2}
-    - target: {fileID: 2534401073920195852, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+    - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
-      propertyPath: initialDescription
-      value: This is used by your elite security force.
-      objectReference: {fileID: 0}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: d84334d1f54004fed85513285d12222e,
+        type: 2}
+    - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a756d9485e991e14a9e5098e81dd30e5,
+        type: 2}
     - target: {fileID: 2534401073920195852, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: initialName
       value: security radio headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534401073920195852, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: initialDescription
+      value: This is used by your elite security force.
       objectReference: {fileID: 0}
     - target: {fileID: 2618191676536156122, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
@@ -32,6 +44,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RadioHeadsetSecurity
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
@@ -50,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2725267994594258714, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}

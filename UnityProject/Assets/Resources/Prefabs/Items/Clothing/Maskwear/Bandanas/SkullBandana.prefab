@@ -13,6 +13,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1be6e350068c0fe4886c647d75d967bd,
         type: 2}
+    - target: {fileID: 44155453462962640, guid: ff09e60d118a31e478d827be7faa2f0b,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1be6e350068c0fe4886c647d75d967bd,
+        type: 2}
+    - target: {fileID: 44155453462962640, guid: ff09e60d118a31e478d827be7faa2f0b,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2480cbe128920ee4fb55d57e1bcca05b,
+        type: 2}
+    - target: {fileID: 44155453462962640, guid: ff09e60d118a31e478d827be7faa2f0b,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a0638182ff71cd54c8314880b05ecef4,
+        type: 2}
     - target: {fileID: 984030586657343954, guid: ff09e60d118a31e478d827be7faa2f0b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +41,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SkullBandana
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: ff09e60d118a31e478d827be7faa2f0b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: ff09e60d118a31e478d827be7faa2f0b,
         type: 3}
@@ -41,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: ff09e60d118a31e478d827be7faa2f0b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: ff09e60d118a31e478d827be7faa2f0b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: ff09e60d118a31e478d827be7faa2f0b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: ff09e60d118a31e478d827be7faa2f0b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: ff09e60d118a31e478d827be7faa2f0b,
         type: 3}
@@ -92,13 +110,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6776931286767099191, guid: ff09e60d118a31e478d827be7faa2f0b,
         type: 3}
-      propertyPath: initialDescription
-      value: A fine black bandana with nanotech lining and a skull emblem.
+      propertyPath: initialName
+      value: skull bandana
       objectReference: {fileID: 0}
     - target: {fileID: 6776931286767099191, guid: ff09e60d118a31e478d827be7faa2f0b,
         type: 3}
-      propertyPath: initialName
-      value: skull bandana
+      propertyPath: initialDescription
+      value: A fine black bandana with nanotech lining and a skull emblem.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff09e60d118a31e478d827be7faa2f0b, type: 3}

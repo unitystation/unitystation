@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a91a906a0bee0486090a4f365929f1a8,
         type: 2}
+    - target: {fileID: 44155453462962640, guid: 81bdcd475341be44480bf0511b7ef1c6,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: a91a906a0bee0486090a4f365929f1a8,
+        type: 2}
+    - target: {fileID: 44155453462962640, guid: 81bdcd475341be44480bf0511b7ef1c6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 388ab18ec8de856439ffcf3ae0fbbf6a,
+        type: 2}
     - target: {fileID: 984030586657343954, guid: 81bdcd475341be44480bf0511b7ef1c6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +35,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ce Gasmask
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: 81bdcd475341be44480bf0511b7ef1c6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: 81bdcd475341be44480bf0511b7ef1c6,
         type: 3}
@@ -41,6 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: 81bdcd475341be44480bf0511b7ef1c6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: 81bdcd475341be44480bf0511b7ef1c6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +75,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: 81bdcd475341be44480bf0511b7ef1c6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: 81bdcd475341be44480bf0511b7ef1c6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: 81bdcd475341be44480bf0511b7ef1c6,
         type: 3}

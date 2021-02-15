@@ -115,7 +115,7 @@ namespace Weapons
 		/// <summary>
 		/// Projectile being shot
 		/// </summary>
-		public Guid ProjectilePrefab;
+		public string ProjectilePrefabName;
 		/// <summary>
 		/// Direction of shot, originating from Shooter)
 		/// </summary>
@@ -145,18 +145,12 @@ namespace Weapons
 			LoadNetworkObject(Shooter);
 			GameObject shooter = NetworkObject;
 
-			if (ClientScene.prefabs.TryGetValue(ProjectilePrefab, out var prefab) == false)
-			{
-				Logger.LogError($"Couldn't cast {ProjectilePrefab}; it is probably missing {nameof(NetworkIdentity)} component.", Category.Firearms);
-				return;
-			}
-
-			ShootProjectile(prefab, shooter, Direction, DamageZone);
+			ShootProjectile(ProjectilePrefabName, shooter, Direction, DamageZone);
 		}
 
-		private static void ShootProjectile(GameObject prefab, GameObject shooter, Vector2 direction, BodyPartType damageZone)
+		private static void ShootProjectile(string prefab, GameObject shooter, Vector2 direction, BodyPartType damageZone)
 		{
-			GameObject projectile = UnityEngine.Object.Instantiate(prefab, shooter.transform.position, Quaternion.identity);
+			GameObject projectile = Spawn.ClientPrefab(prefab, shooter.transform.position, shooter.transform.parent).GameObject;
 
 			if (projectile == null) return;
 			Bullet bullet = projectile.GetComponent<Bullet>();
@@ -177,23 +171,13 @@ namespace Weapons
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				ShootProjectile(projectilePrefab, shooter, direction, damageZone);
-			}
-
-			Guid assetID;
-			if (projectilePrefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
-			{
-				assetID = networkIdentity.assetId;
-			}
-			else
-			{
-				Logger.LogError($"{projectilePrefab} doesn't have a network identity!", Category.NetMessage);
+				ShootProjectile(projectilePrefab.name, shooter, direction, damageZone);
 			}
 
 			var msg = new CastProjectileMessage
 			{
 				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
-				ProjectilePrefab = assetID,
+				ProjectilePrefabName = projectilePrefab.name,
 				Direction = direction,
 				DamageZone = damageZone,
 			};

@@ -1,16 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Reflection;
-using Systems.Botany;
+using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 public class GenerateSpriteSO : EditorWindow
 {
@@ -368,6 +365,7 @@ public class GenerateSpriteSO : EditorWindow
 		}
 	 */
 
+	/*
 	public static EquippedData PullOutEquippedData(EquippedData ToProcess)
 	{
 		//ToProcess.SpriteEquipped = PullOutSO(ToProcess.Equipped.Texture);
@@ -376,6 +374,7 @@ public class GenerateSpriteSO : EditorWindow
 		//ToProcess.SpriteInHandsRight = PullOutSO(ToProcess.InHandsRight.Texture);
 		return ToProcess;
 	}
+	*/
 
 	public static SpriteDataSO PullOutSO(Texture2D In2D)
 	{

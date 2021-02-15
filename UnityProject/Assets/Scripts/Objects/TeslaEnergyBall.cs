@@ -10,10 +10,11 @@ using Objects.Engineering;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
+using Random = UnityEngine.Random;
 
 namespace Objects
 {
-	public class TeslaEnergyBall : NetworkBehaviour, IOnHitDetect
+	public class TeslaEnergyBall : NetworkBehaviour, IOnHitDetect, IExaminable
 	{
 		[SerializeField]
 		private TeslaEnergyBallStages startingStage = TeslaEnergyBallStages.Stage0;
@@ -47,7 +48,7 @@ namespace Objects
 		[Tooltip("layer tiles to ignore")]
 		private LayerTile[] layerTilesToIgnore = null;
 
-		[Tooltip("How many primary arcs to form from the caster to the target. Also affects how many secondary targets there are.")]
+		[Tooltip("How many secondary targets there are.")]
 		[SerializeField, Range(1, 5)]
 		private int arcCount = 3;
 		[SerializeField, Range(0.5f, 10)]
@@ -197,7 +198,7 @@ namespace Objects
 
 			for (int i = 0; i <= 5; i++)
 			{
-				if (stage <= i)
+				if (i <= stage)
 				{
 					orbitingBalls[i].SetActive(true);
 				}
@@ -227,7 +228,7 @@ namespace Objects
 
 			if(objectsToShoot.Count == 0) return;
 
-			for (int i = 0; i < arcCount * ((int)currentStage + 1); i++)
+			for (int i = 0; i < (int)currentStage + 1; i++)
 			{
 				var target = GetTarget(objectsToShoot, doTeslaFirst: false);
 
@@ -277,7 +278,7 @@ namespace Objects
 
 		private GameObject ZapPrimaryTarget(GameObject targetObject)
 		{
-			Zap(gameObject, targetObject, arcCount, targetObject == null ? targetObject.AssumedWorldPosServer() : default);
+			Zap(gameObject, targetObject, Random.Range(1,3), targetObject == null ? targetObject.AssumedWorldPosServer() : default);
 
 			SoundManager.PlayNetworkedAtPos(lightningSound, targetObject == null ? targetObject.AssumedWorldPosServer() : default, sourceObj: targetObject);
 
@@ -295,7 +296,7 @@ namespace Objects
 				targets.Add(entity.gameObject);
 			}
 
-			for (int i = 0; i < Mathf.CeilToInt(arcCount / 2f); i++)
+			for (int i = 0; i < Random.Range(1, arcCount + 1); i++)
 			{
 				if(targets.Count == 0) break;
 
@@ -308,7 +309,7 @@ namespace Objects
 		private void Zap(GameObject originatingObject, GameObject targetObject, int arcs, Vector3 targetPosition = default)
 		{
 			ElectricalArcSettings arcSettings = new ElectricalArcSettings(
-					arcEffect, originatingObject, targetObject, default, targetPosition, arcs / ((int) currentStage + 1), duration,
+					arcEffect, originatingObject, targetObject, default, targetPosition, arcs, duration,
 					false);
 
 			if (targetObject != null)
@@ -317,7 +318,7 @@ namespace Objects
 
 				foreach (var lightningHit in interfaces)
 				{
-					lightningHit.OnLightningHit(duration + 1, damage * arcSettings.arcCount);
+					lightningHit.OnLightningHit(duration + 1, damage * ((int)currentStage + 1));
 				}
 			}
 
@@ -328,13 +329,13 @@ namespace Objects
 		{
 			if (arc.Settings.endObject == null) return;
 
-			if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var health))
+			if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var health) && health != null)
 			{
-				health.ApplyDamage(gameObject, damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn);
+				health.ApplyDamage(gameObject, damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn);
 			}
-			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity.Resistances.LightningDamageProof == false)
+			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity != null && integrity.Resistances.LightningDamageProof == false)
 			{
-				integrity.ApplyDamage(damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn, explodeOnDestroy: true);
+				integrity.ApplyDamage(damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn, true, explodeOnDestroy: true);
 			}
 		}
 
@@ -394,12 +395,13 @@ namespace Objects
 			//Get random coordinate adjacent to current
 			var coord = adjacentCoords.GetRandom() + registerTile.WorldPositionServer;
 
-			//TODO might not need to exclude objects
-			if (MatrixManager.IsPassableAtAllMatricesOneTile(coord, true, false, new List<LayerType>{LayerType.Objects}) == false)
-			{
-				//Tile blocked
-				return;
-			}
+			var matrixInfo = MatrixManager.AtPoint(coord, true);
+
+			var layerTile = matrixInfo.TileChangeManager.MetaTileMap
+				.GetTile(MatrixManager.WorldToLocalInt(coord, matrixInfo), LayerType.Walls);
+
+			//Cant go through shields
+			if (layerTile != null && layerTilesToIgnore.Any(l => l.name == layerTile.name )) return;
 
 			//Move
 			customNetTransform.SetPosition(coord);
@@ -438,7 +440,6 @@ namespace Objects
 				//PA at setting 0 will do 20 damage
 				pointLock = true;
 				lockTimer = 20;
-				return;
 			}
 
 			ChangePoints((int)damageData.Damage);
@@ -454,6 +455,11 @@ namespace Objects
 			Stage3 = 3,
 			Stage4 = 4,
 			Stage5 = 5
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return $"You count {(int)currentStage} secondary energy balls";
 		}
 	}
 }

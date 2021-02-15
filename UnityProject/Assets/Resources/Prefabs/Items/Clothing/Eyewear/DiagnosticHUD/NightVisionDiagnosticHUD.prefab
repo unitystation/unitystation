@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 157935002241887435, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 157935002241887435, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 157935002241887435, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 157935002241887435, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 157935002241887435, guid: 89d026ca3c185844194baeb3ff3b4d98,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 157935002241887435, guid: 89d026ca3c185844194baeb3ff3b4d98,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 157935002241887435, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
@@ -80,13 +80,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 346497449295347421, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
-      propertyPath: initialDescription
-      value: A robotics diagnostic HUD fitted with a light amplifier.
+      propertyPath: initialName
+      value: night vision diagnostic HUD
       objectReference: {fileID: 0}
     - target: {fileID: 346497449295347421, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
-      propertyPath: initialName
-      value: night vision diagnostic HUD
+      propertyPath: initialDescription
+      value: A robotics diagnostic HUD fitted with a light amplifier.
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
@@ -130,6 +130,18 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: e048c10a5e2adbc478ac3111c794dd4b,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: e048c10a5e2adbc478ac3111c794dd4b,
+        type: 2}
+    - target: {fileID: 8638853748845472652, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a66c2fc67fdb7a24bb0d61120dadd3a7,
         type: 2}
     - target: {fileID: 8851959254138389390, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}

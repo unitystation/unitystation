@@ -59,7 +59,8 @@ public static class LTSUtil
 	public static bool IsLayerIn(LayerTypeSelection SpecifyLayers, LayerType Layer)
 	{
 		LayerTypeSelection LayerCon = LayerType2LayerTypeSelection(Layer);
-		return (SpecifyLayers.HasFlag(LayerCon));
+		//Bits are set in SpecifyLayers, doing a logical AND with the layer will return either 0 if it doesn't contain it or the layer bit itself. 
+		return (SpecifyLayers & LayerCon) > 0;
 	}
 
 	public static LayerTypeSelection LayerType2LayerTypeSelection(LayerType Layer)

@@ -15,9 +15,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3568482238077595727, guid: bddc8fa44a800174c99860d180042f90,
         type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e5eca96d07a00e4483e8d44351429b6,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: bddc8fa44a800174c99860d180042f90,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 416
       objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: bddc8fa44a800174c99860d180042f90,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: bddc8fa44a800174c99860d180042f90,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 45350afea54122743bc07db1273f31ad,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: bddc8fa44a800174c99860d180042f90,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -28,6 +45,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: bddc8fa44a800174c99860d180042f90,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: bddc8fa44a800174c99860d180042f90,
         type: 3}
@@ -46,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: bddc8fa44a800174c99860d180042f90,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: bddc8fa44a800174c99860d180042f90,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: bddc8fa44a800174c99860d180042f90,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: bddc8fa44a800174c99860d180042f90,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: bddc8fa44a800174c99860d180042f90,
         type: 3}
@@ -97,13 +114,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8004422176852823208, guid: bddc8fa44a800174c99860d180042f90,
         type: 3}
-      propertyPath: initialDescription
-      value: Once it's on, it never comes off.
+      propertyPath: initialName
+      value: shamebrero
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: bddc8fa44a800174c99860d180042f90,
         type: 3}
-      propertyPath: initialName
-      value: shamebrero
+      propertyPath: initialDescription
+      value: Once it's on, it never comes off.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bddc8fa44a800174c99860d180042f90, type: 3}

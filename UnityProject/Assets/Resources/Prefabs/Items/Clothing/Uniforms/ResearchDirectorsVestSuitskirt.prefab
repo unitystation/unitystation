@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
@@ -85,21 +85,33 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
+      propertyPath: initialName
+      value: research director's vest suitskirt
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
       propertyPath: initialDescription
       value: It's a suitskirt worn by those with the know-how to achieve the position
         of "Research Director". Its fabric provides minor protection from biological
         contaminants.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
-        type: 3}
-      propertyPath: initialName
-      value: research director's vest suitskirt
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: f46265e2a16ddec449e132e80b571dbc,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f46265e2a16ddec449e132e80b571dbc,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4576af194ca7fc848b5399efd426d245,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}

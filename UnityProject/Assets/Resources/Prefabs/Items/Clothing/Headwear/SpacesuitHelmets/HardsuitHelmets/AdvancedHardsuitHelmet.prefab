@@ -13,6 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 14daa1d8240a50042809a80d239ed753,
         type: 2}
+    - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 14daa1d8240a50042809a80d239ed753,
+        type: 2}
+    - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a6c4297d3e799ab45bbb80bb4cd3c620,
+        type: 2}
+    - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ecb17808990566d449db9825a82d7c69,
+        type: 2}
     - target: {fileID: 4377564325058947582, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -38,18 +61,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
-      propertyPath: HeatResistance
-      value: 35000
+      propertyPath: Armor.Rad
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: Armor.Acid
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
-        type: 3}
-      propertyPath: Armor.Rad
-      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
@@ -61,10 +79,20 @@ PrefabInstance:
       propertyPath: Armor.Melee
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: HeatResistance
+      value: 35000
+      objectReference: {fileID: 0}
     - target: {fileID: 7603805397101384313, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: m_Name
       value: AdvancedHardsuitHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
@@ -83,6 +111,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -95,16 +128,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}

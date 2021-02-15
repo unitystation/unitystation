@@ -364,46 +364,12 @@ namespace AdminCommands
 
 		#region Profiling
 
-		public bool runningProfile = false;
-
 		[Server]
 		public void CmdStartProfile(string adminId, string adminToken, int frameCount)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
 
-			if (runningProfile) return;
-			if (frameCount > 300)
-				frameCount = 300;
-
-			runningProfile = true;
-
-			Directory.CreateDirectory("Profiles");
-			Profiler.SetAreaEnabled(ProfilerArea.Memory, true);
-			Profiler.logFile = "Profiles/" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
-			Profiler.enableBinaryLog = true;
-			Profiler.enabled = true;
-
-			UpdateManager.Instance.Profile = true;
-
-			StartCoroutine(RunPorfile(frameCount));
-		}
-
-		private IEnumerator RunPorfile(int frameCount)
-		{
-			while (frameCount > 0)
-			{
-				frameCount--;
-				yield return null;
-			}
-
-			runningProfile = false;
-			Profiler.enabled = false;
-			Profiler.enableBinaryLog = true;
-			Profiler.logFile = "";
-
-			UpdateManager.Instance.Profile = false;
-
-			ProfileMessage.SendToApplicable();
+			ProfileManager.Instance.StartProfile(frameCount);
 		}
 
 		[Server]
@@ -418,7 +384,7 @@ namespace AdminCommands
 		public void CmdDeleteProfile(string adminId, string adminToken, string profileName)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
-			if (runningProfile) return;
+			if (ProfileManager.runningProfile) return;
 
 			string path = Directory.GetCurrentDirectory() + "/Profiles/" + profileName;
 			if (File.Exists(path))

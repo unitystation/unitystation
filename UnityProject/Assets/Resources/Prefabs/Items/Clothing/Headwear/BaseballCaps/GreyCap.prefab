@@ -13,6 +13,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ee202a381f6a61b4880c122d405637fd,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ee202a381f6a61b4880c122d405637fd,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b4dddbf3a917b1e4b897f7a178e484d9,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4fb368fe88666ca4287464ca46d67053,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: 788649a7f84574c48a54361479106732,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +41,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 788649a7f84574c48a54361479106732,
         type: 3}
@@ -41,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 788649a7f84574c48a54361479106732,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 788649a7f84574c48a54361479106732,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7632320555952889534, guid: 788649a7f84574c48a54361479106732,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 788649a7f84574c48a54361479106732,
         type: 3}

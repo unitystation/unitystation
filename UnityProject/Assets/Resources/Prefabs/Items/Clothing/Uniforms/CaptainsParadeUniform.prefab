@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
@@ -80,19 +80,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
-      propertyPath: initialDescription
-      value: A captain's luxury-wear, for special occasions.
+      propertyPath: initialName
+      value: captain's parade uniform
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
-      propertyPath: initialName
-      value: captain's parade uniform
+      propertyPath: initialDescription
+      value: A captain's luxury-wear, for special occasions.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 0074f25fca8614146b7285f78ae838a9,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0074f25fca8614146b7285f78ae838a9,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ff39ef6fd57b0e64e89e3cb965d504f2,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}

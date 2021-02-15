@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 9c1e9db42d990b642a9927850b0258e9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 9c1e9db42d990b642a9927850b0258e9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
@@ -85,19 +85,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
-      propertyPath: initialDescription
-      value: A non-descript and slightly suspicious looking skirtleneck.
+      propertyPath: initialName
+      value: tactical skirtleneck
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
-      propertyPath: initialName
-      value: tactical skirtleneck
+      propertyPath: initialDescription
+      value: A non-descript and slightly suspicious looking skirtleneck.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 87bae9ee0cb08dc4b89cab1881dc7691,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 87bae9ee0cb08dc4b89cab1881dc7691,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 02e6be9b70f256149b460b754910e482,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}

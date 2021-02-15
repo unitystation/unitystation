@@ -13,6 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b1f41ace2ade48b4488df58918ee2291,
         type: 2}
+    - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b1f41ace2ade48b4488df58918ee2291,
+        type: 2}
+    - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0cffbed9a6bdd9949bb6ea384361973a,
+        type: 2}
+    - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3a729b36965847e4491176b2040555c4,
+        type: 2}
     - target: {fileID: 1028637337542569492, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -37,18 +60,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6529050757172429927, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 30
+      propertyPath: Armor.Acid
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 6529050757172429927, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 45
+      propertyPath: Armor.Fire
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6557358717024540051, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: m_Name
       value: EngineeringWinterCoat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
@@ -67,6 +95,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -79,16 +112,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6562845417991268583, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}

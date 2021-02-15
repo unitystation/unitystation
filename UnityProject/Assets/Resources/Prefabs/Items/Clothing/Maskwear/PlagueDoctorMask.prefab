@@ -15,9 +15,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 44155453462962640, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: e7e27c1fa86b11c43a460df5d716ba26,
+        type: 2}
+    - target: {fileID: 44155453462962640, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
       propertyPath: hideClothingFlags
       value: 992
       objectReference: {fileID: 0}
+    - target: {fileID: 44155453462962640, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 22a27946e22454e428d26a01f49fe126,
+        type: 2}
     - target: {fileID: 984030586657343954, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -28,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlagueDoctorMask
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
@@ -46,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409299076601499425, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409299076601499425, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409299076601499425, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
@@ -91,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6447562287992218529, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
+      propertyPath: Armor.Bio
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447562287992218529, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
       propertyPath: Armor.Laser
       value: 2
       objectReference: {fileID: 0}
@@ -98,11 +115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: Armor.Energy
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447562287992218529, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
-        type: 3}
-      propertyPath: Armor.Bio
-      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6489704868625973513, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
@@ -112,14 +124,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6776931286767099191, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
-      propertyPath: initialDescription
-      value: A modernised version of the classic design, this mask will not only
-        filter out toxins but it can also be connected to an air supply.
+      propertyPath: initialName
+      value: plague doctor mask
       objectReference: {fileID: 0}
     - target: {fileID: 6776931286767099191, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
-      propertyPath: initialName
-      value: plague doctor mask
+      propertyPath: initialDescription
+      value: A modernised version of the classic design, this mask will not only
+        filter out toxins but it can also be connected to an air supply.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 996d62bfe3bf26c4e95c2a77cadabbd2, type: 3}

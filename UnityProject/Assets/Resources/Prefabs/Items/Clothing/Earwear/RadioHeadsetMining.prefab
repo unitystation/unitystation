@@ -19,6 +19,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: eaa501cea854eca42b7e9714567f387f,
         type: 2}
+    - target: {fileID: 4790784777655979423, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: eaa501cea854eca42b7e9714567f387f,
+        type: 2}
+    - target: {fileID: 4790784777655979423, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 773b7d938f7cd7040b6fa41555cf185b,
+        type: 2}
     - target: {fileID: 8813186648213670746, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
         type: 3}
       propertyPath: initialName
@@ -33,6 +45,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RadioHeadsetMining
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984859497463044428, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8984859497463044428, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
         type: 3}
@@ -51,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8984859497463044428, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984859497463044428, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8984859497463044428, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8984859497463044428, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8984859497463044428, guid: 7938bbb2e51a7d946a40b7ba7145cb30,
         type: 3}

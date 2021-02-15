@@ -19,6 +19,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cb75e8c15a3f2274c99acb5b977fc404,
         type: 2}
+    - target: {fileID: 7715921484515741906, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: cb75e8c15a3f2274c99acb5b977fc404,
+        type: 2}
+    - target: {fileID: 7715921484515741906, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ae3236b09cc4444aaffe10623f1253c,
+        type: 2}
     - target: {fileID: 8320049738121725893, guid: 6fdb43db19eedc84ab031aa637204114,
         type: 3}
       propertyPath: itemStorageStructure
@@ -27,14 +39,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8815245327015387517, guid: 6fdb43db19eedc84ab031aa637204114,
         type: 3}
-      propertyPath: initialDescription
-      value: Space Santa uses this to deliver presents to all the nice children in
-        space in Christmas! Wow, it's pretty big!
+      propertyPath: initialName
+      value: Santa's Gift Bag
       objectReference: {fileID: 0}
     - target: {fileID: 8815245327015387517, guid: 6fdb43db19eedc84ab031aa637204114,
         type: 3}
-      propertyPath: initialName
-      value: Santa's Gift Bag
+      propertyPath: initialDescription
+      value: Space Santa uses this to deliver presents to all the nice children in
+        space in Christmas! Wow, it's pretty big!
       objectReference: {fileID: 0}
     - target: {fileID: 8815245327015387517, guid: 6fdb43db19eedc84ab031aa637204114,
         type: 3}
@@ -48,6 +60,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3698cfab704b5bd4a971ab4300e4c7f4,
         type: 2}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8982449795243520875, guid: 6fdb43db19eedc84ab031aa637204114,
         type: 3}
@@ -107,6 +119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SantasGiftBag
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020610854443250603, guid: 6fdb43db19eedc84ab031aa637204114,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9100197888029654339, guid: 6fdb43db19eedc84ab031aa637204114,
         type: 3}

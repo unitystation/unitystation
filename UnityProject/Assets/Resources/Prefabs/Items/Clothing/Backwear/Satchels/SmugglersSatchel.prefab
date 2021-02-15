@@ -19,6 +19,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0f20c18b0ac91334dbd91b90d7adede7,
         type: 2}
+    - target: {fileID: 4556521786833149450, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f20c18b0ac91334dbd91b90d7adede7,
+        type: 2}
+    - target: {fileID: 4556521786833149450, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b68d7a84c70d63948ab029fa31931b3d,
+        type: 2}
     - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
       propertyPath: initialName
@@ -26,13 +38,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
-      propertyPath: initialDescription
-      value: A very slim satchel that can easily fit into tight spaces.
+      propertyPath: initialSize
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
-      propertyPath: initialSize
-      value: 3
+      propertyPath: initialDescription
+      value: A very slim satchel that can easily fit into tight spaces.
       objectReference: {fileID: 0}
     - target: {fileID: 7327580324930125523, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
@@ -52,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -67,6 +84,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -79,16 +101,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7445220699919659259, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}

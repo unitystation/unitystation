@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 507bcfb7bc5bc73428b83b40e79395c7,
         type: 2}
+    - target: {fileID: 368423588061109339, guid: a67aa95de4c8f7349a192a12cdfc84dd,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 507bcfb7bc5bc73428b83b40e79395c7,
+        type: 2}
+    - target: {fileID: 368423588061109339, guid: a67aa95de4c8f7349a192a12cdfc84dd,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a138660d9cda6af4eb54de754e5645af,
+        type: 2}
     - target: {fileID: 4121492628034045600, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
       propertyPath: m_Sprite
@@ -31,6 +43,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4309958079037638792, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309958079037638792, guid: a67aa95de4c8f7349a192a12cdfc84dd,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -43,6 +60,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309958079037638792, guid: a67aa95de4c8f7349a192a12cdfc84dd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4309958079037638792, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
@@ -61,16 +83,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4309958079037638792, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309958079037638792, guid: a67aa95de4c8f7349a192a12cdfc84dd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309958079037638792, guid: a67aa95de4c8f7349a192a12cdfc84dd,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -86,13 +98,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4408483752858393246, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
-      propertyPath: initialDescription
-      value: This is used by your elite security force. Protects ears from flashbangs.
+      propertyPath: initialName
+      value: security bowman headset
       objectReference: {fileID: 0}
     - target: {fileID: 4408483752858393246, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
-      propertyPath: initialName
-      value: security bowman headset
+      propertyPath: initialDescription
+      value: This is used by your elite security force. Protects ears from flashbangs.
       objectReference: {fileID: 0}
     - target: {fileID: 7963931074447003259, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}

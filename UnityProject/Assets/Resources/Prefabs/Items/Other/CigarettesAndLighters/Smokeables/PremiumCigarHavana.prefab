@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ca26a453a796a33419b25516ffa1147e,
         type: 2}
+    - target: {fileID: 1691875918403631919, guid: cbc099e0e4f14e94a9df931c25cd4214,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: ca26a453a796a33419b25516ffa1147e,
+        type: 2}
+    - target: {fileID: 1691875918403631919, guid: cbc099e0e4f14e94a9df931c25cd4214,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b9e78bb610b90143b260cba283d72b6,
+        type: 2}
     - target: {fileID: 1892045739792962349, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -33,13 +45,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5326175134510860232, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}
-      propertyPath: initialDescription
-      value: A cigar fit for only the best of the best.
+      propertyPath: initialName
+      value: premium Havanian cigar
       objectReference: {fileID: 0}
     - target: {fileID: 5326175134510860232, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}
-      propertyPath: initialName
-      value: premium Havanian cigar
+      propertyPath: initialDescription
+      value: A cigar fit for only the best of the best.
       objectReference: {fileID: 0}
     - target: {fileID: 5326175134510860232, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}
@@ -65,6 +77,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5698311940466562526, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698311940466562526, guid: cbc099e0e4f14e94a9df931c25cd4214,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -80,6 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5698311940466562526, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698311940466562526, guid: cbc099e0e4f14e94a9df931c25cd4214,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -92,16 +114,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698311940466562526, guid: cbc099e0e4f14e94a9df931c25cd4214,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698311940466562526, guid: cbc099e0e4f14e94a9df931c25cd4214,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5698311940466562526, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}

@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b5dc4ecc5b275a142ad9362f14ee3bf9,
         type: 2}
+    - target: {fileID: 3568482238077595727, guid: 8a05cb3da796e42e89e13a0963de6953,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b5dc4ecc5b275a142ad9362f14ee3bf9,
+        type: 2}
+    - target: {fileID: 3568482238077595727, guid: 8a05cb3da796e42e89e13a0963de6953,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 965ed0e6d4ca7f945abf70faea3589ba,
+        type: 2}
     - target: {fileID: 4377197623706982477, guid: 8a05cb3da796e42e89e13a0963de6953,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -37,14 +49,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8004422176852823208, guid: 8a05cb3da796e42e89e13a0963de6953,
         type: 3}
+      propertyPath: initialName
+      value: head of security's navy beret
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 8a05cb3da796e42e89e13a0963de6953,
+        type: 3}
       propertyPath: initialDescription
       value: A special beret with the Head of Security's insignia emblazoned on it.
         A symbol of excellence, a badge of courage, a mark of distinction.
       objectReference: {fileID: 0}
-    - target: {fileID: 8004422176852823208, guid: 8a05cb3da796e42e89e13a0963de6953,
+    - target: {fileID: 8626702741117095048, guid: 8a05cb3da796e42e89e13a0963de6953,
         type: 3}
-      propertyPath: initialName
-      value: head of security's navy beret
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8626702741117095048, guid: 8a05cb3da796e42e89e13a0963de6953,
         type: 3}
@@ -63,6 +80,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8626702741117095048, guid: 8a05cb3da796e42e89e13a0963de6953,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8626702741117095048, guid: 8a05cb3da796e42e89e13a0963de6953,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -75,16 +97,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8626702741117095048, guid: 8a05cb3da796e42e89e13a0963de6953,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8626702741117095048, guid: 8a05cb3da796e42e89e13a0963de6953,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8626702741117095048, guid: 8a05cb3da796e42e89e13a0963de6953,
         type: 3}

@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5eb615f582e46404890ee4aef984238a,
         type: 2}
+    - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eb615f582e46404890ee4aef984238a,
+        type: 2}
+    - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: bd9ce6b56fcf1284c9117e5f7a26fb24,
+        type: 2}
     - target: {fileID: 3654515168179534600, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: initialName
@@ -23,6 +40,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Entire stations have been ripped apart over arguing whether this is
         still good to eat.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
@@ -41,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
@@ -95,5 +112,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 769553fc609e1a8428b457196552abae,
         type: 3}
+    - target: {fileID: 3939274210823038774, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2991f5505400ab479c5262137eed380, type: 3}

@@ -25,14 +25,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3243759188309319615, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
-      propertyPath: initialDescription
-      value: A special beret with the security insignia emblazoned on it. For officers
-        with class.
+      propertyPath: initialName
+      value: security navy beret
       objectReference: {fileID: 0}
     - target: {fileID: 3243759188309319615, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
-      propertyPath: initialName
-      value: security navy beret
+      propertyPath: initialDescription
+      value: A special beret with the security insignia emblazoned on it. For officers
+        with class.
       objectReference: {fileID: 0}
     - target: {fileID: 4760672335869315065, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
@@ -45,6 +45,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 31b2e0a93a1095944a97eca03d2d04d9,
         type: 3}
+    - target: {fileID: 4760672335869326353, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4760672335869326353, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4760672335869326353, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760672335869326353, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4760672335869326353, guid: a4d736b34e26278479563c6bf5f121ce,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4760672335869326353, guid: a4d736b34e26278479563c6bf5f121ce,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4760672335869326353, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
@@ -113,20 +113,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4760672335869358015, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
-      propertyPath: initialDescription
-      value: A special beret with the security insignia emblazoned on it. For officers
-        with class.
+      propertyPath: initialName
+      value: security navy beret
       objectReference: {fileID: 0}
     - target: {fileID: 4760672335869358015, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
-      propertyPath: initialName
-      value: security navy beret
+      propertyPath: initialDescription
+      value: A special beret with the security insignia emblazoned on it. For officers
+        with class.
       objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: a3b8a91d02c6dec49b0ff6fcbc261d1c,
+        type: 2}
+    - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: a3b8a91d02c6dec49b0ff6fcbc261d1c,
+        type: 2}
+    - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 011c4106e4c20554cafebb325e68389c,
         type: 2}
     - target: {fileID: 9128691201056787290, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}

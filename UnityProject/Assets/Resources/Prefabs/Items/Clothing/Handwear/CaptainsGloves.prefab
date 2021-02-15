@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 42daddf00dcd73945bfce9864c942900,
         type: 2}
+    - target: {fileID: 137204755874420642, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 42daddf00dcd73945bfce9864c942900,
+        type: 2}
+    - target: {fileID: 137204755874420642, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 137204755874420642, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a8136dc4df244e4eb73a42c2f8346ef,
+        type: 2}
     - target: {fileID: 926711572434878368, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,18 +38,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6341625060856878547, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 70
+      propertyPath: Armor.Acid
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6341625060856878547, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 50
+      propertyPath: Armor.Fire
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6345147379047856531, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
@@ -51,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6451910404820941139, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
@@ -102,11 +119,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
-        type: 3}
       propertyPath: initialName
       value: captain's gloves
       objectReference: {fileID: 0}
@@ -115,6 +127,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Regal blue gloves, with a nice gold trim, a diamond anti-shock coating,
         and an integrated thermal barrier. Swanky.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}

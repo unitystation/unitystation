@@ -9,19 +9,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 741549383598998161, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
-      propertyPath: initialDescription
-      value: A plasmaman envirosuit designed for chemists, two orange stripes going
-        down it's face.
+      propertyPath: initialName
+      value: chemistry envirohelmet
       objectReference: {fileID: 0}
     - target: {fileID: 741549383598998161, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
-      propertyPath: initialName
-      value: chemistry envirohelmet
+      propertyPath: initialDescription
+      value: A plasmaman envirosuit designed for chemists, two orange stripes going
+        down it's face.
       objectReference: {fileID: 0}
     - target: {fileID: 911725522681720307, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: m_Name
       value: ChemistryEnvirohelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
@@ -94,6 +94,29 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 1e2867786dbddab49b12c80565f1a0ff,
+        type: 2}
+    - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e2867786dbddab49b12c80565f1a0ff,
+        type: 2}
+    - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 53a7fa9b262e1f64f93d4bf5ca15dff5,
+        type: 2}
+    - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 44c033ba60f884846b6ec667c1aa2fd7,
         type: 2}
     - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}

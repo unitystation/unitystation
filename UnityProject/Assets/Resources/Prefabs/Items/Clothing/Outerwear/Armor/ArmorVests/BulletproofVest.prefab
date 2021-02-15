@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b802c5b6d85056b43a5a44b3f5e5a984,
         type: 2}
+    - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b802c5b6d85056b43a5a44b3f5e5a984,
+        type: 2}
+    - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: acb566a286fefa746b6a2a71c7585b9e,
+        type: 2}
     - target: {fileID: 2961741670957096338, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,14 +33,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
+      propertyPath: initialName
+      value: bulletproof vest
+      objectReference: {fileID: 0}
+    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
       propertyPath: initialDescription
       value: A Type III heavy bulletproof vest that excels in protecting the wearer
         against traditional projectile weaponry and explosives to a minor extent.
       objectReference: {fileID: 0}
-    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
-      propertyPath: initialName
-      value: bulletproof vest
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
@@ -47,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
@@ -92,6 +104,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
+      propertyPath: Armor.Bomb
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
       propertyPath: Armor.Melee
       value: 15
       objectReference: {fileID: 0}
@@ -102,18 +124,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
       propertyPath: Armor.Energy
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 9063515089906310049, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}

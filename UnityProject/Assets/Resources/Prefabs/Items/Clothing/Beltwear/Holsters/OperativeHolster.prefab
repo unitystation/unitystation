@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3501724206495783127, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
@@ -80,12 +80,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3919968998321081025, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
-      propertyPath: initialDescription
-      value: A deep shoulder holster capable of holding almost any form of ballistic
-        weaponry.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3919968998321081025, guid: f81f054e54c0164459e94a191cf3ac9e,
-        type: 3}
       propertyPath: initialName
       value: operative holster
       objectReference: {fileID: 0}
@@ -94,23 +88,46 @@ PrefabInstance:
       propertyPath: initialSize
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 4559416078757244025, guid: f81f054e54c0164459e94a191cf3ac9e,
+    - target: {fileID: 3919968998321081025, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
-      propertyPath: itemStorageStructure
-      value: 
-      objectReference: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
-        type: 2}
+      propertyPath: initialDescription
+      value: A deep shoulder holster capable of holding almost any form of ballistic
+        weaponry.
+      objectReference: {fileID: 0}
     - target: {fileID: 4559416078757244025, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: 7bed6df245d1f1544a8c18907fe3ec79,
         type: 2}
+    - target: {fileID: 4559416078757244025, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+        type: 2}
     - target: {fileID: 5185682996409656404, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 12b05332046f7cd4da5424662a438088,
+        type: 2}
+    - target: {fileID: 5185682996409656404, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 12b05332046f7cd4da5424662a438088,
+        type: 2}
+    - target: {fileID: 5185682996409656404, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5185682996409656404, guid: f81f054e54c0164459e94a191cf3ac9e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 551c08c2db3adb949bf0a16989a7dd97,
         type: 2}
     - target: {fileID: 7335522165562252836, guid: f81f054e54c0164459e94a191cf3ac9e,
         type: 3}

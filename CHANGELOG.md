@@ -2,6 +2,11 @@
 ---
 
 
+* 2021/2/12: Player lights now update sprite on player character where relevant (e.g. hardhat headlamps). by [NoooneyDude](https://github.com/NoooneyDude) in PR #[6002](https://github.com/unitystation/unitystation/pull/6002)
+* 2021/2/12: Tesla now moves through walls and does correct damage by [ThatDan123](https://github.com/ThatDan123) in PR #[6010](https://github.com/unitystation/unitystation/pull/6010)
+* 2021/2/12: Fixed escape and close button not working on menu by [ThatDan123](https://github.com/ThatDan123) in PR #[6010](https://github.com/unitystation/unitystation/pull/6010)
+* 2021/2/12: Adds some emitters and other stuff to box, square and outpost, not full PA set up by [ThatDan123](https://github.com/ThatDan123) in PR #[6010](https://github.com/unitystation/unitystation/pull/6010)
+* 2021/2/12: Removed fugitive from traitor gamemode by [ThatDan123](https://github.com/ThatDan123) in PR #[6010](https://github.com/unitystation/unitystation/pull/6010)
 * 2021/2/11: Adds grounding rods and tesla coils by [ThatDan123](https://github.com/ThatDan123) in PR #[5998](https://github.com/unitystation/unitystation/pull/5998)
 * 2021/2/11: Adds Tesla Energy Ball by [ThatDan123](https://github.com/ThatDan123) in PR #[5998](https://github.com/unitystation/unitystation/pull/5998)
 * 2021/2/10: Added particle accelerator, can be obtained through cargo by [ThatDan123](https://github.com/ThatDan123) in PR #[5975](https://github.com/unitystation/unitystation/pull/5975)

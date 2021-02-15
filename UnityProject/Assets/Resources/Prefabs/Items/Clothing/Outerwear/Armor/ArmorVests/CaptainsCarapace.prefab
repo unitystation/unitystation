@@ -13,6 +13,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1d5035c6104d1e744b4bd1a5dd575d60,
         type: 2}
+    - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d5035c6104d1e744b4bd1a5dd575d60,
+        type: 2}
+    - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c358551363c17c4f9816a7b020f0e1d,
+        type: 2}
     - target: {fileID: 2961741670957096338, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -26,16 +38,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
+      propertyPath: initialName
+      value: captain's carapace
+      objectReference: {fileID: 0}
+    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
       propertyPath: initialDescription
       value: A fireproof armored chestpiece reinforced with ceramic plates and plasteel
         pauldrons to provide additional protection whilst still offering maximum
         mobility and flexibility. Issued only to the station's finest, although it
         does chafe your nipples.
       objectReference: {fileID: 0}
-    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
-      propertyPath: initialName
-      value: captain's carapace
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
@@ -54,6 +71,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -66,16 +88,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
@@ -99,8 +111,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
+      propertyPath: Armor.Acid
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
@@ -114,23 +136,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
       propertyPath: Armor.Energy
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 90
+      propertyPath: Resistances.FireProof
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9063515089906310049, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}

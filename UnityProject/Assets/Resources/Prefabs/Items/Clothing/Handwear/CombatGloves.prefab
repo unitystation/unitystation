@@ -13,10 +13,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 90875af41838ba343a8bde75046a1b5e,
         type: 2}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 90875af41838ba343a8bde75046a1b5e,
+        type: 2}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 93b806080b090744b9f756c9942f23bc,
+        type: 2}
     - target: {fileID: 5947731994596095198, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_Name
       value: CombatGloves
+      objectReference: {fileID: 0}
+    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
@@ -35,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
@@ -75,11 +92,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5985605702682223914, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
-      propertyPath: HeatResistance
-      value: 1500
-      objectReference: {fileID: 0}
-    - target: {fileID: 5985605702682223914, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
       propertyPath: Armor.Acid
       value: 50
       objectReference: {fileID: 0}
@@ -88,15 +100,15 @@ PrefabInstance:
       propertyPath: Armor.Fire
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 5985605702682223914, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: HeatResistance
+      value: 1500
+      objectReference: {fileID: 0}
     - target: {fileID: 5989403931701021034, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
@@ -107,6 +119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: These tactical gloves are fireproof and electrically insulated.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}

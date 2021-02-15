@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
+using Systems.Clothing;
 
 /// <summary>
 /// Handles the overlays for the handcuff sprites

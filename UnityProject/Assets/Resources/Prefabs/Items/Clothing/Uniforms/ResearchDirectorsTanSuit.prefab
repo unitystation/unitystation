@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
@@ -80,20 +80,43 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
-      propertyPath: initialDescription
-      value: Maybe you'll engineer your own half-man, half-pig creature some day.
-        Its fabric provides minor protection from biological contaminants.
+      propertyPath: initialName
+      value: research director's tan suit
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
-      propertyPath: initialName
-      value: research director's tan suit
+      propertyPath: initialDescription
+      value: Maybe you'll engineer your own half-man, half-pig creature some day.
+        Its fabric provides minor protection from biological contaminants.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 139c1ddfd324d3a4d9e4fcdfd3768761,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 139c1ddfd324d3a4d9e4fcdfd3768761,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 29d601d7d95be774c9f2e55af38f5db0,
+        type: 2}
+    - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f0f663aae640fa4588cf279ff438b4d,
         type: 2}
     - target: {fileID: 8975007657035133986, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}

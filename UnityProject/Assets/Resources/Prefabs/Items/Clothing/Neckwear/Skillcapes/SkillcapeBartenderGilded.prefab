@@ -13,17 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c825fcef31289414b82d125e1994569d,
         type: 2}
-    - target: {fileID: 4319227468875582662, guid: 5a2bc05291222fd479c59d67715dd5c2,
+    - target: {fileID: 3948495530441221316, guid: 5a2bc05291222fd479c59d67715dd5c2,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 948369ccf0bde9d4bafa07996438014f,
+      objectReference: {fileID: 11400000, guid: c825fcef31289414b82d125e1994569d,
+        type: 2}
+    - target: {fileID: 3948495530441221316, guid: 5a2bc05291222fd479c59d67715dd5c2,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a0a025c0404fed74891ef2de95ed5e6d,
         type: 2}
     - target: {fileID: 4319227468875582662, guid: 5a2bc05291222fd479c59d67715dd5c2,
         type: 3}
       propertyPath: variantIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4319227468875582662, guid: 5a2bc05291222fd479c59d67715dd5c2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 948369ccf0bde9d4bafa07996438014f,
+        type: 2}
     - target: {fileID: 7519744723290888227, guid: 5a2bc05291222fd479c59d67715dd5c2,
         type: 3}
       propertyPath: initialName
@@ -35,6 +47,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1313908945890142285, guid: 62b0a9449b3786649abfbe4a9028b5e6,
         type: 3}
+    - target: {fileID: 7972892412101429813, guid: 5a2bc05291222fd479c59d67715dd5c2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7972892412101429813, guid: 5a2bc05291222fd479c59d67715dd5c2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7972892412101429813, guid: 5a2bc05291222fd479c59d67715dd5c2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7972892412101429813, guid: 5a2bc05291222fd479c59d67715dd5c2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7972892412101429813, guid: 5a2bc05291222fd479c59d67715dd5c2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7972892412101429813, guid: 5a2bc05291222fd479c59d67715dd5c2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7972892412101429813, guid: 5a2bc05291222fd479c59d67715dd5c2,
         type: 3}

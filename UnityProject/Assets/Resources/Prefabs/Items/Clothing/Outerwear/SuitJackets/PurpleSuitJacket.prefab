@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3495234765619245072, guid: c6a7074451cf5634783832221e9b8e75,
         type: 3}
-      propertyPath: initialDescription
-      value: A foppish dress jacket.
+      propertyPath: initialName
+      value: purple suit jacket
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: c6a7074451cf5634783832221e9b8e75,
         type: 3}
-      propertyPath: initialName
-      value: purple suit jacket
+      propertyPath: initialDescription
+      value: A foppish dress jacket.
       objectReference: {fileID: 0}
     - target: {fileID: 3791466462619397166, guid: c6a7074451cf5634783832221e9b8e75,
         type: 3}
@@ -27,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PurpleSuitJacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: c6a7074451cf5634783832221e9b8e75,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: c6a7074451cf5634783832221e9b8e75,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: c6a7074451cf5634783832221e9b8e75,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: c6a7074451cf5634783832221e9b8e75,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: c6a7074451cf5634783832221e9b8e75,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927008119850082822, guid: c6a7074451cf5634783832221e9b8e75,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: c6a7074451cf5634783832221e9b8e75,
         type: 3}
@@ -99,6 +99,24 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: b555fb1ff7ee37e4f9fde84144840cb5,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: c6a7074451cf5634783832221e9b8e75,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b555fb1ff7ee37e4f9fde84144840cb5,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: c6a7074451cf5634783832221e9b8e75,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 14d9ba49bb36d2947bd3651e03010f93,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: c6a7074451cf5634783832221e9b8e75,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c1f43d0e4727ca48880df5fdd1eb7d7,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6a7074451cf5634783832221e9b8e75, type: 3}
