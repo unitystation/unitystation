@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using TileManagement;
 using UnityEngine;
 
@@ -79,10 +80,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage < basicTile.damageDeflection? 0: damage, attackType));
 
-		if (basicTile.SoundOnHit.IsReadyLoaded)
-		{
-			SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
-		}
+		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+
 
 		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
 		{
