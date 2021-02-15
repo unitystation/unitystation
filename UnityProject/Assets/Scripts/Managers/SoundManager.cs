@@ -436,7 +436,7 @@ public class SoundManager : MonoBehaviour
 	}
 
 	public static async Task PlayNetworkedForPlayer(GameObject recipient,
-		AddressableAudioSource addressableAudioSources, float? pitch = null,
+		AddressableAudioSource addressableAudioSources, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
@@ -460,9 +460,9 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="recipient">The player that will receive the sound</param>
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
-	/// <param name="pitch">The pitch variation of the sound.  Null for default pitch.</param>
+	/// <param name="pitch">The pitch variation of the sound.  -1 for default pitch.</param>
 	public static async Task PlayNetworkedForPlayer(GameObject recipient,
-		List<AddressableAudioSource> addressableAudioSources, float? pitch = null,
+		List<AddressableAudioSource> addressableAudioSources, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
@@ -478,7 +478,7 @@ public class SoundManager : MonoBehaviour
 		}
 
 		AudioSourceParameters audioSourceParameters = null;
-		if (pitch != null)
+		if (pitch > 0)
 		{
 			audioSourceParameters = new AudioSourceParameters
 			{
@@ -819,31 +819,31 @@ public class SoundManager : MonoBehaviour
 					? Instance.DefaultMixer
 					: Instance.MuffledMixer;
 
-			if (audioSourceParameters.Pitch != null)
-				audioSource.pitch = audioSourceParameters.Pitch.Value;
+			if (audioSourceParameters.Pitch >= 0)
+				audioSource.pitch = audioSourceParameters.Pitch;
 			else
 				audioSource.pitch = 1;
 
-			if (audioSourceParameters.Time != null)
-				audioSource.time = audioSourceParameters.Time.Value;
+			if (audioSourceParameters.Time >= 0)
+				audioSource.time = audioSourceParameters.Time;
 
-			if (audioSourceParameters.Volume != null)
-				audioSource.volume = audioSourceParameters.Volume.Value;
+			if (audioSourceParameters.Volume >= 0)
+				audioSource.volume = audioSourceParameters.Volume;
 
-			if (audioSourceParameters.Pan != null)
-				audioSource.panStereo = audioSourceParameters.Pan.Value;
+			if (audioSourceParameters.Pan >= 0)
+				audioSource.panStereo = audioSourceParameters.Pan;
 
-			if (audioSourceParameters.SpatialBlend != null)
-				audioSource.spatialBlend = audioSourceParameters.SpatialBlend.Value;
+			if (audioSourceParameters.SpatialBlend >= 0)
+				audioSource.spatialBlend = audioSourceParameters.SpatialBlend;
 
-			if (audioSourceParameters.MinDistance != null)
-				audioSource.minDistance = audioSourceParameters.MinDistance.Value;
+			if (audioSourceParameters.MinDistance >= 0)
+				audioSource.minDistance = audioSourceParameters.MinDistance;
 
-			if (audioSourceParameters.MaxDistance != null)
-				audioSource.maxDistance = audioSourceParameters.MaxDistance.Value;
+			if (audioSourceParameters.MaxDistance >= 0)
+				audioSource.maxDistance = audioSourceParameters.MaxDistance;
 
-			if (audioSourceParameters.Spread != null)
-				audioSource.spread = audioSourceParameters.Spread.Value;
+			if (audioSourceParameters.Spread >= 0)
+				audioSource.spread = audioSourceParameters.Spread;
 
 			switch (audioSourceParameters.VolumeRolloffType)
 			{

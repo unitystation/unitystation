@@ -23,7 +23,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		public ShakeParameters ShakeParameters { get; set; }
 
 		// Allow to personalize Audio Source parameters for any sound to play.
-		public AudioSourceParameters AudioSourceParameters { get; set; }
+		public AudioSourceParameters AudioSourceParameters;
 
 		public override void Process()
 		{
