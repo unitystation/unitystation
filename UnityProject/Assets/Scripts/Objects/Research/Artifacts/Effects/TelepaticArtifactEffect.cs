@@ -37,13 +37,14 @@ public class TelepaticArtifactEffect : ArtifactEffect
 	private void IndocrinateMessageArea()
 	{
 		var objCenter = gameObject.AssumedWorldPosServer().RoundToInt();
-		var xMin = objCenter.x - auraRadius;
-		var yMin = objCenter.y - auraRadius;
-		var bounds = new BoundsInt(xMin, yMin, 0, 20, 20, 1);
-		foreach (var connected in PlayerList.Instance.InGamePlayers)
+		var hitMask = LayerMask.GetMask("Players");
+		var colliders = Physics2D.OverlapCircleAll(new Vector2(objCenter.x, objCenter.y), auraRadius, hitMask);
+
+		foreach (var connected in colliders)
 		{
-			var player = connected.Script;
-			if (player.IsDeadOrGhost == false && bounds.Contains(player.WorldPos))
+			connected.TryGetComponent<PlayerScript>(out var player);
+
+			if (player == null || player.IsDeadOrGhost)
 			{
 				Indocrinate(player.gameObject);
 			}
