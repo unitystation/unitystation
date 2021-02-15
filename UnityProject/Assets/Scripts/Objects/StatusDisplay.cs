@@ -106,6 +106,11 @@ namespace Objects.Wallmounts
 			centComm.OnStatusDisplayUpdate.AddListener(OnTextBroadcastReceived);
 		}
 
+		private void Start()
+		{
+			centComm = GameManager.Instance.CentComm;
+		}
+
 		/// <summary>
 		/// cleaning up for reuse
 		/// </summary>

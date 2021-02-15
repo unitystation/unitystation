@@ -164,7 +164,7 @@ namespace Pipes
 
 		public static MixAndVolume PipeOrNet(PipeData pipe)
 		{
-			if (pipe.NetCompatible)
+			if (pipe.NetCompatible && pipe.OnNet != null)
 			{
 				return (pipe.OnNet.mixAndVolume);
 			}

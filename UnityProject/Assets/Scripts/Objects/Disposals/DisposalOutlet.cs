@@ -46,6 +46,8 @@ namespace Objects.Disposals
 		{
 			foreach (DisposalVirtualContainer container in receivedContainers)
 			{
+				if(container.gameObject == null) continue;
+
 				Despawn.ServerSingle(container.gameObject);
 			}
 		}

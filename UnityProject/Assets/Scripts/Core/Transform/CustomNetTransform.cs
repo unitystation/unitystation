@@ -317,6 +317,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 		bool changed = false;
 
+		//Apparently needs to run on server or else items will spin around forever
+		//might need looking into so the server isn't doing the floating and other matrix checks twice
 		if (IsFloatingClient)
 		{
 			changed &= CheckFloatingClient();

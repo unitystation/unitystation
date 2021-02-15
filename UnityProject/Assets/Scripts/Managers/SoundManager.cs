@@ -398,7 +398,7 @@ public class SoundManager : MonoBehaviour
 		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
 		{
 			Logger.LogWarning(
-				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component", Category.Addressables);
 			return;
 		}
 
