@@ -80,6 +80,9 @@ namespace Objects
 
 		private List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
 
+		private HashSet<GameObject> pushRecently = new HashSet<GameObject>();
+		private int pushTimer;
+
 		private List<Vector3Int> adjacentCoords = new List<Vector3Int>
 		{
 			new Vector3Int(0, 1, 0),
@@ -133,6 +136,14 @@ namespace Objects
 		private void SingularityUpdate()
 		{
 			if(!CustomNetworkManager.IsServer) return;
+
+			pushTimer++;
+
+			if (pushTimer > 5)
+			{
+				pushTimer = 0;
+				pushRecently.Clear();
+			}
 
 			if (lockTimer > 0)
 			{
@@ -215,6 +226,8 @@ namespace Objects
 				{
 					if (objectToMove.registerTile.ObjectType == ObjectType.Item)
 					{
+						if(pushRecently.Contains(objectToMove.gameObject)) continue;
+
 						ThrowItem(objectToMove, registerTile.WorldPositionServer - objectToMove.registerTile.WorldPositionServer);
 
 						if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
@@ -247,6 +260,7 @@ namespace Objects
 			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
 			if (itemTransform == null) return;
 			itemTransform.Throw(throwInfo);
+			pushRecently.Add(item.gameObject);
 		}
 
 		private void PushObject(PushPull objectToPush, Vector3 pushVector)
