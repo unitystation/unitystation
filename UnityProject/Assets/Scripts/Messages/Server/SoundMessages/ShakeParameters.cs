@@ -8,17 +8,17 @@
 		/// <summary>
 		/// Should the ground shake?
 		/// </summary>
-		public bool ShakeGround { get; set; } = false;
+		public bool ShakeGround = false;
 
 		/// <summary>
 		/// At what intensity should the ground shake?
 		/// </summary>
-		public byte ShakeIntensity { get; set; } = 64;
+		public byte ShakeIntensity = 64;
 
 		/// <summary>
 		/// At what distance should the shake be perceived?
 		/// </summary>
-		public int ShakeRange { get; set; } = 30;
+		public int ShakeRange = 30;
 
 		public override string ToString()
 		{

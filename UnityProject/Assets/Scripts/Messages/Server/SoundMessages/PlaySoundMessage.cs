@@ -20,10 +20,10 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		public string SoundSpawnToken;
 
 		// Allow to perform a camera shake effect along with the sound.
-		public ShakeParameters ShakeParameters { get; set; }
+		public ShakeParameters ShakeParameters;
 
 		// Allow to personalize Audio Source parameters for any sound to play.
-		public AudioSourceParameters AudioSourceParameters { get; set; }
+		public AudioSourceParameters AudioSourceParameters;
 
 		public override void Process()
 		{

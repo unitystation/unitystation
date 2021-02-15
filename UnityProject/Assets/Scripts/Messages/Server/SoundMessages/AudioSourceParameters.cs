@@ -22,43 +22,43 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class AudioSourceParameters
 	{
-		public float? Volume { get; set; } = null;
-		public float? Time { get; set; } = null;
-		public float? Pan { get; set; } = null;
+		public float Volume = -1f;
+		public float Time = -1f;
+		public float Pan = -1f;
 
 		// The Output Mixer to use
-		public MixerType MixerType { get; set; } = MixerType.Unspecified;
+		public MixerType MixerType = MixerType.Unspecified;
 
 		// Pitch of the sound
-		public float? Pitch { get; set; } = null;
+		public float Pitch = -1f;
 
 		// Spatial blend of the audio source (0 for 2D, 1 for 3D)
 		// Note:  2D spatial blend doesn't attenuate with distance
-		public float? SpatialBlend { get; set; } = null;
+		public float SpatialBlend = -1f;
 
 		//Sets the spread angle (in degrees) of a 3d stereo or multichannel sound in speaker space. (0 - 360f)
-		public float? Spread { get; set; } = null;
+		public float Spread = -1f;
 
 		// Minimum distance in which the sound is at maximum volume
-		public float? MinDistance { get; set; } = null;
+		public float MinDistance = -1f;
 
 		// MaxDistance is the distance a sound stops attenuating at.
-		public float? MaxDistance { get; set; } = null;
+		public float MaxDistance = -1f;
 
 		// The type of curve to attenuate the sound in 3D audio.
-		public VolumeRolloffType VolumeRolloffType { get; set; } = VolumeRolloffType.Unspecified;
+		public VolumeRolloffType VolumeRolloffType = VolumeRolloffType.Unspecified;
 
 		public override string ToString()
 		{
-			string volumeValue = Volume.HasValue ? Volume.Value.ToString() : "Null";
-			string timeValue = Time.HasValue ? Time.Value.ToString() : "Null";
-			string panValue = Pan.HasValue ? Pan.Value.ToString() : "Null";
+			string volumeValue = Volume.ToString();
+			string timeValue = Time.ToString();
+			string panValue = Pan.ToString();
 			string mixerTypeValue = MixerType.ToString();
-			string pitchValue = Pitch.HasValue ? Pitch.Value.ToString() : "Null";
-			string spatialBlendValue = SpatialBlend.HasValue ? SpatialBlend.Value.ToString() : "Null";
-			string spreadValue = Spread.HasValue ? Spread.Value.ToString() : "Null";
-			string minDistanceValue = MinDistance.HasValue ? MinDistance.Value.ToString() : "Null";
-			string maxDistanceValue = MaxDistance.HasValue ? MaxDistance.Value.ToString() : "Null";
+			string pitchValue = Pitch.ToString();
+			string spatialBlendValue = SpatialBlend.ToString();
+			string spreadValue = Spread.ToString();
+			string minDistanceValue = MinDistance.ToString();
+			string maxDistanceValue = MaxDistance.ToString();
 			string volumeRolloffTypeValue = VolumeRolloffType.ToString();
 
 			return $"{nameof(Volume)}: {volumeValue}, {nameof(Time)}: {timeValue}, {nameof(Pan)}: {panValue}, {nameof(MixerType)}: {mixerTypeValue}, {nameof(Pitch)}: {pitchValue}, {nameof(SpatialBlend)}: {spatialBlendValue}, {nameof(Spread)}: {spreadValue}, {nameof(MinDistance)}: {minDistanceValue}, {nameof(MaxDistance)}: {maxDistanceValue}, {nameof(VolumeRolloffType)}: {volumeRolloffTypeValue}";
