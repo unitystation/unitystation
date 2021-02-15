@@ -38,11 +38,11 @@ public class TelepaticArtifactEffect : ArtifactEffect
 	{
 		var objCenter = gameObject.AssumedWorldPosServer().RoundToInt();
 		var hitMask = LayerMask.GetMask("Players");
-		var colliders = Physics2D.OverlapCircleAll(new Vector2(objCenter.x, objCenter.y), auraRadius, hitMask);
+		var playerColliders = Physics2D.OverlapCircleAll(new Vector2(objCenter.x, objCenter.y), auraRadius, hitMask);
 
-		foreach (var connected in colliders)
+		foreach (var playerColl in playerColliders)
 		{
-			connected.TryGetComponent<PlayerScript>(out var player);
+			playerColl.TryGetComponent<PlayerScript>(out var player);
 
 			if (player == null || player.IsDeadOrGhost)
 			{
