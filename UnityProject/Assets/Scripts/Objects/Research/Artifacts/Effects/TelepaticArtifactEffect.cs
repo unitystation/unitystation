@@ -43,7 +43,7 @@ public class TelepaticArtifactEffect : ArtifactEffect
 		foreach (var connected in PlayerList.Instance.InGamePlayers)
 		{
 			var player = connected.Script;
-			if (bounds.Contains(player.WorldPos) && player.IsDeadOrGhost == false)
+			if (player.IsDeadOrGhost == false && bounds.Contains(player.WorldPos))
 			{
 				Indocrinate(player.gameObject);
 			}
