@@ -59,7 +59,8 @@ public static class LTSUtil
 	public static bool IsLayerIn(LayerTypeSelection SpecifyLayers, LayerType Layer)
 	{
 		LayerTypeSelection LayerCon = LayerType2LayerTypeSelection(Layer);
-		return (SpecifyLayers.HasFlag(LayerCon));
+		//HasFlag causes boxing, since we are only checking for one layer, a simple bit check is fine here
+		return (SpecifyLayers & LayerCon) > 0;
 	}
 
 	public static LayerTypeSelection LayerType2LayerTypeSelection(LayerType Layer)
