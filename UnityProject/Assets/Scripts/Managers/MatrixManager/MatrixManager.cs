@@ -76,6 +76,8 @@ public partial class MatrixManager : MonoBehaviour
 		}
 		else
 		{
+			if (Application.isEditor && !Application.isPlaying) return;
+
 			Destroy(this);
 		}
 	}
