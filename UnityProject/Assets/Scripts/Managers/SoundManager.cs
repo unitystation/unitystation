@@ -225,12 +225,16 @@ public class SoundManager : MonoBehaviour
 	private SoundSpawn GetSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource,
 		string soundSpawnToken)
 	{
-		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress) && NonplayingSounds[addressableAudioSource.AssetAddress].Count > 0)
+		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress) && 
+			NonplayingSounds[addressableAudioSource.AssetAddress].Count > 0)
 		{
 			var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
 			NonplayingSounds[addressableAudioSource.AssetAddress].RemoveAt(0);
-			ToReturn.Token = soundSpawnToken;
-			SoundSpawns.Add(soundSpawnToken, ToReturn);
+			if (soundSpawnToken != "") //non addressables dont have a token
+			{
+				ToReturn.Token = soundSpawnToken;
+				SoundSpawns.Add(soundSpawnToken, ToReturn);
+			}
 			return ToReturn;
 		}
 
