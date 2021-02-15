@@ -63,6 +63,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (basicTile == null) return 0;
 
+		if (basicTile.indestructible) return 0;
+
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 		return AddDamage(damage, attackType, data, basicTile, worldPosition);
 	}
@@ -76,7 +78,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage < basicTile.damageDeflection? 0: damage, attackType));
-		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+
+		if (basicTile.SoundOnHit.IsReadyLoaded)
+		{
+			SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+		}
+
 		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
 		{
 			data.RemoveTileDamage(Layer.LayerType);

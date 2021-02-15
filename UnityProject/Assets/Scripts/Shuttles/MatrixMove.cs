@@ -55,7 +55,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// <summary>
 	/// local pivot point, set on start and never changed afterwards
 	/// </summary>
-	public Vector3 Pivot => pivot.RoundToInt();
+	public Vector3Int Pivot => pivot.RoundToInt();
 
 	/// <summary>
 	/// All the various events that can be subscribed to on this matrix
