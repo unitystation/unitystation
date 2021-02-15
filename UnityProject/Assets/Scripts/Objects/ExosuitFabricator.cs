@@ -48,6 +48,7 @@ namespace Objects.Robotics
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			EnsureInit();
+			SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
 		}
 
 		private void Awake()
@@ -59,13 +60,6 @@ namespace Objects.Robotics
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			materialStorage = this.GetComponent<MaterialStorage>();
-		}
-
-		private void Start()
-		{
-			if(CustomNetworkManager.IsServer == false) return;
-
-			SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
 		}
 
 		public void OnEnable()
