@@ -340,13 +340,10 @@ namespace Objects
 			var coords =
 				EffectShape.CreateEffectShape(EffectShapeType.Square, registerTile.WorldPositionServer, radius);
 
-			DestroyObjectsCollider(radius);
+			DestroyObjects(coords);
 			DamageTiles(coords);
 		}
 
-		/// <summary>
-		/// DestroyObjects at coords
-		/// </summary>
 		private void DestroyObjects(IEnumerable<Vector3Int> coords)
 		{
 			var damage = 100;
@@ -362,84 +359,47 @@ namespace Objects
 
 				foreach (var objectToMove in objects)
 				{
-					DamageObject(objectToMove, damage);
+					if(objectToMove.gameObject == gameObject) continue;
+
+					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealth>(out var health) && health != null)
+					{
+						if (health.RegisterPlayer.PlayerScript != null &&
+						    health.RegisterPlayer.PlayerScript.mind != null &&
+						    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
+						    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
+						{
+							health.ServerGibPlayer();
+							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
+							return;
+						}
+
+						health.ServerGibPlayer();
+						ChangePoints(100);
+					}
+					else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
+					{
+						if (objectToMove.TryGetComponent<SuperMatter>(out var superMatter) && superMatter != null)
+						{
+							//End of the world
+							eatenSuperMatter = true;
+							ChangePoints(3250);
+							Despawn.ServerSingle(objectToMove.gameObject);
+							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>", gameObject);
+							return;
+						}
+
+						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
+						    && fieldGenerator != null
+						    && CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5)
+						{
+							//Only stage 4 and 5 can damage field generators
+							return;
+						}
+
+						integrity.ApplyDamage(damage, AttackType.Melee, DamageType.Brute, true);
+						ChangePoints(5);
+					}
 				}
-			}
-		}
-
-		private void DestroyObjectsCollider(int radius)
-		{
-			var damage = 100;
-
-			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
-			{
-				damage *= (int)CurrentStage;
-			}
-
-			var objects = GetNearbyEntities(registerTile.WorldPositionServer, LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC"),
-				radius);
-
-			foreach (var toDamage in objects)
-			{
-				if (toDamage.TryGetComponent<RegisterTile>(out var toDamageRegisterTile))
-				{
-					DamageObject(toDamageRegisterTile, damage);
-				}
-			}
-		}
-
-		private IEnumerable<Collider2D> GetNearbyEntities(Vector3 centrePoint, int mask, int radius)
-		{
-			return Physics2D.OverlapBoxAll(centrePoint, new Vector2(radius * 2 + 1, radius * 2 + 1), mask);
-		}
-
-		private void DamageObject(RegisterTile toDamage, int damage)
-		{
-			if(toDamage.gameObject == gameObject) return;
-
-			if (toDamage.ObjectType == ObjectType.Player && toDamage.TryGetComponent<PlayerHealth>(out var health) && health != null)
-			{
-				if (health.RegisterPlayer.PlayerScript != null &&
-				    health.RegisterPlayer.PlayerScript.mind != null &&
-				    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
-				    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
-				{
-					health.ServerGibPlayer();
-					ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
-					return;
-				}
-
-				health.ServerGibPlayer();
-				ChangePoints(100);
-			}
-			else if (toDamage.TryGetComponent<Integrity>(out var integrity) && integrity != null)
-			{
-				if (toDamage.TryGetComponent<SuperMatter>(out var superMatter) && superMatter != null)
-				{
-					//End of the world
-					eatenSuperMatter = true;
-					ChangePoints(3250);
-					Despawn.ServerSingle(toDamage.gameObject);
-					Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>", gameObject);
-					return;
-				}
-
-				if (toDamage.TryGetComponent<FieldGenerator>(out var fieldGenerator)
-				    && fieldGenerator != null
-				    && CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5)
-				{
-					//Only stage 4 and 5 can damage field generators
-					return;
-				}
-
-				integrity.ApplyDamage(damage, AttackType.Melee, DamageType.Brute, true);
-				ChangePoints(5);
-			}
-			else if (toDamage.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour) && livingHealthBehaviour != null)
-			{
-				//Kill NPC
-				livingHealthBehaviour.Death();
-				ChangePoints(10);
 			}
 		}
 
@@ -522,7 +482,7 @@ namespace Objects
 				var squareCoord = EffectShape.CreateEffectShape(EffectShapeType.OutlineSquare,
 					registerTile.WorldPositionServer, radius + 1, false);
 
-				DestroyObjectsCollider(radius + 1);
+				DestroyObjects(squareCoord);
 				DamageTiles(squareCoord);
 				return;
 			}
