@@ -37,7 +37,7 @@ public class TelepaticArtifactEffect : ArtifactEffect
 	private void IndocrinateMessageArea()
 	{
 		var objCenter = gameObject.AssumedWorldPosServer().RoundToInt();
-		var bounds = new BoundsInt(objCenter.x - 10, objCenter.y - 10, 0, 20, 20, 1);
+		var bounds = new BoundsInt(objCenter.x - auraRadius, objCenter.y - auraRadius, 0, 20, 20, 1);
 		var connectedPlayers = PlayerList.Instance.InGamePlayers;
 		foreach (var connected in connectedPlayers)
 		{
