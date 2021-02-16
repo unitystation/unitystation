@@ -16,11 +16,15 @@ namespace Antagonists
 
 			//send the code:
 			//Check to see if there is a nuke and communicate the nuke code:
-			Nuke nuke = FindObjectOfType<Nuke>();
-			if (nuke != null)
+			Nuke[] nuke = FindObjectsOfType<Nuke>();
+			foreach (Nuke obj in nuke)
 			{
-				UpdateChatMessage.Send(player.GameObject, ChatChannel.Syndicate, ChatModifier.None,
-					$"We have intercepted the code for the nuclear weapon: <b>{nuke.NukeCode}</b>.");
+				if (obj.IsAncharable)
+				{
+					UpdateChatMessage.Send(player.GameObject, ChatChannel.Syndicate, ChatModifier.None,
+					$"We have intercepted the code for the nuclear weapon: <b>{obj.NukeCode}</b>.");
+					break;
+				}				
 			}
 
 			AntagManager.TryInstallPDAUplink(player, initialTC);
