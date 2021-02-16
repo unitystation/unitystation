@@ -4,16 +4,14 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 {
 	public enum MixerType
 	{
-		Unspecified,
 		Master,
 		Muffled
 	}
 
 	public enum VolumeRolloffType
 	{
-		Unspecified,
-		Logarithmic,
 		Linear,
+		Logarithmic,
 		EaseInAndOut
 	}
 

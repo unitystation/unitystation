@@ -611,20 +611,16 @@ public class SoundManager : MonoBehaviour
 		Instance.PlaySource(sound, polyphonic, global);
 	}
 
-	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true, MixerType mixerType = MixerType.Unspecified)
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true, MixerType mixerType = MixerType.Master)
 	{
-		if (mixerType != MixerType.Unspecified)
-		{
-			if (!Global
-			    && PlayerManager.LocalPlayer != null
-			    && (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
-					    LayerTypeSelection.Walls, layerMask, source.RegisterTile.WorldPositionClient.To2Int().To3Int())
-				    .ItHit))
+		if (!Global
+		    && PlayerManager.LocalPlayer != null
+		    && (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
+			    LayerTypeSelection.Walls, layerMask, source.RegisterTile.WorldPositionClient.To2Int().To3Int())
+			    .ItHit))
 			{
 				source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
 			}
-		}
-
 		if (polyphonic)
 		{
 			source.PlayOneShot();
