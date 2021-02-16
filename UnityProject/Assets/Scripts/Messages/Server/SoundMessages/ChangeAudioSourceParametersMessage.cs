@@ -60,7 +60,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override string ToString()
 		{
-			string audioSourceParametersValue = (AudioSourceParameters == null) ? "Null" : AudioSourceParameters.ToString();
+			string audioSourceParametersValue = AudioSourceParameters.ToString();
 			return $"{nameof(SoundSpawnToken)}: {SoundSpawnToken}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
 		}
 	}
