@@ -2,6 +2,11 @@
 ---
 
 
+* 2021/2/16: Removed blob attack messages, to reduce spam by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
+* 2021/2/16: Blob now ends round after 60 seconds rather than 180 seconds when it wins by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
+* 2021/2/16: Fixed blob sound by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
+* 2021/2/16: Switched detect objects to use physic2D instead by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
+* 2021/2/16: Fixed blob spawning with multiple start scripts by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
 * 2021/2/15: Removes old blob event script by [ThatDan123](https://github.com/ThatDan123) in PR #[6034](https://github.com/unitystation/unitystation/pull/6034)
 * 2021/2/15: Fixes job ban on ghost role not working when occupation isnt set by [ThatDan123](https://github.com/ThatDan123) in PR #[6034](https://github.com/unitystation/unitystation/pull/6034)
 * 2021/2/15: Moves Blob and Fugitive spawning to antag tab in event manager by [ThatDan123](https://github.com/ThatDan123) in PR #[6034](https://github.com/unitystation/unitystation/pull/6034)
