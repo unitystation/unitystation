@@ -225,7 +225,7 @@ public class SoundManager : MonoBehaviour
 	private SoundSpawn GetSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource,
 		string soundSpawnToken)
 	{
-		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress) && 
+		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress) &&
 			NonplayingSounds[addressableAudioSource.AssetAddress].Count > 0)
 		{
 			var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
@@ -241,20 +241,13 @@ public class SoundManager : MonoBehaviour
 		return GetNewSoundSpawn(addressableAudioSource, audioSource, soundSpawnToken);
 	}
 
-	public static void PlayNetworked(string addressableAudioSources, float pitch = 0,
-		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSources);
-	}
-
 
 	/// <summary>
 	/// Play sound for all clients.
 	/// If more than one sound is specified, one will be picked at random.
 	/// </summary>
 	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
-	public static async Task PlayNetworked(AddressableAudioSource addressableAudioSources, 
+	public static async Task PlayNetworked(AddressableAudioSource addressableAudioSources,
 		float pitch = 0, bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
@@ -275,8 +268,8 @@ public class SoundManager : MonoBehaviour
 	/// If more than one sound is specified, one will be picked at random.
 	/// </summary>
 	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
-	public static async Task PlayNetworked(List<AddressableAudioSource> addressableAudioSources, 
-		float pitch = 0, bool polyphonic = false, bool shakeGround = false, 
+	public static async Task PlayNetworked(List<AddressableAudioSource> addressableAudioSources,
+		float pitch = 0, bool polyphonic = false, bool shakeGround = false,
 		byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		ShakeParameters shakeParameters = new ShakeParameters(shakeGround, shakeIntensity, shakeRange);
@@ -288,16 +281,6 @@ public class SoundManager : MonoBehaviour
 			await GetAddressableAudioSourceFromCache(addressableAudioSources);
 		PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters,
 			audioSourceParameters);
-	}
-
-
-	public static string PlayNetworkedAtPos(string addressableAudioSource, Vector3 worldPos,
-		AudioSourceParameters audioSourceParameters,
-		bool polyphonic = false, bool Global = true, GameObject sourceObj = null,
-		ShakeParameters shakeParameters = new ShakeParameters())
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSource);
-		return "";
 	}
 
 	/// <summary>
@@ -449,7 +432,7 @@ public class SoundManager : MonoBehaviour
 		AddressableAudioSource addressableAudioSource =
 			await GetAddressableAudioSourceFromCache(addressableAudioSources);
 
-		PlaySoundMessage.Send(recipient, addressableAudioSource, TransformState.HiddenPos, polyphonic, 
+		PlaySoundMessage.Send(recipient, addressableAudioSource, TransformState.HiddenPos, polyphonic,
 			sourceObj, shakeParameters, audioSourceParameters);
 	}
 
@@ -758,7 +741,7 @@ public class SoundManager : MonoBehaviour
 		}
 		else if(audioSourceParameters.Volume > 0)
 		{
-			audioSource.volume = audioSourceParameters.Volume;	
+			audioSource.volume = audioSourceParameters.Volume;
 		}
 
 		//Pitch should never be 0.  A negative pitch plays the sound backwards.
@@ -778,20 +761,20 @@ public class SoundManager : MonoBehaviour
 		//Cannot pan to center for sounds that are panned by default
 		if(audioSourceParameters.Pan != 0)
 			audioSource.panStereo = audioSourceParameters.Pan;
-		
+
 		//0 is 2D and ignores max/min distance, 1 is 3d and obeys them
 		//Cannot convert sounds that are 3D by default to 2D
 		if(audioSourceParameters.SpatialBlend != 0)
 			audioSource.spatialBlend = audioSourceParameters.SpatialBlend;
 
 		//Cannot change the minimum distance for audio falloff to 0
-		if(audioSourceParameters.MinDistance != 0)		
+		if(audioSourceParameters.MinDistance != 0)
 			audioSource.minDistance = audioSourceParameters.MinDistance;
 
 		//Cannot change the max distance for falloff to 0 (why would you want that?)
 		if(audioSourceParameters.MaxDistance != 0)
 			audioSource.maxDistance = audioSourceParameters.MaxDistance;
-		
+
 		//Cannot convert non-mono sounds to mono
 		if(audioSourceParameters.Spread != 0)
 			audioSource.spread = audioSourceParameters.Spread;

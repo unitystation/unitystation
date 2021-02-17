@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
+using Assets.Scripts.Messages.Server.SoundMessages;
 using UnityEngine;
 using Mirror;
 using Objects.Construction;
 using Items;
+using UnityEditor;
 
 namespace Objects.Engineering
 {
@@ -26,9 +29,9 @@ namespace Objects.Engineering
 		private ElectricalNodeControl electricalNodeControl;
 
 		[SerializeField]
-		private AudioSource generatorRunSfx = default;
+		private AddressableAudioSource generatorRunSfx = null;
 		[SerializeField]
-		private AudioSource generatorEndSfx = default;
+		private AddressableAudioSource generatorEndSfx = null;
 		[SerializeField]
 		private ParticleSystem smokeParticles = default;
 
@@ -36,6 +39,8 @@ namespace Objects.Engineering
 		private bool isOn;
 		private float fuelAmount;
 		private float fuelPerSheet = 10f;
+
+		private string runLoopGUID = "";
 
 		private enum SpriteState
 		{
@@ -90,14 +95,15 @@ namespace Objects.Engineering
 			if (isOn)
 			{
 				baseSpriteHandler.PushTexture();
-				generatorRunSfx.Play();
 				smokeParticles.Play();
+				runLoopGUID = Guid.NewGuid().ToString();
+				SoundManager.PlayAtPosition(generatorRunSfx, runLoopGUID, registerTile.WorldPosition, gameObject);
 			}
 			else
 			{
-				generatorRunSfx.Stop();
+				SoundManager.Stop(runLoopGUID);
 				smokeParticles.Stop();
-				generatorEndSfx.Play();
+				SoundManager.PlayAtPosition(generatorEndSfx, registerTile.WorldPosition, gameObject);
 			}
 		}
 
