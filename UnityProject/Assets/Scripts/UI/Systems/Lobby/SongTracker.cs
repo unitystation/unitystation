@@ -73,7 +73,6 @@ namespace Audio.Containers
 			if (CustomNetworkManager.IsHeadless) return;
 
 			PlayingRandomPlayList = true;
-			PlayRandomTrack();
 			ToggleUI(true);
 		}
 
