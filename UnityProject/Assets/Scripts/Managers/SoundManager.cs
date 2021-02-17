@@ -599,7 +599,7 @@ public class SoundManager : MonoBehaviour
 		if (!Global
 		    && PlayerManager.LocalPlayer != null
 		    && (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
-			    LayerTypeSelection.Walls, layerMask, source.RegisterTile.WorldPositionClient.To2Int().To3Int())
+			    LayerTypeSelection.Walls, layerMask, source.transform.position.To2Int().To3Int())
 			    .ItHit))
 			{
 				source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
