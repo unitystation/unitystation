@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -60,7 +60,11 @@ namespace AddressableReferences
 			}
 			catch
 			{
-				if(!await HasValidAddress()) return null;
+				if (string.IsNullOrEmpty(AssetAddress))
+				{
+					Logger.LogError("Address is null for " + AssetReference.SubObjectName);
+					return null;
+				}
 
 				var AsynchronousHandle = Addressables.LoadAssetAsync<T>(AssetAddress);
 				await AsynchronousHandle.Task;
@@ -148,6 +152,7 @@ namespace AddressableReferences
 		/// <summary>
 		/// Validates an addressable's address to ensure it points to an addressable asset
 		/// </summary>
+		/// <returns>True if the addressable has a valid address, False if it does not.</returns>
 		public async Task<bool> HasValidAddress()
 		{
 			var validate = Addressables.LoadResourceLocationsAsync(AssetAddress);
