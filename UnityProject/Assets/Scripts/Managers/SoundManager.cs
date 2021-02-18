@@ -504,7 +504,7 @@ public class SoundManager : MonoBehaviour
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 
-		Instance.PlaySource(soundSpawn, polyphonic, false, audioSourceParameters.MixerType);
+		Instance.PlaySource(soundSpawn, polyphonic, true, audioSourceParameters.MixerType);
 	}
 
 
