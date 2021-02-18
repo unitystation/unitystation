@@ -82,12 +82,42 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
 
+		var currentDamage = data.GetTileDamage(Layer.LayerType);
 
-		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
+
+		if (currentDamage >= basicTile.MaxHealth)
 		{
 			data.RemoveTileDamage(Layer.LayerType);
 			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
+
+			//Add new tile if needed
+			if (basicTile.ToTileWhenDestroyed != null)
+			{
+				tileChangeManager.UpdateTile(data.Position, basicTile.ToTileWhenDestroyed);
+			}
+
+			if (basicTile.SpawnOnDestroy != null)
+			{
+				basicTile.SpawnOnDestroy.SpawnAt(SpawnDestination.At(worldPosition, metaTileMap.ObjectLayer.gameObject.transform));
+			}
+
 			basicTile.LootOnDespawn?.SpawnLoot(worldPosition);
+
+			tileChangeManager.RemoveOverlay(data.Position, LayerType.Effects);
+		}
+		else
+		{
+			if (basicTile.DamageOverlayList != null)
+			{
+				foreach (var overlayData in basicTile.DamageOverlayList.DamageOverlays)
+				{
+					if (overlayData.damagePercentage <= damage / basicTile.MaxHealth)
+					{
+						tileChangeManager.UpdateOverlay(data.Position, overlayData.overlayTile);
+						break;
+					}
+				}
+			}
 		}
 
 		return CalculateAbsorbDamaged(attackType,data,basicTile);
@@ -121,10 +151,10 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return Mathf.Clamp(layerTile.MaxHealth - metaDataLayer.Get(pos).GetTileDamage(layerTile.LayerType), 0, float.MaxValue);
 	}
 
-	public void RepairWindow(Vector3Int cellPos)
+	public void RemoveTileEffects(Vector3Int cellPos)
 	{
 		var data = metaDataLayer.Get(cellPos);
-		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
+		tileChangeManager.RemoveOverlay(cellPos, LayerType.Effects);
 		data.ResetDamage(Layer.LayerType);
 	}
 }

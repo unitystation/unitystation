@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
-  m_Name: Grille
+  m_Name: BrokenGrill
   m_EditorClassIdentifier: 
-  displayName: grill
+  displayName: broken Grill
   LayerType: 5
   TileType: 6
-  RequiredTiles:
-  - {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
+  RequiredTiles: []
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 0
   SpawnWithNoAir: 0
-  passable: 0
+  passable: 1
   mineable: 0
   doesReflectBullet: 0
   indestructible: 0
@@ -32,25 +31,21 @@ MonoBehaviour:
   maxHealth: 50
   damageDeflection: 0
   armor:
-    Melee: 50
-    Bullet: 70
-    Laser: 70
-    Energy: 100
-    Bomb: 10
+    Melee: 90
+    Bullet: 90
+    Laser: 90
+    Energy: 90
+    Bomb: 90
     Rad: 100
-    Fire: 0
-    Acid: 0
+    Fire: 100
+    Acid: 90
     Magic: 0
     Bio: 100
-  tileInteractions:
-  - {fileID: 11400000, guid: 433fa20f26ef08d4a844cf98c3a923f3, type: 2}
-  - {fileID: 11400000, guid: 8e5b0c6f1995489408133f815f767c27, type: 2}
-  - {fileID: 11400000, guid: 107560a7c6045ac478f5555e9487ba89, type: 2}
+  tileInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
-  lootOnDespawn: {fileID: 11400000, guid: 4448344eea08d8a4887e16cb85e387cc, type: 2}
-  toTileWhenDestroyed: {fileID: 11400000, guid: ae01776fef41f7c459bc221935b0651d,
-    type: 2}
+  lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
@@ -58,4 +53,4 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  sprite: {fileID: 21300000, guid: 10623b9787a8d384b8d9825b3337ea04, type: 3}
+  sprite: {fileID: 21300000, guid: 2f1b3e8d6fb118b41889deb99ae48c0d, type: 3}

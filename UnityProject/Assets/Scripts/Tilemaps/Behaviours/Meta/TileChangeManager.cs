@@ -133,7 +133,7 @@ public class TileChangeManager : NetworkBehaviour
 		Color? color = null)
 	{
 		cellPosition.z = 0;
-		if (!metaTileMap.HasTile(cellPosition, overlayTile.LayerType)) return;
+		if (metaTileMap.HasTile(cellPosition, overlayTile.LayerType)) return;
 		cellPosition.z = -1;
 		if (IsDifferent(cellPosition, overlayTile))
 		{
