@@ -16,8 +16,6 @@ namespace Effects
 
 		private void OnEnable()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
-
 			light.Color.a = 1f;
 
 			StartCoroutine(EffectTimer());
@@ -34,6 +32,8 @@ namespace Effects
 				light.Color.a = 1 - (totalTime / time);
 				yield return WaitFor.EndOfFrame;
 			}
+			
+			if(CustomNetworkManager.IsServer == false) yield break;
 
 			Despawn.ServerSingle(gameObject);
 		}
