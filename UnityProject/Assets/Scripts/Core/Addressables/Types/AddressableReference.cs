@@ -60,11 +60,8 @@ namespace AddressableReferences
 			}
 			catch
 			{
-				if (string.IsNullOrEmpty(AssetAddress))
-				{
-					Logger.LogError("Address is null for " + AssetReference.SubObjectName);
-					return null;
-				}
+				if(!await HasValidAddress()) return null;
+
 				var AsynchronousHandle = Addressables.LoadAssetAsync<T>(AssetAddress);
 				await AsynchronousHandle.Task;
 				StoredLoadedReference = AsynchronousHandle.Result;
@@ -147,6 +144,23 @@ namespace AddressableReferences
 				Logger.Log("Not implemented yet");
 			}
 		}
+
+		/// <summary>
+		/// Validates an addressable's address to ensure it points to an addressable asset
+		/// </summary>
+		public async Task<bool> HasValidAddress()
+		{
+			var validate = Addressables.LoadResourceLocationsAsync(AssetAddress);
+			await validate.Task;
+			if (validate.Status == AsyncOperationStatus.Succeeded) {
+       			if (validate.Result.Count > 0) {
+					   return true;
+				}
+			}
+			Logger.LogError("Addressable Address is invalid: " + AssetAddress, Category.Addressables);
+			return false;
+        }
+
 		#endregion
 	}
 
