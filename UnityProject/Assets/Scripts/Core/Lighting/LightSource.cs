@@ -387,7 +387,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		//Has to be broken and have power to spark
 		if(mState != LightMountState.Broken || powerState == PowerStates.Off) return;
 
-		//10% chance to do effect and not already doing an effect
+		//25% chance to do effect and not already doing an effect
 		if(DMMath.Prob(75) || currentSparkEffect != null) return;
 
 		var worldPos = registerTile.WorldPositionServer;
