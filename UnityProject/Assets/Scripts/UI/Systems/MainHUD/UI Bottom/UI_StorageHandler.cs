@@ -49,8 +49,6 @@ public class UI_StorageHandler : MonoBehaviour
 			CloseStorageUI();
 			CurrentOpenStorage = itemStorage;
 			PopulateInventorySlots();
-			SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Rustle, PlayerManager.LocalPlayer.transform.position,
-				PlayerManager.LocalPlayer);
 		}
 	}
 
