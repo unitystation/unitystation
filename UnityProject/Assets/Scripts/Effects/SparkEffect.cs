@@ -32,7 +32,7 @@ namespace Effects
 				light.Color.a = 1 - (totalTime / time);
 				yield return WaitFor.EndOfFrame;
 			}
-			
+
 			if(CustomNetworkManager.IsServer == false) yield break;
 
 			Despawn.ServerSingle(gameObject);
