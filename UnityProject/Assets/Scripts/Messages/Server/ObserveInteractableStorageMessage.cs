@@ -39,6 +39,7 @@ public class ObserveInteractableStorageMessage : ServerMessage
 				if (slot.ItemObject && slot.ItemObject == UIManager.StorageHandler.CurrentOpenStorage?.gameObject)
 				{
 					UIManager.StorageHandler.CloseStorageUI();
+					break;
 				}
 			}
 		}
