@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 203609217757205374, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ac38f7726034e6946ab4c72f84600d91,
+        type: 2}
     - target: {fileID: 2756779714572970633, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: NutritionLevel
@@ -30,15 +36,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: cff12e9f5a603b42a9787fb37cb8ae66,
         type: 2}
+    - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
@@ -46,13 +52,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialDescription
-      value: A very colorful snowball in a paper cup.
+      propertyPath: initialName
+      value: rainbow snowcone
       objectReference: {fileID: 0}
     - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialName
-      value: rainbow snowcone
+      propertyPath: initialDescription
+      value: A very colorful snowball in a paper cup.
       objectReference: {fileID: 0}
     - target: {fileID: 6153244383172778917, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
@@ -60,10 +66,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e76a9bfd424a30546bd8baca597c130f,
         type: 3}
+    - target: {fileID: 6153244383172778917, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6197365604022048077, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
@@ -82,6 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -94,16 +115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}

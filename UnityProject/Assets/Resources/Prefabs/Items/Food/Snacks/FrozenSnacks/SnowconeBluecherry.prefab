@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 203609217757205374, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e000ca74fa513e4cbcfb08e4ee19dd0,
+        type: 2}
     - target: {fileID: 2756779714572970633, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: NutritionLevel
@@ -41,13 +47,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialDescription
-      value: Bluecherry syrup drizzled over a snowball in a paper cup, how rare!
+      propertyPath: initialName
+      value: bluecherry snowcone
       objectReference: {fileID: 0}
     - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialName
-      value: bluecherry snowcone
+      propertyPath: initialDescription
+      value: Bluecherry syrup drizzled over a snowball in a paper cup, how rare!
       objectReference: {fileID: 0}
     - target: {fileID: 6153244383172778917, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
@@ -59,6 +65,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
@@ -77,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +105,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
