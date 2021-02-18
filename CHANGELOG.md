@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/2/18: Broken lights now spark occasionally, which can start fires. by [ThatDan123](https://github.com/ThatDan123) in PR #[6053](https://github.com/unitystation/unitystation/pull/6053)
 * 2021/2/17: Fixes Plasma Generator Sound by [ThatDan123](https://github.com/ThatDan123) in PR #[6043](https://github.com/unitystation/unitystation/pull/6043)
 * 2021/2/16: Removed blob attack messages, to reduce spam by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
 * 2021/2/16: Blob now ends round after 60 seconds rather than 180 seconds when it wins by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
