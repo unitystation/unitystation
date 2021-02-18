@@ -495,13 +495,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//Respawn action for Deathmatch v 0.1.3
 
 	[Command]
-	public void CmdRespawnPlayer()
+	public void CmdRespawnPlayer(string adminID, string adminToken)
 	{
-		if (CustomNetworkManager.IsServer
-				|| PlayerList.Instance.IsAdmin(gameObject.Player())
-				|| GameManager.Instance.RespawnCurrentlyAllowed)
+		if (GameManager.Instance.RespawnCurrentlyAllowed ||
+		    PlayerList.Instance.GetAdmin(adminID, adminToken))
 		{
 			ServerRespawnPlayer();
+		}
+		else
+		{
+			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.");
 		}
 	}
 
