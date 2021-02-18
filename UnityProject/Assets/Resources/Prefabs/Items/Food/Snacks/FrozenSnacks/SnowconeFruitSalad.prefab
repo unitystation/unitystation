@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 203609217757205374, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e3205d3234f68994d95ee0c0e35c4ff5,
+        type: 2}
     - target: {fileID: 2756779714572970633, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: NutritionLevel
@@ -36,20 +42,10 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 8b43bbb6db549967ba9f96fd90713159,
         type: 2}
-    - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
@@ -58,8 +54,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: initialName
+      value: fruit salad snowcone
       objectReference: {fileID: 0}
     - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
@@ -67,21 +78,26 @@ PrefabInstance:
       value: A delightful mix of citrus syrups drizzled over a snowball in a paper
         cup.
       objectReference: {fileID: 0}
-    - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: initialName
-      value: fruit salad snowcone
-      objectReference: {fileID: 0}
     - target: {fileID: 6153244383172778917, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: f06cd769a4b26284ea675f17a3b9dc6b,
         type: 3}
+    - target: {fileID: 6153244383172778917, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6197365604022048077, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
@@ -100,6 +116,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -112,16 +133,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}

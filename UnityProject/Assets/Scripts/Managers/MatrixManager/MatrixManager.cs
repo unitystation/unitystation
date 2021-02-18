@@ -34,18 +34,7 @@ public partial class MatrixManager : MonoBehaviour
 {
 	private static MatrixManager matrixManager;
 
-	public static MatrixManager Instance
-	{
-		get
-		{
-			if (matrixManager == null)
-			{
-				matrixManager = FindObjectOfType<MatrixManager>();
-			}
-
-			return matrixManager;
-		}
-	}
+	public static MatrixManager Instance => matrixManager;
 
 	private static LayerMask tileDmgMask;
 
@@ -77,6 +66,20 @@ public partial class MatrixManager : MonoBehaviour
 		IsInitialized = true;
 
 		EventManager.Broadcast(EVENT.MatrixManagerInit);
+	}
+
+	private void Awake()
+	{
+		if (matrixManager == null)
+		{
+			matrixManager = this;
+		}
+		else
+		{
+			if (Application.isEditor && !Application.isPlaying) return;
+
+			Destroy(this);
+		}
 	}
 
 	private void OnEnable()
@@ -681,14 +684,18 @@ public partial class MatrixManager : MonoBehaviour
 	/// Picks best matching matrix at provided coords and releases reagents to that tile.
 	/// <inheritdoc cref="MetaDataLayer.ReagentReact"/>
 	/// </summary>
-	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos)
+	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos, MatrixInfo matrixInfo = null)
 	{
 		if (CustomNetworkManager.IsServer == false)
 		{
 			return;
 		}
 
-		var matrixInfo = AtPoint(worldPos, true);
+		if (matrixInfo is null)
+		{
+			matrixInfo = AtPoint(worldPos, true);
+		}
+
 		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
 		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos);
 	}
@@ -837,9 +844,12 @@ public partial class MatrixManager : MonoBehaviour
 	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
-		for (var i = 0; i < Instance.ActiveMatrices.Count; i++)
+		var activeMatrices = Instance.ActiveMatrices;
+		for (var i = 0; i < activeMatrices.Count; i++)
 		{
-			t.AddRange(Get(i).Matrix.Get<T>(WorldToLocalInt(worldPos, i), isServer));
+			var matrixInfo = activeMatrices[i];
+			var position = WorldToLocalInt(worldPos, matrixInfo);
+			t.AddRange(matrixInfo.Matrix.Get<T>(position, isServer));
 		}
 
 		return t;
@@ -1126,7 +1136,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{
 		//Invalid matrix info provided
-		if (matrix == null || matrix.Equals(MatrixInfo.Invalid) || worldPos == TransformState.HiddenPos)
+		if (matrix is null || matrix.Equals(MatrixInfo.Invalid) || worldPos == TransformState.HiddenPos)
 		{
 			return TransformState.HiddenPos;
 		}

@@ -2,6 +2,15 @@
 ---
 
 
+* 2021/2/17: Fixes Plasma Generator Sound by [ThatDan123](https://github.com/ThatDan123) in PR #[6043](https://github.com/unitystation/unitystation/pull/6043)
+* 2021/2/16: Removed blob attack messages, to reduce spam by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
+* 2021/2/16: Blob now ends round after 60 seconds rather than 180 seconds when it wins by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
+* 2021/2/16: Fixed blob sound by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
+* 2021/2/16: Switched detect objects to use physic2D instead by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
+* 2021/2/16: Fixed blob spawning with multiple start scripts by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)
+* 2021/2/15: Removes old blob event script by [ThatDan123](https://github.com/ThatDan123) in PR #[6034](https://github.com/unitystation/unitystation/pull/6034)
+* 2021/2/15: Fixes job ban on ghost role not working when occupation isnt set by [ThatDan123](https://github.com/ThatDan123) in PR #[6034](https://github.com/unitystation/unitystation/pull/6034)
+* 2021/2/15: Moves Blob and Fugitive spawning to antag tab in event manager by [ThatDan123](https://github.com/ThatDan123) in PR #[6034](https://github.com/unitystation/unitystation/pull/6034)
 * 2021/2/12: Player lights now update sprite on player character where relevant (e.g. hardhat headlamps). by [NoooneyDude](https://github.com/NoooneyDude) in PR #[6002](https://github.com/unitystation/unitystation/pull/6002)
 * 2021/2/12: Tesla now moves through walls and does correct damage by [ThatDan123](https://github.com/ThatDan123) in PR #[6010](https://github.com/unitystation/unitystation/pull/6010)
 * 2021/2/12: Fixed escape and close button not working on menu by [ThatDan123](https://github.com/ThatDan123) in PR #[6010](https://github.com/unitystation/unitystation/pull/6010)

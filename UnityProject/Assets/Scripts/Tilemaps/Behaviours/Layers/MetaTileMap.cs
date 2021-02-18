@@ -261,11 +261,13 @@ namespace TileManagement
 						   excludeTiles, ignoreObjects, isReach: isReach) &&
 					   IsPassableAtOrthogonal(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach: isReach);
 
+				if (isPassableIfHorizontalFirst) return true;
+
 				bool isPassableIfVerticalFirst = IsPassableAtOrthogonal(origin, toY, isServer, collisionType, inclPlayers, context, diagonalExcludes,
 						   excludeTiles, ignoreObjects, isReach: isReach) &&
 					   IsPassableAtOrthogonal(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles, ignoreObjects, isReach: isReach);
 
-				return isPassableIfHorizontalFirst || isPassableIfVerticalFirst;
+				return isPassableIfVerticalFirst;
 			}
 
 		}
@@ -283,23 +285,25 @@ namespace TileManagement
 			TileLocation TileLcation = null;
 			for (var i = 0; i < SolidLayersValues.Length; i++)
 			{
+				var solidLayer = SolidLayersValues[i];
+
 				// Skip floor & base collisions if this is not a shuttle
 				if (collisionType != CollisionType.Shuttle &&
-				    (SolidLayersValues[i].LayerType == LayerType.Floors ||
-				     SolidLayersValues[i].LayerType == LayerType.Base))
+				    (solidLayer.LayerType == LayerType.Floors ||
+				     solidLayer.LayerType == LayerType.Base))
 				{
 					continue;
 				}
 
 				// Skip if the current tested layer is being excluded.
-				if (excludeLayers != null && excludeLayers.Contains(SolidLayersValues[i].LayerType))
+				if (excludeLayers != null && excludeLayers.Contains(solidLayer.LayerType))
 				{
 					continue;
 				}
 
 				lock (PresentTiles)
 				{
-					PresentTiles[SolidLayersValues[i]].TryGetValue(to, out TileLcation);
+					PresentTiles[solidLayer].TryGetValue(to, out TileLcation);
 				}
 
 				if (TileLcation?.Tile == null) continue;

@@ -188,7 +188,6 @@ public class SoundManager : MonoBehaviour
 			{
 				continue;
 			}
-
 			sound.Value.AudioSource.Stop();
 		}
 
@@ -227,23 +226,19 @@ public class SoundManager : MonoBehaviour
 		string soundSpawnToken)
 	{
 		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress) &&
-		    NonplayingSounds[addressableAudioSource.AssetAddress].Count > 0)
+			NonplayingSounds[addressableAudioSource.AssetAddress].Count > 0)
 		{
 			var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
 			NonplayingSounds[addressableAudioSource.AssetAddress].RemoveAt(0);
-			ToReturn.Token = soundSpawnToken;
-			SoundSpawns.Add(soundSpawnToken, ToReturn);
+			if (soundSpawnToken != "") //non addressables dont have a token
+			{
+				ToReturn.Token = soundSpawnToken;
+				SoundSpawns.Add(soundSpawnToken, ToReturn);
+			}
 			return ToReturn;
 		}
 
 		return GetNewSoundSpawn(addressableAudioSource, audioSource, soundSpawnToken);
-	}
-
-	public static void PlayNetworked(string addressableAudioSources, float pitch = -1,
-		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSources);
 	}
 
 
@@ -252,8 +247,8 @@ public class SoundManager : MonoBehaviour
 	/// If more than one sound is specified, one will be picked at random.
 	/// </summary>
 	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
-	public static async Task PlayNetworked(AddressableAudioSource addressableAudioSources, float pitch = -1,
-		bool polyphonic = false,
+	public static async Task PlayNetworked(AddressableAudioSource addressableAudioSources,
+		float pitch = 0, bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		if (addressableAudioSources == null || addressableAudioSources.AssetAddress == string.Empty)
@@ -273,44 +268,19 @@ public class SoundManager : MonoBehaviour
 	/// If more than one sound is specified, one will be picked at random.
 	/// </summary>
 	/// <param name="addressableAudioSources">List of sounds to be played.  If more than one sound is specified, one will be picked at random</param>
-	public static async Task PlayNetworked(List<AddressableAudioSource> addressableAudioSources, float pitch = -1,
-		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+	public static async Task PlayNetworked(List<AddressableAudioSource> addressableAudioSources,
+		float pitch = 0, bool polyphonic = false, bool shakeGround = false,
+		byte shakeIntensity = 64, int shakeRange = 30)
 	{
-		ShakeParameters shakeParameters = null;
-		if (shakeGround == true)
-		{
-			shakeParameters = new ShakeParameters
-			{
-				ShakeGround = shakeGround,
-				ShakeIntensity = shakeIntensity,
-				ShakeRange = shakeRange
-			};
-		}
+		ShakeParameters shakeParameters = new ShakeParameters(shakeGround, shakeIntensity, shakeRange);
 
-		AudioSourceParameters audioSourceParameters = null;
-		if (pitch > 0)
-		{
-			audioSourceParameters = new AudioSourceParameters
-			{
-				Pitch = pitch
-			};
-		}
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
+		audioSourceParameters.Pitch = pitch;
 
 		AddressableAudioSource addressableAudioSource =
 			await GetAddressableAudioSourceFromCache(addressableAudioSources);
 		PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters,
 			audioSourceParameters);
-	}
-
-
-	public static string PlayNetworkedAtPos(string addressableAudioSource, Vector3 worldPos,
-		AudioSourceParameters audioSourceParameters,
-		bool polyphonic = false, bool Global = true, GameObject sourceObj = null,
-		ShakeParameters shakeParameters = null)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSource);
-		return "";
 	}
 
 	/// <summary>
@@ -327,7 +297,7 @@ public class SoundManager : MonoBehaviour
 	public static Task<string> PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		AudioSourceParameters audioSourceParameters,
 		bool polyphonic = false, bool Global = true, GameObject sourceObj = null,
-		ShakeParameters shakeParameters = null)
+		ShakeParameters shakeParameters = new ShakeParameters())
 	{
 		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
 		{
@@ -355,7 +325,7 @@ public class SoundManager : MonoBehaviour
 	public static async Task<string> PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources,
 		Vector3 worldPos, AudioSourceParameters audioSourceParameters,
 		bool polyphonic = false, bool Global = true, GameObject sourceObj = null,
-		ShakeParameters shakeParameters = null)
+		ShakeParameters shakeParameters = new ShakeParameters())
 	{
 		AddressableAudioSource addressableAudioSource =
 			await GetAddressableAudioSourceFromCache(addressableAudioSources);
@@ -373,7 +343,7 @@ public class SoundManager : MonoBehaviour
 	}
 
 
-	public static void PlayNetworkedAtPos(string addressableAudioSource, Vector3 worldPos, float pitch = -1,
+	public static void PlayNetworkedAtPos(string addressableAudioSource, Vector3 worldPos, float pitch = 0,
 		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30,
 		bool global = true, GameObject sourceObj = null)
 	{
@@ -388,14 +358,14 @@ public class SoundManager : MonoBehaviour
 	/// If more than one is specified, one will be picked at random.
 	/// <param name="addressableAudioSource">The sound to be played.</param>
 	public static void PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
-		float pitch = -1,
+		float pitch = 0,
 		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30,
 		bool global = true, GameObject sourceObj = null)
 	{
 		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
 		{
 			Logger.LogWarning(
-				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component", Category.Addressables);
 			return;
 		}
 
@@ -409,36 +379,22 @@ public class SoundManager : MonoBehaviour
 	/// If more than one is specified, one will be picked at random.
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
 	public static void PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources, Vector3 worldPos,
-		float pitch = -1,
+		float pitch = 0,
 		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30,
 		bool global = true, GameObject sourceObj = null)
 	{
-		ShakeParameters shakeParameters = null;
-		if (shakeGround == true)
-		{
-			shakeParameters = new ShakeParameters
-			{
-				ShakeGround = shakeGround,
-				ShakeIntensity = shakeIntensity,
-				ShakeRange = shakeRange
-			};
-		}
+		ShakeParameters shakeParameters = new ShakeParameters(shakeGround, shakeIntensity, shakeRange);
 
-		AudioSourceParameters audioSourceParameters = null;
-		if (pitch > 0)
-		{
-			audioSourceParameters = new AudioSourceParameters
-			{
-				Pitch = pitch
-			};
-		}
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
+		audioSourceParameters.Pitch = pitch;
+
 
 		PlayNetworkedAtPos(addressableAudioSources, worldPos, audioSourceParameters, polyphonic, global, sourceObj,
 			shakeParameters);
 	}
 
 	public static async Task PlayNetworkedForPlayer(GameObject recipient,
-		AddressableAudioSource addressableAudioSources, float? pitch = null,
+		AddressableAudioSource addressableAudioSources, float pitch = 0,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
@@ -462,42 +418,26 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="recipient">The player that will receive the sound</param>
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
-	/// <param name="pitch">The pitch variation of the sound.  Null for default pitch.</param>
+	/// <param name="pitch">The pitch variation of the sound.  -1 for default pitch.</param>
 	public static async Task PlayNetworkedForPlayer(GameObject recipient,
-		List<AddressableAudioSource> addressableAudioSources, float? pitch = null,
+		List<AddressableAudioSource> addressableAudioSources, float pitch = 0,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
-		ShakeParameters shakeParameters = null;
-		if (shakeGround == true)
-		{
-			shakeParameters = new ShakeParameters
-			{
-				ShakeGround = shakeGround,
-				ShakeIntensity = shakeIntensity,
-				ShakeRange = shakeRange
-			};
-		}
+		ShakeParameters shakeParameters = new ShakeParameters(shakeGround, shakeIntensity, shakeRange);
 
-		AudioSourceParameters audioSourceParameters = null;
-		if (pitch != null)
-		{
-			audioSourceParameters = new AudioSourceParameters
-			{
-				Pitch = pitch
-			};
-		}
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
+		audioSourceParameters.Pitch = pitch;
 
 		AddressableAudioSource addressableAudioSource =
 			await GetAddressableAudioSourceFromCache(addressableAudioSources);
-		PlaySoundMessage.Send(recipient, addressableAudioSource, TransformState.HiddenPos, polyphonic, sourceObj,
-			shakeParameters, audioSourceParameters);
+
+		PlaySoundMessage.Send(recipient, addressableAudioSource, TransformState.HiddenPos, polyphonic,
+			sourceObj, shakeParameters, audioSourceParameters);
 	}
 
 	public static async Task PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos,
-		string addressableAudioSources,
-		float pitch = -1,
-		bool polyphonic = false,
+		string addressableAudioSources, float pitch = 0, bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
 		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSources);
@@ -511,30 +451,13 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
 	public static async Task PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos,
-		List<AddressableAudioSource> addressableAudioSources,
-		float pitch = -1,
-		bool polyphonic = false,
+		List<AddressableAudioSource> addressableAudioSources, float pitch = 0,	bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
-		ShakeParameters shakeParameters = null;
-		if (shakeGround)
-		{
-			shakeParameters = new ShakeParameters
-			{
-				ShakeGround = shakeGround,
-				ShakeIntensity = shakeIntensity,
-				ShakeRange = shakeRange
-			};
-		}
+		ShakeParameters shakeParameters = new ShakeParameters(shakeGround, shakeIntensity, shakeRange);
 
-		AudioSourceParameters audioSourceParameters = null;
-		if (pitch > 0)
-		{
-			audioSourceParameters = new AudioSourceParameters
-			{
-				Pitch = pitch
-			};
-		}
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
+		audioSourceParameters.Pitch = pitch;
 
 		AddressableAudioSource addressableAudioSource =
 			await GetAddressableAudioSourceFromCache(addressableAudioSources);
@@ -581,13 +504,12 @@ public class SoundManager : MonoBehaviour
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 
-		Instance.PlaySource(soundSpawn, polyphonic,
-			forceMixer: audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
+		Instance.PlaySource(soundSpawn, polyphonic, false, audioSourceParameters.MixerType);
 	}
 
 
 	public static async Task Play(AddressableAudioSource addressableAudioSources, string soundSpawnToken,
-		float volume, float pitch = -1, float time = 0, bool oneShot = false,
+		float volume, float pitch = 0, float time = 0, bool oneShot = false,
 		float pan = 0)
 	{
 		if (addressableAudioSources.AssetAddress == string.Empty)
@@ -609,7 +531,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken,
-		float volume, float pitch = -1, float time = 0, bool oneShot = false,
+		float volume, float pitch = 0, float time = 0, bool oneShot = false,
 		float pan = 0)
 	{
 		AddressableAudioSource addressableAudioSource =
@@ -672,30 +594,16 @@ public class SoundManager : MonoBehaviour
 		Instance.PlaySource(sound, polyphonic, global);
 	}
 
-	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true, bool forceMixer = false)
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true, MixerType mixerType = MixerType.Master)
 	{
-		if (!forceMixer)
-		{
-			if (!Global
-			    && PlayerManager.LocalPlayer != null)
+		if (!Global
+		    && PlayerManager.LocalPlayer != null
+		    && (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
+			    LayerTypeSelection.Walls, layerMask, source.transform.position.To2Int().To3Int())
+			    .ItHit))
 			{
-				if ((Vector2.Distance(PlayerManager.LocalPlayer.TileWorldPosition(),source.RegisterTile.WorldPositionClient.To2Int()) < 50))
-				{
-					if (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
-							LayerTypeSelection.Walls, layerMask,
-							source.RegisterTile.WorldPositionClient.To2Int().To3Int())
-						.ItHit)
-					{
-						source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
-					}
-				}
-				else
-				{
-					source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
-				}
+				source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
 			}
-		}
-
 		if (polyphonic)
 		{
 			source.PlayOneShot();
@@ -708,10 +616,8 @@ public class SoundManager : MonoBehaviour
 
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	public static void PlayAtPosition(AddressableAudioSource addressableAudioSource, string soundSpawnToken,
-		Vector3 worldPos, GameObject sourceObj,
-		bool polyphonic = false,
-		bool isGlobal = false,
-		AudioSourceParameters audioSourceParameters = null)
+		Vector3 worldPos, GameObject sourceObj,	bool polyphonic = false, bool isGlobal = false,
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		if (addressableAudioSource.AssetAddress == string.Empty)
 		{
@@ -734,10 +640,8 @@ public class SoundManager : MonoBehaviour
 	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	public static void PlayAtPosition(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken,
-		Vector3 worldPos, GameObject sourceObj,
-		bool polyphonic = false,
-		bool isGlobal = false,
-		AudioSourceParameters audioSourceParameters = null)
+		Vector3 worldPos, GameObject sourceObj,	bool polyphonic = false, bool isGlobal = false,
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		var netId = NetId.Empty;
 		if (sourceObj != null)
@@ -761,7 +665,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	public static async Task PlayAtPosition(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		GameObject gameObject = null, string soundSpawnToken = "", bool polyphonic = false,
-		bool isGlobal = false, AudioSourceParameters audioSourceParameters = null)
+		bool isGlobal = false, AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		uint netId = NetId.Empty;
 		if (gameObject != null)
@@ -788,7 +692,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The token that identifies the SoundSpawn uniquely among the server and all clients </param>
 	public static async Task PlayAtPosition(List<AddressableAudioSource> addressableAudioSources,
 		string soundSpawnToken, Vector3 worldPos, bool polyphonic = false,
-		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = null)
+		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		AddressableAudioSource addressableAudioSource =
 			await GetAddressableAudioSourceFromCache(addressableAudioSources);
@@ -816,61 +720,115 @@ public class SoundManager : MonoBehaviour
 			soundSpawn.transform.position = worldPos;
 		}
 
-		Instance.PlaySource(soundSpawn, polyphonic, isGlobal,
-			audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
+		Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
 	}
 
+	/// <Summary>
+	/// Used to apply incomplete AudioSourceParameters to a Sound, such as changing pitch or volume.
+	/// As a Struct, AudioSourceParameters initializes zeroed out, so to prevent sounds from getting
+	/// messed up some limitations apply.  For complete control use ForceAudioSourceParameters.
+	/// </Summary>
 	private static void ApplyAudioSourceParameters(AudioSourceParameters audioSourceParameters, SoundSpawn soundSpawn)
 	{
 		AudioSource audioSource = soundSpawn.AudioSource;
 
-		if (audioSourceParameters != null)
+		//Volume can be 0 for two reasons: it is uninitialized or it is supposed to be 0.
+		//If it is supposed to be 0, IsMute should be set to true.  If its not 0, that's the value
+		//we want, otherwise no changes.
+		if(audioSourceParameters.IsMute == true)
 		{
-			if (audioSourceParameters.MixerType != MixerType.Unspecified)
-				audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master
-					? Instance.DefaultMixer
-					: Instance.MuffledMixer;
+			audioSource.volume = 0;
+		}
+		else if(audioSourceParameters.Volume > 0)
+		{
+			audioSource.volume = audioSourceParameters.Volume;
+		}
 
-			if (audioSourceParameters.Pitch != null)
-				audioSource.pitch = audioSourceParameters.Pitch.Value;
-			else
-				audioSource.pitch = 1;
+		//Pitch should never be 0.  A negative pitch plays the sound backwards.
+		if(audioSourceParameters.Pitch != 0)
+			audioSource.pitch = audioSourceParameters.Pitch;
+		else if(audioSource.pitch == 0)
+			audioSource.pitch = 1;
 
-			if (audioSourceParameters.Time != null)
-				audioSource.time = audioSourceParameters.Time.Value;
+		//The following parameters have some limitations that shouldn't really come up
+		//Note if the sound's default value for a parameter is 0, the limitation does not apply.
 
-			if (audioSourceParameters.Volume != null)
-				audioSource.volume = audioSourceParameters.Volume.Value;
+		//Cannot seek to timestamp 0 for a sound that does not start at the beginning by default
+		if(audioSourceParameters.Time != 0)
+			audioSource.time = audioSourceParameters.Time;
 
-			if (audioSourceParameters.Pan != null)
-				audioSource.panStereo = audioSourceParameters.Pan.Value;
+		//-1 is left, 0 is center, 1 is right.
+		//Cannot pan to center for sounds that are panned by default
+		if(audioSourceParameters.Pan != 0)
+			audioSource.panStereo = audioSourceParameters.Pan;
 
-			if (audioSourceParameters.SpatialBlend != null)
-				audioSource.spatialBlend = audioSourceParameters.SpatialBlend.Value;
+		//0 is 2D and ignores max/min distance, 1 is 3d and obeys them
+		//Cannot convert sounds that are 3D by default to 2D
+		if(audioSourceParameters.SpatialBlend != 0)
+			audioSource.spatialBlend = audioSourceParameters.SpatialBlend;
 
-			if (audioSourceParameters.MinDistance != null)
-				audioSource.minDistance = audioSourceParameters.MinDistance.Value;
+		//Cannot change the minimum distance for audio falloff to 0
+		if(audioSourceParameters.MinDistance != 0)
+			audioSource.minDistance = audioSourceParameters.MinDistance;
 
-			if (audioSourceParameters.MaxDistance != null)
-				audioSource.maxDistance = audioSourceParameters.MaxDistance.Value;
+		//Cannot change the max distance for falloff to 0 (why would you want that?)
+		if(audioSourceParameters.MaxDistance != 0)
+			audioSource.maxDistance = audioSourceParameters.MaxDistance;
 
-			if (audioSourceParameters.Spread != null)
-				audioSource.spread = audioSourceParameters.Spread.Value;
+		//Cannot convert non-mono sounds to mono
+		if(audioSourceParameters.Spread != 0)
+			audioSource.spread = audioSourceParameters.Spread;
 
-			switch (audioSourceParameters.VolumeRolloffType)
-			{
-				case VolumeRolloffType.EaseInAndOut:
-					audioSource.rolloffMode = AudioRolloffMode.Custom;
-					audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff,
-						AnimationCurve.EaseInOut(0, 1, 1, 0));
-					break;
-				case VolumeRolloffType.Linear:
-					audioSource.rolloffMode = AudioRolloffMode.Linear;
-					break;
-				case VolumeRolloffType.Logarithmic:
-					audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-					break;
-			}
+		audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master
+				? Instance.DefaultMixer : Instance.MuffledMixer;
+
+		switch (audioSourceParameters.VolumeRolloffType)
+		{
+			case VolumeRolloffType.EaseInAndOut:
+				audioSource.rolloffMode = AudioRolloffMode.Custom;
+				audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff,
+					AnimationCurve.EaseInOut(0, 1, 1, 0));
+				break;
+			case VolumeRolloffType.Linear:
+				audioSource.rolloffMode = AudioRolloffMode.Linear;
+				break;
+			case VolumeRolloffType.Logarithmic:
+				audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+				break;
+		}
+	}
+
+	/// <Summary>
+	/// Completely overwrites AudioSourceParameters of a Sound to any value.
+	/// Only use this if you have a known entry for all parameters, otherwise the sound will
+	/// not play properly (eg, having no entry for pitch will make the sound never start or finish)
+	/// </Summary>
+	private static void ForceAudioSourceParameters(AudioSourceParameters audioSourceParameters, SoundSpawn soundSpawn){
+		AudioSource audioSource = soundSpawn.AudioSource;
+
+		audioSource.volume = audioSourceParameters.Volume;
+		audioSource.pitch = audioSourceParameters.Pitch;
+		audioSource.time = audioSourceParameters.Time;
+		audioSource.panStereo = audioSourceParameters.Pan;
+		audioSource.spatialBlend = audioSourceParameters.SpatialBlend;
+		audioSource.minDistance = audioSourceParameters.MinDistance;
+		audioSource.maxDistance = audioSourceParameters.MaxDistance;
+		audioSource.spread = audioSourceParameters.Spread;
+		audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master
+			? Instance.DefaultMixer : Instance.MuffledMixer;
+		switch (audioSourceParameters.VolumeRolloffType)
+		{
+			case VolumeRolloffType.EaseInAndOut:
+				audioSource.rolloffMode = AudioRolloffMode.Custom;
+				audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff,
+					AnimationCurve.EaseInOut(0, 1, 1, 0));
+				break;
+			case VolumeRolloffType.Linear:
+				audioSource.rolloffMode = AudioRolloffMode.Linear;
+				break;
+			case VolumeRolloffType.Logarithmic:
+				audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+				break;
 		}
 	}
 

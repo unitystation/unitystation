@@ -192,7 +192,7 @@ namespace Systems.MobAIs
 				}
 
 				// Send the sound to all nearby clients
-				SoundManager.PlayNetworkedAtPos(eatFoodSound, transform.position, null, false, false, gameObject);
+				SoundManager.PlayNetworkedAtPos(eatFoodSound, transform.position, sourceObj: gameObject);
 
 				Despawn.ServerSingle(food.gameObject);
 				FoodEatenEvent?.Invoke();

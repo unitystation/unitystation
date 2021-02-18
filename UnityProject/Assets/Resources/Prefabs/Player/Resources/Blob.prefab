@@ -118,6 +118,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerMove: {fileID: 3920682320074774566}
+  playerScript: {fileID: 0}
+  Step: 0
 --- !u!114 &843330595842111116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +226,7 @@ MonoBehaviour:
   syncInterval: 0.05
   Outbreak5:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+    AssetAddress: Assets/Prefabs/AI/Outbreak5.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -495,6 +497,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: c1b2c47bfe18ab548824bbdb5158f2bf, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []

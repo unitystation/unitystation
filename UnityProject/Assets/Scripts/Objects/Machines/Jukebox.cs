@@ -55,6 +55,8 @@ namespace Objects
 		[Range(0, 360)]
 		private float Spread = 0;
 
+		private AudioSourceParameters audioSourceParameters;
+
 		[SerializeField]
 		private AudioClipsArray adminMusic = null;
 
@@ -177,6 +179,9 @@ namespace Objects
 			registerTile = GetComponent<RegisterTile>();
 			integrity = GetComponent<Integrity>();
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
+
+			audioSourceParameters =	new AudioSourceParameters(Volume, 0, 0, 0, 1, Spread, 
+				MinSoundDistance, MaxSoundDistance, MixerType.Muffled, VolumeRolloffType.EaseInAndOut, false);
 		}
 
 		private void Update()
@@ -199,19 +204,6 @@ namespace Objects
 				SoundManager.StopNetworked(guid);
 				IsPlaying = true;
 				spriteHandler.SetSpriteSO(SpritePlaying);
-
-				AudioSourceParameters audioSourceParameters = new AudioSourceParameters
-				{
-					MixerType = MixerType.Muffled,
-					SpatialBlend = 1, // 3D, we need it to attenuate with distance
-					Volume = Volume,
-					MinDistance = MinSoundDistance,
-					MaxDistance = MaxSoundDistance,
-					VolumeRolloffType = VolumeRolloffType.EaseInAndOut,
-					Spread = Spread
-
-				};
-
 				guid  = await SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
 				startPlayTime = Time.time;
 				UpdateGUI();
@@ -268,12 +260,10 @@ namespace Objects
 
 		public void VolumeChange(float newVolume)
 		{
-			Volume = newVolume;
+			audioSourceParameters.Volume = newVolume;
 
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters
-			{
-				Volume = newVolume,
-			};
+			if( newVolume == 0)
+				audioSourceParameters.IsMute = true;
 
 			ChangeAudioSourceParametersMessage.SendToAll(guid, audioSourceParameters);
 		}
