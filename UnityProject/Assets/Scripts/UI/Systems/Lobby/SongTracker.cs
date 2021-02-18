@@ -71,9 +71,7 @@ namespace Audio.Containers
 		public void StartPlayingRandomPlaylist()
 		{
 			if (CustomNetworkManager.IsHeadless) return;
-
 			PlayingRandomPlayList = true;
-			PlayRandomTrack();
 			ToggleUI(true);
 		}
 
@@ -134,15 +132,18 @@ namespace Audio.Containers
 			if (CustomNetworkManager.IsHeadless) return;
 
 			var songInfo = await MusicManager.Instance.PlayRandomTrack();
-			trackName.text = songInfo[0];
-			// If the name of the artist is included, add it as well
-			if (songInfo.Length == 2)
-			{
-				artist.text = songInfo[1];
-			}
-			else
-			{
-				artist.text = "";
+
+			if(songInfo != null){
+				trackName.text = songInfo[0];
+				// If the name of the artist is included, add it as well
+				if (songInfo.Length == 2)
+				{
+					artist.text = songInfo[1];
+				}
+				else
+				{
+					artist.text = "";
+				}
 			}
 		}
 

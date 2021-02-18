@@ -80,6 +80,11 @@ namespace Audio.Containers
 			StopMusic();
 			if (currentLobbyAudioSource == null) Init();
 			var audioSource = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioClips.GetRandomClip()});
+			if(audioSource == null)
+			{
+				Logger.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Addressables);
+				return null;
+			}
 			currentLobbyAudioSource.clip = audioSource.AudioSource.clip;
 			currentLobbyAudioSource.mute = isMusicMute;
 			currentLobbyAudioSource.volume = Instance.MusicVolume;
@@ -111,7 +116,7 @@ namespace Audio.Containers
 		{
 			if (Instance.currentLobbyAudioSource != null
 			    && Instance.currentLobbyAudioSource.isPlaying
-			    || !(SunVox.sv_end_of_song((int) Slot.Music) == 1))
+			    || (SunVox.sv_end_of_song((int) Slot.Music) != 0))
 			{
 				return true;
 			}

@@ -110,15 +110,18 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Add an addressable audio source to the common source pool.
-	/// Caching it and loading it in RAM in the same process.
+	/// Get a fully loaded addressableAudioSource from the loaded cache.  This ensures that everything is ready to use.
+	/// If more than one addressableAudioSource is provided, one will be picked at random.
 	/// </summary>
-	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, a single one will be picked at random</param>
-	/// <returns>The addressable audio source with it's component loaded</returns>
-	private static async Task<AddressableAudioSource> EnsureAddressableAudioSourceFromCache(
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
+	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(
 		List<AddressableAudioSource> addressableAudioSources)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
+
+		if(await addressableAudioSource.HasValidAddress() == false) return null;
+		
 		AddressableAudioSource addressableAudioSourceFromCache = null;
 		lock (Instance.SoundsLibrary)
 		{
@@ -132,42 +135,28 @@ public class SoundManager : MonoBehaviour
 			{
 				Instance.SoundsLibrary.Add(addressableAudioSource);
 			}
+			addressableAudioSourceFromCache = addressableAudioSource;
 		}
 
-		// Ensure it's loaded and valid
-		AudioSource audioSource;
-		GameObject gameObject = await addressableAudioSource.Load();
+		GameObject gameObject = await addressableAudioSourceFromCache.Load();
 
 		if (gameObject == null)
 		{
 			Logger.LogError(
-				$"{addressableAudioSource.AudioSource.name} in SoundManager failed to load from address: {addressableAudioSource.AssetAddress}",
+				$"AddressableAudioSource in SoundManager failed to load from address: {addressableAudioSourceFromCache.AssetAddress}",
 				Category.Addressables);
 			return null;
 		}
 
-		if (!gameObject.TryGetComponent(out audioSource))
+		if (!gameObject.TryGetComponent(out AudioSource audioSource))
 		{
 			Logger.LogError(
-				$"AddressableAudioSource in SoundManager doesn't contain an AudioSource: {addressableAudioSource.AssetAddress}",
+				$"AddressableAudioSource in SoundManager doesn't contain an AudioSource: {addressableAudioSourceFromCache.AssetAddress}",
 				Category.Addressables);
 			return null;
 		}
 
-		return addressableAudioSource;
-	}
-
-	/// <summary>
-	/// Get a fully loaded addressableAudioSource from the loaded cache.  This ensures that everything is ready to use.
-	/// If more than one addressableAudioSource is provided, one will be picked at random.
-	/// </summary>
-	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
-	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
-	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(
-		List<AddressableAudioSource> addressableAudioSources)
-	{
-		var addressableAudioSource = await EnsureAddressableAudioSourceFromCache(addressableAudioSources);
-		return addressableAudioSource;
+		return addressableAudioSourceFromCache;
 	}
 
 	private void OnEnable()
