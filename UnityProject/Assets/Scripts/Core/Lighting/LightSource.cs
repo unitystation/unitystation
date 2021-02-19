@@ -409,6 +409,8 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void OnDamageReceived(DamageInfo arg0)
 	{
+		if(CustomNetworkManager.IsServer == false) return;
+
 		CheckIntegrityState();
 	}
 
