@@ -73,12 +73,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private float AddDamage(float damage, AttackType attackType, MetaDataNode data,
 		BasicTile basicTile, Vector3 worldPosition)
 	{
-		if (basicTile.indestructible)
+		if (basicTile.indestructible || damage < basicTile.damageDeflection)
 		{
 			return 0;
 		}
 
-		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage < basicTile.damageDeflection? 0: damage, attackType));
+		damage = basicTile.Armor.GetDamage(damage, attackType);
+
+		data.AddTileDamage(Layer.LayerType, damage);
 
 		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
 
