@@ -18,22 +18,11 @@ namespace Pipes
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
 
-
-		public override void Start()
-		{
-			pipeData.PipeAction = new MonoActions();
-			base.Start();
-		}
-
-		private void Awake()
-		{
-			registerTile = GetComponent<RegisterTile>();
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
+		public override void OnSpawnServer(SpawnInfo info)
 		{
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+			base.OnSpawnServer(info);
 		}
 
 		public override void TickUpdate()

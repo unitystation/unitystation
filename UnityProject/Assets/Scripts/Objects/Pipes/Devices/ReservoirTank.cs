@@ -11,11 +11,11 @@ namespace Pipes
 		public Chemistry.Reagent Water;
 		public ReagentContainer Container;
 
-		public override void Start()
+		public override void OnSpawnServer(SpawnInfo info)
 		{
 			pipeData.PipeAction = new ReservoirAction();
 			pipeData.GetMixAndVolume.GetReagentMix().Add(Water, 1000);
-			base.Start();
+			base.OnSpawnServer(info);
 		}
 
 		public override bool WillInteract(HandApply interaction, NetworkSide side )
