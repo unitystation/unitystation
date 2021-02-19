@@ -93,20 +93,16 @@ namespace Objects.Wallmounts
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			//this validation is only done client side for their convenience - they can't
-			//press button while it's animating.
-			if (side == NetworkSide.Client)
-			{
-				if (buttonCoolDown) return false;
-				buttonCoolDown = true;
-				StartCoroutine(CoolDown());
-			}
-
 			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (buttonCoolDown)
+				return;
+			buttonCoolDown = true;
+			StartCoroutine(CoolDown());
+
 			if (accessRestrictions != null && restricted)
 			{
 				if (!accessRestrictions.CheckAccess(interaction.Performer))
