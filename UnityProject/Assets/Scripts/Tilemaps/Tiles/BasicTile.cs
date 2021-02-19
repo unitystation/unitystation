@@ -117,7 +117,7 @@ public abstract class BasicTile : LayerTile
 
 	public LayerTile ToTileWhenDestroyed => toTileWhenDestroyed;
 
-	[Tooltip("What object to spawn when it's deconstructed or destroyed.")] [SerializeField]
+	[Tooltip("What object to spawn when it's destroyed.")] [SerializeField]
 	private SpawnableList spawnOnDestroy = null;
 
 	public SpawnableList SpawnOnDestroy => spawnOnDestroy;
