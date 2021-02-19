@@ -237,7 +237,10 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 			if (IsGhost && !IsPlayerSemiGhost)
 			{
-				UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
+				if (PlayerList.Instance.IsClientAdmin)
+				{
+					UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
+				}
 				//stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
