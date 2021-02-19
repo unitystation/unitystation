@@ -78,7 +78,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			return 0;
 		}
 
-		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage < basicTile.damageDeflection? 0: damage, attackType));
+		var damageTaken = basicTile.Armor.GetDamage(damage < basicTile.damageDeflection ? 0 : damage, attackType);
+
+		data.AddTileDamage(Layer.LayerType, damageTaken);
 
 		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
 
@@ -91,9 +93,29 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
 
 			//Add new tile if needed
+			//TODO change floors to using overlays, but generic overlay will need to be sprited
 			if (basicTile.ToTileWhenDestroyed != null)
 			{
-				tileChangeManager.UpdateTile(data.Position, basicTile.ToTileWhenDestroyed);
+				var damageLeft = totalDamageTaken - basicTile.MaxHealth;
+				var tile = basicTile.ToTileWhenDestroyed as BasicTile;
+
+				while (damageLeft > 0 && tile != null)
+				{
+					if (tile.MaxHealth <= damageLeft)
+					{
+						damageLeft -= tile.MaxHealth;
+						tile = tile.ToTileWhenDestroyed as BasicTile;
+					}
+					else
+					{
+						//Atm we just set remaining damage to 0, instead of absorbing it for the new tile
+						damageLeft = 0;
+						tileChangeManager.UpdateTile(data.Position, tile);
+						break;
+					}
+				}
+
+				damageTaken = damageLeft;
 			}
 
 			if (basicTile.SpawnOnDestroy != null)
@@ -116,26 +138,18 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 					}
 				}
 			}
+
+			//All the damage was absorbed, none left to return for next layer
+			damageTaken = 0;
 		}
 
-		return CalculateAbsorbDamaged(attackType,data,basicTile);
-	}
-
-	private float CalculateAbsorbDamaged(AttackType attackType, MetaDataNode data, BasicTile basicTile)
-	{
-		var damage = basicTile.MaxHealth - data.GetTileDamage(Layer.LayerType);
-
-		if (basicTile.MaxHealth < damage)
+		if (basicTile.MaxHealth < basicTile.MaxHealth - totalDamageTaken)
 		{
 			data.ResetDamage(Layer.LayerType);
 		}
 
-		if (basicTile.Armor.GetRatingValue(attackType) > 0 && damage > 0)
-		{
-			return damage  / basicTile.Armor.GetRatingValue(attackType);
-		}
-
-		return 0;
+		//Return how much damage is left
+		return damageTaken;
 	}
 
 	public float Integrity(Vector3Int pos)
