@@ -331,16 +331,6 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-
-	public static void PlayNetworkedAtPos(string addressableAudioSource, Vector3 worldPos, float pitch = 0,
-		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30,
-		bool global = true, GameObject sourceObj = null)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSource);
-		return;
-	}
-
-
 	/// <summary>
 	/// Play sound at given position for all clients.
 	/// </summary>
@@ -426,10 +416,19 @@ public class SoundManager : MonoBehaviour
 	}
 
 	public static async Task PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos,
-		string addressableAudioSources, float pitch = 0, bool polyphonic = false,
+		AddressableAudioSource addressableAudioSources, float pitch = 0, bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSources);
+		if (addressableAudioSources == null || addressableAudioSources.AssetAddress == string.Empty)
+		{
+			Logger.LogWarning(
+				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
+			return;
+		}
+
+		var Toplay = new List<AddressableAudioSource>();
+		Toplay.Add(addressableAudioSources);
+		PlayNetworkedForPlayerAtPos(recipient, worldPos, Toplay, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, sourceObj);
 		return;
 	}
 
