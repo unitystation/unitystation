@@ -82,7 +82,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		data.AddTileDamage(Layer.LayerType, damageTaken);
 
-		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+		if(basicTile.SoundOnHit.AssetAddress != null)
+			SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
 
 		var totalDamageTaken = data.GetTileDamage(Layer.LayerType);
 
