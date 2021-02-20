@@ -117,7 +117,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			temperature = 293.15f;
 		}
 
-		if (livingHealthBehaviour.OverallHealth >= HealthThreshold.SoftCrit)
+		if (livingHealthBehaviour.OverallHealth >= livingHealthBehaviour.SOFTCRIT_THRESHOLD)
 		{
 			if (Breathe(node))
 			{
