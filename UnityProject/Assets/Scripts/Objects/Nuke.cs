@@ -83,14 +83,10 @@ namespace Objects.Command
 			if (SubSceneManager.Instance.SyndicateScene == gameObject.scene)
 			{
 				nukeCode = AntagManager.SyndiNukeCode;
-				name = name + " - " + nukeCode.ToString();
-				Debug.Log($"aran debug code SYNDIE {nukeCode}");
 			}
 			else
 			{
 				nukeCode = CodeGenerator();
-				name = name + " - " + nukeCode.ToString();
-				Debug.Log($"aran debug code is generated {nukeCode}");
 			}
 		}
 
