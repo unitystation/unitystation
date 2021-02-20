@@ -207,7 +207,7 @@ namespace Items.PDA
 
 		public void SetRingtone(string newRingtone)
 		{
-			AddressableAudioSource toSend = ringtones.Find(x => x.AssetReference.Contains("/" + newRingtone + ".prefab"));
+			AddressableAudioSource toSend = ringtones.Find(x => x.AssetAddress.Contains("/" + newRingtone + ".prefab"));
 
 			if(toSend != default(AddressableAudioSource))
 				SetRingtone(toSend);
