@@ -220,7 +220,7 @@ namespace Managers
 
 			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix);
 
-			_ = SoundManager.PlayNetworked(updateTypes[type], 1f);
+			_ = SoundManager.PlayNetworked(updateTypes[type]);
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
 		}
 

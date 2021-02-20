@@ -98,7 +98,7 @@ namespace Objects.Construction
 				$"You finish assembling the {tableType} table.",
 				$"{interaction.Performer.ExpensiveName()} assembles a {tableType} table.",
 				() => SpawnTable(interaction, layerTile));
-			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.WorldPosServer(), sourceObj: gameObject);
 		}
 
 		private void Disassemble(HandApply interaction)

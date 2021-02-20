@@ -681,7 +681,7 @@ public partial class CustomNetTransform
 			var hitZone = info.Aim.Randomize();
 			creature.ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 			Chat.AddThrowHitMsgToChat(gameObject,creature.gameObject, hitZone);
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, transform.position, 1f, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, transform.position, sourceObj: gameObject);
 		}
 	}
 
