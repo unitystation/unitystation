@@ -19,7 +19,7 @@ namespace UI.Items.PDA
 
 		public void SetRingtone(string ringtone)
 		{
-			if (ringtone == "") return;
+			if (String.IsNullOrEmpty(ringtone)) return;
 
 			if (controller.PDA.IsUplinkCapable)
 			{
