@@ -14,7 +14,10 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	private List<Sprite> handCuffOverlays = new List<Sprite>();
 
 	[SerializeField] private SpriteRenderer spriteRend = null;
-	private IEnumerator uncuffCoroutine;
+
+	private StandardProgressActionConfig ProgressConfig
+		= new StandardProgressActionConfig(StandardProgressActionType.Escape);
+
 	private float healthCache;
 	private Vector3Int positionCache;
 
@@ -63,60 +66,28 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 
 	public void ServerBeginUnCuffAttempt()
 	{
-		if (uncuffCoroutine != null)
-			StopCoroutine(uncuffCoroutine);
-
 		float resistTime = GameObjectReference.GetComponent<Restraint>().ResistTime;
 		healthCache = thisPlayerScript.playerHealth.OverallHealth;
 		positionCache = thisPlayerScript.registerTile.LocalPositionServer;
-		if (!CanUncuff()) return;
 
-		uncuffCoroutine = UncuffCountDown(resistTime);
-		StartCoroutine(uncuffCoroutine);
-		Chat.AddActionMsgToChat(
-			thisPlayerScript.gameObject,
-			$"You are attempting to remove the cuffs. This takes up to {resistTime:0} seconds",
-			thisPlayerScript.playerName + " is attempting to remove their cuffs");
-	}
-
-	private IEnumerator UncuffCountDown(float resistTime)
-	{
-		float waitTime = 0f;
-		while (waitTime < resistTime)
+		void ProgressFinishAction()
 		{
-			waitTime += Time.deltaTime;
-			if (!CanUncuff())
-			{
-				yield break;
-			}
-			else
-			{
-				yield return WaitFor.EndOfFrame;
-			}
+			thisPlayerScript.playerMove.Uncuff();
+			Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
+				thisPlayerScript.playerName + " has removed their cuffs");
+
+			SoundManager.PlayNetworkedAtPos(restraintRemovalSound, thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
 		}
 
-		thisPlayerScript.playerMove.Uncuff();
-		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
-			thisPlayerScript.playerName + " has removed their cuffs");
-
-		SoundManager.PlayNetworkedAtPos(restraintRemovalSound, thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
-	}
-
-	private bool CanUncuff()
-	{
-		PlayerHealth playerHealth = thisPlayerScript.playerHealth;
-
-		if (playerHealth == null ||
-			playerHealth.ConsciousState == ConsciousState.DEAD ||
-			playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
-			playerHealth.OverallHealth != healthCache ||
-			thisPlayerScript.registerTile.IsSlippingServer ||
-			positionCache != thisPlayerScript.registerTile.LocalPositionServer)
+		var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+			.ServerStartProgress(thisPlayerScript.gameObject.RegisterTile(), resistTime, thisPlayerScript.gameObject);
+		if (bar != null)
 		{
-			return false;
+			Chat.AddActionMsgToChat(
+				thisPlayerScript.gameObject,
+				$"You are attempting to remove the cuffs. This will take {resistTime:0} seconds",
+				thisPlayerScript.playerName + " is attempting to remove their cuffs");
 		}
-
-		return true;
 	}
 
 	public void CallActionClient()
