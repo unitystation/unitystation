@@ -191,7 +191,7 @@ namespace Weapons
 		public ItemSlot pinSlot;
 		public ItemSlot suppressorSlot;
 
-		protected float PinRemove = 10f;
+		protected const float PinRemoveTime = 10f;
 
 		// used for clusmy self shooting randomness
 		private System.Random rnd = new System.Random();
@@ -553,7 +553,7 @@ namespace Weapons
 						SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.WireCutter, interaction.Performer.AssumedWorldPosServer(), UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: serverHolder);
 
 						var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
-							.ServerStartProgress(interaction.Performer.RegisterTile(), PinRemove, interaction.Performer);
+							.ServerStartProgress(interaction.Performer.RegisterTile(), PinRemoveTime, interaction.Performer);
 					}
 					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
 					{

@@ -15,7 +15,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	public List<string> firemodeName = new List<string>();
 	public List<int> firemodeUsage = new List<int>();
 
-	private float magRemove = 3f;
+	private const float magRemoveTime = 3f;
 
 	[SerializeField]
 	private bool allowScrewdriver = true;
@@ -124,7 +124,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: serverHolder);
 
 				var bar = StandardProgressAction.Create(base.ProgressConfig, ProgressFinishAction)
-					.ServerStartProgress(interaction.Performer.RegisterTile(), magRemove, interaction.Performer);
+					.ServerStartProgress(interaction.Performer.RegisterTile(), magRemoveTime, interaction.Performer);
 			}
 			MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 			if (mag)
@@ -151,7 +151,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.WireCutter, interaction.Performer.AssumedWorldPosServer(), UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: serverHolder);
 
 				var bar = StandardProgressAction.Create(base.ProgressConfig, ProgressFinishAction)
-					.ServerStartProgress(interaction.Performer.RegisterTile(), base.PinRemove, interaction.Performer);
+					.ServerStartProgress(interaction.Performer.RegisterTile(), PinRemoveTime, interaction.Performer);
 			}
 			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
 			{
