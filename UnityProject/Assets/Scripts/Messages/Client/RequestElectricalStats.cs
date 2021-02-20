@@ -8,12 +8,18 @@ using Mirror;
 /// </summary>
 public class RequestElectricalStats : ClientMessage
 {
-	public uint Player;
-	public uint ElectricalItem;
-
-	public override void Process()
+	public class RequestElectricalStatsNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[] {Player, ElectricalItem});
+		public uint Player;
+		public uint ElectricalItem;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as RequestElectricalStatsNetMessage;
+		if(newMsg == null) return;
+
+		LoadMultipleObjects(new uint[] {newMsg.Player, newMsg.ElectricalItem});
 
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
 		if (playerScript.IsGameObjectReachable(NetworkObjects[1], true, context: NetworkObjects[1]))
@@ -34,14 +40,14 @@ public class RequestElectricalStats : ClientMessage
 		ElectricalStatsMessage.Send(recipient, json);
 	}
 
-	public static RequestElectricalStats Send(GameObject player, GameObject electricalItem)
+	public static RequestElectricalStatsNetMessage Send(GameObject player, GameObject electricalItem)
 	{
-		RequestElectricalStats msg = new RequestElectricalStats
+		RequestElectricalStatsNetMessage msg = new RequestElectricalStatsNetMessage
 		{
 			Player = player.GetComponent<NetworkIdentity>().netId,
 				ElectricalItem = electricalItem.GetComponent<NetworkIdentity>().netId,
 		};
-		msg.Send();
+		new RequestElectricalStats().Send(msg);
 		return msg;
 	}
 }

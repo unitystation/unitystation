@@ -16,26 +16,32 @@ public class PlayerEatDrinkEffects : NetworkBehaviour
 
 public class PlayerEatDrinkEffectsServerMessage : ServerMessage
 {
-	public int alcoholValue;
-	public GameObject clientPlayer = null;
-
-	public override void Process()
+	public class PlayerEatDrinkEffectsServerMessageNetMessage : ActualMessage
 	{
+		public int alcoholValue;
+		public GameObject clientPlayer = null;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as PlayerEatDrinkEffectsServerMessageNetMessage;
+		if(newMsg == null) return;
+
 		var camera = Camera.main;
 		if (camera == null) return;
-		camera.GetComponent<CameraEffectControlScript>().AddDrunkTime(alcoholValue);
+		camera.GetComponent<CameraEffectControlScript>().AddDrunkTime(newMsg.alcoholValue);
 	}
 
 	/// <summary>
 	/// Send full update to a client
 	/// </summary>
-	public static PlayerEatDrinkEffectsServerMessage Send(GameObject clientConn, int newAlcoholValue)
+	public static PlayerEatDrinkEffectsServerMessageNetMessage Send(GameObject clientConn, int newAlcoholValue)
 	{
-		PlayerEatDrinkEffectsServerMessage msg = new PlayerEatDrinkEffectsServerMessage
+		PlayerEatDrinkEffectsServerMessageNetMessage msg = new PlayerEatDrinkEffectsServerMessageNetMessage
 		{
 			alcoholValue = newAlcoholValue
 		};
-		msg.SendTo(clientConn);
+		new PlayerEatDrinkEffectsServerMessage().SendTo(clientConn, msg);
 		return msg;
 	}
 }

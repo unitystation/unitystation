@@ -6,33 +6,39 @@ using Mirror;
 
 public class RequestAdminChatMessage : ClientMessage
 {
-	public string Userid;
-	public string AdminToken;
-	public string Message;
-
-	public override void Process()
+	public class RequestAdminChatMessageNetMessage : ActualMessage
 	{
-		VerifyAdminStatus();
+		public string Userid;
+		public string AdminToken;
+		public string Message;
 	}
 
-	void VerifyAdminStatus()
+	public override void Process(ActualMessage msg)
 	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		var newMsg = msg as RequestAdminChatMessageNetMessage;
+		if(newMsg == null) return;
+
+		VerifyAdminStatus(newMsg);
+	}
+
+	void VerifyAdminStatus(RequestAdminChatMessageNetMessage msg)
+	{
+		var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
 		if (player != null)
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(Message, Userid);
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg.Message, msg.Userid);
 		}
 	}
 
-	public static RequestAdminChatMessage Send(string userId, string adminToken, string message)
+	public static RequestAdminChatMessageNetMessage Send(string userId, string adminToken, string message)
 	{
-		RequestAdminChatMessage msg = new RequestAdminChatMessage
+		RequestAdminChatMessageNetMessage msg = new RequestAdminChatMessageNetMessage
 		{
 			Userid = userId,
 			AdminToken = adminToken,
 			Message = message
 		};
-		msg.Send();
+		new RequestAdminChatMessage().Send(msg);
 		return msg;
 	}
 }

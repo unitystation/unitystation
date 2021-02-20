@@ -5,22 +5,28 @@ using Messages.Client;
 
 public class AdminCheckPlayerAlerts : ClientMessage
 {
-	public string PlayerId;
-	public int CurrentCount;
-
-	public override void Process()
+	public class AdminCheckPlayerAlertsNetMessage : ActualMessage
 	{
-		UIManager.Instance.playerAlerts.ServerRequestEntries(PlayerId, CurrentCount, SentByPlayer.Connection);
+		public string PlayerId;
+		public int CurrentCount;
 	}
 
-	public static AdminCheckPlayerAlerts Send(string playerId, int currentCount)
+	public override void Process(ActualMessage msg)
 	{
-		AdminCheckPlayerAlerts msg = new AdminCheckPlayerAlerts
+		var newMsg = msg as AdminCheckPlayerAlertsNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Instance.playerAlerts.ServerRequestEntries(newMsg.PlayerId, newMsg.CurrentCount, SentByPlayer.Connection);
+	}
+
+	public static AdminCheckPlayerAlertsNetMessage Send(string playerId, int currentCount)
+	{
+		AdminCheckPlayerAlertsNetMessage msg = new AdminCheckPlayerAlertsNetMessage
 		{
 			PlayerId = playerId,
 			CurrentCount = currentCount
 		};
-		msg.Send();
+		new AdminCheckPlayerAlerts().Send(msg);
 		return msg;
 	}
 }

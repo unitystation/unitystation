@@ -4,29 +4,35 @@ using UnityEngine;
 using AdminTools;
 using Messages.Client;
 
-public class AdminPlayerAlertActions: ClientMessage
+public class AdminPlayerAlertActions : ClientMessage
 {
-	public int ActionRequested;
-	public string RoundTimeOfIncident;
-	public uint PerpNetID;
-	public string AdminToken;
-
-	public override void Process()
+	public class AdminPlayerAlertActionsNetMessage : ActualMessage
 	{
-		UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.UserId, (PlayerAlertActions)ActionRequested,
-			RoundTimeOfIncident, PerpNetID, AdminToken);
+		public int ActionRequested;
+		public string RoundTimeOfIncident;
+		public uint PerpNetID;
+		public string AdminToken;
 	}
 
-	public static AdminPlayerAlertActions Send(PlayerAlertActions actionRequested, string roundTimeOfIncident, uint perpId, string adminToken)
+	public override void Process(ActualMessage msg)
 	{
-		AdminPlayerAlertActions msg = new AdminPlayerAlertActions
+		var newMsg = msg as AdminPlayerAlertActionsNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.UserId, (PlayerAlertActions)newMsg.ActionRequested,
+			newMsg.RoundTimeOfIncident, newMsg.PerpNetID, newMsg.AdminToken);
+	}
+
+	public static AdminPlayerAlertActionsNetMessage Send(PlayerAlertActions actionRequested, string roundTimeOfIncident, uint perpId, string adminToken)
+	{
+		AdminPlayerAlertActionsNetMessage msg = new AdminPlayerAlertActionsNetMessage
 		{
 			ActionRequested = (int)actionRequested,
 			RoundTimeOfIncident = roundTimeOfIncident,
 			PerpNetID = perpId,
 			AdminToken = adminToken
 		};
-		msg.Send();
+		new AdminPlayerAlertActions().Send(msg);
 		return msg;
 	}
 }

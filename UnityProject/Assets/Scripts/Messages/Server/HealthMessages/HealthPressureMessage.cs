@@ -7,20 +7,26 @@ using Mirror;
 /// </summary>
 public class HealthPressureMessage : ServerMessage
 {
-	public float pressure;
-
-	public override void Process()
+	public class HealthPressureMessageNetMessage : ActualMessage
 	{
-		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientPressureStats(pressure);
+		public float pressure;
 	}
 
-	public static HealthPressureMessage Send(GameObject entityToUpdate, float pressureValue)
+	public override void Process(ActualMessage msg)
 	{
-		HealthPressureMessage msg = new HealthPressureMessage
+		var newMsg = msg as HealthPressureMessageNetMessage;
+		if(newMsg == null) return;
+
+		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientPressureStats(newMsg.pressure);
+	}
+
+	public static HealthPressureMessageNetMessage Send(GameObject entityToUpdate, float pressureValue)
+	{
+		HealthPressureMessageNetMessage msg = new HealthPressureMessageNetMessage
 		{
 			pressure = pressureValue
 		};
-		msg.SendTo(entityToUpdate);
+		new HealthPressureMessage().SendTo(entityToUpdate, msg);
 		return msg;
 	}
 }

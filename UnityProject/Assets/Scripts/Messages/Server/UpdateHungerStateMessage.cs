@@ -6,21 +6,27 @@ using UnityEngine;
 /// </summary>
 public class UpdateHungerStateMessage : ServerMessage
 {
-	public HungerState State;
-
-	public override void Process()
+	public class UpdateHungerStateMessageNetMessage : ActualMessage
 	{
-		MetabolismSystem metabolismSystem = PlayerManager.LocalPlayer.GetComponent<MetabolismSystem>();
-		metabolismSystem.SetHungerState(State);
+		public HungerState State;
 	}
 
-	public static UpdateHungerStateMessage Send(GameObject recipient, HungerState state)
+	public override void Process(ActualMessage msg)
 	{
-		UpdateHungerStateMessage msg = new UpdateHungerStateMessage
+		var newMsg = msg as UpdateHungerStateMessageNetMessage;
+		if(newMsg == null) return;
+
+		MetabolismSystem metabolismSystem = PlayerManager.LocalPlayer.GetComponent<MetabolismSystem>();
+		metabolismSystem.SetHungerState(newMsg.State);
+	}
+
+	public static UpdateHungerStateMessageNetMessage Send(GameObject recipient, HungerState state)
+	{
+		UpdateHungerStateMessageNetMessage msg = new UpdateHungerStateMessageNetMessage
 		{
 			State = state
 		};
-		msg.SendTo(recipient);
+		new UpdateHungerStateMessage().SendTo(recipient, msg);
 		return msg;
 	}
 }

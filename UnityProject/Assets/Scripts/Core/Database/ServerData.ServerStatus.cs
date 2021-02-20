@@ -40,7 +40,7 @@ namespace DatabaseAPI
 		private float updateWait = 0f;
 		private string publicIP;
 		private TelepathyTransport telepathyTransport;
-		private BoosterTransport boosterTransport = null;
+		//private BoosterTransport boosterTransport = null;
 
 		void AttemptConfigLoad()
 		{
@@ -160,10 +160,10 @@ namespace DatabaseAPI
 				return Convert.ToInt32(telepathyTransport.port);
 			}
 
-			if (boosterTransport!= null)
-			{
-				return Convert.ToInt32(boosterTransport.boosterPort);
-			}
+			// if (boosterTransport!= null)
+			// {
+			// 	return Convert.ToInt32(boosterTransport.boosterPort);
+			// }
 
 			return port;
 		}

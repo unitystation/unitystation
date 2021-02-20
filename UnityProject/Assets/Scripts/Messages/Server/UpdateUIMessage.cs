@@ -5,20 +5,26 @@
 /// </summary>
 public class UpdateUIMessage : ServerMessage
 {
-	public ControlDisplays.Screens Screen;
-
-	public override void Process()
+	public class UpdateUIMessageNetMessage : ActualMessage
 	{
-		UIManager.Display.SetScreenFor(Screen);
+		public ControlDisplays.Screens Screen;
 	}
 
-	public static UpdateUIMessage Send(ControlDisplays.Screens screen)
+	public override void Process(ActualMessage msg)
 	{
-		UpdateUIMessage msg = new UpdateUIMessage
+		var newMsg = msg as UpdateUIMessageNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Display.SetScreenFor(newMsg.Screen);
+	}
+
+	public static UpdateUIMessageNetMessage Send(ControlDisplays.Screens screen)
+	{
+		UpdateUIMessageNetMessage msg = new UpdateUIMessageNetMessage
 		{
 			Screen = screen
 		};
-		msg.SendToAll();
+		new UpdateUIMessage().SendToAll(msg);
 		return msg;
 	}
 }

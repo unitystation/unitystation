@@ -5,44 +5,50 @@ using AdminTools;
 
 public class PlayerAlertsUpdateMessage : ServerMessage
 {
-	public string JsonData;
-	public bool IsSingleEntry;
-
-	public override void Process()
+	public class PlayerAlertsUpdateMessageNetMessage : ActualMessage
 	{
-		if (IsSingleEntry)
+		public string JsonData;
+		public bool IsSingleEntry;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as PlayerAlertsUpdateMessageNetMessage;
+		if(newMsg == null) return;
+
+		if (newMsg.IsSingleEntry)
 		{
-			UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonUtility.FromJson<PlayerAlertData>(JsonData));
+			UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonUtility.FromJson<PlayerAlertData>(newMsg.JsonData));
 		}
 		else
 		{
-			UIManager.Instance.playerAlerts.ClientUpdateAlertLog(JsonData);
+			UIManager.Instance.playerAlerts.ClientUpdateAlertLog(newMsg.JsonData);
 		}
 	}
 
-	public static PlayerAlertsUpdateMessage SendSingleEntryToAdmins(PlayerAlertData alertMessage)
+	public static PlayerAlertsUpdateMessageNetMessage SendSingleEntryToAdmins(PlayerAlertData alertMessage)
 	{
-		PlayerAlertsUpdateMessage  msg =
-			new PlayerAlertsUpdateMessage
+		PlayerAlertsUpdateMessageNetMessage  msg =
+			new PlayerAlertsUpdateMessageNetMessage
 			{
 				JsonData = JsonUtility.ToJson(alertMessage),
 				IsSingleEntry = true
 			};
 
-		msg.SendToAdmins();
+		new PlayerAlertsUpdateMessage().SendToAdmins(msg);
 		return msg;
 	}
 
-	public static PlayerAlertsUpdateMessage SendLogUpdateToAdmin(NetworkConnection requestee, PlayerAlertsUpdate update)
+	public static PlayerAlertsUpdateMessageNetMessage SendLogUpdateToAdmin(NetworkConnection requestee, PlayerAlertsUpdate update)
 	{
-		PlayerAlertsUpdateMessage msg =
-			new PlayerAlertsUpdateMessage
+		PlayerAlertsUpdateMessageNetMessage msg =
+			new PlayerAlertsUpdateMessageNetMessage
 			{
 				JsonData = JsonUtility.ToJson(update),
 				IsSingleEntry = false
 			};
 
-		msg.SendTo(requestee);
+		new PlayerAlertsUpdateMessage().SendTo(requestee, msg);
 		return msg;
 	}
 }

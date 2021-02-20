@@ -1,16 +1,22 @@
 ﻿using Mirror;
 
 /// <summary>
-///     Message that tells client the status of the preround countdown
+///Message that tells client the status of the preround countdown
 /// </summary>
 public class UpdateCountdownMessage : ServerMessage
 {
-	public bool Started;
-	public double EndTime;
-
-	public override void Process()
+	public class UpdateCountdownMessageNetMessage : ActualMessage
 	{
-		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(Started, EndTime);
+		public bool Started;
+		public double EndTime;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as UpdateCountdownMessageNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(newMsg.Started, newMsg.EndTime);
 	}
 
 	/// <summary>
@@ -19,16 +25,16 @@ public class UpdateCountdownMessage : ServerMessage
 	/// <param name="started">Has the countdown started or stopped?</param>
 	/// <param name="time">How much time is left on the countdown?</param>
 	/// <returns></returns>
-	public static UpdateCountdownMessage Send(bool started, float time)
+	public static UpdateCountdownMessageNetMessage Send(bool started, float time)
 	{
 		// Calculate when the countdown will end relative to the current NetworkTime
 		double endTime = NetworkTime.time + time;
-		UpdateCountdownMessage msg = new UpdateCountdownMessage
+		UpdateCountdownMessageNetMessage msg = new UpdateCountdownMessageNetMessage
 		{
 			Started = started,
 			EndTime = endTime
 		};
-		msg.SendToAll();
+		new UpdateCountdownMessage().SendToAll(msg);
 		return msg;
 	}
 }

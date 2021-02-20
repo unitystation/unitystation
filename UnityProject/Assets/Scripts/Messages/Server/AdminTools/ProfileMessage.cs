@@ -8,26 +8,32 @@ using System.IO;
 
 public class ProfileMessage : ServerMessage
 {
-	public string JsonData;
-	public uint Recipient;
-
-	public override void Process()
+	public class ProfileMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(Recipient);
-		var listData = JsonUtility.FromJson<ProfileEntryDataList>(JsonData);
+		public string JsonData;
+		public uint Recipient;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as ProfileMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Recipient);
+		var listData = JsonUtility.FromJson<ProfileEntryDataList>(newMsg.JsonData);
 		UIManager.Instance.profileScrollView.RefreshProfileList(listData);
 
 	}
 
-	public static ProfileMessage Send(GameObject recipient)
+	public static ProfileMessageNetMessage Send(GameObject recipient)
 	{
 		var profileList = new ProfileEntryDataList();
 		profileList.Profiles = GetAllProfiles();
 		var data = JsonUtility.ToJson(profileList);
 
 
-		ProfileMessage msg = new ProfileMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
-		msg.SendTo(recipient);
+		ProfileMessageNetMessage msg = new ProfileMessageNetMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
+		new ProfileMessage().SendTo(recipient, msg);
 
 		return msg;
 	}

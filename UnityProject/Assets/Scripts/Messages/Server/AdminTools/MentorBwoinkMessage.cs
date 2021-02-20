@@ -5,24 +5,30 @@ using UnityEngine;
 
 public class MentorBwoinkMessage : ServerMessage
 {
-	public string MentorUID;
-	public string Message;
-
-	public override void Process()
+	public class MentorBwoinkMessageNetMessage : ActualMessage
 	{
-		SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
-		Chat.AddMentorPrivMsg(Message);
+		public string MentorUID;
+		public string Message;
 	}
 
-	public static MentorBwoinkMessage  Send(GameObject recipient, string mentorUid, string message)
+	public override void Process(ActualMessage msg)
 	{
-		MentorBwoinkMessage  msg = new MentorBwoinkMessage
+		var newMsg = msg as MentorBwoinkMessageNetMessage;
+		if(newMsg == null) return;
+
+		SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
+		Chat.AddMentorPrivMsg(newMsg.Message);
+	}
+
+	public static MentorBwoinkMessageNetMessage  Send(GameObject recipient, string mentorUid, string message)
+	{
+		MentorBwoinkMessageNetMessage  msg = new MentorBwoinkMessageNetMessage
 		{
 			MentorUID = mentorUid,
 			Message = message
 		};
 
-		msg.SendTo(recipient);
+		new MentorBwoinkMessage().SendTo(recipient, msg);
 
 		return msg;
 	}

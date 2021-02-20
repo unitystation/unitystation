@@ -11,22 +11,28 @@ using Newtonsoft.Json;
 
 public class BookshelfNetMessage : ServerMessage
 {
-	public VariableViewerNetworking.NetFriendlyBookShelfView data;
-
-	public override void Process()
+	public class BookshelfNetMessageNetMessage : ActualMessage
 	{
+		public VariableViewerNetworking.NetFriendlyBookShelfView data;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as BookshelfNetMessageNetMessage;
+		if(newMsg == null) return;
+
 		//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
 		//Logger.Log(JsonConvert.SerializeObject(data));
-		UIManager.Instance.BookshelfViewer.BookShelfView = data;
+		UIManager.Instance.BookshelfViewer.BookShelfView = newMsg.data;
 		UIManager.Instance.BookshelfViewer.ValueSetUp();
 	}
 
-	public static BookshelfNetMessage Send(Librarian.BookShelf _BookShelf, GameObject ToWho)
+	public static BookshelfNetMessageNetMessage Send(Librarian.BookShelf _BookShelf, GameObject ToWho)
 	{
-		BookshelfNetMessage msg = new BookshelfNetMessage();
+		BookshelfNetMessageNetMessage msg = new BookshelfNetMessageNetMessage();
 		msg.data = VariableViewerNetworking.ProcessBookShelf(_BookShelf);
 
-		msg.SendTo(ToWho);
+		new BookshelfNetMessage().SendTo(ToWho, msg);
 		return msg;
 	}
 }

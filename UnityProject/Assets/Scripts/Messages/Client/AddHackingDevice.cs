@@ -3,15 +3,21 @@ using UnityEngine;
 using Mirror;
 using Messages.Client;
 
-public class AddHackingDevice: ClientMessage
+public class AddHackingDevice : ClientMessage
 {
-	public uint Player;
-	public uint HackableObject;
-	public uint HackingDevice;
-
-	public override void Process()
+	public class AddHackingDeviceNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[] { Player, HackableObject, HackingDevice });
+		public uint Player;
+		public uint HackableObject;
+		public uint HackingDevice;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as AddHackingDeviceNetMessage;
+		if (newMsg == null) return;
+
+		LoadMultipleObjects(new uint[] { newMsg.Player, newMsg.HackableObject, newMsg.HackingDevice });
 
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
 		var hackObject = NetworkObjects[1];
@@ -25,15 +31,15 @@ public class AddHackingDevice: ClientMessage
 		}
 	}
 
-	public static AddHackingDevice Send(GameObject player, GameObject hackObject, GameObject hackingDevice)
+	public static AddHackingDeviceNetMessage Send(GameObject player, GameObject hackObject, GameObject hackingDevice)
 	{
-		AddHackingDevice msg = new AddHackingDevice
+		AddHackingDeviceNetMessage msg = new AddHackingDeviceNetMessage
 		{
 			Player = player.GetComponent<NetworkIdentity>().netId,
 			HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
 			HackingDevice = hackingDevice.GetComponent<NetworkIdentity>().netId
 		};
-		msg.Send();
+		new AddHackingDevice().Send(msg);
 		return msg;
 	}
 }

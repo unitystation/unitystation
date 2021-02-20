@@ -6,38 +6,44 @@ using UnityEngine;
 /// </summary>
 public class TriggerEventMessage : ServerMessage
 {
-	public EVENT EventType;
-
-	public override void Process()
+	public class TriggerEventMessageNetMessage : ActualMessage
 	{
-		EventManager.Broadcast(EventType);
+		public EVENT EventType;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as TriggerEventMessageNetMessage;
+		if(newMsg == null) return;
+
+		EventManager.Broadcast(newMsg.EventType);
 	}
 
 	/// <summary>
 	/// Send the event message to a specific player.
 	/// </summary>
-	public static TriggerEventMessage SendTo(GameObject recipient, EVENT eventType)
+	public static TriggerEventMessageNetMessage SendTo(GameObject recipient, EVENT eventType)
 	{
 		var msg = CreateMessage(eventType);
 
-		msg.SendTo(recipient);
+		new TriggerEventMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
 	/// <summary>
 	/// Send the event message to all players.
 	/// </summary>
-	public static TriggerEventMessage SendToAll(EVENT eventType)
+	public static TriggerEventMessageNetMessage SendToAll(EVENT eventType)
 	{
 		var msg = CreateMessage(eventType);
 
-		msg.SendToAll();
+		new TriggerEventMessage().SendToAll(msg);
 		return msg;
 	}
 
-	private static TriggerEventMessage CreateMessage(EVENT eventType)
+	private static TriggerEventMessageNetMessage CreateMessage(EVENT eventType)
 	{
-		return new TriggerEventMessage
+		return new TriggerEventMessageNetMessage
 		{
 			EventType = eventType,
 		};

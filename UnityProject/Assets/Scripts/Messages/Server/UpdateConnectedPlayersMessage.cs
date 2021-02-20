@@ -8,36 +8,42 @@ using UnityEngine.Experimental.XR;
 /// </summary>
 public class UpdateConnectedPlayersMessage : ServerMessage
 {
-	public ClientConnectedPlayer[] Players;
-
-	public override void Process()
+	public class UpdateConnectedPlayersMessageNetMessage : ActualMessage
 	{
+		public ClientConnectedPlayer[] Players;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as UpdateConnectedPlayersMessageNetMessage;
+		if(newMsg == null) return;
+
 //		Logger.Log("Processed " + ToString());
 		if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null)
 		{
 			return;
 		}
 
-		if (Players != null)
+		if (newMsg.Players != null)
 		{
-			Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", Players));
+			Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", newMsg.Players));
 			PlayerList.Instance.ClientConnectedPlayers.Clear();
-			for (var i = 0; i < Players.Length; i++)
+			for (var i = 0; i < newMsg.Players.Length; i++)
 			{
-				PlayerList.Instance.ClientConnectedPlayers.Add(Players[i]);
+				PlayerList.Instance.ClientConnectedPlayers.Add(newMsg.Players[i]);
 			}
 		}
 
 		PlayerList.Instance.RefreshPlayerListText();
 		UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
-		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().UpdatePlayerCount(Players?.Length ?? 0);
+		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().UpdatePlayerCount(newMsg.Players?.Length ?? 0);
 	}
 
-	public static UpdateConnectedPlayersMessage Send()
+	public static UpdateConnectedPlayersMessageNetMessage Send()
 	{
 		Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
 			string.Join(",", PlayerList.Instance.AllPlayers));
-		UpdateConnectedPlayersMessage msg = new UpdateConnectedPlayersMessage();
+		UpdateConnectedPlayersMessageNetMessage msg = new UpdateConnectedPlayersMessageNetMessage();
 		var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
 		bool pendingSpawn = false;
 		foreach (ConnectedPlayer c in PlayerList.Instance.AllPlayers)
@@ -86,7 +92,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 		msg.Players = prepareConnectedPlayers.ToArray();
 
-		msg.SendToAll();
+		new UpdateConnectedPlayersMessage().SendToAll(msg);
 		return msg;
 	}
 }

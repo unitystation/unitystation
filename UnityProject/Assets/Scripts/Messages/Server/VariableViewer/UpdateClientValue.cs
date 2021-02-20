@@ -3,38 +3,44 @@ using UnityEngine;
 
 public class UpdateClientValue : ServerMessage
 {
-	public string Newvalue;
-	public string ValueName;
-	public string MonoBehaviourName;
-	public uint GameObject;
-
-	public override void Process()
+	public class UpdateClientValueNetMessage : ActualMessage
 	{
+		public string Newvalue;
+		public string ValueName;
+		public string MonoBehaviourName;
+		public uint GameObject;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as UpdateClientValueNetMessage;
+		if(newMsg == null) return;
+
 		if (CustomNetworkManager.Instance._isServer) return;
-		LoadNetworkObject(GameObject);
+		LoadNetworkObject(newMsg.GameObject);
 		if (NetworkObject != null)
 		{
-			var workObject = NetworkObject.GetComponent(MonoBehaviourName.Substring(MonoBehaviourName.LastIndexOf('.') + 1));
+			var workObject = NetworkObject.GetComponent(newMsg.MonoBehaviourName.Substring(newMsg.MonoBehaviourName.LastIndexOf('.') + 1));
 			var Worktype = workObject.GetType();
 
-			var infoField = Worktype.GetField(ValueName);
+			var infoField = Worktype.GetField(newMsg.ValueName);
 
 			if (infoField != null)
 			{
-				infoField.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject,Newvalue, infoField.FieldType));
+				infoField.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject, newMsg.Newvalue, infoField.FieldType));
 				return;
 			}
 
-			var infoProperty = Worktype.GetProperty(ValueName);
+			var infoProperty = Worktype.GetProperty(newMsg.ValueName);
 			if(infoProperty != null)
 			{
-				infoProperty.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject,Newvalue, infoProperty.PropertyType));
+				infoProperty.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject, newMsg.Newvalue, infoProperty.PropertyType));
 				return;
 			}
 		}
 	}
 
-	public static UpdateClientValue Send(string InNewvalue, string InValueName, string InMonoBehaviourName,
+	public static UpdateClientValueNetMessage Send(string InNewvalue, string InValueName, string InMonoBehaviourName,
 		GameObject InObject)
 	{
 		uint netID = NetId.Empty;
@@ -42,14 +48,14 @@ public class UpdateClientValue : ServerMessage
 		{
 			netID = InObject.NetId();
 		}
-		UpdateClientValue msg = new UpdateClientValue()
+		UpdateClientValueNetMessage msg = new UpdateClientValueNetMessage()
 		{
 			Newvalue = InNewvalue,
 			ValueName = InValueName,
 			MonoBehaviourName = InMonoBehaviourName,
 			GameObject = netID
 		};
-		msg.SendToAll();
+		new UpdateClientValue().SendToAll(msg);
 		return msg;
 	}
 }

@@ -7,31 +7,37 @@ using Mirror;
 /// </summary>
 public class ElectricalCableMessage : ServerMessage
 {
-	public Connection REWireEndA;
-	public Connection REWireEndB;
-	public WiringColor RECableType;
-	public uint Cable;
-
-	public override void Process()
+	public class ElectricalCableMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(Cable);
+		public Connection REWireEndA;
+		public Connection REWireEndB;
+		public WiringColor RECableType;
+		public uint Cable;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as ElectricalCableMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Cable);
 
 		if ( NetworkObject != null)
 		{
-			NetworkObject.GetComponent<CableInheritance>()?.SetDirection(REWireEndA,REWireEndB,RECableType);
+			NetworkObject.GetComponent<CableInheritance>()?.SetDirection(newMsg.REWireEndA, newMsg.REWireEndB, newMsg.RECableType);
 		}
 	}
 
-	public static ElectricalCableMessage  Send(GameObject cable, Connection WireEndA, Connection WireEndB, WiringColor CableType = WiringColor.unknown)
+	public static ElectricalCableMessageNetMessage  Send(GameObject cable, Connection WireEndA, Connection WireEndB, WiringColor CableType = WiringColor.unknown)
 	{
-		ElectricalCableMessage msg = new ElectricalCableMessage
+		ElectricalCableMessageNetMessage msg = new ElectricalCableMessageNetMessage
 		{
 			REWireEndA = WireEndA,
 			REWireEndB = WireEndB,
 			RECableType = CableType,
 			Cable = cable.NetId()
 		};
-		msg.SendToAll();
+		new ElectricalCableMessage().SendToAll(msg);
 		return msg;
 	}
 }

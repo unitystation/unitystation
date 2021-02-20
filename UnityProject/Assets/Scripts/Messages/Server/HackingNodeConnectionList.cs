@@ -6,14 +6,20 @@ using Newtonsoft.Json;
 
 public class HackingNodeConnectionList : ServerMessage
 {
-	public string JsonData;
-	public uint Recipient;
-	public uint HackingObject;
-
-	public override void Process()
+	public class HackingNodeConnectionListNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[] { Recipient, HackingObject });
-		List<int[]> data = JsonConvert.DeserializeObject<List<int[]>>(JsonData);
+		public string JsonData;
+		public uint Recipient;
+		public uint HackingObject;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as HackingNodeConnectionListNetMessage;
+		if(newMsg == null) return;
+
+		LoadMultipleObjects(new uint[] { newMsg.Recipient, newMsg.HackingObject });
+		List<int[]> data = JsonConvert.DeserializeObject<List<int[]>>(newMsg.JsonData);
 
 		if (NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI != null)
 		{
@@ -21,12 +27,12 @@ public class HackingNodeConnectionList : ServerMessage
 		}
 	}
 
-	public static HackingNodeConnectionList Send(GameObject recipient, GameObject hackingObject, List<int[]> connectionList)
+	public static HackingNodeConnectionListNetMessage Send(GameObject recipient, GameObject hackingObject, List<int[]> connectionList)
 	{
-		HackingNodeConnectionList msg =
-			new HackingNodeConnectionList { Recipient = recipient.GetComponent<NetworkIdentity>().netId, HackingObject = hackingObject.GetComponent<NetworkIdentity>().netId, JsonData = JsonConvert.SerializeObject(connectionList) };
+		HackingNodeConnectionListNetMessage msg =
+			new HackingNodeConnectionListNetMessage { Recipient = recipient.GetComponent<NetworkIdentity>().netId, HackingObject = hackingObject.GetComponent<NetworkIdentity>().netId, JsonData = JsonConvert.SerializeObject(connectionList) };
 
-		msg.SendToNearbyPlayers(hackingObject.transform.position);
+		new HackingNodeConnectionList().SendToNearbyPlayers(hackingObject.transform.position, msg);
 		return msg;
 	}
 }

@@ -13,12 +13,18 @@ namespace Construction.Conveyors
 	/// </summary>
 	public class RequestConveyorBuildMessage : ClientMessage
 	{
-		//index of the entry in the ConstructionList.
-		public byte EntryIndex;
-		public ConveyorBelt.ConveyorDirection Direction;
-
-		public override void Process()
+		public class RequestConveyorBuildMessageNetMessage : ActualMessage
 		{
+			//index of the entry in the ConstructionList.
+			public byte EntryIndex;
+			public ConveyorBelt.ConveyorDirection Direction;
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as RequestConveyorBuildMessageNetMessage;
+			if(newMsg == null) return;
+
 			var clientStorage = SentByPlayer.Script.ItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();
 			if (usedSlot == null || usedSlot.ItemObject == null) return;
@@ -26,7 +32,7 @@ namespace Construction.Conveyors
 			var hasConstructionMenu = usedSlot.ItemObject.GetComponent<BuildingMaterial>();
 			if (hasConstructionMenu == null) return;
 
-			var entry = hasConstructionMenu.BuildList.Entries.ToArray()[EntryIndex];
+			var entry = hasConstructionMenu.BuildList.Entries.ToArray()[newMsg.EntryIndex];
 
 			if (!entry.CanBuildWith(hasConstructionMenu)) return;
 
@@ -82,7 +88,7 @@ namespace Construction.Conveyors
 				if (spawnedObj)
 				{
 					var conveyorBelt = spawnedObj.GetComponent<ConveyorBelt>();
-					if (conveyorBelt != null) conveyorBelt.SetBeltFromBuildMenu(Direction);
+					if (conveyorBelt != null) conveyorBelt.SetBeltFromBuildMenu(newMsg.Direction);
 
 					Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You finish building the {entry.Name}.",
 						$"{SentByPlayer.GameObject.ExpensiveName()} finishes building the {entry.Name}.");
@@ -96,18 +102,18 @@ namespace Construction.Conveyors
 				ProgressComplete);
 		}
 
-		public static RequestConveyorBuildMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu,
+		public static RequestConveyorBuildMessageNetMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu,
 			ConveyorBelt.ConveyorDirection direction)
 		{
 			var entryIndex = hasMenu.BuildList.Entries.ToList().IndexOf(entry);
 			if (entryIndex == -1) return null;
 
-			var msg = new RequestConveyorBuildMessage
+			var msg = new RequestConveyorBuildMessageNetMessage
 			{
 				EntryIndex = (byte)entryIndex,
 				Direction = direction
 			};
-			msg.Send();
+			new RequestConveyorBuildMessage().Send(msg);
 			return msg;
 		}
 	}

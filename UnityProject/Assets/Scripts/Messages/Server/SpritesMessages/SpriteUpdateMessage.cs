@@ -15,7 +15,10 @@ public class SpriteUpdateMessage : ServerMessage
 		'>', '<', '&', ',', '?', '~', '`', '@', '{', '%', '^', '£', '#'
 	};
 
-	public string SerialiseData;
+	public class SpriteUpdateMessageNetMessage : ActualMessage
+	{
+		public string SerialiseData;
+	}
 
 	//> = PresentSpriteSet
 	//< = VariantIndex
@@ -30,8 +33,13 @@ public class SpriteUpdateMessage : ServerMessage
 
 	private static StringBuilder ToReturn = new StringBuilder("", 2000);
 
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
+		var newMsg = msg as SpriteUpdateMessageNetMessage;
+		if(newMsg == null) return;
+
+		var SerialiseData = newMsg.SerialiseData;
+
 		if (CustomNetworkManager.Instance._isServer == true) return;
 		if (SerialiseData != "")
 		{
@@ -43,7 +51,7 @@ public class SpriteUpdateMessage : ServerMessage
 				uint NetID = uint.Parse(SerialiseData.Substring(Start, Scanning - Start));
 				if (NetworkIdentity.spawned.ContainsKey(NetID) == false || NetworkIdentity.spawned[NetID] == null)
 				{
-					Scanning = SkipSection(Start);
+					Scanning = SkipSection(Start, SerialiseData);
 					Start = Scanning;
 					continue;
 				}
@@ -152,7 +160,7 @@ public class SpriteUpdateMessage : ServerMessage
 		}
 	}
 
-	public int SkipSection (int Start){
+	public int SkipSection (int Start, string SerialiseData){
 		int Scanning;
 		Scanning = GoToIndexOfCharacter(SerialiseData, '@', Start);
 		Start = Scanning + 1;
@@ -270,7 +278,7 @@ public class SpriteUpdateMessage : ServerMessage
 		foreach (var changeChunk in ToSend.Chunk(500))
 		{
 			var msg = GenerateMessage(changeChunk);
-			msg.SendTo(recipient);
+			new SpriteUpdateMessage().SendTo(recipient, msg);
 		}
 	}
 
@@ -279,21 +287,21 @@ public class SpriteUpdateMessage : ServerMessage
 		foreach (var changeChunk in ToSend.Chunk(500))
 		{
 			var msg = GenerateMessage(changeChunk);
-			msg.SendToAll();
+			new SpriteUpdateMessage().SendToAll(msg);
 		}
 	}
 
 
-	public static SpriteUpdateMessage GenerateMessage(
+	public static SpriteUpdateMessageNetMessage GenerateMessage(
 		IEnumerable<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> ToSend)
 	{
-		SpriteUpdateMessage msg = new SpriteUpdateMessage();
+		SpriteUpdateMessageNetMessage msg = new SpriteUpdateMessageNetMessage();
 		GenerateStates(msg, ToSend);
 		ToReturn.Clear();
 		return (msg);
 	}
 
-	public static void GenerateStates(SpriteUpdateMessage spriteUpdateMessage,
+	public static void GenerateStates(SpriteUpdateMessageNetMessage spriteUpdateMessage,
 		IEnumerable<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> ToSend)
 	{
 		foreach (var VARIABLE in ToSend)

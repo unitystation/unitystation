@@ -9,9 +9,12 @@ namespace Messages.Server
 	/// </summary>
 	public class PortalSpawnAnimateMessage : ServerMessage
 	{
-		public GameObject Entity;
-		public PortalSpawnInfo Settings;
-		public AnimateType Type;
+		public class PortalSpawnAnimateMessageNetMessage : ActualMessage
+		{
+			public GameObject Entity;
+			public PortalSpawnInfo Settings;
+			public AnimateType Type;
+		}
 
 		/// <summary>
 		/// <inheritdoc cref="PortalSpawnAnimateMessage"/>
@@ -19,29 +22,31 @@ namespace Messages.Server
 		/// <param name="portal">The portal GameObject that the client should animate.</param>
 		/// <param name="settings">The settings the portal should be animated with.</param>
 		/// <returns></returns>
-		public static PortalSpawnAnimateMessage SendToVisible(GameObject entity, PortalSpawnInfo settings, AnimateType type)
+		public static PortalSpawnAnimateMessageNetMessage SendToVisible(GameObject entity, PortalSpawnInfo settings, AnimateType type)
 		{
-			var msg = new PortalSpawnAnimateMessage()
+			var msg = new PortalSpawnAnimateMessageNetMessage()
 			{
 				Entity = entity,
 				Settings = settings,
 				Type = type,
 			};
 
-			msg.SendToVisiblePlayers(entity.RegisterTile().WorldPositionServer.To2Int());
-
+			new PortalSpawnAnimateMessage().SendToVisiblePlayers(entity.RegisterTile().WorldPositionServer.To2Int(), msg);
 			return msg;
 		}
 
-		public override void Process()
+		public override void Process(ActualMessage msg)
 		{
-			if (Type == AnimateType.Portal)
+			var newMsg = msg as PortalSpawnAnimateMessageNetMessage;
+			if(newMsg == null) return;
+
+			if (newMsg.Type == AnimateType.Portal)
 			{
-				SpawnByPortal.AnimatePortal(Entity, Settings);
+				SpawnByPortal.AnimatePortal(newMsg.Entity, newMsg.Settings);
 			}
 			else
 			{
-				SpawnByPortal.AnimateObject(Entity, Settings);
+				SpawnByPortal.AnimateObject(newMsg.Entity, newMsg.Settings);
 			}
 		}
 

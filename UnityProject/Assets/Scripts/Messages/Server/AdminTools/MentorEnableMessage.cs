@@ -8,21 +8,26 @@ using UnityEngine;
 /// </summary>
 public class MentorEnableMessage : ServerMessage
 {
-	public string MentorToken;
-
-	public override void Process()
+	public class MentorEnableMessageNetMessage : ActualMessage
 	{
-		PlayerList.Instance.SetClientAsMentor(MentorToken);
+		public string MentorToken;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as MentorEnableMessageNetMessage;
+		if(newMsg == null) return;
+
+		PlayerList.Instance.SetClientAsMentor(newMsg.MentorToken);
 		UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
 	}
 
-	public static MentorEnableMessage Send(NetworkConnection player, string mentorToken)
+	public static MentorEnableMessageNetMessage Send(NetworkConnection player, string mentorToken)
 	{
 		UIManager.Instance.mentorChatButtons.ServerUpdateAdminNotifications(player);
-		MentorEnableMessage msg = new MentorEnableMessage {MentorToken = mentorToken};
+		MentorEnableMessageNetMessage msg = new MentorEnableMessageNetMessage {MentorToken = mentorToken};
 
-		msg.SendTo(player);
-
+		new MentorEnableMessage().SendTo(player, msg);
 		return msg;
 	}
 }

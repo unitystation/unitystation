@@ -8,13 +8,19 @@ using Mirror;
 //atm its just being sent to examine channel
 public class ElectricalStatsMessage : ServerMessage
 {
-	public string JsonData;
-	public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
-
-	public override void Process()
+	public class ElectricalStatsMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(Recipient);
-		ElectronicData data = JsonUtility.FromJson<ElectronicData>(JsonData);
+		public string JsonData;
+		public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as ElectricalStatsMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Recipient);
+		ElectronicData data = JsonUtility.FromJson<ElectronicData>(newMsg.JsonData);
 
 		string newChatText = "";
 		newChatText += $"Current: {data.CurrentInWire} \n";
@@ -23,12 +29,12 @@ public class ElectricalStatsMessage : ServerMessage
 		Chat.AddExamineMsgToClient(newChatText);
 	}
 
-	public static ElectricalStatsMessage  Send(GameObject recipient, string data)
+	public static ElectricalStatsMessageNetMessage  Send(GameObject recipient, string data)
 	{
-		ElectricalStatsMessage  msg =
-			new ElectricalStatsMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
+		ElectricalStatsMessageNetMessage  msg =
+			new ElectricalStatsMessageNetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
 
-		msg.SendTo(recipient);
+		new ElectricalStatsMessage().SendTo(recipient, msg);
 		return msg;
 	}
 }

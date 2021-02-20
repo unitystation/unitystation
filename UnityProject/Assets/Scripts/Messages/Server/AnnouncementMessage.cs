@@ -5,19 +5,27 @@
 /// </summary>
 public class AnnouncementMessage : ServerMessage
 {
-	public string Text;
+	public class AnnouncementMessageNetMessage : ActualMessage
+	{
+		public string Text;
+	}
 
-	public override void Process() {
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as AnnouncementMessageNetMessage;
+		if(newMsg == null) return;
+
 		//Yeah, that will lead to n +-simultaneous tts synth requests, mary will probably struggle
-		MaryTTS.Instance.Synthesize( Text, bytes => {
+		MaryTTS.Instance.Synthesize( newMsg.Text, bytes => {
 			Synth.Instance.PlayAnnouncement(bytes);
 		} );
 	}
 
-	public static AnnouncementMessage SendToAll( string text ) {
-		AnnouncementMessage msg = new AnnouncementMessage{ Text = text };
+	public static AnnouncementMessageNetMessage SendToAll( string text )
+	{
+		AnnouncementMessageNetMessage msg = new AnnouncementMessageNetMessage{ Text = text };
 
-		msg.SendToAll();
+		new AnnouncementMessage().SendToAll(msg);
 
 		return msg;
 	}

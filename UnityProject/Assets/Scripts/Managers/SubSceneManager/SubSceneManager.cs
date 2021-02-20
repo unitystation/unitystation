@@ -69,14 +69,6 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 	}
 
-	public static void ProcessObserverRefreshReq(ConnectedPlayer connectedPlayer, Scene sceneContext)
-	{
-		if (connectedPlayer.Connection != null)
-		{
-			Instance.AddObserverToAllObjects(connectedPlayer.Connection, sceneContext);
-		}
-	}
-
 	//TODO Update mirror
 	public static void ManuallyLoadScene(string ToLoad)
 	{

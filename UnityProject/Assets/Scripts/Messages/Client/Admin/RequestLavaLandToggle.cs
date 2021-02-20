@@ -7,35 +7,41 @@ using Messages.Client;
 
 public class RequestLavaLandToggle : ClientMessage
 {
-	public string Userid;
-	public string AdminToken;
-	public bool LavaLandAllowed = true;
-
-	public override void Process()
+	public class RequestLavaLandToggleNetMessage : ActualMessage
 	{
-		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		public string Userid;
+		public string AdminToken;
+		public bool LavaLandAllowed = true;
+	}
+
+	public override void Process(ActualMessage netMsg)
+	{
+		var newMsg = netMsg as RequestLavaLandToggleNetMessage;
+		if(newMsg == null) return;
+
+		var admin = PlayerList.Instance.GetAdmin(newMsg.Userid, newMsg.AdminToken);
 		if (admin == null) return;
 
-		if(SubSceneManager.AdminAllowLavaland == LavaLandAllowed) return;
+		if(SubSceneManager.AdminAllowLavaland == newMsg.LavaLandAllowed) return;
 
-		SubSceneManager.AdminAllowLavaland = LavaLandAllowed;
+		SubSceneManager.AdminAllowLavaland = newMsg.LavaLandAllowed;
 
-		var state = LavaLandAllowed ? "ON" : "OFF";
-		var msg = $"Admin: {PlayerList.Instance.GetByUserID(Userid).Username}, Turned Lava Land spawning {state}";
+		var state = newMsg.LavaLandAllowed ? "ON" : "OFF";
+		var msg = $"Admin: {PlayerList.Instance.GetByUserID(newMsg.Userid).Username}, Turned Lava Land spawning {state}";
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 	}
 
-	public static RequestLavaLandToggle Send(string userId, string adminToken, bool lavaLandAllowed)
+	public static RequestLavaLandToggleNetMessage Send(string userId, string adminToken, bool lavaLandAllowed)
 	{
-		RequestLavaLandToggle msg = new RequestLavaLandToggle
+		RequestLavaLandToggleNetMessage msg = new RequestLavaLandToggleNetMessage
 		{
 			Userid = userId,
 			AdminToken = adminToken,
 			LavaLandAllowed = lavaLandAllowed
 		};
-		msg.Send();
+		new RequestLavaLandToggle().Send(msg);
 		return msg;
 	}
 }

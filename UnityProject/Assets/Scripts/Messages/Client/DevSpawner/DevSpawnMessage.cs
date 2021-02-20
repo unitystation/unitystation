@@ -10,41 +10,47 @@ using Mirror;
 /// </summary>
 public class DevSpawnMessage : ClientMessage
 {
-	// asset ID of the prefab to spawn
-	public Guid PrefabAssetID;
-	// position to spawn at.
-	public Vector2 WorldPosition;
-	public string AdminId;
-	public string AdminToken;
-
-	public override void Process()
+	public class DevSpawnMessageNetMessage : ActualMessage
 	{
-		ValidateAdmin();
+		// asset ID of the prefab to spawn
+		public Guid PrefabAssetID;
+		// position to spawn at.
+		public Vector2 WorldPosition;
+		public string AdminId;
+		public string AdminToken;
+
+		public override string ToString()
+		{
+			return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition}]";
+		}
 	}
 
-	void ValidateAdmin()
+	public override void Process(ActualMessage msg)
 	{
-		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
+		var newMsg = msg as DevSpawnMessageNetMessage;
+		if(newMsg == null) return;
+
+		ValidateAdmin(newMsg);
+	}
+
+	void ValidateAdmin(DevSpawnMessageNetMessage msg)
+	{
+		var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
 		if (admin == null) return;
 		//no longer checks impassability, spawn anywhere, go hog wild.
-		if (ClientScene.prefabs.TryGetValue(PrefabAssetID, out var prefab))
+		if (ClientScene.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
 		{
-			Spawn.ServerPrefab(prefab, WorldPosition);
+			Spawn.ServerPrefab(prefab, msg.WorldPosition);
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{admin.Player().Username} spawned a {prefab.name} at {WorldPosition}", AdminId);
+				$"{admin.Player().Username} spawned a {prefab.name} at {msg.WorldPosition}", msg.AdminId);
 		}
 		else
 		{
 			Logger.LogWarningFormat("An admin attempted to spawn prefab with invalid asset ID {0}, which" +
 			                        " is not found in Mirror.ClientScene. Spawn will not" +
-			                        " occur.", Category.Admin, PrefabAssetID);
+			                        " occur.", Category.Admin, msg.PrefabAssetID);
 		}
 
-	}
-
-	public override string ToString()
-	{
-		return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition}]";
 	}
 
 	/// <summary>
@@ -59,14 +65,14 @@ public class DevSpawnMessage : ClientMessage
 	{
 		if (prefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
 		{
-			DevSpawnMessage msg = new DevSpawnMessage
+			DevSpawnMessageNetMessage msg = new DevSpawnMessageNetMessage
 			{
 				PrefabAssetID = networkIdentity.assetId,
 				WorldPosition = worldPosition,
 				AdminId = adminId,
 				AdminToken = adminToken
 			};
-			msg.Send();
+			new DevSpawnMessage().Send(msg);
 		}
 		else
 		{

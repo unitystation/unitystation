@@ -735,13 +735,19 @@ public partial class PlayerList
 
 	public class ClientJobBanDataMessage : ClientMessage
 	{
-		public string PlayerID;
-
-		public override void Process()
+		public class ClientJobBanDataMessageNetMessage : ActualMessage
 		{
+			public string PlayerID;
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as ClientJobBanDataMessageNetMessage;
+			if(newMsg == null) return;
+
 			//Server Stuff here
 
-			var conn = PlayerList.Instance.GetByUserID(PlayerID);
+			var conn = PlayerList.Instance.GetByUserID(newMsg.PlayerID);
 
 			if (conn == null)
 			{
@@ -754,64 +760,77 @@ public partial class PlayerList
 			ServerSendsJobBanDataMessage.Send(conn.Connection, jobBanEntries);
 		}
 
-		public static ClientJobBanDataMessage Send(string playerID)
+		public static ClientJobBanDataMessageNetMessage Send(string playerID)
 		{
-			ClientJobBanDataMessage msg = new ClientJobBanDataMessage
+			ClientJobBanDataMessageNetMessage msg = new ClientJobBanDataMessageNetMessage
 			{
 				PlayerID = playerID
 			};
-			msg.Send();
+			new ClientJobBanDataMessage().Send(msg);
 			return msg;
 		}
 	}
 
 	public class ServerSendsJobBanDataMessage : ServerMessage
 	{
-		public string JobBanEntries;
-
-		public override void Process()
+		public class ServerSendsJobBanDataMessageNetMessage : ActualMessage
 		{
-			//client Stuff here
-
-			PlayerList.Instance.clientSideBanEntries = JsonConvert.DeserializeObject<List<JobBanEntry>>(JobBanEntries);
+			public string JobBanEntries;
 		}
 
-		public static ServerSendsJobBanDataMessage Send(NetworkConnection requestee, List<JobBanEntry> jobBanEntries)
+		public override void Process(ActualMessage msg)
 		{
-			ServerSendsJobBanDataMessage msg = new ServerSendsJobBanDataMessage
+			var newMsg = msg as ServerSendsJobBanDataMessageNetMessage;
+			if(newMsg == null) return;
+
+			//client Stuff here
+
+			PlayerList.Instance.clientSideBanEntries = JsonConvert.DeserializeObject<List<JobBanEntry>>(newMsg.JobBanEntries);
+		}
+
+		public static ServerSendsJobBanDataMessageNetMessage Send(NetworkConnection requestee, List<JobBanEntry> jobBanEntries)
+		{
+			ServerSendsJobBanDataMessageNetMessage msg = new ServerSendsJobBanDataMessageNetMessage
 			{
 				JobBanEntries = JsonConvert.SerializeObject(jobBanEntries)
 			};
-			msg.SendTo(requestee);
+			new ServerSendsJobBanDataMessage().SendTo(requestee, msg);
 			return msg;
 		}
 	}
 
 	public class RequestJobBan : ClientMessage
 	{
-		public string AdminID;
-		public string AdminToken;
-		public string PlayerID;
-		public string Reason;
-		public bool IsPerma;
-		public int Minutes;
-		public JobType JobType;
-		public bool KickAfter;
-		public bool GhostAfter;
-
-		public override void Process()
+		public class RequestJobBanNetMessage : ActualMessage
 		{
-			var admin = PlayerList.Instance.GetAdmin(AdminID, AdminToken);
+			public string AdminID;
+			public string AdminToken;
+			public string PlayerID;
+			public string Reason;
+			public bool IsPerma;
+			public int Minutes;
+			public JobType JobType;
+			public bool KickAfter;
+			public bool GhostAfter;
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as RequestJobBanNetMessage;
+			if(newMsg == null) return;
+
+			var admin = PlayerList.Instance.GetAdmin(newMsg.AdminID, newMsg.AdminToken);
 			if (admin == null) return;
 
 			//Server Stuff here
 
-			PlayerList.Instance.ProcessJobBanRequest(AdminID, PlayerID, Reason, IsPerma, Minutes, JobType, KickAfter, GhostAfter);
+			PlayerList.Instance.ProcessJobBanRequest(newMsg.AdminID, newMsg.PlayerID, newMsg.Reason,
+				newMsg.IsPerma, newMsg.Minutes, newMsg.JobType, newMsg.KickAfter, newMsg.GhostAfter);
 		}
 
-		public static RequestJobBan Send(string adminID, string adminToken, string playerID, string reason, bool isPerma, int minutes, JobType jobType, bool kickAfter, bool ghostAfter)
+		public static RequestJobBanNetMessage Send(string adminID, string adminToken, string playerID, string reason, bool isPerma, int minutes, JobType jobType, bool kickAfter, bool ghostAfter)
 		{
-			RequestJobBan msg = new RequestJobBan
+			RequestJobBanNetMessage msg = new RequestJobBanNetMessage
 			{
 				AdminID = adminID,
 				AdminToken = adminToken,
@@ -823,7 +842,7 @@ public partial class PlayerList
 				KickAfter = kickAfter,
 				GhostAfter = ghostAfter
 			};
-			msg.Send();
+			new RequestJobBan().Send(msg);
 			return msg;
 		}
 	}
@@ -1018,7 +1037,6 @@ public partial class PlayerList
 		yield return WaitFor.Seconds(1f);
 
 		connPlayer.Connection.Disconnect();
-		connPlayer.Connection.Dispose();
 
 		while (!loggedOff.Contains(connPlayer))
 		{

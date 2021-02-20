@@ -3,14 +3,20 @@ using Messages.Client;
 using Mirror;
 using Doors;
 
-public class DoorNewPlayer: ClientMessage
+public class DoorNewPlayer : ClientMessage
 {
-	public uint Door;
-
-	public override void Process()
+	public class DoorNewPlayerNetMessage : ActualMessage
 	{
+		public uint Door;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as DoorNewPlayerNetMessage;
+		if(newMsg == null) return;
+
 		// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
-		if (LoadNetworkObject(Door))
+		if (LoadNetworkObject(newMsg.Door))
 		{
 			// https://docs.unity3d.com/2019.3/Documentation/ScriptReference/Component.TryGetComponent.html
 			if (NetworkObject.TryGetComponent(out DoorController doorController))
@@ -20,13 +26,13 @@ public class DoorNewPlayer: ClientMessage
 		}
 	}
 
-	public static DoorNewPlayer Send(uint netId)
+	public static DoorNewPlayerNetMessage Send(uint netId)
 	{
-		DoorNewPlayer msg = new DoorNewPlayer
+		DoorNewPlayerNetMessage msg = new DoorNewPlayerNetMessage
 		{
 			Door = netId
 		};
-		msg.Send();
+		new DoorNewPlayer().Send(msg);
 		return msg;
 	}
 }

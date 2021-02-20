@@ -3,13 +3,19 @@
 	/// <summary>
 	///     Message that tells client to stop playing a sound
 	/// </summary>
-	public class StopSoundMessage: ServerMessage
+	public class StopSoundMessage : ServerMessage
 	{
-		public string SoundSpawnToken;
-
-		public override void Process()
+		public class StopSoundMessageNetMessage : ActualMessage
 		{
-			SoundManager.Stop(SoundSpawnToken);
+			public string SoundSpawnToken;
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as StopSoundMessageNetMessage;
+			if(newMsg == null) return;
+
+			SoundManager.Stop(newMsg.SoundSpawnToken);
 		}
 
 		/// <summary>
@@ -17,14 +23,14 @@
 		/// </summary>
 		/// <param name="name">The SoundSpawn Token that identifies the sound instance to stop.</param>
 		/// <returns>The sent message</returns>
-		public static StopSoundMessage SendToAll(string soundSpawnToken)
+		public static StopSoundMessageNetMessage SendToAll(string soundSpawnToken)
 		{
-			StopSoundMessage msg = new StopSoundMessage
+			StopSoundMessageNetMessage msg = new StopSoundMessageNetMessage
 			{
 				SoundSpawnToken = soundSpawnToken
 			};
 
-			msg.SendToAll();
+			new StopSoundMessage().SendToAll(msg);
 
 			return msg;
 		}

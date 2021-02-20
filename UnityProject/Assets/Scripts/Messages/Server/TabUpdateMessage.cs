@@ -8,13 +8,27 @@ using Random = UnityEngine.Random;
 
 public class TabUpdateMessage : ServerMessage
 {
-	public uint Provider;
-	public NetTabType Type;
-	public TabAction Action;
+	public class TabUpdateMessageNetMessage : ActualMessage
+	{
+		public uint Provider;
+		public NetTabType Type;
+		public TabAction Action;
 
-	public ElementValue[] ElementValues;
+		public ElementValue[] ElementValues;
 
-	public bool Touched;
+		public bool Touched;
+
+		public TabMessageType ID;
+		public int UniqueID;
+		public int NumOfMessages;
+
+		public override string ToString()
+		{
+			return $"[TabUpdateMessage {nameof(Provider)}: {Provider}, {nameof(Type)}: {Type}, " +
+			       $"{nameof(Action)}: {Action}, " +
+			       $"{nameof(ElementValue)}: {string.Join("; ", ElementValues ?? NoValues)}]";
+		}
+	}
 
 	private static readonly ElementValue[] NoValues = new ElementValue[0];
 
@@ -22,75 +36,67 @@ public class TabUpdateMessage : ServerMessage
 
 	private static int Counter = 0;
 
-	public TabMessageType ID;
-	public int UniqueID;
-	public int NumOfMessages;
-
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
+		var newMsg = msg as TabUpdateMessageNetMessage;
+		if(newMsg == null) return;
+
 		Logger.LogTraceFormat("Processed {0}", Category.NetUI, this);
-		LoadNetworkObject(Provider);
+		LoadNetworkObject(newMsg.Provider);
 
 		//If start or middle of message add to cache then stop
-		if (ID == TabMessageType.MoreIncoming)
+		if (newMsg.ID == TabMessageType.MoreIncoming)
 		{
 			//If Unique Id doesnt exist make new entry
-			if (ElementValuesCache.Count == 0 || !ElementValuesCache.ContainsKey(UniqueID))
+			if (ElementValuesCache.Count == 0 || !ElementValuesCache.ContainsKey(newMsg.UniqueID))
 			{
-				ElementValuesCache.Add(UniqueID, new Tuple<ElementValue[], int>(ElementValues, 1));
+				ElementValuesCache.Add(newMsg.UniqueID, new Tuple<ElementValue[], int>(newMsg.ElementValues, 1));
 				return;
 			}
 
 			//Sanity check to make sure this isnt the last message
-			if (NumOfMessages == ElementValuesCache[UniqueID].Item2 + 1)
+			if (newMsg.NumOfMessages == ElementValuesCache[newMsg.UniqueID].Item2 + 1)
 			{
 				Debug.LogError("This message didnt arrive in time before the end message!");
-				ElementValuesCache.Remove(UniqueID);
+				ElementValuesCache.Remove(newMsg.UniqueID);
 				return;
 			}
 
 			//Unique Id already exists so add arrays to each other
-			ElementValuesCache[UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[UniqueID].Item1, ElementValues), ElementValuesCache[UniqueID].Item2 + 1);
+			ElementValuesCache[newMsg.UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[newMsg.UniqueID].Item1, newMsg.ElementValues), ElementValuesCache[newMsg.UniqueID].Item2 + 1);
 			return;
 		}
 
 		//If end of message add and continue
-		if(ID == TabMessageType.EndOfMessage)
+		if(newMsg.ID == TabMessageType.EndOfMessage)
 		{
 			//Add the arrays together
-			ElementValuesCache[UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[UniqueID].Item1, ElementValues), ElementValuesCache[UniqueID].Item2 + 1);
+			ElementValuesCache[newMsg.UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[newMsg.UniqueID].Item1, newMsg.ElementValues), ElementValuesCache[newMsg.UniqueID].Item2 + 1);
 
 			//Check to make sure its the last message
-			if (NumOfMessages != ElementValuesCache[UniqueID].Item2)
+			if (newMsg.NumOfMessages != ElementValuesCache[newMsg.UniqueID].Item2)
 			{
 				Debug.LogError("Not all the messages arrived in time for the NetUI update.");
 				return;
 			}
 
-			ElementValues = ElementValuesCache[UniqueID].Item1;
-			ElementValuesCache.Remove(UniqueID);
+			newMsg.ElementValues = ElementValuesCache[newMsg.UniqueID].Item1;
+			ElementValuesCache.Remove(newMsg.UniqueID);
 		}
 
 
-		switch (Action)
+		switch (newMsg.Action)
 		{
 			case TabAction.Open:
-				ControlTabs.ShowTab(Type, NetworkObject, ElementValues);
+				ControlTabs.ShowTab(newMsg.Type, NetworkObject, newMsg.ElementValues);
 				break;
 			case TabAction.Close:
-				ControlTabs.CloseTab(Type, NetworkObject);
+				ControlTabs.CloseTab(newMsg.Type, NetworkObject);
 				break;
 			case TabAction.Update:
-				ControlTabs.UpdateTab(Type, NetworkObject, ElementValues, Touched);
+				ControlTabs.UpdateTab(newMsg.Type, NetworkObject, newMsg.ElementValues, newMsg.Touched);
 				break;
 		}
-	}
-
-	public override string ToString()
-	{
-		return $"[TabUpdateMessage {nameof(Provider)}: {Provider}, {nameof(Type)}: {Type}, " +
-		       $"{nameof(Action)}: {Action}, " +
-		       $"{nameof(ElementValue)}: {string.Join("; ", ElementValues ?? NoValues)}]";
 	}
 
 	public static void SendToPeepers(GameObject provider, NetTabType type, TabAction tabAction, ElementValue[] values = null)
@@ -227,7 +233,7 @@ public class TabUpdateMessage : ServerMessage
 		//Single message
 		if (count == 0)
 		{
-			var msg = new TabUpdateMessage
+			var msg = new TabUpdateMessageNetMessage
 			{
 				Provider = provider.NetId(),
 				Type = type,
@@ -238,14 +244,14 @@ public class TabUpdateMessage : ServerMessage
 				UniqueID = uniqueID
 			};
 
-			msg.SendTo(recipient);
+			new TabUpdateMessage().SendTo(recipient, msg);
 			Logger.LogTraceFormat("{0}", Category.NetUI, msg);
 			return null;
 		}
 
 		foreach (var value in elementValuesLists)
 		{
-			var msg = new TabUpdateMessage
+			var msg = new TabUpdateMessageNetMessage
 			{
 				Provider = provider.NetId(),
 				Type = type,
@@ -257,7 +263,7 @@ public class TabUpdateMessage : ServerMessage
 				NumOfMessages = count
 			};
 
-			msg.SendTo(recipient);
+			new TabUpdateMessage().SendTo(recipient, msg);
 			Logger.LogTraceFormat("{0}", Category.NetUI, msg);
 		}
 

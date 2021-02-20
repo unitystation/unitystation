@@ -12,41 +12,47 @@ namespace Weapons
 	/// </summary>
 	public class ShootMessage : ServerMessage
 	{
-		/// <summary>
-		/// GameObject of the player performing the shot
-		/// </summary>
-		public uint Shooter;
-		/// <summary>
-		/// Weapon being used to perform the shot
-		/// </summary>
-		public uint Weapon;
-		/// <summary>
-		/// Direction of shot, originating from Shooter)
-		/// </summary>
-		public Vector2 Direction;
-		/// <summary>
-		/// targeted body part
-		/// </summary>
-		public BodyPartType DamageZone;
-		/// <summary>
-		/// If the shot is aimed at the shooter
-		/// </summary>
-		public bool IsSuicideShot;
-		/// <summary>
-		/// Name of the projectile
-		/// </summary>
-		public string ProjectileName;
-		/// <summary>
-		/// Amount of projectiles
-		/// </summary>
-		public int Quantity;
+		public class ShootMessageNetMessage : ActualMessage
+		{
+			/// <summary>
+			/// GameObject of the player performing the shot
+			/// </summary>
+			public uint Shooter;
+			/// <summary>
+			/// Weapon being used to perform the shot
+			/// </summary>
+			public uint Weapon;
+			/// <summary>
+			/// Direction of shot, originating from Shooter)
+			/// </summary>
+			public Vector2 Direction;
+			/// <summary>
+			/// targeted body part
+			/// </summary>
+			public BodyPartType DamageZone;
+			/// <summary>
+			/// If the shot is aimed at the shooter
+			/// </summary>
+			public bool IsSuicideShot;
+			/// <summary>
+			/// Name of the projectile
+			/// </summary>
+			public string ProjectileName;
+			/// <summary>
+			/// Amount of projectiles
+			/// </summary>
+			public int Quantity;
+		}
 
 		///To be run on client
-		public override void Process()
+		public override void Process(ActualMessage msg)
 		{
+			var newMsg = msg as ShootMessageNetMessage;
+			if (newMsg == null) return;
+
 			if (!MatrixManager.IsInitialized) return;
 
-			if (Shooter.Equals(NetId.Invalid))
+			if (newMsg.Shooter.Equals(NetId.Invalid))
 			{
 				//Failfast
 				Logger.LogWarning($"Shoot request invalid, processing stopped: {ToString()}", Category.Firearms);
@@ -56,7 +62,7 @@ namespace Weapons
 			//Not even spawned don't show bullets
 			if (PlayerManager.LocalPlayer == null) return;
 
-			LoadMultipleObjects(new uint[] { Shooter, Weapon});
+			LoadMultipleObjects(new uint[] { newMsg.Shooter, newMsg.Weapon});
 
 			Gun wep = NetworkObjects[1].GetComponent<Gun>();
 			if (wep == null)
@@ -67,7 +73,7 @@ namespace Weapons
 			//only needs to run on the clients other than the shooter
 			if (!wep.isServer && PlayerManager.LocalPlayer.gameObject != NetworkObjects[0])
 			{
-				wep.DisplayShot(NetworkObjects[0], Direction, DamageZone, IsSuicideShot, ProjectileName, Quantity);
+				wep.DisplayShot(NetworkObjects[0], newMsg.Direction, newMsg.DamageZone, newMsg.IsSuicideShot, newMsg.ProjectileName, newMsg.Quantity);
 			}
 		}
 
@@ -79,9 +85,9 @@ namespace Weapons
 		/// <param name="shooter">gameobject of player making the shot</param>
 		/// <param name="isSuicide">if the shooter is shooting themselves</param>
 		/// <returns></returns>
-		public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, string projectileName, int quantity)
+		public static ShootMessageNetMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide, string projectileName, int quantity)
 		{
-			var msg = new ShootMessage
+			var msg = new ShootMessageNetMessage
 			{
 				Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				Direction = direction,
@@ -91,7 +97,7 @@ namespace Weapons
 				ProjectileName = projectileName,
 				Quantity = quantity
 			};
-			msg.SendToAll();
+			new ShootMessage().SendToAll(msg);
 			return msg;
 		}
 
@@ -108,31 +114,37 @@ namespace Weapons
 	/// </summary>
 	public class CastProjectileMessage : ServerMessage
 	{
-		/// <summary>
-		/// GameObject performing the shot
-		/// </summary>
-		public uint Shooter;
-		/// <summary>
-		/// Projectile being shot
-		/// </summary>
-		public string ProjectilePrefabName;
-		/// <summary>
-		/// Direction of shot, originating from Shooter)
-		/// </summary>
-		public Vector2 Direction;
-		/// <summary>
-		/// targeted body part
-		/// </summary>
-		public BodyPartType DamageZone;
+		public class CastProjectileMessageNetMessage : ActualMessage
+		{
+			/// <summary>
+			/// GameObject performing the shot
+			/// </summary>
+			public uint Shooter;
+			/// <summary>
+			/// Projectile being shot
+			/// </summary>
+			public string ProjectilePrefabName;
+			/// <summary>
+			/// Direction of shot, originating from Shooter)
+			/// </summary>
+			public Vector2 Direction;
+			/// <summary>
+			/// targeted body part
+			/// </summary>
+			public BodyPartType DamageZone;
+		}
 
 		///To be run on client
-		public override void Process()
+		public override void Process(ActualMessage msg)
 		{
+			var newMsg = msg as CastProjectileMessageNetMessage;
+			if (newMsg == null) return;
+
 			if (CustomNetworkManager.IsServer) return; // Processed serverside in SendToAll
 
 			if (MatrixManager.IsInitialized == false) return;
 
-			if (Shooter.Equals(NetId.Invalid))
+			if (newMsg.Shooter.Equals(NetId.Invalid))
 			{
 				//Failfast
 				Logger.LogWarning($"Shoot request invalid, processing stopped: {ToString()}", Category.Firearms);
@@ -142,10 +154,10 @@ namespace Weapons
 			//Not even spawned don't show bullets
 			if (PlayerManager.LocalPlayer == null) return;
 
-			LoadNetworkObject(Shooter);
+			LoadNetworkObject(newMsg.Shooter);
 			GameObject shooter = NetworkObject;
 
-			ShootProjectile(ProjectilePrefabName, shooter, Direction, DamageZone);
+			ShootProjectile(newMsg.ProjectilePrefabName, shooter, newMsg.Direction, newMsg.DamageZone);
 		}
 
 		private static void ShootProjectile(string prefab, GameObject shooter, Vector2 direction, BodyPartType damageZone)
@@ -167,21 +179,21 @@ namespace Weapons
 		/// <param name="shooter">gameobject of player making the shot</param>
 		/// <param name="isSuicide">if the shooter is shooting themselves</param>
 		/// <returns></returns>
-		public static CastProjectileMessage SendToAll(GameObject shooter, GameObject projectilePrefab, Vector2 direction, BodyPartType damageZone)
+		public static CastProjectileMessageNetMessage SendToAll(GameObject shooter, GameObject projectilePrefab, Vector2 direction, BodyPartType damageZone)
 		{
 			if (CustomNetworkManager.IsServer)
 			{
 				ShootProjectile(projectilePrefab.name, shooter, direction, damageZone);
 			}
 
-			var msg = new CastProjectileMessage
+			var msg = new CastProjectileMessageNetMessage
 			{
 				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				ProjectilePrefabName = projectilePrefab.name,
 				Direction = direction,
 				DamageZone = damageZone,
 			};
-			msg.SendToAll();
+			new CastProjectileMessage().SendToAll(msg);
 			return msg;
 		}
 	}

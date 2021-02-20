@@ -3,24 +3,30 @@ using UnityEngine;
 using Mirror;
 using Doors;
 
-public class DoorUpdateMessage : ServerMessage {
+public class DoorUpdateMessage : ServerMessage
+{
+	public class DoorUpdateMessageNetMessage : ActualMessage
+	{
+		public DoorUpdateType Type;
+		public uint Door;
+		// whether the update should occur instantaneously
+		public bool SkipAnimation;
 
-	public DoorUpdateType Type;
-	public uint Door;
-	// whether the update should occur instantaneously
-	public bool SkipAnimation;
-
-	public override void Process() {
-//		Logger.Log("Processed " + ToString());
-		LoadNetworkObject(Door);
-
-		if ( NetworkObject != null ) {
-			NetworkObject.GetComponent<DoorAnimator>()?.PlayAnimation( Type, SkipAnimation );
+		public override string ToString() {
+			return $"[DoorUpdateMessage {nameof( Door )}: {Door}, {nameof( Type )}: {Type}]";
 		}
 	}
 
-	public override string ToString() {
-		return $"[DoorUpdateMessage {nameof( Door )}: {Door}, {nameof( Type )}: {Type}]";
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as DoorUpdateMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Door);
+
+		if ( NetworkObject != null ) {
+			NetworkObject.GetComponent<DoorAnimator>()?.PlayAnimation( newMsg.Type, newMsg.SkipAnimation );
+		}
 	}
 
 	/// <summary>
@@ -32,28 +38,35 @@ public class DoorUpdateMessage : ServerMessage {
 	/// <param name="skipAnimation">if true, all sound and animations will be skipped, leaving it in its end position.
 	/// 	Currently only used for when players are joining and there are open doors.</param>
 	/// <returns></returns>
-	public static DoorUpdateMessage Send( NetworkConnection recipient, GameObject door, DoorUpdateType type, bool skipAnimation = false ) {
-		var msg = new DoorUpdateMessage {
+	public static DoorUpdateMessageNetMessage Send( NetworkConnection recipient, GameObject door, DoorUpdateType type, bool skipAnimation = false )
+	{
+		var msg = new DoorUpdateMessageNetMessage
+		{
 			Door = door.NetId(),
 			Type = type,
 			SkipAnimation = skipAnimation
 		};
-		msg.SendTo( recipient );
+
+		new DoorUpdateMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public static DoorUpdateMessage SendToAll( GameObject door, DoorUpdateType type ) {
-		var msg = new DoorUpdateMessage {
+	public static DoorUpdateMessageNetMessage SendToAll( GameObject door, DoorUpdateType type )
+	{
+		var msg = new DoorUpdateMessageNetMessage
+		{
 			Door = door.NetId(),
 			Type = type,
 			SkipAnimation = false
 		};
-		msg.SendToAll();
+
+		new DoorUpdateMessage().SendToAll(msg);
 		return msg;
 	}
 }
 
-public enum DoorUpdateType {
+public enum DoorUpdateType
+{
 	Open = 0,
 	Close = 1,
 	AccessDenied = 2,

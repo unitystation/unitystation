@@ -8,12 +8,18 @@ using Mirror;
 /// </summary>
 public class UpdateHeadsetKeyMessage : ClientMessage
 {
-	public uint EncryptionKey;
-	public uint HeadsetItem;
-
-	public override void Process()
+	public class UpdateHeadsetKeyMessageNetMessage : ActualMessage
 	{
-		if ( HeadsetItem.Equals(NetId.Invalid) )
+		public uint EncryptionKey;
+		public uint HeadsetItem;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as UpdateHeadsetKeyMessageNetMessage;
+		if(newMsg == null) return;
+
+		if ( newMsg.HeadsetItem.Equals(NetId.Invalid) )
 		{
 			//Failfast
 
@@ -21,10 +27,10 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 			return;
 		}
 
-		if ( EncryptionKey.Equals(NetId.Invalid) )
+		if ( newMsg.EncryptionKey.Equals(NetId.Invalid) )
 		{
 			//No key passed in message -> Removes EncryptionKey from a headset
-			LoadNetworkObject(HeadsetItem);
+			LoadNetworkObject(newMsg.HeadsetItem);
 
 			var player = SentByPlayer;
 			var headsetGO = NetworkObject;
@@ -36,7 +42,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		else
 		{
 			//Key was passed -> Puts it into headset
-			LoadMultipleObjects(new uint[] {HeadsetItem, EncryptionKey});
+			LoadMultipleObjects(new uint[] {newMsg.HeadsetItem, newMsg.EncryptionKey});
 
 			var player = SentByPlayer;
 			var headsetGO = NetworkObjects[0];
@@ -83,15 +89,15 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		Spawn.ServerPrefab(encryptionKey, player.Script.WorldPos, player.GameObject.transform.parent);
 	}
 
-	public static UpdateHeadsetKeyMessage Send(GameObject headsetItem, GameObject encryptionkey = null)
+	public static UpdateHeadsetKeyMessageNetMessage Send(GameObject headsetItem, GameObject encryptionkey = null)
 	{
-		UpdateHeadsetKeyMessage msg = new UpdateHeadsetKeyMessage
+		UpdateHeadsetKeyMessageNetMessage msg = new UpdateHeadsetKeyMessageNetMessage
 		{
 			HeadsetItem = headsetItem ? headsetItem.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			EncryptionKey = encryptionkey ? encryptionkey.GetComponent<NetworkIdentity>().netId : NetId.Invalid
 		};
-		msg.Send();
 
+		new UpdateHeadsetKeyMessage().Send(msg);
 		return msg;
 	}
 
@@ -119,10 +125,5 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		}
 
 		return true;
-	}
-
-	public override string ToString()
-	{
-		return $"[UpdateHeadsetKeyMessage SentBy={SentByPlayer} HeadsetItem={HeadsetItem} EncryptionKey={EncryptionKey}]";
 	}
 }

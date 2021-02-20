@@ -1,13 +1,19 @@
 ﻿using System.Collections;
 using Messages.Client;
 
-public class PlayerNewPlayer: ClientMessage
+public class PlayerNewPlayer : ClientMessage
 {
-	public uint Player;
-
-	public override void Process()
+	public class PlayerNewPlayerNetMessage : ActualMessage
 	{
-		LoadNetworkObject(Player);
+		public uint Player;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as PlayerNewPlayerNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Player);
 		if (NetworkObject == null) return;
 		NetworkObject.GetComponent<PlayerSync>()?.NotifyPlayer(
 			SentByPlayer.Connection);
@@ -17,13 +23,13 @@ public class PlayerNewPlayer: ClientMessage
 			SentByPlayer.Connection);
 	}
 
-	public static PlayerNewPlayer Send(uint netId)
+	public static PlayerNewPlayerNetMessage Send(uint netId)
 	{
-		PlayerNewPlayer msg = new PlayerNewPlayer
+		PlayerNewPlayerNetMessage msg = new PlayerNewPlayerNetMessage
 		{
 			Player = netId
 		};
-		msg.Send();
+		new PlayerNewPlayer().Send(msg);
 		return msg;
 	}
 }

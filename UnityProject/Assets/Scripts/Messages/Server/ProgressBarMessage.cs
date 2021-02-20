@@ -7,27 +7,33 @@ using Mirror;
 /// </summary>
 public class ProgressBarMessage : ServerMessage
 {
-	public uint Recipient;
-	public int SpriteIndex;
-	public Vector2Int OffsetFromPlayer;
-	public int ProgressBarID;
-
-	public override void Process()
+	public class ProgressBarMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(Recipient);
+		public uint Recipient;
+		public int SpriteIndex;
+		public Vector2Int OffsetFromPlayer;
+		public int ProgressBarID;
+	}
 
-		var bar = UIManager.GetProgressBar(ProgressBarID);
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as ProgressBarMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Recipient);
+
+		var bar = UIManager.GetProgressBar(newMsg.ProgressBarID);
 
 		//bar not found, so create it unless we are the server (in which case it would already be created)
 		if (bar == null && !CustomNetworkManager.IsServer)
 		{
-			Logger.LogTraceFormat("Client progress bar ID {0} not found, creating it.", Category.ProgressAction, ProgressBarID);
-			bar = UIManager.CreateProgressBar(OffsetFromPlayer, ProgressBarID);
+			Logger.LogTraceFormat("Client progress bar ID {0} not found, creating it.", Category.ProgressAction, newMsg.ProgressBarID);
+			bar = UIManager.CreateProgressBar(newMsg.OffsetFromPlayer, newMsg.ProgressBarID);
 		}
 
 		if (bar != null)
 		{
-			bar.ClientUpdateProgress(SpriteIndex);
+			bar.ClientUpdateProgress(newMsg.SpriteIndex);
 		}
 	}
 
@@ -39,16 +45,16 @@ public class ProgressBarMessage : ServerMessage
 	/// <param name="offsetFromPlayer">offset from player performing the progress action</param>
 	/// <param name="progressBarID"></param>
 	/// <returns></returns>
-	public static ProgressBarMessage SendCreate(GameObject recipient, int spriteIndex, Vector2Int offsetFromPlayer, int progressBarID)
+	public static ProgressBarMessageNetMessage SendCreate(GameObject recipient, int spriteIndex, Vector2Int offsetFromPlayer, int progressBarID)
 	{
-		ProgressBarMessage msg = new ProgressBarMessage
+		ProgressBarMessageNetMessage msg = new ProgressBarMessageNetMessage
 		{
 			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 			SpriteIndex = spriteIndex,
 			OffsetFromPlayer = offsetFromPlayer,
 			ProgressBarID = progressBarID
 		};
-		msg.SendTo(recipient);
+		new ProgressBarMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
@@ -59,15 +65,15 @@ public class ProgressBarMessage : ServerMessage
 	/// <param name="spriteIndex"></param>
 	/// <param name="progressBarID"></param>
 	/// <returns></returns>
-	public static ProgressBarMessage SendUpdate(GameObject recipient, int spriteIndex, int progressBarID)
+	public static ProgressBarMessageNetMessage SendUpdate(GameObject recipient, int spriteIndex, int progressBarID)
 	{
-		ProgressBarMessage msg = new ProgressBarMessage
+		ProgressBarMessageNetMessage msg = new ProgressBarMessageNetMessage
 		{
 			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 			SpriteIndex = spriteIndex,
 			ProgressBarID = progressBarID
 		};
-		msg.SendTo(recipient);
+		new ProgressBarMessage().SendTo(recipient, msg);
 		return msg;
 	}
 }

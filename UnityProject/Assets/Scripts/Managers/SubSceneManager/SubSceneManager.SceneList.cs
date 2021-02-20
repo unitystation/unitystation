@@ -45,7 +45,6 @@ public partial class SubSceneManager
 			yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
 		}
 
-		netIdentity.isDirty = true;
 
 		yield return WaitFor.Seconds(0.1f);
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
@@ -295,21 +294,5 @@ public partial class SubSceneManager
 		}
 #endif
 		return prevEditorScene;
-	}
-
-	/// <summary>
-	/// Add a new scene to a specific connections observable list
-	/// </summary>
-	void AddObservableSceneToConnection(NetworkConnection conn, Scene sceneContext)
-	{
-		if (!NetworkServer.observerSceneList.ContainsKey(conn))
-		{
-			AddNewObserverScenePermissions(conn);
-		}
-
-		if (!NetworkServer.observerSceneList[conn].Contains(sceneContext))
-		{
-			NetworkServer.observerSceneList[conn].Add(sceneContext);
-		}
 	}
 }

@@ -5,22 +5,29 @@ using Messages.Client;
 
 public class AdminCheckMessages : ClientMessage
 {
-	public string PlayerId;
-	public int CurrentCount;
-
-	public override void Process()
+	public class AdminCheckMessagesNetMessage : ActualMessage
 	{
-		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerGetUnreadMessages(PlayerId, CurrentCount, SentByPlayer.Connection);
+		public string PlayerId;
+		public int CurrentCount;
 	}
 
-	public static AdminCheckMessages Send(string playerId, int currentCount)
+	public override void Process(ActualMessage msg)
 	{
-		AdminCheckMessages msg = new AdminCheckMessages
+		var newMsg = msg as AdminCheckMessagesNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerGetUnreadMessages(newMsg.PlayerId, newMsg.CurrentCount, SentByPlayer.Connection);
+	}
+
+	public static AdminCheckMessagesNetMessage Send(string playerId, int currentCount)
+	{
+		AdminCheckMessagesNetMessage msg = new AdminCheckMessagesNetMessage
 		{
 			PlayerId = playerId,
 			CurrentCount = currentCount
 		};
-		msg.Send();
+
+		new AdminCheckMessages().Send(msg);
 		return msg;
 	}
 }

@@ -4,12 +4,15 @@ using Mirror;
 
 public class UpdateTileMessage : ServerMessage
 {
-	public Vector3Int Position;
-	public TileType TileType;
-	public string TileName;
-	public Matrix4x4 TransformMatrix;
-	public Color Colour;
-	public uint TileChangeManager;
+	public class UpdateTileMessageNetMessage : ActualMessage
+	{
+		public Vector3Int Position;
+		public TileType TileType;
+		public string TileName;
+		public Matrix4x4 TransformMatrix;
+		public Color Colour;
+		public uint TileChangeManager;
+	}
 
 	public static List<delayedData> DelayedStuff = new List<delayedData>();
 
@@ -35,17 +38,20 @@ public class UpdateTileMessage : ServerMessage
 	}
 
 
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
-		LoadNetworkObject(TileChangeManager);
+		var newMsg = msg as UpdateTileMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.TileChangeManager);
 		if (NetworkObject == null)
 		{
-			DelayedStuff.Add(new delayedData(Position, TileType, TileName, TransformMatrix, Colour, TileChangeManager));
+			DelayedStuff.Add(new delayedData(newMsg.Position, newMsg.TileType, newMsg.TileName, newMsg.TransformMatrix, newMsg.Colour, newMsg.TileChangeManager));
 		}
 		else
 		{
 			var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
-			tileChangerManager.InternalUpdateTile(Position, TileType, TileName, TransformMatrix, Colour);
+			tileChangerManager.InternalUpdateTile(newMsg.Position, newMsg.TileType, newMsg.TileName, newMsg.TransformMatrix, newMsg.Colour);
 			TryDoNotDoneTiles();
 		}
 	}
@@ -67,11 +73,11 @@ public class UpdateTileMessage : ServerMessage
 		}
 	}
 
-	public static UpdateTileMessage Send(uint tileChangeManagerNetID, Vector3Int position, TileType tileType,
+	public static UpdateTileMessageNetMessage Send(uint tileChangeManagerNetID, Vector3Int position, TileType tileType,
 		string tileName,
 		Matrix4x4 transformMatrix, Color colour)
 	{
-		UpdateTileMessage msg = new UpdateTileMessage
+		UpdateTileMessageNetMessage msg = new UpdateTileMessageNetMessage
 		{
 			Position = position,
 			TileType = tileType,
@@ -80,7 +86,7 @@ public class UpdateTileMessage : ServerMessage
 			Colour = colour,
 			TileChangeManager = tileChangeManagerNetID
 		};
-		msg.SendToAll();
+		new UpdateTileMessage().SendToAll(msg);
 		return msg;
 	}
 }

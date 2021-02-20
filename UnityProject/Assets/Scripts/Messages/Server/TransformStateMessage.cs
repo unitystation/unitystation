@@ -7,21 +7,27 @@ using Mirror;
 /// </summary>
 public class TransformStateMessage : ServerMessage
 {
-	public bool ForceRefresh;
-	public TransformState State;
-	public uint TransformedObject;
+	public class TransformStateMessageNetMessage : ActualMessage
+	{
+		public bool ForceRefresh;
+		public TransformState State;
+		public uint TransformedObject;
+	}
 
 	///To be run on client
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
-		LoadNetworkObject(TransformedObject);
+		var newMsg = msg as TransformStateMessageNetMessage;
+		if(newMsg == null) return;
 
-		if (NetworkObject && (CustomNetworkManager.Instance._isServer || ForceRefresh))
+		LoadNetworkObject(newMsg.TransformedObject);
+
+		if (NetworkObject && (CustomNetworkManager.Instance._isServer || newMsg.ForceRefresh))
 		{
 			//update NetworkObject transform state
 			var transform = NetworkObject.GetComponent<CustomNetTransform>();
 //				Logger.Log($"{transform.ClientState} ->\n{State}");
-			transform.UpdateClientState(State);
+			transform.UpdateClientState(newMsg.State);
 		}
 	}
 
@@ -36,10 +42,10 @@ public class TransformStateMessage : ServerMessage
 	///     (to avoid updating it twice)
 	/// </param>
 	/// <returns>The sent message</returns>
-	public static TransformStateMessage Send(NetworkConnection recipient, GameObject transformedObject, TransformState state,
+	public static TransformStateMessageNetMessage Send(NetworkConnection recipient, GameObject transformedObject, TransformState state,
 		bool forced = true)
 	{
-		var msg = new TransformStateMessage
+		var msg = new TransformStateMessageNetMessage
 		{
 			TransformedObject = transformedObject != null
 				? transformedObject.GetComponent<NetworkIdentity>().netId
@@ -47,7 +53,7 @@ public class TransformStateMessage : ServerMessage
 			State = state,
 			ForceRefresh = forced
 		};
-		msg.SendTo(recipient);
+		new TransformStateMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
@@ -61,10 +67,10 @@ public class TransformStateMessage : ServerMessage
 	///     (to avoid updating it twice)
 	/// </param>
 	/// <returns>The sent message</returns>
-	public static TransformStateMessage SendToAll(GameObject transformedObject, TransformState state,
+	public static TransformStateMessageNetMessage SendToAll(GameObject transformedObject, TransformState state,
 		bool forced = true)
 	{
-		var msg = new TransformStateMessage
+		var msg = new TransformStateMessageNetMessage
 		{
 			TransformedObject = transformedObject != null
 				? transformedObject.GetComponent<NetworkIdentity>().netId
@@ -72,7 +78,7 @@ public class TransformStateMessage : ServerMessage
 			State = state,
 			ForceRefresh = forced
 		};
-		msg.SendToAll();
+		new TransformStateMessage().SendToAll(msg);
 		return msg;
 	}
 }

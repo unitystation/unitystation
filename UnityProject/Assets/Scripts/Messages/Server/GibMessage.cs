@@ -3,18 +3,23 @@ using UnityEngine;
 
 public class GibMessage : ServerMessage
 {
-	public override void Process()
+	public class GibMessageNetMessage : ActualMessage { }
+
+	public override void Process(ActualMessage msg)
 	{
+		var newMsg = msg as GibMessageNetMessage;
+		if(newMsg == null) return;
+
 		foreach (LivingHealthBehaviour living in Object.FindObjectsOfType<LivingHealthBehaviour>())
 		{
 			living.Death();
 		}
 	}
 
-	public static GibMessage Send()
+	public static GibMessageNetMessage Send()
 	{
-		GibMessage msg = new GibMessage();
-		msg.SendToAll();
+		GibMessageNetMessage msg = new GibMessageNetMessage();
+		new GibMessage().SendToAll(msg);
 		return msg;
 	}
 }

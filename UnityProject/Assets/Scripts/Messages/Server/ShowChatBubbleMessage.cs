@@ -7,30 +7,38 @@ using Mirror;
 /// </summary>
 public class ShowChatBubbleMessage : ServerMessage
 {
-	public ChatModifier ChatModifiers;
-	public string Message;
-	public uint FollowTransform;
-	public bool IsPlayerChatBubble; //Special flag for finding the correct transform target on players
-									//You may have to do something like this if your target does not
-									//have a NetworkIdentity on it
-
-	public override void Process()
+	public class ShowChatBubbleMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(FollowTransform);
+		public ChatModifier ChatModifiers;
+		public string Message;
+		public uint FollowTransform;
+		public bool IsPlayerChatBubble;
+
+		//Special flag for finding the correct transform target on players
+		//You may have to do something like this if your target does not
+		//have a NetworkIdentity on it
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as ShowChatBubbleMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.FollowTransform);
 		var target = NetworkObject.transform;
 
-		if (IsPlayerChatBubble)
+		if (newMsg.IsPlayerChatBubble)
 		{
 			target = target.GetComponent<PlayerNetworkActions>().chatBubbleTarget;
 		}
 
-		ChatBubbleManager.ShowAChatBubble(target, Message, ChatModifiers);
+		ChatBubbleManager.ShowAChatBubble(target, newMsg.Message, newMsg.ChatModifiers);
 	}
 
-	public static ShowChatBubbleMessage SendToNearby(GameObject followTransform, string message, bool isPlayerChatBubble = false,
+	public static ShowChatBubbleMessageNetMessage SendToNearby(GameObject followTransform, string message, bool isPlayerChatBubble = false,
 		ChatModifier chatModifier = ChatModifier.None)
 	{
-		ShowChatBubbleMessage msg = new ShowChatBubbleMessage
+		ShowChatBubbleMessageNetMessage msg = new ShowChatBubbleMessageNetMessage
 		{
 			ChatModifiers = chatModifier,
 			Message = message,
@@ -38,7 +46,7 @@ public class ShowChatBubbleMessage : ServerMessage
 			IsPlayerChatBubble = isPlayerChatBubble
 		};
 
-		msg.SendToVisiblePlayers(followTransform.transform.position);
+		new ShowChatBubbleMessage().SendToVisiblePlayers(followTransform.transform.position, msg);
 		return msg;
 	}
 }

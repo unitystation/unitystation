@@ -10,22 +10,29 @@ using Mirror;
 /// </summary>
 public class UpdateChatMessage : ServerMessage
 {
-	public ChatChannel Channels;
-	public ChatModifier ChatModifiers;
-	public string Message;
-	//If OthersMessage is empty then Message is meant for everyone, otherwise Message is meant for originator
-	// and others is meant for everyone else
-	public string OthersMessage;
-	public uint Recipient;
-	public uint Originator;
-	public string Speaker;
-	public bool StripTags;
-
-	public override void Process()
+	public class UpdateChatMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(Recipient);
+		public ChatChannel Channels;
+		public ChatModifier ChatModifiers;
+		public string Message;
+		//If OthersMessage is empty then Message is meant for everyone, otherwise Message is meant for originator
+		// and others is meant for everyone else
+		public string OthersMessage;
+		public uint Recipient;
+		public uint Originator;
+		public string Speaker;
+		public bool StripTags;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as UpdateChatMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Recipient);
 		var recipientObject = NetworkObject;
-		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker, recipientObject, StripTags);
+		Chat.ProcessUpdateChatMessage(newMsg.Recipient, newMsg.Originator,
+			newMsg.Message, newMsg.OthersMessage, newMsg.Channels, newMsg.ChatModifiers, newMsg.Speaker, recipientObject, newMsg.StripTags);
 	}
 
 	/// <summary>
@@ -33,7 +40,7 @@ public class UpdateChatMessage : ServerMessage
 	/// the Chat API (the only exception to this rule is if you just need to send 1 msg to 1 client from the server
 	/// i.e syndi special roles)
 	/// </summary>
-	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage, string othersMsg = "",
+	public static UpdateChatMessageNetMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage, string othersMsg = "",
 		GameObject originator = null, string speaker = "", bool stripTags = true)
 	{
 		uint origin = NetId.Empty;
@@ -42,8 +49,8 @@ public class UpdateChatMessage : ServerMessage
 			origin = originator.GetComponent<NetworkIdentity>().netId;
 		}
 
-		UpdateChatMessage msg =
-			new UpdateChatMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId,
+		UpdateChatMessageNetMessage msg =
+			new UpdateChatMessageNetMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 				Channels = channels,
 				ChatModifiers = chatMods,
 				Message = chatMessage,
@@ -53,11 +60,11 @@ public class UpdateChatMessage : ServerMessage
 				StripTags = stripTags
 			};
 
-		msg.SendTo(recipient);
+		new UpdateChatMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public override void SendTo(GameObject recipient)
+	public override void SendTo(GameObject recipient, ActualMessage msg)
 	{
 		if (recipient == null)
 		{
@@ -74,7 +81,7 @@ public class UpdateChatMessage : ServerMessage
 		//			only send to players that are currently controlled by a client
 		if (PlayerList.Instance.ContainsConnection(connection))
 		{
-			connection.Send(this, 0);
+			connection.Send(netMessage, 0);
 			Logger.LogTraceFormat("SentTo {0}: {1}", Category.Chat, recipient.name, this);
 		}
 		else

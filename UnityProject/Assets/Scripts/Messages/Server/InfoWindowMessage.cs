@@ -7,35 +7,40 @@ using Mirror;
 /// </summary>
 public class InfoWindowMessage : ServerMessage
 {
-	public string Text;
-	public string Title;
-	public bool Bwoink;
-	public uint Recipient;
-
-	public override void Process()
+	public class InfoWindowMessageNetMessage : ActualMessage
 	{
-		//To be run on client
-//		Logger.Log($"Processed {this}");
-		LoadNetworkObject(Recipient);
-		UIManager.InfoWindow.Show(Text, Bwoink, string.IsNullOrEmpty(Title) ? "" : Title);
+		public string Text;
+		public string Title;
+		public bool Bwoink;
+		public uint Recipient;
+
+		public override string ToString()
+		{
+			return $"[InfoWindowMessage Recipient={Recipient} Title={Title} InfoText={Text} Bwoink={Bwoink}]";
+		}
 	}
 
-	public static InfoWindowMessage Send(GameObject recipient, string text, string title = "", bool bwoink = true)
+	public override void Process(ActualMessage msg)
 	{
-		InfoWindowMessage msg =
-			new InfoWindowMessage {
+		//To be run on client
+		var newMsg = msg as InfoWindowMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Recipient);
+		UIManager.InfoWindow.Show(newMsg.Text, newMsg.Bwoink, string.IsNullOrEmpty(newMsg.Title) ? "" : newMsg.Title);
+	}
+
+	public static InfoWindowMessageNetMessage Send(GameObject recipient, string text, string title = "", bool bwoink = true)
+	{
+		InfoWindowMessageNetMessage msg =
+			new InfoWindowMessageNetMessage {
 				Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 				Text = text,
 				Title = title,
 				Bwoink = bwoink
 			};
 
-		msg.SendTo(recipient);
+		new InfoWindowMessage().SendTo(recipient, msg);
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return $"[InfoWindowMessage Recipient={Recipient} Title={Title} InfoText={Text} Bwoink={Bwoink}]";
 	}
 }

@@ -14,10 +14,16 @@ public enum TypingState
 /// </summary>
 public class ClientTypingMessage : ClientMessage
 {
-	public TypingState state;
-
-	public override void Process()
+	public class ClientTypingMessageNetMessage : ActualMessage
 	{
+		public TypingState state;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as ClientTypingMessageNetMessage;
+		if(newMsg == null) return;
+
 		// server side logic
 		if (SentByPlayer == ConnectedPlayer.Invalid)
 			return;
@@ -27,16 +33,16 @@ public class ClientTypingMessage : ClientMessage
 			return;
 
 		// send it to server that will decide what should be done next
-		ServerTypingMessage.Send(playerScript, state);
+		ServerTypingMessage.Send(playerScript, newMsg.state);
 	}
 
-	public static ClientTypingMessage Send(TypingState newState)
+	public static ClientTypingMessageNetMessage Send(TypingState newState)
 	{
-		var msg = new ClientTypingMessage()
+		var msg = new ClientTypingMessageNetMessage()
 		{
 			state = newState
 		};
-		msg.Send();
+		new ClientTypingMessage().Send(msg);
 		return msg;
 	}
 }

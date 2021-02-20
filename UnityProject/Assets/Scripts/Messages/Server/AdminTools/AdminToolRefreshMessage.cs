@@ -8,13 +8,19 @@ using InGameEvents;
 
 public class AdminToolRefreshMessage : ServerMessage
 {
-	public string JsonData;
-	public uint Recipient;
-
-	public override void Process()
+	public class AdminToolRefreshMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(Recipient);
-		var adminPageData = JsonUtility.FromJson<AdminPageRefreshData>(JsonData);
+		public string JsonData;
+		public uint Recipient;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as AdminToolRefreshMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Recipient);
+		var adminPageData = JsonUtility.FromJson<AdminPageRefreshData>(newMsg.JsonData);
 
 		var pages = GameObject.FindObjectsOfType<AdminPage>();
 		foreach (var g in pages)
@@ -23,7 +29,7 @@ public class AdminToolRefreshMessage : ServerMessage
 		}
 	}
 
-	public static AdminToolRefreshMessage Send(GameObject recipient, string adminID)
+	public static AdminToolRefreshMessageNetMessage Send(GameObject recipient, string adminID)
 	{
 		//Gather the data:
 		var pageData = new AdminPageRefreshData();
@@ -52,10 +58,10 @@ public class AdminToolRefreshMessage : ServerMessage
 
 		var data = JsonUtility.ToJson(pageData);
 
-		AdminToolRefreshMessage  msg =
-			new AdminToolRefreshMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
+		AdminToolRefreshMessageNetMessage  msg =
+			new AdminToolRefreshMessageNetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
 
-		msg.SendTo(recipient);
+		new AdminToolRefreshMessage().SendTo(recipient, msg);
 		return msg;
 	}
 

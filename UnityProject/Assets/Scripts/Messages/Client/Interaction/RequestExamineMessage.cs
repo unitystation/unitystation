@@ -13,24 +13,31 @@ using UnityEngine;
 /// </summary>
 public class RequestExamineMessage : ClientMessage
 {
-	//members
-	// netid of target
-	public uint examineTarget;
-	public Vector3 mousePosition;
+	public class RequestExamineMessageNetMessage : ActualMessage
+	{
+		//members
+		// netid of target
+		public uint examineTarget;
+		public Vector3 mousePosition;
+	}
+
 	static RequestExamineMessage()
 	{
 		//constructor
 	}
 
-	public override void Process()
+	public override void Process(ActualMessage netMsg)
 	{
+		var newMsg = netMsg as RequestExamineMessageNetMessage;
+		if(newMsg == null) return;
+
 		//TODO: check break conditions
 		if (SentByPlayer == null || SentByPlayer.Script == null)
 		{
 			return;
 		}
 
-		LoadNetworkObject(examineTarget);
+		LoadNetworkObject(newMsg.examineTarget);
 
 		if (NetworkObject == null) return;
 		// Here we build the message to send, by looking at the target's components.
@@ -52,7 +59,7 @@ public class RequestExamineMessage : ClientMessage
 				examinablePlayer.Examine(SentByPlayer.GameObject);
 			}
 
-			var examinableMsg = examinable.Examine(mousePosition);
+			var examinableMsg = examinable.Examine(newMsg.mousePosition);
 			if (string.IsNullOrEmpty(examinableMsg))
 				continue;
 
@@ -73,20 +80,20 @@ public class RequestExamineMessage : ClientMessage
 
 	public static void Send(uint targetNetId)
 	{
-		var msg = new RequestExamineMessage()
+		var msg = new RequestExamineMessageNetMessage()
 		{
 			examineTarget = targetNetId
 		};
-		msg.Send();
+		new RequestExamineMessage().Send(msg);
 	}
 
 	public static void Send(uint targetNetId, Vector3 mousePos)
 	{
-		var msg = new RequestExamineMessage()
+		var msg = new RequestExamineMessageNetMessage()
 		{
 			examineTarget = targetNetId,
 			mousePosition = mousePos
 		};
-		msg.Send();
+		new RequestExamineMessage().Send(msg);
 	}
 }

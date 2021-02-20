@@ -10,11 +10,17 @@ using UnityEngine;
 /// </summary>
 public class RequestBuildMessage : ClientMessage
 {
-	//index of the entry in the ConstructionList.
-	public byte EntryIndex;
-
-	public override void Process()
+	public class RequestBuildMessageNetMessage : ActualMessage
 	{
+		//index of the entry in the ConstructionList.
+		public byte EntryIndex;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as RequestBuildMessageNetMessage;
+		if(newMsg == null) return;
+
 		var clientStorage = SentByPlayer.Script.ItemStorage;
 		var usedSlot = clientStorage.GetActiveHandSlot();
 		if (usedSlot == null || usedSlot.ItemObject == null) return;
@@ -22,7 +28,7 @@ public class RequestBuildMessage : ClientMessage
 		var hasConstructionMenu = usedSlot.ItemObject.GetComponent<BuildingMaterial>();
 		if (hasConstructionMenu == null) return;
 
-		var entry = hasConstructionMenu.BuildList.Entries.ToArray()[EntryIndex];
+		var entry = hasConstructionMenu.BuildList.Entries.ToArray()[newMsg.EntryIndex];
 
 		if (!entry.CanBuildWith(hasConstructionMenu)) return;
 
@@ -95,16 +101,17 @@ public class RequestBuildMessage : ClientMessage
 	/// <param name="hasMenu">has construction menu component of the object being used to
 	/// construct.</param>
 	/// <returns></returns>
-	public static RequestBuildMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu)
+	public static RequestBuildMessageNetMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu)
 	{
 		int entryIndex = hasMenu.BuildList.Entries.ToList().IndexOf(entry);
 		if (entryIndex == -1) return null; // entryIndex was previously a byte, which made this check impossible.
 
-		RequestBuildMessage msg = new RequestBuildMessage
+		RequestBuildMessageNetMessage msg = new RequestBuildMessageNetMessage
 		{
 			EntryIndex = (byte) entryIndex
 		};
-		msg.Send();
+
+		new RequestBuildMessage().Send(msg);
 		return msg;
 	}
 }

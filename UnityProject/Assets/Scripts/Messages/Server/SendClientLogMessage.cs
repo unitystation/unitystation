@@ -7,28 +7,34 @@ using UnityEngine;
 /// </summary>
 public class SendClientLogMessage : ServerMessage
 {
-	public string Message;
-	public Category Category;
-	public bool IsError;
-
-	public override void Process()
+	public class SendClientLogMessageNetMessage : ActualMessage
 	{
-		if (IsError)
+		public string Message;
+		public Category Category;
+		public bool IsError;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as SendClientLogMessageNetMessage;
+		if(newMsg == null) return;
+
+		if (newMsg.IsError)
 		{
-			Logger.LogError(Message, Category);
+			Logger.LogError(newMsg.Message, newMsg.Category);
 		}
 		else
 		{
-			Logger.Log(Message, Category);
+			Logger.Log(newMsg.Message, newMsg.Category);
 		}
 	}
 
-	public static SendClientLogMessage SendLogToClient(GameObject clientPlayer, string message, Category logCat,
+	public static SendClientLogMessageNetMessage SendLogToClient(GameObject clientPlayer, string message, Category logCat,
 		bool showError)
 	{
-		SendClientLogMessage msg = new SendClientLogMessage {Message = message, Category = logCat, IsError = showError};
+		SendClientLogMessageNetMessage msg = new SendClientLogMessageNetMessage {Message = message, Category = logCat, IsError = showError};
 
-		msg.SendTo(clientPlayer);
+		new SendClientLogMessage().SendTo(clientPlayer, msg);
 
 		return msg;
 	}

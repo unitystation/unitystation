@@ -10,8 +10,11 @@ namespace Messages.Server
 	/// </summary>
 	public class GhostRoleResponseMessage : ServerMessage
 	{
-		public uint roleID;
-		public int responseCode;
+		public class GhostRoleResponseMessageNetMessage : ActualMessage
+		{
+			public uint roleID;
+			public int responseCode;
+		}
 
 		private static readonly Dictionary<GhostRoleResponseCode, string> stringDict = new Dictionary<GhostRoleResponseCode, string>()
 		{
@@ -25,27 +28,30 @@ namespace Messages.Server
 		};
 
 		// To be run on client
-		public override void Process()
+		public override void Process(ActualMessage msg)
 		{
+			var newMsg = msg as GhostRoleResponseMessageNetMessage;
+			if(newMsg == null) return;
+
 			if (PlayerManager.LocalPlayer == null) return;
 
 			if (MatrixManager.IsInitialized == false) return;
 
-			UIManager.GhostRoleWindow.DisplayResponseMessage(roleID, (GhostRoleResponseCode)responseCode);
+			UIManager.GhostRoleWindow.DisplayResponseMessage(newMsg.roleID, (GhostRoleResponseCode)newMsg.responseCode);
 		}
 
 		/// <summary>
 		/// Sends a message to the specific player, informing them about the outcome of their request for a ghost role.
 		/// </summary>
-		public static GhostRoleResponseMessage SendTo(ConnectedPlayer player, uint key, GhostRoleResponseCode code)
+		public static GhostRoleResponseMessageNetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleResponseCode code)
 		{
-			GhostRoleResponseMessage msg = new GhostRoleResponseMessage
+			GhostRoleResponseMessageNetMessage msg = new GhostRoleResponseMessageNetMessage
 			{
 				roleID = key,
 				responseCode = (int) code,
 			};
 
-			msg.SendTo(player);
+			new GhostRoleResponseMessage().SendTo(player, msg);
 			return msg;
 		}
 

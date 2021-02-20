@@ -8,9 +8,12 @@ using Messages.Client;
 
 public class RequestGameAction : ClientMessage
 {
-	public int ComponentLocation;
-	public uint NetObject;
-	public ushort ComponentID;
+	public class RequestGameActionNetMessage : ActualMessage
+	{
+		public int ComponentLocation;
+		public uint NetObject;
+		public ushort ComponentID;
+	}
 
 	public static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>(); //These are useful
 	public static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
@@ -32,17 +35,20 @@ public class RequestGameAction : ClientMessage
 
 	}
 
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
-		var type = componentIDToComponentType[ComponentID];
-		LoadNetworkObject(NetObject);
+		var newMsg = msg as RequestGameActionNetMessage;
+		if(newMsg == null) return;
+
+		var type = componentIDToComponentType[newMsg.ComponentID];
+		LoadNetworkObject(newMsg.NetObject);
 
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
 			var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
-			if (IActionGUIs.Length > ComponentLocation)
+			if (IActionGUIs.Length > newMsg.ComponentLocation)
 			{
-				var IServerActionGUI = IActionGUIs[ComponentLocation] as IServerActionGUI;
+				var IServerActionGUI = IActionGUIs[newMsg.ComponentLocation] as IServerActionGUI;
 				IServerActionGUI.CallActionServer(SentByPlayer);
 			}
 		}
@@ -75,13 +81,13 @@ public class RequestGameAction : ClientMessage
 		}
 		if (found)
 		{
-			var msg = new RequestGameAction
+			var msg = new RequestGameActionNetMessage
 			{
 				NetObject = netObject.netId,
 				ComponentLocation = componentLocation,
 				ComponentID = componentTypeToComponentID[componentType],
 			};
-			msg.Send();
+			new RequestGameAction().Send(msg);
 			return;
 		}
 

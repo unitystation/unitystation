@@ -7,12 +7,18 @@ using Mirror;
 /// </summary>
 public class HealthConsciousMessage : ServerMessage
 {
-	public uint EntityToUpdate;
-	public ConsciousState ConsciousState;
-
-	public override void Process()
+	public class HealthConsciousMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(EntityToUpdate);
+		public uint EntityToUpdate;
+		public ConsciousState ConsciousState;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as HealthConsciousMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.EntityToUpdate);
 		if (NetworkObject == null)
 		{
 			return;
@@ -22,7 +28,7 @@ public class HealthConsciousMessage : ServerMessage
 
 		if (healthBehaviour != null)
 		{
-			healthBehaviour.UpdateClientConsciousState(ConsciousState);
+			healthBehaviour.UpdateClientConsciousState(newMsg.ConsciousState);
 		}
 		else
 		{
@@ -30,25 +36,25 @@ public class HealthConsciousMessage : ServerMessage
 		}
 	}
 
-	public static HealthConsciousMessage Send(GameObject recipient, GameObject entityToUpdate, ConsciousState consciousState)
+	public static HealthConsciousMessageNetMessage Send(GameObject recipient, GameObject entityToUpdate, ConsciousState consciousState)
 	{
-		HealthConsciousMessage msg = new HealthConsciousMessage
+		HealthConsciousMessageNetMessage msg = new HealthConsciousMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 			ConsciousState = consciousState
 		};
-		msg.SendTo(recipient);
+		new HealthConsciousMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public static HealthConsciousMessage SendToAll(GameObject entityToUpdate, ConsciousState consciousState)
+	public static HealthConsciousMessageNetMessage SendToAll(GameObject entityToUpdate, ConsciousState consciousState)
 	{
-		HealthConsciousMessage msg = new HealthConsciousMessage
+		HealthConsciousMessageNetMessage msg = new HealthConsciousMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 			ConsciousState = consciousState
 		};
-		msg.SendToAll();
+		new HealthConsciousMessage().SendToAll(msg);
 		return msg;
 	}
 }

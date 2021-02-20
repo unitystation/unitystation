@@ -7,42 +7,48 @@ using UnityEngine;
 
 public class RequestAdminTeleport : ClientMessage
 {
-	public string Userid;
-	public string AdminToken;
-	public string UserToTeleport;
-	public string UserToTeleportTo;
-	public OpperationList OpperationNumber;
-	public bool IsAghost;
-	public float vectorX;
-	public float vectorY;
-	public float vectorZ;
-
-	public override void Process()
+	public class RequestAdminTeleportNetMessage : ActualMessage
 	{
-		switch (OpperationNumber)
+		public string Userid;
+		public string AdminToken;
+		public string UserToTeleport;
+		public string UserToTeleportTo;
+		public OpperationList OpperationNumber;
+		public bool IsAghost;
+		public float vectorX;
+		public float vectorY;
+		public float vectorZ;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as RequestAdminTeleportNetMessage;
+		if(newMsg == null) return;
+
+		switch (newMsg.OpperationNumber)
 		{
 			case OpperationList.AdminToPlayer:
-				DoAdminToPlayerTeleport();
+				DoAdminToPlayerTeleport(newMsg);
 				return;
 			case OpperationList.PlayerToAdmin:
-				DoPlayerToAdminTeleport();
+				DoPlayerToAdminTeleport(newMsg);
 				return;
 			case OpperationList.AllPlayersToPlayer:
-				DoAllPlayersToPlayerTeleport();
+				DoAllPlayersToPlayerTeleport(newMsg);
 				return;
 		}
 	}
 
-	private void DoPlayerToAdminTeleport()
+	private void DoPlayerToAdminTeleport(RequestAdminTeleportNetMessage msg)
 	{
-		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		var admin = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
 		if (admin == null) return;
 
 		PlayerScript userToTeleport = null;
 
 		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
-			if (player.UserId == UserToTeleport)
+			if (player.UserId == msg.UserToTeleport)
 			{
 				userToTeleport = player.Script;
 
@@ -52,24 +58,24 @@ public class RequestAdminTeleport : ClientMessage
 
 		if (userToTeleport == null) return;
 
-		var coord = new Vector3 {x = vectorX, y = vectorY, z = vectorZ };
+		var coord = new Vector3 {x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
 		userToTeleport.PlayerSync.SetPosition(coord, true);
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", Userid);
+				$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", msg.Userid);
 	}
 
-	private void DoAdminToPlayerTeleport()
+	private void DoAdminToPlayerTeleport(RequestAdminTeleportNetMessage msg)
 	{
-		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		var admin = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
 		if (admin == null) return;
 
 		PlayerScript userToTeleportTo = null;
 
 		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
-			if (player.UserId == UserToTeleportTo)
+			if (player.UserId == msg.UserToTeleportTo)
 			{
 				userToTeleportTo = player.Script;
 
@@ -85,30 +91,30 @@ public class RequestAdminTeleport : ClientMessage
 
 		playerScript.PlayerSync.SetPosition(userToTeleportTo.gameObject.AssumedWorldPosServer(), true);
 
-		string msg;
+		string message;
 
-		if (IsAghost)
+		if (msg.IsAghost)
 		{
-			msg = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a ghost";
+			message = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a ghost";
 		}
 		else
 		{
-			msg = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a player";
+			message = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a player";
 		}
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, Userid);
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, msg.Userid);
 	}
 
-	private void DoAllPlayersToPlayerTeleport()
+	private void DoAllPlayersToPlayerTeleport(RequestAdminTeleportNetMessage msg)
 	{
-		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		var admin = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
 		if (admin == null) return;
 
 		PlayerScript destinationPlayer = null;
 
 		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
-			if (player.UserId == UserToTeleportTo)
+			if (player.UserId == msg.UserToTeleportTo)
 			{
 				destinationPlayer = player.Script;
 
@@ -124,9 +130,9 @@ public class RequestAdminTeleport : ClientMessage
 
 			if (userToTeleport == null) continue;
 
-			if (IsAghost)
+			if (msg.IsAghost)
 			{
-				var coord = new Vector3 { x = vectorX, y = vectorY, z = vectorZ };
+				var coord = new Vector3 { x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
 				userToTeleport.PlayerSync.SetPosition(coord, true);
 			}
@@ -143,14 +149,14 @@ public class RequestAdminTeleport : ClientMessage
 			}
 		}
 
-		var msg = $"{SentByPlayer.Username} teleported all players to {destinationPlayer.playerName}";
+		var stringMsg = $"{SentByPlayer.Username} teleported all players to {destinationPlayer.playerName}";
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, Userid);
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(stringMsg, msg.Userid);
 	}
 
-	public static RequestAdminTeleport Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, OpperationList opperation, bool isAghost, Vector3 Coord)
+	public static RequestAdminTeleportNetMessage Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, OpperationList opperation, bool isAghost, Vector3 Coord)
 	{
-		RequestAdminTeleport msg = new RequestAdminTeleport
+		RequestAdminTeleportNetMessage msg = new RequestAdminTeleportNetMessage
 		{
 			Userid = userId,
 			AdminToken = adminToken,
@@ -162,7 +168,7 @@ public class RequestAdminTeleport : ClientMessage
 			vectorY = Coord.y,
 			vectorZ = Coord.z
 		};
-		msg.Send();
+		new RequestAdminTeleport().Send(msg);
 		return msg;
 	}
 

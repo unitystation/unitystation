@@ -6,38 +6,45 @@ using UnityEngine;
 
 public class RequestChangeVariableNetMessage : ClientMessage
 {
-	public string newValue;
-	public ulong PageID;
-	public bool IsNewBookshelf = false;
-	public bool SendToClient = false;
-	public string AdminId;
-	public string AdminToken;
-
-	public override void Process()
+	public class RequestChangeVariableNetMessageNetMessage : ActualMessage
 	{
-		ValidateAdmin();
+		public string newValue;
+		public ulong PageID;
+		public bool IsNewBookshelf = false;
+		public bool SendToClient = false;
+		public string AdminId;
+		public string AdminToken;
 	}
 
-	void ValidateAdmin()
+	public override void Process(ActualMessage msg)
 	{
-		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
-		if (admin == null) return;
-		VariableViewer.RequestChangeVariable(PageID, newValue,SendToClient, SentByPlayer.GameObject, AdminId);
+		var newMsg = msg as RequestChangeVariableNetMessageNetMessage;
+		if(newMsg == null) return;
 
-		Logger.Log($"Admin {admin.name} changed variable {PageID} (in VV) with a new value of: {newValue} ",
+		ValidateAdmin(newMsg);
+	}
+
+	void ValidateAdmin(RequestChangeVariableNetMessageNetMessage msg)
+	{
+		var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
+		if (admin == null) return;
+		VariableViewer.RequestChangeVariable(msg.PageID, msg.newValue, msg.SendToClient, SentByPlayer.GameObject, msg.AdminId);
+
+		Logger.Log($"Admin {admin.name} changed variable {msg.PageID} (in VV) with a new value of: {msg.newValue} ",
 			Category.Admin);
 	}
 
 
-	public static RequestChangeVariableNetMessage Send(ulong _PageID, string _newValue ,bool InSendToClient , string adminId, string adminToken)
+	public static RequestChangeVariableNetMessageNetMessage Send(ulong _PageID, string _newValue ,bool InSendToClient , string adminId, string adminToken)
 	{
-		RequestChangeVariableNetMessage msg = new RequestChangeVariableNetMessage();
+		RequestChangeVariableNetMessageNetMessage msg = new RequestChangeVariableNetMessageNetMessage();
 		msg.PageID = _PageID;
 		msg.newValue = _newValue;
 		msg.AdminId = adminId;
 		msg.AdminToken = adminToken;
 		msg.SendToClient = InSendToClient;
-		msg.Send();
+
+		new RequestChangeVariableNetMessage().Send(msg);
 		return msg;
 	}
 }

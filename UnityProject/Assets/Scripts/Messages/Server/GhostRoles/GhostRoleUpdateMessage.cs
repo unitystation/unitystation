@@ -10,27 +10,33 @@ namespace Messages.Server
 	/// </summary>
 	public class GhostRoleUpdateMessage : ServerMessage
 	{
-		public uint roleID;
-		public int roleType;
-		public int minPlayers;
-		public int maxPlayers;
-		public int playerCount;
-		public float timeRemaining;
+		public class GhostRoleUpdateMessageNetMessage : ActualMessage
+		{
+			public uint roleID;
+			public int roleType;
+			public int minPlayers;
+			public int maxPlayers;
+			public int playerCount;
+			public float timeRemaining;
+		}
 
 		// To be run on client
-		public override void Process()
+		public override void Process(ActualMessage msg)
 		{
+			var newMsg = msg as GhostRoleUpdateMessageNetMessage;
+			if(newMsg == null) return;
+
 			if (PlayerManager.LocalPlayer == null) return;
 
 			if (MatrixManager.IsInitialized == false) return;
 
-			GhostRoleManager.Instance.ClientAddOrUpdateRole(roleID, roleType, minPlayers, maxPlayers, playerCount, timeRemaining);
+			GhostRoleManager.Instance.ClientAddOrUpdateRole(newMsg.roleID, newMsg.roleType, newMsg.minPlayers, newMsg.maxPlayers, newMsg.playerCount, newMsg.timeRemaining);
 		}
 
 		/// <summary>
 		/// Sends a message to all dead, informing them about a new ghost role that has become available.
 		/// </summary>
-		public static GhostRoleUpdateMessage SendToDead(uint key)
+		public static GhostRoleUpdateMessageNetMessage SendToDead(uint key)
 		{
 			if (GhostRoleManager.Instance != null)
 			{
@@ -57,16 +63,16 @@ namespace Messages.Server
 		/// <summary>
 		/// Sends a message to the specific player, informing them about a new ghost role that has become available.
 		/// </summary>
-		public static GhostRoleUpdateMessage SendTo(ConnectedPlayer player, uint key, GhostRoleServer role)
+		public static GhostRoleUpdateMessageNetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleServer role)
 		{
-			GhostRoleUpdateMessage msg = GetMessage(key, role);
-			msg.SendTo(player);
+			GhostRoleUpdateMessageNetMessage msg = GetMessage(key, role);
+			new GhostRoleUpdateMessage().SendTo(player, msg);
 			return msg;
 		}
 
-		private static GhostRoleUpdateMessage GetMessage(uint key, GhostRoleServer role)
+		private static GhostRoleUpdateMessageNetMessage GetMessage(uint key, GhostRoleServer role)
 		{
-			return new GhostRoleUpdateMessage
+			return new GhostRoleUpdateMessageNetMessage
 			{
 				roleID = key,
 				roleType = role.RoleListIndex,

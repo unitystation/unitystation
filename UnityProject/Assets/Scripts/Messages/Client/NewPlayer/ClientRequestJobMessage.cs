@@ -12,32 +12,38 @@ namespace Messages.Client
 	/// </summary>
 	public class ClientRequestJobMessage : ClientMessage
 	{
-		public string PlayerID;
-		public JobType JobType;
-		public string JsonCharSettings;
-
-		public override void Process()
+		public class ClientRequestJobMessageNetMessage : ActualMessage
 		{
+			public string PlayerID;
+			public JobType JobType;
+			public string JsonCharSettings;
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as ClientRequestJobMessageNetMessage;
+			if(newMsg == null) return;
+
 			// Serverside: check that message sent from client is good, and then validate request (round started, has job space etc)
-			if (ValidateMessage() && ValidateRequest())
+			if (ValidateMessage(newMsg) && ValidateRequest(newMsg))
 			{
-				AcceptRequest();
+				AcceptRequest(newMsg);
 			}
 		}
 
-		public static ClientRequestJobMessage Send(JobType jobType, string jsonCharSettings, string playerID)
+		public static ClientRequestJobMessageNetMessage Send(JobType jobType, string jsonCharSettings, string playerID)
 		{
-			ClientRequestJobMessage msg = new ClientRequestJobMessage
+			ClientRequestJobMessageNetMessage msg = new ClientRequestJobMessageNetMessage
 			{
 				JobType = jobType,
 				JsonCharSettings = jsonCharSettings,
 				PlayerID = playerID
 			};
-			msg.Send();
+			new ClientRequestJobMessage().Send(msg);
 			return msg;
 		}
 
-		private bool ValidateMessage()
+		private bool ValidateMessage(ClientRequestJobMessageNetMessage msg)
 		{
 			if (SentByPlayer == null || SentByPlayer.Equals(ConnectedPlayer.Invalid))
 			{
@@ -57,16 +63,16 @@ namespace Messages.Client
 				return false;
 			}
 
-			if (SentByPlayer.UserId != PlayerID)
+			if (SentByPlayer.UserId != msg.PlayerID)
 			{
-				NotifyError(JobRequestError.InvalidPlayerID, $"{nameof(PlayerID)} does not match {nameof(SentByPlayer.UserId)}");
+				NotifyError(JobRequestError.InvalidPlayerID, $"{nameof(msg.PlayerID)} does not match {nameof(SentByPlayer.UserId)}");
 				return false;
 			}
 
 			return true;
 		}
 
-		private bool ValidateRequest()
+		private bool ValidateRequest(ClientRequestJobMessageNetMessage msg)
 		{
 			if (GameManager.Instance.CurrentRoundState != RoundState.Started)
 			{
@@ -74,28 +80,28 @@ namespace Messages.Client
 				return false;
 			}
 
-			if (PlayerList.Instance.FindPlayerJobBanEntryServer(PlayerID, JobType, true) != null)
+			if (PlayerList.Instance.FindPlayerJobBanEntryServer(msg.PlayerID, msg.JobType, true) != null)
 			{
-				NotifyRequestRejected(JobRequestError.JobBanned, $"player was job-banned from {JobType}");
+				NotifyRequestRejected(JobRequestError.JobBanned, $"player was job-banned from {msg.JobType}");
 				return false;
 			}
 
-			int slotsTaken = GameManager.Instance.GetOccupationsCount(JobType);
-			int slotsMax = GameManager.Instance.GetOccupationMaxCount(JobType);
+			int slotsTaken = GameManager.Instance.GetOccupationsCount(msg.JobType);
+			int slotsMax = GameManager.Instance.GetOccupationMaxCount(msg.JobType);
 			if (slotsTaken >= slotsMax)
 			{
-				NotifyRequestRejected(JobRequestError.PositionsFilled, $"no empty positions for {JobType}");
+				NotifyRequestRejected(JobRequestError.PositionsFilled, $"no empty positions for {msg.JobType}");
 				return false;
 			}
 
 			return true;
 		}
 
-		private void AcceptRequest()
+		private void AcceptRequest(ClientRequestJobMessageNetMessage msg)
 		{
-			var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(JsonCharSettings);
+			var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(msg.JsonCharSettings);
 			var spawnRequest = PlayerSpawnRequest.RequestOccupation(
-					SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(JobType), characterSettings, SentByPlayer.UserId);
+					SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), characterSettings, SentByPlayer.UserId);
 
 			GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
 			GameManager.Instance.ProcessSpawnPlayerQueue();

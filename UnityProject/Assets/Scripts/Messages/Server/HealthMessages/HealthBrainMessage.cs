@@ -7,38 +7,44 @@ using Mirror;
 /// </summary>
 public class HealthBrainMessage : ServerMessage
 {
-	public uint EntityToUpdate;
-	public bool IsHusk;
-	public int BrainDamage;
-
-	public override void Process()
+	public class HealthBrainMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(EntityToUpdate);
-		if(NetworkObject != null) NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBrainStats(IsHusk, BrainDamage);
+		public uint EntityToUpdate;
+		public bool IsHusk;
+		public int BrainDamage;
 	}
 
-	public static HealthBrainMessage Send(GameObject recipient, GameObject entityToUpdate, bool isHusk, int brainDamage)
+	public override void Process(ActualMessage msg)
 	{
-		HealthBrainMessage msg = new HealthBrainMessage
+		var newMsg = msg as HealthBrainMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.EntityToUpdate);
+		if(NetworkObject != null) NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBrainStats(newMsg.IsHusk, newMsg.BrainDamage);
+	}
+
+	public static HealthBrainMessageNetMessage Send(GameObject recipient, GameObject entityToUpdate, bool isHusk, int brainDamage)
+	{
+		HealthBrainMessageNetMessage msg = new HealthBrainMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 			IsHusk = isHusk,
 			BrainDamage = brainDamage
 
 		};
-		msg.SendTo(recipient);
+		new HealthBrainMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public static HealthBrainMessage SendToAll(GameObject entityToUpdate, bool isHusk, int brainDamage)
+	public static HealthBrainMessageNetMessage SendToAll(GameObject entityToUpdate, bool isHusk, int brainDamage)
 	{
-		HealthBrainMessage msg = new HealthBrainMessage
+		HealthBrainMessageNetMessage msg = new HealthBrainMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 			IsHusk = isHusk,
 			BrainDamage = brainDamage
 		};
-		msg.SendToAll();
+		new HealthBrainMessage().SendToAll(msg);
 		return msg;
 	}
 }

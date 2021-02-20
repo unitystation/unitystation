@@ -5,30 +5,37 @@ using UnityEngine;
 
 public class RequestToViewObjectsAtTile : ClientMessage
 {
-	public Vector3 Location;
-	public string AdminId;
-	public string AdminToken;
-
-	public override void Process()
+	public class RequestToViewObjectsAtTileNetMessage : ActualMessage
 	{
-		ValidateAdmin();
+		public Vector3 Location;
+		public string AdminId;
+		public string AdminToken;
 	}
 
-	void ValidateAdmin()
+	public override void Process(ActualMessage msg)
 	{
-		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
+		var newMsg = msg as RequestToViewObjectsAtTileNetMessage;
+		if(newMsg == null) return;
+
+		ValidateAdmin(newMsg);
+	}
+
+	void ValidateAdmin(RequestToViewObjectsAtTileNetMessage msg)
+	{
+		var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
 		if (admin == null) return;
 
-		VariableViewer.ProcessTile(Location,SentByPlayer.GameObject);
+		VariableViewer.ProcessTile(msg.Location, SentByPlayer.GameObject);
 	}
 
-	public static RequestToViewObjectsAtTile Send(Vector3 _Location, string adminId, string adminToken)
+	public static RequestToViewObjectsAtTileNetMessage Send(Vector3 _Location, string adminId, string adminToken)
 	{
-		RequestToViewObjectsAtTile msg = new RequestToViewObjectsAtTile();
+		RequestToViewObjectsAtTileNetMessage msg = new RequestToViewObjectsAtTileNetMessage();
 		msg.Location = _Location;
 		msg.AdminId = adminId;
 		msg.AdminToken = adminToken;
-		msg.Send();
+
+		new RequestToViewObjectsAtTile().Send(msg);
 		return msg;
 	}
 }

@@ -9,26 +9,26 @@ namespace Messages.Client
 		/// Returns ConnectedPlayer.Invalid if there are issues finding one from PlayerList (like, player already left)
 		/// </summary>
 		public ConnectedPlayer SentByPlayer;
-		public override void Process( NetworkConnection sentBy )
+		public override void Process( NetworkConnection sentBy, NetMessage msg )
 		{
 			SentByPlayer = PlayerList.Instance.Get( sentBy );
-			base.Process(sentBy);
+			base.Process(sentBy, msg);
 		}
 
-		public void Send()
+		public void Send(ActualMessage msg)
 		{
-			NetworkClient.Send(this, 0);
-//		Logger.Log($"Sent {this}");
+			netMessage = new NetMessage(){actualMessage = msg};
+			NetworkClient.Send(netMessage, 0);
 		}
 
-		public void SendUnreliable()
+		public void SendUnreliable(ActualMessage msg)
 		{
-			NetworkClient.Send(this, 1);
+			netMessage = new NetMessage(){actualMessage = msg};
+			NetworkClient.Send(netMessage, 1);
 		}
 
 		private static uint LocalPlayerId()
 		{
-
 			return PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>().netId;
 		}
 	}

@@ -6,14 +6,20 @@ using Newtonsoft.Json;
 
 public class RemoveHackingConnection : ClientMessage
 {
-	public uint Player;
-	public uint HackableObject;
-	public string JsonData;
-
-	public override void Process()
+	public class RemoveHackingConnectionNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[] { Player, HackableObject });
-		int[] connectionToRemove = JsonConvert.DeserializeObject<int[]>(JsonData);
+		public uint Player;
+		public uint HackableObject;
+		public string JsonData;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as RemoveHackingConnectionNetMessage;
+		if(newMsg == null) return;
+
+		LoadMultipleObjects(new uint[] { newMsg.Player, newMsg.HackableObject });
+		int[] connectionToRemove = JsonConvert.DeserializeObject<int[]>(newMsg.JsonData);
 
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
 		var hackObject = NetworkObjects[1];
@@ -25,15 +31,16 @@ public class RemoveHackingConnection : ClientMessage
 		}
 	}
 
-	public static RemoveHackingConnection Send(GameObject player, GameObject hackObject, int[] connectionToRemove)
+	public static RemoveHackingConnectionNetMessage Send(GameObject player, GameObject hackObject, int[] connectionToRemove)
 	{
-		RemoveHackingConnection msg = new RemoveHackingConnection
+		RemoveHackingConnectionNetMessage msg = new RemoveHackingConnectionNetMessage
 		{
 			Player = player.GetComponent<NetworkIdentity>().netId,
 			HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
 			JsonData = JsonConvert.SerializeObject(connectionToRemove),
 		};
-		msg.Send();
+
+		new RemoveHackingConnection().Send(msg);
 		return msg;
 	}
 }

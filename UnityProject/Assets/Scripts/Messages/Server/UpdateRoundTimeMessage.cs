@@ -5,20 +5,26 @@
 /// </summary>
 public class UpdateRoundTimeMessage : ServerMessage
 {
-	public string Time;
-
-	public override void Process()
+	public class UpdateRoundTimeMessageNetMessage : ActualMessage
 	{
-		GameManager.Instance.SyncTime(Time);
+		public string Time;
 	}
 
-	public static UpdateRoundTimeMessage Send(string time)
+	public override void Process(ActualMessage msg)
 	{
-		UpdateRoundTimeMessage msg = new UpdateRoundTimeMessage
+		var newMsg = msg as UpdateRoundTimeMessageNetMessage;
+		if(newMsg == null) return;
+
+		GameManager.Instance.SyncTime(newMsg.Time);
+	}
+
+	public static UpdateRoundTimeMessageNetMessage Send(string time)
+	{
+		UpdateRoundTimeMessageNetMessage msg = new UpdateRoundTimeMessageNetMessage
 		{
 			Time = time
 		};
-		msg.SendToAll();
+		new UpdateRoundTimeMessage().SendToAll(msg);
 		return msg;
 	}
 }

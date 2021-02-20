@@ -5,16 +5,24 @@ using UnityEngine;
 
 public class ClientRequestCatalogues : ClientMessage
 {
-	public override void Process()
+	public class ClientRequestCataloguesNetMessage : ActualMessage
 	{
+
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as ClientRequestCataloguesNetMessage;
+		if(newMsg == null) return;
+
 		AddressableCatalogueManager.ClientRequestCatalogue(SentByPlayer.GameObject);
 	}
 
-	public static ClientRequestCatalogues RequestCatalogue()
+	public static ClientRequestCataloguesNetMessage RequestCatalogue()
 	{
-		ClientRequestCatalogues msg = new ClientRequestCatalogues();
+		ClientRequestCataloguesNetMessage msg = new ClientRequestCataloguesNetMessage();
 
-		msg.Send();
+		new ClientRequestCatalogues().Send(msg);
 		return msg;
 	}
 }

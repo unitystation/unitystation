@@ -7,23 +7,29 @@ using Mirror;
 /// </summary>
 public class HealthBodyPartMessage : ServerMessage
 {
-	public uint EntityToUpdate;
-	public BodyPartType BodyPart;
-	public float BruteDamage;
-	public float BurnDamage;
-
-	public override void Process()
+	public class HealthBodyPartMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(EntityToUpdate);
+		public uint EntityToUpdate;
+		public BodyPartType BodyPart;
+		public float BruteDamage;
+		public float BurnDamage;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as HealthBodyPartMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.EntityToUpdate);
 		if (NetworkObject != null){
-			NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBodyPartStats(BodyPart, BruteDamage, BurnDamage);
+			NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBodyPartStats(newMsg.BodyPart, newMsg.BruteDamage, newMsg.BurnDamage);
 		}
 	}
 
-	public static HealthBodyPartMessage Send(GameObject recipient, GameObject entityToUpdate, BodyPartType bodyPartType,
+	public static HealthBodyPartMessageNetMessage Send(GameObject recipient, GameObject entityToUpdate, BodyPartType bodyPartType,
 		float bruteDamage, float burnDamage)
 	{
-		HealthBodyPartMessage msg = new HealthBodyPartMessage
+		HealthBodyPartMessageNetMessage msg = new HealthBodyPartMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				BodyPart = bodyPartType,
@@ -31,21 +37,21 @@ public class HealthBodyPartMessage : ServerMessage
 				BurnDamage = burnDamage
 
 		};
-		msg.SendTo(recipient);
+		new HealthBodyPartMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public static HealthBodyPartMessage SendToAll(GameObject entityToUpdate, BodyPartType bodyPartType,
+	public static HealthBodyPartMessageNetMessage SendToAll(GameObject entityToUpdate, BodyPartType bodyPartType,
 		float bruteDamage, float burnDamage)
 	{
-		HealthBodyPartMessage msg = new HealthBodyPartMessage
+		HealthBodyPartMessageNetMessage msg = new HealthBodyPartMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				BodyPart = bodyPartType,
 				BruteDamage = bruteDamage,
 				BurnDamage = burnDamage
 		};
-		msg.SendToAll();
+		new HealthBodyPartMessage().SendToAll(msg);
 		return msg;
 	}
 }

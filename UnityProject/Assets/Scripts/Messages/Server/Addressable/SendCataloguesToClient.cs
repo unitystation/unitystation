@@ -5,20 +5,27 @@ using Newtonsoft.Json;
 
 public class SendCataloguesToClient : ServerMessage
 {
-	public string serialiseCatalogues;
-
-	public override void Process()
+	public class SendCataloguesToClientNetMessage : ActualMessage
 	{
-		AddressableCatalogueManager.LoadCataloguesFromServer(JsonConvert.DeserializeObject<List<string>>(serialiseCatalogues));
+		public string serialiseCatalogues;
 	}
 
-	public static SendCataloguesToClient Send(List<string> Catalogues, GameObject ToWho)
+	public override void Process(ActualMessage msg)
 	{
-		SendCataloguesToClient msg = new SendCataloguesToClient
+		var newMsg = msg as SendCataloguesToClientNetMessage;
+		if(newMsg == null) return;
+
+		AddressableCatalogueManager.LoadCataloguesFromServer(JsonConvert.DeserializeObject<List<string>>(newMsg.serialiseCatalogues));
+	}
+
+	public static SendCataloguesToClientNetMessage Send(List<string> Catalogues, GameObject ToWho)
+	{
+		SendCataloguesToClientNetMessage msg = new SendCataloguesToClientNetMessage
 		{
 			serialiseCatalogues = JsonConvert.SerializeObject(Catalogues)
 		};
-		msg.SendTo(ToWho);
+
+		new SendCataloguesToClient().SendTo(ToWho, msg);
 		return msg;
 	}
 

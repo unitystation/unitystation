@@ -4,27 +4,33 @@ using Messages.Client;
 using UnityEngine;
 public class OtherPlayerSlotTransferMessage : ClientMessage
 {
-	public uint PlayerStorage;
-	public int PlayerSlotIndex;
-	public NamedSlot PlayerNamedSlot;
-	public uint TargetStorage;
-	public int TargetSlotIndex;
-	public NamedSlot TargetNamedSlot;
-	public bool IsGhost;
-
-	public override void Process()
+	public class OtherPlayerSlotTransferMessageNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[]{PlayerStorage, TargetStorage});
+		public uint PlayerStorage;
+		public int PlayerSlotIndex;
+		public NamedSlot PlayerNamedSlot;
+		public uint TargetStorage;
+		public int TargetSlotIndex;
+		public NamedSlot TargetNamedSlot;
+		public bool IsGhost;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as OtherPlayerSlotTransferMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadMultipleObjects(new uint[]{newMsg.PlayerStorage, newMsg.TargetStorage});
 		if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
-		var playerSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), PlayerNamedSlot, PlayerSlotIndex);
-		var targetSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), TargetNamedSlot, TargetSlotIndex);
+		var playerSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), newMsg.PlayerNamedSlot, newMsg.PlayerSlotIndex);
+		var targetSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), newMsg.TargetNamedSlot, newMsg.TargetSlotIndex);
 
 		var playerScript = SentByPlayer.Script;
 		var playerObject = playerScript.gameObject;
 		var targetObject = targetSlot.Player.gameObject;
 
-		if (IsGhost)
+		if (newMsg.IsGhost)
 		{
 			if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.connectedPlayer.UserId))
 			{
@@ -33,7 +39,7 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 			return;
 		}
 
-		if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server, IsGhost))
+		if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server, newMsg.IsGhost))
 			return;
 
 		int speed;
@@ -96,7 +102,7 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 		if (!Validation(playerSlot, targetSlot, PlayerManager.LocalPlayerScript, targetSlot.Player.gameObject, NetworkSide.Client, isGhost))
 			return;
 
-		OtherPlayerSlotTransferMessage msg = new OtherPlayerSlotTransferMessage
+		OtherPlayerSlotTransferMessageNetMessage msg = new OtherPlayerSlotTransferMessageNetMessage
 		{
 			PlayerStorage = playerSlot.ItemStorageNetID,
 			PlayerSlotIndex = playerSlot.SlotIdentifier.SlotIndex,
@@ -106,6 +112,6 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 			TargetNamedSlot = targetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
 			IsGhost = isGhost
 		};
-		msg.Send();
+		new OtherPlayerSlotTransferMessage().Send(msg);
 	}
 }

@@ -9,23 +9,29 @@ using Mirror;
 /// </summary>
 public class PlayParticleMessage : ServerMessage
 {
-	/// <summary>
-	/// GameObject containing ParticleSystem
-	/// </summary>
-	public uint 	ParticleObject;
-	public uint 	ParentObject;
-	public Vector2	TargetVector;
+	public class PlayParticleMessageNetMessage : ActualMessage
+	{
+		/// <summary>
+		/// GameObject containing ParticleSystem
+		/// </summary>
+		public uint 	ParticleObject;
+		public uint 	ParentObject;
+		public Vector2	TargetVector;
+	}
 
 	///To be run on client
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
-		if (ParticleObject.Equals(NetId.Invalid)) {
+		var newMsg = msg as PlayParticleMessageNetMessage;
+		if(newMsg == null) return;
+
+		if (newMsg.ParticleObject.Equals(NetId.Invalid)) {
 			//Failfast
 			Logger.LogWarning("PlayParticle NetId invalid, processing stopped", Category.NetMessage);
 			return;
 		}
 
-		LoadMultipleObjects(new uint[] {ParticleObject, ParentObject});
+		LoadMultipleObjects(new uint[] {newMsg.ParticleObject, newMsg.ParentObject});
 
 		GameObject particleObject = NetworkObjects[0];
 		GameObject parentObject = NetworkObjects[1];
@@ -56,9 +62,9 @@ public class PlayParticleMessage : ServerMessage
 		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
 		renderer.enabled = true;
 
-		if ( TargetVector != Vector2.zero)
+		if ( newMsg.TargetVector != Vector2.zero)
 		{
-			var angle = Orientation.AngleFromUp(TargetVector);
+			var angle = Orientation.AngleFromUp(newMsg.TargetVector);
 			particleSystem.transform.rotation = Quaternion.Euler(0, 0, -angle+90);
 		}
 
@@ -80,7 +86,7 @@ public class PlayParticleMessage : ServerMessage
 		var customEffectBehaviour = particleSystem.GetComponent<CustomEffectBehaviour>();
 		if (customEffectBehaviour)
 		{
-			customEffectBehaviour.RunEffect(TargetVector);
+			customEffectBehaviour.RunEffect(newMsg.TargetVector);
 		}
 		else
 		{
@@ -92,7 +98,7 @@ public class PlayParticleMessage : ServerMessage
 	/// <summary>
 	/// Tell all clients + server to play particle effect for provided gameObject
 	/// </summary>
-	public static PlayParticleMessage SendToAll(GameObject obj, Vector2 targetVector)
+	public static PlayParticleMessageNetMessage SendToAll(GameObject obj, Vector2 targetVector)
 	{
 		GameObject topContainer = null;
 		try
@@ -105,12 +111,12 @@ public class PlayParticleMessage : ServerMessage
 		}
 
 
-		PlayParticleMessage msg = new PlayParticleMessage {
+		PlayParticleMessageNetMessage msg = new PlayParticleMessageNetMessage {
 			ParticleObject = obj.NetId(),
 			ParentObject = topContainer == null ? NetId.Invalid : topContainer.NetId(),
 			TargetVector = targetVector,
 		};
-		msg.SendToAll();
+		new PlayParticleMessage().SendToAll(msg);
 		return msg;
 	}
 

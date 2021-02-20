@@ -6,12 +6,18 @@ namespace Systems.MobAIs
 {
 	public class MobMeleeLerpMessage : ServerMessage
 	{
-		public uint mob;
-		public Vector2 dir;
-
-		public override void Process()
+		public class MobMeleeLerpMessageNetMessage : ActualMessage
 		{
-			LoadNetworkObject(mob);
+			public uint mob;
+			public Vector2 dir;
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as MobMeleeLerpMessageNetMessage;
+			if (newMsg == null) return;
+
+			LoadNetworkObject(newMsg.mob);
 
 			if (NetworkObject == null) return;
 
@@ -25,26 +31,25 @@ namespace Systems.MobAIs
 
 			if (mobMelee == null)
 			{
-				mobAction.ClientDoLerpAnimation(dir);
+				mobAction.ClientDoLerpAnimation(newMsg.dir);
 				return;
 			}
 
-			mobMelee.ClientDoLerpAnimation(dir);
+			mobMelee.ClientDoLerpAnimation(newMsg.dir);
 		}
 
-		public static MobMeleeLerpMessage Send(GameObject mob, Vector2 dir)
+		public static MobMeleeLerpMessageNetMessage Send(GameObject mob, Vector2 dir)
 		{
 			//Only send to players in the area so that clients cannot snoop on mob positions
 			//by watching debug log outputs from the process coroutine on this message
 
-			MobMeleeLerpMessage msg = new MobMeleeLerpMessage
+			MobMeleeLerpMessageNetMessage msg = new MobMeleeLerpMessageNetMessage
 			{
 				mob = mob.GetComponent<NetworkIdentity>().netId,
 				dir = dir
 			};
 
-			msg.SendToVisiblePlayers(mob.transform.position);
-
+			new MobMeleeLerpMessage().SendToVisiblePlayers(mob.transform.position, msg);
 			return msg;
 		}
 	}

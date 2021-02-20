@@ -9,32 +9,38 @@ using ScriptableObjects.Systems.Spells;
 /// </summary>
 public class SetActionUIMessage : ServerMessage
 {
-	public ushort actionListID;
-	public short spellListIndex = -1;
-	public int SpriteLocation;
-	public int ComponentLocation;
-	public uint NetObject;
-	public bool showAlert;
-	public float cooldown;
-	public ushort ComponentID;
-	public UpdateType ProposedAction;
-
-	public override void Process()
+	public class SetActionUIMessageNetMessage : ActualMessage
 	{
+		public ushort actionListID;
+		public short spellListIndex = -1;
+		public int SpriteLocation;
+		public int ComponentLocation;
+		public uint NetObject;
+		public bool showAlert;
+		public float cooldown;
+		public ushort ComponentID;
+		public UpdateType ProposedAction;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as SetActionUIMessageNetMessage;
+		if(newMsg == null) return;
+
 		IActionGUI action = null;
-		if (actionListID != 0)
+		if (newMsg.actionListID != 0)
 		{
 			//SO action singleton ID
-			action = UIActionSOSingleton.Instance.FromID(actionListID);
+			action = UIActionSOSingleton.Instance.FromID(newMsg.actionListID);
 		}
-		else if (spellListIndex >= 0)
+		else if (newMsg.spellListIndex >= 0)
 		{
 			//SpellList singleton index
-			var spellData = SpellList.Instance.FromIndex(spellListIndex);
+			var spellData = SpellList.Instance.FromIndex(newMsg.spellListIndex);
 
 			if (!UIActionManager.HasActionData(spellData, out action))
 			{
-				if (ProposedAction == UpdateType.StateChange && showAlert == false)
+				if (newMsg.ProposedAction == UpdateType.StateChange && newMsg.showAlert == false)
 				{ //no need to instantiate a spell if server asks to hide one anyway
 					return;
 				}
@@ -45,35 +51,35 @@ public class SetActionUIMessage : ServerMessage
 		else
 		{
 			//Action pre-placed on a networked object
-			LoadNetworkObject(NetObject);
-			var actions = NetworkObject.GetComponentsInChildren(DeserializeType(ComponentID));
-			if ((actions.Length > ComponentLocation))
+			LoadNetworkObject(newMsg.NetObject);
+			var actions = NetworkObject.GetComponentsInChildren(DeserializeType(newMsg.ComponentID));
+			if ((actions.Length > newMsg.ComponentLocation))
 			{
-				action = (actions[ComponentLocation] as IActionGUI);
+				action = (actions[newMsg.ComponentLocation] as IActionGUI);
 			}
 		}
 
 		if (action != null)
 		{
-			switch (ProposedAction)
+			switch (newMsg.ProposedAction)
 			{
 				case UpdateType.FrontIcon:
-					UIActionManager.SetSprite(action, SpriteLocation);
+					UIActionManager.SetSprite(action, newMsg.SpriteLocation);
 					break;
 				case UpdateType.BackgroundIcon:
-					UIActionManager.SetBackground(action, SpriteLocation);
+					UIActionManager.SetBackground(action, newMsg.SpriteLocation);
 					break;
 				case UpdateType.StateChange:
-					UIActionManager.ToggleLocal(action, showAlert);
+					UIActionManager.ToggleLocal(action, newMsg.showAlert);
 					break;
 				case UpdateType.Cooldown:
-					UIActionManager.SetCooldownLocal(action, cooldown);
+					UIActionManager.SetCooldownLocal(action, newMsg.cooldown);
 					break;
 			}
 		}
 	}
 
-	private static SetActionUIMessage _Send(GameObject recipient,
+	private static SetActionUIMessageNetMessage _Send(GameObject recipient,
 		IActionGUI action,
 		UpdateType ProposedAction,
 		bool show = false,
@@ -83,7 +89,7 @@ public class SetActionUIMessage : ServerMessage
 		//SO action singleton ID
 		if (action is UIActionScriptableObject actionFromSO)
 		{
-			SetActionUIMessage msg = new SetActionUIMessage
+			SetActionUIMessageNetMessage msg = new SetActionUIMessageNetMessage
 			{
 				actionListID = UIActionSOSingleton.ActionsTOID[actionFromSO],
 				showAlert = show,
@@ -92,13 +98,13 @@ public class SetActionUIMessage : ServerMessage
 				ProposedAction = ProposedAction,
 				ComponentID = SerializeType(actionFromSO.GetType()),
 			};
-			msg.SendTo(recipient);
+			new SetActionUIMessage().SendTo(recipient, msg);
 			return msg;
 		}
 		//SpellList singleton index
 		else if (action is Spell spellAction)
 		{
-			SetActionUIMessage msg = new SetActionUIMessage
+			SetActionUIMessageNetMessage msg = new SetActionUIMessageNetMessage
 			{
 				spellListIndex = spellAction.SpellData.Index,
 				showAlert = show,
@@ -107,7 +113,7 @@ public class SetActionUIMessage : ServerMessage
 				ProposedAction = ProposedAction,
 				ComponentID = SerializeType(spellAction.GetType()),
 			};
-			msg.SendTo(recipient);
+			new SetActionUIMessage().SendTo(recipient, msg);
 			return msg;
 		}
 		else
@@ -131,7 +137,7 @@ public class SetActionUIMessage : ServerMessage
 
 			if (isFound)
 			{
-				SetActionUIMessage msg = new SetActionUIMessage
+				SetActionUIMessageNetMessage msg = new SetActionUIMessageNetMessage
 				{
 					NetObject = netObject.netId,
 					ComponentLocation = componentLocation,
@@ -141,7 +147,7 @@ public class SetActionUIMessage : ServerMessage
 					SpriteLocation = location,
 					ProposedAction = ProposedAction
 				};
-				msg.SendTo(recipient);
+				new SetActionUIMessage().SendTo(recipient, msg);
 				return msg;
 			}
 			else
@@ -153,22 +159,22 @@ public class SetActionUIMessage : ServerMessage
 		return null;
 	}
 
-	public static SetActionUIMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, bool _showAlert)
+	public static SetActionUIMessageNetMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, bool _showAlert)
 	{
 		return (_Send(recipient, iServerActionGUI, UpdateType.StateChange, _showAlert));
 	}
 
-	public static SetActionUIMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, float cooldown)
+	public static SetActionUIMessageNetMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, float cooldown)
 	{
 		return _Send(recipient, iServerActionGUI, UpdateType.Cooldown, cooldown: cooldown);
 	}
 
-	public static SetActionUIMessage SetSprite(GameObject recipient, IActionGUI iServerActionGUI, int FrontIconlocation)
+	public static SetActionUIMessageNetMessage SetSprite(GameObject recipient, IActionGUI iServerActionGUI, int FrontIconlocation)
 	{
 		return (_Send(recipient, iServerActionGUI, UpdateType.FrontIcon, location: FrontIconlocation));
 	}
 
-	public static SetActionUIMessage SetBackgroundSprite(GameObject recipient, IActionGUI iServerActionGUI,
+	public static SetActionUIMessageNetMessage SetBackgroundSprite(GameObject recipient, IActionGUI iServerActionGUI,
 		int FrontIconlocation)
 	{
 		return (_Send(recipient, iServerActionGUI, UpdateType.BackgroundIcon, location: FrontIconlocation));

@@ -4,27 +4,33 @@ using Mirror;
 
 public class PaperUpdateMessage : ServerMessage
 {
-	public uint PaperToUpdate;
-	public uint Recipient;
-	public string Message;
-
-	public override void Process()
+	public class PaperUpdateMessageNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[] {Recipient, PaperToUpdate});
+		public uint PaperToUpdate;
+		public uint Recipient;
+		public string Message;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as PaperUpdateMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadMultipleObjects(new uint[] {newMsg.Recipient, newMsg.PaperToUpdate});
 		var paper = NetworkObjects[1].GetComponent<Paper>();
-		paper.PaperString = Message;
+		paper.PaperString = newMsg.Message;
 		ControlTabs.RefreshTabs();
 	}
 
-	public static PaperUpdateMessage Send(GameObject recipient, GameObject paperToUpdate, string message)
+	public static PaperUpdateMessageNetMessage Send(GameObject recipient, GameObject paperToUpdate, string message)
 	{
-		PaperUpdateMessage msg = new PaperUpdateMessage
+		PaperUpdateMessageNetMessage msg = new PaperUpdateMessageNetMessage
 		{
 			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 			PaperToUpdate = paperToUpdate.GetComponent<NetworkIdentity>().netId,
 			Message = message
 		};
-		msg.SendTo(recipient);
+		new PaperUpdateMessage().SendTo(recipient, msg);
 		return msg;
 	}
 }

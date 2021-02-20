@@ -5,33 +5,39 @@ using AdminTools;
 
 public class AdminChatUpdateMessage : ServerMessage
 {
-	public string JsonData;
-
-	public override void Process()
+	public class AdminChatUpdateMessageNetMessage : ActualMessage
 	{
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ClientUpdateChatLog(JsonData);
+		public string JsonData;
 	}
 
-	public static AdminChatUpdateMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage)
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as AdminChatUpdateMessageNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ClientUpdateChatLog(newMsg.JsonData);
+	}
+
+	public static AdminChatUpdateMessageNetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage)
 	{
 		AdminChatUpdate update = new AdminChatUpdate();
 		update.messages.Add(chatMessage);
-		AdminChatUpdateMessage  msg =
-			new AdminChatUpdateMessage  {JsonData = JsonUtility.ToJson(update) };
+		AdminChatUpdateMessageNetMessage  msg =
+			new AdminChatUpdateMessageNetMessage  {JsonData = JsonUtility.ToJson(update) };
 
-		msg.SendToAdmins();
+		new AdminChatUpdateMessage().SendToAdmins(msg);
 		return msg;
 	}
 
-	public static AdminChatUpdateMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update)
+	public static AdminChatUpdateMessageNetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update)
 	{
-		AdminChatUpdateMessage msg =
-			new AdminChatUpdateMessage
+		AdminChatUpdateMessageNetMessage msg =
+			new AdminChatUpdateMessageNetMessage
 			{
 				JsonData = JsonUtility.ToJson(update),
 			};
 
-		msg.SendTo(requestee);
+		new AdminChatUpdateMessage().SendTo(requestee, msg);
 		return msg;
 	}
 }

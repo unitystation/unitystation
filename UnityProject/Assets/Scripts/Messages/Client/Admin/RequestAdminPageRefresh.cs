@@ -7,31 +7,38 @@ using UnityEngine;
 /// </summary>
 public class RequestAdminPageRefresh : ClientMessage
 {
-	public string Userid;
-	public string AdminToken;
-
-	public override void Process()
+	public class RequestAdminPageRefreshNetMessage : ActualMessage
 	{
-		VerifyAdminStatus();
+		public string Userid;
+		public string AdminToken;
 	}
 
-	void VerifyAdminStatus()
+	public override void Process(ActualMessage msg)
 	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		var newMsg = msg as RequestAdminPageRefreshNetMessage;
+		if(newMsg == null) return;
+
+		VerifyAdminStatus(newMsg);
+	}
+
+	void VerifyAdminStatus(RequestAdminPageRefreshNetMessage msg)
+	{
+		var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
 		if (player != null)
 		{
-			AdminToolRefreshMessage.Send(player, Userid);
+			AdminToolRefreshMessage.Send(player, msg.Userid);
 		}
 	}
 
-	public static RequestAdminPageRefresh Send(string userId, string adminToken)
+	public static RequestAdminPageRefreshNetMessage Send(string userId, string adminToken)
 	{
-		RequestAdminPageRefresh msg = new RequestAdminPageRefresh
+		RequestAdminPageRefreshNetMessage msg = new RequestAdminPageRefreshNetMessage
 		{
 			Userid = userId,
 			AdminToken = adminToken
 		};
-		msg.Send();
+
+		new RequestAdminPageRefresh().Send(msg);
 		return msg;
 	}
 }

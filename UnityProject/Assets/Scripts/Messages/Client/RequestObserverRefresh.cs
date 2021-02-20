@@ -7,24 +7,28 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class RequestObserverRefresh : ClientMessage
 {
-	/// <summary>
-	/// The new scene we are requesting to observe
-	/// </summary>
-	public string NewSceneNameContext;
+	public class RequestObserverRefreshNetMessage: ActualMessage
+	{
+		/// <summary>
+		/// The new scene we are requesting to observe
+		/// </summary>
+		public string NewSceneNameContext;
+	}
 
 	//TODO OldSceneNameContext (the scene we want to stop observing)
 
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
-		var sceneContext = SceneManager.GetSceneByName(NewSceneNameContext);
+		var newMsg = msg as RequestObserverRefreshNetMessage;
+		if(newMsg == null) return;
+
+		var sceneContext = SceneManager.GetSceneByName(newMsg.NewSceneNameContext);
 
 		if (!sceneContext.IsValid())
 		{
 			Logger.LogError("No scene was found for Observer refresh!!");
 			return;
 		}
-
-		SubSceneManager.ProcessObserverRefreshReq(SentByPlayer, sceneContext);
 	}
 
 	/// <summary>
@@ -33,13 +37,13 @@ public class RequestObserverRefresh : ClientMessage
 	/// </summary>
 	/// <param name="newSceneNameContext"> The scene we are requesting to be observers of</param>
 	/// <returns></returns>
-	public static RequestObserverRefresh Send(string newSceneNameContext)
+	public static RequestObserverRefreshNetMessage Send(string newSceneNameContext)
 	{
-		RequestObserverRefresh msg = new RequestObserverRefresh
+		RequestObserverRefreshNetMessage msg = new RequestObserverRefreshNetMessage
 		{
 			NewSceneNameContext = newSceneNameContext
 		};
-		msg.Send();
+		new RequestObserverRefresh().Send(msg);
 		return msg;
 	}
 }

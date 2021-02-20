@@ -7,22 +7,29 @@ using Mirror;
 /// </summary>
 public class HealthBloodMessage : ServerMessage
 {
-	public uint EntityToUpdate;
-	public int HeartRate;
-	public float BloodLevel;
-	public float OxygenDamage;
-	public float ToxinLevel;
-
-	public override void Process()
+	public class HealthBloodMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(EntityToUpdate);
-		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBloodStats(HeartRate, BloodLevel, OxygenDamage, ToxinLevel);
+		public uint EntityToUpdate;
+		public int HeartRate;
+		public float BloodLevel;
+		public float OxygenDamage;
+		public float ToxinLevel;
 	}
 
-	public static HealthBloodMessage Send(GameObject recipient, GameObject entityToUpdate, int heartRate, float bloodLevel,
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as HealthBloodMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.EntityToUpdate);
+		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBloodStats(newMsg.HeartRate,
+			newMsg.BloodLevel, newMsg.OxygenDamage, newMsg.ToxinLevel);
+	}
+
+	public static HealthBloodMessageNetMessage Send(GameObject recipient, GameObject entityToUpdate, int heartRate, float bloodLevel,
 		float oxygenDamage, float toxinLevel)
 	{
-		HealthBloodMessage msg = new HealthBloodMessage
+		HealthBloodMessageNetMessage msg = new HealthBloodMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				HeartRate = heartRate,
@@ -30,14 +37,15 @@ public class HealthBloodMessage : ServerMessage
 				OxygenDamage = oxygenDamage,
 				ToxinLevel = toxinLevel
 		};
-		msg.SendTo(recipient);
+
+		new HealthBloodMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public static HealthBloodMessage SendToAll(GameObject entityToUpdate, int heartRate, float bloodLevel,
+	public static HealthBloodMessageNetMessage SendToAll(GameObject entityToUpdate, int heartRate, float bloodLevel,
 		float oxygenDamage, float toxinLevel)
 	{
-		HealthBloodMessage msg = new HealthBloodMessage
+		HealthBloodMessageNetMessage msg = new HealthBloodMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				HeartRate = heartRate,
@@ -45,7 +53,8 @@ public class HealthBloodMessage : ServerMessage
 				OxygenDamage = oxygenDamage,
 				ToxinLevel = toxinLevel
 		};
-		msg.SendToAll();
+
+		new HealthBloodMessage().SendToAll(msg);
 		return msg;
 	}
 }

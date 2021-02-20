@@ -5,28 +5,34 @@ using UnityEngine;
 /// <summary>
 ///     Attempts to send a chat message to the server
 /// </summary>
-public class PostToChatMessage : ClientMessage
+public class PostToChatMessage: ClientMessage
 {
-	public ChatChannel Channels;
-	public string ChatMessageText;
-
-	public override void Process()
+	public class PostToChatMessageNetMessage : ActualMessage
 	{
+		public ChatChannel Channels;
+		public string ChatMessageText;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as PostToChatMessageNetMessage;
+		if(newMsg == null) return;
+
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
-			Chat.AddChatMsgToChat(SentByPlayer, ChatMessageText, Channels);
+			Chat.AddChatMsgToChat(SentByPlayer, newMsg.ChatMessageText, newMsg.Channels);
 		}
 	}
 
 	//This is only used to send the chat input on the client to the server
-	public static PostToChatMessage Send(string message, ChatChannel channels)
+	public static PostToChatMessageNetMessage Send(string message, ChatChannel channels)
 	{
-		PostToChatMessage msg = new PostToChatMessage
+		PostToChatMessageNetMessage msg = new PostToChatMessageNetMessage
 		{
 			Channels = channels,
 			ChatMessageText = message
 		};
-		msg.Send();
+		new PostToChatMessage().Send(msg);
 
 		return msg;
 	}

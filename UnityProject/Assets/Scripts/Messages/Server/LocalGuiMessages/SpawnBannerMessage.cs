@@ -3,16 +3,19 @@ using UnityEngine;
 
 namespace Messages.Server.LocalGuiMessages
 {
-	public class SpawnBannerMessage: ServerMessage
+	public class SpawnBannerMessage : ServerMessage
 	{
-		public string Name;
-		//AssetAddress
-		public string SpawnSound;
-		public Color TextColor;
-		public Color BackgroundColor;
-		public bool PlaySound;
+		public class SpawnBannerMessageNetMessage : ActualMessage
+		{
+			public string Name;
+			//AssetAddress
+			public string SpawnSound;
+			public Color TextColor;
+			public Color BackgroundColor;
+			public bool PlaySound;
+		}
 
-		public static SpawnBannerMessage Send(
+		public static SpawnBannerMessageNetMessage Send(
 			GameObject player,
 			string name,
 			string spawnSound,
@@ -20,7 +23,7 @@ namespace Messages.Server.LocalGuiMessages
 			Color backgroundColor,
 			bool playSound)
 		{
-			SpawnBannerMessage msg = new SpawnBannerMessage
+			SpawnBannerMessageNetMessage msg = new SpawnBannerMessageNetMessage
 			{
 				Name = name,
 				SpawnSound = spawnSound,
@@ -29,20 +32,23 @@ namespace Messages.Server.LocalGuiMessages
 				PlaySound = playSound
 			};
 
-			msg.SendTo(player);
+			new SpawnBannerMessage().SendTo(player, msg);
 			return msg;
 		}
 
-		public override void Process()
+		public override void Process(ActualMessage msg)
 		{
-			UIManager.Instance.spawnBanner.Show(Name, TextColor, BackgroundColor);
+			var newMsg = msg as SpawnBannerMessageNetMessage;
+			if(newMsg == null) return;
 
-			if (PlaySound)
+			UIManager.Instance.spawnBanner.Show(newMsg.Name, newMsg.TextColor, newMsg.BackgroundColor);
+
+			if (newMsg.PlaySound)
 			{
 				// make sure that all sound is disabled
 				SoundAmbientManager.StopAllAudio();
 				//play the spawn sound
-				SoundAmbientManager.PlayAudio(SpawnSound);
+				SoundAmbientManager.PlayAudio(newMsg.SpawnSound);
 			}
 		}
 	}

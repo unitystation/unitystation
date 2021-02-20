@@ -7,20 +7,26 @@ using Mirror;
 
 public class AdminInventoryTransferMessage : ClientMessage
 {
-	public uint FromStorage;
-	public int FromSlotIndex;
-	public NamedSlot FromNamedSlot;
-	public uint ToStorage;
-	public int ToSlotIndex;
-	public NamedSlot ToNamedSlot;
-
-	public override void Process()
+	public class AdminInventoryTransferMessageNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[]{FromStorage, ToStorage});
+		public uint FromStorage;
+		public int FromSlotIndex;
+		public NamedSlot FromNamedSlot;
+		public uint ToStorage;
+		public int ToSlotIndex;
+		public NamedSlot ToNamedSlot;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as AdminInventoryTransferMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadMultipleObjects(new uint[]{newMsg.FromStorage, newMsg.ToStorage});
 		if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
-		var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), FromNamedSlot, FromSlotIndex);
-		var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), ToNamedSlot, ToSlotIndex);
+		var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), newMsg.FromNamedSlot, newMsg.FromSlotIndex);
+		var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), newMsg.ToNamedSlot, newMsg.ToSlotIndex);
 
 		var playerScript = SentByPlayer.Script;
 		if(PlayerList.Instance.IsAdmin(playerScript.connectedPlayer.UserId))
@@ -31,7 +37,7 @@ public class AdminInventoryTransferMessage : ClientMessage
 
 	public static void Send(ItemSlot fromSlot, ItemSlot toSlot)
 	{
-		AdminInventoryTransferMessage msg = new AdminInventoryTransferMessage
+		AdminInventoryTransferMessageNetMessage msg = new AdminInventoryTransferMessageNetMessage
 		{
 			FromStorage = fromSlot.ItemStorageNetID,
 			FromSlotIndex = fromSlot.SlotIdentifier.SlotIndex,
@@ -40,6 +46,6 @@ public class AdminInventoryTransferMessage : ClientMessage
 			ToSlotIndex = toSlot.SlotIdentifier.SlotIndex,
 			ToNamedSlot = toSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
 		};
-		msg.Send();
+		new AdminInventoryTransferMessage().Send(msg);
 	}
 }

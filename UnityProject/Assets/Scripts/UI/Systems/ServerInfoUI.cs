@@ -53,43 +53,56 @@ namespace ServerInfo
 
 	public class ServerInfoMessageServer : ServerMessage
 	{
-		public string ServerName;
-
-		public string ServerDesc;
-
-		public override void Process()
+		public class ServerInfoMessageServerNetMessage : ActualMessage
 		{
-			GUI_IngameMenu.Instance.GetComponent<ServerInfoUI>().ClientSetValues(ServerName, ServerDesc);
+			public string ServerName;
+			public string ServerDesc;
 		}
 
-		public static ServerInfoMessageServer Send(NetworkConnection clientConn,string serverName, string serverDesc)
+		public override void Process(ActualMessage msg)
 		{
-			ServerInfoMessageServer msg = new ServerInfoMessageServer
+			var newMsg = msg as ServerInfoMessageServerNetMessage;
+			if(newMsg == null) return;
+
+			GUI_IngameMenu.Instance.GetComponent<ServerInfoUI>().ClientSetValues(newMsg.ServerName, newMsg.ServerDesc);
+		}
+
+		public static ServerInfoMessageServerNetMessage Send(NetworkConnection clientConn,string serverName, string serverDesc)
+		{
+			ServerInfoMessageServerNetMessage msg = new ServerInfoMessageServerNetMessage
 			{
 				ServerName = serverName,
 				ServerDesc = serverDesc
 			};
-			msg.SendTo(clientConn);
+
+			new ServerInfoMessageServer().SendTo(clientConn, msg);
 			return msg;
 		}
 	}
 
 	public class ServerInfoMessageClient : ClientMessage
 	{
-		public string PlayerId;
-
-		public override void Process()
+		public class ServerInfoMessageClientNetMessage : ActualMessage
 		{
+			public string PlayerId;
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as ServerInfoMessageClientNetMessage;
+			if(newMsg == null) return;
+
 			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUI.serverDesc);
 		}
 
-		public static ServerInfoMessageClient Send(string playerId)
+		public static ServerInfoMessageClientNetMessage Send(string playerId)
 		{
-			ServerInfoMessageClient msg = new ServerInfoMessageClient
+			ServerInfoMessageClientNetMessage msg = new ServerInfoMessageClientNetMessage
 			{
 				PlayerId = playerId,
 			};
-			msg.Send();
+
+			new ServerInfoMessageClient().Send(msg);
 			return msg;
 		}
 	}

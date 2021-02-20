@@ -5,45 +5,51 @@ using Messages.Client;
 
 public class RequestMentorBwoink : ClientMessage
 {
-	public string Userid;
-	public string MentorToken;
-	public string UserToBwoink;
-	public string Message;
-
-	public override void Process()
+	public class RequestMentorBwoinkNetMessage : ActualMessage
 	{
-		VerifyMentorStatus();
+		public string Userid;
+		public string MentorToken;
+		public string UserToBwoink;
+		public string Message;
 	}
 
-	void VerifyMentorStatus()
+	public override void Process(ActualMessage msg)
 	{
-		var player = PlayerList.Instance.GetMentor(Userid, MentorToken);
+		var newMsg = msg as RequestMentorBwoinkNetMessage;
+		if(newMsg == null) return;
+
+		VerifyMentorStatus(newMsg);
+	}
+
+	void VerifyMentorStatus(RequestMentorBwoinkNetMessage msg)
+	{
+		var player = PlayerList.Instance.GetMentor(msg.Userid, msg.MentorToken);
 		if (player == null)
 		{
-			player = PlayerList.Instance.GetAdmin(Userid,MentorToken);
+			player = PlayerList.Instance.GetAdmin(msg.Userid, msg.MentorToken);
 			if(player == null){
 				//theoretically this shouldnt happen, and indicates someone might be tampering with the client.
 				return;
 			}
 		}
-		var recipient = PlayerList.Instance.GetAllByUserID(UserToBwoink);
+		var recipient = PlayerList.Instance.GetAllByUserID(msg.UserToBwoink);
 		foreach (var r in recipient)
 		{
-			MentorBwoinkMessage.Send(r.GameObject, Userid, "<color=#6400FF>" + Message + "</color>");
-			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(Message, UserToBwoink, Userid);
+			MentorBwoinkMessage.Send(r.GameObject, msg.Userid, "<color=#6400FF>" + msg.Message + "</color>");
+			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg.Message, msg.UserToBwoink, msg.Userid);
 		}
 	}
 
-	public static RequestMentorBwoink Send(string userId, string mentorToken, string userIDToBwoink, string message)
+	public static RequestMentorBwoinkNetMessage Send(string userId, string mentorToken, string userIDToBwoink, string message)
 	{
-		RequestMentorBwoink msg = new RequestMentorBwoink
+		RequestMentorBwoinkNetMessage msg = new RequestMentorBwoinkNetMessage
 		{
 			Userid = userId,
 			MentorToken = mentorToken,
 			UserToBwoink = userIDToBwoink,
 			Message = message
 		};
-		msg.Send();
+		new RequestMentorBwoink().Send(msg);
 		return msg;
 	}
 }

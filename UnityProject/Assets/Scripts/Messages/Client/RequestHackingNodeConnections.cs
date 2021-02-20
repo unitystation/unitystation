@@ -9,12 +9,18 @@ using Messages.Client;
 /// </summary>
 public class RequestHackingNodeConnections : ClientMessage
 {
-	public uint Player;
-	public uint HackableObject;
-
-	public override void Process()
+	public class RequestHackingNodeConnectionsNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[] { Player, HackableObject });
+		public uint Player;
+		public uint HackableObject;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as RequestHackingNodeConnectionsNetMessage;
+		if(newMsg == null) return;
+
+		LoadMultipleObjects(new uint[] { newMsg.Player, newMsg.HackableObject });
 
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
 		var hackObject = NetworkObjects[1];
@@ -36,14 +42,14 @@ public class RequestHackingNodeConnections : ClientMessage
 		HackingNodeConnectionList.Send(recipient, hackObject, connectionList);
 	}
 
-	public static RequestHackingNodeConnections Send(GameObject player, GameObject hackObject)
+	public static RequestHackingNodeConnectionsNetMessage Send(GameObject player, GameObject hackObject)
 	{
-		RequestHackingNodeConnections msg = new RequestHackingNodeConnections
+		RequestHackingNodeConnectionsNetMessage msg = new RequestHackingNodeConnectionsNetMessage
 		{
 			Player = player.GetComponent<NetworkIdentity>().netId,
 			HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
 		};
-		msg.Send();
+		new RequestHackingNodeConnections().Send(msg);
 		return msg;
 	}
 }

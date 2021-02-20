@@ -12,51 +12,64 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class PlaySoundMessage : ServerMessage
 	{
-		public string SoundAddressablePath;
-		public Vector3 Position;
-		///Allow this one to sound polyphonically
-		public bool Polyphonic;
-		public uint TargetNetId;
-		public string SoundSpawnToken;
-
-		// Allow to perform a camera shake effect along with the sound.
-		public ShakeParameters ShakeParameters;
-
-		// Allow to personalize Audio Source parameters for any sound to play.
-		public AudioSourceParameters AudioParameters;
-
-		public override void Process()
+		public class PlaySoundMessageNetMessage : ActualMessage
 		{
-			if (string.IsNullOrEmpty(SoundAddressablePath))
+			public string SoundAddressablePath;
+			public Vector3 Position;
+			///Allow this one to sound polyphonically
+			public bool Polyphonic;
+			public uint TargetNetId;
+			public string SoundSpawnToken;
+
+			// Allow to perform a camera shake effect along with the sound.
+			public ShakeParameters ShakeParameters;
+
+			// Allow to personalize Audio Source parameters for any sound to play.
+			public AudioSourceParameters AudioParameters;
+
+			public override string ToString()
+			{
+				string audioSourceParametersValue = AudioParameters.ToString();
+				string shakeParametersValue = ShakeParameters.ToString();
+				return $"{nameof(SoundAddressablePath)}: {SoundAddressablePath}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
+			}
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as PlaySoundMessageNetMessage;
+			if (newMsg == null) return;
+
+			if (string.IsNullOrEmpty(newMsg.SoundAddressablePath))
 			{
 				Logger.LogError(ToString() + " has no Addressable Path!", Category.Audio);
 				return;
 			}
 
-			bool isPositionProvided = Position.RoundToInt() != TransformState.HiddenPos;
+			bool isPositionProvided = newMsg.Position.RoundToInt() != TransformState.HiddenPos;
 
 			// Recompose a list of a single AddressableAudioSource from its primary key (Guid)
-			List<AddressableAudioSource> addressableAudioSources = new List<AddressableAudioSource>() { new AddressableAudioSource(SoundAddressablePath) };
+			List<AddressableAudioSource> addressableAudioSources = new List<AddressableAudioSource>() { new AddressableAudioSource(newMsg.SoundAddressablePath) };
 
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(addressableAudioSources, SoundSpawnToken, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioParameters);
+				SoundManager.PlayAtPosition(addressableAudioSources, newMsg.SoundSpawnToken, newMsg.Position, newMsg.Polyphonic, netId: newMsg.TargetNetId, audioSourceParameters: newMsg.AudioParameters);
 			}
 			else
 			{
-				SoundManager.Play(addressableAudioSources, SoundSpawnToken, AudioParameters, Polyphonic);
+				SoundManager.Play(addressableAudioSources, newMsg.SoundSpawnToken, newMsg.AudioParameters, newMsg.Polyphonic);
 			}
 
-			if (ShakeParameters.ShakeGround)
+			if (newMsg.ShakeParameters.ShakeGround)
 			{
 				if (isPositionProvided
 				 && PlayerManager.LocalPlayerScript
-				 && !PlayerManager.LocalPlayerScript.IsPositionReachable(Position, false, ShakeParameters.ShakeRange))
+				 && !PlayerManager.LocalPlayerScript.IsPositionReachable(newMsg.Position, false, newMsg.ShakeParameters.ShakeRange))
 				{
 					//Don't shake if local player is out of range
 					return;
 				}
-				float intensity = Mathf.Clamp(ShakeParameters.ShakeIntensity / (float)byte.MaxValue, 0.01f, 10f);
+				float intensity = Mathf.Clamp(newMsg.ShakeParameters.ShakeIntensity / (float)byte.MaxValue, 0.01f, 10f);
 				Camera2DFollow.followControl.Shake(intensity, intensity);
 			}
 		}
@@ -66,7 +79,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		/// </summary>
 		/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
 		public static string SendToNearbyPlayers(AddressableAudioSource addressableAudioSource, Vector3 pos,
-			bool polyphonic = false, GameObject sourceObj = null, 
+			bool polyphonic = false, GameObject sourceObj = null,
 			ShakeParameters shakeParameters = new ShakeParameters(),
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 		{
@@ -82,7 +95,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			string soundSpawnToken = Guid.NewGuid().ToString();
 
-			PlaySoundMessage msg = new PlaySoundMessage
+			PlaySoundMessageNetMessage msg = new PlaySoundMessageNetMessage
 			{
 				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
@@ -93,7 +106,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 				SoundSpawnToken = soundSpawnToken
 			};
 
-			msg.SendToNearbyPlayers(pos);
+			new PlaySoundMessage().SendToNearbyPlayers(pos, msg);
 			return soundSpawnToken;
 		}
 
@@ -102,7 +115,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		/// </summary>
 		/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
 		public static string SendToAll(AddressableAudioSource addressableAudioSource, Vector3 pos,
-			bool polyphonic = false, GameObject sourceObj = null, 
+			bool polyphonic = false, GameObject sourceObj = null,
 			ShakeParameters shakeParameters = new ShakeParameters(),
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 		{
@@ -118,7 +131,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			string soundSpawnToken = Guid.NewGuid().ToString();
 
-			PlaySoundMessage msg = new PlaySoundMessage
+			PlaySoundMessageNetMessage msg = new PlaySoundMessageNetMessage
 			{
 				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
@@ -128,8 +141,8 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 				AudioParameters = audioSourceParameters,
 				SoundSpawnToken = soundSpawnToken
 			};
-			
-			msg.SendToAll();
+
+			new PlaySoundMessage().SendToAll(msg);
 
 			return soundSpawnToken;
 		}
@@ -139,7 +152,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		/// </summary>
 		/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
 		public static string Send(GameObject recipient, AddressableAudioSource addressableAudioSource, Vector3 pos,
-			bool polyphonic = false, GameObject sourceObj = null, 
+			bool polyphonic = false, GameObject sourceObj = null,
 			ShakeParameters shakeParameters = new ShakeParameters(),
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 		{
@@ -155,7 +168,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			string soundSpawnToken = Guid.NewGuid().ToString();
 
-			PlaySoundMessage msg = new PlaySoundMessage
+			PlaySoundMessageNetMessage msg = new PlaySoundMessageNetMessage
 			{
 				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
@@ -166,16 +179,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 				SoundSpawnToken = soundSpawnToken
 			};
 
-			msg.SendTo(recipient);
+			new PlaySoundMessage().SendTo(recipient, msg);
 
 			return soundSpawnToken;
-		}
-
-		public override string ToString()
-		{
-			string audioSourceParametersValue = AudioParameters.ToString();
-			string shakeParametersValue = ShakeParameters.ToString();
-			return $"{nameof(SoundAddressablePath)}: {SoundAddressablePath}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
 		}
 	}
 }

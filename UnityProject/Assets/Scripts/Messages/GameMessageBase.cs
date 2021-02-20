@@ -5,24 +5,26 @@ using System.Reflection;
 using UnityEngine;
 using Mirror;
 
-public abstract class GameMessageBase : MessageBase
+public abstract class GameMessageBase
 {
 	public GameObject NetworkObject;
 	public GameObject[] NetworkObjects;
 
-	/// <summary>
-	/// Called before any message processing takes place
-	/// </summary>
-	public virtual void PreProcess(NetworkConnection sentBy, GameMessageBase b)
+	public struct NetMessage : NetworkMessage
 	{
-		b.Process(sentBy);
+		public ActualMessage actualMessage;
 	}
 
-	public abstract void Process();
+	[Serializable]
+	public class ActualMessage {}
 
-	public virtual void Process( NetworkConnection sentBy )
+	public NetMessage netMessage;
+
+	public abstract void Process(ActualMessage msg);
+
+	public virtual void Process( NetworkConnection sentBy, NetMessage msg )
 	{
-		Process();
+		Process(msg.actualMessage);
 	}
 
 	protected bool LoadNetworkObject(uint id)

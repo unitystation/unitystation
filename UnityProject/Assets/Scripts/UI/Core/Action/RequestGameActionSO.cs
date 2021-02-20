@@ -6,13 +6,19 @@ using Mirror;
 
 public class RequestGameActionSO : ClientMessage
 {
-	public ushort soID;
-
-	public override void Process()
+	public class RequestGameActionSONetMessage : ActualMessage
 	{
+		public ushort soID;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as RequestGameActionSONetMessage;
+		if(newMsg == null) return;
+
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
-			UIActionSOSingleton.Instance.ActionCallServer(soID, SentByPlayer);
+			UIActionSOSingleton.Instance.ActionCallServer(newMsg.soID, SentByPlayer);
 		}
 	}
 
@@ -20,10 +26,10 @@ public class RequestGameActionSO : ClientMessage
 	public static void Send(UIActionScriptableObject uIActionScriptableObject)
 	{
 
-		RequestGameActionSO msg = new RequestGameActionSO
+		RequestGameActionSONetMessage msg = new RequestGameActionSONetMessage
 		{
 			soID = UIActionSOSingleton.ActionsTOID[uIActionScriptableObject]
 		};
-		msg.Send();
+		new RequestGameActionSO().Send(msg);
 	}
 }

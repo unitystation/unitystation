@@ -5,48 +5,53 @@ using Mirror;
 ///     Tells client to
 public class MatrixMoveMessage : ServerMessage
 {
-	public MatrixState State;
-	public uint Matrix;
+	public class MatrixMoveMessageNetMessage : ActualMessage
+	{
+		public MatrixState State;
+		public uint Matrix;
+
+		public override string ToString()
+		{
+			return $"[MatrixMoveMessage {State}]";
+		}
+	}
 	//Reset client's prediction queue
-//	public bool ResetQueue;
+	//public bool ResetQueue;
 
 	///To be run on client
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
-//		Logger.Log("Processed " + ToString());
-		LoadNetworkObject(Matrix);
+		var newMsg = msg as MatrixMoveMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Matrix);
 
 		//Sometimes NetworkObject is gone because of game ending or just before exit
 		if (NetworkObject != null) {
 			var matrixMove = NetworkObject.GetComponent<MatrixMove>();
-			matrixMove.UpdateClientState(State);
+			matrixMove.UpdateClientState(newMsg.State);
 		}
 	}
 
-	public static MatrixMoveMessage Send(NetworkConnection recipient, GameObject matrix, MatrixState state)
+	public static MatrixMoveMessageNetMessage Send(NetworkConnection recipient, GameObject matrix, MatrixState state)
 	{
-		var msg = new MatrixMoveMessage
+		var msg = new MatrixMoveMessageNetMessage
 		{
 			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 		};
-		msg.SendTo(recipient);
+		new MatrixMoveMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public static MatrixMoveMessage SendToAll(GameObject matrix, MatrixState state)
+	public static MatrixMoveMessageNetMessage SendToAll(GameObject matrix, MatrixState state)
 	{
-		var msg = new MatrixMoveMessage
+		var msg = new MatrixMoveMessageNetMessage
 		{
 			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 		};
-		msg.SendToAll();
+		new MatrixMoveMessage().SendToAll(msg);
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return $"[MatrixMoveMessage {State}]";
 	}
 }

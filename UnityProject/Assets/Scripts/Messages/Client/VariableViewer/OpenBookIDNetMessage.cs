@@ -5,30 +5,37 @@ using UnityEngine;
 
 public class OpenBookIDNetMessage : ClientMessage
 {
-	public ulong BookID;
-	public string AdminId;
-	public string AdminToken;
-
-	public override void Process()
+	public class OpenBookIDNetMessageNetMessage : ActualMessage
 	{
-		ValidateAdmin();
+		public ulong BookID;
+		public string AdminId;
+		public string AdminToken;
 	}
 
-	void ValidateAdmin()
+	public override void Process(ActualMessage msg)
 	{
-		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
+		var newMsg = msg as OpenBookIDNetMessageNetMessage;
+		if(newMsg == null) return;
+
+		ValidateAdmin(newMsg);
+	}
+
+	void ValidateAdmin(OpenBookIDNetMessageNetMessage msg)
+	{
+		var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
 		if (admin == null) return;
-		VariableViewer.RequestSendBook(BookID, SentByPlayer.GameObject);
+		VariableViewer.RequestSendBook(msg.BookID, SentByPlayer.GameObject);
 	}
 
 
-	public static OpenBookIDNetMessage Send(ulong BookID, string adminId, string adminToken)
+	public static OpenBookIDNetMessageNetMessage Send(ulong BookID, string adminId, string adminToken)
 	{
-		OpenBookIDNetMessage msg = new OpenBookIDNetMessage();
+		OpenBookIDNetMessageNetMessage msg = new OpenBookIDNetMessageNetMessage();
 		msg.BookID = BookID;
 		msg.AdminId = adminId;
 		msg.AdminToken = adminToken;
-		msg.Send();
+
+		new OpenBookIDNetMessage().Send(msg);
 		return msg;
 	}
 }

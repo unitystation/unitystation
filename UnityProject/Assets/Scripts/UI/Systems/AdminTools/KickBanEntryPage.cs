@@ -208,44 +208,58 @@ namespace AdminTools
 
 		public class ClientJobBanDataAdminMessage : ClientMessage
 		{
-			public string AdminID;
-			public string AdminToken;
-			public string PlayerID;
-
-			public override void Process()
+			public class ClientJobBanDataAdminMessageNetMessage : ActualMessage
 			{
-				var admin = PlayerList.Instance.GetAdmin(AdminID, AdminToken);
+				public string AdminID;
+				public string AdminToken;
+				public string PlayerID;
+			}
+
+			public override void Process(ActualMessage msg)
+			{
+				var newMsg = msg as ClientJobBanDataAdminMessageNetMessage;
+
+				if(newMsg == null) return;
+
+				var admin = PlayerList.Instance.GetAdmin(newMsg.AdminID, newMsg.AdminToken);
 				if (admin == null) return;
 
 				//Server Stuff here
 
-				var jobBanEntries = PlayerList.Instance.ListOfBanEntries(PlayerID);
+				var jobBanEntries = PlayerList.Instance.ListOfBanEntries(newMsg.PlayerID);
 
 				ServerSendsJobBanDataAdminMessage.Send(SentByPlayer.Connection, jobBanEntries);
 			}
 
-			public static ClientJobBanDataAdminMessage Send(string adminID, string adminToken, string playerID)
+			public static ClientJobBanDataAdminMessageNetMessage Send(string adminID, string adminToken, string playerID)
 			{
-				ClientJobBanDataAdminMessage msg = new ClientJobBanDataAdminMessage
+				ClientJobBanDataAdminMessageNetMessage msg = new ClientJobBanDataAdminMessageNetMessage
 				{
 					AdminID = adminID,
 					AdminToken = adminToken,
 					PlayerID = playerID
 				};
-				msg.Send();
+
+				new ClientJobBanDataAdminMessage().Send(msg);
 				return msg;
 			}
 		}
 
 		public class ServerSendsJobBanDataAdminMessage : ServerMessage
 		{
-			public string JobBanEntries;
-
-			public override void Process()
+			public class ServerSendsJobBanDataAdminMessageNetMessage : ActualMessage
 			{
+				public string JobBanEntries;
+			}
+
+			public override void Process(ActualMessage msg)
+			{
+				var newMsg = msg as ServerSendsJobBanDataAdminMessageNetMessage;
+				if (newMsg == null) return;
+
 				//client Stuff here
 
-				var bans = JsonConvert.DeserializeObject<List<JobBanEntry>>(JobBanEntries);
+				var bans = JsonConvert.DeserializeObject<List<JobBanEntry>>(newMsg.JobBanEntries);
 
 				foreach (var jobObject in KickBanEntryPage.instance.jobBanJobTypeListObjects)
 				{
@@ -264,21 +278,21 @@ namespace AdminTools
 						{
 							jobObject.bannedStatus.SetActive(true);
 
-							var msg = "";
+							var banMsg = "";
 
 							if (jobsBanned.isPerma)
 							{
-								msg = "Perma Banned";
+								banMsg = "Perma Banned";
 							}
 							else
 							{
 								var entryTime = DateTime.ParseExact(jobsBanned.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
 								var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
 
-								msg = $"{Mathf.RoundToInt((float)jobsBanned.minutes - totalMins)} minutes left";
+								banMsg = $"{Mathf.RoundToInt((float)jobsBanned.minutes - totalMins)} minutes left";
 							}
 
-							jobObject.banTime.text = msg;
+							jobObject.banTime.text = banMsg;
 							jobObject.unbannedStatus.SetActive(false);
 							break;
 						}
@@ -289,13 +303,14 @@ namespace AdminTools
 				}
 			}
 
-			public static ServerSendsJobBanDataAdminMessage Send(NetworkConnection requestee, List<JobBanEntry> jobBanEntries)
+			public static ServerSendsJobBanDataAdminMessageNetMessage Send(NetworkConnection requestee, List<JobBanEntry> jobBanEntries)
 			{
-				ServerSendsJobBanDataAdminMessage msg = new ServerSendsJobBanDataAdminMessage
+				ServerSendsJobBanDataAdminMessageNetMessage msg = new ServerSendsJobBanDataAdminMessageNetMessage
 				{
 					JobBanEntries = JsonConvert.SerializeObject(jobBanEntries)
 				};
-				msg.SendTo(requestee);
+
+				new ServerSendsJobBanDataAdminMessage().SendTo(requestee, msg);
 				return msg;
 			}
 		}

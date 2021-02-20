@@ -11,8 +11,15 @@ namespace Messages.Client
 	/// </summary>
 	public class RequestAvailableGhostRolesMessage : ClientMessage
 	{
-		public override void Process()
+		public class RequestAvailableGhostRolesMessageNetMessage : ActualMessage
 		{
+
+		}
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as RequestAvailableGhostRolesMessageNetMessage;
+			if(newMsg == null) return;
+
 			foreach (KeyValuePair<uint, GhostRoleServer> kvp in GhostRoleManager.Instance.serverAvailableRoles)
 			{
 				GhostRoleUpdateMessage.SendTo(SentByPlayer, kvp.Key, kvp.Value);
@@ -22,10 +29,10 @@ namespace Messages.Client
 		/// <summary>
 		/// Sends a message to the server, requesting an update on all available ghost roles on the server.
 		/// </summary>
-		public static RequestAvailableGhostRolesMessage SendMessage()
+		public static RequestAvailableGhostRolesMessageNetMessage SendMessage()
 		{
-			var msg = new RequestAvailableGhostRolesMessage();
-			msg.Send();
+			var msg = new RequestAvailableGhostRolesMessageNetMessage();
+			new RequestAvailableGhostRolesMessage().Send(msg);
 
 			return msg;
 		}

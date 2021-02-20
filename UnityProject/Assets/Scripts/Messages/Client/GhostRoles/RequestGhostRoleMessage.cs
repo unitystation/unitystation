@@ -10,25 +10,31 @@ namespace Messages.Client
 	/// </summary>
 	public class RequestGhostRoleMessage : ClientMessage
 	{
-		public uint roleID;
-
-		public override void Process()
+		public class RequestGhostRoleMessageNetMessage : ActualMessage
 		{
-			GhostRoleManager.Instance.ServerGhostRequestRole(SentByPlayer, roleID);
+			public uint roleID;
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as RequestGhostRoleMessageNetMessage;
+			if(newMsg == null) return;
+
+			GhostRoleManager.Instance.ServerGhostRequestRole(SentByPlayer, newMsg.roleID);
 		}
 
 		/// <summary>
 		/// Sends a message to the server, requesting that the local player be assigned the associated role of the given key.
 		/// </summary>
 		/// <param name="key">The unique key the ghost role instance is associated with.</param>
-		public static RequestGhostRoleMessage Send(uint key)
+		public static RequestGhostRoleMessageNetMessage Send(uint key)
 		{
-			var msg = new RequestGhostRoleMessage
+			var msg = new RequestGhostRoleMessageNetMessage
 			{
 				roleID = key,
 			};
 
-			msg.Send();
+			new RequestGhostRoleMessage().Send(msg);
 			return msg;
 		}
 	}

@@ -10,47 +10,53 @@ using Mirror;
 /// </summary>
 public class PlayerAlertNotifications : ServerMessage
 {
-	public int Amount;
-	public bool IsFullUpdate;
-
-	public override void Process()
+	public class PlayerAlertNotificationsNetMessage : ActualMessage
 	{
-		if (!IsFullUpdate)
+		public int Amount;
+		public bool IsFullUpdate;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as PlayerAlertNotificationsNetMessage;
+		if(newMsg == null) return;
+
+		if (!newMsg.IsFullUpdate)
 		{
-			UIManager.Instance.playerAlerts.UpdateNotifications(Amount);
+			UIManager.Instance.playerAlerts.UpdateNotifications(newMsg.Amount);
 		}
 		else
 		{
 			UIManager.Instance.playerAlerts.ClearAllNotifications();
-			UIManager.Instance.playerAlerts.UpdateNotifications(Amount);
+			UIManager.Instance.playerAlerts.UpdateNotifications(newMsg.Amount);
 		}
 	}
 
 	/// <summary>
 	/// Send notification updates to all admins
 	/// </summary>
-	public static PlayerAlertNotifications SendToAll(int amt)
+	public static PlayerAlertNotificationsNetMessage SendToAll(int amt)
 	{
-		PlayerAlertNotifications msg = new PlayerAlertNotifications
+		PlayerAlertNotificationsNetMessage msg = new PlayerAlertNotificationsNetMessage
 		{
 			Amount = amt,
 			IsFullUpdate = false,
 		};
-		msg.SendToAll();
+		new PlayerAlertNotifications().SendToAll(msg);
 		return msg;
 	}
 
 	/// <summary>
 	/// Send full update to an admin client
 	/// </summary>
-	public static PlayerAlertNotifications Send(NetworkConnection adminConn, int amt)
+	public static PlayerAlertNotificationsNetMessage Send(NetworkConnection adminConn, int amt)
 	{
-		PlayerAlertNotifications msg = new PlayerAlertNotifications
+		PlayerAlertNotificationsNetMessage msg = new PlayerAlertNotificationsNetMessage
 		{
 			Amount = amt,
 			IsFullUpdate = true
 		};
-		msg.SendTo(adminConn);
+		new PlayerAlertNotifications().SendTo(adminConn, msg);
 		return msg;
 	}
 }

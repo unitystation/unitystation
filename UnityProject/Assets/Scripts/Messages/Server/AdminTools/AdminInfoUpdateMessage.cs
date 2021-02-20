@@ -6,22 +6,28 @@ using AdminTools;
 
 public class AdminInfoUpdateMessage : ServerMessage
 {
-	public string JsonData;
-	public bool FullUpdate;
-
-	public override void Process()
+	public class AdminInfoUpdateMessageNetMessage : ActualMessage
 	{
-		if (FullUpdate)
+		public string JsonData;
+		public bool FullUpdate;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as AdminInfoUpdateMessageNetMessage;
+		if(newMsg == null) return;
+
+		if (newMsg.FullUpdate)
 		{
-			AdminOverlay.ClientFullUpdate(JsonUtility.FromJson<AdminInfoUpdate>(JsonData));
+			AdminOverlay.ClientFullUpdate(JsonUtility.FromJson<AdminInfoUpdate>(newMsg.JsonData));
 		}
 		else
 		{
-			AdminOverlay.ClientAddEntry(JsonUtility.FromJson<AdminInfosEntry>(JsonData));
+			AdminOverlay.ClientAddEntry(JsonUtility.FromJson<AdminInfosEntry>(newMsg.JsonData));
 		}
 	}
 
-	public static AdminInfoUpdateMessage SendFullUpdate(GameObject recipient, Dictionary<uint, AdminInfo> infoEntries)
+	public static AdminInfoUpdateMessageNetMessage SendFullUpdate(GameObject recipient, Dictionary<uint, AdminInfo> infoEntries)
 	{
 		var update = new AdminInfoUpdate();
 
@@ -38,27 +44,27 @@ public class AdminInfoUpdateMessage : ServerMessage
 			}
 		}
 
-		AdminInfoUpdateMessage  msg =
-			new AdminInfoUpdateMessage
+		AdminInfoUpdateMessageNetMessage  msg =
+			new AdminInfoUpdateMessageNetMessage
 			{
 				JsonData = JsonUtility.ToJson(update),
 				FullUpdate = true
 			};
 
-		msg.SendTo(recipient);
+		new AdminInfoUpdateMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public static AdminInfoUpdateMessage SendEntryToAllAdmins(AdminInfosEntry entry)
+	public static AdminInfoUpdateMessageNetMessage SendEntryToAllAdmins(AdminInfosEntry entry)
 	{
-		AdminInfoUpdateMessage  msg =
-			new AdminInfoUpdateMessage
+		AdminInfoUpdateMessageNetMessage  msg =
+			new AdminInfoUpdateMessageNetMessage
 			{
 				JsonData = JsonUtility.ToJson(entry),
 				FullUpdate = false
 			};
 
-		msg.SendToAdmins();
+		new AdminInfoUpdateMessage().SendToAdmins(msg);
 		return msg;
 	}
 }

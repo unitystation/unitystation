@@ -16,79 +16,85 @@ using Systems.Clothing;
 ///to see who is using antag items.
 ///Bubbling should help prevent this
 /// </summary>
-public class PlayerAppearanceMessage : ServerMessage
+public class PlayerAppearanceMessage   /* MirrorUpdateNeeded */ : ServerMessage
 {
-	//if IsBodySprites, index in PlayerSprites.characterSprites to update.
-	//otherwise, ordinal value of NamedSlot enum in Equipment to update
-	public int Index;
-	public uint EquipmentObject;
-	public uint ItemNetID;
-	public bool ForceInit;
-
-	//Is this for the body parts or for the clothing items:
-	public bool IsBodySprites;
-
-	public override void Process()
+	public class PlayerAppearanceMessageNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[] {EquipmentObject, ItemNetID});
+		//if IsBodySprites, index in PlayerSprites.characterSprites to update.
+		//otherwise, ordinal value of NamedSlot enum in Equipment to update
+		public int Index;
+		public uint EquipmentObject;
+		public uint ItemNetID;
+		public bool ForceInit;
+
+		//Is this for the body parts or for the clothing items:
+		public bool IsBodySprites;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as PlayerAppearanceMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadMultipleObjects(new uint[] {newMsg.EquipmentObject, newMsg.ItemNetID});
 		//Debug.Log(
 		//	$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
 
 		if (NetworkObjects[0] != null)
 		{
-			if (!IsBodySprites)
+			if (!newMsg.IsBodySprites)
 			{
-				ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().GetClothingItem((NamedSlot) Index);
-				if (ItemNetID == NetId.Invalid)
+				ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().GetClothingItem((NamedSlot) newMsg.Index);
+				if (newMsg.ItemNetID == NetId.Invalid)
 				{
-					if (!ForceInit) c.SetReference(null);
+					if (!newMsg.ForceInit) c.SetReference(null);
 				}
 				else
 				{
 					c.SetReference(NetworkObjects[1]);
 				}
 
-				if (ForceInit) c.PushTexture();
+				if (newMsg.ForceInit) c.PushTexture();
 			}
 			else
 			{
-				ClothingItem c = NetworkObjects[0].GetComponent<PlayerSprites>().characterSprites[Index];
-				if (ItemNetID == NetId.Invalid)
+				ClothingItem c = NetworkObjects[0].GetComponent<PlayerSprites>().characterSprites[newMsg.Index];
+				if (newMsg.ItemNetID == NetId.Invalid)
 				{
-					if (!ForceInit) c.SetReference(null);
+					if (!newMsg.ForceInit) c.SetReference(null);
 				}
 				else
 				{
 					c.SetReference(NetworkObjects[1]);
 				}
 
-				if (ForceInit) c.PushTexture();
+				if (newMsg.ForceInit) c.PushTexture();
 			}
 		}
 	}
 
-	public static PlayerAppearanceMessage SendToAll(GameObject equipmentObject, int index, GameObject _Item,
+	public static PlayerAppearanceMessageNetMessage SendToAll(GameObject equipmentObject, int index, GameObject _Item,
 		bool _forceInit = false, bool _isBodyParts = false)
 	{
 		var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
-		msg.SendToAll();
+		new PlayerAppearanceMessage().SendToAll(msg);
 		return msg;
 	}
 
-	public static PlayerAppearanceMessage SendTo(GameObject equipmentObject, int index, NetworkConnection recipient,
+	public static PlayerAppearanceMessageNetMessage SendTo(GameObject equipmentObject, int index, NetworkConnection recipient,
 		GameObject _Item, bool _forceInit, bool _isBodyParts)
 	{
 		var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
-		msg.SendTo(recipient);
+		new PlayerAppearanceMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public static PlayerAppearanceMessage CreateMsg(GameObject equipmentObject, int index, GameObject _Item,
+	public static PlayerAppearanceMessageNetMessage CreateMsg(GameObject equipmentObject, int index, GameObject _Item,
 		bool _forceInit, bool _isBodyParts)
 	{
 		if (_Item != null)
 		{
-			return new PlayerAppearanceMessage
+			return new PlayerAppearanceMessageNetMessage
 			{
 				Index = index,
 				EquipmentObject = equipmentObject.NetId(),
@@ -99,7 +105,7 @@ public class PlayerAppearanceMessage : ServerMessage
 		}
 		else
 		{
-			return new PlayerAppearanceMessage
+			return new PlayerAppearanceMessageNetMessage
 			{
 				Index = index,
 				EquipmentObject = equipmentObject.NetId(),

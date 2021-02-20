@@ -9,42 +9,48 @@ using Mirror;
 /// </summary>
 public class DevCloneMessage : ClientMessage
 {
-	// Net ID of the object to clone
-	public uint ToClone;
-	// position to spawn at.
-	public Vector2 WorldPosition;
-	public string AdminId;
-	public string AdminToken;
-
-	public override void Process()
+	public class DevCloneMessageNetMessage : ActualMessage
 	{
-		ValidateAdmin();
+		// Net ID of the object to clone
+		public uint ToClone;
+		// position to spawn at.
+		public Vector2 WorldPosition;
+		public string AdminId;
+		public string AdminToken;
+
+		public override string ToString()
+		{
+			return $"[DevCloneMessage ToClone={ToClone} WorldPosition={WorldPosition}]";
+		}
 	}
 
-	void ValidateAdmin()
+	public override void Process(ActualMessage msg)
 	{
-		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
+		var newMsg = msg as DevCloneMessageNetMessage;
+		if(newMsg == null) return;
+
+		ValidateAdmin(newMsg);
+	}
+
+	void ValidateAdmin(DevCloneMessageNetMessage msg)
+	{
+		var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
 		if (admin == null) return;
 
-		if (ToClone.Equals(NetId.Invalid))
+		if (msg.ToClone.Equals(NetId.Invalid))
 		{
 			Logger.LogWarning("Attempted to clone an object with invalid netID, clone will not occur.", Category.ItemSpawn);
 		}
 		else
 		{
-			LoadNetworkObject(ToClone);
-			if (MatrixManager.IsPassableAtAllMatricesOneTile(WorldPosition.RoundToInt(), true))
+			LoadNetworkObject(msg.ToClone);
+			if (MatrixManager.IsPassableAtAllMatricesOneTile(msg.WorldPosition.RoundToInt(), true))
 			{
-				Spawn.ServerClone(NetworkObject, WorldPosition);
+				Spawn.ServerClone(NetworkObject, msg.WorldPosition);
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-					$"{admin.Player().Username} spawned a clone of {NetworkObject} at {WorldPosition}", AdminId);
+					$"{admin.Player().Username} spawned a clone of {NetworkObject} at {msg.WorldPosition}", msg.AdminId);
 			}
 		}
-	}
-
-	public override string ToString()
-	{
-		return $"[DevCloneMessage ToClone={ToClone} WorldPosition={WorldPosition}]";
 	}
 
 	/// <summary>
@@ -58,13 +64,13 @@ public class DevCloneMessage : ClientMessage
 	public static void Send(GameObject toClone, Vector2 worldPosition, string adminId, string adminToken)
 	{
 
-		DevCloneMessage msg = new DevCloneMessage
+		DevCloneMessageNetMessage msg = new DevCloneMessageNetMessage
 		{
 			ToClone = toClone ? toClone.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			WorldPosition = worldPosition,
 			AdminId = adminId,
 			AdminToken = adminToken
 		};
-		msg.Send();
+		new DevCloneMessage().Send(msg);
 	}
 }

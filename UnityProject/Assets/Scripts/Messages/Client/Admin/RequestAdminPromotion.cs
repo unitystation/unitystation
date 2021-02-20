@@ -5,36 +5,42 @@ using Messages.Client;
 
 public class RequestAdminPromotion : ClientMessage
 {
-	public string Userid;
-	public string AdminToken;
-	public string UserToPromote;
-
-	public override void Process()
+	public class RequestAdminPromotionNetMessage : ActualMessage
 	{
-		VerifyAdminStatus();
+		public string Userid;
+		public string AdminToken;
+		public string UserToPromote;
 	}
 
-	void VerifyAdminStatus()
+	public override void Process(ActualMessage msg)
 	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		var newMsg = msg as RequestAdminPromotionNetMessage;
+		if(newMsg == null) return;
+
+		VerifyAdminStatus(newMsg);
+	}
+
+	void VerifyAdminStatus(RequestAdminPromotionNetMessage msg)
+	{
+		var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
 		if (player != null)
 		{
-			PlayerList.Instance.ProcessAdminEnableRequest(Userid, UserToPromote);
-			var user = PlayerList.Instance.GetByUserID(UserToPromote);
+			PlayerList.Instance.ProcessAdminEnableRequest(msg.Userid, msg.UserToPromote);
+			var user = PlayerList.Instance.GetByUserID(msg.UserToPromote);
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{player.Player().Username} made {user.Name} an admin. Users ID is: {UserToPromote}", Userid);
+				$"{player.Player().Username} made {user.Name} an admin. Users ID is: {msg.UserToPromote}", msg.Userid);
 		}
 	}
 
-	public static RequestAdminPromotion Send(string userId, string adminToken, string userIDToPromote)
+	public static RequestAdminPromotionNetMessage Send(string userId, string adminToken, string userIDToPromote)
 	{
-		RequestAdminPromotion msg = new RequestAdminPromotion
+		RequestAdminPromotionNetMessage msg = new RequestAdminPromotionNetMessage
 		{
 			Userid = userId,
 			AdminToken = adminToken,
 			UserToPromote= userIDToPromote,
 		};
-		msg.Send();
+		new RequestAdminPromotion().Send(msg);
 		return msg;
 	}
 }

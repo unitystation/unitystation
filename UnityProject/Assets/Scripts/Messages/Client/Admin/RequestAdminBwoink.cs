@@ -5,40 +5,46 @@ using Messages.Client;
 
 public class RequestAdminBwoink : ClientMessage
 {
-	public string Userid;
-	public string AdminToken;
-	public string UserToBwoink;
-	public string Message;
-
-	public override void Process()
+	public class RequestAdminBwoinkNetMessage : ActualMessage
 	{
-		VerifyAdminStatus();
+		public string Userid;
+		public string AdminToken;
+		public string UserToBwoink;
+		public string Message;
 	}
 
-	void VerifyAdminStatus()
+	public override void Process(ActualMessage msg)
 	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		var newMsg = msg as RequestAdminBwoinkNetMessage;
+		if(newMsg == null) return;
+
+		VerifyAdminStatus(newMsg);
+	}
+
+	void VerifyAdminStatus(RequestAdminBwoinkNetMessage msg)
+	{
+		var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
 		if (player != null)
 		{
-			var recipient = PlayerList.Instance.GetAllByUserID(UserToBwoink);
+			var recipient = PlayerList.Instance.GetAllByUserID(msg.UserToBwoink);
 			foreach (var r in recipient)
 			{
-				AdminBwoinkMessage.Send(r.GameObject, Userid, "<color=red>" + Message + "</color>");
-				UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(Message, UserToBwoink, Userid);
+				AdminBwoinkMessage.Send(r.GameObject, msg.Userid, "<color=red>" + msg.Message + "</color>");
+				UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(msg.Message, msg.UserToBwoink, msg.Userid);
 			}
 		}
 	}
 
-	public static RequestAdminBwoink Send(string userId, string adminToken, string userIDToBwoink, string message)
+	public static RequestAdminBwoinkNetMessage Send(string userId, string adminToken, string userIDToBwoink, string message)
 	{
-		RequestAdminBwoink msg = new RequestAdminBwoink
+		RequestAdminBwoinkNetMessage msg = new RequestAdminBwoinkNetMessage
 		{
 			Userid = userId,
 			AdminToken = adminToken,
 			UserToBwoink = userIDToBwoink,
 			Message = message
 		};
-		msg.Send();
+		new RequestAdminBwoink().Send(msg);
 		return msg;
 	}
 }

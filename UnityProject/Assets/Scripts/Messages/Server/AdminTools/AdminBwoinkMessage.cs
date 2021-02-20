@@ -5,25 +5,30 @@ using UnityEngine;
 
 public class AdminBwoinkMessage : ServerMessage
 {
-	public string AdminUID;
-	public string Message;
-
-	public override void Process()
+	public class AdminBwoinkMessageNetMessage : ActualMessage
 	{
-		SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
-		Chat.AddAdminPrivMsg(Message);
+		public string AdminUID;
+		public string Message;
 	}
 
-	public static AdminBwoinkMessage  Send(GameObject recipient, string adminUid, string message)
+	public override void Process(ActualMessage msg)
 	{
-		AdminBwoinkMessage  msg = new AdminBwoinkMessage
+		var newMsg = msg as AdminBwoinkMessageNetMessage;
+		if(newMsg == null) return;
+
+		SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
+		Chat.AddAdminPrivMsg(newMsg.Message);
+	}
+
+	public static AdminBwoinkMessageNetMessage  Send(GameObject recipient, string adminUid, string message)
+	{
+		AdminBwoinkMessageNetMessage  msg = new AdminBwoinkMessageNetMessage
 		{
 			AdminUID = adminUid,
 			Message = message
 		};
 
-		msg.SendTo(recipient);
-
+		new AdminBwoinkMessage().SendTo(recipient, msg);
 		return msg;
 	}
 }

@@ -6,24 +6,30 @@ using Mirror;
 
 public class SpriteRequestCurrentStateMessage : ClientMessage
 {
-	public uint SpriteHandlerManager;
-
-	public override void Process()
+	public class SpriteRequestCurrentStateMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(SpriteHandlerManager);
+		public uint SpriteHandlerManager;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as SpriteRequestCurrentStateMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.SpriteHandlerManager);
 		if (SentByPlayer == ConnectedPlayer.Invalid)
 			return;
 
 		NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
 	}
 
-	public static SpriteRequestCurrentStateMessage Send(uint spriteHandlerManager)
+	public static SpriteRequestCurrentStateMessageNetMessage Send(uint spriteHandlerManager)
 	{
-		var msg = new SpriteRequestCurrentStateMessage()
+		var msg = new SpriteRequestCurrentStateMessageNetMessage()
 		{
 			SpriteHandlerManager = spriteHandlerManager
 		};
-		msg.Send();
+		new SpriteRequestCurrentStateMessage().Send(msg);
 		return msg;
 	}
 }

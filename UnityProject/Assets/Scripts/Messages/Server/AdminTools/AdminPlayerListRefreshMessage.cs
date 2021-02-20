@@ -7,13 +7,19 @@ using AdminTools;
 
 public class AdminPlayerListRefreshMessage : ServerMessage
 {
-	public string JsonData;
-	public uint Recipient;
-
-	public override void Process()
+	public class AdminPlayerListRefreshMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(Recipient);
-		var listData = JsonUtility.FromJson<AdminPlayersList>(JsonData);
+		public string JsonData;
+		public uint Recipient;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as AdminPlayerListRefreshMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Recipient);
+		var listData = JsonUtility.FromJson<AdminPlayersList>(newMsg.JsonData);
 
 		foreach (var v in UIManager.Instance.adminChatWindows.playerListViews)
 		{
@@ -24,7 +30,7 @@ public class AdminPlayerListRefreshMessage : ServerMessage
 		}
 	}
 
-	public static AdminPlayerListRefreshMessage Send(GameObject recipient, string adminID)
+	public static AdminPlayerListRefreshMessageNetMessage Send(GameObject recipient, string adminID)
 	{
 		AdminPlayersList playerList = new AdminPlayersList();
 		//Player list info:
@@ -32,10 +38,10 @@ public class AdminPlayerListRefreshMessage : ServerMessage
 
 		var data = JsonUtility.ToJson(playerList);
 
-		AdminPlayerListRefreshMessage  msg =
-			new AdminPlayerListRefreshMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
+		AdminPlayerListRefreshMessageNetMessage  msg =
+			new AdminPlayerListRefreshMessageNetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
 
-		msg.SendTo(recipient);
+		new AdminPlayerListRefreshMessage().SendTo(recipient, msg);
 		return msg;
 	}
 

@@ -12,20 +12,26 @@ using Mirror;
 /// </summary>
 public class RequestInventoryTransferMessage : ClientMessage
 {
-	public uint FromStorage;
-	public int FromSlotIndex;
-	public NamedSlot FromNamedSlot;
-	public uint ToStorage;
-	public int ToSlotIndex;
-	public NamedSlot ToNamedSlot;
-
-	public override void Process()
+	public class RequestInventoryTransferMessageNetMessage : ActualMessage
 	{
-		LoadMultipleObjects(new uint[]{FromStorage, ToStorage});
+		public uint FromStorage;
+		public int FromSlotIndex;
+		public NamedSlot FromNamedSlot;
+		public uint ToStorage;
+		public int ToSlotIndex;
+		public NamedSlot ToNamedSlot;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as RequestInventoryTransferMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadMultipleObjects(new uint[]{newMsg.FromStorage, newMsg.ToStorage});
 		if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
-		var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), FromNamedSlot, FromSlotIndex);
-		var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), ToNamedSlot, ToSlotIndex);
+		var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), newMsg.FromNamedSlot, newMsg.FromSlotIndex);
+		var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), newMsg.ToNamedSlot, newMsg.ToSlotIndex);
 
 		if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server, examineRecipient: SentByPlayer.GameObject))
 		{
@@ -83,7 +89,7 @@ public class RequestInventoryTransferMessage : ClientMessage
 	/// <returns></returns>
 	public static void Send(ItemSlot fromSlot, ItemSlot toSlot)
 	{
-		RequestInventoryTransferMessage msg = new RequestInventoryTransferMessage
+		RequestInventoryTransferMessageNetMessage msg = new RequestInventoryTransferMessageNetMessage
 		{
 			FromStorage = fromSlot.ItemStorageNetID,
 			FromSlotIndex = fromSlot.SlotIdentifier.SlotIndex,
@@ -92,6 +98,6 @@ public class RequestInventoryTransferMessage : ClientMessage
 			ToSlotIndex = toSlot.SlotIdentifier.SlotIndex,
 			ToNamedSlot = toSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
 		};
-		msg.Send();
+		new RequestInventoryTransferMessage().Send(msg);
 	}
 }

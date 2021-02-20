@@ -374,11 +374,11 @@ namespace Lobby
 				telepathy.port = serverPort;
 			}
 
-			var booster = CustomNetworkManager.Instance.GetComponent<BoosterTransport>();
-			if (booster != null)
-			{
-				booster.port = serverPort;
-			}
+			// var booster = CustomNetworkManager.Instance.GetComponent<BoosterTransport>();
+			// if (booster != null)
+			// {
+			// 	booster.port = serverPort;
+			// }
 
 			CustomNetworkManager.Instance.StartClient();
 		}

@@ -8,13 +8,19 @@ using UnityEngine;
 /// </summary>
 public class ServerTypingMessage : ServerMessage
 {
-	public TypingState state;
-	public uint targetID;
-
-	public override void Process()
+	public class ServerTypingMessageNetMessage : ActualMessage
 	{
+		public TypingState state;
+		public uint targetID;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as ServerTypingMessageNetMessage;
+		if(newMsg == null) return;
+
 		// other client try to find networked identity that's typing
-		LoadNetworkObject(targetID);
+		LoadNetworkObject(newMsg.targetID);
 		if (!NetworkObject)
 			return;
 
@@ -27,7 +33,7 @@ public class ServerTypingMessage : ServerMessage
 		if (!icon)
 			return;
 
-		var showTyping = state == TypingState.TYPING;
+		var showTyping = newMsg.state == TypingState.TYPING;
 
 		// check if player is conscious before generating typing icon
 		bool isPlayerConscious = (player.playerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
@@ -38,16 +44,16 @@ public class ServerTypingMessage : ServerMessage
 		}
 	}
 
-	public static ServerTypingMessage Send(PlayerScript player, TypingState state)
+	public static ServerTypingMessageNetMessage Send(PlayerScript player, TypingState state)
 	{
-		var msg = new ServerTypingMessage()
+		var msg = new ServerTypingMessageNetMessage()
 		{
 			state = state,
 			targetID = player.netId
 		};
 
 		var playerPos = player.transform.position;
-		msg.SendToNearbyPlayers(playerPos);
+		new ServerTypingMessage().SendToNearbyPlayers(playerPos, msg);
 		return msg;
 	}
 }

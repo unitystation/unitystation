@@ -7,17 +7,28 @@ using Mirror;
 /// </summary>
 public class FollowCameraMessage : ServerMessage
 {
-	public uint ObjectToFollow;
-
-	public override void Process()
+	public class FollowCameraMessageNetMessage : ActualMessage
 	{
-		if ( ObjectToFollow == NetId.Invalid )
+		public uint ObjectToFollow;
+
+		public override string ToString()
+		{
+			return string.Format("[FollowCameraMessage ObjectToFollow={0}]", ObjectToFollow);
+		}
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as FollowCameraMessageNetMessage;
+		if(newMsg == null) return;
+
+		if ( newMsg.ObjectToFollow == NetId.Invalid )
 		{
 			return;
 		}
 		else
 		{
-			LoadNetworkObject(ObjectToFollow);
+			LoadNetworkObject(newMsg.ObjectToFollow);
 		}
 		var objectToFollow = NetworkObject;
 
@@ -28,18 +39,14 @@ public class FollowCameraMessage : ServerMessage
 		}
 	}
 
-	public static FollowCameraMessage Send(GameObject recipient, GameObject objectToFollow)
+	public static FollowCameraMessageNetMessage Send(GameObject recipient, GameObject objectToFollow)
 	{
-		FollowCameraMessage msg = new FollowCameraMessage
+		FollowCameraMessageNetMessage msg = new FollowCameraMessageNetMessage
 		{
 			ObjectToFollow = objectToFollow.NetId()
 		};
-		msg.SendTo(recipient);
-		return msg;
-	}
 
-	public override string ToString()
-	{
-		return string.Format("[FollowCameraMessage ObjectToFollow={0}]", ObjectToFollow);
+		new FollowCameraMessage().SendTo(recipient, msg);
+		return msg;
 	}
 }

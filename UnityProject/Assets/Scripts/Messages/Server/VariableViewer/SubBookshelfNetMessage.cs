@@ -7,21 +7,27 @@ using Newtonsoft.Json.Bson;
 using System;
 public class SubBookshelfNetMessage : ServerMessage
 {
-	public string data;
-	public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
-
-	public override void Process()
+	public class SubBookshelfNetMessageNetMessage : ActualMessage
 	{
-		UIManager.Instance.BookshelfViewer.BookShelfIn = BookShelf;
+		public string data;
+		public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
 	}
 
-	public static SubBookshelfNetMessage Send(Librarian.BookShelf _BookShelf)
+	public override void Process(ActualMessage msg)
 	{
-		SubBookshelfNetMessage msg = new SubBookshelfNetMessage()
+		var newMsg = msg as SubBookshelfNetMessageNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Instance.BookshelfViewer.BookShelfIn = newMsg.BookShelf;
+	}
+
+	public static SubBookshelfNetMessageNetMessage Send(Librarian.BookShelf _BookShelf)
+	{
+		SubBookshelfNetMessageNetMessage msg = new SubBookshelfNetMessageNetMessage()
 		{
 			BookShelf = VariableViewerNetworking.ProcessSUBBookShelf(_BookShelf)
 		};
-		msg.SendToAll();
+		new SubBookshelfNetMessage().SendToAll(msg);
 		return msg;
 	}
 }

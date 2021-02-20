@@ -8,34 +8,37 @@ using Mirror;
 /// </summary>
 public abstract class ServerMessage : GameMessageBase
 {
-	public void SendToAll()
+	public void SendToAll(ActualMessage msg)
 	{
-		NetworkServer.SendToAll(this, 0);
+		netMessage = new NetMessage(){actualMessage = msg};
+		NetworkServer.SendToAll(netMessage, 0);
 		Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
 	}
 
-	public void SendToAllExcept(GameObject excluded)
+	public void SendToAllExcept(ActualMessage msg, GameObject excluded)
 	{
 		if (excluded == null)
 		{
-			SendToAll();
+			SendToAll(msg);
 			return;
 		}
 
 		var excludedConnection = excluded.GetComponent<NetworkIdentity>().connectionToClient;
 
+		netMessage = new NetMessage(){actualMessage = msg};
+
 		foreach (KeyValuePair<int, NetworkConnectionToClient> connection in NetworkServer.connections)
 		{
 			if (connection.Value != null && connection.Value != excludedConnection)
 			{
-				connection.Value.Send(this, 0);
+				connection.Value.Send(netMessage, 0);
 			}
 		}
 
 		Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
 	}
 
-	public virtual void SendTo(GameObject recipient)
+	public virtual void SendTo(GameObject recipient, ActualMessage msg)
 	{
 		if (recipient == null)
 		{
@@ -49,10 +52,12 @@ public abstract class ServerMessage : GameMessageBase
 			return;
 		}
 
-//			only send to players that are currently controlled by a client
+		netMessage = new NetMessage(){actualMessage = msg};
+
+		//only send to players that are currently controlled by a client
 		if (PlayerList.Instance.ContainsConnection(connection))
 		{
-			connection.Send(this, 0);
+			connection.Send(netMessage, 0);
 			Logger.LogTraceFormat("SentTo {0}: {1}", Category.NetMessage, recipient.name, this);
 		}
 		else
@@ -64,23 +69,24 @@ public abstract class ServerMessage : GameMessageBase
 		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 	}
 
-	public void SendTo(ConnectedPlayer recipient)
+	public void SendTo(ConnectedPlayer recipient, ActualMessage msg)
 	{
 		if (recipient == null) return;
-		SendTo(recipient.Connection);
+		SendTo(recipient.Connection, msg);
 	}
 
-	public void SendTo(NetworkConnection recipient)
+	public void SendTo(NetworkConnection recipient, ActualMessage msg)
 	{
 		if (recipient == null) return;
-		recipient.Send(this, 0);
+		netMessage = new NetMessage(){actualMessage = msg};
+		recipient.Send(netMessage, 0);
 	}
 
 	/// <summary>
 	/// Sends the network message only to players who are visible from the
 	/// worldPosition
 	/// </summary>
-	public void SendToVisiblePlayers(Vector2 worldPosition)
+	public void SendToVisiblePlayers(Vector2 worldPosition, ActualMessage msg)
 	{
 		var players = PlayerList.Instance.AllPlayers;
 
@@ -112,7 +118,8 @@ public abstract class ServerMessage : GameMessageBase
 
 			if (PlayerList.Instance.ContainsConnection(player.Connection))
 			{
-				player.Connection.Send(this, 0);
+				netMessage = new NetMessage(){actualMessage = msg};
+				player.Connection.Send(netMessage, 0);
 			}
 		}
 	}
@@ -121,7 +128,7 @@ public abstract class ServerMessage : GameMessageBase
 	/// Sends the network message only to players who are within a 15 tile radius
 	/// of the worldPostion. This method disregards if the player is visible or not
 	/// </summary>
-	public void SendToNearbyPlayers(Vector2 worldPosition)
+	public void SendToNearbyPlayers(Vector2 worldPosition, ActualMessage msg)
 	{
 		var players = PlayerList.Instance.AllPlayers;
 
@@ -135,39 +142,45 @@ public abstract class ServerMessage : GameMessageBase
 			}
 		}
 
+		netMessage = new NetMessage(){actualMessage = msg};
+
 		foreach (ConnectedPlayer player in players)
 		{
 			if (player.Script == null) continue;
 
 			if (PlayerList.Instance.ContainsConnection(player.Connection))
 			{
-				player.Connection.Send(this, 0);
+				player.Connection.Send(netMessage, 0);
 			}
 		}
 	}
 
-	public void SendToAdmins()
+	public void SendToAdmins(ActualMessage msg)
 	{
 		var admins = PlayerList.Instance.GetAllAdmins();
+
+		netMessage = new NetMessage(){actualMessage = msg};
 
 		foreach (var admin in admins)
 		{
 			if (PlayerList.Instance.ContainsConnection(admin.Connection))
 			{
-				admin.Connection.Send(this, 0);
+				admin.Connection.Send(netMessage, 0);
 			}
 		}
 	}
 
-	public void SendToMentors()
+	public void SendToMentors(ActualMessage msg)
 	{
 		var mentors = PlayerList.Instance.GetAllMentors();
+
+		netMessage = new NetMessage(){actualMessage = msg};
 
 		foreach (var mentor in mentors)
 		{
 			if (PlayerList.Instance.ContainsConnection(mentor.Connection))
 			{
-				mentor.Connection.Send(this, 0);
+				mentor.Connection.Send(netMessage, 0);
 			}
 		}
 		var admins = PlayerList.Instance.GetAllAdmins();
@@ -176,7 +189,7 @@ public abstract class ServerMessage : GameMessageBase
 		{
 			if (PlayerList.Instance.ContainsConnection(admin.Connection))
 			{
-				admin.Connection.Send(this, 0);
+				admin.Connection.Send(netMessage, 0);
 			}
 		}
 	}

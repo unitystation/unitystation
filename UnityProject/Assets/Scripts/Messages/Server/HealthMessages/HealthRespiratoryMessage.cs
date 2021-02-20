@@ -7,20 +7,26 @@ using Mirror;
 /// </summary>
 public class HealthRespiratoryMessage : ServerMessage
 {
-	public bool IsSuffocating;
-
-	public override void Process()
+	public class HealthRespiratoryMessageNetMessage : ActualMessage
 	{
-		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientRespiratoryStats(IsSuffocating);
+		public bool IsSuffocating;
 	}
 
-	public static HealthRespiratoryMessage Send(GameObject entityToUpdate, bool IsSuffocating)
+	public override void Process(ActualMessage msg)
 	{
-		HealthRespiratoryMessage msg = new HealthRespiratoryMessage
+		var newMsg = msg as HealthRespiratoryMessageNetMessage;
+		if(newMsg == null) return;
+
+		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientRespiratoryStats(newMsg.IsSuffocating);
+	}
+
+	public static HealthRespiratoryMessageNetMessage Send(GameObject entityToUpdate, bool IsSuffocating)
+	{
+		HealthRespiratoryMessageNetMessage msg = new HealthRespiratoryMessageNetMessage
 		{
 			IsSuffocating = IsSuffocating
 		};
-		msg.SendTo(entityToUpdate);
+		new HealthRespiratoryMessage().SendTo(entityToUpdate, msg);
 		return msg;
 	}
 }

@@ -2,23 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Messages.Client;
+using Mirror;
 
 public class MentorReplyMessage : ClientMessage
 {
-	public string Message;
-
-	public override void Process()
+	public class MentorReplyMessageNetMessage : ActualMessage
 	{
-		UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(Message, SentByPlayer.UserId);
+		public string Message;
 	}
 
-	public static MentorReplyMessage Send(string message)
+	public override void Process(ActualMessage msg)
 	{
-		MentorReplyMessage msg = new MentorReplyMessage
+		var newMsg = msg as MentorReplyMessageNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(newMsg.Message, SentByPlayer.UserId);
+	}
+
+	public static MentorReplyMessageNetMessage Send(string message)
+	{
+		MentorReplyMessageNetMessage msg = new MentorReplyMessageNetMessage
 		{
 			Message = message
 		};
-		msg.Send();
+
+		new MentorReplyMessage().Send(msg);
 		return msg;
 	}
 }

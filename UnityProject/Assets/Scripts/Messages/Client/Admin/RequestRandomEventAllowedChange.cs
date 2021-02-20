@@ -7,35 +7,41 @@ using Messages.Client;
 
 public class RequestRandomEventAllowedChange : ClientMessage
 {
-	public string Userid;
-	public string AdminToken;
-	public bool RandomEventsAllowed = true;
-
-	public override void Process()
+	public class RequestRandomEventAllowedChangeNetMessage : ActualMessage
 	{
-		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		public string Userid;
+		public string AdminToken;
+		public bool RandomEventsAllowed = true;
+	}
+
+	public override void Process(ActualMessage netMsg)
+	{
+		var newMsg = netMsg as RequestRandomEventAllowedChangeNetMessage;
+		if(newMsg == null) return;
+
+		var admin = PlayerList.Instance.GetAdmin(newMsg.Userid, newMsg.AdminToken);
 		if (admin == null) return;
 
-		if(InGameEventsManager.Instance.RandomEventsAllowed == RandomEventsAllowed) return;
+		if(InGameEventsManager.Instance.RandomEventsAllowed == newMsg.RandomEventsAllowed) return;
 
-		InGameEventsManager.Instance.RandomEventsAllowed = RandomEventsAllowed;
+		InGameEventsManager.Instance.RandomEventsAllowed = newMsg.RandomEventsAllowed;
 
-		var state = RandomEventsAllowed ? "ON" : "OFF";
-		var msg = $"Admin: {PlayerList.Instance.GetByUserID(Userid).Username}, Turned random events {state}";
+		var state = newMsg.RandomEventsAllowed ? "ON" : "OFF";
+		var msg = $"Admin: {PlayerList.Instance.GetByUserID(newMsg.Userid).Username}, Turned random events {state}";
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 	}
 
-	public static RequestRandomEventAllowedChange Send(string userId, string adminToken, bool randomEventsAllowed)
+	public static RequestRandomEventAllowedChangeNetMessage Send(string userId, string adminToken, bool randomEventsAllowed)
 	{
-		RequestRandomEventAllowedChange msg = new RequestRandomEventAllowedChange
+		RequestRandomEventAllowedChangeNetMessage msg = new RequestRandomEventAllowedChangeNetMessage
 		{
 			Userid = userId,
 			AdminToken = adminToken,
 			RandomEventsAllowed = randomEventsAllowed
 		};
-		msg.Send();
+		new RequestRandomEventAllowedChange().Send(msg);
 		return msg;
 	}
 }

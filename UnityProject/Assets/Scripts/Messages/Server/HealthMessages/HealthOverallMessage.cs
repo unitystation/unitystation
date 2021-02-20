@@ -7,34 +7,41 @@ using Mirror;
 /// </summary>
 public class HealthOverallMessage : ServerMessage
 {
-	public uint EntityToUpdate;
-	public float OverallHealth;
-
-	public override void Process()
+	public class HealthOverallMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(EntityToUpdate);
-		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientHealthStats(OverallHealth);
+		public uint EntityToUpdate;
+		public float OverallHealth;
 	}
 
-	public static HealthOverallMessage Send(GameObject recipient, GameObject entityToUpdate, float overallHealth)
+	public override void Process(ActualMessage msg)
 	{
-		HealthOverallMessage msg = new HealthOverallMessage
+		var newMsg = msg as HealthOverallMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.EntityToUpdate);
+		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientHealthStats(newMsg.OverallHealth);
+	}
+
+	public static HealthOverallMessageNetMessage Send(GameObject recipient, GameObject entityToUpdate, float overallHealth)
+	{
+		HealthOverallMessageNetMessage msg = new HealthOverallMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				OverallHealth = overallHealth,
 		};
-		msg.SendTo(recipient);
+
+		new HealthOverallMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
-	public static HealthOverallMessage SendToAll(GameObject entityToUpdate, float overallHealth)
+	public static HealthOverallMessageNetMessage SendToAll(GameObject entityToUpdate, float overallHealth)
 	{
-		HealthOverallMessage msg = new HealthOverallMessage
+		HealthOverallMessageNetMessage msg = new HealthOverallMessageNetMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				OverallHealth = overallHealth,
 		};
-		msg.SendToAll();
+		new HealthOverallMessage().SendToAll(msg);
 		return msg;
 	}
 }

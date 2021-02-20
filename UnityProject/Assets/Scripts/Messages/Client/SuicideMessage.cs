@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class SuicideMessage : ClientMessage
 {
-	public override void Process()
+	public class SuicideMessageNetMessage : ActualMessage { }
+
+	public override void Process(ActualMessage msg)
 	{
+		var newMsg = msg as SuicideMessageNetMessage;
+		if(newMsg == null) return;
 
 		if (SentByPlayer.Script.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
 		{
@@ -29,10 +33,10 @@ public class SuicideMessage : ClientMessage
 	/// <param name="obj">Dummy variable that is required to make this signiture different
 	/// from the non-static function of the same name. Just pass null. </param>
 	/// <returns></returns>
-	public static SuicideMessage Send(Object obj)
+	public static SuicideMessageNetMessage Send(Object obj)
 	{
-		SuicideMessage msg = new SuicideMessage();
-		msg.Send();
+		SuicideMessageNetMessage msg = new SuicideMessageNetMessage();
+		new SuicideMessage().Send(msg);
 		return msg;
 	}
 

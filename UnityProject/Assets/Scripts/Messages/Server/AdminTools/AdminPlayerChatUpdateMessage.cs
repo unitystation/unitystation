@@ -5,35 +5,41 @@ using AdminTools;
 
 public class AdminPlayerChatUpdateMessage : ServerMessage
 {
-	public string JsonData;
-	public string PlayerId;
-
-	public override void Process()
+	public class AdminPlayerChatUpdateMessageNetMessage : ActualMessage
 	{
-		UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(JsonData, PlayerId);
+		public string JsonData;
+		public string PlayerId;
 	}
 
-	public static AdminPlayerChatUpdateMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage, string playerId)
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as AdminPlayerChatUpdateMessageNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(newMsg.JsonData, newMsg.PlayerId);
+	}
+
+	public static AdminPlayerChatUpdateMessageNetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage, string playerId)
 	{
 		AdminChatUpdate update = new AdminChatUpdate();
 		update.messages.Add(chatMessage);
-		AdminPlayerChatUpdateMessage  msg =
-			new AdminPlayerChatUpdateMessage  {JsonData = JsonUtility.ToJson(update), PlayerId = playerId};
+		AdminPlayerChatUpdateMessageNetMessage  msg =
+			new AdminPlayerChatUpdateMessageNetMessage  {JsonData = JsonUtility.ToJson(update), PlayerId = playerId};
 
-		msg.SendToAdmins();
+		new AdminPlayerChatUpdateMessage().SendToAdmins(msg);
 		return msg;
 	}
 
-	public static AdminPlayerChatUpdateMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId)
+	public static AdminPlayerChatUpdateMessageNetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId)
 	{
-		AdminPlayerChatUpdateMessage msg =
-			new AdminPlayerChatUpdateMessage
+		AdminPlayerChatUpdateMessageNetMessage msg =
+			new AdminPlayerChatUpdateMessageNetMessage
 			{
 				JsonData = JsonUtility.ToJson(update),
 				PlayerId = playerId
 			};
 
-		msg.SendTo(requestee);
+		new AdminPlayerChatUpdateMessage().SendTo(requestee, msg);
 		return msg;
 	}
 }

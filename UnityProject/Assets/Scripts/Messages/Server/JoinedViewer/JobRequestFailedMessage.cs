@@ -6,21 +6,27 @@ namespace Messages.Server
 {
 	public class JobRequestFailedMessage : ServerMessage
 	{
-		public JobRequestError FailReason;
-
-		public override void Process()
+		public class JobRequestFailedMessageNetMesasge : ActualMessage
 		{
-			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(FailReason);
+			public JobRequestError FailReason;
 		}
 
-		public static JobRequestFailedMessage SendTo(ConnectedPlayer recipient, JobRequestError failReason)
+		public override void Process(ActualMessage msg)
 		{
-			var msg = new JobRequestFailedMessage
+			var newMsg = msg as JobRequestFailedMessageNetMesasge;
+			if(newMsg == null) return;
+
+			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(newMsg.FailReason);
+		}
+
+		public static JobRequestFailedMessageNetMesasge SendTo(ConnectedPlayer recipient, JobRequestError failReason)
+		{
+			var msg = new JobRequestFailedMessageNetMesasge
 			{
 				FailReason = failReason,
 			};
 
-			msg.SendTo(recipient);
+			new JobRequestFailedMessage().SendTo(recipient, msg);
 			return msg;
 		}
 	}

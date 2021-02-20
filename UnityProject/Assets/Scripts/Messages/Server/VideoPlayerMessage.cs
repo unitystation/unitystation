@@ -5,11 +5,17 @@
 /// </summary>
 public class VideoPlayerMessage : ServerMessage
 {
-	public VideoType VideoToPlay;
-
-	public override void Process()
+	public class VideoPlayerMessageNetMessage : ActualMessage
 	{
-		switch (VideoToPlay)
+		public VideoType VideoToPlay;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as VideoPlayerMessageNetMessage;
+		if(newMsg == null) return;
+
+		switch (newMsg.VideoToPlay)
 		{
 			case VideoType.NukeVid:
 				UIManager.Display.VideoPlayer.PlayNukeDetVideo();
@@ -20,13 +26,13 @@ public class VideoPlayerMessage : ServerMessage
 		}
 	}
 
-	public static VideoPlayerMessage Send(VideoType videoType)
+	public static VideoPlayerMessageNetMessage Send(VideoType videoType)
 	{
-		VideoPlayerMessage msg = new VideoPlayerMessage
+		VideoPlayerMessageNetMessage msg = new VideoPlayerMessageNetMessage
 		{
 			VideoToPlay = videoType
 		};
-		msg.SendToAll();
+		new VideoPlayerMessage().SendToAll(msg);
 		return msg;
 	}
 }

@@ -1,24 +1,30 @@
 ﻿using System.Collections;
 using Messages.Client;
 
-public class TileChangeNewPlayer: ClientMessage
+public class TileChangeNewPlayer : ClientMessage
 {
-	public uint TileChangeManager;
-
-	public override void Process()
+	public class TileChangeNewPlayerNetMessage : ActualMessage
 	{
-		LoadNetworkObject(TileChangeManager);
+		public uint TileChangeManager;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as TileChangeNewPlayerNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.TileChangeManager);
 		NetworkObject.GetComponent<TileChangeManager>().UpdateNewPlayer(
 			SentByPlayer.Connection);
 	}
 
-	public static TileChangeNewPlayer Send(uint tileChangeNetId)
+	public static TileChangeNewPlayerNetMessage Send(uint tileChangeNetId)
 	{
-		TileChangeNewPlayer msg = new TileChangeNewPlayer
+		TileChangeNewPlayerNetMessage msg = new TileChangeNewPlayerNetMessage
 		{
 			TileChangeManager = tileChangeNetId
 		};
-		msg.Send();
+		new TileChangeNewPlayer().Send(msg);
 		return msg;
 	}
 }

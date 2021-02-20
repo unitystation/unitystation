@@ -7,45 +7,49 @@ using Mirror;
 /// </summary>
 public class RequestMoveMessage : ClientMessage
 {
-	public PlayerAction Action;
-
-	public override void Process()
+	public class RequestMoveMessageNetMessage : ActualMessage
 	{
-		SentByPlayer.Script.PlayerSync.ProcessAction(Action);
+		public PlayerAction Action;
 	}
 
-	public static RequestMoveMessage Send(PlayerAction action)
+	public override void Process(ActualMessage msg)
 	{
-		RequestMoveMessage msg = new RequestMoveMessage
+		var newMsg = msg as RequestMoveMessageNetMessage;
+		if(newMsg == null) return;
+
+		SentByPlayer.Script.PlayerSync.ProcessAction(newMsg.Action);
+	}
+
+	public static RequestMoveMessageNetMessage Send(PlayerAction action)
+	{
+		RequestMoveMessageNetMessage msg = new RequestMoveMessageNetMessage
 		{
 			Action = action
 		};
-		msg.Send();
+		new RequestMoveMessage().Send(msg);
 		return msg;
 	}
+}
 
-	public override string ToString()
+public static class CustomReadWriteFunctions
+{
+	public static int[] ReadMoveAction(this NetworkReader reader)
 	{
-		return $"[RequestMoveMessage Action={Action} SentBy={SentByPlayer}]";
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Action.moveActions = new int[reader.ReadInt32()];
-		for ( var i = 0; i < Action.moveActions.Length; i++ )
+		var moveActions = new int[reader.ReadInt32()];
+		for ( var i = 0; i < moveActions.Length; i++ )
 		{
-			Action.moveActions[i] = reader.ReadInt32();
+			moveActions[i] = reader.ReadInt32();
 		}
+
+		return moveActions;
 	}
 
-	public override void Serialize(NetworkWriter writer)
+	public static void WriteMoveAction(this NetworkWriter writer, int[] value)
 	{
-		base.Serialize(writer);
-		writer.WriteInt32(Action.moveActions.Length);
-		for ( var i = 0; i < Action.moveActions.Length; i++ )
+		writer.WriteInt32(value.Length);
+		for ( var i = 0; i < value.Length; i++ )
 		{
-			writer.WriteInt32(Action.moveActions[i]);
+			writer.WriteInt32(value[i]);
 		}
 	}
 }

@@ -4,10 +4,13 @@ using Mirror;
 
 public class RemoveTileMessage : ServerMessage
 {
-	public Vector3 Position;
-	public LayerType LayerType;
-	public bool RemoveAll;
-	public uint TileChangeManager;
+	public class RemoveTileMessageNetMessage : ActualMessage
+	{
+		public Vector3 Position;
+		public LayerType LayerType;
+		public bool RemoveAll;
+		public uint TileChangeManager;
+	}
 
 	public static List<delayedData> DelayedStuff = new List<delayedData>();
 
@@ -25,17 +28,20 @@ public class RemoveTileMessage : ServerMessage
 			TileChangeManager = inTileChangeManager;
 		}
 	}
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
-		LoadNetworkObject(TileChangeManager);
+		var newMsg = msg as RemoveTileMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.TileChangeManager);
 		if (NetworkObject == null)
 		{
-			DelayedStuff.Add(new delayedData(Position, LayerType, RemoveAll, TileChangeManager));
+			DelayedStuff.Add(new delayedData(newMsg.Position, newMsg.LayerType, newMsg.RemoveAll, newMsg.TileChangeManager));
 		}
 		else
 		{
 			var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
-			tileChangerManager.InternalRemoveTile(Position, LayerType, RemoveAll);
+			tileChangerManager.InternalRemoveTile(newMsg.Position, newMsg.LayerType, newMsg.RemoveAll);
 			TryDoNotDoneTiles();
 		}
 	}
@@ -56,16 +62,16 @@ public class RemoveTileMessage : ServerMessage
 		}
 	}
 
-	public static RemoveTileMessage Send(uint tileChangeManagerNetID, Vector3 position, LayerType layerType, bool removeAll)
+	public static RemoveTileMessageNetMessage Send(uint tileChangeManagerNetID, Vector3 position, LayerType layerType, bool removeAll)
 	{
-		RemoveTileMessage msg = new RemoveTileMessage
+		RemoveTileMessageNetMessage msg = new RemoveTileMessageNetMessage
 		{
 			Position = position,
 			LayerType = layerType,
 			RemoveAll = removeAll,
 			TileChangeManager = tileChangeManagerNetID
 		};
-		msg.SendToAll();
+		new RemoveTileMessage().SendToAll(msg);
 		return msg;
 	}
 }

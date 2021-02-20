@@ -60,7 +60,7 @@ namespace AdminTools
 		/// </summary>
 		void SendSmitePlayerRequest()
 		{
-			ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid, "CmdSmitePlayer");
+			AdminCommandsManager.Instance.CmdSmitePlayer(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 

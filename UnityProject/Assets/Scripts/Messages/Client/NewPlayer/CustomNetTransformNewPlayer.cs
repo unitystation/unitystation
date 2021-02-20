@@ -1,25 +1,31 @@
 ﻿using System.Collections;
 using Messages.Client;
 
-public class CustomNetTransformNewPlayer: ClientMessage
+public class CustomNetTransformNewPlayer : ClientMessage
 {
-	public uint CNT;
-
-	public override void Process()
+	public class CustomNetTransformNewPlayerNetMessage : ActualMessage
 	{
-		LoadNetworkObject(CNT);
+		public uint CNT;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as CustomNetTransformNewPlayerNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.CNT);
 		if (NetworkObject == null) return;
 		NetworkObject.GetComponent<CustomNetTransform>()?.NotifyPlayer(
 			SentByPlayer.Connection);
 	}
 
-	public static CustomNetTransformNewPlayer Send(uint netId)
+	public static CustomNetTransformNewPlayerNetMessage Send(uint netId)
 	{
-		CustomNetTransformNewPlayer msg = new CustomNetTransformNewPlayer
+		CustomNetTransformNewPlayerNetMessage msg = new CustomNetTransformNewPlayerNetMessage
 		{
 			CNT = netId
 		};
-		msg.Send();
+		new CustomNetTransformNewPlayer().Send(msg);
 		return msg;
 	}
 }

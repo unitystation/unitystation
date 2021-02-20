@@ -85,46 +85,58 @@ namespace ServerInfo
 
 	public class ServerInfoLobbyMessageServer : ServerMessage
 	{
-		public string ServerName;
-
-		public string ServerDesc;
-
-		public string ServerDiscordID;
-
-		public override void Process()
+		public class ServerInfoLobbyMessageServerNetMessage : ActualMessage
 		{
-			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(ServerName, ServerDesc, ServerDiscordID);
+			public string ServerName;
+			public string ServerDesc;
+			public string ServerDiscordID;
 		}
 
-		public static ServerInfoLobbyMessageServer Send(NetworkConnection clientConn,string serverName, string serverDesc, string serverDiscordID)
+		public override void Process(ActualMessage msg)
 		{
-			ServerInfoLobbyMessageServer msg = new ServerInfoLobbyMessageServer
+			var newMsg = msg as ServerInfoLobbyMessageServerNetMessage;
+			if(newMsg == null) return;
+
+			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(newMsg.ServerName, newMsg.ServerDesc, newMsg.ServerDiscordID);
+		}
+
+		public static ServerInfoLobbyMessageServerNetMessage Send(NetworkConnection clientConn,string serverName, string serverDesc, string serverDiscordID)
+		{
+			ServerInfoLobbyMessageServerNetMessage msg = new ServerInfoLobbyMessageServerNetMessage
 			{
 				ServerName = serverName,
 				ServerDesc = serverDesc,
 				ServerDiscordID = serverDiscordID
 			};
-			msg.SendTo(clientConn);
+
+			new ServerInfoLobbyMessageServer().SendTo(clientConn, msg);
 			return msg;
 		}
 	}
 
 	public class ServerInfoLobbyMessageClient : ClientMessage
 	{
-		public string PlayerId;
-
-		public override void Process()
+		public class ServerInfoLobbyMessageClientNetMessage : ActualMessage
 		{
+			public string PlayerId;
+		}
+
+		public override void Process(ActualMessage msg)
+		{
+			var newMsg = msg as ServerInfoLobbyMessageClientNetMessage;
+			if(newMsg == null) return;
+
 			ServerInfoLobbyMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc, ServerInfoUILobby.serverDiscordID);
 		}
 
-		public static ServerInfoLobbyMessageClient Send(string playerId)
+		public static ServerInfoLobbyMessageClientNetMessage Send(string playerId)
 		{
-			ServerInfoLobbyMessageClient msg = new ServerInfoLobbyMessageClient
+			ServerInfoLobbyMessageClientNetMessage msg = new ServerInfoLobbyMessageClientNetMessage
 			{
 				PlayerId = playerId,
 			};
-			msg.Send();
+
+			new ServerInfoLobbyMessageClient().Send(msg);
 			return msg;
 		}
 	}

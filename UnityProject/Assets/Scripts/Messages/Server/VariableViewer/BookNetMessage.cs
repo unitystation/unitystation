@@ -10,22 +10,26 @@ using Newtonsoft.Json;
 
 public class BookNetMessage : ServerMessage
 {
-	public VariableViewerNetworking.NetFriendlyBook Book;
-
-	public override void Process()
+	public class BookNetMessageNetMessage : ActualMessage
 	{
-		UIManager.Instance.VariableViewer.ReceiveBook(Book);
+		public VariableViewerNetworking.NetFriendlyBook Book;
 	}
 
-	public static BookNetMessage Send(Librarian.Book _book, GameObject ToWho)
+	public override void Process(ActualMessage msg)
 	{
-		BookNetMessage msg = new BookNetMessage
+		var newMsg = msg as BookNetMessageNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Instance.VariableViewer.ReceiveBook(newMsg.Book);
+	}
+
+	public static BookNetMessageNetMessage Send(Librarian.Book _book, GameObject ToWho)
+	{
+		BookNetMessageNetMessage msg = new BookNetMessageNetMessage
 		{
 			Book = VariableViewerNetworking.ProcessBook(_book)
 		};
-		msg.SendTo(ToWho);
+		new BookNetMessage().SendTo(ToWho, msg);
 		return msg;
 	}
-
-
 }

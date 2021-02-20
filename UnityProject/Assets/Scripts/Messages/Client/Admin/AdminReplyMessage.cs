@@ -5,20 +5,26 @@ using Messages.Client;
 
 public class AdminReplyMessage : ClientMessage
 {
-	public string Message;
-
-	public override void Process()
+	public class AdminReplyMessageNetMessage : ActualMessage
 	{
-		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(Message, SentByPlayer.UserId);
+		public string Message;
 	}
 
-	public static AdminReplyMessage Send(string message)
+	public override void Process(ActualMessage msg)
 	{
-		AdminReplyMessage msg = new AdminReplyMessage
+		var newMsg = msg as AdminReplyMessageNetMessage;
+		if(newMsg == null) return;
+
+		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(newMsg.Message, SentByPlayer.UserId);
+	}
+
+	public static AdminReplyMessageNetMessage Send(string message)
+	{
+		AdminReplyMessageNetMessage msg = new AdminReplyMessageNetMessage
 		{
 			Message = message
 		};
-		msg.Send();
+		new AdminReplyMessage().Send(msg);
 		return msg;
 	}
 }

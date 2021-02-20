@@ -8,22 +8,28 @@ using UnityEngine;
 /// </summary>
 public class ObserveInteractableStorageMessage : ServerMessage
 {
-	public uint Storage;
-	public bool Observed;
-
-	public override void Process()
+	public class ObserveInteractableStorageMessageNetMessage : ActualMessage
 	{
-		LoadNetworkObject(Storage);
+		public uint Storage;
+		public bool Observed;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as ObserveInteractableStorageMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.Storage);
 
 		var storageObject = NetworkObject;
 		if (storageObject == null)
 		{
-			Logger.LogWarningFormat("Client could not find observed storage with id {0}", Category.Inventory, Storage);
+			Logger.LogWarningFormat("Client could not find observed storage with id {0}", Category.Inventory, newMsg.Storage);
 			return;
 		}
 
 		var itemStorage = storageObject.GetComponent<ItemStorage>();
-		if (Observed)
+		if (newMsg.Observed)
 		{
 			UIManager.StorageHandler.OpenStorageUI(itemStorage);
 		}
@@ -55,12 +61,12 @@ public class ObserveInteractableStorageMessage : ServerMessage
 	/// <param name="observed">true indicates they should show the popup, false indicates it should be hidden</param>
 	public static void Send(GameObject recipient, InteractableStorage storage, bool observed)
 	{
-		var msg = new ObserveInteractableStorageMessage()
+		var msg = new ObserveInteractableStorageMessageNetMessage()
 		{
 			Storage = storage.gameObject.NetId(),
 			Observed = observed
 		};
 
-		msg.SendTo(recipient);
+		new ObserveInteractableStorageMessage().SendTo(recipient, msg);
 	}
 }

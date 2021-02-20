@@ -8,34 +8,40 @@ using Mirror;
 /// </summary>
 public class UpdateItemSlotMessage : ServerMessage
 {
-	public uint Storage;
-	public uint Item;
-	public int SlotIndex;
-	public NamedSlot NamedSlot;
-
-	public override void Process()
+	public class UpdateItemSlotMessageNetMessage : ActualMessage
 	{
+		public uint Storage;
+		public uint Item;
+		public int SlotIndex;
+		public NamedSlot NamedSlot;
+	}
+
+	public override void Process(ActualMessage msg)
+	{
+		var newMsg = msg as UpdateItemSlotMessageNetMessage;
+		if(newMsg == null) return;
+
 		//server calls their own client side hooks, so server doesn't do anything here.
 		//It's necessary for it to be this way because by the time the server reaches this point,
 		//the change to this slot has already occurred so it can't figure out what the previous
 		//slot was for this item.
 		if (!CustomNetworkManager.IsServer)
 		{
-			LoadMultipleObjects(new uint[]{Storage, Item});
+			LoadMultipleObjects(new uint[]{newMsg.Storage, newMsg.Item});
 			if (NetworkObjects[0] == null) return;
 
 			ItemSlot slot = null;
-			if (SlotIndex == -1)
+			if (newMsg.SlotIndex == -1)
 			{
-				slot = ItemSlot.GetNamed(NetworkObjects[0].GetComponent<ItemStorage>(), NamedSlot);
+				slot = ItemSlot.GetNamed(NetworkObjects[0].GetComponent<ItemStorage>(), newMsg.NamedSlot);
 			}
 			else
 			{
-				slot = ItemSlot.GetIndexed(NetworkObjects[0].GetComponent<ItemStorage>(), SlotIndex);
+				slot = ItemSlot.GetIndexed(NetworkObjects[0].GetComponent<ItemStorage>(), newMsg.SlotIndex);
 			}
 
 			var previouslyInSlot = slot.ItemObject;
-			var pickupable = Item == NetId.Invalid ? null : NetworkObjects[1].GetComponent<Pickupable>();
+			var pickupable = newMsg.Item == NetId.Invalid ? null : NetworkObjects[1].GetComponent<Pickupable>();
 			slot.ClientUpdate(pickupable);
 
 
@@ -79,14 +85,14 @@ public class UpdateItemSlotMessage : ServerMessage
 	/// <returns></returns>
 	public static void Send(GameObject recipient, ItemSlot itemSlot, bool informEmpty = false)
 	{
-		UpdateItemSlotMessage msg = new UpdateItemSlotMessage
+		UpdateItemSlotMessageNetMessage msg = new UpdateItemSlotMessageNetMessage
 		{
 			Storage = itemSlot.ItemStorageNetID,
 			Item = informEmpty ? NetId.Invalid : (itemSlot.Item != null ? itemSlot.Item.GetComponent<NetworkIdentity>().netId : NetId.Invalid),
 			SlotIndex = itemSlot.SlotIdentifier.SlotIndex,
 			NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none)
 		};
-		msg.SendTo(recipient);
+		new UpdateItemSlotMessage().SendTo(recipient, msg);
 	}
 
 	/// <summary>
@@ -97,7 +103,7 @@ public class UpdateItemSlotMessage : ServerMessage
 	/// <returns></returns>
 	public static void Send(IEnumerable<GameObject> recipients, ItemSlot itemSlot)
 	{
-		UpdateItemSlotMessage msg = new UpdateItemSlotMessage
+		UpdateItemSlotMessageNetMessage msg = new UpdateItemSlotMessageNetMessage
 		{
 			Storage = itemSlot.ItemStorageNetID,
 			Item = itemSlot.Item != null ? itemSlot.Item.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
@@ -107,7 +113,7 @@ public class UpdateItemSlotMessage : ServerMessage
 
 		foreach (var recipient in recipients)
 		{
-			msg.SendTo(recipient);
+			new UpdateItemSlotMessage().SendTo(recipient, msg);
 		}
 	}
 }

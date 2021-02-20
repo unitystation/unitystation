@@ -5,14 +5,25 @@ using Mirror;
 ///   Tells client to apply PlayerState (update his position, flight direction etc) to the given player
 public class PlayerMoveMessage : ServerMessage
 {
-	public PlayerState State;
-	/// Player to be moved
-	public uint SubjectPlayer;
+	public class PlayerMoveMessageNetMessage : ActualMessage
+	{
+		public PlayerState State;
+		/// Player to be moved
+		public uint SubjectPlayer;
+
+		public override string ToString()
+		{
+			return $"[PlayerMoveMessage State={State} Subject={SubjectPlayer}]";
+		}
+	}
 
 	///To be run on client
-	public override void Process()
+	public override void Process(ActualMessage msg)
 	{
-		LoadNetworkObject(SubjectPlayer);
+		var newMsg = msg as PlayerMoveMessageNetMessage;
+		if(newMsg == null) return;
+
+		LoadNetworkObject(newMsg.SubjectPlayer);
 
 		if ( NetworkObject == null )
 		{
@@ -21,16 +32,16 @@ public class PlayerMoveMessage : ServerMessage
 
 		Logger.LogTraceFormat("Processed {1}'s state: {0}", Category.Movement, this, NetworkObject.name);
 		var playerSync = NetworkObject.GetComponent<PlayerSync>();
-		playerSync.UpdateClientState(State);
+		playerSync.UpdateClientState(newMsg.State);
 
 		if ( NetworkObject == PlayerManager.LocalPlayer ) {
-			if (State.ResetClientQueue)
+			if (newMsg.State.ResetClientQueue)
 			{
 				playerSync.ClearQueueClient();
 				playerSync.RollbackPrediction();
 			}
-			if ( State.MoveNumber == 0 ) {
-	//			Logger.Log( "Zero step rollback" );
+			if (newMsg.State.MoveNumber == 0 ) {
+				//Logger.Log( "Zero step rollback" );
 				playerSync.ClearQueueClient();
 				playerSync.RollbackPrediction();
 			}
@@ -39,21 +50,19 @@ public class PlayerMoveMessage : ServerMessage
 		}
 	}
 
-	public static PlayerMoveMessage Send(NetworkConnection recipient, GameObject subjectPlayer, PlayerState state)
+	public static PlayerMoveMessageNetMessage Send(NetworkConnection recipient, GameObject subjectPlayer, PlayerState state)
 	{
-		var msg = new PlayerMoveMessage
+		var msg = new PlayerMoveMessageNetMessage
 		{
 			SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 		};
-		msg.SendTo(recipient);
+		new PlayerMoveMessage().SendTo(recipient, msg);
 		return msg;
 	}
 
 	public static void SendToAll(GameObject subjectPlayer, PlayerState state)
 	{
-
-
 		if (PlayerUtils.IsGhost(subjectPlayer))
 		{
 			//Send ghost positions only to ghosts
@@ -67,18 +76,13 @@ public class PlayerMoveMessage : ServerMessage
 		}
 		else
 		{
-			var msg = new PlayerMoveMessage
+			var msg = new PlayerMoveMessageNetMessage
 			{
 				SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				State = state,
 			};
-			msg.SendToAll();
+			new PlayerMoveMessage().SendToAll(msg);
 		}
 
-	}
-
-	public override string ToString()
-	{
-		return $"[PlayerMoveMessage State={State} Subject={SubjectPlayer}]";
 	}
 }

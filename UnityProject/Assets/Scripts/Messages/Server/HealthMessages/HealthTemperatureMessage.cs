@@ -7,20 +7,26 @@ using Mirror;
 /// </summary>
 public class HealthTemperatureMessage : ServerMessage
 {
-	public float temperature;
-
-	public override void Process()
+	public class HealthTemperatureMessageNetMessage : ActualMessage
 	{
-		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientTemperatureStats(temperature);
+		public float temperature;
 	}
 
-	public static HealthTemperatureMessage Send(GameObject entityToUpdate, float temperatureValue)
+	public override void Process(ActualMessage msg)
 	{
-		HealthTemperatureMessage msg = new HealthTemperatureMessage
+		var newMsg = msg as HealthTemperatureMessageNetMessage;
+		if(newMsg == null) return;
+
+		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientTemperatureStats(newMsg.temperature);
+	}
+
+	public static HealthTemperatureMessageNetMessage Send(GameObject entityToUpdate, float temperatureValue)
+	{
+		HealthTemperatureMessageNetMessage msg = new HealthTemperatureMessageNetMessage
 		{
 			temperature = temperatureValue
 		};
-		msg.SendTo(entityToUpdate);
+		new HealthTemperatureMessage().SendTo(entityToUpdate, msg);
 		return msg;
 	}
 }
