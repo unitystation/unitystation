@@ -40,7 +40,7 @@ public class BodyPartBehaviour : MonoBehaviour
 	{
 		//FIXME this is a bad patch for a bad problem. I don't know what's going on with the calculation behind curtains
 		// but if bodyparts have less maxDmg than maxHealth, then mobs never die.
-		MaxDamage = (int) (livingHealthBehaviour is null ? 99999 : livingHealthBehaviour.maxHealth);
+		MaxDamage = (int) (livingHealthBehaviour is null ? 99999 : livingHealthBehaviour.maxHealth * 2);
 	}
 
 	//Apply damages from here.
