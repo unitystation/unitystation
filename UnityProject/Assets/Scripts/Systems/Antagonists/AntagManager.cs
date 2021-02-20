@@ -7,6 +7,8 @@ using System.Linq;
 using DiscordWebhook;
 using DatabaseAPI;
 using Messages.Server.LocalGuiMessages;
+using Objects.Command;
+using UnityEngine.SceneManagement;
 
 namespace Antagonists
 {
@@ -35,6 +37,8 @@ namespace Antagonists
 		/// </summary>
 		[NonSerialized] public List<GameObject> TargetedItems = new List<GameObject>();
 
+		public static int SyndiNukeCode;
+
 		public GameObject blobPlayerViewer = null;
 
 		private void Awake()
@@ -51,12 +55,19 @@ namespace Antagonists
 
 		void OnEnable()
 		{
+			SceneManager.activeSceneChanged += OnSceneChange;
 			EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
 		}
 
 		void OnDisable()
 		{
+			SceneManager.activeSceneChanged -= OnSceneChange;
 			EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+		}
+
+		void OnSceneChange(Scene oldScene, Scene newScene)
+		{
+			SyndiNukeCode = Nuke.CodeGenerator();
 		}
 
 		void OnRoundEnd()

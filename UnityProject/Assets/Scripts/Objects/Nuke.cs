@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
 using AddressableReferences;
+using Antagonists;
 using Managers;
 
 namespace Objects.Command
@@ -11,7 +12,7 @@ namespace Objects.Command
 	/// <summary>
 	/// Main component for nuke.
 	/// </summary>
-	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo
+	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo, IServerSpawn
 	{
 		public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
 
@@ -76,18 +77,22 @@ namespace Objects.Command
 			itemNuke = GetComponent<ItemStorage>();
 			nukeSlot = itemNuke.GetIndexedItemSlot(0);
 		}
-		public override void OnStartServer()
+
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			//calling the code generator and setting up a 10 second timer to post the code in syndicate chat
-			CodeGenerator();
-			base.OnStartServer();
+			if (SubSceneManager.Instance.SyndicateScene == gameObject.scene)
+			{
+				nukeCode = AntagManager.SyndiNukeCode;
+			}
+			else
+			{
+				nukeCode = CodeGenerator();
+			}
 		}
 
-		[Server]
-		public void CodeGenerator()
+		public static int CodeGenerator()
 		{
-			nukeCode = Random.Range(1000, 9999);
-			//Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
+			return Random.Range(1000, 9999);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

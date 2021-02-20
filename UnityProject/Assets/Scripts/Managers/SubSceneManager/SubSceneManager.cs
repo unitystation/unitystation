@@ -23,6 +23,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	public bool MainStationLoaded { get; private set; }
 
 	public bool SyndicateLoaded { get; private set; }
+	public Scene SyndicateScene { get; private set; }
 	public bool WizardLoaded { get; private set; }
 
 	void Awake()
