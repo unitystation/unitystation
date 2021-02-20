@@ -303,7 +303,7 @@ public class SoundManager : MonoBehaviour
 		GameObject sourceObj = null)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		return await PlayNetworkedAtPos(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, global, sourceObj, shakeParameters);
+		return await PlayNetworkedAtPos(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, global, shakeParameters, sourceObj);
 	}
 
 	// PDALogic.cs needs to be updated before this can be removed.
@@ -383,7 +383,7 @@ public class SoundManager : MonoBehaviour
 		bool polyphonic = false, ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
 
-		AddressableAudioSource addressableAudioSource =	await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
 		PlaySoundMessage.Send(recipient, addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
 			audioSourceParameters);
 	}
