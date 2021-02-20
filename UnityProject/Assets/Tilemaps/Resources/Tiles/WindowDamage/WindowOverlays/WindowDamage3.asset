@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0f29623cd914027a05edc41eae8af3c, type: 3}
-  m_Name: RWallSheath
+  m_Script: {fileID: 11500000, guid: 7b6827d717b949f79771ad7b0c57ad2b, type: 3}
+  m_Name: WindowDamage3
   m_EditorClassIdentifier: 
-  contents:
-  - {fileID: 756811348045008463, guid: d19f068f30aed4d468cdba7a0e5824a0, type: 3}
-  - {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944, type: 3}
+  displayName: 
+  LayerType: 6
+  TileType: 8
+  RequiredTiles: []
+  sprite: {fileID: 21300000, guid: 4ca7c22b64ebc8245a9f828eae0badf6, type: 3}
+  isCleanable: 0
