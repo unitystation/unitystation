@@ -53,6 +53,9 @@ namespace Weapons
 		protected GameObject serverHolder;
 		private RegisterTile shooterRegisterTile;
 
+		protected StandardProgressActionConfig ProgressConfig
+			= new StandardProgressActionConfig(StandardProgressActionType.ItemTransfer);
+
 		/// <summary>
 		/// The current magazine for this weapon, null means empty
 		/// </summary>
@@ -188,11 +191,13 @@ namespace Weapons
 		public ItemSlot pinSlot;
 		public ItemSlot suppressorSlot;
 
+		protected float PinRemove = 10f;
+
 		// used for clusmy self shooting randomness
 		private System.Random rnd = new System.Random();
 
 		[SyncVar(hook = nameof(SyncPredictionCanFire))]
-		private bool predictionCanFire;
+		protected bool predictionCanFire;
 
 		/// <summary>
 		/// If true, displays a message whenever a gun is shot
@@ -530,11 +535,31 @@ namespace Weapons
 					}
 					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
 					{
-						SyncPredictionCanFire(predictionCanFire, false);
-						Inventory.ServerDrop(pinSlot);
+						void ProgressFinishAction()
+						{
+							Chat.AddActionMsgToChat(interaction.Performer,
+								$"You remove the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}",
+								$"{interaction.Performer.ExpensiveName()} removes the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
+
+							SyncPredictionCanFire(predictionCanFire, false);
+
+							Inventory.ServerDrop(pinSlot);
+						}
+
+						Chat.AddActionMsgToChat(interaction.Performer,
+							$"You begin removing the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}",
+							$"{interaction.Performer.ExpensiveName()} begins removing the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
+
+						SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.WireCutter, interaction.Performer.AssumedWorldPosServer(), UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: serverHolder);
+
+						var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+							.ServerStartProgress(interaction.Performer.RegisterTile(), PinRemove, interaction.Performer);
 					}
 					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
 					{
+						Chat.AddActionMsgToChat(interaction.Performer,
+							$"You insert the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.",
+							$"{interaction.Performer.ExpensiveName()} inserts the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.");
 						UpdatePredictionCanFire(serverHolder);
 						Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
 					}
@@ -977,7 +1002,7 @@ namespace Weapons
 		/// <summary>
 		/// Syncs the prediction bool
 		/// </summary>
-		private void SyncPredictionCanFire(bool oldValue, bool newValue)
+		protected void SyncPredictionCanFire(bool oldValue, bool newValue)
 		{
 			predictionCanFire = newValue;
 		}

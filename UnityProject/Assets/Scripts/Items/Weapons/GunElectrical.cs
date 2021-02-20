@@ -15,6 +15,8 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	public List<string> firemodeName = new List<string>();
 	public List<int> firemodeUsage = new List<int>();
 
+	private float magRemove = 3f;
+
 	[SerializeField]
 	private bool allowScrewdriver = true;
 
@@ -107,7 +109,22 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && allowScrewdriver)
 			{
-				base.RequestUnload(CurrentMagazine);
+				void ProgressFinishAction()
+				{
+					Chat.AddActionMsgToChat(interaction.Performer,
+						$"The {gameObject.ExpensiveName()}'s power cell pops out",
+						$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
+					base.RequestUnload(CurrentMagazine);				
+				}
+
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You begin unsecuring the {gameObject.ExpensiveName()}'s power cell.",
+					$"{interaction.Performer.ExpensiveName()} begins unsecuring {gameObject.ExpensiveName()}'s power cell.");
+
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: serverHolder);
+
+				var bar = StandardProgressAction.Create(base.ProgressConfig, ProgressFinishAction)
+					.ServerStartProgress(interaction.Performer.RegisterTile(), magRemove, interaction.Performer);
 			}
 			MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 			if (mag)
@@ -116,10 +133,32 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 			}
 			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
 			{
-				Inventory.ServerDrop(pinSlot);
+				void ProgressFinishAction()
+				{
+					Chat.AddActionMsgToChat(interaction.Performer,
+						$"You remove the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}",
+						$"{interaction.Performer.ExpensiveName()} removes the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
+
+					base.SyncPredictionCanFire(base.predictionCanFire, false);
+
+					Inventory.ServerDrop(pinSlot);
+				}
+
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You begin removing the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}",
+					$"{interaction.Performer.ExpensiveName()} begins removing the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
+
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.WireCutter, interaction.Performer.AssumedWorldPosServer(), UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: serverHolder);
+
+				var bar = StandardProgressAction.Create(base.ProgressConfig, ProgressFinishAction)
+					.ServerStartProgress(interaction.Performer.RegisterTile(), base.PinRemove, interaction.Performer);
 			}
 			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
 			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You insert the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.",
+					$"{interaction.Performer.ExpensiveName()} inserts the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.");
+				base.UpdatePredictionCanFire(base.serverHolder);
 				Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
 			}
 		}
