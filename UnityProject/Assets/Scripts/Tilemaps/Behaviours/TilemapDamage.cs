@@ -84,6 +84,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if(basicTile.SoundOnHit.AssetAddress != null)
 			SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+		else{
+			Logger.LogError($"Tried to play SoundOnHit for {basicTile.DisplayName}, but it was null!", Category.Addressables);
+		}
 
 		var totalDamageTaken = data.GetTileDamage(Layer.LayerType);
 
