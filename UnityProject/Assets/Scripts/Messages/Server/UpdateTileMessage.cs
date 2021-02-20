@@ -37,6 +37,8 @@ public class UpdateTileMessage : ServerMessage
 
 	public override void Process()
 	{
+		if(CustomNetworkManager.IsServer) return;
+
 		LoadNetworkObject(TileChangeManager);
 		if (NetworkObject == null)
 		{

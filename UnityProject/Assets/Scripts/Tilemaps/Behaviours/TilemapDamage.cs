@@ -166,7 +166,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void RemoveTileEffects(Vector3Int cellPos)
 	{
 		var data = metaDataLayer.Get(cellPos);
-		tileChangeManager.RemoveOverlay(cellPos, LayerType.Effects);
+		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Damage);
 		data.ResetDamage(Layer.LayerType);
 	}
 }

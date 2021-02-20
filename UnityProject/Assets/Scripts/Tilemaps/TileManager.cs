@@ -157,4 +157,10 @@ public class TileManager : MonoBehaviour, IInitialise
 		if (!Instance.initialized) Instance.StartCoroutine(Instance.LoadAllTiles());
 		return Instance.tiles[tileType][key];
 	}
+
+	public static Dictionary<string, LayerTile> GetTiles(TileType tileType)
+	{
+		if (!Instance.initialized) Instance.StartCoroutine(Instance.LoadAllTiles());
+		return Instance.tiles[tileType];
+	}
 }

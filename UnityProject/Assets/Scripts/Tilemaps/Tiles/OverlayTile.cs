@@ -9,6 +9,10 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(fileName = "Overlay", menuName = "Tiles/Overlay")]
 public class OverlayTile : LayerTile
 {
+	[Tooltip("The unique name of this overlay, needed for gases as cant get name on main thread")]
+	[SerializeField]
+	private string overlayName = null;
+	public string OverlayName => overlayName;
 
 	[Tooltip("Appearance of this overlay")]
 	[SerializeField]
@@ -20,4 +24,10 @@ public class OverlayTile : LayerTile
 	[SerializeField]
 	private bool isCleanable = false;
 	public bool IsCleanable => isCleanable;
+
+	[Tooltip("The type of overlay?")]
+	[SerializeField]
+	private TileChangeManager.OverlayType overlayType = TileChangeManager.OverlayType.None;
+
+	public TileChangeManager.OverlayType OverlayType => overlayType;
 }

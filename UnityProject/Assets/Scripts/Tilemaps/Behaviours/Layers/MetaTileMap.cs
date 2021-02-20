@@ -83,6 +83,7 @@ namespace TileManagement
 
 			foreach (Layer layer in GetComponentsInChildren<Layer>(true))
 			{
+				layer.metaTileMap = this;
 				var type = layer.LayerType;
 				Layers[type] = layer;
 				layersKeys.Add(type);
@@ -182,7 +183,15 @@ namespace TileManagement
 						PresentTiles[QueueTileChange.PresentlyOn][QueueTileChange.TileCoordinates] = null;
 					}
 
-					QueueTileChange.PresentlyOn.RemoveTile(QueueTileChange.TileCoordinates);
+					if (QueueTileChange.overlayName != null)
+					{
+						QueueTileChange.PresentlyOn.RemoveOverlay(QueueTileChange.TileCoordinates, QueueTileChange.overlayName);
+					}
+					else
+					{
+						QueueTileChange.PresentlyOn.RemoveTile(QueueTileChange.TileCoordinates);
+					}
+
 					// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 					QueueTileChange.Clean();
 					lock (PooledTileLocation)
@@ -192,8 +201,16 @@ namespace TileManagement
 				}
 				else
 				{
-					QueueTileChange.PresentlyOn.SetTile(QueueTileChange.TileCoordinates, QueueTileChange.Tile,
-						QueueTileChange.TransformMatrix, QueueTileChange.Colour);
+					if (QueueTileChange.overlayName != null)
+					{
+						QueueTileChange.PresentlyOn.SetOverlay(QueueTileChange.TileCoordinates, QueueTileChange.Tile as OverlayTile,
+							QueueTileChange.TransformMatrix, QueueTileChange.Colour);
+					}
+					else
+					{
+						QueueTileChange.PresentlyOn.SetTile(QueueTileChange.TileCoordinates, QueueTileChange.Tile,
+							QueueTileChange.TransformMatrix, QueueTileChange.Colour);
+					}
 				}
 
 				lock (QueueTileChange)
@@ -364,7 +381,7 @@ namespace TileManagement
 				}
 
 				if (TileLcation?.Tile == null) continue;
-				if ((TileLcation.Tile as BasicTile).IsAtmosPassable() == false)
+				if ((TileLcation.Tile as BasicTile)?.IsAtmosPassable() == false)
 				{
 					return false;
 				}
@@ -395,7 +412,7 @@ namespace TileManagement
 				}
 
 				if (TileLcation?.Tile == null) continue;
-				if ((TileLcation.Tile as BasicTile).IsSpace() == false)
+				if ((TileLcation.Tile as BasicTile)?.IsSpace() == false)
 				{
 					return false;
 				}
@@ -461,11 +478,20 @@ namespace TileManagement
 					PresentTiles[layer].TryGetValue(position, out TileLcation);
 				}
 
+				var overlayTile = tile as OverlayTile;
+
 				if (TileLcation != null)
 				{
 					TileLcation.Tile = tile;
 					TileLcation.TransformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
 					TileLcation.Colour = color.GetValueOrDefault(Color.white);
+					TileLcation.overlayName = null;
+
+					if (overlayTile != null)
+					{
+						TileLcation.overlayName = overlayTile.OverlayName;
+					}
+
 					TileLcation.OnStateChange();
 				}
 				else
@@ -474,6 +500,12 @@ namespace TileManagement
 					TileLcation.PresentlyOn = layer;
 					TileLcation.PresentMetaTileMap = this;
 					TileLcation.TileCoordinates = position;
+					TileLcation.overlayName = null;
+
+					if (overlayTile != null)
+					{
+						TileLcation.overlayName = overlayTile.OverlayName;
+					}
 
 					TileLcation.Tile = tile;
 					TileLcation.TransformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
@@ -883,6 +915,103 @@ namespace TileManagement
 			return false;
 		}
 
+		/// <summary>
+		/// Whether a tile has any overlay on it
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="layerType"></param>
+		/// <param name="overlayName"></param>
+		/// <returns></returns>
+		public bool HasAnyOverlay(Vector3Int position, LayerType layerType)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return false;
+			}
+
+			position.z = 0;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				return layer.OverlayStore.ContainsKey(position);
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Whether a tile has a specific overlay on it
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="layerType"></param>
+		/// <param name="overlayName"></param>
+		/// <returns></returns>
+		public bool HasOverlay(Vector3Int position, LayerType layerType, string overlayName)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return false;
+			}
+
+			position.z = 0;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				if (layer.OverlayStore.TryGetValue(position, out var overlays))
+				{
+					return overlays.ContainsKey(overlayName);
+				}
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Whether a tile has an overlay on it
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="layerType"></param>
+		/// <param name="overlayName"></param>
+		/// <returns></returns>
+		public Vector3Int? GetOverlayPos(Vector3Int position, LayerType layerType, string overlayName)
+		{
+			Vector3Int? coord;
+
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return null;
+			}
+
+			position.z = 0;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				if (layer.OverlayStore.TryGetValue(position, out var overlays) &&
+				    overlays.TryGetValue(overlayName, out var pos))
+				{
+					coord = new Vector3Int(position.x, position.y, pos);
+					return coord;
+				}
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return null;
+		}
+
 		public void RemoveTile(Vector3Int position, bool RemoveAll = true)
 		{
 			TileLocation TileLcation = null;
@@ -963,6 +1092,61 @@ namespace TileManagement
 			else
 			{
 				LogMissingLayer(position, refLayer);
+			}
+		}
+
+		public void RemoveOverlayWithlayer(Vector3Int position, LayerType refLayer, string overlayName)
+		{
+			if (refLayer == LayerType.Objects) return;
+
+			if (Layers.TryGetValue(refLayer, out var layer))
+			{
+				var overlay = GetOverlayPos(position, refLayer, overlayName);
+
+				if(overlay == null) return;
+
+				TileLocation tileLocation = null;
+				lock (PresentTiles)
+				{
+					PresentTiles[layer].TryGetValue(overlay.Value, out tileLocation);
+				}
+
+				if (tileLocation != null)
+				{
+					tileLocation.Tile = null;
+					tileLocation.OnStateChange();
+				}
+
+			}
+			else
+			{
+				LogMissingLayer(position, refLayer);
+			}
+		}
+
+		public void ChangeTileLocationPosition(Vector3Int newPos, Vector3Int oldPos, Layer layer)
+		{
+			lock (PresentTiles)
+			{
+				if (PresentTiles[layer].TryGetValue(oldPos, out var tileLocation) && PresentTiles[layer].ContainsKey(newPos) == false)
+				{
+					tileLocation.TileCoordinates = newPos;
+					PresentTiles[layer].Add(newPos, tileLocation);
+					PresentTiles[layer].Remove(oldPos);
+					return;
+				}
+			}
+
+			lock (QueuedChanges)
+			{
+				foreach (var tileLocation in QueuedChanges)
+				{
+					if (tileLocation.TileCoordinates == oldPos)
+					{
+						tileLocation.TileCoordinates = newPos;
+						break;
+					}
+				}
 			}
 		}
 

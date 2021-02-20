@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Initialisation;
+using TileManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -61,6 +62,13 @@ public class Layer : MonoBehaviour
 	public Vector3 LocalToWorld(Vector3 localPos) => tilemap.LocalToWorld(localPos);
 	public Vector3 CellToWorld(Vector3Int cellPos) => tilemap.CellToWorld(cellPos);
 	public Vector3 WorldToLocal(Vector3 worldPos) => tilemap.WorldToLocal(worldPos);
+
+	//Int is z coord, string is tile name
+	private Dictionary<Vector3, Dictionary<string, int>> overlayStore = new Dictionary<Vector3, Dictionary<string, int>>();
+
+	public Dictionary<Vector3, Dictionary<string, int>> OverlayStore => overlayStore;
+
+	public MetaTileMap metaTileMap;
 
 	public void Awake()
 	{
@@ -204,7 +212,6 @@ public class Layer : MonoBehaviour
 		bool TileREmoved = false;
 		if (removeAll)
 		{
-			//TODO: OVERLAYS - This wouldn't work reliably if there is something at level -3 but nothing at -1 and -2.
 			position.z = 0;
 			while (tilemap.HasTile(position))
 			{
@@ -222,6 +229,105 @@ public class Layer : MonoBehaviour
 		subsystemManager.UpdateAt(position);
 		return TileREmoved;
 	}
+
+	#region Overlays
+
+	public virtual void SetOverlay(Vector3Int position, OverlayTile tile, Matrix4x4 transformMatrix, Color color)
+	{
+		var pos = position;
+		pos.z = 0;
+
+		if (overlayStore.TryGetValue(pos, out var tileOverlays))
+		{
+			if (tileOverlays.ContainsKey(tile.OverlayName) == false)
+			{
+				var z = -1;
+
+				while (tileOverlays.ContainsValue(z) == false)
+				{
+					z--;
+				}
+
+				tileOverlays.Add(tile.OverlayName, z);
+				pos.z = z;
+			}
+			else
+			{
+				//Already has overlay
+				return;
+			}
+		}
+		else
+		{
+			overlayStore.Add(pos, new Dictionary<string, int>{{tile.OverlayName, -1}});
+			pos.z = -1;
+		}
+
+		InternalSetTile(pos, tile);
+
+		metaTileMap.ChangeTileLocationPosition(pos, position, this);
+
+		tilemap.SetColor(pos, color);
+		tilemap.SetTransformMatrix(pos, transformMatrix);
+		subsystemManager?.UpdateAt(position);
+	}
+
+	public virtual bool RemoveOverlay(Vector3Int position, string overlayName)
+	{
+		bool tileRemoved = false;
+		position.z = 0;
+
+		if (overlayStore.TryGetValue(position, out var pos) && pos.TryGetValue(overlayName, out var z))
+		{
+			position.z = z;
+			tileRemoved = InternalSetTile(position, null);
+		}
+
+		position.z = 0;
+		subsystemManager.UpdateAt(position);
+
+		return tileRemoved;
+	}
+
+	public virtual void RemoveAllOverlayOfType(Vector3Int position, TileChangeManager.OverlayType overlayType, TileType tileType = TileType.Effects)
+	{
+		position.z = 0;
+
+		if (overlayStore.TryGetValue(position, out var pos))
+		{
+			foreach (var overlay in pos)
+			{
+				var tile = TileManager.GetTile(tileType, overlay.Key) as OverlayTile;
+				if (tile != null && tile.OverlayType == overlayType)
+				{
+					position.z = overlay.Value;
+					InternalSetTile(position, null);
+				}
+			}
+		}
+
+		position.z = 0;
+		subsystemManager.UpdateAt(position);
+	}
+
+	public virtual void RemoveAllOverlays(Vector3Int position)
+	{
+		position.z = 0;
+
+		if (overlayStore.TryGetValue(position, out var pos))
+		{
+			foreach (var overlay in pos)
+			{
+				position.z = overlay.Value;
+				InternalSetTile(position, null);
+			}
+		}
+
+		position.z = 0;
+		subsystemManager.UpdateAt(position);
+	}
+
+	#endregion
 
 	public virtual void ClearAllTiles()
 	{
