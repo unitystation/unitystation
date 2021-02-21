@@ -112,6 +112,8 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private void OnDisable()
 	{
 		if(integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
+
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
 	}
 
 	[Server]
@@ -409,6 +411,8 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void OnDamageReceived(DamageInfo arg0)
 	{
+		if(CustomNetworkManager.IsServer == false) return;
+
 		CheckIntegrityState();
 	}
 

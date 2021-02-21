@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 using Random = UnityEngine.Random;
 using UI.Action;
+using AddressableReferences;
 
 namespace Items.PDA
 {
@@ -23,7 +25,15 @@ namespace Items.PDA
 
 		[Tooltip("The default ringtone to play")]
 		[SerializeField, BoxGroup("Settings")]
-		private string defaultRingtone = "TwoBeep";
+		private AddressableAudioSource defaultRingtone;
+
+		[Tooltip("A list of all available ringtones")]
+		[SerializeField, BoxGroup("Settings")]
+		private List<AddressableAudioSource> ringtones;
+
+		[Tooltip("The denial sound")]
+		[SerializeField, BoxGroup("Settings")]
+		private AddressableAudioSource denialSound;
 
 		[Tooltip("Reset registered name on FactoryReset?")]
 		[SerializeField, BoxGroup("Settings")]
@@ -61,7 +71,7 @@ namespace Items.PDA
 		public IDCard IDCard { get; private set; }
 		/// <summary> The name of the currently registered player (since the last PDA reset) </summary>
 		public string RegisteredPlayerName { get; private set; }
-		public string Ringtone { get; private set; }
+		public AddressableAudioSource Ringtone { get; private set; }
 		/// <summary> The string that must be entered into the ringtone slot for the uplink </summary>
 		public string UplinkUnlockCode { get; private set; }
 		public bool IsUplinkCapable { get; private set; } = false;
@@ -190,9 +200,17 @@ namespace Items.PDA
 
 		#region Sounds
 
-		public void SetRingtone(string newRingtone)
+		public void SetRingtone(AddressableAudioSource newRingtone)
 		{
 			Ringtone = newRingtone;
+		}
+
+		public void SetRingtone(string newRingtone)
+		{
+			AddressableAudioSource toSend = ringtones.Find(x => x.AssetAddress.Contains("/" + newRingtone + ".prefab"));
+
+			if(toSend != default(AddressableAudioSource))
+				SetRingtone(toSend);
 		}
 
 		public void PlayRingtone()
@@ -202,10 +220,10 @@ namespace Items.PDA
 
 		public void PlayDenyTone()
 		{
-			PlaySound("BuzzDeny");
+			PlaySound(denialSound);
 		}
 
-		public void PlaySound(string soundName)
+		public void PlaySound(AddressableAudioSource soundName)
 		{
 			GameObject sourceObject = gameObject;
 
@@ -218,7 +236,7 @@ namespace Items.PDA
 			SoundManager.PlayNetworkedAtPos(soundName, sourceObject.AssumedWorldPosServer(), sourceObj: sourceObject);
 		}
 
-		public void PlaySoundPrivate(string soundName)
+		public void PlaySoundPrivate(AddressableAudioSource soundName)
 		{
 			var player = GetPlayerByParentInventory();
 			if (player == null) return;
