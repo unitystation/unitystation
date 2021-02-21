@@ -495,7 +495,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	public static void PlayAtPositionAttached(List<AddressableAudioSource> addressableAudioSources, Vector3 worldPos,
-		GameObject sourceObj, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
+		GameObject gameObject, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		var netId = NetId.Empty;

@@ -40,7 +40,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(addressableAudioSources, SoundSpawnToken, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioParameters);
+				SoundManager.PlayAtPosition(addressableAudioSources, Position, SoundSpawnToken, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioParameters);
 			}
 			else
 			{
