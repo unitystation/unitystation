@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using Construction;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -10,13 +11,13 @@ using UnityEngine;
 /// </summary>
 public class RequestBuildMessage : ClientMessage
 {
-	public class RequestBuildMessageNetMessage : ActualMessage
+	public class RequestBuildMessageNetMessage : NetworkMessage
 	{
 		//index of the entry in the ConstructionList.
 		public byte EntryIndex;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestBuildMessageNetMessage;
 		if(newMsg == null) return;

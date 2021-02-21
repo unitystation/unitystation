@@ -7,13 +7,13 @@ using AdminTools;
 
 public class AdminPlayerListRefreshMessage : ServerMessage
 {
-	public class AdminPlayerListRefreshMessageNetMessage : ActualMessage
+	public class AdminPlayerListRefreshMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public uint Recipient;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminPlayerListRefreshMessageNetMessage;
 		if(newMsg == null) return;

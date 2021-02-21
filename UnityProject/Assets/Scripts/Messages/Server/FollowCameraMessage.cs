@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class FollowCameraMessage : ServerMessage
 {
-	public class FollowCameraMessageNetMessage : ActualMessage
+	public class FollowCameraMessageNetMessage : NetworkMessage
 	{
 		public uint ObjectToFollow;
 
@@ -17,7 +17,7 @@ public class FollowCameraMessage : ServerMessage
 		}
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as FollowCameraMessageNetMessage;
 		if(newMsg == null) return;

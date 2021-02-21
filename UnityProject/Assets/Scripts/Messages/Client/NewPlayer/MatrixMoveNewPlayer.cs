@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using Messages.Client;
+using Mirror;
 
 public class MatrixMoveNewPlayer : ClientMessage
 {
-	public class MatrixMoveNewPlayerNetMessage : ActualMessage
+	public class MatrixMoveNewPlayerNetMessage : NetworkMessage
 	{
 		public uint MatrixMove;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as MatrixMoveNewPlayerNetMessage;
 		if(newMsg == null) return;

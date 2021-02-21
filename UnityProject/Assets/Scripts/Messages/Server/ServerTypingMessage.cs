@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -8,13 +9,13 @@ using UnityEngine;
 /// </summary>
 public class ServerTypingMessage : ServerMessage
 {
-	public class ServerTypingMessageNetMessage : ActualMessage
+	public class ServerTypingMessageNetMessage : NetworkMessage
 	{
 		public TypingState state;
 		public uint targetID;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as ServerTypingMessageNetMessage;
 		if(newMsg == null) return;

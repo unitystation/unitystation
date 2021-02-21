@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class ShowChatBubbleMessage : ServerMessage
 {
-	public class ShowChatBubbleMessageNetMessage : ActualMessage
+	public class ShowChatBubbleMessageNetMessage : NetworkMessage
 	{
 		public ChatModifier ChatModifiers;
 		public string Message;
@@ -19,7 +19,7 @@ public class ShowChatBubbleMessage : ServerMessage
 		//have a NetworkIdentity on it
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as ShowChatBubbleMessageNetMessage;
 		if(newMsg == null) return;

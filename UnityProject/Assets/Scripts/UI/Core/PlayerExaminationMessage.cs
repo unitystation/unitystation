@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using Player;
 using UnityEngine;
 
 public class PlayerExaminationMessage : ServerMessage
 {
-	public class PlayerExaminationMessageNetMessage : ActualMessage
+	public class PlayerExaminationMessageNetMessage : NetworkMessage
 	{
 		public string VisibleName;
 		public string Species;
@@ -21,7 +22,7 @@ public class PlayerExaminationMessage : ServerMessage
 		public bool Observed;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PlayerExaminationMessageNetMessage;
 		if(newMsg == null) return;

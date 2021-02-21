@@ -12,7 +12,7 @@ namespace Weapons
 	/// </summary>
 	public class ShootMessage : ServerMessage
 	{
-		public class ShootMessageNetMessage : ActualMessage
+		public class ShootMessageNetMessage : NetworkMessage
 		{
 			/// <summary>
 			/// GameObject of the player performing the shot
@@ -45,7 +45,7 @@ namespace Weapons
 		}
 
 		///To be run on client
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as ShootMessageNetMessage;
 			if (newMsg == null) return;
@@ -114,7 +114,7 @@ namespace Weapons
 	/// </summary>
 	public class CastProjectileMessage : ServerMessage
 	{
-		public class CastProjectileMessageNetMessage : ActualMessage
+		public class CastProjectileMessageNetMessage : NetworkMessage
 		{
 			/// <summary>
 			/// GameObject performing the shot
@@ -135,7 +135,7 @@ namespace Weapons
 		}
 
 		///To be run on client
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as CastProjectileMessageNetMessage;
 			if (newMsg == null) return;

@@ -6,12 +6,12 @@ using Mirror;
 
 public class MentorReplyMessage : ClientMessage
 {
-	public class MentorReplyMessageNetMessage : ActualMessage
+	public class MentorReplyMessageNetMessage : NetworkMessage
 	{
 		public string Message;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as MentorReplyMessageNetMessage;
 		if(newMsg == null) return;

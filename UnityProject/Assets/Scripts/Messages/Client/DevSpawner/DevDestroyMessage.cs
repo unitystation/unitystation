@@ -9,7 +9,7 @@ using Mirror;
 /// </summary>
 public class DevDestroyMessage : ClientMessage
 {
-	public class DevDestroyMessageNetMessage : ActualMessage
+	public class DevDestroyMessageNetMessage : NetworkMessage
 	{
 		// Net ID of the object to destroy
 		public uint ToDestroy;
@@ -22,7 +22,7 @@ public class DevDestroyMessage : ClientMessage
 		}
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as DevDestroyMessageNetMessage;
 		if(newMsg == null) return;

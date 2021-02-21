@@ -6,14 +6,14 @@ using Mirror;
 
 public class RequestAdminChatMessage : ClientMessage
 {
-	public class RequestAdminChatMessageNetMessage : ActualMessage
+	public class RequestAdminChatMessageNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
 		public string Message;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestAdminChatMessageNetMessage;
 		if(newMsg == null) return;

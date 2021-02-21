@@ -1,16 +1,17 @@
 ﻿using System.Collections;
+using Mirror;
 
 /// <summary>
 ///     Message that tells client what is the current round time
 /// </summary>
 public class UpdateRoundTimeMessage : ServerMessage
 {
-	public class UpdateRoundTimeMessageNetMessage : ActualMessage
+	public class UpdateRoundTimeMessageNetMessage : NetworkMessage
 	{
 		public string Time;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as UpdateRoundTimeMessageNetMessage;
 		if(newMsg == null) return;

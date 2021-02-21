@@ -1,9 +1,10 @@
 ﻿using System.Reflection;
+using Mirror;
 using UnityEngine;
 
 public class UpdateClientValue : ServerMessage
 {
-	public class UpdateClientValueNetMessage : ActualMessage
+	public class UpdateClientValueNetMessage : NetworkMessage
 	{
 		public string Newvalue;
 		public string ValueName;
@@ -11,7 +12,7 @@ public class UpdateClientValue : ServerMessage
 		public uint GameObject;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as UpdateClientValueNetMessage;
 		if(newMsg == null) return;

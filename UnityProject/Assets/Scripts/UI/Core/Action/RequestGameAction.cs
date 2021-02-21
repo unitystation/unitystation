@@ -8,7 +8,7 @@ using Messages.Client;
 
 public class RequestGameAction : ClientMessage
 {
-	public class RequestGameActionNetMessage : ActualMessage
+	public class RequestGameActionNetMessage : NetworkMessage
 	{
 		public int ComponentLocation;
 		public uint NetObject;
@@ -35,7 +35,7 @@ public class RequestGameAction : ClientMessage
 
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestGameActionNetMessage;
 		if(newMsg == null) return;

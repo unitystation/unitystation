@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -6,12 +7,15 @@ using UnityEngine;
 /// </summary>
 public class TriggerEventMessage : ServerMessage
 {
-	public class TriggerEventMessageNetMessage : ActualMessage
+	public class TriggerEventMessageNetMessage : NetworkMessage
 	{
 		public EVENT EventType;
 	}
 
-	public override void Process(ActualMessage msg)
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public TriggerEventMessageNetMessage message;
+
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as TriggerEventMessageNetMessage;
 		if(newMsg == null) return;

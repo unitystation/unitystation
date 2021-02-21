@@ -5,13 +5,13 @@ using AdminTools;
 
 public class MentorPlayerChatUpdateMessage : ServerMessage
 {
-	public class MentorPlayerChatUpdateMessageNetMessage : ActualMessage
+	public class MentorPlayerChatUpdateMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public string PlayerId;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as MentorPlayerChatUpdateMessageNetMessage;
 		if(newMsg == null) return;

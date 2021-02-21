@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using Messages.Client;
+using Mirror;
 
 public class TileChangeNewPlayer : ClientMessage
 {
-	public class TileChangeNewPlayerNetMessage : ActualMessage
+	public class TileChangeNewPlayerNetMessage : NetworkMessage
 	{
 		public uint TileChangeManager;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as TileChangeNewPlayerNetMessage;
 		if(newMsg == null) return;

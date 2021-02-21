@@ -4,14 +4,14 @@ using Mirror;
 
 public class PlayerCustomisationMessage : ServerMessage
 {
-	public class PlayerCustomisationMessageNetMessage : ActualMessage
+	public class PlayerCustomisationMessageNetMessage : NetworkMessage
 	{
 		public CharacterSettings Character;
 		public BodyPartSpriteName Part = BodyPartSpriteName.Null;
 		public uint EquipmentObject;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PlayerCustomisationMessageNetMessage;
 		if(newMsg == null) return;

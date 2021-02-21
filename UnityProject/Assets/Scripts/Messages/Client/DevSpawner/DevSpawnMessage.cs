@@ -10,7 +10,7 @@ using Mirror;
 /// </summary>
 public class DevSpawnMessage : ClientMessage
 {
-	public class DevSpawnMessageNetMessage : ActualMessage
+	public class DevSpawnMessageNetMessage : NetworkMessage
 	{
 		// asset ID of the prefab to spawn
 		public Guid PrefabAssetID;
@@ -25,7 +25,7 @@ public class DevSpawnMessage : ClientMessage
 		}
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as DevSpawnMessageNetMessage;
 		if(newMsg == null) return;

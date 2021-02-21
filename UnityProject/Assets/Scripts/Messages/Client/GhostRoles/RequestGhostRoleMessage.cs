@@ -10,12 +10,12 @@ namespace Messages.Client
 	/// </summary>
 	public class RequestGhostRoleMessage : ClientMessage
 	{
-		public class RequestGhostRoleMessageNetMessage : ActualMessage
+		public class RequestGhostRoleMessageNetMessage : NetworkMessage
 		{
 			public uint roleID;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as RequestGhostRoleMessageNetMessage;
 			if(newMsg == null) return;

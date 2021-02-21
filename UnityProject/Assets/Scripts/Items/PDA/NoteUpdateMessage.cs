@@ -5,14 +5,14 @@ namespace Items.PDA
 {
 	public class NoteUpdateMessage : ServerMessage
 	{
-		public class NoteUpdateMessageNetMessage : ActualMessage
+		public class NoteUpdateMessageNetMessage : NetworkMessage
 		{
 			public uint PDAToUpdate;
 			public uint Recipient;
 			public string Message;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as NoteUpdateMessageNetMessage;
 			if(newMsg == null) return;

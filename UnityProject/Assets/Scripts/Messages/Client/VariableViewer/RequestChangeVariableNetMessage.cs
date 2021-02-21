@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class RequestChangeVariableNetMessage : ClientMessage
 {
-	public class RequestChangeVariableNetMessageNetMessage : ActualMessage
+	public class RequestChangeVariableNetMessageNetMessage : NetworkMessage
 	{
 		public string newValue;
 		public ulong PageID;
@@ -16,7 +16,7 @@ public class RequestChangeVariableNetMessage : ClientMessage
 		public string AdminToken;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestChangeVariableNetMessageNetMessage;
 		if(newMsg == null) return;

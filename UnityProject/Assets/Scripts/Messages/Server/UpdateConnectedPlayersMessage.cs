@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.Experimental.XR;
 
@@ -8,12 +9,12 @@ using UnityEngine.Experimental.XR;
 /// </summary>
 public class UpdateConnectedPlayersMessage : ServerMessage
 {
-	public class UpdateConnectedPlayersMessageNetMessage : ActualMessage
+	public class UpdateConnectedPlayersMessageNetMessage : NetworkMessage
 	{
 		public ClientConnectedPlayer[] Players;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as UpdateConnectedPlayersMessageNetMessage;
 		if(newMsg == null) return;

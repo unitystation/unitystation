@@ -1,16 +1,17 @@
 ﻿using System.Collections;
+using Mirror;
 
 /// <summary>
 ///     Message that tells client to add a ChatEvent to their chat
 /// </summary>
 public class AnnouncementMessage : ServerMessage
 {
-	public class AnnouncementMessageNetMessage : ActualMessage
+	public class AnnouncementMessageNetMessage : NetworkMessage
 	{
 		public string Text;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AnnouncementMessageNetMessage;
 		if(newMsg == null) return;

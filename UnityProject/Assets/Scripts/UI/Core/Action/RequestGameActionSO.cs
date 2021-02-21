@@ -6,12 +6,12 @@ using Mirror;
 
 public class RequestGameActionSO : ClientMessage
 {
-	public class RequestGameActionSONetMessage : ActualMessage
+	public class RequestGameActionSONetMessage : NetworkMessage
 	{
 		public ushort soID;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestGameActionSONetMessage;
 		if(newMsg == null) return;

@@ -10,21 +10,19 @@ public abstract class GameMessageBase
 	public GameObject NetworkObject;
 	public GameObject[] NetworkObjects;
 
-	public struct NetMessage : NetworkMessage
+	/// <summary>
+	/// Called before any message processing takes place
+	/// </summary>
+	public virtual void PreProcess<T>(NetworkConnection sentBy, T b) where T : NetworkMessage
 	{
-		public ActualMessage actualMessage;
+		Process(sentBy, b);
 	}
 
-	[Serializable]
-	public class ActualMessage {}
+	public abstract void Process<T>(T msg) where T : NetworkMessage;
 
-	public NetMessage netMessage;
-
-	public abstract void Process(ActualMessage msg);
-
-	public virtual void Process( NetworkConnection sentBy, NetMessage msg )
+	public virtual void Process<T>( NetworkConnection sentBy, T msg ) where T : NetworkMessage
 	{
-		Process(msg.actualMessage);
+		Process(msg);
 	}
 
 	protected bool LoadNetworkObject(uint id)

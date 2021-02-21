@@ -10,7 +10,7 @@ namespace Systems.ElectricalArcs
 	/// </summary>
 	public class ElectricalArcMessage : ServerMessage
 	{
-		public class ElectricalArcMessageNetMessage : ActualMessage
+		public class ElectricalArcMessageNetMessage : NetworkMessage
 		{
 			public Guid prefabAssetID;
 			public GameObject startObject;
@@ -24,7 +24,7 @@ namespace Systems.ElectricalArcs
 		}
 
 		// To be run on client
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as ElectricalArcMessageNetMessage;
 			if(newMsg == null) return;

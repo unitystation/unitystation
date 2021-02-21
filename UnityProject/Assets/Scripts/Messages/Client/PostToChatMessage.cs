@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -7,13 +8,13 @@ using UnityEngine;
 /// </summary>
 public class PostToChatMessage: ClientMessage
 {
-	public class PostToChatMessageNetMessage : ActualMessage
+	public class PostToChatMessageNetMessage : NetworkMessage
 	{
 		public ChatChannel Channels;
 		public string ChatMessageText;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PostToChatMessageNetMessage;
 		if(newMsg == null) return;

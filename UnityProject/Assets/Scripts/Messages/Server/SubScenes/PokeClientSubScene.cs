@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 //TODO update mirror!!!!!!!!!!!, this is only here because mirror didn't update a synchronised list properly
 public class PokeClientSubScene : ServerMessage
 {
-	public class PokeClientSubSceneNetMessage : ActualMessage
+	public class PokeClientSubSceneNetMessage : NetworkMessage
 	{
 		public string ToLoadSceneName = "";
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PokeClientSubSceneNetMessage;
 		if(newMsg == null) return;

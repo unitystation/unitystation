@@ -7,12 +7,12 @@ using Mirror;
 /// </summary>
 public class HealthRespiratoryMessage : ServerMessage
 {
-	public class HealthRespiratoryMessageNetMessage : ActualMessage
+	public class HealthRespiratoryMessageNetMessage : NetworkMessage
 	{
 		public bool IsSuffocating;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as HealthRespiratoryMessageNetMessage;
 		if(newMsg == null) return;

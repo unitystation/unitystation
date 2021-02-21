@@ -7,12 +7,12 @@ using Mirror;
 /// </summary>
 public class RequestMoveMessage : ClientMessage
 {
-	public class RequestMoveMessageNetMessage : ActualMessage
+	public class RequestMoveMessageNetMessage : NetworkMessage
 	{
 		public PlayerAction Action;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestMoveMessageNetMessage;
 		if(newMsg == null) return;

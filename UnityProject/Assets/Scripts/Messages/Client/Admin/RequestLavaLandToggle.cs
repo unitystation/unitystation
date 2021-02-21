@@ -4,17 +4,18 @@ using UnityEngine;
 using DiscordWebhook;
 using InGameEvents;
 using Messages.Client;
+using Mirror;
 
 public class RequestLavaLandToggle : ClientMessage
 {
-	public class RequestLavaLandToggleNetMessage : ActualMessage
+	public class RequestLavaLandToggleNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
 		public bool LavaLandAllowed = true;
 	}
 
-	public override void Process(ActualMessage netMsg)
+	public override void Process<T>(T netMsg)
 	{
 		var newMsg = netMsg as RequestLavaLandToggleNetMessage;
 		if(newMsg == null) return;

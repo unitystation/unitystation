@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Systems.Spells.Wizard;
+using Mirror;
 
 namespace Messages.Server
 {
@@ -9,7 +10,7 @@ namespace Messages.Server
 	/// </summary>
 	public class PortalSpawnAnimateMessage : ServerMessage
 	{
-		public class PortalSpawnAnimateMessageNetMessage : ActualMessage
+		public class PortalSpawnAnimateMessageNetMessage : NetworkMessage
 		{
 			public GameObject Entity;
 			public PortalSpawnInfo Settings;
@@ -35,7 +36,7 @@ namespace Messages.Server
 			return msg;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as PortalSpawnAnimateMessageNetMessage;
 			if(newMsg == null) return;

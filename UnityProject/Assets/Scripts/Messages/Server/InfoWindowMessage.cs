@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class InfoWindowMessage : ServerMessage
 {
-	public class InfoWindowMessageNetMessage : ActualMessage
+	public class InfoWindowMessageNetMessage : NetworkMessage
 	{
 		public string Text;
 		public string Title;
@@ -20,7 +20,7 @@ public class InfoWindowMessage : ServerMessage
 		}
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		//To be run on client
 		var newMsg = msg as InfoWindowMessageNetMessage;

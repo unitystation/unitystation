@@ -1,16 +1,17 @@
 ﻿using System.Collections;
+using Mirror;
 
 /// <summary>
 ///     Message that tells client to player a certain video in the video player
 /// </summary>
 public class VideoPlayerMessage : ServerMessage
 {
-	public class VideoPlayerMessageNetMessage : ActualMessage
+	public class VideoPlayerMessageNetMessage : NetworkMessage
 	{
 		public VideoType VideoToPlay;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as VideoPlayerMessageNetMessage;
 		if(newMsg == null) return;

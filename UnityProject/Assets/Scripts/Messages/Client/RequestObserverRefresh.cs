@@ -1,4 +1,5 @@
 ﻿using Messages.Client;
+using Mirror;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -7,7 +8,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class RequestObserverRefresh : ClientMessage
 {
-	public class RequestObserverRefreshNetMessage: ActualMessage
+	public class RequestObserverRefreshNetMessage: NetworkMessage
 	{
 		/// <summary>
 		/// The new scene we are requesting to observe
@@ -17,7 +18,7 @@ public class RequestObserverRefresh : ClientMessage
 
 	//TODO OldSceneNameContext (the scene we want to stop observing)
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestObserverRefreshNetMessage;
 		if(newMsg == null) return;

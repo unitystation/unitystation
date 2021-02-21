@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using Newtonsoft.Json;
 
 public class SendCataloguesToClient : ServerMessage
 {
-	public class SendCataloguesToClientNetMessage : ActualMessage
+	public class SendCataloguesToClientNetMessage : NetworkMessage
 	{
 		public string serialiseCatalogues;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as SendCataloguesToClientNetMessage;
 		if(newMsg == null) return;

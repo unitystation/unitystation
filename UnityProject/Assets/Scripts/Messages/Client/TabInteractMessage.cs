@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -8,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class TabInteractMessage : ClientMessage
 {
-	public class TabInteractMessageNetMessage : ActualMessage
+	public class TabInteractMessageNetMessage : NetworkMessage
 	{
 		public uint TabProvider;
 		public NetTabType NetTabType;
@@ -18,7 +19,7 @@ public class TabInteractMessage : ClientMessage
 	}
 
 	//Serverside
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as TabInteractMessageNetMessage;
 		if(newMsg == null) return;

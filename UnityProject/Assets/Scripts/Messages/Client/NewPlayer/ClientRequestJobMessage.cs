@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Messages.Server;
+using Mirror;
 using Newtonsoft.Json;
 
 namespace Messages.Client
@@ -12,14 +13,14 @@ namespace Messages.Client
 	/// </summary>
 	public class ClientRequestJobMessage : ClientMessage
 	{
-		public class ClientRequestJobMessageNetMessage : ActualMessage
+		public class ClientRequestJobMessageNetMessage : NetworkMessage
 		{
 			public string PlayerID;
 			public JobType JobType;
 			public string JsonCharSettings;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as ClientRequestJobMessageNetMessage;
 			if(newMsg == null) return;

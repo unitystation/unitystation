@@ -9,13 +9,13 @@ using Messages.Client;
 /// </summary>
 public class RequestHackingNodeConnections : ClientMessage
 {
-	public class RequestHackingNodeConnectionsNetMessage : ActualMessage
+	public class RequestHackingNodeConnectionsNetMessage : NetworkMessage
 	{
 		public uint Player;
 		public uint HackableObject;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestHackingNodeConnectionsNetMessage;
 		if(newMsg == null) return;

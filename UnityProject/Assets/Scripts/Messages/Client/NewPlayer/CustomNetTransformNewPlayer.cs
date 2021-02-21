@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using Messages.Client;
+using Mirror;
 
 public class CustomNetTransformNewPlayer : ClientMessage
 {
-	public class CustomNetTransformNewPlayerNetMessage : ActualMessage
+	public class CustomNetTransformNewPlayerNetMessage : NetworkMessage
 	{
 		public uint CNT;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as CustomNetTransformNewPlayerNetMessage;
 		if(newMsg == null) return;

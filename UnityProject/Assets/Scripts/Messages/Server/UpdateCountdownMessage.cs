@@ -5,13 +5,13 @@
 /// </summary>
 public class UpdateCountdownMessage : ServerMessage
 {
-	public class UpdateCountdownMessageNetMessage : ActualMessage
+	public class UpdateCountdownMessageNetMessage : NetworkMessage
 	{
 		public bool Started;
 		public double EndTime;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as UpdateCountdownMessageNetMessage;
 		if(newMsg == null) return;

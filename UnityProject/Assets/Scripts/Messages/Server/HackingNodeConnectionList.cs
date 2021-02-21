@@ -6,14 +6,14 @@ using Newtonsoft.Json;
 
 public class HackingNodeConnectionList : ServerMessage
 {
-	public class HackingNodeConnectionListNetMessage : ActualMessage
+	public class HackingNodeConnectionListNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public uint Recipient;
 		public uint HackingObject;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as HackingNodeConnectionListNetMessage;
 		if(newMsg == null) return;

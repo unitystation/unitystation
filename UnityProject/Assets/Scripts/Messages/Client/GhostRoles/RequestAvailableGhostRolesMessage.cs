@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Messages.Server;
 using Systems.GhostRoles;
+using Mirror;
 
 namespace Messages.Client
 {
@@ -11,11 +12,11 @@ namespace Messages.Client
 	/// </summary>
 	public class RequestAvailableGhostRolesMessage : ClientMessage
 	{
-		public class RequestAvailableGhostRolesMessageNetMessage : ActualMessage
+		public class RequestAvailableGhostRolesMessageNetMessage : NetworkMessage
 		{
 
 		}
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as RequestAvailableGhostRolesMessageNetMessage;
 			if(newMsg == null) return;

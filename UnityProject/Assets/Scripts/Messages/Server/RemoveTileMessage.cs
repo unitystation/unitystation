@@ -4,7 +4,7 @@ using Mirror;
 
 public class RemoveTileMessage : ServerMessage
 {
-	public class RemoveTileMessageNetMessage : ActualMessage
+	public class RemoveTileMessageNetMessage : NetworkMessage
 	{
 		public Vector3 Position;
 		public LayerType LayerType;
@@ -28,7 +28,7 @@ public class RemoveTileMessage : ServerMessage
 			TileChangeManager = inTileChangeManager;
 		}
 	}
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RemoveTileMessageNetMessage;
 		if(newMsg == null) return;

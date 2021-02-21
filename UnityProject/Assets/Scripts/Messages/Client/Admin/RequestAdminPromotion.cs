@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Messages.Client;
+using Mirror;
 
 public class RequestAdminPromotion : ClientMessage
 {
-	public class RequestAdminPromotionNetMessage : ActualMessage
+	public class RequestAdminPromotionNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
 		public string UserToPromote;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestAdminPromotionNetMessage;
 		if(newMsg == null) return;

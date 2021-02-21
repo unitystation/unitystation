@@ -7,13 +7,13 @@ using Mirror;
 /// </summary>
 public class HealthConsciousMessage : ServerMessage
 {
-	public class HealthConsciousMessageNetMessage : ActualMessage
+	public class HealthConsciousMessageNetMessage : NetworkMessage
 	{
 		public uint EntityToUpdate;
 		public ConsciousState ConsciousState;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as HealthConsciousMessageNetMessage;
 		if(newMsg == null) return;

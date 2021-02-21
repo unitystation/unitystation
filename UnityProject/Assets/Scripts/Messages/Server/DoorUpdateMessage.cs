@@ -5,7 +5,7 @@ using Doors;
 
 public class DoorUpdateMessage : ServerMessage
 {
-	public class DoorUpdateMessageNetMessage : ActualMessage
+	public class DoorUpdateMessageNetMessage : NetworkMessage
 	{
 		public DoorUpdateType Type;
 		public uint Door;
@@ -17,7 +17,7 @@ public class DoorUpdateMessage : ServerMessage
 		}
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as DoorUpdateMessageNetMessage;
 		if(newMsg == null) return;

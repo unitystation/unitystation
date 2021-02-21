@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using Construction;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 namespace Construction.Conveyors
@@ -13,14 +14,14 @@ namespace Construction.Conveyors
 	/// </summary>
 	public class RequestConveyorBuildMessage : ClientMessage
 	{
-		public class RequestConveyorBuildMessageNetMessage : ActualMessage
+		public class RequestConveyorBuildMessageNetMessage : NetworkMessage
 		{
 			//index of the entry in the ConstructionList.
 			public byte EntryIndex;
 			public ConveyorBelt.ConveyorDirection Direction;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as RequestConveyorBuildMessageNetMessage;
 			if(newMsg == null) return;

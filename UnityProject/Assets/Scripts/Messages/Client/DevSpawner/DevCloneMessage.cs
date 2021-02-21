@@ -9,7 +9,7 @@ using Mirror;
 /// </summary>
 public class DevCloneMessage : ClientMessage
 {
-	public class DevCloneMessageNetMessage : ActualMessage
+	public class DevCloneMessageNetMessage : NetworkMessage
 	{
 		// Net ID of the object to clone
 		public uint ToClone;
@@ -24,7 +24,7 @@ public class DevCloneMessage : ClientMessage
 		}
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as DevCloneMessageNetMessage;
 		if(newMsg == null) return;

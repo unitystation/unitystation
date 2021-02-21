@@ -7,12 +7,12 @@ using Mirror;
 /// </summary>
 public class HealthPressureMessage : ServerMessage
 {
-	public class HealthPressureMessageNetMessage : ActualMessage
+	public class HealthPressureMessageNetMessage : NetworkMessage
 	{
 		public float pressure;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as HealthPressureMessageNetMessage;
 		if(newMsg == null) return;

@@ -6,12 +6,12 @@ namespace Messages.Server
 {
 	public class JobRequestFailedMessage : ServerMessage
 	{
-		public class JobRequestFailedMessageNetMesasge : ActualMessage
+		public class JobRequestFailedMessageNetMesasge : NetworkMessage
 		{
 			public JobRequestError FailReason;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as JobRequestFailedMessageNetMesasge;
 			if(newMsg == null) return;

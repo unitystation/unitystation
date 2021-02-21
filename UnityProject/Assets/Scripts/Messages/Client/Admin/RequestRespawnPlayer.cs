@@ -5,7 +5,7 @@ namespace Messages.Client.Admin
 {
 	public class RequestRespawnPlayer : ClientMessage
 	{
-		public class RequestRespawnPlayerNetMessage : ActualMessage
+		public class RequestRespawnPlayerNetMessage : NetworkMessage
 		{
 			public string Userid;
 			public string AdminToken;
@@ -14,7 +14,7 @@ namespace Messages.Client.Admin
 			public int Type;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as RequestRespawnPlayerNetMessage;
 			if(newMsg == null) return;

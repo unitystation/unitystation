@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class HealthBloodMessage : ServerMessage
 {
-	public class HealthBloodMessageNetMessage : ActualMessage
+	public class HealthBloodMessageNetMessage : NetworkMessage
 	{
 		public uint EntityToUpdate;
 		public int HeartRate;
@@ -16,7 +16,7 @@ public class HealthBloodMessage : ServerMessage
 		public float ToxinLevel;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as HealthBloodMessageNetMessage;
 		if(newMsg == null) return;

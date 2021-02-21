@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class MentorBwoinkMessage : ServerMessage
 {
-	public class MentorBwoinkMessageNetMessage : ActualMessage
+	public class MentorBwoinkMessageNetMessage : NetworkMessage
 	{
 		public string MentorUID;
 		public string Message;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as MentorBwoinkMessageNetMessage;
 		if(newMsg == null) return;

@@ -15,7 +15,7 @@ public class SpriteUpdateMessage : ServerMessage
 		'>', '<', '&', ',', '?', '~', '`', '@', '{', '%', '^', '£', '#'
 	};
 
-	public class SpriteUpdateMessageNetMessage : ActualMessage
+	public class SpriteUpdateMessageNetMessage : NetworkMessage
 	{
 		public string SerialiseData;
 	}
@@ -33,7 +33,7 @@ public class SpriteUpdateMessage : ServerMessage
 
 	private static StringBuilder ToReturn = new StringBuilder("", 2000);
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as SpriteUpdateMessageNetMessage;
 		if(newMsg == null) return;

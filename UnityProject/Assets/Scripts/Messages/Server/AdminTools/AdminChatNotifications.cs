@@ -10,7 +10,7 @@ using Mirror;
 /// </summary>
 public class AdminChatNotifications : ServerMessage
 {
-	public class AdminChatNotificationsNetMessage : ActualMessage
+	public class AdminChatNotificationsNetMessage : NetworkMessage
 	{
 		public string NotificationKey;
 		public AdminChatWindow TargetWindow;
@@ -20,7 +20,7 @@ public class AdminChatNotifications : ServerMessage
 		public string FullUpdateJson;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminChatNotificationsNetMessage;
 		if(newMsg == null) return;

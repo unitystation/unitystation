@@ -8,13 +8,13 @@ using Mirror;
 /// </summary>
 public class RequestElectricalStats : ClientMessage
 {
-	public class RequestElectricalStatsNetMessage : ActualMessage
+	public class RequestElectricalStatsNetMessage : NetworkMessage
 	{
 		public uint Player;
 		public uint ElectricalItem;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestElectricalStatsNetMessage;
 		if(newMsg == null) return;

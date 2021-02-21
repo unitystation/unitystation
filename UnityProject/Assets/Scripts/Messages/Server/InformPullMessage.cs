@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using Objects;
 
 ///     Message that tells client that "Subject" is now pulled by "PulledBy"
 public class InformPullMessage : ServerMessage
 {
-	public class InformPullMessageNetMessage : ActualMessage
+	public class InformPullMessageNetMessage : NetworkMessage
 	{
 		public uint Subject;
 		public uint PulledBy;
@@ -16,7 +17,7 @@ public class InformPullMessage : ServerMessage
 		}
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as InformPullMessageNetMessage;
 		if(newMsg == null) return;

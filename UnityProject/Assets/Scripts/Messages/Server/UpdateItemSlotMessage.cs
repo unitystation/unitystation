@@ -8,7 +8,7 @@ using Mirror;
 /// </summary>
 public class UpdateItemSlotMessage : ServerMessage
 {
-	public class UpdateItemSlotMessageNetMessage : ActualMessage
+	public class UpdateItemSlotMessageNetMessage : NetworkMessage
 	{
 		public uint Storage;
 		public uint Item;
@@ -16,7 +16,7 @@ public class UpdateItemSlotMessage : ServerMessage
 		public NamedSlot NamedSlot;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as UpdateItemSlotMessageNetMessage;
 		if(newMsg == null) return;

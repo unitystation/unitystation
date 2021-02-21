@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 public class RequestToViewObjectsAtTile : ClientMessage
 {
-	public class RequestToViewObjectsAtTileNetMessage : ActualMessage
+	public class RequestToViewObjectsAtTileNetMessage : NetworkMessage
 	{
 		public Vector3 Location;
 		public string AdminId;
 		public string AdminToken;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestToViewObjectsAtTileNetMessage;
 		if(newMsg == null) return;

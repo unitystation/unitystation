@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -7,14 +8,14 @@ using UnityEngine;
 /// </summary>
 public class SendClientLogMessage : ServerMessage
 {
-	public class SendClientLogMessageNetMessage : ActualMessage
+	public class SendClientLogMessageNetMessage : NetworkMessage
 	{
 		public string Message;
 		public Category Category;
 		public bool IsError;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as SendClientLogMessageNetMessage;
 		if(newMsg == null) return;

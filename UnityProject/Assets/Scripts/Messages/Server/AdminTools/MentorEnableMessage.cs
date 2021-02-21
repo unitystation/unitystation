@@ -8,12 +8,12 @@ using UnityEngine;
 /// </summary>
 public class MentorEnableMessage : ServerMessage
 {
-	public class MentorEnableMessageNetMessage : ActualMessage
+	public class MentorEnableMessageNetMessage : NetworkMessage
 	{
 		public string MentorToken;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as MentorEnableMessageNetMessage;
 		if(newMsg == null) return;

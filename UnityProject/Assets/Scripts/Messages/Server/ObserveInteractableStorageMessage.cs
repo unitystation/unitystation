@@ -1,5 +1,6 @@
 
 using System.Collections;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -8,13 +9,13 @@ using UnityEngine;
 /// </summary>
 public class ObserveInteractableStorageMessage : ServerMessage
 {
-	public class ObserveInteractableStorageMessageNetMessage : ActualMessage
+	public class ObserveInteractableStorageMessageNetMessage : NetworkMessage
 	{
 		public uint Storage;
 		public bool Observed;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as ObserveInteractableStorageMessageNetMessage;
 		if(newMsg == null) return;

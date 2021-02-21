@@ -4,17 +4,18 @@ using InGameEvents;
 using UnityEngine;
 using DiscordWebhook;
 using Messages.Client;
+using Mirror;
 
 public class RequestRandomEventAllowedChange : ClientMessage
 {
-	public class RequestRandomEventAllowedChangeNetMessage : ActualMessage
+	public class RequestRandomEventAllowedChangeNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
 		public bool RandomEventsAllowed = true;
 	}
 
-	public override void Process(ActualMessage netMsg)
+	public override void Process<T>(T netMsg)
 	{
 		var newMsg = netMsg as RequestRandomEventAllowedChangeNetMessage;
 		if(newMsg == null) return;

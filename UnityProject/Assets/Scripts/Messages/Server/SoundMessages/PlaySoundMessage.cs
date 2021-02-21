@@ -12,7 +12,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class PlaySoundMessage : ServerMessage
 	{
-		public class PlaySoundMessageNetMessage : ActualMessage
+		public class PlaySoundMessageNetMessage : NetworkMessage
 		{
 			public string SoundAddressablePath;
 			public Vector3 Position;
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			}
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as PlaySoundMessageNetMessage;
 			if (newMsg == null) return;

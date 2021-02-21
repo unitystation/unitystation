@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 public class OpenBookIDNetMessage : ClientMessage
 {
-	public class OpenBookIDNetMessageNetMessage : ActualMessage
+	public class OpenBookIDNetMessageNetMessage : NetworkMessage
 	{
 		public ulong BookID;
 		public string AdminId;
 		public string AdminToken;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as OpenBookIDNetMessageNetMessage;
 		if(newMsg == null) return;

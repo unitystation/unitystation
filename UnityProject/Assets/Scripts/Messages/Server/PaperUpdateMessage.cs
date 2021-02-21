@@ -4,14 +4,14 @@ using Mirror;
 
 public class PaperUpdateMessage : ServerMessage
 {
-	public class PaperUpdateMessageNetMessage : ActualMessage
+	public class PaperUpdateMessageNetMessage : NetworkMessage
 	{
 		public uint PaperToUpdate;
 		public uint Recipient;
 		public string Message;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PaperUpdateMessageNetMessage;
 		if(newMsg == null) return;

@@ -10,7 +10,7 @@ namespace Messages.Server
 	/// </summary>
 	public class GhostRoleUpdateMessage : ServerMessage
 	{
-		public class GhostRoleUpdateMessageNetMessage : ActualMessage
+		public class GhostRoleUpdateMessageNetMessage : NetworkMessage
 		{
 			public uint roleID;
 			public int roleType;
@@ -21,7 +21,7 @@ namespace Messages.Server
 		}
 
 		// To be run on client
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as GhostRoleUpdateMessageNetMessage;
 			if(newMsg == null) return;

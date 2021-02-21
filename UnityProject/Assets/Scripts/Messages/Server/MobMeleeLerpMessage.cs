@@ -6,13 +6,13 @@ namespace Systems.MobAIs
 {
 	public class MobMeleeLerpMessage : ServerMessage
 	{
-		public class MobMeleeLerpMessageNetMessage : ActualMessage
+		public class MobMeleeLerpMessageNetMessage : NetworkMessage
 		{
 			public uint mob;
 			public Vector2 dir;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as MobMeleeLerpMessageNetMessage;
 			if (newMsg == null) return;

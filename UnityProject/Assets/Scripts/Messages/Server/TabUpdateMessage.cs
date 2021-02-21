@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class TabUpdateMessage : ServerMessage
 {
-	public class TabUpdateMessageNetMessage : ActualMessage
+	public class TabUpdateMessageNetMessage : NetworkMessage
 	{
 		public uint Provider;
 		public NetTabType Type;
@@ -36,7 +36,7 @@ public class TabUpdateMessage : ServerMessage
 
 	private static int Counter = 0;
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as TabUpdateMessageNetMessage;
 		if(newMsg == null) return;

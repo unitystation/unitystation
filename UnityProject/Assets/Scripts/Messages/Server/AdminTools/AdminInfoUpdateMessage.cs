@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AdminTools;
+using Mirror;
 
 public class AdminInfoUpdateMessage : ServerMessage
 {
-	public class AdminInfoUpdateMessageNetMessage : ActualMessage
+	public class AdminInfoUpdateMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public bool FullUpdate;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminInfoUpdateMessageNetMessage;
 		if(newMsg == null) return;

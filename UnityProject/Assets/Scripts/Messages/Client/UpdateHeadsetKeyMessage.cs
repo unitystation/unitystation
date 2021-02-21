@@ -8,13 +8,13 @@ using Mirror;
 /// </summary>
 public class UpdateHeadsetKeyMessage : ClientMessage
 {
-	public class UpdateHeadsetKeyMessageNetMessage : ActualMessage
+	public class UpdateHeadsetKeyMessageNetMessage : NetworkMessage
 	{
 		public uint EncryptionKey;
 		public uint HeadsetItem;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as UpdateHeadsetKeyMessageNetMessage;
 		if(newMsg == null) return;

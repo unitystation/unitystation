@@ -5,13 +5,13 @@ using AdminTools;
 
 public class PlayerAlertsUpdateMessage : ServerMessage
 {
-	public class PlayerAlertsUpdateMessageNetMessage : ActualMessage
+	public class PlayerAlertsUpdateMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public bool IsSingleEntry;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PlayerAlertsUpdateMessageNetMessage;
 		if(newMsg == null) return;

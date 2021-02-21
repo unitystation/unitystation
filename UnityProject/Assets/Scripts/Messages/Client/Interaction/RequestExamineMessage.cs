@@ -13,7 +13,7 @@ using UnityEngine;
 /// </summary>
 public class RequestExamineMessage : ClientMessage
 {
-	public class RequestExamineMessageNetMessage : ActualMessage
+	public class RequestExamineMessageNetMessage : NetworkMessage
 	{
 		//members
 		// netid of target
@@ -26,7 +26,7 @@ public class RequestExamineMessage : ClientMessage
 		//constructor
 	}
 
-	public override void Process(ActualMessage netMsg)
+	public override void Process<T>(T netMsg)
 	{
 		var newMsg = netMsg as RequestExamineMessageNetMessage;
 		if(newMsg == null) return;

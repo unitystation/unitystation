@@ -208,14 +208,14 @@ namespace AdminTools
 
 		public class ClientJobBanDataAdminMessage : ClientMessage
 		{
-			public class ClientJobBanDataAdminMessageNetMessage : ActualMessage
+			public class ClientJobBanDataAdminMessageNetMessage : NetworkMessage
 			{
 				public string AdminID;
 				public string AdminToken;
 				public string PlayerID;
 			}
 
-			public override void Process(ActualMessage msg)
+			public override void Process<T>(T msg)
 			{
 				var newMsg = msg as ClientJobBanDataAdminMessageNetMessage;
 
@@ -247,12 +247,12 @@ namespace AdminTools
 
 		public class ServerSendsJobBanDataAdminMessage : ServerMessage
 		{
-			public class ServerSendsJobBanDataAdminMessageNetMessage : ActualMessage
+			public class ServerSendsJobBanDataAdminMessageNetMessage : NetworkMessage
 			{
 				public string JobBanEntries;
 			}
 
-			public override void Process(ActualMessage msg)
+			public override void Process<T>(T msg)
 			{
 				var newMsg = msg as ServerSendsJobBanDataAdminMessageNetMessage;
 				if (newMsg == null) return;

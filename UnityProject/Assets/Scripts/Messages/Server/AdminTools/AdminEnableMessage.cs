@@ -8,13 +8,13 @@ using UnityEngine;
 /// </summary>
 public class AdminEnableMessage : ServerMessage
 {
-	public class AdminEnableMessageNetMessage : ActualMessage
+	public class AdminEnableMessageNetMessage : NetworkMessage
 	{
 		public string AdminToken;
 		public uint AdminGhostStorage;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminEnableMessageNetMessage;
 		if(newMsg == null) return;

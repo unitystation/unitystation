@@ -18,7 +18,7 @@ using Systems.Clothing;
 /// </summary>
 public class PlayerAppearanceMessage   /* MirrorUpdateNeeded */ : ServerMessage
 {
-	public class PlayerAppearanceMessageNetMessage : ActualMessage
+	public class PlayerAppearanceMessageNetMessage : NetworkMessage
 	{
 		//if IsBodySprites, index in PlayerSprites.characterSprites to update.
 		//otherwise, ordinal value of NamedSlot enum in Equipment to update
@@ -31,7 +31,7 @@ public class PlayerAppearanceMessage   /* MirrorUpdateNeeded */ : ServerMessage
 		public bool IsBodySprites;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PlayerAppearanceMessageNetMessage;
 		if(newMsg == null) return;

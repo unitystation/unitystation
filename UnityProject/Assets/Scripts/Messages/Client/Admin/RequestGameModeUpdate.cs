@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -7,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class RequestGameModeUpdate : ClientMessage
 {
-	public class RequestGameModeUpdateNetMessage : ActualMessage
+	public class RequestGameModeUpdateNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
@@ -15,7 +16,7 @@ public class RequestGameModeUpdate : ClientMessage
 		public bool IsSecret;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestGameModeUpdateNetMessage;
 		if(newMsg == null) return;

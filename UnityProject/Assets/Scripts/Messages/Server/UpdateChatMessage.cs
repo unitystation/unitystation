@@ -10,7 +10,7 @@ using Mirror;
 /// </summary>
 public class UpdateChatMessage : ServerMessage
 {
-	public class UpdateChatMessageNetMessage : ActualMessage
+	public class UpdateChatMessageNetMessage : NetworkMessage
 	{
 		public ChatChannel Channels;
 		public ChatModifier ChatModifiers;
@@ -24,7 +24,7 @@ public class UpdateChatMessage : ServerMessage
 		public bool StripTags;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as UpdateChatMessageNetMessage;
 		if(newMsg == null) return;
@@ -64,7 +64,7 @@ public class UpdateChatMessage : ServerMessage
 		return msg;
 	}
 
-	public override void SendTo(GameObject recipient, ActualMessage msg)
+	public override void SendTo(GameObject recipient, NetworkMessage msg)
 	{
 		if (recipient == null)
 		{
@@ -81,7 +81,7 @@ public class UpdateChatMessage : ServerMessage
 		//			only send to players that are currently controlled by a client
 		if (PlayerList.Instance.ContainsConnection(connection))
 		{
-			connection.Send(netMessage, 0);
+			connection.Send(msg, 0);
 			Logger.LogTraceFormat("SentTo {0}: {1}", Category.Chat, recipient.name, this);
 		}
 		else

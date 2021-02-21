@@ -9,7 +9,7 @@ using ScriptableObjects.Systems.Spells;
 /// </summary>
 public class SetActionUIMessage : ServerMessage
 {
-	public class SetActionUIMessageNetMessage : ActualMessage
+	public class SetActionUIMessageNetMessage : NetworkMessage
 	{
 		public ushort actionListID;
 		public short spellListIndex = -1;
@@ -22,7 +22,7 @@ public class SetActionUIMessage : ServerMessage
 		public UpdateType ProposedAction;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as SetActionUIMessageNetMessage;
 		if(newMsg == null) return;

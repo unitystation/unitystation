@@ -4,7 +4,7 @@ using Mirror;
 
 public class UpdateTileMessage : ServerMessage
 {
-	public class UpdateTileMessageNetMessage : ActualMessage
+	public class UpdateTileMessageNetMessage : NetworkMessage
 	{
 		public Vector3Int Position;
 		public TileType TileType;
@@ -38,7 +38,7 @@ public class UpdateTileMessage : ServerMessage
 	}
 
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as UpdateTileMessageNetMessage;
 		if(newMsg == null) return;

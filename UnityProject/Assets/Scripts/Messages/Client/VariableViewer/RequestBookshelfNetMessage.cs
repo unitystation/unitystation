@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 public class RequestBookshelfNetMessage : ClientMessage
 {
-	public class RequestBookshelfNetMessageNetMessage : ActualMessage
+	public class RequestBookshelfNetMessageNetMessage : NetworkMessage
 	{
 		public ulong BookshelfID;
 		public bool IsNewBookshelf = false;
@@ -14,7 +15,7 @@ public class RequestBookshelfNetMessage : ClientMessage
 		public uint TheObjectToView;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestBookshelfNetMessageNetMessage;
 		if(newMsg == null) return;

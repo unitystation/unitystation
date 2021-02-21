@@ -1,11 +1,12 @@
 ﻿using Audio.Managers;
+using Mirror;
 using UnityEngine;
 
 namespace Messages.Server.LocalGuiMessages
 {
 	public class SpawnBannerMessage : ServerMessage
 	{
-		public class SpawnBannerMessageNetMessage : ActualMessage
+		public class SpawnBannerMessageNetMessage : NetworkMessage
 		{
 			public string Name;
 			//AssetAddress
@@ -36,7 +37,7 @@ namespace Messages.Server.LocalGuiMessages
 			return msg;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as SpawnBannerMessageNetMessage;
 			if(newMsg == null) return;

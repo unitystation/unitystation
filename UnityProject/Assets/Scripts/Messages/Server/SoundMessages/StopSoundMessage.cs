@@ -1,16 +1,18 @@
-﻿namespace Assets.Scripts.Messages.Server.SoundMessages
+﻿using Mirror;
+
+namespace Assets.Scripts.Messages.Server.SoundMessages
 {
 	/// <summary>
 	///     Message that tells client to stop playing a sound
 	/// </summary>
 	public class StopSoundMessage : ServerMessage
 	{
-		public class StopSoundMessageNetMessage : ActualMessage
+		public class StopSoundMessageNetMessage : NetworkMessage
 		{
 			public string SoundSpawnToken;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as StopSoundMessageNetMessage;
 			if(newMsg == null) return;

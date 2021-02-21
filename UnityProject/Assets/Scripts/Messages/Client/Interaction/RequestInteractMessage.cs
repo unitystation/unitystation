@@ -22,7 +22,7 @@ public class RequestInteractMessage : ClientMessage
 	 */
 	private static readonly ushort UNKNOWN_COMPONENT_TYPE_ID = ushort.MaxValue;
 
-	public class RequestInteractMessageNetMessage : ActualMessage
+	public struct RequestInteractMessageNetMessage //: NetworkMessage
 	{
 		//these are always populated
 		public Type ComponentType;
@@ -108,10 +108,11 @@ public class RequestInteractMessage : ClientMessage
 		return toCheck.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == genericType);
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestInteractMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgN = msg as RequestInteractMessageNetMessage?;
+		if(newMsgN == null) return;
+		var newMsg = newMsgN.Value;
 
 		var ComponentType = newMsg.ComponentType;
 		var InteractionType = newMsg.InteractionType;
@@ -494,7 +495,7 @@ public class RequestInteractMessage : ClientMessage
 			msg.TargetObject = casted.TargetObject.NetId();
 			msg.RequestedOption = casted.RequestedOption;
 		}
-		new RequestInteractMessage().Send(msg);
+		//new RequestInteractMessage().Send(msg);
 	}
 
 	//only intended to be used by core if2 classes
@@ -523,7 +524,7 @@ public class RequestInteractMessage : ClientMessage
 			Intent = tileApply.Intent,
 			TargetVector = tileApply.TargetVector
 		};
-		new RequestInteractMessage().Send(msg);
+		//new RequestInteractMessage().Send(msg);
 	}
 
 	public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles)
@@ -545,7 +546,7 @@ public class RequestInteractMessage : ClientMessage
 			UsedObject = mouseDrop.UsedObject.NetId(),
 			TargetVector = mouseDrop.TargetVector
 		};
-		new RequestInteractMessage().Send(msg);
+		//new RequestInteractMessage().Send(msg);
 	}
 
 	// public void Deserialize(NetworkReader reader)

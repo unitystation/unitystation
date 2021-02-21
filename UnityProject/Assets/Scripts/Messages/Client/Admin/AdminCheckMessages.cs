@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Messages.Client;
+using Mirror;
 
 public class AdminCheckMessages : ClientMessage
 {
-	public class AdminCheckMessagesNetMessage : ActualMessage
+	public class AdminCheckMessagesNetMessage : NetworkMessage
 	{
 		public string PlayerId;
 		public int CurrentCount;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminCheckMessagesNetMessage;
 		if(newMsg == null) return;

@@ -9,7 +9,7 @@ using Mirror;
 /// </summary>
 public class PlayParticleMessage : ServerMessage
 {
-	public class PlayParticleMessageNetMessage : ActualMessage
+	public class PlayParticleMessageNetMessage : NetworkMessage
 	{
 		/// <summary>
 		/// GameObject containing ParticleSystem
@@ -20,7 +20,7 @@ public class PlayParticleMessage : ServerMessage
 	}
 
 	///To be run on client
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PlayParticleMessageNetMessage;
 		if(newMsg == null) return;

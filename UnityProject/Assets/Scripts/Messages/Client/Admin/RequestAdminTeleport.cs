@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class RequestAdminTeleport : ClientMessage
 {
-	public class RequestAdminTeleportNetMessage : ActualMessage
+	public class RequestAdminTeleportNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
@@ -20,7 +20,7 @@ public class RequestAdminTeleport : ClientMessage
 		public float vectorZ;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestAdminTeleportNetMessage;
 		if(newMsg == null) return;

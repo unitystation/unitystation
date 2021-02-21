@@ -6,16 +6,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Text;
+using Mirror;
 using Newtonsoft.Json;
 
 public class BookNetMessage : ServerMessage
 {
-	public class BookNetMessageNetMessage : ActualMessage
+	public class BookNetMessageNetMessage : NetworkMessage
 	{
 		public VariableViewerNetworking.NetFriendlyBook Book;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as BookNetMessageNetMessage;
 		if(newMsg == null) return;

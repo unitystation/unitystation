@@ -735,12 +735,12 @@ public partial class PlayerList
 
 	public class ClientJobBanDataMessage : ClientMessage
 	{
-		public class ClientJobBanDataMessageNetMessage : ActualMessage
+		public class ClientJobBanDataMessageNetMessage : NetworkMessage
 		{
 			public string PlayerID;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as ClientJobBanDataMessageNetMessage;
 			if(newMsg == null) return;
@@ -773,12 +773,12 @@ public partial class PlayerList
 
 	public class ServerSendsJobBanDataMessage : ServerMessage
 	{
-		public class ServerSendsJobBanDataMessageNetMessage : ActualMessage
+		public class ServerSendsJobBanDataMessageNetMessage : NetworkMessage
 		{
 			public string JobBanEntries;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as ServerSendsJobBanDataMessageNetMessage;
 			if(newMsg == null) return;
@@ -801,7 +801,7 @@ public partial class PlayerList
 
 	public class RequestJobBan : ClientMessage
 	{
-		public class RequestJobBanNetMessage : ActualMessage
+		public class RequestJobBanNetMessage : NetworkMessage
 		{
 			public string AdminID;
 			public string AdminToken;
@@ -814,7 +814,7 @@ public partial class PlayerList
 			public bool GhostAfter;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as RequestJobBanNetMessage;
 			if(newMsg == null) return;

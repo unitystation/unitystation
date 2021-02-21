@@ -8,13 +8,13 @@ using Mirror;
 //atm its just being sent to examine channel
 public class ElectricalStatsMessage : ServerMessage
 {
-	public class ElectricalStatsMessageNetMessage : ActualMessage
+	public class ElectricalStatsMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as ElectricalStatsMessageNetMessage;
 		if(newMsg == null) return;

@@ -10,7 +10,7 @@ namespace Messages.Server
 	/// </summary>
 	public class GhostRoleResponseMessage : ServerMessage
 	{
-		public class GhostRoleResponseMessageNetMessage : ActualMessage
+		public class GhostRoleResponseMessageNetMessage : NetworkMessage
 		{
 			public uint roleID;
 			public int responseCode;
@@ -28,7 +28,7 @@ namespace Messages.Server
 		};
 
 		// To be run on client
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as GhostRoleResponseMessageNetMessage;
 			if(newMsg == null) return;

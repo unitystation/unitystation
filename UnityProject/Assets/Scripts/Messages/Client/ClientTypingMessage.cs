@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 public enum TypingState
@@ -14,12 +15,12 @@ public enum TypingState
 /// </summary>
 public class ClientTypingMessage : ClientMessage
 {
-	public class ClientTypingMessageNetMessage : ActualMessage
+	public class ClientTypingMessageNetMessage : NetworkMessage
 	{
 		public TypingState state;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as ClientTypingMessageNetMessage;
 		if(newMsg == null) return;

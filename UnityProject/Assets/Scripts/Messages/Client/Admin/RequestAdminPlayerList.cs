@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -7,13 +8,13 @@ using UnityEngine;
 /// </summary>
 public class RequestAdminPlayerList : ClientMessage
 {
-	public class RequestAdminPlayerListNetMessage : ActualMessage
+	public class RequestAdminPlayerListNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestAdminPlayerListNetMessage;
 		if(newMsg == null) return;

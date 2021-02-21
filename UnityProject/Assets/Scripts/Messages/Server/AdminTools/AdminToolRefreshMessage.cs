@@ -8,13 +8,13 @@ using InGameEvents;
 
 public class AdminToolRefreshMessage : ServerMessage
 {
-	public class AdminToolRefreshMessageNetMessage : ActualMessage
+	public class AdminToolRefreshMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public uint Recipient;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminToolRefreshMessageNetMessage;
 		if(newMsg == null) return;

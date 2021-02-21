@@ -5,15 +5,17 @@ using Newtonsoft.Json;
 using System.IO;
 using Newtonsoft.Json.Bson;
 using System;
+using Mirror;
+
 public class SubBookshelfNetMessage : ServerMessage
 {
-	public class SubBookshelfNetMessageNetMessage : ActualMessage
+	public class SubBookshelfNetMessageNetMessage : NetworkMessage
 	{
 		public string data;
 		public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as SubBookshelfNetMessageNetMessage;
 		if(newMsg == null) return;

@@ -85,14 +85,14 @@ namespace ServerInfo
 
 	public class ServerInfoLobbyMessageServer : ServerMessage
 	{
-		public class ServerInfoLobbyMessageServerNetMessage : ActualMessage
+		public class ServerInfoLobbyMessageServerNetMessage : NetworkMessage
 		{
 			public string ServerName;
 			public string ServerDesc;
 			public string ServerDiscordID;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as ServerInfoLobbyMessageServerNetMessage;
 			if(newMsg == null) return;
@@ -116,12 +116,12 @@ namespace ServerInfo
 
 	public class ServerInfoLobbyMessageClient : ClientMessage
 	{
-		public class ServerInfoLobbyMessageClientNetMessage : ActualMessage
+		public class ServerInfoLobbyMessageClientNetMessage : NetworkMessage
 		{
 			public string PlayerId;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as ServerInfoLobbyMessageClientNetMessage;
 			if(newMsg == null) return;

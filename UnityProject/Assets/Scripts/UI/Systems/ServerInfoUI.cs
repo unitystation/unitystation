@@ -53,13 +53,13 @@ namespace ServerInfo
 
 	public class ServerInfoMessageServer : ServerMessage
 	{
-		public class ServerInfoMessageServerNetMessage : ActualMessage
+		public class ServerInfoMessageServerNetMessage : NetworkMessage
 		{
 			public string ServerName;
 			public string ServerDesc;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as ServerInfoMessageServerNetMessage;
 			if(newMsg == null) return;
@@ -82,12 +82,12 @@ namespace ServerInfo
 
 	public class ServerInfoMessageClient : ClientMessage
 	{
-		public class ServerInfoMessageClientNetMessage : ActualMessage
+		public class ServerInfoMessageClientNetMessage : NetworkMessage
 		{
 			public string PlayerId;
 		}
 
-		public override void Process(ActualMessage msg)
+		public override void Process<T>(T msg)
 		{
 			var newMsg = msg as ServerInfoMessageClientNetMessage;
 			if(newMsg == null) return;

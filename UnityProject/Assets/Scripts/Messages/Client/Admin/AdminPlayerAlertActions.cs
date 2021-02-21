@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using AdminTools;
 using Messages.Client;
+using Mirror;
 
 public class AdminPlayerAlertActions : ClientMessage
 {
-	public class AdminPlayerAlertActionsNetMessage : ActualMessage
+	public class AdminPlayerAlertActionsNetMessage : NetworkMessage
 	{
 		public int ActionRequested;
 		public string RoundTimeOfIncident;
@@ -14,7 +15,7 @@ public class AdminPlayerAlertActions : ClientMessage
 		public string AdminToken;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminPlayerAlertActionsNetMessage;
 		if(newMsg == null) return;

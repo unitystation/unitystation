@@ -12,7 +12,7 @@ using Mirror;
 /// </summary>
 public class RequestInventoryTransferMessage : ClientMessage
 {
-	public class RequestInventoryTransferMessageNetMessage : ActualMessage
+	public class RequestInventoryTransferMessageNetMessage : NetworkMessage
 	{
 		public uint FromStorage;
 		public int FromSlotIndex;
@@ -22,7 +22,7 @@ public class RequestInventoryTransferMessage : ClientMessage
 		public NamedSlot ToNamedSlot;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestInventoryTransferMessageNetMessage;
 		if(newMsg == null) return;

@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 public class SuicideMessage : ClientMessage
 {
-	public class SuicideMessageNetMessage : ActualMessage { }
+	public class SuicideMessageNetMessage : NetworkMessage { }
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as SuicideMessageNetMessage;
 		if(newMsg == null) return;

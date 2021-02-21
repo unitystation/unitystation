@@ -16,13 +16,13 @@ public class PlayerEatDrinkEffects : NetworkBehaviour
 
 public class PlayerEatDrinkEffectsServerMessage : ServerMessage
 {
-	public class PlayerEatDrinkEffectsServerMessageNetMessage : ActualMessage
+	public class PlayerEatDrinkEffectsServerMessageNetMessage : NetworkMessage
 	{
 		public int alcoholValue;
 		public GameObject clientPlayer = null;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PlayerEatDrinkEffectsServerMessageNetMessage;
 		if(newMsg == null) return;

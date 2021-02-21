@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class TransformStateMessage : ServerMessage
 {
-	public class TransformStateMessageNetMessage : ActualMessage
+	public class TransformStateMessageNetMessage : NetworkMessage
 	{
 		public bool ForceRefresh;
 		public TransformState State;
@@ -15,7 +15,7 @@ public class TransformStateMessage : ServerMessage
 	}
 
 	///To be run on client
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as TransformStateMessageNetMessage;
 		if(newMsg == null) return;

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Messages.Client;
+using Mirror;
 
 public class RequestAdminBwoink : ClientMessage
 {
-	public class RequestAdminBwoinkNetMessage : ActualMessage
+	public class RequestAdminBwoinkNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
@@ -13,7 +14,7 @@ public class RequestAdminBwoink : ClientMessage
 		public string Message;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestAdminBwoinkNetMessage;
 		if(newMsg == null) return;

@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using Messages.Client;
+using Mirror;
 
 public class PlayerNewPlayer : ClientMessage
 {
-	public class PlayerNewPlayerNetMessage : ActualMessage
+	public class PlayerNewPlayerNetMessage : NetworkMessage
 	{
 		public uint Player;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PlayerNewPlayerNetMessage;
 		if(newMsg == null) return;

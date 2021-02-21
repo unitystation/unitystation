@@ -7,14 +7,14 @@ using Mirror;
 /// </summary>
 public class HealthBrainMessage : ServerMessage
 {
-	public class HealthBrainMessageNetMessage : ActualMessage
+	public class HealthBrainMessageNetMessage : NetworkMessage
 	{
 		public uint EntityToUpdate;
 		public bool IsHusk;
 		public int BrainDamage;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as HealthBrainMessageNetMessage;
 		if(newMsg == null) return;

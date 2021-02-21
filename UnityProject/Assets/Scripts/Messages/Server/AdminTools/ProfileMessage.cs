@@ -8,13 +8,13 @@ using System.IO;
 
 public class ProfileMessage : ServerMessage
 {
-	public class ProfileMessageNetMessage : ActualMessage
+	public class ProfileMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public uint Recipient;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as ProfileMessageNetMessage;
 		if(newMsg == null) return;

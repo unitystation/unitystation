@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -6,12 +7,12 @@ using UnityEngine;
 /// </summary>
 public class UpdateHungerStateMessage : ServerMessage
 {
-	public class UpdateHungerStateMessageNetMessage : ActualMessage
+	public class UpdateHungerStateMessageNetMessage : NetworkMessage
 	{
 		public HungerState State;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as UpdateHungerStateMessageNetMessage;
 		if(newMsg == null) return;

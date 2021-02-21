@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Messages.Client;
+using Mirror;
 
 public class RequestKickMessage : ClientMessage
 {
-	public class RequestKickMessageNetMessage : ActualMessage
+	public class RequestKickMessageNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
@@ -16,7 +17,7 @@ public class RequestKickMessage : ClientMessage
 		public bool AnnounceBan;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestKickMessageNetMessage;
 		if(newMsg == null) return;

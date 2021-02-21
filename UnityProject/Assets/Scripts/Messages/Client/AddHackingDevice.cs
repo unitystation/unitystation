@@ -5,14 +5,14 @@ using Messages.Client;
 
 public class AddHackingDevice : ClientMessage
 {
-	public class AddHackingDeviceNetMessage : ActualMessage
+	public class AddHackingDeviceNetMessage : NetworkMessage
 	{
 		public uint Player;
 		public uint HackableObject;
 		public uint HackingDevice;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AddHackingDeviceNetMessage;
 		if (newMsg == null) return;

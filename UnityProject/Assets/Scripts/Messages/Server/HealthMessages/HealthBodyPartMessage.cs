@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class HealthBodyPartMessage : ServerMessage
 {
-	public class HealthBodyPartMessageNetMessage : ActualMessage
+	public class HealthBodyPartMessageNetMessage : NetworkMessage
 	{
 		public uint EntityToUpdate;
 		public BodyPartType BodyPart;
@@ -15,7 +15,7 @@ public class HealthBodyPartMessage : ServerMessage
 		public float BurnDamage;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as HealthBodyPartMessageNetMessage;
 		if(newMsg == null) return;

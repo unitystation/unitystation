@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Messages.Client;
+using Mirror;
 
 public class RequestMentorBwoink : ClientMessage
 {
-	public class RequestMentorBwoinkNetMessage : ActualMessage
+	public class RequestMentorBwoinkNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string MentorToken;
@@ -13,7 +14,7 @@ public class RequestMentorBwoink : ClientMessage
 		public string Message;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as RequestMentorBwoinkNetMessage;
 		if(newMsg == null) return;

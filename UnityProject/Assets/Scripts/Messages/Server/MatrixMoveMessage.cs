@@ -5,7 +5,7 @@ using Mirror;
 ///     Tells client to
 public class MatrixMoveMessage : ServerMessage
 {
-	public class MatrixMoveMessageNetMessage : ActualMessage
+	public class MatrixMoveMessageNetMessage : NetworkMessage
 	{
 		public MatrixState State;
 		public uint Matrix;
@@ -19,7 +19,7 @@ public class MatrixMoveMessage : ServerMessage
 	//public bool ResetQueue;
 
 	///To be run on client
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as MatrixMoveMessageNetMessage;
 		if(newMsg == null) return;

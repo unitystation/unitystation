@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class AdminBwoinkMessage : ServerMessage
 {
-	public class AdminBwoinkMessageNetMessage : ActualMessage
+	public class AdminBwoinkMessageNetMessage : NetworkMessage
 	{
 		public string AdminUID;
 		public string Message;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminBwoinkMessageNetMessage;
 		if(newMsg == null) return;

@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class ProgressBarMessage : ServerMessage
 {
-	public class ProgressBarMessageNetMessage : ActualMessage
+	public class ProgressBarMessageNetMessage : NetworkMessage
 	{
 		public uint Recipient;
 		public int SpriteIndex;
@@ -15,7 +15,7 @@ public class ProgressBarMessage : ServerMessage
 		public int ProgressBarID;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as ProgressBarMessageNetMessage;
 		if(newMsg == null) return;

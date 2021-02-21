@@ -5,12 +5,12 @@ using Doors;
 
 public class DoorNewPlayer : ClientMessage
 {
-	public class DoorNewPlayerNetMessage : ActualMessage
+	public class DoorNewPlayerNetMessage : NetworkMessage
 	{
 		public uint Door;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as DoorNewPlayerNetMessage;
 		if(newMsg == null) return;

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Messages.Client;
+using Mirror;
 
 public class AdminReplyMessage : ClientMessage
 {
-	public class AdminReplyMessageNetMessage : ActualMessage
+	public class AdminReplyMessageNetMessage : NetworkMessage
 	{
 		public string Message;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminReplyMessageNetMessage;
 		if(newMsg == null) return;

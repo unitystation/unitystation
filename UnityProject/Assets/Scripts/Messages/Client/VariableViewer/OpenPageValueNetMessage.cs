@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 public class OpenPageValueNetMessage : ClientMessage
 {
-	public class OpenPageValueNetMessageNetMessage : ActualMessage
+	public class OpenPageValueNetMessageNetMessage : NetworkMessage
 	{
 		public ulong PageID;
 		public uint SentenceID;
@@ -15,7 +16,7 @@ public class OpenPageValueNetMessage : ClientMessage
 		public string AdminToken;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as OpenPageValueNetMessageNetMessage;
 		if(newMsg == null) return;

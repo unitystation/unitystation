@@ -10,13 +10,13 @@ using Mirror;
 /// </summary>
 public class PlayerAlertNotifications : ServerMessage
 {
-	public class PlayerAlertNotificationsNetMessage : ActualMessage
+	public class PlayerAlertNotificationsNetMessage : NetworkMessage
 	{
 		public int Amount;
 		public bool IsFullUpdate;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as PlayerAlertNotificationsNetMessage;
 		if(newMsg == null) return;

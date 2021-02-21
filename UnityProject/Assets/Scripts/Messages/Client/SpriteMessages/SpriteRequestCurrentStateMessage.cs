@@ -6,12 +6,12 @@ using Mirror;
 
 public class SpriteRequestCurrentStateMessage : ClientMessage
 {
-	public class SpriteRequestCurrentStateMessageNetMessage : ActualMessage
+	public class SpriteRequestCurrentStateMessageNetMessage : NetworkMessage
 	{
 		public uint SpriteHandlerManager;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as SpriteRequestCurrentStateMessageNetMessage;
 		if(newMsg == null) return;

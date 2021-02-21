@@ -7,12 +7,12 @@ using Mirror;
 /// </summary>
 public class HealthTemperatureMessage : ServerMessage
 {
-	public class HealthTemperatureMessageNetMessage : ActualMessage
+	public class HealthTemperatureMessageNetMessage : NetworkMessage
 	{
 		public float temperature;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as HealthTemperatureMessageNetMessage;
 		if(newMsg == null) return;

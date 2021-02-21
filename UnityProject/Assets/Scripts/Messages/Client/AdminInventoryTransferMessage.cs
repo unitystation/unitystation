@@ -7,7 +7,7 @@ using Mirror;
 
 public class AdminInventoryTransferMessage : ClientMessage
 {
-	public class AdminInventoryTransferMessageNetMessage : ActualMessage
+	public class AdminInventoryTransferMessageNetMessage : NetworkMessage
 	{
 		public uint FromStorage;
 		public int FromSlotIndex;
@@ -17,7 +17,7 @@ public class AdminInventoryTransferMessage : ClientMessage
 		public NamedSlot ToNamedSlot;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as AdminInventoryTransferMessageNetMessage;
 		if(newMsg == null) return;

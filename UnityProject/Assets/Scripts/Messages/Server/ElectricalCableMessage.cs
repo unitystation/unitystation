@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class ElectricalCableMessage : ServerMessage
 {
-	public class ElectricalCableMessageNetMessage : ActualMessage
+	public class ElectricalCableMessageNetMessage : NetworkMessage
 	{
 		public Connection REWireEndA;
 		public Connection REWireEndB;
@@ -15,7 +15,7 @@ public class ElectricalCableMessage : ServerMessage
 		public uint Cable;
 	}
 
-	public override void Process(ActualMessage msg)
+	public override void Process<T>(T msg)
 	{
 		var newMsg = msg as ElectricalCableMessageNetMessage;
 		if(newMsg == null) return;
