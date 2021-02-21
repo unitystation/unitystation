@@ -24,8 +24,8 @@ public class PlayerEatDrinkEffectsServerMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PlayerEatDrinkEffectsServerMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PlayerEatDrinkEffectsServerMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		var camera = Camera.main;
 		if (camera == null) return;

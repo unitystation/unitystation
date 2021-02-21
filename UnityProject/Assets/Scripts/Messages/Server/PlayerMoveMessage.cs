@@ -20,8 +20,8 @@ public class PlayerMoveMessage : ServerMessage
 	///To be run on client
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PlayerMoveMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PlayerMoveMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.SubjectPlayer);
 

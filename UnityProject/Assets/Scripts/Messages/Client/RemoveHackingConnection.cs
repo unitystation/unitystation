@@ -15,8 +15,8 @@ public class RemoveHackingConnection : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RemoveHackingConnectionNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RemoveHackingConnectionNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[] { newMsg.Player, newMsg.HackableObject });
 		int[] connectionToRemove = JsonConvert.DeserializeObject<int[]>(newMsg.JsonData);

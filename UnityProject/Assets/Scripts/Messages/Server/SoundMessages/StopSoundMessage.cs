@@ -7,15 +7,19 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class StopSoundMessage : ServerMessage
 	{
-		public class StopSoundMessageNetMessage : NetworkMessage
+		public struct StopSoundMessageNetMessage : NetworkMessage
 		{
 			public string SoundSpawnToken;
 		}
 
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public StopSoundMessageNetMessage message;
+
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as StopSoundMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as StopSoundMessageNetMessage?;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			SoundManager.Stop(newMsg.SoundSpawnToken);
 		}

@@ -16,8 +16,8 @@ public class RequestAdminPlayerList : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestAdminPlayerListNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestAdminPlayerListNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		VerifyAdminStatus(newMsg);
 	}

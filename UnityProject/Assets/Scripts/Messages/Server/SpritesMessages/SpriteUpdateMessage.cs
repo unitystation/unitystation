@@ -35,8 +35,8 @@ public class SpriteUpdateMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as SpriteUpdateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as SpriteUpdateMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		var SerialiseData = newMsg.SerialiseData;
 

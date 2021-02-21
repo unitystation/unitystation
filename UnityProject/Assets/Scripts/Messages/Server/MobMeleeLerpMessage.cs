@@ -6,16 +6,20 @@ namespace Systems.MobAIs
 {
 	public class MobMeleeLerpMessage : ServerMessage
 	{
-		public class MobMeleeLerpMessageNetMessage : NetworkMessage
+		public struct MobMeleeLerpMessageNetMessage : NetworkMessage
 		{
 			public uint mob;
 			public Vector2 dir;
 		}
 
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public MobMeleeLerpMessageNetMessage message;
+
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as MobMeleeLerpMessageNetMessage;
-			if (newMsg == null) return;
+			var newMsgNull = msg as MobMeleeLerpMessageNetMessage?;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			LoadNetworkObject(newMsg.mob);
 

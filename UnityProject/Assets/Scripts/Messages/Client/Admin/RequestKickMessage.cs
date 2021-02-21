@@ -6,7 +6,7 @@ using Mirror;
 
 public class RequestKickMessage : ClientMessage
 {
-	public class RequestKickMessageNetMessage : NetworkMessage
+	public struct RequestKickMessageNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
@@ -17,10 +17,14 @@ public class RequestKickMessage : ClientMessage
 		public bool AnnounceBan;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestKickMessageNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestKickMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestKickMessageNetMessage?;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		VerifyAdminStatus(newMsg);
 	}

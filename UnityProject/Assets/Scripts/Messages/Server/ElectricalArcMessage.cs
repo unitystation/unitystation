@@ -10,7 +10,7 @@ namespace Systems.ElectricalArcs
 	/// </summary>
 	public class ElectricalArcMessage : ServerMessage
 	{
-		public class ElectricalArcMessageNetMessage : NetworkMessage
+		public struct ElectricalArcMessageNetMessage : NetworkMessage
 		{
 			public Guid prefabAssetID;
 			public GameObject startObject;
@@ -23,11 +23,15 @@ namespace Systems.ElectricalArcs
 			public bool addRandomness;
 		}
 
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ElectricalArcMessageNetMessage message;
+
 		// To be run on client
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as ElectricalArcMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as ElectricalArcMessageNetMessage?;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			if (CustomNetworkManager.IsServer) return; // Run extra logic for server, handled in ElectricalArc.
 			if (MatrixManager.IsInitialized == false) return;

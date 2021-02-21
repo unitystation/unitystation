@@ -33,8 +33,8 @@ public class PlayerAppearanceMessage   /* MirrorUpdateNeeded */ : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PlayerAppearanceMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PlayerAppearanceMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[] {newMsg.EquipmentObject, newMsg.ItemNetID});
 		//Debug.Log(

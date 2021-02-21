@@ -17,8 +17,8 @@ public class TileChangesNewClientSync : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as TileChangesNewClientSyncNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as TileChangesNewClientSyncNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		//server doesn't need this message, it messes with its own tiles.
 		if (CustomNetworkManager.IsServer) return;

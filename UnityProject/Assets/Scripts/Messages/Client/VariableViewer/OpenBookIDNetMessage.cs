@@ -15,8 +15,8 @@ public class OpenBookIDNetMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as OpenBookIDNetMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as OpenBookIDNetMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		ValidateAdmin(newMsg);
 	}

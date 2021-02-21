@@ -6,16 +6,19 @@ using Mirror;
 
 public class AdminCheckPlayerAlerts : ClientMessage
 {
-	public class AdminCheckPlayerAlertsNetMessage : NetworkMessage
+	public struct AdminCheckPlayerAlertsNetMessage : NetworkMessage
 	{
 		public string PlayerId;
 		public int CurrentCount;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminCheckPlayerAlertsNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminCheckPlayerAlertsNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminCheckPlayerAlertsNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.playerAlerts.ServerRequestEntries(newMsg.PlayerId, newMsg.CurrentCount, SentByPlayer.Connection);
 	}

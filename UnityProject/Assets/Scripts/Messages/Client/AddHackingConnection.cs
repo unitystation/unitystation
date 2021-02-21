@@ -6,17 +6,21 @@ using Newtonsoft.Json;
 
 public class AddHackingConnection : ClientMessage
 {
-	public class AddHackingConnectionNetMessage : NetworkMessage
+	public struct AddHackingConnectionNetMessage : NetworkMessage
 	{
 		public uint Player;
 		public uint HackableObject;
 		public string JsonData;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AddHackingConnectionNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AddHackingConnectionNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AddHackingConnectionNetMessage?;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[] { newMsg.Player, newMsg.HackableObject });
 		int[] connectionToAdd = JsonConvert.DeserializeObject<int[]>(newMsg.JsonData);

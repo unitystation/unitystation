@@ -6,16 +6,19 @@ using Mirror;
 
 public class AdminCheckMessages : ClientMessage
 {
-	public class AdminCheckMessagesNetMessage : NetworkMessage
+	public struct AdminCheckMessagesNetMessage : NetworkMessage
 	{
 		public string PlayerId;
 		public int CurrentCount;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminCheckMessagesNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminCheckMessagesNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminCheckMessagesNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerGetUnreadMessages(newMsg.PlayerId, newMsg.CurrentCount, SentByPlayer.Connection);
 	}

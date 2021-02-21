@@ -13,8 +13,8 @@ public class MentorPlayerChatUpdateMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as MentorPlayerChatUpdateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as MentorPlayerChatUpdateMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.adminChatWindows.mentorPlayerChat.ClientUpdateChatLog(newMsg.JsonData, newMsg.PlayerId);
 	}

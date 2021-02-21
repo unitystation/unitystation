@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class TriggerEventMessage : ServerMessage
 {
-	public class TriggerEventMessageNetMessage : NetworkMessage
+	public struct TriggerEventMessageNetMessage : NetworkMessage
 	{
 		public EVENT EventType;
 	}
@@ -17,8 +17,9 @@ public class TriggerEventMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as TriggerEventMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as TriggerEventMessageNetMessage?;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		EventManager.Broadcast(newMsg.EventType);
 	}

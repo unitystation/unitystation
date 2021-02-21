@@ -12,8 +12,8 @@ public class AdminChatUpdateMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminChatUpdateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminChatUpdateMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ClientUpdateChatLog(newMsg.JsonData);
 	}

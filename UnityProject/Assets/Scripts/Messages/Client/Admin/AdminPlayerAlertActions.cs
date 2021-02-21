@@ -7,7 +7,7 @@ using Mirror;
 
 public class AdminPlayerAlertActions : ClientMessage
 {
-	public class AdminPlayerAlertActionsNetMessage : NetworkMessage
+	public struct AdminPlayerAlertActionsNetMessage : NetworkMessage
 	{
 		public int ActionRequested;
 		public string RoundTimeOfIncident;
@@ -15,10 +15,13 @@ public class AdminPlayerAlertActions : ClientMessage
 		public string AdminToken;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminPlayerAlertActionsNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminPlayerAlertActionsNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminPlayerAlertActionsNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.UserId, (PlayerAlertActions)newMsg.ActionRequested,
 			newMsg.RoundTimeOfIncident, newMsg.PerpNetID, newMsg.AdminToken);

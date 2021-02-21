@@ -208,18 +208,21 @@ namespace AdminTools
 
 		public class ClientJobBanDataAdminMessage : ClientMessage
 		{
-			public class ClientJobBanDataAdminMessageNetMessage : NetworkMessage
+			public struct ClientJobBanDataAdminMessageNetMessage : NetworkMessage
 			{
 				public string AdminID;
 				public string AdminToken;
 				public string PlayerID;
 			}
 
+			//This is needed so the message can be discovered in NetworkManagerExtensions
+			public ClientJobBanDataAdminMessageNetMessage message;
+
 			public override void Process<T>(T msg)
 			{
-				var newMsg = msg as ClientJobBanDataAdminMessageNetMessage;
-
-				if(newMsg == null) return;
+				var newMsgNull = msg as ClientJobBanDataAdminMessageNetMessage?;
+				if(newMsgNull == null) return;
+				var newMsg = newMsgNull.Value;
 
 				var admin = PlayerList.Instance.GetAdmin(newMsg.AdminID, newMsg.AdminToken);
 				if (admin == null) return;
@@ -247,15 +250,19 @@ namespace AdminTools
 
 		public class ServerSendsJobBanDataAdminMessage : ServerMessage
 		{
-			public class ServerSendsJobBanDataAdminMessageNetMessage : NetworkMessage
+			public struct ServerSendsJobBanDataAdminMessageNetMessage : NetworkMessage
 			{
 				public string JobBanEntries;
 			}
 
+			//This is needed so the message can be discovered in NetworkManagerExtensions
+			public ServerSendsJobBanDataAdminMessageNetMessage message;
+
 			public override void Process<T>(T msg)
 			{
-				var newMsg = msg as ServerSendsJobBanDataAdminMessageNetMessage;
-				if (newMsg == null) return;
+				var newMsgNull = msg as ServerSendsJobBanDataAdminMessageNetMessage?;
+				if(newMsgNull == null) return;
+				var newMsg = newMsgNull.Value;
 
 				//client Stuff here
 

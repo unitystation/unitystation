@@ -6,15 +6,19 @@ using Mirror;
 
 public class MentorReplyMessage : ClientMessage
 {
-	public class MentorReplyMessageNetMessage : NetworkMessage
+	public struct MentorReplyMessageNetMessage : NetworkMessage
 	{
 		public string Message;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public MentorReplyMessageNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as MentorReplyMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as MentorReplyMessageNetMessage?;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(newMsg.Message, SentByPlayer.UserId);
 	}

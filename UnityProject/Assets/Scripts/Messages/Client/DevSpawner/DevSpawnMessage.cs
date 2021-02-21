@@ -27,8 +27,8 @@ public class DevSpawnMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as DevSpawnMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as DevSpawnMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		ValidateAdmin(newMsg);
 	}

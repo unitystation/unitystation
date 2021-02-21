@@ -30,8 +30,8 @@ namespace Messages.Server
 		// To be run on client
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as GhostRoleResponseMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as GhostRoleResponseMessageNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			if (PlayerManager.LocalPlayer == null) return;
 

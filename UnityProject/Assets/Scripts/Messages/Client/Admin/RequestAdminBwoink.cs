@@ -6,7 +6,7 @@ using Mirror;
 
 public class RequestAdminBwoink : ClientMessage
 {
-	public class RequestAdminBwoinkNetMessage : NetworkMessage
+	public struct RequestAdminBwoinkNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
@@ -14,10 +14,13 @@ public class RequestAdminBwoink : ClientMessage
 		public string Message;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestAdminBwoinkNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestAdminBwoinkNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestAdminBwoinkNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		VerifyAdminStatus(newMsg);
 	}

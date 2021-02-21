@@ -37,8 +37,8 @@ public class RequestGameAction : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestGameActionNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestGameActionNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		var type = componentIDToComponentType[newMsg.ComponentID];
 		LoadNetworkObject(newMsg.NetObject);

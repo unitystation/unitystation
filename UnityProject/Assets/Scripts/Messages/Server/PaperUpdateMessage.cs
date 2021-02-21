@@ -13,8 +13,8 @@ public class PaperUpdateMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PaperUpdateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PaperUpdateMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[] {newMsg.Recipient, newMsg.PaperToUpdate});
 		var paper = NetworkObjects[1].GetComponent<Paper>();

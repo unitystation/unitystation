@@ -18,8 +18,8 @@ public class PlayerAlertNotifications : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PlayerAlertNotificationsNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PlayerAlertNotificationsNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if (!newMsg.IsFullUpdate)
 		{

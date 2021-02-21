@@ -19,8 +19,8 @@ public class AdminInventoryTransferMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminInventoryTransferMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminInventoryTransferMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[]{newMsg.FromStorage, newMsg.ToStorage});
 		if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;

@@ -16,8 +16,8 @@ public class AdminToolRefreshMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminToolRefreshMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminToolRefreshMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.Recipient);
 		var adminPageData = JsonUtility.FromJson<AdminPageRefreshData>(newMsg.JsonData);

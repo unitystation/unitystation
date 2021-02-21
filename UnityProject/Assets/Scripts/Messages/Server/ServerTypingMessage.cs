@@ -17,8 +17,8 @@ public class ServerTypingMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as ServerTypingMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as ServerTypingMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		// other client try to find networked identity that's typing
 		LoadNetworkObject(newMsg.targetID);

@@ -23,8 +23,8 @@ namespace Construction.Conveyors
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as RequestConveyorBuildMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as RequestConveyorBuildMessageNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			var clientStorage = SentByPlayer.Script.ItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();

@@ -15,8 +15,8 @@ public class HackingNodeConnectionList : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as HackingNodeConnectionListNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as HackingNodeConnectionListNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[] { newMsg.Recipient, newMsg.HackingObject });
 		List<int[]> data = JsonConvert.DeserializeObject<List<int[]>>(newMsg.JsonData);

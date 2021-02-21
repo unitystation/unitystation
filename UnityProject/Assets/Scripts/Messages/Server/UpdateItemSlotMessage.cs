@@ -18,8 +18,8 @@ public class UpdateItemSlotMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as UpdateItemSlotMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as UpdateItemSlotMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		//server calls their own client side hooks, so server doesn't do anything here.
 		//It's necessary for it to be this way because by the time the server reaches this point,

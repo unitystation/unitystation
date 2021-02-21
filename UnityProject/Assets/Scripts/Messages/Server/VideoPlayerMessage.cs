@@ -13,8 +13,8 @@ public class VideoPlayerMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as VideoPlayerMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as VideoPlayerMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		switch (newMsg.VideoToPlay)
 		{

@@ -15,8 +15,8 @@ public class AdminInfoUpdateMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminInfoUpdateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminInfoUpdateMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if (newMsg.FullUpdate)
 		{

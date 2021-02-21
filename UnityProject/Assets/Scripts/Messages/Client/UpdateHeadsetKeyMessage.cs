@@ -16,8 +16,8 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as UpdateHeadsetKeyMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as UpdateHeadsetKeyMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if ( newMsg.HeadsetItem.Equals(NetId.Invalid) )
 		{

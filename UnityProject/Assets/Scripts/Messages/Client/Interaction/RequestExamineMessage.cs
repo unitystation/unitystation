@@ -28,8 +28,8 @@ public class RequestExamineMessage : ClientMessage
 
 	public override void Process<T>(T netMsg)
 	{
-		var newMsg = netMsg as RequestExamineMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsg = netMsg as RequestExamineMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		//TODO: check break conditions
 		if (SentByPlayer == null || SentByPlayer.Script == null)

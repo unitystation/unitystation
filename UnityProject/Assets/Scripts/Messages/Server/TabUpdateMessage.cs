@@ -38,8 +38,8 @@ public class TabUpdateMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as TabUpdateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as TabUpdateMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		Logger.LogTraceFormat("Processed {0}", Category.NetUI, this);
 		LoadNetworkObject(newMsg.Provider);

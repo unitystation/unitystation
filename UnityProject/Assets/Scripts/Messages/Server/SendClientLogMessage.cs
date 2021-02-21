@@ -17,8 +17,8 @@ public class SendClientLogMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as SendClientLogMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as SendClientLogMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if (newMsg.IsError)
 		{

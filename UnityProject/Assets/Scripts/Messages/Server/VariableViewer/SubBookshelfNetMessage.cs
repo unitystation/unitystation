@@ -17,8 +17,8 @@ public class SubBookshelfNetMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as SubBookshelfNetMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as SubBookshelfNetMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.BookshelfViewer.BookShelfIn = newMsg.BookShelf;
 	}

@@ -19,8 +19,8 @@ public class RequestBuildMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestBuildMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestBuildMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		var clientStorage = SentByPlayer.Script.ItemStorage;
 		var usedSlot = clientStorage.GetActiveHandSlot();

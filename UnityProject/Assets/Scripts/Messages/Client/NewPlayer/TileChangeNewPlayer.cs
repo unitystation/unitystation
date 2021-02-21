@@ -11,8 +11,8 @@ public class TileChangeNewPlayer : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as TileChangeNewPlayerNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as TileChangeNewPlayerNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.TileChangeManager);
 		NetworkObject.GetComponent<TileChangeManager>().UpdateNewPlayer(

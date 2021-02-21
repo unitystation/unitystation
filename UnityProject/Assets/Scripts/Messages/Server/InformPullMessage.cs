@@ -19,8 +19,8 @@ public class InformPullMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as InformPullMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as InformPullMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint [] {newMsg.Subject, newMsg.PulledBy});
 

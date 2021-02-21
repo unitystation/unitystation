@@ -13,8 +13,8 @@ public class PlayerCustomisationMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PlayerCustomisationMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PlayerCustomisationMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.EquipmentObject);
 		if (NetworkObject != null)

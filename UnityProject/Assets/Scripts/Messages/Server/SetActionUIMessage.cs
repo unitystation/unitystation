@@ -24,8 +24,8 @@ public class SetActionUIMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as SetActionUIMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as SetActionUIMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		IActionGUI action = null;
 		if (newMsg.actionListID != 0)

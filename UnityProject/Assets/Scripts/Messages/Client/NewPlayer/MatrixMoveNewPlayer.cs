@@ -11,8 +11,8 @@ public class MatrixMoveNewPlayer : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as MatrixMoveNewPlayerNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as MatrixMoveNewPlayerNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
 		if (LoadNetworkObject(newMsg.MatrixMove))

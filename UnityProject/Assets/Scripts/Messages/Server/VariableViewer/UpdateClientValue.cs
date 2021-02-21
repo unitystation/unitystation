@@ -14,8 +14,8 @@ public class UpdateClientValue : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as UpdateClientValueNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as UpdateClientValueNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if (CustomNetworkManager.Instance._isServer) return;
 		LoadNetworkObject(newMsg.GameObject);

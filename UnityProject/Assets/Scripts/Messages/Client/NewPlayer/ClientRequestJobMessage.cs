@@ -22,8 +22,8 @@ namespace Messages.Client
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as ClientRequestJobMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as ClientRequestJobMessageNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			// Serverside: check that message sent from client is good, and then validate request (round started, has job space etc)
 			if (ValidateMessage(newMsg) && ValidateRequest(newMsg))

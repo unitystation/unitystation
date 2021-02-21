@@ -12,8 +12,8 @@ public class DoorNewPlayer : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as DoorNewPlayerNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as DoorNewPlayerNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
 		if (LoadNetworkObject(newMsg.Door))

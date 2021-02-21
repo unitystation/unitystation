@@ -11,8 +11,8 @@ public class CustomNetTransformNewPlayer : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as CustomNetTransformNewPlayerNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as CustomNetTransformNewPlayerNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.CNT);
 		if (NetworkObject == null) return;

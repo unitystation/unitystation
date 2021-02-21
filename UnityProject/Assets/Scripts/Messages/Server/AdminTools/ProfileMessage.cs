@@ -16,8 +16,8 @@ public class ProfileMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as ProfileMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as ProfileMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.Recipient);
 		var listData = JsonUtility.FromJson<ProfileEntryDataList>(newMsg.JsonData);

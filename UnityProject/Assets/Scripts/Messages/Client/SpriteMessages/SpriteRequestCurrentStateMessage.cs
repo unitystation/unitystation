@@ -13,8 +13,8 @@ public class SpriteRequestCurrentStateMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as SpriteRequestCurrentStateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as SpriteRequestCurrentStateMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.SpriteHandlerManager);
 		if (SentByPlayer == ConnectedPlayer.Invalid)

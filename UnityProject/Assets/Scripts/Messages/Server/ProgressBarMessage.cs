@@ -17,8 +17,8 @@ public class ProgressBarMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as ProgressBarMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as ProgressBarMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.Recipient);
 

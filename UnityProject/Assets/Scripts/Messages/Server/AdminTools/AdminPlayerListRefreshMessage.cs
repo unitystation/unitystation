@@ -15,8 +15,8 @@ public class AdminPlayerListRefreshMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminPlayerListRefreshMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminPlayerListRefreshMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.Recipient);
 		var listData = JsonUtility.FromJson<AdminPlayersList>(newMsg.JsonData);

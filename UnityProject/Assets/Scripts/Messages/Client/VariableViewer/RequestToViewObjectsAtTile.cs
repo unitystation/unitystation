@@ -15,8 +15,8 @@ public class RequestToViewObjectsAtTile : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestToViewObjectsAtTileNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestToViewObjectsAtTileNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		ValidateAdmin(newMsg);
 	}

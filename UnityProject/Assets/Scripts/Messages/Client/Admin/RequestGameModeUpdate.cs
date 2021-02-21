@@ -18,8 +18,8 @@ public class RequestGameModeUpdate : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestGameModeUpdateNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestGameModeUpdateNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		var admin = PlayerList.Instance.GetAdmin(newMsg.Userid, newMsg.AdminToken);
 		if (admin != null)

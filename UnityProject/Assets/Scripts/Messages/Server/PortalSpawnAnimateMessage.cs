@@ -38,8 +38,8 @@ namespace Messages.Server
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as PortalSpawnAnimateMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as PortalSpawnAnimateMessageNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			if (newMsg.Type == AnimateType.Portal)
 			{

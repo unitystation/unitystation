@@ -14,8 +14,8 @@ public class HealthRespiratoryMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as HealthRespiratoryMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as HealthRespiratoryMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientRespiratoryStats(newMsg.IsSuffocating);
 	}

@@ -17,8 +17,8 @@ public class ElectricalCableMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as ElectricalCableMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as ElectricalCableMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.Cable);
 

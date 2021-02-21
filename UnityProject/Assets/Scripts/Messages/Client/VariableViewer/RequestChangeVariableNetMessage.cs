@@ -18,8 +18,8 @@ public class RequestChangeVariableNetMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestChangeVariableNetMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestChangeVariableNetMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		ValidateAdmin(newMsg);
 	}

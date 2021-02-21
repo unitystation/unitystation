@@ -17,8 +17,8 @@ public class RequestLavaLandToggle : ClientMessage
 
 	public override void Process<T>(T netMsg)
 	{
-		var newMsg = netMsg as RequestLavaLandToggleNetMessage;
-		if(newMsg == null) return;
+		var newMsg = netMsg as RequestLavaLandToggleNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		var admin = PlayerList.Instance.GetAdmin(newMsg.Userid, newMsg.AdminToken);
 		if (admin == null) return;

@@ -13,8 +13,8 @@ public class UpdateUIMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as UpdateUIMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as UpdateUIMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Display.SetScreenFor(newMsg.Screen);
 	}

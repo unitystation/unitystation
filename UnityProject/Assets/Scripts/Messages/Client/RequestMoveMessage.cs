@@ -14,8 +14,8 @@ public class RequestMoveMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestMoveMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestMoveMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		SentByPlayer.Script.PlayerSync.ProcessAction(newMsg.Action);
 	}

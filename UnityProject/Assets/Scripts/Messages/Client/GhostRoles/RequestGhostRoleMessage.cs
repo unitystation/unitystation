@@ -17,8 +17,8 @@ namespace Messages.Client
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as RequestGhostRoleMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as RequestGhostRoleMessageNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			GhostRoleManager.Instance.ServerGhostRequestRole(SentByPlayer, newMsg.roleID);
 		}

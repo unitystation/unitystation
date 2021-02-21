@@ -94,8 +94,8 @@ namespace ServerInfo
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as ServerInfoLobbyMessageServerNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as ServerInfoLobbyMessageServerNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(newMsg.ServerName, newMsg.ServerDesc, newMsg.ServerDiscordID);
 		}
@@ -123,8 +123,8 @@ namespace ServerInfo
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as ServerInfoLobbyMessageClientNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as ServerInfoLobbyMessageClientNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			ServerInfoLobbyMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc, ServerInfoUILobby.serverDiscordID);
 		}

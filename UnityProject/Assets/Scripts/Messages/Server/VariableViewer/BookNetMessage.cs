@@ -18,8 +18,8 @@ public class BookNetMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as BookNetMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as BookNetMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.VariableViewer.ReceiveBook(newMsg.Book);
 	}

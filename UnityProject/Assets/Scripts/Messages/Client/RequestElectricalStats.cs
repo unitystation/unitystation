@@ -16,8 +16,8 @@ public class RequestElectricalStats : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestElectricalStatsNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestElectricalStatsNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[] {newMsg.Player, newMsg.ElectricalItem});
 

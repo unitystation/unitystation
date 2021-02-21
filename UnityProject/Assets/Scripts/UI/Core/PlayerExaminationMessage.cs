@@ -24,8 +24,8 @@ public class PlayerExaminationMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PlayerExaminationMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PlayerExaminationMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.ItemStorage);
 

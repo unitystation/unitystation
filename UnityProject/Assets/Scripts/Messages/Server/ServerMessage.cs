@@ -8,13 +8,13 @@ using Mirror;
 /// </summary>
 public abstract class ServerMessage : GameMessageBase
 {
-	public void SendToAll(NetworkMessage msg)
+	public void SendToAll<T>(T msg) where T : NetworkMessage
 	{
 		NetworkServer.SendToAll(msg, 0);
 		Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
 	}
 
-	public void SendToAllExcept(NetworkMessage msg, GameObject excluded)
+	public void SendToAllExcept<T>(T msg, GameObject excluded) where T : NetworkMessage
 	{
 		if (excluded == null)
 		{
@@ -35,7 +35,7 @@ public abstract class ServerMessage : GameMessageBase
 		Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
 	}
 
-	public virtual void SendTo(GameObject recipient, NetworkMessage msg)
+	public virtual void SendTo<T>(GameObject recipient, T msg) where T : NetworkMessage
 	{
 		if (recipient == null)
 		{
@@ -64,13 +64,13 @@ public abstract class ServerMessage : GameMessageBase
 		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 	}
 
-	public void SendTo(ConnectedPlayer recipient, NetworkMessage msg)
+	public void SendTo<T>(ConnectedPlayer recipient, T msg) where T : NetworkMessage
 	{
 		if (recipient == null) return;
 		SendTo(recipient.Connection, msg);
 	}
 
-	public void SendTo(NetworkConnection recipient, NetworkMessage msg)
+	public void SendTo<T>(NetworkConnection recipient, T msg) where T : NetworkMessage
 	{
 		if (recipient == null) return;
 		recipient.Send(msg, 0);
@@ -80,7 +80,7 @@ public abstract class ServerMessage : GameMessageBase
 	/// Sends the network message only to players who are visible from the
 	/// worldPosition
 	/// </summary>
-	public void SendToVisiblePlayers(Vector2 worldPosition, NetworkMessage msg)
+	public void SendToVisiblePlayers<T>(Vector2 worldPosition, T msg) where T : NetworkMessage
 	{
 		var players = PlayerList.Instance.AllPlayers;
 
@@ -121,7 +121,7 @@ public abstract class ServerMessage : GameMessageBase
 	/// Sends the network message only to players who are within a 15 tile radius
 	/// of the worldPostion. This method disregards if the player is visible or not
 	/// </summary>
-	public void SendToNearbyPlayers(Vector2 worldPosition, NetworkMessage msg)
+	public void SendToNearbyPlayers<T>(Vector2 worldPosition, T msg) where T : NetworkMessage
 	{
 		var players = PlayerList.Instance.AllPlayers;
 
@@ -146,7 +146,7 @@ public abstract class ServerMessage : GameMessageBase
 		}
 	}
 
-	public void SendToAdmins(NetworkMessage msg)
+	public void SendToAdmins<T>(T msg) where T : NetworkMessage
 	{
 		var admins = PlayerList.Instance.GetAllAdmins();
 
@@ -159,7 +159,7 @@ public abstract class ServerMessage : GameMessageBase
 		}
 	}
 
-	public void SendToMentors(NetworkMessage msg)
+	public void SendToMentors<T>(T msg) where T : NetworkMessage
 	{
 		var mentors = PlayerList.Instance.GetAllMentors();
 

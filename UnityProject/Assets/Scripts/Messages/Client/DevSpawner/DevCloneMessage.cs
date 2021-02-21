@@ -26,8 +26,8 @@ public class DevCloneMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as DevCloneMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as DevCloneMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		ValidateAdmin(newMsg);
 	}

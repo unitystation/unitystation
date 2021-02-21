@@ -18,8 +18,8 @@ namespace Messages.Client
 		}
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as RequestAvailableGhostRolesMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as RequestAvailableGhostRolesMessageNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			foreach (KeyValuePair<uint, GhostRoleServer> kvp in GhostRoleManager.Instance.serverAvailableRoles)
 			{

@@ -13,8 +13,8 @@ public class UpdateCountdownMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as UpdateCountdownMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as UpdateCountdownMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(newMsg.Started, newMsg.EndTime);
 	}

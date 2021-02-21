@@ -18,8 +18,8 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as OtherPlayerSlotTransferMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as OtherPlayerSlotTransferMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[]{newMsg.PlayerStorage, newMsg.TargetStorage});
 		if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;

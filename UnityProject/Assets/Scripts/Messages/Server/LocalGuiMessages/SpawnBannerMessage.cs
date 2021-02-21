@@ -39,8 +39,8 @@ namespace Messages.Server.LocalGuiMessages
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as SpawnBannerMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as SpawnBannerMessageNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			UIManager.Instance.spawnBanner.Show(newMsg.Name, newMsg.TextColor, newMsg.BackgroundColor);
 

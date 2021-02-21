@@ -15,12 +15,12 @@ namespace Messages.Client
 			base.Process(sentBy, msg);
 		}
 
-		public void Send(NetworkMessage msg)
+		public void Send<T>(T msg) where T : NetworkMessage
 		{
 			NetworkClient.Send(msg, 0);
 		}
 
-		public void SendUnreliable(NetworkMessage msg)
+		public void SendUnreliable<T>(T msg) where T : NetworkMessage
 		{
 			NetworkClient.Send(msg, 1);
 		}

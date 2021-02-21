@@ -20,17 +20,16 @@ public static class NetworkManagerExtensions
 		{
 			foreach (var fieldInfo in type.GetFields())
 			{
-				var fieldType = fieldInfo.FieldType;
+				var fieldType = fieldInfo.FieldType.GetInterface(nameof(NetworkMessage));
 
 				//Debug.LogError($"{type} {fieldType}");
 
-				if(IsSubclassOfOpen(fieldType, typeof(NetworkMessage)) == false) continue;
+				if(fieldType == null) continue;
 
 				Debug.LogError($"{fieldType} passed");
 
-				//var messageBase = new Type(type);
-				MethodInfo method = mi.MakeGenericMethod(fieldType);
-				method.Invoke(null, new object[] {true, type, fieldType});
+				MethodInfo method = mi.MakeGenericMethod(fieldInfo.FieldType, type);
+				method.Invoke(null, new object[] {true});
 			}
 		}
 	}
@@ -47,26 +46,20 @@ public static class NetworkManagerExtensions
 		{
 			foreach (var fieldInfo in type.GetFields())
 			{
-				var fieldType = fieldInfo.FieldType;
+				var fieldType = fieldInfo.FieldType.GetInterface(nameof(NetworkMessage));
 
-				Debug.LogError($"{type} {fieldType}");
+				if(fieldType == null) continue;
 
-				if(IsSubclassOfOpen(fieldType, typeof(NetworkMessage)) == false) continue;
-
-				Debug.LogError($"{fieldType} passed");
-
-				MethodInfo method = mi.MakeGenericMethod(fieldType);
-				method.Invoke(null, new object[] {true, type, fieldType});
+				MethodInfo method = mi.MakeGenericMethod(fieldInfo.FieldType, type );
+				method.Invoke(null, new object[] {false});
 			}
 		}
 	}
 
-	public static void RegisterHandler<T, U>(bool isServer, U messageBase)
+	public static void RegisterHandler<T, U>(bool isServer)
 		where T : NetworkMessage, new() where U : GameMessageBase
 	{
-		var message = (U)Activator.CreateInstance(messageBase.GetType());
-
-		Debug.LogError($"{new T()} {message}");
+		var message = Activator.CreateInstance<U>();
 
 		if (!isServer)
 		{

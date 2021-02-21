@@ -18,8 +18,8 @@ public class OpenPageValueNetMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as OpenPageValueNetMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as OpenPageValueNetMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		ValidateAdmin(newMsg);
 	}

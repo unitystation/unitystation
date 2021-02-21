@@ -9,7 +9,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class ChangeAudioSourceParametersMessage : ServerMessage
 	{
-		public class ChangeAudioSourceParametersMessageNetMessage : NetworkMessage
+		public struct ChangeAudioSourceParametersMessageNetMessage : NetworkMessage
 		{
 			// SoundSpawn Token to change Audio Source Parameters.
 			public string SoundSpawnToken;
@@ -24,10 +24,14 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			}
 		}
 
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ChangeAudioSourceParametersMessageNetMessage message;
+
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as ChangeAudioSourceParametersMessageNetMessage;
-			if (newMsg == null) return;
+			var newMsgNull = msg as ChangeAudioSourceParametersMessageNetMessage?;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			SoundManager.ChangeAudioSourceParameters(newMsg.SoundSpawnToken, newMsg.AudioSourceParameters);
 		}

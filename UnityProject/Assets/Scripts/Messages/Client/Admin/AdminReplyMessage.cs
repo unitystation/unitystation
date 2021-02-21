@@ -6,15 +6,19 @@ using Mirror;
 
 public class AdminReplyMessage : ClientMessage
 {
-	public class AdminReplyMessageNetMessage : NetworkMessage
+	public struct AdminReplyMessageNetMessage : NetworkMessage
 	{
 		public string Message;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminReplyMessageNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminReplyMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminReplyMessageNetMessage?;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(newMsg.Message, SentByPlayer.UserId);
 	}

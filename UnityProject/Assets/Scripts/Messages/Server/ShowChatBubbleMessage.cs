@@ -21,8 +21,8 @@ public class ShowChatBubbleMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as ShowChatBubbleMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as ShowChatBubbleMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.FollowTransform);
 		var target = NetworkObject.transform;

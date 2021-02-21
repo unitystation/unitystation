@@ -22,8 +22,8 @@ public class PlayParticleMessage : ServerMessage
 	///To be run on client
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PlayParticleMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PlayParticleMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if (newMsg.ParticleObject.Equals(NetId.Invalid)) {
 			//Failfast

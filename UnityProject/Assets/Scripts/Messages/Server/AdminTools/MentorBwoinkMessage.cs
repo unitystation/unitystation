@@ -13,8 +13,8 @@ public class MentorBwoinkMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as MentorBwoinkMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as MentorBwoinkMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
 		Chat.AddMentorPrivMsg(newMsg.Message);

@@ -15,8 +15,8 @@ public class HealthConsciousMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as HealthConsciousMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as HealthConsciousMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.EntityToUpdate);
 		if (NetworkObject == null)

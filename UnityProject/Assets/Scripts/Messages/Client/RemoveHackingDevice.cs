@@ -14,8 +14,8 @@ public class RemoveHackingDevice : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RemoveHackingDeviceNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RemoveHackingDeviceNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[] { newMsg.Player, newMsg.HackableObject, newMsg.HackingDevice });
 

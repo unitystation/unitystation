@@ -16,8 +16,8 @@ public class RequestAdminPageRefresh : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestAdminPageRefreshNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestAdminPageRefreshNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		VerifyAdminStatus(newMsg);
 	}

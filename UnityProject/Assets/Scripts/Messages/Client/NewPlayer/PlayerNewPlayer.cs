@@ -11,8 +11,8 @@ public class PlayerNewPlayer : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PlayerNewPlayerNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PlayerNewPlayerNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.Player);
 		if (NetworkObject == null) return;

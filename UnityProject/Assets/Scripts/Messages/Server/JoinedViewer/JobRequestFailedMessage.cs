@@ -13,8 +13,8 @@ namespace Messages.Server
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as JobRequestFailedMessageNetMesasge;
-			if(newMsg == null) return;
+			var newMsgNull = msg as JobRequestFailedMessageNetMesasge;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(newMsg.FailReason);
 		}

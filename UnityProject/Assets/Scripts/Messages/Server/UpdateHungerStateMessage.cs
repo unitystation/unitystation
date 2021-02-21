@@ -7,15 +7,19 @@ using UnityEngine;
 /// </summary>
 public class UpdateHungerStateMessage : ServerMessage
 {
-	public class UpdateHungerStateMessageNetMessage : NetworkMessage
+	public struct UpdateHungerStateMessageNetMessage : NetworkMessage
 	{
 		public HungerState State;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateHungerStateMessageNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as UpdateHungerStateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as UpdateHungerStateMessageNetMessage?;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		MetabolismSystem metabolismSystem = PlayerManager.LocalPlayer.GetComponent<MetabolismSystem>();
 		metabolismSystem.SetHungerState(newMsg.State);

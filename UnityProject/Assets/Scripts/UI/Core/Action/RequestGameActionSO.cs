@@ -13,8 +13,8 @@ public class RequestGameActionSO : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestGameActionSONetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestGameActionSONetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{

@@ -16,8 +16,8 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as UpdateConnectedPlayersMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as UpdateConnectedPlayersMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 //		Logger.Log("Processed " + ToString());
 		if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null)

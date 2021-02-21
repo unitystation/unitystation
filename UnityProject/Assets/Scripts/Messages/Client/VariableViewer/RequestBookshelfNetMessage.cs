@@ -17,8 +17,8 @@ public class RequestBookshelfNetMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestBookshelfNetMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestBookshelfNetMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		ValidateAdmin(newMsg);
 	}

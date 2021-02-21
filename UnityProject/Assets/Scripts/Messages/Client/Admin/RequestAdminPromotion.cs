@@ -6,17 +6,20 @@ using Mirror;
 
 public class RequestAdminPromotion : ClientMessage
 {
-	public class RequestAdminPromotionNetMessage : NetworkMessage
+	public struct RequestAdminPromotionNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
 		public string UserToPromote;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestAdminPromotionNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestAdminPromotionNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestAdminPromotionNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		VerifyAdminStatus(newMsg);
 	}

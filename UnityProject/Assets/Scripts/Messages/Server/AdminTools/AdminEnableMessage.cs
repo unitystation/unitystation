@@ -16,8 +16,8 @@ public class AdminEnableMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminEnableMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminEnableMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.AdminGhostStorage);
 		AdminManager.Instance.LocalAdminGhostStorage = NetworkObject.GetComponent<ItemStorage>();

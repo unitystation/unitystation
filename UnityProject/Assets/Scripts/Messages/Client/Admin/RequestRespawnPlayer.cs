@@ -16,8 +16,8 @@ namespace Messages.Client.Admin
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as RequestRespawnPlayerNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as RequestRespawnPlayerNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			VerifyAdminStatus(newMsg);
 		}

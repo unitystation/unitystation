@@ -19,8 +19,8 @@ public class FollowCameraMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as FollowCameraMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as FollowCameraMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if ( newMsg.ObjectToFollow == NetId.Invalid )
 		{

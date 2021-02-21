@@ -742,8 +742,8 @@ public partial class PlayerList
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as ClientJobBanDataMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as ClientJobBanDataMessageNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			//Server Stuff here
 
@@ -780,8 +780,8 @@ public partial class PlayerList
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as ServerSendsJobBanDataMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as ServerSendsJobBanDataMessageNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			//client Stuff here
 
@@ -816,8 +816,8 @@ public partial class PlayerList
 
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as RequestJobBanNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as RequestJobBanNetMessage?;
+			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 			var admin = PlayerList.Instance.GetAdmin(newMsg.AdminID, newMsg.AdminToken);
 			if (admin == null) return;

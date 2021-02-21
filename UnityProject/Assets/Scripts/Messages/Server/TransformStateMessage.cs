@@ -17,8 +17,8 @@ public class TransformStateMessage : ServerMessage
 	///To be run on client
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as TransformStateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as TransformStateMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.TransformedObject);
 

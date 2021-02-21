@@ -13,8 +13,8 @@ public class SendCataloguesToClient : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as SendCataloguesToClientNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as SendCataloguesToClientNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		AddressableCatalogueManager.LoadCataloguesFromServer(JsonConvert.DeserializeObject<List<string>>(newMsg.serialiseCatalogues));
 	}

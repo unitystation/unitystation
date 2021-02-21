@@ -30,8 +30,8 @@ public class RemoveTileMessage : ServerMessage
 	}
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RemoveTileMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RemoveTileMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.TileChangeManager);
 		if (NetworkObject == null)

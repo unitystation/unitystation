@@ -22,8 +22,8 @@ public class AdminChatNotifications : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminChatNotificationsNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminChatNotificationsNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if (!newMsg.IsFullUpdate)
 		{

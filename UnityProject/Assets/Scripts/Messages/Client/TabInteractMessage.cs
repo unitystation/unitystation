@@ -21,8 +21,8 @@ public class TabInteractMessage : ClientMessage
 	//Serverside
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as TabInteractMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as TabInteractMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.TabProvider);
 		ProcessFurther(SentByPlayer, NetworkObject, newMsg);

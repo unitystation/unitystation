@@ -15,8 +15,8 @@ public class MentorEnableMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as MentorEnableMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as MentorEnableMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		PlayerList.Instance.SetClientAsMentor(newMsg.MentorToken);
 		UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);

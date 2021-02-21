@@ -19,8 +19,8 @@ public class BookshelfNetMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as BookshelfNetMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as BookshelfNetMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
 		//Logger.Log(JsonConvert.SerializeObject(data));

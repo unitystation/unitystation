@@ -18,8 +18,8 @@ public class HealthBloodMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as HealthBloodMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as HealthBloodMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.EntityToUpdate);
 		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBloodStats(newMsg.HeartRate,

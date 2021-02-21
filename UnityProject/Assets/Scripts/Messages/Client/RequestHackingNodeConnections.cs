@@ -17,8 +17,8 @@ public class RequestHackingNodeConnections : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestHackingNodeConnectionsNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestHackingNodeConnectionsNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadMultipleObjects(new uint[] { newMsg.Player, newMsg.HackableObject });
 

@@ -26,8 +26,8 @@ public class UpdateChatMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as UpdateChatMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as UpdateChatMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.Recipient);
 		var recipientObject = NetworkObject;
@@ -64,7 +64,7 @@ public class UpdateChatMessage : ServerMessage
 		return msg;
 	}
 
-	public override void SendTo(GameObject recipient, NetworkMessage msg)
+	public override void SendTo<T>(GameObject recipient, T msg)
 	{
 		if (recipient == null)
 		{

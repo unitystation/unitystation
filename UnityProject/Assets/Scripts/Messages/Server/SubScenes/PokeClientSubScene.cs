@@ -12,8 +12,8 @@ public class PokeClientSubScene : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as PokeClientSubSceneNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as PokeClientSubSceneNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		if (CustomNetworkManager.Instance._isServer) return;
 		SubSceneManager.ManuallyLoadScene(newMsg.ToLoadSceneName);

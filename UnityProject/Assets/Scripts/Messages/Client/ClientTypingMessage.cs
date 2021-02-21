@@ -22,8 +22,8 @@ public class ClientTypingMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as ClientTypingMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as ClientTypingMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		// server side logic
 		if (SentByPlayer == ConnectedPlayer.Invalid)

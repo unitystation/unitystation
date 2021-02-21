@@ -13,8 +13,8 @@ public class UpdateRoundTimeMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as UpdateRoundTimeMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as UpdateRoundTimeMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		GameManager.Instance.SyncTime(newMsg.Time);
 	}

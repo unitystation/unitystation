@@ -13,8 +13,8 @@ public class AdminPlayerChatUpdateMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as AdminPlayerChatUpdateMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as AdminPlayerChatUpdateMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(newMsg.JsonData, newMsg.PlayerId);
 	}

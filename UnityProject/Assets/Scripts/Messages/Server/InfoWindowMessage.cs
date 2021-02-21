@@ -23,8 +23,8 @@ public class InfoWindowMessage : ServerMessage
 	public override void Process<T>(T msg)
 	{
 		//To be run on client
-		var newMsg = msg as InfoWindowMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as InfoWindowMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.Recipient);
 		UIManager.InfoWindow.Show(newMsg.Text, newMsg.Bwoink, string.IsNullOrEmpty(newMsg.Title) ? "" : newMsg.Title);

@@ -16,8 +16,8 @@ public class HealthBrainMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as HealthBrainMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as HealthBrainMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.EntityToUpdate);
 		if(NetworkObject != null) NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBrainStats(newMsg.IsHusk, newMsg.BrainDamage);

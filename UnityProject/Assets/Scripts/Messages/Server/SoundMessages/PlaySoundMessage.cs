@@ -12,7 +12,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class PlaySoundMessage : ServerMessage
 	{
-		public class PlaySoundMessageNetMessage : NetworkMessage
+		public struct PlaySoundMessageNetMessage : NetworkMessage
 		{
 			public string SoundAddressablePath;
 			public Vector3 Position;
@@ -35,10 +35,14 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			}
 		}
 
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public PlaySoundMessageNetMessage message;
+
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as PlaySoundMessageNetMessage;
-			if (newMsg == null) return;
+			var newMsgNull = msg as PlaySoundMessageNetMessage?;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			if (string.IsNullOrEmpty(newMsg.SoundAddressablePath))
 			{

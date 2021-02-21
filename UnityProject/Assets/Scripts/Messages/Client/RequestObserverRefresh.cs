@@ -20,8 +20,8 @@ public class RequestObserverRefresh : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestObserverRefreshNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestObserverRefreshNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		var sceneContext = SceneManager.GetSceneByName(newMsg.NewSceneNameContext);
 

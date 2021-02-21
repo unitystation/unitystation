@@ -16,8 +16,8 @@ public class ElectricalStatsMessage : ServerMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as ElectricalStatsMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as ElectricalStatsMessageNetMessage?;
+		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		LoadNetworkObject(newMsg.Recipient);
 		ElectronicData data = JsonUtility.FromJson<ElectronicData>(newMsg.JsonData);

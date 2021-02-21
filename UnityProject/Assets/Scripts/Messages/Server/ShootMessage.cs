@@ -12,7 +12,7 @@ namespace Weapons
 	/// </summary>
 	public class ShootMessage : ServerMessage
 	{
-		public class ShootMessageNetMessage : NetworkMessage
+		public struct ShootMessageNetMessage : NetworkMessage
 		{
 			/// <summary>
 			/// GameObject of the player performing the shot
@@ -44,11 +44,15 @@ namespace Weapons
 			public int Quantity;
 		}
 
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ShootMessageNetMessage message;
+
 		///To be run on client
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as ShootMessageNetMessage;
-			if (newMsg == null) return;
+			var newMsgNull = msg as ShootMessageNetMessage?;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			if (!MatrixManager.IsInitialized) return;
 
@@ -114,7 +118,7 @@ namespace Weapons
 	/// </summary>
 	public class CastProjectileMessage : ServerMessage
 	{
-		public class CastProjectileMessageNetMessage : NetworkMessage
+		public struct CastProjectileMessageNetMessage : NetworkMessage
 		{
 			/// <summary>
 			/// GameObject performing the shot
@@ -134,11 +138,15 @@ namespace Weapons
 			public BodyPartType DamageZone;
 		}
 
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public CastProjectileMessageNetMessage message;
+
 		///To be run on client
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as CastProjectileMessageNetMessage;
-			if (newMsg == null) return;
+			var newMsgNull = msg as CastProjectileMessageNetMessage?;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			if (CustomNetworkManager.IsServer) return; // Processed serverside in SendToAll
 

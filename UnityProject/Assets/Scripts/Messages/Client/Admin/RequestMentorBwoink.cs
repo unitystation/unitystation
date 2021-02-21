@@ -6,7 +6,7 @@ using Mirror;
 
 public class RequestMentorBwoink : ClientMessage
 {
-	public class RequestMentorBwoinkNetMessage : NetworkMessage
+	public struct RequestMentorBwoinkNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string MentorToken;
@@ -14,10 +14,14 @@ public class RequestMentorBwoink : ClientMessage
 		public string Message;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestMentorBwoinkNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestMentorBwoinkNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestMentorBwoinkNetMessage?;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		VerifyMentorStatus(newMsg);
 	}

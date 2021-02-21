@@ -5,17 +5,21 @@ namespace Items.PDA
 {
 	public class NoteUpdateMessage : ServerMessage
 	{
-		public class NoteUpdateMessageNetMessage : NetworkMessage
+		public struct NoteUpdateMessageNetMessage : NetworkMessage
 		{
 			public uint PDAToUpdate;
 			public uint Recipient;
 			public string Message;
 		}
 
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public NoteUpdateMessageNetMessage message;
+
 		public override void Process<T>(T msg)
 		{
-			var newMsg = msg as NoteUpdateMessageNetMessage;
-			if(newMsg == null) return;
+			var newMsgNull = msg as NoteUpdateMessageNetMessage?;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			LoadMultipleObjects(new uint[] {newMsg.Recipient, newMsg.PDAToUpdate});
 			var notes = NetworkObjects[1].GetComponent<PDANotesNetworkHandler>();

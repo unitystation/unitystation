@@ -6,17 +6,21 @@ using Mirror;
 
 public class RequestAdminChatMessage : ClientMessage
 {
-	public class RequestAdminChatMessageNetMessage : NetworkMessage
+	public struct RequestAdminChatMessageNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
 		public string Message;
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestAdminChatMessageNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
-		var newMsg = msg as RequestAdminChatMessageNetMessage;
-		if(newMsg == null) return;
+		var newMsgNull = msg as RequestAdminChatMessageNetMessage?;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		VerifyAdminStatus(newMsg);
 	}
