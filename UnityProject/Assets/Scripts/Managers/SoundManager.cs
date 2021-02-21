@@ -306,15 +306,6 @@ public class SoundManager : MonoBehaviour
 		return await PlayNetworkedAtPos(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, global, shakeParameters, sourceObj);
 	}
 
-	// PDALogic.cs needs to be updated before this can be removed.
-	public static void PlayNetworkedAtPos(string addressableAudioSource, Vector3 worldPos, float pitch = 0,
-		bool polyphonic = false, bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30,
-		bool global = true, GameObject sourceObj = null)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSource);
-		return;
-	}
-
 	/// <summary>
 	/// Play sound for particular player.
 	/// ("Doctor, there are voices in my head!")
@@ -357,15 +348,6 @@ public class SoundManager : MonoBehaviour
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
 		PlayNetworkedForPlayer(recipient, addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters, sourceObj);
-	}
-
-	// PDALogic.cs needs to be updated before this can be removed.
-	public static async Task PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos,
-		string addressableAudioSources, float pitch = 0, bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
-	{
-		Logger.LogWarning("Sound needs to be converted to addressables " + addressableAudioSources);
-		return;
 	}
 
 	/// <summary>
