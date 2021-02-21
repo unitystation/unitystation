@@ -284,7 +284,8 @@ namespace Mirror
                 payload = writer.ToArraySegment()
             };
 
-            conn.Send(message, channelId);
+            //CUSTOM UNITYSTATION CODE//
+            conn?.Send(message, channelId);
         }
 
         #endregion
@@ -444,6 +445,13 @@ namespace Mirror
         /// <param name="dirtyBit">Bit mask to set.</param>
         public void SetDirtyBit(ulong dirtyBit)
         {
+	        //CUSTOM UNITYSTATION CODE//
+	        if (netIdentity != null)
+	        {
+		        netIdentity.isDirty = true;
+	        }
+	        ///////////////////////////
+
             syncVarDirtyBits |= dirtyBit;
         }
 

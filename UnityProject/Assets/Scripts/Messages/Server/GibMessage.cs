@@ -12,7 +12,7 @@ public class GibMessage : ServerMessage
 	public override void Process<T>(T msg)
 	{
 		var newMsgNull = msg as GibMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+		if(newMsgNull == null) return;
 
 		foreach (LivingHealthBehaviour living in Object.FindObjectsOfType<LivingHealthBehaviour>())
 		{

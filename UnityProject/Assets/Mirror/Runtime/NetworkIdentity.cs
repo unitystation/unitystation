@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using Mirror.RemoteCalls;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 
@@ -106,6 +107,11 @@ namespace Mirror
     [HelpURL("https://mirror-networking.com/docs/Components/NetworkIdentity.html")]
     public sealed class NetworkIdentity : MonoBehaviour
     {
+	    /// <summary>
+	    /// CUSTOM UNITYSTATION CODE
+	    /// </summary>
+	    public bool isDirty;
+
         static readonly ILogger logger = LogFactory.GetLogger<NetworkIdentity>();
 
         NetworkBehaviour[] networkBehavioursCache;
@@ -880,6 +886,7 @@ namespace Mirror
                     logger.LogError("Exception in OnCheckObserver:" + e.Message + " " + e.StackTrace);
                 }
             }
+
             return true;
         }
 
@@ -1134,6 +1141,16 @@ namespace Mirror
                 }
                 observers.Clear();
             }
+        }
+
+        /// <summary>
+        /// CUSTOM UNITYSTATION CODE
+        /// Manually add the player observer to this object
+        /// </summary>
+        /// <param name="conn"></param>
+        public void AddPlayerObserver(NetworkConnection conn)
+        {
+	        AddObserver(conn);
         }
 
         internal void AddObserver(NetworkConnection conn)
@@ -1487,6 +1504,9 @@ namespace Mirror
             {
                 comp.ClearAllDirtyBits();
             }
+
+            //CUSTOM UNITYSTATION CODE//
+            isDirty = false;
         }
 
         /// <summary>
@@ -1502,6 +1522,9 @@ namespace Mirror
                     comp.ClearAllDirtyBits();
                 }
             }
+
+			//CUSTOM UNITYSTATION CODE//
+            isDirty = false;
         }
 
         void ResetSyncObjects()

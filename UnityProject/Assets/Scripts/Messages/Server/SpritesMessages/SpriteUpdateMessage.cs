@@ -43,6 +43,8 @@ public class SpriteUpdateMessage : ServerMessage
 
 		var SerialiseData = newMsg.SerialiseData;
 
+		if(SerialiseData == null) return;
+
 		if (CustomNetworkManager.Instance._isServer == true) return;
 		if (SerialiseData != "")
 		{
@@ -281,6 +283,9 @@ public class SpriteUpdateMessage : ServerMessage
 		foreach (var changeChunk in ToSend.Chunk(500))
 		{
 			var msg = GenerateMessage(changeChunk);
+
+			if(msg.SerialiseData == null) continue;
+
 			new SpriteUpdateMessage().SendTo(recipient, msg);
 		}
 	}
@@ -290,6 +295,9 @@ public class SpriteUpdateMessage : ServerMessage
 		foreach (var changeChunk in ToSend.Chunk(500))
 		{
 			var msg = GenerateMessage(changeChunk);
+
+			if(msg.SerialiseData == null) continue;
+
 			new SpriteUpdateMessage().SendToAll(msg);
 		}
 	}

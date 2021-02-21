@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 
 public class CustomNetSceneChecker : MonoBehaviour
 {

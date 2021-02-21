@@ -130,7 +130,7 @@ namespace ServerInfo
 		public override void Process<T>(T msg)
 		{
 			var newMsgNull = msg as ServerInfoLobbyMessageClientNetMessage?;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+			if(newMsgNull == null) return;
 
 			ServerInfoLobbyMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc, ServerInfoUILobby.serverDiscordID);
 		}

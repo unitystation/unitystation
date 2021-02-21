@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using Mirror.RemoteCalls;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Mirror
 {
@@ -19,6 +20,12 @@ namespace Mirror
     /// </remarks>
     public static class NetworkServer
     {
+	    /// <summary>
+	    /// CUSTOM UNITYSTATION CODE
+	    /// The definitive list of scenes that a client connection is allowed to observe (Server only)
+	    /// </summary>
+	    public static Dictionary<NetworkConnection, List<Scene>> observerSceneList = new Dictionary<NetworkConnection, List<Scene>>();
+
         static readonly ILogger logger = LogFactory.GetLogger(typeof(NetworkServer));
 
         static bool initialized;
@@ -74,7 +81,7 @@ namespace Mirror
         public static float disconnectInactiveTimeout = 60f;
 
         /// <summary>
-        /// cache the Send(connectionIds) list to avoid allocating each time 
+        /// cache the Send(connectionIds) list to avoid allocating each time
         /// </summary>
         static readonly List<int> connectionIdsCache = new List<int>();
 
@@ -218,7 +225,7 @@ namespace Mirror
         }
 
         /// <summary>
-        /// called by LocalClient to add itself. dont call directly. 
+        /// called by LocalClient to add itself. dont call directly.
         /// </summary>
         /// <param name="conn"></param>
         internal static void SetLocalConnection(ULocalConnectionToClient conn)
@@ -514,7 +521,14 @@ namespace Mirror
             // update all server objects
             foreach (KeyValuePair<uint, NetworkIdentity> kvp in NetworkIdentity.spawned)
             {
-                NetworkIdentity identity = kvp.Value;
+	            //CUSTOM UNITYSTATION CODE//
+	            if (kvp.Value != null && !kvp.Value.isDirty)
+	            {
+		            continue;
+	            }
+	            ////////////////////////////
+
+	            NetworkIdentity identity = kvp.Value;
                 if (identity != null)
                 {
                     identity.ServerUpdate();
@@ -907,7 +921,8 @@ namespace Mirror
 
             Respawn(identity);
 
-            if (!keepAuthority)
+								//CUSTOM UNITYSTATION CODE//
+            if (!keepAuthority && previousPlayer != null)
                 previousPlayer.RemoveClientAuthority();
 
             return true;
@@ -986,7 +1001,7 @@ namespace Mirror
         }
 
         /// <summary>
-        /// default ready handler. 
+        /// default ready handler.
         /// </summary>
         /// <param name="conn"></param>
         /// <param name="msg"></param>

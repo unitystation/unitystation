@@ -33,6 +33,8 @@ public class RequestObserverRefresh : ClientMessage
 			Logger.LogError("No scene was found for Observer refresh!!");
 			return;
 		}
+
+		SubSceneManager.ProcessObserverRefreshReq(SentByPlayer, sceneContext);
 	}
 
 	/// <summary>

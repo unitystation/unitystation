@@ -14,7 +14,7 @@ public class SuicideMessage : ClientMessage
 	public override void Process<T>(T msg)
 	{
 		var newMsgNull = msg as SuicideMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+		if(newMsgNull == null) return;
 
 		if (SentByPlayer.Script.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
 		{

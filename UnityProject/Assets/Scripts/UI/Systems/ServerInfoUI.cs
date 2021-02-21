@@ -65,7 +65,8 @@ namespace ServerInfo
 		public override void Process<T>(T msg)
 		{
 			var newMsgNull = msg as ServerInfoMessageServerNetMessage?;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			GUI_IngameMenu.Instance.GetComponent<ServerInfoUI>().ClientSetValues(newMsg.ServerName, newMsg.ServerDesc);
 		}
@@ -96,7 +97,7 @@ namespace ServerInfo
 		public override void Process<T>(T msg)
 		{
 			var newMsgNull = msg as ServerInfoMessageClientNetMessage?;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+			if(newMsgNull == null) return;
 
 			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUI.serverDesc);
 		}
