@@ -22,11 +22,7 @@ public static class NetworkManagerExtensions
 			{
 				var fieldType = fieldInfo.FieldType.GetInterface(nameof(NetworkMessage));
 
-				//Debug.LogError($"{type} {fieldType}");
-
 				if(fieldType == null) continue;
-
-				Debug.LogError($"{fieldType} passed");
 
 				MethodInfo method = mi.MakeGenericMethod(fieldInfo.FieldType, type);
 				method.Invoke(null, new object[] {true});
