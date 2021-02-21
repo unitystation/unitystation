@@ -6,15 +6,19 @@ namespace Messages.Server
 {
 	public class JobRequestFailedMessage : ServerMessage
 	{
-		public class JobRequestFailedMessageNetMesasge : NetworkMessage
+		public struct JobRequestFailedMessageNetMesasge : NetworkMessage
 		{
 			public JobRequestError FailReason;
 		}
 
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public JobRequestFailedMessageNetMesasge IgnoreMe;
+
 		public override void Process<T>(T msg)
 		{
-			var newMsgNull = msg as JobRequestFailedMessageNetMesasge;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+			var newMsgNull = msg as JobRequestFailedMessageNetMesasge?;
+			if(newMsgNull == null) return;
+			var newMsg = newMsgNull.Value;
 
 			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(newMsg.FailReason);
 		}

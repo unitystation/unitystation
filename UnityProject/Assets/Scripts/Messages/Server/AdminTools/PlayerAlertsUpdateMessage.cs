@@ -5,11 +5,14 @@ using AdminTools;
 
 public class PlayerAlertsUpdateMessage : ServerMessage
 {
-	public class PlayerAlertsUpdateMessageNetMessage : NetworkMessage
+	public struct PlayerAlertsUpdateMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public bool IsSingleEntry;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PlayerAlertsUpdateMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

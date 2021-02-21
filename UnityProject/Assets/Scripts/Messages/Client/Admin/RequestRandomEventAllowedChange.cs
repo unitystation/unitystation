@@ -8,16 +8,19 @@ using Mirror;
 
 public class RequestRandomEventAllowedChange : ClientMessage
 {
-	public class RequestRandomEventAllowedChangeNetMessage : NetworkMessage
+	public struct RequestRandomEventAllowedChangeNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
-		public bool RandomEventsAllowed = true;
+		public bool RandomEventsAllowed;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestRandomEventAllowedChangeNetMessage IgnoreMe;
 
 	public override void Process<T>(T netMsg)
 	{
-		var newMsg = netMsg as RequestRandomEventAllowedChangeNetMessage?;
+		var newMsgNull = netMsg as RequestRandomEventAllowedChangeNetMessage?;
 		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		var admin = PlayerList.Instance.GetAdmin(newMsg.Userid, newMsg.AdminToken);
@@ -34,7 +37,7 @@ public class RequestRandomEventAllowedChange : ClientMessage
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 	}
 
-	public static RequestRandomEventAllowedChangeNetMessage Send(string userId, string adminToken, bool randomEventsAllowed)
+	public static RequestRandomEventAllowedChangeNetMessage Send(string userId, string adminToken, bool randomEventsAllowed = true)
 	{
 		RequestRandomEventAllowedChangeNetMessage msg = new RequestRandomEventAllowedChangeNetMessage
 		{

@@ -10,7 +10,7 @@ namespace Messages.Server
 	/// </summary>
 	public class GhostRoleUpdateMessage : ServerMessage
 	{
-		public class GhostRoleUpdateMessageNetMessage : NetworkMessage
+		public struct GhostRoleUpdateMessageNetMessage : NetworkMessage
 		{
 			public uint roleID;
 			public int roleType;
@@ -19,6 +19,9 @@ namespace Messages.Server
 			public int playerCount;
 			public float timeRemaining;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public GhostRoleUpdateMessageNetMessage IgnoreMe;
 
 		// To be run on client
 		public override void Process<T>(T msg)
@@ -55,9 +58,7 @@ namespace Messages.Server
 				Logger.LogError("SendToDead, GhostRoleManager.Instance == null");
 			}
 
-			return null;
-
-
+			return new GhostRoleUpdateMessageNetMessage();
 		}
 
 		/// <summary>

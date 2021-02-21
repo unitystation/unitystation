@@ -16,9 +16,9 @@ using Systems.Clothing;
 ///to see who is using antag items.
 ///Bubbling should help prevent this
 /// </summary>
-public class PlayerAppearanceMessage   /* MirrorUpdateNeeded */ : ServerMessage
+public class PlayerAppearanceMessage : ServerMessage
 {
-	public class PlayerAppearanceMessageNetMessage : NetworkMessage
+	public struct PlayerAppearanceMessageNetMessage : NetworkMessage
 	{
 		//if IsBodySprites, index in PlayerSprites.characterSprites to update.
 		//otherwise, ordinal value of NamedSlot enum in Equipment to update
@@ -30,6 +30,9 @@ public class PlayerAppearanceMessage   /* MirrorUpdateNeeded */ : ServerMessage
 		//Is this for the body parts or for the clothing items:
 		public bool IsBodySprites;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PlayerAppearanceMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

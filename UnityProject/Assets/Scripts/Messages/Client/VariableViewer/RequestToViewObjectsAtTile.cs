@@ -6,12 +6,15 @@ using UnityEngine;
 
 public class RequestToViewObjectsAtTile : ClientMessage
 {
-	public class RequestToViewObjectsAtTileNetMessage : NetworkMessage
+	public struct RequestToViewObjectsAtTileNetMessage : NetworkMessage
 	{
 		public Vector3 Location;
 		public string AdminId;
 		public string AdminToken;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestToViewObjectsAtTileNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

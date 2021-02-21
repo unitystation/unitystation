@@ -8,12 +8,15 @@ using Messages.Client;
 
 public class RequestGameAction : ClientMessage
 {
-	public class RequestGameActionNetMessage : NetworkMessage
+	public struct RequestGameActionNetMessage : NetworkMessage
 	{
 		public int ComponentLocation;
 		public uint NetObject;
 		public ushort ComponentID;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestGameActionNetMessage IgnoreMe;
 
 	public static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>(); //These are useful
 	public static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();

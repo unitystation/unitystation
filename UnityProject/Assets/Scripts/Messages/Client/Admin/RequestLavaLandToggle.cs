@@ -8,16 +8,19 @@ using Mirror;
 
 public class RequestLavaLandToggle : ClientMessage
 {
-	public class RequestLavaLandToggleNetMessage : NetworkMessage
+	public struct RequestLavaLandToggleNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
-		public bool LavaLandAllowed = true;
+		public bool LavaLandAllowed;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestLavaLandToggleNetMessage IgnoreMe;
 
 	public override void Process<T>(T netMsg)
 	{
-		var newMsg = netMsg as RequestLavaLandToggleNetMessage?;
+		var newMsgNull = netMsg as RequestLavaLandToggleNetMessage?;
 		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		var admin = PlayerList.Instance.GetAdmin(newMsg.Userid, newMsg.AdminToken);
@@ -34,7 +37,7 @@ public class RequestLavaLandToggle : ClientMessage
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 	}
 
-	public static RequestLavaLandToggleNetMessage Send(string userId, string adminToken, bool lavaLandAllowed)
+	public static RequestLavaLandToggleNetMessage Send(string userId, string adminToken, bool lavaLandAllowed = true)
 	{
 		RequestLavaLandToggleNetMessage msg = new RequestLavaLandToggleNetMessage
 		{

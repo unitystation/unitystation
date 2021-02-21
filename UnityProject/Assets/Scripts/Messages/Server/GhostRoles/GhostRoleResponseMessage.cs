@@ -10,11 +10,14 @@ namespace Messages.Server
 	/// </summary>
 	public class GhostRoleResponseMessage : ServerMessage
 	{
-		public class GhostRoleResponseMessageNetMessage : NetworkMessage
+		public struct GhostRoleResponseMessageNetMessage : NetworkMessage
 		{
 			public uint roleID;
 			public int responseCode;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public GhostRoleResponseMessageNetMessage IgnoreMe;
 
 		private static readonly Dictionary<GhostRoleResponseCode, string> stringDict = new Dictionary<GhostRoleResponseCode, string>()
 		{

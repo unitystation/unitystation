@@ -7,10 +7,13 @@ using Mirror;
 /// </summary>
 public class HealthTemperatureMessage : ServerMessage
 {
-	public class HealthTemperatureMessageNetMessage : NetworkMessage
+	public struct HealthTemperatureMessageNetMessage : NetworkMessage
 	{
 		public float temperature;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public HealthTemperatureMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class UpdateClientValue : ServerMessage
 {
-	public class UpdateClientValueNetMessage : NetworkMessage
+	public struct UpdateClientValueNetMessage : NetworkMessage
 	{
 		public string Newvalue;
 		public string ValueName;
 		public string MonoBehaviourName;
 		public uint GameObject;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateClientValueNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

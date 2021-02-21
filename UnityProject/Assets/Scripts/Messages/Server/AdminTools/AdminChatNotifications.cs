@@ -10,7 +10,7 @@ using Mirror;
 /// </summary>
 public class AdminChatNotifications : ServerMessage
 {
-	public class AdminChatNotificationsNetMessage : NetworkMessage
+	public struct AdminChatNotificationsNetMessage : NetworkMessage
 	{
 		public string NotificationKey;
 		public AdminChatWindow TargetWindow;
@@ -19,6 +19,9 @@ public class AdminChatNotifications : ServerMessage
 		public bool IsFullUpdate;
 		public string FullUpdateJson;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminChatNotificationsNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

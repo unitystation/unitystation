@@ -6,10 +6,13 @@ using Mirror;
 /// </summary>
 public class UpdateRoundTimeMessage : ServerMessage
 {
-	public class UpdateRoundTimeMessageNetMessage : NetworkMessage
+	public struct UpdateRoundTimeMessageNetMessage : NetworkMessage
 	{
 		public string Time;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateRoundTimeMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

@@ -7,13 +7,16 @@ using Mirror;
 /// </summary>
 public class ProgressBarMessage : ServerMessage
 {
-	public class ProgressBarMessageNetMessage : NetworkMessage
+	public struct ProgressBarMessageNetMessage : NetworkMessage
 	{
 		public uint Recipient;
 		public int SpriteIndex;
 		public Vector2Int OffsetFromPlayer;
 		public int ProgressBarID;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public ProgressBarMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

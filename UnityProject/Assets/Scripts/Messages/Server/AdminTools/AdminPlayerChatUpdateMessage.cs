@@ -5,11 +5,14 @@ using AdminTools;
 
 public class AdminPlayerChatUpdateMessage : ServerMessage
 {
-	public class AdminPlayerChatUpdateMessageNetMessage : NetworkMessage
+	public struct AdminPlayerChatUpdateMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public string PlayerId;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminPlayerChatUpdateMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

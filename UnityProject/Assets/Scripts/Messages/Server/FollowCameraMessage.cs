@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class FollowCameraMessage : ServerMessage
 {
-	public class FollowCameraMessageNetMessage : NetworkMessage
+	public struct FollowCameraMessageNetMessage : NetworkMessage
 	{
 		public uint ObjectToFollow;
 
@@ -16,6 +16,9 @@ public class FollowCameraMessage : ServerMessage
 			return string.Format("[FollowCameraMessage ObjectToFollow={0}]", ObjectToFollow);
 		}
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public FollowCameraMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

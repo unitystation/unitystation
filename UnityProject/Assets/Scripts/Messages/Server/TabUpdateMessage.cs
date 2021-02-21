@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class TabUpdateMessage : ServerMessage
 {
-	public class TabUpdateMessageNetMessage : NetworkMessage
+	public struct TabUpdateMessageNetMessage : NetworkMessage
 	{
 		public uint Provider;
 		public NetTabType Type;
@@ -29,6 +29,9 @@ public class TabUpdateMessage : ServerMessage
 			       $"{nameof(ElementValue)}: {string.Join("; ", ElementValues ?? NoValues)}]";
 		}
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public TabUpdateMessageNetMessage IgnoreMe;
 
 	private static readonly ElementValue[] NoValues = new ElementValue[0];
 

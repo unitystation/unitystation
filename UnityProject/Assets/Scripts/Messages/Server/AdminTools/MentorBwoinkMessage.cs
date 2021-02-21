@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class MentorBwoinkMessage : ServerMessage
 {
-	public class MentorBwoinkMessageNetMessage : NetworkMessage
+	public struct MentorBwoinkMessageNetMessage : NetworkMessage
 	{
 		public string MentorUID;
 		public string Message;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public MentorBwoinkMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

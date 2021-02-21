@@ -7,10 +7,13 @@ using Mirror;
 /// </summary>
 public class RequestMoveMessage : ClientMessage
 {
-	public class RequestMoveMessageNetMessage : NetworkMessage
+	public struct RequestMoveMessageNetMessage : NetworkMessage
 	{
 		public PlayerAction Action;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestMoveMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

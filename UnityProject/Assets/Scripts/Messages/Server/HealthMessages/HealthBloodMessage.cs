@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class HealthBloodMessage : ServerMessage
 {
-	public class HealthBloodMessageNetMessage : NetworkMessage
+	public struct HealthBloodMessageNetMessage : NetworkMessage
 	{
 		public uint EntityToUpdate;
 		public int HeartRate;
@@ -15,6 +15,9 @@ public class HealthBloodMessage : ServerMessage
 		public float OxygenDamage;
 		public float ToxinLevel;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public HealthBloodMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

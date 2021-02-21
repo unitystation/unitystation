@@ -85,12 +85,15 @@ namespace ServerInfo
 
 	public class ServerInfoLobbyMessageServer : ServerMessage
 	{
-		public class ServerInfoLobbyMessageServerNetMessage : NetworkMessage
+		public struct ServerInfoLobbyMessageServerNetMessage : NetworkMessage
 		{
 			public string ServerName;
 			public string ServerDesc;
 			public string ServerDiscordID;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ServerInfoLobbyMessageServerNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{
@@ -116,10 +119,13 @@ namespace ServerInfo
 
 	public class ServerInfoLobbyMessageClient : ClientMessage
 	{
-		public class ServerInfoLobbyMessageClientNetMessage : NetworkMessage
+		public struct ServerInfoLobbyMessageClientNetMessage : NetworkMessage
 		{
 			public string PlayerId;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ServerInfoLobbyMessageClientNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{

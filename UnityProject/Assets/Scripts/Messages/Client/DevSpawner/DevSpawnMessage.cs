@@ -10,7 +10,7 @@ using Mirror;
 /// </summary>
 public class DevSpawnMessage : ClientMessage
 {
-	public class DevSpawnMessageNetMessage : NetworkMessage
+	public struct DevSpawnMessageNetMessage : NetworkMessage
 	{
 		// asset ID of the prefab to spawn
 		public Guid PrefabAssetID;
@@ -24,6 +24,9 @@ public class DevSpawnMessage : ClientMessage
 			return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition}]";
 		}
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public DevSpawnMessageNetMessage message;
 
 	public override void Process<T>(T msg)
 	{

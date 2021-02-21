@@ -5,7 +5,7 @@ namespace Messages.Client.Admin
 {
 	public class RequestRespawnPlayer : ClientMessage
 	{
-		public class RequestRespawnPlayerNetMessage : NetworkMessage
+		public struct RequestRespawnPlayerNetMessage : NetworkMessage
 		{
 			public string Userid;
 			public string AdminToken;
@@ -13,6 +13,9 @@ namespace Messages.Client.Admin
 			public string OccupationToRespawn;
 			public int Type;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public RequestRespawnPlayerNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{

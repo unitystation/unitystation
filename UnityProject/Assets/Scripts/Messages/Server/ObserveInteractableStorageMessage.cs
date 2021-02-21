@@ -9,11 +9,14 @@ using UnityEngine;
 /// </summary>
 public class ObserveInteractableStorageMessage : ServerMessage
 {
-	public class ObserveInteractableStorageMessageNetMessage : NetworkMessage
+	public struct ObserveInteractableStorageMessageNetMessage : NetworkMessage
 	{
 		public uint Storage;
 		public bool Observed;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public ObserveInteractableStorageMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

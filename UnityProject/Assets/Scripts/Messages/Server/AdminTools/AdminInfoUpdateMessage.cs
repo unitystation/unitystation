@@ -7,11 +7,14 @@ using Mirror;
 
 public class AdminInfoUpdateMessage : ServerMessage
 {
-	public class AdminInfoUpdateMessageNetMessage : NetworkMessage
+	public struct AdminInfoUpdateMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public bool FullUpdate;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminInfoUpdateMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

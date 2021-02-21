@@ -5,7 +5,7 @@ using Doors;
 
 public class DoorUpdateMessage : ServerMessage
 {
-	public class DoorUpdateMessageNetMessage : NetworkMessage
+	public struct DoorUpdateMessageNetMessage : NetworkMessage
 	{
 		public DoorUpdateType Type;
 		public uint Door;
@@ -16,6 +16,9 @@ public class DoorUpdateMessage : ServerMessage
 			return $"[DoorUpdateMessage {nameof( Door )}: {Door}, {nameof( Type )}: {Type}]";
 		}
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public DoorUpdateMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

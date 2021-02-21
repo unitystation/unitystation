@@ -8,11 +8,14 @@ using Mirror;
 //atm its just being sent to examine channel
 public class ElectricalStatsMessage : ServerMessage
 {
-	public class ElectricalStatsMessageNetMessage : NetworkMessage
+	public struct ElectricalStatsMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public ElectricalStatsMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

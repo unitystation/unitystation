@@ -1,20 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Reflection;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using System.Text;
+﻿using UnityEngine;
 using Mirror;
-using Newtonsoft.Json;
 
 public class BookNetMessage : ServerMessage
 {
-	public class BookNetMessageNetMessage : NetworkMessage
+	public struct BookNetMessageNetMessage : NetworkMessage
 	{
 		public VariableViewerNetworking.NetFriendlyBook Book;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public BookNetMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

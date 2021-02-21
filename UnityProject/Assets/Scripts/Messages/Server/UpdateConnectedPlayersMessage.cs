@@ -9,10 +9,13 @@ using UnityEngine.Experimental.XR;
 /// </summary>
 public class UpdateConnectedPlayersMessage : ServerMessage
 {
-	public class UpdateConnectedPlayersMessageNetMessage : NetworkMessage
+	public struct UpdateConnectedPlayersMessageNetMessage : NetworkMessage
 	{
 		public ClientConnectedPlayer[] Players;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateConnectedPlayersMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

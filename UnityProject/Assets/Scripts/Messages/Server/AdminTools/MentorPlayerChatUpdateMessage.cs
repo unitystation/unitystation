@@ -5,11 +5,14 @@ using AdminTools;
 
 public class MentorPlayerChatUpdateMessage : ServerMessage
 {
-	public class MentorPlayerChatUpdateMessageNetMessage : NetworkMessage
+	public struct MentorPlayerChatUpdateMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public string PlayerId;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public MentorPlayerChatUpdateMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

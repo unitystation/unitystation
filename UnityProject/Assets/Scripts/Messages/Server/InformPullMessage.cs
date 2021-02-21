@@ -6,7 +6,7 @@ using Objects;
 ///     Message that tells client that "Subject" is now pulled by "PulledBy"
 public class InformPullMessage : ServerMessage
 {
-	public class InformPullMessageNetMessage : NetworkMessage
+	public struct InformPullMessageNetMessage : NetworkMessage
 	{
 		public uint Subject;
 		public uint PulledBy;
@@ -16,6 +16,9 @@ public class InformPullMessage : ServerMessage
 			return string.Format("[InformPullMessage Subject={0} PulledBy={1}]", Subject, PulledBy);
 		}
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public InformPullMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{
@@ -75,7 +78,7 @@ public class InformPullMessage : ServerMessage
 	{
 		//not sending message to non-players
 		if ( !recipient || recipient.registerTile.ObjectType != ObjectType.Player ) {
-			return null;
+			return new InformPullMessageNetMessage();
 		}
 		InformPullMessageNetMessage msg =
 			new InformPullMessageNetMessage { Subject = subject.gameObject.NetId(),

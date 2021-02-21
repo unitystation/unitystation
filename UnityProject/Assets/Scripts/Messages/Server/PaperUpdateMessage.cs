@@ -4,12 +4,15 @@ using Mirror;
 
 public class PaperUpdateMessage : ServerMessage
 {
-	public class PaperUpdateMessageNetMessage : NetworkMessage
+	public struct PaperUpdateMessageNetMessage : NetworkMessage
 	{
 		public uint PaperToUpdate;
 		public uint Recipient;
 		public string Message;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PaperUpdateMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

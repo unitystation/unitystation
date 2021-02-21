@@ -4,10 +4,13 @@ using Mirror;
 
 public class PlayerNewPlayer : ClientMessage
 {
-	public class PlayerNewPlayerNetMessage : NetworkMessage
+	public struct PlayerNewPlayerNetMessage : NetworkMessage
 	{
 		public uint Player;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PlayerNewPlayerNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

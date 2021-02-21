@@ -7,11 +7,14 @@ using Mirror;
 /// </summary>
 public class HealthOverallMessage : ServerMessage
 {
-	public class HealthOverallMessageNetMessage : NetworkMessage
+	public struct HealthOverallMessageNetMessage : NetworkMessage
 	{
 		public uint EntityToUpdate;
 		public float OverallHealth;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public HealthOverallMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

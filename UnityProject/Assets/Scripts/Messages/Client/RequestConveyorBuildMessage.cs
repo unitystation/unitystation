@@ -14,12 +14,15 @@ namespace Construction.Conveyors
 	/// </summary>
 	public class RequestConveyorBuildMessage : ClientMessage
 	{
-		public class RequestConveyorBuildMessageNetMessage : NetworkMessage
+		public struct RequestConveyorBuildMessageNetMessage : NetworkMessage
 		{
 			//index of the entry in the ConstructionList.
 			public byte EntryIndex;
 			public ConveyorBelt.ConveyorDirection Direction;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public RequestConveyorBuildMessageNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{
@@ -107,7 +110,7 @@ namespace Construction.Conveyors
 			ConveyorBelt.ConveyorDirection direction)
 		{
 			var entryIndex = hasMenu.BuildList.Entries.ToList().IndexOf(entry);
-			if (entryIndex == -1) return null;
+			if (entryIndex == -1) return new RequestConveyorBuildMessageNetMessage();
 
 			var msg = new RequestConveyorBuildMessageNetMessage
 			{

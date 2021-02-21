@@ -4,10 +4,13 @@ using Mirror;
 
 public class TileChangeNewPlayer : ClientMessage
 {
-	public class TileChangeNewPlayerNetMessage : NetworkMessage
+	public struct TileChangeNewPlayerNetMessage : NetworkMessage
 	{
 		public uint TileChangeManager;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public TileChangeNewPlayerNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

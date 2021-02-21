@@ -11,11 +11,14 @@ using UnityEngine;
 /// </summary>
 public class RequestBuildMessage : ClientMessage
 {
-	public class RequestBuildMessageNetMessage : NetworkMessage
+	public struct RequestBuildMessageNetMessage : NetworkMessage
 	{
 		//index of the entry in the ConstructionList.
 		public byte EntryIndex;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestBuildMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{
@@ -105,7 +108,7 @@ public class RequestBuildMessage : ClientMessage
 	public static RequestBuildMessageNetMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu)
 	{
 		int entryIndex = hasMenu.BuildList.Entries.ToList().IndexOf(entry);
-		if (entryIndex == -1) return null; // entryIndex was previously a byte, which made this check impossible.
+		if (entryIndex == -1) return new RequestBuildMessageNetMessage(); // entryIndex was previously a byte, which made this check impossible.
 
 		RequestBuildMessageNetMessage msg = new RequestBuildMessageNetMessage
 		{

@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class AdminBwoinkMessage : ServerMessage
 {
-	public class AdminBwoinkMessageNetMessage : NetworkMessage
+	public struct AdminBwoinkMessageNetMessage : NetworkMessage
 	{
 		public string AdminUID;
 		public string Message;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminBwoinkMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

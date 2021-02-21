@@ -5,7 +5,7 @@ using Mirror;
 ///     Tells client to
 public class MatrixMoveMessage : ServerMessage
 {
-	public class MatrixMoveMessageNetMessage : NetworkMessage
+	public struct MatrixMoveMessageNetMessage : NetworkMessage
 	{
 		public MatrixState State;
 		public uint Matrix;
@@ -15,6 +15,10 @@ public class MatrixMoveMessage : ServerMessage
 			return $"[MatrixMoveMessage {State}]";
 		}
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public MatrixMoveMessageNetMessage IgnoreMe;
+
 	//Reset client's prediction queue
 	//public bool ResetQueue;
 

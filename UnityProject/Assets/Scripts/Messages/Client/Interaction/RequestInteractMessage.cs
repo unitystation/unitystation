@@ -20,9 +20,9 @@ public class RequestInteractMessage : ClientMessage
 	 * the server will check each interaction of the given interaction type on the involved
 	 * objects to see which should occur.
 	 */
-	private static readonly ushort UNKNOWN_COMPONENT_TYPE_ID = ushort.MaxValue;
+	public static readonly ushort UNKNOWN_COMPONENT_TYPE_ID = ushort.MaxValue;
 
-	public struct RequestInteractMessageNetMessage //: NetworkMessage
+	public struct RequestInteractMessageNetMessage : NetworkMessage
 	{
 		//these are always populated
 		public Type ComponentType;
@@ -59,10 +59,13 @@ public class RequestInteractMessage : ClientMessage
 		public string RequestedOption;
 	}
 
-	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
-	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
-	private static readonly Dictionary<byte, Type> interactionIDToInteractionType = new Dictionary<byte, Type>();
-	private static readonly Dictionary<Type, byte> interactionTypeToInteractionID = new Dictionary<Type, byte>();
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestInteractMessageNetMessage IgnoreMe;
+
+	public static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
+	public static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
+	public static readonly Dictionary<byte, Type> interactionIDToInteractionType = new Dictionary<byte, Type>();
+	public static readonly Dictionary<Type, byte> interactionTypeToInteractionID = new Dictionary<Type, byte>();
 
 	static RequestInteractMessage()
 	{
@@ -110,9 +113,9 @@ public class RequestInteractMessage : ClientMessage
 
 	public override void Process<T>(T msg)
 	{
-		var newMsgN = msg as RequestInteractMessageNetMessage?;
-		if(newMsgN == null) return;
-		var newMsg = newMsgN.Value;
+		var newMsgNull = msg as RequestInteractMessageNetMessage?;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		var ComponentType = newMsg.ComponentType;
 		var InteractionType = newMsg.InteractionType;
@@ -495,7 +498,7 @@ public class RequestInteractMessage : ClientMessage
 			msg.TargetObject = casted.TargetObject.NetId();
 			msg.RequestedOption = casted.RequestedOption;
 		}
-		//new RequestInteractMessage().Send(msg);
+		new RequestInteractMessage().Send(msg);
 	}
 
 	//only intended to be used by core if2 classes
@@ -524,7 +527,7 @@ public class RequestInteractMessage : ClientMessage
 			Intent = tileApply.Intent,
 			TargetVector = tileApply.TargetVector
 		};
-		//new RequestInteractMessage().Send(msg);
+		new RequestInteractMessage().Send(msg);
 	}
 
 	public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles)
@@ -546,159 +549,165 @@ public class RequestInteractMessage : ClientMessage
 			UsedObject = mouseDrop.UsedObject.NetId(),
 			TargetVector = mouseDrop.TargetVector
 		};
-		//new RequestInteractMessage().Send(msg);
+		new RequestInteractMessage().Send(msg);
+	}
+}
+
+public static class InteractMessageReaderWriters
+{
+	public static RequestInteractMessage.RequestInteractMessageNetMessage Deserialize(this NetworkReader reader)
+	{
+		var message = new RequestInteractMessage.RequestInteractMessageNetMessage();
+
+		var componentID = reader.ReadUInt16();
+		if (componentID == RequestInteractMessage.UNKNOWN_COMPONENT_TYPE_ID)
+		{
+			//client didn't know which to trigger, leave ComponentType null
+			message.ComponentType = null;
+		}
+		else
+		{
+			//client requested a specific component.
+			message.ComponentType = RequestInteractMessage.componentIDToComponentType[componentID];
+		}
+
+		message.InteractionType = RequestInteractMessage.interactionIDToInteractionType[reader.ReadByte()];
+		if (componentID != RequestInteractMessage.UNKNOWN_COMPONENT_TYPE_ID)
+		{
+			// client specified exact component
+			message.ProcessorObject = reader.ReadUInt32();
+		}
+		else
+		{
+			// client requested server to check the interaction
+			message.ProcessorObject = NetId.Invalid;
+		}
+		message.Intent = (Intent) reader.ReadByte();
+
+		if (message.InteractionType == typeof(PositionalHandApply))
+		{
+			message.TargetObject = reader.ReadUInt32();
+			message.TargetVector = reader.ReadVector2();
+			message.TargetBodyPart = (BodyPartType) reader.ReadUInt32();
+		}
+		else if (message.InteractionType == typeof(HandApply))
+		{
+			message.TargetObject = reader.ReadUInt32();
+			message.TargetBodyPart = (BodyPartType) reader.ReadUInt32();
+			message.IsAltUsed = reader.ReadBoolean();
+		}
+		else if (message.InteractionType == typeof(AimApply))
+		{
+			message.TargetVector = reader.ReadVector2();
+			message.MouseButtonState = reader.ReadBoolean() ? MouseButtonState.PRESS : MouseButtonState.HOLD;
+		}
+		else if (message.InteractionType == typeof(MouseDrop))
+		{
+			message.TargetObject = reader.ReadUInt32();
+			message.UsedObject = reader.ReadUInt32();
+		}
+		else if (message.InteractionType == typeof(InventoryApply))
+		{
+			message.UsedObject = reader.ReadUInt32();
+			message.Storage = reader.ReadUInt32();
+			message.SlotIndex = reader.ReadInt32();
+			message.NamedSlot = (NamedSlot) reader.ReadInt32();
+			message.IsAltUsed = reader.ReadBoolean();
+		}
+		else if (message.InteractionType == typeof(TileApply))
+		{
+			message.TargetVector = reader.ReadVector2();
+		}
+		else if (message.InteractionType == typeof(TileMouseDrop))
+		{
+			message.UsedObject = reader.ReadUInt32();
+			message.TargetVector = reader.ReadVector2();
+		}
+		else if (message.InteractionType == typeof(ConnectionApply))
+		{
+			message.TargetObject = reader.ReadUInt32();
+			message.TargetVector = reader.ReadVector2();
+			message.connectionPointA = (Connection)reader.ReadByte();
+			message.connectionPointB = (Connection)reader.ReadByte();
+		}
+		else if (message.InteractionType == typeof(ContextMenuApply))
+		{
+			message.TargetObject = reader.ReadUInt32();
+			message.RequestedOption = reader.ReadString();
+		}
+
+		return message;
 	}
 
-	// public void Deserialize(NetworkReader reader)
-	// {
-	//
-	// 	var componentID = reader.ReadUInt16();
-	// 	if (componentID == UNKNOWN_COMPONENT_TYPE_ID)
-	// 	{
-	// 		//client didn't know which to trigger, leave ComponentType null
-	// 		ComponentType = null;
-	// 	}
-	// 	else
-	// 	{
-	// 		//client requested a specific component.
-	// 		ComponentType = componentIDToComponentType[componentID];
-	// 	}
-	//
-	// 	InteractionType = interactionIDToInteractionType[reader.ReadByte()];
-	// 	if (componentID != UNKNOWN_COMPONENT_TYPE_ID)
-	// 	{
-	// 		// client specified exact component
-	// 		ProcessorObject = reader.ReadUInt32();
-	// 	}
-	// 	else
-	// 	{
-	// 		// client requested server to check the interaction
-	// 		ProcessorObject = NetId.Invalid;
-	// 	}
-	// 	Intent = (Intent) reader.ReadByte();
-	//
-	// 	if (InteractionType == typeof(PositionalHandApply))
-	// 	{
-	// 		TargetObject = reader.ReadUInt32();
-	// 		TargetVector = reader.ReadVector2();
-	// 		TargetBodyPart = (BodyPartType) reader.ReadUInt32();
-	// 	}
-	// 	else if (InteractionType == typeof(HandApply))
-	// 	{
-	// 		TargetObject = reader.ReadUInt32();
-	// 		TargetBodyPart = (BodyPartType) reader.ReadUInt32();
-	// 		IsAltUsed = reader.ReadBoolean();
-	// 	}
-	// 	else if (InteractionType == typeof(AimApply))
-	// 	{
-	// 		TargetVector = reader.ReadVector2();
-	// 		MouseButtonState = reader.ReadBoolean() ? MouseButtonState.PRESS : MouseButtonState.HOLD;
-	// 	}
-	// 	else if (InteractionType == typeof(MouseDrop))
-	// 	{
-	// 		TargetObject = reader.ReadUInt32();
-	// 		UsedObject = reader.ReadUInt32();
-	// 	}
-	// 	else if (InteractionType == typeof(InventoryApply))
-	// 	{
-	// 		UsedObject = reader.ReadUInt32();
-	// 		Storage = reader.ReadUInt32();
-	// 		SlotIndex = reader.ReadInt32();
-	// 		NamedSlot = (NamedSlot) reader.ReadInt32();
-	// 		IsAltUsed = reader.ReadBoolean();
-	// 	}
-	// 	else if (InteractionType == typeof(TileApply))
-	// 	{
-	// 		TargetVector = reader.ReadVector2();
-	// 	}
-	// 	else if (InteractionType == typeof(TileMouseDrop))
-	// 	{
-	// 		UsedObject = reader.ReadUInt32();
-	// 		TargetVector = reader.ReadVector2();
-	// 	}
-	// 	else if (InteractionType == typeof(ConnectionApply))
-	// 	{
-	// 		TargetObject = reader.ReadUInt32();
-	// 		TargetVector = reader.ReadVector2();
-	// 		connectionPointA = (Connection)reader.ReadByte();
-	// 		connectionPointB = (Connection)reader.ReadByte();
-	// 	}
-	// 	else if (InteractionType == typeof(ContextMenuApply))
-	// 	{
-	// 		TargetObject = reader.ReadUInt32();
-	// 		RequestedOption = reader.ReadString();
-	// 	}
-	// }
-	//
-	// public void Serialize(NetworkWriter writer)
-	// {
-	// 	// indicate unknown component if client requested it
-	// 	if (ComponentType == null)
-	// 	{
-	// 		writer.WriteUInt16(UNKNOWN_COMPONENT_TYPE_ID);
-	// 	}
-	// 	else
-	// 	{
-	// 		writer.WriteUInt16(componentTypeToComponentID[ComponentType]);
-	// 	}
-	// 	writer.WriteByte(interactionTypeToInteractionID[InteractionType]);
-	// 	//server determines processor object if client specified unknown component
-	// 	if (ComponentType != null)
-	// 	{
-	// 		writer.WriteUInt32(ProcessorObject);
-	// 	}
-	// 	writer.WriteByte((byte) Intent);
-	//
-	// 	if (InteractionType == typeof(PositionalHandApply))
-	// 	{
-	// 		writer.WriteUInt32(TargetObject);
-	// 		writer.WriteVector2(TargetVector);
-	// 		writer.WriteInt32((int) TargetBodyPart);
-	// 	}
-	// 	else if (InteractionType == typeof(HandApply))
-	// 	{
-	// 		writer.WriteUInt32(TargetObject);
-	// 		writer.WriteInt32((int) TargetBodyPart);
-	// 		writer.WriteBoolean(IsAltUsed);
-	// 	}
-	// 	else if (InteractionType == typeof(AimApply))
-	// 	{
-	// 		writer.WriteVector2(TargetVector);
-	// 		writer.WriteBoolean(MouseButtonState == MouseButtonState.PRESS);
-	// 	}
-	// 	else if (InteractionType == typeof(MouseDrop))
-	// 	{
-	// 		writer.WriteUInt32(TargetObject);
-	// 		writer.WriteUInt32(UsedObject);
-	// 	}
-	// 	else if (InteractionType == typeof(InventoryApply))
-	// 	{
-	// 		writer.WriteUInt32(UsedObject);
-	// 		writer.WriteUInt32(Storage);
-	// 		writer.WriteInt32(SlotIndex);
-	// 		writer.WriteInt32((int) NamedSlot);
-	// 		writer.WriteBoolean(IsAltUsed);
-	// 	}
-	// 	else if (InteractionType == typeof(TileApply))
-	// 	{
-	// 		writer.WriteVector2(TargetVector);
-	// 	}
-	// 	else if (InteractionType == typeof(TileMouseDrop))
-	// 	{
-	// 		writer.WriteUInt32(UsedObject);
-	// 		writer.WriteVector2(TargetVector);
-	// 	}
-	// 	else if (InteractionType == typeof(ConnectionApply))
-	// 	{
-	// 		writer.WriteUInt32(TargetObject);
-	// 		writer.WriteVector2(TargetVector);
-	// 		writer.WriteByte((byte)connectionPointA);
-	// 		writer.WriteByte((byte)connectionPointB);
-	// 	}
-	// 	else if (InteractionType == typeof(ContextMenuApply))
-	// 	{
-	// 		writer.WriteUInt32(TargetObject);
-	// 		writer.WriteString(RequestedOption);
-	// 	}
-	// }
+	public static void Serialize(this NetworkWriter writer, RequestInteractMessage.RequestInteractMessageNetMessage message)
+	{
+		// indicate unknown component if client requested it
+		if (message.ComponentType == null)
+		{
+			writer.WriteUInt16(RequestInteractMessage.UNKNOWN_COMPONENT_TYPE_ID);
+		}
+		else
+		{
+			writer.WriteUInt16(RequestInteractMessage.componentTypeToComponentID[message.ComponentType]);
+		}
+		writer.WriteByte(RequestInteractMessage.interactionTypeToInteractionID[message.InteractionType]);
+		//server determines processor object if client specified unknown component
+		if (message.ComponentType != null)
+		{
+			writer.WriteUInt32(message.ProcessorObject);
+		}
+		writer.WriteByte((byte) message.Intent);
+
+		if (message.InteractionType == typeof(PositionalHandApply))
+		{
+			writer.WriteUInt32(message.TargetObject);
+			writer.WriteVector2(message.TargetVector);
+			writer.WriteInt32((int) message.TargetBodyPart);
+		}
+		else if (message.InteractionType == typeof(HandApply))
+		{
+			writer.WriteUInt32(message.TargetObject);
+			writer.WriteInt32((int) message.TargetBodyPart);
+			writer.WriteBoolean(message.IsAltUsed);
+		}
+		else if (message.InteractionType == typeof(AimApply))
+		{
+			writer.WriteVector2(message.TargetVector);
+			writer.WriteBoolean(message.MouseButtonState == MouseButtonState.PRESS);
+		}
+		else if (message.InteractionType == typeof(MouseDrop))
+		{
+			writer.WriteUInt32(message.TargetObject);
+			writer.WriteUInt32(message.UsedObject);
+		}
+		else if (message.InteractionType == typeof(InventoryApply))
+		{
+			writer.WriteUInt32(message.UsedObject);
+			writer.WriteUInt32(message.Storage);
+			writer.WriteInt32(message.SlotIndex);
+			writer.WriteInt32((int) message.NamedSlot);
+			writer.WriteBoolean(message.IsAltUsed);
+		}
+		else if (message.InteractionType == typeof(TileApply))
+		{
+			writer.WriteVector2(message.TargetVector);
+		}
+		else if (message.InteractionType == typeof(TileMouseDrop))
+		{
+			writer.WriteUInt32(message.UsedObject);
+			writer.WriteVector2(message.TargetVector);
+		}
+		else if (message.InteractionType == typeof(ConnectionApply))
+		{
+			writer.WriteUInt32(message.TargetObject);
+			writer.WriteVector2(message.TargetVector);
+			writer.WriteByte((byte)message.connectionPointA);
+			writer.WriteByte((byte)message.connectionPointB);
+		}
+		else if (message.InteractionType == typeof(ContextMenuApply))
+		{
+			writer.WriteUInt32(message.TargetObject);
+			writer.WriteString(message.RequestedOption);
+		}
+	}
 }

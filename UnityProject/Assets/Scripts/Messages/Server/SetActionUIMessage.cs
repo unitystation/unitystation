@@ -9,10 +9,10 @@ using ScriptableObjects.Systems.Spells;
 /// </summary>
 public class SetActionUIMessage : ServerMessage
 {
-	public class SetActionUIMessageNetMessage : NetworkMessage
+	public struct SetActionUIMessageNetMessage : NetworkMessage
 	{
 		public ushort actionListID;
-		public short spellListIndex = -1;
+		public short spellListIndex;
 		public int SpriteLocation;
 		public int ComponentLocation;
 		public uint NetObject;
@@ -21,6 +21,9 @@ public class SetActionUIMessage : ServerMessage
 		public ushort ComponentID;
 		public UpdateType ProposedAction;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public SetActionUIMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{
@@ -97,6 +100,7 @@ public class SetActionUIMessage : ServerMessage
 				SpriteLocation = location,
 				ProposedAction = ProposedAction,
 				ComponentID = SerializeType(actionFromSO.GetType()),
+				spellListIndex = -1
 			};
 			new SetActionUIMessage().SendTo(recipient, msg);
 			return msg;
@@ -145,7 +149,8 @@ public class SetActionUIMessage : ServerMessage
 					cooldown = cooldown,
 					showAlert = show,
 					SpriteLocation = location,
-					ProposedAction = ProposedAction
+					ProposedAction = ProposedAction,
+					spellListIndex = -1
 				};
 				new SetActionUIMessage().SendTo(recipient, msg);
 				return msg;
@@ -156,7 +161,7 @@ public class SetActionUIMessage : ServerMessage
 			}
 		}
 
-		return null;
+		return new SetActionUIMessageNetMessage();
 	}
 
 	public static SetActionUIMessageNetMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, bool _showAlert)

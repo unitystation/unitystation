@@ -7,13 +7,16 @@ using Mirror;
 /// </summary>
 public class ElectricalCableMessage : ServerMessage
 {
-	public class ElectricalCableMessageNetMessage : NetworkMessage
+	public struct ElectricalCableMessageNetMessage : NetworkMessage
 	{
 		public Connection REWireEndA;
 		public Connection REWireEndB;
 		public WiringColor RECableType;
 		public uint Cable;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public ElectricalCableMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

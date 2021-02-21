@@ -4,10 +4,13 @@ using Mirror;
 
 public class MatrixMoveNewPlayer : ClientMessage
 {
-	public class MatrixMoveNewPlayerNetMessage : NetworkMessage
+	public struct MatrixMoveNewPlayerNetMessage : NetworkMessage
 	{
 		public uint MatrixMove;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public MatrixMoveNewPlayerNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

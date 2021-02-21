@@ -8,11 +8,14 @@ using System.IO;
 
 public class ProfileMessage : ServerMessage
 {
-	public class ProfileMessageNetMessage : NetworkMessage
+	public struct ProfileMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public uint Recipient;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public ProfileMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

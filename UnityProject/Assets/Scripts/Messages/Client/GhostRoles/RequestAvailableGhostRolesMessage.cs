@@ -12,10 +12,11 @@ namespace Messages.Client
 	/// </summary>
 	public class RequestAvailableGhostRolesMessage : ClientMessage
 	{
-		public class RequestAvailableGhostRolesMessageNetMessage : NetworkMessage
-		{
+		public struct RequestAvailableGhostRolesMessageNetMessage : NetworkMessage { }
 
-		}
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public RequestAvailableGhostRolesMessageNetMessage IgnoreMe;
+
 		public override void Process<T>(T msg)
 		{
 			var newMsgNull = msg as RequestAvailableGhostRolesMessageNetMessage?;

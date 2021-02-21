@@ -7,12 +7,15 @@ using Mirror;
 /// </summary>
 public class HealthBrainMessage : ServerMessage
 {
-	public class HealthBrainMessageNetMessage : NetworkMessage
+	public struct HealthBrainMessageNetMessage : NetworkMessage
 	{
 		public uint EntityToUpdate;
 		public bool IsHusk;
 		public int BrainDamage;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public HealthBrainMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class ShowChatBubbleMessage : ServerMessage
 {
-	public class ShowChatBubbleMessageNetMessage : NetworkMessage
+	public struct ShowChatBubbleMessageNetMessage : NetworkMessage
 	{
 		public ChatModifier ChatModifiers;
 		public string Message;
@@ -18,6 +18,9 @@ public class ShowChatBubbleMessage : ServerMessage
 		//You may have to do something like this if your target does not
 		//have a NetworkIdentity on it
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public ShowChatBubbleMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

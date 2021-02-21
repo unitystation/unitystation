@@ -8,11 +8,14 @@ using Mirror;
 /// </summary>
 public class RequestElectricalStats : ClientMessage
 {
-	public class RequestElectricalStatsNetMessage : NetworkMessage
+	public struct RequestElectricalStatsNetMessage : NetworkMessage
 	{
 		public uint Player;
 		public uint ElectricalItem;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestElectricalStatsNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

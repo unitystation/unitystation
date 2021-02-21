@@ -9,11 +9,14 @@ using Mirror;
 
 public class SubBookshelfNetMessage : ServerMessage
 {
-	public class SubBookshelfNetMessageNetMessage : NetworkMessage
+	public struct SubBookshelfNetMessageNetMessage : NetworkMessage
 	{
 		public string data;
 		public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public SubBookshelfNetMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

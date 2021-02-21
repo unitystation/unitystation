@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class SuicideMessage : ClientMessage
 {
-	public class SuicideMessageNetMessage : NetworkMessage { }
+	public struct SuicideMessageNetMessage : NetworkMessage { }
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public SuicideMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

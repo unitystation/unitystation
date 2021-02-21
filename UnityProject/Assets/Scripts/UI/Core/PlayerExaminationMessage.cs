@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerExaminationMessage : ServerMessage
 {
-	public class PlayerExaminationMessageNetMessage : NetworkMessage
+	public struct PlayerExaminationMessageNetMessage : NetworkMessage
 	{
 		public string VisibleName;
 		public string Species;
@@ -21,6 +21,9 @@ public class PlayerExaminationMessage : ServerMessage
 
 		public bool Observed;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PlayerExaminationMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

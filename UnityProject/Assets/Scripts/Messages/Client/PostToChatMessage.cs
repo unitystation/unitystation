@@ -8,11 +8,14 @@ using UnityEngine;
 /// </summary>
 public class PostToChatMessage: ClientMessage
 {
-	public class PostToChatMessageNetMessage : NetworkMessage
+	public struct PostToChatMessageNetMessage : NetworkMessage
 	{
 		public ChatChannel Channels;
 		public string ChatMessageText;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PostToChatMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

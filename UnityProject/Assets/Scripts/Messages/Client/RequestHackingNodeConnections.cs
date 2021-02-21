@@ -9,11 +9,14 @@ using Messages.Client;
 /// </summary>
 public class RequestHackingNodeConnections : ClientMessage
 {
-	public class RequestHackingNodeConnectionsNetMessage : NetworkMessage
+	public struct RequestHackingNodeConnectionsNetMessage : NetworkMessage
 	{
 		public uint Player;
 		public uint HackableObject;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestHackingNodeConnectionsNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

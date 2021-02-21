@@ -8,11 +8,14 @@ using InGameEvents;
 
 public class AdminToolRefreshMessage : ServerMessage
 {
-	public class AdminToolRefreshMessageNetMessage : NetworkMessage
+	public struct AdminToolRefreshMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public uint Recipient;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminToolRefreshMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

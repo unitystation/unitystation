@@ -6,10 +6,13 @@ using Mirror;
 
 public class RequestGameActionSO : ClientMessage
 {
-	public class RequestGameActionSONetMessage : NetworkMessage
+	public struct RequestGameActionSONetMessage : NetworkMessage
 	{
 		public ushort soID;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestGameActionSONetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

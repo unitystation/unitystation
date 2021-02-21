@@ -8,10 +8,13 @@ using UnityEngine;
 /// </summary>
 public class MentorEnableMessage : ServerMessage
 {
-	public class MentorEnableMessageNetMessage : NetworkMessage
+	public struct MentorEnableMessageNetMessage : NetworkMessage
 	{
 		public string MentorToken;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public MentorEnableMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

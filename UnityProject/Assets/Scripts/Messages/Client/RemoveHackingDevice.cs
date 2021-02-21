@@ -5,12 +5,15 @@ using Messages.Client;
 
 public class RemoveHackingDevice : ClientMessage
 {
-	public class RemoveHackingDeviceNetMessage : NetworkMessage
+	public struct RemoveHackingDeviceNetMessage : NetworkMessage
 	{
 		public uint Player;
 		public uint HackableObject;
 		public uint HackingDevice;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RemoveHackingDeviceNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

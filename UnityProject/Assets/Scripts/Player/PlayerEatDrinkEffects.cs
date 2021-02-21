@@ -16,11 +16,13 @@ public class PlayerEatDrinkEffects : NetworkBehaviour
 
 public class PlayerEatDrinkEffectsServerMessage : ServerMessage
 {
-	public class PlayerEatDrinkEffectsServerMessageNetMessage : NetworkMessage
+	public struct PlayerEatDrinkEffectsServerMessageNetMessage : NetworkMessage
 	{
 		public int alcoholValue;
-		public GameObject clientPlayer = null;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PlayerEatDrinkEffectsServerMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

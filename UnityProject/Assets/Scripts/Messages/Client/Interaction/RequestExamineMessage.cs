@@ -13,13 +13,16 @@ using UnityEngine;
 /// </summary>
 public class RequestExamineMessage : ClientMessage
 {
-	public class RequestExamineMessageNetMessage : NetworkMessage
+	public struct RequestExamineMessageNetMessage : NetworkMessage
 	{
 		//members
 		// netid of target
 		public uint examineTarget;
 		public Vector3 mousePosition;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestExamineMessageNetMessage IgnoreMe;
 
 	static RequestExamineMessage()
 	{
@@ -28,7 +31,7 @@ public class RequestExamineMessage : ClientMessage
 
 	public override void Process<T>(T netMsg)
 	{
-		var newMsg = netMsg as RequestExamineMessageNetMessage?;
+		var newMsgNull = netMsg as RequestExamineMessageNetMessage?;
 		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
 		//TODO: check break conditions

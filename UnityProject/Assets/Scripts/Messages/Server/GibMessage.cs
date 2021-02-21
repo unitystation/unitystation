@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class GibMessage : ServerMessage
 {
-	public class GibMessageNetMessage : NetworkMessage { }
+	public struct GibMessageNetMessage : NetworkMessage { }
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public GibMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

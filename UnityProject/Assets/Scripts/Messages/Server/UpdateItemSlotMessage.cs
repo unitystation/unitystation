@@ -8,13 +8,16 @@ using Mirror;
 /// </summary>
 public class UpdateItemSlotMessage : ServerMessage
 {
-	public class UpdateItemSlotMessageNetMessage : NetworkMessage
+	public struct UpdateItemSlotMessageNetMessage : NetworkMessage
 	{
 		public uint Storage;
 		public uint Item;
 		public int SlotIndex;
 		public NamedSlot NamedSlot;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateItemSlotMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

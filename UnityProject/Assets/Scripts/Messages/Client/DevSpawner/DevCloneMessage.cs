@@ -9,7 +9,7 @@ using Mirror;
 /// </summary>
 public class DevCloneMessage : ClientMessage
 {
-	public class DevCloneMessageNetMessage : NetworkMessage
+	public struct DevCloneMessageNetMessage : NetworkMessage
 	{
 		// Net ID of the object to clone
 		public uint ToClone;
@@ -24,10 +24,14 @@ public class DevCloneMessage : ClientMessage
 		}
 	}
 
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public DevCloneMessageNetMessage message;
+
 	public override void Process<T>(T msg)
 	{
 		var newMsgNull = msg as DevCloneMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+		if(newMsgNull == null) return;
+		var newMsg = newMsgNull.Value;
 
 		ValidateAdmin(newMsg);
 	}

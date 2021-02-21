@@ -13,12 +13,15 @@ namespace Messages.Client
 	/// </summary>
 	public class ClientRequestJobMessage : ClientMessage
 	{
-		public class ClientRequestJobMessageNetMessage : NetworkMessage
+		public struct ClientRequestJobMessageNetMessage : NetworkMessage
 		{
 			public string PlayerID;
 			public JobType JobType;
 			public string JsonCharSettings;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ClientRequestJobMessageNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{

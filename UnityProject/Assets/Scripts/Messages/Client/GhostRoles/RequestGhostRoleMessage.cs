@@ -10,10 +10,13 @@ namespace Messages.Client
 	/// </summary>
 	public class RequestGhostRoleMessage : ClientMessage
 	{
-		public class RequestGhostRoleMessageNetMessage : NetworkMessage
+		public struct RequestGhostRoleMessageNetMessage : NetworkMessage
 		{
 			public uint roleID;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public RequestGhostRoleMessageNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{

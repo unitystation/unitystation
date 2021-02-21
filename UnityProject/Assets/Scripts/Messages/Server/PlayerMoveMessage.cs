@@ -5,7 +5,7 @@ using Mirror;
 ///   Tells client to apply PlayerState (update his position, flight direction etc) to the given player
 public class PlayerMoveMessage : ServerMessage
 {
-	public class PlayerMoveMessageNetMessage : NetworkMessage
+	public struct PlayerMoveMessageNetMessage : NetworkMessage
 	{
 		public PlayerState State;
 		/// Player to be moved
@@ -16,6 +16,9 @@ public class PlayerMoveMessage : ServerMessage
 			return $"[PlayerMoveMessage State={State} Subject={SubjectPlayer}]";
 		}
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PlayerMoveMessageNetMessage IgnoreMe;
 
 	///To be run on client
 	public override void Process<T>(T msg)

@@ -6,12 +6,15 @@ using UnityEngine;
 
 public class OpenBookIDNetMessage : ClientMessage
 {
-	public class OpenBookIDNetMessageNetMessage : NetworkMessage
+	public struct OpenBookIDNetMessageNetMessage : NetworkMessage
 	{
 		public ulong BookID;
 		public string AdminId;
 		public string AdminToken;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public OpenBookIDNetMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

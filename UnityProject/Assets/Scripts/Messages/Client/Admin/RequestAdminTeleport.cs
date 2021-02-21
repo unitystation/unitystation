@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class RequestAdminTeleport : ClientMessage
 {
-	public class RequestAdminTeleportNetMessage : NetworkMessage
+	public struct RequestAdminTeleportNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
@@ -19,6 +19,9 @@ public class RequestAdminTeleport : ClientMessage
 		public float vectorY;
 		public float vectorZ;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestAdminTeleportNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

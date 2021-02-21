@@ -5,10 +5,13 @@ using Doors;
 
 public class DoorNewPlayer : ClientMessage
 {
-	public class DoorNewPlayerNetMessage : NetworkMessage
+	public struct DoorNewPlayerNetMessage : NetworkMessage
 	{
 		public uint Door;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public DoorNewPlayerNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

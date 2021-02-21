@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class TabInteractMessage : ClientMessage
 {
-	public class TabInteractMessageNetMessage : NetworkMessage
+	public struct TabInteractMessageNetMessage : NetworkMessage
 	{
 		public uint TabProvider;
 		public NetTabType NetTabType;
@@ -17,6 +17,9 @@ public class TabInteractMessage : ClientMessage
 
 		public byte[] ElementValue;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public TabInteractMessageNetMessage IgnoreMe;
 
 	//Serverside
 	public override void Process<T>(T msg)

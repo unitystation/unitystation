@@ -6,10 +6,13 @@ using Newtonsoft.Json;
 
 public class SendCataloguesToClient : ServerMessage
 {
-	public class SendCataloguesToClientNetMessage : NetworkMessage
+	public struct SendCataloguesToClientNetMessage : NetworkMessage
 	{
 		public string serialiseCatalogues;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public SendCataloguesToClientNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

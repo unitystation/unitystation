@@ -4,7 +4,7 @@ using Mirror;
 
 public class UpdateTileMessage : ServerMessage
 {
-	public class UpdateTileMessageNetMessage : NetworkMessage
+	public struct UpdateTileMessageNetMessage : NetworkMessage
 	{
 		public Vector3Int Position;
 		public TileType TileType;
@@ -13,6 +13,9 @@ public class UpdateTileMessage : ServerMessage
 		public Color Colour;
 		public uint TileChangeManager;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateTileMessageNetMessage IgnoreMe;
 
 	public static List<delayedData> DelayedStuff = new List<delayedData>();
 

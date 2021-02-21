@@ -5,10 +5,13 @@ using UnityEngine;
 //TODO update mirror!!!!!!!!!!!, this is only here because mirror didn't update a synchronised list properly
 public class PokeClientSubScene : ServerMessage
 {
-	public class PokeClientSubSceneNetMessage : NetworkMessage
+	public struct PokeClientSubSceneNetMessage : NetworkMessage
 	{
-		public string ToLoadSceneName = "";
+		public string ToLoadSceneName;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PokeClientSubSceneNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{
@@ -19,7 +22,7 @@ public class PokeClientSubScene : ServerMessage
 		SubSceneManager.ManuallyLoadScene(newMsg.ToLoadSceneName);
 	}
 
-	public static void SendToAll(string SceneName)
+	public static void SendToAll(string SceneName = "")
 	{
 		var msg = new PokeClientSubSceneNetMessage
 		{

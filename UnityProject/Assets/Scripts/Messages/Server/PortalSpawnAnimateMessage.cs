@@ -10,12 +10,15 @@ namespace Messages.Server
 	/// </summary>
 	public class PortalSpawnAnimateMessage : ServerMessage
 	{
-		public class PortalSpawnAnimateMessageNetMessage : NetworkMessage
+		public struct PortalSpawnAnimateMessageNetMessage : NetworkMessage
 		{
 			public GameObject Entity;
 			public PortalSpawnInfo Settings;
 			public AnimateType Type;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public PortalSpawnAnimateMessageNetMessage message;
 
 		/// <summary>
 		/// <inheritdoc cref="PortalSpawnAnimateMessage"/>

@@ -53,11 +53,14 @@ namespace ServerInfo
 
 	public class ServerInfoMessageServer : ServerMessage
 	{
-		public class ServerInfoMessageServerNetMessage : NetworkMessage
+		public struct ServerInfoMessageServerNetMessage : NetworkMessage
 		{
 			public string ServerName;
 			public string ServerDesc;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ServerInfoMessageServerNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{
@@ -82,10 +85,13 @@ namespace ServerInfo
 
 	public class ServerInfoMessageClient : ClientMessage
 	{
-		public class ServerInfoMessageClientNetMessage : NetworkMessage
+		public struct ServerInfoMessageClientNetMessage : NetworkMessage
 		{
 			public string PlayerId;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ServerInfoMessageClientNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{

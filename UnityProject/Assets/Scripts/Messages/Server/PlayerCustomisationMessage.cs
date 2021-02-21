@@ -4,12 +4,15 @@ using Mirror;
 
 public class PlayerCustomisationMessage : ServerMessage
 {
-	public class PlayerCustomisationMessageNetMessage : NetworkMessage
+	public struct PlayerCustomisationMessageNetMessage : NetworkMessage
 	{
 		public CharacterSettings Character;
-		public BodyPartSpriteName Part = BodyPartSpriteName.Null;
+		public BodyPartSpriteName Part;
 		public uint EquipmentObject;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PlayerCustomisationMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{
@@ -42,6 +45,7 @@ public class PlayerCustomisationMessage : ServerMessage
 		return new PlayerCustomisationMessageNetMessage
 		{
 			EquipmentObject = equipmentObject.NetId(),
+			Part = BodyPartSpriteName.Null,
 			Character = Character
 		};
 	}

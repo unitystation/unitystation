@@ -6,15 +6,18 @@ using UnityEngine;
 
 public class RequestChangeVariableNetMessage : ClientMessage
 {
-	public class RequestChangeVariableNetMessageNetMessage : NetworkMessage
+	public struct RequestChangeVariableNetMessageNetMessage : NetworkMessage
 	{
 		public string newValue;
 		public ulong PageID;
-		public bool IsNewBookshelf = false;
-		public bool SendToClient = false;
+		public bool IsNewBookshelf;
+		public bool SendToClient;
 		public string AdminId;
 		public string AdminToken;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestChangeVariableNetMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

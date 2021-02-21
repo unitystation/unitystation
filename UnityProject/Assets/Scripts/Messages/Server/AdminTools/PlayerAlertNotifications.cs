@@ -10,11 +10,14 @@ using Mirror;
 /// </summary>
 public class PlayerAlertNotifications : ServerMessage
 {
-	public class PlayerAlertNotificationsNetMessage : NetworkMessage
+	public struct PlayerAlertNotificationsNetMessage : NetworkMessage
 	{
 		public int Amount;
 		public bool IsFullUpdate;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PlayerAlertNotificationsNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

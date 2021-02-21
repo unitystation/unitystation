@@ -6,10 +6,13 @@ using Mirror;
 /// </summary>
 public class VideoPlayerMessage : ServerMessage
 {
-	public class VideoPlayerMessageNetMessage : NetworkMessage
+	public struct VideoPlayerMessageNetMessage : NetworkMessage
 	{
 		public VideoType VideoToPlay;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public VideoPlayerMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

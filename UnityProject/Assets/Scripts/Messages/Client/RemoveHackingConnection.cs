@@ -6,12 +6,15 @@ using Newtonsoft.Json;
 
 public class RemoveHackingConnection : ClientMessage
 {
-	public class RemoveHackingConnectionNetMessage : NetworkMessage
+	public struct RemoveHackingConnectionNetMessage : NetworkMessage
 	{
 		public uint Player;
 		public uint HackableObject;
 		public string JsonData;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RemoveHackingConnectionNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

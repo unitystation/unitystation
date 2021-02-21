@@ -4,13 +4,16 @@ using Mirror;
 
 public class RemoveTileMessage : ServerMessage
 {
-	public class RemoveTileMessageNetMessage : NetworkMessage
+	public struct RemoveTileMessageNetMessage : NetworkMessage
 	{
 		public Vector3 Position;
 		public LayerType LayerType;
 		public bool RemoveAll;
 		public uint TileChangeManager;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RemoveTileMessageNetMessage IgnoreMe;
 
 	public static List<delayedData> DelayedStuff = new List<delayedData>();
 

@@ -6,10 +6,13 @@ using Mirror;
 
 public class SpriteRequestCurrentStateMessage : ClientMessage
 {
-	public class SpriteRequestCurrentStateMessageNetMessage : NetworkMessage
+	public struct SpriteRequestCurrentStateMessageNetMessage : NetworkMessage
 	{
 		public uint SpriteHandlerManager;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public SpriteRequestCurrentStateMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

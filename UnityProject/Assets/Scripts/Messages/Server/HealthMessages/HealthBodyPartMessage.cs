@@ -7,13 +7,16 @@ using Mirror;
 /// </summary>
 public class HealthBodyPartMessage : ServerMessage
 {
-	public class HealthBodyPartMessageNetMessage : NetworkMessage
+	public struct HealthBodyPartMessageNetMessage : NetworkMessage
 	{
 		public uint EntityToUpdate;
 		public BodyPartType BodyPart;
 		public float BruteDamage;
 		public float BurnDamage;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public HealthBodyPartMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

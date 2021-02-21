@@ -8,11 +8,14 @@ using Mirror;
 /// </summary>
 public class UpdateHeadsetKeyMessage : ClientMessage
 {
-	public class UpdateHeadsetKeyMessageNetMessage : NetworkMessage
+	public struct UpdateHeadsetKeyMessageNetMessage : NetworkMessage
 	{
 		public uint EncryptionKey;
 		public uint HeadsetItem;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateHeadsetKeyMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

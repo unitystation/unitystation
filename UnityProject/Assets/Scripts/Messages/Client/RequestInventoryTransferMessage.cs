@@ -12,7 +12,7 @@ using Mirror;
 /// </summary>
 public class RequestInventoryTransferMessage : ClientMessage
 {
-	public class RequestInventoryTransferMessageNetMessage : NetworkMessage
+	public struct RequestInventoryTransferMessageNetMessage : NetworkMessage
 	{
 		public uint FromStorage;
 		public int FromSlotIndex;
@@ -21,6 +21,9 @@ public class RequestInventoryTransferMessage : ClientMessage
 		public int ToSlotIndex;
 		public NamedSlot ToNamedSlot;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestInventoryTransferMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

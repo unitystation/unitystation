@@ -5,7 +5,7 @@ using Mirror;
 using UnityEngine;
 public class OtherPlayerSlotTransferMessage : ClientMessage
 {
-	public class OtherPlayerSlotTransferMessageNetMessage : NetworkMessage
+	public struct OtherPlayerSlotTransferMessageNetMessage : NetworkMessage
 	{
 		public uint PlayerStorage;
 		public int PlayerSlotIndex;
@@ -15,6 +15,9 @@ public class OtherPlayerSlotTransferMessage : ClientMessage
 		public NamedSlot TargetNamedSlot;
 		public bool IsGhost;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public OtherPlayerSlotTransferMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

@@ -8,13 +8,16 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class RequestObserverRefresh : ClientMessage
 {
-	public class RequestObserverRefreshNetMessage: NetworkMessage
+	public struct RequestObserverRefreshNetMessage: NetworkMessage
 	{
 		/// <summary>
 		/// The new scene we are requesting to observe
 		/// </summary>
 		public string NewSceneNameContext;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestObserverRefreshNetMessage IgnoreMe;
 
 	//TODO OldSceneNameContext (the scene we want to stop observing)
 

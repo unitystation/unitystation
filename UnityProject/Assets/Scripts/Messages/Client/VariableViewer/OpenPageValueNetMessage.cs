@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class OpenPageValueNetMessage : ClientMessage
 {
-	public class OpenPageValueNetMessageNetMessage : NetworkMessage
+	public struct OpenPageValueNetMessageNetMessage : NetworkMessage
 	{
 		public ulong PageID;
 		public uint SentenceID;
@@ -15,6 +15,9 @@ public class OpenPageValueNetMessage : ClientMessage
 		public string AdminId;
 		public string AdminToken;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public OpenPageValueNetMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

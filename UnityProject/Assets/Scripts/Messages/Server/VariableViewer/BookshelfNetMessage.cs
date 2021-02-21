@@ -12,10 +12,13 @@ using Newtonsoft.Json;
 
 public class BookshelfNetMessage : ServerMessage
 {
-	public class BookshelfNetMessageNetMessage : NetworkMessage
+	public struct BookshelfNetMessageNetMessage : NetworkMessage
 	{
 		public VariableViewerNetworking.NetFriendlyBookShelfView data;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public BookshelfNetMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

@@ -735,10 +735,13 @@ public partial class PlayerList
 
 	public class ClientJobBanDataMessage : ClientMessage
 	{
-		public class ClientJobBanDataMessageNetMessage : NetworkMessage
+		public struct ClientJobBanDataMessageNetMessage : NetworkMessage
 		{
 			public string PlayerID;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ClientJobBanDataMessageNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{
@@ -773,10 +776,13 @@ public partial class PlayerList
 
 	public class ServerSendsJobBanDataMessage : ServerMessage
 	{
-		public class ServerSendsJobBanDataMessageNetMessage : NetworkMessage
+		public struct ServerSendsJobBanDataMessageNetMessage : NetworkMessage
 		{
 			public string JobBanEntries;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public ServerSendsJobBanDataMessageNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{
@@ -801,7 +807,7 @@ public partial class PlayerList
 
 	public class RequestJobBan : ClientMessage
 	{
-		public class RequestJobBanNetMessage : NetworkMessage
+		public struct RequestJobBanNetMessage : NetworkMessage
 		{
 			public string AdminID;
 			public string AdminToken;
@@ -813,6 +819,9 @@ public partial class PlayerList
 			public bool KickAfter;
 			public bool GhostAfter;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public RequestJobBanNetMessage IgnoreMe;
 
 		public override void Process<T>(T msg)
 		{

@@ -7,10 +7,13 @@ using Mirror;
 /// </summary>
 public class HealthPressureMessage : ServerMessage
 {
-	public class HealthPressureMessageNetMessage : NetworkMessage
+	public struct HealthPressureMessageNetMessage : NetworkMessage
 	{
 		public float pressure;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public HealthPressureMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

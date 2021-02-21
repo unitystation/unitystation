@@ -7,10 +7,13 @@ using Mirror;
 /// </summary>
 public class HealthRespiratoryMessage : ServerMessage
 {
-	public class HealthRespiratoryMessageNetMessage : NetworkMessage
+	public struct HealthRespiratoryMessageNetMessage : NetworkMessage
 	{
 		public bool IsSuffocating;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public HealthRespiratoryMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

@@ -6,7 +6,7 @@ namespace Messages.Server.LocalGuiMessages
 {
 	public class SpawnBannerMessage : ServerMessage
 	{
-		public class SpawnBannerMessageNetMessage : NetworkMessage
+		public struct SpawnBannerMessageNetMessage : NetworkMessage
 		{
 			public string Name;
 			//AssetAddress
@@ -15,6 +15,9 @@ namespace Messages.Server.LocalGuiMessages
 			public Color BackgroundColor;
 			public bool PlaySound;
 		}
+
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public SpawnBannerMessageNetMessage message;
 
 		public static SpawnBannerMessageNetMessage Send(
 			GameObject player,

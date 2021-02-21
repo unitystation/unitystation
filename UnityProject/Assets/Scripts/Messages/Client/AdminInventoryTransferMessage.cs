@@ -7,7 +7,7 @@ using Mirror;
 
 public class AdminInventoryTransferMessage : ClientMessage
 {
-	public class AdminInventoryTransferMessageNetMessage : NetworkMessage
+	public struct AdminInventoryTransferMessageNetMessage : NetworkMessage
 	{
 		public uint FromStorage;
 		public int FromSlotIndex;
@@ -16,6 +16,9 @@ public class AdminInventoryTransferMessage : ClientMessage
 		public int ToSlotIndex;
 		public NamedSlot ToNamedSlot;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminInventoryTransferMessageNetMessage message;
 
 	public override void Process<T>(T msg)
 	{

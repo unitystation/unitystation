@@ -9,7 +9,7 @@ using Mirror;
 /// </summary>
 public class PlayParticleMessage : ServerMessage
 {
-	public class PlayParticleMessageNetMessage : NetworkMessage
+	public struct PlayParticleMessageNetMessage : NetworkMessage
 	{
 		/// <summary>
 		/// GameObject containing ParticleSystem
@@ -18,6 +18,9 @@ public class PlayParticleMessage : ServerMessage
 		public uint 	ParentObject;
 		public Vector2	TargetVector;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public PlayParticleMessageNetMessage IgnoreMe;
 
 	///To be run on client
 	public override void Process<T>(T msg)

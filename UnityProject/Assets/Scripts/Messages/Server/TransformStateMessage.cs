@@ -7,12 +7,15 @@ using Mirror;
 /// </summary>
 public class TransformStateMessage : ServerMessage
 {
-	public class TransformStateMessageNetMessage : NetworkMessage
+	public struct TransformStateMessageNetMessage : NetworkMessage
 	{
 		public bool ForceRefresh;
 		public TransformState State;
 		public uint TransformedObject;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public TransformStateMessageNetMessage IgnoreMe;
 
 	///To be run on client
 	public override void Process<T>(T msg)

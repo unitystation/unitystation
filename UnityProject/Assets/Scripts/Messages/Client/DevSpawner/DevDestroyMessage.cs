@@ -9,7 +9,7 @@ using Mirror;
 /// </summary>
 public class DevDestroyMessage : ClientMessage
 {
-	public class DevDestroyMessageNetMessage : NetworkMessage
+	public struct DevDestroyMessageNetMessage : NetworkMessage
 	{
 		// Net ID of the object to destroy
 		public uint ToDestroy;
@@ -21,6 +21,9 @@ public class DevDestroyMessage : ClientMessage
 			return $"[DevDestroyMessage ToClone={ToDestroy}]";
 		}
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public DevDestroyMessageNetMessage message;
 
 	public override void Process<T>(T msg)
 	{

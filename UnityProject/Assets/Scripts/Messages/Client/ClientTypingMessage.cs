@@ -15,10 +15,13 @@ public enum TypingState
 /// </summary>
 public class ClientTypingMessage : ClientMessage
 {
-	public class ClientTypingMessageNetMessage : NetworkMessage
+	public struct ClientTypingMessageNetMessage : NetworkMessage
 	{
 		public TypingState state;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public ClientTypingMessageNetMessage message;
 
 	public override void Process<T>(T msg)
 	{

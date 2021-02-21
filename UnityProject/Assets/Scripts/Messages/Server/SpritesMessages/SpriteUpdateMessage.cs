@@ -15,10 +15,13 @@ public class SpriteUpdateMessage : ServerMessage
 		'>', '<', '&', ',', '?', '~', '`', '@', '{', '%', '^', '£', '#'
 	};
 
-	public class SpriteUpdateMessageNetMessage : NetworkMessage
+	public struct SpriteUpdateMessageNetMessage : NetworkMessage
 	{
 		public string SerialiseData;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public SpriteUpdateMessageNetMessage IgnoreMe;
 
 	//> = PresentSpriteSet
 	//< = VariantIndex

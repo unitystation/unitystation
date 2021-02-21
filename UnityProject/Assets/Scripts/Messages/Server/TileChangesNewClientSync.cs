@@ -7,11 +7,15 @@ using Mirror;
 //long name I know. This is for syncing new clients when they join to all of the tile changes
 public class TileChangesNewClientSync : ServerMessage
 {
-	public class TileChangesNewClientSyncNetMessage : NetworkMessage
+	public struct TileChangesNewClientSyncNetMessage : NetworkMessage
 	{
 		public string data;
 		public uint ManagerSubject;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public TileChangesNewClientSyncNetMessage IgnoreMe;
+
 	//just a best guess, try increasing it until the message exceeds mirror's limit
 	private static readonly int MAX_CHANGES_PER_MESSAGE = 20;
 

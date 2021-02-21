@@ -6,10 +6,13 @@ using Mirror;
 /// </summary>
 public class UpdateUIMessage : ServerMessage
 {
-	public class UpdateUIMessageNetMessage : NetworkMessage
+	public struct UpdateUIMessageNetMessage : NetworkMessage
 	{
 		public ControlDisplays.Screens Screen;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateUIMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

@@ -8,11 +8,14 @@ using UnityEngine;
 /// </summary>
 public class AdminEnableMessage : ServerMessage
 {
-	public class AdminEnableMessageNetMessage : NetworkMessage
+	public struct AdminEnableMessageNetMessage : NetworkMessage
 	{
 		public string AdminToken;
 		public uint AdminGhostStorage;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminEnableMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

@@ -7,11 +7,14 @@ using AdminTools;
 
 public class AdminPlayerListRefreshMessage : ServerMessage
 {
-	public class AdminPlayerListRefreshMessageNetMessage : NetworkMessage
+	public struct AdminPlayerListRefreshMessageNetMessage : NetworkMessage
 	{
 		public string JsonData;
 		public uint Recipient;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AdminPlayerListRefreshMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

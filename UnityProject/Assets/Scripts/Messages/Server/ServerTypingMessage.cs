@@ -9,11 +9,14 @@ using UnityEngine;
 /// </summary>
 public class ServerTypingMessage : ServerMessage
 {
-	public class ServerTypingMessageNetMessage : NetworkMessage
+	public struct ServerTypingMessageNetMessage : NetworkMessage
 	{
 		public TypingState state;
 		public uint targetID;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public ServerTypingMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

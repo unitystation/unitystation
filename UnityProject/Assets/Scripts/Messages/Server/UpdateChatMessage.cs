@@ -10,7 +10,7 @@ using Mirror;
 /// </summary>
 public class UpdateChatMessage : ServerMessage
 {
-	public class UpdateChatMessageNetMessage : NetworkMessage
+	public struct UpdateChatMessageNetMessage : NetworkMessage
 	{
 		public ChatChannel Channels;
 		public ChatModifier ChatModifiers;
@@ -23,6 +23,9 @@ public class UpdateChatMessage : ServerMessage
 		public string Speaker;
 		public bool StripTags;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateChatMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

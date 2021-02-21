@@ -5,11 +5,14 @@
 /// </summary>
 public class UpdateCountdownMessage : ServerMessage
 {
-	public class UpdateCountdownMessageNetMessage : NetworkMessage
+	public struct UpdateCountdownMessageNetMessage : NetworkMessage
 	{
 		public bool Started;
 		public double EndTime;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public UpdateCountdownMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

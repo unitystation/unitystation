@@ -8,13 +8,16 @@ using UnityEngine;
 /// </summary>
 public class RequestGameModeUpdate : ClientMessage
 {
-	public class RequestGameModeUpdateNetMessage : NetworkMessage
+	public struct RequestGameModeUpdateNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
 		public string NextGameMode;
 		public bool IsSecret;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestGameModeUpdateNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

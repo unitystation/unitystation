@@ -8,11 +8,14 @@ using UnityEngine;
 /// </summary>
 public class RequestAdminPageRefresh : ClientMessage
 {
-	public class RequestAdminPageRefreshNetMessage : NetworkMessage
+	public struct RequestAdminPageRefreshNetMessage : NetworkMessage
 	{
 		public string Userid;
 		public string AdminToken;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestAdminPageRefreshNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

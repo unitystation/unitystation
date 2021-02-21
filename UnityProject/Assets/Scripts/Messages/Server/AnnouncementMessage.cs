@@ -6,10 +6,13 @@ using Mirror;
 /// </summary>
 public class AnnouncementMessage : ServerMessage
 {
-	public class AnnouncementMessageNetMessage : NetworkMessage
+	public struct AnnouncementMessageNetMessage : NetworkMessage
 	{
 		public string Text;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public AnnouncementMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

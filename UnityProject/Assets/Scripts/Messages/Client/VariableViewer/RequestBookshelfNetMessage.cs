@@ -6,14 +6,17 @@ using UnityEngine;
 
 public class RequestBookshelfNetMessage : ClientMessage
 {
-	public class RequestBookshelfNetMessageNetMessage : NetworkMessage
+	public struct RequestBookshelfNetMessageNetMessage : NetworkMessage
 	{
 		public ulong BookshelfID;
-		public bool IsNewBookshelf = false;
+		public bool IsNewBookshelf;
 		public string AdminId;
 		public string AdminToken;
 		public uint TheObjectToView;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public RequestBookshelfNetMessageNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{

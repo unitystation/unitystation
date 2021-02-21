@@ -4,10 +4,13 @@ using Mirror;
 
 public class CustomNetTransformNewPlayer : ClientMessage
 {
-	public class CustomNetTransformNewPlayerNetMessage : NetworkMessage
+	public struct CustomNetTransformNewPlayerNetMessage : NetworkMessage
 	{
 		public uint CNT;
 	}
+
+	//This is needed so the message can be discovered in NetworkManagerExtensions
+	public CustomNetTransformNewPlayerNetMessage IgnoreMe;
 
 	public override void Process<T>(T msg)
 	{
