@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -14,7 +15,7 @@ namespace Objects.Robotics
 		[SyncVar(hook = nameof(SyncSprite))]
 		private ExosuitFabricatorState stateSync;
 
-		[SerializeField] private SpriteHandler spriteHandler = null;
+		private SpriteHandler spriteHandler = null;
 		[SerializeField] private SpriteDataSO idleSprite = null;
 		[SerializeField] private SpriteDataSO acceptingMaterialsSprite = null;
 		[SerializeField] private SpriteDataSO productionSprite = null;
@@ -44,15 +45,10 @@ namespace Objects.Robotics
 			Production,
 		};
 
-		public override void OnStartClient()
-		{
-			SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
-			base.OnStartClient();
-		}
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			EnsureInit();
+			SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
 		}
 
 		private void Awake()
@@ -62,7 +58,7 @@ namespace Objects.Robotics
 
 		public void EnsureInit()
 		{
-			SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			materialStorage = this.GetComponent<MaterialStorage>();
 		}
 

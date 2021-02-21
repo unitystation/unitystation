@@ -289,6 +289,7 @@ namespace Blob
 
 			gameObject.GetComponent<LivingHealthBehaviour>().Harvest();
 
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			Destroy(this);
 		}
 

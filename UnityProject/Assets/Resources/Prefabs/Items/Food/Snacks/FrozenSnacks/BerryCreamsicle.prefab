@@ -26,13 +26,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6586896859430772348, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
-      propertyPath: initialDescription
-      value: A vibrant berry creamsicle. A berry good frozen treat.
+      propertyPath: initialName
+      value: berry creamsicle
       objectReference: {fileID: 0}
     - target: {fileID: 6586896859430772348, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
-      propertyPath: initialName
-      value: berry creamsicle
+      propertyPath: initialDescription
+      value: A vibrant berry creamsicle. A berry good frozen treat.
       objectReference: {fileID: 0}
     - target: {fileID: 6634071525805919402, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
@@ -43,6 +43,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BerryCreamsicle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
@@ -61,6 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -73,16 +83,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
@@ -99,5 +99,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7882897802799215925, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 09862511383c8674ca061cee97f9721c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6912188aeedf08e4597674ede9f0c62d, type: 3}

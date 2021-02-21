@@ -204,9 +204,13 @@ namespace Pipes
 			}
 
 			ZeroedLocation.z = 0;
+
 			var tileWorldPosition = MatrixManager.LocalToWorld(ZeroedLocation, matrix).RoundToInt();
-			MatrixManager.ReagentReact(ToSpill.Item1, tileWorldPosition);
-			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(tileWorldPosition, true).MetaDataLayer;
+			var matrixInfo = MatrixManager.AtPoint(tileWorldPosition, true);
+
+			MatrixManager.ReagentReact(ToSpill.Item1, tileWorldPosition, matrixInfo);
+
+			MetaDataLayer metaDataLayer = matrixInfo.MetaDataLayer;
 			if (pipeNode != null)
 			{
 				GasMix.TransferGas(pipeNode.IsOn.GasMix, ToSpill.Item2, ToSpill.Item2.Moles);

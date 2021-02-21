@@ -14,10 +14,10 @@ namespace Pipes
 		public int UnitPerTick = 100;
 		public int PowerPercentage = 100;
 
-		public override void Start()
+		public override void OnSpawnServer(SpawnInfo info)
 		{
 			pipeData.PipeAction = new WaterPumpAction();
-			base.Start();
+			base.OnSpawnServer(info);
 		}
 
 		public override void TickUpdate()

@@ -19,5 +19,7 @@ namespace ScriptableObjects
 		public GameObject Mask;
 		public GameObject EmergencyOxygenTank;
 		public GameObject MachineFrame;
+
+		public GameObject SparkEffect;
 	}
 }

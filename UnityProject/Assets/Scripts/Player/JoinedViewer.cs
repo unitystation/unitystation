@@ -121,6 +121,13 @@ public class JoinedViewer : NetworkBehaviour
 		//TODO When we have scene network culling we will need to allow observers
 		// for the whole specific scene and the body before doing the logic below:
 		var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
+		if (netIdentity == null)
+		{
+			Logger.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
+					"Cannot rejoin that player. Was original player object improperly created? Did we get runtime error while creating it?");
+			// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
+			yield break;
+		}
 		while (!netIdentity.observers.ContainsKey(this.connectionToClient.connectionId))
 		{
 			yield return WaitFor.EndOfFrame;

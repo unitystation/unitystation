@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Light2D;
 using Lighting;
@@ -43,9 +44,13 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 	[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
 	private SOLightMountState currentState;
+	private RegisterTile registerTile;
 
 	private ItemTrait traitRequired;
 	private GameObject itemInMount;
+
+	private GameObject currentSparkEffect;
+
 	public float integrityThreshBar { get; private set; }
 
 	[SerializeField]
@@ -94,17 +99,9 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		}
 	}
 
-	public override void OnStartClient()
+	private void Awake()
 	{
-		//EnsureInit();
-		base.OnStartClient();
-		GetComponent<RegisterTile>().WaitForMatrixInit(InitClientValues);
-
-	}
-
-	void InitClientValues(MatrixInfo matrixInfo)
-	{
-		SyncLightState(mState, mState);
+		registerTile = GetComponent<RegisterTile>();
 	}
 
 	private void OnEnable()
@@ -115,12 +112,23 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private void OnDisable()
 	{
 		if(integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
+
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
 	}
 
 	[Server]
 	public void ServerChangeLightState(LightMountState newState)
 	{
 		mState = newState;
+
+		if (newState == LightMountState.Broken)
+		{
+			UpdateManager.Add(TrySpark, 1f);
+		}
+		else
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
+		}
 	}
 
 	private void SyncLightState(LightMountState oldState, LightMountState newState)
@@ -374,8 +382,37 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	#endregion
 
+	#region Spark
+
+	private void TrySpark()
+	{
+		//Has to be broken and have power to spark
+		if(mState != LightMountState.Broken || powerState == PowerStates.Off) return;
+
+		//25% chance to do effect and not already doing an effect
+		if(DMMath.Prob(75) || currentSparkEffect != null) return;
+
+		var worldPos = registerTile.WorldPositionServer;
+
+		var result = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, worldPos, gameObject.transform.parent);
+		if (result.Successful)
+		{
+			currentSparkEffect = result.GameObject;
+
+			//Try start fire if possible
+			var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;
+			reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int());
+
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, worldPos, sourceObj: gameObject);
+		}
+	}
+
+	#endregion
+
 	private void OnDamageReceived(DamageInfo arg0)
 	{
+		if(CustomNetworkManager.IsServer == false) return;
+
 		CheckIntegrityState();
 	}
 
@@ -395,6 +432,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 			ServerChangeLightState(LightMountState.Broken);
 			Spawn.ServerPrefab(CommonPrefabs.Instance.GlassShard, pos, count: Random.Range(0, 2),
 				scatterRadius: Random.Range(0, 2));
+			TrySpark();
 		}
 	}
 

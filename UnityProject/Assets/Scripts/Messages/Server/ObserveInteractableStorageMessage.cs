@@ -36,9 +36,10 @@ public class ObserveInteractableStorageMessage : ServerMessage
 			//hide any children they might be viewing as well
 			foreach (var slot in itemStorage.GetItemSlotTree())
 			{
-				if (slot.ItemObject == UIManager.StorageHandler.CurrentOpenStorage?.gameObject)
+				if (slot.ItemObject && slot.ItemObject == UIManager.StorageHandler.CurrentOpenStorage?.gameObject)
 				{
 					UIManager.StorageHandler.CloseStorageUI();
+					break;
 				}
 			}
 		}

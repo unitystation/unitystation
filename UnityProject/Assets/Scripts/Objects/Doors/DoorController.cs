@@ -580,7 +580,11 @@ namespace Doors
 		/// </summary>
 		public void UpdateNewPlayer(NetworkConnection playerConn)
 		{
-			if (IsClosed == false)
+			if (IsClosed)
+			{
+				DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Close, true);
+			}
+			else
 			{
 				DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Open, true);
 			}

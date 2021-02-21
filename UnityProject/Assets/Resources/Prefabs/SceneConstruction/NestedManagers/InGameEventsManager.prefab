@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 739026179657658727}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1509154772117394094
 MonoBehaviour:
@@ -92,7 +92,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 739026179657658727}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7371302063270046852
 MonoBehaviour:
@@ -259,12 +259,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2176390301219290958}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.2508955, y: -0.74306184, z: 0.91875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 8
+  m_Father: {fileID: 739026179657658727}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7849438823070064729
 MonoBehaviour:
@@ -281,7 +281,7 @@ MonoBehaviour:
   EventName: Fugitives
   StartTimer: 0
   EndTimer: 0
-  EventType: 1
+  EventType: 3
   ChanceToHappen: 30
   MinPlayersToTrigger: 1
   parametersPageType: 0
@@ -318,7 +318,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8688883408302241468
 MonoBehaviour:
@@ -388,7 +388,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1444185421979299837
 MonoBehaviour:
@@ -443,7 +443,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9013609522436419745
 MonoBehaviour:
@@ -619,7 +619,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2610571774784088097
 MonoBehaviour:
@@ -669,7 +669,8 @@ Transform:
   m_LocalPosition: {x: -5.2508955, y: 0.74306184, z: -0.91875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2814037277566469169}
+  - {fileID: 6034400332780565072}
+  - {fileID: 1318916917475401147}
   - {fileID: 1986124767922438636}
   - {fileID: 3219844687204394920}
   m_Father: {fileID: 8934140032923375002}
@@ -706,11 +707,9 @@ Transform:
   - {fileID: 5866069805973481999}
   - {fileID: 2229250345173143171}
   - {fileID: 698688857389952623}
-  - {fileID: 6034400332780565072}
   - {fileID: 6740344816744190755}
   - {fileID: 1590283313530423313}
   - {fileID: 4130085576290714883}
-  - {fileID: 1318916917475401147}
   - {fileID: 1368603534518432520}
   - {fileID: 6017755624213906674}
   - {fileID: 8107459317429369441}
@@ -802,59 +801,6 @@ MonoBehaviour:
   - {fileID: 7881540825094338729, guid: 8e2977953ed34c84c82792c99d2549b5, type: 3}
   - {fileID: 7781396554342910705, guid: fd2b975bb2d60fb429c193f9ef1d31b0, type: 3}
   announceText: Did someone drop a bat?
---- !u!1 &4769905310584923402
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2814037277566469169}
-  - component: {fileID: 959434667324187030}
-  m_Layer: 0
-  m_Name: Blob
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2814037277566469169
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4769905310584923402}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 739026179657658727}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &959434667324187030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4769905310584923402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdb72b6fe7dfcb64aa89bf5236a0bdc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EventName: Infect Random Player With Blob
-  StartTimer: 0
-  EndTimer: 0
-  EventType: 3
-  ChanceToHappen: 0
-  MinPlayersToTrigger: 20
-  parametersPageType: 0
-  FakeEvent: 0
-  AnnounceEvent: 1
-  blobAntag: {fileID: 11400000, guid: 4e33e3c5bcb99b34cbab164bcfa68951, type: 2}
 --- !u!1 &4778382546232297221
 GameObject:
   m_ObjectHideFlags: 0
@@ -884,7 +830,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5844188118944054632
 MonoBehaviour:
@@ -963,12 +909,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4944346756115273505}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.2508955, y: -0.74306184, z: 0.91875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 4
+  m_Father: {fileID: 739026179657658727}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2385929994502848429
 MonoBehaviour:
@@ -985,7 +931,7 @@ MonoBehaviour:
   EventName: Blob
   StartTimer: 0
   EndTimer: 0
-  EventType: 1
+  EventType: 3
   ChanceToHappen: 30
   MinPlayersToTrigger: 1
   parametersPageType: 0
@@ -1022,7 +968,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2934142359551454669
 MonoBehaviour:
@@ -1114,7 +1060,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1734058573413260740
 MonoBehaviour:
@@ -1458,7 +1404,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6462514027336449978
 MonoBehaviour:
@@ -1632,7 +1578,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 14
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5219137714795788897
 MonoBehaviour:

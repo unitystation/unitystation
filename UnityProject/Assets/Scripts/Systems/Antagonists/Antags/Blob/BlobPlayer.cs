@@ -224,6 +224,8 @@ namespace Blob
 
 		private bool pathSearch;
 
+		private LayerMask layerMask;
+
 		//stores the client linerenderer gameobjects
 		private HashSet<GameObject> clientLinerenderers = new HashSet<GameObject>();
 
@@ -307,6 +309,8 @@ namespace Blob
 			playerSync = GetComponent<PlayerSync>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			playerScript = GetComponent<PlayerScript>();
+
+			layerMask = LayerMask.GetMask("Objects", "Players", "NPC", "Machines", "Windows", "Door Closed");
 		}
 
 		private void PeriodicUpdate()
@@ -727,61 +731,35 @@ namespace Blob
 
 			var pos = worldPos.RoundToInt();
 
-			var local = worldPos.ToLocalInt(matrix);
+			var objects = Physics2D.OverlapBoxAll(pos.To2Int(), new Vector2(0.8f, 0.8f), 0, layerMask);
 
-			var players = matrix.Get<LivingHealthBehaviour>(local, ObjectType.Player, true);
-
-			foreach (var player in players)
+			foreach (var hitObject in objects)
 			{
-				if(player.IsDead) continue;
-
-				foreach (var playerDamage in currentStrain.playerDamages)
+				if (hitObject.TryGetComponent<LivingHealthBehaviour>(out var npcPlayerComponent))
 				{
-					player.ApplyDamage(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
-				}
+					if(npcPlayerComponent.IsDead) continue;
 
-				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
-
-				PlayAttackEffect(pos);
-
-				return true;
-			}
-
-			var hits = matrix.Get<RegisterTile>(local, ObjectType.Object, true)
-				.Where( hit => hit != null && !hit.IsPassable(true) && (!hit.TryGetComponent<BlobStructure>(out var structure) || structure.overmindName != overmindName));
-
-			foreach (var hit in hits)
-			{
-				//Try damage NPC
-				if (hit.TryGetComponent<LivingHealthBehaviour>(out var npcComponent))
-				{
-					if(npcComponent.IsDead) continue;
-
-					foreach (var npcDamage in currentStrain.playerDamages)
+					foreach (var playerDamage in currentStrain.playerDamages)
 					{
-						npcComponent.ApplyDamage(gameObject, npcDamage.damageDone, AttackType.Melee, npcDamage.damageType);
+						npcPlayerComponent.ApplyDamage(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
 					}
-
-					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb", posOverride: worldPos);
 
 					PlayAttackEffect(pos);
 
 					return true;
 				}
 
-				//Dont bother destroying passable stuff, eg open door
-				if (hit.IsPassable(true)) continue;
+				//If you're are passable, dont need to damage
+				if (hitObject.TryGetComponent<RegisterTile>(out var registerTile) && registerTile.IsPassable(true)) continue;
 
-				if (hit.TryGetComponent<Integrity>(out var component) && !component.Resistances.Indestructable)
+				//If you're are allied blob dont damage
+				if(hitObject.TryGetComponent<BlobStructure>(out var structure) && structure.overmindName == overmindName) continue;
+
+				if (hitObject.TryGetComponent<Integrity>(out var integrity) && !integrity.Resistances.Indestructable)
 				{
 					foreach (var objectDamage in currentStrain.objectDamages)
 					{
-						component.ApplyDamage(objectDamage.damageDone, AttackType.Melee, objectDamage.damageType, true);
-					}
-
-					if (!autoExpanding)
-					{
-						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
+						integrity.ApplyDamage(objectDamage.damageDone, AttackType.Melee, objectDamage.damageType, true);
 					}
 
 					PlayAttackEffect(pos);
@@ -790,21 +768,10 @@ namespace Blob
 				}
 			}
 
-			//Do check to see if the impassable thing is a friendly blob, as it will be the only object left
-			var hitsSecond = matrix.Get<RegisterTile>(local, ObjectType.Object, true)
-				.Where(hit => hit != null && hit.TryGetComponent<BlobStructure>(out var structure) && structure != null
-				&& structure.overmindName == overmindName);
-
-			if (hitsSecond.Any())
+			//Check for walls, windows and grills if we didnt attack anything else
+			if (metaTileMap != null && !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, ignoreObjects: true))
 			{
-				return false;
-			}
-
-			//Check for walls, windows and grills
-			if (metaTileMap != null && !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true))
-			{
-				//Cell pos is unused var
-				metaTileMap.ApplyDamage(Vector3Int.zero, layerDamage, pos);
+				metaTileMap.ApplyDamage(worldPos.ToLocal().RoundToInt(), layerDamage, pos);
 
 				PlayAttackEffect(pos);
 
@@ -1332,7 +1299,7 @@ namespace Blob
 
 		private IEnumerator EndRound()
 		{
-			yield return WaitFor.Seconds(180f);
+			yield return WaitFor.Seconds(60f);
 
 			Chat.AddGameWideSystemMsgToChat("The blob has consumed the station, we are all but goo now.");
 
@@ -1508,16 +1475,7 @@ namespace Blob
 				if (factoryBlob.Key == null) continue;
 
 				factoryBlob.Value.Remove(null);
-
-				var spores = factoryBlob.Value;
-
-				foreach (var spore in spores)
-				{
-					if (spore.GetComponent<LivingHealthBehaviour>().IsDead)
-					{
-						factoryBlob.Value.Remove(spore);
-					}
-				}
+				factoryBlob.Value.RemoveWhere(spore => spore.GetComponent<LivingHealthBehaviour>().IsDead);
 
 				//Dont produce spores unless connected
 				if(!factoryBlob.Key.connectedToBlobNet) continue;

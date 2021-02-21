@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 203609217757205374, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d340905697324f4a9defdba30d55be2,
+        type: 2}
     - target: {fileID: 2756779714572970633, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: NutritionLevel
@@ -41,13 +47,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialDescription
-      value: Lime syrup drizzled over a snowball in a paper cup.
+      propertyPath: initialName
+      value: lime snowcone
       objectReference: {fileID: 0}
     - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialName
-      value: lime snowcone
+      propertyPath: initialDescription
+      value: Lime syrup drizzled over a snowball in a paper cup.
       objectReference: {fileID: 0}
     - target: {fileID: 6153244383172778917, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
@@ -55,10 +61,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 546a0281004a0f445a112a17aa2ce34c,
         type: 3}
+    - target: {fileID: 6153244383172778917, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6197365604022048077, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
@@ -77,6 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +110,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
