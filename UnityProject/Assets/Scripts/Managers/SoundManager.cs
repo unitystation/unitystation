@@ -192,6 +192,13 @@ public class SoundManager : MonoBehaviour
 	}
 
 
+	/// <summary>
+	/// Trys to get a Soundspawn from NonplayingSounds, otherwise gets a new one.
+	/// This copies the AudioSource settings to the new SoundSpawn instance and returns it.
+	/// </summary>
+	/// <param name="audioSource">The AudioSource to copy</param>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
+	/// <returns>The SoundSpawn to be played</returns>
 	private SoundSpawn GetSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource,
 		string soundSpawnToken)
 	{
@@ -347,7 +354,7 @@ public class SoundManager : MonoBehaviour
 		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		PlayNetworkedForPlayer(recipient, addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters, sourceObj);
+		await PlayNetworkedForPlayer(recipient, addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters, sourceObj);
 	}
 
 	/// <summary>
@@ -386,7 +393,7 @@ public class SoundManager : MonoBehaviour
 		bool polyphonic = false, ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		PlayNetworkedForPlayerAtPos(recipient, worldPos, addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters, sourceObj);
+		await PlayNetworkedForPlayerAtPos(recipient, worldPos, addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters, sourceObj);
 	}
 
 	/// <summary>
@@ -428,13 +435,20 @@ public class SoundManager : MonoBehaviour
 		await Play(addressableAudioSource, soundSpawnToken, audioSourceParameters, polyphonic);
 	}
 
-	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true, MixerType mixerType = MixerType.Master)
+	/// <summary>
+	/// Plays a SoundSpawn.
+	/// </summary>
+	/// <param name="source">The SoundSpawn to be played</param>
+	/// <param name="polyphonic">Should the sound be played polyphonically</param>
+	/// <param name="global">Does everyone will receive the sound our just nearby players</param>
+	/// <param name="mixerType">The type of mixer to use</param>
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool global = true, MixerType mixerType = MixerType.Master)
 	{
-		if (!Global
+		if (global == false
 		    && PlayerManager.LocalPlayer != null
-		    && (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
+		    && MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
 			    LayerTypeSelection.Walls, layerMask, source.transform.position.To2Int().To3Int())
-			    .ItHit))
+			    .ItHit)
 			{
 				source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
 			}
@@ -456,8 +470,8 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="addressableAudioSources">Sound to be played.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
-	public static void PlayAtPosition(AddressableAudioSource addressableAudioSource, string soundSpawnToken,
-		Vector3 worldPos, GameObject sourceObj,	bool polyphonic = false, bool isGlobal = false,
+	public static void PlayAtPositionAttached(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+		GameObject gameObject, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		if (addressableAudioSource.AssetAddress == string.Empty)
@@ -467,8 +481,8 @@ public class SoundManager : MonoBehaviour
 			return;
 		}
 
-		PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource},
-			soundSpawnToken, worldPos, sourceObj, polyphonic, isGlobal, audioSourceParameters);
+		PlayAtPositionAttached(new List<AddressableAudioSource> {addressableAudioSource}, worldPos, gameObject, 
+			soundSpawnToken, polyphonic, isGlobal, audioSourceParameters);
 	}
 
 	/// <summary>
@@ -480,21 +494,21 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
-	public static void PlayAtPosition(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken,
-		Vector3 worldPos, GameObject sourceObj,	bool polyphonic = false, bool isGlobal = false,
+	public static void PlayAtPositionAttached(List<AddressableAudioSource> addressableAudioSources, Vector3 worldPos,
+		GameObject sourceObj, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		var netId = NetId.Empty;
-		if (sourceObj != null)
+		if (gameObject != null)
 		{
-			var netB = sourceObj.GetComponent<NetworkBehaviour>();
+			var netB = gameObject.GetComponent<NetworkBehaviour>();
 			if (netB != null)
 			{
 				netId = netB.netId;
 			}
 		}
 
-		PlayAtPosition(addressableAudioSources, soundSpawnToken, worldPos, polyphonic, isGlobal, netId,
+		PlayAtPosition(addressableAudioSources, worldPos, soundSpawnToken, polyphonic, isGlobal, netId,
 			audioSourceParameters);
 	}
 
@@ -521,7 +535,7 @@ public class SoundManager : MonoBehaviour
 		}
 
 
-		_ = PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource}, soundSpawnToken, worldPos,
+		_ = PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource}, worldPos, soundSpawnToken,
 			polyphonic, isGlobal, netId, audioSourceParameters);
 	}
 
@@ -532,7 +546,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="soundSpawnToken">The token that identifies the SoundSpawn uniquely among the server and all clients </param>
 	public static async Task PlayAtPosition(List<AddressableAudioSource> addressableAudioSources,
-		string soundSpawnToken, Vector3 worldPos, bool polyphonic = false,
+		Vector3 worldPos, string soundSpawnToken, bool polyphonic = false,
 		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		AddressableAudioSource addressableAudioSource =
