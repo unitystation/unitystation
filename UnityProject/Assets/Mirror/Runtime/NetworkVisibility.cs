@@ -65,6 +65,7 @@ namespace Mirror
         public virtual void OnSetHostVisibility(bool visible)
         {
 	        //CUSTOM UNITYSTATION CODE//
+			//Reenable when testing out proximity stuff so that it works in editor as host
 
             //foreach (Renderer rend in GetComponentsInChildren<Renderer>())
             //    rend.enabled = visible;
