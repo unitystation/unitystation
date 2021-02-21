@@ -732,7 +732,7 @@ public class SoundManager : MonoBehaviour
 			audioSource.volume = audioSourceParameters.Volume;
 		}
 
-		//Pitch should never be 0.  A negative pitch plays the sound backwards.
+    //Pitch should never be 0.  A negative pitch plays the sound backwards.
 		if(audioSourceParameters.Pitch != 0)
 			audioSource.pitch = audioSourceParameters.Pitch;
 		else if(audioSource.pitch == 0)
