@@ -64,7 +64,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		}
 
 		//not punching unless harm intent
-		if (interaction.HandObject == null && interaction.Intent != Intent.Harm) return false;
+		if (interaction.Intent != Intent.Harm) return false;
 
 		//if attacking tiles, only some layers are allowed to be attacked
 		if (interactableTiles != null)

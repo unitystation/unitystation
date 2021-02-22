@@ -133,7 +133,7 @@ public class TileChangeManager : NetworkBehaviour
 		Color? color = null)
 	{
 		cellPosition.z = 0;
-		if (!metaTileMap.HasTile(cellPosition, overlayTile.LayerType)) return;
+		if (metaTileMap.HasTile(cellPosition, overlayTile.LayerType)) return;
 		cellPosition.z = -1;
 		if (IsDifferent(cellPosition, overlayTile))
 		{
@@ -181,7 +181,7 @@ public class TileChangeManager : NetworkBehaviour
 			}
 			else if (layerType == LayerType.Windows)
 			{
-				RemoveTile(cellPosition, LayerType.Effects);
+				RemoveOverlay(cellPosition, LayerType.Effects);
 			}
 
 			return layerTile;
@@ -267,11 +267,6 @@ public class TileChangeManager : NetworkBehaviour
 	public void InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
-		if (layerTile.TileType == TileType.WindowDamaged)
-		{
-			position.z -= 1;
-		}
-
 		Vector3Int p = position.RoundToInt();
 
 		metaTileMap.SetTile(p, layerTile, transformMatrix, color);

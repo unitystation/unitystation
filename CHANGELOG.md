@@ -2,6 +2,10 @@
 ---
 
 
+* 2021/2/20: Fixed mobs being unable to die. by [corp-0](https://github.com/corp-0) in PR #[6075](https://github.com/unitystation/unitystation/pull/6075)
+* 2021/2/20: Adds damage levels for normal metal floors by [ThatDan123](https://github.com/ThatDan123) in PR #[6063](https://github.com/unitystation/unitystation/pull/6063)
+* 2021/2/20: Adds damage levels for reinforced and normal metal walls by [ThatDan123](https://github.com/ThatDan123) in PR #[6063](https://github.com/unitystation/unitystation/pull/6063)
+* 2021/2/20: Readds window damage overlays and knock sound by [ThatDan123](https://github.com/ThatDan123) in PR #[6063](https://github.com/unitystation/unitystation/pull/6063)
 * 2021/2/19: Reduced spark sound noise distance by [ThatDan123](https://github.com/ThatDan123) in PR #[6060](https://github.com/unitystation/unitystation/pull/6060)
 * 2021/2/19: Fixes sparks being at wrong position by [ThatDan123](https://github.com/ThatDan123) in PR #[6060](https://github.com/unitystation/unitystation/pull/6060)
 * 2021/2/18: Broken lights now spark occasionally, which can start fires. by [ThatDan123](https://github.com/ThatDan123) in PR #[6053](https://github.com/unitystation/unitystation/pull/6053)

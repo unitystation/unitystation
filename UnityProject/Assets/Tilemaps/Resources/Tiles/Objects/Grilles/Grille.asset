@@ -12,18 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: Grille
   m_EditorClassIdentifier: 
-  displayName: grille
+  displayName: grill
   LayerType: 5
   TileType: 6
   RequiredTiles:
   - {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
-  floorTileType: 0
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 0
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
   doesReflectBullet: 0
+  indestructible: 0
   passableException:
     m_keys: 
     m_values: 
@@ -47,6 +49,8 @@ MonoBehaviour:
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 11400000, guid: 4448344eea08d8a4887e16cb85e387cc, type: 2}
+  toTileWhenDestroyed: {fileID: 11400000, guid: ae01776fef41f7c459bc221935b0651d,
+    type: 2}
   soundOnHit:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab

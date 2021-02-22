@@ -15,6 +15,8 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 	public List<string> firemodeName = new List<string>();
 	public List<int> firemodeUsage = new List<int>();
 
+	private const float magRemoveTime = 3f;
+
 	[SerializeField]
 	private bool allowScrewdriver = true;
 
@@ -107,7 +109,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && allowScrewdriver)
 			{
-				base.RequestUnload(CurrentMagazine);
+				PowerCellRemoval(interaction);
 			}
 			MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 			if (mag)
@@ -116,12 +118,35 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 			}
 			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
 			{
-				Inventory.ServerDrop(pinSlot);
+				PinRemoval(interaction);
 			}
 			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
 			{
-				Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
+				PinAddition(interaction);
 			}
+		}
+	}
+
+	private void PowerCellRemoval(InventoryApply interaction)
+	{
+		void ProgressFinishAction()
+		{
+			Chat.AddActionMsgToChat(interaction.Performer,
+				$"The {gameObject.ExpensiveName()}'s power cell pops out",
+				$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
+			base.RequestUnload(CurrentMagazine);				
+		}
+
+		var bar = StandardProgressAction.Create(base.ProgressConfig, ProgressFinishAction)
+			.ServerStartProgress(interaction.Performer.RegisterTile(), magRemoveTime, interaction.Performer);
+
+		if (bar != null)
+		{
+			Chat.AddActionMsgToChat(interaction.Performer,
+				$"You begin unsecuring the {gameObject.ExpensiveName()}'s power cell.",
+				$"{interaction.Performer.ExpensiveName()} begins unsecuring {gameObject.ExpensiveName()}'s power cell.");
+
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: serverHolder);
 		}
 	}
 
