@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 
-public class CustomNetSceneChecker : MonoBehaviour
+public class CustomNetSceneChecker : NetworkVisibility
 {
 	//TODO this component has now been added to all
 	//spawnable prefabs. It is a placeholder to be used for
