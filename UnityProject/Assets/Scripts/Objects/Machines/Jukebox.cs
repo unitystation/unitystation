@@ -180,7 +180,7 @@ namespace Objects
 			integrity = GetComponent<Integrity>();
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 
-			audioSourceParameters =	new AudioSourceParameters(Volume, 0, 0, 0, 1, Spread, 
+			audioSourceParameters =	new AudioSourceParameters(1, Volume, 0, 0, 0, Spread, 
 				MinSoundDistance, MaxSoundDistance, MixerType.Muffled, VolumeRolloffType.EaseInAndOut, false);
 		}
 
@@ -204,7 +204,7 @@ namespace Objects
 				SoundManager.StopNetworked(guid);
 				IsPlaying = true;
 				spriteHandler.SetSpriteSO(SpritePlaying);
-				guid  = await SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
+				guid  = await SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, sourceObj: gameObject);
 				startPlayTime = Time.time;
 				UpdateGUI();
 			}
