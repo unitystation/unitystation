@@ -109,5 +109,15 @@ PrefabInstance:
       propertyPath: isClosed
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: openSFX.AssetAddress
+      value: Assets/Prefabs/Doors/BlastDoor.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: closeSFX.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79cea07a5f8e66f49a554df1a003ecba, type: 3}

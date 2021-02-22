@@ -110,7 +110,22 @@ public class SoundManager : MonoBehaviour
 	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
 	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(AddressableAudioSource addressableAudioSource)
 	{
-		//Ensure the address points to an audio source
+    //Make sure it is a valid Addressable AudioSource
+    if (addressableAudioSource == null || addressableAudioSource == default(AddressableAudioSource))
+		{
+			Logger.LogWarning("SoundManager recieved a null Addressable audio source, look at log trace for responsible component", Category.Addressables);
+			return null;
+		}
+		if (string.IsNullOrEmpty(addressableAudioSource.AssetAddress))
+		{
+			Logger.LogWarning($"{addressableAudioSource.AudioSource.name} has a null address, and could not be played!", Category.Addressables);
+			return null;
+		}
+		if (addressableAudioSource.AssetAddress == "null")
+		{
+			Logger.LogWarning($"{addressableAudioSource.AudioSource.name} has an address set to the string null, and could not be played!", Category.Addressables);
+			return null;
+		}
 		if(await addressableAudioSource.HasValidAddress() == false) return null;
 		
 		//Try to get the Audio Source from cache, if its not there load it into cache
@@ -230,12 +245,6 @@ public class SoundManager : MonoBehaviour
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
 		ShakeParameters shakeParameters = new ShakeParameters())
 	{
-		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
-		{
-			Logger.LogWarning("SoundManager recieved an audio source that was null or missing an address.", Category.Addressables);
-			return;
-		}
-
 		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 		PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
 	}
@@ -271,13 +280,6 @@ public class SoundManager : MonoBehaviour
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
 		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
-		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
-		{
-			Logger.LogWarning(
-				"Addressable audio sources not set/path is not present, look at log trace for responsible component", Category.Addressables);
-			return null;
-		}
-
 		await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 
 		if (global)
@@ -328,13 +330,6 @@ public class SoundManager : MonoBehaviour
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
 		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
-		if (addressableAudioSource == null || addressableAudioSource.AssetAddress == string.Empty)
-		{
-			Logger.LogWarning(
-				"Addressable audio sources not set/path is not present, look at log trace for responsible component", Category.Addressables);
-			return;
-		}
-
 		PlaySoundMessage.Send(recipient, addressableAudioSource, TransformState.HiddenPos, polyphonic,
 			sourceObj, shakeParameters, audioSourceParameters);
 	}
@@ -408,13 +403,6 @@ public class SoundManager : MonoBehaviour
 	public static async Task Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken = "",
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false)
 	{
-		if (addressableAudioSource.AssetAddress == string.Empty)
-		{
-			Logger.LogWarning(
-				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
-			return;
-		}
-
 		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
@@ -476,13 +464,6 @@ public class SoundManager : MonoBehaviour
 		GameObject gameObject, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
-		if (addressableAudioSource.AssetAddress == string.Empty)
-		{
-			Logger.LogWarning(
-				"Addressable audio sources not set/path is not present, look at log trace for responsible component");
-			return;
-		}
-
 		PlayAtPositionAttached(new List<AddressableAudioSource> {addressableAudioSource}, worldPos, gameObject, 
 			soundSpawnToken, polyphonic, isGlobal, audioSourceParameters);
 	}
