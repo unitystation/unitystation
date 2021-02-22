@@ -46,6 +46,65 @@ public class Tools : Editor
 		Debug.Log($"Set {allNets.Length} scene ids");
 	}
 
+	[MenuItem("Networking/Find all network identities without visibility component (Scene Check)")]
+	private static void FindNetWithoutVis()
+	{
+		var allNets = FindObjectsOfType<NetworkIdentity>();
+
+		for (int i = allNets.Length - 1; i > 0; i--)
+		{
+			var net = allNets[i].GetComponent<CustomNetSceneChecker>();
+
+			if (net == null)
+			{
+				Debug.Log($"{allNets[i].name} prefab has no visibility component");
+			}
+		}
+
+		Debug.Log($"{allNets.Length} net components found in Prefabs");
+	}
+
+	[MenuItem("Networking/Find all network identities without visibility component (Prefab Check)")]
+	private static void FindNetWithoutVisScene()
+	{
+		var allNets = LoadPrefabsContaining<NetworkIdentity>("Prefabs");
+
+		for (int i = allNets.Count - 1; i > 0; i--)
+		{
+			var net = allNets[i].GetComponent<CustomNetSceneChecker>();
+
+			if (net == null)
+			{
+				Debug.Log($"{allNets[i].name} prefab has no visibility component");
+			}
+		}
+
+		Debug.Log($"{allNets.Count} net components found in scene");
+	}
+
+	/// <summary>
+	/// Find all prefabs containing a specific component (T)
+	/// </summary>
+	/// <typeparam name="T">The type of component</typeparam>
+	public static List<GameObject> LoadPrefabsContaining<T>(string path) where T : UnityEngine.Component
+	{
+		List<GameObject> result = new List<GameObject>();
+
+		var allFiles = Resources.LoadAll<UnityEngine.Object>(path);
+		foreach (var obj in allFiles)
+		{
+			if (obj is GameObject)
+			{
+				GameObject go = obj as GameObject;
+				if (go.GetComponent<T>() != null)
+				{
+					result.Add(go);
+				}
+			}
+		}
+		return result;
+	}
+
 	//this is just for migrating from old way of setting wallmount directions to the new way
 	[MenuItem("Tools/Set Wallmount Directionals from Transforms")]
 	private static void FixWallmountDirectionals()

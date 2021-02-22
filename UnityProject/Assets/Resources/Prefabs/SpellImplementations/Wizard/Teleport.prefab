@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5839676258972742044}
   - component: {fileID: 3134903343174757150}
   - component: {fileID: 1673556577439009781}
+  - component: {fileID: 8601701143039685622}
   m_Layer: 0
   m_Name: Teleport
   m_TagString: Untagged
@@ -49,6 +50,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &3134903343174757150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,3 +93,17 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+--- !u!114 &8601701143039685622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7469762742606550612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

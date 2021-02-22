@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1057762597715240374}
   - component: {fileID: 5676811646598368162}
   - component: {fileID: 3085725489289236042}
+  - component: {fileID: 5171158313996134144}
   m_Layer: 10
   m_Name: ContagionZone
   m_TagString: Untagged
@@ -66,6 +67,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &-7775007330971627524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +144,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4943178488977169442}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnEnterableEnter
         m_Mode: 0
         m_Arguments:
@@ -152,3 +155,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5171158313996134144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3802977683328827285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
