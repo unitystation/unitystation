@@ -7,7 +7,9 @@ public class HealableJobEdible : Edible
 {
 	[SerializeField, Tooltip("The amount of brute damage healed for a player who has a specfied role.")]
 	private int healBruteDamage = 5;
-	public List<JobType> healableJobs;
+
+	[SerializeField]
+	private List<JobType> healableJobs;
 
 	/// <summary>
 	/// Checks if the player eating the donut has a job that's in healableJobs.
