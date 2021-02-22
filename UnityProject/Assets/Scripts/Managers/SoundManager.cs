@@ -122,7 +122,7 @@ public class SoundManager : MonoBehaviour
 
 		if (addressableAudioSource == null || addressableAudioSource == default(AddressableAudioSource))
 		{
-			Logger.LogWarning("SoundManager recieved a null Addressable audio source, look at log trace for responsible component");
+			Logger.LogWarning("SoundManager recieved a null Addressable audio source, look at log trace for responsible component", Category.Addressables);
 			return null;
 		}
 		if (string.IsNullOrEmpty(addressableAudioSource.AssetAddress))
