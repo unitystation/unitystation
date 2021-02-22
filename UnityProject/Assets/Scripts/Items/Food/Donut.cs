@@ -10,8 +10,8 @@ public class Donut : Edible
 	public List<JobType> healableJobs;
 
 	/// <summary>
-	/// Checks if the player eating the donut has a secuirty job and heals them if they are part of security.
-	/// If the player is not part of secuirty then nothing special will be triggered.
+	/// Checks if the player eating the donut has a job that's in healableJobs.
+	/// If the player does not have one, nothing special will be triggered.
 	/// </summary>
 	public override void Eat(PlayerScript eater, PlayerScript feeder)
 	{
