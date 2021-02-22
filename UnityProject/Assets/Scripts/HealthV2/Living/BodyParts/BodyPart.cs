@@ -95,6 +95,9 @@ namespace HealthV2
 
 		public bool isSurface = false;
 
+		public ClothingHideFlags ClothingHide;
+
+
 		public virtual void HealthMasterSet()
 		{
 			if (BodySpriteSet == false)
@@ -162,8 +165,9 @@ namespace HealthV2
 
 			health = maxHealth;
 
-
+			UpdateSeverity();
 			Initialisation();
+
 		}
 
 

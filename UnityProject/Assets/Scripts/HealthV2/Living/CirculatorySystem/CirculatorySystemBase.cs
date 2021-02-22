@@ -126,7 +126,7 @@ namespace HealthV2
 			float WantedBlood = 0;
 			foreach (BodyPart implant in healthMaster.ImplantList)
 			{
-				if (implant.IsBloodReagentConsumed == false) continue;
+				if (implant.IsBloodReagentCirculated == false) continue;
 				WantedBlood += implant.BloodReagentStoreAmount;
 			}
 
@@ -136,7 +136,7 @@ namespace HealthV2
 
 			foreach (BodyPart implant in healthMaster.ImplantList)
 			{
-				if (implant.IsBloodReagentConsumed == false) continue;
+				if (implant.IsBloodReagentCirculated == false) continue;
 				var BloodToGive = ReadyBloodPool.Take((implant.BloodReagentStoreAmount / WantedBlood) * pumpedReagent);
 				BloodToGive.Add(SpareBlood);
 				SpareBlood.Clear();

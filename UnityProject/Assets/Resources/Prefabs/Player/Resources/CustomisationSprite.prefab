@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7972631321468688765}
   - component: {fileID: 5859772658172570302}
   - component: {fileID: 7987984179268195915}
+  - component: {fileID: 3279297986612625504}
   m_Layer: 8
   m_Name: CustomisationSprite
   m_TagString: Untagged
@@ -103,6 +104,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!114 &7987984179268195915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,4 +118,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteHandler: {fileID: 5859772658172570302}
+  SpriteOrder:
+    Orders: 00000000000000000000000000000000
   spriteRenderer: {fileID: 7972631321468688765}
+  ClothingHide: 0
+--- !u!114 &3279297986612625504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7805668480487436571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 

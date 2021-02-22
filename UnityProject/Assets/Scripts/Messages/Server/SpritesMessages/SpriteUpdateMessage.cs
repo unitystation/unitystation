@@ -396,6 +396,7 @@ namespace Messages.Server.SpritesMessages
 
 			if (spriteChange.Pallet != null)
 			{
+
 				if (spriteChange.Pallet.Count < 1 || spriteChange.Pallet.Count > 255)
 				{
 					Logger.Log(string.Format("Pallet size must be between 1 and 255. It is currently {0}.",spriteChange.Pallet.Count));
@@ -414,6 +415,13 @@ namespace Messages.Server.SpritesMessages
 					ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.a * 255)));
 
 				}
+
+				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.r * 255)));
+				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.g * 255)));
+				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.b * 255)));
+				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.a * 255)));
+
+
 			}
 
 			ToReturn.Append("£");

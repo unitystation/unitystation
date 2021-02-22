@@ -56,10 +56,14 @@ namespace Chemistry
 			get
 			{
 				float capacity = 0f;
-				foreach (var reagent in reagents)
+				lock (reagents)
 				{
-					capacity += reagent.Key.heatDensity * reagent.Value;
+					foreach (var reagent in reagents)
+					{
+						capacity += reagent.Key.heatDensity * reagent.Value;
+					}
 				}
+
 				return capacity;
 			}
 		}
@@ -175,9 +179,12 @@ namespace Chemistry
 
 		public void Add(ReagentMix b)
 		{
-			if (Total == 0)
+			if (Total == 0 || b.Total == 0)
 			{
-				Temperature = b.Temperature;
+				if (float.IsNaN(b.Temperature) == false)
+				{
+					Temperature = b.Temperature;
+				}
 			}
 			else
 			{
@@ -201,7 +208,10 @@ namespace Chemistry
 
 			if (!reagents.ContainsKey(reagent))
 			{
-				reagents.Add(reagent, amount);
+				lock (reagents)
+				{
+					reagents.Add(reagent, amount);
+				}
 			}
 			else
 			{
@@ -220,7 +230,7 @@ namespace Chemistry
 
 			if (!reagents.ContainsKey(reagent))
 			{
-				Debug.LogError($"Trying to move {reagent} from container doesn't contain it ");
+				//Debug.LogError($"Trying to move {reagent} from container doesn't contain it ");
 				return 0;
 			}
 			else
@@ -255,7 +265,11 @@ namespace Chemistry
 				{
 					// nothing left, remove reagent - it became zero
 					// remove amount that was before
-					reagents.Remove(reagent);
+					lock (reagents)
+					{
+						reagents.Remove(reagent);
+					}
+
 					return amount;
 				}
 

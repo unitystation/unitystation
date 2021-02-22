@@ -39,6 +39,7 @@ MonoBehaviour:
   _bloodReagentConsumed: 0.1
   bloodReagentProcessed: 0.15
   bloodReagentStoreAmount: 0.01
+  bloodReagentStoredMax: 0.5
   NutrimentConsumption: 0.02
   NutrimentPassiveConsumption: 0.001
   BloodContainer: {fileID: 0}
@@ -73,6 +74,7 @@ MonoBehaviour:
   breatheCooldown: 4
   reagentSafeMin: 16
   LungProcessAmount: 10
+  InteractsWith: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
 --- !u!1001 &1441624991261802461
 PrefabInstance:
   m_ObjectHideFlags: 0

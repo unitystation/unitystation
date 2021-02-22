@@ -5,56 +5,258 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Dissectible : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
+	public class Dissectible : NetworkBehaviour, IClientInteractable<PositionalHandApply>,
+		ICheckedInteractable<PositionalHandApply>
 	{
 		public LivingHealthMasterBase LivingHealthMasterBase;
 
 		//needs set Surgery procedure
 
-		public bool ProcedureInProgress = false;
+		[SyncVar(hook = nameof(SetProcedureInProgress))]
+		private bool ProcedureInProgress = false;
 
-		public BodyPart currentlyOn = null;
+		private BodyPart InternalcurrentlyOn = null;
 
-		public bool BodyPartIsopen = false;
-		//sik var
+
+		public BodyPart currentlyOn
+		{
+			get
+			{
+				if (isServer)
+				{
+					return InternalcurrentlyOn;
+				}
+				else
+				{
+					if (NetworkIdentity.spawned.ContainsKey(netId) && NetworkIdentity.spawned[netId] != null)
+					{
+						return NetworkIdentity.spawned[netId].gameObject.GetComponent<BodyPart>();
+					}
+
+					return null;
+				}
+			}
+			set
+			{
+				SetBodyPartID(BodyPartID, value ? value.GetComponent<NetworkIdentity>().netId : NetId.Invalid);
+				InternalcurrentlyOn = value;
+			}
+		}
+
+		[SyncVar(hook = nameof(SetBodyPartIsOpen))]
+		private bool BodyPartIsopen = false;
+
+
+		public bool GetBodyPartIsopen => BodyPartIsopen;
+
+		[SyncVar(hook = nameof(SetBodyPartID))]
+		private uint BodyPartID;
+
 
 		public PresentProcedure ThisPresentProcedure = new PresentProcedure();
 
-		public List<ItemTrait> InitiateSurgeryItemTraits = new List<ItemTrait>(); //Make sure to include implantable stuff
+		public List<ItemTrait>
+			InitiateSurgeryItemTraits = new List<ItemTrait>(); //Make sure to include implantable stuff
+
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-
-			if (ProcedureInProgress == false)
-			{
-				if (side == NetworkSide.Client)
-				{
-					if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.InteractionModifier,
-						KeyboardInputManager.KeyEventType.Hold) == false)
-					{
-						return false;
-					}
-				}
-
-				if (Validations.HasAnyTrait(interaction.HandObject, InitiateSurgeryItemTraits))
-				{
-					return true;
-				}
-			}
-			else
-			{
-				if (Validations.HasAnyTrait(interaction.HandObject, InitiateSurgeryItemTraits))
-				{
-					return true;
-				}
-			}
-
-			return false;
+			if (ProcedureInProgress == false) return false;
+			return (Validations.HasAnyTrait(interaction.HandObject, InitiateSurgeryItemTraits));
 		}
 
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			if (ProcedureInProgress)
+			{
+				ThisPresentProcedure.TryTool(interaction);
+			}
+		}
+
+		public bool Interact(PositionalHandApply interaction)
+		{
+			if (DefaultWillInteract.Default(interaction, NetworkSide.Client) == false) return false;
+			//**Client**
+
+			if (ProcedureInProgress == false)
+			{
+				if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.InteractionModifier,
+					KeyboardInputManager.KeyEventType.Hold) == false)
+				{
+					return false;
+				}
+
+
+				if (Validations.HasAnyTrait(interaction.HandObject, InitiateSurgeryItemTraits) == false)
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (Validations.HasAnyTrait(interaction.HandObject, InitiateSurgeryItemTraits) == false)
+				{
+					return false;
+				}
+			}
+
+			if (ProcedureInProgress == false) //Defer to server
+			{
+				if (currentlyOn != null) //Body part not picked?
+				{
+					if (BodyPartIsopen)
+					{
+						// var Options = currentlyOn.ContainBodyParts;
+						// UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options);
+						RequestBodyParts.Send(this.gameObject);
+						return true;
+						//Show dialogue for  Pick organ and Procedure set it
+					}
+					else
+					{
+						// var Options = currentlyOn;
+						// UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options);
+						RequestBodyParts.Send(this.gameObject);
+						return true;
+						//Show dialogue for possible surgeries
+					}
+				}
+				else
+				{
+					// var Options = LivingHealthMasterBase.GetBodyPartsInZone(interaction.TargetBodyPart);
+					// UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options, true);
+					RequestBodyParts.Send(this.gameObject,interaction.TargetBodyPart);
+					return true;
+					//showDialogue box, For which body part
+					// Set currently on and choose what surgery
+				}
+			}
+			else
+			{
+				return false; //?
+				ThisPresentProcedure.TryTool(interaction);
+				//Pass over to Body part being operated on
+			}
+		}
+
+		public void SetBodyPartIsOpen(bool oldState, bool newState)
+		{
+			BodyPartIsopen = newState;
+		}
+
+		public void SetProcedureInProgress(bool oldState, bool newState)
+		{
+			ProcedureInProgress = newState;
+		}
+
+		public void SetBodyPartID(uint oldState, uint newState)
+		{
+			BodyPartID = newState;
+		}
+
+
+		public void ServerCheck(SurgeryProcedureBase SurgeryProcedureBase, BodyPart ONBodyPart)
+		{
+			if (ProcedureInProgress == false) //Defer to server
+			{
+				if (currentlyOn != null)
+				{
+					if (BodyPartIsopen)
+					{
+						foreach (var inBodyPart in currentlyOn.ContainBodyParts)
+						{
+							if (inBodyPart == ONBodyPart)
+							{
+								foreach (var Procedure in inBodyPart.SurgeryProcedureBase)
+								{
+									if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
+									if (SurgeryProcedureBase == Procedure)
+									{
+										this.currentlyOn = inBodyPart;
+										this.ThisPresentProcedure.SetupProcedure(this, inBodyPart, Procedure);
+									}
+								}
+							}
+						}
+
+						if (currentlyOn == ONBodyPart)
+						{
+							foreach (var Procedure in currentlyOn.SurgeryProcedureBase)
+							{
+								if (Procedure is CloseProcedure || Procedure is ImplantProcedure)
+								{
+									if (SurgeryProcedureBase == Procedure)
+									{
+										this.currentlyOn = currentlyOn;
+										this.ThisPresentProcedure.SetupProcedure(this, currentlyOn, Procedure);
+									}
+								}
+							}
+						}
+					}
+					else
+					{
+						if (ONBodyPart == currentlyOn)
+						{
+							foreach (var Procedure in currentlyOn.SurgeryProcedureBase)
+							{
+								if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
+								if (SurgeryProcedureBase == Procedure)
+								{
+									this.currentlyOn = currentlyOn;
+									this.ThisPresentProcedure.SetupProcedure(this, currentlyOn, Procedure);
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					foreach (var RouteBody in LivingHealthMasterBase.RootBodyPartContainers)
+					{
+						foreach (var Limb in RouteBody.ContainsLimbs)
+						{
+							if (Limb == ONBodyPart)
+							{
+								foreach (var Procedure in Limb.SurgeryProcedureBase)
+								{
+									if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
+									if (SurgeryProcedureBase == Procedure)
+									{
+										this.currentlyOn = Limb;
+										this.ThisPresentProcedure.SetupProcedure(this, Limb, Procedure);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		public void SendClientBodyParts(ConnectedPlayer SentByPlayer,BodyPartType inTargetBodyPart = BodyPartType.None)
+		{
+			if (currentlyOn == null)
+			{
+				SendSurgeryBodyParts.SendTo(LivingHealthMasterBase.GetBodyPartsInZone(inTargetBodyPart),this, SentByPlayer);
+			}
+			else
+			{
+				if (BodyPartIsopen)
+				{
+					SendSurgeryBodyParts.SendTo( currentlyOn.ContainBodyParts,this, SentByPlayer);
+				}
+				else
+				{
+					SendSurgeryBodyParts.SendTo(new List<BodyPart>(){currentlyOn},this , SentByPlayer);
+				}
+			}
+		}
+
+
+		public void ReceivedSurgery(List<BodyPart> Options)
 		{
 			if (ProcedureInProgress == false)
 			{
@@ -62,32 +264,17 @@ namespace HealthV2
 				{
 					if (BodyPartIsopen)
 					{
-						var Options = currentlyOn.ContainBodyParts;
-
-
-						UIManager.Instance.SurgeryDialogue.ShowDialogue(this , Options);
-						//Show dialogue for  Pick organ and Procedure set it
+						UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options);
 					}
 					else
 					{
-						var Options = currentlyOn;
-
-						UIManager.Instance.SurgeryDialogue.ShowDialogue(this , Options);
-						//Show dialogue for possible surgeries
+						UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options);
 					}
 				}
 				else
 				{
-					var Options = LivingHealthMasterBase.GetBodyPartsInZone(interaction.TargetBodyPart);
-					UIManager.Instance.SurgeryDialogue.ShowDialogue(this , Options, true);
-					//showDialogue box, For which body part
-					// Set currently on and choose what surgery
+					UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options, true);
 				}
-			}
-			else
-			{
-				ThisPresentProcedure.TryTool(interaction);
-				//Pass over to Body part being operated on
 			}
 		}
 
@@ -121,7 +308,8 @@ namespace HealthV2
 							ActionTarget.Object(interaction.TargetObject.RegisterTile()), ThisSurgeryStep.Time,
 							ThisSurgeryStep.StartSelf,
 							ThisSurgeryStep.StartOther, ThisSurgeryStep.SuccessSelf, ThisSurgeryStep.SuccessOther,
-							SuccessfulProcedure, ThisSurgeryStep.FailSelf, ThisSurgeryStep.FailOther, UnsuccessfulProcedure);
+							SuccessfulProcedure, ThisSurgeryStep.FailSelf, ThisSurgeryStep.FailOther,
+							UnsuccessfulProcedure);
 					}
 				}
 			}
@@ -152,7 +340,6 @@ namespace HealthV2
 
 			public void UnsuccessfulProcedure()
 			{
-
 				SurgeryProcedureBase.UnsuccessfulStep(RelatedBodyPart, Stored, this);
 
 				RelatedBodyPart.UnsuccessfulStep(Stored, this);
@@ -165,14 +352,14 @@ namespace HealthV2
 				SurgeryProcedureBase = null;
 			}
 
-			public void SetupProcedure(Dissectible Dissectible, BodyPart  bodyPart, SurgeryProcedureBase inSurgeryProcedureBase)
+			public void SetupProcedure(Dissectible Dissectible, BodyPart bodyPart,
+				SurgeryProcedureBase inSurgeryProcedureBase)
 			{
 				Clean();
 				ISon = Dissectible;
 				ISon.ProcedureInProgress = true;
 				RelatedBodyPart = bodyPart;
 				SurgeryProcedureBase = inSurgeryProcedureBase;
-
 			}
 		}
 

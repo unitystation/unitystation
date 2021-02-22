@@ -6,15 +6,11 @@ public class SpriteCatEars : BodyPartSprites
 {
 
 	[SerializeField] protected SpriteHandler OverlySpriteHandler;
-	public override void UpdateSpritesForImplant(BodyPart implant, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
+	public override void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
 	{
+		ClothingHide = INClothingHide;
 		SpriteOrder = _SpriteOrder;
 		baseSpriteHandler.PushTexture();
-		// if (ColorUtility.TryParseHtmlString(rootBodyPartContainer.PlayerSprites.ThisCharacter.HairColor, out var newColor))
-		// {
-			// baseSpriteHandler.SetColor(newColor);
-		// }
-
 		OverlySpriteHandler.PushTexture();
 	}
 

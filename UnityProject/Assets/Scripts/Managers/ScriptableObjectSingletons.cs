@@ -1,3 +1,4 @@
+using HealthV2;
 using Items.PDA;
 using UnityEngine;
 using Machines;
@@ -34,4 +35,6 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public SpriteCatalogue SpriteCatalogue;
 	public SingletonSOSounds SingletonSOSounds;
 	public RaceSOSingleton RaceSOSingleton;
+	public GAS2ReagentSingleton GAS2ReagentSingleton;
+	public SurgeryProcedureBaseSingleton SurgeryProcedureBaseSingleton;
 }

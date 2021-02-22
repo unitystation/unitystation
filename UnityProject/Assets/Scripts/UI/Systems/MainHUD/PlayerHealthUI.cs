@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -158,11 +159,11 @@ public class PlayerHealthUI : MonoBehaviour
 	/// Update the PlayerHealth body part hud icon
 	/// </summary>
 	/// <param name="bodyPart"> Body part that requires updating </param>
-	public void SetBodyTypeOverlay(BodyPartBehaviour bodyPart)
+	public void SetBodyTypeOverlay(BodyPart bodyPart)
 	{
 		for (int i = 0; i < bodyPartListeners.Count; i++)
 		{
-			if (bodyPartListeners[i].bodyPartType != bodyPart.Type)
+			if (bodyPartListeners[i].bodyPartType != bodyPart.bodyPartType)
 			{
 				continue;
 			}
