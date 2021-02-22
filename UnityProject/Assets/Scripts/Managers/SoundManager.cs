@@ -160,7 +160,7 @@ public class SoundManager : MonoBehaviour
 	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(List<AddressableAudioSource> addressableAudioSources)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 		return addressableAudioSource;
 	}
 
@@ -236,7 +236,7 @@ public class SoundManager : MonoBehaviour
 			return;
 		}
 
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 		PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
 	}
 
@@ -253,7 +253,7 @@ public class SoundManager : MonoBehaviour
 		ShakeParameters shakeParameters = new ShakeParameters())
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		await PlayNetworked(addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters);
+		await PlayNetworked(addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters).ConfigureAwait(false);
 	}
 
 	/// <summary>
@@ -278,7 +278,7 @@ public class SoundManager : MonoBehaviour
 			return null;
 		}
 
-		await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 
 		if (global)
 		{
@@ -310,7 +310,8 @@ public class SoundManager : MonoBehaviour
 		GameObject sourceObj = null)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		return await PlayNetworkedAtPos(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, global, shakeParameters, sourceObj);
+		return await PlayNetworkedAtPos(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, 
+			global, shakeParameters, sourceObj).ConfigureAwait(false);
 	}
 
 	/// <summary>
@@ -354,7 +355,7 @@ public class SoundManager : MonoBehaviour
 		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		await PlayNetworkedForPlayer(recipient, addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters, sourceObj);
+		await PlayNetworkedForPlayer(recipient, addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters, sourceObj).ConfigureAwait(false);
 	}
 
 	/// <summary>
@@ -372,7 +373,7 @@ public class SoundManager : MonoBehaviour
 		bool polyphonic = false, ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
 
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 		PlaySoundMessage.Send(recipient, addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
 			audioSourceParameters);
 	}
@@ -393,7 +394,8 @@ public class SoundManager : MonoBehaviour
 		bool polyphonic = false, ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		await PlayNetworkedForPlayerAtPos(recipient, worldPos, addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters, sourceObj);
+		await PlayNetworkedForPlayerAtPos(recipient, worldPos, addressableAudioSource, audioSourceParameters, 
+			polyphonic, shakeParameters, sourceObj).ConfigureAwait(false);
 	}
 
 	/// <summary>
@@ -413,7 +415,7 @@ public class SoundManager : MonoBehaviour
 			return;
 		}
 
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
@@ -432,7 +434,7 @@ public class SoundManager : MonoBehaviour
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		await Play(addressableAudioSource, soundSpawnToken, audioSourceParameters, polyphonic);
+		await Play(addressableAudioSource, soundSpawnToken, audioSourceParameters, polyphonic).ConfigureAwait(false);
 	}
 
 	/// <summary>
@@ -550,7 +552,7 @@ public class SoundManager : MonoBehaviour
 		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		AddressableAudioSource addressableAudioSource =
-			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+			await GetAddressableAudioSourceFromCache(addressableAudioSources).ConfigureAwait(false);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 
