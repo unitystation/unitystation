@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Donut : Edible
 {
-	[Tooltip("The amount of brute damage healed for a player who has a secuirty role.")]
-	[SerialiezedField]
-	private int securityHealBruteDamage = 5;
-
+	[SerializeField, Tooltip("The amount of brute damage healed for a player who has a specfied role.")]
+	private int healBruteDamage = 5;
 
 	/// <summary>
 	/// Checks if the player eating the donut has a secuirty job and heals them if they are part of security.
@@ -19,7 +17,7 @@ public class Donut : Edible
 		{
 			Heal(eater);
 		}
-		Eat(eater, feeder, NutritionLevel);
+		base.Eat(eater, feeder);
 	}
 
 	/// <summary>
@@ -32,7 +30,7 @@ public class Donut : Edible
 		{
 			if(BodyPart.BruteDamage > 0)
 			{
-				BodyPart.HealDamage(securityHealBruteDamage, DamageType.Brute);
+				BodyPart.HealDamage(healBruteDamage, DamageType.Brute);
 			}
 		}
 	}
@@ -54,27 +52,6 @@ public class Donut : Edible
 				return true;
 			default:
 				return false;
-		}
-	}
-	private void Eat(PlayerScript eater, PlayerScript feeder, int nutrition)
-	{
-		SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
-
-		eater.playerHealth.Metabolism.AddEffect(new MetabolismEffect(nutrition, 0, MetabolismDuration.Food));
-
-		var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
-		Inventory.ServerDespawn(gameObject);
-
-		if (leavings != null)
-		{
-			var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
-			var pickupable = leavingsInstance.GetComponent<Pickupable>();
-			bool added = Inventory.ServerAdd(pickupable, feederSlot);
-			if (!added)
-			{
-				//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-				pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
-			}
 		}
 	}
 }
