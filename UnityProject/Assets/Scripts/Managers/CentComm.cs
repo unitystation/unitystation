@@ -10,7 +10,7 @@ using Objects.Wallmounts;
 using Strings;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Managers
 {

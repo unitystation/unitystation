@@ -8,7 +8,7 @@ using AddressableReferences;
 using Items;
 using Machines;
 using Objects.Machines;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Objects.Kitchen
 {

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 using UnityEngine;
 using Mirror;
 using Objects.Construction;

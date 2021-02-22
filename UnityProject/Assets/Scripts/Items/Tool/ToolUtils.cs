@@ -3,7 +3,7 @@ using UnityEngine;
 using Items;
 using Random = UnityEngine.Random;
 using AddressableReferences;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 /// <summary>
 /// Utilities for working with tools / materials. Respects the Tool component settings when performing actions.

@@ -7,7 +7,7 @@ using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
 using UnityEngine.Serialization;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Systems.MobAIs
 {

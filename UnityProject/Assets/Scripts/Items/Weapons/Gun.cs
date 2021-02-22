@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Weapons.Projectiles;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Weapons
 {

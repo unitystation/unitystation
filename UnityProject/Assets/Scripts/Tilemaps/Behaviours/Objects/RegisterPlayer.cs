@@ -5,7 +5,7 @@ using Mirror;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Systems.Teleport;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(UprightSprites))]

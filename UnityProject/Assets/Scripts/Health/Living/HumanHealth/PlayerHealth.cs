@@ -8,7 +8,7 @@ using System.Linq;
 using UnityEngine;
 using AddressableReferences;
 using DatabaseAPI;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 /// <summary>
 /// Provides central access to the Players Health

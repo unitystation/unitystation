@@ -7,7 +7,7 @@ using UnityEditor;
 using Weapons;
 using Mirror;
 using Weapons.Projectiles;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 {

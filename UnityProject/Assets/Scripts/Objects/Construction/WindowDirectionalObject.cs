@@ -3,7 +3,7 @@ using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Objects.Construction
 {

@@ -1,6 +1,6 @@
 ﻿using Systems.MobAIs;
 using UnityEngine;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace NPC.Mood
 {

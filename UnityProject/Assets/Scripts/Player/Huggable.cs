@@ -1,5 +1,5 @@
 using UnityEngine;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 /// <summary>
 /// Allows an object to be hugged by a player.

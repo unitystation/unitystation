@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 public class GlassShard : NetworkBehaviour, IServerSpawn
 {

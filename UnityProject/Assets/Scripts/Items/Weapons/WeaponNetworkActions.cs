@@ -6,7 +6,7 @@ using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using TileManagement;
 using Weapons;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {

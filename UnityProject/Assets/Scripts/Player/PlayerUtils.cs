@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 /// <summary>
 /// Utilities for working with players

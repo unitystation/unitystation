@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using AddressableReferences;
 using UnityEngine;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Systems.Explosions
 {

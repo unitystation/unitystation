@@ -4,7 +4,7 @@ using AddressableReferences;
 using UnityEngine;
 using ScriptableObjects;
 using Random = UnityEngine.Random;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Objects.Construction
 {

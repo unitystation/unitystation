@@ -5,7 +5,7 @@ using UnityEngine;
 using Mirror;
 using Chemistry.Components;
 using AddressableReferences;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 [RequireComponent(typeof(Pickupable))]
 public class FireExtinguisher : NetworkBehaviour,

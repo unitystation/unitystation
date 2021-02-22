@@ -1,6 +1,6 @@
 using UnityEngine;
 using Mirror;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Weapons
 {

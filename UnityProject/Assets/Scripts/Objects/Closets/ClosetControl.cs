@@ -6,7 +6,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
 using Objects;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 /// <summary>
 /// Allows closet to be opened / closed / locked

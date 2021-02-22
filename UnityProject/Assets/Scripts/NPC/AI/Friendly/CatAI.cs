@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using AddressableReferences;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Systems.MobAIs
 {

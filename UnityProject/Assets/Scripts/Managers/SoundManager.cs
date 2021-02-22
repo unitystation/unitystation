@@ -1,6 +1,6 @@
 ﻿using System;
 using AddressableReferences;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 using Mirror;
 using System.Collections.Generic;
 using System.Linq;

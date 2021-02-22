@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Systems.Electricity;
 using AddressableReferences;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Objects
 {

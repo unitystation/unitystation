@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 using Objects;
 using Objects.Construction;
 using Random = UnityEngine.Random;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 {

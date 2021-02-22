@@ -1,7 +1,7 @@
 using AddressableReferences;
 using NPC.Mood;
 using UnityEngine;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using SoundMessages;
 
 namespace Systems.MobAIs
 {
