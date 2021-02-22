@@ -14,17 +14,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: Resistances.LavaProof
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
-        type: 3}
-      propertyPath: Resistances.Indestructable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
-        type: 3}
       propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: Resistances.LavaProof
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
@@ -32,15 +27,25 @@ PrefabInstance:
       propertyPath: Resistances.UnAcidable
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3526917778408936146, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: initialDescription
-      value: A heavy duty blast door that only opens for dire emergencies.
+      propertyPath: Resistances.Indestructable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3526917778408936146, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: initialName
       value: hardened blast door
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526917778408936146, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: initialDescription
+      value: A heavy duty blast door that only opens for dire emergencies.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -59,6 +64,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -71,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -101,6 +101,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoorIndestructible
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: openSFX.AssetAddress
+      value: Assets/Prefabs/Doors/BlastDoor.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: closeSFX.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79cea07a5f8e66f49a554df1a003ecba, type: 3}
