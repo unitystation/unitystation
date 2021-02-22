@@ -359,7 +359,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
 		
 		// Slip is essentially a yelp SFX.
-		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.9f, 1.1f));
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
 				audioSourceParameters, sourceObj: gameObject);
 
