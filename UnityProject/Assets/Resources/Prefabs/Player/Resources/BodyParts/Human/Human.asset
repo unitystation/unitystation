@@ -13,16 +13,24 @@ MonoBehaviour:
   m_Name: Human
   m_EditorClassIdentifier: 
   Base:
-    Head: {fileID: 1045759822470683399, guid: 0e2fd113e04f27146b40ea10474270d8, type: 3}
-    Torso: {fileID: 1316443453218355798, guid: dedd963dc20d9af42b12138620f8202c, type: 3}
-    ArmRight: {fileID: 14184388709808837, guid: 48be2c23950789040881a5499bda0f4a,
-      type: 3}
-    ArmLeft: {fileID: 4567146495128738110, guid: 9cf1a28021c545f4380b9595f51db3fb,
-      type: 3}
-    LegRight: {fileID: 1309926505914675287, guid: ab73b7f4ffe5ec946b7f731ee6384e6b,
-      type: 3}
-    LegLeft: {fileID: 7371357466681334470, guid: a5d9a63aa51bfe043a0e5d75880858f2,
-      type: 3}
+    Head:
+      Elements:
+      - {fileID: 7761316997644922781, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
+    Torso:
+      Elements:
+      - {fileID: 8910782054479282841, guid: cc032f91cda505e44b066c36db32760d, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 7468114191605762846, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 1766215212362074963, guid: 719377fefb0114b448fc6ca9f7a5a6df, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 6498312071342856297, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 2689983249500970802, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}
     CustomisationSettings:
     - CustomisationGroup: {fileID: 11400000, guid: 8e20bf66bde1f0e40a127928313e7bef,
         type: 2}

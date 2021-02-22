@@ -35,7 +35,7 @@ public class CustomisationSubPart : MonoBehaviour
 		characterCustomization = incharacterCustomization;
 		HeadName.text = Customisations.ThisType.ToString();
 		spriteOrder = _SpriteOrder;
-		spriteHandlerNorder.SpriteOrder = spriteOrder;
+		spriteHandlerNorder.SetSpriteOrder(spriteOrder);
 		ThisType = Customisations.ThisType;
 
 		// Make a list of all available options which can then be passed to the dropdown box

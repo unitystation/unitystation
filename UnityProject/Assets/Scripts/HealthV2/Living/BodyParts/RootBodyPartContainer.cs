@@ -1,7 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Mirror;
+using Mirror.Websocket;
 using Mono.CecilX;
 using NaughtyAttributes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using UnityEngine;
 
 namespace HealthV2
@@ -65,9 +70,58 @@ namespace HealthV2
 		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
 
 
+		public RootBodyPartController RootBodyPartController;
+
+		public List<uint> InternalNetIDs;
+
+		public void UpdateChildren(List<uint> NewInternalNetIDs )
+		{
+			List<SpriteHandler> SHS = new List<SpriteHandler>();
+			InternalNetIDs = NewInternalNetIDs;
+			foreach (var ID in InternalNetIDs)
+			{
+
+				if (NetworkIdentity.spawned.ContainsKey(ID) && NetworkIdentity.spawned[ID] != null)
+				{
+					var OB = NetworkIdentity.spawned[ID].gameObject.transform;
+
+					var SHSs = OB.GetComponentsInChildren<SpriteHandler>();
+					// foreach (var SH in SHSs)
+					// {
+						// var Net= SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
+						// SpriteHandlerManager.UnRegisterHandler(Net, SH);
+					// }
+
+					OB.parent = this.transform;
+					OB.localScale = Vector3.one;
+					OB.localPosition = Vector3.zero;
+					OB.localRotation = Quaternion.identity;
+
+					foreach (var SH in SHSs)
+					{
+						SHS.Add(SH);
+
+
+
+						// var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
+						// SpriteHandlerManager.RegisterHandler(Net,SH );
+					}
+					var BPS = OB.GetComponent<BodyPartSprites>();
+					if (PlayerSprites.Addedbodypart.Contains(BPS) == false)
+					{
+						PlayerSprites.Addedbodypart.Add(BPS);
+					}
+				}
+
+			}
+
+			// RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
+		}
+
+
+
 		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
-
 			//Check what's being added and add sprites if appropriate
 			if (newImplant)
 			{
@@ -77,31 +131,7 @@ namespace HealthV2
 				implant.AddedToBody(healthMaster);
 				implant.Root = this;
 				implant.healthMaster = healthMaster;
-				int i = 0;
-				bool IsSurfaceSprite = implant.isSurface;
-				var sprites = implant.GetBodyTypeSprites(PlayerSprites.ThisCharacter.BodyType);
-				foreach (var Sprite in sprites.Item2)
-				{
-					var Newspite = Instantiate(implant.SpritePrefab, this.transform);
-					Newspite.name = implant.name;
-					PlayerSprites.Addedbodypart.Add(Newspite);
-					if (ImplantBaseSpritesDictionary.ContainsKey(implant) == false)
-					{
-						ImplantBaseSpritesDictionary[implant] = new List<BodyPartSprites>();
-					}
-
-					if (IsSurfaceSprite)
-					{
-						PlayerSprites.SurfaceSprite.Add(Newspite);
-					}
-
-					implant.RelatedPresentSprites.Add(Newspite);
-					ImplantBaseSpritesDictionary[implant].Add(Newspite);
-					var newOrder = new SpriteOrder(sprites.Item1);
-					newOrder.Add(i);
-					Newspite.UpdateSpritesForImplant(implant, Sprite, this, newOrder);
-					i++;
-				}
+				SetupSpritesNID(implant);
 			}
 
 			//Remove sprites if appropriate
@@ -113,24 +143,67 @@ namespace HealthV2
 				implant.RemovedFromBody(healthMaster);
 				implant.healthMaster = null;
 				implant.Root = null;
-				foreach (var BodyPart in implant.GetAllBodyPartsAndItself(new List<BodyPart>()))
+				RemoveSpritesNID(implant);
+			}
+		}
+
+
+		public void SetupSpritesNID(BodyPart implant )
+		{
+
+			int i = 0;
+			bool IsSurfaceSprite = implant.isSurface;
+			var sprites = implant.GetBodyTypeSprites(PlayerSprites.ThisCharacter.BodyType);
+			foreach (var Sprite in sprites.Item2)
+			{
+				var Newspite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, this.transform)
+					.GameObject.GetComponent<BodyPartSprites>();
+				Newspite.transform.localPosition = Vector3.zero;
+				//Newspite.name = implant.name;
+				PlayerSprites.Addedbodypart.Add(Newspite);
+				if (ImplantBaseSpritesDictionary.ContainsKey(implant) == false)
 				{
+					ImplantBaseSpritesDictionary[implant] = new List<BodyPartSprites>();
+				}
 
+				if (IsSurfaceSprite)
+				{
+					PlayerSprites.SurfaceSprite.Add(Newspite);
+				}
 
-					var oldone = ImplantBaseSpritesDictionary[BodyPart];
-					foreach (var Sprite in oldone)
+				implant.RelatedPresentSprites.Add(Newspite);
+				ImplantBaseSpritesDictionary[implant].Add(Newspite);
+				var newOrder = new SpriteOrder(sprites.Item1);
+				newOrder.Add(i);
+				Newspite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, this, newOrder);
+				InternalNetIDs.Add(Newspite.GetComponent<NetworkIdentity>().netId);
+
+				i++;
+			}
+			RootBodyPartController.RequestUpdate(this);
+		}
+
+		public void RemoveSpritesNID(BodyPart implant)
+		{
+			foreach (var BodyPart in implant.GetAllBodyPartsAndItself(new List<BodyPart>()))
+			{
+				if (ImplantBaseSpritesDictionary.ContainsKey(BodyPart) == false) continue;
+
+				var oldone = ImplantBaseSpritesDictionary[BodyPart];
+				foreach (var Sprite in oldone)
+				{
+					InternalNetIDs.Remove(Sprite.GetComponent<NetworkIdentity>().netId);
+					if (BodyPart.isSurface)
 					{
-						if (BodyPart.isSurface)
-						{
-							PlayerSprites.SurfaceSprite.Remove(Sprite);
-						}
-						BodyPart.RelatedPresentSprites.Remove(Sprite);
-						PlayerSprites.Addedbodypart.Remove(Sprite);
-						Destroy(Sprite.gameObject);
+						PlayerSprites.SurfaceSprite.Remove(Sprite);
 					}
 
-					ImplantBaseSpritesDictionary.Remove(BodyPart);
+					BodyPart.RelatedPresentSprites.Remove(Sprite);
+					PlayerSprites.Addedbodypart.Remove(Sprite);
+					Destroy(Sprite.gameObject);
 				}
+				RootBodyPartController.RequestUpdate(this);
+				ImplantBaseSpritesDictionary.Remove(BodyPart);
 			}
 		}
 
@@ -166,38 +239,14 @@ namespace HealthV2
 		//yes is uesd
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
-			foreach (var BodyPart in implant.GetAllBodyPartsAndItself(new List<BodyPart>()))
-			{
-				var oldone = ImplantBaseSpritesDictionary[BodyPart];
-				foreach (var Sprite in oldone)
-				{
-					BodyPart.RelatedPresentSprites.Remove(Sprite);
-					PlayerSprites.Addedbodypart.Remove(Sprite);
-					Destroy(Sprite.gameObject);
-				}
-
-				ImplantBaseSpritesDictionary.Remove(BodyPart);
-			}
+			RemoveSpritesNID(implant);
 		}
 
 
 		//yes is uesd
 		public virtual void SubBodyPartAdded(BodyPart implant)
 		{
-			var sprites = implant.GetBodyTypeSprites(PlayerSprites.ThisCharacter.BodyType);
-			foreach (var Sprite in sprites.Item2)
-			{
-				var Newspite = Instantiate(implant.SpritePrefab, this.transform);
-				PlayerSprites.Addedbodypart.Add(Newspite);
-				if (ImplantBaseSpritesDictionary.ContainsKey(implant) == false)
-				{
-					ImplantBaseSpritesDictionary[implant] = new List<BodyPartSprites>();
-				}
-
-				implant.RelatedPresentSprites.Add(Newspite);
-				ImplantBaseSpritesDictionary[implant].Add(Newspite);
-				Newspite.UpdateSpritesForImplant(implant, Sprite, this, sprites.Item1);
-			}
+			SetupSpritesNID(implant);
 		}
 
 
@@ -227,7 +276,6 @@ namespace HealthV2
 					var OrganToDamage = ContainsLimbs.PickRandom();
 					OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType);
 				}
-
 			}
 		}
 

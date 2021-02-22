@@ -15,6 +15,12 @@ namespace HealthV2
 
 		public bool IsBloodReagentConsumed => isBloodReagentConsumed;
 
+		[SerializeField] [Tooltip("Does this have any blood Flow at all?")]
+		private bool isBloodReagentCirculated = true;
+
+		public bool IsBloodReagentCirculated => isBloodReagentCirculated;
+
+
 		[SerializeField] [Tooltip("What reagent do we use?")]
 		protected Chemistry.Reagent requiredReagent;
 

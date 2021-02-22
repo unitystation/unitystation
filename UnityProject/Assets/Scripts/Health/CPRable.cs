@@ -8,6 +8,9 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 	const float CPR_TIME = 5;
 	const float OXYLOSS_HEAL_AMOUNT = 7;
 
+	public float HeartbeatStrength = 25;
+
+
 	private static readonly StandardProgressActionConfig CPRProgressConfig =
 			new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
@@ -23,8 +26,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		if (interaction.TargetObject.TryGetComponent(out LivingHealthMasterBase targetPlayerHealth))
 		{
-			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
-				targetPlayerHealth.ConsciousState == ConsciousState.DEAD) return false;
+			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS) return false;
 		}
 
 		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
@@ -57,7 +59,12 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private void ServerDoCPR(GameObject performer, GameObject target)
 	{
-		target.GetComponent<LivingHealthMasterBase>().CirculatorySystem.ConvertUsedBlood(OXYLOSS_HEAL_AMOUNT);
+		var health = target.GetComponent<LivingHealthMasterBase>();
+
+		health.CirculatorySystem.ConvertUsedBlood(OXYLOSS_HEAL_AMOUNT);
+
+		health.CirculatorySystem.HeartBeat(HeartbeatStrength);
+
 
 		Chat.AddActionMsgToChat(
 				performer,

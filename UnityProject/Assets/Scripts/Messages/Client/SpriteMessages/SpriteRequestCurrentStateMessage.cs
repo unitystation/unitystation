@@ -13,7 +13,7 @@ public class SpriteRequestCurrentStateMessage : ClientMessage
 		LoadNetworkObject(SpriteHandlerManager);
 		if (SentByPlayer == ConnectedPlayer.Invalid)
 			return;
-
+		//TODO Need some safeguards
 		NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
 	}
 

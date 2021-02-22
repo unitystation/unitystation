@@ -12,9 +12,7 @@ public class BodyPartDropDownReplaceOrgan : BodyPartCustomisationBase
 	public Dropdown Dropdown;
 
 	public List<BodyPart> ToChooseFromBodyParts = new List<BodyPart>();
-
-	public BodyPart RelatedBodyPart;
-
+	
 	public BodyPart CurrentBodyPart;
 
 	public BodyPart ParentBodyPart; //can be null with root

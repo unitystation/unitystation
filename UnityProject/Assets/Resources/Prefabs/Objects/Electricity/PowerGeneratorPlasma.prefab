@@ -461,6 +461,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1642589051554738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5365,7 +5366,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 69c27c4a07b053d458c6fec363e66403
+  m_AssetId: 
 --- !u!114 &114738137265545768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5416,7 +5417,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound: BladeSlice
+  butcherSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &1348606562097783112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5432,7 +5439,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 300
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -5519,6 +5532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &820786687953803850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5536,7 +5550,13 @@ MonoBehaviour:
   registerTile: {fileID: 114738137265545768}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 1
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -5557,8 +5577,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  stateSecuredStatus: 1
-  RequireFloorPlatingExposed: 0
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
   secondsToSecure: 0
   secondsToUnsecure: 0
 --- !u!114 &4667894046416146223
@@ -5578,6 +5598,10 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 2c004a22c0d6abf47880f2e3e86d62fe,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!114 &7281671087508858390
 MonoBehaviour:
   m_ObjectHideFlags: 0
