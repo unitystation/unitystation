@@ -103,8 +103,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				var damageLeft = totalDamageTaken - basicTile.MaxHealth;
 				var tile = basicTile.ToTileWhenDestroyed as BasicTile;
 
+				var overFlowProtection = 0;
+
 				while (damageLeft > 0 && tile != null)
 				{
+					overFlowProtection++;
+
 					if (tile.MaxHealth <= damageLeft)
 					{
 						damageLeft -= tile.MaxHealth;
@@ -115,6 +119,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 						//Atm we just set remaining damage to 0, instead of absorbing it for the new tile
 						damageLeft = 0;
 						tileChangeManager.UpdateTile(data.Position, tile);
+						break;
+					}
+
+					if (overFlowProtection > 10)
+					{
+						Debug.LogError($"Overflow protection triggered on {basicTile.name}, theres a loop in the ToTileWhenDestroyed");
 						break;
 					}
 				}
