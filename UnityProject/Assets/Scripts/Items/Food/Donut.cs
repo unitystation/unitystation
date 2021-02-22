@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -6,6 +7,7 @@ public class Donut : Edible
 {
 	[SerializeField, Tooltip("The amount of brute damage healed for a player who has a specfied role.")]
 	private int healBruteDamage = 5;
+	public List<JobType> healableJobs;
 
 	/// <summary>
 	/// Checks if the player eating the donut has a secuirty job and heals them if they are part of security.
@@ -36,22 +38,17 @@ public class Donut : Edible
 	}
 
 	/// <summary>
-	/// Checks if the player has a secuirty job.
+	/// Checks if the player has a healable job.
 	/// </summary>
 	private bool CheckForJob(PlayerScript JobHolder)
 	{
-		switch (JobHolder.mind.occupation.JobType)
+		if(healableJobs.Contains(JobHolder.mind.occupation.JobType))
 		{
-			case JobType.SECURITY_OFFICER:
-				return true;
-			case JobType.HOS:
-				return true;
-			case JobType.DETECTIVE:
-				return true;
-			case JobType.WARDEN:
-				return true;
-			default:
-				return false;
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 }
