@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Assets.Scripts.Messages.Server.SoundMessages
+namespace SoundMessages
 {
 	/// <summary>
 	/// Message that will change the Audio Source Parameters for a sound.

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Messages.Server.SoundMessages
+﻿namespace SoundMessages
 {
 	/// <summary>
 	///     Message that tells client to stop playing a sound

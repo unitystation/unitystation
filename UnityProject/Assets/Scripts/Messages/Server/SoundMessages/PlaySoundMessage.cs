@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Messages.Server.SoundMessages
+namespace SoundMessages
 {
 	/// <summary>
 	///     Message that tells client to play a sound at a position
