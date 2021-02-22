@@ -74,6 +74,7 @@ namespace Lobby
 		public int CurrentSurfaceInt = 0;
 
 		public Color CurrentSurfaceColour = Color.white;
+
 		/// <summary>
 		/// Empty, blank sprite texture used for selecting null customizations
 		/// (e.g. selecting or scrolling to "None" for hair, facial hair, underwear,
@@ -120,13 +121,12 @@ namespace Lobby
 				onCloseAction.Invoke();
 				onCloseAction = null;
 			}
+
 			Cleanup();
 		}
 
 		public void Cleanup()
 		{
-
-
 			foreach (var C in OpenCustomisation)
 			{
 				Destroy(C.spriteHandlerNorder.gameObject);
@@ -153,7 +153,6 @@ namespace Lobby
 			OpenBodyCustomisation.Clear();
 			OpenCustomisation.Clear();
 			SurfaceSprite.Clear();
-
 		}
 
 		private void LoadSettings(CharacterSettings inCharacterSettings)
@@ -188,6 +187,7 @@ namespace Lobby
 				{
 					break;
 				}
+
 				SelectedSpecies++;
 			}
 
@@ -201,6 +201,7 @@ namespace Lobby
 		}
 
 		#region BodyPartsSprites
+
 		public void SetUpSpeciesBody(PlayerHealthData Race)
 		{
 			BasedBodyPart(Race.Base.Torso);
@@ -211,30 +212,29 @@ namespace Lobby
 			BasedBodyPart(Race.Base.LegRight);
 		}
 
-		public void BasedBodyPart(GameObject GameObjectBody)
+		public void BasedBodyPart(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
 
-			var Body = GameObjectBody.GetComponent<ItemStorage>();
-			if (Body != null)
+			if (GameObjectBody.Elements.Count == 0) return;
+
+			foreach (var Organ in GameObjectBody.Elements)
 			{
-				foreach (var Organ in Body.Populater.Contents)
-				{
-					var Body_part = Organ.GetComponent<BodyPart>();
-					SetUpBodyPart(Body_part);
-				}
+				var Body_part = Organ.GetComponent<BodyPart>();
+				SetUpBodyPart(Body_part);
 			}
 
-			var DownOrgans = GameObjectBody.GetComponent<RootBodyPartContainer>();
-			if (DownOrgans != null)
-			{
-				if (DownOrgans.OptionalOrgans.Count > 0)
-				{
-					var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
-					Option.SetUp(this, DownOrgans, "");
-					OpenBodyCustomisation[GameObjectBody.name] = Option;
-				}
-			}
+
+			// var DownOrgans = GameObjectBody.GetComponent<RootBodyPartContainer>();
+			// if (DownOrgans != null)
+			// {
+			// if (DownOrgans.OptionalOrgans.Count > 0)
+			// {
+			// var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
+			// Option.SetUp(this, DownOrgans, "");
+			// OpenBodyCustomisation[GameObjectBody.name] = Option;
+			// }
+			// }
 		}
 
 
@@ -272,7 +272,6 @@ namespace Lobby
 			}
 
 
-
 			//Setup sprite//
 			//OpenBodySprites
 			if (Body_Part?.storage?.Populater?.Contents != null)
@@ -292,7 +291,6 @@ namespace Lobby
 			var Sprites = Body_Part.GetBodyTypeSprites(ThisBodyType.bodyType); //Get the correct one
 
 
-
 			if (Sprites != null)
 			{
 				if (Sprites?.Item1?.Orders == null || Sprites.Item1.Orders.Count == 0)
@@ -306,7 +304,7 @@ namespace Lobby
 				{
 					var newSprite = Instantiate(BodyPartSpite, SpriteContainer.transform);
 					newSprite.gameObject.transform.localPosition = Vector3.zero;
-					newSprite.SpriteOrder = new SpriteOrder(Sprites.Item1);
+					newSprite.SetSpriteOrder(new SpriteOrder(Sprites.Item1), true);
 					newSprite.SpriteOrder.Add(i);
 					newSprite.SpriteHandler.SetSpriteSO(SpriteData);
 					OpenBodySprites[Body_Part].Add(newSprite);
@@ -328,7 +326,6 @@ namespace Lobby
 				{
 					SurfaceSprite.Remove(sp);
 				}
-
 			}
 
 			foreach (var Keyv in ParentDictionary)
@@ -374,6 +371,7 @@ namespace Lobby
 		}
 
 		#endregion BodyPartsSprites
+
 		//First time setting up this character etc?
 		private void DoInitChecks()
 		{
@@ -405,6 +403,7 @@ namespace Lobby
 						match = true;
 					}
 				}
+
 				if (match == false)
 				{
 					CurrentSurfaceColour = ThisSetRace.Base.SkinColours[0];
@@ -414,6 +413,7 @@ namespace Lobby
 			{
 				ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out CurrentSurfaceColour);
 			}
+
 			SkinColourChange(CurrentSurfaceColour);
 
 			int i = 0;
@@ -442,6 +442,7 @@ namespace Lobby
 			RefreshBodyType();
 			RefreshBackpack();
 			RefreshClothing();
+			RefreshRace();
 		}
 
 		public void RollRandomCharacter()
@@ -577,6 +578,7 @@ namespace Lobby
 			{
 				currentCharacter.SerialisedExternalCustom = new List<ExternalCustomisation>();
 			}
+
 			bodyPartCustomisationStorage = new List<CustomisationStorage>(currentCharacter.SerialisedBodyPartCustom);
 			ExternalCustomisationStorage = new List<ExternalCustomisation>(currentCharacter.SerialisedExternalCustom);
 			if (bodyPartCustomisationStorage == null)
@@ -617,39 +619,16 @@ namespace Lobby
 		}
 
 
-		public void SetDropDownBody(GameObject GameObjectBody)
+		public void SetDropDownBody(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
+			if (GameObjectBody.Elements.Count == 0) return;
 
-			var Body = GameObjectBody.GetComponent<ItemStorage>();
-			//currentCharacter.GetDictionary()[GameObjectBody.name]
-			if (OpenBodyCustomisation.ContainsKey(GameObjectBody.name))
+
+			foreach (var Organ in GameObjectBody.Elements)
 			{
-				CustomisationStorage Customisation = null;
-				foreach (var bodyPartCustomisation in bodyPartCustomisationStorage)
-				{
-					if (bodyPartCustomisation.path == GameObjectBody.name)
-					{
-						Customisation = bodyPartCustomisation;
-					}
-				}
-
-				if (Customisation != null)
-				{
-					//Customisation.
-					var TCustomisation = OpenBodyCustomisation[GameObjectBody.name];
-					TCustomisation.Deserialise(Customisation.Data.Replace("@£","\""));
-				}
-			}
-
-
-			if (Body != null)
-			{
-				foreach (var Organ in Body.Populater.Contents)
-				{
-					var Body_part = Organ.GetComponent<BodyPart>();
-					SubSetBodyPart(Body_part, GameObjectBody.name);
-				}
+				var Body_part = Organ.GetComponent<BodyPart>();
+				SubSetBodyPart(Body_part, "");
 			}
 		}
 
@@ -671,7 +650,7 @@ namespace Lobby
 				if (Customisation != null)
 				{
 					var TCustomisation = OpenBodyCustomisation[Body_Part.name];
-					TCustomisation.Deserialise(Customisation.Data.Replace("@£","\""));
+					TCustomisation.Deserialise(Customisation.Data.Replace("@£", "\""));
 				}
 			}
 
@@ -725,29 +704,16 @@ namespace Lobby
 			}
 		}
 
-		public void SaveBodyPart(GameObject GameObjectBody)
+		public void SaveBodyPart(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
+			if (GameObjectBody.Elements.Count == 0) return;
 
-			var Body = GameObjectBody.GetComponent<ItemStorage>();
-			//currentCharacter.GetDictionary()[GameObjectBody.name]
-			if (OpenBodyCustomisation.ContainsKey(GameObjectBody.name))
+
+			foreach (var Organ in GameObjectBody.Elements)
 			{
-				var NewCustomisationStorage = new CustomisationStorage();
-				NewCustomisationStorage.path = GameObjectBody.name;
-				bodyPartCustomisationStorage.Add(NewCustomisationStorage);
-
-				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[GameObjectBody.name]);
-			}
-
-
-			if (Body != null)
-			{
-				foreach (var Organ in Body.Populater.Contents)
-				{
-					var Body_part = Organ.GetComponent<BodyPart>();
-					SubSaveBodyPart(Body_part, GameObjectBody.name);
-				}
+				var Body_part = Organ.GetComponent<BodyPart>();
+				SubSaveBodyPart(Body_part, "");
 			}
 		}
 
@@ -871,12 +837,6 @@ namespace Lobby
 				SelectedBodyType = 0;
 			}
 
-			RefreshBodyType();
-		}
-
-		private void RefreshBodyType()
-		{
-			genderText.text = ThisBodyType.Name;
 			SurfaceSprite.Clear();
 			var Copy = new Dictionary<BodyPart, List<SpriteHandlerNorder>>(OpenBodySprites);
 			foreach (var KVP in Copy)
@@ -887,8 +847,6 @@ namespace Lobby
 				}
 
 				SetupBodyPartsSprites(KVP.Key);
-
-
 			}
 
 			foreach (var BodyCustomisation in OpenBodyCustomisation)
@@ -904,6 +862,12 @@ namespace Lobby
 			currentCharacter.BodyType = AvailableBodyTypes[SelectedBodyType].bodyType;
 			SkinColourChange(CurrentSurfaceColour);
 			SetRotation();
+			RefreshBodyType();
+		}
+
+		private void RefreshBodyType()
+		{
+			genderText.text = ThisBodyType.Name;
 		}
 
 		//------------------
@@ -1024,7 +988,6 @@ namespace Lobby
 				}
 
 				CurrentSurfaceColour = availableSkinColors[CurrentSurfaceInt];
-
 			}
 
 			else
@@ -1033,8 +996,6 @@ namespace Lobby
 			}
 
 			SkinColourChange(CurrentSurfaceColour);
-
-
 		}
 
 		public void SkinColourChange(Color color)
@@ -1064,15 +1025,8 @@ namespace Lobby
 			currentCharacter.Species = RaceSOSingleton.Instance.Races[SelectedSpecies].name;
 
 			Cleanup();
-
-			RefreshRace();
-		}
-
-		private void RefreshRace()
-		{
 			SaveData();
-			raceText.text = currentCharacter.Species.ToString();
-			var SetRace= RaceSOSingleton.Instance.Races[SelectedSpecies];
+			var SetRace = RaceSOSingleton.Instance.Races[SelectedSpecies];
 			availableSkinColors = SetRace.Base.SkinColours;
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
@@ -1088,6 +1042,12 @@ namespace Lobby
 				Customisation.Refresh();
 			}
 
+			RefreshRace();
+		}
+
+		private void RefreshRace()
+		{
+			raceText.text = currentCharacter.Species.ToString();
 		}
 
 
@@ -1108,8 +1068,6 @@ namespace Lobby
 				Cleanup();
 				LoadSettings(currentCharacter);
 			}
-
-
 		}
 
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthMaster: {fileID: 0}
   RelatedPresentSprites: []
-  storage: {fileID: 0}
+  storage: {fileID: 1838231318945156987}
   bodyPartType: 0
   containBodyParts: []
   efficiency: 1
@@ -25,7 +25,8 @@ MonoBehaviour:
     BodyTypes: []
   Root: {fileID: 0}
   ContainedIn: {fileID: 0}
-  SpritePrefab: {fileID: 0}
+  SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
+    type: 3}
   BodySpriteSet: 0
   LobbyCustomisation: {fileID: 0}
   optionalOrgans: []
@@ -33,6 +34,7 @@ MonoBehaviour:
   isSurface: 0
   SurgeryProcedureBase: []
   isBloodReagentConsumed: 0
+  isBloodReagentCirculated: 1
   requiredReagent: {fileID: 0}
   _bloodReagentConsumed: 0.1
   bloodReagentProcessed: 0.15
@@ -41,7 +43,7 @@ MonoBehaviour:
   NutrimentConsumption: 0.02
   NutrimentPassiveConsumption: 0.001
   BloodContainer: {fileID: 0}
-  Nutriment: {fileID: 0}
+  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   TotalModified: 1
   BodyPartArmour:
     Melee: 0
@@ -66,7 +68,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   SubOrganDamageIncreasePoint: 50
-  DamageContributesToOverallHealth: 1
+  DamageContributesToOverallHealth: 0
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
   BloodGeneratedByOneNutriment: 1
@@ -160,7 +162,8 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &3177982829949495349 stripped
 GameObject:
@@ -168,3 +171,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7897882321571350356}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1838231318945156987 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7897882321571350356}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177982829949495349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

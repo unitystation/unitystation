@@ -234,6 +234,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	}
 
+
 	/// <summary>
 	/// Adds a new implant to the health master.
 	/// This is NOT how implants should be added, it is called automatically by the body part container system!
@@ -271,12 +272,16 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	private void PeriodicUpdate()
 	{
-		foreach (var implant in RootBodyPartContainers)
+		if (CustomNetworkManager.Instance._isServer)
 		{
-			implant.ImplantPeriodicUpdate(this);
+			foreach (var implant in RootBodyPartContainers)
+			{
+				implant.ImplantPeriodicUpdate(this);
+			}
+
+			CalculateOverallHealth();
 		}
 
-		CalculateOverallHealth();
 		//CalculateRadiationDamage();
 	}
 
@@ -372,7 +377,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 				ConsciousState = ConsciousState.CONSCIOUS;
 			}
 		}
-		Logger.Log("overallHealth >" + overallHealth  +  " ConsciousState > " + ConsciousState);
+		//Logger.Log("overallHealth >" + overallHealth  +  " ConsciousState > " + ConsciousState);
 		// Logger.Log("NutrimentLevel >" + NutrimentLevel);
 	}
 

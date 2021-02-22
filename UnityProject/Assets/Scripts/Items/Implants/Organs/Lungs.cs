@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Systems.Atmospherics;
+using Chemistry;
 using HealthV2;
 using Objects.Atmospherics;
 using UnityEngine;
@@ -22,6 +24,10 @@ public class Lungs : BodyPart
 	public float LungProcessAmount = 10;
 
 	public BloodType InteractsWith;
+
+
+	public List<Reagent> TEPList = new List<Reagent>();
+
 
 	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
 	{
@@ -59,7 +65,28 @@ public class Lungs : BodyPart
 		GasMix gasMix = container.GasMix;
 
 
+
+
+
 		var AvailableBlood = healthMaster.CirculatorySystem.UseBloodPool.Take(LungProcessAmount * TotalModified);
+
+		TEPList.Clear();
+		//Remove gas from blood
+		foreach (var Reagent in AvailableBlood)
+		{
+			if (GAS2ReagentSingleton.Instance.DictionaryReagentToGas.ContainsKey(Reagent.Key))
+			{
+				gasMix.AddGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value/10000f);
+				TEPList.Add(Reagent.Key);
+			}
+		}
+
+		foreach (var Reagent in TEPList)
+		{
+			AvailableBlood.Remove(Reagent, Single.MaxValue);
+		}
+
+
 		float reagentUsed = HandleBreathing(gasMix);
 		float gasUsed = reagentUsed;
 		reagentUsed = reagentUsed * 10000f;
@@ -83,9 +110,32 @@ public class Lungs : BodyPart
 
 		// Logger.Log("Lungs produced " + reagentUsed + " Of useful blood");
 
+		gasMix.RemoveGas(requiredGas, gasUsed);
 
-		gasMix.RemoveGas(Gas.Oxygen, gasUsed);
-		node.GasMix.AddGas(Gas.CarbonDioxide, gasUsed);
+
+
+		float BloodGasCapability = AvailableBlood[requiredReagent] * 0.01f;
+		float TotalGas = gasMix.Moles;
+
+		for (int i = 0; i < gasMix.Gases.Length; i++)
+		{
+			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(Gas.All[i]))
+			{
+				float uToRemove = (gasMix.Gases[i] / TotalGas) * BloodGasCapability;
+
+				gasMix.RemoveGas(Gas.All[i], uToRemove);
+				AvailableBlood.Add(GAS2ReagentSingleton.Instance.DictionaryGasToReagent[Gas.All[i]], uToRemove);
+			}
+		}
+
+		gasMix.AddGas(expelledGas, gasUsed);
+
+		if (float.IsNaN(gasMix.Temperature))
+		{
+			Logger.LogError("HELPP!");
+			Debug.Break();
+		}
+
 		healthMaster.RegisterTile.Matrix.MetaDataLayer.UpdateSystemsAt(healthMaster.RegisterTile.LocalPositionClient,
 			SystemType.AtmosSystem);
 

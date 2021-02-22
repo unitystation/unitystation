@@ -449,7 +449,7 @@ public class SpriteHandler : MonoBehaviour
 				return;
 			}
 
-			NetworkIdentity = NetID.netIdentity;
+			NetworkIdentity = NetID;
 			if (NetworkIdentity == null)
 			{
 				var gamename = "";
@@ -754,7 +754,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (Application.isPlaying && NetworkThis)
 		{
-			NetworkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject)?.netIdentity;
+			NetworkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
 			SpriteHandlerManager.RegisterHandler(this.NetworkIdentity, this);
 		}
 

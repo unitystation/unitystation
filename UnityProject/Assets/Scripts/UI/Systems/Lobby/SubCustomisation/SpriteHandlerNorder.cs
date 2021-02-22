@@ -1,13 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
-public class SpriteHandlerNorder : MonoBehaviour
+public class SpriteHandlerNorder : NetworkBehaviour
 {
 	public SpriteHandler SpriteHandler;
-	public SpriteOrder SpriteOrder  = new SpriteOrder();
+
+	[SerializeField]
+	private SpriteOrder spriteOrder  = new SpriteOrder();
+
+	public SpriteOrder SpriteOrder  => spriteOrder;
 
 	public SpriteRenderer spriteRenderer;
+
+	[SyncVar(hook = nameof(UpdateData))]
+	private string Data;
+
+
+	public void SetSpriteOrder(SpriteOrder InSpriteOrder, bool Lobby = false)
+	{
+		spriteOrder = InSpriteOrder;
+		if (Lobby == false)
+		{
+			UpdateData("",JsonConvert.SerializeObject(spriteOrder));
+		}
+	}
+
+	public void UpdateData(string InOld, string InNew)
+	{
+		Data = InNew;
+		if (CustomNetworkManager.Instance._isServer) return;
+		spriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
+		SpriteOrder.Orders.RemoveRange(0, 4);
+	}
+
 	public void ChangeSpriteVariant(int number)
 	{
 		SpriteHandler.ChangeSpriteVariant(number);
@@ -37,15 +65,15 @@ public class SpriteHandlerNorder : MonoBehaviour
 			referenceOffset = 3;
 		}
 
-		if (SpriteOrder != null)
+		if (spriteOrder != null)
 		{
-			if (SpriteOrder.Orders.Count > referenceOffset)
+			if (spriteOrder.Orders.Count > referenceOffset)
 			{
-				spriteRenderer.sortingOrder = SpriteOrder.Orders[referenceOffset];
+				spriteRenderer.sortingOrder = spriteOrder.Orders[referenceOffset];
 			}
 		}
 
-		SpriteHandler.ChangeSpriteVariant(referenceOffset);
+		SpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}
 
 }
