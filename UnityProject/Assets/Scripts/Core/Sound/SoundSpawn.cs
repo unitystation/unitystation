@@ -70,6 +70,7 @@ public class SoundSpawn: MonoBehaviour
 		if (!AudioSource.isPlaying)
 		{
 			IsPlaying = false;
+			monitor = false;
 
 			if (Token != string.Empty)
 			{
@@ -82,8 +83,6 @@ public class SoundSpawn: MonoBehaviour
 			}
 			SoundManager.Instance.NonplayingSounds[assetAddress].Add(this);
 		}
-
-		monitor = false;
 	}
 
 	public void SetAudioSource(AudioSource sourceToCopy)
