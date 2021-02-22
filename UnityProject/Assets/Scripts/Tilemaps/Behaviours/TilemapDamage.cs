@@ -12,6 +12,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private Matrix matrix;
 
+	//Is set to 10 as there isn't any tiles which go through 10 stages of damage, change if there is at some point.
+	private const int maxOverflowProtection = 10;
+
 	private void Awake()
 	{
 		tileChangeManager = transform.GetComponentInParent<TileChangeManager>();
@@ -122,7 +125,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 						break;
 					}
 
-					if (overFlowProtection > 10)
+					if (overFlowProtection > maxOverflowProtection)
 					{
 						Debug.LogError($"Overflow protection triggered on {basicTile.name}, theres a loop in the ToTileWhenDestroyed");
 						break;
