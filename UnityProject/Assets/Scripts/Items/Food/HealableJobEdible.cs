@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Donut : Edible
+public class HealableJobEdible : Edible
 {
 	[SerializeField, Tooltip("The amount of brute damage healed for a player who has a specfied role.")]
 	private int healBruteDamage = 5;
