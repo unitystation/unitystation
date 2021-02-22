@@ -173,9 +173,12 @@ namespace Chemistry
 
 		public void Add(ReagentMix b)
 		{
-			if (Total == 0)
+			if (Total == 0 || b.Total == 0)
 			{
-				Temperature = b.Temperature;
+				if (float.IsNaN(b.Temperature) == false)
+				{
+					Temperature = b.Temperature;
+				}
 			}
 			else
 			{
@@ -226,7 +229,7 @@ namespace Chemistry
 
 			if (!reagents.ContainsKey(reagent))
 			{
-				Debug.LogError($"Trying to move {reagent} from container doesn't contain it ");
+				//Debug.LogError($"Trying to move {reagent} from container doesn't contain it ");
 				return 0;
 
 			}

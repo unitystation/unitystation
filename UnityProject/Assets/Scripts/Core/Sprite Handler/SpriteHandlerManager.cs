@@ -32,6 +32,29 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public Dictionary<SpriteHandler, SpriteChange> NewClientChanges = new Dictionary<SpriteHandler, SpriteChange>();
 
+
+
+
+	public static void UnRegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
+	{
+		if (spriteHandler == null) return;
+		if (networkIdentity == null)
+		{
+			Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
+				Category.SpriteHandler);
+			return;
+		}
+
+		if (Instance.PresentSprites.ContainsKey(networkIdentity))
+		{
+			if (Instance.PresentSprites[networkIdentity].ContainsKey(spriteHandler.name))
+			{
+				Instance.PresentSprites[networkIdentity].Remove(spriteHandler.name);
+			}
+		}
+	}
+
+
 	public static void RegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
 	{
 		if (networkIdentity == null)
@@ -52,7 +75,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 			if (Instance.PresentSprites[networkIdentity][spriteHandler.name] != spriteHandler)
 			{
 				Logger.LogError(
-					"SpriteHandler has the same name as another SpriteHandler on the game object > " +
+					"SpriteHandler has the same name as another SpriteHandler on the game object > " + spriteHandler.name + " On parent > " +
 					spriteHandler.transform.parent.name + " with Net ID of " +  networkIdentity.netId , Category.SpriteHandler);
 			}
 		}
@@ -76,6 +99,17 @@ public class SpriteHandlerManager : NetworkBehaviour
 	{
 		SpriteUpdateMessage.SendToSpecified(requestedBy, NewClientChanges);
 	}
+
+	public void ClientRequestForceUpdate(List<SpriteHandler> Specifyed ,NetworkConnection requestedBy)
+	{
+		var Newtem = new Dictionary<SpriteHandler, SpriteHandlerManager.SpriteChange>();
+		foreach (var SH in Specifyed)
+		{
+			Newtem[SH] = NewClientChanges[SH];
+		}
+		SpriteUpdateMessage.SendToSpecified(requestedBy, Newtem);
+	}
+
 
 	public override void OnStartClient()
 	{
@@ -127,13 +161,13 @@ public class SpriteHandlerManager : NetworkBehaviour
 		QueueChanges.Clear();
 	}
 
-	public static NetworkBehaviour GetRecursivelyANetworkBehaviour(GameObject gameObject)
+	public static NetworkIdentity GetRecursivelyANetworkBehaviour(GameObject gameObject)
 	{
 		if (gameObject == null)
 		{
 			return null;
 		}
-		var Net = gameObject.GetComponent<NetworkBehaviour>();
+		var Net = gameObject.GetComponent<NetworkIdentity>();
 		if (Net != null)
 		{
 			return (Net);

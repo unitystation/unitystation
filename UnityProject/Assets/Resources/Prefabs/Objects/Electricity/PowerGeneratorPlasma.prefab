@@ -106,6 +106,7 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+  randomInitialSprite: 0
 --- !u!1 &1642589051554738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5175,6 +5176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &820786687953803850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5243,6 +5245,10 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 2c004a22c0d6abf47880f2e3e86d62fe,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!114 &7281671087508858390
 MonoBehaviour:
   m_ObjectHideFlags: 0

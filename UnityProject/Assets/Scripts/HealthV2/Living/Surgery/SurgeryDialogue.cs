@@ -78,8 +78,10 @@ public class SurgeryDialogue : MonoBehaviour
 	{
 		Clear();
 		this.SetActive(false);
-		Dissectible.currentlyOn = bodyPart;
-		Dissectible.ThisPresentProcedure.SetupProcedure(Dissectible, bodyPart, SurgeryProcedureBase);
+		RequestSurgery.Send(bodyPart.gameObject, Dissectible.gameObject, SurgeryProcedureBase);
+		// send message to server
+		// Dissectible.currentlyOn = bodyPart;
+		// Dissectible.ThisPresentProcedure.SetupProcedure(Dissectible, bodyPart, SurgeryProcedureBase);
 	}
 
 

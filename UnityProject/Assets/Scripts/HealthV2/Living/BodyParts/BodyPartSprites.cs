@@ -1,15 +1,15 @@
 ﻿using HealthV2;
+using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 /// <summary>
 /// This is used to contain data about the basic rendering of a body part.
 /// It will have info about what to render when there's no limb, the position of the rendering, etc.
 /// </summary>
-public class BodyPartSprites : MonoBehaviour
+public class BodyPartSprites : NetworkBehaviour
 {
 	[SerializeField] public SpriteHandler baseSpriteHandler;
-
-	[SerializeField] private SpriteHandler damageOverlaySpriteHandler;
 
 	[SerializeField] public BodyPartType bodyPartType;
 
@@ -19,13 +19,25 @@ public class BodyPartSprites : MonoBehaviour
 
 	public SpriteOrder SpriteOrder;
 
+	public ClothingHideFlags ClothingHide;
 
+	[SyncVar(hook = nameof(UpdateData))]
+	private string Data;
 
-	public virtual void UpdateSpritesForImplant(BodyPart implant, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
+	public void UpdateData(string InOld, string InNew)
 	{
-		//TODOH Colour
+		Data = InNew;
+		if (CustomNetworkManager.Instance._isServer) return;
+		SpriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
+		SpriteOrder.Orders.RemoveRange(0, 4);
+	}
+
+	public virtual void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
+	{
 		if (baseSpriteHandler == null) return;
-		//Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f)
+		ClothingHide = INClothingHide;
+		UpdateData("", JsonConvert.SerializeObject(_SpriteOrder));
+		//baseSpriteHandler.name = baseSpriteHandler.name + implant.name;
 		baseSpriteHandler.SetSpriteSO(Sprite, Color.white);
 		SpriteOrder = _SpriteOrder;
 		if (SpriteOrder != null)

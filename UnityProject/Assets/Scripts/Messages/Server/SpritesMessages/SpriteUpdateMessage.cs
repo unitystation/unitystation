@@ -52,7 +52,12 @@ public class SpriteUpdateMessage : ServerMessage
 				Start = Scanning + 1;
 				Scanning = GoToIndexOfCharacter(SerialiseData, '{', Scanning);
 				string Name = SerialiseData.Substring(Start, Scanning - Start);
+				if (SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]].ContainsKey(Name) == false)
+				{
 
+					Logger.LogError( JsonConvert.SerializeObject(SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]].Keys));
+					Logger.LogError( "NetID > " + NetID + " Name " + Name);
+				}
 				var SP = SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]][Name];
 
 				Scanning++;

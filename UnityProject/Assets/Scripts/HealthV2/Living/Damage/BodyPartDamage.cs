@@ -33,6 +33,7 @@ namespace HealthV2
 		         "Implants will start with this amount of health.")]
 		private float maxHealth = 100; //Is used for organ functionIt
 
+		public DamageSeverity Severity;
 
 		//Used for Calculating Overall damage
 		public float TotalDamageWithoutOxy
@@ -107,6 +108,7 @@ namespace HealthV2
 			Damages[healthDamageType] = Damage;
 			health = maxHealth - TotalDamage;
 			RecalculateEffectiveness();
+			UpdateSeverity();
 		}
 
 
@@ -151,5 +153,64 @@ namespace HealthV2
 		{
 			DamageModifier.Multiplier = (Mathf.Max(health, 0)  / maxHealth);
 		}
+
+		private void UpdateSeverity()
+		{
+			// update UI limbs depending on their severity of damage
+			float severity = 1 - (Mathf.Max(health, 0) / maxHealth);
+			// If the limb is uninjured
+			if (severity <= 0)
+			{
+				Severity = DamageSeverity.None;
+			}
+			// If the limb is under 10% damage
+			else if (severity < 0.1)
+			{
+				Severity = DamageSeverity.Light;
+			}
+			// If the limb is under 25% damage
+			else if (severity < 0.25)
+			{
+				Severity = DamageSeverity.LightModerate;
+			}
+			// If the limb is under 45% damage
+			else if (severity < 0.45)
+			{
+				Severity = DamageSeverity.Moderate;
+			}
+			// If the limb is under 85% damage
+			else if (severity < 0.85)
+			{
+				Severity = DamageSeverity.Bad;
+			}
+			// If the limb is under 95% damage
+			else if (severity < 0.95f)
+			{
+				Severity = DamageSeverity.Critical;
+			}
+			// If the limb is 95% damage or over
+			else if (severity >= 0.95f)
+			{
+				Severity = DamageSeverity.Max;
+			}
+
+			UpdateIcons();
+		}
+		private void UpdateIcons()
+		{
+			if (!IsLocalPlayer())
+			{
+				return;
+			}
+			UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
+		}
+
+		protected bool IsLocalPlayer()
+		{
+			var Player = healthMaster as PlayerHealthV2;
+			if (Player == null) return false;
+			return PlayerManager.LocalPlayerScript == Player.PlayerScript;
+		}
+
 	}
 }

@@ -14,14 +14,20 @@ public class PlayerHealthData : ScriptableObject
 }
 
 [System.Serializable]
+public class ObjectList
+{
+	public List<GameObject> Elements = new List<GameObject>();
+}
+
+[System.Serializable]
 public class RaceHealthData
 {
-	public GameObject Head;
-	public GameObject Torso;
-	public GameObject ArmRight;
-	public GameObject ArmLeft;
-	public GameObject LegRight;
-	public GameObject LegLeft;
+	public ObjectList Head;
+	public ObjectList Torso;
+	public ObjectList ArmRight;
+	public ObjectList ArmLeft;
+	public ObjectList LegRight;
+	public ObjectList LegLeft;
 
 	public List<CustomisationAllowedSetting> CustomisationSettings = new List<CustomisationAllowedSetting>();
 
