@@ -12,7 +12,7 @@ public class HealableJobEdible : Edible
 	private List<JobType> healableJobs;
 
 	/// <summary>
-	/// Checks if the player eating the donut has a job that's in healableJobs.
+	/// Checks if the player eating this item has a job that's in healableJobs.
 	/// If the player does not have one, nothing special will be triggered.
 	/// </summary>
 	public override void Eat(PlayerScript eater, PlayerScript feeder)
