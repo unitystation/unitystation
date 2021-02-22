@@ -20,13 +20,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: animFrames.Array.size
-      value: 8
+      propertyPath: closeFrame
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: spritePath
       value: icons/obj/doors/shutters
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.size
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -60,11 +65,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: closeFrame
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
-        type: 3}
       propertyPath: animFrames.Array.data[6]
       value: 2
       objectReference: {fileID: 0}
@@ -80,13 +80,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3526917778408936146, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: initialDescription
-      value: Heavy duty metal shutters that open mechanically.
+      propertyPath: initialName
+      value: shutters
       objectReference: {fileID: 0}
     - target: {fileID: 3526917778408936146, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: initialName
-      value: shutters
+      propertyPath: initialDescription
+      value: Heavy duty metal shutters that open mechanically.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -105,6 +110,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -117,16 +127,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -150,12 +150,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 616360e85761696418b70f5396e1f286,
-        type: 3}
-    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
-        type: 3}
       propertyPath: m_Size.x
       value: 1
       objectReference: {fileID: 0}
@@ -164,10 +158,26 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 616360e85761696418b70f5396e1f286,
+        type: 3}
     - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: doorAnimationSize
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: openSFX.AssetAddress
+      value: Assets/Prefabs/Doors/BlastDoor.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: closeSFX.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79cea07a5f8e66f49a554df1a003ecba, type: 3}

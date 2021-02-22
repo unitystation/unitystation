@@ -9,8 +9,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: animFrames.Array.size
-      value: 6
+      propertyPath: closeFrame
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -19,14 +19,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: closeFrame
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
       propertyPath: doorController
       value: 
       objectReference: {fileID: 7880321078131954941}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: animFrames.Array.data[0]
@@ -59,16 +59,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: doorType
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: maxTimeOpen
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
       propertyPath: openSFX
       value: BlastDoor
       objectReference: {fileID: 0}
@@ -79,17 +69,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
+      propertyPath: doorType
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
       propertyPath: IsAutomatic
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: openingDirection
-      value: 1
+      propertyPath: maxTimeOpen
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: weldOverlay
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: damageOnClose
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: openingDirection
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -99,8 +104,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: weldOverlay
-      value: 
+      propertyPath: openSFX.AssetAddress
+      value: Assets/Prefabs/Doors/BlastDoor.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: closeSFX.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -115,13 +125,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2768548541953953568, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: initialDescription
-      value: A heavy duty blast door that opens mechanically.
+      propertyPath: initialName
+      value: blast door
       objectReference: {fileID: 0}
     - target: {fileID: 2768548541953953568, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: initialName
-      value: blast door
+      propertyPath: initialDescription
+      value: A heavy duty blast door that opens mechanically.
       objectReference: {fileID: 0}
     - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -130,18 +140,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: initialIntegrity
-      value: 600
+      propertyPath: Armor.Bomb
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: damageDeflection
-      value: 70
+      propertyPath: Armor.Fire
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
+      propertyPath: Armor.Laser
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -155,30 +165,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
       propertyPath: Armor.Energy
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: Armor.Bomb
-      value: 50
+      propertyPath: damageDeflection
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 100
+      propertyPath: initialIntegrity
+      value: 600
       objectReference: {fileID: 0}
-    - target: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 00c017b13f8007f4d84de9b0c6a28a70,
-        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: m_Size.x
@@ -191,6 +195,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 00c017b13f8007f4d84de9b0c6a28a70,
+        type: 3}
+    - target: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
@@ -198,6 +208,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -216,6 +231,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -228,16 +248,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
