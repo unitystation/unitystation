@@ -1,5 +1,4 @@
 ﻿using Mirror;
-﻿using SoundMessages;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -182,7 +181,7 @@ namespace Objects
 			integrity = GetComponent<Integrity>();
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 
-			audioSourceParameters =	new AudioSourceParameters(1, Volume, 0, 0, 0, Spread, 
+			audioSourceParameters =	new AudioSourceParameters(1, Volume, 0, 0, 0, Spread,
 				MinSoundDistance, MaxSoundDistance, MixerType.Muffled, VolumeRolloffType.EaseInAndOut, false);
 		}
 

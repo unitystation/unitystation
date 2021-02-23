@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Messages.Server;
+using Messages.Server.SoundMessages;
 
 namespace Objects.Drawers
 {	

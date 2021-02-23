@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using Mirror;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Messages.Server.SoundMessages
 {
@@ -49,7 +50,7 @@ namespace Messages.Server.SoundMessages
 
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(addressableAudioSources, Position, SoundSpawnToken, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioParameters);
+				SoundManager.PlayAtPosition(addressableAudioSources, msg.Position, msg.SoundSpawnToken, msg.Polyphonic, netId: msg.TargetNetId, audioSourceParameters: msg.AudioParameters);
 			}
 			else
 			{
