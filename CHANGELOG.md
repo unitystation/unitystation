@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/2/22: Deconstruction RWalls gives two plasteel now by [ThatDan123](https://github.com/ThatDan123) in PR #[6094](https://github.com/unitystation/unitystation/pull/6094)
+* 2021/2/22: Fixed shutter and blast door sounds. by [ThatDan123](https://github.com/ThatDan123) in PR #[6094](https://github.com/unitystation/unitystation/pull/6094)
 * 2021/2/20: Fixed mobs being unable to die. by [corp-0](https://github.com/corp-0) in PR #[6075](https://github.com/unitystation/unitystation/pull/6075)
 * 2021/2/20: Adds damage levels for normal metal floors by [ThatDan123](https://github.com/ThatDan123) in PR #[6063](https://github.com/unitystation/unitystation/pull/6063)
 * 2021/2/20: Adds damage levels for reinforced and normal metal walls by [ThatDan123](https://github.com/ThatDan123) in PR #[6063](https://github.com/unitystation/unitystation/pull/6063)
