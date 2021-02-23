@@ -15,14 +15,14 @@ public static class NetworkManagerExtensions
 	/// </summary>
 	public static void RegisterServerHandlers()
 	{
-		Type[] types = GetDerivedTypes(typeof(ClientMessage<>)).ToArray();
+		IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage<>));
 		MethodInfo mi = GetHandlerInfo();
 
-		//Should only be one type?
-		var type = types[0];
-
-		MethodInfo method = mi.MakeGenericMethod(type, type.BaseType);
-		method.Invoke(null, new object[] {true});
+		foreach (var type in types)
+		{
+			MethodInfo method = mi.MakeGenericMethod(type, type.BaseType?.GenericTypeArguments[0]);
+			method.Invoke(null, new object[] {true});
+		}
 	}
 
 	/// <summary>
@@ -30,14 +30,14 @@ public static class NetworkManagerExtensions
 	/// </summary>
 	public static void RegisterClientHandlers()
 	{
-		Type[] types = GetDerivedTypes(typeof(ServerMessage<>)).ToArray();
+		IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage<>));
 		MethodInfo mi = GetHandlerInfo();
 
-		//Should only be one type?
-		var type = types[0];
-
-		MethodInfo method = mi.MakeGenericMethod(type, type.BaseType);
-		method.Invoke(null, new object[] {false});
+		foreach (var type in types)
+		{
+			MethodInfo method = mi.MakeGenericMethod(type, type.BaseType?.GenericTypeArguments[0]);
+			method.Invoke(null, new object[] {false});
+		}
 	}
 
 	public static void RegisterHandler<T, U>(bool isServer) where T : GameMessageBase<U>
