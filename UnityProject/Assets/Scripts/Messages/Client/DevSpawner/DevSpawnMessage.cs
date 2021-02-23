@@ -1,86 +1,80 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Messages.Client;
-using UnityEngine;
 using Mirror;
+using UnityEngine;
 
-/// <summary>
-/// Message allowing a client dev / admin to spawn something, validated server side.
-/// </summary>
-public class DevSpawnMessage : ClientMessage
+namespace Messages.Client.DevSpawner
 {
-	public struct DevSpawnMessageNetMessage : NetworkMessage
-	{
-		// asset ID of the prefab to spawn
-		public Guid PrefabAssetID;
-		// position to spawn at.
-		public Vector2 WorldPosition;
-		public string AdminId;
-		public string AdminToken;
-
-		public override string ToString()
-		{
-			return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition}]";
-		}
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public DevSpawnMessageNetMessage message;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as DevSpawnMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		ValidateAdmin(newMsg);
-	}
-
-	void ValidateAdmin(DevSpawnMessageNetMessage msg)
-	{
-		var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
-		if (admin == null) return;
-		//no longer checks impassability, spawn anywhere, go hog wild.
-		if (ClientScene.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
-		{
-			Spawn.ServerPrefab(prefab, msg.WorldPosition);
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{admin.Player().Username} spawned a {prefab.name} at {msg.WorldPosition}", msg.AdminId);
-		}
-		else
-		{
-			Logger.LogWarningFormat("An admin attempted to spawn prefab with invalid asset ID {0}, which" +
-			                        " is not found in Mirror.ClientScene. Spawn will not" +
-			                        " occur.", Category.Admin, msg.PrefabAssetID);
-		}
-
-	}
-
 	/// <summary>
-	/// Ask the server to spawn a specific prefab
+	/// Message allowing a client dev / admin to spawn something, validated server side.
 	/// </summary>
-	/// <param name="prefab">prefab to instantiate, must be networked (have networkidentity)</param>
-	/// <param name="worldPosition">world position to spawn it at</param>
-	/// <param name="adminId">user id of the admin trying to perform this action</param>
-	/// <param name="adminToken">token of the admin trying to perform this action</param>
-	/// <returns></returns>
-	public static void Send(GameObject prefab, Vector2 worldPosition, string adminId, string adminToken)
+	public class DevSpawnMessage : ClientMessage<DevSpawnMessage.NetMessage>
 	{
-		if (prefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
+		public struct NetMessage : NetworkMessage
 		{
-			DevSpawnMessageNetMessage msg = new DevSpawnMessageNetMessage
+			// asset ID of the prefab to spawn
+			public Guid PrefabAssetID;
+			// position to spawn at.
+			public Vector2 WorldPosition;
+			public string AdminId;
+			public string AdminToken;
+
+			public override string ToString()
 			{
-				PrefabAssetID = networkIdentity.assetId,
-				WorldPosition = worldPosition,
-				AdminId = adminId,
-				AdminToken = adminToken
-			};
-			new DevSpawnMessage().Send(msg);
+				return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition}]";
+			}
 		}
-		else
+
+		public override void Process(NetMessage msg)
 		{
-			Logger.LogWarningFormat("Prefab {0} which you are attempting to spawn has no NetworkIdentity, thus cannot" +
-			                        " be spawned.", Category.Admin, prefab);
+			ValidateAdmin(msg);
+		}
+
+		void ValidateAdmin(NetMessage msg)
+		{
+			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
+			if (admin == null) return;
+			//no longer checks impassability, spawn anywhere, go hog wild.
+			if (ClientScene.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
+			{
+				Spawn.ServerPrefab(prefab, msg.WorldPosition);
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+					$"{admin.Player().Username} spawned a {prefab.name} at {msg.WorldPosition}", msg.AdminId);
+			}
+			else
+			{
+				Logger.LogWarningFormat("An admin attempted to spawn prefab with invalid asset ID {0}, which" +
+				                        " is not found in Mirror.ClientScene. Spawn will not" +
+				                        " occur.", Category.Admin, msg.PrefabAssetID);
+			}
+
+		}
+
+		/// <summary>
+		/// Ask the server to spawn a specific prefab
+		/// </summary>
+		/// <param name="prefab">prefab to instantiate, must be networked (have networkidentity)</param>
+		/// <param name="worldPosition">world position to spawn it at</param>
+		/// <param name="adminId">user id of the admin trying to perform this action</param>
+		/// <param name="adminToken">token of the admin trying to perform this action</param>
+		/// <returns></returns>
+		public static void Send(GameObject prefab, Vector2 worldPosition, string adminId, string adminToken)
+		{
+			if (prefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
+			{
+				NetMessage msg = new NetMessage
+				{
+					PrefabAssetID = networkIdentity.assetId,
+					WorldPosition = worldPosition,
+					AdminId = adminId,
+					AdminToken = adminToken
+				};
+				new DevSpawnMessage().Send(msg);
+			}
+			else
+			{
+				Logger.LogWarningFormat("Prefab {0} which you are attempting to spawn has no NetworkIdentity, thus cannot" +
+				                        " be spawned.", Category.Admin, prefab);
+			}
 		}
 	}
 }

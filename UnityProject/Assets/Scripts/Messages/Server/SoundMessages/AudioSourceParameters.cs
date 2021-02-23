@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Assets.Scripts.Messages.Server.SoundMessages
+﻿namespace Messages.Server.SoundMessages
 {
 	public enum MixerType
 	{

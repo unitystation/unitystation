@@ -1,38 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Newtonsoft.Json;
-using System.IO;
-using Newtonsoft.Json.Bson;
-using System;
-using Mirror;
+﻿using Mirror;
 
-public class SubBookshelfNetMessage : ServerMessage
+namespace Messages.Server.VariableViewer
 {
-	public struct SubBookshelfNetMessageNetMessage : NetworkMessage
+	public class SubBookshelfNetMessage : ServerMessage<SubBookshelfNetMessage.NetMessage>
 	{
-		public string data;
-		public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public SubBookshelfNetMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as SubBookshelfNetMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		UIManager.Instance.BookshelfViewer.BookShelfIn = newMsg.BookShelf;
-	}
-
-	public static SubBookshelfNetMessageNetMessage Send(Librarian.BookShelf _BookShelf)
-	{
-		SubBookshelfNetMessageNetMessage msg = new SubBookshelfNetMessageNetMessage()
+		public struct NetMessage : NetworkMessage
 		{
-			BookShelf = VariableViewerNetworking.ProcessSUBBookShelf(_BookShelf)
-		};
-		new SubBookshelfNetMessage().SendToAll(msg);
-		return msg;
+			public string data;
+			public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.BookshelfViewer.BookShelfIn = msg.BookShelf;
+		}
+
+		public static NetMessage Send(Librarian.BookShelf _BookShelf)
+		{
+			NetMessage msg = new NetMessage()
+			{
+				BookShelf = VariableViewerNetworking.ProcessSUBBookShelf(_BookShelf)
+			};
+			new SubBookshelfNetMessage().SendToAll(msg);
+			return msg;
+		}
 	}
 }

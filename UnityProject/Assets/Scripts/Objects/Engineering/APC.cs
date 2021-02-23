@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using Electricity.Inheritance;
 using Systems.Electricity;
+using Messages.Server;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Messages.Server.SoundMessages;
-using Mirror;
+﻿using Mirror;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +6,8 @@ using UnityEngine;
 using Systems.Electricity;
 using AddressableReferences;
 using Audio.Containers;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 
 namespace Objects
 {

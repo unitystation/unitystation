@@ -9,6 +9,7 @@ using AdminTools;
 using AdminCommands;
 using Assets.Scripts.UI.AdminTools;
 using System.Linq;
+using Messages.Client.Admin;
 
 public class EventsManagerPage : AdminPage
 {

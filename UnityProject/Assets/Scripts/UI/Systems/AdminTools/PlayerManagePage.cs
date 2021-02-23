@@ -1,5 +1,6 @@
 ﻿using AdminCommands;
 using DatabaseAPI;
+using Messages.Client.Admin;
 using UI.AdminTools;
 using UnityEngine;
 using UnityEngine.UI;

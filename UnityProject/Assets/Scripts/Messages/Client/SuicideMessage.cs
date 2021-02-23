@@ -1,48 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Messages.Client;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
-public class SuicideMessage : ClientMessage
+namespace Messages.Client
 {
-	public struct SuicideMessageNetMessage : NetworkMessage { }
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public SuicideMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
+	public class SuicideMessage : ClientMessage<SuicideMessage.NetMessage>
 	{
-		var newMsgNull = msg as SuicideMessageNetMessage?;
-		if(newMsgNull == null) return;
+		public struct NetMessage : NetworkMessage { }
 
-		if (SentByPlayer.Script.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
+		public override void Process(NetMessage msg)
 		{
-			if (livingHealthBehaviour.IsDead)
+			if (SentByPlayer.Script.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
 			{
-				Logger.LogError("Player '" + SentByPlayer.Name + "' is attempting to commit suicide but is already dead.", Category.Health);
-			}
-			else
-			{
-				Logger.Log("Player '" + SentByPlayer.Name + "' has committed suicide", Category.Health);
-				livingHealthBehaviour.ApplyDamage(null, float.MaxValue, AttackType.Melee, DamageType.Brute);
+				if (livingHealthBehaviour.IsDead)
+				{
+					Logger.LogError("Player '" + SentByPlayer.Name + "' is attempting to commit suicide but is already dead.", Category.Health);
+				}
+				else
+				{
+					Logger.Log("Player '" + SentByPlayer.Name + "' has committed suicide", Category.Health);
+					livingHealthBehaviour.ApplyDamage(null, float.MaxValue, AttackType.Melee, DamageType.Brute);
+				}
 			}
 		}
+
+
+		/// <summary>
+		/// Tells the server to kill the player that sent this message
+		/// </summary>
+		/// <param name="obj">Dummy variable that is required to make this signiture different
+		/// from the non-static function of the same name. Just pass null. </param>
+		/// <returns></returns>
+		public static NetMessage Send(Object obj)
+		{
+			NetMessage msg = new NetMessage();
+			new SuicideMessage().Send(msg);
+			return msg;
+		}
+
+
 	}
-
-
-	/// <summary>
-	/// Tells the server to kill the player that sent this message
-	/// </summary>
-	/// <param name="obj">Dummy variable that is required to make this signiture different
-	/// from the non-static function of the same name. Just pass null. </param>
-	/// <returns></returns>
-	public static SuicideMessageNetMessage Send(Object obj)
-	{
-		SuicideMessageNetMessage msg = new SuicideMessageNetMessage();
-		new SuicideMessage().Send(msg);
-		return msg;
-	}
-
-
 }

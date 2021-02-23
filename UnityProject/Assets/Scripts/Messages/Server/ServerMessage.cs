@@ -37,7 +37,7 @@ namespace Messages.Server
 			Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
 		}
 
-		public virtual void SendTo(GameObject recipient, T msg)
+		public virtual void SendTo(GameObject recipient, T msg, Category category = Category.NetMessage)
 		{
 			if (recipient == null)
 			{
@@ -55,15 +55,12 @@ namespace Messages.Server
 			if (PlayerList.Instance.ContainsConnection(connection))
 			{
 				connection.Send(msg, 0);
-				Logger.LogTraceFormat("SentTo {0}: {1}", Category.NetMessage, recipient.name, this);
+				Logger.LogTraceFormat("SentTo {0}: {1}", category, recipient.name, this);
 			}
 			else
 			{
-				Logger.LogTraceFormat("Not sending message {0} to {1}", Category.NetMessage, this, recipient.name);
+				Logger.LogTraceFormat("Not sending message {0} to {1}", category, this, recipient.name);
 			}
-
-			//Obsolete version:
-			//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 		}
 
 		public void SendTo(ConnectedPlayer recipient, T msg)

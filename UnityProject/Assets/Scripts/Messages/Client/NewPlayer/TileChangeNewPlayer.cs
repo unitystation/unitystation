@@ -1,34 +1,29 @@
-﻿using System.Collections;
-using Messages.Client;
-using Mirror;
+﻿using Mirror;
 
-public class TileChangeNewPlayer : ClientMessage
+namespace Messages.Client.NewPlayer
 {
-	public struct TileChangeNewPlayerNetMessage : NetworkMessage
+	public class TileChangeNewPlayer : ClientMessage<TileChangeNewPlayer.NetMessage>
 	{
-		public uint TileChangeManager;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public TileChangeNewPlayerNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as TileChangeNewPlayerNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.TileChangeManager);
-		NetworkObject.GetComponent<TileChangeManager>().UpdateNewPlayer(
-			SentByPlayer.Connection);
-	}
-
-	public static TileChangeNewPlayerNetMessage Send(uint tileChangeNetId)
-	{
-		TileChangeNewPlayerNetMessage msg = new TileChangeNewPlayerNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			TileChangeManager = tileChangeNetId
-		};
-		new TileChangeNewPlayer().Send(msg);
-		return msg;
+			public uint TileChangeManager;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.TileChangeManager);
+			NetworkObject.GetComponent<TileChangeManager>().UpdateNewPlayer(
+				SentByPlayer.Connection);
+		}
+
+		public static NetMessage Send(uint tileChangeNetId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				TileChangeManager = tileChangeNetId
+			};
+			new TileChangeNewPlayer().Send(msg);
+			return msg;
+		}
 	}
 }

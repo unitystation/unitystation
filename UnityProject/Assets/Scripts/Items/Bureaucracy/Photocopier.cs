@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using System.Collections;
 using  AddressableReferences;
+using Messages.Server;
 
 namespace Assets.Scripts.Items.Bureaucracy
 {

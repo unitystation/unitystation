@@ -1,72 +1,66 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Messages.Client;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
-public class RequestBookshelfNetMessage : ClientMessage
+namespace Messages.Client.VariableViewer
 {
-	public struct RequestBookshelfNetMessageNetMessage : NetworkMessage
+	public class RequestBookshelfNetMessage : ClientMessage<RequestBookshelfNetMessage.NetMessage>
 	{
-		public ulong BookshelfID;
-		public bool IsNewBookshelf;
-		public string AdminId;
-		public string AdminToken;
-		public uint TheObjectToView;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public RequestBookshelfNetMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as RequestBookshelfNetMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		ValidateAdmin(newMsg);
-	}
-
-	void ValidateAdmin(RequestBookshelfNetMessageNetMessage msg)
-	{
-
-		var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
-		if (admin == null) return;
-		if (msg.TheObjectToView != 0)
+		public struct NetMessage : NetworkMessage
 		{
-			LoadNetworkObject(msg.TheObjectToView);
-			if (NetworkObject != null)
+			public ulong BookshelfID;
+			public bool IsNewBookshelf;
+			public string AdminId;
+			public string AdminToken;
+			public uint TheObjectToView;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			ValidateAdmin(msg);
+		}
+
+		void ValidateAdmin(NetMessage msg)
+		{
+
+			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
+			if (admin == null) return;
+			if (msg.TheObjectToView != 0)
 			{
-				VariableViewer.ProcessTransform(NetworkObject.transform,SentByPlayer.GameObject);
+				LoadNetworkObject(msg.TheObjectToView);
+				if (NetworkObject != null)
+				{
+					global::VariableViewer.ProcessTransform(NetworkObject.transform,SentByPlayer.GameObject);
+				}
 			}
+			else
+			{
+				global::VariableViewer.RequestSendBookshelf(msg.BookshelfID, msg.IsNewBookshelf,SentByPlayer.GameObject);
+			}
+
 		}
-		else
+
+
+		public static NetMessage Send(ulong _BookshelfID, bool _IsNewBookshelf, string adminId, string adminToken)
 		{
-			VariableViewer.RequestSendBookshelf(msg.BookshelfID, msg.IsNewBookshelf,SentByPlayer.GameObject);
+			NetMessage msg = new NetMessage();
+			msg.BookshelfID = _BookshelfID;
+			msg.IsNewBookshelf = _IsNewBookshelf;
+			msg.AdminId = adminId;
+			msg.AdminToken = adminToken;
+
+			new RequestBookshelfNetMessage().Send(msg);
+			return msg;
 		}
 
-	}
+		public static NetMessage Send(GameObject _TheObjectToView, string adminId, string adminToken)
+		{
+			NetMessage msg = new NetMessage();
+			msg.TheObjectToView = _TheObjectToView.NetId();
+			msg.AdminId = adminId;
+			msg.AdminToken = adminToken;
 
-
-	public static RequestBookshelfNetMessageNetMessage Send(ulong _BookshelfID, bool _IsNewBookshelf, string adminId, string adminToken)
-	{
-		RequestBookshelfNetMessageNetMessage msg = new RequestBookshelfNetMessageNetMessage();
-		msg.BookshelfID = _BookshelfID;
-		msg.IsNewBookshelf = _IsNewBookshelf;
-		msg.AdminId = adminId;
-		msg.AdminToken = adminToken;
-
-		new RequestBookshelfNetMessage().Send(msg);
-		return msg;
-	}
-
-	public static RequestBookshelfNetMessageNetMessage Send(GameObject _TheObjectToView, string adminId, string adminToken)
-	{
-		RequestBookshelfNetMessageNetMessage msg = new RequestBookshelfNetMessageNetMessage();
-		msg.TheObjectToView = _TheObjectToView.NetId();
-		msg.AdminId = adminId;
-		msg.AdminToken = adminToken;
-
-		new RequestBookshelfNetMessage().Send(msg);
-		return msg;
+			new RequestBookshelfNetMessage().Send(msg);
+			return msg;
+		}
 	}
 }

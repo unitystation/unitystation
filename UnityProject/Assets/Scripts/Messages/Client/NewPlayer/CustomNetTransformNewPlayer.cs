@@ -1,35 +1,30 @@
-﻿using System.Collections;
-using Messages.Client;
-using Mirror;
+﻿using Mirror;
 
-public class CustomNetTransformNewPlayer : ClientMessage
+namespace Messages.Client.NewPlayer
 {
-	public struct CustomNetTransformNewPlayerNetMessage : NetworkMessage
+	public class CustomNetTransformNewPlayer : ClientMessage<CustomNetTransformNewPlayer.NetMessage>
 	{
-		public uint CNT;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public CustomNetTransformNewPlayerNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as CustomNetTransformNewPlayerNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.CNT);
-		if (NetworkObject == null) return;
-		NetworkObject.GetComponent<CustomNetTransform>()?.NotifyPlayer(
-			SentByPlayer.Connection);
-	}
-
-	public static CustomNetTransformNewPlayerNetMessage Send(uint netId)
-	{
-		CustomNetTransformNewPlayerNetMessage msg = new CustomNetTransformNewPlayerNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			CNT = netId
-		};
-		new CustomNetTransformNewPlayer().Send(msg);
-		return msg;
+			public uint CNT;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.CNT);
+			if (NetworkObject == null) return;
+			NetworkObject.GetComponent<CustomNetTransform>()?.NotifyPlayer(
+				SentByPlayer.Connection);
+		}
+
+		public static NetMessage Send(uint netId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				CNT = netId
+			};
+			new CustomNetTransformNewPlayer().Send(msg);
+			return msg;
+		}
 	}
 }

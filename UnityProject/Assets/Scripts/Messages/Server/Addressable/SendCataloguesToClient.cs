@@ -1,36 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mirror;
-using UnityEngine;
 using Newtonsoft.Json;
+using UnityEngine;
 
-public class SendCataloguesToClient : ServerMessage
+namespace Messages.Server.Addressable
 {
-	public struct SendCataloguesToClientNetMessage : NetworkMessage
+	public class SendCataloguesToClient : ServerMessage<SendCataloguesToClient.NetMessage>
 	{
-		public string serialiseCatalogues;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public SendCataloguesToClientNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as SendCataloguesToClientNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		AddressableCatalogueManager.LoadCataloguesFromServer(JsonConvert.DeserializeObject<List<string>>(newMsg.serialiseCatalogues));
-	}
-
-	public static SendCataloguesToClientNetMessage Send(List<string> Catalogues, GameObject ToWho)
-	{
-		SendCataloguesToClientNetMessage msg = new SendCataloguesToClientNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			serialiseCatalogues = JsonConvert.SerializeObject(Catalogues)
-		};
+			public string serialiseCatalogues;
+		}
 
-		new SendCataloguesToClient().SendTo(ToWho, msg);
-		return msg;
+		public override void Process(NetMessage msg)
+		{
+			AddressableCatalogueManager.LoadCataloguesFromServer(JsonConvert.DeserializeObject<List<string>>(msg.serialiseCatalogues));
+		}
+
+		public static NetMessage Send(List<string> Catalogues, GameObject ToWho)
+		{
+			NetMessage msg = new NetMessage
+			{
+				serialiseCatalogues = JsonConvert.SerializeObject(Catalogues)
+			};
+
+			new SendCataloguesToClient().SendTo(ToWho, msg);
+			return msg;
+		}
+
 	}
-
 }

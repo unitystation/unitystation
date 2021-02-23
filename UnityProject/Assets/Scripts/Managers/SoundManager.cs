@@ -1,10 +1,10 @@
 ﻿using System;
 using AddressableReferences;
-using Assets.Scripts.Messages.Server.SoundMessages;
 using Mirror;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;

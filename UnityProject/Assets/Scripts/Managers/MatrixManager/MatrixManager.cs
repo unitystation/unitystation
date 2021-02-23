@@ -813,7 +813,7 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Vector3Int"/>
 	public static bool IsPassableAtAllMatricesOneTile(Vector3Int worldTarget, bool isServer, bool includingPlayers = true,
 		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null, bool ignoreObjects = false,
 		bool onlyExcludeLayerOnDestination = false)

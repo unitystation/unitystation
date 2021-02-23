@@ -1,35 +1,33 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Tells client to update respiratory health stats
-/// </summary>
-public class HealthRespiratoryMessage : ServerMessage
+namespace Messages.Server.HealthMessages
 {
-	public struct HealthRespiratoryMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Tells client to update respiratory health stats
+	/// </summary>
+	public class HealthRespiratoryMessage : ServerMessage<HealthRespiratoryMessage.NetMessage>
 	{
-		public bool IsSuffocating;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public HealthRespiratoryMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as HealthRespiratoryMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientRespiratoryStats(newMsg.IsSuffocating);
-	}
-
-	public static HealthRespiratoryMessageNetMessage Send(GameObject entityToUpdate, bool IsSuffocating)
-	{
-		HealthRespiratoryMessageNetMessage msg = new HealthRespiratoryMessageNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			IsSuffocating = IsSuffocating
-		};
-		new HealthRespiratoryMessage().SendTo(entityToUpdate, msg);
-		return msg;
+			public bool IsSuffocating;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			if (PlayerManager.LocalPlayerScript.playerHealth == null) return;
+
+			PlayerManager.LocalPlayerScript.playerHealth.UpdateClientRespiratoryStats(msg.IsSuffocating);
+		}
+
+		public static NetMessage Send(GameObject entityToUpdate, bool IsSuffocating)
+		{
+			NetMessage msg = new NetMessage
+			{
+				IsSuffocating = IsSuffocating
+			};
+			new HealthRespiratoryMessage().SendTo(entityToUpdate, msg);
+			return msg;
+		}
 	}
 }

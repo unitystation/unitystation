@@ -1,37 +1,32 @@
-﻿using System.Collections;
-using Messages.Client;
-using Mirror;
+﻿using Mirror;
 
-public class MatrixMoveNewPlayer : ClientMessage
+namespace Messages.Client.NewPlayer
 {
-	public struct MatrixMoveNewPlayerNetMessage : NetworkMessage
+	public class MatrixMoveNewPlayer : ClientMessage<MatrixMoveNewPlayer.NetMessage>
 	{
-		public uint MatrixMove;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public MatrixMoveNewPlayerNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as MatrixMoveNewPlayerNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
-		if (LoadNetworkObject(newMsg.MatrixMove))
+		public struct NetMessage : NetworkMessage
 		{
-			NetworkObject.GetComponent<MatrixMove>()?.UpdateNewPlayer(
-				SentByPlayer.Connection);
+			public uint MatrixMove;
 		}
-	}
 
-	public static MatrixMoveNewPlayerNetMessage Send(uint matrixMoveNetId)
-	{
-		MatrixMoveNewPlayerNetMessage msg = new MatrixMoveNewPlayerNetMessage
+		public override void Process(NetMessage msg)
 		{
-			MatrixMove = matrixMoveNetId
-		};
-		new MatrixMoveNewPlayer().Send(msg);
-		return msg;
+			// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
+			if (LoadNetworkObject(msg.MatrixMove))
+			{
+				NetworkObject.GetComponent<MatrixMove>()?.UpdateNewPlayer(
+					SentByPlayer.Connection);
+			}
+		}
+
+		public static NetMessage Send(uint matrixMoveNetId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				MatrixMove = matrixMoveNetId
+			};
+			new MatrixMoveNewPlayer().Send(msg);
+			return msg;
+		}
 	}
 }

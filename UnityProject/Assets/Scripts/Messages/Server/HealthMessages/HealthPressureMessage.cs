@@ -1,35 +1,33 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Tells client to update pressure
-/// </summary>
-public class HealthPressureMessage : ServerMessage
+namespace Messages.Server.HealthMessages
 {
-	public struct HealthPressureMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Tells client to update pressure
+	/// </summary>
+	public class HealthPressureMessage : ServerMessage<HealthPressureMessage.NetMessage>
 	{
-		public float pressure;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public HealthPressureMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as HealthPressureMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientPressureStats(newMsg.pressure);
-	}
-
-	public static HealthPressureMessageNetMessage Send(GameObject entityToUpdate, float pressureValue)
-	{
-		HealthPressureMessageNetMessage msg = new HealthPressureMessageNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			pressure = pressureValue
-		};
-		new HealthPressureMessage().SendTo(entityToUpdate, msg);
-		return msg;
+			public float pressure;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			if(PlayerManager.LocalPlayerScript.playerHealth == null) return;
+
+			PlayerManager.LocalPlayerScript.playerHealth.UpdateClientPressureStats(msg.pressure);
+		}
+
+		public static NetMessage Send(GameObject entityToUpdate, float pressureValue)
+		{
+			NetMessage msg = new NetMessage
+			{
+				pressure = pressureValue
+			};
+			new HealthPressureMessage().SendTo(entityToUpdate, msg);
+			return msg;
+		}
 	}
 }

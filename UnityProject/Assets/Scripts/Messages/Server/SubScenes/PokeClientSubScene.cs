@@ -1,33 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Mirror;
-using UnityEngine;
-//TODO update mirror!!!!!!!!!!!, this is only here because mirror didn't update a synchronised list properly
-public class PokeClientSubScene : ServerMessage
+﻿using Mirror;
+
+namespace Messages.Server.SubScenes
 {
-	public struct PokeClientSubSceneNetMessage : NetworkMessage
+	//TODO update mirror!!!!!!!!!!!, this is only here because mirror didn't update a synchronised list properly
+	public class PokeClientSubScene : ServerMessage<PokeClientSubScene.NetMessage>
 	{
-		public string ToLoadSceneName;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public PokeClientSubSceneNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as PokeClientSubSceneNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		if (CustomNetworkManager.Instance._isServer) return;
-		SubSceneManager.ManuallyLoadScene(newMsg.ToLoadSceneName);
-	}
-
-	public static void SendToAll(string SceneName = "")
-	{
-		var msg = new PokeClientSubSceneNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			ToLoadSceneName = SceneName
-		};
-		new PokeClientSubScene().SendToAll(msg);
+			public string ToLoadSceneName;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			if (CustomNetworkManager.Instance._isServer) return;
+
+			SubSceneManager.ManuallyLoadScene(msg.ToLoadSceneName);
+		}
+
+		public static void SendToAll(string SceneName = "")
+		{
+			var msg = new NetMessage
+			{
+				ToLoadSceneName = SceneName
+			};
+			new PokeClientSubScene().SendToAll(msg);
+		}
 	}
 }

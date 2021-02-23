@@ -1,38 +1,30 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using Systems.GhostRoles;
 using Mirror;
-using Systems.GhostRoles;
 
-namespace Messages.Client
+namespace Messages.Client.GhostRoles
 {
 	/// <summary>
 	/// Allows a network message to be sent to the server, requesting that the local player be assigned the associated role of the given key.
 	/// </summary>
-	public class RequestGhostRoleMessage : ClientMessage
+	public class RequestGhostRoleMessage : ClientMessage<RequestGhostRoleMessage.NetMessage>
 	{
-		public struct RequestGhostRoleMessageNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public uint roleID;
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public RequestGhostRoleMessageNetMessage IgnoreMe;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as RequestGhostRoleMessageNetMessage?;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-			GhostRoleManager.Instance.ServerGhostRequestRole(SentByPlayer, newMsg.roleID);
+			GhostRoleManager.Instance.ServerGhostRequestRole(SentByPlayer, msg.roleID);
 		}
 
 		/// <summary>
 		/// Sends a message to the server, requesting that the local player be assigned the associated role of the given key.
 		/// </summary>
 		/// <param name="key">The unique key the ghost role instance is associated with.</param>
-		public static RequestGhostRoleMessageNetMessage Send(uint key)
+		public static NetMessage Send(uint key)
 		{
-			var msg = new RequestGhostRoleMessageNetMessage
+			var msg = new NetMessage
 			{
 				roleID = key,
 			};

@@ -1,27 +1,20 @@
-﻿using System.Collections;
+﻿using Systems.MobAIs;
 using Mirror;
 using UnityEngine;
 
-namespace Systems.MobAIs
+namespace Messages.Server
 {
-	public class MobMeleeLerpMessage : ServerMessage
+	public class MobMeleeLerpMessage : ServerMessage<MobMeleeLerpMessage.NetMessage>
 	{
-		public struct MobMeleeLerpMessageNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public uint mob;
 			public Vector2 dir;
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public MobMeleeLerpMessageNetMessage message;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as MobMeleeLerpMessageNetMessage?;
-			if(newMsgNull == null) return;
-			var newMsg = newMsgNull.Value;
-
-			LoadNetworkObject(newMsg.mob);
+			LoadNetworkObject(msg.mob);
 
 			if (NetworkObject == null) return;
 
@@ -35,19 +28,19 @@ namespace Systems.MobAIs
 
 			if (mobMelee == null)
 			{
-				mobAction.ClientDoLerpAnimation(newMsg.dir);
+				mobAction.ClientDoLerpAnimation(msg.dir);
 				return;
 			}
 
-			mobMelee.ClientDoLerpAnimation(newMsg.dir);
+			mobMelee.ClientDoLerpAnimation(msg.dir);
 		}
 
-		public static MobMeleeLerpMessageNetMessage Send(GameObject mob, Vector2 dir)
+		public static NetMessage Send(GameObject mob, Vector2 dir)
 		{
 			//Only send to players in the area so that clients cannot snoop on mob positions
 			//by watching debug log outputs from the process coroutine on this message
 
-			MobMeleeLerpMessageNetMessage msg = new MobMeleeLerpMessageNetMessage
+			NetMessage msg = new NetMessage
 			{
 				mob = mob.GetComponent<NetworkIdentity>().netId,
 				dir = dir

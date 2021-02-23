@@ -17,7 +17,7 @@ using UnityEngine;
 
 	public uint Tray;
 
-	public override void Process<T>(T msg)
+	public override void Process(NetMessage msg)
 	{
 		yield return WaitFor(Tray);
 

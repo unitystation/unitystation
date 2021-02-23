@@ -1,57 +1,53 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using AdminTools;
 using Mirror;
-using AdminTools;
+using UnityEngine;
 
-public class PlayerAlertsUpdateMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public struct PlayerAlertsUpdateMessageNetMessage : NetworkMessage
+	public class PlayerAlertsUpdateMessage : ServerMessage<PlayerAlertsUpdateMessage.NetMessage>
 	{
-		public string JsonData;
-		public bool IsSingleEntry;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public PlayerAlertsUpdateMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as PlayerAlertsUpdateMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		if (newMsg.IsSingleEntry)
+		public struct NetMessage : NetworkMessage
 		{
-			UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonUtility.FromJson<PlayerAlertData>(newMsg.JsonData));
+			public string JsonData;
+			public bool IsSingleEntry;
 		}
-		else
+
+		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.playerAlerts.ClientUpdateAlertLog(newMsg.JsonData);
+			if (msg.IsSingleEntry)
+			{
+				UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonUtility.FromJson<PlayerAlertData>(msg.JsonData));
+			}
+			else
+			{
+				UIManager.Instance.playerAlerts.ClientUpdateAlertLog(msg.JsonData);
+			}
 		}
-	}
 
-	public static PlayerAlertsUpdateMessageNetMessage SendSingleEntryToAdmins(PlayerAlertData alertMessage)
-	{
-		PlayerAlertsUpdateMessageNetMessage  msg =
-			new PlayerAlertsUpdateMessageNetMessage
-			{
-				JsonData = JsonUtility.ToJson(alertMessage),
-				IsSingleEntry = true
-			};
+		public static NetMessage SendSingleEntryToAdmins(PlayerAlertData alertMessage)
+		{
+			NetMessage  msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(alertMessage),
+					IsSingleEntry = true
+				};
 
-		new PlayerAlertsUpdateMessage().SendToAdmins(msg);
-		return msg;
-	}
+			new PlayerAlertsUpdateMessage().SendToAdmins(msg);
+			return msg;
+		}
 
-	public static PlayerAlertsUpdateMessageNetMessage SendLogUpdateToAdmin(NetworkConnection requestee, PlayerAlertsUpdate update)
-	{
-		PlayerAlertsUpdateMessageNetMessage msg =
-			new PlayerAlertsUpdateMessageNetMessage
-			{
-				JsonData = JsonUtility.ToJson(update),
-				IsSingleEntry = false
-			};
+		public static NetMessage SendLogUpdateToAdmin(NetworkConnection requestee, PlayerAlertsUpdate update)
+		{
+			NetMessage msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(update),
+					IsSingleEntry = false
+				};
 
-		new PlayerAlertsUpdateMessage().SendTo(requestee, msg);
-		return msg;
+			new PlayerAlertsUpdateMessage().SendTo(requestee, msg);
+			return msg;
+		}
 	}
 }

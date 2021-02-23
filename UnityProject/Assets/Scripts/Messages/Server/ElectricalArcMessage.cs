@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections;
-using UnityEngine;
+using Systems.ElectricalArcs;
 using Mirror;
+using UnityEngine;
 
-namespace Systems.ElectricalArcs
+namespace Messages.Server
 {
 	/// <summary>
 	/// Sends a message to all clients, informing them to create an electrical arc with the given settings.
 	/// </summary>
-	public class ElectricalArcMessage : ServerMessage
+	public class ElectricalArcMessage : ServerMessage<ElectricalArcMessage.NetMessage>
 	{
-		public struct ElectricalArcMessageNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public Guid prefabAssetID;
 			public GameObject startObject;
@@ -23,38 +23,31 @@ namespace Systems.ElectricalArcs
 			public bool addRandomness;
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public ElectricalArcMessageNetMessage message;
-
 		// To be run on client
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as ElectricalArcMessageNetMessage?;
-			if(newMsgNull == null) return;
-			var newMsg = newMsgNull.Value;
-
 			if (CustomNetworkManager.IsServer) return; // Run extra logic for server, handled in ElectricalArc.
 			if (MatrixManager.IsInitialized == false) return;
 			if (PlayerManager.LocalPlayer == null) return;
 
-			if (ClientScene.prefabs.TryGetValue(newMsg.prefabAssetID, out var prefab) == false)
+			if (ClientScene.prefabs.TryGetValue(msg.prefabAssetID, out var prefab) == false)
 			{
 				Logger.LogError(
-						$"Couldn't spawn {nameof(ElectricalArc)}; client doesn't know about this {nameof(newMsg.prefabAssetID)}: {newMsg.prefabAssetID}.",
+						$"Couldn't spawn {nameof(ElectricalArc)}; client doesn't know about this {nameof(msg.prefabAssetID)}: {msg.prefabAssetID}.",
 						Category.Firearms);
 				return;
 			}
 
-			var settings = new ElectricalArcSettings(prefab, newMsg.startObject, newMsg.endObject,
-				newMsg.startPosition, newMsg.endPosition, newMsg.arcCount,
-				newMsg.duration, newMsg.reachCheck, newMsg.addRandomness);
+			var settings = new ElectricalArcSettings(prefab, msg.startObject, msg.endObject,
+				msg.startPosition, msg.endPosition, msg.arcCount,
+				msg.duration, msg.reachCheck, msg.addRandomness);
 			new ElectricalArc().CreateArcs(settings);
 		}
 
 		/// <summary>
 		/// Sends a message to all clients, informing them to create an electrical arc with the given settings.
 		/// </summary>
-		public static ElectricalArcMessageNetMessage SendToAll(ElectricalArcSettings arcSettings)
+		public static NetMessage SendToAll(ElectricalArcSettings arcSettings)
 		{
 			if (arcSettings.arcEffectPrefab.TryGetComponent<NetworkIdentity>(out var identity) == false)
 			{
@@ -64,7 +57,7 @@ namespace Systems.ElectricalArcs
 				return default;
 			}
 
-			var msg = new ElectricalArcMessageNetMessage
+			var msg = new NetMessage
 			{
 				prefabAssetID = identity.assetId,
 				startObject = arcSettings.startObject,

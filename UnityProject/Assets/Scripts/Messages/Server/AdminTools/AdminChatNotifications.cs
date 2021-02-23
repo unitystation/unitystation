@@ -1,102 +1,100 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using AdminTools;
+using Messages.Server;
 using Mirror;
+using UnityEngine;
 
-/// <summary>
-/// Notify the admins when a message comes in!!
-/// </summary>
-public class AdminChatNotifications : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public struct AdminChatNotificationsNetMessage : NetworkMessage
+	/// <summary>
+	/// Notify the admins when a message comes in!!
+	/// </summary>
+	public class AdminChatNotifications : ServerMessage<AdminChatNotifications.NetMessage>
 	{
-		public string NotificationKey;
-		public AdminChatWindow TargetWindow;
-		public int Amount;
-		public bool ClearAll;
-		public bool IsFullUpdate;
-		public string FullUpdateJson;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public AdminChatNotificationsNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as AdminChatNotificationsNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		if (!newMsg.IsFullUpdate)
+		public struct NetMessage : NetworkMessage
 		{
-			UIManager.Instance.adminChatButtons.ClientUpdateNotifications(newMsg.NotificationKey, newMsg.TargetWindow,
-				newMsg.Amount, newMsg.ClearAll);
-			UIManager.Instance.mentorChatButtons.ClientUpdateNotifications(newMsg.NotificationKey, newMsg.TargetWindow,
-				newMsg.Amount, newMsg.ClearAll);
+			public string NotificationKey;
+			public AdminChatWindow TargetWindow;
+			public int Amount;
+			public bool ClearAll;
+			public bool IsFullUpdate;
+			public string FullUpdateJson;
 		}
-		else
-		{
-			UIManager.Instance.adminChatButtons.ClearAllNotifications();
-			UIManager.Instance.mentorChatButtons.ClearAllNotifications();
-			var notiUpdate = JsonUtility.FromJson<AdminChatNotificationFullUpdate>(newMsg.FullUpdateJson);
 
-			foreach (var n in notiUpdate.notificationEntries)
+		public override void Process(NetMessage msg)
+		{
+			if (!msg.IsFullUpdate)
 			{
-				UIManager.Instance.adminChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
-					n.Amount, false);
-				UIManager.Instance.mentorChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
-					n.Amount, false);
+				UIManager.Instance.adminChatButtons.ClientUpdateNotifications(msg.NotificationKey, msg.TargetWindow,
+					msg.Amount, msg.ClearAll);
+				UIManager.Instance.mentorChatButtons.ClientUpdateNotifications(msg.NotificationKey, msg.TargetWindow,
+					msg.Amount, msg.ClearAll);
+			}
+			else
+			{
+				UIManager.Instance.adminChatButtons.ClearAllNotifications();
+				UIManager.Instance.mentorChatButtons.ClearAllNotifications();
+				var notiUpdate = JsonUtility.FromJson<AdminChatNotificationFullUpdate>(msg.FullUpdateJson);
+
+				foreach (var n in notiUpdate.notificationEntries)
+				{
+					UIManager.Instance.adminChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
+						n.Amount, false);
+					UIManager.Instance.mentorChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
+						n.Amount, false);
+				}
 			}
 		}
-	}
 
-	/// <summary>
-	/// Send notification updates to all admins
-	/// </summary>
-	public static AdminChatNotificationsNetMessage SendToAll(string notificationKey, AdminChatWindow targetWindow,
-		int amt, bool clearAll = false)
-	{
-		AdminChatNotificationsNetMessage msg = new AdminChatNotificationsNetMessage
+		/// <summary>
+		/// Send notification updates to all admins
+		/// </summary>
+		public static NetMessage SendToAll(string notificationKey, AdminChatWindow targetWindow,
+			int amt, bool clearAll = false)
 		{
-			NotificationKey = notificationKey,
-			TargetWindow = targetWindow,
-			Amount = amt,
-			ClearAll = clearAll,
-			IsFullUpdate = false,
-			FullUpdateJson = ""
-		};
+			NetMessage msg = new NetMessage
+			{
+				NotificationKey = notificationKey,
+				TargetWindow = targetWindow,
+				Amount = amt,
+				ClearAll = clearAll,
+				IsFullUpdate = false,
+				FullUpdateJson = ""
+			};
 
-		new AdminChatNotifications().SendToAll(msg);
-		return msg;
-	}
+			new AdminChatNotifications().SendToAll(msg);
+			return msg;
+		}
 
-	/// <summary>
-	/// Send full update to an admin client
-	/// </summary>
-	public static AdminChatNotificationsNetMessage Send(NetworkConnection adminConn, AdminChatNotificationFullUpdate update)
-	{
-		AdminChatNotificationsNetMessage msg = new AdminChatNotificationsNetMessage
+		/// <summary>
+		/// Send full update to an admin client
+		/// </summary>
+		public static NetMessage Send(NetworkConnection adminConn, AdminChatNotificationFullUpdate update)
 		{
-			IsFullUpdate = true,
-			FullUpdateJson = JsonUtility.ToJson(update)
-		};
+			NetMessage msg = new NetMessage
+			{
+				IsFullUpdate = true,
+				FullUpdateJson = JsonUtility.ToJson(update)
+			};
 
-		new AdminChatNotifications().SendTo(adminConn, msg);
-		return msg;
+			new AdminChatNotifications().SendTo(adminConn, msg);
+			return msg;
+		}
 	}
-}
 
-[Serializable]
-public class AdminChatNotificationFullUpdate
-{
-	public List<AdminChatNotificationEntry> notificationEntries = new List<AdminChatNotificationEntry>();
-}
+	[Serializable]
+	public class AdminChatNotificationFullUpdate
+	{
+		public List<AdminChatNotificationEntry> notificationEntries = new List<AdminChatNotificationEntry>();
+	}
 
-[Serializable]
-public class AdminChatNotificationEntry
-{
-	public string Key;
-	public int Amount;
-	public AdminChatWindow TargetWindow;
+	[Serializable]
+	public class AdminChatNotificationEntry
+	{
+		public string Key;
+		public int Amount;
+		public AdminChatWindow TargetWindow;
+	}
 }

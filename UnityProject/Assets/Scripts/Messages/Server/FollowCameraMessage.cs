@@ -1,55 +1,51 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     This Server to Client message is sent when a player is stored inside a closet or crate, or needs to follow some other object.
-/// </summary>
-public class FollowCameraMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct FollowCameraMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     This Server to Client message is sent when a player is stored inside a closet or crate, or needs to follow some other object.
+	/// </summary>
+	public class FollowCameraMessage : ServerMessage<FollowCameraMessage.NetMessage>
 	{
-		public uint ObjectToFollow;
-
-		public override string ToString()
+		public struct NetMessage : NetworkMessage
 		{
-			return string.Format("[FollowCameraMessage ObjectToFollow={0}]", ObjectToFollow);
+			public uint ObjectToFollow;
+
+			public override string ToString()
+			{
+				return string.Format("[FollowCameraMessage ObjectToFollow={0}]", ObjectToFollow);
+			}
 		}
-	}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public FollowCameraMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as FollowCameraMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		if ( newMsg.ObjectToFollow == NetId.Invalid )
+		public override void Process(NetMessage msg)
 		{
-			return;
+			if ( msg.ObjectToFollow == NetId.Invalid )
+			{
+				return;
+			}
+			else
+			{
+				LoadNetworkObject(msg.ObjectToFollow);
+			}
+			var objectToFollow = NetworkObject;
+
+			if (!PlayerManager.LocalPlayerScript.IsGhost)
+			{
+				Transform newTarget = objectToFollow ? objectToFollow.transform : PlayerManager.LocalPlayer.transform;
+				Camera2DFollow.followControl.target = newTarget;
+			}
 		}
-		else
+
+		public static NetMessage Send(GameObject recipient, GameObject objectToFollow)
 		{
-			LoadNetworkObject(newMsg.ObjectToFollow);
+			NetMessage msg = new NetMessage
+			{
+				ObjectToFollow = objectToFollow.NetId()
+			};
+
+			new FollowCameraMessage().SendTo(recipient, msg);
+			return msg;
 		}
-		var objectToFollow = NetworkObject;
-
-		if (!PlayerManager.LocalPlayerScript.IsGhost)
-		{
-			Transform newTarget = objectToFollow ? objectToFollow.transform : PlayerManager.LocalPlayer.transform;
-			Camera2DFollow.followControl.target = newTarget;
-		}
-	}
-
-	public static FollowCameraMessageNetMessage Send(GameObject recipient, GameObject objectToFollow)
-	{
-		FollowCameraMessageNetMessage msg = new FollowCameraMessageNetMessage
-		{
-			ObjectToFollow = objectToFollow.NetId()
-		};
-
-		new FollowCameraMessage().SendTo(recipient, msg);
-		return msg;
 	}
 }

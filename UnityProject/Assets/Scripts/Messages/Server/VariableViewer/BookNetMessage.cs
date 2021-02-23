@@ -1,31 +1,28 @@
-﻿using UnityEngine;
-using Mirror;
+﻿using Mirror;
+using UnityEngine;
 
-public class BookNetMessage : ServerMessage
+namespace Messages.Server.VariableViewer
 {
-	public struct BookNetMessageNetMessage : NetworkMessage
+	public class BookNetMessage : ServerMessage<BookNetMessage.NetMessage>
 	{
-		public VariableViewerNetworking.NetFriendlyBook Book;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public BookNetMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as BookNetMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		UIManager.Instance.VariableViewer.ReceiveBook(newMsg.Book);
-	}
-
-	public static BookNetMessageNetMessage Send(Librarian.Book _book, GameObject ToWho)
-	{
-		BookNetMessageNetMessage msg = new BookNetMessageNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			Book = VariableViewerNetworking.ProcessBook(_book)
-		};
-		new BookNetMessage().SendTo(ToWho, msg);
-		return msg;
+			public VariableViewerNetworking.NetFriendlyBook Book;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.VariableViewer.ReceiveBook(msg.Book);
+		}
+
+		public static NetMessage Send(Librarian.Book _book, GameObject ToWho)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Book = VariableViewerNetworking.ProcessBook(_book)
+			};
+			new BookNetMessage().SendTo(ToWho, msg);
+			return msg;
+		}
 	}
 }

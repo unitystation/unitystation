@@ -1,36 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Messages.Client;
-using Mirror;
+﻿using Mirror;
 
-public class MentorReplyMessage : ClientMessage
+namespace Messages.Client.Admin
 {
-	public struct MentorReplyMessageNetMessage : NetworkMessage
+	public class MentorReplyMessage : ClientMessage<MentorReplyMessage.NetMessage>
 	{
-		public string Message;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public MentorReplyMessageNetMessage message;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as MentorReplyMessageNetMessage?;
-		if(newMsgNull == null) return;
-		var newMsg = newMsgNull.Value;
-
-		UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(newMsg.Message, SentByPlayer.UserId);
-	}
-
-	public static MentorReplyMessageNetMessage Send(string message)
-	{
-		MentorReplyMessageNetMessage msg = new MentorReplyMessageNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			Message = message
-		};
+			public string Message;
+		}
 
-		new MentorReplyMessage().Send(msg);
-		return msg;
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg.Message, SentByPlayer.UserId);
+		}
+
+		public static NetMessage Send(string message)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Message = message
+			};
+
+			new MentorReplyMessage().Send(msg);
+			return msg;
+		}
 	}
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using AddressableReferences;
 using DatabaseAPI;
+using Messages.Server;
 
 /// <summary>
 /// Provides central access to the Players Health

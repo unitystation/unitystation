@@ -1,48 +1,44 @@
-﻿using System.Collections;
-using Messages.Client;
+﻿using Messages.Client;
+using Messages.Server.AdminTools;
 using Mirror;
-using UnityEngine;
 
-/// <summary>
-///     Request admin page data from the server
-/// </summary>
-public class RequestAdminPageRefresh : ClientMessage
+namespace Messages.Client.Admin
 {
-	public struct RequestAdminPageRefreshNetMessage : NetworkMessage
+	/// <summary>
+	///     Request admin page data from the server
+	/// </summary>
+	public class RequestAdminPageRefresh : ClientMessage<RequestAdminPageRefresh.NetMessage>
 	{
-		public string Userid;
-		public string AdminToken;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public RequestAdminPageRefreshNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as RequestAdminPageRefreshNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		VerifyAdminStatus(newMsg);
-	}
-
-	void VerifyAdminStatus(RequestAdminPageRefreshNetMessage msg)
-	{
-		var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-		if (player != null)
+		public struct NetMessage : NetworkMessage
 		{
-			AdminToolRefreshMessage.Send(player, msg.Userid);
+			public string Userid;
+			public string AdminToken;
 		}
-	}
 
-	public static RequestAdminPageRefreshNetMessage Send(string userId, string adminToken)
-	{
-		RequestAdminPageRefreshNetMessage msg = new RequestAdminPageRefreshNetMessage
+		public override void Process(NetMessage msg)
 		{
-			Userid = userId,
-			AdminToken = adminToken
-		};
+			VerifyAdminStatus(msg);
+		}
 
-		new RequestAdminPageRefresh().Send(msg);
-		return msg;
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (player != null)
+			{
+				AdminToolRefreshMessage.Send(player, msg.Userid);
+			}
+		}
+
+		public static NetMessage Send(string userId, string adminToken)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken
+			};
+
+			new RequestAdminPageRefresh().Send(msg);
+			return msg;
+		}
 	}
 }

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Messages.Server;
 using Mirror;
 using Player;
 using UnityEngine;
 
-public class PlayerExaminationMessage : ServerMessage
+public class PlayerExaminationMessage : ServerMessage<PlayerExaminationMessage.NetMessage>
 {
-	public struct PlayerExaminationMessageNetMessage : NetworkMessage
+	public struct NetMessage : NetworkMessage
 	{
 		public string VisibleName;
 		public string Species;
@@ -22,26 +23,20 @@ public class PlayerExaminationMessage : ServerMessage
 		public bool Observed;
 	}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public PlayerExaminationMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
+	public override void Process(NetMessage msg)
 	{
-		var newMsgNull = msg as PlayerExaminationMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.ItemStorage);
+		LoadNetworkObject(msg.ItemStorage);
 
 		var storageObject = NetworkObject;
 		if (storageObject == null)
 		{
-			Logger.LogWarningFormat("Client could not find player storage with id {0}", Category.Inventory, newMsg.ItemStorage);
+			Logger.LogWarningFormat("Client could not find player storage with id {0}", Category.Inventory, msg.ItemStorage);
 			return;
 		}
 
 		var itemStorage = storageObject.GetComponent<ItemStorage>();
-		if(newMsg.Observed)
-			UIManager.PlayerExaminationWindow.ExaminePlayer(itemStorage, newMsg.VisibleName, newMsg.Species, newMsg.Job, newMsg.Status, newMsg.AdditionalInformation);
+		if(msg.Observed)
+			UIManager.PlayerExaminationWindow.ExaminePlayer(itemStorage, msg.VisibleName, msg.Species, msg.Job, msg.Status, msg.AdditionalInformation);
 		else
 			UIManager.PlayerExaminationWindow.CloseWindow();
 	}
@@ -51,7 +46,7 @@ public class PlayerExaminationMessage : ServerMessage
 	/// </summary>
 	public static void Send(GameObject recipient, ItemStorage itemStorage, string visibleName, string species, string job, string status, string additionalInformations, bool observed)
 	{
-		var msg = new PlayerExaminationMessageNetMessage()
+		var msg = new NetMessage()
 		{
 			ItemStorage = itemStorage.gameObject.NetId(),
 			VisibleName = visibleName,
@@ -67,7 +62,7 @@ public class PlayerExaminationMessage : ServerMessage
 
 	public static void Send(GameObject recipient, ExaminablePlayer examinablePlayer, bool observed)
 	{
-		var msg = new PlayerExaminationMessageNetMessage()
+		var msg = new NetMessage()
 		{
 			ItemStorage = examinablePlayer.gameObject.NetId(),
 			VisibleName = examinablePlayer.GetPlayerNameString(),

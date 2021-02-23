@@ -1,38 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Messages.Client;
-using UnityEngine;
-using Mirror;
+﻿using Mirror;
 
-public class SpriteRequestCurrentStateMessage : ClientMessage
+namespace Messages.Client.SpriteMessages
 {
-	public struct SpriteRequestCurrentStateMessageNetMessage : NetworkMessage
+	public class SpriteRequestCurrentStateMessage : ClientMessage<SpriteRequestCurrentStateMessage.NetMessage>
 	{
-		public uint SpriteHandlerManager;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public SpriteRequestCurrentStateMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as SpriteRequestCurrentStateMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.SpriteHandlerManager);
-		if (SentByPlayer == ConnectedPlayer.Invalid)
-			return;
-
-		NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
-	}
-
-	public static SpriteRequestCurrentStateMessageNetMessage Send(uint spriteHandlerManager)
-	{
-		var msg = new SpriteRequestCurrentStateMessageNetMessage()
+		public struct NetMessage : NetworkMessage
 		{
-			SpriteHandlerManager = spriteHandlerManager
-		};
-		new SpriteRequestCurrentStateMessage().Send(msg);
-		return msg;
+			public uint SpriteHandlerManager;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.SpriteHandlerManager);
+			if (SentByPlayer == ConnectedPlayer.Invalid)
+				return;
+
+			NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
+		}
+
+		public static NetMessage Send(uint spriteHandlerManager)
+		{
+			var msg = new NetMessage()
+			{
+				SpriteHandlerManager = spriteHandlerManager
+			};
+			new SpriteRequestCurrentStateMessage().Send(msg);
+			return msg;
+		}
 	}
 }

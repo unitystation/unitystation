@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net.Http;
 using DatabaseAPI;
 using Initialisation;
+using Messages.Client.Addressable;
+using Messages.Server.Addressable;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

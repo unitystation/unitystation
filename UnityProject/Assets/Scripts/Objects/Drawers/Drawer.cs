@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
+using Messages.Server;
 
 namespace Objects.Drawers
 {	

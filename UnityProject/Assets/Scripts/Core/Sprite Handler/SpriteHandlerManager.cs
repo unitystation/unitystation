@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using Messages.Client.SpriteMessages;
+using Messages.Server.SpritesMessages;
 using Mirror;
 using UnityEngine;
 

@@ -1,43 +1,37 @@
-﻿using System.Collections;
-using Messages.Client;
-using Mirror;
-using UnityEngine;
+﻿using Mirror;
 
-/// <summary>
-///     Attempts to send a chat message to the server
-/// </summary>
-public class PostToChatMessage: ClientMessage
+namespace Messages.Client
 {
-	public struct PostToChatMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Attempts to send a chat message to the server
+	/// </summary>
+	public class PostToChatMessage: ClientMessage<PostToChatMessage.NetMessage>
 	{
-		public ChatChannel Channels;
-		public string ChatMessageText;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public PostToChatMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as PostToChatMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		if (SentByPlayer != ConnectedPlayer.Invalid)
+		public struct NetMessage : NetworkMessage
 		{
-			Chat.AddChatMsgToChat(SentByPlayer, newMsg.ChatMessageText, newMsg.Channels);
+			public ChatChannel Channels;
+			public string ChatMessageText;
 		}
-	}
 
-	//This is only used to send the chat input on the client to the server
-	public static PostToChatMessageNetMessage Send(string message, ChatChannel channels)
-	{
-		PostToChatMessageNetMessage msg = new PostToChatMessageNetMessage
+		public override void Process(NetMessage msg)
 		{
-			Channels = channels,
-			ChatMessageText = message
-		};
-		new PostToChatMessage().Send(msg);
+			if (SentByPlayer != ConnectedPlayer.Invalid)
+			{
+				Chat.AddChatMsgToChat(SentByPlayer, msg.ChatMessageText, msg.Channels);
+			}
+		}
 
-		return msg;
+		//This is only used to send the chat input on the client to the server
+		public static NetMessage Send(string message, ChatChannel channels)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Channels = channels,
+				ChatMessageText = message
+			};
+			new PostToChatMessage().Send(msg);
+
+			return msg;
+		}
 	}
 }

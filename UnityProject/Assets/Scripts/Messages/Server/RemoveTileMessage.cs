@@ -2,79 +2,76 @@
 using UnityEngine;
 using Mirror;
 
-public class RemoveTileMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct RemoveTileMessageNetMessage : NetworkMessage
+	public class RemoveTileMessage : ServerMessage<RemoveTileMessage.NetMessage>
 	{
-		public Vector3 Position;
-		public LayerType LayerType;
-		public bool RemoveAll;
-		public uint TileChangeManager;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public RemoveTileMessageNetMessage IgnoreMe;
-
-	public static List<delayedData> DelayedStuff = new List<delayedData>();
-
-	public struct delayedData
-	{
-		public Vector3 Position;
-		public LayerType LayerType;
-		public bool RemoveAll;
-		public uint TileChangeManager;
-		public delayedData(Vector3 inPosition, LayerType inLayerType, bool inRemoveAll, uint inTileChangeManager)
+		public struct NetMessage : NetworkMessage
 		{
-			Position = inPosition;
-			LayerType = inLayerType;
-			RemoveAll = inRemoveAll;
-			TileChangeManager = inTileChangeManager;
+			public Vector3 Position;
+			public LayerType LayerType;
+			public bool RemoveAll;
+			public uint TileChangeManager;
 		}
-	}
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as RemoveTileMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
 
-		LoadNetworkObject(newMsg.TileChangeManager);
-		if (NetworkObject == null)
-		{
-			DelayedStuff.Add(new delayedData(newMsg.Position, newMsg.LayerType, newMsg.RemoveAll, newMsg.TileChangeManager));
-		}
-		else
-		{
-			var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
-			tileChangerManager.InternalRemoveTile(newMsg.Position, newMsg.LayerType, newMsg.RemoveAll);
-			TryDoNotDoneTiles();
-		}
-	}
+		public static List<delayedData> DelayedStuff = new List<delayedData>();
 
-	public void TryDoNotDoneTiles()
-	{
-		for (int i = 0; i < DelayedStuff.Count; i++)
+		public struct delayedData
 		{
-			NetworkObject = null;
-			LoadNetworkObject(DelayedStuff[i].TileChangeManager);
-			if (NetworkObject != null)
+			public Vector3 Position;
+			public LayerType LayerType;
+			public bool RemoveAll;
+			public uint TileChangeManager;
+			public delayedData(Vector3 inPosition, LayerType inLayerType, bool inRemoveAll, uint inTileChangeManager)
 			{
-				var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
-				tileChangerManager.InternalRemoveTile(DelayedStuff[i].Position, DelayedStuff[i].LayerType, DelayedStuff[i].RemoveAll);
-				DelayedStuff.RemoveAt(i);
-				i--;
+				Position = inPosition;
+				LayerType = inLayerType;
+				RemoveAll = inRemoveAll;
+				TileChangeManager = inTileChangeManager;
 			}
 		}
-	}
-
-	public static RemoveTileMessageNetMessage Send(uint tileChangeManagerNetID, Vector3 position, LayerType layerType, bool removeAll)
-	{
-		RemoveTileMessageNetMessage msg = new RemoveTileMessageNetMessage
+		public override void Process(NetMessage msg)
 		{
-			Position = position,
-			LayerType = layerType,
-			RemoveAll = removeAll,
-			TileChangeManager = tileChangeManagerNetID
-		};
-		new RemoveTileMessage().SendToAll(msg);
-		return msg;
+			LoadNetworkObject(msg.TileChangeManager);
+			if (NetworkObject == null)
+			{
+				DelayedStuff.Add(new delayedData(msg.Position, msg.LayerType, msg.RemoveAll, msg.TileChangeManager));
+			}
+			else
+			{
+				var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
+				tileChangerManager.InternalRemoveTile(msg.Position, msg.LayerType, msg.RemoveAll);
+				TryDoNotDoneTiles();
+			}
+		}
+
+		public void TryDoNotDoneTiles()
+		{
+			for (int i = 0; i < DelayedStuff.Count; i++)
+			{
+				NetworkObject = null;
+				LoadNetworkObject(DelayedStuff[i].TileChangeManager);
+				if (NetworkObject != null)
+				{
+					var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
+					tileChangerManager.InternalRemoveTile(DelayedStuff[i].Position, DelayedStuff[i].LayerType, DelayedStuff[i].RemoveAll);
+					DelayedStuff.RemoveAt(i);
+					i--;
+				}
+			}
+		}
+
+		public static NetMessage Send(uint tileChangeManagerNetID, Vector3 position, LayerType layerType, bool removeAll)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Position = position,
+				LayerType = layerType,
+				RemoveAll = removeAll,
+				TileChangeManager = tileChangeManagerNetID
+			};
+			new RemoveTileMessage().SendToAll(msg);
+			return msg;
+		}
 	}
 }

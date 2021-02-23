@@ -4,28 +4,21 @@ using Mirror;
 
 namespace Messages.Server
 {
-	public class JobRequestFailedMessage : ServerMessage
+	public class JobRequestFailedMessage : ServerMessage<JobRequestFailedMessage.NetMessage>
 	{
-		public struct JobRequestFailedMessageNetMesasge : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public JobRequestError FailReason;
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public JobRequestFailedMessageNetMesasge IgnoreMe;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as JobRequestFailedMessageNetMesasge?;
-			if(newMsgNull == null) return;
-			var newMsg = newMsgNull.Value;
-
-			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(newMsg.FailReason);
+			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(msg.FailReason);
 		}
 
-		public static JobRequestFailedMessageNetMesasge SendTo(ConnectedPlayer recipient, JobRequestError failReason)
+		public static NetMessage SendTo(ConnectedPlayer recipient, JobRequestError failReason)
 		{
-			var msg = new JobRequestFailedMessageNetMesasge
+			var msg = new NetMessage
 			{
 				FailReason = failReason,
 			};
@@ -34,7 +27,10 @@ namespace Messages.Server
 			return msg;
 		}
 	}
+}
 
+namespace Messages.Server
+{
 	public enum JobRequestError
 	{
 		None = 0,

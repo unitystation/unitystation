@@ -8,17 +8,14 @@ namespace Messages.Server
 	/// <summary>
 	/// Sends a message to nearby clients, informing them to animate the given portal with the given settings.
 	/// </summary>
-	public class PortalSpawnAnimateMessage : ServerMessage
+	public class PortalSpawnAnimateMessage : ServerMessage<PortalSpawnAnimateMessage.NetMessage>
 	{
-		public struct PortalSpawnAnimateMessageNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public GameObject Entity;
 			public PortalSpawnInfo Settings;
 			public AnimateType Type;
 		}
-
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public PortalSpawnAnimateMessageNetMessage message;
 
 		/// <summary>
 		/// <inheritdoc cref="PortalSpawnAnimateMessage"/>
@@ -26,9 +23,9 @@ namespace Messages.Server
 		/// <param name="portal">The portal GameObject that the client should animate.</param>
 		/// <param name="settings">The settings the portal should be animated with.</param>
 		/// <returns></returns>
-		public static PortalSpawnAnimateMessageNetMessage SendToVisible(GameObject entity, PortalSpawnInfo settings, AnimateType type)
+		public static NetMessage SendToVisible(GameObject entity, PortalSpawnInfo settings, AnimateType type)
 		{
-			var msg = new PortalSpawnAnimateMessageNetMessage()
+			var msg = new NetMessage()
 			{
 				Entity = entity,
 				Settings = settings,
@@ -39,18 +36,15 @@ namespace Messages.Server
 			return msg;
 		}
 
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as PortalSpawnAnimateMessageNetMessage?;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-			if (newMsg.Type == AnimateType.Portal)
+			if (msg.Type == AnimateType.Portal)
 			{
-				SpawnByPortal.AnimatePortal(newMsg.Entity, newMsg.Settings);
+				SpawnByPortal.AnimatePortal(msg.Entity, msg.Settings);
 			}
 			else
 			{
-				SpawnByPortal.AnimateObject(newMsg.Entity, newMsg.Settings);
+				SpawnByPortal.AnimateObject(msg.Entity, msg.Settings);
 			}
 		}
 

@@ -4,6 +4,7 @@ using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 using AdminCommands;
+using Messages.Client.Admin;
 
 namespace AdminTools
 {

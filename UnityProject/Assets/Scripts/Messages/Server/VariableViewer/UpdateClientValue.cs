@@ -2,64 +2,62 @@
 using Mirror;
 using UnityEngine;
 
-public class UpdateClientValue : ServerMessage
+namespace Messages.Server.VariableViewer
 {
-	public struct UpdateClientValueNetMessage : NetworkMessage
+	public class UpdateClientValue : ServerMessage<UpdateClientValue.NetMessage>
 	{
-		public string Newvalue;
-		public string ValueName;
-		public string MonoBehaviourName;
-		public uint GameObject;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public UpdateClientValueNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as UpdateClientValueNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		if (CustomNetworkManager.Instance._isServer) return;
-		LoadNetworkObject(newMsg.GameObject);
-		if (NetworkObject != null)
+		public struct NetMessage : NetworkMessage
 		{
-			var workObject = NetworkObject.GetComponent(newMsg.MonoBehaviourName.Substring(newMsg.MonoBehaviourName.LastIndexOf('.') + 1));
-			var Worktype = workObject.GetType();
+			public string Newvalue;
+			public string ValueName;
+			public string MonoBehaviourName;
+			public uint GameObject;
+		}
 
-			var infoField = Worktype.GetField(newMsg.ValueName);
+		public override void Process(NetMessage msg)
+		{
 
-			if (infoField != null)
+			if (CustomNetworkManager.Instance._isServer) return;
+			LoadNetworkObject(msg.GameObject);
+			if (NetworkObject != null)
 			{
-				infoField.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject, newMsg.Newvalue, infoField.FieldType));
-				return;
-			}
+				var workObject = NetworkObject.GetComponent(msg.MonoBehaviourName.Substring(msg.MonoBehaviourName.LastIndexOf('.') + 1));
+				var Worktype = workObject.GetType();
 
-			var infoProperty = Worktype.GetProperty(newMsg.ValueName);
-			if(infoProperty != null)
-			{
-				infoProperty.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject, newMsg.Newvalue, infoProperty.PropertyType));
-				return;
+				var infoField = Worktype.GetField(msg.ValueName);
+
+				if (infoField != null)
+				{
+					infoField.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject, msg.Newvalue, infoField.FieldType));
+					return;
+				}
+
+				var infoProperty = Worktype.GetProperty(msg.ValueName);
+				if(infoProperty != null)
+				{
+					infoProperty.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject, msg.Newvalue, infoProperty.PropertyType));
+					return;
+				}
 			}
 		}
-	}
 
-	public static UpdateClientValueNetMessage Send(string InNewvalue, string InValueName, string InMonoBehaviourName,
-		GameObject InObject)
-	{
-		uint netID = NetId.Empty;
-		if (InObject != null)
+		public static NetMessage Send(string InNewvalue, string InValueName, string InMonoBehaviourName,
+			GameObject InObject)
 		{
-			netID = InObject.NetId();
+			uint netID = NetId.Empty;
+			if (InObject != null)
+			{
+				netID = InObject.NetId();
+			}
+			NetMessage msg = new NetMessage()
+			{
+				Newvalue = InNewvalue,
+				ValueName = InValueName,
+				MonoBehaviourName = InMonoBehaviourName,
+				GameObject = netID
+			};
+			new UpdateClientValue().SendToAll(msg);
+			return msg;
 		}
-		UpdateClientValueNetMessage msg = new UpdateClientValueNetMessage()
-		{
-			Newvalue = InNewvalue,
-			ValueName = InValueName,
-			MonoBehaviourName = InMonoBehaviourName,
-			GameObject = netID
-		};
-		new UpdateClientValue().SendToAll(msg);
-		return msg;
 	}
 }

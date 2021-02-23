@@ -1,42 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Reflection;
+﻿using Mirror;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using System.Text;
-using Mirror;
-using Newtonsoft.Json;
 
-
-public class BookshelfNetMessage : ServerMessage
+namespace Messages.Server.VariableViewer
 {
-	public struct BookshelfNetMessageNetMessage : NetworkMessage
+	public class BookshelfNetMessage : ServerMessage<BookshelfNetMessage.NetMessage>
 	{
-		public VariableViewerNetworking.NetFriendlyBookShelfView data;
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public VariableViewerNetworking.NetFriendlyBookShelfView data;
+		}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public BookshelfNetMessageNetMessage IgnoreMe;
+		public override void Process(NetMessage msg)
+		{
+			//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
+			//Logger.Log(JsonConvert.SerializeObject(data));
+			UIManager.Instance.BookshelfViewer.BookShelfView = msg.data;
+			UIManager.Instance.BookshelfViewer.ValueSetUp();
+		}
 
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as BookshelfNetMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+		public static NetMessage Send(Librarian.BookShelf _BookShelf, GameObject ToWho)
+		{
+			NetMessage msg = new NetMessage();
+			msg.data = VariableViewerNetworking.ProcessBookShelf(_BookShelf);
 
-		//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
-		//Logger.Log(JsonConvert.SerializeObject(data));
-		UIManager.Instance.BookshelfViewer.BookShelfView = newMsg.data;
-		UIManager.Instance.BookshelfViewer.ValueSetUp();
-	}
-
-	public static BookshelfNetMessageNetMessage Send(Librarian.BookShelf _BookShelf, GameObject ToWho)
-	{
-		BookshelfNetMessageNetMessage msg = new BookshelfNetMessageNetMessage();
-		msg.data = VariableViewerNetworking.ProcessBookShelf(_BookShelf);
-
-		new BookshelfNetMessage().SendTo(ToWho, msg);
-		return msg;
+			new BookshelfNetMessage().SendTo(ToWho, msg);
+			return msg;
+		}
 	}
 }

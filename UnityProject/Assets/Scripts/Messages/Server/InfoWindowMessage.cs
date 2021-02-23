@@ -1,49 +1,45 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Message that pops up for client in a window
-/// </summary>
-public class InfoWindowMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct InfoWindowMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Message that pops up for client in a window
+	/// </summary>
+	public class InfoWindowMessage : ServerMessage<InfoWindowMessage.NetMessage>
 	{
-		public string Text;
-		public string Title;
-		public bool Bwoink;
-		public uint Recipient;
-
-		public override string ToString()
+		public struct NetMessage : NetworkMessage
 		{
-			return $"[InfoWindowMessage Recipient={Recipient} Title={Title} InfoText={Text} Bwoink={Bwoink}]";
+			public string Text;
+			public string Title;
+			public bool Bwoink;
+			public uint Recipient;
+
+			public override string ToString()
+			{
+				return $"[InfoWindowMessage Recipient={Recipient} Title={Title} InfoText={Text} Bwoink={Bwoink}]";
+			}
 		}
-	}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public InfoWindowMessageNetMessage IgnoreMe;
+		public override void Process(NetMessage msg)
+		{
+			//To be run on client
+			LoadNetworkObject(msg.Recipient);
+			UIManager.InfoWindow.Show(msg.Text, msg.Bwoink, string.IsNullOrEmpty(msg.Title) ? "" : msg.Title);
+		}
 
-	public override void Process<T>(T msg)
-	{
-		//To be run on client
-		var newMsgNull = msg as InfoWindowMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+		public static NetMessage Send(GameObject recipient, string text, string title = "", bool bwoink = true)
+		{
+			NetMessage msg =
+				new NetMessage {
+					Recipient = recipient.GetComponent<NetworkIdentity>().netId,
+					Text = text,
+					Title = title,
+					Bwoink = bwoink
+				};
 
-		LoadNetworkObject(newMsg.Recipient);
-		UIManager.InfoWindow.Show(newMsg.Text, newMsg.Bwoink, string.IsNullOrEmpty(newMsg.Title) ? "" : newMsg.Title);
-	}
-
-	public static InfoWindowMessageNetMessage Send(GameObject recipient, string text, string title = "", bool bwoink = true)
-	{
-		InfoWindowMessageNetMessage msg =
-			new InfoWindowMessageNetMessage {
-				Recipient = recipient.GetComponent<NetworkIdentity>().netId,
-				Text = text,
-				Title = title,
-				Bwoink = bwoink
-			};
-
-		new InfoWindowMessage().SendTo(recipient, msg);
-		return msg;
+			new InfoWindowMessage().SendTo(recipient, msg);
+			return msg;
+		}
 	}
 }

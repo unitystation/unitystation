@@ -1,23 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Mirror;
 
-namespace Messages.Server
+namespace Messages.Server.GhostRoles
 {
 	/// <summary>
 	/// Sends a message to the specific player, informing them about the outcome of their request for a ghost role.
 	/// </summary>
-	public class GhostRoleResponseMessage : ServerMessage
+	public class GhostRoleResponseMessage : ServerMessage<GhostRoleResponseMessage.NetMessage>
 	{
-		public struct GhostRoleResponseMessageNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public uint roleID;
 			public int responseCode;
 		}
-
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public GhostRoleResponseMessageNetMessage IgnoreMe;
 
 		private static readonly Dictionary<GhostRoleResponseCode, string> stringDict = new Dictionary<GhostRoleResponseCode, string>()
 		{
@@ -31,24 +26,21 @@ namespace Messages.Server
 		};
 
 		// To be run on client
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as GhostRoleResponseMessageNetMessage?;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
 			if (PlayerManager.LocalPlayer == null) return;
 
 			if (MatrixManager.IsInitialized == false) return;
 
-			UIManager.GhostRoleWindow.DisplayResponseMessage(newMsg.roleID, (GhostRoleResponseCode)newMsg.responseCode);
+			UIManager.GhostRoleWindow.DisplayResponseMessage(msg.roleID, (GhostRoleResponseCode)msg.responseCode);
 		}
 
 		/// <summary>
 		/// Sends a message to the specific player, informing them about the outcome of their request for a ghost role.
 		/// </summary>
-		public static GhostRoleResponseMessageNetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleResponseCode code)
+		public static NetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleResponseCode code)
 		{
-			GhostRoleResponseMessageNetMessage msg = new GhostRoleResponseMessageNetMessage
+			NetMessage msg = new NetMessage
 			{
 				roleID = key,
 				responseCode = (int) code,

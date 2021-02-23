@@ -1,43 +1,35 @@
-﻿using System.Collections;
-using UnityEngine;
-using Messages.Server;
+﻿using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
 
-namespace Messages.Client
+namespace Messages.Client.NewPlayer
 {
 	/// <summary>
 	/// Used for requesting a job at round start.
 	/// Assigns the occupation to the player and spawns them on the station.
 	/// Fails if no more slots for that occupation are available.
 	/// </summary>
-	public class ClientRequestJobMessage : ClientMessage
+	public class ClientRequestJobMessage : ClientMessage<ClientRequestJobMessage.NetMessage>
 	{
-		public struct ClientRequestJobMessageNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public string PlayerID;
 			public JobType JobType;
 			public string JsonCharSettings;
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public ClientRequestJobMessageNetMessage IgnoreMe;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as ClientRequestJobMessageNetMessage?;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
 			// Serverside: check that message sent from client is good, and then validate request (round started, has job space etc)
-			if (ValidateMessage(newMsg) && ValidateRequest(newMsg))
+			if (ValidateMessage(msg) && ValidateRequest(msg))
 			{
-				AcceptRequest(newMsg);
+				AcceptRequest(msg);
 			}
 		}
 
-		public static ClientRequestJobMessageNetMessage Send(JobType jobType, string jsonCharSettings, string playerID)
+		public static NetMessage Send(JobType jobType, string jsonCharSettings, string playerID)
 		{
-			ClientRequestJobMessageNetMessage msg = new ClientRequestJobMessageNetMessage
+			NetMessage msg = new NetMessage
 			{
 				JobType = jobType,
 				JsonCharSettings = jsonCharSettings,
@@ -47,7 +39,7 @@ namespace Messages.Client
 			return msg;
 		}
 
-		private bool ValidateMessage(ClientRequestJobMessageNetMessage msg)
+		private bool ValidateMessage(NetMessage msg)
 		{
 			if (SentByPlayer == null || SentByPlayer.Equals(ConnectedPlayer.Invalid))
 			{
@@ -76,7 +68,7 @@ namespace Messages.Client
 			return true;
 		}
 
-		private bool ValidateRequest(ClientRequestJobMessageNetMessage msg)
+		private bool ValidateRequest(NetMessage msg)
 		{
 			if (GameManager.Instance.CurrentRoundState != RoundState.Started)
 			{
@@ -101,7 +93,7 @@ namespace Messages.Client
 			return true;
 		}
 
-		private void AcceptRequest(ClientRequestJobMessageNetMessage msg)
+		private void AcceptRequest(NetMessage msg)
 		{
 			var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(msg.JsonCharSettings);
 			var spawnRequest = PlayerSpawnRequest.RequestOccupation(

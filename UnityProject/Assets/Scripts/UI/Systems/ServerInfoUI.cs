@@ -7,6 +7,7 @@ using Mirror;
 using System.IO;
 using Initialisation;
 using Messages.Client;
+using Messages.Server;
 using UnityEngine.UI;
 
 namespace ServerInfo
@@ -51,29 +52,22 @@ namespace ServerInfo
         }
     }
 
-	public class ServerInfoMessageServer : ServerMessage
+	public class ServerInfoMessageServer : ServerMessage<ServerInfoMessageServer.NetMessage>
 	{
-		public struct ServerInfoMessageServerNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public string ServerName;
 			public string ServerDesc;
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public ServerInfoMessageServerNetMessage IgnoreMe;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as ServerInfoMessageServerNetMessage?;
-			if(newMsgNull == null) return;
-			var newMsg = newMsgNull.Value;
-
-			GUI_IngameMenu.Instance.GetComponent<ServerInfoUI>().ClientSetValues(newMsg.ServerName, newMsg.ServerDesc);
+			GUI_IngameMenu.Instance.GetComponent<ServerInfoUI>().ClientSetValues(msg.ServerName, msg.ServerDesc);
 		}
 
-		public static ServerInfoMessageServerNetMessage Send(NetworkConnection clientConn,string serverName, string serverDesc)
+		public static NetMessage Send(NetworkConnection clientConn,string serverName, string serverDesc)
 		{
-			ServerInfoMessageServerNetMessage msg = new ServerInfoMessageServerNetMessage
+			NetMessage msg = new NetMessage
 			{
 				ServerName = serverName,
 				ServerDesc = serverDesc
@@ -84,27 +78,21 @@ namespace ServerInfo
 		}
 	}
 
-	public class ServerInfoMessageClient : ClientMessage
+	public class ServerInfoMessageClient : ClientMessage<ServerInfoMessageClient.NetMessage>
 	{
-		public struct ServerInfoMessageClientNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public string PlayerId;
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public ServerInfoMessageClientNetMessage IgnoreMe;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as ServerInfoMessageClientNetMessage?;
-			if(newMsgNull == null) return;
-
 			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUI.serverDesc);
 		}
 
-		public static ServerInfoMessageClientNetMessage Send(string playerId)
+		public static NetMessage Send(string playerId)
 		{
-			ServerInfoMessageClientNetMessage msg = new ServerInfoMessageClientNetMessage
+			NetMessage msg = new NetMessage
 			{
 				PlayerId = playerId,
 			};

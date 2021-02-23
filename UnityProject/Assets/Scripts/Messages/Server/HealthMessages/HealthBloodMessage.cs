@@ -1,63 +1,59 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Tells client to update blood health stats
-/// </summary>
-public class HealthBloodMessage : ServerMessage
+namespace Messages.Server.HealthMessages
 {
-	public struct HealthBloodMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Tells client to update blood health stats
+	/// </summary>
+	public class HealthBloodMessage : ServerMessage<HealthBloodMessage.NetMessage>
 	{
-		public uint EntityToUpdate;
-		public int HeartRate;
-		public float BloodLevel;
-		public float OxygenDamage;
-		public float ToxinLevel;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public HealthBloodMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as HealthBloodMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.EntityToUpdate);
-		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBloodStats(newMsg.HeartRate,
-			newMsg.BloodLevel, newMsg.OxygenDamage, newMsg.ToxinLevel);
-	}
-
-	public static HealthBloodMessageNetMessage Send(GameObject recipient, GameObject entityToUpdate, int heartRate, float bloodLevel,
-		float oxygenDamage, float toxinLevel)
-	{
-		HealthBloodMessageNetMessage msg = new HealthBloodMessageNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+			public uint EntityToUpdate;
+			public int HeartRate;
+			public float BloodLevel;
+			public float OxygenDamage;
+			public float ToxinLevel;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.EntityToUpdate);
+			NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBloodStats(msg.HeartRate,
+				msg.BloodLevel, msg.OxygenDamage, msg.ToxinLevel);
+		}
+
+		public static NetMessage Send(GameObject recipient, GameObject entityToUpdate, int heartRate, float bloodLevel,
+			float oxygenDamage, float toxinLevel)
+		{
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				HeartRate = heartRate,
 				BloodLevel = bloodLevel,
 				OxygenDamage = oxygenDamage,
 				ToxinLevel = toxinLevel
-		};
+			};
 
-		new HealthBloodMessage().SendTo(recipient, msg);
-		return msg;
-	}
+			new HealthBloodMessage().SendTo(recipient, msg);
+			return msg;
+		}
 
-	public static HealthBloodMessageNetMessage SendToAll(GameObject entityToUpdate, int heartRate, float bloodLevel,
-		float oxygenDamage, float toxinLevel)
-	{
-		HealthBloodMessageNetMessage msg = new HealthBloodMessageNetMessage
+		public static NetMessage SendToAll(GameObject entityToUpdate, int heartRate, float bloodLevel,
+			float oxygenDamage, float toxinLevel)
 		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				HeartRate = heartRate,
 				BloodLevel = bloodLevel,
 				OxygenDamage = oxygenDamage,
 				ToxinLevel = toxinLevel
-		};
+			};
 
-		new HealthBloodMessage().SendToAll(msg);
-		return msg;
+			new HealthBloodMessage().SendToAll(msg);
+			return msg;
+		}
 	}
 }

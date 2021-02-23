@@ -1,15 +1,14 @@
 ﻿using Mirror;
-using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Assets.Scripts.Messages.Server.SoundMessages
+namespace Messages.Server.SoundMessages
 {
 	/// <summary>
 	/// Message that will change the Audio Source Parameters for a sound.
 	/// </summary>
-	public class ChangeAudioSourceParametersMessage : ServerMessage
+	public class ChangeAudioSourceParametersMessage : ServerMessage<ChangeAudioSourceParametersMessage.NetMessage>
 	{
-		public struct ChangeAudioSourceParametersMessageNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			// SoundSpawn Token to change Audio Source Parameters.
 			public string SoundSpawnToken;
@@ -24,16 +23,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			}
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public ChangeAudioSourceParametersMessageNetMessage message;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as ChangeAudioSourceParametersMessageNetMessage?;
-			if(newMsgNull == null) return;
-			var newMsg = newMsgNull.Value;
-
-			SoundManager.ChangeAudioSourceParameters(newMsg.SoundSpawnToken, newMsg.AudioSourceParameters);
+			SoundManager.ChangeAudioSourceParameters(msg.SoundSpawnToken, msg.AudioSourceParameters);
 		}
 
 		/// <summary>
@@ -43,9 +35,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		/// <param name="soundSpawnToken">The token that identifies the SoundSpawn uniquely among the server and all clients </param>
 		/// <param name="audioSourceParameters">The Audio Source Parameters to apply.</param>
 		/// <returns>The sent message</returns>
-		public static ChangeAudioSourceParametersMessageNetMessage Send(GameObject recipient, string soundSpawnToken, AudioSourceParameters audioSourceParameters)
+		public static NetMessage Send(GameObject recipient, string soundSpawnToken, AudioSourceParameters audioSourceParameters)
 		{
-			ChangeAudioSourceParametersMessageNetMessage msg = new ChangeAudioSourceParametersMessageNetMessage
+			NetMessage msg = new NetMessage
 			{
 				SoundSpawnToken = soundSpawnToken,
 				AudioSourceParameters = audioSourceParameters
@@ -61,9 +53,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		/// <param name="soundSpawnToken">The token that identifies the SoundSpawn uniquely among the server and all clients </param>
 		/// <param name="audioSourceParameters">The Audio Source Parameters to apply.</param>
 		/// <returns>The sent message</returns>
-		public static ChangeAudioSourceParametersMessageNetMessage SendToAll(string soundSpawnToken, AudioSourceParameters audioSourceParameters)
+		public static NetMessage SendToAll(string soundSpawnToken, AudioSourceParameters audioSourceParameters)
 		{
-			ChangeAudioSourceParametersMessageNetMessage msg = new ChangeAudioSourceParametersMessageNetMessage
+			NetMessage msg = new NetMessage
 			{
 				SoundSpawnToken = soundSpawnToken,
 				AudioSourceParameters = audioSourceParameters

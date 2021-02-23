@@ -18,7 +18,7 @@ namespace Messages
 
 		public abstract void Process(T msg);
 
-		public virtual void Process( NetworkConnection sentBy, T msg )
+		public virtual void Process(NetworkConnection sentBy, T msg)
 		{
 			Process(msg);
 		}

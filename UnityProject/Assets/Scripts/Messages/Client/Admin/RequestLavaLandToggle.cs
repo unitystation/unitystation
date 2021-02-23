@@ -1,51 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using DiscordWebhook;
-using InGameEvents;
-using Messages.Client;
+﻿using DiscordWebhook;
 using Mirror;
 
-public class RequestLavaLandToggle : ClientMessage
+namespace Messages.Client.Admin
 {
-	public struct RequestLavaLandToggleNetMessage : NetworkMessage
+	public class RequestLavaLandToggle : ClientMessage<RequestLavaLandToggle.NetMessage>
 	{
-		public string Userid;
-		public string AdminToken;
-		public bool LavaLandAllowed;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public RequestLavaLandToggleNetMessage IgnoreMe;
-
-	public override void Process<T>(T netMsg)
-	{
-		var newMsgNull = netMsg as RequestLavaLandToggleNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		var admin = PlayerList.Instance.GetAdmin(newMsg.Userid, newMsg.AdminToken);
-		if (admin == null) return;
-
-		if(SubSceneManager.AdminAllowLavaland == newMsg.LavaLandAllowed) return;
-
-		SubSceneManager.AdminAllowLavaland = newMsg.LavaLandAllowed;
-
-		var state = newMsg.LavaLandAllowed ? "ON" : "OFF";
-		var msg = $"Admin: {PlayerList.Instance.GetByUserID(newMsg.Userid).Username}, Turned Lava Land spawning {state}";
-
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
-	}
-
-	public static RequestLavaLandToggleNetMessage Send(string userId, string adminToken, bool lavaLandAllowed = true)
-	{
-		RequestLavaLandToggleNetMessage msg = new RequestLavaLandToggleNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			Userid = userId,
-			AdminToken = adminToken,
-			LavaLandAllowed = lavaLandAllowed
-		};
-		new RequestLavaLandToggle().Send(msg);
-		return msg;
+			public string Userid;
+			public string AdminToken;
+			public bool LavaLandAllowed;
+		}
+
+		public override void Process(NetMessage netMsg)
+		{
+			var admin = PlayerList.Instance.GetAdmin(netMsg.Userid, netMsg.AdminToken);
+			if (admin == null) return;
+
+			if(SubSceneManager.AdminAllowLavaland == netMsg.LavaLandAllowed) return;
+
+			SubSceneManager.AdminAllowLavaland = netMsg.LavaLandAllowed;
+
+			var state = netMsg.LavaLandAllowed ? "ON" : "OFF";
+			var msg = $"Admin: {PlayerList.Instance.GetByUserID(netMsg.Userid).Username}, Turned Lava Land spawning {state}";
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+		}
+
+		public static NetMessage Send(string userId, string adminToken, bool lavaLandAllowed = true)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken,
+				LavaLandAllowed = lavaLandAllowed
+			};
+			new RequestLavaLandToggle().Send(msg);
+			return msg;
+		}
 	}
 }

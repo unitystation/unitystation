@@ -1,51 +1,47 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using AdminTools;
 using Mirror;
-using AdminTools;
+using UnityEngine;
 
-public class MentorPlayerChatUpdateMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public struct MentorPlayerChatUpdateMessageNetMessage : NetworkMessage
+	public class MentorPlayerChatUpdateMessage : ServerMessage<MentorPlayerChatUpdateMessage.NetMessage>
 	{
-		public string JsonData;
-		public string PlayerId;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public MentorPlayerChatUpdateMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as MentorPlayerChatUpdateMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		UIManager.Instance.adminChatWindows.mentorPlayerChat.ClientUpdateChatLog(newMsg.JsonData, newMsg.PlayerId);
-	}
-
-	public static MentorPlayerChatUpdateMessageNetMessage SendSingleEntryToMentors(AdminChatMessage chatMessage, string playerId)
-	{
-		AdminChatUpdate update = new AdminChatUpdate();
-		update.messages.Add(chatMessage);
-
-		MentorPlayerChatUpdateMessageNetMessage  msg = new MentorPlayerChatUpdateMessageNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			JsonData = JsonUtility.ToJson(update),
-			PlayerId = playerId
-		};
+			public string JsonData;
+			public string PlayerId;
+		}
 
-		new MentorPlayerChatUpdateMessage().SendToMentors(msg);
-		return msg;
-	}
-
-	public static MentorPlayerChatUpdateMessageNetMessage SendLogUpdateToMentor(NetworkConnection requestee, AdminChatUpdate update, string playerId)
-	{
-		MentorPlayerChatUpdateMessageNetMessage msg = new MentorPlayerChatUpdateMessageNetMessage
+		public override void Process(NetMessage msg)
 		{
-			JsonData = JsonUtility.ToJson(update),
-			PlayerId = playerId
-		};
+			UIManager.Instance.adminChatWindows.mentorPlayerChat.ClientUpdateChatLog(msg.JsonData, msg.PlayerId);
+		}
 
-		new MentorPlayerChatUpdateMessage().SendTo(requestee, msg);
-		return msg;
+		public static NetMessage SendSingleEntryToMentors(AdminChatMessage chatMessage, string playerId)
+		{
+			AdminChatUpdate update = new AdminChatUpdate();
+			update.messages.Add(chatMessage);
+
+			NetMessage  msg = new NetMessage
+			{
+				JsonData = JsonUtility.ToJson(update),
+				PlayerId = playerId
+			};
+
+			new MentorPlayerChatUpdateMessage().SendToMentors(msg);
+			return msg;
+		}
+
+		public static NetMessage SendLogUpdateToMentor(NetworkConnection requestee, AdminChatUpdate update, string playerId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				JsonData = JsonUtility.ToJson(update),
+				PlayerId = playerId
+			};
+
+			new MentorPlayerChatUpdateMessage().SendTo(requestee, msg);
+			return msg;
+		}
 	}
 }

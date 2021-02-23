@@ -1,4 +1,5 @@
 ﻿using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

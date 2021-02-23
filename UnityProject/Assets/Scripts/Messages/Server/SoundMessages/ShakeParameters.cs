@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Messages.Server.SoundMessages
+﻿namespace Messages.Server.SoundMessages
 {
 	/// <summary>
 	/// Parameters to shake the ground when playing a sound.

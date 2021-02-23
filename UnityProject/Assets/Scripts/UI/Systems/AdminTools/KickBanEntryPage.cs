@@ -8,6 +8,8 @@ using Mirror;
 using Newtonsoft.Json;
 using System.Globalization;
 using Messages.Client;
+using Messages.Client.Admin;
+using Messages.Server;
 
 namespace AdminTools
 {
@@ -206,37 +208,30 @@ namespace AdminTools
 			UIManager.PreventChatInput = false;
 		}
 
-		public class ClientJobBanDataAdminMessage : ClientMessage
+		public class ClientJobBanDataAdminMessage : ClientMessage<ClientJobBanDataAdminMessage.NetMessage>
 		{
-			public struct ClientJobBanDataAdminMessageNetMessage : NetworkMessage
+			public struct NetMessage : NetworkMessage
 			{
 				public string AdminID;
 				public string AdminToken;
 				public string PlayerID;
 			}
 
-			//This is needed so the message can be discovered in NetworkManagerExtensions
-			public ClientJobBanDataAdminMessageNetMessage message;
-
-			public override void Process<T>(T msg)
+			public override void Process(NetMessage msg)
 			{
-				var newMsgNull = msg as ClientJobBanDataAdminMessageNetMessage?;
-				if(newMsgNull == null) return;
-				var newMsg = newMsgNull.Value;
-
-				var admin = PlayerList.Instance.GetAdmin(newMsg.AdminID, newMsg.AdminToken);
+				var admin = PlayerList.Instance.GetAdmin(msg.AdminID, msg.AdminToken);
 				if (admin == null) return;
 
 				//Server Stuff here
 
-				var jobBanEntries = PlayerList.Instance.ListOfBanEntries(newMsg.PlayerID);
+				var jobBanEntries = PlayerList.Instance.ListOfBanEntries(msg.PlayerID);
 
 				ServerSendsJobBanDataAdminMessage.Send(SentByPlayer.Connection, jobBanEntries);
 			}
 
-			public static ClientJobBanDataAdminMessageNetMessage Send(string adminID, string adminToken, string playerID)
+			public static NetMessage Send(string adminID, string adminToken, string playerID)
 			{
-				ClientJobBanDataAdminMessageNetMessage msg = new ClientJobBanDataAdminMessageNetMessage
+				NetMessage msg = new NetMessage
 				{
 					AdminID = adminID,
 					AdminToken = adminToken,
@@ -248,25 +243,17 @@ namespace AdminTools
 			}
 		}
 
-		public class ServerSendsJobBanDataAdminMessage : ServerMessage
+		public class ServerSendsJobBanDataAdminMessage : ServerMessage<ServerSendsJobBanDataAdminMessage.NetMessage>
 		{
-			public struct ServerSendsJobBanDataAdminMessageNetMessage : NetworkMessage
+			public struct NetMessage : NetworkMessage
 			{
 				public string JobBanEntries;
 			}
 
-			//This is needed so the message can be discovered in NetworkManagerExtensions
-			public ServerSendsJobBanDataAdminMessageNetMessage message;
-
-			public override void Process<T>(T msg)
+			public override void Process(NetMessage msg)
 			{
-				var newMsgNull = msg as ServerSendsJobBanDataAdminMessageNetMessage?;
-				if(newMsgNull == null) return;
-				var newMsg = newMsgNull.Value;
-
 				//client Stuff here
-
-				var bans = JsonConvert.DeserializeObject<List<JobBanEntry>>(newMsg.JobBanEntries);
+				var bans = JsonConvert.DeserializeObject<List<JobBanEntry>>(msg.JobBanEntries);
 
 				foreach (var jobObject in KickBanEntryPage.instance.jobBanJobTypeListObjects)
 				{
@@ -310,9 +297,9 @@ namespace AdminTools
 				}
 			}
 
-			public static ServerSendsJobBanDataAdminMessageNetMessage Send(NetworkConnection requestee, List<JobBanEntry> jobBanEntries)
+			public static NetMessage Send(NetworkConnection requestee, List<JobBanEntry> jobBanEntries)
 			{
-				ServerSendsJobBanDataAdminMessageNetMessage msg = new ServerSendsJobBanDataAdminMessageNetMessage
+				NetMessage msg = new NetMessage
 				{
 					JobBanEntries = JsonConvert.SerializeObject(jobBanEntries)
 				};

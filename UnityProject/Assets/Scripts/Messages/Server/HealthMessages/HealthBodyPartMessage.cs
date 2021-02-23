@@ -1,60 +1,56 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Tells client to update body part health stats
-/// </summary>
-public class HealthBodyPartMessage : ServerMessage
+namespace Messages.Server.HealthMessages
 {
-	public struct HealthBodyPartMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Tells client to update body part health stats
+	/// </summary>
+	public class HealthBodyPartMessage : ServerMessage<HealthBodyPartMessage.NetMessage>
 	{
-		public uint EntityToUpdate;
-		public BodyPartType BodyPart;
-		public float BruteDamage;
-		public float BurnDamage;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public HealthBodyPartMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as HealthBodyPartMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.EntityToUpdate);
-		if (NetworkObject != null){
-			NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBodyPartStats(newMsg.BodyPart, newMsg.BruteDamage, newMsg.BurnDamage);
+		public struct NetMessage : NetworkMessage
+		{
+			public uint EntityToUpdate;
+			public BodyPartType BodyPart;
+			public float BruteDamage;
+			public float BurnDamage;
 		}
-	}
 
-	public static HealthBodyPartMessageNetMessage Send(GameObject recipient, GameObject entityToUpdate, BodyPartType bodyPartType,
-		float bruteDamage, float burnDamage)
-	{
-		HealthBodyPartMessageNetMessage msg = new HealthBodyPartMessageNetMessage
+		public override void Process(NetMessage msg)
 		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+			LoadNetworkObject(msg.EntityToUpdate);
+			if (NetworkObject != null){
+				NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBodyPartStats(msg.BodyPart, msg.BruteDamage, msg.BurnDamage);
+			}
+		}
+
+		public static NetMessage Send(GameObject recipient, GameObject entityToUpdate, BodyPartType bodyPartType,
+			float bruteDamage, float burnDamage)
+		{
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				BodyPart = bodyPartType,
 				BruteDamage = bruteDamage,
 				BurnDamage = burnDamage
 
-		};
-		new HealthBodyPartMessage().SendTo(recipient, msg);
-		return msg;
-	}
+			};
+			new HealthBodyPartMessage().SendTo(recipient, msg);
+			return msg;
+		}
 
-	public static HealthBodyPartMessageNetMessage SendToAll(GameObject entityToUpdate, BodyPartType bodyPartType,
-		float bruteDamage, float burnDamage)
-	{
-		HealthBodyPartMessageNetMessage msg = new HealthBodyPartMessageNetMessage
+		public static NetMessage SendToAll(GameObject entityToUpdate, BodyPartType bodyPartType,
+			float bruteDamage, float burnDamage)
 		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				BodyPart = bodyPartType,
 				BruteDamage = bruteDamage,
 				BurnDamage = burnDamage
-		};
-		new HealthBodyPartMessage().SendToAll(msg);
-		return msg;
+			};
+			new HealthBodyPartMessage().SendToAll(msg);
+			return msg;
+		}
 	}
 }

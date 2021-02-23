@@ -1,53 +1,49 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-public class PlayerCustomisationMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct PlayerCustomisationMessageNetMessage : NetworkMessage
+	public class PlayerCustomisationMessage : ServerMessage<PlayerCustomisationMessage.NetMessage>
 	{
-		public CharacterSettings Character;
-		public BodyPartSpriteName Part;
-		public uint EquipmentObject;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public PlayerCustomisationMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as PlayerCustomisationMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.EquipmentObject);
-		if (NetworkObject != null)
+		public struct NetMessage : NetworkMessage
 		{
-			NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(newMsg.Character);
+			public CharacterSettings Character;
+			public BodyPartSpriteName Part;
+			public uint EquipmentObject;
 		}
-	}
 
-	public static PlayerCustomisationMessageNetMessage SendToAll(GameObject equipmentObject,  CharacterSettings Character =  null)
-	{
-		var msg = CreateMsg(equipmentObject,Character);
-		new PlayerCustomisationMessage().SendToAll(msg);
-		return msg;
-	}
-
-	public static PlayerCustomisationMessageNetMessage SendTo(GameObject equipmentObject,  NetworkConnection recipient, CharacterSettings Character = null)
-	{
-		var msg = CreateMsg(equipmentObject, Character);
-		new PlayerCustomisationMessage().SendTo(recipient, msg);
-		return msg;
-	}
-
-	public static PlayerCustomisationMessageNetMessage CreateMsg(GameObject equipmentObject, CharacterSettings Character = null)
-	{
-		return new PlayerCustomisationMessageNetMessage
+		public override void Process(NetMessage msg)
 		{
-			EquipmentObject = equipmentObject.NetId(),
-			Part = BodyPartSpriteName.Null,
-			Character = Character
-		};
-	}
+			LoadNetworkObject(msg.EquipmentObject);
+			if (NetworkObject != null)
+			{
+				NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(msg.Character);
+			}
+		}
 
+		public static NetMessage SendToAll(GameObject equipmentObject,  CharacterSettings Character =  null)
+		{
+			var msg = CreateMsg(equipmentObject,Character);
+			new PlayerCustomisationMessage().SendToAll(msg);
+			return msg;
+		}
+
+		public static NetMessage SendTo(GameObject equipmentObject,  NetworkConnection recipient, CharacterSettings Character = null)
+		{
+			var msg = CreateMsg(equipmentObject, Character);
+			new PlayerCustomisationMessage().SendTo(recipient, msg);
+			return msg;
+		}
+
+		public static NetMessage CreateMsg(GameObject equipmentObject, CharacterSettings Character = null)
+		{
+			return new NetMessage
+			{
+				EquipmentObject = equipmentObject.NetId(),
+				Part = BodyPartSpriteName.Null,
+				Character = Character
+			};
+		}
+
+	}
 }

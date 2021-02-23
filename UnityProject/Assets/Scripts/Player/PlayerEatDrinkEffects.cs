@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using CameraEffects;
+using Messages.Server;
 
 public class PlayerEatDrinkEffects : NetworkBehaviour
 {
@@ -14,32 +15,26 @@ public class PlayerEatDrinkEffects : NetworkBehaviour
 	}
 }
 
-public class PlayerEatDrinkEffectsServerMessage : ServerMessage
+public class PlayerEatDrinkEffectsServerMessage : ServerMessage<PlayerEatDrinkEffectsServerMessage.NetMessage>
 {
-	public struct PlayerEatDrinkEffectsServerMessageNetMessage : NetworkMessage
+	public struct NetMessage : NetworkMessage
 	{
 		public int alcoholValue;
 	}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public PlayerEatDrinkEffectsServerMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
+	public override void Process(NetMessage msg)
 	{
-		var newMsgNull = msg as PlayerEatDrinkEffectsServerMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
 		var camera = Camera.main;
 		if (camera == null) return;
-		camera.GetComponent<CameraEffectControlScript>().AddDrunkTime(newMsg.alcoholValue);
+		camera.GetComponent<CameraEffectControlScript>().AddDrunkTime(msg.alcoholValue);
 	}
 
 	/// <summary>
 	/// Send full update to a client
 	/// </summary>
-	public static PlayerEatDrinkEffectsServerMessageNetMessage Send(GameObject clientConn, int newAlcoholValue)
+	public static NetMessage Send(GameObject clientConn, int newAlcoholValue)
 	{
-		PlayerEatDrinkEffectsServerMessageNetMessage msg = new PlayerEatDrinkEffectsServerMessageNetMessage
+		NetMessage msg = new NetMessage
 		{
 			alcoholValue = newAlcoholValue
 		};

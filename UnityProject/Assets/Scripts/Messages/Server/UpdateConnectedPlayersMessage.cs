@@ -1,102 +1,96 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mirror;
-using UnityEngine;
-using UnityEngine.Experimental.XR;
 
-/// <summary>
-///     Message that tells clients what their ConnectedPlayers list should contain
-/// </summary>
-public class UpdateConnectedPlayersMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct UpdateConnectedPlayersMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Message that tells clients what their ConnectedPlayers list should contain
+	/// </summary>
+	public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayersMessage.NetMessage>
 	{
-		public ClientConnectedPlayer[] Players;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public UpdateConnectedPlayersMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as UpdateConnectedPlayersMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-//		Logger.Log("Processed " + ToString());
-		if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null)
+		public struct NetMessage : NetworkMessage
 		{
-			return;
+			public ClientConnectedPlayer[] Players;
 		}
 
-		if (newMsg.Players != null)
+		public override void Process(NetMessage msg)
 		{
-			Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", newMsg.Players));
-			PlayerList.Instance.ClientConnectedPlayers.Clear();
-			for (var i = 0; i < newMsg.Players.Length; i++)
+			//Logger.Log("Processed " + ToString());
+			if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null)
 			{
-				PlayerList.Instance.ClientConnectedPlayers.Add(newMsg.Players[i]);
+				return;
 			}
+
+			if (msg.Players != null)
+			{
+				Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", msg.Players));
+				PlayerList.Instance.ClientConnectedPlayers.Clear();
+				for (var i = 0; i < msg.Players.Length; i++)
+				{
+					PlayerList.Instance.ClientConnectedPlayers.Add(msg.Players[i]);
+				}
+			}
+
+			PlayerList.Instance.RefreshPlayerListText();
+			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
+			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().UpdatePlayerCount(msg.Players?.Length ?? 0);
 		}
 
-		PlayerList.Instance.RefreshPlayerListText();
-		UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
-		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().UpdatePlayerCount(newMsg.Players?.Length ?? 0);
-	}
-
-	public static UpdateConnectedPlayersMessageNetMessage Send()
-	{
-		Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
-			string.Join(",", PlayerList.Instance.AllPlayers));
-		UpdateConnectedPlayersMessageNetMessage msg = new UpdateConnectedPlayersMessageNetMessage();
-		var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
-		bool pendingSpawn = false;
-		foreach (ConnectedPlayer c in PlayerList.Instance.AllPlayers)
+		public static NetMessage Send()
 		{
-			if(c.Connection == null) continue; //offline player
-
-			if (string.IsNullOrEmpty(c.Name))
+			Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
+				string.Join(",", PlayerList.Instance.AllPlayers));
+			NetMessage msg = new NetMessage();
+			var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
+			bool pendingSpawn = false;
+			foreach (ConnectedPlayer c in PlayerList.Instance.AllPlayers)
 			{
-				if (c.GameObject != null)
+				if(c.Connection == null) continue; //offline player
+
+				if (string.IsNullOrEmpty(c.Name))
 				{
-					var joinedViewer = c.GameObject.GetComponent<JoinedViewer>();
-					if (joinedViewer != null)
+					if (c.GameObject != null)
 					{
-						pendingSpawn = true;
+						var joinedViewer = c.GameObject.GetComponent<JoinedViewer>();
+						if (joinedViewer != null)
+						{
+							pendingSpawn = true;
+						}
+						else
+						{
+							continue;
+						}
 					}
 					else
 					{
 						continue;
 					}
 				}
-				else
+
+				var tag = "";
+
+				if (PlayerList.Instance.IsAdmin(c.UserId))
 				{
-					continue;
+					tag = "<color=red>[Admin]</color>";
+				} else if (PlayerList.Instance.IsMentor(c.UserId))
+				{
+					tag = "<color=#6400ff>[Mentor]</color>";
 				}
+
+				prepareConnectedPlayers.Add(new ClientConnectedPlayer
+				{
+					UserName = c.Username,
+					Name = c.Name,
+					Job = c.Job,
+					PendingSpawn = pendingSpawn,
+					Tag = tag
+				});
 			}
 
-			var tag = "";
+			msg.Players = prepareConnectedPlayers.ToArray();
 
-			if (PlayerList.Instance.IsAdmin(c.UserId))
-			{
-				tag = "<color=red>[Admin]</color>";
-			} else if (PlayerList.Instance.IsMentor(c.UserId))
-			{
-				tag = "<color=#6400ff>[Mentor]</color>";
-			}
-
-			prepareConnectedPlayers.Add(new ClientConnectedPlayer
-			{
-				UserName = c.Username,
-				Name = c.Name,
-				Job = c.Job,
-				PendingSpawn = pendingSpawn,
-				Tag = tag
-			});
+			new UpdateConnectedPlayersMessage().SendToAll(msg);
+			return msg;
 		}
-
-		msg.Players = prepareConnectedPlayers.ToArray();
-
-		new UpdateConnectedPlayersMessage().SendToAll(msg);
-		return msg;
 	}
 }

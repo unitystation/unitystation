@@ -1,18 +1,17 @@
-﻿using AddressableReferences;
-using Mirror;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AddressableReferences;
+using Mirror;
 using UnityEngine;
 
-namespace Assets.Scripts.Messages.Server.SoundMessages
+namespace Messages.Server.SoundMessages
 {
 	/// <summary>
 	///     Message that tells client to play a sound at a position
 	/// </summary>
-	public class PlaySoundMessage : ServerMessage
+	public class PlaySoundMessage : ServerMessage<PlaySoundMessage.NetMessage>
 	{
-		public struct PlaySoundMessageNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public string SoundAddressablePath;
 			public Vector3 Position;
@@ -35,45 +34,38 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			}
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public PlaySoundMessageNetMessage message;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as PlaySoundMessageNetMessage?;
-			if(newMsgNull == null) return;
-			var newMsg = newMsgNull.Value;
-
-			if (string.IsNullOrEmpty(newMsg.SoundAddressablePath))
+			if (string.IsNullOrEmpty(msg.SoundAddressablePath))
 			{
 				Logger.LogError(ToString() + " has no Addressable Path!", Category.Audio);
 				return;
 			}
 
-			bool isPositionProvided = newMsg.Position.RoundToInt() != TransformState.HiddenPos;
+			bool isPositionProvided = msg.Position.RoundToInt() != TransformState.HiddenPos;
 
 			// Recompose a list of a single AddressableAudioSource from its primary key (Guid)
-			List<AddressableAudioSource> addressableAudioSources = new List<AddressableAudioSource>() { new AddressableAudioSource(newMsg.SoundAddressablePath) };
+			List<AddressableAudioSource> addressableAudioSources = new List<AddressableAudioSource>() { new AddressableAudioSource(msg.SoundAddressablePath) };
 
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(addressableAudioSources, newMsg.SoundSpawnToken, newMsg.Position, newMsg.Polyphonic, netId: newMsg.TargetNetId, audioSourceParameters: newMsg.AudioParameters);
+				SoundManager.PlayAtPosition(addressableAudioSources, msg.SoundSpawnToken, msg.Position, msg.Polyphonic, netId: msg.TargetNetId, audioSourceParameters: msg.AudioParameters);
 			}
 			else
 			{
-				SoundManager.Play(addressableAudioSources, newMsg.SoundSpawnToken, newMsg.AudioParameters, newMsg.Polyphonic);
+				SoundManager.Play(addressableAudioSources, msg.SoundSpawnToken, msg.AudioParameters, msg.Polyphonic);
 			}
 
-			if (newMsg.ShakeParameters.ShakeGround)
+			if (msg.ShakeParameters.ShakeGround)
 			{
 				if (isPositionProvided
 				 && PlayerManager.LocalPlayerScript
-				 && !PlayerManager.LocalPlayerScript.IsPositionReachable(newMsg.Position, false, newMsg.ShakeParameters.ShakeRange))
+				 && !PlayerManager.LocalPlayerScript.IsPositionReachable(msg.Position, false, msg.ShakeParameters.ShakeRange))
 				{
 					//Don't shake if local player is out of range
 					return;
 				}
-				float intensity = Mathf.Clamp(newMsg.ShakeParameters.ShakeIntensity / (float)byte.MaxValue, 0.01f, 10f);
+				float intensity = Mathf.Clamp(msg.ShakeParameters.ShakeIntensity / (float)byte.MaxValue, 0.01f, 10f);
 				Camera2DFollow.followControl.Shake(intensity, intensity);
 			}
 		}
@@ -99,7 +91,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			string soundSpawnToken = Guid.NewGuid().ToString();
 
-			PlaySoundMessageNetMessage msg = new PlaySoundMessageNetMessage
+			NetMessage msg = new NetMessage
 			{
 				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
@@ -135,7 +127,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			string soundSpawnToken = Guid.NewGuid().ToString();
 
-			PlaySoundMessageNetMessage msg = new PlaySoundMessageNetMessage
+			NetMessage msg = new NetMessage
 			{
 				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,
@@ -172,7 +164,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			string soundSpawnToken = Guid.NewGuid().ToString();
 
-			PlaySoundMessageNetMessage msg = new PlaySoundMessageNetMessage
+			NetMessage msg = new NetMessage
 			{
 				SoundAddressablePath = addressableAudioSource.AssetAddress,
 				Position = pos,

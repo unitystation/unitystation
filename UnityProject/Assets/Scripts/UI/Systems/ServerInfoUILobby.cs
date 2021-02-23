@@ -8,6 +8,7 @@ using System.IO;
 using System;
 using Initialisation;
 using Messages.Client;
+using Messages.Server;
 using UnityEngine.UI;
 
 namespace ServerInfo
@@ -83,29 +84,23 @@ namespace ServerInfo
         }
     }
 
-	public class ServerInfoLobbyMessageServer : ServerMessage
+	public class ServerInfoLobbyMessageServer : ServerMessage<ServerInfoLobbyMessageServer.NetMessage>
 	{
-		public struct ServerInfoLobbyMessageServerNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public string ServerName;
 			public string ServerDesc;
 			public string ServerDiscordID;
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public ServerInfoLobbyMessageServerNetMessage IgnoreMe;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as ServerInfoLobbyMessageServerNetMessage?;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(newMsg.ServerName, newMsg.ServerDesc, newMsg.ServerDiscordID);
+			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(msg.ServerName, msg.ServerDesc, msg.ServerDiscordID);
 		}
 
-		public static ServerInfoLobbyMessageServerNetMessage Send(NetworkConnection clientConn,string serverName, string serverDesc, string serverDiscordID)
+		public static NetMessage Send(NetworkConnection clientConn,string serverName, string serverDesc, string serverDiscordID)
 		{
-			ServerInfoLobbyMessageServerNetMessage msg = new ServerInfoLobbyMessageServerNetMessage
+			NetMessage msg = new NetMessage
 			{
 				ServerName = serverName,
 				ServerDesc = serverDesc,
@@ -117,27 +112,21 @@ namespace ServerInfo
 		}
 	}
 
-	public class ServerInfoLobbyMessageClient : ClientMessage
+	public class ServerInfoLobbyMessageClient : ClientMessage<ServerInfoLobbyMessageClient.NetMessage>
 	{
-		public struct ServerInfoLobbyMessageClientNetMessage : NetworkMessage
+		public struct NetMessage : NetworkMessage
 		{
 			public string PlayerId;
 		}
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public ServerInfoLobbyMessageClientNetMessage IgnoreMe;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as ServerInfoLobbyMessageClientNetMessage?;
-			if(newMsgNull == null) return;
-
 			ServerInfoLobbyMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc, ServerInfoUILobby.serverDiscordID);
 		}
 
-		public static ServerInfoLobbyMessageClientNetMessage Send(string playerId)
+		public static NetMessage Send(string playerId)
 		{
-			ServerInfoLobbyMessageClientNetMessage msg = new ServerInfoLobbyMessageClientNetMessage
+			NetMessage msg = new NetMessage
 			{
 				PlayerId = playerId,
 			};

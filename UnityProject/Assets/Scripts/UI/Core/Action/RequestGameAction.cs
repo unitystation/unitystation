@@ -6,17 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Messages.Client;
 
-public class RequestGameAction : ClientMessage
+public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 {
-	public struct RequestGameActionNetMessage : NetworkMessage
+	public struct NetMessage : NetworkMessage
 	{
 		public int ComponentLocation;
 		public uint NetObject;
 		public ushort ComponentID;
 	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public RequestGameActionNetMessage IgnoreMe;
 
 	public static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>(); //These are useful
 	public static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
@@ -38,20 +35,17 @@ public class RequestGameAction : ClientMessage
 
 	}
 
-	public override void Process<T>(T msg)
+	public override void Process(NetMessage msg)
 	{
-		var newMsgNull = msg as RequestGameActionNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		var type = componentIDToComponentType[newMsg.ComponentID];
-		LoadNetworkObject(newMsg.NetObject);
+		var type = componentIDToComponentType[msg.ComponentID];
+		LoadNetworkObject(msg.NetObject);
 
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
 			var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
-			if (IActionGUIs.Length > newMsg.ComponentLocation)
+			if (IActionGUIs.Length > msg.ComponentLocation)
 			{
-				var IServerActionGUI = IActionGUIs[newMsg.ComponentLocation] as IServerActionGUI;
+				var IServerActionGUI = IActionGUIs[msg.ComponentLocation] as IServerActionGUI;
 				IServerActionGUI.CallActionServer(SentByPlayer);
 			}
 		}
@@ -84,7 +78,7 @@ public class RequestGameAction : ClientMessage
 		}
 		if (found)
 		{
-			var msg = new RequestGameActionNetMessage
+			var msg = new NetMessage
 			{
 				NetObject = netObject.netId,
 				ComponentLocation = componentLocation,

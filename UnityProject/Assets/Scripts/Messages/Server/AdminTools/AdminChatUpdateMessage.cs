@@ -1,46 +1,42 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using AdminTools;
 using Mirror;
-using AdminTools;
+using UnityEngine;
 
-public class AdminChatUpdateMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public struct AdminChatUpdateMessageNetMessage : NetworkMessage
+	public class AdminChatUpdateMessage : ServerMessage<AdminChatUpdateMessage.NetMessage>
 	{
-		public string JsonData;
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string JsonData;
+		}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public AdminChatUpdateMessageNetMessage IgnoreMe;
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ClientUpdateChatLog(msg.JsonData);
+		}
 
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as AdminChatUpdateMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+		public static NetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage)
+		{
+			AdminChatUpdate update = new AdminChatUpdate();
+			update.messages.Add(chatMessage);
+			NetMessage  msg =
+				new NetMessage  {JsonData = JsonUtility.ToJson(update) };
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ClientUpdateChatLog(newMsg.JsonData);
-	}
+			new AdminChatUpdateMessage().SendToAdmins(msg);
+			return msg;
+		}
 
-	public static AdminChatUpdateMessageNetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage)
-	{
-		AdminChatUpdate update = new AdminChatUpdate();
-		update.messages.Add(chatMessage);
-		AdminChatUpdateMessageNetMessage  msg =
-			new AdminChatUpdateMessageNetMessage  {JsonData = JsonUtility.ToJson(update) };
+		public static NetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update)
+		{
+			NetMessage msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(update),
+				};
 
-		new AdminChatUpdateMessage().SendToAdmins(msg);
-		return msg;
-	}
-
-	public static AdminChatUpdateMessageNetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update)
-	{
-		AdminChatUpdateMessageNetMessage msg =
-			new AdminChatUpdateMessageNetMessage
-			{
-				JsonData = JsonUtility.ToJson(update),
-			};
-
-		new AdminChatUpdateMessage().SendTo(requestee, msg);
-		return msg;
+			new AdminChatUpdateMessage().SendTo(requestee, msg);
+			return msg;
+		}
 	}
 }

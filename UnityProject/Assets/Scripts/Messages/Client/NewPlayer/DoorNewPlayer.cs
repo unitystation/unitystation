@@ -1,41 +1,36 @@
-﻿using System.Collections;
-using Messages.Client;
+﻿using Doors;
 using Mirror;
-using Doors;
 
-public class DoorNewPlayer : ClientMessage
+namespace Messages.Client.NewPlayer
 {
-	public struct DoorNewPlayerNetMessage : NetworkMessage
+	public class DoorNewPlayer : ClientMessage<DoorNewPlayer.NetMessage>
 	{
-		public uint Door;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public DoorNewPlayerNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as DoorNewPlayerNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
-		if (LoadNetworkObject(newMsg.Door))
+		public struct NetMessage : NetworkMessage
 		{
-			// https://docs.unity3d.com/2019.3/Documentation/ScriptReference/Component.TryGetComponent.html
-			if (NetworkObject.TryGetComponent(out DoorController doorController))
+			public uint Door;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
+			if (LoadNetworkObject(msg.Door))
 			{
-				doorController.UpdateNewPlayer(SentByPlayer.Connection);
+				// https://docs.unity3d.com/2019.3/Documentation/ScriptReference/Component.TryGetComponent.html
+				if (NetworkObject.TryGetComponent(out DoorController doorController))
+				{
+					doorController.UpdateNewPlayer(SentByPlayer.Connection);
+				}
 			}
 		}
-	}
 
-	public static DoorNewPlayerNetMessage Send(uint netId)
-	{
-		DoorNewPlayerNetMessage msg = new DoorNewPlayerNetMessage
+		public static NetMessage Send(uint netId)
 		{
-			Door = netId
-		};
-		new DoorNewPlayer().Send(msg);
-		return msg;
+			NetMessage msg = new NetMessage
+			{
+				Door = netId
+			};
+			new DoorNewPlayer().Send(msg);
+			return msg;
+		}
 	}
 }

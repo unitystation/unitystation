@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using DatabaseAPI;
 using Initialisation;
+using Messages.Server;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {

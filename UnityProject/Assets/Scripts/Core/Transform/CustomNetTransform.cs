@@ -2,6 +2,8 @@ using System.Collections;
 using System.Diagnostics;
 using Initialisation;
 using Items;
+using Messages.Client.NewPlayer;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;

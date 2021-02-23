@@ -1,27 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Messages.Server;
+﻿using System.Collections.Generic;
 using Systems.GhostRoles;
+using Messages.Server;
+using Messages.Server.GhostRoles;
 using Mirror;
 
-namespace Messages.Client
+namespace Messages.Client.GhostRoles
 {
 	/// <summary>
 	/// Allows a network message to be sent to the server, requesting an update on all available ghost roles on the server.
 	/// </summary>
-	public class RequestAvailableGhostRolesMessage : ClientMessage
+	public class RequestAvailableGhostRolesMessage : ClientMessage<RequestAvailableGhostRolesMessage.NetMessage>
 	{
-		public struct RequestAvailableGhostRolesMessageNetMessage : NetworkMessage { }
+		public struct NetMessage : NetworkMessage { }
 
-		//This is needed so the message can be discovered in NetworkManagerExtensions
-		public RequestAvailableGhostRolesMessageNetMessage IgnoreMe;
-
-		public override void Process<T>(T msg)
+		public override void Process(NetMessage msg)
 		{
-			var newMsgNull = msg as RequestAvailableGhostRolesMessageNetMessage?;
-			if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
 			foreach (KeyValuePair<uint, GhostRoleServer> kvp in GhostRoleManager.Instance.serverAvailableRoles)
 			{
 				GhostRoleUpdateMessage.SendTo(SentByPlayer, kvp.Key, kvp.Value);
@@ -31,9 +24,9 @@ namespace Messages.Client
 		/// <summary>
 		/// Sends a message to the server, requesting an update on all available ghost roles on the server.
 		/// </summary>
-		public static RequestAvailableGhostRolesMessageNetMessage SendMessage()
+		public static NetMessage SendMessage()
 		{
-			var msg = new RequestAvailableGhostRolesMessageNetMessage();
+			var msg = new NetMessage();
 			new RequestAvailableGhostRolesMessage().Send(msg);
 
 			return msg;

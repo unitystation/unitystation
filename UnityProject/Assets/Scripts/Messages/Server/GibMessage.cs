@@ -1,29 +1,25 @@
-﻿using System.Collections;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
-public class GibMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct GibMessageNetMessage : NetworkMessage { }
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public GibMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
+	public class GibMessage : ServerMessage<GibMessage.NetMessage>
 	{
-		var newMsgNull = msg as GibMessageNetMessage?;
-		if(newMsgNull == null) return;
+		public struct NetMessage : NetworkMessage { }
 
-		foreach (LivingHealthBehaviour living in Object.FindObjectsOfType<LivingHealthBehaviour>())
+		public override void Process(NetMessage msg)
 		{
-			living.Death();
+			foreach (LivingHealthBehaviour living in Object.FindObjectsOfType<LivingHealthBehaviour>())
+			{
+				living.Death();
+			}
 		}
-	}
 
-	public static GibMessageNetMessage Send()
-	{
-		GibMessageNetMessage msg = new GibMessageNetMessage();
-		new GibMessage().SendToAll(msg);
-		return msg;
+		public static NetMessage Send()
+		{
+			NetMessage msg = new NetMessage();
+			new GibMessage().SendToAll(msg);
+			return msg;
+		}
 	}
 }

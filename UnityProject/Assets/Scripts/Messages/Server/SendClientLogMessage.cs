@@ -2,44 +2,41 @@
 using Mirror;
 using UnityEngine;
 
-/// <summary>
-///     Message that tells client to add a log to their logger. This is for
-/// 	easy debugging for players
-/// </summary>
-public class SendClientLogMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct SendClientLogMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Message that tells client to add a log to their logger. This is for
+	/// 	easy debugging for players
+	/// </summary>
+	public class SendClientLogMessage : ServerMessage<SendClientLogMessage.NetMessage>
 	{
-		public string Message;
-		public Category Category;
-		public bool IsError;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public SendClientLogMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as SendClientLogMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		if (newMsg.IsError)
+		public struct NetMessage : NetworkMessage
 		{
-			Logger.LogError(newMsg.Message, newMsg.Category);
+			public string Message;
+			public Category Category;
+			public bool IsError;
 		}
-		else
+
+		public override void Process(NetMessage msg)
 		{
-			Logger.Log(newMsg.Message, newMsg.Category);
+			if (msg.IsError)
+			{
+				Logger.LogError(msg.Message, msg.Category);
+			}
+			else
+			{
+				Logger.Log(msg.Message, msg.Category);
+			}
 		}
-	}
 
-	public static SendClientLogMessageNetMessage SendLogToClient(GameObject clientPlayer, string message, Category logCat,
-		bool showError)
-	{
-		SendClientLogMessageNetMessage msg = new SendClientLogMessageNetMessage {Message = message, Category = logCat, IsError = showError};
+		public static NetMessage SendLogToClient(GameObject clientPlayer, string message, Category logCat,
+			bool showError)
+		{
+			NetMessage msg = new NetMessage {Message = message, Category = logCat, IsError = showError};
 
-		new SendClientLogMessage().SendTo(clientPlayer, msg);
+			new SendClientLogMessage().SendTo(clientPlayer, msg);
 
-		return msg;
+			return msg;
+		}
 	}
 }

@@ -1,36 +1,32 @@
-﻿using System.Collections;
-using Mirror;
+﻿using Mirror;
 
-/// <summary>
-///     Message that tells client to add a ChatEvent to their chat
-/// </summary>
-public class AnnouncementMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct AnnouncementMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Message that tells client to add a ChatEvent to their chat
+	/// </summary>
+	public class AnnouncementMessage : ServerMessage<AnnouncementMessage.NetMessage>
 	{
-		public string Text;
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string Text;
+		}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public AnnouncementMessageNetMessage IgnoreMe;
+		public override void Process(NetMessage msg)
+		{
+			//Yeah, that will lead to n +-simultaneous tts synth requests, mary will probably struggle
+			MaryTTS.Instance.Synthesize( msg.Text, bytes => {
+				Synth.Instance.PlayAnnouncement(bytes);
+			} );
+		}
 
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as AnnouncementMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+		public static NetMessage SendToAll( string text )
+		{
+			NetMessage msg = new NetMessage{ Text = text };
 
-		//Yeah, that will lead to n +-simultaneous tts synth requests, mary will probably struggle
-		MaryTTS.Instance.Synthesize( newMsg.Text, bytes => {
-			Synth.Instance.PlayAnnouncement(bytes);
-		} );
-	}
+			new AnnouncementMessage().SendToAll(msg);
 
-	public static AnnouncementMessageNetMessage SendToAll( string text )
-	{
-		AnnouncementMessageNetMessage msg = new AnnouncementMessageNetMessage{ Text = text };
-
-		new AnnouncementMessage().SendToAll(msg);
-
-		return msg;
+			return msg;
+		}
 	}
 }

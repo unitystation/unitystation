@@ -1,87 +1,83 @@
-using System.Collections;
-using UnityEngine;
 using Mirror;
+using UnityEngine;
 
-/// <summary>
-///     Tells client to change world object's transform state ((dis)appear/change posistion, rotation/start floating)
-/// </summary>
-public class TransformStateMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct TransformStateMessageNetMessage : NetworkMessage
+	/// <summary>
+	///     Tells client to change world object's transform state ((dis)appear/change posistion, rotation/start floating)
+	/// </summary>
+	public class TransformStateMessage : ServerMessage<TransformStateMessage.NetMessage>
 	{
-		public bool ForceRefresh;
-		public TransformState State;
-		public uint TransformedObject;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public TransformStateMessageNetMessage IgnoreMe;
-
-	///To be run on client
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as TransformStateMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.TransformedObject);
-
-		if (NetworkObject && (CustomNetworkManager.Instance._isServer || newMsg.ForceRefresh))
+		public struct NetMessage : NetworkMessage
 		{
-			//update NetworkObject transform state
-			var transform = NetworkObject.GetComponent<CustomNetTransform>();
-//				Logger.Log($"{transform.ClientState} ->\n{State}");
-			transform.UpdateClientState(newMsg.State);
+			public bool ForceRefresh;
+			public TransformState State;
+			public uint TransformedObject;
 		}
-	}
 
-	/// <summary>
-	/// Send the TransformStateMessage to a specific client.
-	/// </summary>
-	/// <param name="recipient">Recipient to receive the message</param>
-	/// <param name="transformedObject">The object to apply the transformation</param>
-	/// <param name="state">The transformation to apply</param>
-	/// <param name="forced">
-	///     Used for client simulation, use false if already updated by prediction
-	///     (to avoid updating it twice)
-	/// </param>
-	/// <returns>The sent message</returns>
-	public static TransformStateMessageNetMessage Send(NetworkConnection recipient, GameObject transformedObject, TransformState state,
-		bool forced = true)
-	{
-		var msg = new TransformStateMessageNetMessage
+		///To be run on client
+		public override void Process(NetMessage msg)
 		{
-			TransformedObject = transformedObject != null
-				? transformedObject.GetComponent<NetworkIdentity>().netId
-				: NetId.Invalid,
-			State = state,
-			ForceRefresh = forced
-		};
-		new TransformStateMessage().SendTo(recipient, msg);
-		return msg;
-	}
+			LoadNetworkObject(msg.TransformedObject);
 
-	/// <summary>
-	/// Send the TransformStateMessage to a all client.
-	/// </summary>
-	/// <param name="transformedObject">The object to apply the transformation</param>
-	/// <param name="state">The transformation to apply</param>
-	/// <param name="forced">
-	///     Used for client simulation, use false if already updated by prediction
-	///     (to avoid updating it twice)
-	/// </param>
-	/// <returns>The sent message</returns>
-	public static TransformStateMessageNetMessage SendToAll(GameObject transformedObject, TransformState state,
-		bool forced = true)
-	{
-		var msg = new TransformStateMessageNetMessage
+			if (NetworkObject && (CustomNetworkManager.Instance._isServer || msg.ForceRefresh))
+			{
+				//update NetworkObject transform state
+				var transform = NetworkObject.GetComponent<CustomNetTransform>();
+//				Logger.Log($"{transform.ClientState} ->\n{State}");
+				transform.UpdateClientState(msg.State);
+			}
+		}
+
+		/// <summary>
+		/// Send the TransformStateMessage to a specific client.
+		/// </summary>
+		/// <param name="recipient">Recipient to receive the message</param>
+		/// <param name="transformedObject">The object to apply the transformation</param>
+		/// <param name="state">The transformation to apply</param>
+		/// <param name="forced">
+		///     Used for client simulation, use false if already updated by prediction
+		///     (to avoid updating it twice)
+		/// </param>
+		/// <returns>The sent message</returns>
+		public static NetMessage Send(NetworkConnection recipient, GameObject transformedObject, TransformState state,
+			bool forced = true)
 		{
-			TransformedObject = transformedObject != null
-				? transformedObject.GetComponent<NetworkIdentity>().netId
-				: NetId.Invalid,
-			State = state,
-			ForceRefresh = forced
-		};
-		new TransformStateMessage().SendToAll(msg);
-		return msg;
+			var msg = new NetMessage
+			{
+				TransformedObject = transformedObject != null
+					? transformedObject.GetComponent<NetworkIdentity>().netId
+					: NetId.Invalid,
+				State = state,
+				ForceRefresh = forced
+			};
+			new TransformStateMessage().SendTo(recipient, msg);
+			return msg;
+		}
+
+		/// <summary>
+		/// Send the TransformStateMessage to a all client.
+		/// </summary>
+		/// <param name="transformedObject">The object to apply the transformation</param>
+		/// <param name="state">The transformation to apply</param>
+		/// <param name="forced">
+		///     Used for client simulation, use false if already updated by prediction
+		///     (to avoid updating it twice)
+		/// </param>
+		/// <returns>The sent message</returns>
+		public static NetMessage SendToAll(GameObject transformedObject, TransformState state,
+			bool forced = true)
+		{
+			var msg = new NetMessage
+			{
+				TransformedObject = transformedObject != null
+					? transformedObject.GetComponent<NetworkIdentity>().netId
+					: NetId.Invalid,
+				State = state,
+				ForceRefresh = forced
+			};
+			new TransformStateMessage().SendToAll(msg);
+			return msg;
+		}
 	}
 }

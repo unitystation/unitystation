@@ -1,50 +1,46 @@
-﻿using System.Collections;
-using Messages.Client;
+﻿using Messages.Client;
+using Messages.Server.AdminTools;
 using Mirror;
-using UnityEngine;
 
-/// <summary>
-///     Request admin page data from the server
-/// </summary>
-public class RequestAdminPlayerList : ClientMessage
+namespace Messages.Client.Admin
 {
-	public struct RequestAdminPlayerListNetMessage : NetworkMessage
+	/// <summary>
+	///     Request admin page data from the server
+	/// </summary>
+	public class RequestAdminPlayerList : ClientMessage<RequestAdminPlayerList.NetMessage>
 	{
-		public string Userid;
-		public string AdminToken;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public RequestAdminPlayerListNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as RequestAdminPlayerListNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		VerifyAdminStatus(newMsg);
-	}
-
-	void VerifyAdminStatus(RequestAdminPlayerListNetMessage msg)
-	{
-		var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-		if (player == null)
+		public struct NetMessage : NetworkMessage
 		{
-			player = PlayerList.Instance.GetMentor(msg.Userid, msg.AdminToken);
-			if(player == null)
-				return;
+			public string Userid;
+			public string AdminToken;
 		}
-		AdminPlayerListRefreshMessage.Send(player, msg.Userid);
-	}
 
-	public static RequestAdminPlayerListNetMessage Send(string userId, string adminToken)
-	{
-		RequestAdminPlayerListNetMessage msg = new RequestAdminPlayerListNetMessage
+		public override void Process(NetMessage msg)
 		{
-			Userid = userId,
-			AdminToken = adminToken
-		};
-		new RequestAdminPlayerList().Send(msg);
-		return msg;
+			VerifyAdminStatus(msg);
+		}
+
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (player == null)
+			{
+				player = PlayerList.Instance.GetMentor(msg.Userid, msg.AdminToken);
+				if(player == null)
+					return;
+			}
+			AdminPlayerListRefreshMessage.Send(player, msg.Userid);
+		}
+
+		public static NetMessage Send(string userId, string adminToken)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken
+			};
+			new RequestAdminPlayerList().Send(msg);
+			return msg;
+		}
 	}
 }

@@ -1,38 +1,33 @@
-﻿using System.Collections;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
-
-public class MentorBwoinkMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public struct MentorBwoinkMessageNetMessage : NetworkMessage
+	public class MentorBwoinkMessage : ServerMessage<MentorBwoinkMessage.NetMessage>
 	{
-		public string MentorUID;
-		public string Message;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public MentorBwoinkMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as MentorBwoinkMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
-		Chat.AddMentorPrivMsg(newMsg.Message);
-	}
-
-	public static MentorBwoinkMessageNetMessage  Send(GameObject recipient, string mentorUid, string message)
-	{
-		MentorBwoinkMessageNetMessage  msg = new MentorBwoinkMessageNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			MentorUID = mentorUid,
-			Message = message
-		};
+			public string MentorUID;
+			public string Message;
+		}
 
-		new MentorBwoinkMessage().SendTo(recipient, msg);
+		public override void Process(NetMessage msg)
+		{
+			SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
+			Chat.AddMentorPrivMsg(msg.Message);
+		}
 
-		return msg;
+		public static NetMessage  Send(GameObject recipient, string mentorUid, string message)
+		{
+			NetMessage  msg = new NetMessage
+			{
+				MentorUID = mentorUid,
+				Message = message
+			};
+
+			new MentorBwoinkMessage().SendTo(recipient, msg);
+
+			return msg;
+		}
 	}
 }

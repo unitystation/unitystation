@@ -1,41 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Mirror;
 using Newtonsoft.Json;
+using UnityEngine;
 
-public class HackingNodeConnectionList : ServerMessage
+namespace Messages.Server
 {
-	public struct HackingNodeConnectionListNetMessage : NetworkMessage
+	public class HackingNodeConnectionList : ServerMessage<HackingNodeConnectionList.NetMessage>
 	{
-		public string JsonData;
-		public uint Recipient;
-		public uint HackingObject;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public HackingNodeConnectionListNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as HackingNodeConnectionListNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadMultipleObjects(new uint[] { newMsg.Recipient, newMsg.HackingObject });
-		List<int[]> data = JsonConvert.DeserializeObject<List<int[]>>(newMsg.JsonData);
-
-		if (NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI != null)
+		public struct NetMessage : NetworkMessage
 		{
-			NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI.UpdateConnectionList(data);
+			public string JsonData;
+			public uint Recipient;
+			public uint HackingObject;
 		}
-	}
 
-	public static HackingNodeConnectionListNetMessage Send(GameObject recipient, GameObject hackingObject, List<int[]> connectionList)
-	{
-		HackingNodeConnectionListNetMessage msg =
-			new HackingNodeConnectionListNetMessage { Recipient = recipient.GetComponent<NetworkIdentity>().netId, HackingObject = hackingObject.GetComponent<NetworkIdentity>().netId, JsonData = JsonConvert.SerializeObject(connectionList) };
+		public override void Process(NetMessage msg)
+		{
+			LoadMultipleObjects(new uint[] { msg.Recipient, msg.HackingObject });
+			List<int[]> data = JsonConvert.DeserializeObject<List<int[]>>(msg.JsonData);
 
-		new HackingNodeConnectionList().SendToNearbyPlayers(hackingObject.transform.position, msg);
-		return msg;
+			if (NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI != null)
+			{
+				NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI.UpdateConnectionList(data);
+			}
+		}
+
+		public static NetMessage Send(GameObject recipient, GameObject hackingObject, List<int[]> connectionList)
+		{
+			NetMessage msg =
+				new NetMessage { Recipient = recipient.GetComponent<NetworkIdentity>().netId, HackingObject = hackingObject.GetComponent<NetworkIdentity>().netId, JsonData = JsonConvert.SerializeObject(connectionList) };
+
+			new HackingNodeConnectionList().SendToNearbyPlayers(hackingObject.transform.position, msg);
+			return msg;
+		}
 	}
 }

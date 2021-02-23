@@ -1,43 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Mirror;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
 
-//TODO We need electrical stats to be sent to the PDA Power-ON Cartridge for engineering pdas only
-//atm its just being sent to examine channel
-public class ElectricalStatsMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct ElectricalStatsMessageNetMessage : NetworkMessage
+	//TODO We need electrical stats to be sent to the PDA Power-ON Cartridge for engineering pdas only
+	//atm its just being sent to examine channel
+	public class ElectricalStatsMessage : ServerMessage<ElectricalStatsMessage.NetMessage>
 	{
-		public string JsonData;
-		public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string JsonData;
+			public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
+		}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public ElectricalStatsMessageNetMessage IgnoreMe;
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.Recipient);
+			ElectronicData data = JsonUtility.FromJson<ElectronicData>(msg.JsonData);
 
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as ElectricalStatsMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+			string newChatText = "";
+			newChatText += $"Current: {data.CurrentInWire} \n";
+			newChatText += $"Voltage: {data.ActualVoltage} \n";
+			newChatText += $"Resistance: {data.EstimatedResistance}";
+			Chat.AddExamineMsgToClient(newChatText);
+		}
 
-		LoadNetworkObject(newMsg.Recipient);
-		ElectronicData data = JsonUtility.FromJson<ElectronicData>(newMsg.JsonData);
+		public static NetMessage  Send(GameObject recipient, string data)
+		{
+			NetMessage  msg =
+				new NetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
 
-		string newChatText = "";
-		newChatText += $"Current: {data.CurrentInWire} \n";
-		newChatText += $"Voltage: {data.ActualVoltage} \n";
-		newChatText += $"Resistance: {data.EstimatedResistance}";
-		Chat.AddExamineMsgToClient(newChatText);
-	}
-
-	public static ElectricalStatsMessageNetMessage  Send(GameObject recipient, string data)
-	{
-		ElectricalStatsMessageNetMessage  msg =
-			new ElectricalStatsMessageNetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
-
-		new ElectricalStatsMessage().SendTo(recipient, msg);
-		return msg;
+			new ElectricalStatsMessage().SendTo(recipient, msg);
+			return msg;
+		}
 	}
 }

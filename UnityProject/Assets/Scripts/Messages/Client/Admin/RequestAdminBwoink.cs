@@ -1,54 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Messages.Client;
+﻿using Messages.Client;
+using Messages.Server.AdminTools;
 using Mirror;
 
-public class RequestAdminBwoink : ClientMessage
+namespace Messages.Client.Admin
 {
-	public struct RequestAdminBwoinkNetMessage : NetworkMessage
+	public class RequestAdminBwoink : ClientMessage<RequestAdminBwoink.NetMessage>
 	{
-		public string Userid;
-		public string AdminToken;
-		public string UserToBwoink;
-		public string Message;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public RequestAdminBwoinkNetMessage message;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as RequestAdminBwoinkNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		VerifyAdminStatus(newMsg);
-	}
-
-	void VerifyAdminStatus(RequestAdminBwoinkNetMessage msg)
-	{
-		var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-		if (player != null)
+		public struct NetMessage : NetworkMessage
 		{
-			var recipient = PlayerList.Instance.GetAllByUserID(msg.UserToBwoink);
-			foreach (var r in recipient)
+			public string Userid;
+			public string AdminToken;
+			public string UserToBwoink;
+			public string Message;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			VerifyAdminStatus(msg);
+		}
+
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (player != null)
 			{
-				AdminBwoinkMessage.Send(r.GameObject, msg.Userid, "<color=red>" + msg.Message + "</color>");
-				UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(msg.Message, msg.UserToBwoink, msg.Userid);
+				var recipient = PlayerList.Instance.GetAllByUserID(msg.UserToBwoink);
+				foreach (var r in recipient)
+				{
+					AdminBwoinkMessage.Send(r.GameObject, msg.Userid, "<color=red>" + msg.Message + "</color>");
+					UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(msg.Message, msg.UserToBwoink, msg.Userid);
+				}
 			}
 		}
-	}
 
-	public static RequestAdminBwoinkNetMessage Send(string userId, string adminToken, string userIDToBwoink, string message)
-	{
-		RequestAdminBwoinkNetMessage msg = new RequestAdminBwoinkNetMessage
+		public static NetMessage Send(string userId, string adminToken, string userIDToBwoink, string message)
 		{
-			Userid = userId,
-			AdminToken = adminToken,
-			UserToBwoink = userIDToBwoink,
-			Message = message
-		};
-		new RequestAdminBwoink().Send(msg);
-		return msg;
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken,
+				UserToBwoink = userIDToBwoink,
+				Message = message
+			};
+			new RequestAdminBwoink().Send(msg);
+			return msg;
+		}
 	}
 }

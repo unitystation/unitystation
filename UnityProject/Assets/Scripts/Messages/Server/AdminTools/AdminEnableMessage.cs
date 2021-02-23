@@ -1,46 +1,41 @@
-﻿using System.Collections;
-using Mirror;
-using UnityEngine;
+﻿using Mirror;
 
-/// <summary>
-/// Allows the client to use admin only features. A valid admin token is required
-/// to use admin tools.
-/// </summary>
-public class AdminEnableMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public struct AdminEnableMessageNetMessage : NetworkMessage
+	/// <summary>
+	/// Allows the client to use admin only features. A valid admin token is required
+	/// to use admin tools.
+	/// </summary>
+	public class AdminEnableMessage : ServerMessage<AdminEnableMessage.NetMessage>
 	{
-		public string AdminToken;
-		public uint AdminGhostStorage;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public AdminEnableMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as AdminEnableMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.AdminGhostStorage);
-		AdminManager.Instance.LocalAdminGhostStorage = NetworkObject.GetComponent<ItemStorage>();
-		PlayerList.Instance.SetClientAsAdmin(newMsg.AdminToken);
-		UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(true);
-		UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
-	}
-
-	public static AdminEnableMessageNetMessage Send(ConnectedPlayer player, string adminToken)
-	{
-		UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
-		var adminGhostItemStorage = AdminManager.Instance.GetItemSlotStorage(player);
-		AdminEnableMessageNetMessage msg = new AdminEnableMessageNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			AdminToken = adminToken,
-			AdminGhostStorage = adminGhostItemStorage.GetComponent<NetworkIdentity>().netId
-		};
+			public string AdminToken;
+			public uint AdminGhostStorage;
+		}
 
-		new AdminEnableMessage().SendTo(player.Connection, msg);
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.AdminGhostStorage);
+			AdminManager.Instance.LocalAdminGhostStorage = NetworkObject.GetComponent<ItemStorage>();
+			PlayerList.Instance.SetClientAsAdmin(msg.AdminToken);
+			UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(true);
+			UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
+		}
 
-		return msg;
+		public static NetMessage Send(ConnectedPlayer player, string adminToken)
+		{
+			UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
+			var adminGhostItemStorage = AdminManager.Instance.GetItemSlotStorage(player);
+			NetMessage msg = new NetMessage
+			{
+				AdminToken = adminToken,
+				AdminGhostStorage = adminGhostItemStorage.GetComponent<NetworkIdentity>().netId
+			};
+
+			new AdminEnableMessage().SendTo(player.Connection, msg);
+
+			return msg;
+		}
 	}
 }

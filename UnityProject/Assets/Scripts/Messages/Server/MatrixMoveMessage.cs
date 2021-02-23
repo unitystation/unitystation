@@ -1,61 +1,57 @@
-using System.Collections;
-using UnityEngine;
 using Mirror;
+using UnityEngine;
 
-///     Tells client to
-public class MatrixMoveMessage : ServerMessage
+namespace Messages.Server
 {
-	public struct MatrixMoveMessageNetMessage : NetworkMessage
+	///     Tells client to
+	public class MatrixMoveMessage : ServerMessage<MatrixMoveMessage.NetMessage>
 	{
-		public MatrixState State;
-		public uint Matrix;
-
-		public override string ToString()
+		public struct NetMessage : NetworkMessage
 		{
-			return $"[MatrixMoveMessage {State}]";
+			public MatrixState State;
+			public uint Matrix;
+
+			public override string ToString()
+			{
+				return $"[MatrixMoveMessage {State}]";
+			}
 		}
-	}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public MatrixMoveMessageNetMessage IgnoreMe;
+		//Reset client's prediction queue
+		//public bool ResetQueue;
 
-	//Reset client's prediction queue
-	//public bool ResetQueue;
+		///To be run on client
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.Matrix);
 
-	///To be run on client
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as MatrixMoveMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.Matrix);
-
-		//Sometimes NetworkObject is gone because of game ending or just before exit
-		if (NetworkObject != null) {
-			var matrixMove = NetworkObject.GetComponent<MatrixMove>();
-			matrixMove.UpdateClientState(newMsg.State);
+			//Sometimes NetworkObject is gone because of game ending or just before exit
+			if (NetworkObject != null) {
+				var matrixMove = NetworkObject.GetComponent<MatrixMove>();
+				matrixMove.UpdateClientState(msg.State);
+			}
 		}
-	}
 
-	public static MatrixMoveMessageNetMessage Send(NetworkConnection recipient, GameObject matrix, MatrixState state)
-	{
-		var msg = new MatrixMoveMessageNetMessage
+		public static NetMessage Send(NetworkConnection recipient, GameObject matrix, MatrixState state)
 		{
-			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
-			State = state,
-		};
-		new MatrixMoveMessage().SendTo(recipient, msg);
-		return msg;
-	}
+			var msg = new NetMessage
+			{
+				Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				State = state,
+			};
+			new MatrixMoveMessage().SendTo(recipient, msg);
+			return msg;
+		}
 
-	public static MatrixMoveMessageNetMessage SendToAll(GameObject matrix, MatrixState state)
-	{
-		var msg = new MatrixMoveMessageNetMessage
+		public static NetMessage SendToAll(GameObject matrix, MatrixState state)
 		{
-			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
-			State = state,
-		};
-		new MatrixMoveMessage().SendToAll(msg);
-		return msg;
+			var msg = new NetMessage
+			{
+				Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				State = state,
+			};
+			new MatrixMoveMessage().SendToAll(msg);
+			return msg;
+		}
 	}
 }

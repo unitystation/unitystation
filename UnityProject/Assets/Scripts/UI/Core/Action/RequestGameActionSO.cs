@@ -4,24 +4,18 @@ using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 
-public class RequestGameActionSO : ClientMessage
+public class RequestGameActionSO : ClientMessage<RequestGameActionSO.NetMessage>
 {
-	public struct RequestGameActionSONetMessage : NetworkMessage
+	public struct NetMessage : NetworkMessage
 	{
 		public ushort soID;
 	}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public RequestGameActionSONetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
+	public override void Process(NetMessage msg)
 	{
-		var newMsgNull = msg as RequestGameActionSONetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
-			UIActionSOSingleton.Instance.ActionCallServer(newMsg.soID, SentByPlayer);
+			UIActionSOSingleton.Instance.ActionCallServer(msg.soID, SentByPlayer);
 		}
 	}
 
@@ -29,7 +23,7 @@ public class RequestGameActionSO : ClientMessage
 	public static void Send(UIActionScriptableObject uIActionScriptableObject)
 	{
 
-		RequestGameActionSONetMessage msg = new RequestGameActionSONetMessage
+		NetMessage msg = new NetMessage
 		{
 			soID = UIActionSOSingleton.ActionsTOID[uIActionScriptableObject]
 		};

@@ -1,48 +1,44 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using AdminTools;
 using Mirror;
-using AdminTools;
+using UnityEngine;
 
-public class AdminPlayerChatUpdateMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public struct AdminPlayerChatUpdateMessageNetMessage : NetworkMessage
+	public class AdminPlayerChatUpdateMessage : ServerMessage<AdminPlayerChatUpdateMessage.NetMessage>
 	{
-		public string JsonData;
-		public string PlayerId;
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string JsonData;
+			public string PlayerId;
+		}
 
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public AdminPlayerChatUpdateMessageNetMessage IgnoreMe;
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(msg.JsonData, msg.PlayerId);
+		}
 
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as AdminPlayerChatUpdateMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
+		public static NetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage, string playerId)
+		{
+			AdminChatUpdate update = new AdminChatUpdate();
+			update.messages.Add(chatMessage);
+			NetMessage  msg =
+				new NetMessage  {JsonData = JsonUtility.ToJson(update), PlayerId = playerId};
 
-		UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(newMsg.JsonData, newMsg.PlayerId);
-	}
+			new AdminPlayerChatUpdateMessage().SendToAdmins(msg);
+			return msg;
+		}
 
-	public static AdminPlayerChatUpdateMessageNetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage, string playerId)
-	{
-		AdminChatUpdate update = new AdminChatUpdate();
-		update.messages.Add(chatMessage);
-		AdminPlayerChatUpdateMessageNetMessage  msg =
-			new AdminPlayerChatUpdateMessageNetMessage  {JsonData = JsonUtility.ToJson(update), PlayerId = playerId};
+		public static NetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId)
+		{
+			NetMessage msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(update),
+					PlayerId = playerId
+				};
 
-		new AdminPlayerChatUpdateMessage().SendToAdmins(msg);
-		return msg;
-	}
-
-	public static AdminPlayerChatUpdateMessageNetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId)
-	{
-		AdminPlayerChatUpdateMessageNetMessage msg =
-			new AdminPlayerChatUpdateMessageNetMessage
-			{
-				JsonData = JsonUtility.ToJson(update),
-				PlayerId = playerId
-			};
-
-		new AdminPlayerChatUpdateMessage().SendTo(requestee, msg);
-		return msg;
+			new AdminPlayerChatUpdateMessage().SendTo(requestee, msg);
+			return msg;
+		}
 	}
 }

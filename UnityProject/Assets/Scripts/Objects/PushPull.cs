@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;

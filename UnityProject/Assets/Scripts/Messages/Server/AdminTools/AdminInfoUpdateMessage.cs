@@ -1,88 +1,86 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using AdminTools;
+using Messages.Server;
 using Mirror;
+using UnityEngine;
 
-public class AdminInfoUpdateMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public struct AdminInfoUpdateMessageNetMessage : NetworkMessage
+	public class AdminInfoUpdateMessage : ServerMessage<AdminInfoUpdateMessage.NetMessage>
 	{
-		public string JsonData;
-		public bool FullUpdate;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public AdminInfoUpdateMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as AdminInfoUpdateMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		if (newMsg.FullUpdate)
+		public struct NetMessage : NetworkMessage
 		{
-			AdminOverlay.ClientFullUpdate(JsonUtility.FromJson<AdminInfoUpdate>(newMsg.JsonData));
+			public string JsonData;
+			public bool FullUpdate;
 		}
-		else
-		{
-			AdminOverlay.ClientAddEntry(JsonUtility.FromJson<AdminInfosEntry>(newMsg.JsonData));
-		}
-	}
 
-	public static AdminInfoUpdateMessageNetMessage SendFullUpdate(GameObject recipient, Dictionary<uint, AdminInfo> infoEntries)
-	{
-		var update = new AdminInfoUpdate();
-
-		foreach (var e in infoEntries)
+		public override void Process(NetMessage msg)
 		{
-			if (e.Value != null)
+			if (msg.FullUpdate)
 			{
-				update.entries.Add(new AdminInfosEntry
-				{
-					netId = e.Key,
-					infos = e.Value.StringInfo,
-					offset = e.Value.OffsetPosition
-				});
+				AdminOverlay.ClientFullUpdate(JsonUtility.FromJson<AdminInfoUpdate>(msg.JsonData));
+			}
+			else
+			{
+				AdminOverlay.ClientAddEntry(JsonUtility.FromJson<AdminInfosEntry>(msg.JsonData));
 			}
 		}
 
-		AdminInfoUpdateMessageNetMessage  msg =
-			new AdminInfoUpdateMessageNetMessage
-			{
-				JsonData = JsonUtility.ToJson(update),
-				FullUpdate = true
-			};
+		public static NetMessage SendFullUpdate(GameObject recipient, Dictionary<uint, AdminInfo> infoEntries)
+		{
+			var update = new AdminInfoUpdate();
 
-		new AdminInfoUpdateMessage().SendTo(recipient, msg);
-		return msg;
+			foreach (var e in infoEntries)
+			{
+				if (e.Value != null)
+				{
+					update.entries.Add(new AdminInfosEntry
+					{
+						netId = e.Key,
+						infos = e.Value.StringInfo,
+						offset = e.Value.OffsetPosition
+					});
+				}
+			}
+
+			NetMessage  msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(update),
+					FullUpdate = true
+				};
+
+			new AdminInfoUpdateMessage().SendTo(recipient, msg);
+			return msg;
+		}
+
+		public static NetMessage SendEntryToAllAdmins(AdminInfosEntry entry)
+		{
+			NetMessage  msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(entry),
+					FullUpdate = false
+				};
+
+			new AdminInfoUpdateMessage().SendToAdmins(msg);
+			return msg;
+		}
 	}
 
-	public static AdminInfoUpdateMessageNetMessage SendEntryToAllAdmins(AdminInfosEntry entry)
+	[SerializeField]
+	public class AdminInfoUpdate
 	{
-		AdminInfoUpdateMessageNetMessage  msg =
-			new AdminInfoUpdateMessageNetMessage
-			{
-				JsonData = JsonUtility.ToJson(entry),
-				FullUpdate = false
-			};
-
-		new AdminInfoUpdateMessage().SendToAdmins(msg);
-		return msg;
+		public List<AdminInfosEntry> entries = new List<AdminInfosEntry>();
 	}
-}
 
-[SerializeField]
-public class AdminInfoUpdate
-{
-	public List<AdminInfosEntry> entries = new List<AdminInfosEntry>();
-}
-
-[Serializable]
-public class AdminInfosEntry
-{
-	public uint netId;
-	public Vector2 offset;
-	public string infos;
+	[Serializable]
+	public class AdminInfosEntry
+	{
+		public uint netId;
+		public Vector2 offset;
+		public string infos;
+	}
 }

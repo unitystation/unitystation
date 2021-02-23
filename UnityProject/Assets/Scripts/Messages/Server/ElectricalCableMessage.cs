@@ -1,46 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
-/// <summary>
-/// Used to update the ends, and colour of  A cable
-/// </summary>
-public class ElectricalCableMessage : ServerMessage
+
+namespace Messages.Server
 {
-	public struct ElectricalCableMessageNetMessage : NetworkMessage
+	/// <summary>
+	/// Used to update the ends, and colour of  A cable
+	/// </summary>
+	public class ElectricalCableMessage : ServerMessage<ElectricalCableMessage.NetMessage>
 	{
-		public Connection REWireEndA;
-		public Connection REWireEndB;
-		public WiringColor RECableType;
-		public uint Cable;
-	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public ElectricalCableMessageNetMessage IgnoreMe;
-
-	public override void Process<T>(T msg)
-	{
-		var newMsgNull = msg as ElectricalCableMessageNetMessage?;
-		if(newMsgNull == null) return; var newMsg = newMsgNull.Value;
-
-		LoadNetworkObject(newMsg.Cable);
-
-		if ( NetworkObject != null)
+		public struct NetMessage : NetworkMessage
 		{
-			NetworkObject.GetComponent<CableInheritance>()?.SetDirection(newMsg.REWireEndA, newMsg.REWireEndB, newMsg.RECableType);
+			public Connection REWireEndA;
+			public Connection REWireEndB;
+			public WiringColor RECableType;
+			public uint Cable;
 		}
-	}
 
-	public static ElectricalCableMessageNetMessage  Send(GameObject cable, Connection WireEndA, Connection WireEndB, WiringColor CableType = WiringColor.unknown)
-	{
-		ElectricalCableMessageNetMessage msg = new ElectricalCableMessageNetMessage
+		public override void Process(NetMessage msg)
 		{
-			REWireEndA = WireEndA,
-			REWireEndB = WireEndB,
-			RECableType = CableType,
-			Cable = cable.NetId()
-		};
-		new ElectricalCableMessage().SendToAll(msg);
-		return msg;
+			LoadNetworkObject(msg.Cable);
+
+			if ( NetworkObject != null)
+			{
+				NetworkObject.GetComponent<CableInheritance>()?.SetDirection(msg.REWireEndA, msg.REWireEndB, msg.RECableType);
+			}
+		}
+
+		public static NetMessage  Send(GameObject cable, Connection WireEndA, Connection WireEndB, WiringColor CableType = WiringColor.unknown)
+		{
+			NetMessage msg = new NetMessage
+			{
+				REWireEndA = WireEndA,
+				REWireEndB = WireEndB,
+				RECableType = CableType,
+				Cable = cable.NetId()
+			};
+			new ElectricalCableMessage().SendToAll(msg);
+			return msg;
+		}
 	}
 }
