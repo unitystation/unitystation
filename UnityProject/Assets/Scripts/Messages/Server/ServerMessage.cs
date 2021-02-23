@@ -1,182 +1,185 @@
-using UnityEngine;
 using System.Collections.Generic;
 using Mirror;
+using UnityEngine;
 
-/// <summary>
-///     Represents a network message sent from the server to clients.
-///     Sending a message will invoke the Process() method on the client.
-/// </summary>
-public abstract class ServerMessage : GameMessageBase
+namespace Messages.Server
 {
-	public void SendToAll<T>(T msg) where T : NetworkMessage
-	{
-		NetworkServer.SendToAll(msg, 0);
-		Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
-	}
-
-	public void SendToAllExcept<T>(T msg, GameObject excluded) where T : NetworkMessage
-	{
-		if (excluded == null)
-		{
-			SendToAll(msg);
-			return;
-		}
-
-		var excludedConnection = excluded.GetComponent<NetworkIdentity>().connectionToClient;
-
-		foreach (KeyValuePair<int, NetworkConnectionToClient> connection in NetworkServer.connections)
-		{
-			if (connection.Value != null && connection.Value != excludedConnection)
-			{
-				connection.Value.Send(msg, 0);
-			}
-		}
-
-		Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
-	}
-
-	public virtual void SendTo<T>(GameObject recipient, T msg) where T : NetworkMessage
-	{
-		if (recipient == null)
-		{
-			return;
-		}
-
-		NetworkConnection connection = recipient.GetComponent<NetworkIdentity>().connectionToClient;
-
-		if (connection == null)
-		{
-			return;
-		}
-
-		//only send to players that are currently controlled by a client
-		if (PlayerList.Instance.ContainsConnection(connection))
-		{
-			connection.Send(msg, 0);
-			Logger.LogTraceFormat("SentTo {0}: {1}", Category.NetMessage, recipient.name, this);
-		}
-		else
-		{
-			Logger.LogTraceFormat("Not sending message {0} to {1}", Category.NetMessage, this, recipient.name);
-		}
-
-		//Obsolete version:
-		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
-	}
-
-	public void SendTo<T>(ConnectedPlayer recipient, T msg) where T : NetworkMessage
-	{
-		if (recipient == null) return;
-		SendTo(recipient.Connection, msg);
-	}
-
-	public void SendTo<T>(NetworkConnection recipient, T msg) where T : NetworkMessage
-	{
-		if (recipient == null) return;
-		recipient.Send(msg, 0);
-	}
-
 	/// <summary>
-	/// Sends the network message only to players who are visible from the
-	/// worldPosition
+	///     Represents a network message sent from the server to clients.
+	///     Sending a message will invoke the Process() method on the client.
 	/// </summary>
-	public void SendToVisiblePlayers<T>(Vector2 worldPosition, T msg) where T : NetworkMessage
+	public abstract class ServerMessage<T> : GameMessageBase<T> where T : struct, NetworkMessage
 	{
-		var players = PlayerList.Instance.AllPlayers;
-
-		LayerMask layerMask = LayerMask.GetMask( "Door Closed");
-		for (int i = players.Count - 1; i > 0; i--)
+		public void SendToAll(T msg)
 		{
-			if (Vector2.Distance(worldPosition,
-				    players[i].GameObject.transform.position) > 14f)
+			NetworkServer.SendToAll(msg, 0);
+			Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
+		}
+
+		public void SendToAllExcept(T msg, GameObject excluded)
+		{
+			if (excluded == null)
 			{
-				//Player in the list is too far away for this message, remove them:
-				players.Remove(players[i]);
+				SendToAll(msg);
+				return;
+			}
+
+			var excludedConnection = excluded.GetComponent<NetworkIdentity>().connectionToClient;
+
+			foreach (KeyValuePair<int, NetworkConnectionToClient> connection in NetworkServer.connections)
+			{
+				if (connection.Value != null && connection.Value != excludedConnection)
+				{
+					connection.Value.Send(msg, 0);
+				}
+			}
+
+			Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
+		}
+
+		public virtual void SendTo(GameObject recipient, T msg)
+		{
+			if (recipient == null)
+			{
+				return;
+			}
+
+			NetworkConnection connection = recipient.GetComponent<NetworkIdentity>().connectionToClient;
+
+			if (connection == null)
+			{
+				return;
+			}
+
+			//only send to players that are currently controlled by a client
+			if (PlayerList.Instance.ContainsConnection(connection))
+			{
+				connection.Send(msg, 0);
+				Logger.LogTraceFormat("SentTo {0}: {1}", Category.NetMessage, recipient.name, this);
 			}
 			else
 			{
-				//within range, but check if they are in another room or hiding behind a wall
-				if (MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, layerMask,
-					players[i].GameObject.transform.position).ItHit)
+				Logger.LogTraceFormat("Not sending message {0} to {1}", Category.NetMessage, this, recipient.name);
+			}
+
+			//Obsolete version:
+			//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
+		}
+
+		public void SendTo(ConnectedPlayer recipient, T msg)
+		{
+			if (recipient == null) return;
+			SendTo(recipient.Connection, msg);
+		}
+
+		public void SendTo(NetworkConnection recipient, T msg)
+		{
+			if (recipient == null) return;
+			recipient.Send(msg, 0);
+		}
+
+		/// <summary>
+		/// Sends the network message only to players who are visible from the
+		/// worldPosition
+		/// </summary>
+		public void SendToVisiblePlayers(Vector2 worldPosition, T msg)
+		{
+			var players = PlayerList.Instance.AllPlayers;
+
+			LayerMask layerMask = LayerMask.GetMask( "Door Closed");
+			for (int i = players.Count - 1; i > 0; i--)
+			{
+				if (Vector2.Distance(worldPosition,
+					players[i].GameObject.transform.position) > 14f)
 				{
-					//if it hit a wall remove that player
+					//Player in the list is too far away for this message, remove them:
 					players.Remove(players[i]);
+				}
+				else
+				{
+					//within range, but check if they are in another room or hiding behind a wall
+					if (MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, layerMask,
+						players[i].GameObject.transform.position).ItHit)
+					{
+						//if it hit a wall remove that player
+						players.Remove(players[i]);
+					}
+				}
+			}
+
+			//Sends the message only to visible players:
+			foreach (ConnectedPlayer player in players)
+			{
+				if (player == null || player.Script == null || player.Script.netIdentity == null) continue;
+
+				if (PlayerList.Instance.ContainsConnection(player.Connection))
+				{
+					player.Connection.Send(msg, 0);
 				}
 			}
 		}
 
-		//Sends the message only to visible players:
-		foreach (ConnectedPlayer player in players)
+		/// <summary>
+		/// Sends the network message only to players who are within a 15 tile radius
+		/// of the worldPostion. This method disregards if the player is visible or not
+		/// </summary>
+		public void SendToNearbyPlayers(Vector2 worldPosition, T msg)
 		{
-			if (player == null || player.Script == null || player.Script.netIdentity == null) continue;
+			var players = PlayerList.Instance.AllPlayers;
 
-			if (PlayerList.Instance.ContainsConnection(player.Connection))
+			for (int i = players.Count - 1; i > 0; i--)
 			{
-				player.Connection.Send(msg, 0);
+				if (Vector2.Distance(worldPosition,
+					players[i].GameObject.transform.position) > 15f)
+				{
+					//Player in the list is too far away for this message, remove them:
+					players.Remove(players[i]);
+				}
+			}
+
+			foreach (ConnectedPlayer player in players)
+			{
+				if (player.Script == null) continue;
+
+				if (PlayerList.Instance.ContainsConnection(player.Connection))
+				{
+					player.Connection.Send(msg, 0);
+				}
 			}
 		}
-	}
 
-	/// <summary>
-	/// Sends the network message only to players who are within a 15 tile radius
-	/// of the worldPostion. This method disregards if the player is visible or not
-	/// </summary>
-	public void SendToNearbyPlayers<T>(Vector2 worldPosition, T msg) where T : NetworkMessage
-	{
-		var players = PlayerList.Instance.AllPlayers;
-
-		for (int i = players.Count - 1; i > 0; i--)
+		public void SendToAdmins(T msg)
 		{
-			if (Vector2.Distance(worldPosition,
-				    players[i].GameObject.transform.position) > 15f)
+			var admins = PlayerList.Instance.GetAllAdmins();
+
+			foreach (var admin in admins)
 			{
-				//Player in the list is too far away for this message, remove them:
-				players.Remove(players[i]);
+				if (PlayerList.Instance.ContainsConnection(admin.Connection))
+				{
+					admin.Connection.Send(msg, 0);
+				}
 			}
 		}
 
-		foreach (ConnectedPlayer player in players)
+		public void SendToMentors(T msg)
 		{
-			if (player.Script == null) continue;
+			var mentors = PlayerList.Instance.GetAllMentors();
 
-			if (PlayerList.Instance.ContainsConnection(player.Connection))
+			foreach (var mentor in mentors)
 			{
-				player.Connection.Send(msg, 0);
+				if (PlayerList.Instance.ContainsConnection(mentor.Connection))
+				{
+					mentor.Connection.Send(msg, 0);
+				}
 			}
-		}
-	}
+			var admins = PlayerList.Instance.GetAllAdmins();
 
-	public void SendToAdmins<T>(T msg) where T : NetworkMessage
-	{
-		var admins = PlayerList.Instance.GetAllAdmins();
-
-		foreach (var admin in admins)
-		{
-			if (PlayerList.Instance.ContainsConnection(admin.Connection))
+			foreach (var admin in admins)
 			{
-				admin.Connection.Send(msg, 0);
-			}
-		}
-	}
-
-	public void SendToMentors<T>(T msg) where T : NetworkMessage
-	{
-		var mentors = PlayerList.Instance.GetAllMentors();
-
-		foreach (var mentor in mentors)
-		{
-			if (PlayerList.Instance.ContainsConnection(mentor.Connection))
-			{
-				mentor.Connection.Send(msg, 0);
-			}
-		}
-		var admins = PlayerList.Instance.GetAllAdmins();
-
-		foreach (var admin in admins)
-		{
-			if (PlayerList.Instance.ContainsConnection(admin.Connection))
-			{
-				admin.Connection.Send(msg, 0);
+				if (PlayerList.Instance.ContainsConnection(admin.Connection))
+				{
+					admin.Connection.Send(msg, 0);
+				}
 			}
 		}
 	}
