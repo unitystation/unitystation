@@ -414,6 +414,7 @@ public partial class PlayerSync
 			pushPull.InformHead(pushPull.PulledBy);
 			//			InformPullMessage.Send( pushPull.PulledBy, this.pushPull, pushPull.PulledBy );
 		}
+		UpdateClientState(serverState);
 	}
 
 	/// Clears server pending actions queue
