@@ -5,6 +5,7 @@ using Mirror;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Systems.Teleport;
+using SoundMessages;
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(UprightSprites))]
@@ -188,7 +189,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		}
 
 		ServerStun();
-		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, WorldPositionServer, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 		// Let go of pulled items.
 		playerScript.pushPull.ServerStopPulling();
 	}

@@ -8,6 +8,7 @@ using AddressableReferences;
 using Items;
 using Machines;
 using Objects.Machines;
+using SoundMessages;
 
 namespace Objects.Kitchen
 {
@@ -269,8 +270,8 @@ namespace Objects.Kitchen
 			{
 				microwaveTimer += seconds;
 			}
-
-			SoundManager.PlayNetworkedAtPos(timerBeepSFX, WorldPosition, sourceObj: gameObject, pitch: seconds < 0 ? 0.8f : 1);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: seconds < 0 ? 0.8f : 1);
+			SoundManager.PlayNetworkedAtPos(timerBeepSFX, WorldPosition, audioSourceParameters, sourceObj: gameObject);
 		}
 
 		private void MicrowaveTimerComplete()
