@@ -159,7 +159,7 @@ namespace Systems.Radiation
 			CircleArea.Clear();
 
 			StopWatchlog.Stop();
-			Logger.Log("StopWatchlog ElapsedMilliseconds time " + StopWatchlog.ElapsedMilliseconds);
+			Logger.Log("StopWatchlog ElapsedMilliseconds time " + StopWatchlog.ElapsedMilliseconds, Category.Radiation);
 		}
 
 		//https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using AddressableReferences;
+using SoundMessages;
 
 /// <summary>
 /// Utilities for working with players
@@ -79,6 +79,9 @@ public static class PlayerUtils
 				}
 			}
 		}
-		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, Random.Range(0.2f,0.5f),true,true);
+
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.2f,0.5f));
+		ShakeParameters shakeParameters = new ShakeParameters(true, 64, 30);
+		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, audioSourceParameters, true, shakeParameters);
 	}
 }

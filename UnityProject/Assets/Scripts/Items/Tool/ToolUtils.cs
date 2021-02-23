@@ -3,6 +3,7 @@ using UnityEngine;
 using Items;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using SoundMessages;
 
 /// <summary>
 /// Utilities for working with tools / materials. Respects the Tool component settings when performing actions.
@@ -199,7 +200,8 @@ public static class ToolUtils
 
 		if (soundName != null)
 		{
-			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f), sourceObj: owner);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, audioSourceParameters, sourceObj: owner);
 		}
 	}
 

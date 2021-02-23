@@ -49,7 +49,7 @@ namespace Messages.Server.SoundMessages
 
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(addressableAudioSources, msg.SoundSpawnToken, msg.Position, msg.Polyphonic, netId: msg.TargetNetId, audioSourceParameters: msg.AudioParameters);
+				SoundManager.PlayAtPosition(addressableAudioSources, Position, SoundSpawnToken, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioParameters);
 			}
 			else
 			{

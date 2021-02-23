@@ -1,3 +1,5 @@
+﻿using Newtonsoft.Json;
+
 ﻿namespace Messages.Server.SoundMessages
 {
 	public enum MixerType
@@ -52,13 +54,15 @@
 		/// <Summary>
 		/// Constructor for the AudioSourceParameters Struct
 		/// </Summary>
-		public AudioSourceParameters(float volume, float time, float pan, float pitch,
-			float spatialBlend, float spread, float minDistance, float maxDistance, MixerType mixerType, VolumeRolloffType volumeRolloffType, bool isMute)
+		public AudioSourceParameters(float pitch = 0, float volume = 0, float time = 0, float pan = 0,
+			float spatialBlend = 0, float spread = 0, float minDistance = 0, float maxDistance = 0, 
+			MixerType mixerType = MixerType.Master, VolumeRolloffType volumeRolloffType = VolumeRolloffType.Linear,
+			bool isMute = false)
 		{
+			Pitch = pitch;
 			Volume = volume;
 			Time = time;
 			Pan = pan;
-			Pitch = pitch;
 			SpatialBlend = spatialBlend;
 			Spread = spread;
 			MinDistance = minDistance;

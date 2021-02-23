@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using AddressableReferences;
+using SoundMessages;
 
 namespace Systems.MobAIs
 {
@@ -107,7 +108,8 @@ namespace Systems.MobAIs
 
 		private void Purr(GameObject purred = null)
 		{
-			SoundManager.PlayNetworkedAtPos(PurrSFX, gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(PurrSFX, gameObject.WorldPosServer(), audioSourceParameters);
 
 			if (purred != null)
 			{
@@ -124,7 +126,8 @@ namespace Systems.MobAIs
 
 		private void Meow(GameObject meowed = null)
 		{
-			SoundManager.PlayNetworkedAtPos(MeowSFX, gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(MeowSFX, gameObject.WorldPosServer(), audioSourceParameters);
 
 			if (meowed != null)
 			{
@@ -141,7 +144,8 @@ namespace Systems.MobAIs
 
 		private void Hiss(GameObject hissed = null)
 		{
-			SoundManager.PlayNetworkedAtPos(CatHissSFX, gameObject.WorldPosServer(), Random.Range(.9f, 1f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.9f, 1f));
+			SoundManager.PlayNetworkedAtPos(CatHissSFX, gameObject.WorldPosServer(), audioSourceParameters);
 
 			if (hissed != null)
 			{

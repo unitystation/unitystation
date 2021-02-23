@@ -96,7 +96,7 @@ namespace Objects.Engineering
 				baseSpriteHandler.PushTexture();
 				smokeParticles.Play();
 				runLoopGUID = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPosition(generatorRunSfx, runLoopGUID, registerTile.WorldPosition, gameObject);
+				SoundManager.PlayAtPositionAttached(generatorRunSfx, registerTile.WorldPosition, gameObject, runLoopGUID);
 			}
 			else
 			{

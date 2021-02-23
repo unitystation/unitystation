@@ -6,6 +6,7 @@ using Mirror;
 using Objects;
 using Objects.Disposals;
 using Random = UnityEngine.Random;
+using SoundMessages;
 
 public enum SpinMode
 {
@@ -681,7 +682,8 @@ public partial class CustomNetTransform
 			var hitZone = info.Aim.Randomize();
 			creature.ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 			Chat.AddThrowHitMsgToChat(gameObject,creature.gameObject, hitZone);
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, transform.position, 1f, sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, transform.position, audioSourceParameters, sourceObj: gameObject);
 		}
 	}
 
