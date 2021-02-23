@@ -118,12 +118,12 @@ public class SoundManager : MonoBehaviour
 		}
 		if (string.IsNullOrEmpty(addressableAudioSource.AssetAddress))
 		{
-			Logger.LogWarning($"{addressableAudioSource.AudioSource.name} has a null address, and could not be played!", Category.Addressables);
+			Logger.LogWarning("SoundManager received a null address for an addressable, look at log trace for responsible component", Category.Addressables);
 			return null;
 		}
 		if (addressableAudioSource.AssetAddress == "null")
 		{
-			Logger.LogWarning($"{addressableAudioSource.AudioSource.name} has an address set to the string null, and could not be played!", Category.Addressables);
+			Logger.LogWarning("SoundManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Addressables);
 			return null;
 		}
 		if(await addressableAudioSource.HasValidAddress() == false) return null;
@@ -280,6 +280,14 @@ public class SoundManager : MonoBehaviour
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
 		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
+		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) || 
+			addressableAudioSource.AssetAddress == "null")
+		{
+			Logger.LogWarning($"SoundManager received a null AudioSource to be played at World Position: {worldPos}",
+				Category.Addressables);
+			return null;
+		}
+
 		await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 
 		if (global)
@@ -330,6 +338,13 @@ public class SoundManager : MonoBehaviour
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
 		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
+		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) || 
+			addressableAudioSource.AssetAddress == "null")
+		{
+			Logger.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name}",
+				Category.Addressables);
+			return;
+		}
 		PlaySoundMessage.Send(recipient, addressableAudioSource, TransformState.HiddenPos, polyphonic,
 			sourceObj, shakeParameters, audioSourceParameters);
 	}
@@ -367,7 +382,13 @@ public class SoundManager : MonoBehaviour
 		AddressableAudioSource addressableAudioSource, AudioSourceParameters audioSourceParameters = new AudioSourceParameters(),	
 		bool polyphonic = false, ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
-
+		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) || 
+			addressableAudioSource.AssetAddress == "null")
+		{
+			Logger.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name} at position: {worldPos}",
+				Category.Addressables);
+			return;
+		}
 		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
 		PlaySoundMessage.Send(recipient, addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
 			audioSourceParameters);
