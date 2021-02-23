@@ -280,7 +280,8 @@ public enum Category
 	Spells,
 	UIAction,
 	Cooldowns,
-	Addressables
+	Addressables,
+	Radiation
 }
 
 [Serializable]
