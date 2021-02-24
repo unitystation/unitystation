@@ -276,7 +276,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
 	/// <param name="sourceObj">The object that is the source of the sound</param>
 	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
-	public static async Task<string> PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+	public static string PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
 		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
@@ -288,7 +288,7 @@ public class SoundManager : MonoBehaviour
 			return null;
 		}
 
-		await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);
+		GetAddressableAudioSourceFromCache(addressableAudioSource);
 
 		if (global)
 		{
@@ -314,14 +314,14 @@ public class SoundManager : MonoBehaviour
 	/// <param name="sourceObj">The object that is the source of the sound</param>
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
 	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
-	public static async Task<string> PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources,
+	public static string PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources,
 		Vector3 worldPos, AudioSourceParameters audioSourceParameters = new AudioSourceParameters(),
 		bool polyphonic = false, bool global = true, ShakeParameters shakeParameters = new ShakeParameters(),
 		GameObject sourceObj = null)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		return await PlayNetworkedAtPos(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, 
-			global, shakeParameters, sourceObj).ConfigureAwait(false);
+		return PlayNetworkedAtPos(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, 
+			global, shakeParameters, sourceObj);
 	}
 
 	/// <summary>
