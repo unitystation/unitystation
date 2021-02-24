@@ -22,6 +22,8 @@ public class ClientInventoryMove
 	private ClientInventoryMove(ClientInventoryMoveType clientInventoryMoveType, ItemSlot fromSlot, ItemSlot toSlot)
     {
         ClientInventoryMoveType = clientInventoryMoveType;
+        FromSlot = fromSlot;
+        ToSlot = toSlot;
     }
 
     /// <summary>
