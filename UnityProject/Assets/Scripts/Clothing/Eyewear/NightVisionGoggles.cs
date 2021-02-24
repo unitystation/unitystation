@@ -12,9 +12,14 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 	[SerializeField, Tooltip("The default minimal visibility size.")]
 	private Vector3 defaultVisionVisibility;
 
+	
 	private void OnStartClient()
 	{
-		//Someone work on syncing the camera effect later for people who relog in.
+		if(PlayerManager.LocalPlayerScript != null)
+		{
+			var item = PlayerManager.LocalPlayerScript.Equipment.GetClothingItem(NamedSlot.eyes).GameObjectReference;
+			if(item == gameObject) {enableEffect(true);}
+		}
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
@@ -42,17 +47,28 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 	[TargetRpc]
 	private void TargetOnTakingOff(NetworkConnection target)
 		{
-			var camera = Camera.main;
-			camera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState();
-			camera.GetComponent<CameraEffectControlScript>().AdjustPlayerVisibility(defaultVisionVisibility);
+			enableEffect(false);
 		}
 
 	[TargetRpc]
 	private void TargetOnWearing(NetworkConnection target)
 		{
-			var camera = Camera.main;
+			enableEffect(true);
+		}
+	
+	private void enableEffect(bool check)
+	{
+		var camera = Camera.main;
+		if(check == true)
+		{
 			camera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState();
 			camera.GetComponent<CameraEffectControlScript>().AdjustPlayerVisibility(nightVisionVisibility);
 		}
+		else
+		{
+			camera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState();
+			camera.GetComponent<CameraEffectControlScript>().AdjustPlayerVisibility(defaultVisionVisibility);
+		}
+	}
 }
 
