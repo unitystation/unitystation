@@ -6,6 +6,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
 using Objects;
+using SoundMessages;
 
 /// <summary>
 /// Allows closet to be opened / closed / locked
@@ -342,12 +343,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[Server]
 	public void ServerToggleClosed(bool? nowClosed = null)
 	{
-		SoundManager.PlayNetworkedAtPos(
-			IsClosed ? soundOnOpen : soundOnClose,
-			registerTile.WorldPositionServer,
-			1f,
-			sourceObj: gameObject);
-
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+    
+		SoundManager.PlayNetworkedAtPos(IsClosed ? soundOnOpen : soundOnClose, registerTile.WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
+    
 		ServerSetIsClosed(nowClosed.GetValueOrDefault(!IsClosed));
 	}
 
@@ -535,7 +534,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		{
 			if (IsClosed && !isEmagged && isUnLockable)
 			{
-				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, gameObject);
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, audioSourceParameters, gameObject);
 				//ServerHandleContentsOnStatusChange(false);
 				isEmagged = true;
 				emag.UseCharge(interaction);
@@ -648,7 +648,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				{
 					ServerTryWeld();
 				}
-				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 				Chat.AddActionMsgToChat(performer, $"You successfully broke out of {target.ExpensiveName()}.",
 					$"{performer.ExpensiveName()} successfully breaks out of {target.ExpensiveName()}.");
 			}
@@ -657,7 +658,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				.ServerStartProgress(target.RegisterTile(), breakoutTime, performer);
 			if (bar != null)
 			{
-				SoundManager.PlayNetworkedAtPos(soundOnEscape, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+				SoundManager.PlayNetworkedAtPos(soundOnEscape, registerTile.WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 				Chat.AddActionMsgToChat(performer,
 					$"You begin breaking out of {target.ExpensiveName()}...",
 					$"{performer.ExpensiveName()} begins breaking out of {target.ExpensiveName()}...");

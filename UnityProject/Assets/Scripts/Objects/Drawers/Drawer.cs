@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
+using SoundMessages;
 
 namespace Objects.Drawers
 {	
@@ -206,7 +207,8 @@ namespace Objects.Drawers
 			EjectItems();
 			EjectPlayers();
 
-			SoundManager.PlayNetworkedAtPos(BinOpenSFX, DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(BinOpenSFX, DrawerWorldPosition, audioSourceParameters, sourceObj: gameObject);
 			SetDrawerState(DrawerState.Open);
 		}
 
@@ -217,8 +219,8 @@ namespace Objects.Drawers
 
 			GatherItems();
 			if (storePlayers) GatherPlayers();
-
-			SoundManager.PlayNetworkedAtPos(BinCloseSFX, DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(BinCloseSFX, DrawerWorldPosition, audioSourceParameters, sourceObj: gameObject);
 			SetDrawerState(DrawerState.Shut);
 		}
 

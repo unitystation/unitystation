@@ -7,6 +7,7 @@ using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
 using UnityEngine.Serialization;
+using SoundMessages;
 
 namespace Systems.MobAIs
 {
@@ -182,11 +183,9 @@ namespace Systems.MobAIs
 				}
 			}
 
-			SoundManager.PlayNetworkedAtPos(
-				randomSound.PickRandom(),
-				transform.position,
-				Random.Range(0.9f, 1.1f),
-				sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+			SoundManager.PlayNetworkedAtPos(randomSound.PickRandom(), transform.position,
+				audioSourceParameters, sourceObj: gameObject);
 
 			Invoke(nameof(PlayRandomSound), playRandomSoundTimer);
 		}
@@ -198,11 +197,10 @@ namespace Systems.MobAIs
 		{
 			if (!IsDead || deathSoundPlayed || deathSounds.Count <= 0) return;
 			deathSoundPlayed = true;
-			SoundManager.PlayNetworkedAtPos(
-				deathSounds.PickRandom(),
-				transform.position,
-				Random.Range(0.9f, 1.1f),
-				sourceObj: gameObject);
+
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+			SoundManager.PlayNetworkedAtPos(deathSounds.PickRandom(), transform.position,
+				audioSourceParameters, sourceObj: gameObject);
 
 			if (ignoreInQueenCount == false)
 			{
@@ -349,12 +347,9 @@ namespace Systems.MobAIs
 				null,
 				verb);
 
-			SoundManager.PlayNetworkedAtPos(
-				bite,
-				player.gameObject.RegisterTile().WorldPositionServer,
-				1f,
-				true,
-				player.gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			SoundManager.PlayNetworkedAtPos(bite, player.gameObject.RegisterTile().WorldPositionServer,
+				audioSourceParameters, true, player.gameObject);
 
 			if (success)
 			{

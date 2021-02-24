@@ -7,6 +7,7 @@ using UnityEditor;
 using Weapons;
 using Mirror;
 using Weapons.Projectiles;
+using SoundMessages;
 
 public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 {
@@ -145,8 +146,8 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You begin unsecuring the {gameObject.ExpensiveName()}'s power cell.",
 				$"{interaction.Performer.ExpensiveName()} begins unsecuring {gameObject.ExpensiveName()}'s power cell.");
-
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: serverHolder);
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
 		}
 	}
 
