@@ -19,19 +19,21 @@ namespace Pipes
 		public Sprite sprite;
 		public override Sprite PreviewSprite => sprite;
 
+		public static Connections GetRotatedConnection(PipeTile pipeTile, Matrix4x4 matrixStruct)
+		{
+			var offset = PipeFunctions.GetOffsetAngle(matrixStruct.rotation.eulerAngles.z);
+			var connection = pipeTile.Connections.Copy();
+			connection.Rotate(offset);
+			return connection;
+		}
+
 		public override bool AreUnderfloorSame(Matrix4x4 thisTransformMatrix,BasicTile basicTile, Matrix4x4 TransformMatrix)
 		{
 			if ((basicTile as PipeTile) != null)
 			{
 				var TilePipeTile = (PipeTile) basicTile;
-				var TheConnection = TilePipeTile.Connections.Copy();
-				int Offset = PipeFunctions.GetOffsetAngle(TransformMatrix.rotation.eulerAngles.z);
-				TheConnection.Rotate(Offset);
-
-				var thisConnection = Connections.Copy();
-				int thisOffset = PipeFunctions.GetOffsetAngle(thisTransformMatrix.rotation.eulerAngles.z);
-				thisConnection.Rotate(thisOffset);
-
+				var TheConnection = GetRotatedConnection(TilePipeTile, TransformMatrix);
+				var thisConnection = GetRotatedConnection(this, thisTransformMatrix);
 				for (int i = 0; i < thisConnection.Directions.Length; i++)
 				{
 					if (thisConnection.Directions[i].Bool && TheConnection.Directions[i].Bool)
