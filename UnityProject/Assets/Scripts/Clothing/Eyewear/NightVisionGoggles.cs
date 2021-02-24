@@ -26,7 +26,7 @@ public class NightVisionGoggles : MonoBehaviour, IClientInventoryMove
 				}
 			}
 
-			if (info.FromSlot != null && info.FromSlot?.NamedSlot != null && info.ToSlot != null)
+			if (info.FromSlot != null && info.FromSlot?.NamedSlot != null)
 			{
 				if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
 				{
