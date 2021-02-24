@@ -12,7 +12,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn, ISetMultitoolMaster
+	public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INodeControl, IServerLifecycle, ISetMultitoolMaster
 	{
 		// -----------------------------------------------------
 		//					ELECTRICAL THINGS
@@ -48,6 +48,9 @@ namespace Objects.Engineering
 		[SerializeField, FormerlySerializedAs("NetTabType")]
 		private NetTabType netTabType = NetTabType.Apc;
 
+		[Tooltip("Sound used when the APC loses all power.")]
+		[SerializeField] private AddressableAudioSource NoPowerSound = null;
+
 		/// <summary>
 		/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 		/// </summary>
@@ -61,6 +64,11 @@ namespace Objects.Engineering
 		{
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			UpdateDisplay();
 		}
 
 		private void Start()
@@ -81,16 +89,6 @@ namespace Objects.Engineering
 				Debug.Log($"{name} has a null value in {i}.");
 				connectedDevices.RemoveAt(i);
 			}
-		}
-
-		public override void OnStartServer()
-		{
-			SyncVoltage(voltageSync, voltageSync);
-		}
-
-		public override void OnStartClient()
-		{
-			SyncVoltage(voltageSync, voltageSync);
 		}
 
 		private void OnDisable()
@@ -243,7 +241,10 @@ namespace Objects.Engineering
 				case APCState.Critical:
 					loadedScreenSprites = criticalSprites;
 					EmergencyState = true;
-					TriggerSoundOff();
+					if (isServer)
+					{
+						SoundManager.PlayNetworkedAtPos(NoPowerSound, gameObject.WorldPosServer());
+					}
 					if (!RefreshDisplay) StartRefresh();
 					break;
 				case APCState.Dead:
@@ -450,25 +451,6 @@ namespace Objects.Engineering
 				connectedDevices.Add(poweredDevice);
 				poweredDevice.RelatedAPC = this;
 			}
-		}
-
-		[Tooltip("Sound used when the APC loses all power.")]
-		[SerializeField] private AddressableAudioSource NoPowerSound = null;
-
-		public void TriggerSoundOff()
-		{
-			if(!CustomNetworkManager.IsServer) return;
-
-			StartCoroutine(TriggerSoundOffRoutine());
-		}
-
-		private IEnumerator TriggerSoundOffRoutine()
-		{
-			yield return new WaitForSeconds(1f);
-
-			if (State != APCState.Critical) yield break;
-
-			SoundManager.PlayNetworkedAtPos(NoPowerSound, gameObject.WorldPosServer());
 		}
 	}
 }
