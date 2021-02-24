@@ -14,11 +14,10 @@ public class NightVisionGoggles : MonoBehaviour, IServerInventoryMove
 
 	public void OnInventoryMoveServer(InventoryMove info)
 		{
-			RegisterPlayer registerPlayer;
+			RegisterPlayer registerPlayer = info.ToRootPlayer;
 
 			if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
 			{
-				registerPlayer = info.ToRootPlayer;
 
 				if (registerPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
 				{
@@ -28,8 +27,6 @@ public class NightVisionGoggles : MonoBehaviour, IServerInventoryMove
 
 			if (info.FromSlot != null && info.FromSlot?.NamedSlot != null && info.ToSlot != null)
 			{
-				registerPlayer = info.FromRootPlayer;
-
 				if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
 				{
 					TargetOnTakingOff();
@@ -38,7 +35,7 @@ public class NightVisionGoggles : MonoBehaviour, IServerInventoryMove
 		}
 	
 	[TargetRpc]
-	private void TargetOnTakingOff()
+	private void TargetOnTakingOff(NetworkConnection target)
 		{
 			var camera = Camera.main;
 			camera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState();
@@ -46,7 +43,7 @@ public class NightVisionGoggles : MonoBehaviour, IServerInventoryMove
 		}
 
 	[TargetRpc]
-	private void TargetOnWearing()
+	private void TargetOnWearing(NetworkConnection target)
 		{
 			var camera = Camera.main;
 			camera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState();
