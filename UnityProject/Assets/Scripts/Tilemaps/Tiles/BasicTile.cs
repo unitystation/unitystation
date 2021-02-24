@@ -111,7 +111,25 @@ public abstract class BasicTile : LayerTile
 
 	public LootOnDespawn LootOnDespawn => lootOnDespawn;
 
-	[SerializeField] private AddressableAudioSource soundOnHit = null;
+	[SerializeField]
+	[Tooltip("The tile that will spawn when this tile is destroyed")]
+	private LayerTile toTileWhenDestroyed = null;
+
+	public LayerTile ToTileWhenDestroyed => toTileWhenDestroyed;
+
+	[Tooltip("What object to spawn when it's destroyed.")] [SerializeField]
+	private SpawnableList spawnOnDestroy = null;
+
+	public SpawnableList SpawnOnDestroy => spawnOnDestroy;
+
+	[SerializeField]
+	private DamageOverlaySO damageOverlayList = null;
+
+	public DamageOverlaySO DamageOverlayList => damageOverlayList;
+
+	[SerializeField]
+	[Foldout("SoundOnHit")]
+	private AddressableAudioSource soundOnHit = null;
 
 	public AddressableAudioSource SoundOnHit => soundOnHit;
 

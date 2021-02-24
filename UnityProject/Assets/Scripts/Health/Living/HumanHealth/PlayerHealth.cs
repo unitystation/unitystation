@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using AddressableReferences;
 using DatabaseAPI;
+using SoundMessages;
 
 /// <summary>
 /// Provides central access to the Players Health
@@ -356,9 +357,11 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
 		Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
+		
 		// Slip is essentially a yelp SFX.
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
-				UnityEngine.Random.Range(0.4f, 1.2f), sourceObj: gameObject);
+				audioSourceParameters, sourceObj: gameObject);
 
 		string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
 				" gives you a small electric shock!";
@@ -406,8 +409,10 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		yield return WaitFor.Seconds(timeBeforeDrop); // Instantly dropping to ground looks odd.
 													  // TODO: Add sparks VFX at shockSourcePos.
 		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
+
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
-				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+				audioSourceParameters, sourceObj: gameObject);
 
 		yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);
 		RpcToggleElectrocutedOverlay();

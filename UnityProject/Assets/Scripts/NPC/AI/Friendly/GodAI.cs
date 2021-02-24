@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AddressableReferences;
 using UnityEngine;
+using SoundMessages;
 
 namespace Systems.MobAIs
 {
@@ -30,11 +31,9 @@ namespace Systems.MobAIs
 				return;
 			}
 			{
-				SoundManager.PlayNetworkedAtPos(
-					GenericSounds.PickRandom(),
-					transform.position,
-					Random.Range(0.9f, 1.1f),
-					sourceObj: gameObject);
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+				SoundManager.PlayNetworkedAtPos(GenericSounds.PickRandom(),	transform.position, 
+					audioSourceParameters, sourceObj: gameObject);
 			}
 			Invoke(nameof(PlaySound), PlaySoundTime);
 		}

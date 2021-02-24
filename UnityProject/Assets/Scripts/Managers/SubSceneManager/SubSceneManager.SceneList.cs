@@ -241,6 +241,7 @@ public partial class SubSceneManager
 		});
 
 		PokeClientSubScene.SendToAll( pickedMap);
+		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
 		yield return StartCoroutine(RunOnSpawnServer(pickedMap));
 		SyndicateLoaded = true;
 	}

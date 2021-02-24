@@ -156,7 +156,7 @@ MonoBehaviour:
   initialIntegrity: 100
   soundOnHit:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -181,7 +181,9 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
 --- !u!114 &6838691275677014393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +328,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []

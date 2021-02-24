@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Messages.Server.SoundMessages
+namespace SoundMessages
 {
 	/// <summary>
 	///     Message that tells client to play a sound at a position
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(addressableAudioSources, SoundSpawnToken, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioParameters);
+				SoundManager.PlayAtPosition(addressableAudioSources, Position, SoundSpawnToken, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioParameters);
 			}
 			else
 			{

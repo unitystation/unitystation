@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Pipes
 {
-	public class MonoPipe : MonoBehaviour, IServerDespawn, ICheckedInteractable<HandApply>
+	public class MonoPipe : MonoBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>
 	{
 		public SpriteHandler spritehandler;
 		public GameObject SpawnOnDeconstruct;
@@ -15,40 +15,35 @@ namespace Pipes
 
 		public Color Colour = Color.white;
 
-		public virtual void Start()
-		{
-			EnsureInit();
-		}
-
 		public void SetColour(Color newColour)
 		{
 			Colour = newColour;
 			spritehandler.SetColor(Colour);
 		}
 
-		private void EnsureInit()
+		private void Awake()
 		{
-			if (registerTile == null)
-			{
-				registerTile = GetComponent<RegisterTile>();
-			}
-
-			registerTile.SetPipeData(pipeData);
-			pipeData.MonoPipe = this;
-			int Offset = PipeFunctions.GetOffsetAngle(this.transform.localRotation.eulerAngles.z);
-			pipeData.Connections.Rotate(Offset);
-			pipeData.OnEnable();
-			spritehandler?.SetColor(Colour);
-		}
-
-		void OnEnable()
-		{
-
+			registerTile = GetComponent<RegisterTile>();
 		}
 
 		public virtual void TickUpdate()
 		{
 		}
+
+		public virtual void OnSpawnServer(SpawnInfo info)
+		{
+			if (pipeData.PipeAction == null)
+			{
+				pipeData.PipeAction = new MonoActions();
+			}
+			registerTile.SetPipeData(pipeData);
+			pipeData.MonoPipe = this;
+			int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
+			pipeData.Connections.Rotate(Offset);
+			pipeData.OnEnable();
+			spritehandler?.SetColor(Colour);
+		}
+
 		/// <summary>
 		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 		/// </summary>

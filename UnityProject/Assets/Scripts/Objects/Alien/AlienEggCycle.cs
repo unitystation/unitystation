@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
+using SoundMessages;
 
 namespace Alien
 {
@@ -165,11 +166,9 @@ namespace Alien
 		{
 			StopAllCoroutines();
 
-			SoundManager.PlayNetworkedAtPos(
-				squishSFX,
-				gameObject.RegisterTile().WorldPositionServer,
-				1f,
-				global: false);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			SoundManager.PlayNetworkedAtPos(squishSFX, gameObject.RegisterTile().WorldPositionServer,
+				audioSourceParameters, global: false);
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer.gameObject,

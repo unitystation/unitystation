@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using SoundMessages;
 
 public class FootstepSounds : MonoBehaviour
 {
@@ -98,7 +99,8 @@ public class FootstepSounds : MonoBehaviour
 			{
 				return;
 			}
-			SoundManager.PlayNetworkedAtPos(AddressableAudioSource.PickRandom(), worldPos,pitch : Random.Range(0.7f, 1.2f), polyphonic: true);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.7f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(AddressableAudioSource.PickRandom(), worldPos, audioSourceParameters, polyphonic: true);
 
 		}
 	}

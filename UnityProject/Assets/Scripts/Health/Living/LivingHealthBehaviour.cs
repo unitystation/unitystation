@@ -55,6 +55,16 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public BloodSplatType bloodColor;
 
+	/*
+	 *  Quick and dirty way to make these hardcoded values dynamic cause different max health values!
+	 */
+
+	public int SOFTCRIT_THRESHOLD => 0;
+	public int CRIT_THRESHOLD => (int) (0 - maxHealth * 30 / 100);
+	public int DEATH_THRESHOLD => (int) -maxHealth;
+	public int O2_PASSOUT_THRESHOLD => (int) (maxHealth / 2);
+
+
 	/// <summary>
 	/// If there are any body parts for this living thing, then add them to this list
 	/// via the inspector. There needs to be at least 1 chest bodypart for a living animal
@@ -654,7 +664,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// Blood Loss and Toxin damage:
 	public int CalculateOverallBloodLossDamage()
 	{
-		float maxBloodDmg = Mathf.Abs(HealthThreshold.Dead) + maxHealth;
+		float maxBloodDmg = Mathf.Abs(DEATH_THRESHOLD) + maxHealth;
 		float bloodDmg = 0f;
 		if (bloodSystem.BloodLevel < (int) BloodVolume.SAFE)
 		{
@@ -724,17 +734,17 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// </summary>
 	private void CheckHealthAndUpdateConsciousState()
 	{
-		if (ConsciousState != ConsciousState.CONSCIOUS && bloodSystem.OxygenDamage < HealthThreshold.OxygenPassOut &&
-		    OverallHealth > HealthThreshold.SoftCrit)
+		if (ConsciousState != ConsciousState.CONSCIOUS && bloodSystem.OxygenDamage < O2_PASSOUT_THRESHOLD &&
+		    OverallHealth > SOFTCRIT_THRESHOLD)
 		{
 			Logger.LogFormat("{0}, back on your feet!", Category.Health, gameObject.name);
 			Uncrit();
 			return;
 		}
 
-		if (OverallHealth <= HealthThreshold.SoftCrit || bloodSystem.OxygenDamage > HealthThreshold.OxygenPassOut)
+		if (OverallHealth <= SOFTCRIT_THRESHOLD || bloodSystem.OxygenDamage > O2_PASSOUT_THRESHOLD)
 		{
-			if (OverallHealth <= HealthThreshold.Crit)
+			if (OverallHealth <= CRIT_THRESHOLD)
 			{
 				Crit(false);
 			}
@@ -754,7 +764,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	private bool NotSuitableForDeath()
 	{
-		return OverallHealth > HealthThreshold.Dead || IsDead;
+		return OverallHealth > DEATH_THRESHOLD || IsDead;
 	}
 
 	protected abstract void OnDeathActions();
@@ -1141,13 +1151,15 @@ public class FireStatus
 	}
 }
 
-public static class HealthThreshold
-{
-	public const int SoftCrit = 0;
-	public const int Crit = -30;
-	public const int Dead = -100;
-	public const int OxygenPassOut = 50;
-}
+// Commented out this code as they were hardcoded values. I'm leaving them here for future reference on what
+// were the intended values considering a max health of 100 that can go to -100.
+// public static class HealthThreshold
+// {
+// 	public const int SoftCrit = 0;
+// 	public const int Crit = -30;
+// 	public const int Dead = -100;
+// 	public const int OxygenPassOut = 50;
+// }
 
 /// <summary>
 /// Event which fires when conscious state changes, provides the old state and the new state

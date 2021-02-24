@@ -1,5 +1,4 @@
 using UnityEngine;
-using Objects.Command;
 
 namespace Antagonists
 {
@@ -12,20 +11,8 @@ namespace Antagonists
 
 		public override void AfterSpawn(ConnectedPlayer player)
 		{
-			// add any NuclearOperative specific logic here
-
-			//send the code:
-			//Check to see if there is a nuke and communicate the nuke code:
-			Nuke[] nuke = FindObjectsOfType<Nuke>();
-			foreach (Nuke obj in nuke)
-			{
-				if (obj.IsAncharable)
-				{
-					UpdateChatMessage.Send(player.GameObject, ChatChannel.Syndicate, ChatModifier.None,
-					$"We have intercepted the code for the nuclear weapon: <b>{obj.NukeCode}</b>.");
-					break;
-				}				
-			}
+			UpdateChatMessage.Send(player.GameObject, ChatChannel.Syndicate, ChatModifier.None,
+				$"We have intercepted the code for the nuclear weapon: <b>{AntagManager.SyndiNukeCode}</b>.");
 
 			AntagManager.TryInstallPDAUplink(player, initialTC);
 		}

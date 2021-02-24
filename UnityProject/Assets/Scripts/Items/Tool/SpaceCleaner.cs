@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using Chemistry.Components;
 using AddressableReferences;
+using SoundMessages;
 
 [RequireComponent(typeof(Pickupable))]
 public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
@@ -51,7 +52,8 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
-		SoundManager.PlayNetworkedAtPos(Spray2, startPos, 1, sourceObj: interaction.Performer);
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1);
+		SoundManager.PlayNetworkedAtPos(Spray2, startPos, audioSourceParameters, sourceObj: interaction.Performer);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
 	}

@@ -12,6 +12,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private Matrix matrix;
 
+	//Is set to 10 as there isn't any tiles which go through 10 stages of damage, change if there is at some point.
+	private const int maxOverflowProtection = 10;
+
 	private void Awake()
 	{
 		tileChangeManager = transform.GetComponentInParent<TileChangeManager>();
@@ -78,38 +81,101 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			return 0;
 		}
 
-		damage = basicTile.Armor.GetDamage(damage, attackType);
+		var damageTaken = basicTile.Armor.GetDamage(damage, attackType);
 
-		data.AddTileDamage(Layer.LayerType, damage);
+		data.AddTileDamage(Layer.LayerType, damageTaken);
 
-		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+		if(basicTile.SoundOnHit != null && !string.IsNullOrEmpty(basicTile.SoundOnHit.AssetAddress) && basicTile.SoundOnHit.AssetAddress != "null")
+		{
+			if(damage >= 1)
+				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+		}
+		else
+		{
+			Logger.LogError($"Tried to play SoundOnHit for {basicTile.DisplayName}, but it was null!", Category.Addressables);
+		}
+
+		var totalDamageTaken = data.GetTileDamage(Layer.LayerType);
 
 
-		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
+		if (totalDamageTaken >= basicTile.MaxHealth)
 		{
 			data.RemoveTileDamage(Layer.LayerType);
 			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
+
+			//Add new tile if needed
+			//TODO change floors to using overlays, but generic overlay will need to be sprited
+			if (basicTile.ToTileWhenDestroyed != null)
+			{
+				var damageLeft = totalDamageTaken - basicTile.MaxHealth;
+				var tile = basicTile.ToTileWhenDestroyed as BasicTile;
+
+				var overFlowProtection = 0;
+
+				while (damageLeft > 0 && tile != null)
+				{
+					overFlowProtection++;
+
+					if (tile.MaxHealth <= damageLeft)
+					{
+						damageLeft -= tile.MaxHealth;
+						tile = tile.ToTileWhenDestroyed as BasicTile;
+					}
+					else
+					{
+						//Atm we just set remaining damage to 0, instead of absorbing it for the new tile
+						damageLeft = 0;
+						tileChangeManager.UpdateTile(data.Position, tile);
+						break;
+					}
+
+					if (overFlowProtection > maxOverflowProtection)
+					{
+						Debug.LogError($"Overflow protection triggered on {basicTile.name}, theres a loop in the ToTileWhenDestroyed");
+						break;
+					}
+				}
+
+				damageTaken = damageLeft;
+			}
+
+			if (basicTile.SpawnOnDestroy != null)
+			{
+				basicTile.SpawnOnDestroy.SpawnAt(SpawnDestination.At(worldPosition, metaTileMap.ObjectLayer.gameObject.transform));
+			}
+
 			basicTile.LootOnDespawn?.SpawnLoot(worldPosition);
 		}
+		else
+		{
+			if (basicTile.DamageOverlayList != null)
+			{
+				foreach (var overlayData in basicTile.DamageOverlayList.DamageOverlays)
+				{
+					if (overlayData.damagePercentage <= totalDamageTaken / basicTile.MaxHealth)
+					{
+						tileChangeManager.UpdateOverlay(data.Position, overlayData.overlayTile);
+						break;
+					}
+				}
+			}
 
-		return CalculateAbsorbDamaged(attackType,data,basicTile);
-	}
+			//All the damage was absorbed, none left to return for next layer
+			damageTaken = 0;
+		}
 
-	private float CalculateAbsorbDamaged(AttackType attackType, MetaDataNode data, BasicTile basicTile)
-	{
-		var damage = basicTile.MaxHealth - data.GetTileDamage(Layer.LayerType);
-
-		if (basicTile.MaxHealth < damage)
+		if (basicTile.MaxHealth < basicTile.MaxHealth - totalDamageTaken)
 		{
 			data.ResetDamage(Layer.LayerType);
 		}
 
-		if (basicTile.Armor.GetRatingValue(attackType) > 0 && damage > 0)
-		{
-			return damage  / basicTile.Armor.GetRatingValue(attackType);
+		if (damageTaken > totalDamageTaken){
+			Logger.LogError($"Applying damage to {basicTile.DisplayName} increased the damage to be dealt, when it should have decreased!", Category.TileMaps);
+			return totalDamageTaken;
 		}
 
-		return 0;
+		//Return how much damage is left
+		return damageTaken;
 	}
 
 	public float Integrity(Vector3Int pos)
@@ -123,10 +189,10 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return Mathf.Clamp(layerTile.MaxHealth - metaDataLayer.Get(pos).GetTileDamage(layerTile.LayerType), 0, float.MaxValue);
 	}
 
-	public void RepairWindow(Vector3Int cellPos)
+	public void RemoveTileEffects(Vector3Int cellPos)
 	{
 		var data = metaDataLayer.Get(cellPos);
-		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
+		tileChangeManager.RemoveOverlay(cellPos, LayerType.Effects);
 		data.ResetDamage(Layer.LayerType);
 	}
 }

@@ -214,7 +214,7 @@ namespace TileManagement
 			AttackType attackType = AttackType.Melee)
 		{
 			//still needs to be done
-			TileLocation TileLcation = null;
+			//TileLocation TileLcation = null;
 			float RemainingDamage = damage;
 			foreach (var damageableLayer in DamageableLayers)
 			{
@@ -223,10 +223,10 @@ namespace TileManagement
 					return (damage);
 				}
 
-				lock (PresentTiles)
-				{
-					PresentTiles[damageableLayer].TryGetValue(cellPos, out TileLcation);
-				}
+				// lock (PresentTiles)
+				// {
+				// 	PresentTiles[damageableLayer].TryGetValue(cellPos, out TileLcation);
+				// }
 
 				RemainingDamage -= damageableLayer.TilemapDamage.ApplyDamage(damage, attackType, worldPos);
 			}
