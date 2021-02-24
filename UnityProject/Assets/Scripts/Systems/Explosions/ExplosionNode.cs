@@ -36,6 +36,10 @@ namespace Systems.Explosions
 			EnergyExpended = metaTileMap.ApplyDamage(v3int, Damagedealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb) * 0.375f;
 
+			// Prevents a perpetual motion explosion
+			if(EnergyExpended <= 0.375f)
+				EnergyExpended = 0.375f;
+
 			if (Damagedealt > 100)
 			{
 				var Node = matrix.GetMetaDataNode(v3int);
