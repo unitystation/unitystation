@@ -13,7 +13,9 @@ using Random = UnityEngine.Random;
 public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 {
 	private const float OXYGEN_SAFE_MIN = 16;
-	private const float PLASMA_SAFE_MAX = 0.5F;//Minimum amount of plasma moles to be visible
+	private const float PLASMA_SAFE_MAX = 0.05F;//Minimum amount of plasma moles to be visible
+	private const int MIN_TOXIN_DMG = 1; //Minimum damage toxic air can deal
+	private const int MAX_TOXIN_DMG = 10; //Maximum damage toxic air can deal
 	public bool IsSuffocating;
 	public float temperature = 293.15f;
 	public float pressure = 101.325f;
@@ -250,8 +252,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		// enough plasma to be visible and damage us!
 		else
 		{
-			var plasmaDamage = (plasmaAmount - 0.5f) * 5;
-			bloodSystem.ToxinLevel = Mathf.Clamp(bloodSystem.ToxinLevel + plasmaDamage, 0, 200);
+			var plasmaDamage = (plasmaAmount / PLASMA_SAFE_MAX) * 10;
+			bloodSystem.ToxinLevel = Mathf.Clamp(bloodSystem.ToxinLevel + Mathf.Clamp(plasmaDamage, MIN_TOXIN_DMG, MAX_TOXIN_DMG), 0, 200);
 
 			if (DMMath.Prob(90))
 			{
