@@ -22,7 +22,7 @@ public class NightVisionGoggles : MonoBehaviour, IServerInventoryMove
 
 				if (registerPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
 				{
-					OnWearing();
+					TargetOnWearing();
 				}
 			}
 
@@ -32,19 +32,21 @@ public class NightVisionGoggles : MonoBehaviour, IServerInventoryMove
 
 				if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
 				{
-					OnTakingOff();
+					TargetOnTakingOff();
 				}
 			}
 		}
 	
-	private void OnTakingOff()
+	[TargetRpc]
+	private void TargetOnTakingOff()
 		{
 			var camera = Camera.main;
 			camera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState();
 			camera.GetComponent<CameraEffectControlScript>().AdjustPlayerVisibility(defaultVisionVisibility);
 		}
 
-	private void OnWearing()
+	[TargetRpc]
+	private void TargetOnWearing()
 		{
 			var camera = Camera.main;
 			camera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState();
