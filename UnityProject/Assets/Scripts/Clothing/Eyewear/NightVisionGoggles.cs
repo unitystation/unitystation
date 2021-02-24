@@ -12,6 +12,10 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 	[SerializeField, Tooltip("The default minimal visibility size.")]
 	private Vector3 defaultVisionVisibility;
 
+	private void OnStartClient()
+	{
+		//Someone work on syncing the camera effect later for people who relog in.
+	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 		{
