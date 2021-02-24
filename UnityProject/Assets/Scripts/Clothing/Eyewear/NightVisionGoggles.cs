@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CameraEffects;
 
-public class NightVisionGoggles : MonoBehaviour, IServerInventoryMove
+public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 {
 	[SerializeField, Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
 	private Vector3 nightVisionVisibility;
@@ -21,7 +21,7 @@ public class NightVisionGoggles : MonoBehaviour, IServerInventoryMove
 
 				if (registerPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
 				{
-					TargetOnWearing();
+					TargetOnWearing(info);
 				}
 			}
 
@@ -29,7 +29,7 @@ public class NightVisionGoggles : MonoBehaviour, IServerInventoryMove
 			{
 				if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
 				{
-					TargetOnTakingOff();
+					TargetOnTakingOff(info);
 				}
 			}
 		}
