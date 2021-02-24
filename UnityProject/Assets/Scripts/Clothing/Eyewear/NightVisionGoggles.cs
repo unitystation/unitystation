@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 using CameraEffects;
 
 public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
@@ -21,7 +22,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 
 				if (registerPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
 				{
-					TargetOnWearing(info);
+					TargetOnWearing(null);
 				}
 			}
 
@@ -29,7 +30,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 			{
 				if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
 				{
-					TargetOnTakingOff(info);
+					TargetOnTakingOff(null);
 				}
 			}
 		}
