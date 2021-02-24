@@ -22,7 +22,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 
 				if (registerPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
 				{
-					TargetOnWearing(null);
+					TargetOnWearing(registerPlayer.connectionToClient);
 				}
 			}
 
@@ -30,7 +30,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 			{
 				if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
 				{
-					TargetOnTakingOff(null);
+					TargetOnTakingOff(registerPlayer.connectionToClient);
 				}
 			}
 		}
