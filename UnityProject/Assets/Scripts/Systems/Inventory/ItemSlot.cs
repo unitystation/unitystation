@@ -268,7 +268,7 @@ public class ItemSlot
 		if (removedItem != null)
 		{
 			//we displaced an item
-			var info = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed);
+			var info = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed, this, null);
 			foreach (var hook in removedItem.GetComponents<IClientInventoryMove>())
 			{
 				hook.OnInventoryMoveClient(info);
@@ -278,7 +278,7 @@ public class ItemSlot
 		if (newItem != null)
 		{
 			//we are adding an item to this slot
-			var info = ClientInventoryMove.OfType(ClientInventoryMoveType.Added);
+			var info = ClientInventoryMove.OfType(ClientInventoryMoveType.Added, null, this);
 			foreach (var hook in newItem.GetComponents<IClientInventoryMove>())
 			{
 				hook.OnInventoryMoveClient(info);

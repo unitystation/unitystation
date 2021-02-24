@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using CameraEffects;
 
-public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
+public class NightVisionGoggles : MonoBehaviour, IClientInventoryMove
 {
 	[SerializeField, Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
 	private Vector3 nightVisionVisibility;
@@ -12,26 +11,18 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 	[SerializeField, Tooltip("The default minimal visibility size.")]
 	private Vector3 defaultVisionVisibility;
 
-	
-	private void OnStartClient()
-	{
-		if(PlayerManager.LocalPlayerScript != null)
-		{
-			var item = PlayerManager.LocalPlayerScript.Equipment.GetClothingItem(NamedSlot.eyes).GameObjectReference;
-			if(item == gameObject) {enableEffect(true);}
-		}
-	}
 
-	public void OnInventoryMoveServer(InventoryMove info)
+
+	public void OnInventoryMoveClient(ClientInventoryMove info)
 		{
-			RegisterPlayer registerPlayer = info.ToRootPlayer;
+			var registerPlayer = PlayerManager.LocalPlayerScript;
 
 			if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
 			{
 
 				if (registerPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
 				{
-					TargetOnWearing(registerPlayer.connectionToClient);
+					OnWearing();
 				}
 			}
 
@@ -39,19 +30,17 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 			{
 				if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
 				{
-					TargetOnTakingOff(registerPlayer.connectionToClient);
+					OnTakingOff();
 				}
 			}
 		}
-	
-	[TargetRpc]
-	private void TargetOnTakingOff(NetworkConnection target)
+
+	private void OnTakingOff()
 		{
 			enableEffect(false);
 		}
 
-	[TargetRpc]
-	private void TargetOnWearing(NetworkConnection target)
+	private void OnWearing()
 		{
 			enableEffect(true);
 		}
