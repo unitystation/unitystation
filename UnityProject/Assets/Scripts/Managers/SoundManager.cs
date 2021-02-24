@@ -276,7 +276,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
 	/// <param name="sourceObj">The object that is the source of the sound</param>
 	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
-	public static string PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+	public static async Task<string> PlayNetworkedAtPosAsync(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
 		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
@@ -288,7 +288,7 @@ public class SoundManager : MonoBehaviour
 			return null;
 		}
 
-		GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource).ConfigureAwait(false);;
 
 		if (global)
 		{
@@ -306,6 +306,50 @@ public class SoundManager : MonoBehaviour
 	/// Serverside: Play sound at given position for all clients.
 	/// If more than one sound is specified, the sound will be chosen at random
 	/// </summary>
+	/// <param name="addressableAudioSource">The sound to be played.</param>
+	/// <param name="worldPos">The position at which the sound is played</param>
+	/// <param name="audioSourceParameters">Extra parameters of the audio source.</param>
+	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
+	/// <param name="global">Does everyone will receive the sound our just nearby players</param>	
+	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
+	/// <param name="sourceObj">The object that is the source of the sound</param>
+	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
+	public static async Task<string> PlayNetworkedAtPosAsync(List<AddressableAudioSource> addressableAudioSources,
+		Vector3 worldPos, AudioSourceParameters audioSourceParameters = new AudioSourceParameters(),
+		bool polyphonic = false, bool global = true, ShakeParameters shakeParameters = new ShakeParameters(),
+		GameObject sourceObj = null)
+	{
+		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
+		return await PlayNetworkedAtPosAsync(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, 
+			global, shakeParameters, sourceObj);
+	}
+
+	/// <summary>
+	/// Serverside: Play sound at given position for all clients.
+	/// Please use PlayNetworkedAtPosAsync if possible.
+	/// </summary>
+	/// <param name="addressableAudioSource">The sound to be played.</param>
+	/// <param name="worldPos">The position at which the sound is played</param>
+	/// <param name="audioSourceParameters">Extra parameters of the audio source.</param>
+	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
+	/// <param name="global">Does everyone will receive the sound our just nearby players</param>	
+	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
+	/// <param name="sourceObj">The object that is the source of the sound</param>
+	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
+	public static void PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
+		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
+	{
+		PlayNetworkedAtPosAsync(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, 
+			global, shakeParameters, sourceObj);
+		return;
+	}
+
+	/// <summary>
+	/// Serverside: Play sound at given position for all clients.
+	/// If more than one sound is specified, the sound will be chosen at random
+	/// Please use PlayNetworkedAtPosAsync if possible.
+	/// </summary>
 	/// <param name="addressableAudioSources">A list of sounds.  One will be played at random</param>
 	/// <param name="worldPos">The position at which the sound is played</param>
 	/// <param name="audioSourceParameters">Extra parameters of the audio source.</param>
@@ -314,15 +358,17 @@ public class SoundManager : MonoBehaviour
 	/// <param name="sourceObj">The object that is the source of the sound</param>
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
 	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
-	public static string PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources,
+	public static void PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources,
 		Vector3 worldPos, AudioSourceParameters audioSourceParameters = new AudioSourceParameters(),
 		bool polyphonic = false, bool global = true, ShakeParameters shakeParameters = new ShakeParameters(),
 		GameObject sourceObj = null)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		return PlayNetworkedAtPos(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, 
+		PlayNetworkedAtPosAsync(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, 
 			global, shakeParameters, sourceObj);
+		return;
 	}
+
 
 	/// <summary>
 	/// Play sound for particular player.
@@ -365,7 +411,8 @@ public class SoundManager : MonoBehaviour
 		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		await PlayNetworkedForPlayer(recipient, addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters, sourceObj).ConfigureAwait(false);
+		await PlayNetworkedForPlayer(recipient, addressableAudioSource, audioSourceParameters, 
+			polyphonic, shakeParameters, sourceObj).ConfigureAwait(false);
 	}
 
 	/// <summary>
@@ -554,7 +601,7 @@ public class SoundManager : MonoBehaviour
 		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
 		AddressableAudioSource addressableAudioSource =
-			await GetAddressableAudioSourceFromCache(addressableAudioSources).ConfigureAwait(false);
+			await GetAddressableAudioSourceFromCache(addressableAudioSources);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 
