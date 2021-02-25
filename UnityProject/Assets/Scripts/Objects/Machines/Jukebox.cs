@@ -180,8 +180,9 @@ namespace Objects
 			integrity = GetComponent<Integrity>();
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 
-			audioSourceParameters =	new AudioSourceParameters(1, Volume, 0, 0, 0, Spread, 
-				MinSoundDistance, MaxSoundDistance, MixerType.Muffled, VolumeRolloffType.EaseInAndOut, false);
+			audioSourceParameters =	new AudioSourceParameters(volume: Volume, spatialBlend: 1, spread: Spread, 
+				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance,mixerType: MixerType.Muffled, 
+				volumeRolloffType: VolumeRolloffType.EaseInAndOut);
 		}
 
 		private void Update()
