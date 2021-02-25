@@ -25,38 +25,38 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 
 	//IServerInventoryMove should be replaced with IClienInventoryMove but that needs more functionality first
 	public void OnInventoryMoveServer(InventoryMove info)
+	{
+		RegisterPlayer registerPlayer = info.ToRootPlayer;
+
+		if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
 		{
-			RegisterPlayer registerPlayer = info.ToRootPlayer;
 
-			if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
+			if (registerPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
 			{
-
-				if (registerPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
-				{
-					TargetOnWearing(registerPlayer.connectionToClient);
-				}
-			}
-
-			if (info.FromSlot != null && info.FromSlot?.NamedSlot != null)
-			{
-				if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
-				{
-					TargetOnTakingOff(registerPlayer.connectionToClient);
-				}
+				TargetOnWearing(registerPlayer.connectionToClient);
 			}
 		}
+
+		if (info.FromSlot != null && info.FromSlot?.NamedSlot != null)
+		{
+			if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
+			{
+				TargetOnTakingOff(registerPlayer.connectionToClient);
+			}
+		}
+	}
 	
 	[TargetRpc]
 	private void TargetOnTakingOff(NetworkConnection target)
-		{
-			enableEffect(false);
-		}
+	{
+		enableEffect(false);
+	}
 
 	[TargetRpc]
 	private void TargetOnWearing(NetworkConnection target)
-		{
-			enableEffect(true);
-		}
+	{
+		enableEffect(true);
+	}
 
 	private void enableEffect(bool check)
 	{
