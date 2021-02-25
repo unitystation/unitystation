@@ -34,6 +34,10 @@ public abstract class BasicTile : LayerTile
 	[Tooltip("Can this tile be mined?")] [FormerlySerializedAs("Mineable")] [SerializeField]
 	private bool mineable = false;
 
+
+	[Tooltip("RadiationPassability 0 = 100% Resistant")] [SerializeField]
+	public float RadiationPassability = 1;
+
 	/// <summary>
 	/// Can this tile be mined?
 	/// </summary>
