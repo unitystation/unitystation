@@ -21,6 +21,7 @@ public class UnderFloorLayer : Layer
 			for (int p = bounds.yMin; p < bounds.yMax; p++)
 			{
 				Vector3Int localPlace = (new Vector3Int(n, p, 0));
+				bool[] PipeDirCheck = new bool[4];
 
 				for (int i = 0; i < 50; i++)
 				{
@@ -44,7 +45,28 @@ public class UnderFloorLayer : Layer
 						var PipeTile = getTile as PipeTile;
 						if (PipeTile != null)
 						{
-							PipeTile.InitialiseNode(new Vector3Int(n, p, localPlace.z), matrix);
+							var matrixStruct = matrix.UnderFloorLayer.Tilemap.GetTransformMatrix(localPlace);
+							var connection = PipeTile.GetRotatedConnection(PipeTile, matrixStruct);
+							var pipeDir = connection.Directions;
+							var canInitializePipe = true;
+							for (var d = 0; d < pipeDir.Length; d++)
+							{
+								if (pipeDir[d].Bool)
+								{
+									if (PipeDirCheck[d])
+									{
+										canInitializePipe = false;
+										Debug.LogError($"A pipe is overlapping its connection at ({n}, {p}) in {matrix.gameObject.scene.name} - {matrix.name} with another pipe, removing one");
+										tilemap.SetTile(localPlace, null);
+										break;
+									}
+									PipeDirCheck[d] = true;
+								}
+							}
+							if (canInitializePipe)
+							{
+								PipeTile.InitialiseNode(localPlace, matrix);
+							}
 						}
 					}
 				}

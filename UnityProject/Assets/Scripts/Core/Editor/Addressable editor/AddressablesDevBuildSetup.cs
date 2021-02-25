@@ -51,19 +51,10 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 
 			Directory.CreateDirectory(newendpath);
 			CopyFilesRecursively(DD, newDD);
-			Logger.Log(newendpath);
-			if (File.Exists(newendpath +  flip.Directory.Parent.Name +".json"))
-			{
-				File.Delete(newendpath +  flip.Directory.Parent.Name +".json");
-			}
-
-			if (File.Exists(newendpath +  flip.Directory.Parent.Name +".hash"))
-			{
-				File.Delete(newendpath +  flip.Directory.Parent.Name +".hash");
-			}
+			//Logger.Log(newendpath);
 
 
-			var Files = System.IO.Directory.GetFiles(newendpath);
+			var Files = System.IO.Directory.GetFiles(flip.Directory.ToString());
 			string FoundFile = "";
 			foreach (var File in Files)
 			{
@@ -79,10 +70,21 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 				}
 			}
 
+			if (File.Exists(newendpath +   Path.GetFileName(FoundFile)))
+			{
+				File.Delete(newendpath +  Path.GetFileName(FoundFile));
+			}
 
-			System.IO.File.Move(FoundFile, newendpath + flip.Directory.Parent.Name +".json");
-			System.IO.File.Move(FoundFile.Replace(".json", ".hash"), newendpath +flip.Directory.Parent.Name +".hash");
-			JObject o1 = JObject.Parse(File.ReadAllText((@newendpath + "/" + flip.Directory.Parent.Name +".json".Replace("/", @"\"))));
+			if (File.Exists(newendpath +  Path.GetFileName(FoundFile).Replace(".json", ".hash")))
+			{
+				File.Delete(newendpath +  Path.GetFileName(FoundFile).Replace(".json", ".hash"));
+			}
+
+
+
+			System.IO.File.Copy(FoundFile, newendpath + Path.GetFileName(FoundFile));
+			System.IO.File.Copy(FoundFile.Replace(".json", ".hash"), (newendpath + Path.GetFileName(FoundFile)).Replace(".json", ".hash"));
+			JObject o1 = JObject.Parse(File.ReadAllText((@newendpath + Path.GetFileName(FoundFile).Replace("/", @"\"))));
 
 			var IDs = (JArray) o1["m_InternalIds"];
 			for (int i = 0; i < IDs.Count; i++)
@@ -95,7 +97,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 				IDs[i] = newID;
 			}
 
-			File.WriteAllText(newendpath + "/" + flip.Directory.Parent.Name + ".json",
+			File.WriteAllText(newendpath + Path.GetFileName(FoundFile),
 				Newtonsoft.Json.JsonConvert.SerializeObject(o1, Newtonsoft.Json.Formatting.None));
 		}
 

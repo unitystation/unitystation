@@ -52,16 +52,20 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[SerializeField]
 	private int matsDroppedOnDestroy = 2;
 
-	[FormerlySerializedAs("soundOnOpen")]
-	[Tooltip("Name of sound to play when opened / closed")]
+	[FormerlySerializedAs("soundOnOpenOrClose")]
+	[Tooltip("Name of sound to play when opened")]
 	[SerializeField]
-	private AddressableAudioSource soundOnOpenOrClose = null;
+	private AddressableAudioSource soundOnOpen = null;
+
+	[Tooltip("Name of sound to play when closed")]
+	[SerializeField]
+	private AddressableAudioSource soundOnClose = null;
 
 	[Tooltip("Name of sound to play when emagged")]
 	[SerializeField]
 	private AddressableAudioSource soundOnEmag = null;
 
-	[Tooltip("Name of sound to play when emagged")]
+	[Tooltip("Name of sound to play when foced open in an escape")]
 	[SerializeField]
 	private AddressableAudioSource soundOnEscape = null;
 
@@ -342,7 +346,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	public void ServerToggleClosed(bool? nowClosed = null)
 	{
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-		SoundManager.PlayNetworkedAtPos(soundOnOpenOrClose, registerTile.WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
+    
+		SoundManager.PlayNetworkedAtPos(IsClosed ? soundOnOpen : soundOnClose, registerTile.WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
+    
 		ServerSetIsClosed(nowClosed.GetValueOrDefault(!IsClosed));
 	}
 
