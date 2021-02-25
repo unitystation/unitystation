@@ -241,10 +241,7 @@ namespace Objects.Engineering
 				case APCState.Critical:
 					loadedScreenSprites = criticalSprites;
 					EmergencyState = true;
-					if (isServer)
-					{
-						SoundManager.PlayNetworkedAtPos(NoPowerSound, gameObject.WorldPosServer());
-					}
+					SoundManager.PlayAtPosition(NoPowerSound, gameObject.WorldPosServer());
 					if (!RefreshDisplay) StartRefresh();
 					break;
 				case APCState.Dead:
