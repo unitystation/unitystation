@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Shake : MonoBehaviour
 {
-
-	/// <summary>
-	/// This effect shakes a gameObjects for a set amount of time with controls for
+    /// <summary>
+    /// This effect shakes a gameObjects for a set amount of time with controls for
     /// how intense the animation should be.
     /// This effect is mainly intended for stationary objects but it might work with moving ones.
-	/// </summary>
+    /// </summary>
 
     private Vector3 originalPosition;
 
