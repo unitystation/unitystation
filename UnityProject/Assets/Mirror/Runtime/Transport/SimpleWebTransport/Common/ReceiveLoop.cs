@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using UnityEngine.Profiling;
 
 namespace Mirror.SimpleWeb
 {
@@ -40,6 +41,8 @@ namespace Mirror.SimpleWeb
         {
             (Connection conn, int maxMessageSize, bool expectMask, ConcurrentQueue<Message> queue, BufferPool _) = config;
 
+            Profiler.BeginThreadProfiling("SimpleWeb", $"ReceiveLoop {conn.connId}");
+
             byte[] readBuffer = new byte[Constants.HeaderSize + (expectMask ? Constants.MaskSize : 0) + maxMessageSize];
             try
             {
@@ -56,7 +59,7 @@ namespace Mirror.SimpleWeb
                 }
                 catch (Exception)
                 {
-                    // if interupted we dont care about other execptions
+                    // if interrupted we don't care about other exceptions
                     Utils.CheckForInterupt();
                     throw;
                 }
@@ -66,9 +69,8 @@ namespace Mirror.SimpleWeb
             catch (ObjectDisposedException e) { Log.InfoException(e); }
             catch (ReadHelperException e)
             {
-                // this could happen if client sends bad message
+                // log as info only
                 Log.InfoException(e);
-                queue.Enqueue(new Message(conn.connId, e));
             }
             catch (SocketException e)
             {
@@ -94,6 +96,8 @@ namespace Mirror.SimpleWeb
             }
             finally
             {
+                Profiler.EndThreadProfiling();
+
                 conn.Dispose();
             }
         }
@@ -113,7 +117,6 @@ namespace Mirror.SimpleWeb
             {
                 offset = ReadHelper.Read(stream, buffer, offset, Constants.ShortLength);
             }
-
 
             MessageProcessor.ValidateHeader(buffer, maxMessageSize, expectMask);
 

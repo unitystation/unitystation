@@ -17,10 +17,9 @@ namespace Mirror
     public abstract class NetworkConnection
     {
         public const int LocalConnectionId = 0;
-        static readonly ILogger logger = LogFactory.GetLogger<NetworkConnection>();
 
-        // internal so it can be tested
-        internal readonly HashSet<NetworkIdentity> visList = new HashSet<NetworkIdentity>();
+        // NetworkIdentities that this connection can see
+        internal readonly HashSet<NetworkIdentity> observing = new HashSet<NetworkIdentity>();
 
         Dictionary<int, NetworkMessageDelegate> messageHandlers;
 
@@ -79,22 +78,11 @@ namespace Mirror
         public readonly HashSet<NetworkIdentity> clientOwnedObjects = new HashSet<NetworkIdentity>();
 
         /// <summary>
-        /// Setting this to true will log the contents of network message to the console.
-        /// </summary>
-        /// <remarks>
-        /// <para>Warning: this can be a lot of data and can be very slow. Both incoming and outgoing messages are logged. The format of the logs is:</para>
-        /// <para>ConnectionSend con:1 bytes:11 msgId:5 FB59D743FD120000000000 ConnectionRecv con:1 bytes:27 msgId:8 14F21000000000016800AC3FE090C240437846403CDDC0BD3B0000</para>
-        /// <para>Note that these are application-level network messages, not protocol-level packets. There will typically be multiple network messages combined in a single protocol packet.</para>
-        /// </remarks>
-        [Obsolete("Set logger to Log level instead")]
-        public bool logNetworkMessages;
-
-        /// <summary>
         /// Creates a new NetworkConnection
         /// </summary>
         internal NetworkConnection()
         {
-            // set lastTime to current time when creating connection to make sure it isn't instantly kicked for inactivity 
+            // set lastTime to current time when creating connection to make sure it isn't instantly kicked for inactivity
             lastMessageTime = Time.time;
         }
 
@@ -123,15 +111,15 @@ namespace Mirror
         /// <typeparam name="T">The message type to unregister.</typeparam>
         /// <param name="msg">The message to send.</param>
         /// <param name="channelId">The transport layer channel to send on.</param>
-        /// <returns></returns>
-        public bool Send<T>(T msg, int channelId = Channels.DefaultReliable) where T : NetworkMessage
+        public void Send<T>(T msg, int channelId = Channels.DefaultReliable)
+            where T : struct, NetworkMessage
         {
             using (PooledNetworkWriter writer = NetworkWriterPool.GetWriter())
             {
                 // pack message and send allocation free
-                MessagePacker.Pack(msg, writer);
+                MessagePacking.Pack(msg, writer);
                 NetworkDiagnostics.OnSend(msg, channelId, writer.Position, 1);
-                return Send(writer.ToArraySegment(), channelId);
+                Send(writer.ToArraySegment(), channelId);
             }
         }
 
@@ -144,14 +132,14 @@ namespace Mirror
         {
             if (segment.Count > Transport.activeTransport.GetMaxPacketSize(channelId))
             {
-                logger.LogError("NetworkConnection.ValidatePacketSize: cannot send packet larger than " + Transport.activeTransport.GetMaxPacketSize(channelId) + " bytes");
+                Debug.LogError("NetworkConnection.ValidatePacketSize: cannot send packet larger than " + Transport.activeTransport.GetMaxPacketSize(channelId) + " bytes");
                 return false;
             }
 
             if (segment.Count == 0)
             {
                 // zero length packets getting into the packet queues are bad.
-                logger.LogError("NetworkConnection.ValidatePacketSize: cannot send zero bytes");
+                Debug.LogError("NetworkConnection.ValidatePacketSize: cannot send zero bytes");
                 return false;
             }
 
@@ -161,24 +149,21 @@ namespace Mirror
 
         // internal because no one except Mirror should send bytes directly to
         // the client. they would be detected as a message. send messages instead.
-        internal abstract bool Send(ArraySegment<byte> segment, int channelId = Channels.DefaultReliable);
+        internal abstract void Send(ArraySegment<byte> segment, int channelId = Channels.DefaultReliable);
 
-        public override string ToString()
-        {
-            return $"connection({connectionId})";
-        }
+        public override string ToString() => $"connection({connectionId})";
 
-        internal void AddToVisList(NetworkIdentity identity)
+        internal void AddToObserving(NetworkIdentity identity)
         {
-            visList.Add(identity);
+            observing.Add(identity);
 
             // spawn identity for this conn
             NetworkServer.ShowForConnection(identity, this);
         }
 
-        internal void RemoveFromVisList(NetworkIdentity identity, bool isDestroyed)
+        internal void RemoveFromObserving(NetworkIdentity identity, bool isDestroyed)
         {
-            visList.Remove(identity);
+            observing.Remove(identity);
 
             if (!isDestroyed)
             {
@@ -189,90 +174,67 @@ namespace Mirror
 
         internal void RemoveObservers()
         {
-            foreach (NetworkIdentity identity in visList)
+            foreach (NetworkIdentity identity in observing)
             {
                 identity.RemoveObserverInternal(this);
             }
-            visList.Clear();
+            observing.Clear();
         }
 
-        internal bool InvokeHandler(int msgType, NetworkReader reader, int channelId)
+        // helper function
+        protected bool UnpackAndInvoke(NetworkReader reader, int channelId)
         {
-            if (messageHandlers.TryGetValue(msgType, out NetworkMessageDelegate msgDelegate))
+            if (MessagePacking.Unpack(reader, out int msgType))
             {
-                msgDelegate(this, reader, channelId);
-                return true;
+                // try to invoke the handler for that message
+                if (messageHandlers.TryGetValue(msgType, out NetworkMessageDelegate msgDelegate))
+                {
+                    msgDelegate.Invoke(this, reader, channelId);
+                    lastMessageTime = Time.time;
+                    return true;
+                }
+                else
+                {
+                    // Debug.Log("Unknown message ID " + msgType + " " + this + ". May be due to no existing RegisterHandler for this message.");
+                    return false;
+                }
             }
-            if (logger.LogEnabled()) logger.Log("Unknown message ID " + msgType + " " + this + ". May be due to no existing RegisterHandler for this message.");
-            return false;
-        }
-
-        /// <summary>
-        /// This function invokes the registered handler function for a message.
-        /// <para>Network connections used by the NetworkClient and NetworkServer use this function for handling network messages.</para>
-        /// </summary>
-        /// <typeparam name="T">The message type to unregister.</typeparam>
-        /// <param name="msg">The message object to process.</param>
-        /// <returns>Returns true if the handler was successfully invoked</returns>
-        public bool InvokeHandler<T>(T msg, int channelId) where T : NetworkMessage
-        {
-            using (PooledNetworkWriter writer = NetworkWriterPool.GetWriter())
+            else
             {
-                // if it is a value type,  just use typeof(T) to avoid boxing
-                // this works because value types cannot be derived
-                // if it is a reference type (for example NetworkMessage),
-                // ask the message for the real type
-                int msgType = MessagePacker.GetId(default(T) != null ? typeof(T) : msg.GetType());
-
-                MessagePacker.Pack(msg, writer);
-                ArraySegment<byte> segment = writer.ToArraySegment();
-                using (PooledNetworkReader networkReader = NetworkReaderPool.GetReader(segment))
-                    return InvokeHandler(msgType, networkReader, channelId);
+                Debug.LogError("Closed connection: " + this + ". Invalid message header.");
+                Disconnect();
+                return false;
             }
         }
 
-        // note: original HLAPI HandleBytes function handled >1 message in a while loop, but this wasn't necessary
-        //       anymore because NetworkServer/NetworkClient Update both use while loops to handle >1 data events per
-        //       frame already.
-        //       -> in other words, we always receive 1 message per Receive call, never two.
-        //       -> can be tested easily with a 1000ms send delay and then logging amount received in while loops here
-        //          and in NetworkServer/Client Update. HandleBytes already takes exactly one.
         /// <summary>
         /// This function allows custom network connection classes to process data from the network before it is passed to the application.
         /// </summary>
         /// <param name="buffer">The data received.</param>
         internal void TransportReceive(ArraySegment<byte> buffer, int channelId)
         {
-            if (buffer.Count == 0)
+            if (buffer.Count < MessagePacking.HeaderSize)
             {
-                logger.LogError($"ConnectionRecv {this} Message was empty");
+                Debug.LogError($"ConnectionRecv {this} Message was too short (messages should start with message id)");
+                Disconnect();
                 return;
             }
 
             // unpack message
-            using (PooledNetworkReader networkReader = NetworkReaderPool.GetReader(buffer))
+            using (PooledNetworkReader reader = NetworkReaderPool.GetReader(buffer))
             {
-                if (MessagePacker.UnpackMessage(networkReader, out int msgType))
+                // the other end might batch multiple messages into one packet.
+                // we need to try to unpack multiple times.
+                while (reader.Position < reader.Length)
                 {
-                    // logging
-                    if (logger.LogEnabled()) logger.Log("ConnectionRecv " + this + " msgType:" + msgType + " content:" + BitConverter.ToString(buffer.Array, buffer.Offset, buffer.Count));
-
-                    // try to invoke the handler for that message
-                    if (InvokeHandler(msgType, networkReader, channelId))
-                    {
-                        lastMessageTime = Time.time;
-                    }
-                }
-                else
-                {
-                    logger.LogError("Closed connection: " + this + ". Invalid message header.");
-                    Disconnect();
+                    if (!UnpackAndInvoke(reader, channelId))
+                        break;
                 }
             }
         }
 
         /// <summary>
-        /// Checks if cliet has sent a message within timeout
+        /// Checks if client has sent a message within timeout
         /// <para>
         /// Some transports are unreliable at sending disconnect message to the server
         /// so this acts as a failsafe to make sure clients are kicked
@@ -281,7 +243,7 @@ namespace Mirror
         /// Client should send ping message to server every 2 seconds to keep this alive
         /// </para>
         /// </summary>
-        /// <returns>True if server has recently recieved a message</returns>
+        /// <returns>True if server has recently received a message</returns>
         internal virtual bool IsAlive(float timeout) => Time.time - lastMessageTime < timeout;
 
         internal void AddOwnedObject(NetworkIdentity obj)

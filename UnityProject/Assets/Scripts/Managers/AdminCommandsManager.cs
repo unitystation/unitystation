@@ -59,7 +59,7 @@ namespace AdminCommands
 
 		#region GamemodePage
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdToggleOOCMute(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -85,7 +85,7 @@ namespace AdminCommands
 
 		#region EventsPage
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake,
 			bool announceEvent,
 			InGameEventType eventType, string serializedEventParameters)
@@ -100,7 +100,7 @@ namespace AdminCommands
 
 		#region RoundPage
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdStartRound(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -120,7 +120,7 @@ namespace AdminCommands
 			}
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdEndRound(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -137,7 +137,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdChangeNextMap(string adminId, string adminToken, string nextMap)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -154,7 +154,7 @@ namespace AdminCommands
 			SubSceneManager.AdminForcedMainStation = nextMap;
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdChangeAwaySite(string adminId, string adminToken, string nextAwaySite)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -171,7 +171,7 @@ namespace AdminCommands
 			SubSceneManager.AdminForcedAwaySite = nextAwaySite;
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdChangeAlertLevel(string adminId, string adminToken, CentComm.AlertLevel alertLevel)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -194,7 +194,7 @@ namespace AdminCommands
 
 		#region CentCom
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdCallShuttle(string adminId, string adminToken, string text)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -216,7 +216,7 @@ namespace AdminCommands
 			}
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdRecallShuttle(string adminId, string adminToken, string text)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -234,7 +234,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -248,7 +248,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdSendCentCommReport(string adminId, string adminToken, string text)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -262,7 +262,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdSendBlockShuttleCall(string adminId, string adminToken, bool toggleBool)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -281,7 +281,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdSendBlockShuttleRecall(string adminId, string adminToken, bool toggleBool)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -300,7 +300,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdCreateDeathSquad(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -318,7 +318,7 @@ namespace AdminCommands
 		/// <param name="adminId">Id of the admin performing the action</param>
 		/// <param name="adminToken">Token that proves the admin privileges</param>
 		/// <param name="userToSmite">User Id of the user to smite</param>
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdSmitePlayer(string adminId, string adminToken, string userToSmite)
 		{
 			GameObject admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
@@ -340,7 +340,7 @@ namespace AdminCommands
 
 		#region Sound
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdPlaySound(string adminId, string adminToken, string index)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -366,7 +366,7 @@ namespace AdminCommands
 
 		#region Profiling
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdStartProfile(string adminId, string adminToken, int frameCount)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -374,7 +374,7 @@ namespace AdminCommands
 			ProfileManager.Instance.StartProfile(frameCount);
 		}
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdRequestProfiles(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -382,7 +382,7 @@ namespace AdminCommands
 			ProfileMessage.Send(admin);
 		}
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdDeleteProfile(string adminId, string adminToken, string profileName)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -396,7 +396,7 @@ namespace AdminCommands
 			ProfileMessage.SendToApplicable();
 		}
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdAdminGhostDropItem(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -409,7 +409,7 @@ namespace AdminCommands
 		}
 
 
-		[Command(ignoreAuthority = true)]
+		[Command(requiresAuthority = false)]
 		public void CmdAdminGhostSmashItem(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;

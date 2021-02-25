@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Mirror.Experimental
 {
     [AddComponentMenu("Network/Experimental/NetworkLerpRigidbody")]
-    [HelpURL("https://mirror-networking.com/docs/Components/NetworkLerpRigidbody.html")]
+    [HelpURL("https://mirror-networking.com/docs/Articles/Components/NetworkLerpRigidbody.html")]
     public class NetworkLerpRigidbody : NetworkBehaviour
     {
         [Header("Settings")]
@@ -53,13 +53,13 @@ namespace Mirror.Experimental
             }
         }
 
-        private void SyncToClients()
+        void SyncToClients()
         {
             targetVelocity = target.velocity;
             targetPosition = target.position;
         }
 
-        private void SendToServer()
+        void SendToServer()
         {
             float now = Time.time;
             if (now > nextSyncTime)
@@ -70,7 +70,7 @@ namespace Mirror.Experimental
         }
 
         [Command]
-        private void CmdSendState(Vector3 velocity, Vector3 position)
+        void CmdSendState(Vector3 velocity, Vector3 position)
         {
             target.velocity = velocity;
             target.position = position;

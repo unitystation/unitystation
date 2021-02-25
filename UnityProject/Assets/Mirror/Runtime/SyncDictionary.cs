@@ -1,12 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using JetBrains.Annotations;
 
 namespace Mirror
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
     public class SyncIDictionary<TKey, TValue> : IDictionary<TKey, TValue>, SyncObject, IReadOnlyDictionary<TKey, TValue>
     {
         public delegate void SyncDictionaryChanged(Operation op, TKey key, TValue item);
@@ -58,7 +55,7 @@ namespace Mirror
         IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => objects.Values;
 
         // throw away all the changes
-        // this should be called after a successfull sync
+        // this should be called after a successful sync
         public void Flush() => changes.Clear();
 
         public SyncIDictionary(IDictionary<TKey, TValue> objects)
@@ -88,7 +85,7 @@ namespace Mirror
         public void OnSerializeAll(NetworkWriter writer)
         {
             // if init,  write the full list content
-            writer.WritePackedUInt32((uint)objects.Count);
+            writer.WriteUInt32((uint)objects.Count);
 
             foreach (KeyValuePair<TKey, TValue> syncItem in objects)
             {
@@ -100,13 +97,13 @@ namespace Mirror
             // thus the client will need to skip all the pending changes
             // or they would be applied again.
             // So we write how many changes are pending
-            writer.WritePackedUInt32((uint)changes.Count);
+            writer.WriteUInt32((uint)changes.Count);
         }
 
         public void OnSerializeDelta(NetworkWriter writer)
         {
             // write all the queued up changes
-            writer.WritePackedUInt32((uint)changes.Count);
+            writer.WriteUInt32((uint)changes.Count);
 
             for (int i = 0; i < changes.Count; i++)
             {
@@ -133,7 +130,7 @@ namespace Mirror
             IsReadOnly = true;
 
             // if init,  write the full list content
-            int count = (int)reader.ReadPackedUInt32();
+            int count = (int)reader.ReadUInt32();
 
             objects.Clear();
             changes.Clear();
@@ -148,7 +145,7 @@ namespace Mirror
             // We will need to skip all these changes
             // the next time the list is synchronized
             // because they have already been applied
-            changesAhead = (int)reader.ReadPackedUInt32();
+            changesAhead = (int)reader.ReadUInt32();
         }
 
         public void OnDeserializeDelta(NetworkReader reader)
@@ -156,7 +153,7 @@ namespace Mirror
             // This list can now only be modified by synchronization
             IsReadOnly = true;
 
-            int changesCount = (int)reader.ReadPackedUInt32();
+            int changesCount = (int)reader.ReadUInt32();
 
             for (int i = 0; i < changesCount; i++)
             {
@@ -296,18 +293,10 @@ namespace Mirror
 
     public class SyncDictionary<TKey, TValue> : SyncIDictionary<TKey, TValue>
     {
-        public SyncDictionary() : base(new Dictionary<TKey, TValue>())
-        {
-        }
-
-        public SyncDictionary(IEqualityComparer<TKey> eq) : base(new Dictionary<TKey, TValue>(eq))
-        {
-        }
-
+        public SyncDictionary() : base(new Dictionary<TKey, TValue>()) {}
+        public SyncDictionary(IEqualityComparer<TKey> eq) : base(new Dictionary<TKey, TValue>(eq)) {}
         public new Dictionary<TKey, TValue>.ValueCollection Values => ((Dictionary<TKey, TValue>)objects).Values;
-
         public new Dictionary<TKey, TValue>.KeyCollection Keys => ((Dictionary<TKey, TValue>)objects).Keys;
-
         public new Dictionary<TKey, TValue>.Enumerator GetEnumerator() => ((Dictionary<TKey, TValue>)objects).GetEnumerator();
 
     }

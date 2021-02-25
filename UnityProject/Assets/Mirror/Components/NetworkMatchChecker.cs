@@ -9,10 +9,11 @@ namespace Mirror
     /// <para>Any object with this component on it will only be visible to other objects in the same match.</para>
     /// <para>This would be used to isolate players to their respective matches within a single game server instance. </para>
     /// </summary>
+    [Obsolete(NetworkVisibilityObsoleteMessage.Message)]
     [DisallowMultipleComponent]
     [AddComponentMenu("Network/NetworkMatchChecker")]
     [RequireComponent(typeof(NetworkIdentity))]
-    [HelpURL("https://mirror-networking.com/docs/Components/NetworkMatchChecker.html")]
+    [HelpURL("https://mirror-networking.com/docs/Articles/Components/NetworkMatchChecker.html")]
     public class NetworkMatchChecker : NetworkVisibility
     {
         static readonly Dictionary<Guid, HashSet<NetworkIdentity>> matchPlayers = new Dictionary<Guid, HashSet<NetworkIdentity>>();
@@ -81,6 +82,14 @@ namespace Mirror
 
             // No need to rebuild anything here.
             // identity.RebuildObservers is called right after this from NetworkServer.SpawnObject
+        }
+
+        public override void OnStopServer()
+        {
+            if (currentMatch == Guid.Empty) return;
+
+            if (matchPlayers.ContainsKey(currentMatch) && matchPlayers[currentMatch].Remove(netIdentity))
+                RebuildMatchObservers(currentMatch);
         }
 
         void RebuildMatchObservers(Guid specificMatch)

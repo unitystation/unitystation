@@ -7,13 +7,17 @@ namespace Mirror
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu("Network/NetworkPingDisplay")]
-    [HelpURL("https://mirror-networking.com/docs/Components/NetworkPingDisplay.html")]
+    [HelpURL("https://mirror-networking.com/docs/Articles/Components/NetworkPingDisplay.html")]
     public class NetworkPingDisplay : MonoBehaviour
     {
-        [SerializeField] bool showPing = true;
-        [SerializeField] Vector2 position = new Vector2(200, 0);
-        [SerializeField] int fontSize = 24;
-        [SerializeField] Color textColor = new Color32(255, 255, 255, 80);
+        public bool showPing = true;
+        [Tooltip("True shows the round trip time, from origin to destination, then back again. Set to false for time to server only.")]
+        public bool showRoundTripTime = true;
+        int rttMultiplier = 1;
+        public Vector2 position = new Vector2(200, 0);
+        public int fontSize = 24;
+        public Color textColor = new Color32(255, 255, 255, 80);
+        public string format = "{0}ms";
 
         GUIStyle style;
 
@@ -28,8 +32,13 @@ namespace Mirror
         void OnGUI()
         {
             if (!showPing) { return; }
+            if (showRoundTripTime) { rttMultiplier = 1; } else { rttMultiplier = 2; }
 
-            string text = string.Format("{0}ms", (int)(NetworkTime.rtt * 1000));
+            string text = string.Format(format, (int)((NetworkTime.rtt / rttMultiplier) * 1000));
+
+            // leave here or create special method to update fontSize and textColor
+            style.fontSize = fontSize;
+            style.normal.textColor = textColor;
 
             int width = Screen.width;
             int height = Screen.height;

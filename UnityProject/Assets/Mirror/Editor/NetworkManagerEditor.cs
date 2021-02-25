@@ -1,7 +1,3 @@
-
-//CUSTOM UNITYSTATION CODE//
-//This was commented out as the list is filled dynamically on build
-
 // using UnityEditor;
 // using UnityEditorInternal;
 // using UnityEngine;
@@ -13,20 +9,15 @@
 //     public class NetworkManagerEditor : Editor
 //     {
 //         SerializedProperty spawnListProperty;
-//
 //         ReorderableList spawnList;
-//
 //         protected NetworkManager networkManager;
 //
 //         protected void Init()
 //         {
 //             if (spawnList == null)
 //             {
-//
 //                 networkManager = target as NetworkManager;
-//
 //                 spawnListProperty = serializedObject.FindProperty("spawnPrefabs");
-//
 //                 spawnList = new ReorderableList(serializedObject, spawnListProperty)
 //                 {
 //                     drawHeaderCallback = DrawHeader,

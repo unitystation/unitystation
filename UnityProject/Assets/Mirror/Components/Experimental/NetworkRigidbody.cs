@@ -3,11 +3,9 @@ using UnityEngine;
 namespace Mirror.Experimental
 {
     [AddComponentMenu("Network/Experimental/NetworkRigidbody")]
-    [HelpURL("https://mirror-networking.com/docs/Components/NetworkRigidbody.html")]
+    [HelpURL("https://mirror-networking.com/docs/Articles/Components/NetworkRigidbody.html")]
     public class NetworkRigidbody : NetworkBehaviour
     {
-        static readonly ILogger logger = LogFactory.GetLogger(typeof(NetworkRigidbody));
-
         [Header("Settings")]
         [SerializeField] internal Rigidbody target = null;
 
@@ -38,7 +36,7 @@ namespace Mirror.Experimental
         [SerializeField] float angularVelocitySensitivity = 0.1f;
 
         /// <summary>
-        /// Values sent on client with authoirty after they are sent to the server
+        /// Values sent on client with authority after they are sent to the server
         /// </summary>
         readonly ClientSyncState previousValue = new ClientSyncState();
 
@@ -195,7 +193,7 @@ namespace Mirror.Experimental
         {
             if (!hasAuthority)
             {
-                logger.LogWarning("SendToServer called without authority");
+                Debug.LogWarning("SendToServer called without authority");
                 return;
             }
 

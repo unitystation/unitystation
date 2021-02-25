@@ -11,11 +11,10 @@ namespace Mirror.Weaver
 {
     public static class ReaderWriterProcessor
     {
-        public static void Process(AssemblyDefinition CurrentAssembly)
+        public static bool Process(AssemblyDefinition CurrentAssembly)
         {
             Readers.Init();
             Writers.Init();
-
             foreach (Assembly unityAsm in CompilationPipeline.GetAssemblies())
             {
                 if (unityAsm.name == "Mirror")
@@ -28,45 +27,53 @@ namespace Mirror.Weaver
                 }
             }
 
-            ProcessAssemblyClasses(CurrentAssembly, CurrentAssembly);
+            return ProcessAssemblyClasses(CurrentAssembly, CurrentAssembly);
         }
 
-        static void ProcessAssemblyClasses(AssemblyDefinition CurrentAssembly, AssemblyDefinition assembly)
+        static bool ProcessAssemblyClasses(AssemblyDefinition CurrentAssembly, AssemblyDefinition assembly)
         {
+            bool modified = false;
             foreach (TypeDefinition klass in assembly.MainModule.Types)
             {
                 // extension methods only live in static classes
                 // static classes are represented as sealed and abstract
                 if (klass.IsAbstract && klass.IsSealed)
                 {
-                    LoadDeclaredWriters(CurrentAssembly, klass);
-                    LoadDeclaredReaders(CurrentAssembly, klass);
+                    // if assembly has any declared writers then it is "modified"
+                    modified |= LoadDeclaredWriters(CurrentAssembly, klass);
+                    modified |= LoadDeclaredReaders(CurrentAssembly, klass);
                 }
             }
 
             foreach (TypeDefinition klass in assembly.MainModule.Types)
             {
-                LoadMessageReadWriter(CurrentAssembly.MainModule, klass);
+                // if assembly has any network message then it is modified
+                modified |= LoadMessageReadWriter(CurrentAssembly.MainModule, klass);
             }
+            return modified;
         }
 
-        private static void LoadMessageReadWriter(ModuleDefinition module, TypeDefinition klass)
+        static bool LoadMessageReadWriter(ModuleDefinition module, TypeDefinition klass)
         {
+            bool modified = false;
             if (!klass.IsAbstract && !klass.IsInterface && klass.ImplementsInterface<NetworkMessage>())
             {
                 Readers.GetReadFunc(module.ImportReference(klass));
                 Writers.GetWriteFunc(module.ImportReference(klass));
+                modified = true;
             }
 
             foreach (TypeDefinition td in klass.NestedTypes)
             {
-                LoadMessageReadWriter(module, td);
+                modified |= LoadMessageReadWriter(module, td);
             }
+            return modified;
         }
 
-        static void LoadDeclaredWriters(AssemblyDefinition currentAssembly, TypeDefinition klass)
+        static bool LoadDeclaredWriters(AssemblyDefinition currentAssembly, TypeDefinition klass)
         {
             // register all the writers in this class.  Skip the ones with wrong signature
+            bool modified = false;
             foreach (MethodDefinition method in klass.Methods)
             {
                 if (method.Parameters.Count != 2)
@@ -86,12 +93,15 @@ namespace Mirror.Weaver
 
                 TypeReference dataType = method.Parameters[1].ParameterType;
                 Writers.Register(dataType, currentAssembly.MainModule.ImportReference(method));
+                modified = true;
             }
+            return modified;
         }
 
-        static void LoadDeclaredReaders(AssemblyDefinition currentAssembly, TypeDefinition klass)
+        static bool LoadDeclaredReaders(AssemblyDefinition currentAssembly, TypeDefinition klass)
         {
             // register all the reader in this class.  Skip the ones with wrong signature
+            bool modified = false;
             foreach (MethodDefinition method in klass.Methods)
             {
                 if (method.Parameters.Count != 1)
@@ -110,14 +120,16 @@ namespace Mirror.Weaver
                     continue;
 
                 Readers.Register(method.ReturnType, currentAssembly.MainModule.ImportReference(method));
+                modified = true;
             }
+            return modified;
         }
 
-        private static bool IsEditorAssembly(AssemblyDefinition currentAssembly)
+        static bool IsEditorAssembly(AssemblyDefinition currentAssembly)
         {
             return currentAssembly.MainModule.AssemblyReferences.Any(assemblyReference =>
                 assemblyReference.Name == nameof(UnityEditor)
-                ) ;
+                );
         }
 
         /// <summary>
@@ -130,11 +142,11 @@ namespace Mirror.Weaver
         /// <param name="currentAssembly"></param>
         public static void InitializeReaderAndWriters(AssemblyDefinition currentAssembly)
         {
-            var rwInitializer = new MethodDefinition("InitReadWriters", MethodAttributes.Public |
+            MethodDefinition rwInitializer = new MethodDefinition("InitReadWriters", MethodAttributes.Public |
                     MethodAttributes.Static,
                     WeaverTypes.Import(typeof(void)));
 
-            System.Reflection.ConstructorInfo attributeconstructor = typeof(RuntimeInitializeOnLoadMethodAttribute).GetConstructor(new [] { typeof(RuntimeInitializeLoadType)});
+            System.Reflection.ConstructorInfo attributeconstructor = typeof(RuntimeInitializeOnLoadMethodAttribute).GetConstructor(new[] { typeof(RuntimeInitializeLoadType) });
 
             CustomAttribute customAttributeRef = new CustomAttribute(currentAssembly.MainModule.ImportReference(attributeconstructor));
             customAttributeRef.ConstructorArguments.Add(new CustomAttributeArgument(WeaverTypes.Import<RuntimeInitializeLoadType>(), RuntimeInitializeLoadType.BeforeSceneLoad));
@@ -153,13 +165,11 @@ namespace Mirror.Weaver
             Writers.InitializeWriters(worker);
             Readers.InitializeReaders(worker);
 
-            worker.Append(worker.Create(OpCodes.Ret));
+            worker.Emit(OpCodes.Ret);
 
-            Weaver.WeaveLists.ConfirmGeneratedCodeClass();
             TypeDefinition generateClass = Weaver.WeaveLists.generateContainerClass;
 
             generateClass.Methods.Add(rwInitializer);
         }
-
     }
 }

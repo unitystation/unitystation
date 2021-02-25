@@ -7,15 +7,15 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 	{
 		public static void WritePrinter(this NetworkWriter writer, Printer printer)
 		{
-			writer.WritePackedInt32(printer.TrayCount);
-			writer.WritePackedInt32(printer.TrayCapacity);
+			writer.Write(printer.TrayCount);
+			writer.Write(printer.TrayCapacity);
 			writer.WriteBoolean(printer.TrayOpen);
 		}
 
 		public static Printer ReadPrinter(this NetworkReader reader)
 		{
-			int trayCount = reader.ReadPackedInt32();
-			int trayCapacity = reader.ReadPackedInt32();
+			int trayCount = reader.Read<int>();
+			int trayCapacity = reader.Read<int>();
 			bool trayOpen = reader.ReadBoolean();
 			return new Printer(trayCount, trayCapacity, trayOpen);
 		}

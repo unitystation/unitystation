@@ -6,6 +6,9 @@ namespace Mirror.SimpleWeb
 {
     public static class ReadHelper
     {
+        /// <summary>
+        /// Reads exactly length from stream
+        /// </summary>
         /// <returns>outOffset + length</returns>
         /// <exception cref="ReadHelperException"></exception>
         public static int Read(Stream stream, byte[] outBuffer, int outOffset, int length)
@@ -13,26 +16,25 @@ namespace Mirror.SimpleWeb
             int received = 0;
             try
             {
-                received = stream.Read(outBuffer, outOffset, length);
+                while (received < length)
+                {
+                    int read = stream.Read(outBuffer, outOffset + received, length - received);
+                    if (read == 0)
+                    {
+                        throw new ReadHelperException("returned 0");
+                    }
+                    received += read;
+                }
             }
             catch (AggregateException ae)
             {
-                // if interupt is called we dont care about Exceptions
+                // if interrupt is called we don't care about Exceptions
                 Utils.CheckForInterupt();
 
                 // rethrow
                 ae.Handle(e => false);
             }
 
-            if (received == -1)
-            {
-                throw new ReadHelperException("returned -1");
-            }
-
-            if (received == 0)
-            {
-                throw new ReadHelperException("returned 0");
-            }
             if (received != length)
             {
                 throw new ReadHelperException("returned not equal to length");
@@ -48,8 +50,8 @@ namespace Mirror.SimpleWeb
         {
             try
             {
-                int count = Read(stream, outBuffer, outOffset, length);
-                return count == length;
+                Read(stream, outBuffer, outOffset, length);
+                return true;
             }
             catch (ReadHelperException)
             {
@@ -121,7 +123,7 @@ namespace Mirror.SimpleWeb
     [Serializable]
     public class ReadHelperException : Exception
     {
-        public ReadHelperException(string message) : base(message) { }
+        public ReadHelperException(string message) : base(message) {}
 
         protected ReadHelperException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
