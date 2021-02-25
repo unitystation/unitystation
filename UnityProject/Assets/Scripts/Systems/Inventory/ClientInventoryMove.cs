@@ -9,32 +9,20 @@ public class ClientInventoryMove
 	/// </summary>
 	public readonly ClientInventoryMoveType ClientInventoryMoveType;
 
-	/// <summary>
-	/// Slot the MovedObject was moved from (null if InventoryMove.Add)
-	/// </summary>
-    public readonly ItemSlot FromSlot;
+	private ClientInventoryMove(ClientInventoryMoveType clientInventoryMoveType)
+	{
+		ClientInventoryMoveType = clientInventoryMoveType;
+	}
 
 	/// <summary>
-	/// Slot the MovedObject was moved to (null if InventoryMove.Remove)
+	/// An inventory move of the indicated type
 	/// </summary>
-    public readonly ItemSlot ToSlot;
-
-	private ClientInventoryMove(ClientInventoryMoveType clientInventoryMoveType, ItemSlot fromSlot, ItemSlot toSlot)
-    {
-        ClientInventoryMoveType = clientInventoryMoveType;
-        FromSlot = fromSlot;
-        ToSlot = toSlot;
-    }
-
-    /// <summary>
-    /// An inventory move of the indicated type
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-	public static ClientInventoryMove OfType(ClientInventoryMoveType type, ItemSlot fromSlot, ItemSlot toSlot)
-    {
-        return new ClientInventoryMove(type, fromSlot, toSlot);
-    }
+	/// <param name="type"></param>
+	/// <returns></returns>
+	public static ClientInventoryMove OfType(ClientInventoryMoveType type)
+	{
+		return new ClientInventoryMove(type);
+	}
 
 }
 

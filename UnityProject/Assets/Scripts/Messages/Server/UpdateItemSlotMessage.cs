@@ -47,7 +47,7 @@ public class UpdateItemSlotMessage : ServerMessage
 					pickupable._SetItemSlot(null);
 				}
 
-				var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed, slot, pickupable ? slot: null);
+				var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed);
 				var hooks = previouslyInSlot.GetComponents<IClientInventoryMove>();
 				foreach (var hook in hooks)
 				{
@@ -59,7 +59,7 @@ public class UpdateItemSlotMessage : ServerMessage
 			{
 				//was added to slot
 				pickupable._SetItemSlot(slot);
-				var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Added, null, slot);
+				var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Added);
 				var hooks = pickupable.GetComponents<IClientInventoryMove>();
 				foreach (var hook in hooks)
 				{
