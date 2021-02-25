@@ -15,6 +15,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 	
 	private void OnStartClient()
 	{
+		//(ThatDan123) : this wont work as equipment wont be sync'd in time for the check,
 		if(PlayerManager.LocalPlayerScript != null)
 		{
 			var item = PlayerManager.LocalPlayerScript.Equipment.GetClothingItem(NamedSlot.eyes).GameObjectReference;
@@ -22,6 +23,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 		}
 	}
 
+	//IServerInventoryMove should be replaced with IClienInventoryMove but that needs more functionality first
 	public void OnInventoryMoveServer(InventoryMove info)
 		{
 			RegisterPlayer registerPlayer = info.ToRootPlayer;
@@ -55,7 +57,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove
 		{
 			enableEffect(true);
 		}
-	
+
 	private void enableEffect(bool check)
 	{
 		var camera = Camera.main;
