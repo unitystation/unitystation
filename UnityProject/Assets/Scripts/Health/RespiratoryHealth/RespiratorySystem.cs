@@ -458,31 +458,32 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		// if there is too much CO2 in the air
 		if (gasMix.GetMoles(Gas.CarbonDioxide) >= 30)
 		{
-				GasMix gasMix2 = gasMix;
-				gasMix2.RemoveGas(Gas.CarbonDioxide, 30);
-				HandleBreathingCarbonDioxide(gasMix2);
+			GasMix gasMix2 = gasMix;
+			gasMix2.RemoveGas(Gas.CarbonDioxide, 30);
+			HandleBreathingCarbonDioxide(gasMix2);
 			filtered = true;
 		}
 		// if there is too much plasma in the air
 		if (gasMix.GetMoles(Gas.Plasma) >= 25)
 		{
-				GasMix gasMix2 = gasMix;
-				gasMix2.RemoveGas(Gas.Plasma, 25);
-				float plasmaBreathedWithMask = HandleBreathingPlasma(gasMix2);
-				if (plasmaBreathedWithMask > 0)
-				{
-					gasMix.RemoveGas(Gas.Plasma, plasmaBreathedWithMask);
-					registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
+			GasMix gasMix2 = gasMix;
+			gasMix2.RemoveGas(Gas.Plasma, 25);
+			float plasmaBreathedWithMask = HandleBreathingPlasma(gasMix2);
+			if (plasmaBreathedWithMask > 0)
+			{
+				gasMix.RemoveGas(Gas.Plasma, plasmaBreathedWithMask);
+				registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
 			}
 			filtered = true;
 		}
 		
-
+		//if there's not enough to cause the plasma or CO2 warnings, skip the breathe messages
 		if((gasMix.GetMoles(Gas.Plasma) < PLASMA_WARNING_LEVEL && gasMix.GetMoles(Gas.Plasma) > 0) || (gasMix.GetMoles(Gas.CarbonDioxide) < CARBON_DIOXIDE_WARNING_LEVEL && gasMix.GetMoles(Gas.CarbonDioxide) > 0))
 		{
 			return true;
 		}
-
+		
+		//if somehow both are 0 return false
 		if(gasMix.GetMoles(Gas.Plasma) == 0 && gasMix.GetMoles(Gas.CarbonDioxide) == 0)
 		{
 			return false;
@@ -490,7 +491,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		if (DMMath.Prob(90))
 		{
-			return !filtered;
+			return true;
 		}
 
 		if (!filtered)
