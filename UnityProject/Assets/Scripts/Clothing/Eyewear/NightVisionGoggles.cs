@@ -61,10 +61,6 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 		return DefaultWillInteract.Default(interaction, side);
 	}
 
-	//Note : Do not merge before fixing the inventory issue
-	//Players can't take off goggles by clicking anymore, they need to remove the goggles
-	//by dragging it to their hand.
-	//someone else smarter than me should fix this.
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		turnOnGoggles();
