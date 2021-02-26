@@ -58,7 +58,7 @@ public class FireExposure
 	/// <returns></returns>
 	public float StandardDamage()
 	{
-		return Mathf.Clamp(0.02f * Temperature, 0f, 20f);
+		return  Mathf.Clamp(0.1f * Temperature, 0f, 20f);
 	}
 
 	/// <summary>
