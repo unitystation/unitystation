@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using CameraEffects;
 
-public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheckedInteractable<InventoryApply>
+public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheckedInteractable<HandActivate>
 {
 	[SerializeField, Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
 	private Vector3 nightVisionVisibility;
@@ -56,23 +56,18 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 		}
 	}
 	
-	public bool WillInteract(InventoryApply interaction, NetworkSide side)
+	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		return true;
+		return DefaultWillInteract.Default(interaction, side);
 	}
 
 	//Note : Do not merge before fixing the inventory issue
 	//Players can't take off goggles by clicking anymore, they need to remove the goggles
 	//by dragging it to their hand.
 	//someone else smarter than me should fix this.
-	public void ServerPerformInteraction(InventoryApply interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		if(interaction.IsAltClick)
-		{
-			turnOnGoggles();
-		}
-
+		turnOnGoggles();
 	}
 
 	private void turnOnGoggles()
