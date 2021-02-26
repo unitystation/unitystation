@@ -272,7 +272,7 @@ namespace Objects.Engineering
 						break;
 					}
 
-					if (objects.Count > 0)
+					if (objects.Count > 0 && objects[0].isWelded)
 					{
 						//Shouldn't be more than one, but just in case pick first
 						//Add to connected gen dictionary
@@ -355,27 +355,12 @@ namespace Objects.Engineering
 		{
 			foreach (var generator in connectedGenerator.ToArray())
 			{
-				for (int i = 1; i <= detectionRange; i++)
-				{
-					var pos = registerTile.WorldPositionServer + GetCoordFromDirection(generator.Key) * i;
+				InternalRemoveGenerator(generator.Value.Item1, generator.Key);
 
-					if (pos == generator.Value.Item1.gameObject.WorldPosServer())
-					{
-						break;
-					}
+				generator.Value.Item1.GetComponent<Integrity>().OnWillDestroyServer.RemoveListener(OnConnectedDestroy);
 
-					var matrix = MatrixManager.AtPoint(pos, true);
-
-					var layerTile = matrix.TileChangeManager.MetaTileMap
-						.GetTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
-
-					if (layerTile == null) continue;
-
-					if (layerTile.name == horizontal.name || layerTile.name == vertical.name)
-					{
-						matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
-					}
-				}
+				//Tell connected generator to remove us
+				generator.Value.Item1.GetComponent<FieldGenerator>().RemoveGenerator(gameObject, removeConnected: false);
 			}
 
 			connectedGenerator.Clear();
@@ -383,35 +368,55 @@ namespace Objects.Engineering
 
 		private void OnConnectedDestroy(DestructionInfo info)
 		{
+			RemoveGenerator(info.Destroyed.gameObject, info.Destroyed);
+		}
+
+		private void RemoveGenerator(GameObject generatorToRemove, Integrity generatorIntegrity = null, bool removeConnected = true)
+		{
 			foreach (var generator in connectedGenerator.ToArray())
 			{
-				if (generator.Value.Item1 == info.Destroyed.gameObject)
+				if (generator.Value.Item1 != generatorToRemove.gameObject) continue;
+
+				InternalRemoveGenerator(generatorToRemove, generator.Key);
+
+				if (generatorIntegrity == null)
 				{
-					for (int i = 1; i <= detectionRange; i++)
-					{
-						var pos = registerTile.WorldPositionServer + GetCoordFromDirection(generator.Key) * i;
+					generatorIntegrity = generatorToRemove.GetComponent<Integrity>();
+				}
 
-						if (pos == info.Destroyed.gameObject.WorldPosServer())
-						{
-							break;
-						}
+				connectedGenerator.Remove(generator.Key);
+				generatorIntegrity.OnWillDestroyServer.RemoveListener(OnConnectedDestroy);
 
-						var matrix = MatrixManager.AtPoint(pos, true);
+				if (removeConnected)
+				{
+					//Tell connected generator to remove us
+					generatorToRemove.GetComponent<FieldGenerator>().RemoveGenerator(gameObject, removeConnected: false);
+				}
+				break;
+			}
+		}
 
-						var layerTile = matrix.TileChangeManager.MetaTileMap
-							.GetTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
+		private void InternalRemoveGenerator(GameObject generatorToRemove, Direction direction)
+		{
+			for (int i = 1; i <= detectionRange; i++)
+			{
+				var pos = registerTile.WorldPositionServer + GetCoordFromDirection(direction) * i;
 
-						if (layerTile == null) continue;
-
-						if (layerTile.name == horizontal.name || layerTile.name == vertical.name)
-						{
-							matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
-						}
-					}
-
-					connectedGenerator.Remove(generator.Key);
-					info.Destroyed.OnWillDestroyServer.RemoveListener(OnConnectedDestroy);
+				if (pos == generatorToRemove.WorldPosServer())
+				{
 					break;
+				}
+
+				var matrix = MatrixManager.AtPoint(pos, true);
+
+				var layerTile = matrix.TileChangeManager.MetaTileMap
+					.GetTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
+
+				if (layerTile == null) continue;
+
+				if (layerTile.name == horizontal.name || layerTile.name == vertical.name)
+				{
+					matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
 				}
 			}
 		}
@@ -570,6 +575,12 @@ namespace Objects.Engineering
 			if (isOn)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "The field generator needs to be turned off first");
+				return;
+			}
+
+			if (isWrenched == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The field generator needs to be wrenched down first");
 				return;
 			}
 
