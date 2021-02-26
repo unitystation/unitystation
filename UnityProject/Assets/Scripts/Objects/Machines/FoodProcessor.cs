@@ -261,6 +261,7 @@ namespace Objects.Kitchen
 			else
 			{
 				shaker.haltShake();
+				RpcHaltProcessorAnim();
 			}
 		}
 
