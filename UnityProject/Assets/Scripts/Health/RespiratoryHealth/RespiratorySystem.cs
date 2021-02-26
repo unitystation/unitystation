@@ -12,10 +12,11 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 {
-	private const float OXYGEN_SAFE_MIN = 16;
-	private const float PLASMA_SAFE_MAX = 0.4F; //Minimum amount of plasma moles to be visible
-	private const float CARBON_DIOXIDE_SAFE_MAX = 10;
-	private const float CARBON_DIOXIDE_WARNING_LEVEL = 5;
+	private const float OXYGEN_SAFE_MIN = 16; //minimum amount of oxygen before you start suffocating
+	private const float PLASMA_SAFE_MAX = 0.4F; //maximum amount of plasma in the air before it starts killing you
+	private const float PLASMA_WARNING_LEVEL = 0.2F; //minimum amount of plasma in the air before it starts showing warning signs
+	private const float CARBON_DIOXIDE_SAFE_MAX = 10; //maximum amount of CO2 in the air before it starts killing you
+	private const float CARBON_DIOXIDE_WARNING_LEVEL = 7.5F; //minimum amount of CO2 in the air before it starts showing warning signs
 	private const int MIN_TOXIN_DMG = 1; //Minimum damage toxic air can deal
 	private const int MAX_TOXIN_DMG = 10; //Maximum damage toxic air can deal
 	public bool IsSuffocating;
@@ -199,6 +200,19 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		}
 	}
 
+	private bool isWearingGasMask()
+	{
+		if (gameObject.Player() != null)
+		{
+			var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
+			if (maskItemAttrs != null && maskItemAttrs.HasTrait(CommonTraits.Instance.GasMask))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private bool Breathe(IGasMixContainer node)
 	{
 		breatheCooldown--; //not timebased, but tickbased
@@ -210,10 +224,20 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		IGasMixContainer container = GetInternalGasMix() ?? node;
 		GasMix gasMix = container.GasMix;
 
+		float plasmaConsumed = 0;
+		bool carbonDioxideInhaled = false;
+		bool gasFiltered = false;
 		float oxygenUsed = HandleBreathingOxygen(gasMix);
-		float plasmaConsumed = HandleBreathingPlasma(gasMix);
-		bool carbonDioxideInhaled = HandleBreathingCarbonDioxide(gasMix);
 
+		if (isWearingGasMask())
+		{
+			gasFiltered = HandleWearingGasMask(gasMix);
+		}
+		if (gasFiltered == false)
+		{
+			plasmaConsumed = HandleBreathingPlasma(gasMix);
+			carbonDioxideInhaled = HandleBreathingCarbonDioxide(gasMix);
+		}
 		if (oxygenUsed > 0)
 		{
 			gasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
@@ -229,7 +253,6 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		{
 			return true;
 		}
-
 		return false;
 	}
 
@@ -305,37 +328,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		float plasmaConsumed = 0;
 
 		plasmaConsumed = gasMix.GetMoles(Gas.Plasma) * AtmosConstants.BREATH_VOLUME;
-
-		// the player is wearing a gas mask and there are less than 25 moles of plasma in the air
-		if (gameObject.Player() != null && gasMix.GetMoles(Gas.Plasma) < 25)
-		{
-			if (gameObject.Player().Script.Equipment.GetClothingItem(NamedSlot.mask).gameObject.GetComponent<ItemAttributesV2>() != null)
-			{
-				if (gameObject.Player().Script.Equipment.GetClothingItem(NamedSlot.mask).gameObject.GetComponent<ItemAttributesV2>().HasTrait(CommonTraits.Instance.GasMask))
-				{
-					if (DMMath.Prob(90))
-					{
-						return 0;
-					}
-
-					// 10% chance of message
-					var theirPronoun = gameObject.Player() != null
-						? gameObject.Player().Script.characterSettings.TheirPronoun()
-						: "its";
-					Chat.AddActionMsgToChat(
-						gameObject,
-						GasMaskFiltered.PickRandom(),
-						string.Format(
-							GasMaskFilteredOthers.PickRandom(),
-							gameObject.ExpensiveName(),
-							string.Format(plasmaLowOthersMessages.PickRandom(), gameObject.ExpensiveName(), theirPronoun))
-					);
-					return 0;
-				}
-			}
-		}
 		// there is some plasma in the ambient but it is still safe
-		if (plasmaPressure <= PLASMA_SAFE_MAX)
+		if (plasmaPressure <= PLASMA_SAFE_MAX && plasmaPressure > PLASMA_WARNING_LEVEL)
 		{
 			if (DMMath.Prob(90))
 			{
@@ -356,7 +350,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			);
 		}
 		// enough plasma to be visible and damage us!
-		else
+		else if (plasmaPressure > PLASMA_SAFE_MAX)
 		{
 			var plasmaDamage = (gasMix.GetMoles(Gas.Plasma) / PLASMA_SAFE_MAX) * 10;
 			bloodSystem.ToxinLevel = Mathf.Clamp(bloodSystem.ToxinLevel + Mathf.Clamp(plasmaDamage, MIN_TOXIN_DMG, MAX_TOXIN_DMG), 0, 200);
@@ -382,35 +376,6 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private bool HandleBreathingCarbonDioxide(GasMix gasMix)
 	{
 		float carbonPressure = gasMix.GetPressure(Gas.CarbonDioxide);
-
-		// the player is wearing a gas mask and there are less than 30 moles of CO2 in the air
-		if (gameObject.Player() != null && gasMix.GetMoles(Gas.CarbonDioxide) < 30)
-		{
-			if (gameObject.Player().Script.Equipment.GetClothingItem(NamedSlot.mask).gameObject.GetComponent<ItemAttributesV2>() != null)
-			{
-				if (gameObject.Player().Script.Equipment.GetClothingItem(NamedSlot.mask).gameObject.GetComponent<ItemAttributesV2>().HasTrait(CommonTraits.Instance.GasMask))
-				{
-					if (DMMath.Prob(90))
-					{
-						return true;
-					}
-
-					// 10% chance of message
-					var theirPronoun = gameObject.Player() != null
-						? gameObject.Player().Script.characterSettings.TheirPronoun()
-						: "its";
-					Chat.AddActionMsgToChat(
-						gameObject,
-						GasMaskFiltered.PickRandom(),
-						string.Format(
-							GasMaskFilteredOthers.PickRandom(),
-							gameObject.ExpensiveName(),
-							string.Format(plasmaLowOthersMessages.PickRandom(), gameObject.ExpensiveName(), theirPronoun))
-					);
-					return true;
-				}
-			}
-		}
 		// there is a little carbon dioxide in the air.
 		if (carbonPressure <= CARBON_DIOXIDE_SAFE_MAX && carbonPressure > CARBON_DIOXIDE_WARNING_LEVEL)
 		{
@@ -486,6 +451,96 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			return (carbonPressure > 0);
 		}
 		return false;
+	}
+	private bool HandleWearingGasMask(GasMix gasMix)
+	{
+
+		// if there is too much CO2 in the air
+		if (gasMix.GetMoles(Gas.CarbonDioxide) >= 30)
+		{
+			// if there is too much CO2 in the air, but there isn't too much plasma in the air
+			if (gasMix.GetMoles(Gas.Plasma) < 25)
+			{
+				GasMix gasMix2 = gasMix;
+				gasMix2.RemoveGas(Gas.CarbonDioxide, 30);
+				HandleBreathingCarbonDioxide(gasMix2);
+				return true;
+			}
+			else if (gasMix.GetMoles(Gas.Plasma) >= 25)
+			{
+				GasMix gasMix2 = gasMix;
+				gasMix2.RemoveGas(Gas.Plasma, 25);
+				gasMix2.RemoveGas(Gas.CarbonDioxide, 30);
+				float plasmaBreathedWithMask = HandleBreathingPlasma(gasMix2);
+				if (plasmaBreathedWithMask > 0)
+				{
+					gasMix.RemoveGas(Gas.Plasma, plasmaBreathedWithMask);
+					registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
+				}
+				HandleBreathingCarbonDioxide(gasMix2);
+				return true;
+			}
+		}
+		// if there is too much plasma in the air
+		if (gasMix.GetMoles(Gas.Plasma) >= 25)
+		{
+			// if there is too much plasma in the air, but there isn't too much CO2 in the air
+			if (gasMix.GetMoles(Gas.CarbonDioxide) < 30)
+			{
+				GasMix gasMix2 = gasMix;
+				gasMix2.RemoveGas(Gas.Plasma, 25);
+				float plasmaBreathedWithMask = HandleBreathingPlasma(gasMix2);
+				if (plasmaBreathedWithMask > 0)
+				{
+					gasMix.RemoveGas(Gas.Plasma, plasmaBreathedWithMask);
+					registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
+				}
+				return true;
+			}
+			else if(gasMix.GetMoles(Gas.CarbonDioxide) >= 30)
+			{
+				GasMix gasMix2 = gasMix;
+				gasMix2.RemoveGas(Gas.Plasma, 25);
+				gasMix2.RemoveGas(Gas.CarbonDioxide, 30);
+				float plasmaBreathedWithMask = HandleBreathingPlasma(gasMix2);
+				if (plasmaBreathedWithMask > 0)
+				{
+					gasMix.RemoveGas(Gas.Plasma, plasmaBreathedWithMask);
+					registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
+				}
+				HandleBreathingCarbonDioxide(gasMix2);
+				return true;
+			}
+		}
+
+		if((gasMix.GetMoles(Gas.Plasma) < PLASMA_WARNING_LEVEL && gasMix.GetMoles(Gas.Plasma) > 0) || (gasMix.GetMoles(Gas.CarbonDioxide) < CARBON_DIOXIDE_WARNING_LEVEL && gasMix.GetMoles(Gas.CarbonDioxide) > 0))
+		{
+			return true;
+		}
+
+		if(gasMix.GetMoles(Gas.Plasma) == 0 && gasMix.GetMoles(Gas.CarbonDioxide) == 0)
+		{
+			return false;
+		}
+
+		if (DMMath.Prob(90))
+		{
+			return true;
+		}
+
+		// 10% chance of message
+		var theirPronoun = gameObject.Player() != null
+			? gameObject.Player().Script.characterSettings.TheirPronoun()
+			: "its";
+		Chat.AddActionMsgToChat(
+			gameObject,
+			GasMaskFiltered.PickRandom(),
+			string.Format(
+				GasMaskFilteredOthers.PickRandom(),
+				gameObject.ExpensiveName(),
+				string.Format(plasmaLowOthersMessages.PickRandom(), gameObject.ExpensiveName(), theirPronoun))
+		);
+		return true;
 	}
 
 	private void CheckPressureDamage()
