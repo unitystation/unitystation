@@ -454,39 +454,18 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	}
 	private bool HandleWearingGasMask(GasMix gasMix)
 	{
-
+		bool filtered = false;
 		// if there is too much CO2 in the air
 		if (gasMix.GetMoles(Gas.CarbonDioxide) >= 30)
 		{
-			// if there is too much CO2 in the air, but there isn't too much plasma in the air
-			if (gasMix.GetMoles(Gas.Plasma) < 25)
-			{
 				GasMix gasMix2 = gasMix;
 				gasMix2.RemoveGas(Gas.CarbonDioxide, 30);
 				HandleBreathingCarbonDioxide(gasMix2);
-				return true;
-			}
-			else if (gasMix.GetMoles(Gas.Plasma) >= 25)
-			{
-				GasMix gasMix2 = gasMix;
-				gasMix2.RemoveGas(Gas.Plasma, 25);
-				gasMix2.RemoveGas(Gas.CarbonDioxide, 30);
-				float plasmaBreathedWithMask = HandleBreathingPlasma(gasMix2);
-				if (plasmaBreathedWithMask > 0)
-				{
-					gasMix.RemoveGas(Gas.Plasma, plasmaBreathedWithMask);
-					registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
-				}
-				HandleBreathingCarbonDioxide(gasMix2);
-				return true;
-			}
+			filtered = true;
 		}
 		// if there is too much plasma in the air
 		if (gasMix.GetMoles(Gas.Plasma) >= 25)
 		{
-			// if there is too much plasma in the air, but there isn't too much CO2 in the air
-			if (gasMix.GetMoles(Gas.CarbonDioxide) < 30)
-			{
 				GasMix gasMix2 = gasMix;
 				gasMix2.RemoveGas(Gas.Plasma, 25);
 				float plasmaBreathedWithMask = HandleBreathingPlasma(gasMix2);
@@ -494,24 +473,10 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 				{
 					gasMix.RemoveGas(Gas.Plasma, plasmaBreathedWithMask);
 					registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
-				}
-				return true;
 			}
-			else if(gasMix.GetMoles(Gas.CarbonDioxide) >= 30)
-			{
-				GasMix gasMix2 = gasMix;
-				gasMix2.RemoveGas(Gas.Plasma, 25);
-				gasMix2.RemoveGas(Gas.CarbonDioxide, 30);
-				float plasmaBreathedWithMask = HandleBreathingPlasma(gasMix2);
-				if (plasmaBreathedWithMask > 0)
-				{
-					gasMix.RemoveGas(Gas.Plasma, plasmaBreathedWithMask);
-					registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
-				}
-				HandleBreathingCarbonDioxide(gasMix2);
-				return true;
-			}
+			filtered = true;
 		}
+		
 
 		if((gasMix.GetMoles(Gas.Plasma) < PLASMA_WARNING_LEVEL && gasMix.GetMoles(Gas.Plasma) > 0) || (gasMix.GetMoles(Gas.CarbonDioxide) < CARBON_DIOXIDE_WARNING_LEVEL && gasMix.GetMoles(Gas.CarbonDioxide) > 0))
 		{
@@ -525,22 +490,26 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		if (DMMath.Prob(90))
 		{
-			return true;
+			return !filtered;
 		}
 
-		// 10% chance of message
-		var theirPronoun = gameObject.Player() != null
-			? gameObject.Player().Script.characterSettings.TheirPronoun()
-			: "its";
-		Chat.AddActionMsgToChat(
-			gameObject,
-			GasMaskFiltered.PickRandom(),
-			string.Format(
-				GasMaskFilteredOthers.PickRandom(),
-				gameObject.ExpensiveName(),
-				string.Format(plasmaLowOthersMessages.PickRandom(), gameObject.ExpensiveName(), theirPronoun))
-		);
-		return true;
+		if (!filtered)
+		{
+			// 10% chance of message
+			var theirPronoun = gameObject.Player() != null
+				? gameObject.Player().Script.characterSettings.TheirPronoun()
+				: "its";
+			Chat.AddActionMsgToChat(
+				gameObject,
+				GasMaskFiltered.PickRandom(),
+				string.Format(
+					GasMaskFilteredOthers.PickRandom(),
+					gameObject.ExpensiveName(),
+					string.Format(plasmaLowOthersMessages.PickRandom(), gameObject.ExpensiveName(), theirPronoun))
+			);
+			return true;
+		}
+		return false;
 	}
 
 	private void CheckPressureDamage()
