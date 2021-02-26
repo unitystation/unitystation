@@ -12,8 +12,7 @@ using Objects.Machines;
 namespace Objects.Kitchen
 {
 
-	// TODO: Add shaking animation via LeanTween functions
-	// (calls to AnimateProcessor are commented out) and add looping sound.
+	//Note : needs sounds
 
 	/// <summary>
 	/// A machine into which players can insert items for cooking. If the item has the Cookable component,
@@ -48,6 +47,8 @@ namespace Objects.Kitchen
 
 		public ProcessorState currentState = null;
 
+		[SerializeField]
+		private Shake shaker;
 		// For shake animation
 		private float shakeValue = 0.03f;
 
@@ -217,9 +218,10 @@ namespace Objects.Kitchen
 			// time in seconds = 4 * items_in_processor / manipulator tier
 			int slotsOccupied = storage.GetNextFreeIndexedSlot().SlotIdentifier.SlotIndex;
 			processTimer = (float)(TIME_PER_ITEM * slotsOccupied / manipTier);
-
+			AnimateProcessor(1, processTimer, shakeValue, 0.1f);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			playAudioLoop = true;
+
 		}
 
 		private void HaltProcessor()
@@ -227,8 +229,14 @@ namespace Objects.Kitchen
 			if (IsOperating == false) return;
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			//AnimateProcessor(0);
+			HaltProcessorAnim();
 			playAudioLoop = false;
+		}
+
+		[ClientRpc]
+		private void HaltProcessorAnim()
+		{
+			AnimateProcessor(0, 0.0f, 0.0f, 0.0f);
 		}
 
 		private void ProcessTimerComplete()
@@ -239,21 +247,30 @@ namespace Objects.Kitchen
 
 			SetState(new ProcessorIdle(this));
 		}
-
-		private void AnimateProcessor(float toX)
+		/// <summary>
+		/// Animates the food Processor using Shake.cs
+		/// </summary>
+		/// <param name="state">Checks if the animation should be stopped or enabled.</param>
+		private void AnimateProcessor(int state, float duration, float distance, float delayBetweenShakes)
 		{
-			
-			LeanTween.moveLocal(gameObject.transform.GetChild(0).gameObject, new Vector3(toX, 0, 1), 0);
-			RpcShake(toX);
+			if(state == 1)
+			{
+				shaker.startShake(duration, distance, delayBetweenShakes);
+				RpcShake(duration, distance, delayBetweenShakes);
+			}
+			else
+			{
+				shaker.haltShake();
+			}
 		}
 
 		/// <summary>
 		/// Send animation to clients.
 		/// </summary>
 		[ClientRpc]
-		private void RpcShake(float toX)
+		private void RpcShake(float duration, float distance, float delayBetweenShakes)
 		{
-			LeanTween.moveLocal(gameObject.transform.GetChild(0).gameObject, new Vector3(toX, 0, 1), 0);
+			shaker.startShake(duration, distance, delayBetweenShakes);
 		}
 
 		private void OnSyncPlayAudioLoop(bool oldState, bool newState)

@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 680863957139992462}
   - component: {fileID: -5821624160305598259}
   - component: {fileID: -770403792292043468}
+  - component: {fileID: 8428099613412960887}
   m_Layer: 11
   m_Name: FoodProcessor
   m_TagString: Untagged
@@ -290,7 +291,9 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
 --- !u!114 &114319378092756998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,11 +335,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 321127c0b723f2b4dab542736a42d31a, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 647291457413040798, guid: 30b17e1fb1d57fa4d9a3f52459c077d2,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &-7880691009250202009
 MonoBehaviour:
@@ -353,6 +355,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   RunningAudio: {fileID: 680863957139992462}
+  shaker: {fileID: 8428099613412960887}
 --- !u!114 &4614475941853715273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,3 +527,15 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &8428099613412960887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014212709224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d7a3d174472564ea12881872e65759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
