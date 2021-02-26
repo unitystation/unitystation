@@ -229,8 +229,14 @@ namespace Objects.Kitchen
 			if (IsOperating == false) return;
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			AnimateProcessor(0, 0.0f, 0.0f, 0.0f);
+			HaltProcessorAnim();
 			playAudioLoop = false;
+		}
+
+		[ClientRpc]
+		private void HaltProcessorAnim()
+		{
+			AnimateProcessor(0, 0.0f, 0.0f, 0.0f);
 		}
 
 		private void ProcessTimerComplete()
