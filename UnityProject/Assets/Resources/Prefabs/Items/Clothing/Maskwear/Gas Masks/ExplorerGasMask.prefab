@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4fb5e69a6580f624fa72e27a98168625,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4fb5e69a6580f624fa72e27a98168625,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: hideClothingFlags
@@ -27,34 +25,60 @@ PrefabInstance:
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: allClothingData.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: de4f697cbc7a5644297f3be23349eb22,
+      objectReference: {fileID: 11400000, guid: 829a30422cf9b604889980adaf79ef51,
+        type: 2}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: e68e79c11029c9543bded79be644a530,
         type: 2}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 91120b08b30142d43ba589f51a6de8e5,
+      objectReference: {fileID: 11400000, guid: 7c904d481e644424ebd3eb4c600dfec8,
         type: 2}
     - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: Armor.Rad
-      value: 10
+      propertyPath: Armor.Bio
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: Armor.Acid
-      value: 10
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: Armor.Fire
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -129,23 +153,83 @@ PrefabInstance:
     - target: {fileID: 7600017545650087553, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_Name
-      value: AtmosphericGasMask
+      value: ExplorerGasMask
       objectReference: {fileID: 0}
     - target: {fileID: 7600017545650087553, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152621923, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: m_Name
+      value: ExplorerGasMask
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645010, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: initialName
+      value: explorer gas mask
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645010, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: initialDescription
+      value: A military-grade gas mask that can be connected to an air supply.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645356, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645356, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645356, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645356, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645356, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645356, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645356, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152645356, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600730730152647953, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7748823779942372829, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8ad16f43af2e8674bab07c631fd4e65b,
+      objectReference: {fileID: 21300000, guid: 648120be00addc34d96721431a3c52dc,
         type: 3}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialName
-      value: atmospheric gas mask
+      value: explorer gas mask
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -155,8 +239,18 @@ PrefabInstance:
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialDescription
-      value: Improved gas mask utilized by atmospheric technicians. Still not very
-        good at blocking gas flow, but it's flameproof!
+      value: A military-grade gas mask that can be connected to an air supply.
       objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e7b7749adb1fec4593ed70decb21862,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}

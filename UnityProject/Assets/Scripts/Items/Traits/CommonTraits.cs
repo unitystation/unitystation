@@ -69,6 +69,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	[BoxGroup("Materials")] public ItemTrait OrePlasma;
 
 	[BoxGroup("Clothing")] public ItemTrait Mask;
+	[BoxGroup("Clothing")] public ItemTrait GasMask;
 	[BoxGroup("Clothing")] public ItemTrait BlackGloves;
 	[BoxGroup("Clothing")] public ItemTrait WizardGarb;
 
