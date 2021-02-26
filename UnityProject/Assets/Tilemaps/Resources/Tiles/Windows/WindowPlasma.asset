@@ -24,6 +24,7 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  RadiationPassability: 0.1
   doesReflectBullet: 0
   indestructible: 0
   passableException:
@@ -59,7 +60,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  currentEffect: {fileID: 0}
   connectCategory: 1
   connectType: 1
   spriteSheet:
