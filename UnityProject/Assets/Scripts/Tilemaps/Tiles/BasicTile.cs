@@ -35,7 +35,7 @@ public abstract class BasicTile : LayerTile
 	private bool mineable = false;
 
 
-	[Tooltip("RadiationPassability 0 = 100% Resistant")] [SerializeField]
+	[Range(0.0f, 1f)] [Tooltip("RadiationPassability 0 = 100% Resistant")] [SerializeField]
 	public float RadiationPassability = 1;
 
 	/// <summary>
