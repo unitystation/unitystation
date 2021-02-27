@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -81,10 +82,10 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 			}
 
 
-
-			System.IO.File.Copy(FoundFile, newendpath + Path.GetFileName(FoundFile));
-			System.IO.File.Copy(FoundFile.Replace(".json", ".hash"), (newendpath + Path.GetFileName(FoundFile)).Replace(".json", ".hash"));
-			JObject o1 = JObject.Parse(File.ReadAllText((@newendpath + Path.GetFileName(FoundFile).Replace("/", @"\"))));
+			var Stringtime = DateTime.Now.Ticks.ToString();
+			System.IO.File.Copy(FoundFile, newendpath + Stringtime+ ".json");
+			System.IO.File.Copy(FoundFile.Replace(".json", ".hash"), (newendpath + Stringtime+ ".hash" ));
+			JObject o1 = JObject.Parse(File.ReadAllText((@newendpath +  Stringtime+ ".json".Replace("/", @"\"))));
 
 			var IDs = (JArray) o1["m_InternalIds"];
 			for (int i = 0; i < IDs.Count; i++)
@@ -97,7 +98,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 				IDs[i] = newID;
 			}
 
-			File.WriteAllText(newendpath + Path.GetFileName(FoundFile),
+			File.WriteAllText(newendpath +  Stringtime+ ".json",
 				Newtonsoft.Json.JsonConvert.SerializeObject(o1, Newtonsoft.Json.Formatting.None));
 		}
 

@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 6719972196587897998, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: EncryptionKey
-      value: 2
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6732036590712927209, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
@@ -103,14 +103,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8f5f2b27179be3a43a9f4ce23a9b2d8d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7008273254636693778, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8f5f2b27179be3a43a9f4ce23a9b2d8d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7008273254636693778, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

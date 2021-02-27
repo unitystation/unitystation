@@ -24,6 +24,7 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  RadiationPassability: 0.1
   doesReflectBullet: 0
   indestructible: 0
   passableException:
@@ -33,10 +34,10 @@ MonoBehaviour:
   damageDeflection: 0
   armor:
     Melee: 80
-    Bullet: 5
+    Bullet: 20
     Laser: 0
     Energy: 0
-    Bomb: 45
+    Bomb: 60
     Rad: 100
     Fire: 99
     Acid: 100
@@ -59,7 +60,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  currentEffect: {fileID: 0}
   connectCategory: 1
   connectType: 1
   spriteSheet:
