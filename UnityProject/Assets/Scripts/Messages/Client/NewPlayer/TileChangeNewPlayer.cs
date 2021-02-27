@@ -22,7 +22,8 @@ namespace Messages.Client.NewPlayer
 			{
 				TileChangeManager = tileChangeNetId
 			};
-			new TileChangeNewPlayer().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

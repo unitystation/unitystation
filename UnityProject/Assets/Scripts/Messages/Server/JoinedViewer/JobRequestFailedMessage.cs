@@ -23,7 +23,7 @@ namespace Messages.Server
 				FailReason = failReason,
 			};
 
-			new JobRequestFailedMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

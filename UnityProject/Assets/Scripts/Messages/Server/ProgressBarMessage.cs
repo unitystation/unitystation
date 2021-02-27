@@ -53,7 +53,8 @@ namespace Messages.Server
 				OffsetFromPlayer = offsetFromPlayer,
 				ProgressBarID = progressBarID
 			};
-			new ProgressBarMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -72,7 +73,8 @@ namespace Messages.Server
 				SpriteIndex = spriteIndex,
 				ProgressBarID = progressBarID
 			};
-			new ProgressBarMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

@@ -27,7 +27,8 @@ namespace Messages.Client.NewPlayer
 			{
 				Player = netId
 			};
-			new PlayerNewPlayer().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

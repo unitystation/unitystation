@@ -69,7 +69,8 @@ namespace Messages.Server
 				reachCheck = arcSettings.reachCheck,
 				addRandomness = arcSettings.addRandomness
 			};
-			new ElectricalArcMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

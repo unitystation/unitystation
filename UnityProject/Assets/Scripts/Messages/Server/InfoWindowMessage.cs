@@ -38,7 +38,7 @@ namespace Messages.Server
 					Bwoink = bwoink
 				};
 
-			new InfoWindowMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

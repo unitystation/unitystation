@@ -46,7 +46,8 @@ namespace Messages.Client.Admin
 				UserToBwoink = userIDToBwoink,
 				Message = message
 			};
-			new RequestMentorBwoink().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

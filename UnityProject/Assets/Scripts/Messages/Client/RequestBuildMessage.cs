@@ -108,7 +108,7 @@ namespace Messages.Client
 				EntryIndex = (byte) entryIndex
 			};
 
-			new RequestBuildMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

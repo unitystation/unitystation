@@ -36,7 +36,7 @@ namespace Messages.Server.HealthMessages
 				ToxinLevel = toxinLevel
 			};
 
-			new HealthBloodMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -52,7 +52,7 @@ namespace Messages.Server.HealthMessages
 				ToxinLevel = toxinLevel
 			};
 
-			new HealthBloodMessage().SendToAll(msg);
+			SendToAll(msg);
 			return msg;
 		}
 	}

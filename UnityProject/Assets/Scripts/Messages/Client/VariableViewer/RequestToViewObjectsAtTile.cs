@@ -32,7 +32,7 @@ namespace Messages.Client.VariableViewer
 			msg.AdminId = adminId;
 			msg.AdminToken = adminToken;
 
-			new RequestToViewObjectsAtTile().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

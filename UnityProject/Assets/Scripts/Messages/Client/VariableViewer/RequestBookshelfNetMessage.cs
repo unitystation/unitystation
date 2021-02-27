@@ -48,7 +48,7 @@ namespace Messages.Client.VariableViewer
 			msg.AdminId = adminId;
 			msg.AdminToken = adminToken;
 
-			new RequestBookshelfNetMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 
@@ -59,7 +59,7 @@ namespace Messages.Client.VariableViewer
 			msg.AdminId = adminId;
 			msg.AdminToken = adminToken;
 
-			new RequestBookshelfNetMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

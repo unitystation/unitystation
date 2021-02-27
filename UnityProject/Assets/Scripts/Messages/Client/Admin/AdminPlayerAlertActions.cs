@@ -29,7 +29,8 @@ namespace Messages.Client.Admin
 				PerpNetID = perpId,
 				AdminToken = adminToken
 			};
-			new AdminPlayerAlertActions().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

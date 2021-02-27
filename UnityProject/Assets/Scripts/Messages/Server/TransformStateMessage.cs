@@ -51,7 +51,8 @@ namespace Messages.Server
 				State = state,
 				ForceRefresh = forced
 			};
-			new TransformStateMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -76,7 +77,8 @@ namespace Messages.Server
 				State = state,
 				ForceRefresh = forced
 			};
-			new TransformStateMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

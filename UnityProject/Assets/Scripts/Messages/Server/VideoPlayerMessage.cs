@@ -32,7 +32,8 @@ namespace Messages.Server
 			{
 				VideoToPlay = videoType
 			};
-			new VideoPlayerMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

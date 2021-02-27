@@ -30,7 +30,7 @@ namespace Messages.Server
 			NetMessage msg =
 				new NetMessage { Recipient = recipient.GetComponent<NetworkIdentity>().netId, HackingObject = hackingObject.GetComponent<NetworkIdentity>().netId, JsonData = JsonConvert.SerializeObject(connectionList) };
 
-			new HackingNodeConnectionList().SendToNearbyPlayers(hackingObject.transform.position, msg);
+			SendToNearbyPlayers(hackingObject.transform.position, msg);
 			return msg;
 		}
 	}

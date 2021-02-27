@@ -46,7 +46,7 @@ namespace Messages.Server
 				dir = dir
 			};
 
-			new MobMeleeLerpMessage().SendToVisiblePlayers(mob.transform.position, msg);
+			SendToVisiblePlayers(mob.transform.position, msg);
 			return msg;
 		}
 	}

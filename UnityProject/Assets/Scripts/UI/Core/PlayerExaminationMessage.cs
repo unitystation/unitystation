@@ -57,7 +57,7 @@ public class PlayerExaminationMessage : ServerMessage<PlayerExaminationMessage.N
 			Observed = observed
 		};
 
-		new PlayerExaminationMessage().SendTo(recipient, msg);
+		SendTo(recipient, msg);
 	}
 
 	public static void Send(GameObject recipient, ExaminablePlayer examinablePlayer, bool observed)
@@ -73,6 +73,6 @@ public class PlayerExaminationMessage : ServerMessage<PlayerExaminationMessage.N
 			Observed = observed
 		};
 
-		new PlayerExaminationMessage().SendTo(recipient, msg);
+		SendTo(recipient, msg);
 	}
 }

@@ -38,7 +38,7 @@ namespace Messages.Client
 				JsonData = JsonConvert.SerializeObject(connectionToRemove),
 			};
 
-			new RemoveHackingConnection().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

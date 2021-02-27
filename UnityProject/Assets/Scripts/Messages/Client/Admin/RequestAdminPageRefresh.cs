@@ -37,7 +37,7 @@ namespace Messages.Client.Admin
 				AdminToken = adminToken
 			};
 
-			new RequestAdminPageRefresh().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

@@ -27,8 +27,8 @@ namespace Messages.Client.GhostRoles
 		public static NetMessage SendMessage()
 		{
 			var msg = new NetMessage();
-			new RequestAvailableGhostRolesMessage().Send(msg);
 
+			Send(msg);
 			return msg;
 		}
 	}

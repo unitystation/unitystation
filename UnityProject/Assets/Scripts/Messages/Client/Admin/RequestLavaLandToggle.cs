@@ -36,7 +36,7 @@ namespace Messages.Client.Admin
 				AdminToken = adminToken,
 				LavaLandAllowed = lavaLandAllowed
 			};
-			new RequestLavaLandToggle().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

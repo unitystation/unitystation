@@ -25,8 +25,7 @@ namespace Messages.Server.AdminTools
 				Message = message
 			};
 
-			new MentorBwoinkMessage().SendTo(recipient, msg);
-
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

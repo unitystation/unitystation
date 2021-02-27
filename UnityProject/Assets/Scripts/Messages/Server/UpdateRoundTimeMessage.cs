@@ -23,7 +23,8 @@ namespace Messages.Server
 			{
 				Time = time
 			};
-			new UpdateRoundTimeMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

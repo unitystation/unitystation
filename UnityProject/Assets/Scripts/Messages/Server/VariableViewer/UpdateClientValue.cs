@@ -56,7 +56,8 @@ namespace Messages.Server.VariableViewer
 				MonoBehaviourName = InMonoBehaviourName,
 				GameObject = netID
 			};
-			new UpdateClientValue().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

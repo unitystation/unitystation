@@ -84,7 +84,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 				ComponentLocation = componentLocation,
 				ComponentID = componentTypeToComponentID[componentType],
 			};
-			new RequestGameAction().Send(msg);
+			Send(msg);
 			return;
 		}
 

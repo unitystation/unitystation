@@ -42,7 +42,7 @@ namespace Messages.Client.Admin
 				UserToBwoink = userIDToBwoink,
 				Message = message
 			};
-			new RequestAdminBwoink().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

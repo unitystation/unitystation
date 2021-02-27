@@ -27,6 +27,6 @@ public class RequestGameActionSO : ClientMessage<RequestGameActionSO.NetMessage>
 		{
 			soID = UIActionSOSingleton.ActionsTOID[uIActionScriptableObject]
 		};
-		new RequestGameActionSO().Send(msg);
+		Send(msg);
 	}
 }

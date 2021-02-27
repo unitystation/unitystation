@@ -98,7 +98,7 @@ namespace Messages.Server
 					ComponentID = SerializeType(actionFromSO.GetType()),
 					spellListIndex = -1
 				};
-				new SetActionUIMessage().SendTo(recipient, msg);
+				SendTo(recipient, msg);
 				return msg;
 			}
 			//SpellList singleton index
@@ -113,7 +113,7 @@ namespace Messages.Server
 					ProposedAction = ProposedAction,
 					ComponentID = SerializeType(spellAction.GetType()),
 				};
-				new SetActionUIMessage().SendTo(recipient, msg);
+				SendTo(recipient, msg);
 				return msg;
 			}
 			else
@@ -148,7 +148,7 @@ namespace Messages.Server
 						ProposedAction = ProposedAction,
 						spellListIndex = -1
 					};
-					new SetActionUIMessage().SendTo(recipient, msg);
+					SendTo(recipient, msg);
 					return msg;
 				}
 				else

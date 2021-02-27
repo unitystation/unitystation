@@ -18,7 +18,8 @@ namespace Messages.Server
 		public static NetMessage Send()
 		{
 			NetMessage msg = new NetMessage();
-			new GibMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

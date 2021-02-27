@@ -79,7 +79,7 @@ namespace Messages.Server
 					PulledBy = pulledBy == null ? NetId.Invalid : pulledBy.gameObject.NetId(),
 				};
 
-			new InformPullMessage().SendTo(recipient.gameObject, msg);
+			SendTo(recipient.gameObject, msg);
 			Logger.LogTraceFormat( "Sent to {0}: {1} is {2}", Category.PushPull, recipient, subject, getStatus( pulledBy ) );
 			return msg;
 		}

@@ -36,7 +36,8 @@ namespace Messages.Server.AdminTools
 				Amount = amt,
 				IsFullUpdate = false,
 			};
-			new PlayerAlertNotifications().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 
@@ -50,7 +51,8 @@ namespace Messages.Server.AdminTools
 				Amount = amt,
 				IsFullUpdate = true
 			};
-			new PlayerAlertNotifications().SendTo(adminConn, msg);
+
+			SendTo(adminConn, msg);
 			return msg;
 		}
 	}

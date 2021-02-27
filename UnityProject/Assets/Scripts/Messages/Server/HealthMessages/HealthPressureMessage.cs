@@ -26,7 +26,8 @@ namespace Messages.Server.HealthMessages
 			{
 				pressure = pressureValue
 			};
-			new HealthPressureMessage().SendTo(entityToUpdate, msg);
+
+			SendTo(entityToUpdate, msg);
 			return msg;
 		}
 	}

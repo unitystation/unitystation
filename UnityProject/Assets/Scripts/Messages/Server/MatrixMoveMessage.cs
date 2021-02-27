@@ -39,7 +39,8 @@ namespace Messages.Server
 				Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				State = state,
 			};
-			new MatrixMoveMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -50,7 +51,8 @@ namespace Messages.Server
 				Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				State = state,
 			};
-			new MatrixMoveMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

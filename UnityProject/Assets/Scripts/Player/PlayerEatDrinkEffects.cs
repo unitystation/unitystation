@@ -38,7 +38,8 @@ public class PlayerEatDrinkEffectsServerMessage : ServerMessage<PlayerEatDrinkEf
 		{
 			alcoholValue = newAlcoholValue
 		};
-		new PlayerEatDrinkEffectsServerMessage().SendTo(clientConn, msg);
+
+		SendTo(clientConn, msg);
 		return msg;
 	}
 }

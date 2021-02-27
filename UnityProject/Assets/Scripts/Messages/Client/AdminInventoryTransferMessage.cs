@@ -40,7 +40,8 @@ namespace Messages.Client
 				ToSlotIndex = toSlot.SlotIdentifier.SlotIndex,
 				ToNamedSlot = toSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
 			};
-			new AdminInventoryTransferMessage().Send(msg);
+
+			Send(msg);
 		}
 	}
 }

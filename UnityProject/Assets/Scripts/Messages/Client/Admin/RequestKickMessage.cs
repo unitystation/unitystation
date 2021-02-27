@@ -44,7 +44,7 @@ namespace Messages.Client.Admin
 				AnnounceBan = announceBan
 			};
 
-			new RequestKickMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

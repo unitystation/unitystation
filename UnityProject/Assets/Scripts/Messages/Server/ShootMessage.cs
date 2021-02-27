@@ -93,7 +93,8 @@ namespace Messages.Server
 				ProjectileName = projectileName,
 				Quantity = quantity
 			};
-			new ShootMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 
@@ -186,7 +187,8 @@ namespace Messages.Server
 				Direction = direction,
 				DamageZone = damageZone,
 			};
-			new CastProjectileMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

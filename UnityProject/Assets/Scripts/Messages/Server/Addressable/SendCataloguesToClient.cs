@@ -24,7 +24,7 @@ namespace Messages.Server.Addressable
 				serialiseCatalogues = JsonConvert.SerializeObject(Catalogues)
 			};
 
-			new SendCataloguesToClient().SendTo(ToWho, msg);
+			SendTo(ToWho, msg);
 			return msg;
 		}
 

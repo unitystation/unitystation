@@ -21,7 +21,8 @@ namespace Messages.Server.VariableViewer
 			{
 				BookShelf = VariableViewerNetworking.ProcessSUBBookShelf(_BookShelf)
 			};
-			new SubBookshelfNetMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

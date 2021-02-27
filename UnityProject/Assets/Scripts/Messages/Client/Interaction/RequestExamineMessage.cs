@@ -72,7 +72,8 @@ namespace Messages.Client.Interaction
 			{
 				examineTarget = targetNetId
 			};
-			new RequestExamineMessage().Send(msg);
+
+			Send(msg);
 		}
 
 		public static void Send(uint targetNetId, Vector3 mousePos)
@@ -82,7 +83,8 @@ namespace Messages.Client.Interaction
 				examineTarget = targetNetId,
 				mousePosition = mousePos
 			};
-			new RequestExamineMessage().Send(msg);
+
+			Send(msg);
 		}
 	}
 }

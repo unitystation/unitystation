@@ -26,7 +26,8 @@ namespace Messages.Server.HealthMessages
 			{
 				IsSuffocating = IsSuffocating
 			};
-			new HealthRespiratoryMessage().SendTo(entityToUpdate, msg);
+
+			SendTo(entityToUpdate, msg);
 			return msg;
 		}
 	}

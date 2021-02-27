@@ -24,7 +24,8 @@ namespace Messages.Client
 			{
 				Action = action
 			};
-			new RequestMoveMessage().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

@@ -29,7 +29,8 @@ namespace Messages.Client.NewPlayer
 			{
 				Door = netId
 			};
-			new DoorNewPlayer().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

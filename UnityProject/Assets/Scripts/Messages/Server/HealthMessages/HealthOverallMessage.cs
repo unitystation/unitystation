@@ -28,7 +28,7 @@ namespace Messages.Server.HealthMessages
 				OverallHealth = overallHealth,
 			};
 
-			new HealthOverallMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -39,7 +39,8 @@ namespace Messages.Server.HealthMessages
 				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				OverallHealth = overallHealth,
 			};
-			new HealthOverallMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

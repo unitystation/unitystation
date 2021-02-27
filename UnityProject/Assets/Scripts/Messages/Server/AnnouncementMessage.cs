@@ -24,8 +24,7 @@ namespace Messages.Server
 		{
 			NetMessage msg = new NetMessage{ Text = text };
 
-			new AnnouncementMessage().SendToAll(msg);
-
+			SendToAll(msg);
 			return msg;
 		}
 	}

@@ -26,7 +26,8 @@ namespace Messages.Server.HealthMessages
 			{
 				temperature = temperatureValue
 			};
-			new HealthTemperatureMessage().SendTo(entityToUpdate, msg);
+
+			SendTo(entityToUpdate, msg);
 			return msg;
 		}
 	}

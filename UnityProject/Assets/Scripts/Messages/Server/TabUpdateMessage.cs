@@ -242,7 +242,7 @@ namespace Messages.Server
 					UniqueID = uniqueID
 				};
 
-				new TabUpdateMessage().SendTo(recipient, msg);
+				SendTo(recipient, msg);
 				Logger.LogTraceFormat("{0}", Category.NetUI, msg);
 				return null;
 			}
@@ -261,7 +261,7 @@ namespace Messages.Server
 					NumOfMessages = count
 				};
 
-				new TabUpdateMessage().SendTo(recipient, msg);
+				SendTo(recipient, msg);
 				Logger.LogTraceFormat("{0}", Category.NetUI, msg);
 			}
 

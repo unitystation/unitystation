@@ -24,14 +24,16 @@ namespace Messages.Server
 		public static NetMessage SendToAll(GameObject equipmentObject,  CharacterSettings Character =  null)
 		{
 			var msg = CreateMsg(equipmentObject,Character);
-			new PlayerCustomisationMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 
 		public static NetMessage SendTo(GameObject equipmentObject,  NetworkConnection recipient, CharacterSettings Character = null)
 		{
 			var msg = CreateMsg(equipmentObject, Character);
-			new PlayerCustomisationMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 

@@ -24,7 +24,7 @@ namespace Messages.Server.AdminTools
 			UIManager.Instance.mentorChatButtons.ServerUpdateAdminNotifications(player);
 			NetMessage msg = new NetMessage {MentorToken = mentorToken};
 
-			new MentorEnableMessage().SendTo(player, msg);
+			SendTo(player, msg);
 			return msg;
 		}
 	}

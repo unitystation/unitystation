@@ -25,7 +25,7 @@ namespace Messages.Server
 		{
 			var msg = CreateMessage(eventType);
 
-			new TriggerEventMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -36,7 +36,7 @@ namespace Messages.Server
 		{
 			var msg = CreateMessage(eventType);
 
-			new TriggerEventMessage().SendToAll(msg);
+			SendToAll(msg);
 			return msg;
 		}
 

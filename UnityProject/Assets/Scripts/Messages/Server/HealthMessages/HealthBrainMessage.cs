@@ -30,7 +30,8 @@ namespace Messages.Server.HealthMessages
 				BrainDamage = brainDamage
 
 			};
-			new HealthBrainMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -42,7 +43,8 @@ namespace Messages.Server.HealthMessages
 				IsHusk = isHusk,
 				BrainDamage = brainDamage
 			};
-			new HealthBrainMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

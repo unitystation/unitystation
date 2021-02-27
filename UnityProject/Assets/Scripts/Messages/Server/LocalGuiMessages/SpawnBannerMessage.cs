@@ -33,7 +33,7 @@ namespace Messages.Server.LocalGuiMessages
 				PlaySound = playSound
 			};
 
-			new SpawnBannerMessage().SendTo(player, msg);
+			SendTo(player, msg);
 			return msg;
 		}
 

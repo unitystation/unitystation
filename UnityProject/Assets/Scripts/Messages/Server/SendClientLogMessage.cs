@@ -34,8 +34,7 @@ namespace Messages.Server
 		{
 			NetMessage msg = new NetMessage {Message = message, Category = logCat, IsError = showError};
 
-			new SendClientLogMessage().SendTo(clientPlayer, msg);
-
+			SendTo(clientPlayer, msg);
 			return msg;
 		}
 	}

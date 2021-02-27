@@ -42,7 +42,8 @@ namespace Messages.Client
 			{
 				state = newState
 			};
-			new ClientTypingMessage().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

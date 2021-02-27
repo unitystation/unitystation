@@ -238,7 +238,7 @@ namespace AdminTools
 					PlayerID = playerID
 				};
 
-				new ClientJobBanDataAdminMessage().Send(msg);
+				Send(msg);
 				return msg;
 			}
 		}
@@ -304,7 +304,7 @@ namespace AdminTools
 					JobBanEntries = JsonConvert.SerializeObject(jobBanEntries)
 				};
 
-				new ServerSendsJobBanDataAdminMessage().SendTo(requestee, msg);
+				SendTo(requestee, msg);
 				return msg;
 			}
 		}

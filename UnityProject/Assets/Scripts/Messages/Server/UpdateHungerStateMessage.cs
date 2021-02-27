@@ -25,7 +25,8 @@ namespace Messages.Server
 			{
 				State = state
 			};
-			new UpdateHungerStateMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

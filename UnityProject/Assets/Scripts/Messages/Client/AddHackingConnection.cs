@@ -39,7 +39,7 @@ namespace Messages.Client
 				JsonData = JsonConvert.SerializeObject(connectionToAdd),
 			};
 
-			new AddHackingConnection().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

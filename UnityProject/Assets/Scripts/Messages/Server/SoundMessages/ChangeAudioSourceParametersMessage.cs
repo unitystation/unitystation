@@ -43,7 +43,7 @@ namespace Messages.Server.SoundMessages
 				AudioSourceParameters = audioSourceParameters
 			};
 
-			new ChangeAudioSourceParametersMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -61,7 +61,7 @@ namespace Messages.Server.SoundMessages
 				AudioSourceParameters = audioSourceParameters
 			};
 
-			new ChangeAudioSourceParametersMessage().SendToAll(msg);
+			SendToAll(msg);
 			return msg;
 		}
 	}

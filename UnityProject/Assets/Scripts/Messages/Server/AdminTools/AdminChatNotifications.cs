@@ -64,7 +64,7 @@ namespace Messages.Server.AdminTools
 				FullUpdateJson = ""
 			};
 
-			new AdminChatNotifications().SendToAll(msg);
+			SendToAll(msg);
 			return msg;
 		}
 
@@ -79,7 +79,7 @@ namespace Messages.Server.AdminTools
 				FullUpdateJson = JsonUtility.ToJson(update)
 			};
 
-			new AdminChatNotifications().SendTo(adminConn, msg);
+			SendTo(adminConn, msg);
 			return msg;
 		}
 	}

@@ -62,7 +62,7 @@ namespace Messages.Server.AdminTools
 			NetMessage  msg =
 				new NetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
 
-			new AdminToolRefreshMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 

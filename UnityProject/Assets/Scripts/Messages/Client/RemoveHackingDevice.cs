@@ -38,7 +38,7 @@ namespace Messages.Client
 				HackingDevice = hackingDevice.GetComponent<NetworkIdentity>().netId
 			};
 
-			new RemoveHackingDevice().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

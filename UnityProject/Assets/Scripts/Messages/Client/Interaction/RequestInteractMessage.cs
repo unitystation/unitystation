@@ -492,7 +492,8 @@ namespace Messages.Client.Interaction
 				msg.TargetObject = casted.TargetObject.NetId();
 				msg.RequestedOption = casted.RequestedOption;
 			}
-			new RequestInteractMessage().Send(msg);
+
+			Send(msg);
 		}
 
 		//only intended to be used by core if2 classes
@@ -521,7 +522,7 @@ namespace Messages.Client.Interaction
 				Intent = tileApply.Intent,
 				TargetVector = tileApply.TargetVector
 			};
-			new RequestInteractMessage().Send(msg);
+			Send(msg);
 		}
 
 		public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles)
@@ -543,7 +544,7 @@ namespace Messages.Client.Interaction
 				UsedObject = mouseDrop.UsedObject.NetId(),
 				TargetVector = mouseDrop.TargetVector
 			};
-			new RequestInteractMessage().Send(msg);
+			Send(msg);
 		}
 	}
 

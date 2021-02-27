@@ -39,7 +39,7 @@ namespace Messages.Client.VariableViewer
 			msg.AdminToken = adminToken;
 			msg.SendToClient = InSendToClient;
 
-			new RequestChangeVariableNetMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

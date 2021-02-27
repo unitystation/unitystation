@@ -58,7 +58,7 @@ namespace Messages.Server
 					StripTags = stripTags
 				};
 
-			new UpdateChatMessage().SendTo(recipient, msg, Category.Chat);
+			SendTo(recipient, msg, Category.Chat);
 			return msg;
 		}
 	}

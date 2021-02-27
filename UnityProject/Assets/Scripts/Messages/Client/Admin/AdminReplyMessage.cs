@@ -21,7 +21,8 @@ namespace Messages.Client.Admin
 			{
 				Message = message
 			};
-			new AdminReplyMessage().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

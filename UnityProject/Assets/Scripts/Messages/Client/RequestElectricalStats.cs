@@ -45,7 +45,8 @@ namespace Messages.Client
 				Player = player.GetComponent<NetworkIdentity>().netId,
 				ElectricalItem = electricalItem.GetComponent<NetworkIdentity>().netId,
 			};
-			new RequestElectricalStats().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

@@ -10,13 +10,13 @@ namespace Messages.Server
 	/// </summary>
 	public abstract class ServerMessage<T> : GameMessageBase<T> where T : struct, NetworkMessage
 	{
-		public void SendToAll(T msg)
+		public static void SendToAll(T msg)
 		{
 			NetworkServer.SendToAll(msg, 0);
-			Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
+			Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, msg.GetType());
 		}
 
-		public void SendToAllExcept(T msg, GameObject excluded)
+		public static void SendToAllExcept(T msg, GameObject excluded)
 		{
 			if (excluded == null)
 			{
@@ -34,10 +34,10 @@ namespace Messages.Server
 				}
 			}
 
-			Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
+			Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, msg.GetType(), excluded.name);
 		}
 
-		public virtual void SendTo(GameObject recipient, T msg, Category category = Category.NetMessage)
+		public static void SendTo(GameObject recipient, T msg, Category category = Category.NetMessage)
 		{
 			if (recipient == null)
 			{
@@ -55,21 +55,21 @@ namespace Messages.Server
 			if (PlayerList.Instance.ContainsConnection(connection))
 			{
 				connection.Send(msg, 0);
-				Logger.LogTraceFormat("SentTo {0}: {1}", category, recipient.name, this);
+				Logger.LogTraceFormat("SentTo {0}: {1}", category, recipient.name, msg.GetType());
 			}
 			else
 			{
-				Logger.LogTraceFormat("Not sending message {0} to {1}", category, this, recipient.name);
+				Logger.LogTraceFormat("Not sending message {0} to {1}", category, msg.GetType(), recipient.name);
 			}
 		}
 
-		public void SendTo(ConnectedPlayer recipient, T msg)
+		public static void SendTo(ConnectedPlayer recipient, T msg)
 		{
 			if (recipient == null) return;
 			SendTo(recipient.Connection, msg);
 		}
 
-		public void SendTo(NetworkConnection recipient, T msg)
+		public static void SendTo(NetworkConnection recipient, T msg)
 		{
 			if (recipient == null) return;
 			recipient.Send(msg, 0);
@@ -79,7 +79,7 @@ namespace Messages.Server
 		/// Sends the network message only to players who are visible from the
 		/// worldPosition
 		/// </summary>
-		public void SendToVisiblePlayers(Vector2 worldPosition, T msg)
+		public static void SendToVisiblePlayers(Vector2 worldPosition, T msg)
 		{
 			var players = PlayerList.Instance.AllPlayers;
 
@@ -120,7 +120,7 @@ namespace Messages.Server
 		/// Sends the network message only to players who are within a 15 tile radius
 		/// of the worldPostion. This method disregards if the player is visible or not
 		/// </summary>
-		public void SendToNearbyPlayers(Vector2 worldPosition, T msg)
+		public static void SendToNearbyPlayers(Vector2 worldPosition, T msg)
 		{
 			var players = PlayerList.Instance.AllPlayers;
 
@@ -145,7 +145,7 @@ namespace Messages.Server
 			}
 		}
 
-		public void SendToAdmins(T msg)
+		public static void SendToAdmins(T msg)
 		{
 			var admins = PlayerList.Instance.GetAllAdmins();
 
@@ -158,7 +158,7 @@ namespace Messages.Server
 			}
 		}
 
-		public void SendToMentors(T msg)
+		public static void SendToMentors(T msg)
 		{
 			var mentors = PlayerList.Instance.GetAllMentors();
 

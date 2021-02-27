@@ -67,7 +67,8 @@ namespace Messages.Client.DevSpawner
 				AdminId = adminId,
 				AdminToken = adminToken
 			};
-			new DevCloneMessage().Send(msg);
+
+			Send(msg);
 		}
 	}
 }

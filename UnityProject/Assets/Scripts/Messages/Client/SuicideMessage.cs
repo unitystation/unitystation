@@ -33,7 +33,7 @@ namespace Messages.Client
 		public static NetMessage Send(Object obj)
 		{
 			NetMessage msg = new NetMessage();
-			new SuicideMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 

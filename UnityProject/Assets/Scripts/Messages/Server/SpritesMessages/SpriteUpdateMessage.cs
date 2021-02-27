@@ -278,7 +278,7 @@ namespace Messages.Server.SpritesMessages
 
 				if(msg.SerialiseData == null) continue;
 
-				new SpriteUpdateMessage().SendTo(recipient, msg);
+				SendTo(recipient, msg);
 			}
 		}
 
@@ -290,7 +290,7 @@ namespace Messages.Server.SpritesMessages
 
 				if(msg.SerialiseData == null) continue;
 
-				new SpriteUpdateMessage().SendToAll(msg);
+				SendToAll(msg);
 			}
 		}
 

@@ -1,5 +1,5 @@
 
-﻿using Mirror;
+ using Mirror;
 
 namespace Messages.Server.SoundMessages
 {
@@ -30,8 +30,7 @@ namespace Messages.Server.SoundMessages
 				SoundSpawnToken = soundSpawnToken
 			};
 
-			new StopSoundMessage().SendToAll(msg);
-
+			SendToAll(msg);
 			return msg;
 		}
 	}

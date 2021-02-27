@@ -32,7 +32,7 @@ namespace Messages.Server
 				Type = type,
 			};
 
-			new PortalSpawnAnimateMessage().SendToVisiblePlayers(entity.RegisterTile().WorldPositionServer.To2Int(), msg);
+			SendToVisiblePlayers(entity.RegisterTile().WorldPositionServer.To2Int(), msg);
 			return msg;
 		}
 

@@ -85,7 +85,8 @@ namespace Messages.Server
 				Colour = colour,
 				TileChangeManager = tileChangeManagerNetID
 			};
-			new UpdateTileMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

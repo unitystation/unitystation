@@ -24,7 +24,8 @@ namespace Messages.Client.SpriteMessages
 			{
 				SpriteHandlerManager = spriteHandlerManager
 			};
-			new SpriteRequestCurrentStateMessage().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

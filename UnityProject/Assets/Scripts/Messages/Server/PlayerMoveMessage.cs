@@ -55,7 +55,8 @@ namespace Messages.Server
 				SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				State = state,
 			};
-			new PlayerMoveMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -79,9 +80,9 @@ namespace Messages.Server
 					SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 					State = state,
 				};
-				new PlayerMoveMessage().SendToAll(msg);
-			}
 
+				SendToAll(msg);
+			}
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace Messages.Client.Addressable
 		{
 			NetMessage msg = new NetMessage();
 
-			new ClientRequestCatalogues().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

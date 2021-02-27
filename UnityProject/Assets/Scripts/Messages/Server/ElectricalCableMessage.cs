@@ -35,7 +35,8 @@ namespace Messages.Server
 				RECableType = CableType,
 				Cable = cable.NetId()
 			};
-			new ElectricalCableMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

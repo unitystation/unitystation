@@ -23,7 +23,8 @@ namespace Messages.Server
 			{
 				Screen = screen
 			};
-			new UpdateUIMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

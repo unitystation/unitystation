@@ -46,7 +46,7 @@ namespace Messages.Server
 				SkipAnimation = skipAnimation
 			};
 
-			new DoorUpdateMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -59,7 +59,7 @@ namespace Messages.Server
 				SkipAnimation = false
 			};
 
-			new DoorUpdateMessage().SendToAll(msg);
+			SendToAll(msg);
 			return msg;
 		}
 	}

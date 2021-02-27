@@ -43,7 +43,8 @@ namespace Messages.Client
 			{
 				NewSceneNameContext = newSceneNameContext
 			};
-			new RequestObserverRefresh().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

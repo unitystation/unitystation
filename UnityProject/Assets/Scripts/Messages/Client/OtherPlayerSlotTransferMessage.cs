@@ -110,7 +110,8 @@ namespace Messages.Client
 				TargetNamedSlot = targetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
 				IsGhost = isGhost
 			};
-			new OtherPlayerSlotTransferMessage().Send(msg);
+
+			Send(msg);
 		}
 	}
 }

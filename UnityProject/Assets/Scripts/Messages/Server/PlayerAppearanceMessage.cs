@@ -75,7 +75,8 @@ namespace Messages.Server
 			bool _forceInit = false, bool _isBodyParts = false)
 		{
 			var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
-			new PlayerAppearanceMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 
@@ -83,7 +84,8 @@ namespace Messages.Server
 			GameObject _Item, bool _forceInit, bool _isBodyParts)
 		{
 			var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
-			new PlayerAppearanceMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 

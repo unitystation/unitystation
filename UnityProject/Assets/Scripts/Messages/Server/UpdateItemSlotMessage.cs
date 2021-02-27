@@ -90,7 +90,8 @@ namespace Messages.Server
 				SlotIndex = itemSlot.SlotIdentifier.SlotIndex,
 				NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none)
 			};
-			new UpdateItemSlotMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 		}
 
 		/// <summary>
@@ -111,7 +112,7 @@ namespace Messages.Server
 
 			foreach (var recipient in recipients)
 			{
-				new UpdateItemSlotMessage().SendTo(recipient, msg);
+				SendTo(recipient, msg);
 			}
 		}
 	}

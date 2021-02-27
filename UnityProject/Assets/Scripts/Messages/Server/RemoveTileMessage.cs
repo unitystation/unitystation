@@ -70,7 +70,8 @@ namespace Messages.Server
 				RemoveAll = removeAll,
 				TileChangeManager = tileChangeManagerNetID
 			};
-			new RemoveTileMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

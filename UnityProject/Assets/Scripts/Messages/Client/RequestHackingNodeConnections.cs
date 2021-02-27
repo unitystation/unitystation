@@ -47,7 +47,8 @@ namespace Messages.Client
 				Player = player.GetComponent<NetworkIdentity>().netId,
 				HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
 			};
-			new RequestHackingNodeConnections().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

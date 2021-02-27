@@ -33,7 +33,7 @@ namespace Items.PDA
 				Message = message
 			};
 
-			new NoteUpdateMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

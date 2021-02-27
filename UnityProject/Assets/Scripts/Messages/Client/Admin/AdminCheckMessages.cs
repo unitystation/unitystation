@@ -24,7 +24,7 @@ namespace Messages.Client.Admin
 				CurrentCount = currentCount
 			};
 
-			new AdminCheckMessages().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

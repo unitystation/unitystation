@@ -59,7 +59,8 @@ namespace Messages.Server.GhostRoles
 		public static NetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleServer role)
 		{
 			NetMessage msg = GetMessage(key, role);
-			new GhostRoleUpdateMessage().SendTo(player, msg);
+
+			SendTo(player, msg);
 			return msg;
 		}
 

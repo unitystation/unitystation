@@ -46,8 +46,7 @@ namespace Messages.Server
 						data = jsondata
 					};
 
-				new TileChangesNewClientSync().SendTo(recipient, msg);
-
+				SendTo(recipient, msg);
 			}
 		}
 

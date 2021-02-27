@@ -33,7 +33,8 @@ namespace Messages.Server
 				Started = started,
 				EndTime = endTime
 			};
-			new UpdateCountdownMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

@@ -54,7 +54,7 @@ namespace Messages.Server
 			};
 
 			var playerPos = player.transform.position;
-			new ServerTypingMessage().SendToNearbyPlayers(playerPos, msg);
+			SendToNearbyPlayers(playerPos, msg);
 			return msg;
 		}
 	}

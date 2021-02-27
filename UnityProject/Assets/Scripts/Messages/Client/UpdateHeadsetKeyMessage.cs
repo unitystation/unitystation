@@ -94,7 +94,7 @@ namespace Messages.Client
 				EncryptionKey = encryptionkey ? encryptionkey.GetComponent<NetworkIdentity>().netId : NetId.Invalid
 			};
 
-			new UpdateHeadsetKeyMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 

@@ -44,7 +44,7 @@ namespace Messages.Server
 				ObjectToFollow = objectToFollow.NetId()
 			};
 
-			new FollowCameraMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

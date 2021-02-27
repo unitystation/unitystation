@@ -21,7 +21,7 @@ namespace Messages.Client.Admin
 				Message = message
 			};
 
-			new MentorReplyMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

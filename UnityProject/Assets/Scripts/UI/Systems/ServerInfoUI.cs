@@ -73,7 +73,7 @@ namespace ServerInfo
 				ServerDesc = serverDesc
 			};
 
-			new ServerInfoMessageServer().SendTo(clientConn, msg);
+			SendTo(clientConn, msg);
 			return msg;
 		}
 	}
@@ -97,7 +97,7 @@ namespace ServerInfo
 				PlayerId = playerId,
 			};
 
-			new ServerInfoMessageClient().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

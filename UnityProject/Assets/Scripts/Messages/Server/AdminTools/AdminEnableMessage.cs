@@ -33,8 +33,7 @@ namespace Messages.Server.AdminTools
 				AdminGhostStorage = adminGhostItemStorage.GetComponent<NetworkIdentity>().netId
 			};
 
-			new AdminEnableMessage().SendTo(player.Connection, msg);
-
+			SendTo(player.Connection, msg);
 			return msg;
 		}
 	}

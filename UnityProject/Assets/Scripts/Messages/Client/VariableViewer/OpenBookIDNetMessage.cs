@@ -31,7 +31,7 @@ namespace Messages.Client.VariableViewer
 			msg.AdminId = adminId;
 			msg.AdminToken = adminToken;
 
-			new OpenBookIDNetMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

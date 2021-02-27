@@ -25,7 +25,8 @@ namespace Messages.Client.NewPlayer
 			{
 				MatrixMove = matrixMoveNetId
 			};
-			new MatrixMoveNewPlayer().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

@@ -29,8 +29,8 @@ namespace Messages.Client
 				Channels = channels,
 				ChatMessageText = message
 			};
-			new PostToChatMessage().Send(msg);
 
+			Send(msg);
 			return msg;
 		}
 	}

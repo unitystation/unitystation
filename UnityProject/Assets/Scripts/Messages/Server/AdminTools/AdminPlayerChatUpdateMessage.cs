@@ -24,7 +24,7 @@ namespace Messages.Server.AdminTools
 			NetMessage  msg =
 				new NetMessage  {JsonData = JsonUtility.ToJson(update), PlayerId = playerId};
 
-			new AdminPlayerChatUpdateMessage().SendToAdmins(msg);
+			SendToAdmins(msg);
 			return msg;
 		}
 
@@ -37,7 +37,7 @@ namespace Messages.Server.AdminTools
 					PlayerId = playerId
 				};
 
-			new AdminPlayerChatUpdateMessage().SendTo(requestee, msg);
+			SendTo(requestee, msg);
 			return msg;
 		}
 	}

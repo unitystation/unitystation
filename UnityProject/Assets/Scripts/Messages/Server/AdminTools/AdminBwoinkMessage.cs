@@ -25,7 +25,7 @@ namespace Messages.Server.AdminTools
 				Message = message
 			};
 
-			new AdminBwoinkMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

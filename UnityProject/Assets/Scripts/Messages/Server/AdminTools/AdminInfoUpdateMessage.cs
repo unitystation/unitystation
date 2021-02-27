@@ -52,7 +52,7 @@ namespace Messages.Server.AdminTools
 					FullUpdate = true
 				};
 
-			new AdminInfoUpdateMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -65,7 +65,7 @@ namespace Messages.Server.AdminTools
 					FullUpdate = false
 				};
 
-			new AdminInfoUpdateMessage().SendToAdmins(msg);
+			SendToAdmins(msg);
 			return msg;
 		}
 	}

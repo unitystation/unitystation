@@ -41,7 +41,8 @@ namespace Messages.Server.HealthMessages
 				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				ConsciousState = consciousState
 			};
-			new HealthConsciousMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -52,7 +53,8 @@ namespace Messages.Server.HealthMessages
 				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				ConsciousState = consciousState
 			};
-			new HealthConsciousMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

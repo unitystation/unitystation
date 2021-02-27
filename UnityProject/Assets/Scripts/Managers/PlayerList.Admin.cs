@@ -764,7 +764,7 @@ public partial class PlayerList
 			{
 				PlayerID = playerID
 			};
-			new ClientJobBanDataMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}
@@ -788,7 +788,8 @@ public partial class PlayerList
 			{
 				JobBanEntries = JsonConvert.SerializeObject(jobBanEntries)
 			};
-			new ServerSendsJobBanDataMessage().SendTo(requestee, msg);
+
+			SendTo(requestee, msg);
 			return msg;
 		}
 	}
@@ -833,7 +834,7 @@ public partial class PlayerList
 				KickAfter = kickAfter,
 				GhostAfter = ghostAfter
 			};
-			new RequestJobBan().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

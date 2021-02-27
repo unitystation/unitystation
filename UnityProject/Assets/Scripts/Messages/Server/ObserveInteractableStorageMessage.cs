@@ -65,7 +65,7 @@ namespace Messages.Server
 				Observed = observed
 			};
 
-			new ObserveInteractableStorageMessage().SendTo(recipient, msg);
+			SendTo(recipient, msg);
 		}
 	}
 }

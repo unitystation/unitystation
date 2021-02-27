@@ -37,7 +37,8 @@ namespace Messages.Client.Admin
 				AdminToken = adminToken,
 				UserToPromote= userIDToPromote,
 			};
-			new RequestAdminPromotion().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

@@ -21,7 +21,8 @@ namespace Messages.Server.VariableViewer
 			{
 				Book = VariableViewerNetworking.ProcessBook(_book)
 			};
-			new BookNetMessage().SendTo(ToWho, msg);
+
+			SendTo(ToWho, msg);
 			return msg;
 		}
 	}

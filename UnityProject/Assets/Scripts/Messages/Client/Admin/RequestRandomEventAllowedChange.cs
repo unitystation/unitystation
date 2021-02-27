@@ -38,7 +38,8 @@ namespace Messages.Client.Admin
 				AdminToken = adminToken,
 				RandomEventsAllowed = randomEventsAllowed
 			};
-			new RequestRandomEventAllowedChange().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

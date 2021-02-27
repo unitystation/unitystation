@@ -73,7 +73,7 @@ namespace Messages.Client.Admin
 				Type = 0
 			};
 
-			new RequestRespawnPlayer().Send(msg);
+			Send(msg);
 			return msg;
 		}
 
@@ -90,7 +90,7 @@ namespace Messages.Client.Admin
 				Type = 1
 			};
 
-			new RequestRespawnPlayer().Send(msg);
+			Send(msg);
 			return msg;
 		}
 
@@ -106,7 +106,7 @@ namespace Messages.Client.Admin
 				Type = 2
 			};
 
-			new RequestRespawnPlayer().Send(msg);
+			Send(msg);
 			return msg;
 		}
 

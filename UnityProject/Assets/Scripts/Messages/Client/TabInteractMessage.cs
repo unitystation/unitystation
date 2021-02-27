@@ -117,7 +117,8 @@ namespace Messages.Client
 				ElementId = elementId,
 				ElementValue = elementValue
 			};
-			new TabInteractMessage().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

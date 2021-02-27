@@ -34,7 +34,8 @@ namespace Messages.Client.Admin
 				AdminToken = adminToken,
 				Message = message
 			};
-			new RequestAdminChatMessage().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

@@ -28,7 +28,7 @@ namespace Messages.Server.AdminTools
 				PlayerId = playerId
 			};
 
-			new MentorPlayerChatUpdateMessage().SendToMentors(msg);
+			SendToMentors(msg);
 			return msg;
 		}
 
@@ -40,7 +40,7 @@ namespace Messages.Server.AdminTools
 				PlayerId = playerId
 			};
 
-			new MentorPlayerChatUpdateMessage().SendTo(requestee, msg);
+			SendTo(requestee, msg);
 			return msg;
 		}
 	}

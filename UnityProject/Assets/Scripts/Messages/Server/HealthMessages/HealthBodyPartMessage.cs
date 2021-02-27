@@ -35,7 +35,8 @@ namespace Messages.Server.HealthMessages
 				BurnDamage = burnDamage
 
 			};
-			new HealthBodyPartMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 
@@ -49,7 +50,8 @@ namespace Messages.Server.HealthMessages
 				BruteDamage = bruteDamage,
 				BurnDamage = burnDamage
 			};
-			new HealthBodyPartMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 	}

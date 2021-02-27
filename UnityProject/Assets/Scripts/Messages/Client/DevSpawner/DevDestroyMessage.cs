@@ -64,7 +64,7 @@ namespace Messages.Client.DevSpawner
 				AdminId = adminId,
 				AdminToken = adminToken
 			};
-			new DevDestroyMessage().Send(msg);
+			Send(msg);
 		}
 	}
 }

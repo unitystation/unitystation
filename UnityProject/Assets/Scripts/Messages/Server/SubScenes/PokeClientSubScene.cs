@@ -23,7 +23,8 @@ namespace Messages.Server.SubScenes
 			{
 				ToLoadSceneName = SceneName
 			};
-			new PokeClientSubScene().SendToAll(msg);
+
+			SendToAll(msg);
 		}
 	}
 }

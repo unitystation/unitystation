@@ -107,7 +107,7 @@ namespace ServerInfo
 				ServerDiscordID = serverDiscordID
 			};
 
-			new ServerInfoLobbyMessageServer().SendTo(clientConn, msg);
+			SendTo(clientConn, msg);
 			return msg;
 		}
 	}
@@ -131,7 +131,7 @@ namespace ServerInfo
 				PlayerId = playerId,
 			};
 
-			new ServerInfoLobbyMessageClient().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

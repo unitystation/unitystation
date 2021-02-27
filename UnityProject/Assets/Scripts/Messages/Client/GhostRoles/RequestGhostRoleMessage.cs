@@ -29,7 +29,7 @@ namespace Messages.Client.GhostRoles
 				roleID = key,
 			};
 
-			new RequestGhostRoleMessage().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

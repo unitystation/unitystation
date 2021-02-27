@@ -109,7 +109,8 @@ namespace Messages.Client
 				EntryIndex = (byte)entryIndex,
 				Direction = direction
 			};
-			new RequestConveyorBuildMessage().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

@@ -33,7 +33,7 @@ namespace Messages.Server.AdminTools
 					IsSingleEntry = true
 				};
 
-			new PlayerAlertsUpdateMessage().SendToAdmins(msg);
+			SendToAdmins(msg);
 			return msg;
 		}
 
@@ -46,7 +46,7 @@ namespace Messages.Server.AdminTools
 					IsSingleEntry = false
 				};
 
-			new PlayerAlertsUpdateMessage().SendTo(requestee, msg);
+			SendTo(requestee, msg);
 			return msg;
 		}
 	}

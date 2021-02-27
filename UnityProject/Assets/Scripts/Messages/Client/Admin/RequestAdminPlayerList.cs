@@ -29,6 +29,7 @@ namespace Messages.Client.Admin
 				if(player == null)
 					return;
 			}
+
 			AdminPlayerListRefreshMessage.Send(player, msg.Userid);
 		}
 
@@ -39,7 +40,8 @@ namespace Messages.Client.Admin
 				Userid = userId,
 				AdminToken = adminToken
 			};
-			new RequestAdminPlayerList().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

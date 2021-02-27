@@ -35,7 +35,8 @@ namespace Messages.Client.NewPlayer
 				JsonCharSettings = jsonCharSettings,
 				PlayerID = playerID
 			};
-			new ClientRequestJobMessage().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 

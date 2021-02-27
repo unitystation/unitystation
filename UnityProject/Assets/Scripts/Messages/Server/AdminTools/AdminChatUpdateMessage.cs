@@ -23,7 +23,7 @@ namespace Messages.Server.AdminTools
 			NetMessage  msg =
 				new NetMessage  {JsonData = JsonUtility.ToJson(update) };
 
-			new AdminChatUpdateMessage().SendToAdmins(msg);
+			SendToAdmins(msg);
 			return msg;
 		}
 
@@ -35,7 +35,7 @@ namespace Messages.Server.AdminTools
 					JsonData = JsonUtility.ToJson(update),
 				};
 
-			new AdminChatUpdateMessage().SendTo(requestee, msg);
+			SendTo(requestee, msg);
 			return msg;
 		}
 	}

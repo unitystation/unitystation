@@ -46,7 +46,7 @@ namespace Messages.Server.GhostRoles
 				responseCode = (int) code,
 			};
 
-			new GhostRoleResponseMessage().SendTo(player, msg);
+			SendTo(player, msg);
 			return msg;
 		}
 

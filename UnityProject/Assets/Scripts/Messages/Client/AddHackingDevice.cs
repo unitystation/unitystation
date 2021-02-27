@@ -37,7 +37,8 @@ namespace Messages.Client
 				HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
 				HackingDevice = hackingDevice.GetComponent<NetworkIdentity>().netId
 			};
-			new AddHackingDevice().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

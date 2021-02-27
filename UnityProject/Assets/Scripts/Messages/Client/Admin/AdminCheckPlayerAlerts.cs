@@ -23,7 +23,8 @@ namespace Messages.Client.Admin
 				PlayerId = playerId,
 				CurrentCount = currentCount
 			};
-			new AdminCheckPlayerAlerts().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 	}

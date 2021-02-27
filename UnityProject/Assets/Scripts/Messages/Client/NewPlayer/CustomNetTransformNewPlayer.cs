@@ -23,7 +23,7 @@ namespace Messages.Client.NewPlayer
 			{
 				CNT = netId
 			};
-			new CustomNetTransformNewPlayer().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

@@ -28,7 +28,8 @@ namespace Messages.Server
 				PaperToUpdate = paperToUpdate.GetComponent<NetworkIdentity>().netId,
 				Message = message
 			};
-			new PaperUpdateMessage().SendTo(recipient, msg);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

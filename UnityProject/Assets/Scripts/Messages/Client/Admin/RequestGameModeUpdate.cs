@@ -45,7 +45,7 @@ namespace Messages.Client.Admin
 				IsSecret = isSecret
 			};
 
-			new RequestGameModeUpdate().Send(msg);
+			Send(msg);
 			return msg;
 		}
 	}

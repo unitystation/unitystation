@@ -164,7 +164,8 @@ namespace Messages.Client.Admin
 				vectorY = Coord.y,
 				vectorZ = Coord.z
 			};
-			new RequestAdminTeleport().Send(msg);
+
+			Send(msg);
 			return msg;
 		}
 

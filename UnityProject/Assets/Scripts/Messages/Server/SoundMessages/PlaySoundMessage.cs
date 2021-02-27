@@ -103,7 +103,7 @@ namespace Messages.Server.SoundMessages
 				SoundSpawnToken = soundSpawnToken
 			};
 
-			new PlaySoundMessage().SendToNearbyPlayers(pos, msg);
+			SendToNearbyPlayers(pos, msg);
 			return soundSpawnToken;
 		}
 
@@ -139,8 +139,7 @@ namespace Messages.Server.SoundMessages
 				SoundSpawnToken = soundSpawnToken
 			};
 
-			new PlaySoundMessage().SendToAll(msg);
-
+			SendToAll(msg);
 			return soundSpawnToken;
 		}
 
@@ -176,8 +175,7 @@ namespace Messages.Server.SoundMessages
 				SoundSpawnToken = soundSpawnToken
 			};
 
-			new PlaySoundMessage().SendTo(recipient, msg);
-
+			SendTo(recipient, msg);
 			return soundSpawnToken;
 		}
 	}

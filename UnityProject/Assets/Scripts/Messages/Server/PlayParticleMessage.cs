@@ -115,7 +115,8 @@ namespace Messages.Server
 				ParentObject = topContainer == null ? NetId.Invalid : topContainer.NetId(),
 				TargetVector = targetVector,
 			};
-			new PlayParticleMessage().SendToAll(msg);
+
+			SendToAll(msg);
 			return msg;
 		}
 
