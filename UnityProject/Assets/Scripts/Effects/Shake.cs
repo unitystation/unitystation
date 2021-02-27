@@ -47,15 +47,15 @@ public class Shake : MonoBehaviour
     public void haltShake()
     {
         StopAllCoroutines();
-        switch (shakeType)
-            {
-                case ShakeMode.GAMEOBJECT:
-                    transform.position = originalPosition;
-                    break;
-                case ShakeMode.SPRITE:
-                    spriteReference.transform.position = new Vector2(0,0);
-                    break;
-            }
+        if(shakeType == ShakeMode.GAMEOBJECT)
+        {
+            transform.position = originalPosition;
+            
+        }
+        else
+        {
+            spriteReference.transform.position = new Vector2(0,0);
+        }
     }
  
     private IEnumerator Shaking(float duration, float distance, float delayBetweenShakes)
