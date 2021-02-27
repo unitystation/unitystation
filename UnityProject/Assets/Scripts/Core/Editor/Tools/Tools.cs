@@ -61,7 +61,7 @@ public class Tools : Editor
 			}
 		}
 
-		Debug.Log($"{allNets.Length} net components found in Prefabs");
+		Debug.Log($"{allNets.Length} net components found in the scene");
 	}
 
 	[MenuItem("Networking/Find all network identities without visibility component (Prefab Check)")]
@@ -79,7 +79,7 @@ public class Tools : Editor
 			}
 		}
 
-		Debug.Log($"{allNets.Count} net components found in scene");
+		Debug.Log($"{allNets.Count} net components found in prefabs");
 	}
 
 	/// <summary>
