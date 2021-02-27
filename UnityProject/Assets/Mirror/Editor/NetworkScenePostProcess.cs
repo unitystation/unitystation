@@ -69,7 +69,11 @@ namespace Mirror
 
                         // either way we shouldn't continue. nothing good will
                         // happen when trying to launch with invalid sceneIds.
-                        EditorApplication.isPlaying = false;
+
+                        //CUSTOM UNITYSTATION CODE//
+                        //Commented out as theres an issue with sounds being spawned before scene load is complete
+                        //so they wont have a scene ID yet
+                        //EditorApplication.isPlaying = false;
                     }
                 }
             }

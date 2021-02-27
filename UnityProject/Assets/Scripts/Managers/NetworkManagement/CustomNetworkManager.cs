@@ -157,6 +157,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartClient()
 	{
+		if(AddressableCatalogueManager.Instance == null) return;
+
 		AddressableCatalogueManager.Instance.LoadClientCatalogues();
 	}
 
