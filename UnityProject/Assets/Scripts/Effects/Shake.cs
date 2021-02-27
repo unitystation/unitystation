@@ -5,15 +5,27 @@ using UnityEngine;
 public class Shake : MonoBehaviour
 {
     /// <summary>
-    /// This effect shakes a gameObjects for a set amount of time with controls for
-    /// how intense the animation should be.
-    /// This effect is mainly intended for stationary objects but it might work with moving ones.
+    /// A shake effect that comes in two modes, SPRITE and GAMEOBJECT
+    /// SPRITE animates a given sprite only.
+    /// GAMEOBJECT animates the entire object's position.
     /// </summary>
 
     private Vector3 originalPosition;
 
-    [SerializeField, Tooltip("Which Axis will the animation play on?.")]
+    [SerializeField, Tooltip("Which Axis will the animation play on?")]
     private AxisMode axisMode = AxisMode.X;
+
+    [SerializeField, Tooltip("Do you want to animate the entire gameObject or just the sprite?")]
+    private ShakeMode shakeType = ShakeMode.SPRITE;
+
+    [Tooltip("The sprite gameObject that will be used for the shake animation.")]
+    public Transform spriteReference;
+
+    private enum ShakeMode
+    {
+        SPRITE,
+        GAMEOBJECT
+    }
 
     private enum AxisMode 
     {
@@ -35,7 +47,15 @@ public class Shake : MonoBehaviour
     public void haltShake()
     {
         StopAllCoroutines();
-        transform.position = originalPosition;
+        if(shakeType == ShakeMode.GAMEOBJECT)
+        {
+            transform.position = originalPosition;
+            
+        }
+        else
+        {
+            spriteReference.transform.position = new Vector2(0,0);
+        }
     }
  
     private IEnumerator Shaking(float duration, float distance, float delayBetweenShakes)
@@ -47,8 +67,17 @@ public class Shake : MonoBehaviour
             timer += Time.deltaTime;
  
             Vector3 randomPosition = originalPosition + (Random.insideUnitSphere * distance);
- 
-            animatePosition(randomPosition);
+            
+            switch (shakeType)
+            {
+                case ShakeMode.GAMEOBJECT:
+                    animatePosition(randomPosition);
+                    break;
+                case ShakeMode.SPRITE:
+                    animateSpritePosition(randomPosition);
+                    break;
+            }
+
 
             if (delayBetweenShakes > 0f)
             {
@@ -60,7 +89,32 @@ public class Shake : MonoBehaviour
             }
         }
 
-        LeanTween.move(gameObject, originalPosition, 0.1f);
+        switch (shakeType)
+        {
+            case ShakeMode.GAMEOBJECT:
+                LeanTween.move(gameObject, originalPosition, 0.1f);
+                break;
+            case ShakeMode.SPRITE:
+                LeanTween.move(spriteReference.gameObject, originalPosition, 0.1f);
+                break;
+        }
+        
+    }
+
+    private void animateSpritePosition(Vector2 pos)
+    {
+        switch (axisMode)
+        {
+            case AxisMode.X:
+                LeanTween.moveX(spriteReference.gameObject, pos.x, 0.1f);
+                break;
+            case AxisMode.Y:
+                LeanTween.moveY(spriteReference.gameObject, pos.y, 0.1f);
+                break;
+            case AxisMode.XY:
+                LeanTween.move(spriteReference.gameObject, pos, 0.1f);
+                break;
+        }
     }
 
     private void animatePosition(Vector3 pos)

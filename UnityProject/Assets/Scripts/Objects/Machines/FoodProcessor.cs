@@ -229,12 +229,12 @@ namespace Objects.Kitchen
 			if (IsOperating == false) return;
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			HaltProcessorAnim();
+			RpcHaltProcessorAnim();
 			playAudioLoop = false;
 		}
 
 		[ClientRpc]
-		private void HaltProcessorAnim()
+		private void RpcHaltProcessorAnim()
 		{
 			AnimateProcessor(0, 0.0f, 0.0f, 0.0f);
 		}
@@ -261,6 +261,7 @@ namespace Objects.Kitchen
 			else
 			{
 				shaker.haltShake();
+				RpcHaltProcessorAnim();
 			}
 		}
 
