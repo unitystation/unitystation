@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using CameraEffects;
+using UI.Action;
 
 public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheckedInteractable<HandActivate>
 {
@@ -18,6 +19,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 	private bool isOn = true;
 
 	private Pickupable pickupable;
+	private ItemActionButton actionButton;
 	
 	private void OnStartClient()
 	{
@@ -29,9 +31,20 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 		}
 	}
 	private void Awake()
-		{
-			pickupable = GetComponent<Pickupable>();
-		}
+	{
+		pickupable = GetComponent<Pickupable>();
+		actionButton = GetComponent<ItemActionButton>();
+	}
+
+	private void OnEnable()
+	{
+		actionButton.ServerActionClicked += turnOnGoggles;
+	}
+
+	private void OnDisable()
+	{
+		actionButton.ServerActionClicked -= turnOnGoggles;
+	}
 
 	//IServerInventoryMove should be replaced with IClienInventoryMove but that needs more functionality first
 	public void OnInventoryMoveServer(InventoryMove info)
