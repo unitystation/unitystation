@@ -179,6 +179,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 176714210
   serverOnly: 0
+  visible: 2
   m_AssetId: 
   hasSpawned: 0
 --- !u!114 &27445722
@@ -219,8 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &27445725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7572,6 +7571,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ab114164e53d9954dac5b33964df4cf3,
         type: 3}
+    - target: {fileID: 7690250575192254874, guid: baaab78960a9a8d46a19114806c13a67,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ab114164e53d9954dac5b33964df4cf3,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baaab78960a9a8d46a19114806c13a67, type: 3}
 --- !u!4 &1028378574 stripped
@@ -12516,6 +12521,12 @@ PrefabInstance:
     - target: {fileID: 9073239300484658863, guid: 468d7e04ea8e856468aa063438084d86,
         type: 3}
       propertyPath: 
+      value: 
+      objectReference: {fileID: 21300000, guid: f8ec751801f469b4a88063453a00e437,
+        type: 3}
+    - target: {fileID: 9073239300484658863, guid: 468d7e04ea8e856468aa063438084d86,
+        type: 3}
+      propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: f8ec751801f469b4a88063453a00e437,
         type: 3}
