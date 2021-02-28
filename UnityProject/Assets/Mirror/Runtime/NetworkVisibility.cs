@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Mirror
 {
@@ -24,23 +23,13 @@ namespace Mirror
     [DisallowMultipleComponent]
     public abstract class NetworkVisibility : NetworkBehaviour
     {
-        /// <summary>
-        /// Callback used by the visibility system to determine if an observer (player) can see this object.
-        /// <para>If this function returns true, the network connection will be added as an observer.</para>
-        /// </summary>
-        /// <param name="conn">Network connection of a player.</param>
-        /// <returns>True if the player can see this object.</returns>
-        public virtual bool OnCheckObserver(NetworkConnection conn)
-        {
-            //CUSTOM UNITYSTATION CODE//
-            if (NetworkServer.observerSceneList.ContainsKey(conn) &&
-                NetworkServer.observerSceneList[conn].Contains(gameObject.scene))
-            {
-                return true;
-            }
-
-            return SceneManager.GetActiveScene() == gameObject.scene;
-        }
+	    /// <summary>
+	    /// Callback used by the visibility system to determine if an observer (player) can see this object.
+	    /// <para>If this function returns true, the network connection will be added as an observer.</para>
+	    /// </summary>
+	    /// <param name="conn">Network connection of a player.</param>
+	    /// <returns>True if the player can see this object.</returns>
+	    public abstract bool OnCheckObserver(NetworkConnection conn);
 
         /// <summary>
         /// Callback used by the visibility system to (re)construct the set of observers that can see this object.
@@ -48,25 +37,7 @@ namespace Mirror
         /// </summary>
         /// <param name="observers">The new set of observers for this object.</param>
         /// <param name="initialize">True if the set of observers is being built for the first time.</param>
-        public virtual void OnRebuildObservers(HashSet<NetworkConnection> observers, bool initialize)
-        {
-            //CUSTOM UNITYSTATION CODE//
-            foreach (var obs in NetworkServer.observerSceneList)
-            {
-                if (obs.Key == null) continue;
-                if (gameObject.scene == SceneManager.GetActiveScene())
-                {
-                    observers.Add(obs.Key);
-                }
-                else
-                {
-                    if (obs.Value.Contains(gameObject.scene))
-                    {
-                        observers.Add(obs.Key);
-                    }
-                }
-            }
-        }
+        public abstract void OnRebuildObservers(HashSet<NetworkConnection> observers, bool initialize);
 
         /// <summary>
         /// Callback used by the visibility system for objects on a host.
@@ -75,11 +46,8 @@ namespace Mirror
         /// <param name="visible">New visibility state.</param>
         public virtual void OnSetHostVisibility(bool visible)
         {
-            //CUSTOM UNITYSTATION CODE//
-            //Reenable when testing out proximity stuff so that it works in editor as host
-
-            //foreach (Renderer rend in GetComponentsInChildren<Renderer>())
-            //    rend.enabled = visible;
+	        foreach (Renderer rend in GetComponentsInChildren<Renderer>())
+	            rend.enabled = visible;
         }
     }
 }
