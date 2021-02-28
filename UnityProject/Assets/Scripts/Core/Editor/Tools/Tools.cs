@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Objects.Wallmounts;
+using Object = UnityEngine.Object;
 
 public class Tools : Editor
 {
@@ -81,6 +83,24 @@ public class Tools : Editor
 
 		Debug.Log($"{allNets.Count} net components found in prefabs");
 	}
+
+	[MenuItem("Networking/Find all asset Ids (Prefab Check)")]
+    private static void FindAssetIdsPrefab()
+    {
+    	var allNets = LoadPrefabsContaining<NetworkIdentity>("Prefabs");
+
+        for (int i = allNets.Count - 1; i > 0; i--)
+        {
+            var net = allNets[i].GetComponent<NetworkIdentity>();
+
+            if (net.assetId == Guid.Empty)
+            {
+            	Debug.Log($"{allNets[i].name} has empty asset id");
+            }
+        }
+
+        Debug.Log($"{allNets.Count} net components found in prefabs");
+    }
 
 	/// <summary>
 	/// Find all prefabs containing a specific component (T)

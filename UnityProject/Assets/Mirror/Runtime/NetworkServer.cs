@@ -1520,10 +1520,15 @@ namespace Mirror
             // if there is no interest management system,
             // or if 'force shown' then add all connections
 #pragma warning disable 618
-            if ((aoi == null && identity.visibility == null) ||
-                identity.visible == Visibility.ForceShown)
+            if ((aoi == null && identity.visibility == null))
 #pragma warning restore 618
             {
+	            ///CUSTOM UNITYSTATION CODE///
+	            //Was removed from the if check, so that our custom scene check always works
+	            //Add back if we switch over to spatial management
+	            // ||
+	            //identity.visible == Visibility.ForceShown
+	            
                 RebuildObserversDefault(identity, initialize);
             }
             // otherwise let interest management system rebuild

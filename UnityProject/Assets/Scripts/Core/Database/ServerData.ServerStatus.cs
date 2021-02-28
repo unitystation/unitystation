@@ -158,7 +158,7 @@ namespace DatabaseAPI
 		private int GetPort()
 		{
 			int port = (config.ServerPort != 0) ? config.ServerPort : 7777;
-			
+
 			if (telepathyTransport != null)
 			{
 				return Convert.ToInt32(telepathyTransport.port);

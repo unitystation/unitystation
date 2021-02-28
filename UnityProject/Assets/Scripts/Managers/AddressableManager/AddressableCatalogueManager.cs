@@ -179,7 +179,7 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 
 	public IEnumerator WaitForLoad()
 	{
-		yield return WaitFor.Seconds(2f);
+		yield return WaitFor.Seconds(5f);
 		ClientRequestCatalogues.RequestCatalogue();
 	}
 
