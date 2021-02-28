@@ -8,6 +8,7 @@ using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
+using IgnoranceTransport;
 
 namespace DatabaseAPI
 {
@@ -40,6 +41,7 @@ namespace DatabaseAPI
 		private float updateWait = 0f;
 		private string publicIP;
 		private TelepathyTransport telepathyTransport;
+		private Ignorance ignoranceTransport;
 		//private BoosterTransport boosterTransport = null;
 
 		void AttemptConfigLoad()
@@ -50,6 +52,7 @@ namespace DatabaseAPI
 			if (File.Exists(path))
 			{
 				telepathyTransport = FindObjectOfType<TelepathyTransport>();
+				ignoranceTransport = FindObjectOfType<Ignorance>();
 				config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
 				Instance.StartCoroutine(Instance.SendServerStatus());
 			}
@@ -155,9 +158,15 @@ namespace DatabaseAPI
 		private int GetPort()
 		{
 			int port = (config.ServerPort != 0) ? config.ServerPort : 7777;
+			
 			if (telepathyTransport != null)
 			{
 				return Convert.ToInt32(telepathyTransport.port);
+			}
+
+			if (ignoranceTransport != null)
+			{
+				return Convert.ToInt32(ignoranceTransport.port);
 			}
 
 			// if (boosterTransport!= null)

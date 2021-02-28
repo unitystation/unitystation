@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using Firebase.Auth;
+using IgnoranceTransport;
 
 namespace Lobby
 {
@@ -372,6 +373,12 @@ namespace Lobby
 			if (telepathy != null)
 			{
 				telepathy.port = serverPort;
+			}
+
+			var ignorance = CustomNetworkManager.Instance.GetComponent<Ignorance>();
+			if (ignorance != null)
+			{
+				ignorance.port = serverPort;
 			}
 
 			// var booster = CustomNetworkManager.Instance.GetComponent<BoosterTransport>();

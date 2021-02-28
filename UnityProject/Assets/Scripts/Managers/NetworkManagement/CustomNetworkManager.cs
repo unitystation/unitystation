@@ -7,6 +7,7 @@ using Mirror;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using DatabaseAPI;
+using IgnoranceTransport;
 using Initialisation;
 using Messages.Server;
 
@@ -105,6 +106,12 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			if (telepathy != null)
 			{
 				telepathy.port = (ushort)config.ServerPort;
+			}
+
+			var ignorance = GetComponent<Ignorance>();
+			if (ignorance != null)
+			{
+				ignorance.port = (ushort)config.ServerPort;
 			}
 		}
 	}
