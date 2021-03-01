@@ -1,3 +1,4 @@
+using System.Collections;
 using Mirror;
 using UnityEngine;
 
@@ -79,6 +80,7 @@ namespace Messages.Server
 					//this is just to catch multiple 0's
 					//An identity could have a valid id of 0, but since this message is only for net transforms and since the
 					//identities on the managers will get set first, this shouldn't cause any issues.
+					Debug.LogError($"{transformedObject.name} still has netId of 0, even after the wait");
 					return;
 				}
 
