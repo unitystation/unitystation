@@ -43,7 +43,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		var cardiacArrestPlayerRegister = interaction.TargetObject.GetComponent<RegisterPlayer>();
 		void ProgressComplete()
 		{
-			ServerDoCPR(interaction.Performer, interaction.TargetObject);
+			ServerDoCPR(interaction.Performer, interaction.TargetObject, interaction.TargetBodyPart);
 		}
 
 		var cpr = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
@@ -52,18 +52,26 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			Chat.AddActionMsgToChat(
 					interaction.Performer,
-					$"You begin performing CPR on {targetName}.",
-					$"{performerName} is trying to perform CPR on {targetName}.");
+					$"You begin performing CPR on {targetName}'s " + interaction.TargetBodyPart,
+					$"{performerName} is trying to perform CPR on {targetName}'s " + interaction.TargetBodyPart);
 		}
 	}
 
-	private void ServerDoCPR(GameObject performer, GameObject target)
+	private void ServerDoCPR(GameObject performer, GameObject target,BodyPartType TargetBodyPart)
 	{
 		var health = target.GetComponent<LivingHealthMasterBase>();
 
 		health.CirculatorySystem.ConvertUsedBlood(OXYLOSS_HEAL_AMOUNT);
 
-		health.CirculatorySystem.HeartBeat(HeartbeatStrength);
+		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart))
+		{
+			var heart = BodyPart as Heart;
+			if (heart != null)
+			{
+				heart.Heartbeat(HeartbeatStrength);
+			}
+		}
+		health.GetBodyPartsInZone(TargetBodyPart);
 
 
 		Chat.AddActionMsgToChat(
