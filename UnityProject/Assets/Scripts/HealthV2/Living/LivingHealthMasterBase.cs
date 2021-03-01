@@ -101,8 +101,6 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
 	public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
 
-	public bool InCardiacArrest => circulatorySystem != null && circulatorySystem.HeartIsStopped;
-
 	private HashSet<BodyPart> implantList = new HashSet<BodyPart>();
 
 	public HashSet<BodyPart> ImplantList => implantList;
@@ -535,13 +533,27 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		}
 	}
 
-	public List<BodyPart> GetBodyPartsInZone( BodyPartType bodyPartAim)
+	public List<BodyPart> GetBodyPartsInZone( BodyPartType bodyPartAim, bool surfaceOnly = true )
 	{
 		foreach (var cntainers in RootBodyPartContainers)
 		{
 			if (cntainers.bodyPartType == bodyPartAim)
 			{
-				return new List<BodyPart>(cntainers.ContainsLimbs);
+				if (surfaceOnly)
+				{
+					return new List<BodyPart>(cntainers.ContainsLimbs);
+				}
+				else
+				{
+					var TOReturn = new List<BodyPart>();
+					foreach (var BodyPart in cntainers.ContainsLimbs)
+					{
+						BodyPart.GetAllBodyPartsAndItself(TOReturn);
+					}
+
+					return TOReturn;
+				}
+
 			}
 		}
 		return new List<BodyPart>(0);
