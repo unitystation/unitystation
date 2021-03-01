@@ -18,4 +18,6 @@
 
 	/*public const string*/
 	Stamina = 5, /*= "stamina";*/
+
+	Radiation = 6
 }
