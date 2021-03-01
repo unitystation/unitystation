@@ -122,9 +122,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		}
 		else
 		{
-			//attacking objects
-
-			//butcher check
+			if (interaction.Intent == Intent.Help) return;
 			GameObject victim = interaction.TargetObject;
 			var healthComponent = victim.GetComponent<LivingHealthMasterBase>();
 

@@ -18,8 +18,6 @@ namespace DatabaseAPI
 				return false;
 			}
 			var jsonSettings = JsonConvert.SerializeObject(updateSettings);
-			Logger.Log(jsonSettings);
-			jsonSettings.Replace("\\", "");
 			var payload = JsonConvert.SerializeObject(new
 			{
 				fields = new
