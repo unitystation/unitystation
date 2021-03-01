@@ -148,6 +148,18 @@ namespace HealthV2
 			AffectDamage(-healAmt, damageTypeToHeal);
 		}
 
+		public void ResetDamage()
+		{
+			for (int i = 0; i < Damages.Length; i++)
+			{
+				Damages[i] = 0;
+			}
+
+			health = maxHealth - TotalDamage;
+			RecalculateEffectiveness();
+			UpdateSeverity();
+		}
+
 		//Probably custom curves would be good here
 		public void RecalculateEffectiveness()
 		{
