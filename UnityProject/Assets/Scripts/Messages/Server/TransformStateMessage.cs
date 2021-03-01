@@ -66,20 +66,34 @@ namespace Messages.Server
 		///     (to avoid updating it twice)
 		/// </param>
 		/// <returns>The sent message</returns>
-		public static NetMessage SendToAll(GameObject transformedObject, TransformState state,
+		public static void SendToAll(GameObject transformedObject, TransformState state,
 			bool forced = true)
 		{
+			var id = NetId.Invalid;
+
+			if (transformedObject != null && transformedObject.TryGetComponent<NetworkIdentity>(out var networkIdentity))
+			{
+				if (networkIdentity.netId == 0)
+				{
+					//netIds default to 0 when spawned, a new Id is assigned but this happens a bit later
+					//this is just to catch multiple 0's
+					//An identity could have a valid id of 0, but since this message is only for net transforms and since the
+					//identities on the managers will get set first, this shouldn't cause any issues.
+					return;
+				}
+
+				id = networkIdentity.netId;
+			}
+
 			var msg = new NetMessage
 			{
-				TransformedObject = transformedObject != null
-					? transformedObject.GetComponent<NetworkIdentity>().netId
-					: NetId.Invalid,
+				TransformedObject = id,
 				State = state,
 				ForceRefresh = forced
 			};
 
 			SendToAll(msg);
-			return msg;
+			return;
 		}
 	}
 }
