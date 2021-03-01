@@ -48,7 +48,6 @@ public class PlayerManager : MonoBehaviour
 		}
 		// Load CharacterSettings from PlayerPrefs or create a new one
 		string unescapedJson = Regex.Unescape(PlayerPrefs.GetString("currentcharacter"));
-		Logger.Log(unescapedJson);
 		var deserialized = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
 		CurrentCharacterSettings = deserialized ?? new CharacterSettings();
 	}
