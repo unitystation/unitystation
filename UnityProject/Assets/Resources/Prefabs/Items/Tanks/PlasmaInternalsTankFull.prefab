@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 256375122203596789, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
+      propertyPath: MaximumMoles
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 256375122203596789, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
       propertyPath: Gases.Array.data[0]
       value: 29.1155
       objectReference: {fileID: 0}
@@ -21,6 +26,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlasmaInternalsTankFull
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
