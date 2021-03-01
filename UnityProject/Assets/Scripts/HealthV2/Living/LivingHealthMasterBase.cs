@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Systems.Atmospherics;
 using Chemistry;
 using Health.Sickness;
 using HealthV2;
@@ -33,6 +34,9 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public RegisterTile RegisterTile => registerTile;
 
 	[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
+
+	//damage incurred per tick per fire stack
+	private static readonly float DAMAGE_PER_FIRE_STACK = 0.08f;
 
 	public ConsciousState ConsciousState
 	{
@@ -277,12 +281,43 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 				implant.ImplantPeriodicUpdate(this);
 			}
 
+			fireStacksDamage();
+			CalculateRadiationDamage();
 			CalculateOverallHealth();
-		}
 
-		//CalculateRadiationDamage();
+		}
 	}
 
+	/// <summary>
+	/// Radiation damage Calculations
+	/// </summary>
+	[Server]
+	public void CalculateRadiationDamage()
+	{
+		var RadLevel = (registerTile.Matrix.GetRadiationLevel(registerTile.LocalPosition) * (tickRate / 5f) / 6);
+		ApplyDamageAll( null, RadLevel * 0.001f, AttackType.Rad, DamageType.Radiation);
+
+	}
+
+
+	public void fireStacksDamage()
+	{
+		if (fireStacks > 0)
+		{
+			//TODO: Burn clothes (see species.dm handle_fire)
+			ApplyDamageAll(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn, true);
+			//gradually deplete fire stacks
+			SyncFireStacks(fireStacks, fireStacks - 0.1f);
+			//instantly stop burning if there's no oxygen at this location
+			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
+			{
+				SyncFireStacks(fireStacks, 0);
+			}
+
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
+		}
+	}
 
 	public float GetOxyDamage()
 	{
