@@ -7,6 +7,8 @@ namespace HealthV2
 {
 	public partial class BodyPart
 	{
+
+
 		//How much damage gets transferred to This part
 		public Armor BodyPartArmour = new Armor();
 
@@ -44,6 +46,7 @@ namespace HealthV2
 				for (int i = 0; i < Damages.Length; i++)
 				{
 					if ((int)DamageType.Oxy == i) continue;
+					if ((int)DamageType.Radiation == i) continue;
 					TDamage += Damages[i];
 				}
 
@@ -62,6 +65,7 @@ namespace HealthV2
 				{
 					if ((int)DamageType.Oxy == i) continue;
 					if ((int)DamageType.Clone == i) continue;
+					if ((int)DamageType.Radiation == i) continue;
 					TDamage += Damages[i];
 				}
 
@@ -75,8 +79,11 @@ namespace HealthV2
 			get
 			{
 				float TDamage = 0;
-				foreach (var Damage in Damages)
-				{ TDamage += Damage; }
+				for (int i = 0; i < Damages.Length; i++)
+				{
+					if ((int)DamageType.Radiation == i) continue;
+					TDamage += Damages[i];
+				}
 
 				return TDamage;
 			}
@@ -89,6 +96,8 @@ namespace HealthV2
 		public float Cellular => Damages[(int)DamageType.Clone];
 		public float Oxy => Damages[(int)DamageType.Oxy];
 		public float Stamina => Damages[(int)DamageType.Stamina];
+
+		public float RadiationStacks => Damages[(int)DamageType.Radiation];
 
 		public readonly float[] Damages = {
 			0,
@@ -165,6 +174,23 @@ namespace HealthV2
 		{
 			DamageModifier.Multiplier = (Mathf.Max(health, 0)  / maxHealth);
 		}
+
+		/// <summary>
+		/// Radiation damage Calculations
+		/// </summary>
+		public void CalculateRadiationDamage()
+		{
+			if (RadiationStacks == 0) return;
+			var ProcessingRadiation = RadiationStacks * 0.001f;
+			if (ProcessingRadiation < 20 && ProcessingRadiation > 0.5f)
+			{
+				ProcessingRadiation = 20;
+			}
+
+			AffectDamage(-ProcessingRadiation, (int) DamageType.Radiation);
+			AffectDamage( ProcessingRadiation * 0.05f, (int)DamageType.Tox);
+		}
+
 
 		private void UpdateSeverity()
 		{

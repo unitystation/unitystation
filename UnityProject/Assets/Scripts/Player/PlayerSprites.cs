@@ -28,9 +28,6 @@ public class PlayerSprites : MonoBehaviour
 	[Tooltip("The body parts for this race.")] [SerializeField]
 	private PlayerHealthData RaceBodyparts;
 
-	[Tooltip("The texture for this race.")] [SerializeField]
-	private PlayerTextureData RaceTexture;
-
 	[Tooltip("Assign the prefab responsible for the partial burning overlay.")] [SerializeField]
 	private GameObject partialBurningPrefab = default;
 
@@ -72,8 +69,6 @@ public class PlayerSprites : MonoBehaviour
 
 	public readonly List<BodyPartSprites> SurfaceSprite = new List<BodyPartSprites>();
 
-	//bodypart for each bodypart
-	//TODO: don't use string as the dictionary key
 	public readonly Dictionary<string, GameObject> bodyparts = new Dictionary<string, GameObject>();
 
 	private Directional directional;
@@ -123,8 +118,8 @@ public class PlayerSprites : MonoBehaviour
 
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		//TODO: Need to reimplement fire stacks on players.
-		//playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
-		//OnClientFireStacksChange(playerHealth.FireStacks);
+		playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
+		OnClientFireStacksChange(playerHealth.FireStacks);
 	}
 
 	/// <summary>
