@@ -127,10 +127,10 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
-			// foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-			// {
-				// spriteRenderer.sortingLayerName = "Bodies";
-			// }
+			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
+			{
+				spriteRenderer.sortingLayerName = "Bodies";
+			}
 
 			//lock current direction
 			playerDirectional.LockDirection = true;
@@ -139,13 +139,10 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
-			// foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-			// {
-				// if (playerScript.IsGhost)
-					// spriteRenderer.sortingLayerName = "Ghosts";
-				// else
-					// spriteRenderer.sortingLayerName = "Players";
-			// }
+			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
+			{
+				spriteRenderer.sortingLayerName = "Players";
+			}
 			playerDirectional.LockDirection = false;
 		}
 	}
