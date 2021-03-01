@@ -74,7 +74,7 @@ namespace DatabaseAPI
 
 
 				// Validate and correct settings in case the customization options change
-				settingsValid = PlayerCustomisationDataSOs.Instance.ValidateCharacterSettings(ref characterSettings);
+				settingsValid = true;
 			}
 
 			if (!settingsValid)

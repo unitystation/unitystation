@@ -18,7 +18,6 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public DepartmentList DepartmentList;
 	public OccupationList OccupationList;
 	public BestSlotForTrait BestSlotForTrait;
-	public PlayerCustomisationDataSOs PlayerCustomisationDataSOs;
 	public PlayerTextureDataSOs PlayerTextureDataSOs;
 	public CommonPrefabs CommonPrefabs;
 	public CommonCooldowns CommonCooldowns;
