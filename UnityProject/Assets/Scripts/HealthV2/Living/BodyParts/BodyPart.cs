@@ -192,6 +192,7 @@ namespace HealthV2
 			}
 
 			BloodUpdate();
+			CalculateRadiationDamage();
 		}
 
 
