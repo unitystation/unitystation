@@ -125,6 +125,26 @@ public class Tools : Editor
 		return result;
 	}
 
+	[MenuItem("Networking/Check for duplicate net Ids (Scene Check)")]
+	private static void FindNetIds()
+	{
+		var allNets = FindObjectsOfType<NetworkIdentity>();
+
+		var netIds = new HashSet<uint>();
+
+		for (int i = allNets.Length - 1; i > 0; i--)
+		{
+			var net = allNets[i].GetComponent<NetworkIdentity>();
+
+			if (netIds.Add(net.netId) == false)
+			{
+				Debug.Log($"{allNets[i]} has a duplicate net Id");
+			}
+		}
+
+		Debug.Log($"{allNets.Length} net ids found in the scene");
+	}
+
 	//this is just for migrating from old way of setting wallmount directions to the new way
 	[MenuItem("Tools/Set Wallmount Directionals from Transforms")]
 	private static void FixWallmountDirectionals()

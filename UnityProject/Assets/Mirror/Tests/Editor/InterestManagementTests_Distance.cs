@@ -65,6 +65,10 @@ namespace Mirror.Tests
             NetworkServer.RebuildObservers(identityA, true);
             NetworkServer.RebuildObservers(identityB, true);
 
+            //CUSTOM UNITYSTATION CODE//
+            //Needed until spatial management is used
+            identityA.AddObserver(connectionB);
+
             // A should see B because A is force shown
             Assert.That(identityA.observers.ContainsKey(connectionB.connectionId), Is.True);
             // B should not be seen by A because they are too far from each other
