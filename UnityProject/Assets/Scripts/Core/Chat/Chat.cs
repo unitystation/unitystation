@@ -174,7 +174,7 @@ public partial class Chat : MonoBehaviour
 				return;
 			}
 
-			if (player.playerHealth.IsCrit || (player.playerHealth.CirculatorySystem && player.playerHealth.CirculatorySystem.HeartIsStopped))
+			if (player.playerHealth.IsCrit)
 			{
 				if (!player.playerHealth.IsDead)
 				{
