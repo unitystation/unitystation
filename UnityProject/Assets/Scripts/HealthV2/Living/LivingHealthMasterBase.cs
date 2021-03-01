@@ -567,6 +567,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		}
 		return Stomachs;
 	}
+
 	/// <summary>
 	/// Radiation damage Calculations
 	/// </summary>
@@ -596,6 +597,15 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	// 		RadiationStacks = 0;
 	// 	}
 	// }
+
+
+	public void ResetDamageAll()
+	{
+		foreach (var BP in implantList)
+		{
+			BP.ResetDamage();
+		}
+	}
 
 	/// <summary>
 	///  Apply healing to a living thing. Server Only

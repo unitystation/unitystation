@@ -426,7 +426,7 @@ namespace IngameDebugConsole
 			{
 				var playerScript = PlayerManager.LocalPlayerScript;
 				var health = playerScript.playerHealth;
-				//TODO: Reimplement
+				health.ResetDamageAll();
 				playerScript.registerTile.ServerStandUp();
 			}
 		}
