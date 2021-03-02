@@ -443,6 +443,6 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 
 	private void AdminGibPlayer()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminGib(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+		//PlayerManager.PlayerScript.playerNetworkActions.CmdAdminGib(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 }

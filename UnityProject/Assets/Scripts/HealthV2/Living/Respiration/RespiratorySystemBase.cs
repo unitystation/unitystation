@@ -88,12 +88,12 @@ namespace HealthV2
 					temperature = 293.15f;
 				}
 
-				if(healthMaster.OverallHealth >= HealthThreshold.SoftCrit){
-					if (Breathe(node))
-					{
-						AtmosManager.Update(node);
-					}
-				}
+				// if(healthMaster.OverallHealth >= HealthThreshold.SoftCrit){
+					// if (Breathe(node))
+					// {
+						// AtmosManager.Update(node);
+					// }
+				// }
 			}
 		}
 

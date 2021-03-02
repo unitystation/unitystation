@@ -73,7 +73,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		if (eater == null)
 		{
 			// todo: implement non-player eating
-			SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition);
+			//SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition);
 			if (leavings != null)
 			{
 				Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent);
@@ -112,7 +112,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 	public virtual void Eat(PlayerScript eater, PlayerScript feeder)
 	{
 		//TODO: Reimplement metabolism.
-		SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+		//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
 		var Stomachs = eater.playerHealth.GetStomachs();
 		if (Stomachs.Count == 0)

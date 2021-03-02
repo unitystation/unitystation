@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Systems.Clothing;
 using Light2D;
 using Mirror;
 using UnityEngine;
@@ -287,6 +288,7 @@ public class PlayerSprites : MonoBehaviour
 				Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
 					.GameObject.GetComponent<SpriteHandlerNorder>();
 
+			SpriteHandlerNorder.transform.localPosition  = Vector3.zero;
 			ToClient.Add(SpriteHandlerNorder.GetComponent<NetworkIdentity>().netId);
 			OpenSprites.Add(SpriteHandlerNorder);
 			//SubSetBodyPart
