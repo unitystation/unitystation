@@ -22,6 +22,13 @@ public class ElectricalPool
 
 	public static List<SupplyBool> PooledSupplyBool = new List<SupplyBool>();
 
+	public static void PoolsStatuses()
+	{
+		Logger.Log("PooledResistanceWraps" + PooledResistanceWraps.Count);
+		Logger.Log("PooledVIRResistances" + PooledVIRResistances.Count);
+		Logger.Log("PooledVIRCurrent" + PooledVIRCurrent.Count);
+		Logger.Log("PooledWrapCurrent" + PooledWrapCurrent.Count);
+	}
 
 	public static ResistanceWrap GetResistanceWrap()
 	{

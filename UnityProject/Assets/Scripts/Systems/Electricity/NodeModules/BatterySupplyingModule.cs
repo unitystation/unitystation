@@ -110,7 +110,7 @@ namespace Systems.Electricity.NodeModules
 							{ //Cleaning up values if it can't supply
 								PullingWatts = 0;
 								current = 0;
-								PullLastDeductedTime = 0;
+								PullLastDeductedTime = -1;
 							}
 						}
 
@@ -145,7 +145,7 @@ namespace Systems.Electricity.NodeModules
 					{
 						if (ResistanceSourceModule.Resistance != MonitoringResistance)
 						{
-							if (ChargLastDeductedTime == 0)
+							if (ChargLastDeductedTime <= 0)
 							{
 								ChargLastDeductedTime = Time.time;
 							}
@@ -153,14 +153,14 @@ namespace Systems.Electricity.NodeModules
 							CurrentCapacity += ChargingWatts * (Time.time - ChargLastDeductedTime);
 							ChargLastDeductedTime = Time.time;
 
-							if (VoltageAtChargePort > IncreasedChargeVoltage && !(ChargingMultiplier >= MaxChargingMultiplier))
+							if (VoltageAtChargePort > IncreasedChargeVoltage && ChargingMultiplier < MaxChargingMultiplier)
 							{ //Increasing the current charge by
 								ChargingMultiplier += ChargeSteps;
 								ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber * ChargingMultiplier);
 							}
 							else if (VoltageAtChargePort < ExtraChargeCutOff)
 							{
-								if (!(0.1 >= ChargingMultiplier))
+								if (0.1 < ChargingMultiplier)
 								{
 									ChargingMultiplier -= ChargeSteps;
 									ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber * ChargingMultiplier);
@@ -170,7 +170,7 @@ namespace Systems.Electricity.NodeModules
 									ChargingWatts = 0;
 									ChargingMultiplier = 0.1f;
 									ResistanceSourceModule.Resistance = MonitoringResistance;
-									ChargLastDeductedTime = 0;
+									ChargLastDeductedTime = -1;
 								}
 							}
 							if (CurrentCapacity >= CapacityMax)
@@ -180,12 +180,12 @@ namespace Systems.Electricity.NodeModules
 								ToggleCansupport = true;
 								ChargingMultiplier = 0.1f;
 								ResistanceSourceModule.Resistance = MonitoringResistance;
-								ChargLastDeductedTime = 0;
+								ChargLastDeductedTime = -1;
 							}
 						}
-						else if (VoltageAtChargePort > IncreasedChargeVoltage && !(CurrentCapacity >= CapacityMax))
+						else if (VoltageAtChargePort > IncreasedChargeVoltage && CurrentCapacity < CapacityMax)
 						{
-							if (ChargingMultiplier == 0)
+							if (ChargingMultiplier >= 0)
 							{
 								ChargingMultiplier = ChargeSteps;
 							}
@@ -198,7 +198,7 @@ namespace Systems.Electricity.NodeModules
 						ChargingWatts = 0;
 						ChargingMultiplier = 0.1f;
 						ResistanceSourceModule.Resistance = MonitoringResistance;
-						ChargLastDeductedTime = 0;
+						ChargLastDeductedTime = -1;
 					}
 				}
 				if (Cansupport)
@@ -207,19 +207,19 @@ namespace Systems.Electricity.NodeModules
 					{
 						if (PullingWatts > 0)
 						{
-							if (PullLastDeductedTime == 0)
+							if (PullLastDeductedTime <= 0)
 							{
 								PullLastDeductedTime = Time.time;
 							}
 							CurrentCapacity -= PullingWatts * (Time.time - PullLastDeductedTime);
 							PullLastDeductedTime = Time.time;
-							if (CurrentCapacity < 0)
+							if (CurrentCapacity <= 0)
 							{
 								CurrentCapacity = 0;
 								ToggleCansupport = false;
 								PullingWatts = 0;
 								current = 0;
-								PullLastDeductedTime = 0;
+								PullLastDeductedTime = -1;
 							}
 						}
 						else if (VoltageAtSupplyPort < MinimumSupportVoltage && CurrentCapacity > 0)
@@ -237,7 +237,7 @@ namespace Systems.Electricity.NodeModules
 					{
 						PullingWatts = 0;
 						current = 0;
-						PullLastDeductedTime = 0;
+						PullLastDeductedTime = -1;
 					}
 				}
 			}
