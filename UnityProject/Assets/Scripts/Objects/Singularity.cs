@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Systems.Atmospherics;
@@ -17,6 +17,8 @@ namespace Objects
 	{
 		private SingularityStages currentStage = SingularityStages.Stage0;
 
+		private readonly float updateFrequency = 0.5f;
+
 		public SingularityStages CurrentStage
 		{
 			get
@@ -27,12 +29,18 @@ namespace Objects
 			{
 				currentStage = value;
 
+				UpdateVectors();
 				spriteHandler.ChangeSprite((int)currentStage);
 			}
 		}
 
 		[SyncVar(hook = nameof(SyncLightVector))]
 		private Vector3 lightVector = Vector3.zero;
+
+		[SyncVar(hook = nameof(SyncDynamicScale))]
+		private Vector3 dynamicScale = Vector3.one;
+
+		private float maxScaleMultiplier;
 
 		[SerializeField]
 		private SingularityStages startingStage = SingularityStages.Stage0;
@@ -83,12 +91,21 @@ namespace Objects
 		private HashSet<GameObject> pushRecently = new HashSet<GameObject>();
 		private int pushTimer;
 
-		private List<Vector3Int> adjacentCoords = new List<Vector3Int>
+		private readonly List<Vector3Int> adjacentCoords = new List<Vector3Int>
 		{
 			new Vector3Int(0, 1, 0),
 			new Vector3Int(1, 0, 0),
 			new Vector3Int(0, -1, 0),
 			new Vector3Int(-1, 0, 0)
+		};
+
+		private readonly List<Tuple<int, int>> stagePointsBounds = new List<Tuple<int, int>>()
+		{
+			{ Tuple.Create(150, 199) }, // We spawn at 150 points; don't want to instantly scale (as it would be if as expected '0')
+			{ Tuple.Create(200, 499) },
+			{ Tuple.Create(500, 999) },
+			{ Tuple.Create(1000, 1999) },
+			{ Tuple.Create(2000, 2999) },
 		};
 
 		#region LifeCycle
@@ -104,15 +121,14 @@ namespace Objects
 
 		private void Start()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
-			lightVector = new Vector3(5 * ((int)CurrentStage + 1), 5 * ((int)CurrentStage + 1), 0);
 			CurrentStage = startingStage;
 		}
 
 		private void OnEnable()
 		{
-			UpdateManager.Add(SingularityUpdate, 0.5f);
+			UpdateManager.Add(SingularityUpdate, updateFrequency);
 		}
 
 		private void OnDisable()
@@ -126,6 +142,16 @@ namespace Objects
 		{
 			lightVector = newVar;
 			lightTransform.localScale = newVar;
+		}
+
+		private void SyncDynamicScale(Vector3 oldScale, Vector3 newScale)
+		{
+			if (newScale.Equals(Vector3.zero))
+			{
+				gameObject.transform.localScale = Vector3.one;
+			}
+
+			gameObject.transform.LeanScale(newScale, updateFrequency);
 		}
 
 		#endregion
@@ -178,6 +204,9 @@ namespace Objects
 			TryMove();
 
 			TryChangeStage();
+
+			// will sync to clients
+			dynamicScale = GetDynamicScale();
 
 			//Radiation Pulse
 			var strength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
@@ -596,8 +625,16 @@ namespace Objects
 			{
 				Chat.AddLocalMsgToChat($"The singularity fluctuates and {(newStage < CurrentStage ? "decreases" : "increases")} in size", gameObject);
 				CurrentStage = newStage;
-				lightVector = new Vector3(5 * ((int)newStage + 1), 5 * ((int)newStage + 1), 0);
+				UpdateVectors();
+				dynamicScale = Vector3.zero; // keyed value: don't tween; set it to 1x scale immediately
 			}
+		}
+
+		private void UpdateVectors()
+		{
+			int stage = (int)CurrentStage + 1;
+			maxScaleMultiplier = ((float)((stage * 2) + 1) / ((stage * 2) - 1)) - 1;
+			lightVector = new Vector3(5 * stage, 5 * stage, 0);
 		}
 
 		#endregion
@@ -628,18 +665,39 @@ namespace Objects
 		{
 			if(damageData.AttackType != AttackType.Rad) return;
 
-			if (damageData.Damage <= 20f)
+			if (damageData.Damage >= 20f)
 			{
-				//PA at setting 0 will do 20 damage
+				// PA at any setting will prevent point loss
 				pointLock = true;
 				lockTimer = 20;
-				return;
 			}
-
-			ChangePoints((int)damageData.Damage);
+			if (damageData.Damage > 20f)
+			{
+				// PA at setting greater than 0 will do 20 damage
+				ChangePoints((int)damageData.Damage);
+			}
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Gets dynamic scaling size for singularity.
+		/// Linear between min size -> no extra scaling and max stage size -> 3x scaling,
+		/// for smooth transitions between states.
+		/// </summary>
+		private Vector3 GetDynamicScale()
+		{
+			int stageNum = (int)CurrentStage;
+			int stageMin = stagePointsBounds[stageNum].Item1;
+			int stageMax = stagePointsBounds[stageNum].Item2;
+			float scale = 1 + ((float) (singularityPoints - stageMin) / (stageMax - stageMin) * maxScaleMultiplier);
+			// possible to go below 1 on stage 0 as we define min scale for this stage as 150 points, not 0 (we spawn with 150)
+			scale = Math.Max(scale, 0.5f);
+			// possible to be scaled further than the size of the next stage -> points exceeds next stage but can't grow (obstructions)
+			scale = Math.Min(scale, maxScaleMultiplier + 1);
+
+			return new Vector3(scale, scale, 1);
+		}
 
 		/// <summary>
 		/// Gets size radius for movement and stage change
