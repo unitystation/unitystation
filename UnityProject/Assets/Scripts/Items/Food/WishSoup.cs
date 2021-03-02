@@ -19,7 +19,7 @@ public class WishSoup : Edible
 
 	private void Eat(PlayerScript eater, PlayerScript feeder, bool FeedNutrients)
 	{
-		SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+		//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
 		if (FeedNutrients)
 		{

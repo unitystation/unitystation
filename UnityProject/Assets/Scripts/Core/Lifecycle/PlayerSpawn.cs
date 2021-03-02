@@ -90,7 +90,7 @@ public static class PlayerSpawn
 	/// </summary>
 	/// <param name="forMind"></param>
 	/// <param name="worldPosition"></param>
-	public static void ServerClonePlayer(Mind forMind, Vector3Int worldPosition)
+	public static GameObject ServerClonePlayer(Mind forMind, Vector3Int worldPosition)
 	{
 		//TODO: Can probably remove characterSettings from cloningrecord
 		//determine previous occupation / settings
@@ -99,7 +99,7 @@ public static class PlayerSpawn
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
 
-		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false, showBanner: false);
+		return ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false, showBanner: false);
 	}
 
 	//Time to start spawning players at arrivals

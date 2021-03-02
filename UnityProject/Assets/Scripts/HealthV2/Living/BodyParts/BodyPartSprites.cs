@@ -1,4 +1,5 @@
-﻿using HealthV2;
+﻿using Systems.Clothing;
+using HealthV2;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;

@@ -357,7 +357,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
 		Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
-		
+
 		// Slip is essentially a yelp SFX.
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
@@ -442,6 +442,6 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 
 	private void AdminGibPlayer()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminGib(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+		//PlayerManager.PlayerScript.playerNetworkActions.CmdAdminGib(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 }

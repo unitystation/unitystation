@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Systems.Clothing;
 using Items;
 
 public enum SpriteHandType
@@ -134,16 +135,13 @@ public class ClothingItem : MonoBehaviour
 
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
-		spriteHandler.SetCatalogue(clothing.SpriteDataSO);
-		spriteHandler.ChangeSprite(clothing.SpriteInfoState);
+		spriteHandler.SetCatalogue(clothing.SpriteDataSO, 0);
 		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
 		if (palette != null)
 		{
 			spriteHandler.SetPaletteOfCurrentSprite(palette, Network: false);
 		}
 
-
-		PushTexture();
 	}
 
 	private void UpdateReferenceOffset()

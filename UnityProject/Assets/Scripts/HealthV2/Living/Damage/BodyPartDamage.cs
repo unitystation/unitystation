@@ -106,6 +106,7 @@ namespace HealthV2
 			0,
 			0,
 			0,
+			0,
 		};
 
 		public void AffectDamage(float HealthDamage, int healthDamageType)

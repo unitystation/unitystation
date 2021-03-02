@@ -273,6 +273,7 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetColor(Color value, bool NetWork = true)
 	{
+		if (Initialised == false) TryInit();
 		if (setColour == value) return;
 
 		setColour = value;
@@ -697,7 +698,7 @@ public class SpriteHandler : MonoBehaviour
 
 		if (image != null)
 		{
-			if (image.sprite != null)
+			if (image.sprite != null  || image.enabled)
 			{
 				return true;
 			}
@@ -720,6 +721,7 @@ public class SpriteHandler : MonoBehaviour
 	private void TryInit()
 	{
 		GetImageComponent();
+		bool Status = this.GetImageComponentStatus();
 		ImageComponentStatus(false);
 		Initialised = true;
 
@@ -735,7 +737,21 @@ public class SpriteHandler : MonoBehaviour
 			}
 		}
 
-		ImageComponentStatus(true);
+		ImageComponentStatus(Status);
+	}
+
+	private bool GetImageComponentStatus()
+
+	{
+		if (spriteRenderer != null)
+		{
+			return spriteRenderer.enabled;
+		}
+		else if (image != null)
+		{
+			return image.enabled;
+		}
+		return false;
 	}
 
 	private void ImageComponentStatus(bool Status)
