@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Systems.Electricity.FunctionsAndClasses;
 using UnityEngine;
 
 namespace Systems.Electricity.NodeModules
@@ -37,6 +36,7 @@ namespace Systems.Electricity.NodeModules
 		public ResistanceSourceModule ResistanceSourceModule { get; private set; }
 		public TransformerModule TTransformerModule { get; private set; }
 
+		private float MonitoringResistance = 9999999999;
 		private void Awake()
 		{
 			ResistanceSourceModule = GetComponent<ResistanceSourceModule>();
@@ -69,6 +69,7 @@ namespace Systems.Electricity.NodeModules
 		{
 			isOnForInterface = true;
 			PowerSupplyFunction.TurnOnSupply(this);
+			PowerNetworkUpdate();
 		}
 
 		public override void TurnOffSupply()
@@ -89,15 +90,33 @@ namespace Systems.Electricity.NodeModules
 						CircuitResistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].ResistanceComingFrom); // //!!
 						VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
 						VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
-						BatteryCalculation.PowerUpdateCurrentChange(this);
+						if (Cansupport) //Denotes capacity to Provide current
+						{
+							//NOTE This assumes that the voltage will be same on either side
+							if (ToggleCansupport && IsAtVoltageThreshold()) // ToggleCansupport denotes Whether at the current time it is allowed to provide current
+							{
+								if (CurrentCapacity > 0)
+								{
+									var needToPushVoltage = StandardSupplyingVoltage - VoltageAtSupplyPort;
+									current = needToPushVoltage / CircuitResistance;
+									if (current > MaximumCurrentSupport)
+									{
+										current = MaximumCurrentSupport;
+									}
+									PullingWatts = current * StandardSupplyingVoltage; // Should be the same as NeedToPushVoltage + powerSupply.ActualVoltage
+								}
+							}
+							else if (PullingWatts > 0)
+							{ //Cleaning up values if it can't supply
+								PullingWatts = 0;
+								current = 0;
+								PullLastDeductedTime = 0;
+							}
+						}
 
 						if (current != Previouscurrent)
 						{
-							if (Previouscurrent == 0 && !(current == 0))
-							{
-
-							}
-							else if (current == 0 && !(Previouscurrent == 0))
+							if (current == 0)
 							{
 								ControllingNode.Node.InData.FlushSupplyAndUp(ControllingNode.Node);
 							}
@@ -107,7 +126,7 @@ namespace Systems.Electricity.NodeModules
 					}
 				}
 				else {
-					CircuitResistance = 999999999999;
+					CircuitResistance = MonitoringResistance;
 				}
 			}
 			PowerSupplyFunction.PowerUpdateCurrentChange(this);
@@ -117,9 +136,111 @@ namespace Systems.Electricity.NodeModules
 			VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
 			VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
 
-			//Logger.Log(VoltageAtChargePort + " < VoltageAtChargePort on " + this);
-			//Logger.Log(VoltageAtSupplyPort + " < VoltageAtSupplyPort on " + this);
-			BatteryCalculation.PowerNetworkUpdate(this);
+			//Checks if the battery is actually on This is not needed in PowerUpdateCurrentChange Since having those updates Would mean it would be on
+			if (isOnForInterface)
+			{
+				if (CanCharge)
+				{
+					if (ToggleCanCharge)
+					{
+						if (ResistanceSourceModule.Resistance != MonitoringResistance)
+						{
+							if (ChargLastDeductedTime == 0)
+							{
+								ChargLastDeductedTime = Time.time;
+							}
+							ChargingWatts = VoltageAtChargePort / ResistanceSourceModule.Resistance * VoltageAtChargePort;
+							CurrentCapacity += ChargingWatts * (Time.time - ChargLastDeductedTime);
+							ChargLastDeductedTime = Time.time;
+
+							if (VoltageAtChargePort > IncreasedChargeVoltage && !(ChargingMultiplier >= MaxChargingMultiplier))
+							{ //Increasing the current charge by
+								ChargingMultiplier += ChargeSteps;
+								ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber * ChargingMultiplier);
+							}
+							else if (VoltageAtChargePort < ExtraChargeCutOff)
+							{
+								if (!(0.1 >= ChargingMultiplier))
+								{
+									ChargingMultiplier -= ChargeSteps;
+									ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber * ChargingMultiplier);
+								}
+								else
+								{ //Turning off charge if it pulls too much
+									ChargingWatts = 0;
+									ChargingMultiplier = 0.1f;
+									ResistanceSourceModule.Resistance = MonitoringResistance;
+									ChargLastDeductedTime = 0;
+								}
+							}
+							if (CurrentCapacity >= CapacityMax)
+							{
+								CurrentCapacity = CapacityMax;
+								ChargingWatts = 0;
+								ToggleCansupport = true;
+								ChargingMultiplier = 0.1f;
+								ResistanceSourceModule.Resistance = MonitoringResistance;
+								ChargLastDeductedTime = 0;
+							}
+						}
+						else if (VoltageAtChargePort > IncreasedChargeVoltage && !(CurrentCapacity >= CapacityMax))
+						{
+							if (ChargingMultiplier == 0)
+							{
+								ChargingMultiplier = ChargeSteps;
+							}
+							ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber * ChargingMultiplier);
+							ChargLastDeductedTime = Time.time;
+						}
+					}
+					else if (ResistanceSourceModule.Resistance != MonitoringResistance)
+					{
+						ChargingWatts = 0;
+						ChargingMultiplier = 0.1f;
+						ResistanceSourceModule.Resistance = MonitoringResistance;
+						ChargLastDeductedTime = 0;
+					}
+				}
+				if (Cansupport)
+				{
+					if (ToggleCansupport)
+					{
+						if (PullingWatts > 0)
+						{
+							if (PullLastDeductedTime == 0)
+							{
+								PullLastDeductedTime = Time.time;
+							}
+							CurrentCapacity -= PullingWatts * (Time.time - PullLastDeductedTime);
+							PullLastDeductedTime = Time.time;
+							if (CurrentCapacity < 0)
+							{
+								CurrentCapacity = 0;
+								ToggleCansupport = false;
+								PullingWatts = 0;
+								current = 0;
+								PullLastDeductedTime = 0;
+							}
+						}
+						else if (VoltageAtSupplyPort < MinimumSupportVoltage && CurrentCapacity > 0)
+						{
+							var needToPushVoltage = StandardSupplyingVoltage - VoltageAtSupplyPort;
+							current = needToPushVoltage / CircuitResistance;
+							if (current > MaximumCurrentSupport)
+							{
+								current = MaximumCurrentSupport;
+							}
+							PullingWatts = current * StandardSupplyingVoltage;
+						}
+					}
+					else if (PullingWatts > 0)
+					{
+						PullingWatts = 0;
+						current = 0;
+						PullLastDeductedTime = 0;
+					}
+				}
+			}
 			if (current != Previouscurrent | SupplyingVoltage != PreviousSupplyingVoltage | InternalResistance != PreviousInternalResistance)
 			{
 				ControllingNode.Node.InData.Data.SupplyingCurrent = current;
@@ -133,30 +254,58 @@ namespace Systems.Electricity.NodeModules
 
 				ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode);
 			}
-			//Logger.Log(CurrentCapacity + " < CurrentCapacity" + ControllingNode.Node.InData.Categorytype, Category.Electrical);
 		}
-		public override VIRCurrent ModifyElectricityOutput(VIRCurrent Current, ElectricalOIinheritance SourceInstance)
+
+		public override VIRCurrent ModifyElectricityOutput(VIRCurrent current, ElectricalOIinheritance sourceInstance)
 		{
-			if (SourceInstance != ControllingNode.Node)
+			if (sourceInstance != ControllingNode.Node)
 			{
 				if (!ElectricalManager.Instance.electricalSync.NUCurrentChange.Contains(ControllingNode))
 				{
 					ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode);
 				}
 			}
-			return Current;
+			return current;
 		}
 
-		[RightClickMethod]
-		public void ToggleCharge()
+		private bool IsAtVoltageThreshold()
 		{
-			ToggleCanCharge = !ToggleCanCharge;
+			if (TTransformerModule != null)
+			{
+				var highSide = false;
+				var lowSide = false;
+				foreach (var canConnectTo in ControllingNode.Node.InData.CanConnectTo)
+				{
+					if (TTransformerModule.HighsideConnections.Contains(canConnectTo))
+					{
+						highSide = true;
+					}
+
+					if (TTransformerModule.LowsideConnections.Contains(canConnectTo))
+					{
+						lowSide = true;
+					}
+				}
+				if (highSide && lowSide)
+				{
+					Logger.LogError("You have a connection from a battery Transformer combo that is the high side of the transformer and the low side of the transformer, " +
+					                 "It's presumed that the charging port would be on the opposite side of the Transformer" +
+					                "I could fix this but currently it's not used anywhere so just telling you it won't work properly");
+				}
+				if (highSide) //Outputs to highSide
+				{
+					return VoltageAtSupplyPort < MinimumSupportVoltage &&  VoltageAtChargePort*TTransformerModule.TurnRatio < MinimumSupportVoltage;
+				}
+
+				if (lowSide) //Outputs to lowSide
+				{
+					return VoltageAtSupplyPort < MinimumSupportVoltage &&  (VoltageAtChargePort*(1/TTransformerModule.TurnRatio))
+						< MinimumSupportVoltage;
+				}
+				Logger.LogError("No side was found for Transformer battery combo falling back to default Calculation");
+			}
+			return VoltageAtSupplyPort < MinimumSupportVoltage &&  VoltageAtChargePort < MinimumSupportVoltage;
 		}
 
-		[RightClickMethod]
-		public void ToggleSupport()
-		{
-			ToggleCansupport = !ToggleCansupport;
-		}
 	}
 }

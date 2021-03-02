@@ -61,13 +61,14 @@ namespace Objects.Engineering
 
 		public override void OnStartServer()
 		{
+
 			var itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 			securable.OnAnchoredChange.AddListener(OnSecuredChanged);
 			if (startAsOn)
 			{
 				fuelAmount = fuelPerSheet;
-				TryToggleOn();
+				//TryToggleOn();
 			}
 		}
 		#endregion Lifecycle
