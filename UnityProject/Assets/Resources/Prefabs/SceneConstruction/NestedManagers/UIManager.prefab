@@ -9644,7 +9644,7 @@ MonoBehaviour:
   adminChatWindows: {fileID: 7202757496456318431}
   profileScrollView: {fileID: 5074980598909388710}
   playerAlerts: {fileID: 7969094656009152741}
-  antagBanner: {fileID: 9112774073186637723}
+  spawnBanner: {fileID: 9112774073186637723}
   PhoneZoomFactor: 1.6
   lobbyUIPlayerListController: {fileID: 8978380966267964358}
   SurgeryDialogue: {fileID: 5903208461150037718}
@@ -9662,7 +9662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hudBottomHuman: {fileID: 8916763399579347746}
-  hudBottomGhost: {fileID: 5132426982416102989}
+  hudBottomGhost: {fileID: 5165949708381885836}
   hudBottomBlob: {fileID: 1645623885778184550}
   jobSelectWindow: {fileID: 8556394910883754237}
   teamSelectionWindow: {fileID: 8554602371908804983}
@@ -13264,15 +13264,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fad2bb29eacd43419afe1919a39360f, type: 3}
---- !u!224 &4909276170178374455 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8098718680817705657, guid: 8fad2bb29eacd43419afe1919a39360f,
+--- !u!114 &5165949708381885836 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8355319641317481474, guid: 8fad2bb29eacd43419afe1919a39360f,
     type: 3}
   m_PrefabInstance: {fileID: 3766466217258256782}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5132426982416102989 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8322412643209625539, guid: 8fad2bb29eacd43419afe1919a39360f,
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6a8488f83ae114e9e54f13a5cd9aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!224 &4909276170178374455 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8098718680817705657, guid: 8fad2bb29eacd43419afe1919a39360f,
     type: 3}
   m_PrefabInstance: {fileID: 3766466217258256782}
   m_PrefabAsset: {fileID: 0}
@@ -13471,7 +13477,7 @@ PrefabInstance:
     - target: {fileID: 5310848962886298822, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 489.34048
+      value: 489.34042
       objectReference: {fileID: 0}
     - target: {fileID: 5380185652939830920, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -13491,12 +13497,12 @@ PrefabInstance:
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Size
-      value: 0.00000004359654
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Value
-      value: -0.00000037418835
+      value: 0.000000031182356
       objectReference: {fileID: 0}
     - target: {fileID: 5420804678553840072, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -14919,7 +14925,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 5f4f6721c5bda204bafa4dfba79e645e,
+      objectReference: {fileID: 21300002, guid: 5f4f6721c5bda204bafa4dfba79e645e,
         type: 3}
     - target: {fileID: 766307428222084931, guid: 58f6348968bc83047b6bc0bf73e60380,
         type: 3}
@@ -14930,7 +14936,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -2512927661099922447, guid: a08e177daac794cf680f161215685ce4,
+      objectReference: {fileID: -3138123007396962320, guid: a08e177daac794cf680f161215685ce4,
         type: 3}
     - target: {fileID: 1723243351732910187, guid: 58f6348968bc83047b6bc0bf73e60380,
         type: 3}
