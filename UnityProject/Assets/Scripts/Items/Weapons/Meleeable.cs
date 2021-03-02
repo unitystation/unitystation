@@ -16,6 +16,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 
 	[SerializeField] private string butcherSound = "BladeSlice";
 
+
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles regardless of intent
 	/// </summary>
