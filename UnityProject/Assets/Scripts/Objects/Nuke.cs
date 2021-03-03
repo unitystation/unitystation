@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Audio.Managers;
 using UnityEngine;
 using Mirror;
@@ -6,6 +7,7 @@ using UnityEngine.Events;
 using AddressableReferences;
 using Antagonists;
 using Managers;
+using Random = UnityEngine.Random;
 
 namespace Objects.Command
 {
@@ -277,9 +279,14 @@ namespace Objects.Command
 		IEnumerator WaitForDeath()
 		{
 			yield return WaitFor.Seconds(5f);
+			var worldPos = gameObject.GetComponent<RegisterTile>().WorldPosition;
 			foreach (LivingHealthBehaviour living in FindObjectsOfType<LivingHealthBehaviour>())
 			{
-				living.Death();
+				var dist = Vector3.Distance(worldPos, living.GetComponent<RegisterTile>().WorldPosition);
+				if (dist < explosionRadius)
+				{
+					living.Death();
+				}
 			}
 			yield return WaitFor.Seconds(15f);
 			// Trigger end of round
