@@ -21,9 +21,9 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 
 	public RegisterTile registerTile;
 	public Matrix Matrix => registerTile.Matrix;
-	public bool connected = false;
+	public bool connected;
 
-	public bool Logall = false;
+	public bool Logall;
 
 	private void Start()
 	{
@@ -42,7 +42,6 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 		}
 		else {
 			registerTile.SetElectricalData(this);
-			Vector2 searchVec = this.registerTile.LocalPosition.To2Int();
 		}
 		ElectricalManager.Instance.electricalSync.StructureChange = true;
 		InData.Present = this;
@@ -175,35 +174,6 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 		InData.WireEndB = DirectionStartin;
 	}
 
-	/// <summary>
-	/// Flushs the connection and up. Flushes out everything
-	/// </summary>
-	//public virtual void FlushConnectionAndUp()
-	//{
-	//	ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
-	//}
-
-	///// <summary>
-	///// Flushs the resistance and up. Cleans out resistance and current, SourceInstance is the Gameobject Of the supply,
-	///// This will be used to clean up the data from only a particular Supply
-	///// </summary>
-	//public virtual void FlushResistanceAndUp(ElectricalOIinheritance SourceInstance = null)
-	//{
-	//	ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
-	//}
-
-	///// <summary>
-	///// Flushs the supply and up. Cleans out the current
-	///// </summary>
-	//public virtual void FlushSupplyAndUp(ElectricalOIinheritance SourceInstance = null)
-	//{
-	//	ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp(this, SourceInstance);
-	//}
-	//public virtual void RemoveSupply(ElectricalOIinheritance SourceInstance = null)
-	//{
-	//	ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
-	//}
-
 	[RightClickMethod]
 	public virtual void ShowDetails()
 	{
@@ -241,8 +211,6 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 		}
 	}
 
-
-
 	/// <summary>
 	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 	/// </summary>
@@ -260,12 +228,5 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	public void StructureChange() {
 		ElectricalManager.Instance.electricalSync.StructureChange = true;
 	}
-
-	//
-	//	public RightClickableResult GenerateRightClickOptions()
-	//	{
-	//		return RightClickableResult.Create()
-	//			.AddElement("Details", ShowDetails);
-	//	}
 }
 

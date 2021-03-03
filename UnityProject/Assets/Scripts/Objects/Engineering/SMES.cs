@@ -23,7 +23,7 @@ namespace Objects.Engineering
 		private SpriteHandler outputEnabledIndicator;
 		private SpriteHandler chargeLevelIndicator;
 
-		private bool IsCharging => batterySupplyingModule.ChargingMultiplier > 0.1f;
+		private bool IsCharging => batterySupplyingModule.ChargingDivider > 0.1f;
 		private float MaxCharge => batterySupplyingModule.CapacityMax;
 		private float CurrentCharge => batterySupplyingModule.CurrentCapacity;
 		private int ChargePercent => Convert.ToInt32(Math.Round(CurrentCharge * 100 / MaxCharge));

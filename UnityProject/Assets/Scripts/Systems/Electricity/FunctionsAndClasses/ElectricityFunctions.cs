@@ -33,11 +33,11 @@ public static class ElectricityFunctions
 		HashSet<IntrinsicElectronicData> InPutHashSet)
 	{
 		Vector2 searchVec = OIinheritance.GetLocation();
-		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointA, OIinheritance, InPutHashSet, otherConnectionPoint: ConnPoints.pointB);
-		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointB, OIinheritance, InPutHashSet, otherConnectionPoint: ConnPoints.pointA);
+		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointA, OIinheritance, InPutHashSet, ConnPoints.pointB);
+		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointB, OIinheritance, InPutHashSet, ConnPoints.pointA);
 	}
 
-	public static HashSet<IntrinsicElectronicData> SwitchCaseConnections(Vector2 searchVec,
+	public static void SwitchCaseConnections(Vector2 searchVec,
 		Matrix matrix,
 		HashSet<PowerTypeCategory> CanConnectTo,
 		Connection connectionPoint,
@@ -96,12 +96,10 @@ public static class ElectricityFunctions
 						}
 					}
 				}
-
 				conns.Clear();
 				ElectricalPool.PooledFPCList.Add(conns);
 			}
-
-			return connections;
+			return;
 		}
 
 		// Connect to machine connnectors
@@ -123,7 +121,7 @@ public static class ElectricityFunctions
 				conns.Clear();
 				ElectricalPool.PooledFPCList.Add(conns);
 			}
-			return connections;
+			return;
 		}
 
 		// Make a vector representing the connection direction
@@ -148,7 +146,7 @@ public static class ElectricityFunctions
 
 			if (connectionsAdded)
 			{
-				return connections;
+				return;
 			}
 		}
 
@@ -166,215 +164,26 @@ public static class ElectricityFunctions
 			eConnsAtSearchVec.Clear();
 			ElectricalPool.PooledFPCList.Add(eConnsAtSearchVec);
 		}
-		return connections;
 	}
 
 	public static float WorkOutResistance(Dictionary<IntrinsicElectronicData, VIRResistances> ResistanceSources)
 	{
 		//Worked out per source
-
-
-		//var ToLog = "\n";
-		//ToLog += "ResistanceGoingTo > ";
-		//ToLog += string.Join(",", ResistanceSources.ResistanceGoingTo) + "\n";
-		//ToLog += "ResistanceComingFrom > ";
-		//ToLog += string.Join(",", ResistanceSources.ResistanceComingFrom) + "\n";
-		//Logger.Log("WorkOutResistance!" + ToLog);
 		float ResistanceXAll = 0;
 		foreach (KeyValuePair<IntrinsicElectronicData, VIRResistances> Source in ResistanceSources)
 		{
 			ResistanceXAll += 1 / Source.Value.Resistance();
 		}
-
-		//Logger.Log((1 / ResistanceXAll)+ "< Return");
-		return ((1 / ResistanceXAll));
+		return 1 / ResistanceXAll;
 	}
 
-	public static VIRResistances WorkOutVIRResistance(
-		Dictionary<IntrinsicElectronicData, VIRResistances> ResistanceSources)
-	{
-		var ResistanceXAll = ElectricalPool.GetVIRResistances();
-		//Worked out per source
-		//var ToLog = "\n";
-		//ToLog += "ResistanceGoingTo > ";
-		//ToLog += string.Join(",", ResistanceSources.ResistanceGoingTo) + "\n";
-		//ToLog += "ResistanceComingFrom > ";
-		//ToLog += string.Join(",", ResistanceSources.ResistanceComingFrom) + "\n";
-		//Logger.Log("WorkOutResistance!" + ToLog);
-		foreach (KeyValuePair<IntrinsicElectronicData, VIRResistances> Source in ResistanceSources)
-		{
-			ResistanceXAll.AddResistance(Source.Value);
-		}
-
-		//Logger.Log((1 / ResistanceXAll)+ "< Return");
-		return (ResistanceXAll);
-	}
-
-	// TODO Add documentation, clean up, remove commented out code, etc.
-	public static float WorkOutAtResistance(ElectronicSupplyData ResistanceSources, IntrinsicElectronicData Indata)
-	{
-		float Resistanc = 0;
-
-		if (Indata == null)
-		{
-			return Resistanc;
-		}
-
-		bool goingToExists = ResistanceSources.ResistanceGoingTo.TryGetValue(Indata, out VIRResistances goingTo);
-		bool comingFromExists = ResistanceSources.ResistanceComingFrom.TryGetValue(Indata, out VIRResistances comingFrom);
-
-		if (goingToExists && comingFromExists)
-		{
-			HashSet<ResistanceWrap> ResistanceSour = new HashSet<ResistanceWrap>(comingFrom.ResistanceSources);
-
-			//ResistanceSour.UnionWith(ResistanceSources.ResistanceComingFrom[Indata].ResistanceSources);
-
-			//HashSet<ResistanceWrap> ResistanceSour = new HashSet<ResistanceWrap>(ResistanceSources.ResistanceGoingTo[Indata].ResistanceSources);
-
-			//ResistanceSourtoreove.UnionWith(ResistanceSources.ResistanceGoingTo[Indata].ResistanceSources);
-
-			//ResistanceSour.ExceptWith(ResistanceSourtoreove);
-
-			float Toadd = 0;
-			float ToRemove = 0;
-
-			foreach (var Resistance in ResistanceSour)
-			{
-				if (goingTo.ResistanceSources.Contains(Resistance))
-				{
-					Toadd = 1 / Resistance.Resistance();
-				}
-
-				//else {
-				//	ToRemove = 1 / Resistance.Resistance();
-				//}
-			}
-
-			if (Toadd != 0)
-			{
-				Toadd = 1 / Toadd;
-			}
-
-			Resistanc = Toadd - ToRemove;
-		}
-		else
-		{
-			if (comingFromExists)
-			{
-				Resistanc = comingFrom.Resistance();
-			}
-			else if (goingToExists)
-			{
-				Resistanc = goingTo.Resistance();
-			}
-		}
-
-		return (Resistanc);
-	}
-
-	public static int SplitNumber(ElectronicSupplyData ResistanceSources, ResistanceWrap InitialWrap)
-	{
-		int Total = 0;
-		foreach (var ResistanceSource in ResistanceSources.ResistanceGoingTo)
-		{
-			foreach (var Resistance in ResistanceSource.Value.ResistanceSources)
-			{
-				if (Resistance != InitialWrap && InitialWrap.resistance == Resistance.resistance)
-				{
-					Total = Total + 1;
-				}
-			}
-		}
-
-		return (Total);
-	}
-
-	// TODO Add documentation, clean up, remove commented out code, fix spelling, etc.
-	public static float WorkOutResistance(ElectronicSupplyData ResistanceSources, IntrinsicElectronicData Indata)
-	{
-		//Worked out per source
-		float Resistanc = 0;
-
-		bool goingToExists = ResistanceSources.ResistanceGoingTo.TryGetValue(Indata, out VIRResistances goingTo);
-		bool comingFromExists = ResistanceSources.ResistanceComingFrom.TryGetValue(Indata, out VIRResistances comingFrom);
-		if (goingToExists && comingFromExists)
-		{
-			//HashSet<ResistanceWrap> ResistanceSour = new HashSet<ResistanceWrap> (ResistanceSources.ResistanceGoingTo[Indata].ResistanceSources);
-
-			//ResistanceSour.UnionWith(ResistanceSources.ResistanceComingFrom[Indata].ResistanceSources);
-
-			////HashSet<ResistanceWrap> ResistanceSour = new HashSet<ResistanceWrap>(ResistanceSources.ResistanceGoingTo[Indata].ResistanceSources);
-
-			////ResistanceSourtoreove.UnionWith(ResistanceSources.ResistanceGoingTo[Indata].ResistanceSources);
-
-			////ResistanceSour.ExceptWith(ResistanceSourtoreove);
-
-			//float Toadd = 0;
-			//float ToRemove = 0;
-
-			//foreach (var Resistance in ResistanceSour) {
-			//	if (ResistanceSources.ResistanceComingFrom[Indata].ResistanceSources.Contains(Resistance))
-			//	{
-			//		Toadd = 1 / Resistance.Resistance();
-			//	}
-			//	else {
-			//		ToRemove = 1 / Resistance.Resistance();
-			//	}
-			//}
-			//if (Toadd != 0) {
-			//	Toadd = 1 / Toadd;
-			//}
 
 
-			//if (ToRemove != 0)
-			//{
-			//	ToRemove= 1 / ToRemove;
-			//}
-
-
-			//Resistanc = Toadd - ToRemove;
-
-			//if (Resistancxall != 0)
-			//{
-			//	Resistanc = (1 / Resistancxall);
-			//}
-			//else {
-			//	Resistanc = 0;
-			//}
-			//ResistanceSources
-			Resistanc = goingTo.Resistance();
-
-			Resistanc = Resistanc > comingFrom.Resistance() ?
-				Resistanc - comingFrom.Resistance() : comingFrom.Resistance() - Resistanc;
-		}
-		else if (goingToExists)
-		{
-			Resistanc = goingTo.Resistance();
-		}
-		else if (comingFromExists)
-		{
-			Resistanc = comingFrom.Resistance();
-		}
-		//Logger.Log((1 / ResistanceXAll)+ "< Return");
-		return (Resistanc);
-	}
-
-	public static float WorkOutCurrent(Dictionary<IntrinsicElectronicData, float> ReceivingCurrents)
-	{
-		//Worked out per source
-		float Current = 0;
-		foreach (KeyValuePair<IntrinsicElectronicData, float> Source in ReceivingCurrents)
-		{
-			Current += Source.Value;
-		}
-
-		return (Current);
-	}
 
 	public static Dictionary<IntrinsicElectronicData, float> AnInterestingDictionary =
 		new Dictionary<IntrinsicElectronicData, float>();
 
-	public static (float, float, float) WorkOutActualNumbers(IntrinsicElectronicData ElectricItem)
+	public static void WorkOutActualNumbers(IntrinsicElectronicData ElectricItem)
 	{
 		//Sometimes gives wrong readings at junctions, Needs to be looked into
 		float Current = 0; //Calculates the actual voltage and current flowing through the Node
@@ -426,7 +235,6 @@ public static class ElectricityFunctions
 		ElectricItem.Data.CurrentInWire = Current;
 		ElectricItem.Data.ActualVoltage = Voltage;
 		ElectricItem.Data.EstimatedResistance = (Voltage / Current);
-		return (Current, Voltage, (Voltage / Current));
 	}
 
 	public static float WorkOutVoltage(ElectricalOIinheritance ElectricItem)
@@ -437,7 +245,7 @@ public static class ElectricityFunctions
 			Voltage += Supply.Value.SourceVoltage;
 		}
 
-		return (Voltage);
+		return Voltage;
 	}
 
 	public static float WorkOutVoltageFromConnector(ElectricalOIinheritance ElectricItem,
@@ -474,32 +282,7 @@ public static class ElectricityFunctions
 			}
 		}
 
-		return (Voltage);
-	}
-
-	public static float WorkOutVoltageNOTFromConnector(ElectricalOIinheritance ElectricItem,
-		PowerTypeCategory SpecifiedDevice)
-	{
-		float Voltage = 0;
-		foreach (var Supply in ElectricItem.InData.Data.SupplyDependent)
-		{
-			bool pass = true;
-			foreach (var subcheck in Supply.Value.Upstream)
-			{
-				if (subcheck.Categorytype == SpecifiedDevice)
-				{
-					pass = false;
-					break;
-				}
-			}
-
-			if (pass)
-			{
-				Voltage += Supply.Value.SourceVoltage;
-			}
-		}
-
-		return (Voltage);
+		return Voltage;
 	}
 
 	public static float WorkOutVoltageFromConnectors(ElectricalOIinheritance ElectricItem,
@@ -536,7 +319,7 @@ public static class ElectricityFunctions
 			}
 		}
 
-		return (Voltage);
+		return Voltage;
 	}
 
 	public static ElectricalCableTile RetrieveElectricalTile(Connection WireEndA, Connection WireEndB, PowerTypeCategory powerTypeCategory)
@@ -563,6 +346,6 @@ public static class ElectricityFunctions
 			}
 		}
 
-		return (Tile);
+		return Tile;
 	}
 }

@@ -1,21 +1,34 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ElectricalPool
 {
+	//ResistanceWrap
+	public static List<ResistanceWrap> PooledResistanceWraps = new List<ResistanceWrap>();
+
+	//VIRResistances
+	public static List<VIRResistances> PooledVIRResistances = new List<VIRResistances>();
+
+	//VIRCurrent
+	public static List<VIRCurrent> PooledVIRCurrent = new List<VIRCurrent>();
+
+	//WrapCurrent
+	public static List<WrapCurrent> PooledWrapCurrent = new List<WrapCurrent>();
+
+	//Find possible connections
+	public static List<List<IntrinsicElectronicData>> PooledFPCList = new List<List<IntrinsicElectronicData>>();
+
+	//ElectronicSupplyData
+	public static List<ElectronicSupplyData> PooledElectronicSupplyData = new List<ElectronicSupplyData>();
+
+	public static List<SupplyBool> PooledSupplyBool = new List<SupplyBool>();
+
 	public static void PoolsStatuses()
 	{
-		/*Logger.Log("PooledResistanceWraps" + PooledResistanceWraps.Count);
+		Logger.Log("PooledResistanceWraps" + PooledResistanceWraps.Count);
 		Logger.Log("PooledVIRResistances" + PooledVIRResistances.Count);
 		Logger.Log("PooledVIRCurrent" + PooledVIRCurrent.Count);
 		Logger.Log("PooledWrapCurrent" + PooledWrapCurrent.Count);
-		Logger.Log("PooledQEntry" + PooledQEntry.Count);*/
 	}
-
-
-	//ResistanceWrap
-	public static List<ResistanceWrap> PooledResistanceWraps = new List<ResistanceWrap>();
 
 	public static ResistanceWrap GetResistanceWrap()
 	{
@@ -26,15 +39,8 @@ public class ElectricalPool
 			ResistanceWrap.inPool = false;
 			return (ResistanceWrap);
 		}
-		else
-		{
-			return (new ResistanceWrap());
-		}
+		return (new ResistanceWrap());
 	}
-
-
-	//VIRResistances
-	public static List<VIRResistances> PooledVIRResistances = new List<VIRResistances>();
 
 	public static VIRResistances GetVIRResistances()
 	{
@@ -45,15 +51,8 @@ public class ElectricalPool
 			VIRResistances.inPool = false;
 			return (VIRResistances);
 		}
-		else
-		{
-			//ElectricalDataCleanup.cs:197)Logger.Log("new VIRResistances");
-			return (new VIRResistances());
-		}
+		return (new VIRResistances());
 	}
-
-	//VIRCurrent
-	public static List<VIRCurrent> PooledVIRCurrent = new List<VIRCurrent>();
 
 	public static VIRCurrent GetVIRCurrent()
 	{
@@ -64,15 +63,8 @@ public class ElectricalPool
 			VIRCurrent.inPool = false;
 			return (VIRCurrent);
 		}
-		else
-		{
-			return (new VIRCurrent());
-		}
+		return (new VIRCurrent());
 	}
-
-
-	//WrapCurrent
-	public static List<WrapCurrent> PooledWrapCurrent = new List<WrapCurrent>();
 
 	public static WrapCurrent GetWrapCurrent()
 	{
@@ -83,15 +75,8 @@ public class ElectricalPool
 			WrapCurrent.inPool = false;
 			return (WrapCurrent);
 		}
-		else
-		{
-			return (new WrapCurrent());
-		}
+		return (new WrapCurrent());
 	}
-
-
-	//Find possible connections
-	public static List<List<IntrinsicElectronicData>> PooledFPCList = new List<List<IntrinsicElectronicData>>();
 
 	public static List<IntrinsicElectronicData> GetFPCList()
 	{
@@ -104,16 +89,9 @@ public class ElectricalPool
 				FPCList.Clear();
 				return (FPCList);
 			}
-			else
-			{
-				return (new List<IntrinsicElectronicData>());
-			}
+			return (new List<IntrinsicElectronicData>());
 		}
 	}
-
-
-	//ElectronicSupplyData
-	public static List<ElectronicSupplyData> PooledElectronicSupplyData = new List<ElectronicSupplyData>();
 
 	public static ElectronicSupplyData GetElectronicSupplyData()
 	{
@@ -123,32 +101,8 @@ public class ElectricalPool
 			PooledElectronicSupplyData.RemoveAt(0);
 			return (ElectronicSupplyData);
 		}
-		else
-		{
-			return (new ElectronicSupplyData());
-		}
+		return (new ElectronicSupplyData());
 	}
-
-	//KeyValuePair<ElectricalOIinheritance, IntrinsicElectronicData> edd
-	public static List<ElectricalSynchronisation.QEntry> PooledQEntry
-		= new List<ElectricalSynchronisation.QEntry>();
-
-	public static ElectricalSynchronisation.QEntry GetQEntry()
-	{
-		if (PooledQEntry.Count > 0)
-		{
-			var QEntry = PooledQEntry[0];
-			PooledQEntry.RemoveAt(0);
-			return (QEntry);
-		}
-		else
-		{
-			return (new ElectricalSynchronisation.QEntry());
-		}
-	}
-
-	public static List<SupplyBool> PooledSupplyBool
-		= new List<SupplyBool>();
 
 	public static SupplyBool GetSupplyBool()
 	{
@@ -158,9 +112,7 @@ public class ElectricalPool
 			PooledSupplyBool.RemoveAt(0);
 			return (QEntry);
 		}
-		else
-		{
-			return (new SupplyBool());
-		}
+		return (new SupplyBool());
 	}
+
 }

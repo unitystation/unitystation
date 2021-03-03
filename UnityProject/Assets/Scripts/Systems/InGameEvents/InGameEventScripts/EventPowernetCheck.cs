@@ -27,7 +27,7 @@ namespace InGameEvents
 		{
 			foreach (var node in FindObjectsOfType<ElectricalNodeControl>())
 			{
-				node.UpTurnOffSupply();
+				node.TurnOffSupply();
 				StartCoroutine(RestartPowerSupply(node));
 			}
 		}
@@ -35,7 +35,7 @@ namespace InGameEvents
 		private IEnumerator RestartPowerSupply(ElectricalNodeControl node)
 		{
 			yield return WaitFor.Seconds(Random.Range(30, 120));
-			node.UpTurnOnSupply();
+			node.TurnOnSupply();
 		}
 	}
 }
