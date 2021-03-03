@@ -24,8 +24,10 @@ namespace Objects.Mining
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			var calculatedMineTime = interaction.HandObject.GetComponent<Pickaxe>().TimeMultiplier * mineTime;
+
 			ToolUtils.ServerUseToolWithActionMessages(
-					interaction, mineTime,
+					interaction, calculatedMineTime,
 					$"You start mining the {objectName}...",
 					$"{interaction.Performer.ExpensiveName()} starts mining the {objectName}...",
 					default, default,

@@ -8,6 +8,11 @@ using AddressableReferences;
 public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	[SerializeField] private AddressableAudioSource pickaxeSound = null;
+
+	[Tooltip("How much does this tool multiply mining time")] [SerializeField]
+	private float timeMultiplier = 1f;
+	public float TimeMultiplier => timeMultiplier;
+
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Construction, true);
 
@@ -33,10 +38,11 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		//technically pickaxe is deconstruction, so it would interrupt any construction / deconstruction being done
 		//on that tile
 		//TODO: Refactor this to use ToolUtils once that's merged in
+		var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
+		var wallTile = interactableTiles.MetaTileMap.GetTileAtWorldPos(interaction.WorldPositionTarget, LayerType.Walls) as BasicTile;
+		var calculatedTime = wallTile.MiningTime * timeMultiplier;
 
-		var bar = StandardProgressAction.Create(ProgressConfig, ProgressComplete)
-			.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-				5f, interaction.Performer);
+		var bar = StandardProgressAction.Create(ProgressConfig, ProgressComplete).ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(), calculatedTime, interaction.Performer);
 		if (bar != null)
 		{
 			SoundManager.PlayNetworkedAtPos(pickaxeSound, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
