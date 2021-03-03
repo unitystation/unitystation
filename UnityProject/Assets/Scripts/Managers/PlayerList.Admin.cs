@@ -561,7 +561,7 @@ public partial class PlayerList
 	{
 		if (connPlayer.Equals(ConnectedPlayer.Invalid))
 		{
-			Logger.LogError($"Attempted to check job-ban for invalid player.");
+			Logger.LogError($"Attempted to check job-ban for invalid player.", Category.Unknown);
 			return default;
 		}
 

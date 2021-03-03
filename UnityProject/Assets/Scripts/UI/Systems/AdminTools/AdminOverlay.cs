@@ -190,7 +190,7 @@ namespace AdminTools
 			{
 				if (PlayerManager.LocalPlayerScript == null)
 				{
-					Logger.LogError("Cannot activate Admin Overlay with PlayerManager.LocalPlayerScript being null");
+					Logger.LogError("Cannot activate Admin Overlay with PlayerManager.LocalPlayerScript being null", Category.Admin);
 					IsOn = false;
 					overlayToggleButton.image.color = unSelectedColor;
 				}

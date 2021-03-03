@@ -721,7 +721,7 @@ public static class Librarian
 			_bookShelf.Shelf = _Transform.gameObject;
 			if (_bookShelf.Shelf == null)
 			{
-				Logger.LogError("HELP");
+				Logger.LogError("Tried to generate a bookshelf, but the shelf was null", Category.Unknown);
 			}
 
 			IDToBookShelf[_bookShelf.ID] = _bookShelf;
@@ -777,7 +777,7 @@ public static class Librarian
 				}
 				else
 				{
-					Logger.LogError("Book has been destroyed!" + ID);
+					Logger.LogError("Book has been destroyed!" + ID, Category.Unknown);
 				}
 
 				UnGenerated = false;

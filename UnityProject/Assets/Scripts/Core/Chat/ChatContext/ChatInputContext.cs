@@ -42,7 +42,7 @@ public class ChatInputContext : IChatInputContext
 			var key = playerHeadset.EncryptionKey;
 			if (!EncryptionKey.DefaultChannel.ContainsKey(key))
 			{
-				Logger.LogError($"Can't find default channel for a {key}");
+				Logger.LogError($"Can't find default channel for a {key}", Category.Chat);
 				return ChatChannel.None;
 			}
 

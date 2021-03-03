@@ -15,7 +15,7 @@ public static class PowerSupplyFunction  {
 	{
 		if (supply.ControllingNode == null)
 		{
-			Logger.LogError("Supply.ControllingNode == null");
+			Logger.LogError("Supply.ControllingNode == null", Category.Electrical);
 			return;
 		}
 

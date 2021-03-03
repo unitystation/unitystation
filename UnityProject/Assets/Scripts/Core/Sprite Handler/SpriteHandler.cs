@@ -554,7 +554,7 @@ public class SpriteHandler : MonoBehaviour
 		yield return null;
 		if (NetworkIdentity.netId == 0)
 		{
-			Logger.LogError("ID hasn't been set for " + this.transform.parent);
+			Logger.LogError("ID hasn't been set for " + this.transform.parent, Category.Unknown);
 			yield break;
 		}
 

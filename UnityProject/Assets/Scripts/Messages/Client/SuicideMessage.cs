@@ -12,11 +12,11 @@ public class SuicideMessage : ClientMessage
 		{
 			if (livingHealthBehaviour.IsDead)
 			{
-				Logger.LogError("Player '" + SentByPlayer.Name + "' is attempting to commit suicide but is already dead.", Category.Health);
+				Logger.LogError($"Player '{SentByPlayer.Name}' is attempting to commit suicide but is already dead.", Category.Health);
 			}
 			else
 			{
-				Logger.Log("Player '" + SentByPlayer.Name + "' has committed suicide", Category.Health);
+				Logger.Log($"Player 'SentByPlayer.Name' has committed suicide", Category.Health);
 				livingHealthBehaviour.ApplyDamage(null, float.MaxValue, AttackType.Melee, DamageType.Brute);
 			}
 		}

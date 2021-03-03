@@ -34,7 +34,7 @@ namespace Systems.Shuttles
 
 			if (Connector == null)
             {
-            	Logger.LogError($"{nameof(Connector)} was null on {this}!");
+            	Logger.LogError($"{nameof(Connector)} was null on {this}!", Category.Unknown);
             }
 		}
 

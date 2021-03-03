@@ -169,7 +169,7 @@ namespace Core.Directionals
 			EnsureInit();
 			if (Directional == null)
 			{
-				Logger.LogError($"No {nameof(Directional)} component found on {this}?");
+				Logger.LogError($"No {nameof(Directional)} component found on {this}?", Category.Direction);
 				return false;
 			}
 

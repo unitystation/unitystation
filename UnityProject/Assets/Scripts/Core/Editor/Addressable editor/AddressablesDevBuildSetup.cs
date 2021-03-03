@@ -64,7 +64,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 				{
 					if (FoundFile != "")
 					{
-						Logger.LogError("two catalogues present please only ensure one");
+						Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
 					}
 
 					FoundFile = File;
@@ -137,7 +137,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 					{
 						if (FoundFile != "")
 						{
-							Logger.LogError("two catalogues present please only ensure one");
+							Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
 						}
 
 						FoundFile = File;

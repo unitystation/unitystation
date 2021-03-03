@@ -124,7 +124,8 @@ public class JoinedViewer : NetworkBehaviour
 		if (netIdentity == null)
 		{
 			Logger.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
-					"Cannot rejoin that player. Was original player object improperly created? Did we get runtime error while creating it?");
+					"Cannot rejoin that player. Was original player object improperly created? "+
+					"Did we get runtime error while creating it?", Category.Unknown);
 			// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
 			yield break;
 		}

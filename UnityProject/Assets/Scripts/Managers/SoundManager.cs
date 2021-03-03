@@ -583,7 +583,7 @@ public class SoundManager : MonoBehaviour
 			if (netId == NetId.Invalid)
 			{
 				Logger.LogError("Provided Game object for PlayAtPosition  does not have a network identity " +
-				                addressableAudioSource.AssetAddress);
+				                addressableAudioSource.AssetAddress, Category.Addressables);
 				return;
 			}
 		}

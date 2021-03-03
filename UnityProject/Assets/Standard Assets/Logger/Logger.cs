@@ -281,7 +281,8 @@ public enum Category
 	UIAction,
 	Cooldowns,
 	Addressables,
-	Radiation
+	Radiation,
+	Event
 }
 
 [Serializable]

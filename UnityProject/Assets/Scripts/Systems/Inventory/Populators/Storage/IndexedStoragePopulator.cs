@@ -66,7 +66,7 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 			// General protection against missing items
 			if (Contents[i] == null)
 			{
-				Logger.LogError($"Item is missing at position {i} of {toPopulate.name}");
+				Logger.LogError($"Item is missing at position {i} of {toPopulate.name}", Category.Inventory);
 				continue; // Will skip the missing item
 			}
 

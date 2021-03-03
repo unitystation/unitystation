@@ -461,15 +461,15 @@ public partial class PlayerList : NetworkBehaviour
 			}
 			else
 			{
-				Logger.LogError($"{player.Username} was set to ready with NULL character settings:\n{player}");
+				Logger.LogError($"{player.Username} was set to ready with NULL character settings:\n{player}", Category.Round);
 			}
 			ReadyPlayers.Add(player);
-			Logger.Log($"Set {player.Username} to ready with these character settings:\n{charSettings}");
+			Logger.Log($"Set {player.Username} to ready with these character settings:\n{charSettings}", Category.Round);
 		}
 		else
 		{
 			ReadyPlayers.Remove(player);
-			Logger.Log($"Set {player.Username} to NOT ready!");
+			Logger.Log($"Set {player.Username} to NOT ready!", Category.Round);
 		}
 	}
 

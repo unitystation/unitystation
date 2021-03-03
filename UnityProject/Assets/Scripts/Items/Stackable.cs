@@ -164,7 +164,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	{
 		if (consumed > amount)
 		{
-			Logger.LogErrorFormat("Consumed amount {0} is greater than amount in this stack {1}, will not consume.", Category.Inventory, consumed, amount);
+			Logger.LogErrorFormat($"Consumed amount {consumed} is greater than amount in this stack {amount}, will not consume.", Category.Inventory);
 			return false;
 		}
 		SyncAmount(amount, amount - consumed);
@@ -199,8 +199,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 		if (overflow > 0)
 		{
-			Logger.LogErrorFormat("Increased amount {0} will overfill stack, filled to max",
-					Category.Inventory, increase);
+			Logger.LogErrorFormat($"Increased amount {increase} will overfill stack, filled to max",
+					Category.Inventory);
 
 			SyncAmount(amount, MaxAmount);
 			return overflow;
@@ -238,9 +238,9 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	{
 		if (!StacksWith(toAdd))
 		{
-			Logger.LogErrorFormat("toAdd {0} doesn't stack with this {2}, cannot combine. Consider adding" +
+			Logger.LogErrorFormat($"{toAdd} doesn't stack with {this}, cannot combine. Consider adding" +
 									" this prefab to stacksWith if these really should be stackable.",
-				Category.Inventory, toAdd, this);
+				Category.Inventory);
 			return 0;
 		}
 		var amountToConsume = Math.Min(toAdd.amount, SpareCapacity);

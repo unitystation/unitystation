@@ -41,7 +41,7 @@ namespace Messages.Client
 		{
 			if (SentByPlayer == null || SentByPlayer.Equals(ConnectedPlayer.Invalid))
 			{
-				Logger.LogError($"Cannot process {nameof(ClientRequestJobMessage)}: {nameof(SentByPlayer)} is null!");
+				Logger.LogError($"Cannot process {nameof(ClientRequestJobMessage)}: {nameof(SentByPlayer)} is null!", Category.Jobs);
 				return false;
 			}
 
@@ -103,7 +103,7 @@ namespace Messages.Client
 
 		private void NotifyError(JobRequestError error, string message)
 		{
-			Logger.LogError($"Cannot process {SentByPlayer}'s {nameof(ClientRequestJobMessage)}: {message}.");
+			Logger.LogError($"Cannot process {SentByPlayer}'s {nameof(ClientRequestJobMessage)}: {message}.", Category.Jobs);
 			JobRequestFailedMessage.SendTo(SentByPlayer, error);
 		}
 
