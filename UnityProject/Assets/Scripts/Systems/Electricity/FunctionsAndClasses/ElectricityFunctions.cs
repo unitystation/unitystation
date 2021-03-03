@@ -164,7 +164,6 @@ public static class ElectricityFunctions
 			eConnsAtSearchVec.Clear();
 			ElectricalPool.PooledFPCList.Add(eConnsAtSearchVec);
 		}
-		return;
 	}
 
 	public static float WorkOutResistance(Dictionary<IntrinsicElectronicData, VIRResistances> ResistanceSources)
