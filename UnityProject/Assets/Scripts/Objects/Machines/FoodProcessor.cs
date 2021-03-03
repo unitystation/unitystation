@@ -195,7 +195,7 @@ namespace Objects.Kitchen
 
 			//If there's a stackable component, add one at a time.
 			Stackable stack = fromSlot.ItemObject.GetComponent<Stackable>();
-			if (stack == null)
+			if (stack == null || stack.Amount == 1)
 			{
 				Inventory.ServerTransfer(fromSlot, storage.GetNextFreeIndexedSlot());
 			}
