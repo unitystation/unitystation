@@ -145,7 +145,7 @@ namespace AddressableReferences
 			if (IsReadyLoaded)
 			{
 				//Check manager To see if it's implemented
-				Logger.Log("Not implemented yet");
+				Logger.Log($"Addressable Manager not implemented yet, can't unload {AssetAddress}", Category.Addressables);
 			}
 		}
 
@@ -162,7 +162,7 @@ namespace AddressableReferences
 					   return true;
 				}
 			}
-			Logger.LogError("Addressable Address is invalid: " + AssetAddress, Category.Addressables);
+			Logger.LogWarning($"Addressable Address is invalid: {AssetAddress}", Category.Addressables);
 			return false;
         }
 

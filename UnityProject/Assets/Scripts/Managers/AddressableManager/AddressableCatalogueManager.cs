@@ -225,7 +225,7 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 
 				if (FoundFile == "")
 				{
-					Logger.LogWarning("missing json file");
+					Logger.LogWarning("missing json file", Category.Addressables);
 				}
 				else
 				{

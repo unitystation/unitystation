@@ -178,7 +178,7 @@ namespace AdminTools
 			else
 			{
 				Logger.Log($"Someone tried to request all admin info overlay entries and failed. " +
-				           $"Using adminId: {adminId} and token: {adminToken}");
+				           $"Using adminId: {adminId} and token: {adminToken}", Category.Admin);
 			}
 		}
 

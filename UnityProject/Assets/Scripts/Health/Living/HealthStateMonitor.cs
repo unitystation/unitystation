@@ -55,7 +55,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning($"No {nameof(livingHealthBehaviour.respiratorySystem)} found on {this}. Is this intended?");
+			Logger.LogWarning($"No {nameof(livingHealthBehaviour.respiratorySystem)} found on {this}. Is this intended?", Category.Health);
 		}
 
 		UpdateBloodCaches();

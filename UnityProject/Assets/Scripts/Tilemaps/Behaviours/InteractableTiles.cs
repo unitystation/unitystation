@@ -384,7 +384,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	public bool Interact(MouseDrop interaction)
 	{
-		Logger.Log("Interaction detected on InteractableTiles.");
+		Logger.Log("Interaction detected on InteractableTiles.", Category.Unknown);
 
 		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation, true);
 

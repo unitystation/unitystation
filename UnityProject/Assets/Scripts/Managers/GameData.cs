@@ -89,7 +89,7 @@ public class GameData : MonoBehaviour
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
 		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));
-		Logger.Log($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty));
+		Logger.Log($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty, Category.Unknown));
 		CheckHeadlessState();
 
 		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");

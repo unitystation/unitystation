@@ -480,7 +480,7 @@ public class SpriteHandler : MonoBehaviour
 		{
 			if (NewSpriteDataSO.setID == -1)
 			{
-				Logger.Log("NewSpriteDataSO NO ID!" + NewSpriteDataSO.name);
+				Logger.Log("NewSpriteDataSO NO ID!" + NewSpriteDataSO.name, Category.SpriteHandler);
 			}
 			if (spriteChange.Empty) spriteChange.Empty = false;
 			spriteChange.PresentSpriteSet = NewSpriteDataSO.setID;

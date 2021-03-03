@@ -838,8 +838,7 @@ public partial class PlayerList
 		if (adminUsers.Contains(userid) || (GameData.Instance.OfflineMode && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject))
 		{
 			//This is an admin, send admin notify to the users client
-			Logger.Log($"{playerConn.Username} logged in as Admin. " +
-					   $"IP: {playerConn.Connection.address}");
+			Logger.Log($"{playerConn.Username} logged in as Admin. IP: {playerConn.Connection.address}", Category.Admin);
 			var newToken = System.Guid.NewGuid().ToString();
 			if (!loggedInAdmins.ContainsKey(userid))
 			{
@@ -853,8 +852,7 @@ public partial class PlayerList
 	{
 		if (mentorUsers.Contains(userid) && !adminUsers.Contains(userid))
 		{
-			Logger.Log($"{playerConn.Username} logged in as Mentor. " +
-					   $"IP: {playerConn.Connection.address}");
+			Logger.Log($"{playerConn.Username} logged in as Mentor. IP: {playerConn.Connection.address}", Category.Admin);
 			var newToken = System.Guid.NewGuid().ToString();
 			if (!loggedInMentors.ContainsKey(userid))
 			{
@@ -868,7 +866,7 @@ public partial class PlayerList
 	{
 		if (loggedInAdmins.ContainsKey(userid))
 		{
-			Logger.Log($"Admin {userName} logged off.");
+			Logger.Log($"Admin {userName} logged off.", Category.Admin);
 			loggedInAdmins.Remove(userid);
 		}
 	}
@@ -878,13 +876,13 @@ public partial class PlayerList
 		AdminToken = _adminToken;
 		IsClientAdmin = true;
 		ControlTabs.Instance.ToggleOnAdminTab();
-		Logger.Log("You have logged in as an admin. Admin tools are now available.");
+		Logger.Log("You have logged in as an admin. Admin tools are now available.", Category.Admin);
 	}
 
 	public void SetClientAsMentor(string _mentorToken)
 	{
 		MentorToken = _mentorToken;
-		Logger.Log("You have logged in as a mentor. Mentor tools are now available.");
+		Logger.Log("You have logged in as a mentor. Mentor tools are now available.", Category.Admin);
 	}
 
 	public void ProcessAdminEnableRequest(string admin, string userToPromote)
@@ -893,7 +891,7 @@ public partial class PlayerList
 		if (adminUsers.Contains(userToPromote)) return;
 
 		Logger.Log(
-			$"{admin} has promoted {userToPromote} to admin. Time: {DateTime.Now}");
+			$"{admin} has promoted {userToPromote} to admin. Time: {DateTime.Now}", Category.Admin);
 
 		File.AppendAllLines(adminsPath, new string[]
 		{
@@ -928,7 +926,7 @@ public partial class PlayerList
 			{
 				string message = $"A kick/ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 
-				Logger.Log(message);
+				Logger.Log(message, Category.Admin);
 
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes,adminPlayer));
 
@@ -952,7 +950,7 @@ public partial class PlayerList
 		}
 		else
 		{
-			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {adminPlayer.Username}");
+			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {adminPlayer.Username}", Category.Admin);
 		}
 	}
 
@@ -963,8 +961,8 @@ public partial class PlayerList
 				   + "UserId " + connPlayer?.UserId + "\n"
 				   + "Username " + connPlayer?.Username + "\n"
 				   + "address " + connPlayer?.Connection?.address + "\n"
-				   + "clientId " + connPlayer?.ClientId + "\n"
-				   );
+				   + "clientId " + connPlayer?.ClientId + "\n",
+				   Category.Admin);
 
 		string message = "";
 		if (ban)
@@ -975,7 +973,7 @@ public partial class PlayerList
 			int index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
 			if (index != -1)
 			{
-				Logger.Log("removing pre-existing ban entry for userId of" + connPlayer.UserId);
+				Logger.Log("removing pre-existing ban entry for userId of" + connPlayer.UserId, Category.Admin);
 				banList.banEntries.RemoveAt(index);
 			}
 
@@ -995,7 +993,7 @@ public partial class PlayerList
 			SaveBanList();
 			if (banList.banEntries.Count != 0)
 			{
-				Logger.Log(banList.banEntries[banList.banEntries.Count - 1].ToString());
+				Logger.Log(banList.banEntries[banList.banEntries.Count - 1].ToString(), Category.Admin);
 			}
 		}
 		else
@@ -1008,11 +1006,11 @@ public partial class PlayerList
 
 		if (connPlayer.Connection == null)
 		{
-			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}");
+			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}", Category.Admin);
 			yield break;
 		}
 
-		Logger.Log($"Kicking client {connPlayer.Username} : {message}");
+		Logger.Log($"Kicking client {connPlayer.Username} : {message}", Category.Admin);
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 
 		yield return WaitFor.Seconds(1f);
@@ -1049,7 +1047,7 @@ public partial class PlayerList
 					message = $"A job ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 				}
 
-				Logger.Log(message);
+				Logger.Log(message, Category.Admin);
 
 				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType, adminPlayer));
 
@@ -1075,7 +1073,7 @@ public partial class PlayerList
 		}
 		else
 		{
-			Logger.Log($"job ban failed, can't find player: {userToJobBan}. Requested by {adminPlayer.Username}");
+			Logger.Log($"job ban failed, can't find player: {userToJobBan}. Requested by {adminPlayer.Username}", Category.Admin);
 		}
 	}
 
@@ -1092,7 +1090,7 @@ public partial class PlayerList
 													+ "Username " + connPlayer?.Username + "\n"
 													+ "address " + connPlayer?.Connection?.address + "\n"
 													+ "clientId " + connPlayer?.ClientId + "\n"
-													+ "jobType " + jobType + "\n"
+													+ "jobType " + jobType + "\n", Category.Admin
 		);
 
 		//jobbanlist checking:

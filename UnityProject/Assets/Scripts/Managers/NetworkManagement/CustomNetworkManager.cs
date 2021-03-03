@@ -69,14 +69,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 				if (File.Exists(beamPath))
 				{
 					booster.beamData = File.ReadAllBytes(beamPath);
-					Logger.Log("Beam data found, loading booster transport..");
+					Logger.Log("Beam data found, loading booster transport..", Category.Connections);
 				}
 				else
 				{
 					var telepathy = GetComponent<TelepathyTransport>();
 					if (telepathy != null)
 					{
-						Logger.Log("No beam data found. Falling back to Telepathy");
+						Logger.Log("No beam data found. Falling back to Telepathy", Category.Connections);
 						transport = telepathy;
 					}
 				}
@@ -202,7 +202,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
 			if (totalSeconds < minCoolDown)
 			{
-				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections");
+				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections", Category.Connections);
 				conn.Disconnect();
 				return;
 			}

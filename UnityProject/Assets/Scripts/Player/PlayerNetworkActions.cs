@@ -504,7 +504,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.");
+			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.", Category.Exploits);
 		}
 	}
 
@@ -568,7 +568,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!");
+		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Jobs);
 	}
 
 

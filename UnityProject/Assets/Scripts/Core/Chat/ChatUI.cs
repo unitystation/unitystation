@@ -707,7 +707,7 @@ public class ChatUI : MonoBehaviour
 		}
 		else
 		{
-			Logger.LogWarning($"Can't enable {channel} because it isn't in ChannelToggles!");
+			Logger.LogWarning($"Can't enable {channel} because it isn't in ChannelToggles!", Category.Chat);
 		}
 
 		//Deselect all other channels in UI if it's a main channel

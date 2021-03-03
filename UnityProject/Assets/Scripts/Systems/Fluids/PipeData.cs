@@ -54,7 +54,7 @@ namespace Pipes
 					return (MonoPipe.MatrixPos);
 				}
 
-				Logger.Log("Vector3Int null!!");
+				Logger.Log("Vector3Int null!!", Category.Unknown);
 				return (Vector3Int.zero);
 			}
 		}
@@ -72,7 +72,7 @@ namespace Pipes
 					return (MonoPipe.Matrix);
 				}
 
-				Logger.Log("Matrix null!!");
+				Logger.Log("Matrix null!!", Category.Matrix);
 				return (null);
 			}
 		}

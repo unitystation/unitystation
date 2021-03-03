@@ -62,7 +62,7 @@ namespace UI.Objects.Robotics
 		{
 			if (product == null)
 			{
-				Logger.Log("ExoFab Product not found");
+				Logger.Log("ExoFab Product not found", Category.Unknown);
 				return;
 			}
 			foreach (var element in Elements)

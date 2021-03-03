@@ -151,7 +151,7 @@ namespace Tests
 
 				var Openedscene = EditorSceneManager.OpenScene(scene);
 				report.AppendLine($"Checking {scene}");
-				Logger.Log($"Checking {scene}");
+				Logger.Log($"Checking {scene}", Category.Tests);
 				var gameObjects = Openedscene.GetRootGameObjects();
 				foreach (var gameObject in gameObjects)
 				{

@@ -375,7 +375,7 @@ public class SpriteUpdateMessage : ServerMessage
 		{
 			if (spriteChange.Pallet.Count < 1 || spriteChange.Pallet.Count > 255)
 			{
-				Logger.Log(string.Format("Pallet size must be between 1 and 255. It is currently {0}.",spriteChange.Pallet.Count));
+				Logger.Log($"Pallet size must be between 1 and 255. It is currently {spriteChange.Pallet.Count}.", Category.Unknown);
 				ToReturn.Append("£");
 				return;
 			}

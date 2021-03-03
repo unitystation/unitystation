@@ -77,7 +77,7 @@ namespace Items.Cargo.Wrapping
 					break;
 				default:
 					Logger.LogWarning($"{gameObject} is not a locker nor crate but it an attempt to wrap mas done." +
-					                  "We set the crate sprite and go on.");
+					                  "We set the crate sprite and go on.", Category.Containers);
 					spriteType = ContainerTypeSprite.Crate;
 					break;
 			}

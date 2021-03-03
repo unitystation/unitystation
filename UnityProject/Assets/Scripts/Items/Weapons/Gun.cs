@@ -614,7 +614,7 @@ namespace Weapons
 			{
 				if (CurrentMagazine == null)
 				{
-					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?");
+					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
 				}
 
 				//done processing shot queue, perform the reload, causing all clients and server to update their version of this Weapon

@@ -190,7 +190,7 @@ namespace Systems.GhostRoles
 		{
 			if (serverAvailableRoles.ContainsKey(key) == false)
 			{
-				Logger.LogWarning("Tried to remove ghost role instance that doesn't or no longer exists.");
+				Logger.LogWarning("Tried to remove ghost role instance that doesn't or no longer exists.", Category.Unknown);
 				return;
 			}
 

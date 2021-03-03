@@ -12,20 +12,20 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI
 
 	public virtual void CallActionClient()
 	{
-		Logger.Log("CallActionClient SO");
+		Logger.Log("CallActionClient SO", Category.Unknown);
 		//Do whatever you want
 		//Remember if its networked do validationNot just
 	}
 
 	public virtual void CallActionServer(ConnectedPlayer SentByPlayer)
 	{
-		Logger.Log("CallActionServer SO");
+		Logger.Log("CallActionServer SO", Category.Unknown);
 		//Validation
 		//do Action
 	}
 	public NetworkIdentity GetNetworkIdentity()
 	{
-		Logger.Log("GetNetworkIdentity SO");
+		Logger.Log("GetNetworkIdentity SO", Category.Unknown);
 		//Return the network identity that its going to find it from,
 		//**Dont** ues stuff that could change across server and client E.G station matrix
 		return (null);

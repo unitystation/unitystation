@@ -358,7 +358,7 @@ public class UIManager : MonoBehaviour, IInitialise
 				);
 				break;
 			default:
-				Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}");
+				Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}", Category.Keybindings);
 				break;
 		}
 	}

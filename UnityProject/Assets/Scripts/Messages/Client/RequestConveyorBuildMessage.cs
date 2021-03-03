@@ -44,7 +44,7 @@ namespace Construction.Conveyors
 			if (entry.Prefab == null)
 			{
 				//requires immediate attention, show it regardless of log filter:
-				Logger.Log($"Construction entry is missing prefab for {entry.Name}");
+				Logger.Log($"Construction entry is missing prefab for {entry.Name}", Category.Construction);
 				return;
 			}
 

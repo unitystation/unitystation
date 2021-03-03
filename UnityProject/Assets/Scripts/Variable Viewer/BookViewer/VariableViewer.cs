@@ -721,7 +721,7 @@ public static class Librarian
 			_bookShelf.Shelf = _Transform.gameObject;
 			if (_bookShelf.Shelf == null)
 			{
-				Logger.LogError("Tried to generate a bookshelf, but the shelf was null", Category.Unknown);
+				Logger.LogError("Tried to generate a bookshelf, but the shelf was null", Category.VariableViewer);
 			}
 
 			IDToBookShelf[_bookShelf.ID] = _bookShelf;
@@ -757,7 +757,7 @@ public static class Librarian
 			{
 				if (UnGenerated)
 				{
-					Logger.LogWarning("USE GetBindedPages()!,since these books are ungenerated ");
+					Logger.LogWarning("USE GetBindedPages()!,since these books are ungenerated ", Category.VariableViewer);
 				}
 
 				return _BindedPages;
@@ -777,7 +777,7 @@ public static class Librarian
 				}
 				else
 				{
-					Logger.LogError("Book has been destroyed!" + ID, Category.Unknown);
+					Logger.LogError("Book has been destroyed!" + ID, Category.VariableViewer);
 				}
 
 				UnGenerated = false;

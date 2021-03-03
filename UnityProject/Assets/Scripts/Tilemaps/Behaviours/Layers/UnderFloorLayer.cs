@@ -374,7 +374,7 @@ public class UnderFloorLayer : Layer
 		}
 		else
 		{
-			Logger.LogWarning(position + "Was not present in the underfloor layer Trying to remove" + tile);
+			Logger.LogWarning($"{position} was not present in the underfloor layer, trying to remove {tile}", Category.Unknown);
 		}
 	}
 }

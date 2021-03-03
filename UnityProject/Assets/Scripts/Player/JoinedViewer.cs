@@ -61,7 +61,7 @@ public class JoinedViewer : NetworkBehaviour
 			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
 		if (isValidPlayer == false)
 		{
-			Logger.LogWarning("Set up new player: invalid player.");
+			Logger.LogWarning("Set up new player: invalid player.", Category.Unknown);
 			return;
 		}
 
@@ -177,7 +177,7 @@ public class JoinedViewer : NetworkBehaviour
 
 		if (PlayerList.Instance.ClientJobBanCheck(job) == false)
 		{
-			Logger.LogWarning($"Client failed local job-ban check for {job}.");
+			Logger.LogWarning($"Client failed local job-ban check for {job}.", Category.Jobs);
 			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(JobRequestError.JobBanned);
 			return;
 		}
