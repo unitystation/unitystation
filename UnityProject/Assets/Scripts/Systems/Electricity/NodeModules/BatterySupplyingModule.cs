@@ -7,31 +7,31 @@ namespace Systems.Electricity.NodeModules
 	public class BatterySupplyingModule : ModuleSupplyingDevice
 	{
 		[Header("Battery Settings")]
-		public float MaximumCurrentSupport = 0; //The maximum number of amps can be pulled From the battery
-		public float MinimumSupportVoltage = 0; //At which point the battery kicks in
-		public float StandardSupplyingVoltage = 0;
-		public float CapacityMax = 0;
-		public float CurrentCapacity = 0;
-		public float ExtraChargeCutOff = 0; //if  The voltages less than this it will decrease the charge steps until A it is not or B it reaches zero then stops charging
-		public float IncreasedChargeVoltage = 0; // At what voltage the charge multiplier will increase
-		public float StandardChargeNumber = 0; //Basically part of the multiplier of how much it should charge
-		public float ChargeSteps = 0; //The steps it will go up by when adjusting the charge current
-		public float MaxChargingMultiplier = 0;
-		public float ChargingMultiplier = 0;
-		public bool CanCharge = false;
-		public bool Cansupport = false;
-		public bool ToggleCanCharge = false;
-		public bool ToggleCansupport = false;
-		public bool SlowResponse = false; //If set to true then the battery won't respond instantly to loss of power waiting one tick to update
+		public float MaximumCurrentSupport; //The maximum number of amps can be pulled From the battery
+		public float MinimumSupportVoltage; //At which point the battery kicks in
+		public float StandardSupplyingVoltage;
+		public float CapacityMax;
+		public float CurrentCapacity;
+		public float ExtraChargeCutOff; //if  The voltages less than this it will decrease the charge steps until A it is not or B it reaches zero then stops charging
+		public float IncreasedChargeVoltage; // At what voltage the charge multiplier will increase
+		public float StandardChargeNumber; //Basically part of the multiplier of how much it should charge
+		public int MaxChargingDivider;
+		public int ChargingDivider;
+		public bool CanCharge;
+		public bool Cansupport;
+		public bool ToggleCanCharge;
+		public bool ToggleCansupport;
+		public bool SlowResponse; //If set to true then the battery won't respond instantly to loss of power waiting one tick to update
 
-		public float PullLastDeductedTime = 0;
-		public float ChargLastDeductedTime = 0;
-		public float PullingWatts = 0;
-		public float ChargingWatts = 0;
-		public float CircuitResistance = 0;
-		public float VoltageAtChargePort = 0;
-		public float VoltageAtSupplyPort = 0;
-		public bool isOnForInterface = false;
+		public float PullLastDeductedTime ;
+		public float ChargLastDeductedTime;
+		private bool chargeCapacityTime = true;
+		public float PullingWatts;
+		public float ChargingWatts;
+		public float CircuitResistance;
+		public float VoltageAtChargePort;
+		public float VoltageAtSupplyPort;
+		public bool isOnForInterface;
 
 		public ResistanceSourceModule ResistanceSourceModule { get; private set; }
 		public TransformerModule TTransformerModule { get; private set; }
@@ -131,6 +131,7 @@ namespace Systems.Electricity.NodeModules
 			}
 			PowerSupplyFunction.PowerUpdateCurrentChange(this);
 		}
+
 		public override void PowerNetworkUpdate()
 		{
 			VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
@@ -145,32 +146,31 @@ namespace Systems.Electricity.NodeModules
 					{
 						if (ResistanceSourceModule.Resistance != MonitoringResistance)
 						{
-							if (ChargLastDeductedTime <= 0)
-							{
-								ChargLastDeductedTime = Time.time;
-							}
 							ChargingWatts = VoltageAtChargePort / ResistanceSourceModule.Resistance * VoltageAtChargePort;
-							CurrentCapacity += ChargingWatts * (Time.time - ChargLastDeductedTime);
+							if (chargeCapacityTime)
+							{
+								CurrentCapacity += ChargingWatts * (Time.time - ChargLastDeductedTime);
+							}
 							ChargLastDeductedTime = Time.time;
 
-							if (VoltageAtChargePort > IncreasedChargeVoltage && ChargingMultiplier < MaxChargingMultiplier)
+							if (VoltageAtChargePort > IncreasedChargeVoltage && ChargingDivider < MaxChargingDivider)
 							{ //Increasing the current charge by
-								ChargingMultiplier += ChargeSteps;
-								ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber * ChargingMultiplier);
+								ChargingDivider += 10;
+								ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber / ChargingDivider);
 							}
 							else if (VoltageAtChargePort < ExtraChargeCutOff)
 							{
-								if (0.1 < ChargingMultiplier)
+								if (10 < ChargingDivider)
 								{
-									ChargingMultiplier -= ChargeSteps;
-									ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber * ChargingMultiplier);
+									ChargingDivider -= 10;
+									ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber / ChargingDivider);
 								}
 								else
 								{ //Turning off charge if it pulls too much
 									ChargingWatts = 0;
-									ChargingMultiplier = 0.1f;
+									ChargingDivider = 10;
 									ResistanceSourceModule.Resistance = MonitoringResistance;
-									ChargLastDeductedTime = -1;
+									chargeCapacityTime = false;
 								}
 							}
 							if (CurrentCapacity >= CapacityMax)
@@ -178,27 +178,28 @@ namespace Systems.Electricity.NodeModules
 								CurrentCapacity = CapacityMax;
 								ChargingWatts = 0;
 								ToggleCansupport = true;
-								ChargingMultiplier = 0.1f;
+								ChargingDivider = 10;
 								ResistanceSourceModule.Resistance = MonitoringResistance;
-								ChargLastDeductedTime = -1;
+								chargeCapacityTime = false;
 							}
 						}
 						else if (VoltageAtChargePort > IncreasedChargeVoltage && CurrentCapacity < CapacityMax)
 						{
-							if (ChargingMultiplier >= 0)
+							if (ChargingDivider == 0)
 							{
-								ChargingMultiplier = ChargeSteps;
+								ChargingDivider = 10;
 							}
-							ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber * ChargingMultiplier);
+							ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber / ChargingDivider);
+							chargeCapacityTime = true;
 							ChargLastDeductedTime = Time.time;
 						}
 					}
 					else if (ResistanceSourceModule.Resistance != MonitoringResistance)
 					{
 						ChargingWatts = 0;
-						ChargingMultiplier = 0.1f;
+						ChargingDivider = 10;
 						ResistanceSourceModule.Resistance = MonitoringResistance;
-						ChargLastDeductedTime = -1;
+						chargeCapacityTime = false;
 					}
 				}
 				if (Cansupport)
