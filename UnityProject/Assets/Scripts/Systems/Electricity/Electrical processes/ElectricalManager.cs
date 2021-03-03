@@ -93,6 +93,7 @@ public class ElectricalManager : MonoBehaviour
 		roundStartedServer = true;
 		Running = true;
 
+		electricalSync.Initialise();
 		if (Mode == ElectricalMode.Threaded)
 		{
 			electricalSync.SetSpeed((int) MSSpeed);

@@ -12,7 +12,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INodeControl, IServerLifecycle, ISetMultitoolMaster
+	public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn, ISetMultitoolMaster
 	{
 		// -----------------------------------------------------
 		//					ELECTRICAL THINGS
@@ -66,11 +66,6 @@ namespace Objects.Engineering
 			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			UpdateDisplay();
-		}
-
 		private void Start()
 		{
 			CheckListOfDevicesForNulls();
@@ -115,6 +110,7 @@ namespace Objects.Engineering
 				connectedDepartmentBatteries.Clear();
 				foreach (var device in electricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices)
 				{
+
 					if (device.Key.Data.InData.Categorytype != PowerTypeCategory.DepartmentBattery) continue;
 
 					if (!connectedDepartmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()))
@@ -135,7 +131,6 @@ namespace Objects.Engineering
 			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);
 			Current = electricalNodeControl.Node.InData.Data.CurrentInWire;
 			HandleDevices();
-			UpdateDisplay();
 		}
 
 		private void UpdateDisplay()
@@ -148,18 +143,19 @@ namespace Objects.Engineering
 			{
 				State = APCState.Full;
 			}
+			else if (batteryCharging)
+			{
+				State = APCState.Charging;
+			}
 			else if (Voltage > 0f)
 			{
 				State = APCState.Critical;
 			}
 			else
 			{
-				State = APCState.Critical;
+				State = APCState.Dead;
 			}
-			if (batteryCharging)
-			{
-				State = APCState.Charging;
-			}
+
 		}
 
 		/// <summary>
@@ -241,13 +237,13 @@ namespace Objects.Engineering
 				case APCState.Critical:
 					loadedScreenSprites = criticalSprites;
 					EmergencyState = true;
-					SoundManager.PlayAtPosition(NoPowerSound, gameObject.WorldPosServer());
 					if (!RefreshDisplay) StartRefresh();
 					break;
 				case APCState.Dead:
 					screenDisplay.sprite = null;
 					EmergencyState = true;
 					StopRefresh();
+					SoundManager.PlayAtPosition(NoPowerSound, gameObject.WorldPosServer());
 					break;
 			}
 		}
