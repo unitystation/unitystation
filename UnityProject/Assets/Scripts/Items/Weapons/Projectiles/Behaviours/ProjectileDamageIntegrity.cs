@@ -38,7 +38,7 @@ namespace Weapons.Projectiles.Behaviours
 
 			foreach (var hitDetect in coll.GetComponents<IOnHitDetect>())
 			{
-				hitDetect.OnHitDetect(damageData);
+				hitDetect.OnHitDetect(damageData, gameObject.name);
 			}
 
 			return true;

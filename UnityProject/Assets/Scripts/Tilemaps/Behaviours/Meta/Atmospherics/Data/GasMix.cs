@@ -29,6 +29,12 @@ namespace Systems.Atmospherics
 				{
 					value += a;
 				}
+
+				if (float.IsNaN(value))
+				{
+					return 0;
+				}
+
 				return value;
 			}
 		}
@@ -172,8 +178,6 @@ namespace Systems.Atmospherics
 			return otherGas;
 		}
 
-
-
 		public void MultiplyGas(float factor)
 		{
 			for (int i = 0; i < Gas.Count; i++)
@@ -290,25 +294,6 @@ namespace Systems.Atmospherics
 			if (Gases[gas] < 0)
 				Gases[gas] = 0;
 			RecalculatePressure();
-		}
-
-		public GasMix RemoveGas(GasMix oldMix, float molesToTransfer)
-		{
-			//TODO this needs checking, as im not sure if this is the correct way to split gases
-			var newGasMix = new GasMix();
-			var oldMixMoles = oldMix.Moles;
-
-			newGasMix.Gases = oldMix.Gases;
-			newGasMix.SetTemperature(oldMix.Temperature);
-
-			for (int i = 0; i < oldMix.Gases.Length; i++)
-			{
-				var transferAmount = (oldMix.Gases[i] / oldMixMoles) * molesToTransfer;
-				newGasMix.Gases[i] = transferAmount;
-				oldMix.Gases[i] -= transferAmount;
-			}
-
-			return newGasMix;
 		}
 
 		public void Copy(GasMix other)

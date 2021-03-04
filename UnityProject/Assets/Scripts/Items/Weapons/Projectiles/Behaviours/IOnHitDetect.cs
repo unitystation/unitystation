@@ -8,6 +8,6 @@ namespace Weapons.Projectiles.Behaviours
 	/// </summary>
 	public interface IOnHitDetect
 	{
-		void OnHitDetect(DamageData damageData);
+		void OnHitDetect(DamageData damageData, string bulletName);
 	}
 }

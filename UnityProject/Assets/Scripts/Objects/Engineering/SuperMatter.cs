@@ -12,6 +12,7 @@ using Mirror;
 using ScriptableObjects.Gun;
 using SoundMessages;
 using UnityEngine;
+using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
 
@@ -25,7 +26,7 @@ namespace Objects.Engineering
 		private LightSprite lightSprite;
 
 		[SerializeField]
-		private float pulseSpeed = 1f; //here, a value of 0.5f would take 2 seconds and a value of 2f would take half a second
+		private float pulseSpeed = 0.5f; //here, a value of 0.5f would take 2 seconds and a value of 2f would take half a second
 
 		private const float MAXIntensity = 0.9f; // Max alpha is 1f, but lower so not blinding
 		private const float MINIntensity = 0.1f; // Min alpha is 0f, 0.1f so light doesnt go away completely
@@ -165,6 +166,11 @@ namespace Objects.Engineering
 		[SerializeField]
 		private float detonationRads = 2000;
 
+		[SerializeField]
+		private GameObject emitterBulletPrefab = null;
+
+		private string emitterBulletName;
+
 		#endregion
 
 		#region CompositionDefines
@@ -234,7 +240,7 @@ namespace Objects.Engineering
 		private RegisterTile registerTile;
 		private Integrity integrity;
 
-		private GasMix removeMix;
+		private GasMix removeMix = GasMix.NewGasMix(GasMixes.EmptyTile);
 
 		private bool finalCountdown; //uh oh
 		private int finalCountdownTime = 30; //30 seconds
@@ -263,6 +269,7 @@ namespace Objects.Engineering
 		{
 			registerTile = GetComponent<RegisterTile>();
 			integrity = GetComponent<Integrity>();
+			emitterBulletName = emitterBulletPrefab.GetComponent<Bullet>().visibleName;
 			mask = LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC");
 		}
 
@@ -292,15 +299,23 @@ namespace Objects.Engineering
 		{
 			if (newVar)
 			{
+				//Delam state
 				SoundManager.Stop(loopingSoundGuid);
 				loopingSoundGuid = Guid.NewGuid().ToString();
 				SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+
+				lightSprite.transform.localScale = new Vector3(9, 9, 9);
+				pulseSpeed = 1f;
 			}
 			else
 			{
+				//Normal state
 				SoundManager.Stop(loopingSoundGuid);
 				loopingSoundGuid = Guid.NewGuid().ToString();
 				SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+
+				lightSprite.transform.localScale = new Vector3(3, 3, 3);
+				pulseSpeed = 0.5f;
 			}
 		}
 
@@ -349,21 +364,23 @@ namespace Objects.Engineering
 
 			var gasMix = gasNode.GasMix;
 
-			removeMix = gasMix.RemoveGas(gasMix, 0.15f * gasMix.Moles);
+			GasMix.TransferGas(removeMix, gasMix, 0.15f * gasMix.Moles);
+
+			Debug.LogError(removeMix.Moles);
+
+			Debug.LogError(superMatterIntegrity - previousIntegrity);
 
 			previousIntegrity = superMatterIntegrity;
-
-			var newIntegrity = superMatterIntegrity;
 
 			if (removeMix.Moles == 0 || registerTile.Matrix.IsSpaceAt(registerTile.WorldPositionServer, true))
 			{
 				//Always does at least some integrity damage if allowed
-				superMatterIntegrity = canTakeIntegrityDamage ? superMatterIntegrity - Mathf.Max((power / 1000) * DamageIncreaseMultiplier, 0.1f) : newIntegrity;
+				superMatterIntegrity = canTakeIntegrityDamage ? superMatterIntegrity - Mathf.Max((power / 1000) * DamageIncreaseMultiplier, 0.1f) : superMatterIntegrity;
 			}
 			else
 			{
 				//If allowed to take integrity damage, calculate it
-				superMatterIntegrity = canTakeIntegrityDamage ? CalculateDamage(newIntegrity) : newIntegrity;
+				superMatterIntegrity = canTakeIntegrityDamage ? CalculateDamage() : superMatterIntegrity;
 
 				combined_gas = Mathf.Max(removeMix.Moles, 0);
 
@@ -381,8 +398,6 @@ namespace Objects.Engineering
 				n2comp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Nitrogen) / combined_gas, 0) - n2comp, -1, gas_change_rate);
 				h2ocomp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.WaterVapor) / combined_gas, 0) - h2ocomp, -1, gas_change_rate);
 				freoncomp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Freon) / combined_gas, 0) - freoncomp, -1, gas_change_rate);
-
-
 
 				//No less then zero, and no greater then one, we use this to do explosions and heat to power transfer
 				gasmix_power_ratio =
@@ -442,7 +457,7 @@ namespace Objects.Engineering
 
 				//Releases stored power into the general pool
 				//We get this by consuming shit or being scalpeled
-				if (matter_power != 0)
+				if (matter_power > 0)
 				{
 					//We base our removed power off one 10th of the matter_power.
 					var removedMatter = Mathf.Max(matter_power / MatterPowerConversion, 40);
@@ -509,7 +524,7 @@ namespace Objects.Engineering
 				;
 
 				//Return gas to tile
-				gasMix.MergeGasMix(removeMix);
+				GasMix.TransferGas(gasMix, removeMix, removeMix.Moles);
 			}
 
 			//Transitions between one function and another, one we use for the fast inital startup, the other is used to prevent errors with fusion temperatures.
@@ -521,7 +536,7 @@ namespace Objects.Engineering
 			//Then Warnings
 		}
 
-		private float CalculateDamage(float newIntegrity)
+		private float CalculateDamage()
 		{
 			//causing damage
 			//Due to DAMAGE_INCREASE_MULTIPLIER, we only deal one 4th of the damage the statements otherwise would cause
@@ -529,32 +544,33 @@ namespace Objects.Engineering
 			//((((some value between 0.5 and 1 * temp - ((273.15 + 40) * some values between 1 and 6)) * some number between 0.25 and knock your socks off / 150) * 0.25
 			//Heat and moles account for each other, a lot of hot moles are more damaging then a few
 			//Moles start to have a positive effect on damage after 350
-			newIntegrity = Mathf.Max(newIntegrity - (Mathf.Max(
+			superMatterIntegrity = Mathf.Max(superMatterIntegrity - (Mathf.Max(
 					Mathf.Clamp(removeMix.Moles / 200f, 0.5f, 1f) * removeMix.Temperature -
 					((273.15f + HeatPenaltyThreshold) * dynamic_heat_resistance), 0f) * mole_heat_penalty / 150f) *
 				DamageIncreaseMultiplier, 0f);
 
 			//Power only starts affecting damage when it is above 5000
-			newIntegrity =
-				Mathf.Max(newIntegrity - (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier, 0);
+			superMatterIntegrity =
+				Mathf.Max(superMatterIntegrity - (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier, 0);
 
 			//Molar count only starts affecting damage when it is above 1800
-			newIntegrity =
-				Mathf.Max(newIntegrity - (Mathf.Max(combined_gas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier,
+			superMatterIntegrity =
+				Mathf.Max(superMatterIntegrity - (Mathf.Max(combined_gas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier,
 					0);
 
-			//There might be a way to integrate healing and hurting via heat
-			//healing damage
-			if (combined_gas < MolePenaltyThreshold)
-				//Only heals damage when the temp is below 313.15, heals up to 2 damage
-				newIntegrity =
-					Mathf.Max(newIntegrity + (Mathf.Min(removeMix.Temperature - (273.15f + HeatPenaltyThreshold), 0) / 150),
-						0);
+			var healingAmount = removeMix.Temperature - (273.15f + HeatPenaltyThreshold);
+
+			//Only heals damage when the temp is below 313.15, heals up to 2 damage
+			if (combined_gas < MolePenaltyThreshold && healingAmount < 0)
+			{
+				//Healing amount is negative so do - to add
+				return Mathf.Max(superMatterIntegrity - (healingAmount / 150), 0);
+			}
 
 			//caps damage rate
 			//Takes the lower number between archived damage + (1.8) and damage
 			//This means we can only deal 1.8 damage per function call
-			return Mathf.Min(previousIntegrity - (DamageHardcap * superMatterMaxIntegrity), newIntegrity);
+			return Mathf.Min(previousIntegrity - (DamageHardcap * superMatterMaxIntegrity), superMatterIntegrity);
 		}
 
 		#endregion
@@ -771,6 +787,9 @@ namespace Objects.Engineering
 
 				objectsToShoot.Add(entity.gameObject);
 			}
+
+			//Dont shoot dead stuff so it doesnt loop
+			objectsToShoot = objectsToShoot.Where(o => o.TryGetComponent<LivingHealthBehaviour>(out var health) == false || health.IsDead == false).ToList();
 
 			if(objectsToShoot.Count == 0) return;
 
@@ -1021,9 +1040,17 @@ namespace Objects.Engineering
 
 
 		//Called when hit by projectiles
-		public void OnHitDetect(DamageData damageData)
+		public void OnHitDetect(DamageData damageData, string bulletName)
 		{
-			superMatterIntegrity += damageData.Damage * 2;
+			//Increase power if emitter projectile
+			if (bulletName == emitterBulletName)
+			{
+				power += damageData.Damage * 2;
+				return;
+			}
+
+			//Else do integrity damage
+			superMatterIntegrity -= damageData.Damage * 2;
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

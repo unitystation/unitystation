@@ -22,7 +22,7 @@ public class ParticleAcceleratorHitSpawner : MonoBehaviour, IOnHitDetect
 		registerTile = GetComponent<RegisterTile>();
 	}
 
-	public void OnHitDetect(DamageData damageData)
+	public void OnHitDetect(DamageData damageData, string bulletName)
 	{
 		if(damageData.AttackType != AttackType.Rad) return;
 

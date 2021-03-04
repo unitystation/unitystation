@@ -431,7 +431,7 @@ namespace Objects
 			}
 		}
 
-		public void OnHitDetect(DamageData damageData)
+		public void OnHitDetect(DamageData damageData, string bulletName)
 		{
 			if(damageData.AttackType != AttackType.Rad) return;
 
