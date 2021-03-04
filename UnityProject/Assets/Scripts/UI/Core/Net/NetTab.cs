@@ -43,8 +43,7 @@ public enum NetTabType
 	MagicMirror = 32,
 	ContractOfApprenticeship = 33,
 	ParticleAccelerator = 34,
-
-	//add your tabs here
+	SyndicateOpConsole = 35,
 }
 
 /// Descriptor for unique Net UI Tab
