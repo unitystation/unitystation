@@ -30,7 +30,6 @@ namespace UI.Items.PDA
 			{
 				if (isNukie || category.ItemList[i].IsNukeOps == false)
 				{
-					//We are nuke ops
 					dynamicList.Entries[i].GetComponent<GUI_PDAUplinkItemTemplate>().ReInit(category.ItemList[i]);
 					skipped++;
 				}
