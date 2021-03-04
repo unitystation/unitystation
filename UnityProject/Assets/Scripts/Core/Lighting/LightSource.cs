@@ -66,29 +66,18 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		}
 	}
 
-	private void EnsureInit()
+	private void Awake()
 	{
+		registerTile = GetComponent<RegisterTile>();
 		if (mLightRendererObject == null)
+		{
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
-
-		directional.OnDirectionChange.AddListener(OnDirectionChange);
-
-		if(lightSprite == null)
-			lightSprite = mLightRendererObject.GetComponent<LightSprite>();
-
-		if(currentState == null)
-			ChangeCurrentState(InitialState);
-
-		if(traitRequired == null)
-			traitRequired = currentState.TraitRequired;
-
+		}
+		lightSprite = mLightRendererObject.GetComponent<LightSprite>();
 		if (!isWithoutSwitch)
 			switchState = InitialState == LightMountState.On;
-	}
-
-	private void OnDirectionChange(Orientation newDir)
-	{
-		SetSprites();
+		ChangeCurrentState(InitialState);
+		traitRequired = currentState.TraitRequired;
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -99,18 +88,20 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		}
 	}
 
-	private void Awake()
+	private void OnDirectionChange(Orientation newDir)
 	{
-		registerTile = GetComponent<RegisterTile>();
+		SetSprites();
 	}
 
 	private void OnEnable()
 	{
+		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
 	private void OnDisable()
 	{
+		directional.OnDirectionChange.RemoveListener(OnDirectionChange);
 		if(integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
 
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
@@ -193,7 +184,6 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void SetSprites()
 	{
-		EnsureInit();
 		spriteRenderer.sprite = currentState.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
 		spriteRendererLightOn.sprite = mState == LightMountState.On
 				? spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum())
