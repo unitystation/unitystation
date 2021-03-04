@@ -233,6 +233,17 @@ namespace Objects.Engineering
 
 		#endregion
 
+		#region SoundDefines
+
+		private string loopingSoundGuid = "";
+
+		[SerializeField]
+		private AddressableAudioSource normalLoopSound = null;
+		[SerializeField]
+		private AddressableAudioSource delamLoopSound = null;
+
+		#endregion
+
 		[SerializeField]
 		private bool canTakeIntegrityDamage = true;
 
@@ -244,37 +255,22 @@ namespace Objects.Engineering
 		private float warningTimer;
 
 		private RegisterTile registerTile;
-		private Integrity integrity;
 
 		private GasMix removeMix = GasMix.NewGasMix(GasMixes.EmptyTile);
 
 		private bool finalCountdown; //uh oh
 		private int finalCountdownTime = 30; //30 seconds
 
-		private float updateTime = 0.5f;
+		private float updateTime = 1f; //Every second do check
 
 		[SyncVar(hook = nameof(SyncIsDelam))]
 		private bool isDelam;
-
-		#region SoundDefines
-
-		private AudioSourceParameters soundParameters = new AudioSourceParameters();
-
-		private string loopingSoundGuid = "";
-
-		[SerializeField]
-		private AddressableAudioSource normalLoopSound = null;
-		[SerializeField]
-		private AddressableAudioSource delamLoopSound = null;
-
-		#endregion
 
 		#region LifeCycle
 
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			integrity = GetComponent<Integrity>();
 			emitterBulletName = emitterBulletPrefab.GetComponent<Bullet>().visibleName;
 			mask = LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC");
 		}
@@ -381,12 +377,18 @@ namespace Objects.Engineering
 			if (removeMix.Moles == 0 || registerTile.Matrix.IsSpaceAt(registerTile.WorldPositionServer, true))
 			{
 				//Always does at least some integrity damage if allowed
-				superMatterIntegrity = canTakeIntegrityDamage ? superMatterIntegrity - Mathf.Max((power / 1000) * DamageIncreaseMultiplier, 0.1f) : superMatterIntegrity;
+				if (canTakeIntegrityDamage)
+				{
+					superMatterIntegrity -= Mathf.Max((power / 1000) * DamageIncreaseMultiplier, 0.1f);
+				}
 			}
 			else
 			{
 				//If allowed to take integrity damage, calculate it
-				superMatterIntegrity = canTakeIntegrityDamage ? CalculateDamage() : superMatterIntegrity;
+				if (canTakeIntegrityDamage)
+				{
+					CalculateDamage();
+				}
 
 				combined_gas = Mathf.Max(removeMix.Moles, 0);
 
@@ -475,7 +477,7 @@ namespace Objects.Engineering
 					matter_power = Mathf.Max(matter_power - removedMatter, 0);
 				}
 
-				var temp_factor = 50;
+				var tempFactor = 50;
 				if (gasmix_power_ratio > 0.8)
 				{
 					//with a perfect gas mix, make the power more based on heat
@@ -484,12 +486,12 @@ namespace Objects.Engineering
 				else
 				{
 					//in normal mode, power is less effected by heat
-					temp_factor = 30;
+					tempFactor = 30;
 					mainSprite.ChangeSprite(0);
 				}
 
 				//if there is more pluox and n2 then anything else, we receive no power increase from heat
-				power = Mathf.Max((removeMix.Temperature * temp_factor / 273.15f) * gasmix_power_ratio + power, 0f);
+				power = Mathf.Max((removeMix.Temperature * tempFactor / 273.15f) * gasmix_power_ratio + power, 0f);
 
 				if (DMMath.Prob(50))
 				{
@@ -524,10 +526,8 @@ namespace Objects.Engineering
 				removeMix.AddGas(Gas.Plasma, Mathf.Max((deviceEnergy * dynamic_heat_modifier) / PlasmaReleaseModifier, 0));
 
 				//Varies based on power, gas content, and heat
-				removeMix.AddGas(Gas.Oxygen, Mathf.Max(
-						((deviceEnergy + removeMix.Temperature * dynamic_heat_modifier) - 273.15f) / OxygenReleaseModifier,
+				removeMix.AddGas(Gas.Oxygen, Mathf.Max(((deviceEnergy + removeMix.Temperature * dynamic_heat_modifier) - 273.15f) / OxygenReleaseModifier,
 						0));
-				;
 
 				//Return gas to tile
 				GasMix.TransferGas(gasMix, removeMix, removeMix.Moles);
@@ -535,48 +535,49 @@ namespace Objects.Engineering
 
 			//Transitions between one function and another, one we use for the fast inital startup, the other is used to prevent errors with fusion temperatures.
 			//Use of the second function improves the power gain imparted by using co2
-			power = Mathf.Max(
-				power - Mathf.Min(Mathf.Pow(power / 500, 3f) * powerloss_inhibitor, power * 0.83f * powerloss_inhibitor), 0);
+			power -= Mathf.Min(Mathf.Pow(power / 500, 3f) * powerloss_inhibitor, power * 0.83f * powerloss_inhibitor);
 
-			//Next is Effects
-			//Then Warnings
+			//Reset to 0, just in case
+			if (power < 0)
+			{
+				power = 0;
+			}
 		}
 
-		private float CalculateDamage()
+		private void CalculateDamage()
 		{
-			//causing damage
 			//Due to DAMAGE_INCREASE_MULTIPLIER, we only deal one 4th of the damage the statements otherwise would cause
-
 			//((((some value between 0.5 and 1 * temp - ((273.15 + 40) * some values between 1 and 6)) * some number between 0.25 and knock your socks off / 150) * 0.25
 			//Heat and moles account for each other, a lot of hot moles are more damaging then a few
 			//Moles start to have a positive effect on damage after 350
-			superMatterIntegrity = Mathf.Max(superMatterIntegrity - (Mathf.Max(
-					Mathf.Clamp(removeMix.Moles / 200f, 0.5f, 1f) * removeMix.Temperature -
-					((273.15f + HeatPenaltyThreshold) * dynamic_heat_resistance), 0f) * mole_heat_penalty / 150f) *
-				DamageIncreaseMultiplier, 0f);
+			superMatterIntegrity -= (Mathf.Max(Mathf.Clamp(removeMix.Moles / 200f, 0.5f, 1f) * removeMix.Temperature -
+			                                   ((273.15f + HeatPenaltyThreshold) * dynamic_heat_resistance), 0f)
+				                        * mole_heat_penalty / 150f) * DamageIncreaseMultiplier;
 
 			//Power only starts affecting damage when it is above 5000
-			superMatterIntegrity =
-				Mathf.Max(superMatterIntegrity - (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier, 0);
+			superMatterIntegrity -= (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier;
 
 			//Molar count only starts affecting damage when it is above 1800
-			superMatterIntegrity =
-				Mathf.Max(superMatterIntegrity - (Mathf.Max(combined_gas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier,
-					0);
+			superMatterIntegrity -= (Mathf.Max(combined_gas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier;
 
-			var healingAmount = removeMix.Temperature - (273.15f + HeatPenaltyThreshold);
+			//Only heals damage when the temp is below 313.15
+			var healingAmount = (273.15f + HeatPenaltyThreshold) - removeMix.Temperature;
 
-			//Only heals damage when the temp is below 313.15, heals up to 2 damage
-			if (combined_gas < MolePenaltyThreshold && healingAmount < 0)
+			if (combined_gas < MolePenaltyThreshold && healingAmount > 0)
 			{
-				//Healing amount is negative so do - to add
-				return Mathf.Max(superMatterIntegrity - (healingAmount / 150), 0);
+				superMatterIntegrity += healingAmount / 150;
 			}
 
-			//caps damage rate
-			//Takes the lower number between archived damage + (1.8) and damage
-			//This means we can only deal 1.8 damage per function call
-			return Mathf.Min(previousIntegrity - (DamageHardcap * superMatterMaxIntegrity), superMatterIntegrity);
+			//Reset to 0, just in case
+			if (superMatterIntegrity < 0)
+			{
+				superMatterIntegrity = 0;
+			}
+
+			//Caps integrity change to previous integrity -+ 2, per update
+			superMatterIntegrity = Mathf.Clamp(superMatterIntegrity,
+				previousIntegrity - (DamageHardcap * superMatterMaxIntegrity),
+				previousIntegrity + (DamageHardcap * superMatterMaxIntegrity));
 		}
 
 		#endregion
@@ -638,6 +639,34 @@ namespace Objects.Engineering
 					TrySpawnAnomaly(pyroAnomaly);
 				}
 			}
+		}
+
+		//Tries to find empty tile in 10 by 10 area from supermatter
+		private void TrySpawnAnomaly(GameObject prefabToSpawn)
+		{
+			if(prefabToSpawn == null) return;
+
+			var overloadPrevent = 0;
+
+			while (overloadPrevent < 20)
+			{
+				var pos = registerTile.WorldPositionServer;
+				pos.x += Random.Range(-11, 11);
+				pos.y += Random.Range(-11, 11);
+
+				if (MatrixManager.IsEmptyAt(pos, true))
+				{
+					Spawn.ServerPrefab(prefabToSpawn, pos, transform.parent);
+					return;
+				}
+
+				overloadPrevent++;
+			}
+		}
+
+		private void FireNuclearParticle()
+		{
+
 		}
 
 		#endregion
@@ -942,33 +971,7 @@ namespace Objects.Engineering
 
 		#endregion
 
-		//Tries to find empty tile in 10 by 10 area from supermatter
-		private void TrySpawnAnomaly(GameObject prefabToSpawn)
-		{
-			if(prefabToSpawn == null) return;
-
-			var overloadPrevent = 0;
-
-			while (overloadPrevent < 20)
-			{
-				var pos = registerTile.WorldPositionServer;
-				pos.x += Random.Range(-11, 11);
-				pos.y += Random.Range(-11, 11);
-
-				if (MatrixManager.IsEmptyAt(pos, true))
-				{
-					Spawn.ServerPrefab(prefabToSpawn, pos, transform.parent);
-					return;
-				}
-
-				overloadPrevent++;
-			}
-		}
-
-		private void FireNuclearParticle()
-		{
-
-		}
+		#region ChatMessages
 
 		private void AddMessageToChat(string message, bool sendToCommon = false)
 		{
@@ -987,6 +990,107 @@ namespace Objects.Engineering
 				Chat.AddExamineMsgFromServer(player.GameObject, message);
 			}
 		}
+
+		#endregion
+
+		#region Hit, Bump, Collision
+
+		//Called when hit by projectiles
+		public void OnHitDetect(DamageData damageData, string bulletName)
+		{
+			//Increase power if emitter projectile
+			if (bulletName == emitterBulletName)
+			{
+				power += damageData.Damage * 2;
+				return;
+			}
+
+			//Else do integrity damage
+			superMatterIntegrity -= damageData.Damage * 2;
+		}
+
+		public void BumpAble(GameObject bumpedBy)
+		{
+			if (bumpedBy.TryGetComponent<PlayerHealth>(out var playerHealth))
+			{
+				var job = bumpedBy.GetComponent<PlayerScript>().mind?.occupation;
+				//You big idiot
+				Chat.AddActionMsgToChat(bumpedBy,
+					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
+					$"The {(job != null ? job.JobType.JobString() : "person")} slams into \the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
+
+				playerHealth.ServerGibPlayer();
+				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
+				matter_power += 200;
+			}
+			else if(bumpedBy.TryGetComponent<LivingHealthBehaviour>(out var health))
+			{
+				health.ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute);
+			}
+		}
+
+		#endregion
+		
+		#region HandApply
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			//Kill player if they touched with empty hand
+			if (interaction.HandObject == null)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
+					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
+
+				interaction.Performer.GetComponent<PlayerHealth>().ServerGibPlayer();
+				matter_power += 200;
+				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
+				return;
+			}
+
+			//Try removing piece if using supermatter scalpel
+			if(Validations.HasItemTrait(interaction.HandObject, superMatterScalpel))
+			{
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 20,
+					$"You carefully begin to scrape the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
+					$"{interaction.Performer.ExpensiveName()} starts scraping off a part of the {gameObject.ExpensiveName()}...",
+					$"You extract a sliver from the {gameObject.ExpensiveName()}. <color=red>The {gameObject.ExpensiveName()} begins to react violently!</color>",
+					$"{interaction.Performer.ExpensiveName()} scrapes off a shard from the {gameObject.ExpensiveName()}.",
+					() =>
+					{
+						Spawn.ServerPrefab(superMatterShard, interaction.Performer.WorldPosServer(),
+							interaction.Performer.transform.parent);
+						matter_power += 800;
+
+						//Destroy Scalpel
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"A tiny piece of the {interaction.HandObject.ExpensiveName()} falls off, rendering it useless!");
+						Despawn.ServerSingle(interaction.HandObject);
+					}
+				);
+
+				return;
+			}
+
+			//Else destroy the item the supermatter was touched with
+			Chat.AddActionMsgToChat(interaction.Performer,
+				$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust as you flinch away from the {gameObject.ExpensiveName()}.",
+				$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
+			Despawn.ServerSingle(interaction.HandObject);
+			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 150, GetInstanceID());
+			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
+			matter_power += 200;
+		}
+
+		#endregion
+
+		#region Status
 
 		private void PlayAlarmSound()
 		{
@@ -1044,20 +1148,7 @@ namespace Objects.Engineering
 			return matterIntegrity;
 		}
 
-
-		//Called when hit by projectiles
-		public void OnHitDetect(DamageData damageData, string bulletName)
-		{
-			//Increase power if emitter projectile
-			if (bulletName == emitterBulletName)
-			{
-				power += damageData.Damage * 2;
-				return;
-			}
-
-			//Else do integrity damage
-			superMatterIntegrity -= damageData.Damage * 2;
-		}
+		#endregion
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
@@ -1074,83 +1165,6 @@ namespace Objects.Engineering
 			Danger,
 			Emergency,
 			Delaminating
-		}
-
-		public void BumpAble(GameObject bumpedBy)
-		{
-			if (bumpedBy.TryGetComponent<PlayerHealth>(out var playerHealth))
-			{
-				var job = bumpedBy.GetComponent<PlayerScript>().mind?.occupation;
-				//You big idiot
-				Chat.AddActionMsgToChat(bumpedBy,
-					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
-					$"The {(job != null ? job.JobType.JobString() : "person")} slams into \the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
-
-				playerHealth.ServerGibPlayer();
-				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
-				matter_power += 200;
-			}
-			else if(bumpedBy.TryGetComponent<LivingHealthBehaviour>(out var health))
-			{
-				health.ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute);
-			}
-		}
-
-		//Hand Apply
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
-
-			return true;
-		}
-
-		//Hand Apply
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			//Kill player if they touched with empty hand
-			if (interaction.HandObject == null)
-			{
-				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
-					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
-
-				interaction.Performer.GetComponent<PlayerHealth>().ServerGibPlayer();
-				matter_power += 200;
-				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
-				return;
-			}
-
-			//Try removing piece if using supermatter scalpel
-			if(Validations.HasItemTrait(interaction.HandObject, superMatterScalpel))
-			{
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 20,
-					$"You carefully begin to scrape the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
-					$"{interaction.Performer.ExpensiveName()} starts scraping off a part of the {gameObject.ExpensiveName()}...",
-					$"You extract a sliver from the {gameObject.ExpensiveName()}. <color=red>The {gameObject.ExpensiveName()} begins to react violently!</color>",
-					$"{interaction.Performer.ExpensiveName()} scrapes off a shard from the {gameObject.ExpensiveName()}.",
-					() =>
-					{
-						Spawn.ServerPrefab(superMatterShard, interaction.Performer.WorldPosServer(),
-							interaction.Performer.transform.parent);
-						matter_power += 800;
-
-						//Destroy Scalpel
-						Chat.AddExamineMsgFromServer(interaction.Performer, $"A tiny piece of the {interaction.HandObject.ExpensiveName()} falls off, rendering it useless!");
-						Despawn.ServerSingle(interaction.HandObject);
-					}
-				);
-
-				return;
-			}
-
-			//Else destroy the item the supermatter was touched with
-			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust as you flinch away from the {gameObject.ExpensiveName()}.",
-				$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
-			Despawn.ServerSingle(interaction.HandObject);
-			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 150, GetInstanceID());
-			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
-			matter_power += 200;
 		}
 	}
 }
