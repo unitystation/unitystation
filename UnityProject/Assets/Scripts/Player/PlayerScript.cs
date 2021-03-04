@@ -36,6 +36,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	public PlayerMove playerMove { get; set; }
 	public PlayerSprites playerSprites { get; set; }
 
+	public PlayerEffectsManager PlayerEffectsManager;
+
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
