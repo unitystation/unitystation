@@ -238,7 +238,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  canTakeIntegrityDamage: 1
   normalLoopSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/SuperMatter/SuperMatterNormalLoop.prefab
@@ -253,6 +252,35 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  blobAlarm:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/BlobAlarm.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  engineAlert1:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlert1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  engineAlert2:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlert2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  terminalAlert:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/TerminalAlert.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  canTakeIntegrityDamage: 1
 --- !u!114 &7328592128274559140
 MonoBehaviour:
   m_ObjectHideFlags: 0

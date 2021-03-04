@@ -18,6 +18,10 @@ using Random = UnityEngine.Random;
 
 namespace Objects.Engineering
 {
+	/// <summary>
+	/// Supermatter script, controls supermatter effects
+	/// Script originated from Tg DM code, which has been modified for UnityStation
+	/// </summary>
 	public class SuperMatter : NetworkBehaviour, IOnHitDetect, IExaminable, IBumpObject, ICheckedInteractable<HandApply>
 	{
 		#region lightSpriteDefines
@@ -182,31 +186,31 @@ namespace Objects.Engineering
 		#region CompositionDefines
 
 		// raw composition of each gas in the chamber, ranges from 0 to 1
-		private float n2comp = 0;
-		private float plasmacomp = 0;
-		private float o2comp = 0;
-		private float co2comp = 0;
-		private float n2ocomp = 0;
-		private float tritiumcomp = 0;
-		private float bzcomp = 0;
-		private float pluoxiumcomp = 0;
-		private float h2ocomp = 0;
-		private float freoncomp = 0;
+		private float n2Compositon = 0;
+		private float plasmaCompositon = 0;
+		private float o2Compositon = 0;
+		private float co2Compositon = 0;
+		private float n2oCompositon = 0;
+		private float tritiumCompositon = 0;
+		private float bzCompositon = 0;
+		private float pluoxiumCompositon = 0;
+		private float h2oCompositon = 0;
+		private float freonCompositon = 0;
 
 		///Determines the rate of positive change in gas comp values
-		private float gas_change_rate = 0.05f;
+		private float gasChangeRate = 0.05f;
 
 		///The last air sample's total molar count, will always be above or equal to 0
-		private float combined_gas = 0;
+		private float combinedGas = 0;
 
-		private float gasmix_power_ratio = 0;
-		private float dynamic_heat_modifier = 1;
-		private float dynamic_heat_resistance = 1;
-		private float powerloss_inhibitor = 1;
-		private float powerloss_dynamic_scaling = 0;
-		private float power_transmission_bonus = 0;
-		private float mole_heat_penalty = 0;
-		private float matter_power = 0;
+		private float gasmixPowerRatio = 0;
+		private float dynamicHeatModifier = 1;
+		private float dynamicHeatResistance = 1;
+		private float powerlossInhibitor = 1;
+		private float powerlossDynamicScaling = 0;
+		private float powerTransmissionBonus = 0;
+		private float moleHeatPenalty = 0;
+		private float matterPower = 0;
 
 		#endregion
 
@@ -241,6 +245,18 @@ namespace Objects.Engineering
 		private AddressableAudioSource normalLoopSound = null;
 		[SerializeField]
 		private AddressableAudioSource delamLoopSound = null;
+
+		[SerializeField]
+		private AddressableAudioSource blobAlarm = null;
+
+		[SerializeField]
+		private AddressableAudioSource engineAlert1 = null;
+
+		[SerializeField]
+		private AddressableAudioSource engineAlert2 = null;
+
+		[SerializeField]
+		private AddressableAudioSource terminalAlert = null;
 
 		#endregion
 
@@ -390,95 +406,145 @@ namespace Objects.Engineering
 					CalculateDamage();
 				}
 
-				combined_gas = Mathf.Max(removeMix.Moles, 0);
+				combinedGas = Mathf.Max(removeMix.Moles, 0);
 
 				//Lets get the proportions of the gasses in the mix and then slowly move our comp to that value
 				//Can cause an overestimation of mol count, should stabilize things though.
 				//Prevents huge bursts of gas/heat when a large amount of something is introduced
 				//They range between 0 and 1
-				plasmacomp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Plasma) / combined_gas, 0) - plasmacomp, -1,gas_change_rate);
-				o2comp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Oxygen) / combined_gas, 0) - o2comp, -1, gas_change_rate);
-				co2comp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.CarbonDioxide) / combined_gas, 0) - co2comp, -1, gas_change_rate);
-				pluoxiumcomp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Pluoxium) / combined_gas, 0) - pluoxiumcomp, -1, gas_change_rate);
-				tritiumcomp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Tritium) / combined_gas, 0) - tritiumcomp, -1, gas_change_rate);
-				bzcomp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.BZ) / combined_gas, 0) - bzcomp, -1, gas_change_rate);
-				n2ocomp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.NitrousOxide) / combined_gas, 0) - n2ocomp, -1, gas_change_rate);
-				n2comp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Nitrogen) / combined_gas, 0) - n2comp, -1, gas_change_rate);
-				h2ocomp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.WaterVapor) / combined_gas, 0) - h2ocomp, -1, gas_change_rate);
-				freoncomp += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Freon) / combined_gas, 0) - freoncomp, -1, gas_change_rate);
+				plasmaCompositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Plasma) / combinedGas, 0) - plasmaCompositon, -1,gasChangeRate);
+				o2Compositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Oxygen) / combinedGas, 0) - o2Compositon, -1, gasChangeRate);
+				co2Compositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.CarbonDioxide) / combinedGas, 0) - co2Compositon, -1, gasChangeRate);
+				pluoxiumCompositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Pluoxium) / combinedGas, 0) - pluoxiumCompositon, -1, gasChangeRate);
+				tritiumCompositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Tritium) / combinedGas, 0) - tritiumCompositon, -1, gasChangeRate);
+				bzCompositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.BZ) / combinedGas, 0) - bzCompositon, -1, gasChangeRate);
+				n2oCompositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.NitrousOxide) / combinedGas, 0) - n2oCompositon, -1, gasChangeRate);
+				n2Compositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Nitrogen) / combinedGas, 0) - n2Compositon, -1, gasChangeRate);
+				h2oCompositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.WaterVapor) / combinedGas, 0) - h2oCompositon, -1, gasChangeRate);
+				freonCompositon += Mathf.Clamp(Mathf.Max(removeMix.GetMoles(Gas.Freon) / combinedGas, 0) - freonCompositon, -1, gasChangeRate);
+
+				var pluoxiumBonus = 0f;
+				var waterBonus = 0f;
+				var freonBonus = 0f;
+
+				var waterMalus = 1f;
+				var waterFixed = 1f;
+
+				//We're concerned about pluoxium being too easy to abuse at low percents, so we make sure there's a substantial amount.
+				if (pluoxiumCompositon >= 0.15)
+				{
+					//makes pluoxium only work at 15%+
+					pluoxiumBonus = 1;
+				}
+
+				//heat protection from h2o only works when it's between 35 and 45%
+				if (h2oCompositon >= 0.35 && h2oCompositon <= 0.45)
+				{
+					waterBonus = 1;
+				}
+
+				//Too much freon will stop power generation, only below 0.03 is allowed
+				if (freonCompositon <= 0.03)
+				{
+					freonBonus = 1;
+				}
+
+				if (h2oCompositon > 0.45)
+				{
+					//Too much water will cause very bad problems
+					waterMalus = 2;
+				}
+				else if (h2oCompositon >= 0.05)
+				{
+					//Engine will produce less power between 0.05 and 0.45 moles of water
+					waterMalus = 0.05f;
+				}
+
+				//variability in the h2o penalty calculation depending on the %
+				if (h2oCompositon > 0.5)
+				{
+					waterFixed = 2;
+				}
+				else if (h2oCompositon >= 0.3)
+				{
+					waterFixed = 0.5f;
+				}
 
 				//No less then zero, and no greater then one, we use this to do explosions and heat to power transfer
-				gasmix_power_ratio =
+				gasmixPowerRatio =
 					Mathf.Min(
 						Mathf.Max(
-							((plasmacomp + o2comp + co2comp + h2ocomp + tritiumcomp + bzcomp - pluoxiumcomp - n2comp -
-							  freoncomp)), 0), 1);
+							((plasmaCompositon + o2Compositon + co2Compositon + h2oCompositon + tritiumCompositon + bzCompositon - pluoxiumCompositon - n2Compositon -
+							  freonCompositon)) * waterMalus, 0), 1);
 
 				//Minimum value of 1.5, maximum value of 23
-				dynamic_heat_modifier = plasmacomp * heatPenaltyDefines[Gas.Plasma];
-				dynamic_heat_modifier += o2comp * heatPenaltyDefines[Gas.Oxygen];
-				dynamic_heat_modifier += co2comp * heatPenaltyDefines[Gas.CarbonDioxide];
-				dynamic_heat_modifier += tritiumcomp * heatPenaltyDefines[Gas.Tritium];
-				dynamic_heat_modifier += pluoxiumcomp * heatPenaltyDefines[Gas.Pluoxium];
-				dynamic_heat_modifier += n2comp * heatPenaltyDefines[Gas.Nitrogen];
-				dynamic_heat_modifier += bzcomp * heatPenaltyDefines[Gas.BZ];
-				dynamic_heat_modifier += freoncomp * heatPenaltyDefines[Gas.Freon];
-				dynamic_heat_modifier += h2ocomp * heatPenaltyDefines[Gas.WaterVapor];
-				dynamic_heat_modifier = Mathf.Max(dynamic_heat_modifier, 0.5f);
+				dynamicHeatModifier = plasmaCompositon * heatPenaltyDefines[Gas.Plasma];
+				dynamicHeatModifier += o2Compositon * heatPenaltyDefines[Gas.Oxygen];
+				dynamicHeatModifier += co2Compositon * heatPenaltyDefines[Gas.CarbonDioxide];
+				dynamicHeatModifier += tritiumCompositon * heatPenaltyDefines[Gas.Tritium];
+				dynamicHeatModifier += pluoxiumCompositon * heatPenaltyDefines[Gas.Pluoxium] * pluoxiumBonus;
+				dynamicHeatModifier += n2Compositon * heatPenaltyDefines[Gas.Nitrogen];
+				dynamicHeatModifier += bzCompositon * heatPenaltyDefines[Gas.BZ];
+				dynamicHeatModifier += freonCompositon * heatPenaltyDefines[Gas.Freon];
+				dynamicHeatModifier *= waterMalus;
+				dynamicHeatModifier += h2oCompositon * heatPenaltyDefines[Gas.WaterVapor] * waterFixed;
+				dynamicHeatModifier = Mathf.Max(dynamicHeatModifier, 0.5f);
 
 				//Value between 1 and 10
-				dynamic_heat_resistance =
+				dynamicHeatResistance =
 					Mathf.Max(
-						(n2ocomp * heatResistanceDefines[Gas.NitrousOxide]) + ((h2ocomp * heatResistanceDefines[Gas.WaterVapor])) +
-						((pluoxiumcomp * heatResistanceDefines[Gas.Pluoxium])), 1);
+						(n2oCompositon * heatResistanceDefines[Gas.NitrousOxide]) + ((h2oCompositon * heatResistanceDefines[Gas.WaterVapor] * waterBonus)) +
+						((pluoxiumCompositon * heatResistanceDefines[Gas.Pluoxium] * pluoxiumBonus)), 1);
+
 				//Value between 30 and -5, used to determine radiation output as it concerns things like collectors
-				power_transmission_bonus = plasmacomp * transmitDefines[Gas.Plasma];
-				power_transmission_bonus += o2comp * transmitDefines[Gas.Oxygen];
-				power_transmission_bonus += (h2ocomp * transmitDefines[Gas.WaterVapor]);
-				power_transmission_bonus += bzcomp * transmitDefines[Gas.BZ];
-				power_transmission_bonus += tritiumcomp * transmitDefines[Gas.Tritium];
-				power_transmission_bonus += (pluoxiumcomp * transmitDefines[Gas.Pluoxium]);
+				powerTransmissionBonus = plasmaCompositon * transmitDefines[Gas.Plasma];
+				powerTransmissionBonus += o2Compositon * transmitDefines[Gas.Oxygen];
+				powerTransmissionBonus += (h2oCompositon * transmitDefines[Gas.WaterVapor] * waterBonus);
+				powerTransmissionBonus += bzCompositon * transmitDefines[Gas.BZ];
+				powerTransmissionBonus += tritiumCompositon * transmitDefines[Gas.Tritium];
+				powerTransmissionBonus += (pluoxiumCompositon * transmitDefines[Gas.Pluoxium] * pluoxiumBonus);
+				powerTransmissionBonus *= waterMalus;
 
 				//more moles of gases are harder to heat than fewer, so let's scale heat damage around them
-				mole_heat_penalty = Mathf.Max(combined_gas / MoleHeatPenalty, 0.25f);
+				moleHeatPenalty = Mathf.Max(combinedGas / MoleHeatPenalty, 0.25f);
 
 				//Ramps up or down in increments of 0.02 up to the proportion of co2
 				//Given infinite time, powerloss_dynamic_scaling = co2comp
 				//Some value between 0 and 1
-				if (combined_gas > PowerlossInhibitioMoleThreshold && co2comp > PowerlossInhibitionGasThreshold)
+				if (combinedGas > PowerlossInhibitioMoleThreshold && co2Compositon > PowerlossInhibitionGasThreshold)
 				{
 					//If there are more then 20 mols, or more then 20% co2
-					powerloss_dynamic_scaling = Mathf.Clamp(powerloss_dynamic_scaling +
-					                                        Mathf.Clamp(co2comp - powerloss_dynamic_scaling, -0.02f, 0.02f), 0, 1);
+					powerlossDynamicScaling = Mathf.Clamp(powerlossDynamicScaling +
+					                                        Mathf.Clamp(co2Compositon - powerlossDynamicScaling, -0.02f, 0.02f), 0, 1);
 				}
 				else
 				{
-					powerloss_dynamic_scaling = Mathf.Clamp(powerloss_dynamic_scaling - 0.05f, 0f, 1);
+					powerlossDynamicScaling = Mathf.Clamp(powerlossDynamicScaling - 0.05f, 0f, 1);
 				}
 
 				//Ranges from 0 to 1(1-(value between 0 and 1 * ranges from 1 to 1.5(mol / 500)))
 				//We take the mol count, and scale it to be our inhibitor
-				powerloss_inhibitor =
+				powerlossInhibitor =
 					Mathf.Clamp(
-						1 - (powerloss_dynamic_scaling *
-						     Mathf.Clamp(combined_gas / PowerlossInhibitionMoleBoostThreshold, 1, 1.5f)), 0, 1);
+						1 - (powerlossDynamicScaling *
+						     Mathf.Clamp(combinedGas / PowerlossInhibitionMoleBoostThreshold, 1, 1.5f)), 0, 1);
 
 				//Releases stored power into the general pool
 				//We get this by consuming shit or being scalpeled
-				if (matter_power > 0)
+				if (matterPower > 0)
 				{
 					//We base our removed power off one 10th of the matter_power.
-					var removedMatter = Mathf.Max(matter_power / MatterPowerConversion, 40);
+					var removedMatter = Mathf.Max(matterPower / MatterPowerConversion, 40);
 
 					//Adds at least 40 power
 					power = Mathf.Max(power + removedMatter, 0);
 
 					//Removes at least 40 matter power
-					matter_power = Mathf.Max(matter_power - removedMatter, 0);
+					matterPower = Mathf.Max(matterPower - removedMatter, 0);
 				}
 
 				var tempFactor = 50;
-				if (gasmix_power_ratio > 0.8)
+				if (gasmixPowerRatio > 0.8)
 				{
 					//with a perfect gas mix, make the power more based on heat
 					mainSprite.ChangeSprite(1);
@@ -491,16 +557,16 @@ namespace Objects.Engineering
 				}
 
 				//if there is more pluox and n2 then anything else, we receive no power increase from heat
-				power = Mathf.Max((removeMix.Temperature * tempFactor / 273.15f) * gasmix_power_ratio + power, 0f);
+				power = Mathf.Max((removeMix.Temperature * tempFactor / 273.15f) * gasmixPowerRatio + power, 0f);
 
 				if (DMMath.Prob(50))
 				{
 					var strength = power * Mathf.Max(0,
-						(1 + (power_transmission_bonus / (10 - (bzcomp * 5)))));
+						(1 + (powerTransmissionBonus / (10 - (bzCompositon * 5))) * freonBonus));
 					RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, strength, GetInstanceID());
 				}
 
-				if (bzcomp >= 0.4 && DMMath.Prob(30 * bzcomp))
+				if (bzCompositon >= 0.4 && DMMath.Prob(30 * bzCompositon))
 				{
 					// Start to emit radballs at a maximum of 30% chance per tick
 					FireNuclearParticle();
@@ -517,16 +583,16 @@ namespace Objects.Engineering
 				//Also keep in mind we are only adding this temperature to (efficiency)% of the one tile the rock
 				//is on. An increase of 4*C @ 25% efficiency here results in an increase of 1*C / (#tilesincore) overall.
 				//Power * 0.55 * (some value between 1.5 and 23) / 5
-				removeMix.Temperature += ((deviceEnergy * dynamic_heat_modifier) / ThermalReleaseModifier);
+				removeMix.Temperature += ((deviceEnergy * dynamicHeatModifier) / ThermalReleaseModifier);
 				//We can only emit so much heat, that being 57500
-				removeMix.Temperature = Mathf.Max(0, Mathf.Min(removeMix.Temperature, 2500 * dynamic_heat_modifier));
+				removeMix.Temperature = Mathf.Max(0, Mathf.Min(removeMix.Temperature, 2500 * dynamicHeatModifier));
 
 				//Calculate how much gas to release
 				//Varies based on power and gas content
-				removeMix.AddGas(Gas.Plasma, Mathf.Max((deviceEnergy * dynamic_heat_modifier) / PlasmaReleaseModifier, 0));
+				removeMix.AddGas(Gas.Plasma, Mathf.Max((deviceEnergy * dynamicHeatModifier) / PlasmaReleaseModifier, 0));
 
 				//Varies based on power, gas content, and heat
-				removeMix.AddGas(Gas.Oxygen, Mathf.Max(((deviceEnergy + removeMix.Temperature * dynamic_heat_modifier) - 273.15f) / OxygenReleaseModifier,
+				removeMix.AddGas(Gas.Oxygen, Mathf.Max(((deviceEnergy + removeMix.Temperature * dynamicHeatModifier) - 273.15f) / OxygenReleaseModifier,
 						0));
 
 				//Return gas to tile
@@ -535,7 +601,7 @@ namespace Objects.Engineering
 
 			//Transitions between one function and another, one we use for the fast inital startup, the other is used to prevent errors with fusion temperatures.
 			//Use of the second function improves the power gain imparted by using co2
-			power -= Mathf.Min(Mathf.Pow(power / 500, 3f) * powerloss_inhibitor, power * 0.83f * powerloss_inhibitor);
+			power -= Mathf.Min(Mathf.Pow(power / 500, 3f) * powerlossInhibitor, power * 0.83f * powerlossInhibitor);
 
 			//Reset to 0, just in case
 			if (power < 0)
@@ -551,19 +617,19 @@ namespace Objects.Engineering
 			//Heat and moles account for each other, a lot of hot moles are more damaging then a few
 			//Moles start to have a positive effect on damage after 350
 			superMatterIntegrity -= (Mathf.Max(Mathf.Clamp(removeMix.Moles / 200f, 0.5f, 1f) * removeMix.Temperature -
-			                                   ((273.15f + HeatPenaltyThreshold) * dynamic_heat_resistance), 0f)
-				                        * mole_heat_penalty / 150f) * DamageIncreaseMultiplier;
+			                                   ((273.15f + HeatPenaltyThreshold) * dynamicHeatResistance), 0f)
+				                        * moleHeatPenalty / 150f) * DamageIncreaseMultiplier;
 
 			//Power only starts affecting damage when it is above 5000
 			superMatterIntegrity -= (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier;
 
 			//Molar count only starts affecting damage when it is above 1800
-			superMatterIntegrity -= (Mathf.Max(combined_gas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier;
+			superMatterIntegrity -= (Mathf.Max(combinedGas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier;
 
 			//Only heals damage when the temp is below 313.15
 			var healingAmount = (273.15f + HeatPenaltyThreshold) - removeMix.Temperature;
 
-			if (combined_gas < MolePenaltyThreshold && healingAmount > 0)
+			if (combinedGas < MolePenaltyThreshold && healingAmount > 0)
 			{
 				superMatterIntegrity += healingAmount / 150;
 			}
@@ -704,13 +770,13 @@ namespace Objects.Engineering
 					{
 						AddMessageToChat("Warning: Hyperstructure has reached dangerous power level");
 
-						if (powerloss_inhibitor < 0.5)
+						if (powerlossInhibitor < 0.5)
 						{
 							AddMessageToChat("DANGER: CHARGE INERTIA CHAIN REACTION IN PROGRESS");
 						}
 					}
 
-					if (combined_gas > MolePenaltyThreshold)
+					if (combinedGas > MolePenaltyThreshold)
 					{
 						AddMessageToChat("Warning: Critical coolant mass reached");
 					}
@@ -785,7 +851,7 @@ namespace Objects.Engineering
 		{
 			SendMessageToAllPlayers("</color=red>You feel reality distort for a moment...<color>");
 
-			if (combined_gas > MolePenaltyThreshold)
+			if (combinedGas > MolePenaltyThreshold)
 			{
 				//Spawns a singularity which can eat the crystal...
 				SendMessageToAllPlayers("</color=red>A horrible screeching fills your ears, and a wave of dread washes over you...<color>");
@@ -1009,33 +1075,53 @@ namespace Objects.Engineering
 			superMatterIntegrity -= damageData.Damage * 2;
 		}
 
+		//Called when bumped by players or collided with by flying items
 		public void BumpAble(GameObject bumpedBy)
 		{
 			if (bumpedBy.TryGetComponent<PlayerHealth>(out var playerHealth))
 			{
+				//Players, you big idiot
 				var job = bumpedBy.GetComponent<PlayerScript>().mind?.occupation;
-				//You big idiot
+
 				Chat.AddActionMsgToChat(bumpedBy,
 					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
-					$"The {(job != null ? job.JobType.JobString() : "person")} slams into \the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
+					$"The {(job != null ? job.JobType.JobString() : "person")} slams into the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
 				playerHealth.ServerGibPlayer();
-				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
-				matter_power += 200;
+				matterPower += 100;
 			}
-			else if(bumpedBy.TryGetComponent<LivingHealthBehaviour>(out var health))
+			else if (bumpedBy.TryGetComponent<LivingHealthBehaviour>(out var health))
 			{
+				//Npcs
+				Chat.AddLocalMsgToChat(
+					$"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... its body starts to glow and burst into flames before flashing into dust!",
+					bumpedBy);
+
 				health.ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute);
 			}
+			else if(bumpedBy.TryGetComponent<Integrity>(out var integrity))
+			{
+				//Items flying
+				Chat.AddLocalMsgToChat($"The {bumpedBy.ExpensiveName()} smacks into the {gameObject.ExpensiveName()} and rapidly flashes to ash", bumpedBy);
+
+				integrity.ApplyDamage(1000, AttackType.Rad, DamageType.Brute, true, ignoreArmor: true);
+			}
+
+			matterPower += 150;
+			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
+			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
 		}
 
 		#endregion
-		
+
 		#region HandApply
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+
+			//Dont destroy wrench, it is used to unwrench crystal
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
 
 			return true;
 		}
@@ -1050,13 +1136,13 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
 				interaction.Performer.GetComponent<PlayerHealth>().ServerGibPlayer();
-				matter_power += 200;
+				matterPower += 200;
 				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
 				return;
 			}
 
 			//Try removing piece if using supermatter scalpel
-			if(Validations.HasItemTrait(interaction.HandObject, superMatterScalpel))
+			if (Validations.HasItemTrait(interaction.HandObject, superMatterScalpel))
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 20,
 					$"You carefully begin to scrape the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
@@ -1067,7 +1153,7 @@ namespace Objects.Engineering
 					{
 						Spawn.ServerPrefab(superMatterShard, interaction.Performer.WorldPosServer(),
 							interaction.Performer.transform.parent);
-						matter_power += 800;
+						matterPower += 800;
 
 						//Destroy Scalpel
 						Chat.AddExamineMsgFromServer(interaction.Performer, $"A tiny piece of the {interaction.HandObject.ExpensiveName()} falls off, rendering it useless!");
@@ -1085,7 +1171,7 @@ namespace Objects.Engineering
 			Despawn.ServerSingle(interaction.HandObject);
 			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 150, GetInstanceID());
 			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
-			matter_power += 200;
+			matterPower += 200;
 		}
 
 		#endregion
@@ -1097,12 +1183,16 @@ namespace Objects.Engineering
 			switch (GetStatus())
 			{
 				case SuperMatterStatus.Delaminating:
+					SoundManager.PlayNetworkedAtPos(blobAlarm, registerTile.WorldPositionServer, sourceObj: gameObject);
 					break;
 				case SuperMatterStatus.Emergency:
+					SoundManager.PlayNetworkedAtPos(engineAlert1, registerTile.WorldPositionServer, sourceObj: gameObject);
 					break;
 				case SuperMatterStatus.Danger:
+					SoundManager.PlayNetworkedAtPos(engineAlert2, registerTile.WorldPositionServer, sourceObj: gameObject);
 					break;
 				case SuperMatterStatus.Warning:
+					SoundManager.PlayNetworkedAtPos(terminalAlert, registerTile.WorldPositionServer, sourceObj: gameObject);
 					break;
 			}
 		}
