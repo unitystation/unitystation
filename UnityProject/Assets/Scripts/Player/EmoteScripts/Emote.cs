@@ -7,6 +7,6 @@ public class Emote : MonoBehaviour {
 
     public virtual void Do(GameObject player)
     {
-        Chat.AddActionMsgToChat(player, "", $"{player.name}{emoteText}.");
+        Chat.AddActionMsgToChat(player, "", $"{player.name} {emoteText}.");
     }
 }
