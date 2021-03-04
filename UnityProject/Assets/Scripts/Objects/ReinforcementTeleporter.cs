@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using Systems.GhostRoles;
 using System;
+using System.Collections;
 using ScriptableObjects;
 
 public class ReinforcementTeleporter : MonoBehaviour, ICheckedInteractable<HandActivate>
@@ -49,7 +50,19 @@ public class ReinforcementTeleporter : MonoBehaviour, ICheckedInteractable<HandA
 	{
 		player.Script.playerNetworkActions.ServerRespawnPlayerAntag(player, "Nuclear Operative");
 		WasUsed = true;
+		StartCoroutine(TeleportOnSpawn(player));
+	}
+
+	IEnumerator TeleportOnSpawn(ConnectedPlayer player)
+	{
+		//Waits until the player is no longer a ghost...
+		while (player.Script.IsGhost)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
 		player.Script.PlayerSync.SetPosition(this.gameObject.AssumedWorldPosServer(), true);
+
 	}
 
 	public void ClearGhostRole()

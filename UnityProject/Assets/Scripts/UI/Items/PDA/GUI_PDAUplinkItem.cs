@@ -30,12 +30,11 @@ namespace UI.Items.PDA
 			{
 				if (isNukie || category.ItemList[i].IsNukeOps == false)
 				{
+					dynamicList.AddItem();
 					dynamicList.Entries[i].GetComponent<GUI_PDAUplinkItemTemplate>().ReInit(category.ItemList[i]);
 					skipped++;
 				}
 			}
-
-			dynamicList.AddItems(category.ItemList.Count - skipped);
 		}
 
 		public void SelectItem(UplinkItem item)
