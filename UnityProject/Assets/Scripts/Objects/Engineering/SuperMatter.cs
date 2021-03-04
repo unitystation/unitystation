@@ -150,6 +150,8 @@ namespace Objects.Engineering
 		private const int CriticalPowerPenaltyThreshold = 9000; //+1 bolt of electricity.
 		private const int HeatPenaltyThreshold = 40;             //Higher == Crystal safe operational temperature is higher.
 		private const float DamageHardcap = 0.002f;
+
+		[SerializeField]
 		private const float DamageIncreaseMultiplier = 0.25f;
 
 
@@ -384,9 +386,7 @@ namespace Objects.Engineering
 
 			GasMix.TransferGas(removeMix, gasMix, 0.15f * gasMix.Moles);
 
-			Debug.LogError(removeMix.Moles);
-
-			Debug.LogError(superMatterIntegrity - previousIntegrity);
+			//Debug.LogError(superMatterIntegrity - previousIntegrity);
 
 			previousIntegrity = superMatterIntegrity;
 
@@ -626,6 +626,8 @@ namespace Objects.Engineering
 			//Molar count only starts affecting damage when it is above 1800
 			superMatterIntegrity -= (Mathf.Max(combinedGas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier;
 
+			//Debug.LogError("Before heals: " + (superMatterIntegrity - previousIntegrity));
+
 			//Only heals damage when the temp is below 313.15
 			var healingAmount = (273.15f + HeatPenaltyThreshold) - removeMix.Temperature;
 
@@ -644,6 +646,11 @@ namespace Objects.Engineering
 			superMatterIntegrity = Mathf.Clamp(superMatterIntegrity,
 				previousIntegrity - (DamageHardcap * superMatterMaxIntegrity),
 				previousIntegrity + (DamageHardcap * superMatterMaxIntegrity));
+
+			//Dont go over max
+			superMatterIntegrity = Mathf.Min(superMatterIntegrity, superMatterMaxIntegrity);
+
+			//Debug.LogError("After heals: " + (superMatterIntegrity - previousIntegrity));
 		}
 
 		#endregion
@@ -817,7 +824,7 @@ namespace Objects.Engineering
 		{
 			for (int i = 0; i < finalCountdownTime; i++)
 			{
-				if (superMatterIntegrity < superMatterMaxIntegrity)
+				if (superMatterIntegrity > explosion_point)
 				{
 					//Was stabilised, woo!
 					AddMessageToChat("Failsafe has been disengaged, all systems stabilised", true);
@@ -1062,17 +1069,17 @@ namespace Objects.Engineering
 		#region Hit, Bump, Collision
 
 		//Called when hit by projectiles
-		public void OnHitDetect(DamageData damageData, string bulletName)
+		public void OnHitDetect(OnHitDetectData data)
 		{
 			//Increase power if emitter projectile
-			if (bulletName == emitterBulletName)
+			if (data.BulletName == emitterBulletName)
 			{
-				power += damageData.Damage * 2;
+				power += data.DamageData.Damage * 2;
 				return;
 			}
 
 			//Else do integrity damage
-			superMatterIntegrity -= damageData.Damage * 2;
+			superMatterIntegrity -= data.DamageData.Damage * 2;
 		}
 
 		//Called when bumped by players or collided with by flying items

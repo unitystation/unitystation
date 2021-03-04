@@ -1,4 +1,5 @@
 ﻿using ScriptableObjects.Gun;
+using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
 {
@@ -8,6 +9,22 @@ namespace Weapons.Projectiles.Behaviours
 	/// </summary>
 	public interface IOnHitDetect
 	{
-		void OnHitDetect(DamageData damageData, string bulletName);
+		void OnHitDetect(OnHitDetectData data);
+	}
+
+	public class OnHitDetectData
+	{
+		public DamageData DamageData;
+		public string BulletName;
+		public Vector2 BulletShootDirection;
+		public Vector2 BulletShootNormal;
+
+		public OnHitDetectData(DamageData data, string bulletName, Vector2 bulletShootDirection, Vector2 bulletShootNormal)
+		{
+			DamageData = data;
+			BulletName = bulletName;
+			BulletShootDirection = bulletShootDirection;
+			BulletShootNormal = bulletShootNormal;
+		}
 	}
 }

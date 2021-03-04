@@ -431,18 +431,18 @@ namespace Objects
 			}
 		}
 
-		public void OnHitDetect(DamageData damageData, string bulletName)
+		public void OnHitDetect(OnHitDetectData data)
 		{
-			if(damageData.AttackType != AttackType.Rad) return;
+			if(data.DamageData.AttackType != AttackType.Rad) return;
 
-			if (damageData.Damage >= 20f)
+			if (data.DamageData.Damage >= 20f)
 			{
 				//PA at setting 0 will do 20 damage
 				pointLock = true;
 				lockTimer = 20;
 			}
 
-			ChangePoints((int)damageData.Damage);
+			ChangePoints((int)data.DamageData.Damage);
 		}
 
 		#endregion

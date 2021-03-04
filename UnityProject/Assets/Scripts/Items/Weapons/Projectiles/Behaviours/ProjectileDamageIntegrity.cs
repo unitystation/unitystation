@@ -10,11 +10,14 @@ namespace Weapons.Projectiles.Behaviours
 	{
 		private BodyPartType targetZone;
 
+		private Vector2 direction;
+
 		public DamageData damageData = null;
 
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.targetZone = targetZone;
+			this.direction = direction;
 		}
 
 		public bool OnHit(MatrixManager.CustomPhysicsHit  hit)
@@ -36,9 +39,11 @@ namespace Weapons.Projectiles.Behaviours
 			Logger.LogTraceFormat("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,
 				integrity.gameObject.name, damageData.Damage);
 
+			var data = new OnHitDetectData(damageData, gameObject.name, direction, hit.Normal);
+
 			foreach (var hitDetect in coll.GetComponents<IOnHitDetect>())
 			{
-				hitDetect.OnHitDetect(damageData, gameObject.name);
+				hitDetect.OnHitDetect(data);
 			}
 
 			return true;
