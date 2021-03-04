@@ -18,7 +18,7 @@ namespace Antagonists
 
 		public override void AfterSpawn(ConnectedPlayer player)
 		{
-			AntagManager.TryInstallPDAUplink(player, initialTC);
+			AntagManager.TryInstallPDAUplink(player, initialTC, false);
 		}
 	}
 }

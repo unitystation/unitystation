@@ -147,14 +147,14 @@ namespace Antagonists
 		/// </summary>
 		/// <param name="player">The player that should receive an uplink in the first PDA found on them.</param>
 		/// <param name="tcCount">The amount of telecrystals the uplink should be given.</param>
-		public static void TryInstallPDAUplink(ConnectedPlayer player, int tcCount)
+		public static void TryInstallPDAUplink(ConnectedPlayer player, int tcCount, bool isNukeOps)
 		{
 			foreach (ItemSlot slot in player.Script.ItemStorage.GetItemSlotTree())
 			{
 				if (slot.IsEmpty) continue;
 				if (slot.Item.TryGetComponent<Items.PDA.PDALogic>(out var pda))
 				{
-					pda.InstallUplink(player, tcCount);
+					pda.InstallUplink(player, tcCount, isNukeOps);
 				}
 			}
 		}
