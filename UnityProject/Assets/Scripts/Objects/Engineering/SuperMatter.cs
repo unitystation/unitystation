@@ -18,7 +18,7 @@ using Random = UnityEngine.Random;
 
 namespace Objects.Engineering
 {
-	public class SuperMatter : NetworkBehaviour, IOnHitDetect, IExaminable
+	public class SuperMatter : NetworkBehaviour, IOnHitDetect, IExaminable, IBumpObject, ICheckedInteractable<HandApply>
 	{
 		#region lightSpriteDefines
 
@@ -168,6 +168,12 @@ namespace Objects.Engineering
 
 		[SerializeField]
 		private GameObject emitterBulletPrefab = null;
+
+		[SerializeField]
+		private GameObject superMatterShard = null;
+
+		[SerializeField]
+		private ItemTrait superMatterScalpel = null;
 
 		private string emitterBulletName;
 
@@ -489,7 +495,7 @@ namespace Objects.Engineering
 				{
 					var strength = power * Mathf.Max(0,
 						(1 + (power_transmission_bonus / (10 - (bzcomp * 5)))));
-					RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.WorldPosition, strength, GetInstanceID());
+					RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, strength, GetInstanceID());
 				}
 
 				if (bzcomp >= 0.4 && DMMath.Prob(30 * bzcomp))
@@ -1005,18 +1011,18 @@ namespace Objects.Engineering
 
 			var gas = node.GasMix;
 
-			var integrity = GetIntegrityPercentage();
+			var integrityPercentage = GetIntegrityPercentage();
 
-			if (integrity < SupermatterDelamPercent)
+			if (integrityPercentage < SupermatterDelamPercent)
 				return SuperMatterStatus.Delaminating;
 
-			if (integrity < SupermatterEmergencyPercent)
+			if (integrityPercentage < SupermatterEmergencyPercent)
 				return SuperMatterStatus.Emergency;
 
-			if (integrity < SupermatterDangerPercent)
+			if (integrityPercentage < SupermatterDangerPercent)
 				return SuperMatterStatus.Danger;
 
-			if ((integrity < SupermatterWarningPercent) || (gas.Temperature > CriticalTemperature))
+			if ((integrityPercentage < SupermatterWarningPercent) || (gas.Temperature > CriticalTemperature))
 				return SuperMatterStatus.Warning;
 
 			if (gas.Temperature > (CriticalTemperature * 0.8))
@@ -1068,6 +1074,83 @@ namespace Objects.Engineering
 			Danger,
 			Emergency,
 			Delaminating
+		}
+
+		public void BumpAble(GameObject bumpedBy)
+		{
+			if (bumpedBy.TryGetComponent<PlayerHealth>(out var playerHealth))
+			{
+				var job = bumpedBy.GetComponent<PlayerScript>().mind?.occupation;
+				//You big idiot
+				Chat.AddActionMsgToChat(bumpedBy,
+					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
+					$"The {(job != null ? job.JobType.JobString() : "person")} slams into \the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
+
+				playerHealth.ServerGibPlayer();
+				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
+				matter_power += 200;
+			}
+			else if(bumpedBy.TryGetComponent<LivingHealthBehaviour>(out var health))
+			{
+				health.ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute);
+			}
+		}
+
+		//Hand Apply
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		//Hand Apply
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			//Kill player if they touched with empty hand
+			if (interaction.HandObject == null)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
+					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
+
+				interaction.Performer.GetComponent<PlayerHealth>().ServerGibPlayer();
+				matter_power += 200;
+				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
+				return;
+			}
+
+			//Try removing piece if using supermatter scalpel
+			if(Validations.HasItemTrait(interaction.HandObject, superMatterScalpel))
+			{
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 20,
+					$"You carefully begin to scrape the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
+					$"{interaction.Performer.ExpensiveName()} starts scraping off a part of the {gameObject.ExpensiveName()}...",
+					$"You extract a sliver from the {gameObject.ExpensiveName()}. <color=red>The {gameObject.ExpensiveName()} begins to react violently!</color>",
+					$"{interaction.Performer.ExpensiveName()} scrapes off a shard from the {gameObject.ExpensiveName()}.",
+					() =>
+					{
+						Spawn.ServerPrefab(superMatterShard, interaction.Performer.WorldPosServer(),
+							interaction.Performer.transform.parent);
+						matter_power += 800;
+
+						//Destroy Scalpel
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"A tiny piece of the {interaction.HandObject.ExpensiveName()} falls off, rendering it useless!");
+						Despawn.ServerSingle(interaction.HandObject);
+					}
+				);
+
+				return;
+			}
+
+			//Else destroy the item the supermatter was touched with
+			Chat.AddActionMsgToChat(interaction.Performer,
+				$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust as you flinch away from the {gameObject.ExpensiveName()}.",
+				$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
+			Despawn.ServerSingle(interaction.HandObject);
+			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 150, GetInstanceID());
+			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
+			matter_power += 200;
 		}
 	}
 }
