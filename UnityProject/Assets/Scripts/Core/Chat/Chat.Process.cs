@@ -41,6 +41,8 @@ public partial class Chat
 	public Color blobColor;
 	public Color defaultColor;
 
+	private static GameObject playerGameObject;
+
 
 	/// <summary>
 	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
@@ -97,6 +99,12 @@ public partial class Chat
 		// Emote
 		if (message.StartsWith("*") || message.StartsWith("/me ", true, CultureInfo.CurrentCulture))
 		{
+			//Note : This is stupid but it's the only way I could find a way to make this work
+			//We shouldn't have to check twice in different functions just to have a reference of the player who did the emote.
+			if(CheckForEmoteAction(message, Instance.emoteActionManager))
+			{
+				playerGameObject = sentByPlayer.GameObject;
+			}
 			message = message.Replace("/me", ""); // note that there is no space here as compared to the above if
 			message = message.Substring(1); // so that this substring can properly cut off both * and the space
 			chatModifiers |= ChatModifier.Emote;
@@ -197,8 +205,17 @@ public partial class Chat
 		{
 			// /me message
 			channels = ChatChannel.Local;
-			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
-			return message;
+			if(playerGameObject != null)
+			{
+				doEmoteAction(message, playerGameObject, Instance.emoteActionManager);
+				playerGameObject = null;
+				return "";
+			}
+			else
+			{
+				message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
+				return message;
+			}
 		}
 
 		//Check for OOC. If selected, remove all other channels and modifiers (could happen if UI fucks up or someone tampers with it)
@@ -589,4 +606,13 @@ public partial class Chat
 		{Speech.Stutter, ChatModifier.Stutter},
 		{Speech.Scotsman, ChatModifier.Scotsman}
 	};
+
+	private static bool CheckForEmoteAction(string emote, EmoteActionManager data)
+	{
+		return EmoteActionManager.FindEmote(emote, data);
+	}
+	private static void doEmoteAction(string emoteName, GameObject player, EmoteActionManager data)
+	{
+		EmoteActionManager.DoEmote(emoteName, player, data);
+	}
 }

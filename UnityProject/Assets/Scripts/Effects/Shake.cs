@@ -1,53 +1,51 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Shake : MonoBehaviour
+public class Shake : LTEffect
 {
     /// <summary>
-    /// A shake effect that comes in two modes, SPRITE and GAMEOBJECT
-    /// SPRITE animates a given sprite only.
-    /// GAMEOBJECT animates the entire object's position.
+    /// A shake effect that shakes an entire GameObject or it's sprites only.
     /// </summary>
 
-    private Vector3 originalPosition;
-
-    [SerializeField, Tooltip("Which Axis will the animation play on?")]
-    private AxisMode axisMode = AxisMode.X;
-
-    [SerializeField, Tooltip("Do you want to animate the entire gameObject or just the sprite?")]
-    private ShakeMode shakeType = ShakeMode.SPRITE;
-
-    [Tooltip("The sprite gameObject that will be used for the shake animation.")]
-    public Transform spriteReference;
-
-    private enum ShakeMode
-    {
-        SPRITE,
-        GAMEOBJECT
-    }
-
-    private enum AxisMode 
-    {
-        X,
-        XY,
-        Y
-    }
-
+    private float shakeDuration;
+    private float shakeDistance;
+    private float delayBetweenShakes;
     private void Awake()
     {
        getOriginalPosition();
     }
 
-    public void startShake(float duration, float distance, float delayBetweenShakes)
+    private void storeShakeData(float duration, float distance, float delay)
     {
-        StartCoroutine(Shaking(duration, distance, delayBetweenShakes));
+        shakeDistance = distance;
+        shakeDuration = duration;
+        delayBetweenShakes = delay;
     }
 
+    public void startShake(float duration, float distance, float delay)
+    {
+        storeShakeData(duration, distance, delay);
+        StartCoroutine(Shaking(shakeDuration, shakeDistance, delayBetweenShakes)); // <-- So the server can see the animation.
+        CmdStartAnimation();
+    }
+
+    [Server]
+    public override void CmdStartAnimation()
+    {
+        StartCoroutine(Shaking(shakeDuration, shakeDistance, delayBetweenShakes));
+    }
+
+    [Server]
+    public override void CmdStopAnimation()
+    {
+        haltShake();
+        base.CmdStopAnimation();
+    }
     public void haltShake()
     {
         StopAllCoroutines();
-        if(shakeType == ShakeMode.GAMEOBJECT)
+        if(animType == AnimMode.GAMEOBJECT)
         {
             transform.position = originalPosition;
             
@@ -68,12 +66,12 @@ public class Shake : MonoBehaviour
  
             Vector3 randomPosition = originalPosition + (Random.insideUnitSphere * distance);
             
-            switch (shakeType)
+            switch (animType)
             {
-                case ShakeMode.GAMEOBJECT:
+                case AnimMode.GAMEOBJECT:
                     animatePosition(randomPosition);
                     break;
-                case ShakeMode.SPRITE:
+                case AnimMode.SPRITE:
                     animateSpritePosition(randomPosition);
                     break;
             }
@@ -89,52 +87,27 @@ public class Shake : MonoBehaviour
             }
         }
 
-        switch (shakeType)
+        switch (animType)
         {
-            case ShakeMode.GAMEOBJECT:
+            case AnimMode.GAMEOBJECT:
                 LeanTween.move(gameObject, originalPosition, 0.1f);
+                tween.isAnim = false;
                 break;
-            case ShakeMode.SPRITE:
+            case AnimMode.SPRITE:
                 LeanTween.move(spriteReference.gameObject, originalPosition, 0.1f);
+                tween.isAnim = false;
                 break;
         }
         
     }
 
-    private void animateSpritePosition(Vector2 pos)
+    private void animateSpritePosition(Vector3 pos)
     {
-        switch (axisMode)
-        {
-            case AxisMode.X:
-                LeanTween.moveX(spriteReference.gameObject, pos.x, 0.1f);
-                break;
-            case AxisMode.Y:
-                LeanTween.moveY(spriteReference.gameObject, pos.y, 0.1f);
-                break;
-            case AxisMode.XY:
-                LeanTween.move(spriteReference.gameObject, pos, 0.1f);
-                break;
-        }
+        tween.RpcMove(axisMode, pos, 0.1f);
     }
 
     private void animatePosition(Vector3 pos)
     {
-        switch (axisMode)
-        {
-            case AxisMode.X:
-                LeanTween.moveX(gameObject, pos.x, 0.1f);
-                break;
-            case AxisMode.Y:
-                LeanTween.moveY(gameObject, pos.y, 0.1f);
-                break;
-            case AxisMode.XY:
-                LeanTween.move(gameObject, pos, 0.1f);
-                break;
-        }
-    }
-
-    public void getOriginalPosition()
-    {
-        originalPosition = transform.position;
+        tween.RpcMove(axisMode, pos, 0.1f);
     }
 }
