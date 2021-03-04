@@ -8,6 +8,7 @@ using Systems.Explosions;
 using Systems.Radiation;
 using AddressableReferences;
 using Light2D;
+using Mirror;
 using ScriptableObjects.Gun;
 using SoundMessages;
 using UnityEngine;
@@ -16,7 +17,7 @@ using Random = UnityEngine.Random;
 
 namespace Objects.Engineering
 {
-	public class SuperMatter : MonoBehaviour, IOnHitDetect, IExaminable
+	public class SuperMatter : NetworkBehaviour, IOnHitDetect, IExaminable
 	{
 		#region lightSpriteDefines
 
@@ -220,6 +221,9 @@ namespace Objects.Engineering
 
 		#endregion
 
+		[SerializeField]
+		private bool canTakeIntegrityDamage = true;
+
 		private float superMatterMaxIntegrity = 1000f;
 		private float superMatterIntegrity = 1000f;
 		private float previousIntegrity;
@@ -230,12 +234,28 @@ namespace Objects.Engineering
 		private RegisterTile registerTile;
 		private Integrity integrity;
 
+		private GasMix removeMix;
+
 		private bool finalCountdown; //uh oh
 		private int finalCountdownTime = 30; //30 seconds
 
 		private float updateTime = 0.5f;
 
+		[SyncVar(hook = nameof(SyncIsDelam))]
+		private bool isDelam;
+
+		#region SoundDefines
+
 		private AudioSourceParameters soundParameters = new AudioSourceParameters();
+
+		private string loopingSoundGuid = "";
+
+		[SerializeField]
+		private AddressableAudioSource normalLoopSound = null;
+		[SerializeField]
+		private AddressableAudioSource delamLoopSound = null;
+
+		#endregion
 
 		#region LifeCycle
 
@@ -251,22 +271,37 @@ namespace Objects.Engineering
 			if(CustomNetworkManager.IsServer == false) return;
 
 			overlaySpriteHandler.PushClear();
+			isDelam = false;
 		}
 
 		private void OnEnable()
 		{
 			UpdateManager.Add(SuperMatterUpdate, updateTime);
 			UpdateManager.Add(CallbackType.UPDATE, SuperMatterLightUpdate);
-
-			//TODO play looping sound
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SuperMatterUpdate);
 			UpdateManager.Remove(CallbackType.UPDATE, SuperMatterLightUpdate);
+			SoundManager.Stop(loopingSoundGuid);
+		}
 
-			//TODO stop looping sound
+		[Client]
+		private void SyncIsDelam(bool oldVar, bool newVar)
+		{
+			if (newVar)
+			{
+				SoundManager.Stop(loopingSoundGuid);
+				loopingSoundGuid = Guid.NewGuid().ToString();
+				SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+			}
+			else
+			{
+				SoundManager.Stop(loopingSoundGuid);
+				loopingSoundGuid = Guid.NewGuid().ToString();
+				SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+			}
 		}
 
 		#endregion
@@ -278,6 +313,8 @@ namespace Objects.Engineering
 			if(CustomNetworkManager.IsServer == false) return;
 
 			CheckPower();
+
+			CheckEffects();
 
 			CheckWarnings();
 		}
@@ -312,47 +349,21 @@ namespace Objects.Engineering
 
 			var gasMix = gasNode.GasMix;
 
-			var removeMix = gasMix.RemoveGas(gasMix, 0.15f * gasMix.Moles);
+			removeMix = gasMix.RemoveGas(gasMix, 0.15f * gasMix.Moles);
 
 			previousIntegrity = superMatterIntegrity;
 
+			var newIntegrity = superMatterIntegrity;
+
 			if (removeMix.Moles == 0 || registerTile.Matrix.IsSpaceAt(registerTile.WorldPositionServer, true))
 			{
-				// always does at least some damage
-				superMatterIntegrity -= Mathf.Max((power / 1000) * DamageIncreaseMultiplier, 0.1f);
+				//Always does at least some integrity damage if allowed
+				superMatterIntegrity = canTakeIntegrityDamage ? superMatterIntegrity - Mathf.Max((power / 1000) * DamageIncreaseMultiplier, 0.1f) : newIntegrity;
 			}
 			else
 			{
-				//causing damage
-				//Due to DAMAGE_INCREASE_MULTIPLIER, we only deal one 4th of the damage the statements otherwise would cause
-
-				//((((some value between 0.5 and 1 * temp - ((273.15 + 40) * some values between 1 and 6)) * some number between 0.25 and knock your socks off / 150) * 0.25
-				//Heat and moles account for each other, a lot of hot moles are more damaging then a few
-				//Moles start to have a positive effect on damage after 350
-				superMatterIntegrity = Mathf.Max(superMatterIntegrity - (Mathf.Max (Mathf.Clamp(removeMix.Moles / 200f, 0.5f, 1f) * removeMix.Temperature -
-						((273.15f + HeatPenaltyThreshold) * dynamic_heat_resistance), 0f) * MoleHeatPenalty / 150f) *
-					DamageIncreaseMultiplier, 0f);
-
-				//Power only starts affecting damage when it is above 5000
-				superMatterIntegrity = Mathf.Max(superMatterIntegrity - (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier, 0);
-
-				//Molar count only starts affecting damage when it is above 1800
-				superMatterIntegrity = Mathf.Max(superMatterIntegrity - (Mathf.Max(combined_gas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier, 0);
-
-				//There might be a way to integrate healing and hurting via heat
-				//healing damage
-				if (combined_gas < MolePenaltyThreshold)
-					//Only heals damage when the temp is below 313.15, heals up to 2 damage
-					superMatterIntegrity =
-						Mathf.Max(superMatterIntegrity + (Mathf.Min(removeMix.Temperature - (273.15f + HeatPenaltyThreshold), 0) / 150),
-							0);
-
-				//caps damage rate
-
-				//Takes the lower number between archived damage + (1.8) and damage
-				//This means we can only deal 1.8 damage per function call
-				superMatterIntegrity = Mathf.Min(previousIntegrity + (DamageHardcap * superMatterMaxIntegrity),
-					superMatterIntegrity);
+				//If allowed to take integrity damage, calculate it
+				superMatterIntegrity = canTakeIntegrityDamage ? CalculateDamage(newIntegrity) : newIntegrity;
 
 				combined_gas = Mathf.Max(removeMix.Moles, 0);
 
@@ -473,7 +484,7 @@ namespace Objects.Engineering
 				}
 
 				//Power * 0.55
-				var device_energy = power * ReactionPowerModifier;
+				var deviceEnergy = power * ReactionPowerModifier;
 
 				//To figure out how much temperature to add each tick, consider that at one atmosphere's worth
 				//of pure oxygen, with all four lasers firing at standard energy and no N2 present, at room temperature
@@ -483,22 +494,21 @@ namespace Objects.Engineering
 				//Also keep in mind we are only adding this temperature to (efficiency)% of the one tile the rock
 				//is on. An increase of 4*C @ 25% efficiency here results in an increase of 1*C / (#tilesincore) overall.
 				//Power * 0.55 * (some value between 1.5 and 23) / 5
-				removeMix.Temperature += ((device_energy * dynamic_heat_modifier) / ThermalReleaseModifier);
+				removeMix.Temperature += ((deviceEnergy * dynamic_heat_modifier) / ThermalReleaseModifier);
 				//We can only emit so much heat, that being 57500
 				removeMix.Temperature = Mathf.Max(0, Mathf.Min(removeMix.Temperature, 2500 * dynamic_heat_modifier));
 
 				//Calculate how much gas to release
 				//Varies based on power and gas content
-				removeMix.AddGas(Gas.Plasma, Mathf.Max((device_energy * dynamic_heat_modifier) / PlasmaReleaseModifier, 0));
+				removeMix.AddGas(Gas.Plasma, Mathf.Max((deviceEnergy * dynamic_heat_modifier) / PlasmaReleaseModifier, 0));
 
 				//Varies based on power, gas content, and heat
 				removeMix.AddGas(Gas.Oxygen, Mathf.Max(
-						((device_energy + removeMix.Temperature * dynamic_heat_modifier) - 273.15f) / OxygenReleaseModifier,
+						((deviceEnergy + removeMix.Temperature * dynamic_heat_modifier) - 273.15f) / OxygenReleaseModifier,
 						0));
 				;
 
-				//create gas
-
+				//Return gas to tile
 				gasMix.MergeGasMix(removeMix);
 			}
 
@@ -507,6 +517,52 @@ namespace Objects.Engineering
 			power = Mathf.Max(
 				power - Mathf.Min(Mathf.Pow(power / 500, 3f) * powerloss_inhibitor, power * 0.83f * powerloss_inhibitor), 0);
 
+			//Next is Effects
+			//Then Warnings
+		}
+
+		private float CalculateDamage(float newIntegrity)
+		{
+			//causing damage
+			//Due to DAMAGE_INCREASE_MULTIPLIER, we only deal one 4th of the damage the statements otherwise would cause
+
+			//((((some value between 0.5 and 1 * temp - ((273.15 + 40) * some values between 1 and 6)) * some number between 0.25 and knock your socks off / 150) * 0.25
+			//Heat and moles account for each other, a lot of hot moles are more damaging then a few
+			//Moles start to have a positive effect on damage after 350
+			newIntegrity = Mathf.Max(newIntegrity - (Mathf.Max(
+					Mathf.Clamp(removeMix.Moles / 200f, 0.5f, 1f) * removeMix.Temperature -
+					((273.15f + HeatPenaltyThreshold) * dynamic_heat_resistance), 0f) * mole_heat_penalty / 150f) *
+				DamageIncreaseMultiplier, 0f);
+
+			//Power only starts affecting damage when it is above 5000
+			newIntegrity =
+				Mathf.Max(newIntegrity - (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier, 0);
+
+			//Molar count only starts affecting damage when it is above 1800
+			newIntegrity =
+				Mathf.Max(newIntegrity - (Mathf.Max(combined_gas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier,
+					0);
+
+			//There might be a way to integrate healing and hurting via heat
+			//healing damage
+			if (combined_gas < MolePenaltyThreshold)
+				//Only heals damage when the temp is below 313.15, heals up to 2 damage
+				newIntegrity =
+					Mathf.Max(newIntegrity + (Mathf.Min(removeMix.Temperature - (273.15f + HeatPenaltyThreshold), 0) / 150),
+						0);
+
+			//caps damage rate
+			//Takes the lower number between archived damage + (1.8) and damage
+			//This means we can only deal 1.8 damage per function call
+			return Mathf.Min(previousIntegrity - (DamageHardcap * superMatterMaxIntegrity), newIntegrity);
+		}
+
+		#endregion
+
+		#region CheckEffects
+
+		private void CheckEffects()
+		{
 			//After this point power is lowered
 			//This wraps around to the begining of the function
 			//Handle high power zaps/anomaly generation
@@ -560,13 +616,22 @@ namespace Objects.Engineering
 					TrySpawnAnomaly(pyroAnomaly);
 				}
 			}
+		}
+
+		#endregion
+
+		#region CheckWarnings
+
+		private void CheckWarnings()
+		{
 
 			warningTimer += updateTime;
-
 			//Tells the engi team to get their butt in gear
 			// while the core is still damaged and it's still worth noting its status
 			if (superMatterIntegrity < warning_point)
 			{
+				isDelam = true;
+
 				if (warningTimer >= 30)
 				{
 					PlayAlarmSound();
@@ -586,37 +651,32 @@ namespace Objects.Engineering
 
 					if (power > PowerPenaltyThreshold)
 					{
-						AddMessageToChat($"Warning: Hyperstructure has reached dangerous power level");
+						AddMessageToChat("Warning: Hyperstructure has reached dangerous power level");
 
 						if (powerloss_inhibitor < 0.5)
 						{
-							AddMessageToChat($"DANGER: CHARGE INERTIA CHAIN REACTION IN PROGRESS");
+							AddMessageToChat("DANGER: CHARGE INERTIA CHAIN REACTION IN PROGRESS");
 						}
 					}
 
 					if (combined_gas > MolePenaltyThreshold)
 					{
-						AddMessageToChat($"Warning: Critical coolant mass reached");
+						AddMessageToChat("Warning: Critical coolant mass reached");
 					}
 
 					warningTimer = 0;
 				}
 
-				//Boom (Mind blown)
+				//Boom, you done goofed
 				if (superMatterIntegrity < explosion_point)
 				{
 					TriggerFinalCountdown();
 				}
 			}
-		}
-
-		#endregion
-
-		#region CheckWarnings
-
-		private void CheckWarnings()
-		{
-
+			else
+			{
+				isDelam = false;
+			}
 		}
 
 		#endregion
@@ -693,15 +753,6 @@ namespace Objects.Engineering
 			Explosion.StartExplosion(registerTile.LocalPositionServer, 10000, registerTile.Matrix);
 
 			Despawn.ServerSingle(gameObject);
-		}
-
-		#endregion
-
-		#region ProcessAtmos
-
-		private void ProcessAtmos()
-		{
-
 		}
 
 		#endregion
@@ -896,11 +947,11 @@ namespace Objects.Engineering
 
 		private void AddMessageToChat(string message, bool sendToCommon = false)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering, broadcasterName: "Supermatter Warning System");
+			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering, broadcasterName: "Supermatter Warning System: ");
 
 			if (sendToCommon)
 			{
-				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common, broadcasterName: "Supermatter Warning System");
+				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common, broadcasterName: "Supermatter Warning System: ");
 			}
 		}
 
