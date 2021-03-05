@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
-  m_Name: rusty_reinforced_wall
+  m_Name: RustyReinforcedWall
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: rusted reinforced wall
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -24,7 +24,7 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
-  RadiationPassability: 0.35
+  RadiationPassability: 0.15
   doesReflectBullet: 0
   indestructible: 0
   passableException:
@@ -43,11 +43,13 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
-  tileInteractions: []
+  tileInteractions:
+  - {fileID: 11400000, guid: 2127efcba89cd014f878b59fb493c5d1, type: 2}
   spawnOnDeconstruct: {fileID: 0}
-  spawnAmountOnDeconstruct: 1
+  spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 0}
-  toTileWhenDestroyed: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 11400000, guid: 73a1eb94ba00f6d4196c037f45efba7c,
+    type: 2}
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
