@@ -14,20 +14,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
-      propertyPath: initialDescription
-      value: A silver-plated pickaxe that mines slightly faster than standard-issue.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
       propertyPath: initialName
       value: silver-plated pickaxe
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: f54780ab5295ad84ca0cc0619f4f50c4,
-        type: 2}
+      propertyPath: throwDamage
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: initialDescription
+      value: A silver-plated pickaxe that mines slightly faster than standard-issue.
+      objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -40,6 +39,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 987cbb23b16b1374e8dfcc64a9c19e29,
         type: 2}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: f54780ab5295ad84ca0cc0619f4f50c4,
+        type: 2}
+    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -57,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -111,6 +116,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 023ce8d4b3b44a74698dd17641f7a240,
         type: 3}
+    - target: {fileID: 7675473296682472099, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: timeMultiplier
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 8184022938753632022, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: PresentSpriteSet
