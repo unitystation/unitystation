@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Mirror;
 using Weapons.Projectiles;
+using Weapons.Projectiles.Behaviours;
 
 namespace Weapons
 {
@@ -124,6 +125,10 @@ namespace Weapons
 		/// targeted body part
 		/// </summary>
 		public BodyPartType DamageZone;
+		/// <summary>
+		/// Whether this bullet should have already moved a certain distance for the range check
+		/// </summary>
+		public float RangeChange;
 
 		///To be run on client
 		public override void Process()
@@ -145,16 +150,25 @@ namespace Weapons
 			LoadNetworkObject(Shooter);
 			GameObject shooter = NetworkObject;
 
-			ShootProjectile(ProjectilePrefabName, shooter, Direction, DamageZone);
+			ShootProjectile(ProjectilePrefabName, shooter, Direction, DamageZone, RangeChange);
 		}
 
-		private static void ShootProjectile(string prefab, GameObject shooter, Vector2 direction, BodyPartType damageZone)
+		private static void ShootProjectile(string prefab, GameObject shooter, Vector2 direction, BodyPartType damageZone,
+			float rangeChange)
 		{
 			GameObject projectile = Spawn.ClientPrefab(prefab, shooter.transform.position, shooter.transform.parent).GameObject;
 
 			if (projectile == null) return;
 			Bullet bullet = projectile.GetComponent<Bullet>();
 			if (bullet == null) return;
+
+			if (rangeChange >= 0)
+			{
+				if (bullet.TryGetComponent<ProjectileRangeLimited>(out var rangeLimited))
+				{
+					rangeLimited.SetDistance(rangeChange);
+				}
+			}
 
 			bullet.Shoot(direction, shooter, null, damageZone);
 		}
@@ -166,12 +180,14 @@ namespace Weapons
 		/// <param name="damageZone">body part being targeted</param>
 		/// <param name="shooter">gameobject of player making the shot</param>
 		/// <param name="isSuicide">if the shooter is shooting themselves</param>
+		/// <param name="rangeChange">If this bullet has used some of its range already</param>
 		/// <returns></returns>
-		public static CastProjectileMessage SendToAll(GameObject shooter, GameObject projectilePrefab, Vector2 direction, BodyPartType damageZone)
+		public static CastProjectileMessage SendToAll(GameObject shooter, GameObject projectilePrefab, Vector2 direction, BodyPartType damageZone,
+			float rangeChange = -1)
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				ShootProjectile(projectilePrefab.name, shooter, direction, damageZone);
+				ShootProjectile(projectilePrefab.name, shooter, direction, damageZone, rangeChange);
 			}
 
 			var msg = new CastProjectileMessage
@@ -180,6 +196,36 @@ namespace Weapons
 				ProjectilePrefabName = projectilePrefab.name,
 				Direction = direction,
 				DamageZone = damageZone,
+				RangeChange = rangeChange
+			};
+			msg.SendToAll();
+			return msg;
+		}
+
+		/// <summary>
+		/// Tell all clients + server to perform a shot with the specified parameters.
+		/// </summary>
+		/// <param name="direction">Direction of shot from shooter</param>
+		/// <param name="damageZone">body part being targeted</param>
+		/// <param name="shooter">gameobject of player making the shot</param>
+		/// <param name="isSuicide">if the shooter is shooting themselves</param>
+		/// <param name="rangeChange">If this bullet has used some of its range already</param>
+		/// <returns></returns>
+		public static CastProjectileMessage SendToAll(GameObject shooter, string projectilePrefabName, Vector2 direction, BodyPartType damageZone,
+			float rangeChange = -1)
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				ShootProjectile(projectilePrefabName, shooter, direction, damageZone, rangeChange);
+			}
+
+			var msg = new CastProjectileMessage
+			{
+				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				ProjectilePrefabName = projectilePrefabName,
+				Direction = direction,
+				DamageZone = damageZone,
+				RangeChange = rangeChange
 			};
 			msg.SendToAll();
 			return msg;

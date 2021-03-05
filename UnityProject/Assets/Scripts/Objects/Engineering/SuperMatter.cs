@@ -227,8 +227,7 @@ namespace Objects.Engineering
 		private int secondaryArcCount = 3;
 		[SerializeField, Range(0.5f, 10)]
 		private float duration = 2;
-		[SerializeField, Range(3, 12)]
-		private int primaryRange = 10;
+		private int primaryRange;
 		[SerializeField, Range(3, 12)]
 		private int secondaryRange = 4;
 
@@ -665,17 +664,11 @@ namespace Objects.Engineering
 			//If the power is above 5000 or if the damage is above 550
 			if (power > PowerPenaltyThreshold || superMatterIntegrity < damage_penalty_point)
 			{
-				var range = 4f;
-				var zap_cutoff = 1500f;
+				primaryRange = 4;
 				if (removeMix.Moles > 0 && removeMix.Pressure > 0 && removeMix.Temperature > 0)
 				{
-					//You may be able to freeze the zapstate of the engine with good planning, we'll see
-					//If the core is cold, it's easier to jump, ditto if there are a lot of moles
-					zap_cutoff = Mathf.Clamp(3000 - (power * (removeMix.Moles) / 10) / removeMix.Temperature,
-						350, 3000);
 					//We should always be able to zap our way out of the default enclosure
-					//See supermatter_zap() for more details
-					range = Mathf.Clamp(power / removeMix.Pressure * 10, 2, 7);
+					primaryRange = (int)Mathf.Clamp(power / removeMix.Pressure * 10, 2, 7);
 				}
 
 				var zap_count = 2;
@@ -719,6 +712,18 @@ namespace Objects.Engineering
 		{
 			if(prefabToSpawn == null) return;
 
+			var pos = GetRandomTile();
+
+			pos = pos ?? GetRandomTile();
+
+			//Try twice to get coord, if still null then failed
+			if (pos == null) return;
+
+			Spawn.ServerPrefab(prefabToSpawn, pos.Value, transform.parent);
+		}
+
+		private Vector3Int? GetRandomTile()
+		{
 			var overloadPrevent = 0;
 
 			while (overloadPrevent < 20)
@@ -729,12 +734,13 @@ namespace Objects.Engineering
 
 				if (MatrixManager.IsEmptyAt(pos, true))
 				{
-					Spawn.ServerPrefab(prefabToSpawn, pos, transform.parent);
-					return;
+					return pos;
 				}
 
 				overloadPrevent++;
 			}
+
+			return null;
 		}
 
 		private void FireNuclearParticle()
@@ -874,6 +880,8 @@ namespace Objects.Engineering
 				Spawn.ServerPrefab(energyBall, registerTile.WorldPosition, transform.parent);
 			}
 
+			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, detonationRads, GetInstanceID());
+
 			Explosion.StartExplosion(registerTile.LocalPositionServer, 10000, registerTile.Matrix);
 
 			Despawn.ServerSingle(gameObject);
@@ -899,13 +907,19 @@ namespace Objects.Engineering
 			//Dont shoot dead stuff so it doesnt loop
 			objectsToShoot = objectsToShoot.Where(o => o.TryGetComponent<LivingHealthBehaviour>(out var health) == false || health.IsDead == false).ToList();
 
-			if(objectsToShoot.Count == 0) return;
-
 			for (int i = 0; i < zapCount; i++)
 			{
 				var target = GetTarget(objectsToShoot, doTeslaFirst: false);
 
-				if(target == null) break;
+				if (target == null)
+				{
+					//If no target objects shoot random tile instead
+					var pos = GetRandomTile();
+					if(pos == null) continue;
+
+					Zap(gameObject, null, Random.Range(1,3), pos.Value);
+					continue;
+				}
 
 				ShootLightning(target);
 

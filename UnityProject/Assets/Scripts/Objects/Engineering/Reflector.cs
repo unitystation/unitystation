@@ -1,5 +1,6 @@
 ﻿using System;
 using Mirror;
+using ScriptableObjects;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons;
@@ -8,7 +9,7 @@ using Weapons.Projectiles.Behaviours;
 
 namespace Objects.Engineering
 {
-	public class Reflector : NetworkBehaviour, IOnHitDetect
+	public class Reflector : NetworkBehaviour, IOnHitDetect, ICheckedInteractable<HandApply>
 	{
 		[SerializeField]
 		private ReflectorType startingState = ReflectorType.Base;
@@ -18,10 +19,30 @@ namespace Objects.Engineering
 		private float startingAngle = 0;
 
 		[SerializeField]
+		private bool startSetUp;
+
+		[SerializeField]
 		private GameObject emitterBullet = null;
 		private string emitterBulletName;
 
 		private SpriteHandler spriteHandler;
+		private ObjectBehaviour objectBehaviour;
+		private RegisterTile registerTile;
+		private ObjectAttributes objectAttributes;
+		private Integrity integrity;
+
+		[SerializeField]
+		private int glassNeeded = 5;
+		[SerializeField]
+		private int reinforcedGlassNeeded = 10;
+		[SerializeField]
+		private int diamondsNeeded = 1;
+
+		[SerializeField]
+		//Use to check whether a bullet is a laser
+		private LayerMaskData laserData = null;
+
+		private bool isWelded;
 
 		[SyncVar(hook = nameof(SyncRotation))]
 		private float rotation;
@@ -31,7 +52,20 @@ namespace Objects.Engineering
 		private void Awake()
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
+			registerTile = GetComponent<RegisterTile>();
+			objectAttributes = GetComponent<ObjectAttributes>();
+			integrity = GetComponent<Integrity>();
 			emitterBulletName = emitterBullet.GetComponent<Bullet>().visibleName;
+		}
+
+		private void OnValidate()
+		{
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			currentState = startingState;
+			spriteHandler.ChangeSprite((int)startingState);
+			rotation = -startingAngle;
+			transform.Rotate(0, 0, rotation);
 		}
 
 		private void Start()
@@ -39,7 +73,14 @@ namespace Objects.Engineering
 			if (CustomNetworkManager.IsServer == false) return;
 
 			ChangeState(startingState);
-			rotation = startingAngle;
+			rotation = -startingAngle;
+			transform.Rotate(0, 0, rotation);
+
+			if (startSetUp)
+			{
+				isWelded = true;
+				objectBehaviour.ServerSetPushable(false);
+			}
 		}
 
 		private void SyncRotation(float oldVar, float newVar)
@@ -48,13 +89,187 @@ namespace Objects.Engineering
 			transform.Rotate(0, 0, newVar);
 		}
 
+		private void OnEnable()
+		{
+			integrity.OnWillDestroyServer.AddListener(OnDestruction);
+		}
+
+		private void OnDisable()
+		{
+			integrity.OnWillDestroyServer.RemoveListener(OnDestruction);
+		}
+
 		#endregion
 
 		private void ChangeState(ReflectorType newState)
 		{
 			currentState = newState;
 			spriteHandler.ChangeSprite((int)newState);
+			objectAttributes.ServerSetArticleName(newState + " Reflector");
 		}
+
+		private void OnDestruction(DestructionInfo info)
+		{
+			DownGradeState(true);
+		}
+
+		#region HandApply
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Welder)) return true;
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet)) return true;
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.ReinforcedGlassSheet)) return true;
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.DiamondSheet)) return true;
+
+			return false;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Welder))
+			{
+				TryWeld(interaction);
+				return;
+			}
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
+			{
+				TryWrench(interaction);
+				return;
+			}
+
+			TryBuild(interaction);
+		}
+
+		private void TryWeld(HandApply interaction)
+		{
+			if (isWelded)
+			{
+				//Unweld
+				isWelded = false;
+				objectBehaviour.ServerSetPushable(true);
+				return;
+			}
+
+			if (currentState != ReflectorType.Base)
+			{
+				//Weld if not box
+				isWelded = true;
+				objectBehaviour.ServerSetPushable(false);
+				return;
+			}
+
+			//Needs to be fully constructed before weld
+			Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be constructed first");
+		}
+
+		//Deconstruction
+		private void TryWrench(HandApply interaction)
+		{
+			if (isWelded)
+			{
+				//Needs to be unwelded before deconstruction
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs unwelded first");
+				return;
+			}
+
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
+				$"You begin to deconstuct the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
+				$"{interaction.Performer.ExpensiveName()} starts deconstructing the {gameObject.ExpensiveName()}...",
+				$"You deconstruct the {gameObject.ExpensiveName()}",
+				$"{interaction.Performer.ExpensiveName()} deconstructs the {gameObject.ExpensiveName()}",
+				() =>
+				{
+					DownGradeState();
+				}
+			);
+		}
+
+		private void DownGradeState(bool isDestroy = false)
+		{
+			switch (currentState)
+			{
+				case ReflectorType.Base:
+					SpawnMaterial(CommonPrefabs.Instance.Metal, 4);
+					if (isDestroy) return;
+					Despawn.ServerSingle(gameObject);
+					return;
+				case ReflectorType.Box:
+					SpawnMaterial(CommonPrefabs.Instance.DiamondSheet, diamondsNeeded - 1);
+					ChangeState(ReflectorType.Base);
+					break;
+				case ReflectorType.Double:
+					SpawnMaterial(CommonPrefabs.Instance.ReinforcedGlassSheet, reinforcedGlassNeeded - 1);
+					ChangeState(ReflectorType.Base);
+					break;
+				case ReflectorType.Single:
+					SpawnMaterial(CommonPrefabs.Instance.GlassSheet, glassNeeded - 1);
+					ChangeState(ReflectorType.Base);
+					break;
+			}
+		}
+
+		private void SpawnMaterial(GameObject prefab, int amountToIncrease = 0)
+		{
+			var resultBase = Spawn.ServerPrefab(prefab, registerTile.WorldPositionServer, transform.parent);
+
+			if (resultBase.Successful == false || amountToIncrease == 0) return;
+
+			resultBase.GameObject.GetComponent<Stackable>().ServerIncrease(amountToIncrease);
+		}
+
+		private void TryBuild(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet))
+			{
+				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount >= glassNeeded)
+				{
+					stackable.ServerConsume(glassNeeded);
+				}
+				else
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {glassNeeded} glass sheets to build a single reflector.");
+				}
+
+				return;
+			}
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.ReinforcedGlassSheet))
+			{
+				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount >= reinforcedGlassNeeded)
+				{
+					stackable.ServerConsume(reinforcedGlassNeeded);
+				}
+				else
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {reinforcedGlassNeeded} reinforced glass sheets to build a double reflector.");
+				}
+
+				return;
+			}
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.DiamondSheet))
+			{
+				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount >= diamondsNeeded)
+				{
+					stackable.ServerConsume(diamondsNeeded);
+				}
+				else
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {diamondsNeeded} diamond sheets to build a box reflector.");
+				}
+			}
+		}
+
+		#endregion
 
 		#region Mathhelpers
 
@@ -79,42 +294,50 @@ namespace Objects.Engineering
 
 		public void OnHitDetect(OnHitDetectData data)
 		{
-			//Only reflect emitter bullets
-			//if (data.BulletName != emitterBulletName) return;
+			//Only reflect lasers
+			if (data.BulletObject.TryGetComponent<Bullet>(out var bullet) == false || bullet.MaskData != laserData) return;
 
 			if(currentState == ReflectorType.Base) return;
+
+			if (isWelded == false) return;
 
 			switch (currentState)
 			{
 				//Sends all to rotation direction
 				case ReflectorType.Box:
-					ShootAtDirection(rotation);
+					ShootAtDirection(rotation, data);
 					break;
 				case ReflectorType.Double:
-					ShootAtDirection(data.BulletShootNormal);
+					TryAngleDouble(data);
 					break;
 				case ReflectorType.Single:
-					TryAngleSingle(data);
+					ShootAtDirection(rotation, data);
 					break;
 			}
 		}
 
-		private void TryAngleSingle(OnHitDetectData data)
+		private void TryAngleDouble(OnHitDetectData data)
 		{
-			if (Vector2.Angle(data.BulletShootNormal, DegreeToVector2(rotation)) <= 45)
+			if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation)) <= 45)
 			{
-				ShootAtDirection(data.BulletShootNormal);
+				ShootAtDirection(rotation, data);
+			}
+			else if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation + 180)) <= 45)
+			{
+				ShootAtDirection(rotation + 180, data);
 			}
 		}
 
-		private void ShootAtDirection(float rotationToShoot)
+		private void ShootAtDirection(float rotationToShoot, OnHitDetectData data)
 		{
-			CastProjectileMessage.SendToAll(gameObject, emitterBullet, DegreeToVector2(rotationToShoot), default);
-		}
+			var range = -1f;
 
-		private void ShootAtDirection(Vector2 rotationToShoot)
-		{
-			CastProjectileMessage.SendToAll(gameObject, emitterBullet, rotationToShoot, default);
+			if (data.BulletObject.TryGetComponent<ProjectileRangeLimited>(out var rangeLimited))
+			{
+				range = rangeLimited.CurrentDistance;
+			}
+
+			CastProjectileMessage.SendToAll(gameObject, data.BulletObject.GetComponent<Bullet>().PrefabName, DegreeToVector2(rotationToShoot), default, range);
 		}
 	}
 }

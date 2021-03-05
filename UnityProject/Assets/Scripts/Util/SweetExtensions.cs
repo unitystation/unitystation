@@ -55,6 +55,11 @@ public static class SweetExtensions
 		var entityObject = go.Object();
 		if (entityObject != null)
 		{
+			if (!string.IsNullOrWhiteSpace(entityObject.ArticleName))
+			{
+				return entityObject.ArticleName;
+			}
+
 			if (!string.IsNullOrWhiteSpace(entityObject.InitialName))
 			{
 				return entityObject.InitialName;
