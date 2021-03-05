@@ -37,8 +37,6 @@ namespace Objects.Engineering
 		private float targetIntensity = 1f;
 		private float currentIntensity;
 
-		private Vector3 startingLightScale = new Vector3(1, 1, 1);
-
 		#endregion
 
 		#region OverlaySprite
@@ -106,13 +104,13 @@ namespace Objects.Engineering
 		private const int SupermatterDangerPercent = 50;
 		private const int SupermatterWarningPercent = 100;
 
-		private string safe_alert = "Crystalline hyperstructure returning to safe operating parameters.";
-		private const int warning_point = 950;
-		private string warning_alert = "Danger! Crystal hyperstructure integrity faltering!";
-		private const int damage_penalty_point = 450;
-		private const int emergency_point = 300;
-		private string emergency_alert = "CRYSTAL DELAMINATION IMMINENT.";
-		private const int explosion_point = 50;
+		private string safeAlertText = "Crystalline hyperstructure returning to safe operating parameters.\n";
+		private const int WarningPoint = 950;
+		private string warningAlertText = "Danger! Crystal hyperstructure integrity faltering!\n";
+		private const int DamagePenaltyPoint = 450;
+		private const int EmergencyPoint = 300;
+		private string emergencyAlertText = "CRYSTAL DELAMINATION IMMINENT.\n";
+		private const int ExplosionPoint = 50;
 
 		#endregion
 
@@ -152,7 +150,6 @@ namespace Objects.Engineering
 
 		[SerializeField]
 		private const float DamageIncreaseMultiplier = 0.25f;
-
 
 		private const int ThermalReleaseModifier = 5;         //Higher == less heat released during reaction, not to be confused with the above values
 		private const int PlasmaReleaseModifier = 750;        //Higher == less plasma released by reaction
@@ -383,8 +380,6 @@ namespace Objects.Engineering
 			var gasMix = gasNode.GasMix;
 
 			GasMix.TransferGas(removeMix, gasMix, 0.15f * gasMix.Moles);
-
-			//Debug.LogError(superMatterIntegrity - previousIntegrity);
 
 			previousIntegrity = superMatterIntegrity;
 
@@ -624,8 +619,6 @@ namespace Objects.Engineering
 			//Molar count only starts affecting damage when it is above 1800
 			superMatterIntegrity -= (Mathf.Max(combinedGas - MolePenaltyThreshold, 0) / 80) * DamageIncreaseMultiplier;
 
-			//Debug.LogError("Before heals: " + (superMatterIntegrity - previousIntegrity));
-
 			//Only heals damage when the temp is below 313.15
 			var healingAmount = (273.15f + HeatPenaltyThreshold) - removeMix.Temperature;
 
@@ -647,8 +640,6 @@ namespace Objects.Engineering
 
 			//Dont go over max
 			superMatterIntegrity = Mathf.Min(superMatterIntegrity, superMatterMaxIntegrity);
-
-			//Debug.LogError("After heals: " + (superMatterIntegrity - previousIntegrity));
 		}
 
 		#endregion
@@ -657,37 +648,37 @@ namespace Objects.Engineering
 
 		private void CheckEffects()
 		{
-			//After this point power is lowered
-			//This wraps around to the begining of the function
 			//Handle high power zaps/anomaly generation
 			//If the power is above 5000 or if the damage is above 550
-			if (power > PowerPenaltyThreshold || superMatterIntegrity < damage_penalty_point)
+			if (power > PowerPenaltyThreshold || superMatterIntegrity < DamagePenaltyPoint)
 			{
+				//Lightning has min range of 4
 				primaryRange = 4;
+
 				if (removeMix.Moles > 0 && removeMix.Pressure > 0 && removeMix.Temperature > 0)
 				{
 					//We should always be able to zap our way out of the default enclosure
 					primaryRange = (int)Mathf.Clamp(power / removeMix.Pressure * 10, 2, 7);
 				}
 
-				var zap_count = 2;
+				var zapCount = 2;
 
 				if (power > CriticalPowerPenaltyThreshold)
 				{
-					zap_count = 4;
+					zapCount = 4;
 				}
 				else if (power > SeverePowerPenaltyThreshold)
 				{
-					zap_count = 3;
+					zapCount = 3;
 				}
 
 				//Now we deal with damage
-				if (superMatterIntegrity < damage_penalty_point && DMMath.Prob(20))
+				if (superMatterIntegrity < DamagePenaltyPoint && DMMath.Prob(20))
 				{
-					zap_count += 1;
+					zapCount += 1;
 				}
 
-				LightningObjects(zap_count);
+				LightningObjects(zapCount);
 
 				if (DMMath.Prob(5))
 				{
@@ -711,9 +702,9 @@ namespace Objects.Engineering
 		{
 			if(prefabToSpawn == null) return;
 
-			var pos = GetRandomTile();
+			var pos = GetRandomTile(8);
 
-			pos = pos ?? GetRandomTile();
+			pos = pos ?? GetRandomTile(8);
 
 			//Try twice to get coord, if still null then failed
 			if (pos == null) return;
@@ -721,14 +712,9 @@ namespace Objects.Engineering
 			Spawn.ServerPrefab(prefabToSpawn, pos.Value, transform.parent);
 		}
 
-		private Vector3Int? GetRandomTile(int range = -1)
+		private Vector3Int? GetRandomTile(int range)
 		{
 			var overloadPrevent = 0;
-
-			if (range == -1)
-			{
-				range = 11;
-			}
 
 			while (overloadPrevent < 20)
 			{
@@ -762,7 +748,7 @@ namespace Objects.Engineering
 			warningTimer += updateTime;
 			//Tells the engi team to get their butt in gear
 			// while the core is still damaged and it's still worth noting its status
-			if (superMatterIntegrity < warning_point)
+			if (superMatterIntegrity < WarningPoint)
 			{
 				isDelam = true;
 
@@ -770,17 +756,17 @@ namespace Objects.Engineering
 				{
 					PlayAlarmSound();
 
-					if (superMatterIntegrity < emergency_point)
+					if (superMatterIntegrity < EmergencyPoint)
 					{
-						AddMessageToChat($"Integrity: {GetIntegrityPercentage()}%", true);
+						AddMessageToChat($"{emergencyAlertText} Integrity: {GetIntegrityPercentage()}%", true);
 					}
 					else if (superMatterIntegrity <= previousIntegrity)
 					{
-						AddMessageToChat($"Integrity: {GetIntegrityPercentage()}%");
+						AddMessageToChat($"{warningAlertText} Integrity: {GetIntegrityPercentage()}%");
 					}
 					else
 					{
-						AddMessageToChat($"Integrity: {GetIntegrityPercentage()}%");
+						AddMessageToChat($"{safeAlertText} Integrity: {GetIntegrityPercentage()}%");
 					}
 
 					if (power > PowerPenaltyThreshold)
@@ -802,7 +788,7 @@ namespace Objects.Engineering
 				}
 
 				//Boom, you done goofed
-				if (superMatterIntegrity < explosion_point)
+				if (superMatterIntegrity < ExplosionPoint)
 				{
 					TriggerFinalCountdown();
 				}
@@ -825,7 +811,7 @@ namespace Objects.Engineering
 			//Turn on shield overlay
 			overlaySpriteHandler.ChangeSprite(0);
 
-			AddMessageToChat("The supermatter has reached critical integrity failure. Emergency causality destabilization field has been activated.", true);
+			AddMessageToChat($"{emergencyAlertText} The supermatter has reached critical integrity failure. Emergency causality destabilization field has been activated.", true);
 
 			StartCoroutine(FinalCountdown());
 		}
@@ -834,10 +820,10 @@ namespace Objects.Engineering
 		{
 			for (int i = 0; i < finalCountdownTime; i++)
 			{
-				if (superMatterIntegrity > explosion_point)
+				if (superMatterIntegrity > ExplosionPoint)
 				{
 					//Was stabilised, woo!
-					AddMessageToChat("Failsafe has been disengaged, all systems stabilised", true);
+					AddMessageToChat($"{safeAlertText} Failsafe has been disengaged, all systems stabilised", true);
 					overlaySpriteHandler.PushClear();
 					finalCountdown = false;
 					yield break;
