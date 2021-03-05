@@ -37,7 +37,11 @@ namespace Weapons.Projectiles.Behaviours
 
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
-			Chat.AddThrowHitMsgToChat(thisGameObject, coll.gameObject, targetZone);
+			if (integrity.DoDamageMessge)
+			{
+				Chat.AddThrowHitMsgToChat(thisGameObject, coll.gameObject, targetZone);
+			}
+
 			Logger.LogTraceFormat("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,
 				integrity.gameObject.name, damageData.Damage);
 

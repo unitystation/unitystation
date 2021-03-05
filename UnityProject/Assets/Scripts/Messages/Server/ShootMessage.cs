@@ -204,7 +204,8 @@ namespace Messages.Server
 				DamageZone = damageZone,
 				RangeChange = rangeChange
 			};
-			msg.SendToAll();
+
+			SendToAll(msg);
 			return msg;
 		}
 
@@ -234,7 +235,7 @@ namespace Messages.Server
 				RangeChange = rangeChange
 			};
 
-			msg.SendToAll(msg);
+			SendToAll(msg);
 			return msg;
 		}
 	}

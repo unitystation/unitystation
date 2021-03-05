@@ -229,7 +229,6 @@ MonoBehaviour:
   arcEffect: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
   secondaryArcCount: 3
   duration: 2
-  primaryRange: 10
   secondaryRange: 4
   lightningSound:
     SetLoadSetting: 0
@@ -492,6 +491,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Armor.Energy
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: doDamageMessage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

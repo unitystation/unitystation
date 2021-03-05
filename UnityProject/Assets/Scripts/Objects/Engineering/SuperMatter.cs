@@ -10,7 +10,6 @@ using AddressableReferences;
 using Light2D;
 using Mirror;
 using ScriptableObjects.Gun;
-using SoundMessages;
 using UnityEngine;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
@@ -847,7 +846,7 @@ namespace Objects.Engineering
 				// A message once every 5 seconds until the final 5 seconds which count down individually
 				if (i < finalCountdownTime - 5 && i % 5 == 0)
 				{
-					AddMessageToChat($"{finalCountdownTime - i} remain before causality destabilization.", true);
+					AddMessageToChat($"{finalCountdownTime - i} seconds remain before causality destabilization.", true);
 				}
 				else if (i >= finalCountdownTime - 5)
 				{
@@ -1093,7 +1092,8 @@ namespace Objects.Engineering
 			//Increase power if emitter projectile
 			if (data.BulletName == emitterBulletName)
 			{
-				power += data.DamageData.Damage * 2;
+				//Plus 10 as our lasers do 20 but TGs do 30, but the laser strength works fine for field generators
+				power += (data.DamageData.Damage + 10) * 2;
 				return;
 			}
 
