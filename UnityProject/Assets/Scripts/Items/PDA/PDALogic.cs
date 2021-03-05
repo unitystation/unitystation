@@ -59,6 +59,9 @@ namespace Items.PDA
 		private bool isNukeOps = false;
 		public bool IsNukeOps => isNukeOps;
 
+		[SerializeField]
+		private ItemTrait trait;
+
 		[SerializeField, BoxGroup("Uplink")]
 		private bool debugUplink = false;
 
@@ -305,6 +308,11 @@ namespace Items.PDA
 				return true;
 			}
 
+			if (Validations.HasItemTrait(item, trait))
+			{
+				return true;
+			}
+
 			return false;
 		}
 
@@ -330,7 +338,7 @@ namespace Items.PDA
 
 				Inventory.ServerTransfer(fromSlot, CartridgeSlot);
 			}
-			else if (Validations.HasItemTrait(item, CommonTraits.Instance.Suppressor))
+			else if (Validations.HasItemTrait(item, trait))
 			{
 				if (IsUplinkLocked == false)
 				{
@@ -358,7 +366,7 @@ namespace Items.PDA
 		/// <param name="tcCount">The amount of telecrystals to add to the uplink.</param>
 		public void InstallUplink(ConnectedPlayer informPlayer, int tcCount, bool isNukie)
 		{
-			UplinkTC += tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
+			UplinkTC = tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
 			UplinkUnlockCode = GenerateUplinkUnlockCode();
 			IsUplinkCapable = true;
 			isNukeOps = isNukie;
