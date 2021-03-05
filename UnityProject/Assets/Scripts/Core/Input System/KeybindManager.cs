@@ -64,8 +64,8 @@ public enum KeyAction
 	ShowAdminOptions,
 
 	Point,
-
 	// UI
+	ResetWindowPosition,
 	OpenBackpack,
 	OpenPDA,
 	OpenBelt,
@@ -357,6 +357,7 @@ public class KeybindManager : MonoBehaviour {
 
 		// UI
 		// TODO: change ActionType
+		{KeyAction.ResetWindowPosition,  new KeybindMetadata("Reset window position", ActionType.UI)},
 		{ KeyAction.OpenBackpack, 	new KeybindMetadata("Open Backpack", ActionType.UI)},
 		{ KeyAction.OpenPDA, 		new KeybindMetadata("Open PDA", ActionType.UI)},
 		{ KeyAction.OpenBelt, 		new KeybindMetadata("Open Belt", ActionType.UI)},
@@ -416,6 +417,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ShowAdminOptions, new DualKeyCombo(new KeyCombo(KeyCode.LeftControl), null)},
 
 		// UI
+		{KeyAction.ResetWindowPosition,  new DualKeyCombo(new KeyCombo(KeyCode.BackQuote), null)},
 		{KeyAction.OpenBackpack, 	new DualKeyCombo(new KeyCombo(KeyCode.I), null)},
 		{KeyAction.OpenPDA, 		new DualKeyCombo(new KeyCombo(KeyCode.P), null)},
 		{KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)},
