@@ -739,7 +739,7 @@ namespace Objects.Engineering
 
 		private void FireNuclearParticle()
 		{
-			CastProjectileMessage.SendToAll(gameObject, nuclearParticlePrefab, Reflector.DegreeToVector2(Random.Range(0, 361)), default);
+			CastProjectileMessage.SendToAll(gameObject, nuclearParticlePrefab, VectorExtensions.DegreeToVector2(Random.Range(0, 361)), default);
 		}
 
 		#endregion

@@ -337,19 +337,6 @@ namespace Objects.Engineering
 
 		#endregion
 
-		#region Mathhelpers
-
-		public static Vector2 RadianToVector2(float radian)
-		{
-			return new Vector2(Mathf.Cos(radian), Mathf.Sin(radian));
-		}
-		public static Vector2 DegreeToVector2(float degree)
-		{
-			return RadianToVector2(degree * Mathf.Deg2Rad);
-		}
-
-		#endregion
-
 		private enum ReflectorType
 		{
 			Base,
@@ -384,7 +371,7 @@ namespace Objects.Engineering
 
 		private void TryAngleSingle(OnHitDetectData data)
 		{
-			if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation - 90)) <= 55)
+			if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
 			{
 				ShootAtDirection(rotation + 90, data);
 			}
@@ -392,11 +379,11 @@ namespace Objects.Engineering
 
 		private void TryAngleDouble(OnHitDetectData data)
 		{
-			if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation - 90)) <= 55)
+			if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
 			{
 				ShootAtDirection(rotation + 90, data);
 			}
-			else if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation + 180 - 90)) <= 55)
+			else if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation + 180 - 90)) <= 55)
 			{
 				ShootAtDirection(rotation + 180 + 90, data);
 			}
@@ -411,7 +398,7 @@ namespace Objects.Engineering
 				range = rangeLimited.CurrentDistance;
 			}
 
-			CastProjectileMessage.SendToAll(gameObject, data.BulletObject.GetComponent<Bullet>().PrefabName, DegreeToVector2(rotationToShoot), default, range);
+			CastProjectileMessage.SendToAll(gameObject, data.BulletObject.GetComponent<Bullet>().PrefabName, VectorExtensions.DegreeToVector2(rotationToShoot), default, range);
 		}
 	}
 }
