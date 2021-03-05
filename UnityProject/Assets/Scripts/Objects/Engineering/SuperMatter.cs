@@ -470,11 +470,9 @@ namespace Objects.Engineering
 				}
 
 				//No less then zero, and no greater then one, we use this to do explosions and heat to power transfer
-				var gasmixPowerRatio =
-					Mathf.Min(
-						Mathf.Max(
-							((plasmaCompositon + o2Compositon + co2Compositon + h2oCompositon + tritiumCompositon + bzCompositon - pluoxiumCompositon - n2Compositon -
-							  freonCompositon)) * waterMalus, 0), 1);
+				var gasmixPowerRatio = Mathf.Clamp(
+					(plasmaCompositon + o2Compositon + co2Compositon + h2oCompositon + tritiumCompositon + bzCompositon
+					 - pluoxiumCompositon - n2Compositon - freonCompositon) * waterMalus, 0, 1);
 
 				//Minimum value of 1.5, maximum value of 23
 				var dynamicHeatModifier = plasmaCompositon * heatPenaltyDefines[Gas.Plasma];
