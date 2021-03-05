@@ -8733,6 +8733,7 @@ GameObject:
   - component: {fileID: 406892960}
   - component: {fileID: 406892964}
   - component: {fileID: 406892963}
+  - component: {fileID: 406892965}
   m_Layer: 0
   m_Name: AncientShuttle
   m_TagString: Untagged
@@ -8867,7 +8868,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 678002064
   serverOnly: 0
+  visible: 2
   m_AssetId: 
+  hasSpawned: 0
 --- !u!50 &406892961
 Rigidbody2D:
   serializedVersion: 4
@@ -8939,6 +8942,18 @@ MonoBehaviour:
   MassConsumption: 0.1
   CalculatedMassConsumption: 0
   optimumMassConsumption: 0.05
+--- !u!114 &406892965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406892952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &414982091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31428,7 +31443,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c39d19bba0ae67943a58040a898fdf54,
+      objectReference: {fileID: 21300000, guid: d04e66db37d051241af5586e1bdfff93,
         type: 3}
     - target: {fileID: 8568672687853555390, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
@@ -39647,7 +39662,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1f98145bcaa7b9947888e1677211ece0,
+      objectReference: {fileID: 21300000, guid: d04e66db37d051241af5586e1bdfff93,
         type: 3}
     - target: {fileID: 8568672687853555390, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
@@ -56889,7 +56904,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 987657940
   serverOnly: 0
+  visible: 2
   m_AssetId: 
+  hasSpawned: 0
 --- !u!483693784 &1521103930232218665
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -56970,6 +56987,7 @@ GameObject:
   - component: {fileID: 1466505071001026520}
   - component: {fileID: 8512647472880155941}
   - component: {fileID: 1650104974180287784}
+  - component: {fileID: 1650104974180287785}
   m_Layer: 0
   m_Name: AncientStation
   m_TagString: Untagged
@@ -57000,6 +57018,18 @@ MonoBehaviour:
   RequiresFuel: 0
   rcsModeActive: 0
   IsNotPilotable: 1
+--- !u!114 &1650104974180287785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650104974180287783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1817858304349470483
 Transform:
   m_ObjectHideFlags: 0

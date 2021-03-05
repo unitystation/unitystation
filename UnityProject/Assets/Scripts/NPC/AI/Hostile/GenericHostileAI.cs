@@ -5,7 +5,8 @@ using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
-using SoundMessages;
+using Messages.Server.SoundMessages;
+
 
 namespace Systems.MobAIs
 {
@@ -181,7 +182,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			
+
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 			SoundManager.PlayNetworkedAtPos(randomSounds, transform.position,
 				audioSourceParameters, sourceObj: gameObject);

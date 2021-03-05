@@ -1,28 +1,31 @@
-﻿using System.Collections;
-using Mirror;
-using UnityEngine;
+﻿using Mirror;
 
-/// <summary>
-/// Allows the client to use mentor only features. A valid mentor token is required
-/// to use mentor tools.
-/// </summary>
-public class MentorEnableMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public string MentorToken;
-
-	public override void Process()
+	/// <summary>
+	/// Allows the client to use mentor only features. A valid mentor token is required
+	/// to use mentor tools.
+	/// </summary>
+	public class MentorEnableMessage : ServerMessage<MentorEnableMessage.NetMessage>
 	{
-		PlayerList.Instance.SetClientAsMentor(MentorToken);
-		UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string MentorToken;
+		}
 
-	public static MentorEnableMessage Send(NetworkConnection player, string mentorToken)
-	{
-		UIManager.Instance.mentorChatButtons.ServerUpdateAdminNotifications(player);
-		MentorEnableMessage msg = new MentorEnableMessage {MentorToken = mentorToken};
+		public override void Process(NetMessage msg)
+		{
+			PlayerList.Instance.SetClientAsMentor(msg.MentorToken);
+			UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
+		}
 
-		msg.SendTo(player);
+		public static NetMessage Send(NetworkConnection player, string mentorToken)
+		{
+			UIManager.Instance.mentorChatButtons.ServerUpdateAdminNotifications(player);
+			NetMessage msg = new NetMessage {MentorToken = mentorToken};
 
-		return msg;
+			SendTo(player, msg);
+			return msg;
+		}
 	}
 }

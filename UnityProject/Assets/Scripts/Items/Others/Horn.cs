@@ -1,7 +1,8 @@
 using System.Collections;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Mirror;
-using SoundMessages;
+
 
 /// <summary>
 ///     Indicates an object that emits sound upon activation (bike horn/air horn...)

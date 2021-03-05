@@ -6,6 +6,7 @@ using UnityEngine;
 using Mirror;
 using Objects.Atmospherics;
 using Systems.Clothing;
+using Messages.Server;
 
 /// <summary>
 /// Component which manages all the equipment on a player.

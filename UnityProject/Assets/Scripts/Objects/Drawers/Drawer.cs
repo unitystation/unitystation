@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
-using SoundMessages;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 
 namespace Objects.Drawers
 {	

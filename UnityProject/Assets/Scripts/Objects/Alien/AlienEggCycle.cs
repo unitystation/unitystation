@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
-using SoundMessages;
+using Messages.Server.SoundMessages;
+
 
 namespace Alien
 {

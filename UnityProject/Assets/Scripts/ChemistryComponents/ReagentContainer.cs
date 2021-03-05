@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;

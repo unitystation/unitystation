@@ -12,6 +12,7 @@ using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
 using DiscordWebhook;
+using Messages.Server;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {

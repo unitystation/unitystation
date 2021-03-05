@@ -1,49 +1,55 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using Messages.Server;
 using Mirror;
-using System.Collections.Generic;
-using Messages.Client;
+using UnityEngine;
 
-/// <summary>
-///     Request hacking node data from the server.
-/// </summary>
-public class RequestHackingNodeConnections : ClientMessage
+namespace Messages.Client
 {
-	public uint Player;
-	public uint HackableObject;
-
-	public override void Process()
+	/// <summary>
+	///     Request hacking node data from the server.
+	/// </summary>
+	public class RequestHackingNodeConnections : ClientMessage<RequestHackingNodeConnections.NetMessage>
 	{
-		LoadMultipleObjects(new uint[] { Player, HackableObject });
-
-		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
-		var hackObject = NetworkObjects[1];
-		if (playerScript.IsGameObjectReachable(hackObject, true, context: hackObject))
+		public struct NetMessage : NetworkMessage
 		{
+			public uint Player;
+			public uint HackableObject;
+		}
 
-			HackingProcessBase hackProcess = hackObject.GetComponent<HackingProcessBase>();
-			List<int[]> connectionList = hackProcess.GetNodeConnectionList();
-			if (connectionList != null)
+		public override void Process(NetMessage msg)
+		{
+			LoadMultipleObjects(new uint[] { msg.Player, msg.HackableObject });
+
+			var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
+			var hackObject = NetworkObjects[1];
+			if (playerScript.IsGameObjectReachable(hackObject, true, context: hackObject))
 			{
-				SendDataToClient(NetworkObjects[0], hackObject, connectionList);
-				return;
+
+				HackingProcessBase hackProcess = hackObject.GetComponent<HackingProcessBase>();
+				List<int[]> connectionList = hackProcess.GetNodeConnectionList();
+				if (connectionList != null)
+				{
+					SendDataToClient(NetworkObjects[0], hackObject, connectionList);
+					return;
+				}
 			}
 		}
-	}
 
-	void SendDataToClient(GameObject recipient, GameObject hackObject, List<int[]> connectionList)
-	{
-		HackingNodeConnectionList.Send(recipient, hackObject, connectionList);
-	}
-
-	public static RequestHackingNodeConnections Send(GameObject player, GameObject hackObject)
-	{
-		RequestHackingNodeConnections msg = new RequestHackingNodeConnections
+		void SendDataToClient(GameObject recipient, GameObject hackObject, List<int[]> connectionList)
 		{
-			Player = player.GetComponent<NetworkIdentity>().netId,
-			HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
-		};
-		msg.Send();
-		return msg;
+			HackingNodeConnectionList.Send(recipient, hackObject, connectionList);
+		}
+
+		public static NetMessage Send(GameObject player, GameObject hackObject)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Player = player.GetComponent<NetworkIdentity>().netId,
+				HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

@@ -15,6 +15,7 @@ using GameConfig;
 using Initialisation;
 using AddressableReferences;
 using Managers;
+using Messages.Server;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {

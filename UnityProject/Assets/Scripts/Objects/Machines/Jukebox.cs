@@ -1,5 +1,4 @@
-﻿using SoundMessages;
-using Mirror;
+﻿using Mirror;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +6,8 @@ using UnityEngine;
 using Systems.Electricity;
 using AddressableReferences;
 using Audio.Containers;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 
 namespace Objects
 {
@@ -179,7 +180,7 @@ namespace Objects
 			registerTile = GetComponent<RegisterTile>();
 			integrity = GetComponent<Integrity>();
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
-
+			
 			audioSourceParameters =	new AudioSourceParameters(volume: Volume, spatialBlend: 1, spread: Spread, 
 				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance,mixerType: MixerType.Muffled, 
 				volumeRolloffType: VolumeRolloffType.EaseInAndOut);

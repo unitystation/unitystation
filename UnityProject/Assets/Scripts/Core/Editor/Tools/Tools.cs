@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Objects.Wallmounts;
+using Object = UnityEngine.Object;
 
 public class Tools : Editor
 {
@@ -44,6 +46,103 @@ public class Tools : Editor
 		}
 
 		Debug.Log($"Set {allNets.Length} scene ids");
+	}
+
+	[MenuItem("Networking/Find all network identities without visibility component (Scene Check)")]
+	private static void FindNetWithoutVis()
+	{
+		var allNets = FindObjectsOfType<NetworkIdentity>();
+
+		for (int i = allNets.Length - 1; i > 0; i--)
+		{
+			var net = allNets[i].GetComponent<CustomNetSceneChecker>();
+
+			if (net == null)
+			{
+				Debug.Log($"{allNets[i].name} prefab has no visibility component");
+			}
+		}
+
+		Debug.Log($"{allNets.Length} net components found in the scene");
+	}
+
+	[MenuItem("Networking/Find all network identities without visibility component (Prefab Check)")]
+	private static void FindNetWithoutVisScene()
+	{
+		var allNets = LoadPrefabsContaining<NetworkIdentity>("Prefabs");
+
+		for (int i = allNets.Count - 1; i > 0; i--)
+		{
+			var net = allNets[i].GetComponent<CustomNetSceneChecker>();
+
+			if (net == null)
+			{
+				Debug.Log($"{allNets[i].name} prefab has no visibility component");
+			}
+		}
+
+		Debug.Log($"{allNets.Count} net components found in prefabs");
+	}
+
+	[MenuItem("Networking/Find all asset Ids (Prefab Check)")]
+    private static void FindAssetIdsPrefab()
+    {
+    	var allNets = LoadPrefabsContaining<NetworkIdentity>("Prefabs");
+
+        for (int i = allNets.Count - 1; i > 0; i--)
+        {
+            var net = allNets[i].GetComponent<NetworkIdentity>();
+
+            if (net.assetId == Guid.Empty)
+            {
+            	Debug.Log($"{allNets[i].name} has empty asset id");
+            }
+        }
+
+        Debug.Log($"{allNets.Count} net components found in prefabs");
+    }
+
+	/// <summary>
+	/// Find all prefabs containing a specific component (T)
+	/// </summary>
+	/// <typeparam name="T">The type of component</typeparam>
+	public static List<GameObject> LoadPrefabsContaining<T>(string path) where T : UnityEngine.Component
+	{
+		List<GameObject> result = new List<GameObject>();
+
+		var allFiles = Resources.LoadAll<UnityEngine.Object>(path);
+		foreach (var obj in allFiles)
+		{
+			if (obj is GameObject)
+			{
+				GameObject go = obj as GameObject;
+				if (go.GetComponent<T>() != null)
+				{
+					result.Add(go);
+				}
+			}
+		}
+		return result;
+	}
+
+	[MenuItem("Networking/Check for duplicate net Ids (Scene Check)")]
+	private static void FindNetIds()
+	{
+		var allNets = FindObjectsOfType<NetworkIdentity>();
+
+		var netIds = new HashSet<uint>();
+
+		for (int i = allNets.Length - 1; i > 0; i--)
+		{
+			var net = allNets[i].GetComponent<NetworkIdentity>();
+
+			if (netIds.Add(net.netId) == false)
+			{
+				Debug.Log($"{allNets[i]} has a duplicate net Id");
+			}
+		}
+
+		Debug.Log($"{allNets.Length} net ids found in the scene");
 	}
 
 	//this is just for migrating from old way of setting wallmount directions to the new way

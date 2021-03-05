@@ -8,6 +8,8 @@ using Mirror;
 using UnityEngine.Serialization;
 using UI.Objects.Shuttles;
 using Systems.Shuttles;
+using Messages.Client.NewPlayer;
+using Messages.Server;
 
 /// <summary>
 /// Behavior which allows an entire matrix to move and rotate (and be synced over the network).
