@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Doors;
 using Items;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;

@@ -8769,7 +8769,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 551985832
   serverOnly: 0
+  visible: 2
   m_AssetId: 
+  hasSpawned: 0
 --- !u!483693784 &1521103930232218665
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -8850,6 +8852,7 @@ GameObject:
   - component: {fileID: 1466505071001026520}
   - component: {fileID: 8512647472880155941}
   - component: {fileID: 1650104974180287784}
+  - component: {fileID: 1650104974180287785}
   m_Layer: 0
   m_Name: WizardShip
   m_TagString: Untagged
@@ -8880,6 +8883,18 @@ MonoBehaviour:
   RequiresFuel: 0
   rcsModeActive: 0
   IsNotPilotable: 1
+--- !u!114 &1650104974180287785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650104974180287783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1817858304349470483
 Transform:
   m_ObjectHideFlags: 0

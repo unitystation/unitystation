@@ -1,5 +1,6 @@
 ﻿using AdminCommands;
 using DatabaseAPI;
+using Messages.Client.Admin;
 using UI.AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,7 +61,7 @@ namespace AdminTools
 		/// </summary>
 		void SendSmitePlayerRequest()
 		{
-			ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid, "CmdSmitePlayer");
+			AdminCommandsManager.Instance.CmdSmitePlayer(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 

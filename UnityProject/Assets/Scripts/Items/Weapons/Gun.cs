@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using Items;
 using AddressableReferences;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Weapons.Projectiles;
-using SoundMessages;
+
 
 namespace Weapons
 {
@@ -122,7 +124,7 @@ namespace Weapons
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
 		public AddressableAudioSource SuppressedSoundA;
-		
+
 		/// <summary>
 		/// The sound the gun makes while trying to fire without ammo.
 		/// </summary>
@@ -553,8 +555,8 @@ namespace Weapons
 
 		public virtual string Examine(Vector3 pos)
 		{
-			return WeaponType + " - Fires " + ammoType + " ammunition (" + 
-			(CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")\n" + 
+			return WeaponType + " - Fires " + ammoType + " ammunition (" +
+			(CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")\n" +
 			(FiringPin != null ? "It has a " + FiringPin.gameObject.ExpensiveName() + " installed." : "It doesn't have a firing pin installed, and won't fire.");
 		}
 

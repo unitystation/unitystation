@@ -1,29 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Messages.Client;
-using UnityEngine;
-using Mirror;
+﻿using Mirror;
 
-public class SpriteRequestCurrentStateMessage : ClientMessage
+namespace Messages.Client.SpriteMessages
 {
-	public uint SpriteHandlerManager;
-
-	public override void Process()
+	public class SpriteRequestCurrentStateMessage : ClientMessage<SpriteRequestCurrentStateMessage.NetMessage>
 	{
-		LoadNetworkObject(SpriteHandlerManager);
-		if (SentByPlayer == ConnectedPlayer.Invalid)
-			return;
-
-		NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
-	}
-
-	public static SpriteRequestCurrentStateMessage Send(uint spriteHandlerManager)
-	{
-		var msg = new SpriteRequestCurrentStateMessage()
+		public struct NetMessage : NetworkMessage
 		{
-			SpriteHandlerManager = spriteHandlerManager
-		};
-		msg.Send();
-		return msg;
+			public uint SpriteHandlerManager;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.SpriteHandlerManager);
+			if (SentByPlayer == ConnectedPlayer.Invalid)
+				return;
+
+			NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
+		}
+
+		public static NetMessage Send(uint spriteHandlerManager)
+		{
+			var msg = new NetMessage()
+			{
+				SpriteHandlerManager = spriteHandlerManager
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

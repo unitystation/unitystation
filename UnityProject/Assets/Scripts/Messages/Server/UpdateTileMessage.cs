@@ -2,85 +2,92 @@
 using UnityEngine;
 using Mirror;
 
-public class UpdateTileMessage : ServerMessage
+namespace Messages.Server
 {
-	public Vector3Int Position;
-	public TileType TileType;
-	public string TileName;
-	public Matrix4x4 TransformMatrix;
-	public Color Colour;
-	public uint TileChangeManager;
-
-	public static List<delayedData> DelayedStuff = new List<delayedData>();
-
-	public struct delayedData
+	public class UpdateTileMessage : ServerMessage<UpdateTileMessage.NetMessage>
 	{
-		public Vector3Int Position;
-		public TileType TileType;
-		public string TileName;
-		public Matrix4x4 TransformMatrix;
-		public Color Colour;
-		public uint TileChangeManager;
-
-		public delayedData(Vector3Int inPosition, TileType inTileType, string inTileName, Matrix4x4 inTransformMatrix,
-			Color inColour, uint inTileChangeManager)
+		public struct NetMessage : NetworkMessage
 		{
-			Position = inPosition;
-			TileType = inTileType;
-			TileName = inTileName;
-			TransformMatrix = inTransformMatrix;
-			Colour = inColour;
-			TileChangeManager = inTileChangeManager;
+			public Vector3Int Position;
+			public TileType TileType;
+			public string TileName;
+			public Matrix4x4 TransformMatrix;
+			public Color Colour;
+			public uint TileChangeManager;
 		}
-	}
 
+		public static List<delayedData> DelayedStuff = new List<delayedData>();
 
-	public override void Process()
-	{
-		LoadNetworkObject(TileChangeManager);
-		if (NetworkObject == null)
+		public struct delayedData
 		{
-			DelayedStuff.Add(new delayedData(Position, TileType, TileName, TransformMatrix, Colour, TileChangeManager));
-		}
-		else
-		{
-			var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
-			tileChangerManager.InternalUpdateTile(Position, TileType, TileName, TransformMatrix, Colour);
-			TryDoNotDoneTiles();
-		}
-	}
+			public Vector3Int Position;
+			public TileType TileType;
+			public string TileName;
+			public Matrix4x4 TransformMatrix;
+			public Color Colour;
+			public uint TileChangeManager;
 
-	public void TryDoNotDoneTiles()
-	{
-		for (int i = 0; i < DelayedStuff.Count; i++)
-		{
-			NetworkObject = null;
-			LoadNetworkObject(DelayedStuff[i].TileChangeManager);
-			if (NetworkObject != null)
+			public delayedData(Vector3Int inPosition, TileType inTileType, string inTileName, Matrix4x4 inTransformMatrix,
+				Color inColour, uint inTileChangeManager)
 			{
-				var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
-				tileChangerManager.InternalUpdateTile(DelayedStuff[i].Position, DelayedStuff[i].TileType,
-					DelayedStuff[i].TileName, DelayedStuff[i].TransformMatrix, DelayedStuff[i].Colour);
-				DelayedStuff.RemoveAt(i);
-				i--;
+				Position = inPosition;
+				TileType = inTileType;
+				TileName = inTileName;
+				TransformMatrix = inTransformMatrix;
+				Colour = inColour;
+				TileChangeManager = inTileChangeManager;
 			}
 		}
-	}
 
-	public static UpdateTileMessage Send(uint tileChangeManagerNetID, Vector3Int position, TileType tileType,
-		string tileName,
-		Matrix4x4 transformMatrix, Color colour)
-	{
-		UpdateTileMessage msg = new UpdateTileMessage
+
+		public override void Process(NetMessage msg)
 		{
-			Position = position,
-			TileType = tileType,
-			TileName = tileName,
-			TransformMatrix = transformMatrix,
-			Colour = colour,
-			TileChangeManager = tileChangeManagerNetID
-		};
-		msg.SendToAll();
-		return msg;
+			LoadNetworkObject(msg.TileChangeManager);
+			if (NetworkObject == null)
+			{
+				DelayedStuff.Add(new delayedData(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour, msg.TileChangeManager));
+			}
+			else
+			{
+				var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
+				tileChangerManager.InternalUpdateTile(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour);
+				TryDoNotDoneTiles();
+			}
+		}
+
+		public void TryDoNotDoneTiles()
+		{
+			for (int i = 0; i < DelayedStuff.Count; i++)
+			{
+				NetworkObject = null;
+				LoadNetworkObject(DelayedStuff[i].TileChangeManager);
+				if (NetworkObject != null)
+				{
+					var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
+					tileChangerManager.InternalUpdateTile(DelayedStuff[i].Position, DelayedStuff[i].TileType,
+						DelayedStuff[i].TileName, DelayedStuff[i].TransformMatrix, DelayedStuff[i].Colour);
+					DelayedStuff.RemoveAt(i);
+					i--;
+				}
+			}
+		}
+
+		public static NetMessage Send(uint tileChangeManagerNetID, Vector3Int position, TileType tileType,
+			string tileName,
+			Matrix4x4 transformMatrix, Color colour)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Position = position,
+				TileType = tileType,
+				TileName = tileName,
+				TransformMatrix = transformMatrix,
+				Colour = colour,
+				TileChangeManager = tileChangeManagerNetID
+			};
+
+			SendToAll(msg);
+			return msg;
+		}
 	}
 }

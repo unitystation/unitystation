@@ -1,20 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Messages.Client;
-using UnityEngine;
+﻿using Mirror;
 
-public class ClientRequestCatalogues : ClientMessage
+namespace Messages.Client.Addressable
 {
-	public override void Process()
+	public class ClientRequestCatalogues : ClientMessage<ClientRequestCatalogues.NetMessage>
 	{
-		AddressableCatalogueManager.ClientRequestCatalogue(SentByPlayer.GameObject);
-	}
+		public struct NetMessage : NetworkMessage { }
 
-	public static ClientRequestCatalogues RequestCatalogue()
-	{
-		ClientRequestCatalogues msg = new ClientRequestCatalogues();
+		public override void Process(NetMessage msg)
+		{
+			AddressableCatalogueManager.ClientRequestCatalogue(SentByPlayer.GameObject);
+		}
 
-		msg.Send();
-		return msg;
+		public static NetMessage RequestCatalogue()
+		{
+			NetMessage msg = new NetMessage();
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

@@ -1,45 +1,51 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     This Server to Client message is sent when a player is stored inside a closet or crate, or needs to follow some other object.
-/// </summary>
-public class FollowCameraMessage : ServerMessage
+namespace Messages.Server
 {
-	public uint ObjectToFollow;
-
-	public override void Process()
+	/// <summary>
+	///     This Server to Client message is sent when a player is stored inside a closet or crate, or needs to follow some other object.
+	/// </summary>
+	public class FollowCameraMessage : ServerMessage<FollowCameraMessage.NetMessage>
 	{
-		if ( ObjectToFollow == NetId.Invalid )
+		public struct NetMessage : NetworkMessage
 		{
-			return;
-		}
-		else
-		{
-			LoadNetworkObject(ObjectToFollow);
-		}
-		var objectToFollow = NetworkObject;
+			public uint ObjectToFollow;
 
-		if (!PlayerManager.LocalPlayerScript.IsGhost)
-		{
-			Transform newTarget = objectToFollow ? objectToFollow.transform : PlayerManager.LocalPlayer.transform;
-			Camera2DFollow.followControl.target = newTarget;
+			public override string ToString()
+			{
+				return string.Format("[FollowCameraMessage ObjectToFollow={0}]", ObjectToFollow);
+			}
 		}
-	}
 
-	public static FollowCameraMessage Send(GameObject recipient, GameObject objectToFollow)
-	{
-		FollowCameraMessage msg = new FollowCameraMessage
+		public override void Process(NetMessage msg)
 		{
-			ObjectToFollow = objectToFollow.NetId()
-		};
-		msg.SendTo(recipient);
-		return msg;
-	}
+			if ( msg.ObjectToFollow == NetId.Invalid )
+			{
+				return;
+			}
+			else
+			{
+				LoadNetworkObject(msg.ObjectToFollow);
+			}
+			var objectToFollow = NetworkObject;
 
-	public override string ToString()
-	{
-		return string.Format("[FollowCameraMessage ObjectToFollow={0}]", ObjectToFollow);
+			if (!PlayerManager.LocalPlayerScript.IsGhost)
+			{
+				Transform newTarget = objectToFollow ? objectToFollow.transform : PlayerManager.LocalPlayer.transform;
+				Camera2DFollow.followControl.target = newTarget;
+			}
+		}
+
+		public static NetMessage Send(GameObject recipient, GameObject objectToFollow)
+		{
+			NetMessage msg = new NetMessage
+			{
+				ObjectToFollow = objectToFollow.NetId()
+			};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
 	}
 }

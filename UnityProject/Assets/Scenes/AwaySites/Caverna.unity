@@ -288,6 +288,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7130997666677666578, guid: 6dad1248a16ebbd48a81433d413e37ec,
         type: 3}
+      propertyPath: 
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130997666677666578, guid: 6dad1248a16ebbd48a81433d413e37ec,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7130997666677666578, guid: 6dad1248a16ebbd48a81433d413e37ec,
         type: 3}
@@ -1672,6 +1679,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7130997666677666578, guid: 6dad1248a16ebbd48a81433d413e37ec,
         type: 3}
+      propertyPath: 
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130997666677666578, guid: 6dad1248a16ebbd48a81433d413e37ec,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7130997666677666578, guid: 6dad1248a16ebbd48a81433d413e37ec,
         type: 3}
@@ -3771,7 +3785,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 1153724288
   serverOnly: 0
+  visible: 2
   m_AssetId: 
+  hasSpawned: 0
 --- !u!1001 &548707995649042590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7124,7 +7140,7 @@ MonoBehaviour:
   butcherTime: 2
   butcherSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -8008,6 +8024,7 @@ GameObject:
   - component: {fileID: 461885081932122687}
   - component: {fileID: 4731832869218013810}
   - component: {fileID: 169014851365516172}
+  - component: {fileID: 3946368546908237558}
   m_Layer: 0
   m_Name: Caverna
   m_TagString: Untagged
@@ -8015,6 +8032,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &3946368546908237558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3946368546908237557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3946896314324854459
 PrefabInstance:
   m_ObjectHideFlags: 0

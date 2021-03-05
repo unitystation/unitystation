@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5484852710180414376}
   - component: {fileID: 519071981973938987}
   - component: {fileID: 6709164837621956237}
+  - component: {fileID: -1693949025135080739}
   m_Layer: 0
   m_Name: SoundSpawn
   m_TagString: Untagged
@@ -164,6 +165,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &6709164837621956237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,3 +182,17 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+--- !u!114 &-1693949025135080739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7013270530123256728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

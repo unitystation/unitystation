@@ -1,18 +1,21 @@
 
 using UnityEngine;
 using AddressableReferences;
+using Objects.Mining;
 
 /// <summary>
 /// Allows object to be used as a pickaxe to mine rocks.
 /// </summary>
-public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<HandApply>
 {
 	[SerializeField] private AddressableAudioSource pickaxeSound = null;
-	private static readonly StandardProgressActionConfig ProgressConfig =
-		new StandardProgressActionConfig(StandardProgressActionType.Construction, true);
 
-	private const float PLASMA_SPAWN_CHANCE = 0.5f;
+	[Tooltip("How much does this tool multiply mining time")] [SerializeField]
+	private float timeMultiplier = 1f;
 
+	private string objectName;
+
+	#region Tiles
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -25,40 +28,67 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		//server is performing server-side logic for the interaction
-		//do the mining
-		void ProgressComplete() => FinishMine(interaction);
 
-		//Start the progress bar:
-		//technically pickaxe is deconstruction, so it would interrupt any construction / deconstruction being done
-		//on that tile
-		//TODO: Refactor this to use ToolUtils once that's merged in
-
-		var bar = StandardProgressAction.Create(ProgressConfig, ProgressComplete)
-			.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-				5f, interaction.Performer);
-		if (bar != null)
-		{
-			SoundManager.PlayNetworkedAtPos(pickaxeSound, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
-		}
-	}
-
-	private void FinishMine(PositionalHandApply interaction)
-	{
 		var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
-		if (interactableTiles == null)
-		{
-			Logger.LogError("No interactable tiles found, mining cannot be finished", Category.TileMaps);
-		}
-		else
-		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
-			var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
+		var wallTile = interactableTiles.MetaTileMap.GetTileAtWorldPos(interaction.WorldPositionTarget, LayerType.Walls) as BasicTile;
+		var calculatedMineTime = wallTile.MiningTime * timeMultiplier;
 
-			var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
-			Spawn.ServerPrefab(tile.SpawnOnDeconstruct, interaction.WorldPositionTarget ,  count : tile.SpawnAmountOnDeconstruct);
-			interactableTiles.TileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-			interactableTiles.TileChangeManager.RemoveOverlay(cellPos, LayerType.Effects);
+		void FinishMine()
+		{
+			if (interactableTiles == null)
+			{
+				Logger.LogError("No interactable tiles found, mining cannot be finished", Category.TileMaps);
+			}
+			else
+			{
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+				var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
+
+				var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
+				Spawn.ServerPrefab(tile.SpawnOnDeconstruct, interaction.WorldPositionTarget ,  count : tile.SpawnAmountOnDeconstruct);
+				interactableTiles.TileChangeManager.RemoveTile(cellPos, LayerType.Walls);
+				interactableTiles.TileChangeManager.RemoveOverlay(cellPos, LayerType.Effects);
+			}
+		}
+
+		ToolUtils.ServerUseToolWithActionMessages(
+			interaction, calculatedMineTime,
+			$"You start mining the {objectName}...",
+			$"{interaction.Performer.ExpensiveName()} starts mining the {objectName}...",
+			default, default,
+			FinishMine);
+	}
+
+
+	#endregion
+
+	#region Objects
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (interaction.TargetObject == interaction.HandObject) return false;
+
+		return interaction.TargetObject.TryGetComponent<PickaxeMineable>(out _);
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		{
+			var calculatedMineTime = interaction.TargetObject.GetComponent<PickaxeMineable>().MineTime * timeMultiplier;
+			objectName = interaction.TargetObject.ExpensiveName();
+
+			ToolUtils.ServerUseToolWithActionMessages(
+				interaction, calculatedMineTime,
+				$"You start mining the {objectName}...",
+				$"{interaction.Performer.ExpensiveName()} starts mining the {objectName}...",
+				default, default,
+				() =>
+				{
+					SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone,
+							interaction.PerformerPlayerScript.WorldPos, sourceObj: interaction.Performer);
+					Despawn.ServerSingle(interaction.TargetObject);
+				});
 		}
 	}
+	#endregion
 }

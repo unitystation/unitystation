@@ -1,25 +1,30 @@
-﻿using System.Collections;
-using Messages.Client;
+﻿using Mirror;
 
-public class CustomNetTransformNewPlayer: ClientMessage
+namespace Messages.Client.NewPlayer
 {
-	public uint CNT;
-
-	public override void Process()
+	public class CustomNetTransformNewPlayer : ClientMessage<CustomNetTransformNewPlayer.NetMessage>
 	{
-		LoadNetworkObject(CNT);
-		if (NetworkObject == null) return;
-		NetworkObject.GetComponent<CustomNetTransform>()?.NotifyPlayer(
-			SentByPlayer.Connection);
-	}
-
-	public static CustomNetTransformNewPlayer Send(uint netId)
-	{
-		CustomNetTransformNewPlayer msg = new CustomNetTransformNewPlayer
+		public struct NetMessage : NetworkMessage
 		{
-			CNT = netId
-		};
-		msg.Send();
-		return msg;
+			public uint CNT;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.CNT);
+			if (NetworkObject == null) return;
+			NetworkObject.GetComponent<CustomNetTransform>()?.NotifyPlayer(
+				SentByPlayer.Connection);
+		}
+
+		public static NetMessage Send(uint netId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				CNT = netId
+			};
+			Send(msg);
+			return msg;
+		}
 	}
 }

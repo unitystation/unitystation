@@ -6,7 +6,7 @@ using Mirror;
 using Objects;
 using Objects.Disposals;
 using Random = UnityEngine.Random;
-using SoundMessages;
+using Messages.Server.SoundMessages;
 
 public enum SpinMode
 {

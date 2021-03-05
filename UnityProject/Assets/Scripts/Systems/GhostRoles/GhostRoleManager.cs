@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Messages.Server;
 using Messages.Client;
+using Messages.Client.GhostRoles;
+using Messages.Server.GhostRoles;
 using NaughtyAttributes;
 using ScriptableObjects;
 using UI.Systems.Ghost;

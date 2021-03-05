@@ -5,6 +5,7 @@ using System.Linq;
 using ScriptableObjects.Hacking;
 using UnityEngine;
 using Doors;
+using Messages.Server;
 
 /// <summary>
 /// This handles opening a network tab internally, and hence, doesn't require a HasNetworkTab component. Don't add one!

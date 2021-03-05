@@ -1,4 +1,6 @@
 using System.Collections;
+using Messages.Client;
+using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Antagonists;
+using Messages.Server;
 using UnityEngine;
 using Mirror;
 using UI.CharacterCreator;

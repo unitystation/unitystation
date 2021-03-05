@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AddressableReferences;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
 using Objects;
-using SoundMessages;
+
 
 /// <summary>
 /// Allows closet to be opened / closed / locked
