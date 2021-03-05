@@ -205,12 +205,9 @@ namespace Objects.Engineering
 		///The last air sample's total molar count, will always be above or equal to 0
 		private float combinedGas = 0;
 
-		private float gasmixPowerRatio = 0;
-		private float dynamicHeatModifier = 1;
 		private float dynamicHeatResistance = 1;
 		private float powerlossInhibitor = 1;
 		private float powerlossDynamicScaling = 0;
-		private float powerTransmissionBonus = 0;
 		private float moleHeatPenalty = 0;
 		private float matterPower = 0;
 
@@ -473,14 +470,14 @@ namespace Objects.Engineering
 				}
 
 				//No less then zero, and no greater then one, we use this to do explosions and heat to power transfer
-				gasmixPowerRatio =
+				var gasmixPowerRatio =
 					Mathf.Min(
 						Mathf.Max(
 							((plasmaCompositon + o2Compositon + co2Compositon + h2oCompositon + tritiumCompositon + bzCompositon - pluoxiumCompositon - n2Compositon -
 							  freonCompositon)) * waterMalus, 0), 1);
 
 				//Minimum value of 1.5, maximum value of 23
-				dynamicHeatModifier = plasmaCompositon * heatPenaltyDefines[Gas.Plasma];
+				var dynamicHeatModifier = plasmaCompositon * heatPenaltyDefines[Gas.Plasma];
 				dynamicHeatModifier += o2Compositon * heatPenaltyDefines[Gas.Oxygen];
 				dynamicHeatModifier += co2Compositon * heatPenaltyDefines[Gas.CarbonDioxide];
 				dynamicHeatModifier += tritiumCompositon * heatPenaltyDefines[Gas.Tritium];
@@ -499,7 +496,7 @@ namespace Objects.Engineering
 						((pluoxiumCompositon * heatResistanceDefines[Gas.Pluoxium] * pluoxiumBonus)), 1);
 
 				//Value between 30 and -5, used to determine radiation output as it concerns things like collectors
-				powerTransmissionBonus = plasmaCompositon * transmitDefines[Gas.Plasma];
+				var powerTransmissionBonus = plasmaCompositon * transmitDefines[Gas.Plasma];
 				powerTransmissionBonus += o2Compositon * transmitDefines[Gas.Oxygen];
 				powerTransmissionBonus += (h2oCompositon * transmitDefines[Gas.WaterVapor] * waterBonus);
 				powerTransmissionBonus += bzCompositon * transmitDefines[Gas.BZ];
