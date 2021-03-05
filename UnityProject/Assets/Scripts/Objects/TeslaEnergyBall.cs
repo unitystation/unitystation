@@ -226,13 +226,19 @@ namespace Objects
 				objectsToShoot.Add(entity.gameObject);
 			}
 
-			if(objectsToShoot.Count == 0) return;
-
 			for (int i = 0; i < (int)currentStage + 1; i++)
 			{
 				var target = GetTarget(objectsToShoot, doTeslaFirst: false);
 
-				if(target == null) break;
+				if(target == null)
+				{
+					//If no target objects shoot random tile instead
+					var pos = GetRandomTile(primaryRange);
+					if(pos == null) continue;
+
+					Zap(gameObject, null, Random.Range(1,3), pos.Value);
+					continue;
+				}
 
 				ShootLightning(target);
 
@@ -337,6 +343,27 @@ namespace Objects
 			{
 				integrity.ApplyDamage(damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn, true, explodeOnDestroy: true);
 			}
+		}
+
+		private Vector3Int? GetRandomTile(int range)
+		{
+			var overloadPrevent = 0;
+
+			while (overloadPrevent < 20)
+			{
+				var pos = registerTile.WorldPositionServer;
+				pos.x += Random.Range(-range, range + 1);
+				pos.y += Random.Range(-range, range + 1);
+
+				if (MatrixManager.IsEmptyAt(pos, true))
+				{
+					return pos;
+				}
+
+				overloadPrevent++;
+			}
+
+			return null;
 		}
 
 		#region Helpers
