@@ -657,7 +657,7 @@ public partial class PlayerSync
 			var bumpAbles = objectOnTile.GetComponents<IBumpObject>();
 			foreach (var bump in bumpAbles)
 			{
-				bump.BumpAble(gameObject);
+				bump.OnBump(gameObject);
 			}
 		}
 

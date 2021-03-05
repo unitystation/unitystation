@@ -163,19 +163,45 @@ namespace Objects.Engineering
 
 		private void TryWeld(HandApply interaction)
 		{
+			if (Validations.HasUsedActiveWelder(interaction) == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The welder needs to be turn on first");
+				return;
+			}
+
 			if (isWelded)
 			{
 				//Unweld
-				isWelded = false;
-				objectBehaviour.ServerSetPushable(true);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
+					$"You begin to unweld the {gameObject.ExpensiveName()}...",
+					$"{interaction.Performer.ExpensiveName()} starts unweld the {gameObject.ExpensiveName()} from the floor...",
+					$"You unweld the {gameObject.ExpensiveName()}",
+					$"{interaction.Performer.ExpensiveName()} unwelds the {gameObject.ExpensiveName()}",
+					() =>
+					{
+						isWelded = false;
+						objectBehaviour.ServerSetPushable(true);
+					}
+				);
+
 				return;
 			}
 
 			if (currentState != ReflectorType.Base)
 			{
-				//Weld if not box
-				isWelded = true;
-				objectBehaviour.ServerSetPushable(false);
+				//Weld to floor if not base
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
+					$"You begin to weld the {gameObject.ExpensiveName()}...",
+					$"{interaction.Performer.ExpensiveName()} starts weld the {gameObject.ExpensiveName()} to the floor...",
+					$"You weld the {gameObject.ExpensiveName()}",
+					$"{interaction.Performer.ExpensiveName()} welds the {gameObject.ExpensiveName()}",
+					() =>
+					{
+						isWelded = true;
+						objectBehaviour.ServerSetPushable(false);
+					}
+				);
+
 				return;
 			}
 
@@ -189,7 +215,7 @@ namespace Objects.Engineering
 			if (isWelded)
 			{
 				//Needs to be unwelded before deconstruction
-				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs unwelded first");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be unwelded first");
 				return;
 			}
 
@@ -210,14 +236,14 @@ namespace Objects.Engineering
 			if (isWelded == false)
 			{
 				//Needs to be unwelded before deconstruction
-				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs unwelded first");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be unwelded first");
 				return;
 			}
 
 			if (currentState == ReflectorType.Base)
 			{
 				//Needs to be constructed first
-				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs constructed first");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be constructed first");
 				return;
 			}
 

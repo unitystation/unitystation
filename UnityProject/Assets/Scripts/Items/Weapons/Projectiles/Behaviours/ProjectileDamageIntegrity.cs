@@ -37,7 +37,7 @@ namespace Weapons.Projectiles.Behaviours
 
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
-			if (integrity.DoDamageMessge)
+			if (integrity.DoDamageMessage)
 			{
 				Chat.AddThrowHitMsgToChat(thisGameObject, coll.gameObject, targetZone);
 			}

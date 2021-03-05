@@ -97,7 +97,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[SerializeField]
 	private bool doDamageMessage = true;
 
-	public bool DoDamageMessge => doDamageMessage;
+	public bool DoDamageMessage => doDamageMessage;
 
 	[SyncVar(hook = nameof(SyncOnFire))]
 	private bool onFire = false;

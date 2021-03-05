@@ -1098,7 +1098,7 @@ namespace Objects.Engineering
 		}
 
 		//Called when bumped by players or collided with by flying items
-		public void BumpAble(GameObject bumpedBy)
+		public void OnBump(GameObject bumpedBy)
 		{
 			if(isHugBox) return;
 

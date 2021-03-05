@@ -529,7 +529,7 @@ public partial class CustomNetTransform
 			{
 				foreach (var bump in objectBehaviour.GetComponents<IBumpObject>())
 				{
-					bump.BumpAble(gameObject);
+					bump.OnBump(gameObject);
 				}
 			}
 		}
