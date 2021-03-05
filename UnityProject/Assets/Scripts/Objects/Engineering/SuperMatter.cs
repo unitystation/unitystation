@@ -264,6 +264,9 @@ namespace Objects.Engineering
 		[SerializeField]
 		private bool canTakeIntegrityDamage = true;
 
+		[SerializeField]
+		private bool isHugBox;
+
 		private float superMatterMaxIntegrity = 1000f;
 		private float superMatterIntegrity = 1000f;
 		private float previousIntegrity;
@@ -345,6 +348,8 @@ namespace Objects.Engineering
 		private void SuperMatterUpdate()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
+
+			if(isHugBox) return;
 
 			CheckPower();
 
@@ -1079,6 +1084,8 @@ namespace Objects.Engineering
 		//Called when hit by projectiles
 		public void OnHitDetect(OnHitDetectData data)
 		{
+			if (isHugBox) return;
+
 			//Increase power if emitter projectile
 			if (data.BulletName == emitterBulletName)
 			{
@@ -1087,6 +1094,8 @@ namespace Objects.Engineering
 				return;
 			}
 
+			if(canTakeIntegrityDamage == false) return;
+
 			//Else do integrity damage
 			superMatterIntegrity -= data.DamageData.Damage * 2;
 		}
@@ -1094,6 +1103,8 @@ namespace Objects.Engineering
 		//Called when bumped by players or collided with by flying items
 		public void BumpAble(GameObject bumpedBy)
 		{
+			if(isHugBox) return;
+
 			if (bumpedBy.TryGetComponent<PlayerHealth>(out var playerHealth))
 			{
 				//Players, you big idiot
