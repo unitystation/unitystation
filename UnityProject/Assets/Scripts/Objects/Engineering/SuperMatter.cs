@@ -149,7 +149,7 @@ namespace Objects.Engineering
 		private const int SeverePowerPenaltyThreshold = 7000;   //+1 bolt of electricity, allows for gravitational anomalies, and higher chances of pyro anomalies
 		private const int CriticalPowerPenaltyThreshold = 9000; //+1 bolt of electricity.
 		private const int HeatPenaltyThreshold = 40;             //Higher == Crystal safe operational temperature is higher.
-		private const float DamageHardcap = 0.002f;
+		private const float DamageHardcap = 0.004f;
 
 		[SerializeField]
 		private const float DamageIncreaseMultiplier = 0.25f;
@@ -722,15 +722,20 @@ namespace Objects.Engineering
 			Spawn.ServerPrefab(prefabToSpawn, pos.Value, transform.parent);
 		}
 
-		private Vector3Int? GetRandomTile()
+		private Vector3Int? GetRandomTile(int range = -1)
 		{
 			var overloadPrevent = 0;
+
+			if (range == -1)
+			{
+				range = 11;
+			}
 
 			while (overloadPrevent < 20)
 			{
 				var pos = registerTile.WorldPositionServer;
-				pos.x += Random.Range(-11, 11);
-				pos.y += Random.Range(-11, 11);
+				pos.x += Random.Range(-range, range + 1);
+				pos.y += Random.Range(-range, range + 1);
 
 				if (MatrixManager.IsEmptyAt(pos, true))
 				{
@@ -840,7 +845,7 @@ namespace Objects.Engineering
 				}
 
 				// A message once every 5 seconds until the final 5 seconds which count down individually
-				if (i < finalCountdownTime - 5 && finalCountdownTime % 5 == 0)
+				if (i < finalCountdownTime - 5 && i % 5 == 0)
 				{
 					AddMessageToChat($"{finalCountdownTime - i} remain before causality destabilization.", true);
 				}
@@ -914,7 +919,7 @@ namespace Objects.Engineering
 				if (target == null)
 				{
 					//If no target objects shoot random tile instead
-					var pos = GetRandomTile();
+					var pos = GetRandomTile(primaryRange);
 					if(pos == null) continue;
 
 					Zap(gameObject, null, Random.Range(1,3), pos.Value);

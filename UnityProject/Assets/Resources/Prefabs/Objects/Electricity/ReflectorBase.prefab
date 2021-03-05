@@ -17,8 +17,7 @@ MonoBehaviour:
   startingState: 0
   startingAngle: 0
   startSetUp: 0
-  emitterBullet: {fileID: 3294328072042417454, guid: cb2dd6c06a988d947b53d2dcf0ec9575,
-    type: 3}
+  spriteTransform: {fileID: 6590270029744144287}
   glassNeeded: 5
   reinforcedGlassNeeded: 10
   diamondsNeeded: 1
@@ -111,6 +110,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -176,6 +190,12 @@ PrefabInstance:
 --- !u!1 &6922072163264869420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 7643784978336489900}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6590270029744144287 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 7643784978336489900}
   m_PrefabAsset: {fileID: 0}

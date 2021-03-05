@@ -22,8 +22,7 @@ namespace Objects.Engineering
 		private bool startSetUp;
 
 		[SerializeField]
-		private GameObject emitterBullet = null;
-		private string emitterBulletName;
+		private Transform spriteTransform;
 
 		private SpriteHandler spriteHandler;
 		private ObjectBehaviour objectBehaviour;
@@ -56,16 +55,18 @@ namespace Objects.Engineering
 			registerTile = GetComponent<RegisterTile>();
 			objectAttributes = GetComponent<ObjectAttributes>();
 			integrity = GetComponent<Integrity>();
-			emitterBulletName = emitterBullet.GetComponent<Bullet>().visibleName;
 		}
 
 		private void OnValidate()
 		{
+			if (Application.isPlaying) return;
+
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			currentState = startingState;
 			spriteHandler.ChangeSprite((int)startingState);
 			rotation = -startingAngle;
-			transform.Rotate(0, 0, rotation);
+			transform.localEulerAngles = new Vector3(0, 0, rotation);
+			spriteTransform.localEulerAngles = Vector3.zero;
 		}
 
 		private void Start()
@@ -74,7 +75,8 @@ namespace Objects.Engineering
 
 			ChangeState(startingState);
 			rotation = -startingAngle;
-			transform.Rotate(0, 0, rotation);
+			transform.localEulerAngles = new Vector3(0, 0, rotation);
+			spriteTransform.localEulerAngles = Vector3.zero;
 
 			if (startSetUp)
 			{
@@ -86,7 +88,8 @@ namespace Objects.Engineering
 		private void SyncRotation(float oldVar, float newVar)
 		{
 			rotation = newVar;
-			transform.Rotate(0, 0, newVar);
+			transform.localEulerAngles = new Vector3(0, 0, rotation);
+			spriteTransform.localEulerAngles = Vector3.zero;
 		}
 
 		private void OnEnable()
@@ -123,6 +126,8 @@ namespace Objects.Engineering
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
 
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return true;
+
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet)) return true;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.ReinforcedGlassSheet)) return true;
@@ -143,6 +148,12 @@ namespace Objects.Engineering
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
 				TryWrench(interaction);
+				return;
+			}
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
+			{
+				TryRotate(interaction);
 				return;
 			}
 
@@ -191,6 +202,34 @@ namespace Objects.Engineering
 					DownGradeState();
 				}
 			);
+		}
+
+		private void TryRotate(HandApply interaction)
+		{
+			if (isWelded == false)
+			{
+				//Needs to be unwelded before deconstruction
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs unwelded first");
+				return;
+			}
+
+			if (currentState == ReflectorType.Base)
+			{
+				//Needs to be constructed first
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs constructed first");
+				return;
+			}
+
+			if (interaction.IsAltClick)
+			{
+				rotation += 5;
+			}
+			else
+			{
+				rotation -= 5;
+			}
+
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"You rotate the reflector to {rotation - 90} degrees");
 		}
 
 		private void DownGradeState(bool isDestroy = false)
@@ -305,26 +344,34 @@ namespace Objects.Engineering
 			{
 				//Sends all to rotation direction
 				case ReflectorType.Box:
-					ShootAtDirection(rotation, data);
+					ShootAtDirection(rotation + 90, data);
 					break;
 				case ReflectorType.Double:
 					TryAngleDouble(data);
 					break;
 				case ReflectorType.Single:
-					ShootAtDirection(rotation, data);
+					TryAngleSingle(data);
 					break;
+			}
+		}
+
+		private void TryAngleSingle(OnHitDetectData data)
+		{
+			if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation - 90)) <= 55)
+			{
+				ShootAtDirection(rotation + 90, data);
 			}
 		}
 
 		private void TryAngleDouble(OnHitDetectData data)
 		{
-			if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation)) <= 45)
+			if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation - 90)) <= 55)
 			{
-				ShootAtDirection(rotation, data);
+				ShootAtDirection(rotation + 90, data);
 			}
-			else if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation + 180)) <= 45)
+			else if (Vector2.Angle(data.BulletShootDirection, DegreeToVector2(rotation + 180 - 90)) <= 55)
 			{
-				ShootAtDirection(rotation + 180, data);
+				ShootAtDirection(rotation + 180 + 90, data);
 			}
 		}
 
