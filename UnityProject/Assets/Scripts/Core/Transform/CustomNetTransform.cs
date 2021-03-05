@@ -633,16 +633,14 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			}
 		}
 
-		clientState = serverState;
-		UpdateClientState(clientState, clientState);
+		UpdateClientState(clientState, serverState);
 	}
 
 	private IEnumerator IdWait()
 	{
 		yield return WaitFor.EndOfFrame;
 
-		clientState = serverState;
-		UpdateClientState(clientState, clientState);
+		UpdateClientState(clientState, serverState);
 	}
 
 	/// <summary>
@@ -652,8 +650,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[Server]
 	public void NotifyPlayer(NetworkConnection playerGameObject)
 	{
-		clientState = serverState;
-		UpdateClientState(clientState, clientState);
+		UpdateClientState(clientState, serverState);
 	}
 
 	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)
