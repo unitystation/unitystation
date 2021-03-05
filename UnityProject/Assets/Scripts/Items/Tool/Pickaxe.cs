@@ -14,7 +14,6 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>,
 	private float timeMultiplier = 1f;
 
 	private string objectName;
-	private PositionalHandApply positionalHandApply;
 
 	#region Tiles
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
@@ -33,7 +32,24 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>,
 		var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
 		var wallTile = interactableTiles.MetaTileMap.GetTileAtWorldPos(interaction.WorldPositionTarget, LayerType.Walls) as BasicTile;
 		var calculatedMineTime = wallTile.MiningTime * timeMultiplier;
-		positionalHandApply = interaction;
+
+		void FinishMine()
+		{
+			if (interactableTiles == null)
+			{
+				Logger.LogError("No interactable tiles found, mining cannot be finished", Category.TileMaps);
+			}
+			else
+			{
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+				var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
+
+				var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
+				Spawn.ServerPrefab(tile.SpawnOnDeconstruct, interaction.WorldPositionTarget ,  count : tile.SpawnAmountOnDeconstruct);
+				interactableTiles.TileChangeManager.RemoveTile(cellPos, LayerType.Walls);
+				interactableTiles.TileChangeManager.RemoveOverlay(cellPos, LayerType.Effects);
+			}
+		}
 
 		ToolUtils.ServerUseToolWithActionMessages(
 			interaction, calculatedMineTime,
@@ -43,24 +59,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>,
 			FinishMine);
 	}
 
-	private void FinishMine()
-	{
-		var interactableTiles = positionalHandApply.TargetObject.GetComponent<InteractableTiles>();
-		if (interactableTiles == null)
-		{
-			Logger.LogError("No interactable tiles found, mining cannot be finished", Category.TileMaps);
-		}
-		else
-		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone, positionalHandApply.WorldPositionTarget, sourceObj: positionalHandApply.Performer);
-			var cellPos = interactableTiles.MetaTileMap.WorldToCell(positionalHandApply.WorldPositionTarget);
 
-			var tile = interactableTiles.LayerTileAt(positionalHandApply.WorldPositionTarget) as BasicTile;
-			Spawn.ServerPrefab(tile.SpawnOnDeconstruct, positionalHandApply.WorldPositionTarget ,  count : tile.SpawnAmountOnDeconstruct);
-			interactableTiles.TileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-			interactableTiles.TileChangeManager.RemoveOverlay(cellPos, LayerType.Effects);
-		}
-	}
 	#endregion
 
 	#region Objects
