@@ -8,6 +8,7 @@ using Systems.Explosions;
 using Systems.Radiation;
 using AddressableReferences;
 using Light2D;
+using Messages.Server;
 using Mirror;
 using ScriptableObjects.Gun;
 using UnityEngine;
@@ -176,6 +177,9 @@ namespace Objects.Engineering
 
 		[SerializeField]
 		private ItemTrait superMatterScalpel = null;
+
+		[SerializeField]
+		private GameObject nuclearParticlePrefab = null;
 
 		private string emitterBulletName;
 
@@ -592,7 +596,7 @@ namespace Objects.Engineering
 				GasMix.TransferGas(gasMix, removeMix, removeMix.Moles);
 			}
 
-			//Transitions between one function and another, one we use for the fast inital startup, the other is used to prevent errors with fusion temperatures.
+			//Transitions between one function and another, one we use for the fast initial startup, the other is used to prevent errors with fusion temperatures.
 			//Use of the second function improves the power gain imparted by using co2
 			power -= Mathf.Min(Mathf.Pow(power / 500, 3f) * powerlossInhibitor, power * 0.83f * powerlossInhibitor);
 
@@ -633,7 +637,7 @@ namespace Objects.Engineering
 				superMatterIntegrity = 0;
 			}
 
-			//Caps integrity change to previous integrity -+ 2, per update
+			//Caps integrity change to previous integrity -+ 4, per update
 			superMatterIntegrity = Mathf.Clamp(superMatterIntegrity,
 				previousIntegrity - (DamageHardcap * superMatterMaxIntegrity),
 				previousIntegrity + (DamageHardcap * superMatterMaxIntegrity));
@@ -735,7 +739,7 @@ namespace Objects.Engineering
 
 		private void FireNuclearParticle()
 		{
-
+			CastProjectileMessage.SendToAll(gameObject, nuclearParticlePrefab, Reflector.DegreeToVector2(Random.Range(0, 361)), default);
 		}
 
 		#endregion
