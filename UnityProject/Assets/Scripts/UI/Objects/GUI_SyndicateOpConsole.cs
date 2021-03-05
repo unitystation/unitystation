@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUI_SyndicateOpConsole : NetTab
 {
@@ -7,6 +8,9 @@ public class GUI_SyndicateOpConsole : NetTab
 
 	[SerializeField]
 	private InputFieldFocus textComp;
+
+	[SerializeField]
+	private Text timer;
 
 	public override void OnEnable()
 	{
@@ -25,6 +29,11 @@ public class GUI_SyndicateOpConsole : NetTab
 
 		textComp.text = "A syndicate fringe group has declared their intent to utterly" +
 		"destroy the station with a nuclear device and dares the crew to try and stop them";
+	}
+
+	private void UpdateTimer()
+	{
+		timer.text = $"{20 - console.Timer}:00";
 	}
 
 

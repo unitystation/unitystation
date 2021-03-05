@@ -27,6 +27,8 @@ namespace Antagonists
 		/// </summary>
 		private List<SpawnedAntag> ActiveAntags = new List<SpawnedAntag>();
 
+		public List<SpawnedAntag> CurrentAntags => ActiveAntags;
+
 		/// <summary>
 		/// Keeps track of which players have already been targeted for objectives
 		/// </summary>

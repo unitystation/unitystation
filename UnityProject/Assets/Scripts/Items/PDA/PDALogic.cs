@@ -83,7 +83,7 @@ namespace Items.PDA
 		public bool IsUplinkCapable { get; private set; } = false;
 		public bool IsUplinkLocked { get; private set; } = true;
 		/// <summary> The count of how many telecrystals this PDA has </summary>
-		public int UplinkTC { get; private set; }
+		public int UplinkTC { get; set; }
 
 		public bool FlashlightOn => flashlight.IsOn;
 

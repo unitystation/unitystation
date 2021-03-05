@@ -14,9 +14,6 @@ public class ReinforcementTeleporter : MonoBehaviour, ICheckedInteractable<HandA
 
 	private uint createdRoleKey;
 
-	public event Action OnGhostRoleTimeout;
-
-
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
@@ -43,7 +40,7 @@ public class ReinforcementTeleporter : MonoBehaviour, ICheckedInteractable<HandA
 		GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKey];
 
 		role.OnPlayerAdded += SpawnReinforcement;
-		role.OnTimerExpired += OnGhostRoleTimeout;
+		role.OnTimerExpired += ClearGhostRole;
 	}
 
 	private void SpawnReinforcement(ConnectedPlayer player)
