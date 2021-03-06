@@ -29,6 +29,12 @@ namespace Systems.Atmospherics
 				{
 					value += a;
 				}
+
+				if (float.IsNaN(value))
+				{
+					return 0;
+				}
+
 				return value;
 			}
 		}
@@ -171,8 +177,6 @@ namespace Systems.Atmospherics
 			otherGas.SetTemperature(newTemperature);
 			return otherGas;
 		}
-
-
 
 		public void MultiplyGas(float factor)
 		{
