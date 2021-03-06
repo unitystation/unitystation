@@ -760,7 +760,7 @@ public class SoundManager : MonoBehaviour
 	public static void Stop(string soundSpawnToken)
 	{
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
-			Instance.SoundSpawns[soundSpawnToken].AudioSource.Stop();
+			Instance.SoundSpawns[soundSpawnToken]?.AudioSource.Stop();
 	}
 
 	/// <summary>
