@@ -96,10 +96,115 @@ MonoBehaviour:
         type: 3}
       name: 9mm Pistol Magazine (Makarov)
       isNukeOps: 0
+    - cost: 2
+      item: {fileID: 7476062863988596383, guid: 0bcb562e4cfbd464e8ef507e59b99145,
+        type: 3}
+      name: 9mm Pistol Magazine Incendiary (Makarov)
+      isNukeOps: 0
+    - cost: 2
+      item: {fileID: 208438919457015429, guid: 796601fd29f46de47aea93cd84ab063f, type: 3}
+      name: 9mm Pistol Magazine AP (Makarov)
+      isNukeOps: 0
+    - cost: 3
+      item: {fileID: 2678885901133295109, guid: 0d6120c86021a9248ac45d3b4af5cc4e,
+        type: 3}
+      name: 9mm Pistol Magazine HP (Makarov)
+      isNukeOps: 0
     - cost: 4
       item: {fileID: 661569839832110917, guid: 7cbde3b57839c144e933398cfd78e132, type: 3}
-      name: .357 Speedloader (Lucifer)
+      name: .357 Revolver Speedloader
       isNukeOps: 0
+    - cost: 2
+      item: {fileID: 5531796456047199634, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      name: 12g Buckshot Drum
+      isNukeOps: 1
+    - cost: 2
+      item: {fileID: 3417397333577640349, guid: 857e3b9968507b6419c8eefb3f1dfd9b,
+        type: 3}
+      name: 12g Dragons Breath Drum
+      isNukeOps: 1
+    - cost: 3
+      item: {fileID: 495695739081607122, guid: 76134a5adbe62c94595b6b00b216189a, type: 3}
+      name: 12g Slug Drum
+      isNukeOps: 1
+    - cost: 3
+      item: {fileID: 7508253555952636633, guid: 251c85198dd9873499087ca7a48dd1f7,
+        type: 3}
+      name: .45 Magazine
+      isNukeOps: 0
+    - cost: 4
+      item: {fileID: 435832073196029829, guid: 6350e652bf2cf6f4798e94b428abe26a, type: 3}
+      name: .45 Incendiary Magazine
+      isNukeOps: 0
+    - cost: 5
+      item: {fileID: 4430048610868926130, guid: 3ff692322b59b2c42910672d01e80be0,
+        type: 3}
+      name: .45 AP Magazine
+      isNukeOps: 0
+    - cost: 6
+      item: {fileID: 9000248426970939090, guid: e9d40516785485e4186335c8a0127177,
+        type: 3}
+      name: 7.62 Box Magazine
+      isNukeOps: 1
+    - cost: 6
+      item: {fileID: 1008370769270868744, guid: bef46d3ead6840548bca44c50cf2b0f0,
+        type: 3}
+      name: 7.62 HP Box Magazine
+      isNukeOps: 1
+    - cost: 9
+      item: {fileID: 6814394828475340149, guid: e9e53c4c86ce8b847a9357dd556d29cb,
+        type: 3}
+      name: 7.62 Match Box Magazine
+      isNukeOps: 1
+    - cost: 4
+      item: {fileID: 6235254427324400780, guid: 7bf36ad773bdc1f49b1d7b0b3314f2e4,
+        type: 3}
+      name: .50 Magazine
+      isNukeOps: 1
+    - cost: 5
+      item: {fileID: 2758230776231955350, guid: 1ff4434fc7fc4854a96c3553a2bfea85,
+        type: 3}
+      name: .50 Penetrator Magazine
+      isNukeOps: 1
+    - cost: 6
+      item: {fileID: 494214967995890161, guid: a6df792f59ac82341bcd9b5f48ecc88b, type: 3}
+      name: .50 Soporific Magazine
+      isNukeOps: 1
+    - cost: 4
+      item: {fileID: 7571802707091528828, guid: 5a643a1e715e7bd42af8563fcac22ee2,
+        type: 3}
+      name: 5.56 Magazine
+      isNukeOps: 1
+    - cost: 8
+      item: {fileID: 5584016710060083735, guid: 3059ceba0a1fa2d48820de96b52d1e6b,
+        type: 3}
+      name: 5.56 Phasic Magazine
+      isNukeOps: 1
+    - cost: 6
+      item: {fileID: 739350886795446212, guid: 19fb6e6a3e54bc54e8215d5cbb5163b9, type: 3}
+      name: 40mm Grenade Box
+      isNukeOps: 1
+    - cost: 4
+      item: {fileID: 7885618348377886950, guid: d449122ab9878fd4dab243529623d4a8,
+        type: 3}
+      name: '84mm HE Rocket '
+      isNukeOps: 1
+    - cost: 6
+      item: {fileID: 5396261572197323186, guid: 0a2c8403248b90e42a4daf4fb6abfd09,
+        type: 3}
+      name: 84mm HEDP Rocket
+      isNukeOps: 1
+    - cost: 2
+      item: {fileID: 1104235240792570141, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      name: 9mm Pistol Magazine (Stechkin)
+      isNukeOps: 1
+    - cost: 2
+      item: {fileID: 2428660906454981478, guid: c371c5907c4625940aff4277249124d4,
+        type: 3}
+      name: Riot Dart Box
+      isNukeOps: 1
   - categoryName: Explosives
     itemList:
     - cost: 6
@@ -225,3 +330,27 @@ MonoBehaviour:
       item: {fileID: 977221850260943938, guid: f4c8c47f2be4a0da782121a3b8525d83, type: 3}
       name: 20 Raw Telecrystals
       isNukeOps: 0
+    - cost: 30
+      item: {fileID: 57414207370854082, guid: 82720e0bf28b564d4978793032e33055, type: 3}
+      name: Bioterror Bundle
+      isNukeOps: 1
+    - cost: 13
+      item: {fileID: 3105798360338048097, guid: 001c57c5b279e27c7bd445f00e862c77,
+        type: 3}
+      name: Bulldozer Bundle
+      isNukeOps: 1
+    - cost: 14
+      item: {fileID: 4052594192556048590, guid: c6a44742c1c75b26f9c4320efd6ec51f,
+        type: 3}
+      name: Stalker Bundle
+      isNukeOps: 1
+    - cost: 20
+      item: {fileID: 2099303216157800597, guid: f51a890ee645ebadcbaecbe50303219c,
+        type: 3}
+      name: Sniper Bundle
+      isNukeOps: 1
+    - cost: 30
+      item: {fileID: 5538682413876056207, guid: f714a60090305cfbd931526efdf23a52,
+        type: 3}
+      name: Spetznas Pyro Bundle
+      isNukeOps: 1
