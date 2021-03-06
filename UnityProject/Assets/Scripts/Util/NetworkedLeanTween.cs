@@ -2,8 +2,7 @@
 using Mirror;
 
 /// <summary>
-/// This contains a bunch of LeanTween functions that are can be called from the server to play on other clients.
-/// Remember to set the target or it will only apply the effect on the object it's on.
+/// Handles syncing common variables used in animations.
 /// </summary>
 
 public class NetworkedLeanTween : NetworkBehaviour
@@ -12,6 +11,9 @@ public class NetworkedLeanTween : NetworkBehaviour
 	public bool isAnim = false;
 	[SyncVar]
 	public Transform target;
+	[SyncVar]
+	public AnimType animType = AnimType.MOVEMENT;
+
 	[SyncVar]
 	private Vector3 pos;
 	[SyncVar]
@@ -25,6 +27,12 @@ public class NetworkedLeanTween : NetworkBehaviour
 		Z
 	}
 
+	public enum AnimType
+	{
+		MOVEMENT,
+		COLOR
+	}
+
 	private void Awake() {
 		if(target == null){ target = this.transform;}
 	}
@@ -32,10 +40,24 @@ public class NetworkedLeanTween : NetworkBehaviour
 	private void FixedUpdate() {
 		if(isAnim)
 		{
-			pos = target.position;
-			rotation = target.rotation;
-			target.position = pos;
-			target.rotation = rotation;
+			updateBasedOnState();
+		}
+	}
+
+	private void updateBasedOnState()
+	{
+		switch (animType)
+		{
+			case (AnimType.MOVEMENT):
+				pos = target.position;
+				rotation = target.rotation;
+				target.position = pos;
+				target.rotation = rotation;
+				break;
+			case (AnimType.COLOR):
+				//add later
+				Debug.LogWarning("[NetworkedLeanTween] -> Have not implameneted syncing for colors and alpha values yet.");
+				break;
 		}
 	}
 
@@ -43,6 +65,14 @@ public class NetworkedLeanTween : NetworkBehaviour
 	{
 		target = t;
 	}
+
+	public void setAnimType(AnimType type)
+	{
+		animType = type;
+	}
+
+	//The functions below just handle playing animations on target.
+	//Mainly used to help people not worry about getting the target to animate and make cleaner code.
 
 	public void StopAll(bool state)
 	{
