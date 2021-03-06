@@ -612,13 +612,13 @@ namespace IngameDebugConsole
 
 					if (value > items.CreditsCost)
 					{
-						Debug.LogError($"{items.OrderName}'s credit cost: {items.CreditsCost} is less than its export value: {value}, exploit possible!");
+						Logger.LogError($"{items.OrderName}'s credit cost: {items.CreditsCost} is less than its export value: {value}, exploit possible!", Category.Exploits);
 					}
 
-					Debug.Log($"value: {value}, cost: {items.CreditsCost}, {items.OrderName}");
+					Logger.Log($"Cargo export value: {value}, cost: {items.CreditsCost}, {items.OrderName}", Category.Unknown);
 				}
 			}
-			Debug.Log("Cost Calculation Complete");
+			Logger.Log("Cargo export cost calculation complete", Category.Unknown);
 		}
 #endif
 	}

@@ -136,7 +136,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			float screenHeight = Screen.height / Screen.dpi;
 			float diagonalInches = Mathf.Sqrt (Mathf.Pow (screenWidth, 2) + Mathf.Pow (screenHeight, 2));
 
-			Debug.Log ("Getting device inches: " + diagonalInches);
+			Logger.Log("Getting mobile device screen size in inches: " + diagonalInches, Category.UI);
 
 			return diagonalInches;
 		}

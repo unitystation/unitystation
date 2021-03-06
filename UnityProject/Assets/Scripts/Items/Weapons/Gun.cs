@@ -227,7 +227,7 @@ namespace Weapons
 			queuedShots = new Queue<QueuedShot>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
-				Debug.LogWarning($"{gameObject.name} missing components, may cause issues");
+				Logger.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
 			}
 		}
 
@@ -270,7 +270,7 @@ namespace Weapons
 
 			if (ammoPrefab == null)
 			{
-				Debug.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.");
+				Logger.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.", Category.Firearms);
 				return;
 			}
 
@@ -280,7 +280,7 @@ namespace Weapons
 
 			if (pinPrefab == null)
 			{
-				Debug.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.");
+				Logger.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.", Category.Firearms);
 				return;
 			}
 
@@ -504,7 +504,7 @@ namespace Weapons
 					default:
 						// unexpected behaviour
 						// if this ever runs, somethings gone horribly fucking wrong, good luck.
-						Debug.LogError($"{gameObject.name} returned a unexpected result when calling TriggerPull serverside!");
+						Logger.LogError($"{gameObject.name} returned a unexpected result when calling TriggerPull serverside!", Category.Firearms);
 						break;
 				}
 			}

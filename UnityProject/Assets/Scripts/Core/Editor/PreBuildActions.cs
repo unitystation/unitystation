@@ -25,13 +25,13 @@ public class PreBuildActions : IPreprocessBuild
 
 		if (!SpawnListBuild())
 		{
-			Debug.LogError("Could not cache prefabs for SpawnList. Unknown Error");
+			Logger.LogError("Could not cache prefabs for SpawnList. Unknown Error", Category.Unknown);
 			return;
 		}
 
 		if (!CacheTiles())
 		{
-			Debug.LogError("Could not cache tiles for TileManager. Unknown Error");
+			Logger.LogError("Could not cache tiles for TileManager. Unknown Error", Category.Unknown);
 			return;
 		}
 

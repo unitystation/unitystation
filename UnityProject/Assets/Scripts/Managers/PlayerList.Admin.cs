@@ -745,7 +745,7 @@ public partial class PlayerList
 
 			if (conn == null)
 			{
-				Debug.LogError("Connection was NULL");
+				Logger.LogError("Connection was NULL", Category.Unknown);
 				return;
 			}
 
@@ -1081,7 +1081,7 @@ public partial class PlayerList
 	{
 		if (jobBanList == null)
 		{
-			Debug.LogError("The job ban list loaded from the json was null, cant add new ban to it.");
+			Logger.LogError("The job ban list loaded from the json was null, cant add new ban to it.", Category.Admin);
 			yield break;
 		}
 
@@ -1116,7 +1116,7 @@ public partial class PlayerList
 
 		if (jobBanPlayerEntry.Value.Item1 == null)
 		{
-			Debug.LogError("New job ban list was null even though new one was generated");
+			Logger.LogError("New job ban list was null even though new one was generated", Category.Admin);
 			yield break;
 		}
 

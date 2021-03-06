@@ -101,7 +101,7 @@ public class PlayParticleMessage : ServerMessage
 		}
 		catch (Exception ignored)
 		{
-			Debug.Log($"PlayParticleMessage threw an exception {ignored} which has been ignored.");
+			Logger.Log($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Unknown);
 		}
 
 

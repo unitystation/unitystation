@@ -196,8 +196,9 @@ namespace Systems.MobAIs
 
 			ServerDoLerpAnimation(dir);
 
-			Debug.Log(
-				$"CONN CLIENT TIME: {healthBehaviour.connectionToClient.lastMessageTime} Network time: {(float)NetworkTime.time}");
+			Logger.Log(
+				$"CONN CLIENT TIME: {healthBehaviour.connectionToClient.lastMessageTime} Network time: {(float)NetworkTime.time}",
+				Category.Unknown);
 			if (PlayerManager.LocalPlayerScript != null
 				&& PlayerManager.LocalPlayerScript.playerHealth != null
 				&& PlayerManager.LocalPlayerScript.playerHealth == healthBehaviour ||
@@ -207,7 +208,7 @@ namespace Systems.MobAIs
 			}
 			else
 			{
-				Debug.Log($"WAIT FOR ATTACK: {healthBehaviour.RTT / 2f}");
+				Logger.Log($"WAIT FOR ATTACK: {healthBehaviour.RTT / 2f}", Category.Unknown);
 				yield return WaitFor.Seconds(healthBehaviour.RTT / 2f);
 			}
 

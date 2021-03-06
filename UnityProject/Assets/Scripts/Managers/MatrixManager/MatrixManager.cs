@@ -405,7 +405,7 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
 		{
-			Debug.Log("MATRIX: " + Instance.ActiveMatrices[i].Name);
+			Logger.Log("MATRIX: " + Instance.ActiveMatrices[i].Name, Category.Matrix);
 		}
 	}
 
