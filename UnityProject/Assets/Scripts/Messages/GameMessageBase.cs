@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using UnityEngine;
 
 namespace Messages
@@ -20,7 +21,16 @@ namespace Messages
 
 		public virtual void Process(NetworkConnection sentBy, T msg)
 		{
-			Process(msg);
+			// This is to stop the server disconnecting if theres an error in the processing of the net message
+			// on either client or server side
+			try
+			{
+				Process(msg);
+			}
+			catch (Exception e)
+			{
+				Debug.LogError(e);
+			}
 		}
 
 		protected bool LoadNetworkObject(uint id)
