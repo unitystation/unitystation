@@ -22,7 +22,7 @@ namespace Objects.Engineering
 	/// Supermatter script, controls supermatter effects
 	/// Script originated from Tg DM code, which has been modified for UnityStation
 	/// </summary>
-	public class SuperMatter : NetworkBehaviour, IOnHitDetect, IExaminable, IBumpObject, ICheckedInteractable<HandApply>
+	public class SuperMatter : NetworkBehaviour, IOnHitDetect, IExaminable, IBumpableObject, ICheckedInteractable<HandApply>
 	{
 		#region lightSpriteDefines
 

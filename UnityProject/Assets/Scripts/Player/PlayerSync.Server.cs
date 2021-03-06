@@ -654,7 +654,7 @@ public partial class PlayerSync
 		//Bump all objects with IBumpObject interface
 		foreach (var objectOnTile in MatrixManager.GetAt<ObjectBehaviour>(worldTarget, true))
 		{
-			var bumpAbles = objectOnTile.GetComponents<IBumpObject>();
+			var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
 			foreach (var bump in bumpAbles)
 			{
 				bump.OnBump(gameObject);

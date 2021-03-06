@@ -2,7 +2,7 @@
 
 namespace Objects
 {
-	public interface IBumpObject
+	public interface IBumpableObject
 	{
 		void OnBump(GameObject bumpedBy);
 	}

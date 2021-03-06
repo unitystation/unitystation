@@ -527,7 +527,7 @@ public partial class CustomNetTransform
 			//Process any objects that we might have bumped into
 			foreach (var objectBehaviour in MatrixManager.GetAt<ObjectBehaviour>(intGoal, true))
 			{
-				foreach (var bump in objectBehaviour.GetComponents<IBumpObject>())
+				foreach (var bump in objectBehaviour.GetComponents<IBumpableObject>())
 				{
 					bump.OnBump(gameObject);
 				}
