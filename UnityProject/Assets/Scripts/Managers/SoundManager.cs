@@ -784,6 +784,13 @@ public class SoundManager : MonoBehaviour
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
 		{
 			SoundSpawn soundSpawn = Instance.SoundSpawns[soundSpawnToken];
+
+			if (soundSpawn == null)
+			{
+				Debug.LogError($"Unable to change audio parameters, soundSpawn was null");
+				return;
+			}
+
 			ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 		}
 	}
