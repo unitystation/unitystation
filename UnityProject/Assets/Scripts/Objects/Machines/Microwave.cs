@@ -501,7 +501,7 @@ namespace Objects.Kitchen
 			public override void DoorInteraction(ItemSlot fromSlot)
 			{
 				// Close if nothing's in hand.
-				if (fromSlot.Item == null)
+				if (fromSlot == null || fromSlot.Item == null)
 				{
 					microwave.SetState(new MicrowaveIdle(microwave));
 					return;
