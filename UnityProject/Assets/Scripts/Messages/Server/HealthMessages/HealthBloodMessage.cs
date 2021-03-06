@@ -20,6 +20,13 @@ namespace Messages.Server.HealthMessages
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.EntityToUpdate);
+
+			if (NetworkObject == null)
+			{
+				Debug.LogError("Couldn't load player gameobject for HealthBloodMessage");
+				return;
+			}
+
 			NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBloodStats(msg.HeartRate,
 				msg.BloodLevel, msg.OxygenDamage, msg.ToxinLevel);
 		}
