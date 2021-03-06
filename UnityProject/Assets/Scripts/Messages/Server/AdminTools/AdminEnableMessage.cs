@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Threading.Tasks;
 using Mirror;
 using UnityEngine;
 
@@ -34,12 +35,17 @@ namespace Messages.Server.AdminTools
 			UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
 		}
 
-		public static IEnumerator SendMessage(ConnectedPlayer player, string adminToken)
+		public static void SendMessage(ConnectedPlayer player, string adminToken)
+		{
+			SendMessageCo(player, adminToken);
+		}
+
+		private static async Task SendMessageCo(ConnectedPlayer player, string adminToken)
 		{
 			UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
 			var adminGhostItemStorage = AdminManager.Instance.GetItemSlotStorage(player);
 
-			yield return WaitFor.Seconds(3);
+			await Task.Delay(3000);
 
 			Send(player, adminToken, adminGhostItemStorage.GetComponent<NetworkIdentity>().netId);
 		}
