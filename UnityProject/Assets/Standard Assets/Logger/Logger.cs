@@ -198,82 +198,253 @@ public enum LogLevel
 	Trace = 3
 }
 
+/// <summary>
+/// Categories for sorting and filtering logs
+/// </summary>
 public enum Category
 {
+	/// <summary>
+	/// Category for the log isn't known or doesn't exist (Needs TLC)
+	/// </summary>
 	Unknown,
-	Security,
-	Connections,
-	Threading,
-	Matrix,
-	Transform,
-	Movement,
-	NetMessage,
-	UI,
-	ItemSpawn,
-	Inventory,
-	Equipment,
-	Steam,
+
+	//Tiles and Location
+		/// <summary>
+		/// Logs relating to Matrices (Needs TLC)
+		/// </summary>
+		Matrix,
+		/// <summary>
+		/// Logs relating to the generating and altering tilemaps (Needs TLC)
+		/// </summary>
+		TileMaps,
+		/// <summary>
+		/// Logs relating to the spatial relationships of RegisterTiles (Needs TLC)
+		/// </summary>		
+		SpatialRelationship,
+
+	//Player and Mob Features
+		/// <summary>
+		/// Logs relating to player and mob movement (Needs TLC)
+		/// </summary>
+		Movement,
+		/// <summary>
+		/// Logs relating to Player and Mob injury and health (Needs TLC)
+		/// </summary>
+		Health,
+	
+	//Interface and Controls
+		/// <summary>
+		/// Logs relating to displaying the user interface (Needs TLC)
+		/// </summary>
+		UI,
+		/// <summary>
+		/// Logs relating to the keybinding settings (Needs TLC)
+		/// </summary>
+		Keybindings,
+		/// <summary>
+		/// Logs relating to UI Themes
+		/// </summary>
+		Themes,
+		/// <summary>
+		/// Logs related to the progress bar
+		/// </summary>
+		ProgressAction,
+		/// <summary>
+		/// Logs related to in-game chat (Needs TLC)
+		/// </summary>
+		Chat,
+
+	//Items and Inventory
+		/// <summary>
+		/// Logs relating to spawning items into the game (Needs TLC)
+		/// </summary>
+		ItemSpawn,
+		/// <summary>
+		/// Logs relating to player inventory (Needs TLC)
+		/// </summary>
+		Inventory,
+		/// <summary>
+		/// Logs relating to projectile weapons (Needs TLC)
+		/// </summary>
+		Firearms,
+
+	//Roles and Jobs
+		/// <summary>
+		/// Logs relating to job selection and assignment (Needs TLC)
+		/// </summary>
+		Jobs,
+		/// <summary>
+		/// Logs relating to antagonist roles in general (Needs TLC)
+		/// </summary>
+		Antags,
+
+	//Interaction
+		/// <summary>
+		/// Logs relating to the Push/Pull interaction and transforming objects from pushing/pulling (Needs TLC)
+		/// </summary>
+		PushPull,
+		/// <summary>
+		/// Logs relating to players interacting with the in game environment(Needs TLC)
+		/// </summary>
+		Interaction,
+		/// <summary>
+		/// Logs relating to construction and crafting in game
+		/// </summary>
+		Construction,
+
+	//Role Related Systems
+		/// <summary>
+		/// Logs relating to the Botany system
+		/// </summary>
+		Botany,
+		/// <summary>
+		/// Logs relating to the chemistry system (Needs TLC)
+		/// </summary>
+		Chemistry,
+		/// <summary>
+		/// Logs relating to the research system (Needs TLC)
+		/// </summary>
+		Research,
+
+	//In-Game Systems
+		/// <summary>
+		/// Logs relating to the lighting system (Needs TLC)
+		/// </summary>
+		Lighting,
+		/// <summary>
+		/// Logs relating to the electricity system (Needs TLC)
+		/// </summary>
+		Electrical,
+		/// <summary>
+		/// Logs relating to the radiation system
+		/// </summary>
+		Radiation,
+		/// <summary>
+		/// Logs relating to Doors
+		/// </summary>
+		Doors,
+
+	//Game Rounds
+		/// <summary>
+		/// Logs relating to setting up, progressing, and ending game rounds (Needs TLC)
+		/// </summary>
+		Round,
+		/// <summary>
+		/// Logs relating to the round's game mode (Needs TLC)
+		/// </summary>
+		GameMode,
+		/// <summary>
+		/// Logs relating to random events that take place during a round
+		/// </summary>
+		Event,
+
+	//Sprites
+		/// <summary>
+		/// Logs relating to the sprite handler itself
+		/// </summary>
+		SpriteHandler,
+
+	//General Debugging and Editor logs
+		/// <summary>
+		/// Logs relating to the Debug Console itself (Needs TLC)
+		/// </summary>
+		DebugConsole,
+		/// <summary>
+		/// Logs relating to debugging and tests
+		/// </summary>
+		Tests,
+		/// <summary>
+		/// Logs for use in the editor
+		/// </summary>
+		Editor,
+	
+	//Security
+		/// <summary>
+		/// Logs relating the client attempting illegal/invalid actions that could be caused by cheating, hacking, or exploits (Needs TLC)
+		/// </summary>
+		Exploits,
+	
+
+	//Metaroles
+		/// <summary>
+		/// Logs related to the mentor system
+		/// </summary>
+		Mentor,
+		/// <summary>
+		/// Catch all category for anything admin related (Needs TLC)
+		/// </summary>
+		Admin,
+
+	//Core Functionality
+		/// <summary>
+		/// Logs relating to the programs threading behavior
+		/// </summary>
+		Threading,
+		/// <summary>
+		/// Logs relating to Steam integration
+		/// </summary>
+		Steam,
+	
+	//Sound and Audio*
+		Addressables,
+		Audio,
+		SoundFX,
+		/// <summary>
+		/// Logs relating to the SunVox music studio integration
+		/// </summary>
+		SunVox,
+
+	//Server Logs
+		/// <summary>
+		/// Logs relating to the Server's Net UI (Needs TLC)
+		/// </summary>
+		NetUI,
+		/// <summary>
+		/// Logs relating to client-server connections (Needs TLC)
+		/// </summary>
+		Connections,
+		/// <summary>
+		/// Logs relating to communication between clients and server (Needs TLC)
+		/// </summary>
+		NetMessage,
+		DatabaseAPI,
+		Server,
+		Hub,
+		/// <summary>
+		/// Logs relating to the Remote Console
+		/// </summary>
+		Rcon,
+
+	//Unused
 	DmMetadata,
-	Light2D,
-	NetUI,
-	Health,
-	Atmos,
-	Telecoms,
-	Shutters,
-	Doors,
-	Jobs,
-	PushPull,
-	Lighting,
-	Firearms,
 	Power,
 	Throwing,
-	Containers,
-	Chemistry,
-	SunVox,
-	Rcon,
-	Audio,
-	Research,
-	TileMaps,
-	Construction,
-	DatabaseAPI,
-	PlayerSprites,
-	Electrical,
 	RightClick,
-	Lerp,
-	Keybindings,
-	Round,
-	DebugConsole,
-	Camera,
-	Exploits, //Used when (potentially illegal/invalid) actions occur that are likely caused due to exploits, cheats or hacking
-	Graphics,
-	Server,
-	Tests,
-	Editor,
+	Shutters,
+
+
+	//A very special case
 	VariableViewer,
-	Themes,
-	SpriteHandler,
-	GameMode,
-	Chat,
-	Interaction,
-	Antags,
-	Hub,
-	SpatialRelationship,
+
+	//Depricate
+	Equipment,
+	Transform,
+	Atmos,
+	Telecoms,
+	Containers,
+	PlayerSprites,
+	Lerp,
+	Camera,
+	Graphics,
 	MLAgents,
 	Direction,
-	Admin,
-	Mentor,
 	BuckledMovement,
-	ProgressAction,
-	Botany,
-	SoundFX,
+	UIAction,
 	Character,
 	SubScenes,
 	Spells,
-	UIAction,
 	Cooldowns,
-	Addressables,
-	Radiation,
-	Event
+	Security
 }
 
 [Serializable]
