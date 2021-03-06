@@ -98,7 +98,7 @@ public static class PlayerSpawn
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
 
-		return ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false);
+		return ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false, showBanner: false);
 	}
 
 	//Time to start spawning players at arrivals
