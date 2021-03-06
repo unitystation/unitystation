@@ -11,6 +11,7 @@ using Audio.Containers;
 using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
+using Messages.Server;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -183,7 +184,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else if (playerScript.playerMove.IsTrapped) // Check if trapped.
 		{
-			playerScript.PlayerSync.TryEscapeContainer();
+			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}
 	}
 
@@ -493,15 +494,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//Respawn action for Deathmatch v 0.1.3
 
 	[Command]
-	public void CmdRespawnPlayer()
+	public void CmdRespawnPlayer(string adminID, string adminToken)
 	{
-		// Don't allow spectators to spawn themselves as a mob, to help prevent metagaming.
-		// Only allow admins to spawn spectators.
-		if (playerScript.mind.IsSpectator) return;
-
-		if (GameManager.Instance.RespawnCurrentlyAllowed)
+		if (GameManager.Instance.RespawnCurrentlyAllowed ||
+		    PlayerList.Instance.GetAdmin(adminID, adminToken))
 		{
 			ServerRespawnPlayer();
+		}
+		else
+		{
+			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.");
 		}
 	}
 

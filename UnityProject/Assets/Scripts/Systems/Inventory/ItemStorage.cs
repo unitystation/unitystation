@@ -181,6 +181,14 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 	}
 
+	/// <summary>
+	/// Return the size of the storage.
+	/// </summary>
+	public int StorageSize()
+	{
+		return definedSlots.Count;
+	}
+
 	public void OnInventorySlotSet(Pickupable prevItem, Pickupable newItem)
 	{
 		//If we have any actions stored, invoke em. (Health V2)
@@ -204,6 +212,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 
 		return storage;
+	}
+
+	/// <summary>
+	/// Change the number of available slots in the storage.
+	/// </summary>
+	public void AcceptNewStructure(ItemStorageStructure newStructure)
+	{
+		itemStorageStructure = newStructure;
+		definedSlots = null;
+		CacheDefinedSlots();
 	}
 
 	public void OnInventoryMoveClient(ClientInventoryMove info)
@@ -452,7 +470,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <summary>
 	/// Slots gas containers can be used from.
 	/// </summary>
-	public static readonly NamedSlot[] GasUseSlots = 	{NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02, NamedSlot.storage03,
+	public static readonly NamedSlot[] GasUseSlots = 	{NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02,
 		NamedSlot.suitStorage, NamedSlot.back, NamedSlot.belt};
 
 	/// <summary>

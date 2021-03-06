@@ -5,16 +5,20 @@ using Messages.Client;
 using Mirror;
 using UnityEngine;
 
-public class RequestSurgery : ClientMessage
+public class RequestSurgery : ClientMessage<RequestSurgery.NetMessage>
 {
-	public uint BeingPerformedOn;
-	public int SurgeryProcedureBase;
-	public uint BodyPart;
-	public override void Process()
+	public struct NetMessage : NetworkMessage
 	{
-		if (BeingPerformedOn == NetId.Invalid) return;
-		LoadMultipleObjects(new uint[]{BeingPerformedOn,BodyPart} );
-		if (SurgeryProcedureBase >= SurgeryProcedureBaseSingleton.Instance.StoredReferences.Count) return;
+		public uint BeingPerformedOn;
+		public int SurgeryProcedureBase;
+		public uint BodyPart;
+	}
+
+	public override void Process(NetMessage msg)
+	{
+		if (msg.BeingPerformedOn == NetId.Invalid) return;
+		LoadMultipleObjects(new uint[]{msg.BeingPerformedOn,msg.BodyPart} );
+		if (msg.SurgeryProcedureBase >= SurgeryProcedureBaseSingleton.Instance.StoredReferences.Count) return;
 		if (Validations.CanApply(SentByPlayer.Script, NetworkObjects[0], NetworkSide.Server) == false) return;
 		var Dissectible = NetworkObjects[0].GetComponent<Dissectible>();
 		if (Dissectible == null) return;
@@ -22,14 +26,14 @@ public class RequestSurgery : ClientMessage
 		var EBodyPart = NetworkObjects[1].GetComponent<BodyPart>();
 		if (EBodyPart == null) return;
 
-		var InSurgeryProcedureBase = SurgeryProcedureBaseSingleton.Instance.StoredReferences[SurgeryProcedureBase];
+		var InSurgeryProcedureBase = SurgeryProcedureBaseSingleton.Instance.StoredReferences[msg.SurgeryProcedureBase];
 		Dissectible.ServerCheck(InSurgeryProcedureBase ,EBodyPart);
 	}
 
-	public static RequestSurgery Send(GameObject bodyPart, GameObject InBeingPerformedOn,
+	public static NetMessage Send(GameObject bodyPart, GameObject InBeingPerformedOn,
 		SurgeryProcedureBase InSurgeryProcedureBase)
 	{
-		RequestSurgery RequestSurgeryMSG = new RequestSurgery()
+		NetMessage RequestSurgeryMSG = new NetMessage()
 		{
 			SurgeryProcedureBase =
 				SurgeryProcedureBaseSingleton.Instance.StoredReferences.IndexOf(InSurgeryProcedureBase),
@@ -40,7 +44,7 @@ public class RequestSurgery : ClientMessage
 			? bodyPart.GetComponent<NetworkIdentity>().netId
 			: NetId.Invalid
 		};
-		RequestSurgeryMSG.Send();
+		Send(RequestSurgeryMSG);
 		return RequestSurgeryMSG;
 	}
 }

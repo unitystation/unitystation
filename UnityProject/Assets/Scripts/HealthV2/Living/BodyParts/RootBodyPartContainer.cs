@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Mirror;
-using Mirror.Websocket;
 using Mono.CecilX;
 using NaughtyAttributes;
 using Newtonsoft.Json;

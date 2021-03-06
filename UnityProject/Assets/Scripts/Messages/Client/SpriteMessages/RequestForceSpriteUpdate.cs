@@ -6,16 +6,21 @@ using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class RequestForceSpriteUpdate : ClientMessage
+public class RequestForceSpriteUpdate : ClientMessage<RequestForceSpriteUpdate.NetMessage>
 {
-	public uint SpriteHandlerManager;
+	public struct NetMessage : NetworkMessage
+	{
+		public uint SpriteHandlerManager;
 
-	public string Data;
+		public string Data;
+	}
 
-	public override void Process()
+
+
+	public override void Process(NetMessage msg)
 	{
 		//TODO Need some safeguards
-		LoadNetworkObject(SpriteHandlerManager);
+		LoadNetworkObject(msg.SpriteHandlerManager);
 		if (SentByPlayer == ConnectedPlayer.Invalid)
 			return;
 		if (NetworkObject == null) return;
@@ -25,7 +30,7 @@ public class RequestForceSpriteUpdate : ClientMessage
 		List<SpriteHandlerIdentifier> Received = null;
 		try
 		{
-			Received = JsonConvert.DeserializeObject<List<SpriteHandlerIdentifier>>(Data);
+			Received = JsonConvert.DeserializeObject<List<SpriteHandlerIdentifier>>(msg.Data);
 		}
 		catch (Exception e)
 		{
@@ -56,21 +61,21 @@ public class RequestForceSpriteUpdate : ClientMessage
 		}
 	}
 
-	public static RequestForceSpriteUpdate Send(SpriteHandlerManager spriteHandlerManager, List<SpriteHandler> ToUpdate)
+	public static NetMessage Send(SpriteHandlerManager spriteHandlerManager, List<SpriteHandler> ToUpdate)
 	{
-		if (CustomNetworkManager.Instance._isServer == true) return null;
+		if (CustomNetworkManager.Instance._isServer == true) return new NetMessage();
 		var TOSend = new List<SpriteHandlerIdentifier>();
 		foreach (var SH in ToUpdate)
 		{
 			TOSend.Add(new SpriteHandlerIdentifier(SH.GetMasterNetID().netId, SH.name));
 		}
 
-		var msg = new RequestForceSpriteUpdate()
+		var msg = new NetMessage()
 		{
 			SpriteHandlerManager = spriteHandlerManager.GetComponent<NetworkIdentity>().netId,
 			Data = JsonConvert.SerializeObject(TOSend)
 		};
-		msg.Send();
+		Send(msg);
 		return msg;
 	}
 

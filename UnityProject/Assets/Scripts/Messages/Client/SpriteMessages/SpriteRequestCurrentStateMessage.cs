@@ -16,14 +16,11 @@ namespace Messages.Client.SpriteMessages
 			if (SentByPlayer == ConnectedPlayer.Invalid)
 				return;
 
-		LoadNetworkObject(SpriteHandlerManager);
+		LoadNetworkObject(msg.SpriteHandlerManager);
 		if (SentByPlayer == ConnectedPlayer.Invalid)
 			return;
 		//TODO Need some safeguards
 		NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
-	}
-
-			NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
 		}
 
 		public static NetMessage Send(uint spriteHandlerManager)

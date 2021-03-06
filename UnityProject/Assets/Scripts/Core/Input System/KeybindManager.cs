@@ -73,9 +73,11 @@ public enum KeyAction
 	PocketOne,
 	PocketTwo,
 	PocketThree,
-
+	ToggleMHelp,
 	//Interactions that only happen when this key is pressed
-	InteractionModifier
+	InteractionModifier,
+	RadialScrollBackward,
+	RadialScrollForward
 }
 
 /// <summary>

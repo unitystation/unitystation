@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.SpritesMessages
@@ -57,20 +58,13 @@ namespace Messages.Server.SpritesMessages
 					Start = Scanning + 1;
 					Scanning = GoToIndexOfCharacter(SerialiseData, '{', Scanning);
 					string Name = SerialiseData.Substring(Start, Scanning - Start);
+					if (SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]].ContainsKey(Name) == false)
+					{
 
+						Logger.LogError( JsonConvert.SerializeObject(SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]].Keys));
+						Logger.LogError( "Has missing clients Sprite NetID > " + NetID + " Name " + Name);
+					}
 					var SP = SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]][Name];
-
-				Start = Scanning + 1;
-				Scanning = GoToIndexOfCharacter(SerialiseData, '{', Scanning);
-				string Name = SerialiseData.Substring(Start, Scanning - Start);
-				if (SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]].ContainsKey(Name) == false)
-				{
-
-					Logger.LogError( JsonConvert.SerializeObject(SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]].Keys));
-					Logger.LogError( "NetID > " + NetID + " Name " + Name);
-				}
-				var SP = SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]][Name];
-
 
 					Scanning++;
 
@@ -415,12 +409,6 @@ namespace Messages.Server.SpritesMessages
 					ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.a * 255)));
 
 				}
-
-				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.r * 255)));
-				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.g * 255)));
-				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.b * 255)));
-				ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.a * 255)));
-
 
 			}
 

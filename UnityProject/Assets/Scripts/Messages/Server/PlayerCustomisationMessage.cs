@@ -1,21 +1,24 @@
 ﻿using System.Collections;
+using Messages.Server;
 using UnityEngine;
 using Mirror;
 using Newtonsoft.Json;
 
-public class PlayerCustomisationMessage : ServerMessage
+public class PlayerCustomisationMessage : ServerMessage<PlayerCustomisationMessage.NetMessage>
 {
-	//Weaver is a steaming pile of Garbo
-	public string Character;
-	public BodyPartSpriteName Part = BodyPartSpriteName.Null;
-	public uint EquipmentObject;
+	public struct NetMessage : NetworkMessage
+	{
+		//Weaver is a steaming pile of Garbo
+		public string Character;
+		public uint EquipmentObject;
+	}
 
-	public override void Process()
+	public override void Process(NetMessage msg)
 	{
 		if (CustomNetworkManager.Instance._isServer == false)
 		{
-			CharacterSettings characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(Character);
-			LoadNetworkObject(EquipmentObject);
+			CharacterSettings characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(msg.Character);
+			LoadNetworkObject(msg.EquipmentObject);
 			if (NetworkObject != null)
 			{
 				NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(characterSettings);
@@ -23,27 +26,27 @@ public class PlayerCustomisationMessage : ServerMessage
 		}
 	}
 
-	public static PlayerCustomisationMessage SendToAll(GameObject equipmentObject,  CharacterSettings Character =  null)
-	{
-		var msg = CreateMsg(equipmentObject,Character);
-		msg.SendToAll();
-		return msg;
-	}
-
-	public static PlayerCustomisationMessage SendTo(GameObject equipmentObject,  NetworkConnection recipient, CharacterSettings Character = null)
+	public static NetMessage SendToAll(GameObject equipmentObject, CharacterSettings Character = null)
 	{
 		var msg = CreateMsg(equipmentObject, Character);
-		msg.SendTo(recipient);
+		SendToAll(msg);
 		return msg;
 	}
 
-	public static PlayerCustomisationMessage CreateMsg(GameObject equipmentObject, CharacterSettings Character = null)
+	public static NetMessage SendTo(GameObject equipmentObject, NetworkConnection recipient,
+		CharacterSettings Character = null)
 	{
-		return new PlayerCustomisationMessage
+		var msg = CreateMsg(equipmentObject, Character);
+		SendTo(recipient, msg);
+		return msg;
+	}
+
+	public static NetMessage CreateMsg(GameObject equipmentObject, CharacterSettings Character = null)
+	{
+		return new NetMessage
 		{
 			EquipmentObject = equipmentObject.NetId(),
 			Character = JsonConvert.SerializeObject(Character)
 		};
 	}
-
 }

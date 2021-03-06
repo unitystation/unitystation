@@ -5,32 +5,35 @@ using Messages.Client;
 using Mirror;
 using UnityEngine;
 
-public class RequestBodyParts : ClientMessage
+public class RequestBodyParts : ClientMessage<RequestBodyParts.NetMessage>
 {
-	public uint BeingPerformedOn;
-	public BodyPartType TargetBodyPart;
+	public struct NetMessage : NetworkMessage
+	{
+		public uint BeingPerformedOn;
+		public BodyPartType TargetBodyPart;
+	}
 
-	public override void Process()
+	public override void Process(NetMessage msg)
 	{
 		//Need to validate has tool
-		if (BeingPerformedOn == NetId.Invalid) return;
-		LoadNetworkObject(BeingPerformedOn);
+		if (msg.BeingPerformedOn == NetId.Invalid) return;
+		LoadNetworkObject(msg.BeingPerformedOn);
 		if (Validations.CanApply(SentByPlayer.Script, NetworkObject, NetworkSide.Server) == false) return;
 		var Dissectible = NetworkObject.GetComponent<Dissectible>();
 		if (Dissectible == null) return;
-		Dissectible.SendClientBodyParts(SentByPlayer,TargetBodyPart);
+		Dissectible.SendClientBodyParts(SentByPlayer,msg.TargetBodyPart);
 	}
 
-	public static RequestBodyParts Send(GameObject InBeingPerformedOn, BodyPartType inTargetBodyPart = BodyPartType.None)
+	public static NetMessage Send(GameObject InBeingPerformedOn, BodyPartType inTargetBodyPart = BodyPartType.None)
 	{
-		RequestBodyParts RequestSurgeryMSG = new RequestBodyParts()
+		NetMessage RequestSurgeryMSG = new NetMessage()
 		{
 			BeingPerformedOn = InBeingPerformedOn
 				? InBeingPerformedOn.GetComponent<NetworkIdentity>().netId
 				: NetId.Invalid,
 			TargetBodyPart = inTargetBodyPart
 		};
-		RequestSurgeryMSG.Send();
+		Send(RequestSurgeryMSG);
 		return RequestSurgeryMSG;
 	}
 }

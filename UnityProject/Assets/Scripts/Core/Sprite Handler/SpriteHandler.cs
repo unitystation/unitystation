@@ -22,6 +22,9 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private SpriteDataSO PresentSpriteSet;
 	private SpriteDataSO.Frame PresentFrame = null;
 
+	[Tooltip("If checked, a random sprite SO will be selected during initialization from the catalogue of sprite SOs.")]
+	[SerializeField] private bool randomInitialSprite = false;
+
 	private SpriteRenderer spriteRenderer;
 	private Image image;
 
@@ -42,6 +45,8 @@ public class SpriteHandler : MonoBehaviour
 	private float timeElapsed = 0;
 
 	private bool isAnimation = false;
+
+	private bool animateOnce;
 
 	private Color? setColour = null;
 
@@ -73,6 +78,12 @@ public class SpriteHandler : MonoBehaviour
 	/// Null if sprite became hidden
 	/// </summary>
 	public event System.Action<Sprite> OnSpriteChanged;
+
+	/// <summary>
+	/// Invokes when sprite data scriptable object is changed
+	/// Null if sprite became hidden
+	/// </summary>
+	public event System.Action<SpriteDataSO> OnSpriteDataSOChanged;
 
 	/// <summary>
 	/// Invoke when sprite handler has changed color of sprite
@@ -144,6 +155,17 @@ public class SpriteHandler : MonoBehaviour
 
 	public void ChangeSprite(int SubCataloguePage, bool Network = true)
 	{
+		InternalChangeSprite(SubCataloguePage, Network);
+	}
+
+	public void AnimateOnce(int SubCataloguePage, bool Network = true)
+	{
+		InternalChangeSprite(SubCataloguePage, Network, true);
+	}
+
+
+	private void InternalChangeSprite(int SubCataloguePage, bool Network = true, bool AnimateOnce = false)
+	{
 		if (cataloguePage > -1 && SubCataloguePage == cataloguePage) return;
 
 		if (SubCataloguePage >= SubCatalogue.Count)
@@ -162,11 +184,12 @@ public class SpriteHandler : MonoBehaviour
 			SetSpriteSO(SubCatalogue[SubCataloguePage], Network: false);
 			if (Network)
 			{
-				NetUpdate(NewCataloguePage: SubCataloguePage);
+				NetUpdate(NewCataloguePage: SubCataloguePage, NewAnimateOnce: AnimateOnce);
 			}
 		}
-	}
 
+		animateOnce = AnimateOnce;
+	}
 
 	public void SetSpriteSO(SpriteDataSO NewspriteDataSO, Color? color = null, int NewvariantIndex = -1,
 		bool Network = true)
@@ -183,6 +206,7 @@ public class SpriteHandler : MonoBehaviour
 			{
 				NetUpdate(NewspriteDataSO);
 			}
+			OnSpriteDataSOChanged?.Invoke(NewspriteDataSO);
 		}
 
 		if (color != null)
@@ -287,7 +311,7 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
-
+		OnSpriteDataSOChanged?.Invoke(null);
 
 		if (Network)
 		{
@@ -408,7 +432,8 @@ public class SpriteHandler : MonoBehaviour
 		bool NewPushClear = false,
 		bool NewClearPallet = false,
 		Color? NewSetColour = null,
-		List<Color> NewPalette = null)
+		List<Color> NewPalette = null,
+		bool NewAnimateOnce = false)
 	{
 		if (NetworkThis == false) return;
 		if (SpriteHandlerManager.Instance == null) return;
@@ -485,6 +510,12 @@ public class SpriteHandler : MonoBehaviour
 		{
 			if (spriteChange.PushTexture) spriteChange.PushTexture = false;
 			spriteChange.PushClear = NewPushClear;
+		}
+
+		if (NewAnimateOnce)
+		{
+			if (spriteChange.AnimateOnce) spriteChange.AnimateOnce = false;
+			spriteChange.AnimateOnce = NewAnimateOnce;
 		}
 
 		if (NewClearPallet)
@@ -692,7 +723,11 @@ public class SpriteHandler : MonoBehaviour
 		ImageComponentStatus(false);
 		Initialised = true;
 
-		if (PresentSpriteSet != null)
+		if (randomInitialSprite && CatalogueCount > 0)
+		{
+			ChangeSprite(Random.Range(0, CatalogueCount), NetworkThis);
+		}
+		else if (PresentSpriteSet != null)
 		{
 			if (HasImageComponent() && pushTextureOnStartUp)
 			{
@@ -778,6 +813,17 @@ public class SpriteHandler : MonoBehaviour
 				if (animationIndex >= PresentSpriteSet.Variance[variantIndex].Frames.Count)
 				{
 					animationIndex = 0;
+					if (animateOnce)
+					{
+						if (CustomNetworkManager.IsServer)
+						{
+							ChangeSprite(SubCatalogue.Count - 1 >= CataloguePage + 1 ? CataloguePage + 1 : 0);
+						}
+
+						isAnimation = false;
+						UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+						return;
+					}
 				}
 				var frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 				SetSprite(frame);

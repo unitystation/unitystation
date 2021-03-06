@@ -8,6 +8,9 @@ using Systems.Cargo;
 using Random = UnityEngine.Random;
 using DatabaseAPI;
 using Items;
+using Messages.Client;
+using Messages.Server;
+using Messages.Server.HealthMessages;
 using ScriptableObjects;
 
 namespace IngameDebugConsole

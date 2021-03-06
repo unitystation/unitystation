@@ -4,6 +4,8 @@ using UnityEngine;
 using Mirror;
 using Systems;
 using Systems.Spawns;
+using Messages.Server;
+using Messages.Server.LocalGuiMessages;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.
@@ -24,12 +26,12 @@ public static class PlayerSpawn
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
 	/// <returns>the game object of the spawned player</returns>
-	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings)
+	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
 	{
 		NetworkConnection conn = joinedViewer.connectionToClient;
 
 		// TODO: add a nice cutscene/animation for the respawn transition
-		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null);
+		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null, showBanner: showBanner);
 		if (newPlayer != null && occupation.IsCrewmember)
 		{
 			CrewManifestManager.Instance.AddMember(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
@@ -120,7 +122,7 @@ public static class PlayerSpawn
 	///
 	/// <returns>the spawned object</returns>
 	private static GameObject ServerSpawnInternal(NetworkConnection connection, Occupation occupation, CharacterSettings characterSettings,
-		Mind existingMind, Vector3Int? spawnPos = null, bool spawnItems = true, bool willDestroyOldBody = false)
+		Mind existingMind, Vector3Int? spawnPos = null, bool spawnItems = true, bool willDestroyOldBody = false, bool showBanner = true)
 	{
 		//determine where to spawn them
 		if (spawnPos == null)
@@ -186,6 +188,17 @@ public static class PlayerSpawn
 		var info = SpawnInfo.Player(occupation, characterSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
 			SpawnDestination.At(spawnPos), spawnItems: spawnItems);
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, newPlayer));
+
+		if (occupation != null && showBanner)
+		{
+			SpawnBannerMessage.Send(
+				newPlayer,
+				occupation.DisplayName,
+				occupation.SpawnSound.AssetAddress,
+				occupation.TextColor,
+				occupation.BackgroundColor,
+				occupation.PlaySound);
+		}
 
 		return newPlayer;
 	}
