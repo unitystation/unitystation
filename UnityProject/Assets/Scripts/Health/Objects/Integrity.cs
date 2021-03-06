@@ -94,6 +94,11 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Tooltip("The explosion strength of this object if is set to explode on destroy")]
 	public float ExplosionsDamage = 100f;
 
+	[SerializeField]
+	private bool doDamageMessage = true;
+
+	public bool DoDamageMessage => doDamageMessage;
+
 	[SyncVar(hook = nameof(SyncOnFire))]
 	private bool onFire = false;
 	private BurningOverlay burningObjectOverlay;

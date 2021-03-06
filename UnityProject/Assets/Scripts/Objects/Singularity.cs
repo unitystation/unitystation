@@ -662,20 +662,20 @@ namespace Objects
 			}
 		}
 
-		public void OnHitDetect(DamageData damageData)
+		public void OnHitDetect(OnHitDetectData data)
 		{
-			if(damageData.AttackType != AttackType.Rad) return;
+			if(data.DamageData.AttackType != AttackType.Rad) return;
 
-			if (damageData.Damage >= 20f)
+			if (data.DamageData.Damage >= 20f)
 			{
 				// PA at any setting will prevent point loss
 				pointLock = true;
 				lockTimer = 20;
 			}
-			if (damageData.Damage > 20f)
+			if (data.DamageData.Damage > 20f)
 			{
 				// PA at setting greater than 0 will do 20 damage
-				ChangePoints((int)damageData.Damage);
+				ChangePoints((int)data.DamageData.Damage);
 			}
 		}
 
