@@ -295,6 +295,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public void CalculateRadiationDamage()
 	{
 		var RadLevel = (registerTile.Matrix.GetRadiationLevel(registerTile.LocalPosition) * (tickRate / 5f) / 6);
+		if (RadLevel == 0) return;
 		ApplyDamageAll( null, RadLevel * 0.001f, AttackType.Rad, DamageType.Radiation);
 
 	}

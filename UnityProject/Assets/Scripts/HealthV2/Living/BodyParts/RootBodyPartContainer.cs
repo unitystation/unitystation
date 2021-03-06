@@ -252,7 +252,7 @@ namespace HealthV2
 		public void TakeDamage(GameObject damagedBy, float damage,
 			AttackType attackType, DamageType damageType, bool SplitDamage = false)
 		{
-			Logger.Log("dmg  > " + damage + "attackType > " + attackType + " damageType > " + damageType);
+			//Logger.Log("dmg  > " + damage + "attackType > " + attackType + " damageType > " + damageType);
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
 			if (attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
