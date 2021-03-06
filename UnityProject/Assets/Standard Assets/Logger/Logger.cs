@@ -123,21 +123,7 @@ public static class Logger
 	{
 		if (category == Category.Unknown)
 		{
-			switch (messageLevel)
-			{
-				case LogLevel.Trace:
-					Debug.Log(message);
-					break;
-				case LogLevel.Warning:
-					Debug.LogWarning(message);
-					break;
-				case LogLevel.Error:
-					Debug.LogError(message);
-					break;
-				case LogLevel.Info:
-					Debug.Log(message);
-					break;
-			}
+			SendLog(message, messageLevel, args);
 			return;
 		}
 
@@ -155,6 +141,11 @@ public static class Logger
 		string categoryPrefix = category == Category.Unknown ? "" : "[" + category + "] ";
 
 		string msg = categoryPrefix + message;
+		SendLog(message, messageLevel, args);
+	}
+
+	private static void SendLog(string msg, LogLevel messageLevel, params object[] args)
+	{
 		if (args.Length > 0)
 		{
 			switch (messageLevel)
