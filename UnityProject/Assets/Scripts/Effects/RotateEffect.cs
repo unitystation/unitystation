@@ -41,6 +41,6 @@ public class RotateEffect : LTEffect
 
     private void rotateObject(Vector3 rot, float time)
     {
-        tween.RpcRotateGameObject(rot, time);
+        tween.RotateGameObject(rot, time);
     }
 }

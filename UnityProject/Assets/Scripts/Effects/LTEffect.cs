@@ -45,7 +45,7 @@ public class LTEffect : NetworkBehaviour
     [Server]
     public virtual void CmdStopAnimation()
     {
-        tween.RpcCancelObject(this.gameObject, false);
+        tween.CancelObject(this.gameObject, false);
         tween.isAnim = false;
     }
 
