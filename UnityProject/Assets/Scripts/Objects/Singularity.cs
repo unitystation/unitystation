@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Systems.Atmospherics;
@@ -106,6 +106,7 @@ namespace Objects
 			{ Tuple.Create(500, 999) },
 			{ Tuple.Create(1000, 1999) },
 			{ Tuple.Create(2000, 2999) },
+			{ Tuple.Create(3000, 3250) }
 		};
 
 		#region LifeCycle

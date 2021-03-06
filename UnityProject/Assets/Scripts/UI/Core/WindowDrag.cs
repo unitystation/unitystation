@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class WindowDrag : MonoBehaviour
 {
@@ -28,6 +29,15 @@ public class WindowDrag : MonoBehaviour
 									rectTransform.position.y / worldPointResolution.y);;
 
 		isReady = true;
+	}
+
+
+	public void Update()
+	{
+		if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ResetWindowPosition))
+		{
+			this.transform.localPosition = Vector3.zero;
+		}
 	}
 
 	/// <summary>
