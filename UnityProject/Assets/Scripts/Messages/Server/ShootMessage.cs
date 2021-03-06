@@ -60,6 +60,12 @@ namespace Messages.Server
 
 			LoadMultipleObjects(new uint[] { msg.Shooter, msg.Weapon});
 
+			if (NetworkObjects[0] == null || NetworkObjects[1] == null)
+			{
+				Debug.LogError($"Shoot message had null: {(NetworkObjects[0] == null ? "shooter" : "")} {(NetworkObjects[1] == null ? "weapon" : "")}");
+				return;
+			}
+
 			Gun wep = NetworkObjects[1].GetComponent<Gun>();
 			if (wep == null)
 			{
