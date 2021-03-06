@@ -243,7 +243,7 @@ public class Layer : MonoBehaviour
 			{
 				var z = -1;
 
-				while (tileOverlays.ContainsValue(z) == false)
+				while (tileOverlays.ContainsValue(z) == true)
 				{
 					z--;
 				}
@@ -281,6 +281,7 @@ public class Layer : MonoBehaviour
 		{
 			position.z = z;
 			tileRemoved = InternalSetTile(position, null);
+			pos.Remove(overlayName);
 		}
 
 		position.z = 0;
@@ -293,6 +294,8 @@ public class Layer : MonoBehaviour
 	{
 		position.z = 0;
 
+		var queuedRemove = new List<string>();
+
 		if (overlayStore.TryGetValue(position, out var pos))
 		{
 			foreach (var overlay in pos)
@@ -302,7 +305,13 @@ public class Layer : MonoBehaviour
 				{
 					position.z = overlay.Value;
 					InternalSetTile(position, null);
+					queuedRemove.Add(overlay.Key);
 				}
+			}
+
+			foreach (var removed in queuedRemove)
+			{
+				pos.Remove(removed);
 			}
 		}
 
@@ -314,12 +323,20 @@ public class Layer : MonoBehaviour
 	{
 		position.z = 0;
 
+		var queuedRemove = new List<string>();
+
 		if (overlayStore.TryGetValue(position, out var pos))
 		{
 			foreach (var overlay in pos)
 			{
 				position.z = overlay.Value;
 				InternalSetTile(position, null);
+				queuedRemove.Add(overlay.Key);
+			}
+
+			foreach (var removed in queuedRemove)
+			{
+				pos.Remove(removed);
 			}
 		}
 

@@ -155,7 +155,22 @@ public class TileManager : MonoBehaviour, IInitialise
 	public static LayerTile GetTile(TileType tileType, string key)
 	{
 		if (!Instance.initialized) Instance.StartCoroutine(Instance.LoadAllTiles());
-		return Instance.tiles[tileType][key];
+
+		if (Instance.tiles.TryGetValue(tileType, out var tiles) && tiles.TryGetValue(key, out var layerTile))
+		{
+			return layerTile;
+		}
+
+		if (tiles == null)
+		{
+			Debug.LogError($"Could not find {tileType} dictionary");
+		}
+		else
+		{
+			Debug.LogError($"Could not find layerTile in {tileType} dictionary with key: {key}");
+		}
+
+		return null;
 	}
 
 	public static Dictionary<string, LayerTile> GetTiles(TileType tileType)
