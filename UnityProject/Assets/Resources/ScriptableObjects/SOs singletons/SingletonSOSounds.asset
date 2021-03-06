@@ -224,28 +224,28 @@ MonoBehaviour:
       m_SubObjectType: 
   GlassBreak01:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   AnnouncementNotice:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Notice1.prefab
+    AssetAddress: Assets/Prefabs/AI/centcomm_announcement.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   AnnouncementAnnounce:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Notice2.prefab
+    AssetAddress: Assets/Prefabs/AI/captain_announcement.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   AnnouncementAlert:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AI/Announce.prefab
+    AssetAddress: Assets/Prefabs/Effects/Notice1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

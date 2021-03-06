@@ -12,6 +12,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private Matrix matrix;
 
+	//Is set to 10 as there isn't any tiles which go through 10 stages of damage, change if there is at some point.
+	private const int maxOverflowProtection = 10;
+
 	private void Awake()
 	{
 		tileChangeManager = transform.GetComponentInParent<TileChangeManager>();
@@ -73,7 +76,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private float AddDamage(float damage, AttackType attackType, MetaDataNode data,
 		BasicTile basicTile, Vector3 worldPosition)
 	{
-		if (basicTile.indestructible)
+		if (basicTile.indestructible || damage < basicTile.damageDeflection)
 		{
 			return 0;
 		}
@@ -82,10 +85,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		data.AddTileDamage(Layer.LayerType, damageTaken);
 
-		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+		if(basicTile.SoundOnHit != null && !string.IsNullOrEmpty(basicTile.SoundOnHit.AssetAddress) && basicTile.SoundOnHit.AssetAddress != "null")
+		{
+			if(damage >= 1)
+				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+		}
 
 		var totalDamageTaken = data.GetTileDamage(Layer.LayerType);
-
 
 		if (totalDamageTaken >= basicTile.MaxHealth)
 		{
@@ -99,8 +105,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				var damageLeft = totalDamageTaken - basicTile.MaxHealth;
 				var tile = basicTile.ToTileWhenDestroyed as BasicTile;
 
+				var overFlowProtection = 0;
+
 				while (damageLeft > 0 && tile != null)
 				{
+					overFlowProtection++;
+
 					if (tile.MaxHealth <= damageLeft)
 					{
 						damageLeft -= tile.MaxHealth;
@@ -111,6 +121,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 						//Atm we just set remaining damage to 0, instead of absorbing it for the new tile
 						damageLeft = 0;
 						tileChangeManager.UpdateTile(data.Position, tile);
+						break;
+					}
+
+					if (overFlowProtection > maxOverflowProtection)
+					{
+						Debug.LogError($"Overflow protection triggered on {basicTile.name}, theres a loop in the ToTileWhenDestroyed");
 						break;
 					}
 				}
@@ -145,7 +161,31 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (basicTile.MaxHealth < basicTile.MaxHealth - totalDamageTaken)
 		{
+			if (basicTile.DamageOverlayList != null)
+			{
+				foreach (var overlayData in basicTile.DamageOverlayList.DamageOverlays)
+				{
+					if (overlayData.damagePercentage <= totalDamageTaken / basicTile.MaxHealth)
+					{
+						tileChangeManager.UpdateOverlay(data.Position, overlayData.overlayTile);
+						break;
+					}
+				}
+			}
+
+			//All the damage was absorbed, none left to return for next layer
+			damageTaken = 0;
+		}
+
+
+		if (basicTile.MaxHealth < basicTile.MaxHealth - totalDamageTaken)
+		{
 			data.ResetDamage(Layer.LayerType);
+		}
+		
+		if (damageTaken > totalDamageTaken){
+			Logger.LogError($"Applying damage to {basicTile.DisplayName} increased the damage to be dealt, when it should have decreased!", Category.TileMaps);
+			return totalDamageTaken;
 		}
 
 		//Return how much damage is left
@@ -166,6 +206,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void RemoveTileEffects(Vector3Int cellPos)
 	{
 		var data = metaDataLayer.Get(cellPos);
+		
 		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Damage);
 		data.ResetDamage(Layer.LayerType);
 	}

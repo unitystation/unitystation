@@ -1,6 +1,8 @@
 ﻿using Mirror;
 using System.Collections.Generic;
 using System.Linq;
+using Messages.Client.NewPlayer;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;
@@ -118,6 +120,31 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		AlertClients(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
 		AddToChangeList(cellPosition, layerTile, transformMatrix: transformMatrix, color : color);
+	}
+
+	/// <summary>
+	/// Like UpdateTile, but operates on z=-1 of the affected layer.
+	/// Adds overlay tile as an overlay at z=-1 of the layer that overlayTile is configured for.
+	/// No effect if there is no tile at z=0 of the indicated position (there is nothing
+	/// to overlay on top of).
+	/// </summary>
+	/// <param name="cellPosition"></param>
+	/// <param name="tileName"></param>
+	[Server]
+	public void UpdateOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
+	{
+		cellPosition.z = 0;
+		if (metaTileMap.HasTile(cellPosition, overlayTile.LayerType)) return;
+		cellPosition.z = -1;
+		if (IsDifferent(cellPosition, overlayTile))
+		{
+			InternalUpdateTile(cellPosition, overlayTile, transformMatrix, color);
+
+			AlertClients(cellPosition, overlayTile.TileType, overlayTile.name, transformMatrix, color);
+
+			AddToChangeList(cellPosition, overlayTile, transformMatrix : transformMatrix,color : color );
+		}
 	}
 
 	[Server]

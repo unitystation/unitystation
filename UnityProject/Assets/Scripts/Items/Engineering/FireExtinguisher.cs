@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using Chemistry.Components;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 
 [RequireComponent(typeof(Pickupable))]
 public class FireExtinguisher : NetworkBehaviour,
@@ -30,7 +31,7 @@ public class FireExtinguisher : NetworkBehaviour,
 	private float TravelTime => 1f / travelDistance;
 
 	bool safety = true;
-	private DateTime clientLastInteract = DateTime.Now;	
+	private DateTime clientLastInteract = DateTime.Now;
 
 	private enum SpriteState
 	{
@@ -85,7 +86,8 @@ public class FireExtinguisher : NetworkBehaviour,
 
 		Effect.PlayParticleDirectional(this.gameObject, interaction.TargetVector);
 
-		SoundManager.PlayNetworkedAtPos(SpraySound, startPos, 1, sourceObj: interaction.Performer);
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1);
+		SoundManager.PlayNetworkedAtPos(SpraySound, startPos, audioSourceParameters, sourceObj: interaction.Performer);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
 	}

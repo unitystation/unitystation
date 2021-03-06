@@ -144,6 +144,14 @@ MonoBehaviour:
   syncInterval: 0.1
   cartridgePrefab: {fileID: 0}
   defaultRingtone: TwoBeep
+  ringtones:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/TwoBeep.prefab
+    AssetReference:
+      m_AssetGUID:
+      m_SubObjectName:
+      m_SubObjectType:
+  denialSound: BuzzDeny
   willResetName: 0
   UIBG: {r: 0.63529414, g: 0.7058824, b: 0.8117647, a: 1}
   UIOVER: {r: 0, g: 0, b: 0, a: 0}

@@ -7,7 +7,9 @@ using Mirror;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using DatabaseAPI;
+using IgnoranceTransport;
 using Initialisation;
+using Messages.Server;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
@@ -60,28 +62,28 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	void CheckTransport()
 	{
-		var booster = GetComponent<BoosterTransport>();
-		if (booster != null)
-		{
-			if (transport == booster)
-			{
-				var beamPath = Path.Combine(Application.streamingAssetsPath, "booster.bytes");
-				if (File.Exists(beamPath))
-				{
-					booster.beamData = File.ReadAllBytes(beamPath);
-					Logger.Log("Beam data found, loading booster transport..");
-				}
-				else
-				{
-					var telepathy = GetComponent<TelepathyTransport>();
-					if (telepathy != null)
-					{
-						Logger.Log("No beam data found. Falling back to Telepathy");
-						transport = telepathy;
-					}
-				}
-			}
-		}
+		// var booster = GetComponent<BoosterTransport>();
+		// if (booster != null)
+		// {
+		// 	if (transport == booster)
+		// 	{
+		// 		var beamPath = Path.Combine(Application.streamingAssetsPath, "booster.bytes");
+		// 		if (File.Exists(beamPath))
+		// 		{
+		// 			booster.beamData = File.ReadAllBytes(beamPath);
+		// 			Logger.Log("Beam data found, loading booster transport..");
+		// 		}
+		// 		else
+		// 		{
+		// 			var telepathy = GetComponent<TelepathyTransport>();
+		// 			if (telepathy != null)
+		// 			{
+		// 				Logger.Log("No beam data found. Falling back to Telepathy");
+		// 				transport = telepathy;
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 
 	void ApplyConfig()
@@ -90,18 +92,26 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		if (config.ServerPort != 0 && config.ServerPort <= 65535)
 		{
 			Logger.LogFormat("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
-			var booster = GetComponent<BoosterTransport>();
-			if (booster != null)
+			// var booster = GetComponent<BoosterTransport>();
+			// if (booster != null)
+			// {
+			// 	booster.port = (ushort)config.ServerPort;
+			// }
+			// else
+			// {
+			//
+			// }
+
+			var telepathy = GetComponent<TelepathyTransport>();
+			if (telepathy != null)
 			{
-				booster.port = (ushort)config.ServerPort;
+				telepathy.port = (ushort)config.ServerPort;
 			}
-			else
+
+			var ignorance = GetComponent<Ignorance>();
+			if (ignorance != null)
 			{
-				var telepathy = GetComponent<TelepathyTransport>();
-				if (telepathy != null)
-				{
-					telepathy.port = (ushort)config.ServerPort;
-				}
+				ignorance.port = (ushort)config.ServerPort;
 			}
 		}
 	}
@@ -154,6 +164,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartClient()
 	{
+		if(AddressableCatalogueManager.Instance == null) return;
+
 		AddressableCatalogueManager.Instance.LoadClientCatalogues();
 	}
 

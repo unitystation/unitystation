@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
-using Assets.Scripts.Messages.Server.SoundMessages;
 using UnityEngine;
 using Mirror;
 using Objects.Construction;
@@ -97,7 +96,7 @@ namespace Objects.Engineering
 				baseSpriteHandler.PushTexture();
 				smokeParticles.Play();
 				runLoopGUID = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPosition(generatorRunSfx, runLoopGUID, registerTile.WorldPosition, gameObject);
+				SoundManager.PlayAtPositionAttached(generatorRunSfx, registerTile.WorldPosition, gameObject, runLoopGUID);
 			}
 			else
 			{

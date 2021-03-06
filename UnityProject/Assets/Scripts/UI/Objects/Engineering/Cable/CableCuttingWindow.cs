@@ -442,7 +442,7 @@ public class CableCuttingWindow : MonoBehaviour
 	/// <summary>
 	/// Message containing data needed for cutting cables
 	/// </summary>
-	public class CableCuttingMessage : MessageBase
+	public struct CableCuttingMessage : NetworkMessage
 	{
 		public GameObject performer;
 		public Vector3 targetWorldPosition;

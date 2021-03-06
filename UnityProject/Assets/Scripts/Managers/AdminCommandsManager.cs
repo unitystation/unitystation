@@ -7,6 +7,8 @@ using System.Collections;
 using System.IO;
 using Managers;
 using Messages.Client;
+using Messages.Server;
+using Messages.Server.AdminTools;
 using Strings;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -57,7 +59,7 @@ namespace AdminCommands
 
 		#region GamemodePage
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdToggleOOCMute(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -83,7 +85,7 @@ namespace AdminCommands
 
 		#region EventsPage
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake,
 			bool announceEvent,
 			InGameEventType eventType, string serializedEventParameters)
@@ -98,7 +100,7 @@ namespace AdminCommands
 
 		#region RoundPage
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdStartRound(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -118,7 +120,7 @@ namespace AdminCommands
 			}
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdEndRound(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -135,7 +137,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdChangeNextMap(string adminId, string adminToken, string nextMap)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -152,7 +154,7 @@ namespace AdminCommands
 			SubSceneManager.AdminForcedMainStation = nextMap;
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdChangeAwaySite(string adminId, string adminToken, string nextAwaySite)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -169,7 +171,7 @@ namespace AdminCommands
 			SubSceneManager.AdminForcedAwaySite = nextAwaySite;
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdChangeAlertLevel(string adminId, string adminToken, CentComm.AlertLevel alertLevel)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -192,7 +194,7 @@ namespace AdminCommands
 
 		#region CentCom
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdCallShuttle(string adminId, string adminToken, string text)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -214,7 +216,7 @@ namespace AdminCommands
 			}
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdRecallShuttle(string adminId, string adminToken, string text)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -232,7 +234,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -246,7 +248,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdSendCentCommReport(string adminId, string adminToken, string text)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -260,7 +262,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdSendBlockShuttleCall(string adminId, string adminToken, bool toggleBool)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -279,7 +281,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdSendBlockShuttleRecall(string adminId, string adminToken, bool toggleBool)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -298,7 +300,7 @@ namespace AdminCommands
 				"");
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdCreateDeathSquad(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -316,7 +318,7 @@ namespace AdminCommands
 		/// <param name="adminId">Id of the admin performing the action</param>
 		/// <param name="adminToken">Token that proves the admin privileges</param>
 		/// <param name="userToSmite">User Id of the user to smite</param>
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdSmitePlayer(string adminId, string adminToken, string userToSmite)
 		{
 			GameObject admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
@@ -338,7 +340,7 @@ namespace AdminCommands
 
 		#region Sound
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdPlaySound(string adminId, string adminToken, string index)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -364,7 +366,7 @@ namespace AdminCommands
 
 		#region Profiling
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdStartProfile(string adminId, string adminToken, int frameCount)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -372,7 +374,7 @@ namespace AdminCommands
 			ProfileManager.Instance.StartProfile(frameCount);
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdRequestProfiles(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -380,7 +382,7 @@ namespace AdminCommands
 			ProfileMessage.Send(admin);
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdDeleteProfile(string adminId, string adminToken, string profileName)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -394,7 +396,7 @@ namespace AdminCommands
 			ProfileMessage.SendToApplicable();
 		}
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdAdminGhostDropItem(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -407,7 +409,7 @@ namespace AdminCommands
 		}
 
 
-		[Server]
+		[Command(requiresAuthority = false)]
 		public void CmdAdminGhostSmashItem(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
@@ -420,287 +422,5 @@ namespace AdminCommands
 		}
 
 		#endregion
-	}
-
-	/// <summary>
-	/// Generic net message for verification parameters only.
-	/// </summary>
-	public class ServerCommandVersionOneMessageClient : ClientMessage
-	{
-		public string AdminId;
-		public string AdminToken;
-		public string Action;
-
-		public override void Process()
-		{
-			if (AdminCommandsManager.IsAdmin(AdminId, AdminToken) == false)
-				return;
-
-			object[] paraObject =
-			{
-				AdminId,
-				AdminToken
-			};
-
-			var instance = AdminCommandsManager.Instance;
-
-			//server stuff
-			if (instance == null) return;
-
-			instance.GetType().GetMethod(Action)?.Invoke(instance, paraObject);
-		}
-
-		public static ServerCommandVersionOneMessageClient Send(string adminId, string adminToken,
-			string action)
-		{
-			ServerCommandVersionOneMessageClient msg = new ServerCommandVersionOneMessageClient
-			{
-				AdminId = adminId,
-				AdminToken = adminToken,
-				Action = action
-			};
-			msg.Send();
-			return msg;
-		}
-	}
-
-	/// <summary>
-	/// Generic net message for verification parameters, and a generic string parameter.
-	/// </summary>
-	public class ServerCommandVersionTwoMessageClient : ClientMessage
-	{
-		public string AdminId;
-		public string AdminToken;
-		public string Parameter;
-		public string Action;
-
-		public override void Process()
-		{
-			if (AdminCommandsManager.IsAdmin(AdminId, AdminToken) == false)
-				return;
-
-			object[] paraObject =
-			{
-				AdminId,
-				AdminToken,
-				Parameter
-			};
-
-			var instance = AdminCommandsManager.Instance;
-
-			//server stuff
-			if (instance == null) return;
-
-			instance.GetType().GetMethod(Action)?.Invoke(instance, paraObject);
-		}
-
-		public static ServerCommandVersionTwoMessageClient Send(string adminId, string adminToken, string parameter,
-			string action)
-		{
-			ServerCommandVersionTwoMessageClient msg = new ServerCommandVersionTwoMessageClient
-			{
-				AdminId = adminId,
-				AdminToken = adminToken,
-				Parameter = parameter,
-				Action = action
-			};
-			msg.Send();
-			return msg;
-		}
-	}
-
-	/// <summary>
-	/// Custom net message with verification parameters, and a enum for AlertLevel.
-	/// </summary>
-	public class ServerCommandVersionThreeMessageClient : ClientMessage
-	{
-		public string AdminId;
-		public string AdminToken;
-		public CentComm.AlertLevel AlertLevel;
-		public string Action;
-
-		public override void Process()
-		{
-			if (AdminCommandsManager.IsAdmin(AdminId, AdminToken) == false)
-				return;
-
-			object[] paraObject =
-			{
-				AdminId,
-				AdminToken,
-				AlertLevel
-			};
-
-			var instance = AdminCommandsManager.Instance;
-
-			//server stuff
-			if (instance == null) return;
-
-			instance.GetType().GetMethod(Action)?.Invoke(instance, paraObject);
-		}
-
-		public static ServerCommandVersionThreeMessageClient Send(string adminId, string adminToken,
-			CentComm.AlertLevel alertLevel, string action)
-		{
-			ServerCommandVersionThreeMessageClient msg = new ServerCommandVersionThreeMessageClient
-			{
-				AdminId = adminId,
-				AdminToken = adminToken,
-				AlertLevel = alertLevel,
-				Action = action
-			};
-			msg.Send();
-			return msg;
-		}
-	}
-
-	/// <summary>
-	/// Custom net message with verification parameters, and a parameters for event trigger.
-	/// </summary>
-	public class ServerCommandVersionFourMessageClient : ClientMessage
-	{
-		public string AdminId;
-		public string AdminToken;
-		public int EventIndex;
-		public bool IsFake;
-		public bool AnnounceEvent;
-		public InGameEventType EventType;
-		public string Action;
-
-		/// <summary>
-		/// JSon Serialization of the extra event parameters
-		/// </summary>
-		public string SerializedEventParameters;
-
-		public override void Process()
-		{
-			if (AdminCommandsManager.IsAdmin(AdminId, AdminToken) == false)
-				return;
-
-			object[] paraObject =
-			{
-				AdminId,
-				AdminToken,
-				EventIndex,
-				IsFake,
-				AnnounceEvent,
-				EventType,
-				SerializedEventParameters
-			};
-
-			var instance = AdminCommandsManager.Instance;
-
-			//server stuff
-			if (instance == null) return;
-
-			instance.GetType().GetMethod(Action)?.Invoke(instance, paraObject);
-		}
-
-		public static ServerCommandVersionFourMessageClient Send(string adminId, string adminToken, int eventIndex,
-			bool isFake, bool announceEvent, InGameEventType eventType,
-			string action, BaseEventParameters eventParameters = null)
-		{
-			ServerCommandVersionFourMessageClient msg = new ServerCommandVersionFourMessageClient
-			{
-				AdminId = adminId,
-				AdminToken = adminToken,
-				EventIndex = eventIndex,
-				IsFake = isFake,
-				AnnounceEvent = announceEvent,
-				EventType = eventType,
-				Action = action,
-				SerializedEventParameters = JsonConvert.SerializeObject(eventParameters)
-			};
-			msg.Send();
-			return msg;
-		}
-	}
-
-	/// <summary>
-	/// Generic net message with verification parameters, and a generic bool parameter.
-	/// </summary>
-	public class ServerCommandVersionFiveMessageClient : ClientMessage
-	{
-		public string AdminId;
-		public string AdminToken;
-		public bool GenericBool;
-		public string Action;
-
-		public override void Process()
-		{
-			if (AdminCommandsManager.IsAdmin(AdminId, AdminToken) == false)
-				return;
-
-			object[] paraObject =
-			{
-				AdminId,
-				AdminToken,
-				GenericBool
-			};
-
-			var instance = AdminCommandsManager.Instance;
-
-			//server stuff
-			if (instance == null) return;
-
-			instance.GetType().GetMethod(Action)?.Invoke(instance, paraObject);
-		}
-
-		public static ServerCommandVersionFiveMessageClient Send(string adminId, string adminToken, bool genericBool, string action)
-		{
-			ServerCommandVersionFiveMessageClient msg = new ServerCommandVersionFiveMessageClient
-			{
-				AdminId = adminId,
-				AdminToken = adminToken,
-				GenericBool = genericBool,
-				Action = action
-			};
-			msg.Send();
-			return msg;
-		}
-	}
-
-	/// <summary>
-	/// Generic net message with verification parameters, and a generic int parameter.
-	/// </summary>
-	public class ServerCommandVersionSixMessageClient : ClientMessage
-	{
-		public string AdminId;
-		public string AdminToken;
-		public int GenericInt;
-		public string Action;
-
-		public override void Process()
-		{
-			if (AdminCommandsManager.IsAdmin(AdminId, AdminToken) == false)
-				return;
-
-			object[] paraObject =
-			{
-				AdminId,
-				AdminToken,
-				GenericInt
-			};
-
-			var instance = AdminCommandsManager.Instance;
-
-			//server stuff
-			if (instance == null) return;
-
-			instance.GetType().GetMethod(Action)?.Invoke(instance, paraObject);
-		}
-
-		public static ServerCommandVersionSixMessageClient Send(string adminId, string adminToken, int genericInt, string action)
-		{
-			ServerCommandVersionSixMessageClient msg = new ServerCommandVersionSixMessageClient
-			{
-				AdminId = adminId,
-				AdminToken = adminToken,
-				GenericInt = genericInt,
-				Action = action
-			};
-			msg.Send();
-			return msg;
-		}
 	}
 }

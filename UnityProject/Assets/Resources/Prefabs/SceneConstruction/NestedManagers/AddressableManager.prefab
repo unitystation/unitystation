@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5338887161037162941}
   - component: {fileID: 5573104145814668989}
   - component: {fileID: 8720904804857734819}
+  - component: {fileID: 5055085561269917023}
   m_Layer: 0
   m_Name: AddressableManager
   m_TagString: Untagged
@@ -47,7 +48,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 2
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &8720904804857734819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,3 +65,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  AddressableDownloadPopUp: {fileID: 0}
+  ToloadeCount: 0
+  CompletedLoad: 0
+--- !u!114 &5055085561269917023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5747320321045453317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

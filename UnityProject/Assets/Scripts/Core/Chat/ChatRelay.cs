@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
+using Messages.Server;
 
 /// <summary>
 /// ChatRelay is only to be used internally via Chat.cs

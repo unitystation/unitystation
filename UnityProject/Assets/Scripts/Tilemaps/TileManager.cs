@@ -40,18 +40,7 @@ public class TileManager : MonoBehaviour, IInitialise
 {
 	private static TileManager tileManager;
 
-	public static TileManager Instance
-	{
-		get
-		{
-			if (tileManager == null)
-			{
-				tileManager = FindObjectOfType<TileManager>();
-			}
-
-			return tileManager;
-		}
-	}
+	public static TileManager Instance => tileManager;
 
 	private int tilesToLoad = 0;
 	private int tilesLoaded = 0;
@@ -76,6 +65,17 @@ public class TileManager : MonoBehaviour, IInitialise
 		}
 	}
 
+	private void Awake()
+	{
+		if (tileManager == null)
+		{
+			tileManager = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
 
 	[ContextMenu("Cache All Assets")]
 	public bool CacheAllAssets()

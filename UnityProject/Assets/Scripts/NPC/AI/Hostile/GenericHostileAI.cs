@@ -5,6 +5,8 @@ using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
+
 
 namespace Systems.MobAIs
 {
@@ -180,11 +182,10 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			SoundManager.PlayNetworkedAtPos(
-				randomSounds,
-				transform.position,
-				Random.Range(0.9f, 1.1f),
-				sourceObj: gameObject);
+
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+			SoundManager.PlayNetworkedAtPos(randomSounds, transform.position,
+				audioSourceParameters, sourceObj: gameObject);
 
 			Invoke(nameof(PlayRandomSound), playRandomSoundTimer);
 		}
@@ -197,11 +198,10 @@ namespace Systems.MobAIs
 			if (!IsDead || deathSoundPlayed || deathSounds.Count <= 0) return;
 			ResetBehaviours();
 			deathSoundPlayed = true;
-			SoundManager.PlayNetworkedAtPos(
-				deathSounds,
-				transform.position,
-				Random.Range(0.9f, 1.1f),
-				sourceObj: gameObject);
+
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+			SoundManager.PlayNetworkedAtPos(deathSounds, transform.position,
+				audioSourceParameters, sourceObj: gameObject);
 		}
 
 		/// <summary>

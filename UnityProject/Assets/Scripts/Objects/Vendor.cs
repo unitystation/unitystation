@@ -5,6 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Systems.Electricity;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
+
 
 namespace Objects
 {
@@ -32,7 +34,7 @@ namespace Objects
 		[ConditionalField("EjectObjects")]
 		[Tooltip("In which direction object should be thrown?")]
 		public EjectDirection EjectDirection = EjectDirection.None;
-		
+
 		[SerializeField] private AddressableAudioSource VendingSound = null;
 
 		[Header("Text messages")]
@@ -203,7 +205,8 @@ namespace Objects
 			Chat.AddLocalMsgToChat($"The {spawnedItem.ExpensiveName()} was dispensed from the vending machine", gameObject);
 
 			// Play vending sound
-			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), Random.Range(.75f, 1.1f), sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.75f, 1.1f));
+			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 
 			//Ejecting in direction
 			if (EjectObjects && EjectDirection != EjectDirection.None &&

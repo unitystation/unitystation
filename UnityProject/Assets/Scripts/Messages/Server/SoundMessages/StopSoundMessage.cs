@@ -1,15 +1,21 @@
-﻿namespace Assets.Scripts.Messages.Server.SoundMessages
+
+ using Mirror;
+
+namespace Messages.Server.SoundMessages
 {
 	/// <summary>
 	///     Message that tells client to stop playing a sound
 	/// </summary>
-	public class StopSoundMessage: ServerMessage
+	public class StopSoundMessage : ServerMessage<StopSoundMessage.NetMessage>
 	{
-		public string SoundSpawnToken;
-
-		public override void Process()
+		public struct NetMessage : NetworkMessage
 		{
-			SoundManager.Stop(SoundSpawnToken);
+			public string SoundSpawnToken;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			SoundManager.Stop(msg.SoundSpawnToken);
 		}
 
 		/// <summary>
@@ -17,15 +23,14 @@
 		/// </summary>
 		/// <param name="name">The SoundSpawn Token that identifies the sound instance to stop.</param>
 		/// <returns>The sent message</returns>
-		public static StopSoundMessage SendToAll(string soundSpawnToken)
+		public static NetMessage SendToAll(string soundSpawnToken)
 		{
-			StopSoundMessage msg = new StopSoundMessage
+			NetMessage msg = new NetMessage
 			{
 				SoundSpawnToken = soundSpawnToken
 			};
 
-			msg.SendToAll();
-
+			SendToAll(msg);
 			return msg;
 		}
 	}

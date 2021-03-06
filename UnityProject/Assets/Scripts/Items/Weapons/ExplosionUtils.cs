@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
+
 
 namespace Systems.Explosions
 {
@@ -25,7 +27,9 @@ namespace Systems.Explosions
 		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance)
 		{
 			AddressableAudioSource sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
-			SoundManager.PlayNetworkedAtPos(sndName, worldPosition, -1f, true, true, shakeIntensity, shakeDistance, false);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: -1f); //This will play the sound backwards, is that what you want?
+			ShakeParameters shakeParameters = new ShakeParameters(true, shakeIntensity, shakeDistance);
+			SoundManager.PlayNetworkedAtPos(sndName, worldPosition, audioSourceParameters, true, false, shakeParameters: shakeParameters);
 
 			if (shakeDistance > DISTANT_THRESHOLD)
 			{

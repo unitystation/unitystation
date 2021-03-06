@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -9,6 +11,7 @@ using UnityEngine.Serialization;
 using Objects;
 using Objects.Construction;
 using Random = UnityEngine.Random;
+
 
 public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 {
@@ -771,7 +774,8 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			// If there is a sound to be played
 			if (pushPullSound == null && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
 			{
-				SoundManager.PlayNetworkedAtPos(pushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance), sourceObj: gameObject);
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance));
+				SoundManager.PlayNetworkedAtPos(pushPullSound, target, audioSourceParameters, sourceObj: gameObject);
 				lastPlayedSoundTime = Time.time * 1000;
 			}
 

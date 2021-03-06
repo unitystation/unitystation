@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1460587041863738674}
   - component: {fileID: 435841801542321328}
   - component: {fileID: -3156721346394010278}
-  - component: {fileID: 4361832096884744213}
+  - component: {fileID: -1301878598643499119}
   m_Layer: 10
   m_Name: Hit
   m_TagString: Untagged
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: -932335445
   m_SortingLayer: 23
   m_SortingOrder: 560
-  m_Sprite: {fileID: 21300000, guid: 07ad26cf531e211429c5a1e9deda91d6, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 07ad26cf531e211429c5a1e9deda91d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,6 +124,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &435841801542321328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +157,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
---- !u!114 &4361832096884744213
+--- !u!114 &-1301878598643499119
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,7 +166,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1558421102126524431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3de31b69fa398848855bf41d71eb2fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0.5
+  syncMode: 0
+  syncInterval: 0.1

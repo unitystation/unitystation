@@ -1,6 +1,8 @@
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using NPC.Mood;
 using UnityEngine;
+
 
 namespace Systems.MobAIs
 {
@@ -53,10 +55,8 @@ namespace Systems.MobAIs
 
 		private void Squeak()
 		{
-			SoundManager.PlayNetworkedAtPos(
-				squeekSound,
-				gameObject.transform.position,
-				Random.Range(.6f, 1.2f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.6f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(squeekSound, gameObject.transform.position, audioSourceParameters);
 
 			Chat.AddActionMsgToChat(
 				gameObject,

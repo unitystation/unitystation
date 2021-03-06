@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 5442183917185828166}
   - component: {fileID: 5933879109768817857}
   - component: {fileID: 7688260226702700199}
+  - component: {fileID: -6790315723496725363}
   m_Layer: 11
   m_Name: RadiationCollector
   m_TagString: Untagged
@@ -243,6 +244,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &1999094162665485661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +310,7 @@ MonoBehaviour:
     FreezeProof: 0
     LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
 --- !u!114 &1773004346421643381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,6 +395,20 @@ MonoBehaviour:
   exportCost: 100
   exportName: radiation collector
   exportMessage: 
+--- !u!114 &-6790315723496725363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

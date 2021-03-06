@@ -1,46 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Messages.Client;
+﻿using Messages.Client;
+using Mirror;
 
-public class RequestKickMessage : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Userid;
-	public string AdminToken;
-	public string UserToKick;
-	public string Reason;
-	public bool IsBan;
-	public int BanMinutes;
-	public bool AnnounceBan;
-
-	public override void Process()
+	public class RequestKickMessage : ClientMessage<RequestKickMessage.NetMessage>
 	{
-		VerifyAdminStatus();
-	}
-
-	void VerifyAdminStatus()
-	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
+		public struct NetMessage : NetworkMessage
 		{
-			PlayerList.Instance.ProcessKickRequest(Userid, UserToKick, Reason, IsBan, BanMinutes, AnnounceBan);
+			public string Userid;
+			public string AdminToken;
+			public string UserToKick;
+			public string Reason;
+			public bool IsBan;
+			public int BanMinutes;
+			public bool AnnounceBan;
 		}
-	}
 
-	public static RequestKickMessage Send(string userId, string adminToken, string userIDToKick, string reason,
-		bool ban = false, int banminutes = 0, bool announceBan = true)
-	{
-		RequestKickMessage msg = new RequestKickMessage
+		public override void Process(NetMessage msg)
 		{
-			Userid = userId,
-			AdminToken = adminToken,
-			UserToKick = userIDToKick,
-			Reason = reason,
-			IsBan = ban,
-			BanMinutes = banminutes,
-			AnnounceBan = announceBan
-		};
-		msg.Send();
-		return msg;
+			VerifyAdminStatus(msg);
+		}
+
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (player != null)
+			{
+				PlayerList.Instance.ProcessKickRequest(msg.Userid, msg.UserToKick, msg.Reason, msg.IsBan, msg.BanMinutes, msg.AnnounceBan);
+			}
+		}
+
+		public static NetMessage Send(string userId, string adminToken, string userIDToKick, string reason,
+			bool ban = false, int banminutes = 0, bool announceBan = true)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken,
+				UserToKick = userIDToKick,
+				Reason = reason,
+				IsBan = ban,
+				BanMinutes = banminutes,
+				AnnounceBan = announceBan
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

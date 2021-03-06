@@ -5,13 +5,15 @@ using TMPro;
 using Messages.Server;
 using ScriptableObjects;
 using Systems.GhostRoles;
+using Messages.Client.GhostRoles;
+using Messages.Server.GhostRoles;
 
 namespace UI.Windows
 {
 	/// <summary>
 	/// An entry for <see cref="GhostRoleWindow"/>, displaying relevant information about the role.
 	/// Clicking on the entry will send a request for the local player assignment
-	/// to the role (see <see cref="Messages.Client.RequestGhostRoleMessage"/>).
+	/// to the role (see <see cref="RequestGhostRoleMessage"/>).
 	/// </summary>
 	public class GhostRoleWindowEntry : MonoBehaviour
 	{
@@ -58,7 +60,7 @@ namespace UI.Windows
 			{
 				playerCountLabel.color = warningColor;
 			}
-			
+
 			Role.OnTimerExpired += RemoveEntry;
 
 			GhostRoleManager.Instance.StartCoroutine(Countdown(Role.TimeRemaining));

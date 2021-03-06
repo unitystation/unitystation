@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using AddressableReferences;
 using Initialisation;
+using Messages.Server.SoundMessages;
 using Objects.Command;
 using Objects.Wallmounts;
 using Strings;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 
 namespace Managers
 {
@@ -220,7 +222,8 @@ namespace Managers
 
 			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix);
 
-			_ = SoundManager.PlayNetworked(updateTypes[type], 1f);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			_ = SoundManager.PlayNetworked(updateTypes[type], audioSourceParameters);
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
 		}
 

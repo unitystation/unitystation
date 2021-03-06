@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Messages.Server;
 using UnityEngine;
 using Objects.Command;
 
@@ -11,21 +12,11 @@ namespace Antagonists
 	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/TriggerNuke")]
 	public class TriggerNuke : Objective
 	{
-		private Nuke NukeTarget;
 		protected override void Setup()
 		{
-			//Check to see if there is a nuke and communicate the nuke code:
-			NukeTarget = FindObjectOfType<Nuke>();
-			if (NukeTarget == null)
-			{
-				Logger.LogWarning("Unable to setup nuke objective, no nuke found in scene!", Category.Antags);
-			}
-			else
-			{
-				UpdateChatMessage.Send(Owner.body.gameObject, ChatChannel.Syndicate, ChatModifier.None,
-					"We have intercepted the code for the nuclear weapon: " + NukeTarget.NukeCode);
-				description += ". Intercepted nuke code is " + NukeTarget.NukeCode;
-			}
+			UpdateChatMessage.Send(Owner.body.gameObject, ChatChannel.Syndicate, ChatModifier.None,
+				"We have intercepted the code for the nuclear weapon: " + AntagManager.SyndiNukeCode);
+			description += ". Intercepted nuke code is " + AntagManager.SyndiNukeCode;
 		}
 
 		/// <summary>
@@ -33,7 +24,7 @@ namespace Antagonists
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			return NukeTarget.IsDetonated;
+			return Nuke.Detonated;
 		}
 	}
 }

@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using AddressableReferences;
 using Items;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using TileManagement;
 using Weapons;
+
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
@@ -128,12 +130,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 					if(isWeapon && weaponStats != null &&
 					weaponStats.hitSoundSettings == SoundItemSettings.Both)
 					{
-						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+						AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 					}
 					else if (isWeapon && weaponStats != null &&
 				    	     weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit == null)
 					{
-						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+						AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 						attackSound = null;
 					}
 					integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);

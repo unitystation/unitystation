@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Messages.Server;
 using UnityEngine;
 
 namespace Pipes
@@ -19,11 +20,8 @@ namespace Pipes
 		public bool IsOn = false;
 
 
-		public override void Start()
+		public override void OnSpawnServer(SpawnInfo info)
 		{
-			pipeData.PipeAction = new MonoActions();
-			base.Start();
-
 			if (IsOn)
 			{
 				spriteHandlerOverlay.PushTexture();
@@ -32,6 +30,7 @@ namespace Pipes
 			{
 				spriteHandlerOverlay.PushClear();
 			}
+			base.OnSpawnServer(info);
 		}
 
 		public void TogglePower()

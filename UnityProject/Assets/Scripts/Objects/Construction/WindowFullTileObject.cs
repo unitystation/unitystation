@@ -3,6 +3,8 @@ using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
+
 
 namespace Objects.Construction
 {
@@ -70,7 +72,8 @@ namespace Objects.Construction
 			Spawn.ServerPrefab(rodsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfRodsOnDestroy, maxCountOfRodsOnDestroy + 1),
 				scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
 
-			SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), audioSourceParameters, sourceObj: gameObject);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -161,7 +164,8 @@ namespace Objects.Construction
 		private void Disassemble(HandApply interaction)
 		{
 			Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDissasemle);
-			SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), audioSourceParameters, sourceObj: gameObject);
 			Despawn.ServerSingle(gameObject);
 		}
 	}

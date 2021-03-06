@@ -112,7 +112,7 @@ namespace Pipes
 				for (int i = 0; i < foundPipe.ConnectedPipes.Count; i++)
 				{
 					var nextPipe = foundPipe.ConnectedPipes[i];
-					if (nextPipe.NetCompatible && nextPipe.OnNet == null)
+					if (nextPipe.NetCompatible && nextPipe.OnNet == null && !foundPipes.Contains((nextPipe)))
 					{
 						foundPipes.Add(nextPipe);
 					}

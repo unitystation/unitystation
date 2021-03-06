@@ -2,6 +2,10 @@
 
 This documents the customizations we've done on Mirror which will need to be manually upgraded when we upgrade mirror.
 
+On 22/02/2021 Mirror was updated to version 30.5.3 by this PR https://github.com/unitystation/unitystation/pull/6083
+
+All the custom unitystation code in the mirror code should be labled by : //CUSTOM UNITYSTATION CODE//
+
 I manually patched in this fix until it is included in the latest mirror asset store release:
 https://github.com/vis2k/Mirror/commit/0e1bc8110fb3cc4e162464a2e080eac6c70ab95e
 Once asset store release is upgraded we can switch to it and overwrite this fix.

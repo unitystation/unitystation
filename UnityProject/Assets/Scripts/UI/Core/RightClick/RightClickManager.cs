@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DatabaseAPI;
 using Doors;
 using Items;
+using Messages.Client.VariableViewer;
 using Objects.Wallmounts;
 using UnityEngine;
 using UnityEngine.EventSystems;

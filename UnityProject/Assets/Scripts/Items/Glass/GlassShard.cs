@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
+
 
 public class GlassShard : NetworkBehaviour, IServerSpawn
 {
@@ -69,7 +71,8 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 		//8 = Players layer
 		if (coll.gameObject.layer == 8)
 		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GlassStep, coll.transform.position, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GlassStep, coll.transform.position, audioSourceParameters, sourceObj: gameObject);
 		}
 	}
 }

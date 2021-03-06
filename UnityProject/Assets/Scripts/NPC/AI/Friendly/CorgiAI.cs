@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
+
 
 namespace Systems.MobAIs
 {
@@ -43,9 +45,8 @@ namespace Systems.MobAIs
 
 		private void SingleBark(GameObject barked = null)
 		{
-			SoundManager.PlayNetworkedAtPos(barkSound,
-				gameObject.transform.position,
-				Random.Range(.8F, 1.3F));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8F, 1.3F));
+			SoundManager.PlayNetworkedAtPos(barkSound, gameObject.transform.position, audioSourceParameters);
 
 			if (barked != null)
 			{

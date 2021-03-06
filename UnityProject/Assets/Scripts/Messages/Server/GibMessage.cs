@@ -1,20 +1,26 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
 
-public class GibMessage : ServerMessage
+namespace Messages.Server
 {
-	public override void Process()
+	public class GibMessage : ServerMessage<GibMessage.NetMessage>
 	{
-		foreach (LivingHealthBehaviour living in Object.FindObjectsOfType<LivingHealthBehaviour>())
-		{
-			living.Death();
-		}
-	}
+		public struct NetMessage : NetworkMessage { }
 
-	public static GibMessage Send()
-	{
-		GibMessage msg = new GibMessage();
-		msg.SendToAll();
-		return msg;
+		public override void Process(NetMessage msg)
+		{
+			foreach (LivingHealthBehaviour living in Object.FindObjectsOfType<LivingHealthBehaviour>())
+			{
+				living.Death();
+			}
+		}
+
+		public static NetMessage Send()
+		{
+			NetMessage msg = new NetMessage();
+
+			SendToAll(msg);
+			return msg;
+		}
 	}
 }

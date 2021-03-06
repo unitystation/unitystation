@@ -1,4 +1,6 @@
+using Messages.Server.SoundMessages;
 using UnityEngine;
+
 
 /// <summary>
 /// Allows an object to be hugged by a player.
@@ -42,8 +44,9 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 			Hug();
 		}
 
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
 		SoundManager.PlayNetworkedAtPos(
-				SingletonSOSounds.Instance.ThudSwoosh, interaction.TargetObject.WorldPosServer(), Random.Range(0.8f, 1.2f), sourceObj: interaction.TargetObject);
+				SingletonSOSounds.Instance.ThudSwoosh, interaction.TargetObject.WorldPosServer(), audioSourceParameters, sourceObj: interaction.TargetObject);
 	}
 
 	// TODO Consider moving this into its own component, or merging Huggable, this and CPRable into

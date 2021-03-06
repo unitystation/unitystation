@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Doors;
 using Items;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;
@@ -414,6 +415,7 @@ public partial class PlayerSync
 			pushPull.InformHead(pushPull.PulledBy);
 			//			InformPullMessage.Send( pushPull.PulledBy, this.pushPull, pushPull.PulledBy );
 		}
+		UpdateClientState(serverState);
 	}
 
 	/// Clears server pending actions queue

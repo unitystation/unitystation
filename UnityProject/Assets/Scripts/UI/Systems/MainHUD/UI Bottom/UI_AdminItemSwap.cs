@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Mirror;
 using AdminCommands;
+using Messages.Client;
+using Messages.Client.Interaction;
 
 public class UI_AdminItemSwap : TooltipMonoBehaviour, IPointerClickHandler
 {

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Messages.Server;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;

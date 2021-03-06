@@ -1,39 +1,47 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using AdminTools;
 using Mirror;
-using AdminTools;
+using UnityEngine;
 
-public class MentorPlayerChatUpdateMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public string JsonData;
-	public string PlayerId;
-
-	public override void Process()
+	public class MentorPlayerChatUpdateMessage : ServerMessage<MentorPlayerChatUpdateMessage.NetMessage>
 	{
-		UIManager.Instance.adminChatWindows.mentorPlayerChat.ClientUpdateChatLog(JsonData, PlayerId);
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string JsonData;
+			public string PlayerId;
+		}
 
-	public static MentorPlayerChatUpdateMessage SendSingleEntryToMentors(AdminChatMessage chatMessage, string playerId)
-	{
-		AdminChatUpdate update = new AdminChatUpdate();
-		update.messages.Add(chatMessage);
-		MentorPlayerChatUpdateMessage  msg =
-			new MentorPlayerChatUpdateMessage  {JsonData = JsonUtility.ToJson(update), PlayerId = playerId};
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.adminChatWindows.mentorPlayerChat.ClientUpdateChatLog(msg.JsonData, msg.PlayerId);
+		}
 
-		msg.SendToMentors();
-		return msg;
-	}
+		public static NetMessage SendSingleEntryToMentors(AdminChatMessage chatMessage, string playerId)
+		{
+			AdminChatUpdate update = new AdminChatUpdate();
+			update.messages.Add(chatMessage);
 
-	public static MentorPlayerChatUpdateMessage SendLogUpdateToMentor(NetworkConnection requestee, AdminChatUpdate update, string playerId)
-	{
-		MentorPlayerChatUpdateMessage msg =
-			new MentorPlayerChatUpdateMessage
+			NetMessage  msg = new NetMessage
 			{
 				JsonData = JsonUtility.ToJson(update),
 				PlayerId = playerId
 			};
 
-		msg.SendTo(requestee);
-		return msg;
+			SendToMentors(msg);
+			return msg;
+		}
+
+		public static NetMessage SendLogUpdateToMentor(NetworkConnection requestee, AdminChatUpdate update, string playerId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				JsonData = JsonUtility.ToJson(update),
+				PlayerId = playerId
+			};
+
+			SendTo(requestee, msg);
+			return msg;
+		}
 	}
 }

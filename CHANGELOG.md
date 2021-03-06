@@ -2,6 +2,17 @@
 ---
 
 
+* 2021/3/5: Updates Mirror to github version 32.0.0 by [ThatDan123](https://github.com/ThatDan123) in PR #[6083](https://github.com/unitystation/unitystation/pull/6083)
+* 2021/2/26: radiation now penetrates differently depending on the tile by [Bod9001](https://github.com/Bod9001) in PR #[6118](https://github.com/unitystation/unitystation/pull/6118)
+* 2021/2/25: Created a Night Vision Goggle script that enables the night vision shader and makes player vision a bit clearer in the dark. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6112](https://github.com/unitystation/unitystation/pull/6112)
+* 2021/2/22: Deconstruction RWalls gives two plasteel now by [ThatDan123](https://github.com/ThatDan123) in PR #[6094](https://github.com/unitystation/unitystation/pull/6094)
+* 2021/2/22: Fixed shutter and blast door sounds. by [ThatDan123](https://github.com/ThatDan123) in PR #[6094](https://github.com/unitystation/unitystation/pull/6094)
+* 2021/2/20: Fixed mobs being unable to die. by [corp-0](https://github.com/corp-0) in PR #[6075](https://github.com/unitystation/unitystation/pull/6075)
+* 2021/2/20: Adds damage levels for normal metal floors by [ThatDan123](https://github.com/ThatDan123) in PR #[6063](https://github.com/unitystation/unitystation/pull/6063)
+* 2021/2/20: Adds damage levels for reinforced and normal metal walls by [ThatDan123](https://github.com/ThatDan123) in PR #[6063](https://github.com/unitystation/unitystation/pull/6063)
+* 2021/2/20: Readds window damage overlays and knock sound by [ThatDan123](https://github.com/ThatDan123) in PR #[6063](https://github.com/unitystation/unitystation/pull/6063)
+* 2021/2/19: Reduced spark sound noise distance by [ThatDan123](https://github.com/ThatDan123) in PR #[6060](https://github.com/unitystation/unitystation/pull/6060)
+* 2021/2/19: Fixes sparks being at wrong position by [ThatDan123](https://github.com/ThatDan123) in PR #[6060](https://github.com/unitystation/unitystation/pull/6060)
 * 2021/2/18: Broken lights now spark occasionally, which can start fires. by [ThatDan123](https://github.com/ThatDan123) in PR #[6053](https://github.com/unitystation/unitystation/pull/6053)
 * 2021/2/17: Fixes Plasma Generator Sound by [ThatDan123](https://github.com/ThatDan123) in PR #[6043](https://github.com/unitystation/unitystation/pull/6043)
 * 2021/2/16: Removed blob attack messages, to reduce spam by [ThatDan123](https://github.com/ThatDan123) in PR #[6036](https://github.com/unitystation/unitystation/pull/6036)

@@ -6,6 +6,7 @@ using System.Reflection;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using Messages.Server.VariableViewer;
 using Component = UnityEngine.Component;
 using Object = System.Object;
 

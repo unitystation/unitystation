@@ -1,26 +1,34 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Tells client to update pressure
-/// </summary>
-public class HealthPressureMessage : ServerMessage
+namespace Messages.Server.HealthMessages
 {
-	public float pressure;
-
-	public override void Process()
+	/// <summary>
+	///     Tells client to update pressure
+	/// </summary>
+	public class HealthPressureMessage : ServerMessage<HealthPressureMessage.NetMessage>
 	{
-		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientPressureStats(pressure);
-	}
-
-	public static HealthPressureMessage Send(GameObject entityToUpdate, float pressureValue)
-	{
-		HealthPressureMessage msg = new HealthPressureMessage
+		public struct NetMessage : NetworkMessage
 		{
-			pressure = pressureValue
-		};
-		msg.SendTo(entityToUpdate);
-		return msg;
+			public float pressure;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			if(PlayerManager.LocalPlayerScript.playerHealth == null) return;
+
+			PlayerManager.LocalPlayerScript.playerHealth.UpdateClientPressureStats(msg.pressure);
+		}
+
+		public static NetMessage Send(GameObject entityToUpdate, float pressureValue)
+		{
+			NetMessage msg = new NetMessage
+			{
+				pressure = pressureValue
+			};
+
+			SendTo(entityToUpdate, msg);
+			return msg;
+		}
 	}
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using Mirror;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using ScriptableObjects;
 using Random = UnityEngine.Random;
+
 
 namespace Objects.Construction
 {
@@ -98,7 +100,8 @@ namespace Objects.Construction
 				$"You finish assembling the {tableType} table.",
 				$"{interaction.Performer.ExpensiveName()} assembles a {tableType} table.",
 				() => SpawnTable(interaction, layerTile));
-			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 		}
 
 		private void Disassemble(HandApply interaction)

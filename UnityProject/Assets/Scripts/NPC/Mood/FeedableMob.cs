@@ -1,5 +1,7 @@
 ﻿using Systems.MobAIs;
+using Messages.Server.SoundMessages;
 using UnityEngine;
+
 
 namespace NPC.Mood
 {
@@ -34,11 +36,9 @@ namespace NPC.Mood
 		{
 			Inventory.ServerConsume(interaction.HandSlot, 1);
 			mood.OnFoodEaten();
-			SoundManager.PlayNetworkedAtPos(
-				SingletonSOSounds.Instance.EatFood,
-				gameObject.RegisterTile().WorldPosition,
-				1f,
-				sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.EatFood,
+				gameObject.RegisterTile().WorldPosition, audioSourceParameters,	sourceObj: gameObject);
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer,
