@@ -5,7 +5,7 @@ using UnityEngine;
 public class EmoteActionManager : MonoBehaviour
 {
     [SerializeField]
-    private List<Emote> emotes;
+    private List<EmoteSO> emotes;
 
     public static bool FindEmote(string emote, EmoteActionManager instance)
     {
