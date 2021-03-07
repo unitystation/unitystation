@@ -220,9 +220,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: 5f1350a734e527941bd7c6eec964a984, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: acc8946229aa8834f8dd2ea8533648ff, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
@@ -254,6 +254,11 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoType
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: FireDelay
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}

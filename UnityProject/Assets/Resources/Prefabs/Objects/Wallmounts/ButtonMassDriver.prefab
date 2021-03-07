@@ -14,13 +14,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1829154482585634221, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
-      propertyPath: initialDescription
-      value: A remote control switch for a mass driver.
+      propertyPath: initialName
+      value: mass driver button
       objectReference: {fileID: 0}
     - target: {fileID: 1829154482585634221, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
-      propertyPath: initialName
-      value: mass driver button
+      propertyPath: initialDescription
+      value: A remote control switch for a mass driver.
       objectReference: {fileID: 0}
     - target: {fileID: 4582266827605979207, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
@@ -28,6 +28,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bb005794cd4452a4da89af86370532f1,
         type: 2}
+    - target: {fileID: 4863277160209273534, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
+      propertyPath: offSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 38c53ab71671bd84b92cf09c1f7fc133,
+        type: 3}
     - target: {fileID: 4863277160209273534, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
       propertyPath: redSprite
@@ -40,16 +46,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 31ea1fd913623ca4b949e675592fbd7a,
         type: 3}
-    - target: {fileID: 4863277160209273534, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
-        type: 3}
-      propertyPath: offSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 38c53ab71671bd84b92cf09c1f7fc133,
-        type: 3}
     - target: {fileID: 9063366402093685405, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
       propertyPath: m_Name
       value: ButtonMassDriver
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
@@ -68,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -80,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}

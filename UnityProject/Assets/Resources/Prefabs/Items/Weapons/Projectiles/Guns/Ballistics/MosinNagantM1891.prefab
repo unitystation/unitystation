@@ -117,14 +117,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: 3a3fee0c989e9fb41a6aa909ffd71fdc, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: 48a85cb1bc55f854c868e47536157d9c, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
-  SpriteDataSO: []
 --- !u!114 &4221194372170591464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,6 +160,11 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoType
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126689358047389511, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: FireDelay
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1126689358047389511, guid: f0c995ee924eb904dae952cd56a8c1d6,
         type: 3}
