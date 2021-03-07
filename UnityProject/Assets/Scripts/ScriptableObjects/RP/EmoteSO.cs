@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using SoundMessages;
+using Messages.Server.SoundMessages;
 
 [CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/BasicEmote")]
 public class EmoteSO : ScriptableObject
@@ -57,18 +57,18 @@ public class EmoteSO : ScriptableObject
 		SoundManager.PlayNetworkedAtPos(audioList.PickRandom(), player.transform.position, audioSourceParameters, polyphonic: true);
 	}
 
-	public void genderCheck(Gender gender)
+	public void genderCheck(BodyType gender)
 	{
 		//Add race checks later when lizard men, slime people and lusty xeno-maids get added after the new health system gets merged.
 		switch (gender)
 		{
-			case (Gender.Male):
+			case (BodyType.Male):
 				audioToUse = maleSounds;
 				break;
-			case (Gender.Female):
+			case (BodyType.Female):
 				audioToUse = femaleSounds;
 				break;
-			case (Gender.Neuter):
+			case (BodyType.Neutral):
 				audioToUse = defaultSounds;
 				break;
 			default:
@@ -77,12 +77,12 @@ public class EmoteSO : ScriptableObject
 		}
 	}
 
-	public Gender checkPlayerGender()
+	public BodyType checkPlayerGender()
 	{
-		return PlayerManager.LocalPlayerScript.characterSettings.Gender;
+		return PlayerManager.LocalPlayerScript.characterSettings.BodyType;
 	}
 
-	public PlayerHealth getPlayerHealth()
+	public PlayerHealthV2 getPlayerHealth()
 	{
 		return PlayerManager.LocalPlayerScript.playerHealth;
 	}

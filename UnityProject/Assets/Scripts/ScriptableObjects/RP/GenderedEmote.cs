@@ -2,7 +2,7 @@
 using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using SoundMessages;
+using Messages.Server.SoundMessages;
 
 [CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/GenderedEmote")]
 public class GenderedEmote : EmoteSO
@@ -15,20 +15,20 @@ public class GenderedEmote : EmoteSO
 	
 	public override void Do(GameObject player)
 	{
-		Gender playerGender = checkPlayerGender();
-		PlayerHealth playerHealth = getPlayerHealth();
+		BodyType playerGender = checkPlayerGender();
+		PlayerHealthV2 playerHealth = getPlayerHealth();
 		checkPlayerState(playerHealth, playerGender);
 		Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText_Final}.");
 		playAudio(audioToUse, player);
 	}
 
-	private void checkPlayerState(PlayerHealth health, Gender gender)
+	private void checkPlayerState(PlayerHealthV2 health, BodyType gender)
 	{
 		HealthCheck(health);
 		genderCheck(gender);
 	}
 
-	private void HealthCheck(PlayerHealth health)
+	private void HealthCheck(PlayerHealthV2 health)
 	{
 		if (health.IsDead)
 		{
