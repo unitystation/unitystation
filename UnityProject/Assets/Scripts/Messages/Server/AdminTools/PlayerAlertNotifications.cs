@@ -1,56 +1,59 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using AdminTools;
-using Mirror;
+﻿using Mirror;
 
-/// <summary>
-/// Notify the admins when a alert comes in!!
-/// </summary>
-public class PlayerAlertNotifications : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public int Amount;
-	public bool IsFullUpdate;
-
-	public override void Process()
-	{
-		if (!IsFullUpdate)
-		{
-			UIManager.Instance.playerAlerts.UpdateNotifications(Amount);
-		}
-		else
-		{
-			UIManager.Instance.playerAlerts.ClearAllNotifications();
-			UIManager.Instance.playerAlerts.UpdateNotifications(Amount);
-		}
-	}
-
 	/// <summary>
-	/// Send notification updates to all admins
+	/// Notify the admins when a alert comes in!!
 	/// </summary>
-	public static PlayerAlertNotifications SendToAll(int amt)
+	public class PlayerAlertNotifications : ServerMessage<PlayerAlertNotifications.NetMessage>
 	{
-		PlayerAlertNotifications msg = new PlayerAlertNotifications
+		public struct NetMessage : NetworkMessage
 		{
-			Amount = amt,
-			IsFullUpdate = false,
-		};
-		msg.SendToAll();
-		return msg;
-	}
+			public int Amount;
+			public bool IsFullUpdate;
+		}
 
-	/// <summary>
-	/// Send full update to an admin client
-	/// </summary>
-	public static PlayerAlertNotifications Send(NetworkConnection adminConn, int amt)
-	{
-		PlayerAlertNotifications msg = new PlayerAlertNotifications
+		public override void Process(NetMessage msg)
 		{
-			Amount = amt,
-			IsFullUpdate = true
-		};
-		msg.SendTo(adminConn);
-		return msg;
+			if (!msg.IsFullUpdate)
+			{
+				UIManager.Instance.playerAlerts.UpdateNotifications(msg.Amount);
+			}
+			else
+			{
+				UIManager.Instance.playerAlerts.ClearAllNotifications();
+				UIManager.Instance.playerAlerts.UpdateNotifications(msg.Amount);
+			}
+		}
+
+		/// <summary>
+		/// Send notification updates to all admins
+		/// </summary>
+		public static NetMessage SendToAll(int amt)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Amount = amt,
+				IsFullUpdate = false,
+			};
+
+			SendToAll(msg);
+			return msg;
+		}
+
+		/// <summary>
+		/// Send full update to an admin client
+		/// </summary>
+		public static NetMessage Send(NetworkConnection adminConn, int amt)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Amount = amt,
+				IsFullUpdate = true
+			};
+
+			SendTo(adminConn, msg);
+			return msg;
+		}
 	}
 }

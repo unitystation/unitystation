@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -8,7 +8,8 @@ using System.Linq;
 using UnityEngine;
 using AddressableReferences;
 using DatabaseAPI;
-using SoundMessages;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 
 /// <summary>
 /// Provides central access to the Players Health
@@ -357,7 +358,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
 		Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
-		
+
 		// Slip is essentially a yelp SFX.
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,

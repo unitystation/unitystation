@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using AddressableReferences;
 using Items;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using TileManagement;
 using Weapons;
-using SoundMessages;
+
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {

@@ -4,6 +4,8 @@ using UnityEngine;
 using Messages.Server;
 using Messages.Client;
 using Systems.GhostRoles;
+using Messages.Client.GhostRoles;
+using Messages.Server.GhostRoles;
 
 namespace UI.Windows
 {

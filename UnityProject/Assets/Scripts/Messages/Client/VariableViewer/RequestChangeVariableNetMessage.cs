@@ -1,43 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Messages.Client;
-using Mirror;
-using UnityEngine;
+﻿using Mirror;
 
-public class RequestChangeVariableNetMessage : ClientMessage
+namespace Messages.Client.VariableViewer
 {
-	public string newValue;
-	public ulong PageID;
-	public bool IsNewBookshelf = false;
-	public bool SendToClient = false;
-	public string AdminId;
-	public string AdminToken;
-
-	public override void Process()
+	public class RequestChangeVariableNetMessage : ClientMessage<RequestChangeVariableNetMessage.NetMessage>
 	{
-		ValidateAdmin();
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string newValue;
+			public ulong PageID;
+			public bool IsNewBookshelf;
+			public bool SendToClient;
+			public string AdminId;
+			public string AdminToken;
+		}
 
-	void ValidateAdmin()
-	{
-		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
-		if (admin == null) return;
-		VariableViewer.RequestChangeVariable(PageID, newValue,SendToClient, SentByPlayer.GameObject, AdminId);
+		public override void Process(NetMessage msg)
+		{
+			ValidateAdmin(msg);
+		}
 
-		Logger.Log($"Admin {admin.name} changed variable {PageID} (in VV) with a new value of: {newValue} ",
-			Category.Admin);
-	}
+		void ValidateAdmin(NetMessage msg)
+		{
+			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
+			if (admin == null) return;
+			global::VariableViewer.RequestChangeVariable(msg.PageID, msg.newValue, msg.SendToClient, SentByPlayer.GameObject, msg.AdminId);
+
+			Logger.Log($"Admin {admin.name} changed variable {msg.PageID} (in VV) with a new value of: {msg.newValue} ",
+				Category.Admin);
+		}
 
 
-	public static RequestChangeVariableNetMessage Send(ulong _PageID, string _newValue ,bool InSendToClient , string adminId, string adminToken)
-	{
-		RequestChangeVariableNetMessage msg = new RequestChangeVariableNetMessage();
-		msg.PageID = _PageID;
-		msg.newValue = _newValue;
-		msg.AdminId = adminId;
-		msg.AdminToken = adminToken;
-		msg.SendToClient = InSendToClient;
-		msg.Send();
-		return msg;
+		public static NetMessage Send(ulong _PageID, string _newValue ,bool InSendToClient , string adminId, string adminToken)
+		{
+			NetMessage msg = new NetMessage();
+			msg.PageID = _PageID;
+			msg.newValue = _newValue;
+			msg.AdminId = adminId;
+			msg.AdminToken = adminToken;
+			msg.SendToClient = InSendToClient;
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

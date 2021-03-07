@@ -1,24 +1,30 @@
-﻿using System.Collections;
-using Messages.Client;
+﻿using Mirror;
 
-public class TileChangeNewPlayer: ClientMessage
+namespace Messages.Client.NewPlayer
 {
-	public uint TileChangeManager;
-
-	public override void Process()
+	public class TileChangeNewPlayer : ClientMessage<TileChangeNewPlayer.NetMessage>
 	{
-		LoadNetworkObject(TileChangeManager);
-		NetworkObject.GetComponent<TileChangeManager>().UpdateNewPlayer(
-			SentByPlayer.Connection);
-	}
-
-	public static TileChangeNewPlayer Send(uint tileChangeNetId)
-	{
-		TileChangeNewPlayer msg = new TileChangeNewPlayer
+		public struct NetMessage : NetworkMessage
 		{
-			TileChangeManager = tileChangeNetId
-		};
-		msg.Send();
-		return msg;
+			public uint TileChangeManager;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.TileChangeManager);
+			NetworkObject.GetComponent<TileChangeManager>().UpdateNewPlayer(
+				SentByPlayer.Connection);
+		}
+
+		public static NetMessage Send(uint tileChangeNetId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				TileChangeManager = tileChangeNetId
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

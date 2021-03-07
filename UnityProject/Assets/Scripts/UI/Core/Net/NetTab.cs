@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 

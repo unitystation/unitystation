@@ -1,72 +1,70 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
 
 /// <summary>
 /// Responsible for keeping the update and day to clean up off the supply in check
 /// </summary>
 public static class PowerSupplyFunction  {
+
 	/// <summary>
 	/// Called when a Supplying Device is turned off.
 	/// </summary>
-	/// <param name="Supply">The supplying device that is turned off</param>
-	public static void TurnOffSupply(ModuleSupplyingDevice Supply)
+	/// <param name="supply">The supplying device that is turned off</param>
+	public static void TurnOffSupply(ModuleSupplyingDevice supply)
 	{
-		if (Supply.ControllingNode == null)
+		if (supply.ControllingNode == null)
 		{
 			Logger.LogError("Supply.ControllingNode == null");
 			return;
 		}
 
-		Supply.ControllingNode.Node.InData.Data.ChangeToOff = true;
-		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supply.ControllingNode);
+		supply.ControllingNode.Node.InData.Data.ChangeToOff = true;
+		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(supply.ControllingNode);
 	}
-	public static void TurnOnSupply(ModuleSupplyingDevice Supply)
+	public static void TurnOnSupply(ModuleSupplyingDevice supply)
 	{
-		Supply.ControllingNode.Node.InData.Data.ChangeToOff = false;
+		supply.ControllingNode.Node.InData.Data.ChangeToOff = false;
 		var sync = ElectricalManager.Instance.electricalSync;
-		sync.AddSupply(Supply.ControllingNode, Supply.ControllingNode.ApplianceType);
-		sync.NUStructureChangeReact.Add (Supply.ControllingNode);
-		sync.NUResistanceChange.Add (Supply.ControllingNode);
-		sync.NUCurrentChange.Add (Supply.ControllingNode);
+		sync.AddSupply(supply.ControllingNode, supply.ControllingNode.ApplianceType);
+		sync.NUStructureChangeReact.Add (supply.ControllingNode);
+		sync.NUResistanceChange.Add (supply.ControllingNode);
+		sync.NUCurrentChange.Add (supply.ControllingNode);
 	}
 
-	public static void PowerUpdateStructureChangeReact(ModuleSupplyingDevice Supply)
+	public static void PowerUpdateStructureChangeReact(ModuleSupplyingDevice supply)
 	{
-		ElectricalManager.Instance.electricalSync.CircuitSearchLoop(Supply.ControllingNode.Node);
+		ElectricalManager.Instance.electricalSync.CircuitSearchLoop(supply.ControllingNode.Node);
 	}
 
-	public static void PowerUpdateCurrentChange(ModuleSupplyingDevice Supply)
+	public static void PowerUpdateCurrentChange(ModuleSupplyingDevice supply)
 	{
 		var sync = ElectricalManager.Instance.electricalSync;
-		if (Supply.ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(Supply.ControllingNode.Node)){
-			//Logger.Log("PowerUpdateCurrentChange for Supply  > " + Supply.name);
-			Supply.ControllingNode.Node.InData.FlushSupplyAndUp(Supply.ControllingNode.Node); //Needs change
+		if (supply.ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(supply.ControllingNode.Node)){
+			supply.ControllingNode.Node.InData.FlushSupplyAndUp(supply.ControllingNode.Node); //Needs change
 
-			if (!Supply.ControllingNode.Node.InData.Data.ChangeToOff)
+			if (!supply.ControllingNode.Node.InData.Data.ChangeToOff)
 			{
-				if (Supply.current != 0)
+				if (supply.current != 0)
 				{
-					PushCurrentDownline(Supply, Supply.current);
+					PushCurrentDownline(supply, supply.current);
 				}
-				else if (Supply.SupplyingVoltage != 0)
+				else if (supply.SupplyingVoltage != 0)
 				{
-					float Current = (Supply.SupplyingVoltage) / (Supply.InternalResistance
-					+ ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.InData.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom));
-					PushCurrentDownline(Supply, Current);
+					float Current = (supply.SupplyingVoltage) / (supply.InternalResistance
+					                                             + ElectricityFunctions.WorkOutResistance(supply.ControllingNode.Node.InData.Data.SupplyDependent[supply.ControllingNode.Node].ResistanceComingFrom));
+					PushCurrentDownline(supply, Current);
 				}
-				else if (Supply.ProducingWatts != 0)
+				else if (supply.ProducingWatts != 0)
  				{
-	                float Current =(float) (Math.Sqrt(Supply.ProducingWatts *
-	                ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.InData.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom))
-	                /ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.InData.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom));
-	                PushCurrentDownline(Supply, Current);
+	                float Current =(float) (Math.Sqrt(supply.ProducingWatts *
+	                                                  ElectricityFunctions.WorkOutResistance(supply.ControllingNode.Node.InData.Data.SupplyDependent[supply.ControllingNode.Node].ResistanceComingFrom))
+	                /ElectricityFunctions.WorkOutResistance(supply.ControllingNode.Node.InData.Data.SupplyDependent[supply.ControllingNode.Node].ResistanceComingFrom));
+	                PushCurrentDownline(supply, Current);
 				}
 			}
 			else {
-				foreach (var  connectedDevice in Supply.ControllingNode.Node.connectedDevices)
+				foreach (var  connectedDevice in supply.ControllingNode.Node.connectedDevices)
 				{
 					if (sync.ReactiveSuppliesSet.Contains(connectedDevice.Categorytype))
 					{
@@ -75,15 +73,14 @@ public static class PowerSupplyFunction  {
 				}
 			}
 		}
-		//ELCurrent.Currentloop(Supply.gameObject);
 
-		if (Supply.ControllingNode.Node.InData.Data.ChangeToOff)
+		if (supply.ControllingNode.Node.InData.Data.ChangeToOff)
 		{
-			Supply.ControllingNode.Node.InData.RemoveSupply(Supply.ControllingNode.Node);
-			Supply.ControllingNode.Node.InData.Data.ChangeToOff = false;
-			Supply.ControllingNode.TurnOffCleanup();
+			supply.ControllingNode.Node.InData.RemoveSupply(supply.ControllingNode.Node);
+			supply.ControllingNode.Node.InData.Data.ChangeToOff = false;
+			supply.ControllingNode.TurnOffCleanup();
 
-			sync.RemoveSupply(Supply.ControllingNode, Supply.ControllingNode.Node.InData.Categorytype);
+			sync.RemoveSupply(supply.ControllingNode, supply.ControllingNode.Node.InData.Categorytype);
 		}
 	}
 

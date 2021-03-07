@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Messages.Client;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;

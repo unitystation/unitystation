@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using CameraEffects;
+using Messages.Server;
 
 public class PlayerEatDrinkEffects : NetworkBehaviour
 {
@@ -14,28 +15,31 @@ public class PlayerEatDrinkEffects : NetworkBehaviour
 	}
 }
 
-public class PlayerEatDrinkEffectsServerMessage : ServerMessage
+public class PlayerEatDrinkEffectsServerMessage : ServerMessage<PlayerEatDrinkEffectsServerMessage.NetMessage>
 {
-	public int alcoholValue;
-	public GameObject clientPlayer = null;
+	public struct NetMessage : NetworkMessage
+	{
+		public int alcoholValue;
+	}
 
-	public override void Process()
+	public override void Process(NetMessage msg)
 	{
 		var camera = Camera.main;
 		if (camera == null) return;
-		camera.GetComponent<CameraEffectControlScript>().AddDrunkTime(alcoholValue);
+		camera.GetComponent<CameraEffectControlScript>().AddDrunkTime(msg.alcoholValue);
 	}
 
 	/// <summary>
 	/// Send full update to a client
 	/// </summary>
-	public static PlayerEatDrinkEffectsServerMessage Send(GameObject clientConn, int newAlcoholValue)
+	public static NetMessage Send(GameObject clientConn, int newAlcoholValue)
 	{
-		PlayerEatDrinkEffectsServerMessage msg = new PlayerEatDrinkEffectsServerMessage
+		NetMessage msg = new NetMessage
 		{
 			alcoholValue = newAlcoholValue
 		};
-		msg.SendTo(clientConn);
+
+		SendTo(clientConn, msg);
 		return msg;
 	}
 }

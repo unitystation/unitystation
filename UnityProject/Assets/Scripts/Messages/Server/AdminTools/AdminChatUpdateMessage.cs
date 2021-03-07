@@ -1,37 +1,42 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using AdminTools;
 using Mirror;
-using AdminTools;
+using UnityEngine;
 
-public class AdminChatUpdateMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public string JsonData;
-
-	public override void Process()
+	public class AdminChatUpdateMessage : ServerMessage<AdminChatUpdateMessage.NetMessage>
 	{
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ClientUpdateChatLog(JsonData);
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string JsonData;
+		}
 
-	public static AdminChatUpdateMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage)
-	{
-		AdminChatUpdate update = new AdminChatUpdate();
-		update.messages.Add(chatMessage);
-		AdminChatUpdateMessage  msg =
-			new AdminChatUpdateMessage  {JsonData = JsonUtility.ToJson(update) };
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ClientUpdateChatLog(msg.JsonData);
+		}
 
-		msg.SendToAdmins();
-		return msg;
-	}
+		public static NetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage)
+		{
+			AdminChatUpdate update = new AdminChatUpdate();
+			update.messages.Add(chatMessage);
+			NetMessage  msg =
+				new NetMessage  {JsonData = JsonUtility.ToJson(update) };
 
-	public static AdminChatUpdateMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update)
-	{
-		AdminChatUpdateMessage msg =
-			new AdminChatUpdateMessage
-			{
-				JsonData = JsonUtility.ToJson(update),
-			};
+			SendToAdmins(msg);
+			return msg;
+		}
 
-		msg.SendTo(requestee);
-		return msg;
+		public static NetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update)
+		{
+			NetMessage msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(update),
+				};
+
+			SendTo(requestee, msg);
+			return msg;
+		}
 	}
 }

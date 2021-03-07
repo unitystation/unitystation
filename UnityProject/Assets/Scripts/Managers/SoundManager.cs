@@ -1,10 +1,10 @@
 ﻿using System;
 using AddressableReferences;
-using SoundMessages;
 using Mirror;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -760,7 +760,7 @@ public class SoundManager : MonoBehaviour
 	public static void Stop(string soundSpawnToken)
 	{
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
-			Instance.SoundSpawns[soundSpawnToken].AudioSource.Stop();
+			Instance.SoundSpawns[soundSpawnToken]?.AudioSource.Stop();
 	}
 
 	/// <summary>
@@ -784,6 +784,13 @@ public class SoundManager : MonoBehaviour
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
 		{
 			SoundSpawn soundSpawn = Instance.SoundSpawns[soundSpawnToken];
+
+			if (soundSpawn == null)
+			{
+				Debug.LogError($"Unable to change audio parameters, soundSpawn was null");
+				return;
+			}
+
 			ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 		}
 	}

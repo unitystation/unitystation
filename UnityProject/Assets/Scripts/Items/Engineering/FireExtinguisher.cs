@@ -5,7 +5,7 @@ using UnityEngine;
 using Mirror;
 using Chemistry.Components;
 using AddressableReferences;
-using SoundMessages;
+using Messages.Server.SoundMessages;
 
 [RequireComponent(typeof(Pickupable))]
 public class FireExtinguisher : NetworkBehaviour,
@@ -31,7 +31,7 @@ public class FireExtinguisher : NetworkBehaviour,
 	private float TravelTime => 1f / travelDistance;
 
 	bool safety = true;
-	private DateTime clientLastInteract = DateTime.Now;	
+	private DateTime clientLastInteract = DateTime.Now;
 
 	private enum SpriteState
 	{

@@ -1,27 +1,33 @@
-﻿using System.Collections;
-using Messages.Client;
+﻿using Mirror;
 
-public class MatrixMoveNewPlayer: ClientMessage
+namespace Messages.Client.NewPlayer
 {
-	public uint MatrixMove;
-
-	public override void Process()
+	public class MatrixMoveNewPlayer : ClientMessage<MatrixMoveNewPlayer.NetMessage>
 	{
-		// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
-		if (LoadNetworkObject(MatrixMove))
+		public struct NetMessage : NetworkMessage
 		{
-			NetworkObject.GetComponent<MatrixMove>()?.UpdateNewPlayer(
-				SentByPlayer.Connection);
+			public uint MatrixMove;
 		}
-	}
 
-	public static MatrixMoveNewPlayer Send(uint matrixMoveNetId)
-	{
-		MatrixMoveNewPlayer msg = new MatrixMoveNewPlayer
+		public override void Process(NetMessage msg)
 		{
-			MatrixMove = matrixMoveNetId
-		};
-		msg.Send();
-		return msg;
+			// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
+			if (LoadNetworkObject(msg.MatrixMove))
+			{
+				NetworkObject.GetComponent<MatrixMove>()?.UpdateNewPlayer(
+					SentByPlayer.Connection);
+			}
+		}
+
+		public static NetMessage Send(uint matrixMoveNetId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				MatrixMove = matrixMoveNetId
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

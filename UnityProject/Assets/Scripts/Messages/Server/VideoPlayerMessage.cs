@@ -1,38 +1,46 @@
 ﻿using System.Collections;
+using Mirror;
 
-/// <summary>
-///     Message that tells client to player a certain video in the video player
-/// </summary>
-public class VideoPlayerMessage : ServerMessage
+namespace Messages.Server
 {
-	public VideoType VideoToPlay;
-
-	public override void Process()
+	/// <summary>
+	///     Message that tells client to player a certain video in the video player
+	/// </summary>
+	public class VideoPlayerMessage : ServerMessage<VideoPlayerMessage.NetMessage>
 	{
-		switch (VideoToPlay)
+		public struct NetMessage : NetworkMessage
 		{
-			case VideoType.NukeVid:
-				UIManager.Display.VideoPlayer.PlayNukeDetVideo();
-				break;
-			case VideoType.RestartRound:
-				UIManager.Display.VideoPlayer.PlayRoundRestartVideo();
-				break;
+			public VideoType VideoToPlay;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			switch (msg.VideoToPlay)
+			{
+				case VideoType.NukeVid:
+					UIManager.Display.VideoPlayer.PlayNukeDetVideo();
+					break;
+				case VideoType.RestartRound:
+					UIManager.Display.VideoPlayer.PlayRoundRestartVideo();
+					break;
+			}
+		}
+
+		public static NetMessage Send(VideoType videoType)
+		{
+			NetMessage msg = new NetMessage
+			{
+				VideoToPlay = videoType
+			};
+
+			SendToAll(msg);
+			return msg;
 		}
 	}
 
-	public static VideoPlayerMessage Send(VideoType videoType)
+	public enum VideoType
 	{
-		VideoPlayerMessage msg = new VideoPlayerMessage
-		{
-			VideoToPlay = videoType
-		};
-		msg.SendToAll();
-		return msg;
+		NukeVid,
+		RestartRound
 	}
-}
-
-public enum VideoType
-{
-	NukeVid,
-	RestartRound
 }

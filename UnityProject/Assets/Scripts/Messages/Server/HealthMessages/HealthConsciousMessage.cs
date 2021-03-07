@@ -1,54 +1,61 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Tells client to update conscious state
-/// </summary>
-public class HealthConsciousMessage : ServerMessage
+namespace Messages.Server.HealthMessages
 {
-	public uint EntityToUpdate;
-	public ConsciousState ConsciousState;
-
-	public override void Process()
+	/// <summary>
+	///     Tells client to update conscious state
+	/// </summary>
+	public class HealthConsciousMessage : ServerMessage<HealthConsciousMessage.NetMessage>
 	{
-		LoadNetworkObject(EntityToUpdate);
-		if (NetworkObject == null)
+		public struct NetMessage : NetworkMessage
 		{
-			return;
+			public uint EntityToUpdate;
+			public ConsciousState ConsciousState;
 		}
 
-		var healthBehaviour = NetworkObject.GetComponent<LivingHealthBehaviour>();
-
-		if (healthBehaviour != null)
+		public override void Process(NetMessage msg)
 		{
-			healthBehaviour.UpdateClientConsciousState(ConsciousState);
+			LoadNetworkObject(msg.EntityToUpdate);
+			if (NetworkObject == null)
+			{
+				return;
+			}
+
+			var healthBehaviour = NetworkObject.GetComponent<LivingHealthBehaviour>();
+
+			if (healthBehaviour != null)
+			{
+				healthBehaviour.UpdateClientConsciousState(msg.ConsciousState);
+			}
+			else
+			{
+				Logger.Log($"Living health behaviour not found for {NetworkObject.ExpensiveName()} skipping conscious state update", Category.Health);
+			}
 		}
-		else
+
+		public static NetMessage Send(GameObject recipient, GameObject entityToUpdate, ConsciousState consciousState)
 		{
-			Logger.Log($"Living health behaviour not found for {NetworkObject.ExpensiveName()} skipping conscious state update", Category.Health);
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+				ConsciousState = consciousState
+			};
+
+			SendTo(recipient, msg);
+			return msg;
 		}
-	}
 
-	public static HealthConsciousMessage Send(GameObject recipient, GameObject entityToUpdate, ConsciousState consciousState)
-	{
-		HealthConsciousMessage msg = new HealthConsciousMessage
+		public static NetMessage SendToAll(GameObject entityToUpdate, ConsciousState consciousState)
 		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
-			ConsciousState = consciousState
-		};
-		msg.SendTo(recipient);
-		return msg;
-	}
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+				ConsciousState = consciousState
+			};
 
-	public static HealthConsciousMessage SendToAll(GameObject entityToUpdate, ConsciousState consciousState)
-	{
-		HealthConsciousMessage msg = new HealthConsciousMessage
-		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
-			ConsciousState = consciousState
-		};
-		msg.SendToAll();
-		return msg;
+			SendToAll(msg);
+			return msg;
+		}
 	}
 }

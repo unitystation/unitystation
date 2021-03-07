@@ -5,6 +5,7 @@ using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using Messages.Server;
 
 namespace Systems.MobAIs
 {

@@ -7,8 +7,9 @@ using Systems.Electricity;
 using AddressableReferences;
 using Items;
 using Machines;
+using Messages.Server.SoundMessages;
 using Objects.Machines;
-using SoundMessages;
+
 
 namespace Objects.Kitchen
 {
@@ -316,7 +317,7 @@ namespace Objects.Kitchen
 
 					if (slot.ItemObject.TryGetComponent(out Cookable slotCooked))
 					{
-						
+
 						// True if the item's total cooking time exceeds the item's minimum cooking time.
 						if (slotCooked.AddCookingTime(Time.deltaTime * LaserTierTimeEffect()) == true)
 						{
@@ -331,7 +332,7 @@ namespace Objects.Kitchen
 					}
 
 				}
-				
+
 			}
 		}
 
@@ -422,7 +423,7 @@ namespace Objects.Kitchen
 				Despawn.ServerSingle(item);
 				Inventory.ServerAdd(spawned, slot);
 			}
-			
+
 		}
 
 		#endregion LegacyCode
@@ -500,12 +501,12 @@ namespace Objects.Kitchen
 			public override void DoorInteraction(ItemSlot fromSlot)
 			{
 				// Close if nothing's in hand.
-				if (fromSlot.Item == null)
+				if (fromSlot == null || fromSlot.Item == null)
 				{
 					microwave.SetState(new MicrowaveIdle(microwave));
 					return;
 				}
-					
+
 				microwave.TransferToMicrowaveAndClose(fromSlot);
 
 				// If storage is full, close.

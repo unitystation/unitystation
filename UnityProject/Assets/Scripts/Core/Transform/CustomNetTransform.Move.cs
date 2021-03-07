@@ -6,7 +6,7 @@ using Mirror;
 using Objects;
 using Objects.Disposals;
 using Random = UnityEngine.Random;
-using SoundMessages;
+using Messages.Server.SoundMessages;
 
 public enum SpinMode
 {
@@ -202,6 +202,7 @@ public partial class CustomNetTransform
         {
 			OnThrowEnd.Invoke(serverState.ActiveThrow);
         }
+
         serverState.ActiveThrow = ThrowInfo.NoThrow;
         if ( notify )
         {
@@ -521,6 +522,15 @@ public partial class CustomNetTransform
 			else
 			{
 				Stop();
+			}
+
+			//Process any objects that we might have bumped into
+			foreach (var objectBehaviour in MatrixManager.GetAt<ObjectBehaviour>(intGoal, true))
+			{
+				foreach (var bump in objectBehaviour.GetComponents<IBumpableObject>())
+				{
+					bump.OnBump(gameObject);
+				}
 			}
 		}
 

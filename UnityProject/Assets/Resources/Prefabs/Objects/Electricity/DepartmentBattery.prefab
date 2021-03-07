@@ -296,8 +296,8 @@ MonoBehaviour:
   IncreasedChargeVoltage: 241
   StandardChargeNumber: 6
   ChargeSteps: 0.1
-  MaxChargingMultiplier: 1.2
-  ChargingMultiplier: 0.1
+  MaxChargingDivider: 120
+  ChargingDivider: 10
   CanCharge: 1
   Cansupport: 1
   ToggleCanCharge: 1

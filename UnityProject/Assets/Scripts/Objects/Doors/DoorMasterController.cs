@@ -5,6 +5,8 @@ using Doors.Modules;
 using Mirror;
 using UnityEngine;
 using Systems.Electricity;
+using Messages.Client.NewPlayer;
+using Messages.Server;
 
 //TODO: Need to reimplement hacking with this system. Might be a nightmare, dk yet.
 namespace Doors

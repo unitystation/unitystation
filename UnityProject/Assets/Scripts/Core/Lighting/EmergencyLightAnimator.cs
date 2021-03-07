@@ -45,6 +45,14 @@ public class EmergencyLightAnimator : NetworkBehaviour
 
 	private void AnimateLight()
 	{
+		if (lightSource == null || lightSource.mLightRendererObject == null ||
+		    lightSource.mLightRendererObject.transform == null)
+		{
+			Debug.LogError($"{gameObject.name} had something null");
+			StopAnimation();
+			return;
+		}
+
 		lightSource.mLightRendererObject.transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime, Space.World);
 	}
 	private void AnimateSprite()

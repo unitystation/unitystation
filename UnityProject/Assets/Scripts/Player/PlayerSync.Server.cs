@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Doors;
 using Items;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;
@@ -649,6 +650,16 @@ public partial class PlayerSync
 
 		//		Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
 		InteractPushable(worldPos, direction);
+
+		//Bump all objects with IBumpObject interface
+		foreach (var objectOnTile in MatrixManager.GetAt<ObjectBehaviour>(worldTarget, true))
+		{
+			var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
+			foreach (var bump in bumpAbles)
+			{
+				bump.OnBump(gameObject);
+			}
+		}
 
 		yield return WaitFor.Seconds(.1f);
 	}

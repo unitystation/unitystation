@@ -99,6 +99,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: d03d262ab7838bc49870a54711f8cb2c, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -235,6 +236,9 @@ MonoBehaviour:
   - ItemName: Proto-Kinetic Accelerator
     Item: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4, type: 3}
     Stock: 5
+  - ItemName: Silver Plated Pickaxe
+    Item: {fileID: 320759090315932535, guid: 9ebdd8fb093d8434db3fe4a38f8100c6, type: 3}
+    Stock: 1
   HullColor: {r: 0.5882353, g: 0.4392157, b: 0.19607843, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -355,7 +359,9 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
 --- !u!114 &114430213137055408
 MonoBehaviour:
   m_ObjectHideFlags: 0

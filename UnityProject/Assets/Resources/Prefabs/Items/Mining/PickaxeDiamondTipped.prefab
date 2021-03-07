@@ -9,8 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
+      propertyPath: hitDamage
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
       propertyPath: initialName
       value: diamond-tipped pickaxe
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: throwDamage
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -18,12 +28,6 @@ PrefabInstance:
       value: A pickaxe with a diamond pick head. Extremely robust at cracking rock
         walls and digging up dirt.
       objectReference: {fileID: 0}
-    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: 11f4063bc48a2f24495e774f47aa8ec8,
-        type: 2}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -36,6 +40,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c587b6f012777244a973801cb6a12660,
         type: 2}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 11f4063bc48a2f24495e774f47aa8ec8,
+        type: 2}
+    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -53,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -65,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -107,6 +117,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 62ceda4db9b861f4da9c9991c64d74a9,
         type: 3}
+    - target: {fileID: 7675473296682472099, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: timeMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8184022938753632022, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: PresentSpriteSet

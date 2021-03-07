@@ -1,41 +1,45 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Message that pops up for client in a window
-/// </summary>
-public class InfoWindowMessage : ServerMessage
+namespace Messages.Server
 {
-	public string Text;
-	public string Title;
-	public bool Bwoink;
-	public uint Recipient;
-
-	public override void Process()
+	/// <summary>
+	///     Message that pops up for client in a window
+	/// </summary>
+	public class InfoWindowMessage : ServerMessage<InfoWindowMessage.NetMessage>
 	{
-		//To be run on client
-//		Logger.Log($"Processed {this}");
-		LoadNetworkObject(Recipient);
-		UIManager.InfoWindow.Show(Text, Bwoink, string.IsNullOrEmpty(Title) ? "" : Title);
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string Text;
+			public string Title;
+			public bool Bwoink;
+			public uint Recipient;
 
-	public static InfoWindowMessage Send(GameObject recipient, string text, string title = "", bool bwoink = true)
-	{
-		InfoWindowMessage msg =
-			new InfoWindowMessage {
-				Recipient = recipient.GetComponent<NetworkIdentity>().netId,
-				Text = text,
-				Title = title,
-				Bwoink = bwoink
-			};
+			public override string ToString()
+			{
+				return $"[InfoWindowMessage Recipient={Recipient} Title={Title} InfoText={Text} Bwoink={Bwoink}]";
+			}
+		}
 
-		msg.SendTo(recipient);
-		return msg;
-	}
+		public override void Process(NetMessage msg)
+		{
+			//To be run on client
+			LoadNetworkObject(msg.Recipient);
+			UIManager.InfoWindow.Show(msg.Text, msg.Bwoink, string.IsNullOrEmpty(msg.Title) ? "" : msg.Title);
+		}
 
-	public override string ToString()
-	{
-		return $"[InfoWindowMessage Recipient={Recipient} Title={Title} InfoText={Text} Bwoink={Bwoink}]";
+		public static NetMessage Send(GameObject recipient, string text, string title = "", bool bwoink = true)
+		{
+			NetMessage msg =
+				new NetMessage {
+					Recipient = recipient.GetComponent<NetworkIdentity>().netId,
+					Text = text,
+					Title = title,
+					Bwoink = bwoink
+				};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
 	}
 }

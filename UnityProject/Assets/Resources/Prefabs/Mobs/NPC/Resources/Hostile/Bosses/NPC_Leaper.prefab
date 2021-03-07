@@ -101,6 +101,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4b624f3b0e4e28f41b97f4f2e7ba1453, type: 2}
   - {fileID: 11400000, guid: aaf4e93bc15a6714d9ed29df2c5bf886, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 814be29b6c2086d43882cff92fc72e9b, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -148,10 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDamage: 520
+  livingHealthBehaviour: {fileID: 0}
   Type: 1
   isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
   Severity: 0
   armor:
     Melee: 0
@@ -207,10 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDamage: 420
+  livingHealthBehaviour: {fileID: 0}
   Type: 0
   isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
   Severity: 0
   armor:
     Melee: 0
@@ -282,6 +281,7 @@ GameObject:
   - component: {fileID: -5280086393832015683}
   - component: {fileID: 3220691293642193504}
   - component: {fileID: 1631863151160739797}
+  - component: {fileID: 8813170020797592542}
   m_Layer: 12
   m_Name: NPC_Leaper
   m_TagString: Untagged
@@ -507,6 +507,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &4826045711076760864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,17 +583,12 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 2
-  EatFoodA:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+  CB_REAGENT: {fileID: 0}
   target: 4
   actionPerformTime: 0.5
   hasFoodPrefereces: 0
   foodPreferences: []
+  IsEmagged: 0
 --- !u!114 &3708589072684735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,12 +643,13 @@ MonoBehaviour:
   mobName: Leaper
   knockedDownRotation: 0
   deathSounds:
-  - Leaper2#
-  randomSound:
-  - Leaper1#
-  - Leaper3#
-  - Leaper4#
-  - Leaper5#
+  - SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  randomSounds: []
   playRandomSoundTimer: 20
   randomSoundProbability: 20
   searchTickRate: 1
@@ -696,3 +693,17 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 645994242402123296}
+--- !u!114 &8813170020797592542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

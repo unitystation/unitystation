@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Systems.Spells.Wizard;
+using Mirror;
 
 namespace Messages.Server
 {
 	/// <summary>
 	/// Sends a message to nearby clients, informing them to animate the given portal with the given settings.
 	/// </summary>
-	public class PortalSpawnAnimateMessage : ServerMessage
+	public class PortalSpawnAnimateMessage : ServerMessage<PortalSpawnAnimateMessage.NetMessage>
 	{
-		public GameObject Entity;
-		public PortalSpawnInfo Settings;
-		public AnimateType Type;
+		public struct NetMessage : NetworkMessage
+		{
+			public GameObject Entity;
+			public PortalSpawnInfo Settings;
+			public AnimateType Type;
+		}
 
 		/// <summary>
 		/// <inheritdoc cref="PortalSpawnAnimateMessage"/>
@@ -19,29 +23,28 @@ namespace Messages.Server
 		/// <param name="portal">The portal GameObject that the client should animate.</param>
 		/// <param name="settings">The settings the portal should be animated with.</param>
 		/// <returns></returns>
-		public static PortalSpawnAnimateMessage SendToVisible(GameObject entity, PortalSpawnInfo settings, AnimateType type)
+		public static NetMessage SendToVisible(GameObject entity, PortalSpawnInfo settings, AnimateType type)
 		{
-			var msg = new PortalSpawnAnimateMessage()
+			var msg = new NetMessage()
 			{
 				Entity = entity,
 				Settings = settings,
 				Type = type,
 			};
 
-			msg.SendToVisiblePlayers(entity.RegisterTile().WorldPositionServer.To2Int());
-
+			SendToVisiblePlayers(entity.RegisterTile().WorldPositionServer.To2Int(), msg);
 			return msg;
 		}
 
-		public override void Process()
+		public override void Process(NetMessage msg)
 		{
-			if (Type == AnimateType.Portal)
+			if (msg.Type == AnimateType.Portal)
 			{
-				SpawnByPortal.AnimatePortal(Entity, Settings);
+				SpawnByPortal.AnimatePortal(msg.Entity, msg.Settings);
 			}
 			else
 			{
-				SpawnByPortal.AnimateObject(Entity, Settings);
+				SpawnByPortal.AnimateObject(msg.Entity, msg.Settings);
 			}
 		}
 

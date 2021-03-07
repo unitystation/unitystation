@@ -1,40 +1,47 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Tells client to update overall health stats
-/// </summary>
-public class HealthOverallMessage : ServerMessage
+namespace Messages.Server.HealthMessages
 {
-	public uint EntityToUpdate;
-	public float OverallHealth;
-
-	public override void Process()
+	/// <summary>
+	///     Tells client to update overall health stats
+	/// </summary>
+	public class HealthOverallMessage : ServerMessage<HealthOverallMessage.NetMessage>
 	{
-		LoadNetworkObject(EntityToUpdate);
-		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientHealthStats(OverallHealth);
-	}
-
-	public static HealthOverallMessage Send(GameObject recipient, GameObject entityToUpdate, float overallHealth)
-	{
-		HealthOverallMessage msg = new HealthOverallMessage
+		public struct NetMessage : NetworkMessage
 		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
-				OverallHealth = overallHealth,
-		};
-		msg.SendTo(recipient);
-		return msg;
-	}
+			public uint EntityToUpdate;
+			public float OverallHealth;
+		}
 
-	public static HealthOverallMessage SendToAll(GameObject entityToUpdate, float overallHealth)
-	{
-		HealthOverallMessage msg = new HealthOverallMessage
+		public override void Process(NetMessage msg)
 		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+			LoadNetworkObject(msg.EntityToUpdate);
+			NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientHealthStats(msg.OverallHealth);
+		}
+
+		public static NetMessage Send(GameObject recipient, GameObject entityToUpdate, float overallHealth)
+		{
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 				OverallHealth = overallHealth,
-		};
-		msg.SendToAll();
-		return msg;
+			};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
+
+		public static NetMessage SendToAll(GameObject entityToUpdate, float overallHealth)
+		{
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+				OverallHealth = overallHealth,
+			};
+
+			SendToAll(msg);
+			return msg;
+		}
 	}
 }

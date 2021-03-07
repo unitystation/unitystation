@@ -1,24 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Messages.Client;
+﻿using Mirror;
 
-public class MentorReplyMessage : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Message;
-
-	public override void Process()
+	public class MentorReplyMessage : ClientMessage<MentorReplyMessage.NetMessage>
 	{
-		UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(Message, SentByPlayer.UserId);
-	}
-
-	public static MentorReplyMessage Send(string message)
-	{
-		MentorReplyMessage msg = new MentorReplyMessage
+		public struct NetMessage : NetworkMessage
 		{
-			Message = message
-		};
-		msg.Send();
-		return msg;
+			public string Message;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg.Message, SentByPlayer.UserId);
+		}
+
+		public static NetMessage Send(string message)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Message = message
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

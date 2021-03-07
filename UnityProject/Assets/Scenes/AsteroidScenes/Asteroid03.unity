@@ -799,6 +799,7 @@ GameObject:
   - component: {fileID: 634151676}
   - component: {fileID: 634151677}
   - component: {fileID: 634151667}
+  - component: {fileID: 634151671}
   m_Layer: 0
   m_Name: Asteroid3
   m_TagString: Untagged
@@ -900,6 +901,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &634151671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634151664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &634151672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,7 +928,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 2650597111
   serverOnly: 0
+  visible: 2
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &634151673
 MonoBehaviour:
   m_ObjectHideFlags: 0
