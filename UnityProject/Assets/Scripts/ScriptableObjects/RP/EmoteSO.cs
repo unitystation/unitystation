@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects")]
 public class EmoteSO : ScriptableObject
 {
-	public string emote;
-	public string viewText;
+	public string emoteName = "";
+	public string viewText = "did something!";
 	public string youText = "";
 
-	public Emote emoteScript;
+	public List<AudioClip> clips;
+
+	public virtual void Do(GameObject player)
+	{
+		Chat.AddActionMsgToChat(player, "", $"{player.name} {viewText}.");
+	}
 }

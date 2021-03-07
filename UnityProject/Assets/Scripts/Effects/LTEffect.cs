@@ -5,7 +5,6 @@ public class LTEffect : NetworkBehaviour
 {
     /// <summary>
     /// The base class for all animated effects that requires LeanTween to sync between all clients.
-    /// 
     /// </summary>
 
     [HideInInspector]
@@ -35,14 +34,11 @@ public class LTEffect : NetworkBehaviour
        getOriginalPosition();
     }
 
-
-    [Server]
     public virtual void CmdStartAnimation()
     {
         tween.isAnim = true;
     }
 
-    [Server]
     public virtual void CmdStopAnimation()
     {
         tween.CancelObject(this.gameObject, false);
