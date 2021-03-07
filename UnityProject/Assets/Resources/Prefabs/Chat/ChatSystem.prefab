@@ -6282,7 +6282,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4634962845515644887}
   - component: {fileID: 149254993883398767}
-  - component: {fileID: 8836378879476877931}
   m_Layer: 5
   m_Name: EmoteActionManager
   m_TagString: Untagged
@@ -6322,21 +6321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emotes:
-  - {fileID: 8836378879476877931}
---- !u!114 &8836378879476877931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8495417347056498573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13acc4e6fe1cf9f419f90c0088d27965, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  emoteName: backflip
-  emoteText: does a backflip
+  - {fileID: 11400000, guid: 3b36b8c1a120cf34892752e6cba06558, type: 2}
 --- !u!1 &8538209952492695680
 GameObject:
   m_ObjectHideFlags: 0
@@ -6885,15 +6870,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 115e79e65ed316546aea2bf6ffdcc366, type: 3}
---- !u!1 &9091622191222137699 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1618776996635460, guid: 115e79e65ed316546aea2bf6ffdcc366,
-    type: 3}
-  m_PrefabInstance: {fileID: 9092255765942517799}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &9021516341056411997 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224321409555159418, guid: 115e79e65ed316546aea2bf6ffdcc366,
+    type: 3}
+  m_PrefabInstance: {fileID: 9092255765942517799}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9091622191222137699 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1618776996635460, guid: 115e79e65ed316546aea2bf6ffdcc366,
     type: 3}
   m_PrefabInstance: {fileID: 9092255765942517799}
   m_PrefabAsset: {fileID: 0}

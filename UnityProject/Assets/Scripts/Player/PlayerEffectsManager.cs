@@ -12,17 +12,4 @@ public class PlayerEffectsManager : MonoBehaviour
     {
         tween = GetComponent<NetworkedLeanTween>();
     }
-
-    public void StartEffect(string effectName)
-    {
-        foreach (var e in Effects)
-        {
-            print(e.name);
-            if(e.name == effectName)
-            {
-                var effect = GetComponent(effectName) as LTEffect;
-                effect.CmdStartAnimation();
-            }
-        }
-    }
 }

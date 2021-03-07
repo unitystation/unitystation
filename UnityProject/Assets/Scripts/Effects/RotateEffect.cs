@@ -20,6 +20,7 @@ public class RotateEffect : LTEffect
 
     public void setupEffectvars(int f, float at, float rotAngle)
     {
+		Debug.Log("Setting up variables");
         flips = f;
         animTime = at;
         rotationAngle = rotAngle;
@@ -27,6 +28,7 @@ public class RotateEffect : LTEffect
 
     private IEnumerator Rotate(int numberOfrotates, float time)
     {
+		Debug.Log("Animation should be working now");
         var trackedrotates = 0;
         while (numberOfrotates >= trackedrotates)
         {
