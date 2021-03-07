@@ -2439,8 +2439,86 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/Effects/SuperMatter.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 8662822920163191962, guid: 55bc860615799994c83ea29863dbfc92, type: 3}
-    m_TargetAsset: {fileID: 8662822920163191962, guid: 55bc860615799994c83ea29863dbfc92, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 26ebb37e819db2f4db6aa950fcdc8659
+    m_Address: Assets/Prefabs/Machines/SuperMatter/SuperMatterDelamLoop.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 820047476890351502, guid: 26ebb37e819db2f4db6aa950fcdc8659, type: 3}
+    m_TargetAsset: {fileID: 820047476890351502, guid: 26ebb37e819db2f4db6aa950fcdc8659, type: 3}
+  - m_GUID: 491ffc6efd271a448a1968ba47308354
+    m_Address: Assets/Prefabs/Machines/SuperMatter/SuperMatterNormalLoop.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 5627436131552179772, guid: 491ffc6efd271a448a1968ba47308354, type: 3}
+    m_TargetAsset: {fileID: 5627436131552179772, guid: 491ffc6efd271a448a1968ba47308354, type: 3}
+  - m_GUID: 55d8872cc838d564c962829b01dca4fb
+    m_Address: Assets/Prefabs/Machines/SuperMatter/SuperMatterOther.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 4551425226808249868, guid: 55d8872cc838d564c962829b01dca4fb, type: 3}
+    m_TargetAsset: {fileID: 4551425226808249868, guid: 55d8872cc838d564c962829b01dca4fb, type: 3}
+  - m_GUID: 0b2a7463bd8b85746828312a53ba5989
+    m_Address: Assets/Prefabs/Machines/SuperMatter/EngineAlert1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 717870374956234956, guid: 0b2a7463bd8b85746828312a53ba5989, type: 3}
+    m_TargetAsset: {fileID: 717870374956234956, guid: 0b2a7463bd8b85746828312a53ba5989, type: 3}
+  - m_GUID: b61a638a5be9c4740bf1c94b172c33b7
+    m_Address: Assets/Prefabs/Machines/SuperMatter/EngineAlert2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 7122129641865301746, guid: b61a638a5be9c4740bf1c94b172c33b7, type: 3}
+    m_TargetAsset: {fileID: 7122129641865301746, guid: b61a638a5be9c4740bf1c94b172c33b7, type: 3}
+  - m_GUID: 324e6005528780f41932bbcc72e443f0
+    m_Address: Assets/Prefabs/Machines/TerminalAlert.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 3640067797945898049, guid: 324e6005528780f41932bbcc72e443f0, type: 3}
+    m_TargetAsset: {fileID: 3640067797945898049, guid: 324e6005528780f41932bbcc72e443f0, type: 3}
+  - m_GUID: 3dc9ec371de10ad459ba52006825433a
+    m_Address: Assets/Prefabs/Machines/BlobAlarm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 7409044877583308701, guid: 3dc9ec371de10ad459ba52006825433a, type: 3}
+    m_TargetAsset: {fileID: 7409044877583308701, guid: 3dc9ec371de10ad459ba52006825433a, type: 3}
+  - m_GUID: e3293a4ef69de0b4e8406a1fc6014f10
+    m_Address: Assets/Prefabs/Machines/Closet/closet_open.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 5632118112321531535, guid: e3293a4ef69de0b4e8406a1fc6014f10, type: 3}
+    m_TargetAsset: {fileID: 5632118112321531535, guid: e3293a4ef69de0b4e8406a1fc6014f10, type: 3}
+  - m_GUID: cf364443e69d0b34cb2bb6f935d26b08
+    m_Address: Assets/Prefabs/Machines/Closet/closet_close.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 5632118112321531535, guid: cf364443e69d0b34cb2bb6f935d26b08, type: 3}
+    m_TargetAsset: {fileID: 5632118112321531535, guid: cf364443e69d0b34cb2bb6f935d26b08, type: 3}
+  - m_GUID: 9a2961993bc219343b621c9906a57bb8
+    m_Address: Assets/Prefabs/Machines/Crate/crate_open.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 5632118112321531535, guid: 9a2961993bc219343b621c9906a57bb8, type: 3}
+    m_TargetAsset: {fileID: 5632118112321531535, guid: 9a2961993bc219343b621c9906a57bb8, type: 3}
+  - m_GUID: 819ff10c1118b5048a91fddd65a0e9eb
+    m_Address: Assets/Prefabs/Machines/Crate/crate_close.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 5632118112321531535, guid: 819ff10c1118b5048a91fddd65a0e9eb, type: 3}
+    m_TargetAsset: {fileID: 5632118112321531535, guid: 819ff10c1118b5048a91fddd65a0e9eb, type: 3}
+  - m_GUID: fab582363ff3d7c478a69bc0da678df2
+    m_Address: Assets/Prefabs/AI/captain_announcement.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2135841239376073483, guid: fab582363ff3d7c478a69bc0da678df2, type: 3}
+    m_TargetAsset: {fileID: 2135841239376073483, guid: fab582363ff3d7c478a69bc0da678df2, type: 3}
+  - m_GUID: 6735490b9542cf946acfe77ea47d63a8
+    m_Address: Assets/Prefabs/AI/centcomm_announcement.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2135841239376073483, guid: 6735490b9542cf946acfe77ea47d63a8, type: 3}
+    m_TargetAsset: {fileID: 2135841239376073483, guid: 6735490b9542cf946acfe77ea47d63a8, type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f95b0aa2a9e50074595f5a4dc19fbb1a, type: 2}
   m_SchemaSet:
