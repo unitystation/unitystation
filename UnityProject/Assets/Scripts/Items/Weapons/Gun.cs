@@ -133,7 +133,7 @@ namespace Weapons
 		/// The time in seconds before this weapon can fire again.
 		/// </summary>
 		[Tooltip("The time in seconds before this weapon can fire again.")]
-		public double FireDelay += 0.5;
+		public double FireDelay = 0.5;
 
 		/// <summary>
 		/// If suicide shooting should be prevented (for when user inadvertently drags over themselves during a burst)
@@ -842,7 +842,7 @@ namespace Weapons
 			if (shooter == PlayerManager.LocalPlayer)
 			{
 				//this is our gun so we need to update our predictions
-				FireCountDown = FireDelay;
+				FireCountDown += FireDelay;
 				//add additional recoil after shooting for the next round
 				AppendRecoil();
 
