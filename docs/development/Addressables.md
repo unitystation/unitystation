@@ -7,13 +7,27 @@ To save on the file download for the client, sounds for UnityStation have been m
 ## How to Make a New Sound
 
 ![](../assets/images/AddressableSounds/unity_hub_screen_with_soundandmusic.png)
- Add a new Unity Project by going into UnityHub and clicking “Add”. Navigate to the UnityProject -> AddressablePackingProjects -> SoundAndMusic.
+ Add a new Unity Project by going into UnityHub and clicking “Add”. Navigate to the **UnityProject -> AddressablePackingProjects -> SoundAndMusic**.
 
 ![](../assets/images/AddressableSounds/SoundAndMusic.png)
 
-Once the SoundAndMusic Project is open, put your audio file into the appropriate “Audio” subfolder and create a prefab inside the “Prefab” folder with the same name. Once you are happy with the options, save and close the window. 
+Once the SoundAndMusic Project is open, put your audio file into the appropriate “Audio” subfolder and create a prefab inside the “Prefab” folder with the same name. Your new sound prefab will not be included in the Addressable build in the main project unless you build a new one. To make a new build follow these steps.
 
- When you next open UnityProject, the prefab will be imported in. You will be able to make any object play the sound effect by ensuring that the following line is within the particular script of a component you want to play the sound.
+​    1. Click Window on the top bar, select Asset Management -> Addressable
+
+
+![](../assets/images/AddressableSounds/addressable_locate_groups.png)
+
+​    2. Go Build -> Clean Build -> All. This will remove the old build from the ServerData Folder.
+
+![](../assets/images/AddressableSounds/addressable_groups_clean_build.png)
+
+​     3. Click Build -> New Build -> Default Build Script
+
+
+![](../assets/images/AddressableSounds/addressable_groups_new_build.png)
+
+After doing this and closing the SoundAndMusic Project, the new Build is ready to imported. When you next open UnityProject, you will now be able to add in your new prefab. You will be able to make any object play the sound effect by ensuring that the following line is within the particular script of a component you want to play the sound.
 
 ```cs [SerializeField] private AddressableAudioSource clickSound = null; ```
 
