@@ -299,12 +299,12 @@ namespace Messages.Server.SpritesMessages
 			IEnumerable<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> ToSend)
 		{
 			NetMessage msg = new NetMessage();
-			GenerateStates(msg, ToSend);
+			GenerateStates(ref msg, ToSend);
 			ToReturn.Clear();
 			return (msg);
 		}
 
-		public static void GenerateStates(NetMessage netMessage,
+		public static void GenerateStates(ref NetMessage netMessage,
 			IEnumerable<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> ToSend)
 		{
 			foreach (var VARIABLE in ToSend)
