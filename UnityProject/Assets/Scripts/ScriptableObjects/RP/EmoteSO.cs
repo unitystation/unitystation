@@ -6,6 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using SoundMessages;
 
+[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/BasicEmote")]
 public class EmoteSO : ScriptableObject
 {
 	[Tooltip("Never leave this blank!")]
@@ -25,7 +26,7 @@ public class EmoteSO : ScriptableObject
 
 	public virtual void Do(GameObject player)
 	{
-		Chat.AddActionMsgToChat(player, "", $"{player.ExpensiveName()} {viewText}.");
+		Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
 		playAudio(emoteDefaultSounds, player);
 	}
 
