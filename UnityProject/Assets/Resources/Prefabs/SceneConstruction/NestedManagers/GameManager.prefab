@@ -56,7 +56,7 @@ MonoBehaviour:
   minDistanceBetweenSpaceBodies: 200
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
-  QuickLoad: 1
+  QuickLoad: 0
 --- !u!114 &5244294626086762232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,22 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720905f6b612243a6b1e6bbeaafda241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  welcomeSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AI/Welcome.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  interceptedMessageSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AI/InterceptMessage.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
   gameManager: {fileID: 5243784332070655206}
   paperPrefab: {fileID: 8734328976324889014, guid: d3c71176f32c1274b929f3a88695a795,
     type: 3}
-  CurrentAlertLevel: 1
+  initialAlertLevel: 1
   coolDownAlertChange: 5
