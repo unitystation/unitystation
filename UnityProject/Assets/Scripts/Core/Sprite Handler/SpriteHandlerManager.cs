@@ -186,13 +186,6 @@ public class SpriteHandlerManager : NetworkBehaviour
 		}
 	}
 
-
-	// Update is called once per frame
-	void Update()
-	{
-	}
-
-
 	public static List<SpriteChange> PooledSpriteChange = new List<SpriteChange>();
 
 	public static SpriteChange GetSpriteChange()
