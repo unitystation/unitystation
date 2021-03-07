@@ -217,14 +217,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8c6ea41dc1f28f648bd3059e51b5272c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8c6ea41dc1f28f648bd3059e51b5272c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -235,6 +233,11 @@ PrefabInstance:
         type: 3}
       propertyPath: FireRate
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: FireDelay
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -255,18 +258,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: allowPinSwap
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
       propertyPath: allowMagazineRemoval
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
-      propertyPath: DryFireSound.AssetAddress
-      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}

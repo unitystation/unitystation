@@ -48,7 +48,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  FireRate: 1
+  FireDelay: 0
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
@@ -61,7 +61,7 @@ MonoBehaviour:
   isSuppressible: 0
   Projectile: {fileID: 7081206667275519994, guid: a4c2debd67d612549b05801d1e37121a,
     type: 3}
-  rechargeTime: 2
+  rechargeTime: 1.6
 --- !u!1001 &326958216201229889
 PrefabInstance:
   m_ObjectHideFlags: 0

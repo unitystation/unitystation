@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ea89a879a2d3c8ba477fca535a2332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoBackfire: 1
   sawnSize: 3
   sawnMaxRecoilVariance: 0.1
   SawnCameraRecoilConfig:
@@ -27,14 +28,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: 2f7921bc922fa33468d86d1f6f8edd77,
-        type: 2}
-    - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
-        type: 3}
       propertyPath: MagSize
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: clothData
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -48,15 +48,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: FireDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 2003804624138751089, guid: 0db28ea7632de0b4593a32bba473e844,
         type: 3}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: Projectile
+      propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 2003804624138751089, guid: 0db28ea7632de0b4593a32bba473e844,
+      objectReference: {fileID: 3210688012413455863, guid: 7920d9c4fad7b044c99cec907164f7e8,
         type: 3}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
