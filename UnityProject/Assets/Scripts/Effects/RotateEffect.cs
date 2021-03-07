@@ -8,9 +8,8 @@ public class RotateEffect : LTEffect
     private int flips;
     private float animTime;
     private float rotationAngle;
+	private bool isRandom = true;
 
-
-    [Server]
     public override void CmdStartAnimation()
     {
         StopAllCoroutines();
@@ -18,22 +17,26 @@ public class RotateEffect : LTEffect
         base.CmdStartAnimation();
     }
 
-    public void setupEffectvars(int f, float at, float rotAngle)
+    public void setupEffectvars(int f, float at, float rotAngle, bool random)
     {
-		Debug.Log("Setting up variables");
         flips = f;
         animTime = at;
         rotationAngle = rotAngle;
+		isRandom = random;
     }
 
     private IEnumerator Rotate(int numberOfrotates, float time)
     {
-		Debug.Log("Animation should be working now");
-        var trackedrotates = 0;
+		float rotationResult = 0.5f;
+		if (isRandom)
+		{
+			rotationResult = Random.value;
+		}
+		var trackedrotates = 0;
         while (numberOfrotates >= trackedrotates)
         {
             var rot = tween.target.rotation.eulerAngles;
-            rot.z += rotationAngle;
+            rot.z = pickRandomRotation(rot, rotationAngle, rotationResult);
             trackedrotates++;
             rotateObject(rot, time);
             yield return new WaitForSeconds(time);
@@ -45,4 +48,16 @@ public class RotateEffect : LTEffect
     {
         tween.RotateGameObject(rot, time);
     }
+
+	private float pickRandomRotation(Vector3 rotation, float target, float result)
+	{
+		if (result >= 0.5f)
+		{
+			return rotation.z += target;
+		}
+		else
+		{
+			return rotation.z -= target;
+		}
+	}
 }
