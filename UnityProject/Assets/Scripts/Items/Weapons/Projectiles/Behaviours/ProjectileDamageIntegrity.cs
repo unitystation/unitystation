@@ -10,11 +10,14 @@ namespace Weapons.Projectiles.Behaviours
 	{
 		private BodyPartType targetZone;
 
+		private Vector2 direction;
+
 		public DamageData damageData = null;
 
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.targetZone = targetZone;
+			this.direction = direction;
 		}
 
 		public bool OnHit(MatrixManager.CustomPhysicsHit  hit)
@@ -30,15 +33,23 @@ namespace Weapons.Projectiles.Behaviours
 			if (integrity == null) return false;
 			if (damageData == null) return true;
 
+			var thisGameObject = gameObject;
+
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
-			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
+			if (integrity.DoDamageMessage)
+			{
+				Chat.AddThrowHitMsgToChat(thisGameObject, coll.gameObject, targetZone);
+			}
+
 			Logger.LogTraceFormat("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,
 				integrity.gameObject.name, damageData.Damage);
 
+			var data = new OnHitDetectData(damageData, thisGameObject.name, direction, hit.Normal, thisGameObject);
+
 			foreach (var hitDetect in coll.GetComponents<IOnHitDetect>())
 			{
-				hitDetect.OnHitDetect(damageData);
+				hitDetect.OnHitDetect(data);
 			}
 
 			return true;

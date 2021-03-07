@@ -35,6 +35,12 @@ namespace Messages.Server
 			GameObject particleObject = NetworkObjects[0];
 			GameObject parentObject = NetworkObjects[1];
 
+			if (particleObject == null)
+			{
+				Debug.LogError("Failed to load particle in PlayParticleMessage");
+				return;
+			}
+
 			if ( !particleObject.activeInHierarchy )
 			{
 				Logger.LogFormat("PlayParticle request ignored because gameobject {0} is inactive", Category.NetMessage, particleObject);

@@ -20,10 +20,10 @@ namespace Player
 
 		private PlayerScript script;
 
-		public PlayerHealth Health => script.playerHealth;
-		public Equipment Equipment => script.Equipment;
+		//public PlayerHealth Health => script.playerHealth;
+		//public Equipment Equipment => script.Equipment;
 		public InteractableStorage InteractableStorage => interactableStorage;
-		public string VisibleName => script.visibleName;
+		//public string VisibleName => script.visibleName;
 
 		/// <summary>
 		/// Check if player is wearing a mask
@@ -42,6 +42,9 @@ namespace Player
 		};
 
 		[SerializeField] private float maxInteractionDistance = 3;
+		private PlayerHealthV2 Health => script.playerHealth;
+		private Equipment Equipment => script.Equipment;
+		private string VisibleName => script.visibleName;
 
 		private void Awake()
 		{
@@ -197,7 +200,8 @@ namespace Player
 
 		public string GetPlayerStatusString()
 		{
-			return Health.GetShortStatus();
+			return "";
+			//return Health.GetShortStatus();
 		}
 
 		/// <summary>
@@ -213,7 +217,7 @@ namespace Player
 				result.Append("Face is visible.\n");
 			}
 
-			result.Append(Health.GetWoundsDescription());
+			// result.Append(Health.GetWoundsDescription());
 
 			return result.ToString();
 		}

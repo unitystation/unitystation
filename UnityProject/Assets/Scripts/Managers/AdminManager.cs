@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AdminManager : MonoBehaviour
@@ -8,15 +9,17 @@ public class AdminManager : MonoBehaviour
 	private Dictionary<string, ItemStorage> ghostStorageList = new Dictionary<string, ItemStorage>();
 
 	private static AdminManager adminManager;
-	public static AdminManager Instance
+	public static AdminManager Instance => adminManager;
+
+	private void Awake()
 	{
-		get
+		if (adminManager == null)
 		{
-			if (!adminManager)
-			{
-				adminManager = FindObjectOfType<AdminManager>();
-			}
-			return adminManager;
+			adminManager = this;
+		}
+		else
+		{
+			Destroy(this);
 		}
 	}
 
@@ -36,5 +39,4 @@ public class AdminManager : MonoBehaviour
 		}
 		return CreateItemSlotStorage(player);
 	}
-
 }

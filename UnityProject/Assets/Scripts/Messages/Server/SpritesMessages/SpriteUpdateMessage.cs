@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.SpritesMessages
@@ -57,7 +58,12 @@ namespace Messages.Server.SpritesMessages
 					Start = Scanning + 1;
 					Scanning = GoToIndexOfCharacter(SerialiseData, '{', Scanning);
 					string Name = SerialiseData.Substring(Start, Scanning - Start);
+					if (SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]].ContainsKey(Name) == false)
+					{
 
+						Logger.LogError( JsonConvert.SerializeObject(SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]].Keys));
+						Logger.LogError( "Has missing clients Sprite NetID > " + NetID + " Name " + Name);
+					}
 					var SP = SpriteHandlerManager.Instance.PresentSprites[NetworkIdentity.spawned[NetID]][Name];
 
 					Scanning++;
@@ -299,12 +305,12 @@ namespace Messages.Server.SpritesMessages
 			IEnumerable<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> ToSend)
 		{
 			NetMessage msg = new NetMessage();
-			GenerateStates(msg, ToSend);
+			GenerateStates(ref msg, ToSend);
 			ToReturn.Clear();
 			return (msg);
 		}
 
-		public static void GenerateStates(NetMessage netMessage,
+		public static void GenerateStates(ref NetMessage netMessage,
 			IEnumerable<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> ToSend)
 		{
 			foreach (var VARIABLE in ToSend)
@@ -384,6 +390,7 @@ namespace Messages.Server.SpritesMessages
 
 			if (spriteChange.Pallet != null)
 			{
+
 				if (spriteChange.Pallet.Count < 1 || spriteChange.Pallet.Count > 255)
 				{
 					Logger.Log(string.Format("Pallet size must be between 1 and 255. It is currently {0}.",spriteChange.Pallet.Count));
@@ -402,6 +409,7 @@ namespace Messages.Server.SpritesMessages
 					ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(Colour.a * 255)));
 
 				}
+
 			}
 
 			ToReturn.Append("£");

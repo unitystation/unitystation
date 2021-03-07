@@ -14,6 +14,8 @@ namespace Objects.Medical
 		public string statusString;
 		public CloningConsole console;
 
+		public float LimbCloningDamage = 25;
+
 		public enum CloningPodStatus
 		{
 			Empty,
@@ -47,9 +49,24 @@ namespace Objects.Medical
 			}
 			if (record.mind.IsOnline())
 			{
-				PlayerSpawn.ServerClonePlayer(record.mind, transform.position.CutToInt());
+				var playerBody = PlayerSpawn.ServerClonePlayer(record.mind, transform.position.CutToInt()).GetComponent<LivingHealthMasterBase>();
+
+				void ApplyDamage()
+				{
+					ApplyCloningDamage(playerBody);
+				}
+
+				playerBody.OnFullyInitialised(ApplyDamage);
+				//GameObject
+				//Do cloning damage
+				//Initialisation order
 			}
 			statusSync = CloningPodStatus.Empty;
+		}
+
+		public void ApplyCloningDamage(LivingHealthMasterBase Body)
+		{
+			Body.ApplyDamageAll(this.gameObject, LimbCloningDamage, AttackType.Internal, DamageType.Clone, false);
 		}
 
 		public bool CanClone()

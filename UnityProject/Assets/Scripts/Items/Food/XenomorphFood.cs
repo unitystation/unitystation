@@ -11,7 +11,7 @@ public class XenomorphFood : Edible
 	[SerializeField]
 	private int killTime = 400;
 	[SerializeField]
-	private GameObject larvae = null; 
+	private GameObject larvae = null;
 	private string Name => itemAttributes.ArticleName;
 	private static readonly StandardProgressActionConfig ProgressConfig
 		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
@@ -21,7 +21,7 @@ public class XenomorphFood : Edible
 		if (eater == null)
 		{
 			// todo: implement non-player eating
-			SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos);
+			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos);
 			Despawn.ServerSingle(gameObject);
 			return;
 		}
@@ -29,7 +29,7 @@ public class XenomorphFood : Edible
 		var feeder = feederGO.GetComponent<PlayerScript>();
 
 		// Show eater message
-		var eaterHungerState = eater.playerHealth.Metabolism.HungerState;
+		var eaterHungerState = eater.playerHealth.hungerState;
 		ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 		// Check if eater can eat anything
@@ -50,14 +50,26 @@ public class XenomorphFood : Edible
 	}
 	public override void Eat(PlayerScript eater, PlayerScript feeder)
 	{
-		SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
+		//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-		eater.playerHealth.Metabolism.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));
+		var Stomachs = eater.playerHealth.GetStomachs();
+		if (Stomachs.Count == 0)
+		{
+			//No stomachs?!
+			return;
+		}
+		FoodContents.Divide(Stomachs.Count);
+		foreach (var Stomach in Stomachs)
+		{
+			Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+		}
+
+
 		Pregnancy(eater.playerHealth);
 		var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
 		Inventory.ServerDespawn(feederSlot);
 	}
-	private async Task Pregnancy(PlayerHealth player)
+	private async Task Pregnancy(PlayerHealthV2 player)
 	{
 		await Task.Delay(TimeSpan.FromSeconds(killTime - (killTime / 8)));
 		Chat.AddActionMsgToChat(player.gameObject, "Your stomach gurgles uncomfortably...",

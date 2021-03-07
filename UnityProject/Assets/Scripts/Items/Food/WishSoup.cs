@@ -8,19 +8,33 @@ public class WishSoup : Edible
 		float wishChance = Random.value;
 		if (wishChance <= 0.25)
 		{
-			Eat(eater, feeder, NutritionLevel);
+			Eat(eater, feeder, true);
 		}
 		else
 		{
-			Eat(eater, feeder, 0);
+			Eat(eater, feeder, false);
 		}
 	}
 
-	private void Eat(PlayerScript eater, PlayerScript feeder, int nutrition)
-	{
-		SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
 
-		eater.playerHealth.Metabolism.AddEffect(new MetabolismEffect(nutrition, 0, MetabolismDuration.Food));
+	private void Eat(PlayerScript eater, PlayerScript feeder, bool FeedNutrients)
+	{
+		//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+
+		if (FeedNutrients)
+		{
+			var Stomachs = eater.playerHealth.GetStomachs();
+			if (Stomachs.Count == 0)
+			{
+				//No stomachs?!
+				return;
+			}
+			FoodContents.Divide(Stomachs.Count);
+			foreach (var Stomach in Stomachs)
+			{
+				Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+			}
+		}
 
 		var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
 		Inventory.ServerDespawn(gameObject);

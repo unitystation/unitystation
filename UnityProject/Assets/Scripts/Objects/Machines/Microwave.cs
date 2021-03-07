@@ -155,6 +155,8 @@ namespace Objects.Kitchen
 			CheckCooked();
 		}
 
+
+
 		/// <summary>
 		/// The micro-laser's tier affects the speed in which the microwave counts down and the speed
 		/// in which food is cooked. For each tier above one, cook time is decreased by a factor of 0.5;
@@ -501,7 +503,7 @@ namespace Objects.Kitchen
 			public override void DoorInteraction(ItemSlot fromSlot)
 			{
 				// Close if nothing's in hand.
-				if (fromSlot.Item == null)
+				if (fromSlot == null || fromSlot.Item == null)
 				{
 					microwave.SetState(new MicrowaveIdle(microwave));
 					return;

@@ -116,7 +116,7 @@ namespace Items.Command
 				{
 					return true;
 				}
-				if (player.GetComponent<PlayerHealth>().IsDead)
+				if (player.GetComponent<PlayerHealthV2>().IsDead)
 				{
 					return true;
 				}

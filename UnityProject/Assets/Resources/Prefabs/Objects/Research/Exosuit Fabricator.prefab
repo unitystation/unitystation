@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: cef0acf9fcd0bf340ab79662a60de428, type: 2}
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
+    type: 3}
   machineBoardPrefab: {fileID: 5118904567897562044, guid: 85745799887db29418a4ddc4fe68d535,
     type: 3}
   canNotBeDeconstructed: 0
-  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &4345289403541654959
 MonoBehaviour:
@@ -49,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &6249565383054716581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 1117575778632656562}
   idleSprite: {fileID: 11400000, guid: c28dca4f44ef37849a23ff6d8976a5bc, type: 2}
   acceptingMaterialsSprite: {fileID: 11400000, guid: 2dc805ead8817ae449f66efb16c4a809,
     type: 2}
@@ -235,3 +237,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8615537192462600737}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1117575778632656562 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 8615537192462600737}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

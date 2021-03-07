@@ -10,7 +10,7 @@ namespace Objects.Medical
 {
 	public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPowered
 	{
-		public LivingHealthBehaviour occupant;
+		public LivingHealthMasterBase occupant;
 		public string statusString;
 
 		public bool Powered => powered;
@@ -53,7 +53,7 @@ namespace Objects.Medical
 			if (ServerHeldPlayers.Any())
 			{
 				var mob = ServerHeldPlayers.First();
-				occupant = mob.GetComponent<LivingHealthBehaviour>();
+				occupant = mob.GetComponent<LivingHealthMasterBase>();
 			}
 			else
 			{
