@@ -9,10 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b9c037cd481c0f4db1c77e9cdf31787, type: 3}
-  m_Name: sulk
+  m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
+  m_Name: sneeze
   m_EditorClassIdentifier: 
-  emoteName: sulk
-  viewText: sulks down sadly..
-  youText: You're sulking.
-  emoteDefaultSounds: []
+  emoteName: 
+  viewText: did something!
+  youText: 
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  audioToUse: []
+  critViewText: screams in pain!
