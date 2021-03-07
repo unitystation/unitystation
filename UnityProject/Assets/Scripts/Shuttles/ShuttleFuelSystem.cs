@@ -31,17 +31,13 @@ namespace Systems.Shuttles
 				MatrixMove = this.GetComponent<MatrixMove>();
 				MatrixMove.RegisterShuttleFuelSystem(this);
 			}
-
-			if (Connector == null)
-            {
-            	Logger.LogError($"{nameof(Connector)} was null on {this}!");
-            }
 		}
 
 		public override void UpdateMe()
 		{
 			if (Connector == null)
 			{
+				//Logger.LogError($"{nameof(Connector)} was null on {this}!");
 				return;
 			}
 

@@ -30,7 +30,7 @@ namespace Messages.Client.Admin
 			if (deadPlayer.Script.playerHealth != null &&
 			    deadPlayer.Script.playerHealth.IsDead == false)
 			{
-				deadPlayer.Script.playerHealth.ApplyDamage(
+				deadPlayer.Script.playerHealth.ApplyDamageToRandom(
 					player,
 					200,
 					AttackType.Internal,

@@ -4,6 +4,7 @@ namespace Messages.Client.SpriteMessages
 {
 	public class SpriteRequestCurrentStateMessage : ClientMessage<SpriteRequestCurrentStateMessage.NetMessage>
 	{
+
 		public struct NetMessage : NetworkMessage
 		{
 			public uint SpriteHandlerManager;
@@ -15,7 +16,11 @@ namespace Messages.Client.SpriteMessages
 			if (SentByPlayer == ConnectedPlayer.Invalid)
 				return;
 
-			NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
+		LoadNetworkObject(msg.SpriteHandlerManager);
+		if (SentByPlayer == ConnectedPlayer.Invalid)
+			return;
+		//TODO Need some safeguards
+		NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);
 		}
 
 		public static NetMessage Send(uint spriteHandlerManager)

@@ -8,41 +8,53 @@ using UnityEngine;
 /// </summary>
 public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 {
+	public bool AdvancedHealthScanner = false;
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be applied to LHB
-		if (!Validations.HasComponent<LivingHealthBehaviour>(interaction.TargetObject)) return false;
+		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
 		return true;
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		var livingHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+		var livingHealth = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		string ToShow = (livingHealth.name + " is " + livingHealth.ConsciousState.ToString() + "\n"
 		                 + "OverallHealth = " + livingHealth.OverallHealth.ToString() + " Blood level = " +
-		                 livingHealth.bloodSystem.BloodLevel.ToString() + "\n"
-		                 + "Blood levels = " + livingHealth.CalculateOverallBloodLossDamage() + "\n");
+		                 livingHealth.CirculatorySystem.UseBloodPool.ToString() + "\n");
 		string StringBuffer = "";
 		float TotalBruteDamage = 0;
 		float TotalBurnDamage = 0;
-		foreach (BodyPartBehaviour BodyPart in livingHealth.BodyParts)
+		float TotalTOXDamage = 0;
+		float TotalCloneDamage = 0;
+		foreach (var BodyPart in livingHealth.ImplantList)
 		{
-			StringBuffer += BodyPart.Type.ToString() + "\t";
-			StringBuffer += BodyPart.BruteDamage.ToString() + "\t";
-			TotalBruteDamage += BodyPart.BruteDamage;
-			StringBuffer += BodyPart.BurnDamage.ToString();
-			TotalBurnDamage += BodyPart.BurnDamage;
+			if (AdvancedHealthScanner == false && BodyPart.DamageContributesToOverallHealth == false) continue;
+
+			if (BodyPart.DamageContributesToOverallHealth)
+			{
+				TotalBruteDamage += BodyPart.Brute;
+				TotalBurnDamage += BodyPart.Burn;
+				TotalTOXDamage += BodyPart.Toxin;
+				TotalCloneDamage += BodyPart.Cellular;
+			}
+
+			StringBuffer += BodyPart.name + "\t";
+			StringBuffer += BodyPart.Brute + "\t";
+			StringBuffer += BodyPart.Burn + "\t";
+			StringBuffer += BodyPart.Toxin + "\t";
+			StringBuffer += BodyPart.Cellular;
+
 			StringBuffer += "\n";
 		}
 
-		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " Toxin " + livingHealth.bloodSystem.ToxinLevel +
-		         " OxyLoss " + livingHealth.bloodSystem.OxygenDamage.ToString() + "\n" + "Body Part, Brute, Burn \n" +
+		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() +
+		         " Toxin " + TotalTOXDamage +
+		         " Cellular " + TotalCloneDamage + "\n" +
+		         "Body Part, Brute, Burn, Toxin, Cellular \n" +
 		         StringBuffer;
-		if (livingHealth.cloningDamage > 0)
-		{
-			ToShow += $"Cellular Damage Level: {livingHealth.cloningDamage}";
-		}
 
 		Chat.AddExamineMsgFromServer(interaction.Performer, ToShow);
 	}

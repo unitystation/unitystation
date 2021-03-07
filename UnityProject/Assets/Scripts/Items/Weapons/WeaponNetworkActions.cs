@@ -119,7 +119,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		{
 			//a regular object being attacked
 
-			LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
+			LivingHealthMasterBase victimHealth = victim.GetComponent<LivingHealthMasterBase>();
 
 			var integrity = victim.GetComponent<Integrity>();
 			var meleeable = victim.GetComponent<Meleeable>();

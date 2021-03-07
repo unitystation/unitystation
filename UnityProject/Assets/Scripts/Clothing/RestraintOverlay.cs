@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AddressableReferences;
-using Systems.Clothing;
 
 /// <summary>
 /// Handles the overlays for the handcuff sprites
@@ -14,14 +12,9 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	private List<Sprite> handCuffOverlays = new List<Sprite>();
 
 	[SerializeField] private SpriteRenderer spriteRend = null;
-
-	private StandardProgressActionConfig ProgressConfig
-		= new StandardProgressActionConfig(StandardProgressActionType.Escape);
-
+	private IEnumerator uncuffCoroutine;
 	private float healthCache;
 	private Vector3Int positionCache;
-
-	[SerializeField] private AddressableAudioSource restraintRemovalSound = null;
 
 	[SerializeField]
 	private ActionData actionData = null;
@@ -66,28 +59,59 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 
 	public void ServerBeginUnCuffAttempt()
 	{
+		if (uncuffCoroutine != null)
+			StopCoroutine(uncuffCoroutine);
+
 		float resistTime = GameObjectReference.GetComponent<Restraint>().ResistTime;
 		healthCache = thisPlayerScript.playerHealth.OverallHealth;
 		positionCache = thisPlayerScript.registerTile.LocalPositionServer;
+		if (!CanUncuff()) return;
 
-		void ProgressFinishAction()
+		uncuffCoroutine = UncuffCountDown(resistTime);
+		StartCoroutine(uncuffCoroutine);
+		Chat.AddActionMsgToChat(
+			thisPlayerScript.gameObject,
+			$"You are attempting to remove the cuffs. This takes up to {resistTime:0} seconds",
+			thisPlayerScript.playerName + " is attempting to remove their cuffs");
+	}
+
+	private IEnumerator UncuffCountDown(float resistTime)
+	{
+		float waitTime = 0f;
+		while (waitTime < resistTime)
 		{
-			thisPlayerScript.playerMove.Uncuff();
-			Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
-				thisPlayerScript.playerName + " has removed their cuffs");
-
-			SoundManager.PlayNetworkedAtPos(restraintRemovalSound, thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
+			waitTime += Time.deltaTime;
+			if (!CanUncuff())
+			{
+				yield break;
+			}
+			else
+			{
+				yield return WaitFor.EndOfFrame;
+			}
 		}
 
-		var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
-			.ServerStartProgress(thisPlayerScript.gameObject.RegisterTile(), resistTime, thisPlayerScript.gameObject);
-		if (bar != null)
+		thisPlayerScript.playerMove.Uncuff();
+		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
+			thisPlayerScript.playerName + " has removed their cuffs");
+
+	}
+
+	private bool CanUncuff()
+	{
+		PlayerHealthV2 playerHealth = thisPlayerScript.playerHealth;
+
+		if (playerHealth == null ||
+			playerHealth.ConsciousState == ConsciousState.DEAD ||
+			playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
+			playerHealth.OverallHealth != healthCache ||
+			thisPlayerScript.registerTile.IsSlippingServer ||
+			positionCache != thisPlayerScript.registerTile.LocalPositionServer)
 		{
-			Chat.AddActionMsgToChat(
-				thisPlayerScript.gameObject,
-				$"You are attempting to remove the cuffs. This will take {resistTime:0} seconds",
-				thisPlayerScript.playerName + " is attempting to remove their cuffs");
+			return false;
 		}
+
+		return true;
 	}
 
 	public void CallActionClient()

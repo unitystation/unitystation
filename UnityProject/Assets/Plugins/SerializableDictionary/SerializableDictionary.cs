@@ -95,8 +95,18 @@ public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : 
 
 	public TValue this[TKey key]
 	{
-		get { return ((IDictionary<TKey, TValue>)m_dict)[key]; }
-		set { ((IDictionary<TKey, TValue>)m_dict)[key] = value; }
+		get
+		{
+			return ((IDictionary<TKey, TValue>)m_dict)[key];
+		}
+		set
+		{
+			if (key == null)
+			{
+				return;
+			}
+			((IDictionary<TKey, TValue>)m_dict)[key] = value;
+		}
 	}
 
 	public void Add(TKey key, TValue value)

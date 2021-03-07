@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using AddressableReferences;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
@@ -8,27 +7,25 @@ using AddressableReferences;
 /// </summary>
 public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 {
-	[SerializeField]
-	private bool isMeleeable = true;
+	[SerializeField] private bool isMeleeable = true;
 
-	[SerializeField]
-	private static readonly StandardProgressActionConfig ProgressConfig
-	= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
+	[SerializeField] private static readonly StandardProgressActionConfig ProgressConfig
+		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
-	[SerializeField]
-	private float butcherTime = 2.0f;
+	[SerializeField] private float butcherTime = 2.0f;
 
-	[SerializeField] private AddressableAudioSource butcherSound = null;
+	[SerializeField] private string butcherSound = "BladeSlice";
 
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles regardless of intent
 	/// </summary>
 	private static readonly HashSet<LayerType> attackableLayers = new HashSet<LayerType>(
-	new[] {
-		LayerType.Grills,
-		LayerType.Walls,
-		LayerType.Windows
-	});
+		new[]
+		{
+			LayerType.Grills,
+			LayerType.Walls,
+			LayerType.Windows
+		});
 
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles only on harm intent
@@ -64,7 +61,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		}
 
 		//not punching unless harm intent
-		if (interaction.Intent != Intent.Harm) return false;
+		if (interaction.HandObject == null && interaction.Intent != Intent.Harm) return false;
 
 		//if attacking tiles, only some layers are allowed to be attacked
 		if (interactableTiles != null)
@@ -92,7 +89,9 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 	}
 
 	//no rollback logic
-	public void ServerRollbackClient(PositionalHandApply interaction) { }
+	public void ServerRollbackClient(PositionalHandApply interaction)
+	{
+	}
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
@@ -109,10 +108,12 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 			{
 				return;
 			}
+
 			if (tileAt.TileType == TileType.Wall)
 			{
 				return;
 			}
+
 			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
 			if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Breakable))
 			{
@@ -121,44 +122,18 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		}
 		else
 		{
-			//attacking objects
-
-			//butcher check
+			if (interaction.Intent == Intent.Help) return;
 			GameObject victim = interaction.TargetObject;
-			var healthComponent = victim.GetComponent<LivingHealthBehaviour>();
+			var healthComponent = victim.GetComponent<LivingHealthMasterBase>();
 
-			if (healthComponent
-			    && healthComponent.allowKnifeHarvest
-			    && healthComponent.IsDead
-			    && Validations.HasItemTrait(handObject, CommonTraits.Instance.Knife)
-			    && interaction.Intent == Intent.Harm)
+
+			if (gameObject.GetComponent<Integrity>() && emptyHand) return;
+
+			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart,
+				LayerType.None);
+			if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Breakable))
 			{
-				GameObject performer = interaction.Performer;
-
-				var playerMove = victim.GetComponent<PlayerMove>();
-				if (playerMove != null && playerMove.IsBuckled)
-				{
-					return;
-				}
-				void ProgressFinishAction()
-				{
-					LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-					victimHealth.Harvest();
-					SoundManager.PlayNetworkedAtPos(butcherSound, victim.RegisterTile().WorldPositionServer);
-				}
-
-				var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
-					.ServerStartProgress(victim.RegisterTile(), butcherTime, performer);
-			}
-			else
-			{
-				if (gameObject.GetComponent<Integrity>() && emptyHand) return;
-
-				wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
-				if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Breakable))
-				{
-					handObject.GetComponent<ItemBreakable>().AddDamage();
-				}
+				handObject.GetComponent<ItemBreakable>().AddDamage();
 			}
 		}
 	}

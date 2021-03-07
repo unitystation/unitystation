@@ -272,7 +272,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.playerHealth.ApplyDamage(null, 99999f, AttackType.Internal, DamageType.Brute);
+				PlayerManager.LocalPlayerScript.playerHealth.ApplyDamageToRandom(null, 99999f, AttackType.Internal, DamageType.Brute);
 			}
 		}
 #if UNITY_EDITOR
@@ -308,7 +308,7 @@ namespace IngameDebugConsole
 
 				foreach ( var movableMatrix in matrices )
 				{
-					if ( movableMatrix == null || movableMatrix.GameObject.name.ToLower().Contains( "verylarge" ) )
+					if ( movableMatrix.GameObject.name.ToLower().Contains( "verylarge" ) )
 					{
 						continue;
 					}
@@ -426,11 +426,7 @@ namespace IngameDebugConsole
 			{
 				var playerScript = PlayerManager.LocalPlayerScript;
 				var health = playerScript.playerHealth;
-				foreach (var bodyPart in health.BodyParts)
-				{
-					bodyPart.HealDamage(200, DamageType.Brute);
-					bodyPart.HealDamage(200, DamageType.Burn);
-				}
+				health.ResetDamageAll();
 				playerScript.registerTile.ServerStandUp();
 			}
 		}
