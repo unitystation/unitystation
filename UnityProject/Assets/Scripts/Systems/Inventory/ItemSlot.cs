@@ -246,16 +246,6 @@ public class ItemSlot
 		return itemStorage.GetRootStorage();
 	}
 
-	/// <summary>
-	/// Gets the top-level pickupable containing this slot. I.e. if this
-	/// is inside a crate in a backpack, will return the crate ItemStorage.
-	/// </summary>
-	/// <returns></returns>
-	public Pickupable GetRootPickupable()
-	{
-		return itemStorage.GetRootPickupable();
-	}
-
 	public override string ToString()
 	{
 		return $"storage {itemStorage.name}, slot {slotIdentifier}, contains " + (Item != null ? Item.name : "nothing");

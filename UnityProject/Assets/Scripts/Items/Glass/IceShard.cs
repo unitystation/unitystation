@@ -47,7 +47,7 @@ public class IceShard : MonoBehaviour, ICheckedInteractable<HandApply>, IChecked
 		//If in an itemslot try to get that root position
 		if (pickupable.ItemSlot != null)
 		{
-			pos = pickupable.ItemSlot.GetRootPickupable().gameObject.WorldPosServer().RoundToInt();
+			pos = pickupable.ItemSlot.GetRootStorage().gameObject.WorldPosServer().RoundToInt();
 		}
 
 		//If the position is still hidden then the shard or the top pickupable is also hidden
@@ -130,7 +130,7 @@ public class IceShard : MonoBehaviour, ICheckedInteractable<HandApply>, IChecked
 		//If in inventory use player pos instead, check root in case player is in something
 		if(pickupable.ItemSlot != null)
 		{
-			pos = pickupable.ItemSlot.GetRootPickupable().gameObject.WorldPosServer().RoundToInt();
+			pos = pickupable.ItemSlot.GetRootStorage().gameObject.WorldPosServer().RoundToInt();
 		}
 
 		//If hidden then stop
