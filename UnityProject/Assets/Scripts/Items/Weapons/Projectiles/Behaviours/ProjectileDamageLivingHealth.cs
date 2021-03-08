@@ -1,4 +1,5 @@
-﻿using PathFinding;
+﻿using HealthV2;
+using PathFinding;
 using ScriptableObjects.Gun;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ namespace Weapons.Projectiles.Behaviours
 			var coll = hit.CollisionHit.GameObject;
 			if (coll == null) return false;
 
-			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
+			var livingHealth = coll.GetComponent<LivingHealthMasterBase>();
 			if (livingHealth == null) return false;
 
 
