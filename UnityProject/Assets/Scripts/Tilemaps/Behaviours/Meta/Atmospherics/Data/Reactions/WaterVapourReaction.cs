@@ -29,9 +29,12 @@ namespace Systems.Atmospherics
 					numberOfIceToSpawn = 50;
 				}
 
-				SpawnSafeThread.SpawnPrefab(tilePos, AtmosManager.Instance.iceShard, amountIfStackable: numberOfIceToSpawn);
+				if (numberOfIceToSpawn > 0)
+				{
+					SpawnSafeThread.SpawnPrefab(tilePos, AtmosManager.Instance.iceShard, amountIfStackable: numberOfIceToSpawn);
 
-				gasMix.RemoveGas(Gas.WaterVapor, numberOfIceToSpawn * 2f);
+					gasMix.RemoveGas(Gas.WaterVapor, numberOfIceToSpawn * 2f);
+				}
 			}
 		}
 	}
