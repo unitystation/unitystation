@@ -60,7 +60,7 @@ namespace Antagonists
 			if (itemEntry.Key == null)
 			{
 				Logger.LogError($"Objective steal item target failed because the item chosen is somehow destroyed." +
-				                " Definitely a programming bug. ", Category.Round);
+				                " Definitely a programming bug. ", Category.Antags);
 				return;
 			}
 			ItemName = itemEntry.Key.Item().InitialName;
@@ -69,7 +69,7 @@ namespace Antagonists
 			{
 				Logger.LogError($"Objective steal item target failed because the InitialName has not been" +
 				                $" set on this objects ItemAttributes. " +
-				                $"Item: {itemEntry.Key.Item().gameObject.name}", Category.Round);
+				                $"Item: {itemEntry.Key.Item().gameObject.name}", Category.Antags);
 				return;
 			}
 			Amount = itemEntry.Value;

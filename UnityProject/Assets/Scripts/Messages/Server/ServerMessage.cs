@@ -11,7 +11,7 @@ public abstract class ServerMessage : GameMessageBase
 	public void SendToAll()
 	{
 		NetworkServer.SendToAll(this, 0);
-		Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
+		Logger.LogTraceFormat("SentToAll {0}", Category.Server, this);
 	}
 
 	public void SendToAllExcept(GameObject excluded)
@@ -32,7 +32,7 @@ public abstract class ServerMessage : GameMessageBase
 			}
 		}
 
-		Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
+		Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.Server, this, excluded.name);
 	}
 
 	public virtual void SendTo(GameObject recipient)
@@ -53,11 +53,11 @@ public abstract class ServerMessage : GameMessageBase
 		if (PlayerList.Instance.ContainsConnection(connection))
 		{
 			connection.Send(this, 0);
-			Logger.LogTraceFormat("SentTo {0}: {1}", Category.NetMessage, recipient.name, this);
+			Logger.LogTraceFormat("SentTo {0}: {1}", Category.Server, recipient.name, this);
 		}
 		else
 		{
-			Logger.LogTraceFormat("Not sending message {0} to {1}", Category.NetMessage, this, recipient.name);
+			Logger.LogTraceFormat("Not sending message {0} to {1}", Category.Server, this, recipient.name);
 		}
 
 		//Obsolete version:

@@ -229,7 +229,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 			if ( matrixInfo == MatrixInfo.Invalid )
 			{
-				Logger.LogWarning( $"{gameObject.name}: was unable to detect Matrix by parent!", Category.Transform );
+				Logger.LogWarning($"{gameObject.name}: was unable to detect Matrix by parent!", Category.Matrix);
 				serverState.MatrixId = MatrixManager.AtPoint( ( (Vector2)transform.position ).RoundToInt(), true ).Id;
 			} else
 			{
@@ -248,7 +248,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		else
 		{
 			serverState.MatrixId = 0;
-			Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
+			Logger.LogWarning($"{gameObject.name}: unable to detect MatrixId!", Category.Matrix);
 		}
 
 		registerTile.UpdatePositionServer();
@@ -409,17 +409,17 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 
-//		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Transform, gameObject.name, pos );
+//		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Matrix, gameObject.name, pos );
 		var newMatrix = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt(), true );
 		if ( serverState.MatrixId != newMatrix.Id ) {
 			var oldMatrix = MatrixManager.Get( serverState.MatrixId );
-			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, oldMatrix, newMatrix );
+			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Matrix, gameObject, oldMatrix, newMatrix );
 
 			if ( oldMatrix.IsMovable
 			     && oldMatrix.MatrixMove.IsMovingServer )
 			{
 				Push( oldMatrix.MatrixMove.ServerState.FlyingDirection.Vector.To2Int(), oldMatrix.Speed );
-				Logger.LogTraceFormat( "{0} inertia pushed while attempting matrix switch", Category.Transform, gameObject );
+				Logger.LogTraceFormat( "{0} inertia pushed while attempting matrix switch", Category.Matrix, gameObject );
 				return;
 			}
 
@@ -634,7 +634,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			{
 				//sync position to ensure they buckle to the correct spot
 				occupiableDirectionalSprite.OccupantPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
-				Logger.LogTraceFormat("UpdatedOccupant {0}", Category.BuckledMovement, registerTile.WorldPosition);
+				Logger.LogTraceFormat("UpdatedOccupant {0}", Category.Movement, registerTile.WorldPosition);
 			}
 		}
 	}

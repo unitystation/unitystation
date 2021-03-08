@@ -26,7 +26,7 @@ public class DevDestroyMessage : ClientMessage
 
 		if (ToDestroy.Equals(NetId.Invalid))
 		{
-			Logger.LogWarning("Attempted to destroy an object with invalid netID, destroy will not occur.", Category.ItemSpawn);
+			Logger.LogWarning("Attempted to destroy an object with invalid netID, destroy will not occur.", Category.Admin);
 		}
 		else
 		{

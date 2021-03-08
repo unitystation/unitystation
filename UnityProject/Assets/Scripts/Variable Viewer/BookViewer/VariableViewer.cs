@@ -915,7 +915,7 @@ public static class Librarian
 					if (InType == null || InObject == null || InObject as IConvertible == null)
 					{
 						Logger.LogError($"Can't convert {StringVariable} to {InObject.GetType()}  " +
-							$"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]", Category.NetUI);
+							$"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]", Category.VariableViewer);
 						return null;
 					}
 

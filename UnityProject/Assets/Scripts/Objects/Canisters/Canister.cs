@@ -341,7 +341,7 @@ namespace Objects.Atmospherics
 						$"{interaction.Performer} tried inserting {interaction.UsedObject} into {gameObject}, " +
 						$"but the tank didn't have a {nameof(GasContainer)} component associated with it. " +
 						$"Something terrible has happened, or an item that should not has the CanisterFillable ItemTrait.",
-						Category.Containers
+						Category.Atmos
 				);
 			}
 		}

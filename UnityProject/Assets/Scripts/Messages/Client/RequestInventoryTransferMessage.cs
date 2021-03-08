@@ -62,7 +62,7 @@ public class RequestInventoryTransferMessage : ClientMessage
 	{
 		Logger.LogWarningFormat(
 			"Possible hacking attempt (or bad clientside logic), {0} tried to transfer from slot {1} to {2} when they" +
-			" are not allowed.", Category.Inventory, SentByPlayer.GameObject.name, fromSlot, toSlot);
+			" are not allowed.", Category.Exploits, SentByPlayer.GameObject.name, fromSlot, toSlot);
 
 		//roll back the client prediction
 		UpdateItemSlotMessage.Send(SentByPlayer.GameObject, fromSlot);

@@ -21,7 +21,7 @@ public class PlayParticleMessage : ServerMessage
 	{
 		if (ParticleObject.Equals(NetId.Invalid)) {
 			//Failfast
-			Logger.LogWarning("PlayParticle NetId invalid, processing stopped", Category.NetMessage);
+			Logger.LogWarning("PlayParticle NetId invalid, processing stopped", Category.Particles);
 			return;
 		}
 
@@ -32,7 +32,7 @@ public class PlayParticleMessage : ServerMessage
 
 		if ( !particleObject.activeInHierarchy )
 		{
-			Logger.LogFormat("PlayParticle request ignored because gameobject {0} is inactive", Category.NetMessage, particleObject);
+			Logger.LogFormat("PlayParticle request ignored because gameobject {0} is inactive", Category.Particles, particleObject);
 			return;
 		}
 
@@ -49,7 +49,7 @@ public class PlayParticleMessage : ServerMessage
 
 		if ( particleSystem == null )
 		{
-			Logger.LogWarningFormat("ParticleSystem not found for gameobject {0}, PlayParticle request ignored", Category.NetMessage, particleObject);
+			Logger.LogWarningFormat("ParticleSystem not found for gameobject {0}, PlayParticle request ignored", Category.Particles, particleObject);
 			return;
 		}
 
@@ -101,7 +101,7 @@ public class PlayParticleMessage : ServerMessage
 		}
 		catch (Exception ignored)
 		{
-			Logger.Log($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Unknown);
+			Logger.Log($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
 		}
 
 

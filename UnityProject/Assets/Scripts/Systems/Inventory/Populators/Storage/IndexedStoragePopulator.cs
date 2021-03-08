@@ -41,7 +41,7 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 			var freeSlot = toPopulate.GetNextFreeIndexedSlot();
 			if (freeSlot == null)
 			{
-				Logger.LogTraceFormat("Can't populate {0}, no more free slots.", Category.Inventory, toPopulate);
+				Logger.LogTraceFormat("Can't populate {0}, no more free slots.", Category.EntitySpawn, toPopulate);
 				return;
 			}
 
@@ -53,7 +53,7 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 			if (slot == null)
 			{
 				Logger.LogErrorFormat("Storage {0} does not have a slot with index {1}. Please ensure" +
-				                      " the Contents don't exceed the number of slots in the ItemStorage.", Category.Inventory,
+				                      " the Contents don't exceed the number of slots in the ItemStorage.", Category.EntitySpawn,
 					toPopulate, i);
 				return;
 			}
@@ -66,7 +66,7 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 			// General protection against missing items
 			if (Contents[i] == null)
 			{
-				Logger.LogError($"Item is missing at position {i} of {toPopulate.name}", Category.Inventory);
+				Logger.LogError($"Item is missing at position {i} of {toPopulate.name}", Category.EntitySpawn);
 				continue; // Will skip the missing item
 			}
 

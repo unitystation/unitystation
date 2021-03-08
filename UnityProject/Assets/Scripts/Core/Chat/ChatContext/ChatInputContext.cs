@@ -58,7 +58,7 @@ public class ChatInputContext : IChatInputContext
 		// Player doesn't have any storage? That's bad
 		if (!playerStorage)
 		{
-			Logger.LogError("Can't find current headset, because local player storage doesn't exist", Category.Inventory);
+			Logger.LogError("Can't find current headset, because local player storage doesn't exist", Category.PlayerInventory);
 			return null;
 		}
 

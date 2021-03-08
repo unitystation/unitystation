@@ -178,13 +178,13 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	private void OnPlayerReturnedToBody()
 	{
-		Logger.Log("Local player become Ghost", Category.DebugConsole);
+		Logger.Log("Local player become Ghost", Category.Ghosts);
 		EnableLighting(true);
 	}
 
 	private void OnPlayerBecomeGhost()
 	{
-		Logger.Log("Local player returned to the body", Category.DebugConsole);
+		Logger.Log("Local player returned to the body", Category.Ghosts);
 		EnableLighting(false);
 	}
 

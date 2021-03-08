@@ -308,7 +308,7 @@ public class EscapeShuttle : NetworkBehaviour
 			{
 				if ((!mm.ServerState.IsMoving || mm.ServerState.Speed < 1f) && startedMovingToStation)
 				{
-					Logger.LogTrace("Escape shuttle is blocked.", Category.Matrix);
+					Logger.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
 					isBlocked = true;
 					escapeBlockedTime = 0f;
 				}
@@ -320,7 +320,7 @@ public class EscapeShuttle : NetworkBehaviour
 			if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
 			    (mm.ServerState.IsMoving && mm.ServerState.Speed >= 1f))
 			{
-				Logger.LogTrace("Escape shuttle is unblocked.", Category.Matrix);
+				Logger.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
 				isBlocked = false;
 				escapeBlockedTime = 0f;
 			}
@@ -330,7 +330,7 @@ public class EscapeShuttle : NetworkBehaviour
 				escapeBlockedTime += Time.deltaTime;
 				if (escapeBlockedTime > escapeBlockTimeLimit)
 				{
-					Logger.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Matrix, escapeBlockTimeLimit);
+					Logger.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
 					//can't escape
 					ServerStartStrandedEnd();
 				}

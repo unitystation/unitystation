@@ -25,7 +25,7 @@ public class PlayerExaminationMessage : ServerMessage
 		var storageObject = NetworkObject;
 		if (storageObject == null)
 		{
-			Logger.LogWarningFormat("Client could not find player storage with id {0}", Category.Inventory, ItemStorage);
+			Logger.LogWarningFormat("Client could not find player storage with id {0}", Category.PlayerInventory, ItemStorage);
 			return;
 		}
 

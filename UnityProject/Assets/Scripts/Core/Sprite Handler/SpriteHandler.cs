@@ -446,7 +446,7 @@ public class SpriteHandler : MonoBehaviour
 			if (NetID == null)
 			{
 				Logger.LogError("Was unable to find A NetworkBehaviour for ",
-					Category.SpriteHandler);
+					Category.Sprites);
 				return;
 			}
 
@@ -459,7 +459,7 @@ public class SpriteHandler : MonoBehaviour
 					gamename = gameObject.name;
 				}
 				Logger.LogError("Was unable to find A NetworkBehaviour for " + gamename,
-					Category.SpriteHandler);
+					Category.Sprites);
 			}
 		}
 
@@ -480,7 +480,7 @@ public class SpriteHandler : MonoBehaviour
 		{
 			if (NewSpriteDataSO.setID == -1)
 			{
-				Logger.Log("NewSpriteDataSO NO ID!" + NewSpriteDataSO.name, Category.SpriteHandler);
+				Logger.Log("NewSpriteDataSO NO ID!" + NewSpriteDataSO.name, Category.Sprites);
 			}
 			if (spriteChange.Empty) spriteChange.Empty = false;
 			spriteChange.PresentSpriteSet = NewSpriteDataSO.setID;

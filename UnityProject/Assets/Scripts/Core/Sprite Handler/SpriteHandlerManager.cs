@@ -37,7 +37,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		if (networkIdentity == null)
 		{
 			Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
-				Category.SpriteHandler);
+				Category.Sprites);
 			return;
 		}
 
@@ -53,7 +53,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 			{
 				Logger.LogError(
 					"SpriteHandler has the same name as another SpriteHandler on the game object > " +
-					spriteHandler.transform.parent.name + " with Net ID of " +  networkIdentity.netId , Category.SpriteHandler);
+					spriteHandler.transform.parent.name + " with Net ID of " +  networkIdentity.netId , Category.Sprites);
 			}
 		}
 
@@ -145,7 +145,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		else
 		{
 			Logger.LogError("Was unable to find A NetworkBehaviour for? yeah Youll have to look at this stack trace",
-				Category.SpriteHandler);
+				Category.Sprites);
 			return null;
 		}
 	}

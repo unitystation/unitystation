@@ -189,7 +189,7 @@ namespace Systems.Cargo
 						if (orderedItem == null)
 						{
 							//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-							Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
+							Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
 							continue;
 						}
 
@@ -214,7 +214,7 @@ namespace Systems.Cargo
 							if (orderedItem == null)
 							{
 								//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-								Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
+								Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
 								continue;
 							}
 

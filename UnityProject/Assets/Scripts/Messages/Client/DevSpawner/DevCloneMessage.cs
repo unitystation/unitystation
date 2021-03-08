@@ -28,7 +28,7 @@ public class DevCloneMessage : ClientMessage
 
 		if (ToClone.Equals(NetId.Invalid))
 		{
-			Logger.LogWarning("Attempted to clone an object with invalid netID, clone will not occur.", Category.ItemSpawn);
+			Logger.LogWarning("Attempted to clone an object with invalid netID, clone will not occur.", Category.Admin);
 		}
 		else
 		{

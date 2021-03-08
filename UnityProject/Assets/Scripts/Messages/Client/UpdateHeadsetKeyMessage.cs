@@ -17,7 +17,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		{
 			//Failfast
 
-			Logger.LogWarning($"Headset invalid, processing stopped: {ToString()}",Category.Telecoms);
+			Logger.LogWarning($"Headset invalid, processing stopped: {ToString()}",Category.Chat);
 			return;
 		}
 
@@ -70,7 +70,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 			headsetGO.transform.parent) as GameObject;
 		if ( encryptionKey == null )
 		{
-			Logger.LogError($"Headset key instantiation for {player.Name} failed, spawn aborted",Category.Telecoms);
+			Logger.LogError($"Headset key instantiation for {player.Name} failed, spawn aborted",Category.Chat);
 			return;
 		}
 

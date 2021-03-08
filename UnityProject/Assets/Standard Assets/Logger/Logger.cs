@@ -218,27 +218,49 @@ public enum Category
 		/// </summary>
 		TileMaps,
 		/// <summary>
-		/// Logs relating to the spatial relationships of RegisterTiles (Needs TLC)
+		/// Logs relating to Tile metadata
+		/// </summary>
+		Tiles,
+		/// <summary>
+		/// Logs relating to the spatial relationships of Register Tiles (Needs TLC)
 		/// </summary>		
 		SpatialRelationship,
 
 	//Player and Mob Features
 		/// <summary>
-		/// Logs relating to player and mob movement (Needs TLC)
+		/// Logs relating to spawning players, mobs, and objects with inventories into the game (Needs TLC)
 		/// </summary>
-		Movement,
+		EntitySpawn,
 		/// <summary>
-		/// Logs relating to Player and Mob injury and health (Needs TLC)
+		/// Logs relating to the autonomous actions of non-player characters
+		/// </summary>
+		MobAI,
+		/// <summary>
+		/// Logs relating to player and mob conditions and health
 		/// </summary>
 		Health,
+		/// <summary>
+		/// Logs relating to Player Ghosts and AGhosts
+		/// </summary>
+		Ghosts,
 	
 	//Interface and Controls
 		/// <summary>
-		/// Logs relating to displaying the user interface (Needs TLC)
+		/// Logs relating to displaying the general user interface
+		/// UI elements specific to other categories should use that category instead
 		/// </summary>
 		UI,
 		/// <summary>
-		/// Logs relating to the keybinding settings (Needs TLC)
+		/// Logs relating to the NetUI (In game tabs and windows) (Needs TLC)
+		//MachineUI?
+		/// </summary>
+		NetUI,
+		/// <summary>
+		/// Logs relating registering keystrokes and mouse clicks
+		/// </summary>
+		UserInput,
+		/// <summary>
+		/// Logs relating to the keybinding settings
 		/// </summary>
 		Keybindings,
 		/// <summary>
@@ -252,41 +274,55 @@ public enum Category
 		/// <summary>
 		/// Logs related to in-game chat (Needs TLC)
 		/// </summary>
+		//Headsets?
 		Chat,
 
 	//Items and Inventory
 		/// <summary>
-		/// Logs relating to spawning items into the game (Needs TLC)
+		/// Logs relating to spawning items into the game
 		/// </summary>
 		ItemSpawn,
 		/// <summary>
 		/// Logs relating to player inventory (Needs TLC)
 		/// </summary>
+		//ItemManagement?
 		Inventory,
 		/// <summary>
-		/// Logs relating to projectile weapons (Needs TLC)
+		/// Logs relating specifically to player inventory
+		/// </summary>
+		PlayerInventory,
+		/// <summary>
+		/// Logs relating to projectile weapons
 		/// </summary>
 		Firearms,
 
 	//Roles and Jobs
 		/// <summary>
-		/// Logs relating to job selection and assignment (Needs TLC)
+		/// Logs relating to job selection and assignment
 		/// </summary>
 		Jobs,
 		/// <summary>
-		/// Logs relating to antagonist roles in general (Needs TLC)
+		/// Logs relating to general antagonist roles and objectives
 		/// </summary>
 		Antags,
+		/// <summary>
+		/// Logs relating to Wizard spells
+		/// </summary>
+		Spells,
 
 	//Interaction
 		/// <summary>
-		/// Logs relating to the Push/Pull interaction and transforming objects from pushing/pulling (Needs TLC)
-		/// </summary>
-		PushPull,
-		/// <summary>
-		/// Logs relating to players interacting with the in game environment(Needs TLC)
+		/// Logs relating to players and mobs interacting with the in-game environment
 		/// </summary>
 		Interaction,
+		/// <summary>
+		/// Logs relating to player, mob and object movement
+		/// </summary>
+		Movement,
+		/// <summary>
+		/// Logs relating to the Push/Pull interaction and movement
+		/// </summary>
+		PushPull,
 		/// <summary>
 		/// Logs relating to construction and crafting in game
 		/// </summary>
@@ -298,21 +334,33 @@ public enum Category
 		/// </summary>
 		Botany,
 		/// <summary>
-		/// Logs relating to the chemistry system (Needs TLC)
+		/// Logs relating to the chemistry system
 		/// </summary>
 		Chemistry,
 		/// <summary>
-		/// Logs relating to the research system (Needs TLC)
+		/// Logs relating to the research system
 		/// </summary>
 		Research,
+		/// <summary>
+		/// Logs relating to the Cargo system
+		/// </summary>
+		Cargo,
+		/// <summary>
+		/// Logs relating to the Atmospheric system, gases, and gas containers
+		/// </summary>
+		Atmos,
 
 	//In-Game Systems
 		/// <summary>
-		/// Logs relating to the lighting system (Needs TLC)
+		/// Logs relating to the damage System
+		/// </summary>
+		Damage,
+		/// <summary>
+		/// Logs relating to the lighting system
 		/// </summary>
 		Lighting,
 		/// <summary>
-		/// Logs relating to the electricity system (Needs TLC)
+		/// Logs relating to the electricity system
 		/// </summary>
 		Electrical,
 		/// <summary>
@@ -320,17 +368,31 @@ public enum Category
 		/// </summary>
 		Radiation,
 		/// <summary>
+		/// Logs relating to the shuttle system
+		/// </summary>
+		Shuttles,
+
+	//Object Specific Logs
+		/// <summary>
 		/// Logs relating to Doors
 		/// </summary>
 		Doors,
+		/// <summary>
+		/// Logs relating to Pipes
+		/// </summary>
+		Pipes,
+		/// <summary>
+		/// Logs relating to directional objects such as Windoors
+		/// </summary>
+		Directionals,
+
 
 	//Game Rounds
 		/// <summary>
-		/// Logs relating to setting up, progressing, and ending game rounds (Needs TLC)
-		/// </summary>
+		/// Logs relating to setting up, progressing, and ending game rounds
 		Round,
 		/// <summary>
-		/// Logs relating to the round's game mode (Needs TLC)
+		/// Logs relating to the round's game mode
 		/// </summary>
 		GameMode,
 		/// <summary>
@@ -338,15 +400,19 @@ public enum Category
 		/// </summary>
 		Event,
 
-	//Sprites
+	//Sprites and Particles
 		/// <summary>
-		/// Logs relating to the sprite handler itself
+		/// Logs relating to Sprites and the SpriteHandler
 		/// </summary>
-		SpriteHandler,
+		Sprites,
+		/// <summary>
+		/// Logs relating to Particles and the Particle System
+		/// </summary>
+		Particles,
 
 	//General Debugging and Editor logs
 		/// <summary>
-		/// Logs relating to the Debug Console itself (Needs TLC)
+		/// Logs relating to the Debug Console itself
 		/// </summary>
 		DebugConsole,
 		/// <summary>
@@ -360,7 +426,7 @@ public enum Category
 	
 	//Security
 		/// <summary>
-		/// Logs relating the client attempting illegal/invalid actions that could be caused by cheating, hacking, or exploits (Needs TLC)
+		/// Logs relating the client attempting illegal/invalid actions that could be caused by cheating, hacking, or exploits
 		/// </summary>
 		Exploits,
 	
@@ -371,9 +437,10 @@ public enum Category
 		/// </summary>
 		Mentor,
 		/// <summary>
-		/// Catch all category for anything admin related (Needs TLC)
+		/// Logs relating to admins, admin commands and verification
 		/// </summary>
 		Admin,
+
 
 	//Core Functionality
 		/// <summary>
@@ -381,70 +448,45 @@ public enum Category
 		/// </summary>
 		Threading,
 		/// <summary>
+		/// Logs relating to the Addressables System
+		/// </summary>
+		Addressables,
+		/// <summary>
+		/// Logs relating to the DatabaseAPI, primarily logging in to, creating, and verifying user accounts
+		/// </summary>
+		DatabaseAPI,
+		/// <summary>
 		/// Logs relating to Steam integration
 		/// </summary>
 		Steam,
 	
-	//Sound and Audio*
-		Addressables,
+	//Sound and Audio
+		/// <summary>
+		/// Logs relating to Sound Effects and Music
+		/// </summary>
 		Audio,
-		SoundFX,
 		/// <summary>
 		/// Logs relating to the SunVox music studio integration
 		/// </summary>
 		SunVox,
 
-	//Server Logs
+	//Servers
 		/// <summary>
-		/// Logs relating to the Server's Net UI (Needs TLC)
+		/// Logs relating to general server functionality
 		/// </summary>
-		NetUI,
+		Server,
 		/// <summary>
 		/// Logs relating to client-server connections (Needs TLC)
 		/// </summary>
 		Connections,
 		/// <summary>
-		/// Logs relating to communication between clients and server (Needs TLC)
-		/// </summary>
-		NetMessage,
-		DatabaseAPI,
-		Server,
-		Hub,
-		/// <summary>
 		/// Logs relating to the Remote Console
 		/// </summary>
 		Rcon,
 
-	//Unused
-	DmMetadata,
-	Power,
-	Throwing,
-	RightClick,
-	Shutters,
-
-
-	//A very special case
-	VariableViewer,
-
-	//Depricate
-	Equipment,
-	Transform,
-	Atmos,
-	Telecoms,
-	Containers,
-	PlayerSprites,
-	Lerp,
-	Camera,
-	Graphics,
-	MLAgents,
-	Direction,
-	BuckledMovement,
-	UIAction,
-	Character,
-	SubScenes,
-	Spells,
+	//Deprecate
 	Cooldowns,
-	Security
+	VariableViewer,
 }
 
 [Serializable]
@@ -458,5 +500,4 @@ public class LogOverridePref
 {
 	public Category category;
 	public LogLevel logLevel = LogLevel.Info;
-
 }

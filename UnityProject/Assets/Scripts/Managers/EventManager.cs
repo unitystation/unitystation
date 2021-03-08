@@ -124,7 +124,7 @@ public class EventManager : MonoBehaviour
 				break;
 			case EVENT.DisableInternals:
 			case EVENT.EnableInternals:
-				category = Category.Equipment;
+				category = Category.PlayerInventory;
 				break;
 			case EVENT.LoggedOut:
 				category = Category.Connections;

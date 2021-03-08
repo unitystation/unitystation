@@ -317,7 +317,7 @@ public static class Validations
 
 			Logger.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
 				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.registerTile.WorldPositionServer} " +
-								  $"(floating={isFloating})", Category.Security);
+								  $"(floating={isFloating})", Category.Exploits);
 		}
 
 		return result;

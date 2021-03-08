@@ -275,7 +275,7 @@ namespace Weapons
 			}
 
 			//populate with a full external mag on spawn
-			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
+			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Firearms, name);
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
 			if (pinPrefab == null)
