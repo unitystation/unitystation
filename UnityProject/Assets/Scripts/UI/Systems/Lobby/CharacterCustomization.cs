@@ -295,7 +295,7 @@ namespace Lobby
 			{
 				if (Sprites?.Item1?.Orders == null || Sprites.Item1.Orders.Count == 0)
 				{
-					Logger.LogError("Rendering order not specified on " + Body_Part.name, Category.EntitySpawn);
+					Logger.LogError("Rendering order not specified on " + Body_Part.name, Category.Character);
 				}
 
 
@@ -684,8 +684,8 @@ namespace Lobby
 			;
 			currentCharacter.SerialisedBodyPartCustom = new List<CustomisationStorage>(bodyPartCustomisationStorage);
 			;
-			Logger.Log(JsonConvert.SerializeObject(bodyPartCustomisationStorage), Category.EntitySpawn);
-			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.EntitySpawn);
+			Logger.Log(JsonConvert.SerializeObject(bodyPartCustomisationStorage), Category.Character);
+			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
 			ServerData.UpdateCharacterProfile(
@@ -765,7 +765,7 @@ namespace Lobby
 			}
 			catch (InvalidOperationException e)
 			{
-				Logger.LogFormat("Invalid character settings: {0}", Category.EntitySpawn, e.Message);
+				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
 				DisplayErrorText(e.Message);
 				return;
 			}

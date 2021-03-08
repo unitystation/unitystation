@@ -43,7 +43,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		if (networkIdentity == null)
 		{
 			Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
-				Category.SpriteHandler);
+				Category.Sprites);
 			return;
 		}
 

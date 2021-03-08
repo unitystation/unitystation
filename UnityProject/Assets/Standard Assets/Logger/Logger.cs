@@ -336,6 +336,10 @@ public enum Category
 
 	//Player and Mob Features
 		/// <summary>
+		/// Logs relating to Player Character settings and appearance
+		/// </summary>
+		Character,
+		/// <summary>
 		/// Logs relating to spawning players, mobs, and objects with inventories into the game
 		/// </summary>
 		EntitySpawn,
