@@ -26,20 +26,16 @@ public class GUI_SyndicateOpConsole : NetTab
 		}
 
 		console = Provider.GetComponentInChildren<SyndicateOpConsole>();
-
-		textComp.text = "A syndicate fringe group has declared their intent to utterly" +
-		"destroy the station with a nuclear device and dares the crew to try and stop them";
 	}
 
-	private void UpdateTimer()
+	private void UpdateTimer(ConnectedPlayer player)
 	{
 		timer.text = $"{20 - console.Timer}:00";
 	}
 
 
-	public void ServerDeclareWar()
+	public void ServerDeclareWar(string DeclerationMessage)
 	{
-		string DeclerationMessage = textComp.text;
 		console.AnnounceWar(DeclerationMessage);
 	}
 }
