@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Systems.Atmospherics;
 using UnityEngine;
 
-public class IceShard : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<HandActivate>
+public class IceShard : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 {
 	[SerializeField]
 	private bool isHotIce;
@@ -107,16 +107,16 @@ public class IceShard : MonoBehaviour, ICheckedInteractable<HandApply>, IChecked
 	}
 
 	//Used on shard in inventory
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-		if (DefaultWillInteract.HandActivate(interaction, side) == false) return false;
+		if (DefaultWillInteract.InventoryApply(interaction, side) == false) return false;
 
 		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder)) return true;
 
 		return false;
 	}
 
-	public void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		OnWelderUse(interaction);
 	}
