@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Systems.Mob;
+using HealthV2;
 
 namespace Systems.MobAIs
 {
@@ -457,7 +458,7 @@ namespace Systems.MobAIs
 		/// <param name="dir"></param>
 		/// <param name="healthBehaviour"></param>
 		/// <param name="doLerpAnimation"></param>
-		public virtual void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour) { }
+		public virtual void ActOnLiving(Vector3 dir, LivingHealthMasterBase healthBehaviour) { }
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction

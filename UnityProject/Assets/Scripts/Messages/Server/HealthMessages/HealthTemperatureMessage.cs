@@ -17,7 +17,7 @@ namespace Messages.Server.HealthMessages
 		{
 			if(PlayerManager.LocalPlayerScript.playerHealth == null) return;
 
-			PlayerManager.LocalPlayerScript.playerHealth.UpdateClientTemperatureStats(msg.temperature);
+			//PlayerManager.LocalPlayerScript.playerHealth.UpdateClientTemperatureStats(msg.temperature);
 		}
 
 		public static NetMessage Send(GameObject entityToUpdate, float temperatureValue)

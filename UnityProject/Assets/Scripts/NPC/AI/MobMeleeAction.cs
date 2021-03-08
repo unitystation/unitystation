@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using HealthV2;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
@@ -79,7 +80,7 @@ namespace Systems.MobAIs
 				return false;
 			}
 
-			var followLivingBehaviour = followTarget.GetComponent<LivingHealthBehaviour>();
+			var followLivingBehaviour = followTarget.GetComponent<LivingHealthMasterBase>();
 			var distanceToTarget = Vector3.Distance(followTarget.transform.position, transform.position);
 			if (followLivingBehaviour != null)
 			{
@@ -114,7 +115,7 @@ namespace Systems.MobAIs
 				//Only hit target
 				if (onlyActOnTarget)
 				{
-					var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+					var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthMasterBase>();
 					if (hitInfo.CollisionHit.GameObject.transform != followTarget || healthBehaviour.IsDead)
 					{
 						return false;
@@ -129,7 +130,7 @@ namespace Systems.MobAIs
 				//What to do with player hit?
 				if (hitInfo.CollisionHit.GameObject.transform.gameObject.layer == playersLayer)
 				{
-					var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+					var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthMasterBase>();
 					if (healthBehaviour != null && healthBehaviour.IsDead)
 					{
 						return false;
@@ -169,7 +170,7 @@ namespace Systems.MobAIs
 						}
 					}
 
-					var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+					var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthMasterBase>();
 					if (healthBehaviour != null)
 					{
 						if (healthBehaviour.IsDead) return false;

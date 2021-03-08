@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using HealthV2;
 using Messages.Client.NewPlayer;
 using Messages.Server;
 using UnityEngine;
@@ -460,9 +461,9 @@ namespace Doors
 
 		private void ServerDamageOnClose()
 		{
-			foreach (LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true))
+			foreach (var healthBehaviour in matrix.Get<LivingHealthMasterBase>(registerTile.LocalPositionServer, true))
 			{
-				healthBehaviour.ApplyDamage(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
+				healthBehaviour.ApplyDamageAll(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
 			}
 		}
 

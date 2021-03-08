@@ -22,6 +22,7 @@ namespace HealthV2
 		private RegisterTile registerTile;
 		private Equipment equipment;
 		private ObjectBehaviour objectBehaviour;
+		private HealthStateController healthStateController;
 
 		//If the organism breathes, it needs a way to circulate that.
 		private CirculatorySystemBase circulatorySystem;
@@ -33,9 +34,9 @@ namespace HealthV2
 		[SerializeField]
 		private float tickRate = 1f;
 
-		public bool IsSuffocating;
-		public float temperature = 293.15f;
-		public float pressure = 101.325f;
+		public bool IsSuffocating => healthStateController.IsSuffocating;
+		public float temperature => healthStateController.Temperature;
+		public float pressure => healthStateController.Pressure;
 		private float breatheCooldown = 0;
 
 		private void Awake()
@@ -46,6 +47,7 @@ namespace HealthV2
 			registerTile = GetComponent<RegisterTile>();
 			equipment = GetComponent<Equipment>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+			healthStateController = GetComponent<HealthStateController>();
 		}
 
 		void OnEnable()
@@ -61,12 +63,12 @@ namespace HealthV2
 		//Handle by UpdateManager
 		void UpdateMe()
 		{
-			//Server Only:
-			// if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
-			                                  // && !canBreathAnywhere)
-			// {
-				// MonitorSystem();
-			// }
+				//Server Only:
+			 if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
+			                                   && !canBreathAnywhere)
+			 {
+				 MonitorSystem();
+			 }
 		}
 
 		private void MonitorSystem()
@@ -78,21 +80,22 @@ namespace HealthV2
 
 				if (!IsEVACompatible())
 				{
-					temperature = node.GasMix.Temperature;
-					pressure = node.GasMix.Pressure;
+					healthStateController.SetTemperature(node.GasMix.Temperature);
+					healthStateController.SetPressure(node.GasMix.Pressure);
 					CheckPressureDamage();
 				}
 				else
 				{
-					pressure = 101.325f;
-					temperature = 293.15f;
+					healthStateController.SetPressure(101.325f);
+					healthStateController.SetTemperature(293.15f);
 				}
 
-				// if(healthMaster.OverallHealth >= HealthThreshold.SoftCrit){
-					// if (Breathe(node))
-					// {
-						// AtmosManager.Update(node);
-					// }
+				// if(healthMaster.OverallHealth >= HealthThreshold.SoftCrit)
+				// {
+				// 	if (Breathe(node))
+				// 	{
+				// 		AtmosManager.Update(node);
+				// 	}
 				// }
 			}
 		}
@@ -164,12 +167,13 @@ namespace HealthV2
 					float ratio = 1 - gasPressure / respiratoryInfo.MinimumSafePressure;
 					gasUsed = breathGasMix.GetMoles(respiratoryInfo.RequiredGas) * ratio;
 				}
-				IsSuffocating = true;
+
+				healthStateController.SetSuffocating(true);
 			}
 			else
 			{
 				gasUsed = breathGasMix.GetMoles(respiratoryInfo.RequiredGas);
-				IsSuffocating = false;
+				healthStateController.SetSuffocating(false);
 				breatheCooldown = respiratoryInfo.breathCooldown;
 			}
 			return gasUsed;
@@ -211,7 +215,7 @@ namespace HealthV2
 		private void ApplyDamage(float amount, DamageType damageType)
 		{
 			//TODO: Figure out what kind of damage low pressure should be doing.
-			//healthMaster.ApplyDamage(null, amount, AttackType.Internal, damageType);
+			healthMaster.ApplyDamageAll(null, amount, AttackType.Internal, damageType);
 		}
 	}
 

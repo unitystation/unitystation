@@ -244,17 +244,18 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 	void SendRespiratoryUpdate()
 	{
-		HealthRespiratoryMessage.Send(gameObject, isSuffocatingCache);
+		//Done
+		//HealthRespiratoryMessage.Send(gameObject, isSuffocatingCache);
 	}
 
 	void SendTemperatureUpdate()
 	{
-		HealthTemperatureMessage.Send(gameObject, temperatureCache);
+		//HealthTemperatureMessage.Send(gameObject, temperatureCache);
 	}
 
 	void SendPressureUpdate()
 	{
-		HealthPressureMessage.Send(gameObject, pressureCache);
+		//HealthPressureMessage.Send(gameObject, pressureCache);
 	}
 
 	void SendBrainUpdate(GameObject requestor)

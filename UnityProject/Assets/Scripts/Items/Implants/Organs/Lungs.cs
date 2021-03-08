@@ -33,7 +33,7 @@ public class Lungs : BodyPart
 	{
 		base.ImplantPeriodicUpdate(healthMaster);
 
-		Vector3Int position = healthMaster.OBehavior.AssumedWorldPositionServer();
+		Vector3Int position = healthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 		if (Breathe(node, healthMaster))
