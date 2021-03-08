@@ -12,6 +12,7 @@ using TMPro;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using EpPathFinding.cs;
+using HealthV2;
 using Managers;
 using Strings;
 using UnityEngine.Profiling;
@@ -735,13 +736,13 @@ namespace Blob
 
 			foreach (var hitObject in objects)
 			{
-				if (hitObject.TryGetComponent<LivingHealthBehaviour>(out var npcPlayerComponent))
+				if (hitObject.TryGetComponent<LivingHealthMasterBase>(out var npcPlayerComponent))
 				{
 					if(npcPlayerComponent.IsDead) continue;
 
 					foreach (var playerDamage in currentStrain.playerDamages)
 					{
-						npcPlayerComponent.ApplyDamage(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
+						npcPlayerComponent.ApplyDamageToRandom(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
 					}
 
 					PlayAttackEffect(pos);
