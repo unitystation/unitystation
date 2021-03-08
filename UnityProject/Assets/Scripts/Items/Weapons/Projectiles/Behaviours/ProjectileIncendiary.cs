@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using HealthV2;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -46,9 +47,15 @@ namespace Weapons.Projectiles.Behaviours
 
 			if (hit.CollisionHit.GameObject == null) return true;
 
+			//TODO REMOVE AFTER MOBS ARE MOVED TO NEW HEALTH
 			if (hit.CollisionHit.GameObject.TryGetComponent(out LivingHealthBehaviour health))
 			{
 				health.ChangeFireStacks(fireStacksToGive);
+			}
+
+			if (hit.CollisionHit.GameObject.TryGetComponent(out LivingHealthMasterBase healthMasterBase))
+			{
+				healthMasterBase.ChangeFireStacks(fireStacksToGive);
 			}
 
 			return true;

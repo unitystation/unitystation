@@ -603,7 +603,7 @@ namespace Doors
 				{
 					hackingProcess.HackingGUI.RemovePlayer(ply.gameObject);
 					TabUpdateMessage.Send(ply.gameObject, hackingProcess.HackingGUI.Provider, NetTabType.HackingPanel, TabAction.Close);
-					var playerLHB = obj.GetComponent<LivingHealthBehaviour>();
+					var playerLHB = obj.GetComponent<LivingHealthMasterBase>();
 					var electrocution = new Electrocution(9080, registerTile.WorldPositionServer, "wire"); //More magic numbers.
 					if (playerLHB != null) playerLHB.Electrocute(electrocution);
 				}
