@@ -453,6 +453,10 @@ public enum Category
 		/// Logs relating to directional objects such as Windoors
 		/// </summary>
 		Directionals,
+		/// <summary>
+		/// Logs relating to VariableViewer.cs, books, pages, bookshelves
+		/// </summary>
+		VariableViewer,
 
 	//Game Rounds
 		/// <summary>
@@ -480,9 +484,6 @@ public enum Category
 		/// Logs for use in the editor
 		/// </summary>
 		Editor,
-
-	//Deprecate
-	VariableViewer,
 }
 
 [Serializable]
