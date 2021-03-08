@@ -148,7 +148,7 @@ public class Lungs : BodyPart
 	//A bit hacky, get the gas mask the player is wearing if they have one.
 	private GasContainer GetInternalGasMix(PlayerHealthV2 playerHealth)
 	{
-		PlayerScript playerScript = playerHealth.RegPlayer.PlayerScript;
+		PlayerScript playerScript = playerHealth.RegisterPlayer.PlayerScript;
 		if (playerScript != null)
 		{
 			// Check if internals exist

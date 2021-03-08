@@ -1101,7 +1101,7 @@ namespace Objects.Engineering
 		{
 			if(isHugBox) return;
 
-			if (bumpedBy.TryGetComponent<PlayerHealth>(out var playerHealth))
+			if (bumpedBy.TryGetComponent<PlayerHealthV2>(out var playerHealth))
 			{
 				//Players, you big idiot
 				var job = bumpedBy.GetComponent<PlayerScript>().mind?.occupation;
@@ -1158,7 +1158,7 @@ namespace Objects.Engineering
 					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
 					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				interaction.Performer.GetComponent<PlayerHealth>().ServerGibPlayer();
+				interaction.Performer.GetComponent<PlayerHealthV2>().ServerGibPlayer();
 				matterPower += 200;
 				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
 				return;
