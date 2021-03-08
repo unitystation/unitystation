@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &588476495346258728
+--- !u!1001 &5260486690408198350
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,8 +11,43 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: d06596f1f502dfd43a547f3448efb4cb,
+      objectReference: {fileID: 11400000, guid: 9a1e296b3df4563409de21bc7bc0b9cb,
         type: 2}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: hitDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: throwRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialName
+      value: circular saw
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: throwDamage
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialDescription
+      value: For heavy duty cutting.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -20,15 +55,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: attackVerbs.Array.data[0]
+      value: attacked
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[1]
+      value: slashed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[2]
+      value: sawed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[3]
+      value: cut
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ce3947c31dfedf439310f99fd251ccb,
+        type: 2}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 96c07e6a6b942f645abf4ea7f9328eea,
+      objectReference: {fileID: 11400000, guid: d77ff6ca7ed1d5148a0a723b85721a3e,
+        type: 2}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: cf6bb495b70ced848a0aaee22ff0e67f,
         type: 2}
     - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 238adb7080c6f7e4aa454b248acb2360,
+      objectReference: {fileID: 21300000, guid: 4288156cd3b2b2640919122ed9bbba52,
         type: 3}
     - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -98,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_Name
-      value: Cautery
+      value: CircularSaw
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
