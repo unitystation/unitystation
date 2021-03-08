@@ -78,6 +78,8 @@ namespace Objects.Medical
 			}
 		}
 
+		[NaughtyAttributes.Button()]
+
 		public void Scan()
 		{
 			if (Inoperable())
@@ -145,7 +147,7 @@ namespace Objects.Medical
 			}
 		}
 
-		private void CreateRecord(LivingHealthBehaviour mob, PlayerScript playerScript)
+		private void CreateRecord(LivingHealthMasterBase mob, PlayerScript playerScript)
 		{
 			var record = new CloningRecord();
 			record.UpdateRecord(mob, playerScript);
@@ -186,13 +188,13 @@ namespace Objects.Medical
 			scanID = Random.Range(0, 9999).ToString();
 		}
 
-		public void UpdateRecord(LivingHealthBehaviour mob, PlayerScript playerScript)
+		public void UpdateRecord(LivingHealthMasterBase mob, PlayerScript playerScript)
 		{
 			mobID = mob.mobID;
 			mind = playerScript.mind;
 			name = playerScript.playerName;
 			characterSettings = playerScript.characterSettings;
-			oxyDmg = mob.bloodSystem.oxygenDamage;
+			oxyDmg = mob.GetOxyDamage();
 			burnDmg = mob.GetTotalBurnDamage();
 			toxinDmg = 0;
 			bruteDmg = mob.GetTotalBruteDamage();

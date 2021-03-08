@@ -5,7 +5,7 @@ using Mirror;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Systems.Teleport;
-using SoundMessages;
+using Messages.Server.SoundMessages;
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(UprightSprites))]
@@ -127,7 +127,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
-			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
@@ -139,12 +139,9 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		{
 			uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
-			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
-				if (playerScript.IsGhost)
-					spriteRenderer.sortingLayerName = "Ghosts";
-				else
-					spriteRenderer.sortingLayerName = "Players";
+				spriteRenderer.sortingLayerName = "Players";
 			}
 			playerDirectional.LockDirection = false;
 		}
@@ -178,12 +175,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		// Don't slip while walking unless its enabled with "slipWhileWalking".
 		// Don't slip while player's consious state is crit, soft crit, or dead.
 		// Don't slip while the players hunger state is Strarving
+		// Don't slip if you got no legs (HealthV2)
 		if (IsSlippingServer
 			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit
 			|| playerScript.playerHealth.IsDead
-			|| playerScript.playerHealth.Metabolism.HungerState == HungerState.Starving)
+			|| playerScript.playerHealth.hungerState == HungerState.Starving)
 		{
 			return;
 		}

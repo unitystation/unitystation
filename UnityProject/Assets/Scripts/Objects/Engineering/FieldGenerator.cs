@@ -143,9 +143,9 @@ namespace Objects.Engineering
 		/// This is called via interface when a laser hits an object
 		/// </summary>
 		/// <param name="damageData"></param>
-		public void OnHitDetect(DamageData damageData)
+		public void OnHitDetect(OnHitDetectData data)
 		{
-			if (damageData.AttackType != AttackType.Laser) return;
+			if (data.DamageData.AttackType != AttackType.Laser) return;
 
 			SetEnergy(5);
 		}

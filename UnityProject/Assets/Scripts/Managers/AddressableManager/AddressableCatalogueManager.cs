@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net.Http;
 using DatabaseAPI;
 using Initialisation;
+using Messages.Client.Addressable;
+using Messages.Server.Addressable;
 using Mirror;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -177,7 +179,7 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 
 	public IEnumerator WaitForLoad()
 	{
-		yield return WaitFor.Seconds(2f);
+		yield return WaitFor.Seconds(5f);
 		ClientRequestCatalogues.RequestCatalogue();
 	}
 

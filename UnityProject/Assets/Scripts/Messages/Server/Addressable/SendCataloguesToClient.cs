@@ -1,25 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using Mirror;
 using Newtonsoft.Json;
+using UnityEngine;
 
-public class SendCataloguesToClient : ServerMessage
+namespace Messages.Server.Addressable
 {
-	public string serialiseCatalogues;
-
-	public override void Process()
+	public class SendCataloguesToClient : ServerMessage<SendCataloguesToClient.NetMessage>
 	{
-		AddressableCatalogueManager.LoadCataloguesFromServer(JsonConvert.DeserializeObject<List<string>>(serialiseCatalogues));
-	}
-
-	public static SendCataloguesToClient Send(List<string> Catalogues, GameObject ToWho)
-	{
-		SendCataloguesToClient msg = new SendCataloguesToClient
+		public struct NetMessage : NetworkMessage
 		{
-			serialiseCatalogues = JsonConvert.SerializeObject(Catalogues)
-		};
-		msg.SendTo(ToWho);
-		return msg;
-	}
+			public string serialiseCatalogues;
+		}
 
+		public override void Process(NetMessage msg)
+		{
+			AddressableCatalogueManager.LoadCataloguesFromServer(JsonConvert.DeserializeObject<List<string>>(msg.serialiseCatalogues));
+		}
+
+		public static NetMessage Send(List<string> Catalogues, GameObject ToWho)
+		{
+			NetMessage msg = new NetMessage
+			{
+				serialiseCatalogues = JsonConvert.SerializeObject(Catalogues)
+			};
+
+			SendTo(ToWho, msg);
+			return msg;
+		}
+
+	}
 }

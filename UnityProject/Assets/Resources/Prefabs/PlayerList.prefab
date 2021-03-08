@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2116835881596574091}
   - component: {fileID: 114574112153488658}
   - component: {fileID: 4711929747181832218}
+  - component: {fileID: 8800219430906175644}
   m_Layer: 0
   m_Name: PlayerList
   m_TagString: PlayerList
@@ -49,6 +50,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &114574112153488658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +65,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  clientSideBanEntries: []
+  IsClientAdmin: 0
   ClientConnectedPlayers: []
 --- !u!114 &4711929747181832218
 MonoBehaviour:
@@ -80,3 +84,17 @@ MonoBehaviour:
   syncInterval: 0.1
   RoundStartCooldownTime: 60
   CooldownTime: 60
+--- !u!114 &8800219430906175644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755310115181022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

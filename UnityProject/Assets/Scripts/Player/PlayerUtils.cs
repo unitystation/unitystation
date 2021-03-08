@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using SoundMessages;
+using AddressableReferences;
+using Messages.Server.SoundMessages;
 
 /// <summary>
 /// Utilities for working with players
@@ -51,11 +52,8 @@ public static class PlayerUtils
 			{
 				//love clown
 				ps.playerMove.Uncuff();
-				foreach (var bodyPart in ps.playerHealth.BodyParts)
-				{
-					bodyPart.HealDamage(200, DamageType.Brute);
-					bodyPart.HealDamage(200, DamageType.Burn);
-				}
+
+				ps.playerHealth.ResetDamageAll();
 				ps.registerTile.ServerStandUp();
 				var left = Spawn.ServerPrefab("Bike Horn").GameObject;
 				var right = Spawn.ServerPrefab("Bike Horn").GameObject;
@@ -79,7 +77,6 @@ public static class PlayerUtils
 				}
 			}
 		}
-
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.2f,0.5f));
 		ShakeParameters shakeParameters = new ShakeParameters(true, 64, 30);
 		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, audioSourceParameters, true, shakeParameters);

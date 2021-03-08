@@ -35,18 +35,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1829154482585634221, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
-      propertyPath: initialDescription
-      value: A door remote control switch.
+      propertyPath: initialName
+      value: door button
       objectReference: {fileID: 0}
     - target: {fileID: 1829154482585634221, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
-      propertyPath: initialName
-      value: door button
+      propertyPath: initialDescription
+      value: A door remote control switch.
       objectReference: {fileID: 0}
     - target: {fileID: 9063366402093685405, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
       propertyPath: m_Name
       value: ButtonDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
@@ -65,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,16 +87,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9066377664841440327, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}

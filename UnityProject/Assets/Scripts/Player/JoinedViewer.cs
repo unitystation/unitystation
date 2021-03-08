@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Messages.Server;
 using Messages.Client;
+using Messages.Client.NewPlayer;
 
 /// <summary>
 /// This is the Viewer object for a joined player.

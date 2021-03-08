@@ -1,26 +1,34 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Tells client to update temperature
-/// </summary>
-public class HealthTemperatureMessage : ServerMessage
+namespace Messages.Server.HealthMessages
 {
-	public float temperature;
-
-	public override void Process()
+	/// <summary>
+	///     Tells client to update temperature
+	/// </summary>
+	public class HealthTemperatureMessage : ServerMessage<HealthTemperatureMessage.NetMessage>
 	{
-		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientTemperatureStats(temperature);
-	}
-
-	public static HealthTemperatureMessage Send(GameObject entityToUpdate, float temperatureValue)
-	{
-		HealthTemperatureMessage msg = new HealthTemperatureMessage
+		public struct NetMessage : NetworkMessage
 		{
-			temperature = temperatureValue
-		};
-		msg.SendTo(entityToUpdate);
-		return msg;
+			public float temperature;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			if(PlayerManager.LocalPlayerScript.playerHealth == null) return;
+
+			PlayerManager.LocalPlayerScript.playerHealth.UpdateClientTemperatureStats(msg.temperature);
+		}
+
+		public static NetMessage Send(GameObject entityToUpdate, float temperatureValue)
+		{
+			NetMessage msg = new NetMessage
+			{
+				temperature = temperatureValue
+			};
+
+			SendTo(entityToUpdate, msg);
+			return msg;
+		}
 	}
 }

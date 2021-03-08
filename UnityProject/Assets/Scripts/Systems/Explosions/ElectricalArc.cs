@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using DigitalRuby.LightningBolt;
 using Core.Lighting;
+using Messages.Server;
 
 namespace Systems.ElectricalArcs
 {

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Client.NewPlayer;
+using Messages.Server;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;

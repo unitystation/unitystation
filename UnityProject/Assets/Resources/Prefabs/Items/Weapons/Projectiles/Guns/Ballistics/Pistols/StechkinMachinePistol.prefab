@@ -9,14 +9,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1176912263951196322, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: initialDescription
-      value: An old Soviet machine pistol. It fires quickly, but kicks like a mule.
-        Uses 9mm ammo. Has a threaded barrel for suppressors.
+      propertyPath: initialName
+      value: Stechkin machine pistol
       objectReference: {fileID: 0}
     - target: {fileID: 1176912263951196322, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: initialName
-      value: Stechkin machine pistol
+      propertyPath: initialDescription
+      value: An old Soviet machine pistol. It fires quickly, but kicks like a mule.
+        Uses 9mm ammo. Has a threaded barrel for suppressors.
       objectReference: {fileID: 0}
     - target: {fileID: 1461792321626733724, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
@@ -24,6 +24,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 845e0a00f7a66664ab47921e9672c123,
         type: 3}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
@@ -97,25 +97,35 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
+      propertyPath: FireRate
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
       propertyPath: ammoType
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: FireRate
-      value: 3
+      propertyPath: FireDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 6911475130857718571, guid: 40ea4aea218be439eaf29f853612870c,
+        type: 3}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: WeaponType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 1104235240792570141, guid: 623189688b8953843aa87c899f5b0c31,
-        type: 3}
-    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 6911475130857718571, guid: 40ea4aea218be439eaf29f853612870c,
         type: 3}
     - target: {fileID: 4621994112007018205, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}

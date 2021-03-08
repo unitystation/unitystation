@@ -2,53 +2,56 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Messages;
 using Messages.Client;
+using Messages.Server;
 using Mirror;
+using UnityEngine;
 
 public static class NetworkManagerExtensions
 {
 	/// <summary>
-	///     Finds all classes derived from ClientMessage and registers their server handlers.
+	/// Finds all classes derived from ClientMessage and registers their server handlers.
 	/// </summary>
 	public static void RegisterServerHandlers()
 	{
-		IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage));
+		IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage<>));
 		MethodInfo mi = GetHandlerInfo();
 
-		foreach (Type type in types)
+		foreach (var type in types)
 		{
-			MethodInfo method = mi.MakeGenericMethod(type);
+			MethodInfo method = mi.MakeGenericMethod(type, type.BaseType?.GenericTypeArguments[0]);
 			method.Invoke(null, new object[] {true});
 		}
 	}
 
 	/// <summary>
-	///     Finds all classes derived from ServerMessage and registers their client handlers.
+	/// Finds all classes derived from ServerMessage and registers their client handlers.
 	/// </summary>
 	public static void RegisterClientHandlers()
 	{
-		IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage));
+		IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage<>));
 		MethodInfo mi = GetHandlerInfo();
 
-		foreach (Type type in types)
+		foreach (var type in types)
 		{
-			MethodInfo method = mi.MakeGenericMethod(type);
+			MethodInfo method = mi.MakeGenericMethod(type, type.BaseType?.GenericTypeArguments[0]);
 			method.Invoke(null, new object[] {false});
 		}
 	}
 
-	public static void RegisterHandler<T>(bool isServer)
-		where T : GameMessageBase, new()
+	public static void RegisterHandler<T, U>(bool isServer) where T : GameMessageBase<U>
+		, new() where U : struct, NetworkMessage
 	{
-		var msg = new T();
+		var message = Activator.CreateInstance<T>();
 
 		if (!isServer)
 		{
-			NetworkClient.RegisterHandler<T>(new Action<NetworkConnection, T>(msg.PreProcess));
+			NetworkClient.RegisterHandler<U>(new Action<NetworkConnection, U>(message.PreProcess));
 		}
 		else
 		{
-			NetworkServer.RegisterHandler<T>(new Action<NetworkConnection, T>(msg.PreProcess));
+			NetworkServer.RegisterHandler<U>(new Action<NetworkConnection, U>(message.PreProcess));
 		}
 	}
 

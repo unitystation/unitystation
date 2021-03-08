@@ -1,6 +1,7 @@
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Mirror;
-using SoundMessages;
+
 
 namespace Weapons
 {
@@ -27,7 +28,7 @@ namespace Weapons
 			if (playHONK)
 			{
 				AudioSourceParameters hornParameters = new AudioSourceParameters(pitch: randomPitch);
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ClownHonk, shotBy.AssumedWorldPosServer(), 
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ClownHonk, shotBy.AssumedWorldPosServer(),
 					hornParameters, true, sourceObj: shotBy);
 			}
 

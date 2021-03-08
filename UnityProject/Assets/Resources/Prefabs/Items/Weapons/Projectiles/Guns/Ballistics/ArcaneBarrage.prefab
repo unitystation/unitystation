@@ -29,15 +29,10 @@ PrefabInstance:
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Emitter1.prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 6970262102394163030, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
-        type: 3}
-      propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/GunShots/ShootGun01.prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 6286671915031241087, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
         type: 3}
       propertyPath: SuppressedSoundA.AssetAddress
-      value: Assets/Prefabs/GunShots/ShootHeavySuppressed.prefab
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 6970262102394163030, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
         type: 3}
@@ -53,6 +48,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970262102394163030, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/GunShots/ShootGun01.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 6970262102394163030, guid: 9d7a1224aab0bcf4bb04bf191b1b92ab,
         type: 3}

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using Audio.Containers;
 using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
-using DiscordWebhook;
+using Messages.Server;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -468,9 +468,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
-		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
-		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
-		                                        || playerScript.playerHealth.IsCardiacArrest)
+		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL
+		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -523,12 +522,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerScript.mind.occupation = job;
 				break;
 			}
-		}
-
-		if (playerScript.mind.occupation == null)
-		{
-			// Might be a spectator trying to respawn themselves (when server allows this), default to Assistant
-			playerScript.mind.occupation = OccupationList.Instance.Occupations.First();
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
@@ -600,9 +593,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ServerSpawnPlayerGhost()
 	{
 		//Only force to ghost if the mind belongs in to that body
-		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
-		    playerScript.mind.bodyMobID == currentMobID && !playerScript.mind.IsGhosting)
+		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
+		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
+		    playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
@@ -866,37 +859,5 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				return;
 			}
 		}
-	}
-
-	[Command]
-	public void CmdAdminGib(GameObject toGib, string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		if (toGib == null)
-		{
-			return;
-		}
-
-		var health = toGib.GetComponent<PlayerHealth>();
-		if (health == null)
-		{
-			return;
-		}
-
-		var script = toGib.GetComponent<PlayerScript>();
-		if (script == null || script.IsDeadOrGhost)
-		{
-			return;
-		}
-
-		var message = $"{toGib.ExpensiveName()} was gibbed by {PlayerList.Instance.GetByUserID(adminId).Username}";
-
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
-
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message, "");
-
-		health.ServerGibPlayer();
 	}
 }

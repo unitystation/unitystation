@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Systems;
 using Systems.Spawns;
+using Messages.Server;
 using Messages.Server.LocalGuiMessages;
 
 /// <summary>
@@ -24,7 +25,6 @@ public static class PlayerSpawn
 	/// <param name="joinedViewer">viewer who should control the player</param>
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
-	/// <param name="showBanner">whether to show banner when spawned</param>
 	/// <returns>the game object of the spawned player</returns>
 	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
 	{
@@ -32,7 +32,6 @@ public static class PlayerSpawn
 
 		// TODO: add a nice cutscene/animation for the respawn transition
 		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null, showBanner: showBanner);
-
 		if (newPlayer != null && occupation.IsCrewmember)
 		{
 			CrewManifestManager.Instance.AddMember(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
@@ -90,7 +89,7 @@ public static class PlayerSpawn
 	/// </summary>
 	/// <param name="forMind"></param>
 	/// <param name="worldPosition"></param>
-	public static void ServerClonePlayer(Mind forMind, Vector3Int worldPosition)
+	public static GameObject ServerClonePlayer(Mind forMind, Vector3Int worldPosition)
 	{
 		//TODO: Can probably remove characterSettings from cloningrecord
 		//determine previous occupation / settings
@@ -99,7 +98,7 @@ public static class PlayerSpawn
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
 
-		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false, showBanner: false);
+		return ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false, showBanner: false);
 	}
 
 	//Time to start spawning players at arrivals

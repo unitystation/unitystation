@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Concurrent;
+using Messages.Server;
 
 /// <summary>
 /// Using main thread to spawn prefabs into the world

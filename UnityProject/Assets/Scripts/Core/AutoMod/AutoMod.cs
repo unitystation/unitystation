@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Initialisation;
 using UnityEngine;
-using Telepathy;
+//using Telepathy;
 using Debug = UnityEngine.Debug;
 
 namespace AdminTools
@@ -97,10 +97,10 @@ namespace AdminTools
 
 		void MonitorEnvironment()
 		{
-			if (Common.allocationAttackQueue.Count > 0)
-			{
-				ProcessAllocationAttack(Common.allocationAttackQueue.Dequeue());
-			}
+			// if (Common.allocationAttackQueue.Count > 0)
+			// {
+			// 	ProcessAllocationAttack(Common.allocationAttackQueue.Dequeue());
+			// }
 		}
 
 		public static void ProcessAllocationAttack(string ipAddress)

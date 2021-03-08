@@ -1,49 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Messages.Client;
+﻿using Messages.Server.AdminTools;
+using Mirror;
 
-public class RequestMentorBwoink : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Userid;
-	public string MentorToken;
-	public string UserToBwoink;
-	public string Message;
-
-	public override void Process()
+	public class RequestMentorBwoink : ClientMessage<RequestMentorBwoink.NetMessage>
 	{
-		VerifyMentorStatus();
-	}
-
-	void VerifyMentorStatus()
-	{
-		var player = PlayerList.Instance.GetMentor(Userid, MentorToken);
-		if (player == null)
+		public struct NetMessage : NetworkMessage
 		{
-			player = PlayerList.Instance.GetAdmin(Userid,MentorToken);
-			if(player == null){
-				//theoretically this shouldnt happen, and indicates someone might be tampering with the client.
-				return;
+			public string Userid;
+			public string MentorToken;
+			public string UserToBwoink;
+			public string Message;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			VerifyMentorStatus(msg);
+		}
+
+		void VerifyMentorStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetMentor(msg.Userid, msg.MentorToken);
+			if (player == null)
+			{
+				player = PlayerList.Instance.GetAdmin(msg.Userid, msg.MentorToken);
+				if(player == null){
+					//theoretically this shouldnt happen, and indicates someone might be tampering with the client.
+					return;
+				}
+			}
+			var recipient = PlayerList.Instance.GetAllByUserID(msg.UserToBwoink);
+			foreach (var r in recipient)
+			{
+				MentorBwoinkMessage.Send(r.GameObject, msg.Userid, "<color=#6400FF>" + msg.Message + "</color>");
+				UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg.Message, msg.UserToBwoink, msg.Userid);
 			}
 		}
-		var recipient = PlayerList.Instance.GetAllByUserID(UserToBwoink);
-		foreach (var r in recipient)
-		{
-			MentorBwoinkMessage.Send(r.GameObject, Userid, "<color=#6400FF>" + Message + "</color>");
-			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(Message, UserToBwoink, Userid);
-		}
-	}
 
-	public static RequestMentorBwoink Send(string userId, string mentorToken, string userIDToBwoink, string message)
-	{
-		RequestMentorBwoink msg = new RequestMentorBwoink
+		public static NetMessage Send(string userId, string mentorToken, string userIDToBwoink, string message)
 		{
-			Userid = userId,
-			MentorToken = mentorToken,
-			UserToBwoink = userIDToBwoink,
-			Message = message
-		};
-		msg.Send();
-		return msg;
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				MentorToken = mentorToken,
+				UserToBwoink = userIDToBwoink,
+				Message = message
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

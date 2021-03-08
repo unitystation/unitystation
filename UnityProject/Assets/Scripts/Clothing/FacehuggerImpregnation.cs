@@ -84,14 +84,14 @@ namespace Clothing
 			StartCoroutine(Release());
 		}
 
-		private IEnumerator Coitus(PlayerHealth player)
+		private IEnumerator Coitus(PlayerHealthV2 player)
 		{
 			yield return WaitFor.Seconds(coitusTime);
 			Pregnancy(player);
 			yield return WaitFor.EndOfFrame;
 		}
 
-		private async void Pregnancy(PlayerHealth player)
+		private async Task Pregnancy(PlayerHealthV2 player)
 		{
 			KillHugger();
 			await Task.Delay(TimeSpan.FromSeconds(pregnancyTime));

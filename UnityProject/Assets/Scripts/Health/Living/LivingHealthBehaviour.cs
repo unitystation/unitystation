@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Systems.Atmospherics;
 using Light2D;
+using Messages.Server.HealthMessages;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;

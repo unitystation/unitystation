@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2091150287816295887}
   - component: {fileID: 1785456988025682625}
   - component: {fileID: 4093235771438742654}
+  - component: {fileID: -6941323297221340206}
   m_Layer: 0
   m_Name: LightningBolt
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &4093235771438742654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,3 +65,22 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   arcEffect: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
+  arcCount: 3
+  duration: 2
+  damage: 3
+  primaryRange: 8
+  secondaryRange: 4
+--- !u!114 &-6941323297221340206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7469762742606550612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Messages.Client.NewPlayer;
 using UnityEngine;
 using Mirror;
 using Objects;

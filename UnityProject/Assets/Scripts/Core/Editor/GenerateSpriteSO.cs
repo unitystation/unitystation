@@ -56,6 +56,13 @@ public class GenerateSpriteSO : EditorWindow
 		return;
 	}
 
+	[MenuItem("Tools/StartAssetEditing")]
+	public static void StartAssetEditing()
+	{
+		AssetDatabase.StartAssetEditing();
+		return;
+	}
+
 
 	[MenuItem("Tools/Convert Json Sprites")]
 	public static void ConvertJsonSprites()

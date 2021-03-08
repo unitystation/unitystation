@@ -1,29 +1,35 @@
-﻿using System.Collections;
-using Messages.Client;
+﻿using Mirror;
 
-public class PlayerNewPlayer: ClientMessage
+namespace Messages.Client.NewPlayer
 {
-	public uint Player;
-
-	public override void Process()
+	public class PlayerNewPlayer : ClientMessage<PlayerNewPlayer.NetMessage>
 	{
-		LoadNetworkObject(Player);
-		if (NetworkObject == null) return;
-		NetworkObject.GetComponent<PlayerSync>()?.NotifyPlayer(
-			SentByPlayer.Connection);
-		NetworkObject.GetComponent<PlayerSprites>()?.NotifyPlayer(
-			SentByPlayer.Connection);
-		NetworkObject.GetComponent<Equipment>()?.NotifyPlayer(
-			SentByPlayer.Connection);
-	}
-
-	public static PlayerNewPlayer Send(uint netId)
-	{
-		PlayerNewPlayer msg = new PlayerNewPlayer
+		public struct NetMessage : NetworkMessage
 		{
-			Player = netId
-		};
-		msg.Send();
-		return msg;
+			public uint Player;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.Player);
+			if (NetworkObject == null) return;
+			NetworkObject.GetComponent<PlayerSync>()?.NotifyPlayer(
+				SentByPlayer.Connection);
+			NetworkObject.GetComponent<PlayerSprites>()?.NotifyPlayer(
+				SentByPlayer.Connection);
+			NetworkObject.GetComponent<Equipment>()?.NotifyPlayer(
+				SentByPlayer.Connection);
+		}
+
+		public static NetMessage Send(uint netId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Player = netId
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

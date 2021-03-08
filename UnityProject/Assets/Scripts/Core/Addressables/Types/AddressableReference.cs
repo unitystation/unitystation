@@ -62,7 +62,7 @@ namespace AddressableReferences
 			{
 				if (string.IsNullOrEmpty(AssetAddress))
 				{
-					Logger.LogError("Address is null for " + AssetReference.SubObjectName);
+					//Logger.LogError("Address is null for " + AssetReference.SubObjectName);
 					return null;
 				}
 

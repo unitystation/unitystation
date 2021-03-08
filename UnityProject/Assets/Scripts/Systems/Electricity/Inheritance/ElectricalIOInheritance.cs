@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using System.Linq;
 using System.Reflection;
+using Messages.Client;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

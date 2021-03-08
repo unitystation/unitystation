@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Messages.Server;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;

@@ -102,7 +102,7 @@ public class BodyPartBehaviour : MonoBehaviour
 		{
 			return;
 		}
-		UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
+		//UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
 	}
 
 	protected bool IsLocalPlayer()

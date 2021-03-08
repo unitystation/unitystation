@@ -17,12 +17,6 @@ namespace Items
 
 		private const int MaxAmountRolls = 5;
 
-		public override void OnStartServer()
-		{
-			var registerTile = GetComponent<RegisterTile>();
-			registerTile.WaitForMatrixInit(RollRandomPool);
-		}
-
 		private void RollRandomPool(MatrixInfo matrixInfo)
 		{
 			for (int i = 0; i < lootCount; i++)
@@ -96,10 +90,8 @@ namespace Items
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (info.SpawnType != SpawnType.Mapped)
-			{
-				OnStartServer();
-			}
+			var registerTile = GetComponent<RegisterTile>();
+			registerTile.WaitForMatrixInit(RollRandomPool);
 		}
 	}
 

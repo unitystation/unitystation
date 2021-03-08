@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Items;
+ using Messages.Server.HealthMessages;
 
-/// <summary>
+ /// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
 /// </summary>
 [RequireComponent(typeof(Stackable))]

@@ -6,8 +6,9 @@ using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine.Serialization;
-using SoundMessages;
+
 
 namespace Systems.MobAIs
 {
