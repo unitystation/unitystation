@@ -23,7 +23,7 @@ namespace IngameDebugConsole
 			bool playerSpawned = (PlayerManager.LocalPlayer != null);
 			if (!playerSpawned)
 			{
-				Logger.Log("Cannot commit suicide. Player has not spawned.");
+				Logger.Log("Cannot commit suicide. Player has not spawned.", Category.DebugConsole);
 
 			}
 			else
@@ -35,14 +35,14 @@ namespace IngameDebugConsole
 		[ConsoleMethod("myid", "Prints your uuid for your player account")]
 		public static void RunPrintUID()
 		{
-			Logger.Log($"{ServerData.UserID}");
+			Logger.Log($"{ServerData.UserID}", Category.DebugConsole);
 		}
 
 		[ConsoleMethod("copyid", "Copies your uuid to your clipboard.")]
 		public static void CopyUserID()
 		{
 			TextUtils.CopyTextToClipboard($"{ServerData.UserID}");
-			Logger.Log($"UUID Copied to clipboard.");
+			Logger.Log($"UUID Copied to clipboard.", Category.DebugConsole);
 		}
 
 		[ConsoleMethod("damage-self", "Server only cmd.\nUsage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20.Insert")]
@@ -50,25 +50,25 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
 			bool success = BodyPartType.TryParse(bodyPartString, true, out BodyPartType bodyPart);
 			if (success == false)
 			{
-				Logger.Log("Invalid body part '" + bodyPartString + "'");
+				Logger.Log("Invalid body part '" + bodyPartString + "'", Category.DebugConsole);
 				return;
 			}
 
 			bool playerSpawned = (PlayerManager.LocalPlayer != null);
 			if (playerSpawned == false)
 			{
-				Logger.Log("Cannot damage player. Player has not spawned.");
+				Logger.Log("Cannot damage player. Player has not spawned.", Category.DebugConsole);
 				return;
 			}
 
-			Logger.Log("Debugger inflicting " + burnDamage + " burn damage and " + bruteDamage + " brute damage on " + bodyPart + " of " + PlayerManager.LocalPlayer.name);
+			Logger.Log($"Debugger inflicting {burnDamage} burn damage and {bruteDamage} brute damage on {bodyPart} of {PlayerManager.LocalPlayer.name}", Category.DebugConsole);
 			HealthBodyPartMessage.Send(PlayerManager.LocalPlayer, PlayerManager.LocalPlayer, bodyPart, burnDamage, bruteDamage);
 		}
 
@@ -80,11 +80,11 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
-			Logger.Log("Triggered round restart from DebugConsole.");
+			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
 			VideoPlayerMessage.Send(VideoType.RestartRound);
 			GameManager.Instance.EndRound();
 		}
@@ -97,11 +97,11 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
-			Logger.Log("Triggered round end from DebugConsole.");
+			Logger.Log("Triggered round end from DebugConsole.", Category.DebugConsole);
 			VideoPlayerMessage.Send(VideoType.RestartRound);
 			GameManager.Instance.EndRound();
 		}
@@ -114,18 +114,18 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
-				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.");
+				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.", Category.DebugConsole);
 				GameManager.Instance.StartRound();
 			}
 			else
 			{
-				Logger.Log("Can only execute during pre-round / countdown.");
+				Logger.Log("Can only execute during pre-round / countdown.", Category.DebugConsole);
 				return;
 			}
 
@@ -139,18 +139,18 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
 			if (GameManager.Instance.PrimaryEscapeShuttle.Status == EscapeShuttleStatus.DockedCentcom)
 			{
 				GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
-				Logger.Log("Called Escape shuttle from DebugConsole: "+result);
+				Logger.Log("Called Escape shuttle from DebugConsole: "+result, Category.DebugConsole);
 			}
 			else
 			{
-				Logger.Log("Escape shuttle isn't docked at centcom to be called.");
+				Logger.Log("Escape shuttle isn't docked at centcom to be called.", Category.DebugConsole);
 			}
 		}
 
@@ -158,7 +158,7 @@ namespace IngameDebugConsole
 		public static void SetLogLevel(string logCategory, int level)
 		{
 			bool catFound = false;
-			Category category = Category.DebugConsole;
+			Category category = Category.Unknown;
 			foreach (Category c in Enum.GetValues(typeof(Category)))
 			{
 				if (c.ToString().ToLower() == logCategory.ToLower())
@@ -170,7 +170,7 @@ namespace IngameDebugConsole
 
 			if (!catFound)
 			{
-				Logger.Log("Category not found");
+				Logger.Log("Category not found", Category.DebugConsole);
 				return;
 			}
 
@@ -471,7 +471,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
@@ -483,7 +483,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
@@ -560,7 +560,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
