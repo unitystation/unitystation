@@ -44,7 +44,7 @@ namespace Chemistry
 				temperature = value;
 				if (float.IsNaN(Temperature))
 				{
-					Debug.LogError("Temperature is NAN");
+					Logger.LogError("Temperature is NAN", Category.Chemistry);
 				}
 			}
 		}
@@ -86,7 +86,7 @@ namespace Chemistry
 					Temperature = (value / WholeHeatCapacity);
 					if (float.IsNaN(Temperature))
 					{
-						Debug.LogError($"Temperature is NAN");
+						Logger.LogError($"Temperature is NAN", Category.Chemistry);
 					}
 				}
 			}
@@ -195,7 +195,7 @@ namespace Chemistry
 		{
 			if (amount < 0f)
 			{
-				Debug.LogError($"Trying to add negative {amount} amount of {reagent}");
+				Logger.LogError($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
 				return;
 			}
 
@@ -225,7 +225,7 @@ namespace Chemistry
 		{
 			if (subAmount < 0)
 			{
-				Debug.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.",
+				Logger.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
 					subAmount, reagent);
 				return 0;
 			}
@@ -262,7 +262,7 @@ namespace Chemistry
 		{
 			if (multiplier < 0f)
 			{
-				Debug.LogError($"Trying to multiply reagentmix by {multiplier}");
+				Logger.LogError($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
 				return;
 			}
 
@@ -286,7 +286,7 @@ namespace Chemistry
 		{
 			if (Divider < 0f)
 			{
-				Debug.LogError($"Trying to Divide reagentmix by {Divider}");
+				Logger.LogError($"Trying to Divide reagentmix by {Divider}", Category.Chemistry);
 				return;
 			}
 

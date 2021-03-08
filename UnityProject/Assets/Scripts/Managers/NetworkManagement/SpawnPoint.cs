@@ -140,7 +140,7 @@ namespace Systems.Spawns
 			{SpawnPointCategory.Chaplain, "Mapping/mapping_chaplain.png"},
 			{SpawnPointCategory.Clown, "Mapping/mapping_clown.png"},
 			{SpawnPointCategory.Mime, "Mapping/mapping_mime.png"},
-			{SpawnPointCategory.GhostsTeleportSites, "Mapping/mapping_observer_start.png"},
+			{SpawnPointCategory.GhostTeleportSites, "Mapping/mapping_observer_start.png"},
 			{SpawnPointCategory.CentCommCommander, "Mapping/mapping_ert_spawn.png"},
 			{SpawnPointCategory.CentComm, "Mapping/mapping_ert_spawn.png"},
 			{SpawnPointCategory.DeathSquad, "Mapping/mapping_ert_spawn.png"},
