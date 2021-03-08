@@ -14,7 +14,7 @@ namespace Health.Sickness
 		private float spawnedTime;
 
 		private RegisterTile registerTile;
-		
+
 		public void Start()
 		{
 			spawnedTime = Time.time;
@@ -41,7 +41,7 @@ namespace Health.Sickness
 		/// </summary>
 		public void OnEnterableEnter(BaseEventData eventData)
 		{
-			if (eventData.selectedObject.TryGetComponent(out PlayerHealth playerHealth))
+			if (eventData.selectedObject.TryGetComponent(out PlayerHealthV2 playerHealth))
 			{
 				playerHealth.AddSickness(Sickness);
 			}

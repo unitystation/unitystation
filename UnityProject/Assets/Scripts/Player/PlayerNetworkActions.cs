@@ -295,7 +295,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		void ProgressComplete()
 		{
-			var victimsHealth = toDisrobe.GetComponent<PlayerHealth>();
+			var victimsHealth = toDisrobe.GetComponent<PlayerHealthV2>();
 			foreach (var itemSlot in itemStorage.GetItemSlots())
 			{
 				//skip slots which have special uses

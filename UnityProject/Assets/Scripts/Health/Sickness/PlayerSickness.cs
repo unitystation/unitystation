@@ -10,7 +10,7 @@ namespace Health.Sickness
 	[Serializable]
 	public class PlayerSickness : MonoBehaviour
 	{
-		public PlayerHealth playerHealth;
+		public PlayerHealthV2 playerHealth;
 		public List<SicknessAffliction> sicknessAfflictions;
 
 		public PlayerSickness()
@@ -20,7 +20,7 @@ namespace Health.Sickness
 
 		private void Start()
 		{
-			playerHealth = GetComponent<PlayerHealth>();
+			playerHealth = GetComponent<PlayerHealthV2>();
 		}
 
 		/// <summary>

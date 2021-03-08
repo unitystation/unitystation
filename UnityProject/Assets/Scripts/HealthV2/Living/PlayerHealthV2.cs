@@ -1,4 +1,8 @@
-﻿using Mirror;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Health.Sickness;
+using Mirror;
+using UnityEngine;
 
 public class PlayerHealthV2 : LivingHealthMasterBase
 {
@@ -20,6 +24,28 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 	private ItemStorage itemStorage;
 
 	private bool init = false;
+
+	/// <summary>
+	/// The percentage of players that start with common allergies.
+	/// </summary>
+	[SerializeField]
+	private int percentAllergies = 30;
+
+	/// <summary>
+	/// Common allergies.  A percent of players start with that.
+	/// </summary>
+	[SerializeField]
+	private Sickness commonAllergies = null;
+
+	/// <summary>
+	/// Current sicknesses status of the player and their current stage.
+	/// </summary>
+	private PlayerSickness playerSickness = null;
+
+	/// <summary>
+	/// List of sicknesses that player has gained immunity.
+	/// </summary>
+	private List<Sickness> immunedSickness;
 
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
@@ -43,6 +69,8 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 		itemStorage = GetComponent<ItemStorage>();
 		equipment = GetComponent<Equipment>();
 		PlayerScript = GetComponent<PlayerScript>();
+		immunedSickness = new List<Sickness>();
+		playerSickness = GetComponent<PlayerSickness>();
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 	}
 
@@ -159,4 +187,53 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 		}
 	}
 
+	#region Sickness
+
+	// At round start, a percent of players start with mild allergy
+	// The purpose of this, is to make believe that coughing and sneezing at random is "probably" not a real sickness.
+	private void ApplyStartingAllergies()
+	{
+		if (UnityEngine.Random.Range(0, 100) < percentAllergies)
+		{
+			AddSickness(commonAllergies);
+		}
+	}
+
+	/// <summary>
+	/// Add a sickness to the player if he doesn't already has it and isn't immuned
+	/// </summary>
+	/// <param name="">The sickness to add</param>
+	public void AddSickness(Sickness sickness)
+	{
+		if (IsDead)
+			return;
+
+		if ((!playerSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
+			playerSickness.Add(sickness, Time.time);
+	}
+
+	/// <summary>
+	/// This will remove the sickness from the player, healing him.
+	/// </summary>
+	/// <remarks>Thread safe</remarks>
+	public void RemoveSickness(Sickness sickness)
+	{
+		SicknessAffliction sicknessAffliction = playerSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
+
+		if (sicknessAffliction != null)
+			sicknessAffliction.Heal();
+	}
+
+	/// <summary>
+	/// This will remove the sickness from the player, healing him.  This will also make him immune for the current round.
+	/// </summary>
+	public void ImmuneSickness(Sickness sickness)
+	{
+		RemoveSickness(sickness);
+
+		if (!immunedSickness.Contains(sickness))
+			immunedSickness.Add(sickness);
+	}
+
+	#endregion
 }
