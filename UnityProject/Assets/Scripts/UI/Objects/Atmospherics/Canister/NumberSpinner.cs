@@ -46,7 +46,7 @@ public class NumberSpinner : NetUIStringElement
 			int newVal = Convert.ToInt32(value);
 			if (newVal == DisplayedValue) return;
 			externalChange = true;
-			Logger.LogTraceFormat("NumberSpinner current value {0} New Value {1}", Category.UI, syncedValue, newVal);
+			Logger.LogTraceFormat("NumberSpinner current value {0} New Value {1}", Category.Atmos, syncedValue, newVal);
 			if (!IgnoreServerUpdates)
 			{
 				DisplaySpinTo(newVal);
@@ -95,7 +95,7 @@ public class NumberSpinner : NetUIStringElement
 		if (newValue > MaxValue || newValue < 0)
 		{
 			Logger.LogErrorFormat("New value {0} is out of range, should be between 0 and {1} inclusive",
-				Category.UI, newValue, MaxValue);
+				Category.Atmos, newValue, MaxValue);
 		}
 		//set the new value, to be propagated to clients.
 		SetValueServer(newValue.ToString());
@@ -125,7 +125,7 @@ public class NumberSpinner : NetUIStringElement
 		if (newValue > MaxValue || newValue < 0)
 		{
 			Logger.LogErrorFormat("New value {0} is out of range, should be between 0 and {1} inclusive",
-				Category.UI, newValue, MaxValue);
+				Category.Atmos, newValue, MaxValue);
 		}
 
 		targetValue = newValue;

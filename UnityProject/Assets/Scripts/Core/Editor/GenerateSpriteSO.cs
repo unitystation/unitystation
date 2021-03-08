@@ -21,12 +21,12 @@ public class GenerateSpriteSO : EditorWindow
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 		path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
-		Logger.Log(path);
+		Logger.Log(path, Category.Editor);
 		var Files = System.IO.Directory.GetFiles(path);
 		string FoundFile = "";
 		foreach (var File in Files)
 		{
-			Logger.Log(File);
+			Logger.Log(File, Category.Editor);
 			if (File.EndsWith(".json"))
 			{
 				FoundFile = File;
@@ -35,7 +35,7 @@ public class GenerateSpriteSO : EditorWindow
 
 		if (FoundFile == "")
 		{
-			Logger.LogWarning("missing json file");
+			Logger.LogWarning("missing json file", Category.Editor);
 			return;
 		}
 
@@ -44,7 +44,7 @@ public class GenerateSpriteSO : EditorWindow
 		var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
 		foreach (var ListID in ListIDs)
 		{
-			Logger.Log(ListID);
+			Logger.Log(ListID, Category.Editor);
 		}
 
 	}
@@ -157,7 +157,7 @@ public class GenerateSpriteSO : EditorWindow
 			}
 			catch
 			{
-				Logger.Log(GetRoot(SH.gameObject).name + "Not root apparently");
+				Logger.Log(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
 			}
 		}
 

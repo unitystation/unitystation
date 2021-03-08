@@ -17,7 +17,7 @@ public class DebugMultitool : MonoBehaviour, ICheckedInteractable<PositionalHand
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
 		var matrix = interaction.Performer.GetComponentInParent<Matrix>();
 		var MetaDataNode = matrix.GetElectricalConnections(localPosInt);
-		Logger.Log("MetaDataNodeCount " + MetaDataNode.Count);
+		Logger.Log("MetaDataNodeCount " + MetaDataNode.Count, Category.Matrix);
 
 		foreach (var D in MetaDataNode) {
 			D.ShowDetails();

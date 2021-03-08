@@ -76,7 +76,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 			default:
 				Logger.LogError($"{playerScript.playerName} has an invalid activeHand! Found: {activeHand}",
-					Category.Inventory);
+					Category.PlayerInventory);
 				return null;
 		}
 
@@ -504,7 +504,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.");
+			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.", Category.Exploits);
 		}
 	}
 
@@ -562,7 +562,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!");
+		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
 	}
 
 
@@ -624,14 +624,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!playerScript.IsGhost)
 		{
 			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody",
-				Category.Health, body);
+				Category.Ghosts, body);
 			return;
 		}
 
 		//body might be in a container, reentering should still be allowed in that case
 		if (body.pushPull != null && body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
 		{
-			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Health, body);
+			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Ghosts, body);
 			return;
 		}
 

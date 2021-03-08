@@ -64,7 +64,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 				{
 					if (FoundFile != "")
 					{
-						Logger.LogError("two catalogues present please only ensure one");
+						Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
 					}
 
 					FoundFile = File;
@@ -119,7 +119,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 		//path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
 		path = path + "/AddressablePackingProjects";
-		Logger.Log(path);
+		Logger.Log(path, Category.Addressables);
 		var Directories = System.IO.Directory.GetDirectories(path);
 		var FoundFiles = new List<string>();
 		foreach (var Directori in Directories)
@@ -137,7 +137,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 					{
 						if (FoundFile != "")
 						{
-							Logger.LogError("two catalogues present please only ensure one");
+							Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
 						}
 
 						FoundFile = File;
@@ -146,7 +146,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 
 				if (FoundFile == "")
 				{
-					Logger.LogWarning("missing json file");
+					Logger.LogWarning("missing json file", Category.Addressables);
 				}
 				else
 				{
@@ -162,7 +162,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 	[PostProcessBuild]
 	public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
 	{
-		Logger.LogWarning("Cleaning Streaming assets of AddressableCatalogues");
+		Logger.LogWarning("Cleaning Streaming assets of AddressableCatalogues", Category.Addressables);
 		System.IO.DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/AddressableCatalogues/");
 
 		foreach (FileInfo file in di.GetFiles("*", SearchOption.AllDirectories))

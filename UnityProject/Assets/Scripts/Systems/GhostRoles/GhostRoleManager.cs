@@ -87,7 +87,7 @@ namespace Systems.GhostRoles
 			if (roleIndex < 0)
 			{
 				Logger.LogError(
-					$"Ghost role \"{roleData}\" was not found in {nameof(GhostRoleList)} SO! Cannot inform clients about the ghost role.");
+					$"Ghost role \"{roleData}\" was not found in {nameof(GhostRoleList)} SO! Cannot inform clients about the ghost role.", Category.Ghosts);
 				return default;
 			}
 
@@ -123,7 +123,7 @@ namespace Systems.GhostRoles
 		{
 			if (typeIndex > GhostRoles.Count)
 			{
-				Logger.LogError($"Ghost role index does not exist in {nameof(GhostRoleList)}! Cannot add to local available ghost role list.");
+				Logger.LogError($"Ghost role index does not exist in {nameof(GhostRoleList)}! Cannot add to local available ghost role list.", Category.Ghosts);
 				return default;
 			}
 
@@ -192,7 +192,7 @@ namespace Systems.GhostRoles
 		{
 			if (serverAvailableRoles.ContainsKey(key) == false)
 			{
-				Logger.LogWarning("Tried to remove ghost role instance that doesn't or no longer exists.");
+				Logger.LogWarning("Tried to remove ghost role instance that doesn't or no longer exists.", Category.Ghosts);
 				return;
 			}
 

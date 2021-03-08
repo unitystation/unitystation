@@ -279,7 +279,7 @@ namespace Systems.MobAIs
 
 			if (registerObj == null)
 			{
-				Logger.LogError($"RegisterObject is null for: {gameObject.name}. Pausing this MobAI", Category.MLAgents);
+				Logger.LogError($"RegisterObject is null for: {gameObject.name}. Pausing this MobAI", Category.Mobs);
 				Pause = true;
 				return;
 			}

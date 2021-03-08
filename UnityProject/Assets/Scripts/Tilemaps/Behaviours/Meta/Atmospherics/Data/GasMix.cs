@@ -70,6 +70,34 @@ namespace Systems.Atmospherics
 			}
 		}
 
+		/// <summary>
+		/// Changes the pressure by the specified value
+		/// </summary>
+		/// <param name="changePressure">The change of the pressure, can be + or - </param>
+		public void ChangePressure(float changePressure)
+		{
+			SetPressure(Temperature + changePressure);
+		}
+
+		/// <summary>
+		/// Changes the volume by the specified value
+		/// </summary>
+		/// <param name="changeVolume">The change of the volume, can be + or - </param>
+		public void ChangeVolumeValue(float changeVolume)
+		{
+			Volume += changeVolume;
+			RecalculatePressure();
+		}
+
+		/// <summary>
+		/// Changes the temperature by the specified value
+		/// </summary>
+		/// <param name="changeTemperature">The change of the temperature, can be + or - </param>
+		public void ChangeTemperature(float changeTemperature)
+		{
+			SetTemperature(Temperature + changeTemperature);
+		}
+
 		public void SetTemperature(float newTemperature)
 		{
 			Temperature = newTemperature;
@@ -202,12 +230,6 @@ namespace Systems.Atmospherics
 		public float GetMoles(Gas gas)
 		{
 			return Gases[gas];
-		}
-
-		public void ChangeVolumeValue(float value)
-		{
-			Volume += value;
-			RecalculatePressure();
 		}
 
 		/// <summary>

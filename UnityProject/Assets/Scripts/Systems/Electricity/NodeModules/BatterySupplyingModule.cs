@@ -289,9 +289,7 @@ namespace Systems.Electricity.NodeModules
 				}
 				if (highSide && lowSide)
 				{
-					Logger.LogError("You have a connection from a battery Transformer combo that is the high side of the transformer and the low side of the transformer, " +
-					                 "It's presumed that the charging port would be on the opposite side of the Transformer" +
-					                "I could fix this but currently it's not used anywhere so just telling you it won't work properly");
+					Logger.LogError("Transformer 'high side' connected to its 'low side', and will not work.", Category.Electrical);
 				}
 				if (highSide) //Outputs to highSide
 				{
@@ -303,7 +301,7 @@ namespace Systems.Electricity.NodeModules
 					return VoltageAtSupplyPort < MinimumSupportVoltage &&  (VoltageAtChargePort*(1/TTransformerModule.TurnRatio))
 						< MinimumSupportVoltage;
 				}
-				Logger.LogError("No side was found for Transformer battery combo falling back to default Calculation");
+				Logger.LogError("No side was found for Transformer battery combo, falling back to default", Category.Electrical);
 			}
 			return VoltageAtSupplyPort < MinimumSupportVoltage &&  VoltageAtChargePort < MinimumSupportVoltage;
 		}

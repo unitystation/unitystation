@@ -35,7 +35,7 @@ public class ControlIntent : TooltipMonoBehaviour
 		if (runWalkBorder == null)
 		{
 			// TODO: wait for UI changes to settle down before refactoring this to reflect the changes.
-			Logger.LogWarning("At least one intent GameObject is unassigned.");
+			Logger.LogWarning("At least one intent GameObject is unassigned.", Category.Interaction);
 		}
 		else
 		{
@@ -50,7 +50,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	/// </summary>
 	public void OnClickRest()
 	{
-		Logger.Log("OnClickRest", Category.UI);
+		Logger.Log("OnClickRest", Category.UserInput);
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		Chat.AddExamineMsgToClient(restMessage);
@@ -63,7 +63,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	/// </summary>
 	public void OnClickCrafting()
 	{
-		Logger.Log("OnClickCrafting", Category.UI);
+		Logger.Log("OnClickCrafting", Category.UserInput);
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		// TODO: crafting
@@ -74,7 +74,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	/// </summary>
 	public void OnClickRunWalk()
 	{
-		Logger.Log("OnClickRunWalk", Category.UI);
+		Logger.Log("OnClickRunWalk", Category.UserInput);
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		Running = !Running;
@@ -88,7 +88,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	/// </summary>
 	public void OnClickResist()
 	{
-		Logger.Log("OnClickResist", Category.UI);
+		Logger.Log("OnClickResist", Category.UserInput);
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		UIManager.Action.Resist();
@@ -99,7 +99,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	/// </summary>
 	public void OnClickHelp()
 	{
-		Logger.Log("OnClickHelp", Category.UI);
+		Logger.Log("OnClickHelp", Category.UserInput);
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		helpWindow.SetActive(!helpWindow.activeSelf);
@@ -109,7 +109,7 @@ public class ControlIntent : TooltipMonoBehaviour
 
 	public void CycleIntent(bool cycleLeft = true)
 	{
-		Logger.Log("Intent cycling " + (cycleLeft ? "left" : "right"), Category.UI);
+		Logger.Log("Intent cycling " + (cycleLeft ? "left" : "right"), Category.UserInput);
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		int intent = (int)UIManager.CurrentIntent;
@@ -133,7 +133,7 @@ public class ControlIntent : TooltipMonoBehaviour
 	//The selected intent can be passed from a button in the UI
 	public void IntentButton(int selectedIntent)
 	{
-		Logger.Log("Intent Button", Category.UI);
+		Logger.Log("Intent Button", Category.UserInput);
 
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 

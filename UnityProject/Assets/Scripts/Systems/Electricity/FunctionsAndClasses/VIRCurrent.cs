@@ -20,7 +20,7 @@ public class WrapCurrent
 			Strength = Strength + addSendingCurrent.Strength;
 		}
 		else {
-			Logger.Log("HELp Trying to combine current with a different current ");
+			Logger.Log("Tried to combine two currents, but they were not equal", Category.Electrical);
 		}
 	}
 

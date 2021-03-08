@@ -17,7 +17,7 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 	/// Cached register player
 	/// </summary>
 	private RegisterPlayer registerPlayer;
-	public RegisterPlayer RegPlayer => registerPlayer;
+	public RegisterPlayer RegisterPlayer => registerPlayer;
 
 	private Equipment equipment;
 	public Equipment Equip => equipment;
@@ -56,7 +56,6 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 		base.Awake();
 		EnsureInit();
 	}
-
 
 	void EnsureInit()
 	{

@@ -179,7 +179,7 @@ namespace AdminTools
 			else
 			{
 				Logger.Log($"Someone tried to request all admin info overlay entries and failed. " +
-				           $"Using adminId: {adminId} and token: {adminToken}");
+				           $"Using adminId: {adminId} and token: {adminToken}", Category.Admin);
 			}
 		}
 
@@ -191,7 +191,7 @@ namespace AdminTools
 			{
 				if (PlayerManager.LocalPlayerScript == null)
 				{
-					Logger.LogError("Cannot activate Admin Overlay with PlayerManager.LocalPlayerScript being null");
+					Logger.LogError("Cannot activate Admin Overlay with PlayerManager.LocalPlayerScript being null", Category.Admin);
 					IsOn = false;
 					overlayToggleButton.image.color = unSelectedColor;
 				}

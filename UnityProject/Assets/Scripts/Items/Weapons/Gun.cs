@@ -229,7 +229,7 @@ namespace Weapons
 			queuedShots = new Queue<QueuedShot>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
-				Debug.LogWarning($"{gameObject.name} missing components, may cause issues");
+				Logger.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
 			}
 		}
 
@@ -272,17 +272,17 @@ namespace Weapons
 
 			if (ammoPrefab == null)
 			{
-				Debug.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.");
+				Logger.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.", Category.Firearms);
 				return;
 			}
 
 			//populate with a full external mag on spawn
-			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
+			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Firearms, name);
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
 			if (pinPrefab == null)
 			{
-				Debug.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.");
+				Logger.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.", Category.Firearms);
 				return;
 			}
 
@@ -506,7 +506,7 @@ namespace Weapons
 					default:
 						// unexpected behaviour
 						// if this ever runs, somethings gone horribly fucking wrong, good luck.
-						Debug.LogError($"{gameObject.name} returned a unexpected result when calling TriggerPull serverside!");
+						Logger.LogError($"{gameObject.name} returned a unexpected result when calling TriggerPull serverside!", Category.Firearms);
 						break;
 				}
 			}
@@ -616,7 +616,7 @@ namespace Weapons
 			{
 				if (CurrentMagazine == null)
 				{
-					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?");
+					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
 				}
 
 				//done processing shot queue, perform the reload, causing all clients and server to update their version of this Weapon

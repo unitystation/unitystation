@@ -36,7 +36,7 @@ public class FancyItemStorage : NetworkBehaviour
 		storage = GetComponent<ItemStorage>();
 		if (!storage)
 		{
-			Logger.LogError($"FancyItemStorage on {gameObject.name} can't find ItemStorage component!", Category.Containers);
+			Logger.LogError($"FancyItemStorage on {gameObject.name} can't find ItemStorage component!", Category.Inventory);
 			return;
 		}
 

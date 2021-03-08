@@ -218,7 +218,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	{
 		if (!InData.DestroyQueueing || !InData.DestroyAuthorised)
 		{
-			Logger.Log("REEEEEEEEEEEEEE Wait your turn to destroy, Electrical thread is busy!!");
+			Logger.Log("REEEEEEEEEEEEEE Wait your turn to destroy, Electrical thread is busy!!", Category.Electrical);
 			DestroyThisPlease();
 			var yy = InData.ConnectionReaction[PowerTypeCategory.Transformer];
 		}

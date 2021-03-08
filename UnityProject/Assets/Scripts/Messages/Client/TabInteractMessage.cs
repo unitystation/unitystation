@@ -30,12 +30,12 @@ namespace Messages.Client
 		{
 			if (player == null)
 			{
-				Logger.LogWarning("[TabInteractMessage.ProcessFurther] - player is null");
+				Logger.LogWarning("[TabInteractMessage.ProcessFurther] - player is null", Category.NetUI);
 				return;
 			}
 			else if (tabProvider == null)
 			{
-				Logger.LogWarning("[TabInteractMessage.ProcessFurther] - tabProvider is null");
+				Logger.LogWarning("[TabInteractMessage.ProcessFurther] - tabProvider is null", Category.NetUI);
 				return;
 			}
 

@@ -640,7 +640,7 @@ public class PlayerSprites : MonoBehaviour
 		// Check if dictionary has entry about such clothing item name
 		if (!clothes.ContainsKey(name))
 		{
-			Logger.LogError($"Can't find {name} clothingItem linked to {hideFlag}");
+			Logger.LogError($"Can't find {name} clothingItem linked to {hideFlag}", Category.PlayerInventory);
 			return;
 		}
 

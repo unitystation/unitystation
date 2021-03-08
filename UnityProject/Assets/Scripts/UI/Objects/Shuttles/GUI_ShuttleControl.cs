@@ -447,7 +447,7 @@ namespace UI.Objects.Shuttles
 		{
 			if (MatrixMove == null)
 			{
-				Logger.LogWarning("Matrix move is missing for some reason on this shuttle", Category.Matrix);
+				Logger.LogWarning("Matrix move is missing for some reason on this shuttle", Category.Shuttles);
 				return;
 			}
 			float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1) + 1;

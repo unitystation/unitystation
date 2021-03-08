@@ -193,7 +193,7 @@ namespace Systems.Botany
 			}
 			else
 			{
-				Logger.LogError($"{nameof(SeedPacket)} component missing on {newPlantData}! Cannot mutate.");
+				Logger.LogError($"{nameof(SeedPacket)} component missing on {newPlantData}! Cannot mutate.", Category.Botany);
 			}
 						
 			//UpdatePlant(oldPlantData.Name, Name);

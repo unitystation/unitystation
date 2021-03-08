@@ -596,11 +596,11 @@ namespace IngameDebugConsole
 			if (Debug.isDebugBuild)
 			{
 				ProfileManager.Instance.StartProfile(30);
-				Logger.Log("Running a local profile, saving on installation folder");
+				Logger.Log("Running a local profile, saving on installation folder", Category.DebugConsole);
 			}
 			else
 			{
-				Logger.Log("Unable to run local profile, the build needs to be in development mode");
+				Logger.Log("Unable to run local profile, the build needs to be in development mode", Category.DebugConsole);
 			}
 		}
 

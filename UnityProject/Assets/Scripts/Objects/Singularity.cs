@@ -298,7 +298,7 @@ namespace Objects
 			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
 			{
 				//Try stun player
-				if (DMMath.Prob(10) && TryGetComponent<PlayerHealth>(out var playerHealth) && playerHealth != null
+				if (DMMath.Prob(10) && TryGetComponent<PlayerHealthV2>(out var playerHealth) && playerHealth != null
 				&& !playerHealth.IsDead)
 				{
 					playerHealth.RegisterPlayer.ServerStun();
@@ -391,7 +391,7 @@ namespace Objects
 				{
 					if(objectToMove.gameObject == gameObject) continue;
 
-					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealth>(out var health) && health != null)
+					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealthV2>(out var health) && health != null)
 					{
 						if (health.RegisterPlayer.PlayerScript != null &&
 						    health.RegisterPlayer.PlayerScript.mind != null &&

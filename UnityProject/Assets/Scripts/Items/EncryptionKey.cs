@@ -191,7 +191,7 @@ public class EncryptionKey : NetworkBehaviour
 			type = value;
 			if (type == EncryptionKeyType.None)
 			{
-				Logger.LogError("Encryption keys cannot be None type!", Category.Telecoms);
+				Logger.LogError("Encryption keys cannot be None type!", Category.Chat);
 				type = EncryptionKeyType.Common;
 			}
 			UpdateSprite();

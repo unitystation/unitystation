@@ -17,21 +17,21 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 	public GameObject satchelVariant;
 	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{
-		Logger.LogTraceFormat("Populating item storage {0}", Category.Inventory, toPopulate.name);
+		Logger.LogTraceFormat("Populating item storage {0}", Category.EntitySpawn, toPopulate.name);
 		foreach (var entry in Entries)
 		{
 			var slot = toPopulate.GetNamedItemSlot(entry.NamedSlot);
 			if (slot == null)
 			{
 				Logger.LogTraceFormat("Skipping populating slot {0} because it doesn't exist in this itemstorage {1}.",
-					Category.Inventory, entry.NamedSlot, toPopulate.name);
+					Category.EntitySpawn, entry.NamedSlot, toPopulate.name);
 				continue;
 			}
 
 			if (entry.Prefab == null)
 			{
 				Logger.LogTraceFormat("Skipping populating slot {0} because Prefab  Populator was empty for this entry.",
-					Category.Inventory, entry.NamedSlot);
+					Category.EntitySpawn, entry.NamedSlot);
 				continue;
 			}
 

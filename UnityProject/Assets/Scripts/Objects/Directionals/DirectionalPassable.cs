@@ -104,7 +104,7 @@ namespace Core.Directionals
 					AtmosPassable = true;
 					break;
 				default:
-					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Direction);
+					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Directionals);
 					break;
 			}
 		}
@@ -129,7 +129,7 @@ namespace Core.Directionals
 					AtmosPassable = false;
 					break;
 				default:
-					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Direction);
+					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Directionals);
 					break;
 			}
 		}
@@ -154,7 +154,7 @@ namespace Core.Directionals
 					AtmosPassable = true;
 					break;
 				default:
-					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Direction);
+					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Directionals);
 					break;
 			}
 		}
@@ -169,7 +169,7 @@ namespace Core.Directionals
 			EnsureInit();
 			if (Directional == null)
 			{
-				Logger.LogError($"No {nameof(Directional)} component found on {this}?");
+				Logger.LogError($"No {nameof(Directional)} component found on {this}?", Category.Directionals);
 				return false;
 			}
 
@@ -203,7 +203,7 @@ namespace Core.Directionals
 					else if (sideToCross == Vector2Int.right) return sides.Down;
 					break;
 				default:
-					Logger.LogWarning("Unknown orientation. Returning false.", Category.Direction);
+					Logger.LogWarning("Unknown orientation. Returning false.", Category.Directionals);
 					break;
 			}
 
