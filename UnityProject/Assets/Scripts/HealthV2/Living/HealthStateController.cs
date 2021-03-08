@@ -16,7 +16,7 @@ namespace HealthV2
 		#region SyncVars
 
 		[SyncVar(hook = nameof(SyncOverallHealth))]
-		private float overallHealthSync;
+		private float overallHealthSync = 100;
 		public float OverallHealth => overallHealthSync;
 
 		[SyncVar(hook = nameof(SyncDNABloodTypeJSON))]
@@ -25,7 +25,7 @@ namespace HealthV2
 		public DNAandBloodType DNABloodType { get; private set; }
 
 		[SyncVar(hook = nameof(SyncConsciousState))]
-		private ConsciousState consciousState;
+		private ConsciousState consciousState = ConsciousState.CONSCIOUS;
 		public ConsciousState ConsciousState => consciousState;
 
 		[SyncVar(hook = nameof(SyncBloodHealth))]
@@ -41,11 +41,11 @@ namespace HealthV2
 		public bool IsSuffocating => isSuffocating;
 
 		[SyncVar(hook = nameof(SyncTemperature))]
-		private float temperature;
+		private float temperature = 295.15f;
 		public float Temperature => temperature;
 
 		[SyncVar(hook = nameof(SyncPressure))]
-		private float pressure;
+		private float pressure = 101;
 		public float Pressure => pressure;
 
 		#endregion
