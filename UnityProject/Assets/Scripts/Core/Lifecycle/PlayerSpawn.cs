@@ -147,7 +147,7 @@ public static class PlayerSpawn
 			{
 				Logger.LogErrorFormat(
 					"Unable to determine spawn position for connection {0} occupation {1}. Cannot spawn player.",
-					Category.ItemSpawn,
+					Category.EntitySpawn,
 					connection.address, occupation.DisplayName);
 				return null;
 			}
@@ -258,7 +258,7 @@ public static class PlayerSpawn
 	{
 		if (forMind == null)
 		{
-			Logger.LogError("Mind was null for ServerSpawnGhost", Category.Server);
+			Logger.LogError("Mind was null for ServerSpawnGhost", Category.Ghosts);
 			return;
 		}
 		//determine where to spawn the ghost
@@ -266,7 +266,7 @@ public static class PlayerSpawn
 
 		if (body == null)
 		{
-			Logger.LogError("Body was null for ServerSpawnGhost", Category.Server);
+			Logger.LogError("Body was null for ServerSpawnGhost", Category.Ghosts);
 			return;
 		}
 
@@ -275,7 +275,7 @@ public static class PlayerSpawn
 		var registerTile = body.GetComponent<RegisterTile>();
 		if (registerTile == null)
 		{
-			Logger.LogErrorFormat("Cannot spawn ghost for body {0} because it has no registerTile", Category.ItemSpawn,
+			Logger.LogErrorFormat("Cannot spawn ghost for body {0} because it has no registerTile", Category.Ghosts,
 				body.name);
 			return;
 		}
@@ -290,7 +290,7 @@ public static class PlayerSpawn
 			Transform spawnTransform = SpawnPoint.GetRandomPointForJob(forMind.occupation.JobType);
 			if (spawnTransform == null)
 			{
-				Logger.LogErrorFormat("Unable to determine spawn position for occupation {1}. Cannot spawn ghost.", Category.ItemSpawn,
+				Logger.LogErrorFormat("Unable to determine spawn position for occupation {1}. Cannot spawn ghost.", Category.Ghosts,
 					forMind.occupation.DisplayName);
 				return;
 			}

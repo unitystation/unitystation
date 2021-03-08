@@ -129,7 +129,7 @@ namespace Blob
 					EndState();
 					break;
 				default:
-					Debug.LogError("Unused state");
+					Logger.LogError("Unused state", Category.Blob);
 					break;
 			}
 		}
@@ -274,7 +274,7 @@ namespace Blob
 
 			if (!spawnResult.Successful)
 			{
-				Debug.LogError("Failed to spawn blob!");
+				Logger.LogError("Failed to spawn blob!", Category.Blob);
 				return;
 			}
 

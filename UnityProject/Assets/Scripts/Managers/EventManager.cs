@@ -118,27 +118,61 @@ public class EventManager : MonoBehaviour
 		switch (evnt)
 		{
 			case EVENT.ChatFocused:
+				category = Category.Chat;
+				break;
 			case EVENT.ChatUnfocused:
+				category = Category.Chat;
+				break;
 			case EVENT.UpdateChatChannels:
+				category = Category.Chat;
+				break;
+			case EVENT.ToggleChatBubbles:
+				category = Category.Chat;
+				break;
 			case EVENT.UpdateFov:
 				category = Category.UI;
 				break;
 			case EVENT.DisableInternals:
+				category = Category.PlayerInventory;
+				break;
 			case EVENT.EnableInternals:
-				category = Category.Equipment;
+				category = Category.PlayerInventory;
 				break;
 			case EVENT.LoggedOut:
 				category = Category.Connections;
 				break;
+			case EVENT.PlayerRejoined:
+				category = Category.Connections;
+				break;
+			case EVENT.PlayerSpawned:
+				category = Category.EntitySpawn;
+				break;
 			case EVENT.PlayerDied:
 				category = Category.Health;
+				break;
+			case EVENT.GhostSpawned:
+				category = Category.Ghosts;
 				break;
 			case EVENT.PowerNetSelfCheck:
 				category = Category.Electrical;
 				break;
+			case EVENT.PreRoundStarted:
+				category = Category.Round;
+				break;
 			case EVENT.RoundStarted:
+				category = Category.Round;
+				break;
+			case EVENT.PostRoundStarted:
+				category = Category.Round;
+				break;
 			case EVENT.RoundEnded:
 				category = Category.Round;
+				break;
+			case EVENT.BlobSpawned:
+				category = Category.Blob;
+				break;
+			case EVENT.MatrixManagerInit:
+				category = Category.Matrix;
 				break;
 			default:
 				category = Category.Unknown;

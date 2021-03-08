@@ -107,7 +107,7 @@ namespace UI.Objects
 			if (!vendorItemEntry)
 			{
 				Logger.LogError($"Can't find {itemToUpdate} to update in {this.gameObject} vendor. " +
-								$"UpdateAllItems wasn't called before?", Category.UI);
+								$"UpdateAllItems wasn't called before?", Category.Machines);
 				return;
 			}
 

@@ -330,7 +330,7 @@ namespace AdminCommands
 				foreach (ConnectedPlayer player in players)
 				{
 					string message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Smited Username: {player.Username} ({player.Name})";
-					Logger.Log(message);
+					Logger.Log(message, Category.Admin);
 					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null); DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message, "");
 					player.Script.playerHealth.ServerGibPlayer();
 				}

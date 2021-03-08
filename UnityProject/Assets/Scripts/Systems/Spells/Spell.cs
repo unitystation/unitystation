@@ -207,7 +207,7 @@ namespace Systems.Spells
 			if (!caster.Script.mind.Spells.Contains(this))
 			{
 				Logger.LogWarningFormat("Illegal spell access: {0} tried to call spell they don't possess ({1})",
-					Category.Security, caster, this);
+					Category.Exploits, caster, this);
 				return false;
 			}
 

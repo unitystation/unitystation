@@ -51,7 +51,7 @@ public partial class SubSceneManager
 		yield return WaitFor.Seconds(0.1f);
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 
-		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.SubScenes);
+		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 	}
 
 	//Choose and load a main station on the server

@@ -41,7 +41,8 @@ public struct PlayerAction
 		if (Math.Abs(direction.x) + Math.Abs(direction.y) >= 2)
 		{
 			Logger.LogErrorFormat("MoveAction.GetMoveAction invoked on an invalid, non-cardinal direction {0}." +
-				" This will cause undefined behavior. Please fix the code to only pass a valid cardinal direction.", Category.Movement, direction);
+				" This will cause undefined behavior. Please fix the code to only pass a valid cardinal direction.", 
+				Category.Movement, direction);
 		}
 
 		if (direction == Vector2Int.up)

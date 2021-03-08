@@ -53,7 +53,7 @@ namespace Messages.Server
 			{
 				Logger.LogError(
 						$"No {nameof(NetworkIdentity)} found on {arcSettings.arcEffectPrefab}!",
-						Category.NetMessage);
+						Category.Electrical);
 				return default;
 			}
 

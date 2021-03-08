@@ -214,7 +214,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
 			if (totalSeconds < minCoolDown)
 			{
-				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections");
+				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections", Category.Connections);
 				conn.Disconnect();
 				return;
 			}

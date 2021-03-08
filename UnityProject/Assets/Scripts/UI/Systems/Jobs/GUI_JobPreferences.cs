@@ -76,7 +76,7 @@ public class GUI_JobPreferences : MonoBehaviour
 	{
 		if (!force && jobsPopulated)
 		{
-			Logger.Log("Jobs have already been populated!", Category.UI);
+			Logger.Log("Jobs have already been populated!", Category.Jobs);
 			return;
 		}
 
@@ -158,7 +158,7 @@ public class GUI_JobPreferences : MonoBehaviour
 	/// <param name="entry">Entry reference to change dropdown boxes</param>
 	public void OnPriorityChange(JobType job, Priority priority, JobListEntry entry)
 	{
-		Logger.Log($"Changed priority for {job} to {priority}.", Category.UI);
+		Logger.Log($"Changed priority for {job} to {priority}.", Category.Jobs);
 
 		if (priority == Priority.None)
 		{
@@ -189,7 +189,7 @@ public class GUI_JobPreferences : MonoBehaviour
 		}
 
 		Logger.Log("Current Job Preferences:\n" +
-			string.Join("\n", jobPreferences.Select(a => $"{a.Key}: {a.Value}")), Category.UI);
+			string.Join("\n", jobPreferences.Select(a => $"{a.Key}: {a.Value}")), Category.Jobs);
 	}
 
 	/// <summary>

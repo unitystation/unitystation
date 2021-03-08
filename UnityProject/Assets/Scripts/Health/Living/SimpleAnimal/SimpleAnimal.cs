@@ -49,7 +49,7 @@ namespace Systems.Mob
 
 			if (mobSprite == null)
 			{
-				Logger.LogError($"No {nameof(MobSprite)} component on {this}!");
+				Logger.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
 				return;
 			}
 
@@ -75,7 +75,7 @@ namespace Systems.Mob
 		{
 			if (mobSprite == null)
 			{
-				Logger.LogError($"No {nameof(MobSprite)} component on {this}!");
+				Logger.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
 				return;
 			}
 

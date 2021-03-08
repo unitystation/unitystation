@@ -94,7 +94,7 @@ public class SoundManager : MonoBehaviour
 		{
 			if (sound.Value == null) //This probably doesn't happen anymore
 			{
-				Logger.LogWarning($"Could not remove SoundSpawn {sound} because its value was null!", Category.Addressables);
+				Logger.LogWarning($"Could not remove SoundSpawn {sound} because its value was null!", Category.Audio);
 				continue;
 			}
 			sound.Value.AudioSource.Stop();
@@ -113,17 +113,17 @@ public class SoundManager : MonoBehaviour
     //Make sure it is a valid Addressable AudioSource
     if (addressableAudioSource == null || addressableAudioSource == default(AddressableAudioSource))
 		{
-			Logger.LogWarning("SoundManager recieved a null Addressable audio source, look at log trace for responsible component", Category.Addressables);
+			Logger.LogWarning("SoundManager recieved a null Addressable audio source, look at log trace for responsible component", Category.Audio);
 			return null;
 		}
 		if (string.IsNullOrEmpty(addressableAudioSource.AssetAddress))
 		{
-			Logger.LogWarning("SoundManager received a null address for an addressable, look at log trace for responsible component", Category.Addressables);
+			Logger.LogWarning("SoundManager received a null address for an addressable, look at log trace for responsible component", Category.Audio);
 			return null;
 		}
 		if (addressableAudioSource.AssetAddress == "null")
 		{
-			Logger.LogWarning("SoundManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Addressables);
+			Logger.LogWarning("SoundManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Audio);
 			return null;
 		}
 		if(await addressableAudioSource.HasValidAddress() == false) return null;
@@ -151,7 +151,7 @@ public class SoundManager : MonoBehaviour
 		{
 			Logger.LogError(
 				$"AddressableAudioSource in SoundManager failed to load from address: {addressableAudioSourceFromCache.AssetAddress}",
-				Category.Addressables);
+				Category.Audio);
 			return null;
 		}
 
@@ -159,7 +159,7 @@ public class SoundManager : MonoBehaviour
 		{
 			Logger.LogError(
 				$"AddressableAudioSource in SoundManager doesn't contain an AudioSource: {addressableAudioSourceFromCache.AssetAddress}",
-				Category.Addressables);
+				Category.Audio);
 			return null;
 		}
 
@@ -284,7 +284,7 @@ public class SoundManager : MonoBehaviour
 			addressableAudioSource.AssetAddress == "null")
 		{
 			Logger.LogWarning($"SoundManager received a null AudioSource to be played at World Position: {worldPos}",
-				Category.Addressables);
+				Category.Audio);
 			return null;
 		}
 
@@ -388,7 +388,7 @@ public class SoundManager : MonoBehaviour
 			addressableAudioSource.AssetAddress == "null")
 		{
 			Logger.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name}",
-				Category.Addressables);
+				Category.Audio);
 			return;
 		}
 		PlaySoundMessage.Send(recipient, addressableAudioSource, TransformState.HiddenPos, polyphonic,
@@ -433,7 +433,7 @@ public class SoundManager : MonoBehaviour
 			addressableAudioSource.AssetAddress == "null")
 		{
 			Logger.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name} at position: {worldPos}",
-				Category.Addressables);
+				Category.Audio);
 			return;
 		}
 		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
@@ -583,7 +583,7 @@ public class SoundManager : MonoBehaviour
 			if (netId == NetId.Invalid)
 			{
 				Logger.LogError("Provided Game object for PlayAtPosition  does not have a network identity " +
-				                addressableAudioSource.AssetAddress);
+				                addressableAudioSource.AssetAddress, Category.Audio);
 				return;
 			}
 		}
