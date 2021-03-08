@@ -357,6 +357,23 @@ namespace HealthV2
 			return toReturn;
 		}
 
+		public bool HasBodyPart(BodyPartType bodyPartType, bool surfaceOnly = false)
+		{
+			foreach (var bodyPart in implantList)
+			{
+				if (bodyPart.bodyPartType == bodyPartType)
+				{
+					if (surfaceOnly && bodyPart.isSurface == false)
+					{
+						continue;
+					}
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		public void CalculateOverallHealth()
 		{
 			float currentHealth = maxHealth;
