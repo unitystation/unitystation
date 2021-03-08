@@ -110,7 +110,7 @@ namespace Health.Sickness
 		/// <summary>
 		/// Check if we should trigger due symptoms
 		/// </summary>
-		private void CheckSymptomOccurence(SicknessAffliction sicknessAffliction, PlayerHealth playerHealth)
+		private void CheckSymptomOccurence(SicknessAffliction sicknessAffliction, PlayerHealthV2 playerHealth)
 		{
 			Sickness sickness = sicknessAffliction.Sickness;
 

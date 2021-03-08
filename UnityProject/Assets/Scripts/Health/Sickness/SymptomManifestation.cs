@@ -7,9 +7,9 @@
 	{
 		public SicknessAffliction SicknessAffliction;
 		public int Stage;
-		public PlayerHealth PlayerHealth;
+		public PlayerHealthV2 PlayerHealth;
 
-		public SymptomManifestation(SicknessAffliction sicknessAffliction, int stage, PlayerHealth playerHealth)
+		public SymptomManifestation(SicknessAffliction sicknessAffliction, int stage, PlayerHealthV2 playerHealth)
 		{
 			SicknessAffliction = sicknessAffliction;
 			Stage = stage;

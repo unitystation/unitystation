@@ -18,7 +18,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.HandObject != null) return false;
 		if (interaction.TargetObject == interaction.Performer) return false;
 
-		if (interaction.TargetObject.TryGetComponent(out PlayerHealth targetPlayerHealth))
+		if (interaction.TargetObject.TryGetComponent(out PlayerHealthV2 targetPlayerHealth))
 		{
 			if (targetPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS) return false;
 		}
