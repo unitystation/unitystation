@@ -7,6 +7,7 @@ using Systems.ElectricalArcs;
 using Systems.Explosions;
 using Systems.Radiation;
 using AddressableReferences;
+using HealthV2;
 using Light2D;
 using Messages.Server;
 using Mirror;

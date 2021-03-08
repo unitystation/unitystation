@@ -12,6 +12,7 @@ using UnityEngine;
 namespace HealthV2
 {
 	[RequireComponent(typeof(HealthStateController))]
+	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour
 	{
 		/// <summary>
@@ -131,6 +132,9 @@ namespace HealthV2
 		private HealthStateController healthStateController;
 		public HealthStateController HealthStateController => healthStateController;
 
+		protected DamageType LastDamageType;
+
+		protected GameObject LastDamagedBy;
 
 		// public float MaxNutrimentLevel = 30;
 
@@ -159,6 +163,16 @@ namespace HealthV2
 			return HungerState.Normal;
 		}
 
+		/// <summary>
+		/// Current sicknesses status of the player and their current stage.
+		/// </summary>
+		private MobSickness mobSickness = null;
+
+		/// <summary>
+		/// List of sicknesses that player has gained immunity.
+		/// </summary>
+		private List<Sickness> immunedSickness;
+
 		public virtual void Awake()
 		{
 			EnsureInit();
@@ -176,7 +190,7 @@ namespace HealthV2
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
-		private void EnsureInit()
+		public virtual void EnsureInit()
 		{
 			if (registerTile) return;
 			registerTile = GetComponent<RegisterTile>();
@@ -184,6 +198,8 @@ namespace HealthV2
 			circulatorySystem = GetComponent<CirculatorySystemBase>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			healthStateController = GetComponent<HealthStateController>();
+			immunedSickness = new List<Sickness>();
+			mobSickness = GetComponent<MobSickness>();
 			//Always include blood for living entities:
 		}
 
@@ -225,8 +241,6 @@ namespace HealthV2
 		public void TestChemistry()
 		{
 			circulatorySystem.UseBloodPool.Add(Cem, 20);
-
-
 		}
 
 
@@ -436,8 +450,9 @@ namespace HealthV2
 				{
 					Container.TakeDamage(damagedBy, damage * Container.ContainsLimbs.Count , attackType, damageType, true);
 				}
-
 			}
+
+			EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
 		}
 
 
@@ -455,6 +470,8 @@ namespace HealthV2
 			var body = RootBodyPartContainers.PickRandom();
 
 			body.TakeDamage(damagedBy, damage, attackType, damageType);
+
+			EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
 			//TODO: Reimplement
 		}
 
@@ -531,14 +548,19 @@ namespace HealthV2
 		public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 			AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 		{
-			foreach (var cntainers in RootBodyPartContainers)
+			LastDamageType = damageType;
+			LastDamagedBy = damagedBy;
+
+			foreach (var bodyPartContainer in RootBodyPartContainers)
 			{
-				if (cntainers.bodyPartType == bodyPartAim)
+				if (bodyPartContainer.bodyPartType == bodyPartAim)
 				{
 					//Assuming is only going to be one otherwise damage will be duplicated across them
-					cntainers.TakeDamage(damagedBy, damage, attackType, damageType);
+					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType);
 				}
 			}
+
+			EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
 		}
 
 		public List<BodyPart> GetBodyPartsInZone( BodyPartType bodyPartAim, bool surfaceOnly = true )
@@ -591,7 +613,7 @@ namespace HealthV2
 		/// <summary>
 		/// Radiation damage Calculations
 		/// </summary>
-		//[Server]
+		// [Server]
 		// public void CalculateRadiationDamage()
 		// {
 		// 	var RadLevel = (registerTile.Matrix.GetRadiationLevel(registerTile.LocalPosition) * (tickRate / 5f) / 6);
@@ -679,16 +701,6 @@ namespace HealthV2
 
 		protected abstract void OnDeathActions();
 
-		public virtual void AddSickness(Sickness sickness)
-		{
-			//TODO: Reimplement
-		}
-
-		public void UpdateClientHealthStats(float overallHealth)
-		{
-			//TODO: Reimplement
-		}
-
 		public void OnFullyInitialised(Action TODO)
 		{
 			StartCoroutine(WaitForPlayerinitialisation(TODO));
@@ -730,6 +742,48 @@ namespace HealthV2
 		{
 			return "Weeee";
 		}
+
+		#region Sickness
+
+
+
+		/// <summary>
+		/// Add a sickness to the player if he doesn't already has it and isn't immuned
+		/// </summary>
+		/// <param name="">The sickness to add</param>
+		public void AddSickness(Sickness sickness)
+		{
+			if (IsDead)
+				return;
+
+			if ((!mobSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
+				mobSickness.Add(sickness, Time.time);
+		}
+
+		/// <summary>
+		/// This will remove the sickness from the player, healing him.
+		/// </summary>
+		/// <remarks>Thread safe</remarks>
+		public void RemoveSickness(Sickness sickness)
+		{
+			SicknessAffliction sicknessAffliction = mobSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
+
+			if (sicknessAffliction != null)
+				sicknessAffliction.Heal();
+		}
+
+		/// <summary>
+		/// This will remove the sickness from the player, healing him.  This will also make him immune for the current round.
+		/// </summary>
+		public void ImmuneSickness(Sickness sickness)
+		{
+			RemoveSickness(sickness);
+
+			if (!immunedSickness.Contains(sickness))
+				immunedSickness.Add(sickness);
+		}
+
+		#endregion
 
 		#region Electrocution
 

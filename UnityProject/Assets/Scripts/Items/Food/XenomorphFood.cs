@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Threading.Tasks;
+using HealthV2;
 using Items;
 
 [RequireComponent(typeof(RegisterItem))]
