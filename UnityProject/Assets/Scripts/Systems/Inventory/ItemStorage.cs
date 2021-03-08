@@ -197,7 +197,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	/// <summary>
 	/// Gets the top-level ItemStorage containing this storage. I.e. if this
-	/// is a crate inside a backpack will return the backpack ItemStorage. If this is not in anything
+	/// is a crate inside a backpack will return the crate ItemStorage. If this is not in anything
 	/// will simply return this
 	/// </summary>
 	/// <returns></returns>
