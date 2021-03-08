@@ -14,7 +14,7 @@ namespace HealthV2
 		[SerializeField]
 		// [Required("Need a health master to send updates too." +
 		// "Will attempt to find a components in its parents if not already set in editor.")]
-		private LivingHealthMasterBase HealthMaster = null;
+		protected LivingHealthMasterBase HealthMaster = null;
 
 
 		public LivingHealthMasterBase healthMaster
