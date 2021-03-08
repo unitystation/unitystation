@@ -197,7 +197,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	/// <summary>
 	/// Gets the top-level ItemStorage containing this storage. I.e. if this
-	/// is a crate inside a backpack will return the backpack ItemStorage. If this is not in anything
+	/// is a crate inside a backpack will return the crate ItemStorage. If this is not in anything
 	/// will simply return this
 	/// </summary>
 	/// <returns></returns>
@@ -212,6 +212,27 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 
 		return storage;
+	}
+
+	/// <summary>
+	/// Gets the top-level ItemStorage containing this storage. I.e. if this
+	/// is a crate inside a backpack will return the crate pickupable. If this is not in anything
+	/// will simply return this pickupable
+	/// </summary>
+	/// <returns></returns>
+	public Pickupable GetRootPickupable()
+	{
+		Pickupable lastPickupable= GetComponent<Pickupable>();;
+		ItemStorage storage = this;
+		Pickupable pickupable = lastPickupable;
+		while (pickupable != null && pickupable.ItemSlot != null)
+		{
+			lastPickupable = pickupable;
+			storage = pickupable.ItemSlot.ItemStorage;
+			pickupable = storage.GetComponent<Pickupable>();
+		}
+
+		return lastPickupable;
 	}
 
 	/// <summary>
