@@ -138,13 +138,13 @@ namespace AdminTools
 				x.playerNetId == perpId && x.roundTime == roundTimeOfIncident);
 			if (index == -1)
 			{
-				Logger.Log($"Could not find perp id {perpId} with roundTime incident: {roundTimeOfIncident}", Category.Unknown);
+				Logger.Log($"Could not find perp id {perpId} with roundTime incident: {roundTimeOfIncident}", Category.Admin);
 				return;
 			}
 
 			if (!NetworkIdentity.spawned.ContainsKey(perpId))
 			{
-				Logger.Log($"Perp id {perpId} not found in Spawnlist", Category.Unknown);
+				Logger.Log($"Perp id {perpId} not found in Spawnlist", Category.Admin);
 				return;
 			}
 

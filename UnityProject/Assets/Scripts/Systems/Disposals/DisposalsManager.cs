@@ -65,7 +65,7 @@ namespace Systems.Disposals
 				Logger.LogError(
 						"Failed to spawn disposal virtual container! " +
 						$"Is {nameof(DisposalsManager)} missing reference to {nameof(Instance.VirtualContainerPrefab)}?",
-						Category.Unknown);
+						Category.Machines);
 				return default;
 			}
 

@@ -67,7 +67,7 @@ namespace UI.Objects.Robotics
 				currentProducts.Add(product);
 				UpdateQueue();
 			}
-			else Logger.Log("Tried to add to ExoFab queue, but queue was full", Category.Unknown);
+			else Logger.Log("Tried to add to ExoFab queue, but queue was full", Category.Machines);
 		}
 
 		public void UpdateQueue()

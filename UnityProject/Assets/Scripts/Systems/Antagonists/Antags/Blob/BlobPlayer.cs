@@ -240,7 +240,7 @@ namespace Blob
 
 			if (playerScript == null && (!TryGetComponent(out playerScript) || playerScript == null))
 			{
-				Logger.LogError("Playerscript was null on blob and couldnt be found.", Category.Unknown);
+				Logger.LogError("Playerscript was null on blob and couldnt be found.", Category.Blob);
 				return;
 			}
 
@@ -257,7 +257,7 @@ namespace Blob
 
 			if (!result.Successful)
 			{
-				Logger.LogError("Failed to spawn blob core for player!", Category.Unknown);
+				Logger.LogError("Failed to spawn blob core for player!", Category.Blob);
 				return;
 			}
 
@@ -723,7 +723,7 @@ namespace Blob
 
 			if (matrix == null)
 			{
-				Logger.LogError("matrix for blob click was null", Category.Unknown);
+				Logger.LogError("matrix for blob click was null", Category.Blob);
 				return false;
 			}
 
@@ -1059,7 +1059,7 @@ namespace Blob
 					cost = resourceBlobCost;
 					break;
 				default:
-					Logger.LogError("Switch has no correct case for blob structure!", Category.Unknown);
+					Logger.LogError("Switch has no correct case for blob structure!", Category.Blob);
 					break;
 			}
 
@@ -1107,7 +1107,7 @@ namespace Blob
 							resourceBlobs.Add(structure);
 							break;
 						default:
-							Logger.LogError("Switch has no correct case for blob structure!", Category.Unknown);
+							Logger.LogError("Switch has no correct case for blob structure!", Category.Blob);
 							break;
 					}
 
@@ -1194,7 +1194,7 @@ namespace Blob
 						Chat.AddExamineMsgFromServer(gameObject, "This is a blob node. It cannot be removed");
 						return;
 					default:
-						Logger.LogError("Switch has no correct case for blob structure!", Category.Unknown);
+						Logger.LogError("Switch has no correct case for blob structure!", Category.Blob);
 						break;
 				}
 

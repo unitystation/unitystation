@@ -404,14 +404,14 @@ public class RequestInteractMessage : ClientMessage
 		{
 			Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
 			                " This is not allowed. Client can only perform an interaction as themselves. Message" +
-			                " will not be sent.", Category.NetMessage);
+			                " will not be sent.", Category.Exploits);
 			return;
 		}
 
 		if (interactableComponent != null && !(interactableComponent is Component))
 		{
 			Logger.LogError("interactableComponent must be a component, but isn't. The message will not be sent.",
-				Category.NetMessage);
+				Category.Interaction);
 			return;
 		}
 
@@ -489,7 +489,7 @@ public class RequestInteractMessage : ClientMessage
 		{
 			Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
 			                " This is not allowed. Client can only perform an interaction as themselves. Message" +
-			                " will not be sent.", Category.NetMessage);
+			                " will not be sent.", Category.Exploits);
 			return;
 		}
 
@@ -510,7 +510,7 @@ public class RequestInteractMessage : ClientMessage
 		{
 			Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
 							" This is not allowed. Client can only perform an interaction as themselves. Message" +
-							" will not be sent.", Category.NetMessage);
+							" will not be sent.", Category.Exploits);
 			return;
 		}
 

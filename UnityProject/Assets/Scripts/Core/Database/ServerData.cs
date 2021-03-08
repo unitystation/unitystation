@@ -116,7 +116,7 @@ namespace DatabaseAPI
 			{
 				if (task.IsFaulted)
 				{
-					Logger.LogError("Error with profile reload", Category.Unknown);
+					Logger.LogError("Error with profile reload", Category.DatabaseAPI);
 					return;
 				}
 			});

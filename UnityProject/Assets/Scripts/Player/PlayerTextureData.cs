@@ -53,7 +53,7 @@ public class PlayerTextureData : ScriptableObject
 		if (Spawn.RaceData.ContainsKey(this.name) && Spawn.RaceData[this.name] != this)
 		{
 			Logger.LogError($"A PlayerTextureData has a duplicate name. Name: {this.name}. " + 
-				"Please rename one of them.", Category.Unknown);
+				"Please rename one of them.", Category.PlayerInventory);
 		}
 		Spawn.RaceData[this.name] = this;
 	}

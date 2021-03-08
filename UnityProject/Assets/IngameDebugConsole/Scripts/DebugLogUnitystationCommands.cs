@@ -158,7 +158,7 @@ namespace IngameDebugConsole
 		public static void SetLogLevel(string logCategory, int level)
 		{
 			bool catFound = false;
-			Category category = Category.Unknown;
+			Category category = Category.DebugConsole;
 			foreach (Category c in Enum.GetValues(typeof(Category)))
 			{
 				if (c.ToString().ToLower() == logCategory.ToLower())
@@ -615,10 +615,10 @@ namespace IngameDebugConsole
 						Logger.LogError($"{items.OrderName}'s credit cost: {items.CreditsCost} is less than its export value: {value}, exploit possible!", Category.Exploits);
 					}
 
-					Logger.Log($"Cargo export value: {value}, cost: {items.CreditsCost}, {items.OrderName}", Category.Unknown);
+					Logger.Log($"Cargo export value: {value}, cost: {items.CreditsCost}, {items.OrderName}", Category.Cargo);
 				}
 			}
-			Logger.Log("Cargo export cost calculation complete", Category.Unknown);
+			Logger.Log("Cargo export cost calculation complete", Category.Cargo);
 		}
 #endif
 	}

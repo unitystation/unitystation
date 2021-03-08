@@ -56,7 +56,7 @@ public class UnderFloorLayer : Layer
 									if (PipeDirCheck[d])
 									{
 										canInitializePipe = false;
-										Logger.LogError($"A pipe is overlapping its connection at ({n}, {p}) in {matrix.gameObject.scene.name} - {matrix.name} with another pipe, removing one", Category.Unknown);
+										Logger.LogError($"A pipe is overlapping its connection at ({n}, {p}) in {matrix.gameObject.scene.name} - {matrix.name} with another pipe, removing one", Category.Pipes);
 										tilemap.SetTile(localPlace, null);
 										break;
 									}
@@ -374,7 +374,7 @@ public class UnderFloorLayer : Layer
 		}
 		else
 		{
-			Logger.LogWarning($"{position} was not present in the underfloor layer, trying to remove {tile}", Category.Unknown);
+			Logger.LogWarning($"{position} was not present in the underfloor layer, trying to remove {tile}", Category.Matrix);
 		}
 	}
 }

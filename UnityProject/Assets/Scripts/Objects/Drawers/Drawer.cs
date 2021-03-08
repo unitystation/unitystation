@@ -86,7 +86,7 @@ namespace Objects.Drawers
 			if (!traySpawn.Successful)
 			{
 				Logger.LogError($"Failed to spawn tray! Is {name} prefab missing reference to {nameof(traySpawn)} prefab?",
-					Category.Unknown);
+					Category.Machines);
 				return;
 			}
 			tray = traySpawn.GameObject;

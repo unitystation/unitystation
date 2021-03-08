@@ -217,7 +217,7 @@ namespace Objects.Disposals
 			else
 			{
 				Logger.LogError($"Failed to spawn disposal pipe tile! Is {name} missing reference to tile asset for {orientation}?",
-					Category.Unknown);
+					Category.Pipes);
 			}
 		}
 

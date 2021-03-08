@@ -32,7 +32,7 @@ namespace UI.Objects.Robotics
 		{
 			if (product == null)
 			{
-				Logger.Log("ExoFab Product not found", Category.Unknown);
+				Logger.Log("ExoFab Product not found", Category.Machines);
 				return;
 			}
 

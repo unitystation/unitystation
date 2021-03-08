@@ -24,7 +24,7 @@ namespace Pipes
 				MonoPipe = pipeData.MonoPipe;
 				if (MonoPipe == null)
 				{
-					Logger.Log("Tried to update MonoPipe, but it was null", Category.Unknown);
+					Logger.Log("Tried to update MonoPipe, but it was null", Category.Pipes);
 				}
 			}
 			MonoPipe.TickUpdate();

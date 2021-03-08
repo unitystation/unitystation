@@ -67,7 +67,7 @@ namespace Objects.Construction
 
 			if (objectBehaviour == null)
 			{
-				Logger.LogWarning($"{nameof(objectBehaviour)} was not found on {this}!", Category.Unknown);
+				Logger.LogWarning($"{nameof(objectBehaviour)} was not found on {this}!", Category.Construction);
 			}
 		}
 

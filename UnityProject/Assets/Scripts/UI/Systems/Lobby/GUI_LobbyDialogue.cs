@@ -336,7 +336,7 @@ namespace Lobby
 			}
 			else
 			{
-				Logger.LogWarning("User is not logged in! Returning to login screen.", Category.Unknown);
+				Logger.LogWarning("User is not logged in! Returning to login screen.", Category.Connections);
 				ShowLoginScreen();
 			}
 		}

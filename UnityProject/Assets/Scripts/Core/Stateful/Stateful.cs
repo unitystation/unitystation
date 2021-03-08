@@ -76,7 +76,7 @@ public class Stateful : NetworkBehaviour, IServerSpawn
 		var newStateIndex = states.FindIndex(se => se == newState);
 		if (newStateIndex == -1)
 		{
-			Logger.LogErrorFormat("New state doesn't exist in States defined for {0}. State will not be changed.", Category.Unknown,
+			Logger.LogErrorFormat("New state doesn't exist in States defined for {0}. State will not be changed.", Category.Objects,
 				this);
 			return;
 		}

@@ -140,7 +140,7 @@ namespace Systems.Teleport
 			}
 			else
 			{
-				Logger.LogError($"No transform on {objectToTeleport} - can't teleport!", Category.Unknown);
+				Logger.LogError($"No transform on {objectToTeleport} - can't teleport!", Category.Movement);
 				return originalPosition;
 			}
 

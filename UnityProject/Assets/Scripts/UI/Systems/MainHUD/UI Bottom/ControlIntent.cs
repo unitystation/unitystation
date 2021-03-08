@@ -35,7 +35,7 @@ public class ControlIntent : TooltipMonoBehaviour
 		if (runWalkBorder == null)
 		{
 			// TODO: wait for UI changes to settle down before refactoring this to reflect the changes.
-			Logger.LogWarning("At least one intent GameObject is unassigned.", Category.Unknown);
+			Logger.LogWarning("At least one intent GameObject is unassigned.", Category.Interaction);
 		}
 		else
 		{

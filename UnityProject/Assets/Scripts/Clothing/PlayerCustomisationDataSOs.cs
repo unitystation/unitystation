@@ -68,7 +68,7 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 
 		Logger.LogErrorFormat(
 			"No entries for {0} CustomisationType. Have they been populated correctly in the inspector?",
-			Category.Character, type);
+			Category.EntitySpawn, type);
 		return false;
 
 	}
@@ -131,7 +131,7 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 
 		defaultSettingName = GetFirst(type, gender)?.Name ?? "None";
 		Logger.LogWarningFormat("Invalid {0} setting: cannot find {1}. Resetting to {2}.",
-				Category.Character, type, settingName, defaultSettingName);
+				Category.EntitySpawn, type, settingName, defaultSettingName);
 		return false;
 	}
 

@@ -199,7 +199,7 @@ namespace Objects.Engineering
 					spriteHandler.ChangeSprite(IsWrenched ? 1 : 0);
 					break;
 				default:
-					Logger.LogError("Tried to wrench Tesla Coil, but switch case was out of bounds", Category.Unknown);
+					Logger.LogError("Tried to wrench Tesla Coil, but switch case was out of bounds", Category.Machines);
 					break;
 			}
 		}

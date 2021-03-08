@@ -40,7 +40,7 @@ namespace Messages.Server
 				{
 					if (player?.Script == null) 
 					{ 
-						Logger.LogError("SendToDead, player?.Script == null", Category.Unknown); 
+						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts); 
 						continue;
 					}
 					if (player.Script.IsDeadOrGhost == false) continue;
@@ -50,7 +50,7 @@ namespace Messages.Server
 			}
 			else
 			{
-				Logger.LogError("SendToDead, GhostRoleManager.Instance == null", Category.Unknown);
+				Logger.LogError("SendToDead, GhostRoleManager.Instance == null", Category.Ghosts);
 			}
 
 			return null;

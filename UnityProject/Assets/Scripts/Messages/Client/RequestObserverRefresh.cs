@@ -20,7 +20,7 @@ public class RequestObserverRefresh : ClientMessage
 
 		if (!sceneContext.IsValid())
 		{
-			Logger.LogError("No scene was found for Observer refresh!!", Category.Unknown);
+			Logger.LogError("No scene was found for Observer refresh!!", Category.Connections);
 			return;
 		}
 

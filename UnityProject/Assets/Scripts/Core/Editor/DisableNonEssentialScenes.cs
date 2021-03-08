@@ -117,7 +117,7 @@ public class DisableNonEssentialScenes : EditorWindow
 		var awayWorldsSO = Resources.LoadAll<AwayWorldListSO>("").FirstOrDefault();
 		if (!awayWorldsSO)
 		{
-			Logger.LogError("Can't find AwayWorldListSO in resources folder!", Category.Unknown);
+			Logger.LogError("Can't find AwayWorldListSO in resources folder!", Category.Editor);
 			return;
 		}
 
@@ -143,7 +143,7 @@ public class DisableNonEssentialScenes : EditorWindow
 		var asteroidListSO = Resources.LoadAll<AsteroidListSO>("").FirstOrDefault();
 		if (!asteroidListSO)
 		{
-			Logger.LogError("Can't find AsteroidListSO in resources folder!", Category.Unknown);
+			Logger.LogError("Can't find AsteroidListSO in resources folder!", Category.Editor);
 			return;
 		}
 
@@ -171,7 +171,7 @@ public class DisableNonEssentialScenes : EditorWindow
 		var mainStationsSO = Resources.LoadAll<MainStationListSO>("").FirstOrDefault();
 		if (!mainStationsSO)
 		{
-			Logger.LogError("Can't find MainStationListSO in resources folder!", Category.Unknown);
+			Logger.LogError("Can't find MainStationListSO in resources folder!", Category.Editor);
 			return;
 		}
 

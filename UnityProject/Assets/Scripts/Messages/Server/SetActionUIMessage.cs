@@ -146,7 +146,7 @@ public class SetActionUIMessage : ServerMessage
 			}
 			else
 			{
-				Logger.LogError("Failed to find IActionGUI on NetworkIdentity", Category.Unknown);
+				Logger.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
 			}
 		}
 
