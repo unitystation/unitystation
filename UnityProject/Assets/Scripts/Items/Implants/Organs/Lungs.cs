@@ -181,7 +181,7 @@ public class Lungs : BodyPart
 		{
 			if (Random.value < 0.1)
 			{
-				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{gameObject.ExpensiveName()} gasps");
+				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{HealthMaster.gameObject.ExpensiveName()} gasps");
 			}
 
 			if (oxygenPressure > 0)
