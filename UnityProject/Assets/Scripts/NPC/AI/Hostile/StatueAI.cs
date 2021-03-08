@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 namespace Systems.MobAIs
@@ -69,7 +70,7 @@ namespace Systems.MobAIs
 				var dir = (transform.position - coll.GameObject.transform.position).normalized;
 
 				if (coll.GameObject.layer == playersLayer
-				    && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead
+				    && !coll.GameObject.GetComponent<LivingHealthMasterBase>().IsDead
 				    && coll.GameObject.GetComponent<Directional>()?.CurrentDirection == orientations[DirToInt(dir)])
 				{
 					Freeze();

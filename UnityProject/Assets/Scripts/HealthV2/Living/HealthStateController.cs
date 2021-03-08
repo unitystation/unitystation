@@ -8,6 +8,7 @@ namespace HealthV2
 	/// Holds all sync vars which are only sent to this controlling player
 	/// Also holds client RPCs in order to get specific values for a non-controlling player
 	/// </summary>
+	[DisallowMultipleComponent]
 	public class HealthStateController : NetworkBehaviour
 	{
 		private LivingHealthMasterBase livingHealthMasterBase;
@@ -59,6 +60,7 @@ namespace HealthV2
 		#endregion
 
 		#region ServerSetValue
+		//Holds all methods which the server will use to change a health value, will then sync change to client
 
 		[Server]
 		public void SetOverallHealth(float newHealth)
@@ -112,6 +114,7 @@ namespace HealthV2
 		#endregion
 
 		#region ClientSyncMethods
+		//Called when client receives new data from sync vars
 
 		[Client]
 		private void SyncOverallHealth(float oldOverallHealth, float newOverallHealth)
