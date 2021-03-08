@@ -677,7 +677,7 @@ namespace HealthV2
 		{
 			//Reimplement
 
-			//Gib();
+			Gib();
 		}
 
 		[Server]

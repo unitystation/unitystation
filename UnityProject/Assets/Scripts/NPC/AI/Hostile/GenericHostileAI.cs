@@ -5,6 +5,7 @@ using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using HealthV2;
 using Messages.Server.SoundMessages;
 
 
@@ -125,6 +126,8 @@ namespace Systems.MobAIs
 					null,
 					coll.gameObject.WorldPosServer()).ItHit == false)
 				{
+					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) && health.IsDead) continue;
+
 					return coll.gameObject;
 				}
 
