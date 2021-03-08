@@ -4,6 +4,7 @@ using System;
 using AddressableReferences;
 using Audio.Managers;
 using Blob;
+using HealthV2;
 using Objects;
 
 public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo

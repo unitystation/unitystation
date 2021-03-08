@@ -1,4 +1,6 @@
-﻿namespace Health.Sickness
+﻿using HealthV2;
+
+namespace Health.Sickness
 {
 	/// <summary>
 	/// A symptom to be manifested
@@ -7,13 +9,13 @@
 	{
 		public SicknessAffliction SicknessAffliction;
 		public int Stage;
-		public PlayerHealthV2 PlayerHealth;
+		public LivingHealthMasterBase MobHealth;
 
-		public SymptomManifestation(SicknessAffliction sicknessAffliction, int stage, PlayerHealthV2 playerHealth)
+		public SymptomManifestation(SicknessAffliction sicknessAffliction, int stage, LivingHealthMasterBase mobHealth)
 		{
 			SicknessAffliction = sicknessAffliction;
 			Stage = stage;
-			PlayerHealth = playerHealth;
+			MobHealth = mobHealth;
 		}
 	}
 }

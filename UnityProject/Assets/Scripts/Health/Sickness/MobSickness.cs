@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 namespace Health.Sickness
@@ -8,19 +9,21 @@ namespace Health.Sickness
 	/// The sickness state of a particular player.
 	/// </summary>
 	[Serializable]
-	public class PlayerSickness : MonoBehaviour
+	[DisallowMultipleComponent]
+	public class MobSickness : MonoBehaviour
 	{
-		public PlayerHealthV2 playerHealth;
+		private LivingHealthMasterBase mobHealth;
+		public LivingHealthMasterBase MobHealth => mobHealth;
 		public List<SicknessAffliction> sicknessAfflictions;
 
-		public PlayerSickness()
+		public MobSickness()
 		{
 			sicknessAfflictions = new List<SicknessAffliction>();
 		}
 
 		private void Start()
 		{
-			playerHealth = GetComponent<PlayerHealthV2>();
+			mobHealth = GetComponent<LivingHealthMasterBase>();
 		}
 
 		/// <summary>

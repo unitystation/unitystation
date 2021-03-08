@@ -39,7 +39,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	/// <summary>
 	/// Current sicknesses status of the player and their current stage.
 	/// </summary>
-	private PlayerSickness playerSickness = null;
+	private MobSickness mobSickness = null;
 
 	/// <summary>
 	/// List of sicknesses that player has gained immunity.
@@ -89,8 +89,8 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		if (IsDead)
 			return;
 
-		if ((!playerSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
-			playerSickness.Add(sickness, Time.time);
+		if ((!mobSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
+			mobSickness.Add(sickness, Time.time);
 	}
 
 	/// <summary>
@@ -99,7 +99,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	/// <remarks>Thread safe</remarks>
 	public void RemoveSickness(Sickness sickness)
 	{
-		SicknessAffliction sicknessAffliction = playerSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
+		SicknessAffliction sicknessAffliction = mobSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
 
 		if (sicknessAffliction)
 			sicknessAffliction.Heal();
@@ -128,7 +128,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
-		playerSickness = GetComponent<PlayerSickness>();
+		mobSickness = GetComponent<MobSickness>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 

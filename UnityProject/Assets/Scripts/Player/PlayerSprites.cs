@@ -116,6 +116,7 @@ public class PlayerSprites : MonoBehaviour
 
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		//TODO: Need to reimplement fire stacks on players.
+		playerHealth.EnsureInit();
 		playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
 		OnClientFireStacksChange(playerHealth.FireStacks);
 	}

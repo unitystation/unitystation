@@ -5,6 +5,7 @@ using Items;
 using Mirror;
 using UnityEngine;
 using Systems.Clothing;
+using HealthV2;
 
 namespace Clothing
 {

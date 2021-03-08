@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using HealthV2;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Health.Sickness

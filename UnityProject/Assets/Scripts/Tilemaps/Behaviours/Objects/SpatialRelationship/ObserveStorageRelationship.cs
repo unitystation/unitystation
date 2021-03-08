@@ -1,5 +1,6 @@
 
 using System;
+using HealthV2;
 
 /// <summary>
 /// Relationship where one player is observing some interactable storage, which ends when they go out of
