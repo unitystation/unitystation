@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
+using HealthV2;
 
 namespace Objects.Drawers
 {
@@ -122,7 +123,7 @@ namespace Objects.Drawers
 
 			foreach (ObjectBehaviour player in serverHeldPlayers)
 			{
-				LivingHealthBehaviour playerLHB = player.GetComponent<LivingHealthBehaviour>();
+				LivingHealthMasterBase playerLHB = player.GetComponent<LivingHealthMasterBase>();
 				if (playerLHB.ConsciousState == ConsciousState.CONSCIOUS ||
 					playerLHB.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 				{

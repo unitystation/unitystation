@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using Systems.Electricity;
+using HealthV2;
 
 namespace Objects.Medical
 {

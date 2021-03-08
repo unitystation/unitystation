@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers

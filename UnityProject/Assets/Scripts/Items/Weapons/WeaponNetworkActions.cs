@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using AddressableReferences;
+using HealthV2;
 using Items;
 using Messages.Server.SoundMessages;
 using UnityEngine;

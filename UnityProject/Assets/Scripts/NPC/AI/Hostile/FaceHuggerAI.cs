@@ -6,6 +6,7 @@ using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using HealthV2;
 using Messages.Server.SoundMessages;
 using UnityEngine.Serialization;
 
@@ -316,7 +317,7 @@ namespace Systems.MobAIs
 			}
 		}
 
-		private void TryFacehug(Vector3 dir, LivingHealthBehaviour player)
+		private void TryFacehug(Vector3 dir, LivingHealthMasterBase player)
 		{
 			var playerInventory = player.gameObject.GetComponent<PlayerScript>()?.Equipment;
 
@@ -409,7 +410,7 @@ namespace Systems.MobAIs
 			return antiHugger;
 		}
 
-		public override void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour)
+		public override void ActOnLiving(Vector3 dir, LivingHealthMasterBase healthBehaviour)
 		{
 			TryFacehug(dir, healthBehaviour);
 		}

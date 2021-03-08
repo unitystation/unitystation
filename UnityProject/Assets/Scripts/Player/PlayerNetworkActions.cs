@@ -11,6 +11,7 @@ using Audio.Containers;
 using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
+using HealthV2;
 using Messages.Server;
 
 public partial class PlayerNetworkActions : NetworkBehaviour

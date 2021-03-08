@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using UnityEngine;
 
 namespace Systems.Explosions
@@ -130,13 +131,13 @@ namespace Systems.Explosions
 
 		private void DamageLivingThings(Vector3Int worldPosition, int damage)
 		{
-			var damagedLivingThings = (MatrixManager.GetAt<LivingHealthBehaviour>(worldPosition, true)
+			var damagedLivingThings = (MatrixManager.GetAt<LivingHealthMasterBase>(worldPosition, true)
 				//only damage each thing once
 				.Distinct());
 
 			foreach (var damagedLiving in damagedLivingThings)
 			{
-				damagedLiving.ApplyDamage(gameObject, damage, AttackType.Bomb, DamageType.Burn);
+				damagedLiving.ApplyDamageAll(gameObject, damage, AttackType.Bomb, DamageType.Burn);
 			}
 		}
 
