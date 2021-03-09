@@ -745,7 +745,7 @@ public static class Validations
 
 	public static bool HasHand(GameObject player)
 	{
-		LivingHealthMasterBase bodyParts = PlayerManager.LocalPlayerScript.GetComponent<LivingHealthMasterBase>();
+		if(player.TryGetComponent<LivingHealthMasterBase>(out var bodyParts)
 
 		foreach(var part in bodyParts.ImplantList)
 		{
