@@ -91,7 +91,7 @@ public class EmoteSO : ScriptableObject
 
 	public bool checkHandState(GameObject player)
 	{
-		if (!PlayerManager.LocalPlayerScript.playerMove.IsCuffed)
+		if (!player.transform.GetComponent<PlayerScript>().playerMove.IsCuffed)
 		{
 			return true;
 		}
@@ -99,13 +99,13 @@ public class EmoteSO : ScriptableObject
 	}
 
 
-	public BodyType checkPlayerGender()
+	public BodyType checkPlayerGender(GameObject player)
 	{
-		return PlayerManager.LocalPlayerScript.characterSettings.BodyType;
+		return player.transform.GetComponent<PlayerScript>().characterSettings.BodyType;
 	}
 
-	public PlayerHealthV2 getPlayerHealth()
+	public PlayerHealthV2 getPlayerHealth(GameObject player)
 	{
-		return PlayerManager.LocalPlayerScript.playerHealth;
+		return player.transform.GetComponent<PlayerScript>().playerHealth;
 	}
 }
