@@ -41,6 +41,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -56,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
@@ -112,7 +112,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8828330504940196829, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: m_Color.r
+      propertyPath: m_Color.b
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8828330504940196829, guid: 8fee22e722a3782408324281846ebd02,
@@ -122,13 +122,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8828330504940196829, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: m_Color.b
+      propertyPath: m_Color.r
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: initialName
       value: flask of unholy water
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02, type: 3}

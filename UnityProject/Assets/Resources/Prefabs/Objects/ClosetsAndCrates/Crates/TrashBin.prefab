@@ -132,5 +132,15 @@ PrefabInstance:
       propertyPath: weldOverlay
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: soundOnOpen.AssetAddress
+      value: Assets/Prefabs/Effects/BinOpen.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: soundOnClose.AssetAddress
+      value: Assets/Prefabs/Effects/BinClose.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
