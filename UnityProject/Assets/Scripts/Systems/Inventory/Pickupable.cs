@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Messages.Server;
 using UnityEngine;
@@ -147,10 +148,22 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
+		StartCoroutine(serverPreformInteractionLogic(interaction));
+	}
+
+	private IEnumerator serverPreformInteractionLogic(HandApply interaction)
+	{
 		//we validated, but object may only be in extended range
 		var cnt = GetComponent<CustomNetTransform>();
 		var ps = interaction.Performer.GetComponent<PlayerScript>();
 		var extendedRangeOnly = !ps.IsRegisterTileReachable(cnt.RegisterTile, true);
+
+		float animTime = 0.2f;
+		LeanTween.move(gameObject, interaction.Performer.transform, animTime);
+		LeanTween.scale(gameObject, new Vector3(0, 0), animTime);
+		yield return new WaitForSeconds(animTime);
+
+		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
 
 		//if it's in extended range only, then we will nudge it if it is stationary
 		//or pick it up if it is floating.
@@ -159,16 +172,16 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			//this item is not floating and it was not within standard range but is within extended range,
 			//so we will nudge it
 			var worldPosition = cnt.RegisterTile.WorldPositionServer;
-			var trajectory = ((Vector3)ps.WorldPos-worldPosition)/ Random.Range( 10, 31 );
-			cnt.Nudge( new NudgeInfo
+			var trajectory = ((Vector3)ps.WorldPos - worldPosition) / Random.Range(10, 31);
+			cnt.Nudge(new NudgeInfo
 			{
 				OriginPos = worldPosition - trajectory,
 				Trajectory = trajectory,
 				SpinMode = SpinMode.Clockwise,
 				SpinMultiplier = 15,
 				InitialSpeed = 2
-			} );
-			Logger.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Movement,
+			});
+			Logger.LogTraceFormat("Nudging! server pos:{0} player pos:{1}", Category.Security,
 				cnt.ServerState.WorldPosition, interaction.Performer.transform.position);
 			//client prediction doesn't handle nudging, so we need to roll them back
 			ServerRollbackClient(interaction);
@@ -179,7 +192,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			//set ForceInform to false for simulation
 			if (Inventory.ServerAdd(this, interaction.HandSlot))
 			{
-				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Interaction,
+				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security,
 					cnt.ServerState.WorldPosition, interaction.Performer.transform.position, cnt.IsFloatingServer);
 			}
 			else
