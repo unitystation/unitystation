@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: surrenderSimple
   m_EditorClassIdentifier: 
   emoteName: surrenderAlt
+  requiresHands: 1
   viewText: surrenders as they put their hands up in the air!
   youText: Stay calm! You've put your hands up in the air and surrendered.
-  emoteDefaultSounds: []
+  failText: You were unable to preform this action!
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  audioToUse: []
