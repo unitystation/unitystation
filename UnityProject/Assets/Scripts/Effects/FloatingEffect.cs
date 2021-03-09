@@ -18,7 +18,7 @@ public class FloatingEffect : LTEffect
 	public void stopFloating()
 	{
 		willAnimate = false;
-		tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
+		tween.CmdLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
 		tween.isAnim = false;
 		StopAllCoroutines();
 	}
@@ -27,11 +27,11 @@ public class FloatingEffect : LTEffect
 	{
 		while(willAnimate == true)
 		{
-			tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, pos, 0), speed);
+			tween.CmdLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, pos, 0), speed);
 			yield return new WaitForSeconds(speed);
-			tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, -pos, 0), speed);
+			tween.CmdLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, -pos, 0), speed);
 			yield return new WaitForSeconds(speed);
-			tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), speed / 2);
+			tween.CmdLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), speed / 2);
 			yield return new WaitForSeconds(speed / 2);
 		}
 	}
