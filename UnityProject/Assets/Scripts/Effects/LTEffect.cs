@@ -34,14 +34,16 @@ public class LTEffect : NetworkBehaviour
        getOriginalPosition();
     }
 
-    public virtual void CmdStartAnimation()
+	[Command(requiresAuthority = false)]
+	public virtual void CmdStartAnimation()
     {
         tween.isAnim = true;
     }
 
-    public virtual void CmdStopAnimation()
+	[Command(requiresAuthority = false)]
+	public virtual void CmdStopAnimation()
     {
-        tween.CancelObject(this.gameObject, false);
+        tween.CmdCancelObject(this.gameObject, false);
         tween.isAnim = false;
     }
 
