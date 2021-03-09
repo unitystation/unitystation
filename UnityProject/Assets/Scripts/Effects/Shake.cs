@@ -30,13 +30,13 @@ public class Shake : LTEffect
         CmdStartAnimation();
     }
 
-    [Server]
-    public override void CmdStartAnimation()
+	[Command(requiresAuthority = false)]
+	public override void CmdStartAnimation()
     {
         StartCoroutine(Shaking(shakeDuration, shakeDistance, delayBetweenShakes));
     }
 
-    [Server]
+    [Command(requiresAuthority =false)]
     public override void CmdStopAnimation()
     {
         haltShake();
@@ -103,11 +103,11 @@ public class Shake : LTEffect
 
     private void animateSpritePosition(Vector3 pos)
     {
-        tween.LocalMove(axisMode, pos, 0.1f);
+        tween.CmdMove(axisMode, pos, 0.1f);
     }
 
     private void animatePosition(Vector3 pos)
     {
-        tween.LocalMove(axisMode, pos, 0.1f);
+        tween.CmdLocalMove(axisMode, pos, 0.1f);
     }
 }
