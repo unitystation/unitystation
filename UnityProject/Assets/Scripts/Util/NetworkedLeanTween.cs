@@ -65,7 +65,7 @@ public class NetworkedLeanTween : NetworkBehaviour
 				var mat = target.GetComponent<Material>();
 				if(mat == null)
 				{
-					Debug.LogError("[NetworkedLeanTween] -> No material detected!");
+					Logger.LogError("[NetworkedLeanTween] -> No material detected!");
 					break;
 				}
 				color = mat.color;
