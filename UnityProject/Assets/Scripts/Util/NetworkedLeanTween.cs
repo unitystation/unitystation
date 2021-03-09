@@ -17,7 +17,12 @@ public class NetworkedLeanTween : NetworkBehaviour
 	[SyncVar]
 	private Vector3 pos;
 	[SyncVar]
+	private Vector3 scale;
+	[SyncVar]
 	private Quaternion rotation;
+
+	[SyncVar]
+	private Color color;
 
 	public enum Axis
 	{
@@ -51,12 +56,20 @@ public class NetworkedLeanTween : NetworkBehaviour
 			case (AnimType.MOVEMENT):
 				pos = target.position;
 				rotation = target.rotation;
+				scale = target.localScale;
 				target.position = pos;
 				target.rotation = rotation;
+				target.localScale = scale;
 				break;
 			case (AnimType.COLOR):
-				//add later
-				Debug.LogWarning("[NetworkedLeanTween] -> Have not implameneted syncing for colors and alpha values yet.");
+				var mat = target.GetComponent<Material>();
+				if(mat == null)
+				{
+					Debug.LogError("[NetworkedLeanTween] -> No material detected!");
+					break;
+				}
+				color = mat.color;
+				mat.color = color;
 				break;
 		}
 	}
