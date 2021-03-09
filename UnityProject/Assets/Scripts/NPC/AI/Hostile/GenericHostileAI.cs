@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Doors;
@@ -7,6 +8,7 @@ using Random = UnityEngine.Random;
 using AddressableReferences;
 using HealthV2;
 using Messages.Server.SoundMessages;
+using System.Threading.Tasks;
 
 
 namespace Systems.MobAIs
@@ -86,20 +88,20 @@ namespace Systems.MobAIs
 		protected virtual void BeginAttack(GameObject target)
 		{
 			currentStatus = MobStatus.Attacking;
-			FollowTarget(target.transform);
+			FollowTarget(target);
 		}
 
 		protected override void ResetBehaviours()
 		{
 			base.ResetBehaviours();
-			mobFollow.followTarget = null;
+			mobFollow.FollowTarget = null;
 			currentStatus = MobStatus.None;
 			searchWaitTime = 0f;
 		}
 
 		protected virtual void MonitorIdleness()
 		{
-			if (!mobMeleeAttack.performingDecision && mobMeleeAttack.followTarget == null)
+			if (!mobMeleeAttack.performingDecision && mobMeleeAttack.FollowTarget == null)
 			{
 				BeginSearch();
 			}
@@ -173,24 +175,18 @@ namespace Systems.MobAIs
 			movementTickRate = Random.Range(1f, 3f);
 		}
 
-		protected virtual void PlayRandomSound(bool force = false)
+		protected virtual async Task PlayRandomSound(bool force = false)
 		{
-			if (IsDead || IsUnconscious || randomSounds.Count <= 0)
+			while(!IsDead && !IsUnconscious && randomSounds.Count > 0)
 			{
-				return;
+				await Task.Delay(playRandomSoundTimer * 1000); //Converted from seconds to milliseconds
+				if (force || DMMath.Prob(randomSoundProbability))
+				{
+					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+					SoundManager.PlayNetworkedAtPos(randomSounds, transform.position,
+					audioSourceParameters, sourceObj: gameObject);
+				}
 			}
-
-			if (!force && !DMMath.Prob(randomSoundProbability))
-			{
-				return;
-			}
-
-
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
-			SoundManager.PlayNetworkedAtPos(randomSounds, transform.position,
-				audioSourceParameters, sourceObj: gameObject);
-
-			Invoke(nameof(PlayRandomSound), playRandomSoundTimer);
 		}
 
 		/// <summary>
@@ -282,7 +278,7 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if ((damagedBy is null) != false || damagedBy.transform == mobMeleeAttack.followTarget)
+			if ((damagedBy is null) != false || damagedBy == mobMeleeAttack.FollowTarget)
 			{
 				return;
 			}
@@ -316,7 +312,7 @@ namespace Systems.MobAIs
 			}
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		public virtual void OnSpawnServer(SpawnInfo info)
 		{
 			//FIXME This shouldn't be called by client yet it seems it is
 			if (!isServer)

@@ -84,7 +84,7 @@ namespace Systems.MobAIs
 		protected override void MonitorIdleness()
 		{
 
-			if (!mobMeleeAttack.performingDecision && mobMeleeAttack.followTarget == null && !IsSomeoneLookingAtMe())
+			if (!mobMeleeAttack.performingDecision && mobMeleeAttack.FollowTarget == null && !IsSomeoneLookingAtMe())
 			{
 				BeginSearch();
 			}
@@ -94,21 +94,21 @@ namespace Systems.MobAIs
 		{
 			ResetBehaviours();
 			currentStatus = MobStatus.None;
-			mobMeleeAttack.followTarget = null;
+			mobMeleeAttack.FollowTarget = null;
 		}
 
 		protected override void BeginAttack(GameObject target)
 		{
 			ResetBehaviours();
 			currentStatus = MobStatus.Attacking;
-			StartCoroutine(StatueStalk(target.transform));
+			StartCoroutine(StatueStalk(target));
 		}
 
-		IEnumerator StatueStalk(Transform stalked)
+		IEnumerator StatueStalk(GameObject stalked)
 		{
 			while (!IsSomeoneLookingAtMe())
 			{
-				if(mobMeleeAttack.followTarget == null)
+				if(mobMeleeAttack.FollowTarget == null)
 				{
 					mobMeleeAttack.StartFollowing(stalked);
 				}

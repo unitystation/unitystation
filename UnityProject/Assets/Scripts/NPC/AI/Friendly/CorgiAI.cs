@@ -120,7 +120,7 @@ namespace Systems.MobAIs
 					SingleBark();
 				}
 
-				FollowTarget(speaker.GameObject.transform);
+				FollowTarget(speaker.GameObject);
 				yield break;
 			}
 
@@ -202,7 +202,7 @@ namespace Systems.MobAIs
 				if (coll.GameObject == null) continue;
 
 				if (coll.GameObject != gameObject && coll.GameObject.GetComponent<CatAI>() != null
-				                                  && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+				                                  && !coll.GameObject.GetComponent<LivingHealthMasterBase>().IsDead)
 				{
 					return coll.GameObject.GetComponent<CatAI>();
 				}
@@ -218,7 +218,7 @@ namespace Systems.MobAIs
 
 			//Make the cat flee!
 			cat.RunFromDog(gameObject.transform);
-			FollowTarget(cat.gameObject.transform, 5f);
+			FollowTarget(cat.gameObject, 5f);
 			StartCoroutine(RandomBarks());
 		}
 

@@ -32,6 +32,7 @@ namespace Systems.MobAIs
 		private float decisionTimeOut;
 
 		public bool Pause { get; set; }
+		public RegisterTile OriginTile;
 
 		void Awake()
 		{
@@ -76,7 +77,8 @@ namespace Systems.MobAIs
 			{
 				UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
 				cnt.OnTileReached().AddListener(OnTileReached);
-				startPos = transform.position;
+				OriginTile = GetComponent<RegisterTile>();
+				startPos = OriginTile.WorldPositionServer;
 				isServer = true;
 				registerObj = GetComponent<RegisterObject>();
 				registerObj.WaitForMatrixInit(StartServerAgent);

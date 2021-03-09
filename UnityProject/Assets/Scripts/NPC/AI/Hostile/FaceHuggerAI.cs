@@ -13,43 +13,15 @@ using UnityEngine.Serialization;
 
 namespace Systems.MobAIs
 {
-	public class FaceHuggerAI : MobAI, ICheckedInteractable<HandApply>, IServerSpawn
+	public class FaceHuggerAI : GenericHostileAI, ICheckedInteractable<HandApply>, IServerSpawn
 	{
 		[SerializeField]
 		[Tooltip("If true, this hugger won't be counted for the cap Queens use for lying eggs.")]
 		private bool ignoreInQueenCount = false;
-
-		[SerializeField] private List<AddressableAudioSource> deathSounds = default;
-
-		[SerializeField] private List<AddressableAudioSource> randomSound = default;
-
-		[SerializeField]
-		[Tooltip("Amount of time to wait between each random sound. Decreasing this value could affect performance!")]
-		private int playRandomSoundTimer = 3;
-
-		[SerializeField]
-		[Range(0,100)]
-		private int randomSoundProbability = 20;
-
 		[FormerlySerializedAs("Bite")] [SerializeField]
 		private AddressableAudioSource bite = null;
-
-		[SerializeField] private float searchTickRate = 0.5f;
-
-		private float movementTickRate = 1f;
-		private float moveWaitTime = 0f;
-		private float searchWaitTime = 0f;
-		private bool deathSoundPlayed = false;
-		[SerializeField] private MobStatus currentStatus;
-		public MobStatus CurrentStatus => currentStatus;
-
 		[SerializeField] private GameObject maskObject = null;
-
-		private LayerMask hitMask;
-		private int playersLayer;
 		private MobMeleeAction mobMeleeAction;
-		private ConeOfSight coneOfSight;
-		private SimpleAnimal simpleAnimal;
 
 		protected override void Awake()
 		{
@@ -61,58 +33,13 @@ namespace Systems.MobAIs
 		{
 			base.OnEnable();
 			mobMeleeAction = gameObject.GetComponent<MobMeleeAction>();
-			hitMask = LayerMask.GetMask( "Players");
-			playersLayer = LayerMask.NameToLayer("Players");
-			coneOfSight = GetComponent<ConeOfSight>();
-			PlayRandomSound();
-		}
-
-		protected override void AIStartServer()
-		{
-			movementTickRate = Random.Range(1f, 3f);
-			BeginSearch();
-		}
-
-		/// <summary>
-		/// Declare the current state of the mob as Searching.
-		/// </summary>
-		private void BeginSearch()
-		{
-			searchWaitTime = 0f;
-			currentStatus = MobStatus.Searching;
-		}
-
-		/// <summary>
-		/// Declare the current state of the mob as attacking.
-		/// </summary>
-		/// <param name="target">Gameobject that this mob will target to attack</param>
-		private void BeginAttack(GameObject target)
-		{
-			currentStatus = MobStatus.Attacking;
-			FollowTarget(target.transform);
-		}
-
-		protected override void ResetBehaviours()
-		{
-			base.ResetBehaviours();
-			mobFollow.followTarget = null;
-			currentStatus = MobStatus.None;
-			searchWaitTime = 0f;
-		}
-
-		private void MonitorIdleness()
-		{
-			if (!mobMeleeAction.performingDecision && mobMeleeAction.followTarget == null)
-			{
-				BeginSearch();
-			}
 		}
 
 		/// <summary>
 		/// Looks around and tries to find players to target
 		/// </summary>
 		/// <returns>Gameobject of the first player it found</returns>
-		protected virtual GameObject SearchForTarget()
+		protected override GameObject SearchForTarget()
 		{
 			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , directional.CurrentDirection.Vector, 10f, 20);
 			if (hits.Count == 0)
@@ -134,186 +61,15 @@ namespace Systems.MobAIs
 		}
 
 		/// <summary>
-		/// Makes the mob move to a random direction
-		/// </summary>
-		protected virtual void DoRandomMove()
-		{
-			var nudgeDir = GetNudgeDirFromInt(Random.Range(0, 8));
-			if (registerObject.Matrix.IsSpaceAt(registerObject.LocalPosition + nudgeDir.To3Int(), true))
-			{
-				for (int i = 0; i < 8; i++)
-				{
-					var testDir = GetNudgeDirFromInt(i);
-					var checkTile = registerObject.LocalPosition + testDir.To3Int();
-					if (registerObject.Matrix.IsSpaceAt(checkTile, true))
-					{
-						continue;
-					}
-					if (registerObject.Matrix.IsPassableAtOneMatrixOneTile(checkTile, true))
-					{
-						nudgeDir = testDir;
-						break;
-					}
-					else
-					{
-						if (!registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
-						{
-							continue;
-						}
-						nudgeDir = testDir;
-						break;
-					}
-				}
-			}
-
-			NudgeInDirection(nudgeDir);
-			movementTickRate = Random.Range(1f, 3f);
-		}
-
-		protected virtual void PlayRandomSound(bool force = false)
-		{
-			if (IsDead || IsUnconscious || randomSound.Count <= 0)
-			{
-				return;
-			}
-
-			if (!force)
-			{
-				if (!DMMath.Prob(randomSoundProbability))
-				{
-					return;
-				}
-			}
-
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
-			SoundManager.PlayNetworkedAtPos(randomSound.PickRandom(), transform.position,
-				audioSourceParameters, sourceObj: gameObject);
-
-			Invoke(nameof(PlayRandomSound), playRandomSoundTimer);
-		}
-
-		/// <summary>
 		/// What happens when the mob dies or is unconscious
 		/// </summary>
-		protected virtual void HandleDeathOrUnconscious()
+		protected override void HandleDeathOrUnconscious()
 		{
-			if (!IsDead || deathSoundPlayed || deathSounds.Count <= 0) return;
-			deathSoundPlayed = true;
-
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
-			SoundManager.PlayNetworkedAtPos(deathSounds.PickRandom(), transform.position,
-				audioSourceParameters, sourceObj: gameObject);
+			base.HandleDeathOrUnconscious();
 
 			if (ignoreInQueenCount == false)
 			{
 				XenoQueenAI.RemoveFacehuggerFromCount();
-			}
-		}
-
-		/// <summary>
-		/// What happens if the mob is searching
-		/// </summary>
-		protected virtual void HandleSearch()
-		{
-			moveWaitTime += Time.deltaTime;
-			if (moveWaitTime >= movementTickRate)
-			{
-				moveWaitTime = 0f;
-				DoRandomMove();
-			}
-
-			searchWaitTime += Time.deltaTime;
-			if (!(searchWaitTime >= searchTickRate)) return;
-			searchWaitTime = 0f;
-			var findTarget = SearchForTarget();
-			if (findTarget != null)
-			{
-				BeginAttack(findTarget);
-			}
-			else
-			{
-				BeginSearch();
-			}
-		}
-
-		protected override void UpdateMe()
-		{
-			base.UpdateMe();
-
-			if (!isServer) return;
-
-			if (IsDead || IsUnconscious)
-			{
-				HandleDeathOrUnconscious();
-				return;
-			}
-
-			switch (currentStatus)
-			{
-				case MobStatus.Searching:
-					HandleSearch();
-					return;
-				case MobStatus.Attacking:
-					MonitorIdleness();
-					break;
-				case MobStatus.None:
-					MonitorIdleness();
-					break;
-				default:
-					MonitorIdleness();
-					break;
-			}
-		}
-
-		protected override void OnAttackReceived(GameObject damagedBy = null)
-		{
-			if (damagedBy == null)
-			{
-				StartFleeing(damagedBy);
-				return;
-			}
-
-			if (health.OverallHealth < -20f)
-			{
-				//30% chance the mob decides to flee:
-				if (Random.value < 0.3f)
-				{
-					StartFleeing(damagedBy, 5f);
-					return;
-				}
-			}
-
-			if (damagedBy.transform == mobMeleeAction.followTarget)
-			{
-				return;
-			}
-			//80% chance the mob decides to attack the new attacker
-			if (Random.value > 0.8f)
-			{
-				return;
-			}
-			var playerScript = damagedBy.GetComponent<PlayerScript>();
-			if (playerScript != null)
-			{
-				BeginAttack(damagedBy);
-			}
-		}
-
-		public override void LocalChatReceived(ChatEvent chatEvent)
-		{
-			if (chatEvent.originator == null) return;
-
-			if (currentStatus != MobStatus.Searching && currentStatus != MobStatus.None) return;
-
-			//face towards the origin:
-			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
-			directional.FaceDirection(Orientation.From(dir));
-
-			//Then scan to see if anyone is there:
-			var findTarget = SearchForTarget();
-			if (findTarget != null)
-			{
-				BeginAttack(findTarget);
 			}
 		}
 
@@ -439,26 +195,15 @@ namespace Systems.MobAIs
 			Despawn.ServerSingle(gameObject);
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		public override void OnSpawnServer(SpawnInfo info)
 		{
 			if (ignoreInQueenCount == false)
 			{
 				XenoQueenAI.AddFacehuggerToCount();
 			}
-
-			mobSprite.SetToNPCLayer();
-			registerObject.RestoreAllToDefault();
-			simpleAnimal.SetDeadState(false);
+			base.OnSpawnServer(info);
 			ResetBehaviours();
 			BeginSearch();
-		}
-
-		public override void OnDespawnServer(DespawnInfo info)
-		{
-			base.OnDespawnServer(info);
-			mobSprite.SetToBodyLayer();
-			deathSoundPlayed = false;
-			registerObject.Passable = true;
 		}
 
 		private readonly List<NamedSlot> faceSlots = new List<NamedSlot>()
@@ -467,12 +212,5 @@ namespace Systems.MobAIs
 			NamedSlot.head,
 			NamedSlot.mask
 		};
-
-		public enum MobStatus
-		{
-			None,
-			Searching,
-			Attacking
-		}
 	}
 }

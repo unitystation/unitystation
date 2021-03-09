@@ -90,7 +90,7 @@ namespace Systems.MobAIs
 				if (coll.GameObject == null) continue;
 
 				if (coll.GameObject != gameObject && coll.GameObject.GetComponent<MouseAI>() != null
-				                                  && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+				                                  && !coll.GameObject.GetComponent<LivingHealthMasterBase>().IsDead)
 				{
 					return coll.GameObject.GetComponent<MouseAI>();
 				}
@@ -101,10 +101,10 @@ namespace Systems.MobAIs
 		private void HuntMouse(MouseAI mouse)
 		{
 			//Random chance of going nuts and destroying whatever is in the way
-			mobAttack.onlyHitTarget = Random.value != 0.1f;
+			mobAttack.onlyActOnTarget = Random.value != 0.1f;
 
 			Hiss(mouse.gameObject);
-			mobAttack.StartFollowing(mouse.transform);
+			mobAttack.StartFollowing(mouse.gameObject);
 		}
 
 		private void Purr(GameObject purred = null)
