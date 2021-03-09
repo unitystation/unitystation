@@ -36,7 +36,7 @@ public class EmoteSO : ScriptableObject
 	[Tooltip("A list of sounds for female characters.")]
 	public List<AddressableAudioSource> femaleSounds = new List<AddressableAudioSource>();
 
-	[SerializeField, Range(0.1f, 2)]
+	[SerializeField, MinMaxSlider(0.1f, 2)]
 	private RangeAttribute pitchRange = new RangeAttribute(0.7f, 1f); //This doesn't want to appear in the inspector for some reason.
 
 	[HideInInspector]
