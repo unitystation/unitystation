@@ -15,11 +15,17 @@ public class EmoteSO : ScriptableObject
 	[Tooltip("Never leave this blank!")]
 	public string emoteName = "";
 
+	[Tooltip("Does this emote require the player to have hands that exist and not handcuffed?")]
+	public bool requiresHands = false;
+
 	[Tooltip("The emote text viewed by others around you.")]
 	public string viewText = "did something!";
 
 	[Tooltip("The emote text viewed by you only. Leave blank if you don't want text to appear.")]
 	public string youText = "";
+
+	[Tooltip("If the emote has a special requirment and fails to meet it.")]
+	public string failText = "You were unable to preform this action!";
 
 	[Tooltip("A list of sounds that can be played when this emote happens.")]
 	public List<AddressableAudioSource> defaultSounds = new List<AddressableAudioSource>();
@@ -38,8 +44,15 @@ public class EmoteSO : ScriptableObject
 
 	public virtual void Do(GameObject player)
 	{
-		Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
-		playAudio(defaultSounds, player);
+		if(requiresHands == true && CheckHandState(player) == false)
+		{
+			Chat.AddActionMsgToChat(player, $"{failText}", $"");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
+			playAudio(defaultSounds, player);
+		}
 	}
 
 	public void playAudio(List<AddressableAudioSource> audio, GameObject player)
@@ -76,6 +89,17 @@ public class EmoteSO : ScriptableObject
 				break;
 		}
 	}
+
+
+	public bool CheckHandState(GameObject player)
+	{
+		if (!PlayerManager.LocalPlayerScript.playerMove.IsCuffed)
+		{
+			return true;
+		}
+		return Validations.HasHand(player);
+	}
+
 
 	public BodyType checkPlayerGender()
 	{

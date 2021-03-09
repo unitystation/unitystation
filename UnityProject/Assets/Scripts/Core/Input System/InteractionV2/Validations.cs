@@ -742,4 +742,18 @@ public static class Validations
 	{
 		return interaction.TargetObject != null;
 	}
+
+	public static bool HasHand(GameObject player)
+	{
+		LivingHealthMasterBase bodyParts = PlayerManager.LocalPlayerScript.GetComponent<LivingHealthMasterBase>();
+
+		foreach(var part in bodyParts.ImplantList)
+		{
+			if(part.bodyPartType == BodyPartType.LeftArm || part.bodyPartType == BodyPartType.RightArm)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
