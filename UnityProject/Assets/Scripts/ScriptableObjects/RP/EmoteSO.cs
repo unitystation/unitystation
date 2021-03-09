@@ -66,7 +66,7 @@ public class EmoteSO : ScriptableObject
 			return;
 		}
 
-		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(pitchRange.min, pitchRange.max));
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(pitchRange.x, pitchRange.y));
 		SoundManager.PlayNetworkedAtPos(audioList.PickRandom(), player.transform.position, audioSourceParameters, polyphonic: true);
 	}
 
