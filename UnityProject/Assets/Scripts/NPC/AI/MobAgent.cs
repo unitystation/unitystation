@@ -275,7 +275,7 @@ namespace Systems.MobAIs
 		/// This observation method uses 8 observation vectors. So remember to
 		/// add them to your brain
 		/// </summary>
-		protected void ObserveAdjacentTiles(bool allowTargetPush = false, Transform target = null)
+		protected void ObserveAdjacentTiles(bool allowTargetPush = false, RegisterTile target = null)
 		{
 			var curPos = registerObj.LocalPositionServer;
 
@@ -309,7 +309,7 @@ namespace Systems.MobAIs
 							{
 								if (target != null)
 								{
-									if (checkPos == Vector3Int.RoundToInt(target.localPosition))
+									if (checkPos == target.LocalPositionServer)
 									{
 										//it is our target! Allow mob to attempt to walk into it (can be used for attacking)
 										AddVectorObs(true);

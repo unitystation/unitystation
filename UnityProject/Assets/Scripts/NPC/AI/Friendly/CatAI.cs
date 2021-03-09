@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
+using HealthV2;
 
 
 namespace Systems.MobAIs

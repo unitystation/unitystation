@@ -76,7 +76,7 @@ namespace Systems.MobAIs
 			//Observe the direction to target
 			AddVectorObs((TargetTile.WorldPositionServer - OriginTile.WorldPositionServer).NormalizeTo2Int());
 
-			ObserveAdjacentTiles(true, FollowTarget.transform);
+			ObserveAdjacentTiles(true, TargetTile);
 		}
 
 		public override void AgentAction(float[] vectorAction, string textAction)
@@ -88,7 +88,7 @@ namespace Systems.MobAIs
 
 		protected override void OnPushSolid(Vector3Int destination)
 		{
-			if (destination == Vector3Int.RoundToInt(FollowTarget.transform.localPosition))
+			if (destination == Vector3Int.RoundToInt(TargetTile.WorldPositionServer))
 			{
 				SetReward(1f);
 			}
