@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -36,7 +34,7 @@ public class EmoteSO : ScriptableObject
 	[Tooltip("A list of sounds for female characters.")]
 	public List<AddressableAudioSource> femaleSounds = new List<AddressableAudioSource>();
 
-	[SerializeField, MinMaxSlider(0.1f, 2)]
+	[SerializeField]
 	private Vector2 pitchRange = new Vector2(0.7f, 1f);
 
 	[HideInInspector]

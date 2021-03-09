@@ -9,7 +9,15 @@ public class EmoteActionManager : MonoBehaviour
 
     public static bool FindEmote(string emote, EmoteActionManager instance)
     {
-		var emoteArray = emote.Split(' ');
+		var emoteArray = new string[0];
+		if (emote.StartsWith("*"))
+		{
+			emoteArray = emote.Split('*');
+		}
+		else
+		{
+			emoteArray = emote.Split(' ');
+		}
         foreach (var e in instance.emotes)
         {
             if(emoteArray[1] == e.emoteName)
