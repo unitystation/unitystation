@@ -62,7 +62,7 @@ public class EmoteSO : ScriptableObject
 		//If there is no audio in the audio list, exit out of this function.
 		if (audioList.Count == 0)
 		{
-			Debug.LogWarning("[EmoteSO/" + $"{this.name}] - " + "No audio files detected!.");
+			Logger.LogWarning("[EmoteSO/" + $"{this.name}] - " + "No audio files detected!.");
 			return;
 		}
 
