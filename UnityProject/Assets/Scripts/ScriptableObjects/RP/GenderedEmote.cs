@@ -15,8 +15,8 @@ public class GenderedEmote : EmoteSO
 	
 	public override void Do(GameObject player)
 	{
-		BodyType playerGender = checkPlayerGender();
-		PlayerHealthV2 playerHealth = getPlayerHealth();
+		BodyType playerGender = checkPlayerGender(player);
+		PlayerHealthV2 playerHealth = getPlayerHealth(player);
 		checkPlayerState(playerHealth, playerGender);
 		Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText_Final}.");
 		playAudio(audioToUse, player);
