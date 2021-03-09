@@ -919,6 +919,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		float damage = shockPower;
 		ApplyDamage(null, damage, AttackType.Internal, DamageType.Burn);
+		PlayerManager.LocalPlayerScript.PlayerEffectsManager.GetComponent<Shake>().startShake(6f, 0.1f, 0.1f);
 	}
 
 	/// ---------------------------
