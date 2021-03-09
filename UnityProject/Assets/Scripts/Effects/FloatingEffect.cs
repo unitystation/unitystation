@@ -5,8 +5,8 @@ using UnityEngine;
 public class FloatingEffect : LTEffect
 {
 	public bool willAnimate;
-	private float speed = 1.1f;
-	private float pos = 0.1f;
+	private const float speed = 0.9f;
+	private const float pos = 0.08f;
 
 	public void startFloating()
 	{
