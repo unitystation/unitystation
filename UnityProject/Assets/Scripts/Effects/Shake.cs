@@ -103,11 +103,11 @@ public class Shake : LTEffect
 
     private void animateSpritePosition(Vector3 pos)
     {
-        tween.Move(axisMode, pos, 0.1f);
+        tween.LocalMove(axisMode, pos, 0.1f);
     }
 
     private void animatePosition(Vector3 pos)
     {
-        tween.Move(axisMode, pos, 0.1f);
+        tween.LocalMove(axisMode, pos, 0.1f);
     }
 }
