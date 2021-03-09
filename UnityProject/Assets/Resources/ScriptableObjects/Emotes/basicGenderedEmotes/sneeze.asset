@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
   m_Name: sneeze
   m_EditorClassIdentifier: 
-  emoteName: 
-  viewText: did something!
-  youText: 
+  emoteName: sneeze
+  requiresHands: 0
+  viewText: sneezes.
+  youText: Better grab some tissues, You've sneezed.
+  failText: You were unable to preform this action!
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
   audioToUse: []
-  critViewText: screams in pain!
+  critViewText: recoils in pain as they sneeze.

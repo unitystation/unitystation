@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
   m_Name: Scream
   m_EditorClassIdentifier: 
-  emoteName: 
+  emoteName: scream
+  requiresHands: 0
   viewText: Screams!
-  youText: 
+  youText: You scream!
+  failText: You cannot scream!
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
   audioToUse: []
-  crit_viewText: screams in pain!
+  critViewText: screams in pain!

@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
   m_Name: laugh
   m_EditorClassIdentifier: 
-  emoteName: 
-  viewText: did something!
-  youText: 
+  emoteName: laugh
+  requiresHands: 0
+  viewText: laughs.
+  youText: You let out a laugh.
+  failText: Not Funny. Didn't laugh.
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
   audioToUse: []
-  critViewText: screams in pain!
+  critViewText: hides their pain behind a laugh.

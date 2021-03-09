@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
   m_Name: cough
   m_EditorClassIdentifier: 
-  emoteName: 
-  viewText: did something!
-  youText: 
+  emoteName: cough
+  requiresHands: 0
+  viewText: coughs.
+  youText: You cough.
+  failText: You were unable to preform this action!
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
   audioToUse: []
-  critViewText: screams in pain!
+  critViewText: lets out a painful cough.
