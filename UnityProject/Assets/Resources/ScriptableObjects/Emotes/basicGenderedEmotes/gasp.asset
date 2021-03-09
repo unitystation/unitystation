@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
   m_Name: gasp
   m_EditorClassIdentifier: 
-  emoteName: 
-  viewText: did something!
-  youText: 
+  emoteName: gasp
+  requiresHands: 0
+  viewText: gasps!
+  youText: You gasp!
+  failText: Either you're in the black void of space or you don't have functioning
+    lungs.
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
   audioToUse: []
-  critViewText: screams in pain!
+  critViewText: have trouble breathing as they gasp for air!
