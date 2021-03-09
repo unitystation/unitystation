@@ -125,7 +125,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		this.isLayingDown = isDown;
 		if (isDown)
 		{
-			uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
+			LeanTween.rotate(uprightSprites.gameObject, new Vector3(0, 0, -90), 0.15f);
+			//uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
@@ -137,7 +138,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		}
 		else
 		{
-			uprightSprites.ExtraRotation = Quaternion.identity;
+			LeanTween.rotate(uprightSprites.gameObject, new Vector3(0, 0, 0), 0.19f);
+			//uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
