@@ -15,6 +15,9 @@ using Random = UnityEngine.Random;
 public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>,
 	IRightClickable, IServerDespawn, IServerInventoryMove
 {
+	[SerializeField, Tooltip("The speed of the pickup animation.")]
+	private float pickupAnimSpeed = 0.2f;
+
 	private CustomNetTransform customNetTransform;
 	public CustomNetTransform CustomNetTransform => customNetTransform;
 	private ObjectBehaviour objectBehaviour;
@@ -158,10 +161,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		var ps = interaction.Performer.GetComponent<PlayerScript>();
 		var extendedRangeOnly = !ps.IsRegisterTileReachable(cnt.RegisterTile, true);
 
-		float animTime = 0.2f;
-		LeanTween.move(gameObject, interaction.Performer.transform, animTime);
-		LeanTween.scale(gameObject, new Vector3(0, 0), animTime);
-		yield return WaitFor.Seconds(animTime);
+		LeanTween.move(gameObject, interaction.Performer.transform, pickupAnimSpeed);
+		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
+		yield return WaitFor.Seconds(pickupAnimSpeed);
 
 		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
 
