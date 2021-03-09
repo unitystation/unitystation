@@ -117,6 +117,24 @@ public class NetworkedLeanTween : NetworkBehaviour
 				break;
 		}
 	}
+	public void LocalMove(Axis axis, Vector3 vector, float time)
+	{
+		switch (axis)
+		{
+			case (Axis.X):
+				LeanTween.moveLocalX(target.gameObject, vector.x, time);
+				break;
+			case (Axis.Y):
+				LeanTween.moveLocalY(target.gameObject, vector.y, time);
+				break;
+			case (Axis.Z):
+				LeanTween.moveLocalZ(target.gameObject, vector.z, time);
+				break;
+			case (Axis.XY):
+				LeanTween.moveLocal(target.gameObject, vector, time);
+				break;
+		}
+	}
 
 	public void RotateGameObject(Vector3 vector, float time)
 	{
