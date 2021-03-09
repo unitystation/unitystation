@@ -243,7 +243,7 @@ public class Layer : MonoBehaviour
 			{
 				var z = -1;
 
-				while (tileOverlays.ContainsValue(z) == true)
+				while (tileOverlays.ContainsValue(z))
 				{
 					z--;
 				}
@@ -269,6 +269,8 @@ public class Layer : MonoBehaviour
 
 		tilemap.SetColor(pos, color);
 		tilemap.SetTransformMatrix(pos, transformMatrix);
+
+		position.z = 0;
 		subsystemManager?.UpdateAt(position);
 	}
 
@@ -279,9 +281,17 @@ public class Layer : MonoBehaviour
 
 		if (overlayStore.TryGetValue(position, out var pos) && pos.TryGetValue(overlayName, out var z))
 		{
+			if (pos.Count == 1)
+			{
+				overlayStore.Remove(position);
+			}
+			else
+			{
+				pos.Remove(overlayName);
+			}
+
 			position.z = z;
 			tileRemoved = InternalSetTile(position, null);
-			pos.Remove(overlayName);
 		}
 
 		position.z = 0;
@@ -309,13 +319,19 @@ public class Layer : MonoBehaviour
 				}
 			}
 
+			position.z = 0;
 			foreach (var removed in queuedRemove)
 			{
+				if (pos.Count == queuedRemove.Count)
+				{
+					overlayStore.Remove(position);
+					break;
+				}
+
 				pos.Remove(removed);
 			}
 		}
 
-		position.z = 0;
 		subsystemManager.UpdateAt(position);
 	}
 
@@ -323,24 +339,18 @@ public class Layer : MonoBehaviour
 	{
 		position.z = 0;
 
-		var queuedRemove = new List<string>();
-
 		if (overlayStore.TryGetValue(position, out var pos))
 		{
 			foreach (var overlay in pos)
 			{
 				position.z = overlay.Value;
 				InternalSetTile(position, null);
-				queuedRemove.Add(overlay.Key);
 			}
 
-			foreach (var removed in queuedRemove)
-			{
-				pos.Remove(removed);
-			}
+			position.z = 0;
+			overlayStore.Remove(position);
 		}
 
-		position.z = 0;
 		subsystemManager.UpdateAt(position);
 	}
 

@@ -20,10 +20,12 @@ namespace Systems.Atmospherics
 
 		private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
 
-		public Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
+		private Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
+		public Dictionary<Vector3Int, HashSet<Gas>> FogTiles => fogTiles;
 
 		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> reactions =
 			new ConcurrentDictionary<Vector3Int, HashSet<GasReactions>>();
+		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> Reactions => reactions;
 
 		private static readonly int FIRE_FX_Z = -2;
 
@@ -35,7 +37,10 @@ namespace Systems.Atmospherics
 		private UniqueQueue<MetaDataNode> winds;
 
 		private UniqueQueue<FogEffect> addFog; //List of tiles to add chemcial fx to
+		public UniqueQueue<FogEffect> AddFog => addFog;
+
 		private UniqueQueue<FogEffect> removeFog; //List of tiles to remove the chemical fx from
+		public UniqueQueue<FogEffect> RemoveFog => removeFog;
 
 		private UniqueQueue<ReactionData> addReaction; //List of tiles to add chemcial fx to
 
@@ -306,13 +311,13 @@ namespace Systems.Atmospherics
 				{
 					if (removeFog.TryDequeue(out var removeFogNode))
 					{
-						if (!fogTiles.ContainsKey(removeFogNode.metaDataNode.Position)) continue;
+						if(fogTiles.TryGetValue(removeFogNode.metaDataNode.Position, out var data) == false) continue;
 
-						if (!fogTiles[removeFogNode.metaDataNode.Position].Contains(removeFogNode.gas)) continue;
+						if (data.Contains(removeFogNode.gas) == false) continue;
 
 						tileChangeManager.RemoveOverlaysOfName(removeFogNode.metaDataNode.Position, LayerType.Effects, removeFogNode.gas.TileName);
 
-						if (fogTiles[removeFogNode.metaDataNode.Position].Count == 1)
+						if (data.Count == 1)
 						{
 							fogTiles.Remove(removeFogNode.metaDataNode.Position);
 							continue;

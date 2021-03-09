@@ -198,15 +198,23 @@ namespace Systems.Atmospherics
 
 				var data = new ReactionManager.FogEffect {metaDataNode = node, gas = gas};
 
+				//Dont add if already adding
+				if(node.ReactionManager.AddFog.Contains(data)) continue;
+
+				//Dont remove if already removing
+				if(node.ReactionManager.RemoveFog.Contains(data)) continue;
+
 				if(gasAmount > gas.MinMolesToSee)
 				{
-					if (node.ReactionManager.fogTiles.ContainsKey(data.metaDataNode.Position) && node.ReactionManager.fogTiles[data.metaDataNode.Position].Contains(gas)) continue;
+					//Dont add if tile is already set
+					if (node.ReactionManager.FogTiles.ContainsKey(data.metaDataNode.Position) && node.ReactionManager.FogTiles[data.metaDataNode.Position].Contains(gas)) continue;
 
 					node.ReactionManager.AddFogEvent(data);
 				}
 				else
 				{
-					if (!node.ReactionManager.fogTiles.ContainsKey(data.metaDataNode.Position)) continue;
+					//Dont remove if there isn't a tile set
+					if (node.ReactionManager.FogTiles.ContainsKey(data.metaDataNode.Position) == false) continue;
 
 					node.ReactionManager.RemoveFogEvent(data);
 				}
