@@ -161,7 +161,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		float animTime = 0.2f;
 		LeanTween.move(gameObject, interaction.Performer.transform, animTime);
 		LeanTween.scale(gameObject, new Vector3(0, 0), animTime);
-		yield return new WaitForSeconds(animTime);
+		yield return WaitFor.Seconds(animTime);
 
 		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
 
