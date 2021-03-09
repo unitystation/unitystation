@@ -19,7 +19,7 @@ public class GUI_CoordReadout : MonoBehaviour
 	{
 		if (xText == null || yText == null)
 		{
-			Logger.LogError("Coord Readout not setup correctly!", Category.UI);
+			Logger.LogError("Coord Readout not setup correctly!", Category.Shuttles);
 			this.enabled = false;
 			return;
 		}

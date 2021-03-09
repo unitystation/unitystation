@@ -5,6 +5,9 @@ using Doors.Modules;
 using Mirror;
 using UnityEngine;
 using Systems.Electricity;
+using HealthV2;
+using Messages.Client.NewPlayer;
+using Messages.Server;
 
 //TODO: Need to reimplement hacking with this system. Might be a nightmare, dk yet.
 namespace Doors
@@ -405,9 +408,9 @@ namespace Doors
 
 		private void ServerDamageOnClose()
 		{
-			foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true) )
+			foreach (var healthBehaviour in matrix.Get<LivingHealthMasterBase>(registerTile.LocalPositionServer, true) )
 			{
-				healthBehaviour.ApplyDamage(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
+				healthBehaviour.ApplyDamageAll(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
 			}
 		}
 

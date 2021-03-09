@@ -1,10 +1,11 @@
 ﻿using System;
 using Mirror;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using ScriptableObjects;
 using Random = UnityEngine.Random;
-using SoundMessages;
+
 
 namespace Objects.Construction
 {

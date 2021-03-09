@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Telepathy;
 
 public static class InputOutputFunctions //for all the date of formatting of   Output / Input
 {
@@ -66,8 +65,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 				return;
 			}
 
-			supplyDep.SourceVoltage = (float) Current.Current() *
-			                          (ElectricityFunctions.WorkOutResistance(supplyDep.ResistanceComingFrom));
+			supplyDep.SourceVoltage = (float) Current.Current() * ElectricityFunctions.WorkOutResistance(supplyDep.ResistanceComingFrom);
 		}
 
 		//ELCurrent.CurrentWorkOnNextListADD(Thiswire);

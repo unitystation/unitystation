@@ -15,10 +15,20 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4097648565813734964, guid: a12add7b219842843b678dec171704cb,
         type: 3}
+      propertyPath: FireDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4097648565813734964, guid: a12add7b219842843b678dec171704cb,
+        type: 3}
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 1791094763296440269, guid: 8671f227240c2ab468b1568a2a321d0d,
         type: 3}
+    - target: {fileID: 4097648565813734964, guid: a12add7b219842843b678dec171704cb,
+        type: 3}
+      propertyPath: firemodeUsage.Array.data[0]
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4097648565813734964, guid: a12add7b219842843b678dec171704cb,
         type: 3}
       propertyPath: firemodeProjectiles.Array.data[0]
@@ -31,11 +41,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1791094763296440269, guid: 8671f227240c2ab468b1568a2a321d0d,
         type: 3}
-    - target: {fileID: 4097648565813734964, guid: a12add7b219842843b678dec171704cb,
-        type: 3}
-      propertyPath: firemodeUsage.Array.data[0]
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 5865673803328853950, guid: a12add7b219842843b678dec171704cb,
         type: 3}
       propertyPath: oreEff
@@ -58,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6439005145208020592, guid: a12add7b219842843b678dec171704cb,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6439005145208020592, guid: a12add7b219842843b678dec171704cb,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -73,6 +83,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6439005145208020592, guid: a12add7b219842843b678dec171704cb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6439005145208020592, guid: a12add7b219842843b678dec171704cb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +100,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6439005145208020592, guid: a12add7b219842843b678dec171704cb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6439005145208020592, guid: a12add7b219842843b678dec171704cb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6439005145208020592, guid: a12add7b219842843b678dec171704cb,
         type: 3}
@@ -119,10 +124,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6892171559748815974, guid: a12add7b219842843b678dec171704cb,
         type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: aceda5d47f145de4e836cbc3609f1e39,
-        type: 2}
+      propertyPath: hitDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6892171559748815974, guid: a12add7b219842843b678dec171704cb,
+        type: 3}
+      propertyPath: initialName
+      value: advanced plasma cutter
+      objectReference: {fileID: 0}
     - target: {fileID: 6892171559748815974, guid: a12add7b219842843b678dec171704cb,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -137,14 +146,10 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6892171559748815974, guid: a12add7b219842843b678dec171704cb,
         type: 3}
-      propertyPath: hitDamage
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6892171559748815974, guid: a12add7b219842843b678dec171704cb,
-        type: 3}
-      propertyPath: initialName
-      value: advanced plasma cutter
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: aceda5d47f145de4e836cbc3609f1e39,
+        type: 2}
     - target: {fileID: 7503013728425484879, guid: a12add7b219842843b678dec171704cb,
         type: 3}
       propertyPath: Projectile

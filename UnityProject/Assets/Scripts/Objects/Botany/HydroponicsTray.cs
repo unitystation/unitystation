@@ -375,7 +375,7 @@ namespace Objects.Botany
 					if (growingPlantStage >= plantData.GrowthSpritesSOs.Count)
 					{
 						Logger.Log(
-							$"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.PlantName}");
+							$"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.PlantName}", Category.Botany);
 						return;
 					}
 

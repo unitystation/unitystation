@@ -8,7 +8,8 @@ using System.Linq;
 using UnityEngine;
 using AddressableReferences;
 using DatabaseAPI;
-using SoundMessages;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 
 /// <summary>
 /// Provides central access to the Players Health
@@ -38,7 +39,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	/// <summary>
 	/// Current sicknesses status of the player and their current stage.
 	/// </summary>
-	private PlayerSickness playerSickness = null;
+	private MobSickness mobSickness = null;
 
 	/// <summary>
 	/// List of sicknesses that player has gained immunity.
@@ -88,8 +89,8 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		if (IsDead)
 			return;
 
-		if ((!playerSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
-			playerSickness.Add(sickness, Time.time);
+		if ((!mobSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
+			mobSickness.Add(sickness, Time.time);
 	}
 
 	/// <summary>
@@ -98,7 +99,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	/// <remarks>Thread safe</remarks>
 	public void RemoveSickness(Sickness sickness)
 	{
-		SicknessAffliction sicknessAffliction = playerSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
+		SicknessAffliction sicknessAffliction = mobSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
 
 		if (sicknessAffliction)
 			sicknessAffliction.Heal();
@@ -127,7 +128,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
-		playerSickness = GetComponent<PlayerSickness>();
+		mobSickness = GetComponent<MobSickness>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 
@@ -357,7 +358,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
 		Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
-		
+
 		// Slip is essentially a yelp SFX.
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
@@ -442,6 +443,6 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 
 	private void AdminGibPlayer()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminGib(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+		//PlayerManager.PlayerScript.playerNetworkActions.CmdAdminGib(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 }

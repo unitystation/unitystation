@@ -78,7 +78,7 @@ public class StandardProgressAction : IProgressAction
 		{
 			Logger.LogError("Attempted to reuse a StandardProgressAction that has already been used." +
 			                      " Please create a new StandardProgressAction each time you start a new action.",
-				Category.Interaction);
+				Category.ProgressAction);
 			return false;
 		}
 		startProgressInfo = info;

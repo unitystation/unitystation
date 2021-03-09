@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using Items;
 using AddressableReferences;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Weapons.Projectiles;
-using SoundMessages;
+
 
 namespace Weapons
 {
@@ -122,7 +124,7 @@ namespace Weapons
 		/// </summary>
 		[Tooltip("The name of the sound the gun uses when shooting with a suppressor attached (must be in soundmanager")]
 		public AddressableAudioSource SuppressedSoundA;
-		
+
 		/// <summary>
 		/// The sound the gun makes while trying to fire without ammo.
 		/// </summary>
@@ -130,10 +132,10 @@ namespace Weapons
 		public AddressableAudioSource DryFireSound;
 
 		/// <summary>
-		/// The amount of times per second this weapon can fire
+		/// The time in seconds before this weapon can fire again.
 		/// </summary>
-		[Tooltip("The amount of times per second this weapon can fire")]
-		public double FireRate;
+		[Tooltip("The time in seconds before this weapon can fire again.")]
+		public double FireDelay = 0.5;
 
 		/// <summary>
 		/// If suicide shooting should be prevented (for when user inadvertently drags over themselves during a burst)
@@ -227,7 +229,7 @@ namespace Weapons
 			queuedShots = new Queue<QueuedShot>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
-				Debug.LogWarning($"{gameObject.name} missing components, may cause issues");
+				Logger.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
 			}
 		}
 
@@ -270,17 +272,17 @@ namespace Weapons
 
 			if (ammoPrefab == null)
 			{
-				Debug.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.");
+				Logger.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.", Category.Firearms);
 				return;
 			}
 
 			//populate with a full external mag on spawn
-			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
+			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Firearms, name);
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
 			if (pinPrefab == null)
 			{
-				Debug.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.");
+				Logger.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.", Category.Firearms);
 				return;
 			}
 
@@ -504,7 +506,7 @@ namespace Weapons
 					default:
 						// unexpected behaviour
 						// if this ever runs, somethings gone horribly fucking wrong, good luck.
-						Debug.LogError($"{gameObject.name} returned a unexpected result when calling TriggerPull serverside!");
+						Logger.LogError($"{gameObject.name} returned a unexpected result when calling TriggerPull serverside!", Category.Firearms);
 						break;
 				}
 			}
@@ -553,8 +555,8 @@ namespace Weapons
 
 		public virtual string Examine(Vector3 pos)
 		{
-			return WeaponType + " - Fires " + ammoType + " ammunition (" + 
-			(CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")\n" + 
+			return WeaponType + " - Fires " + ammoType + " ammunition (" +
+			(CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")\n" +
 			(FiringPin != null ? "It has a " + FiringPin.gameObject.ExpensiveName() + " installed." : "It doesn't have a firing pin installed, and won't fire.");
 		}
 
@@ -614,7 +616,7 @@ namespace Weapons
 			{
 				if (CurrentMagazine == null)
 				{
-					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?");
+					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
 				}
 
 				//done processing shot queue, perform the reload, causing all clients and server to update their version of this Weapon
@@ -842,7 +844,7 @@ namespace Weapons
 			if (shooter == PlayerManager.LocalPlayer)
 			{
 				//this is our gun so we need to update our predictions
-				FireCountDown += 1.0 / FireRate;
+				FireCountDown += FireDelay;
 				//add additional recoil after shooting for the next round
 				AppendRecoil();
 

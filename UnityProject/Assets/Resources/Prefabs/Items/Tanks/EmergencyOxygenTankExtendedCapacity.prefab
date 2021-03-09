@@ -15,13 +15,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
-      propertyPath: Gases.Array.data[1]
-      value: 0.83187
+      propertyPath: Volume
+      value: 0.00200107
       objectReference: {fileID: 0}
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
-      propertyPath: Volume
-      value: 0.00200107
+      propertyPath: Gases.Array.data[1]
+      value: 0.83187
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
@@ -96,6 +96,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
+      propertyPath: initialName
+      value: extended-capacity emergency oxygen tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 7335808bfdf794f40a9e4a2b475c9870,
@@ -106,10 +111,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d36c552d52628744f9329654bbdf563b,
         type: 2}
-    - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
-        type: 3}
-      propertyPath: initialName
-      value: extended-capacity emergency oxygen tank
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a, type: 3}

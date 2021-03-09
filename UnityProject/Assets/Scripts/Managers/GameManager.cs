@@ -15,6 +15,7 @@ using GameConfig;
 using Initialisation;
 using AddressableReferences;
 using Managers;
+using Messages.Server;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -402,7 +403,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.ItemSpawn, e.Message);
+				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.Server, e.Message);
 			}
 		}
 	}

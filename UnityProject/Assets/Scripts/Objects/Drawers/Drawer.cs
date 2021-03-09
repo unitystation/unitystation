@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
-using SoundMessages;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 
 namespace Objects.Drawers
 {	
@@ -85,7 +86,8 @@ namespace Objects.Drawers
 			SpawnResult traySpawn = Spawn.ServerPrefab(trayPrefab, DrawerWorldPosition);
 			if (!traySpawn.Successful)
 			{
-				Logger.LogError($"Failed to spawn tray! Is {name} prefab missing reference to {nameof(traySpawn)} prefab?");
+				Logger.LogError($"Failed to spawn tray! Is {name} prefab missing reference to {nameof(traySpawn)} prefab?",
+					Category.Machines);
 				return;
 			}
 			tray = traySpawn.GameObject;

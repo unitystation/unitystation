@@ -73,7 +73,7 @@ public partial class SubSceneManager
 		foreach (var n in netIds)
 		{
 			if (n == null || n.gameObject == null ||
-			n.gameObject.scene != sceneContext) continue;
+			    n.gameObject.scene != sceneContext) continue;
 
 			n.AddPlayerObserver(connToAdd);
 			objCount++;

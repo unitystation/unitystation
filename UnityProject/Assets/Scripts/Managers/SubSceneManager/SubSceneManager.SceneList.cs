@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using WebSocketSharp;
 using UnityEngine;
 using System.Linq;
+using Messages.Server.SubScenes;
 
 //The scene list on the server
 public partial class SubSceneManager
@@ -50,7 +51,7 @@ public partial class SubSceneManager
 		yield return WaitFor.Seconds(0.1f);
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 
-		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.SubScenes);
+		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 	}
 
 	//Choose and load a main station on the server

@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using Messages.Client.SpriteMessages;
+using Messages.Server.SpritesMessages;
 using Mirror;
 using UnityEngine;
 
@@ -32,12 +34,35 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public Dictionary<SpriteHandler, SpriteChange> NewClientChanges = new Dictionary<SpriteHandler, SpriteChange>();
 
+
+
+
+	public static void UnRegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
+	{
+		if (spriteHandler == null) return;
+		if (networkIdentity == null)
+		{
+			Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
+				Category.Sprites);
+			return;
+		}
+
+		if (Instance.PresentSprites.ContainsKey(networkIdentity))
+		{
+			if (Instance.PresentSprites[networkIdentity].ContainsKey(spriteHandler.name))
+			{
+				Instance.PresentSprites[networkIdentity].Remove(spriteHandler.name);
+			}
+		}
+	}
+
+
 	public static void RegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
 	{
 		if (networkIdentity == null)
 		{
 			Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
-				Category.SpriteHandler);
+				Category.Sprites);
 			return;
 		}
 
@@ -52,8 +77,8 @@ public class SpriteHandlerManager : NetworkBehaviour
 			if (Instance.PresentSprites[networkIdentity][spriteHandler.name] != spriteHandler)
 			{
 				Logger.LogError(
-					"SpriteHandler has the same name as another SpriteHandler on the game object > " +
-					spriteHandler.transform.parent.name + " with Net ID of " +  networkIdentity.netId , Category.SpriteHandler);
+					"SpriteHandler has the same name as another SpriteHandler on the game object > " + spriteHandler.name + " On parent > " +
+					spriteHandler.transform.parent.name + " with Net ID of " +  networkIdentity.netId , Category.Sprites);
 			}
 		}
 
@@ -76,6 +101,17 @@ public class SpriteHandlerManager : NetworkBehaviour
 	{
 		SpriteUpdateMessage.SendToSpecified(requestedBy, NewClientChanges);
 	}
+
+	public void ClientRequestForceUpdate(List<SpriteHandler> Specifyed ,NetworkConnection requestedBy)
+	{
+		var Newtem = new Dictionary<SpriteHandler, SpriteHandlerManager.SpriteChange>();
+		foreach (var SH in Specifyed)
+		{
+			Newtem[SH] = NewClientChanges[SH];
+		}
+		SpriteUpdateMessage.SendToSpecified(requestedBy, Newtem);
+	}
+
 
 	public override void OnStartClient()
 	{
@@ -127,13 +163,13 @@ public class SpriteHandlerManager : NetworkBehaviour
 		QueueChanges.Clear();
 	}
 
-	public static NetworkBehaviour GetRecursivelyANetworkBehaviour(GameObject gameObject)
+	public static NetworkIdentity GetRecursivelyANetworkBehaviour(GameObject gameObject)
 	{
 		if (gameObject == null)
 		{
 			return null;
 		}
-		var Net = gameObject.GetComponent<NetworkBehaviour>();
+		var Net = gameObject.GetComponent<NetworkIdentity>();
 		if (Net != null)
 		{
 			return (Net);
@@ -145,17 +181,10 @@ public class SpriteHandlerManager : NetworkBehaviour
 		else
 		{
 			Logger.LogError("Was unable to find A NetworkBehaviour for? yeah Youll have to look at this stack trace",
-				Category.SpriteHandler);
+				Category.Sprites);
 			return null;
 		}
 	}
-
-
-	// Update is called once per frame
-	void Update()
-	{
-	}
-
 
 	public static List<SpriteChange> PooledSpriteChange = new List<SpriteChange>();
 

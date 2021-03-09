@@ -1,32 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Reflection;
+﻿using Mirror;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using System.Text;
-using Newtonsoft.Json;
 
-
-public class BookshelfNetMessage : ServerMessage
+namespace Messages.Server.VariableViewer
 {
-	public VariableViewerNetworking.NetFriendlyBookShelfView data;
-
-	public override void Process()
+	public class BookshelfNetMessage : ServerMessage<BookshelfNetMessage.NetMessage>
 	{
-		//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
-		//Logger.Log(JsonConvert.SerializeObject(data));
-		UIManager.Instance.BookshelfViewer.BookShelfView = data;
-		UIManager.Instance.BookshelfViewer.ValueSetUp();
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public VariableViewerNetworking.NetFriendlyBookShelfView data;
+		}
 
-	public static BookshelfNetMessage Send(Librarian.BookShelf _BookShelf, GameObject ToWho)
-	{
-		BookshelfNetMessage msg = new BookshelfNetMessage();
-		msg.data = VariableViewerNetworking.ProcessBookShelf(_BookShelf);
+		public override void Process(NetMessage msg)
+		{
+			//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
+			//Logger.Log(JsonConvert.SerializeObject(data));
+			UIManager.Instance.BookshelfViewer.BookShelfView = msg.data;
+			UIManager.Instance.BookshelfViewer.ValueSetUp();
+		}
 
-		msg.SendTo(ToWho);
-		return msg;
+		public static NetMessage Send(Librarian.BookShelf _BookShelf, GameObject ToWho)
+		{
+			NetMessage msg = new NetMessage();
+			msg.data = VariableViewerNetworking.ProcessBookShelf(_BookShelf);
+
+			SendTo(ToWho, msg);
+			return msg;
+		}
 	}
 }

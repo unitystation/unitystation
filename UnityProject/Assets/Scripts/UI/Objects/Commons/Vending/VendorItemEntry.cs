@@ -39,7 +39,7 @@ namespace UI.Objects
 			}
 			else
 			{
-				Logger.LogError($"{this} variable {nameof(itemGO)} was null!");
+				Logger.LogError($"{this} variable {nameof(itemGO)} was null!", Category.Machines);
 			}
 
 			// try get human-readable item name

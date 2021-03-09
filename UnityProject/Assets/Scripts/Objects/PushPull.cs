@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -9,7 +11,7 @@ using UnityEngine.Serialization;
 using Objects;
 using Objects.Construction;
 using Random = UnityEngine.Random;
-using SoundMessages;
+
 
 public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 {
@@ -42,11 +44,11 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		set {
 			if (this == null) // is possible, Unity
 			{
-				Logger.LogWarning("GameObject is null, and yet it tried to set a parentContainer.", Category.Transform);
+				Logger.LogWarning("GameObject is null, and yet it tried to set a parentContainer.", Category.PushPull);
 			}
 			else if (value == this)
 			{
-				Logger.LogError($"{gameObject} tried to set {nameof(parentContainer)} to itself!", Category.Transform);
+				Logger.LogError($"{gameObject} tried to set {nameof(parentContainer)} to itself!", Category.PushPull);
 				return;
 			}
 
@@ -119,7 +121,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 					pos = storage.gameObject.WorldPosServer().CutToInt();
 					if (pos == TransformState.HiddenPos || pos == Vector3.zero)
 					{
-						Logger.LogWarningFormat("{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name);
+						Logger.LogWarningFormat("{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.PushPull, gameObject.name);
 					}
 
 					return pos;
@@ -129,7 +131,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			pos = Pushable.LastNonHiddenPosition;
 			if (pos == TransformState.HiddenPos || pos == Vector3.zero)
 			{
-				Logger.LogWarningFormat("{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name);
+				Logger.LogWarningFormat("{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.PushPull, gameObject.name);
 			}
 		}
 		return pos;
@@ -266,7 +268,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			//Damage self as bad as the thing you collide with
 			GetComponent<LivingHealthBehaviour>()?.ApplyDamageToBodypart(gameObject, collision.Damage, AttackType.Melee, DamageType.Brute);
 			Logger.LogFormat("{0}: collided with something at {2}, both received {1} damage",
-				Category.Health, gameObject.name, collision.Damage, collision.CollisionTile);
+				Category.Damage, gameObject.name, collision.Damage, collision.CollisionTile);
 		}
 	}
 

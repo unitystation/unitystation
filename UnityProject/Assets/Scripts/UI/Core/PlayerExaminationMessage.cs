@@ -1,37 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using Messages.Server;
+using Mirror;
 using Player;
 using UnityEngine;
 
-public class PlayerExaminationMessage : ServerMessage
+public class PlayerExaminationMessage : ServerMessage<PlayerExaminationMessage.NetMessage>
 {
-	public string VisibleName;
-	public string Species;
-	public string Job;
-	public string Status;
-
-	/// <summary>
-	/// Extra information to be displayed on the extended examination view
-	/// </summary>
-	public string AdditionalInformation;
-	public uint ItemStorage;
-
-	public bool Observed;
-
-	public override void Process()
+	public struct NetMessage : NetworkMessage
 	{
-		LoadNetworkObject(ItemStorage);
+		public string VisibleName;
+		public string Species;
+		public string Job;
+		public string Status;
+
+		/// <summary>
+		/// Extra information to be displayed on the extended examination view
+		/// </summary>
+		public string AdditionalInformation;
+		public uint ItemStorage;
+
+		public bool Observed;
+	}
+
+	public override void Process(NetMessage msg)
+	{
+		LoadNetworkObject(msg.ItemStorage);
 
 		var storageObject = NetworkObject;
 		if (storageObject == null)
 		{
-			Logger.LogWarningFormat("Client could not find player storage with id {0}", Category.Inventory, ItemStorage);
+			Logger.LogWarningFormat("Client could not find player storage with id {0}", Category.PlayerInventory, msg.ItemStorage);
 			return;
 		}
 
 		var itemStorage = storageObject.GetComponent<ItemStorage>();
-		if(Observed)
-			UIManager.PlayerExaminationWindow.ExaminePlayer(itemStorage, VisibleName, Species, Job, Status, AdditionalInformation);
+		if(msg.Observed)
+			UIManager.PlayerExaminationWindow.ExaminePlayer(itemStorage, msg.VisibleName, msg.Species, msg.Job, msg.Status, msg.AdditionalInformation);
 		else
 			UIManager.PlayerExaminationWindow.CloseWindow();
 	}
@@ -41,7 +46,7 @@ public class PlayerExaminationMessage : ServerMessage
 	/// </summary>
 	public static void Send(GameObject recipient, ItemStorage itemStorage, string visibleName, string species, string job, string status, string additionalInformations, bool observed)
 	{
-		var msg = new PlayerExaminationMessage()
+		var msg = new NetMessage()
 		{
 			ItemStorage = itemStorage.gameObject.NetId(),
 			VisibleName = visibleName,
@@ -52,12 +57,12 @@ public class PlayerExaminationMessage : ServerMessage
 			Observed = observed
 		};
 
-		msg.SendTo(recipient);
+		SendTo(recipient, msg);
 	}
 
 	public static void Send(GameObject recipient, ExaminablePlayer examinablePlayer, bool observed)
 	{
-		var msg = new PlayerExaminationMessage()
+		var msg = new NetMessage()
 		{
 			ItemStorage = examinablePlayer.gameObject.NetId(),
 			VisibleName = examinablePlayer.GetPlayerNameString(),
@@ -68,6 +73,6 @@ public class PlayerExaminationMessage : ServerMessage
 			Observed = observed
 		};
 
-		msg.SendTo(recipient);
+		SendTo(recipient, msg);
 	}
 }

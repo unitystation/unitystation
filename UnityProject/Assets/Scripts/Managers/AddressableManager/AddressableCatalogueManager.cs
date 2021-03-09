@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net.Http;
 using DatabaseAPI;
 using Initialisation;
+using Messages.Client.Addressable;
+using Messages.Server.Addressable;
 using Mirror;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -177,7 +179,7 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 
 	public IEnumerator WaitForLoad()
 	{
-		yield return WaitFor.Seconds(2f);
+		yield return WaitFor.Seconds(5f);
 		ClientRequestCatalogues.RequestCatalogue();
 	}
 
@@ -216,7 +218,7 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 					{
 						if (FoundFile != "")
 						{
-							Logger.LogError("two catalogues present please only ensure one");
+							Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
 						}
 
 						FoundFile = File;
@@ -225,7 +227,7 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 
 				if (FoundFile == "")
 				{
-					Logger.LogWarning("missing json file");
+					Logger.LogWarning("missing json file", Category.Addressables);
 				}
 				else
 				{

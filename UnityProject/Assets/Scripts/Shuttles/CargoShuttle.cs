@@ -179,7 +179,7 @@ namespace Systems.Cargo
 					var entryPrefab = order.Items[i];
 					if (entryPrefab == null)
 					{
-						Logger.Log($"Error with order fulfilment. Can't add items index: {i} for {order.OrderName} as the prefab is null. Skipping..");
+						Logger.Log($"Error with order fulfilment. Can't add items index: {i} for {order.OrderName} as the prefab is null. Skipping..", Category.Cargo);
 						continue;
 					}
 
@@ -189,7 +189,7 @@ namespace Systems.Cargo
 						if (orderedItem == null)
 						{
 							//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-							Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
+							Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
 							continue;
 						}
 
@@ -214,7 +214,7 @@ namespace Systems.Cargo
 							if (orderedItem == null)
 							{
 								//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-								Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
+								Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
 								continue;
 							}
 
@@ -230,7 +230,7 @@ namespace Systems.Cargo
 			{
 				Logger.LogWarning($"{crate.ExpensiveName()} does not have ClosetControl. Please fix CargoData" +
 								  $" to ensure that the crate prefab is actually a crate (with ClosetControl component)." +
-								  $" This order will be ignored.");
+								  $" This order will be ignored.", Category.Cargo);
 				return true;
 			}
 
@@ -248,7 +248,7 @@ namespace Systems.Cargo
 			else
 			{
 				Logger.LogWarning($"Can't add ordered item {obj.ExpensiveName()} to create because" +
-								  $" it doesn't have an ObjectBehavior component.");
+								  $" it doesn't have an ObjectBehavior component.", Category.Cargo);
 			}
 		}
 

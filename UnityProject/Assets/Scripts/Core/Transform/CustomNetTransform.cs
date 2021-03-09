@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Diagnostics;
 using Initialisation;
 using Items;
+using Messages.Client.NewPlayer;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using Objects;
+using Debug = UnityEngine.Debug;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
@@ -131,6 +135,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
 	private TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
 
+	[SyncVar(hook = nameof(UpdateClientState))]
 	private TransformState clientState = TransformState.Uninitialized; //last reliable state from server
 	private TransformState predictedState = TransformState.Uninitialized; //client's transform, can get dirty/predictive
 
@@ -140,6 +145,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public TransformState ServerLerpState => serverLerpState;
 	public TransformState PredictedState => predictedState;
 	public TransformState ClientState => clientState;
+
+	private void Awake()
+	{
+		registerTile = GetComponent<RegisterTile>();
+		itemAttributes = GetComponent<ItemAttributesV2>();
+		syncInterval = 0f;
+	}
 
 	private void Start()
 	{
@@ -182,17 +194,12 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			c.enabled = false;
 		}
 
-		if ( !registerTile )
+		if (!registerTile)
 		{
 			registerTile = GetComponent<RegisterTile>();
 		}
 
-		registerTile.WaitForMatrixInit(InitClientState);
-	}
-
-	private void InitClientState(MatrixInfo info)
-	{
-		CustomNetTransformNewPlayer.Send(netId);
+		UpdateClientState(clientState, clientState);
 	}
 
 	public override void OnStartServer()
@@ -229,7 +236,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 			if ( matrixInfo == MatrixInfo.Invalid )
 			{
-				Logger.LogWarning( $"{gameObject.name}: was unable to detect Matrix by parent!", Category.Transform );
+				Logger.LogWarning($"{gameObject.name}: was unable to detect Matrix by parent!", Category.Matrix);
 				serverState.MatrixId = MatrixManager.AtPoint( ( (Vector2)transform.position ).RoundToInt(), true ).Id;
 			} else
 			{
@@ -248,7 +255,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		else
 		{
 			serverState.MatrixId = 0;
-			Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
+			Logger.LogWarning($"{gameObject.name}: unable to detect MatrixId!", Category.Matrix);
 		}
 
 		registerTile.UpdatePositionServer();
@@ -409,17 +416,17 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 
-//		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Transform, gameObject.name, pos );
+//		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Matrix, gameObject.name, pos );
 		var newMatrix = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt(), true );
 		if ( serverState.MatrixId != newMatrix.Id ) {
 			var oldMatrix = MatrixManager.Get( serverState.MatrixId );
-			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, oldMatrix, newMatrix );
+			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Matrix, gameObject, oldMatrix, newMatrix );
 
 			if ( oldMatrix.IsMovable
 			     && oldMatrix.MatrixMove.IsMovingServer )
 			{
 				Push( oldMatrix.MatrixMove.ServerState.FlyingDirection.Vector.To2Int(), oldMatrix.Speed );
-				Logger.LogTraceFormat( "{0} inertia pushed while attempting matrix switch", Category.Transform, gameObject );
+				Logger.LogTraceFormat( "{0} inertia pushed while attempting matrix switch", Category.Matrix, gameObject );
 				return;
 			}
 
@@ -554,7 +561,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		#endregion
 
 	/// Called from TransformStateMessage, applies state received from server to client
-	public void UpdateClientState( TransformState newState ) {
+	public void UpdateClientState(TransformState oldState, TransformState newState)
+	{
 		clientState = newState;
 
 		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
@@ -612,7 +620,27 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		//	Logger.LogFormat( "{0} Notified: {1}", Category.Transform, gameObject.name, serverState.WorldPosition );
 		SyncMatrix();
 
-		TransformStateMessage.SendToAll(gameObject, serverState);
+		if (TryGetComponent<NetworkIdentity>(out var networkIdentity))
+		{
+			if (networkIdentity.netId == 0)
+			{
+				//netIds default to 0 when spawned, a new Id is assigned but this happens a bit later
+				//this is just to catch multiple 0's
+				//An identity could have a valid id of 0, but since this message is only for net transforms and since the
+				//identities on the managers will get set first, this shouldn't cause any issues.
+				StartCoroutine(IdWait());
+				return;
+			}
+		}
+
+		UpdateClientState(clientState, serverState);
+	}
+
+	private IEnumerator IdWait()
+	{
+		yield return WaitFor.EndOfFrame;
+
+		UpdateClientState(clientState, serverState);
 	}
 
 	/// <summary>
@@ -620,8 +648,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// </summary>
 	/// <param name="playerGameObject">Whom to notify</param>
 	[Server]
-	public void NotifyPlayer(NetworkConnection playerGameObject) {
-		TransformStateMessage.Send(playerGameObject, gameObject, serverState);
+	public void NotifyPlayer(NetworkConnection playerGameObject)
+	{
+		UpdateClientState(clientState, serverState);
 	}
 
 	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)
@@ -634,7 +663,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			{
 				//sync position to ensure they buckle to the correct spot
 				occupiableDirectionalSprite.OccupantPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
-				Logger.LogTraceFormat("UpdatedOccupant {0}", Category.BuckledMovement, registerTile.WorldPosition);
+				Logger.LogTraceFormat("UpdatedOccupant {0}", Category.Movement, registerTile.WorldPosition);
 			}
 		}
 	}

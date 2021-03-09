@@ -1,44 +1,51 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-///     Tells client to update brain health stats
-/// </summary>
-public class HealthBrainMessage : ServerMessage
+namespace Messages.Server.HealthMessages
 {
-	public uint EntityToUpdate;
-	public bool IsHusk;
-	public int BrainDamage;
-
-	public override void Process()
+	/// <summary>
+	///     Tells client to update brain health stats
+	/// </summary>
+	public class HealthBrainMessage : ServerMessage<HealthBrainMessage.NetMessage>
 	{
-		LoadNetworkObject(EntityToUpdate);
-		if(NetworkObject != null) NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBrainStats(IsHusk, BrainDamage);
-	}
-
-	public static HealthBrainMessage Send(GameObject recipient, GameObject entityToUpdate, bool isHusk, int brainDamage)
-	{
-		HealthBrainMessage msg = new HealthBrainMessage
+		public struct NetMessage : NetworkMessage
 		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
-			IsHusk = isHusk,
-			BrainDamage = brainDamage
+			public uint EntityToUpdate;
+			public bool IsHusk;
+			public int BrainDamage;
+		}
 
-		};
-		msg.SendTo(recipient);
-		return msg;
-	}
-
-	public static HealthBrainMessage SendToAll(GameObject entityToUpdate, bool isHusk, int brainDamage)
-	{
-		HealthBrainMessage msg = new HealthBrainMessage
+		public override void Process(NetMessage msg)
 		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
-			IsHusk = isHusk,
-			BrainDamage = brainDamage
-		};
-		msg.SendToAll();
-		return msg;
+			LoadNetworkObject(msg.EntityToUpdate);
+			if(NetworkObject != null) NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBrainStats(msg.IsHusk, msg.BrainDamage);
+		}
+
+		public static NetMessage Send(GameObject recipient, GameObject entityToUpdate, bool isHusk, int brainDamage)
+		{
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+				IsHusk = isHusk,
+				BrainDamage = brainDamage
+
+			};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
+
+		public static NetMessage SendToAll(GameObject entityToUpdate, bool isHusk, int brainDamage)
+		{
+			NetMessage msg = new NetMessage
+			{
+				EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
+				IsHusk = isHusk,
+				BrainDamage = brainDamage
+			};
+
+			SendToAll(msg);
+			return msg;
+		}
 	}
 }

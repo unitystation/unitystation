@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using UnityEngine;
 
 public class BookshelfViewer : MonoBehaviour

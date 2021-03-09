@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEditor;
 using Weapons;
 using Mirror;
 using Weapons.Projectiles;
-using SoundMessages;
+
 
 public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 {
@@ -135,7 +136,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"The {gameObject.ExpensiveName()}'s power cell pops out",
 				$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
-			base.RequestUnload(CurrentMagazine);				
+			base.RequestUnload(CurrentMagazine);
 		}
 
 		var bar = StandardProgressAction.Create(base.ProgressConfig, ProgressFinishAction)

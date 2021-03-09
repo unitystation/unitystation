@@ -33,11 +33,17 @@ public abstract class BasicTile : LayerTile
 
 	[Tooltip("Can this tile be mined?")] [FormerlySerializedAs("Mineable")] [SerializeField]
 	private bool mineable = false;
+	[Tooltip("How long does it take to mine this tile?")] [SerializeField] [ShowIf(nameof(mineable))]
+	private float miningTime = 5f;
+
+	[Range(0.0f, 1f)] [Tooltip("RadiationPassability 0 = 100% Resistant")] [SerializeField]
+	public float RadiationPassability = 1;
 
 	/// <summary>
 	/// Can this tile be mined?
 	/// </summary>
 	public bool Mineable => mineable;
+	public float MiningTime => miningTime;
 
 	[Tooltip("Will bullets bounce from this tile?")] [SerializeField]
 	private bool doesReflectBullet = false;

@@ -76,12 +76,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private float AddDamage(float damage, AttackType attackType, MetaDataNode data,
 		BasicTile basicTile, Vector3 worldPosition)
 	{
-		if (basicTile.indestructible)
+		if (basicTile.indestructible || damage < basicTile.damageDeflection)
 		{
 			return 0;
 		}
 
-		var damageTaken = basicTile.Armor.GetDamage(damage < basicTile.damageDeflection ? 0 : damage, attackType);
+		var damageTaken = basicTile.Armor.GetDamage(damage, attackType);
 
 		data.AddTileDamage(Layer.LayerType, damageTaken);
 
@@ -89,10 +89,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if(damage >= 1)
 				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
-		}
-		else
-		{
-			Logger.LogError($"Tried to play SoundOnHit for {basicTile.DisplayName}, but it was null!", Category.Addressables);
 		}
 
 		var totalDamageTaken = data.GetTileDamage(Layer.LayerType);
@@ -131,7 +127,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 					if (overFlowProtection > maxOverflowProtection)
 					{
-						Debug.LogError($"Overflow protection triggered on {basicTile.name}, theres a loop in the ToTileWhenDestroyed");
+						Logger.LogError($"Overflow protection triggered on {basicTile.name}, ToTileWhenDestroyed is spawning tiles in a loop", Category.TileMaps);
 						break;
 					}
 				}
@@ -170,7 +166,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		if (damageTaken > totalDamageTaken){
-			Logger.LogError($"Applying damage to {basicTile.DisplayName} increased the damage to be dealt, when it should have decreased!", Category.TileMaps);
+			Logger.LogError($"Applying damage to {basicTile.DisplayName} increased the damage to be dealt, when it should have decreased!", Category.Damage);
 			return totalDamageTaken;
 		}
 

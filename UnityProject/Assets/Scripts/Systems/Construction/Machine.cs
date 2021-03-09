@@ -115,7 +115,7 @@ namespace Objects.Machines
 			SpawnResult frameSpawn = Spawn.ServerPrefab(CommonPrefabs.Instance.MachineFrame, SpawnDestination.At(gameObject));
 			if (!frameSpawn.Successful)
 			{
-				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?");
+				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
 				return;
 			}
 

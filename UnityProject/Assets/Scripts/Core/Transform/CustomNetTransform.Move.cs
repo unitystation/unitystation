@@ -6,7 +6,7 @@ using Mirror;
 using Objects;
 using Objects.Disposals;
 using Random = UnityEngine.Random;
-using SoundMessages;
+using Messages.Server.SoundMessages;
 
 public enum SpinMode
 {
@@ -71,7 +71,7 @@ public partial class CustomNetTransform
 	/// Push this thing in provided direction
 	/// </summary>
 	/// <param name="direction"></param>
-	/// <param name="speed"></param>
+	/// <param name="speed">tiles per second</param>
 	/// <param name="followMode">flag used when object is following its puller
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
@@ -185,7 +185,7 @@ public partial class CustomNetTransform
 
 	private void Stop( bool notify )
 	{
-		Logger.LogTraceFormat(STOPPED_FLOATING, Category.Transform, gameObject.name);
+		Logger.LogTraceFormat(STOPPED_FLOATING, Category.Movement, gameObject.name);
         if (IsTileSnap)
         {
         	serverState.Position = Vector3Int.RoundToInt(serverState.Position);
@@ -202,6 +202,7 @@ public partial class CustomNetTransform
         {
 			OnThrowEnd.Invoke(serverState.ActiveThrow);
         }
+
         serverState.ActiveThrow = ThrowInfo.NoThrow;
         if ( notify )
         {
@@ -271,7 +272,7 @@ public partial class CustomNetTransform
 		else
 		{
 			//stop
-			Logger.LogTraceFormat(PREDICTIVE_STOP_TO, Category.Transform, gameObject.name, worldPos, intGoal);
+			Logger.LogTraceFormat(PREDICTIVE_STOP_TO, Category.Movement, gameObject.name, worldPos, intGoal);
 			//			clientState.Speed = 0f;
 			predictedState.WorldImpulse = Vector2.zero;
 			predictedState.SpinFactor = 0;
@@ -406,7 +407,7 @@ public partial class CustomNetTransform
 			serverState.SpinFactor = (sbyte)(Mathf.Clamp(info.InitialSpeed * info.SpinMultiplier, sbyte.MinValue, sbyte.MaxValue) *
 				(info.SpinMode == SpinMode.Clockwise ? 1 : -1));
 		}
-		Logger.LogTraceFormat(NUDGE, Category.Transform, info, serverState);
+		Logger.LogTraceFormat(NUDGE, Category.Movement, info, serverState);
 		NotifyPlayers();
 	}
 
@@ -521,6 +522,15 @@ public partial class CustomNetTransform
 			else
 			{
 				Stop();
+			}
+
+			//Process any objects that we might have bumped into
+			foreach (var objectBehaviour in MatrixManager.GetAt<ObjectBehaviour>(intGoal, true))
+			{
+				foreach (var bump in objectBehaviour.GetComponents<IBumpableObject>())
+				{
+					bump.OnBump(gameObject);
+				}
 			}
 		}
 

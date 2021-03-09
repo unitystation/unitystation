@@ -44,7 +44,7 @@ public class AddressablePicker : EditorWindow
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 		path += "/AddressablePackingProjects";
-		Logger.Log(path);
+		Logger.Log(path, Category.Addressables);
 		var Directories = Directory.GetDirectories(path);
 		var FoundFiles = new List<string>();
 		foreach (var Directori in Directories)
@@ -62,7 +62,7 @@ public class AddressablePicker : EditorWindow
 					{
 						if (FoundFile != "")
 						{
-							Logger.LogError("two catalogues present please only ensure one");
+							Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
 						}
 
 						FoundFile = File;
@@ -71,7 +71,7 @@ public class AddressablePicker : EditorWindow
 
 				if (FoundFile == "")
 				{
-					Logger.LogWarning("missing json file");
+					Logger.LogWarning("missing json file", Category.Addressables);
 				}
 				else
 				{

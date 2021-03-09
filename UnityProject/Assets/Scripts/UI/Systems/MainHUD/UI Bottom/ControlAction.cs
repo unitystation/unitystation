@@ -32,7 +32,7 @@ public class ControlAction : MonoBehaviour
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
 
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		Logger.Log("Resist Button", Category.UI);
+		Logger.Log("Resist Button", Category.UserInput);
 	}
 
 	/// <summary>
@@ -60,7 +60,7 @@ public class ControlAction : MonoBehaviour
 		}
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(currentSlot.NamedSlot);
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		Logger.Log("Drop Button", Category.UI);
+		Logger.Log("Drop Button", Category.UserInput);
 	}
 
 	/// <summary>
@@ -70,7 +70,7 @@ public class ControlAction : MonoBehaviour
 	{
 		if (forceDisable)
 		{
-			Logger.Log("Throw force disabled", Category.UI);
+			Logger.Log("Throw force disabled", Category.UserInput);
 			UIManager.IsThrow = false;
 			throwImage.sprite = throwSprites[0];
 			return;
@@ -86,7 +86,7 @@ public class ControlAction : MonoBehaviour
 			}
 
 			// Enable throw
-			Logger.Log("Throw Button Enabled", Category.UI);
+			Logger.Log("Throw Button Enabled", Category.UserInput);
 			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			UIManager.IsThrow = true;
 			throwImage.sprite = throwSprites[1];
@@ -94,7 +94,7 @@ public class ControlAction : MonoBehaviour
 		else if (throwImage.sprite == throwSprites[1] && UIManager.IsThrow == true)
 		{
 			// Disable throw
-			Logger.Log("Throw Button Disabled", Category.UI);
+			Logger.Log("Throw Button Disabled", Category.UserInput);
 			UIManager.IsThrow = false;
 			throwImage.sprite = throwSprites[0];
 		}

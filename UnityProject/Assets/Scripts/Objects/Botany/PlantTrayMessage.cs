@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Used to synchronise all the sprites of the PlantTray
 /// </summary>
-/*public class PlantTrayMessage : ServerMessage
+/*public class PlantTrayMessage    : ServerMessage
 {
 	public override short MessageType => (short) MessageTypes.PlantTrayMessage;
 	public string PlantSyncString;
@@ -17,7 +17,7 @@ using UnityEngine;
 
 	public uint Tray;
 
-	public override void Process()
+	public override void Process(NetMessage msg)
 	{
 		yield return WaitFor(Tray);
 

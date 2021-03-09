@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3146207235623876151}
   - component: {fileID: 12010332}
   - component: {fileID: 11427938}
+  - component: {fileID: 3001925588267639557}
   m_Layer: 0
   m_Name: ElectricalArcEffectFieldGenerator
   m_TagString: Untagged
@@ -53,6 +54,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!120 &12010332
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -181,6 +183,20 @@ MonoBehaviour:
   Rows: 1
   Columns: 1
   AnimationMode: 0
+--- !u!114 &3001925588267639557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &1289899466105812165
 GameObject:
   m_ObjectHideFlags: 0

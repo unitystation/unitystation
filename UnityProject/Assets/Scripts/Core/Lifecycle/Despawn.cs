@@ -22,7 +22,7 @@ public static class Despawn
 	/// <returns></returns>
 	public static DespawnResult ServerSingle(GameObject toDespawn, bool skipInventoryDespawn = false)
 	{
-		return Server(DespawnInfo.Single(toDespawn));
+		return Server(DespawnInfo.Single(toDespawn), skipInventoryDespawn);
 	}
 
 	/// <summary>

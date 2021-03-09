@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5173863171863889205}
   - component: {fileID: 1689274832931870787}
-  m_Layer: 13
+  m_Layer: 19
   m_Name: LightOn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,6 +299,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightTubeFixture
       objectReference: {fileID: 0}
+    - target: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 5432513913519741094, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Size.x
@@ -385,7 +390,7 @@ PrefabInstance:
     - target: {fileID: 7354635586586802054, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Layer
-      value: 13
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 7887620515462466081, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

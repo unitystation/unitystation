@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using Firebase.Auth;
+using IgnoranceTransport;
 
 namespace Lobby
 {
@@ -336,7 +337,7 @@ namespace Lobby
 			}
 			else
 			{
-				Logger.LogWarning("User is not logged in! Returning to login screen.");
+				Logger.LogWarning("User is not logged in! Returning to login screen.", Category.Connections);
 				ShowLoginScreen();
 			}
 		}
@@ -374,11 +375,17 @@ namespace Lobby
 				telepathy.port = serverPort;
 			}
 
-			var booster = CustomNetworkManager.Instance.GetComponent<BoosterTransport>();
-			if (booster != null)
+			var ignorance = CustomNetworkManager.Instance.GetComponent<Ignorance>();
+			if (ignorance != null)
 			{
-				booster.port = serverPort;
+				ignorance.port = serverPort;
 			}
+
+			// var booster = CustomNetworkManager.Instance.GetComponent<BoosterTransport>();
+			// if (booster != null)
+			// {
+			// 	booster.port = serverPort;
+			// }
 
 			CustomNetworkManager.Instance.StartClient();
 		}

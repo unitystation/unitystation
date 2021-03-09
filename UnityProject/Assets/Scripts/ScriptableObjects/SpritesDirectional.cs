@@ -15,7 +15,7 @@ namespace ScriptableObjects
 		{
 			if (sprites.Length != SIZE)
 			{
-				Debug.LogWarning("Don't change the 'ints' field's array size!");
+				Logger.LogWarning("Don't change the 'ints' field's array size!", Category.Sprites);
 				Array.Resize(ref sprites, SIZE);
 			}
 		}

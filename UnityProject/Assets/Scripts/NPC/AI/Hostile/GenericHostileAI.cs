@@ -5,7 +5,9 @@ using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
-using SoundMessages;
+using HealthV2;
+using Messages.Server.SoundMessages;
+
 
 namespace Systems.MobAIs
 {
@@ -124,6 +126,8 @@ namespace Systems.MobAIs
 					null,
 					coll.gameObject.WorldPosServer()).ItHit == false)
 				{
+					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) && health.IsDead) continue;
+
 					return coll.gameObject;
 				}
 
@@ -181,7 +185,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			
+
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 			SoundManager.PlayNetworkedAtPos(randomSounds, transform.position,
 				audioSourceParameters, sourceObj: gameObject);

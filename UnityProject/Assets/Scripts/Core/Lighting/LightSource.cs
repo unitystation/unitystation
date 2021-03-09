@@ -68,27 +68,19 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		}
 	}
 
-	private void EnsureInit()
+	private void Awake()
 	{
+		registerTile = GetComponent<RegisterTile>();
+		construction = GetComponent<LightFixtureConstruction>();
 		if (mLightRendererObject == null)
-			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);		
-
-		if(lightSprite == null)
-			lightSprite = mLightRendererObject.GetComponent<LightSprite>();
-
-		if(currentState == null)
-			ChangeCurrentState(InitialState);
-
-		if(traitRequired == null)
-			traitRequired = currentState.TraitRequired;
-
+		{
+			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
+		}
+		lightSprite = mLightRendererObject.GetComponent<LightSprite>();
 		if (!isWithoutSwitch)
 			switchState = InitialState == LightMountState.On;
-	}
-
-	private void OnDirectionChange(Orientation newDir)
-	{
-		SetSprites();
+		ChangeCurrentState(InitialState);
+		traitRequired = currentState.TraitRequired;
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -99,19 +91,20 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		}
 	}
 
-	private void Awake()
+	private void OnDirectionChange(Orientation newDir)
 	{
-		registerTile = GetComponent<RegisterTile>();
-		construction = GetComponent<LightFixtureConstruction>();
+		SetSprites();
 	}
 
 	private void OnEnable()
 	{
+		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
 	private void OnDisable()
 	{
+		directional.OnDirectionChange.RemoveListener(OnDirectionChange);
 		if(integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
 
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
@@ -197,11 +190,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void SetSprites()
 	{
-		EnsureInit();
-
-		spriteHandler.SetSpriteSO(currentState.SpriteData, null, SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
-
-		
+		spriteHandler.SetSpriteSO(currentState.SpriteData, null, SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));		
 		spriteRendererLightOn.sprite = mState == LightMountState.On
 				? spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum())
 				: null;

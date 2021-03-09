@@ -57,7 +57,7 @@ public class NetworkedMatrix : NetworkBehaviour
 	{
 		if (networkedMatrixNetId == NetId.Empty || networkedMatrixNetId == NetId.Invalid)
 		{
-			Logger.LogWarning("Attempted to wait on invalid / empty networked matrix net ID. This might be a bug.");
+			Logger.LogWarning("Attempted to wait on invalid / empty networked matrix net ID. This might be a bug.", Category.Matrix);
 			return;
 		}
 

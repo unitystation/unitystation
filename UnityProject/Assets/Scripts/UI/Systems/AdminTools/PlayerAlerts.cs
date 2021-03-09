@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using DatabaseAPI;
+using Messages.Client.Admin;
+using Messages.Server.AdminTools;
 using Mirror;
 using UnityEngine;
 
@@ -138,13 +140,13 @@ namespace AdminTools
 				x.playerNetId == perpId && x.roundTime == roundTimeOfIncident);
 			if (index == -1)
 			{
-				Logger.Log($"Could not find perp id {perpId} with roundTime incident: {roundTimeOfIncident}");
+				Logger.Log($"Could not find perp id {perpId} with roundTime incident: {roundTimeOfIncident}", Category.Admin);
 				return;
 			}
 
 			if (!NetworkIdentity.spawned.ContainsKey(perpId))
 			{
-				Logger.Log($"Perp id {perpId} not found in Spawnlist");
+				Logger.Log($"Perp id {perpId} not found in Spawnlist", Category.Admin);
 				return;
 			}
 

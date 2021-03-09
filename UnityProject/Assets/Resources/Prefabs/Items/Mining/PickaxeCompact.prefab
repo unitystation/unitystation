@@ -9,8 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: hitDamage
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: initialName
+      value: compact pickaxe
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -19,8 +24,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
-      propertyPath: hitDamage
-      value: 10
+      propertyPath: throwDamage
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -29,19 +39,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
-      propertyPath: throwDamage
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: f5ea5b3cd2bd0204cac22194a8bb4a6e,
         type: 2}
-    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
-      propertyPath: initialName
-      value: compact pickaxe
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -60,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -72,16 +82,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -114,6 +114,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ce99046cb32f8f84cac096bd35f77fe1,
         type: 3}
+    - target: {fileID: 7675473296682472099, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: timeMultiplier
+      value: 1.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8184022938753632022, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: PresentSpriteSet

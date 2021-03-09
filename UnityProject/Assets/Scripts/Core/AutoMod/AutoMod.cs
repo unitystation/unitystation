@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Initialisation;
 using UnityEngine;
-using Telepathy;
+//using Telepathy;
 using Debug = UnityEngine.Debug;
 
 namespace AdminTools
@@ -85,7 +85,7 @@ namespace AdminTools
 			{
 				var config = File.ReadAllText(AutoModConfigPath);
 				loadedConfig = JsonUtility.FromJson<AutoModConfig>(config);
-				Logger.Log("Successfully loaded Auto Mod config");
+				Logger.Log("Successfully loaded Auto Mod config", Category.Admin);
 			}
 		}
 
@@ -97,10 +97,10 @@ namespace AdminTools
 
 		void MonitorEnvironment()
 		{
-			if (Common.allocationAttackQueue.Count > 0)
-			{
-				ProcessAllocationAttack(Common.allocationAttackQueue.Dequeue());
-			}
+			// if (Common.allocationAttackQueue.Count > 0)
+			// {
+			// 	ProcessAllocationAttack(Common.allocationAttackQueue.Dequeue());
+			// }
 		}
 
 		public static void ProcessAllocationAttack(string ipAddress)
@@ -108,7 +108,7 @@ namespace AdminTools
 			if (!Instance.loadedConfig.enableAllocationProtection) return;
 			if (Application.platform == RuntimePlatform.LinuxPlayer)
 			{
-				Logger.Log($"Auto mod has taken steps to protect against an allocation attack from {ipAddress}");
+				Logger.Log($"Auto mod has taken steps to protect against an allocation attack from {ipAddress}", Category.Admin);
 				ProcessStartInfo processInfo = new ProcessStartInfo();
 				processInfo.FileName = "ufw";
 				processInfo.Arguments = $"insert 1 deny from {ipAddress} to any";

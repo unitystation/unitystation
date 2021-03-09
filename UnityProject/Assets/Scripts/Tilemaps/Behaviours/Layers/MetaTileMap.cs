@@ -851,7 +851,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Logger.LogError("Please use get objects instead of get tile");
+				Logger.LogError("Please use get objects instead of get tile", Category.TileMaps);
 				return false;
 			}
 

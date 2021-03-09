@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
 using Items;
+using Messages.Client.DevSpawner;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -170,7 +171,7 @@ public class GUI_DevCloner : MonoBehaviour
 						                        " did not match one of our existing prefabs " +
 						                        "therefore cannot be cloned (because we wouldn't know which prefab to instantiate). " +
 						                        "Please attach this component to the object and specify the prefab" +
-						                        " to allow it to be cloned.", Category.ItemSpawn, nonPooled.name);
+						                        " to allow it to be cloned.", Category.Admin, nonPooled.name);
 					}
 				}
 

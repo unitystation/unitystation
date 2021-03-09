@@ -26,14 +26,14 @@ public static class NetworkUtils
 			{
 				if (networkIdentity == null)
 				{
-					Logger.LogWarningFormat("NetworkIdentity.spawned.TryGetValue was true but networkIdentity var is null.", Category.NetMessage);
+					Logger.LogWarningFormat("NetworkIdentity.spawned.TryGetValue was true but networkIdentity var is null.", Category.Server);
 					return null;
 				}
 				return networkIdentity.gameObject;
 			}
 			else
 			{
-				Logger.LogWarningFormat("Unable to find object with id {0}.", Category.NetMessage, netId);
+				Logger.LogWarningFormat("Unable to find object with id {0}.", Category.Server, netId);
 				return null;
 			}
 		}

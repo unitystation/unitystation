@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
-using SoundMessages;
+
 
 namespace Systems.MobAIs
 {

@@ -24,6 +24,7 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  RadiationPassability: 0.15
   doesReflectBullet: 0
   indestructible: 0
   passableException:
@@ -50,6 +51,8 @@ MonoBehaviour:
   lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 11400000, guid: 00d99f77a27b4456e894ffd3c27fca26,
     type: 2}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
     AssetAddress: null

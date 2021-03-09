@@ -6,6 +6,7 @@ using System.Reflection;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using Messages.Server.VariableViewer;
 using Component = UnityEngine.Component;
 using Object = System.Object;
 
@@ -721,7 +722,7 @@ public static class Librarian
 			_bookShelf.Shelf = _Transform.gameObject;
 			if (_bookShelf.Shelf == null)
 			{
-				Logger.LogError("HELP");
+				Logger.LogError("Tried to generate a bookshelf, but the shelf was null", Category.VariableViewer);
 			}
 
 			IDToBookShelf[_bookShelf.ID] = _bookShelf;
@@ -757,7 +758,7 @@ public static class Librarian
 			{
 				if (UnGenerated)
 				{
-					Logger.LogWarning("USE GetBindedPages()!,since these books are ungenerated ");
+					Logger.LogWarning("USE GetBindedPages()!,since these books are ungenerated ", Category.VariableViewer);
 				}
 
 				return _BindedPages;
@@ -777,7 +778,7 @@ public static class Librarian
 				}
 				else
 				{
-					Logger.LogError("Book has been destroyed!" + ID);
+					Logger.LogError("Book has been destroyed!" + ID, Category.VariableViewer);
 				}
 
 				UnGenerated = false;
@@ -915,7 +916,7 @@ public static class Librarian
 					if (InType == null || InObject == null || InObject as IConvertible == null)
 					{
 						Logger.LogError($"Can't convert {StringVariable} to {InObject.GetType()}  " +
-							$"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]", Category.NetUI);
+							$"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]", Category.VariableViewer);
 						return null;
 					}
 

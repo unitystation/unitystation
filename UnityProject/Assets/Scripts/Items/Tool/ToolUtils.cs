@@ -3,7 +3,8 @@ using UnityEngine;
 using Items;
 using Random = UnityEngine.Random;
 using AddressableReferences;
-using SoundMessages;
+using Messages.Server.SoundMessages;
+
 
 /// <summary>
 /// Utilities for working with tools / materials. Respects the Tool component settings when performing actions.
@@ -12,6 +13,8 @@ public static class ToolUtils
 {
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Construction, true);
+
+	private static readonly System.Random RNG = new System.Random();
 
 	/// <summary>
 	/// Performs common tool usage logic and also sends start / end action messages, and invokes a callback on success.
@@ -25,12 +28,33 @@ public static class ToolUtils
 	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
 	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
 	/// <param name="onSuccessfulCompletion">called when action is completed</param>
+	/// <param name="performerFailMessage">message to show performer when action completes unsuccessfully.</param>
+	/// <param name="othersFailMessage">message to show others when action completes unsuccessfully.</param>
+	/// <param name="onFailComplete">called when action is completed unsuccessfully.</param>
 	public static void ServerUseToolWithActionMessages(GameObject performer, GameObject tool, ActionTarget actionTarget,
-		float seconds, string performerStartActionMessage, string othersStartActionMessage, string performerFinishActionMessage,
-		string othersFinishActionMessage, Action onSuccessfulCompletion)
+		float seconds, string performerStartActionMessage, string othersStartActionMessage,
+		string performerFinishActionMessage,
+		string othersFinishActionMessage, Action onSuccessfulCompletion, string performerFailMessage = "",
+		string othersFailMessage = "", Action onFailComplete = null)
 	{
 		void ProgressComplete()
 		{
+			var Tooltool = tool.GetComponent<Tool>();
+			if (Tooltool != null)
+			{
+				if (Tooltool.PercentageChance < 100)
+				{
+					int NOWRNG = RNG.Next(0, 100);
+					if (NOWRNG > Tooltool.PercentageChance)
+					{
+						Chat.AddActionMsgToChat(performer, performerFailMessage,
+							othersFailMessage);
+						onFailComplete?.Invoke();
+						return;
+					}
+				}
+			}
+
 			Chat.AddActionMsgToChat(performer, performerFinishActionMessage,
 				othersFinishActionMessage);
 			onSuccessfulCompletion.Invoke();
@@ -54,14 +78,20 @@ public static class ToolUtils
 	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
 	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
 	/// <param name="onSuccessfulCompletion">called when action is completed</param>
+	/// <param name="performerFailMessage">message to show performer when action completes unsuccessfully.</param>
+	/// <param name="othersFailMessage">message to show others when action completes unsuccessfully.</param>
+	/// <param name="onFailComplete">called when action is completed unsuccessfully.</param>
 	public static void ServerUseToolWithActionMessages(HandApply handApply,
 		float seconds, string performerStartActionMessage, string othersStartActionMessage,
 		string performerFinishActionMessage,
-		string othersFinishActionMessage, Action onSuccessfulCompletion)
+		string othersFinishActionMessage, Action onSuccessfulCompletion, string performerFailMessage = "",
+		string othersFailMessage = "", Action onFailComplete = null)
 	{
 		ServerUseToolWithActionMessages(handApply.Performer, handApply.HandObject,
-			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, performerStartActionMessage, othersStartActionMessage,
-			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion);
+			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, performerStartActionMessage,
+			othersStartActionMessage,
+			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion, performerFailMessage,
+			othersFailMessage, onFailComplete);
 	}
 
 	/// <summary>
@@ -74,14 +104,19 @@ public static class ToolUtils
 	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
 	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
 	/// <param name="onSuccessfulCompletion">called when action is completed</param>
+	/// <param name="performerFailMessage">message to show performer when action completes unsuccessfully.</param>
+	/// <param name="othersFailMessage">message to show others when action completes unsuccessfully.</param>
+	/// <param name="onFailComplete">called when action is completed unsuccessfully.</param>
 	public static void ServerUseToolWithActionMessages(TileApply tileApply,
 		float seconds, string performerStartActionMessage, string othersStartActionMessage,
 		string performerFinishActionMessage,
-		string othersFinishActionMessage, Action onSuccessfulCompletion)
+		string othersFinishActionMessage, Action onSuccessfulCompletion, string performerFailMessage = "",
+		string othersFailMessage = "", Action onFailComplete = null)
 	{
 		ServerUseToolWithActionMessages(tileApply.Performer, tileApply.HandObject,
-			ActionTarget.Tile(tileApply.WorldPositionTarget), seconds, performerStartActionMessage, othersStartActionMessage,
-			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion);
+			ActionTarget.Tile(tileApply.WorldPositionTarget), seconds, performerStartActionMessage,
+			othersStartActionMessage,
+			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion, performerFailMessage, othersFailMessage, onFailComplete);
 	}
 
 	/// <summary>
@@ -94,14 +129,19 @@ public static class ToolUtils
 	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
 	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
 	/// <param name="onSuccessfulCompletion">called when action is completed</param>
+	/// <param name="performerFailMessage">message to show performer when action completes unsuccessfully.</param>
+	/// <param name="othersFailMessage">message to show others when action completes unsuccessfully.</param>
+	/// <param name="onFailComplete">called when action is completed unsuccessfully.</param>
 	public static void ServerUseToolWithActionMessages(PositionalHandApply handApply,
 		float seconds, string performerStartActionMessage, string othersStartActionMessage,
 		string performerFinishActionMessage,
-		string othersFinishActionMessage, Action onSuccessfulCompletion)
+		string othersFinishActionMessage, Action onSuccessfulCompletion, string performerFailMessage = "",
+		string othersFailMessage = "", Action onFailComplete = null)
 	{
 		ServerUseToolWithActionMessages(handApply.Performer, handApply.HandObject,
-			ActionTarget.Tile(handApply.WorldPositionTarget), seconds, performerStartActionMessage, othersStartActionMessage,
-			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion);
+			ActionTarget.Tile(handApply.WorldPositionTarget), seconds, performerStartActionMessage,
+			othersStartActionMessage,
+			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion, performerFailMessage, othersFailMessage, onFailComplete);
 	}
 
 	/// <summary>
@@ -114,7 +154,8 @@ public static class ToolUtils
 	/// <param name="seconds">seconds taken to perform the action, 0 if it should be instant</param>
 	/// <param name="progressCompleteAction">completion callback (will also be called instantly if completion is instant)</param>
 	/// <returns>progress bar spawned, null if progress did not start or this was instant</returns>
-	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, ActionTarget actionTarget, float seconds, Action progressCompleteAction)
+	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, ActionTarget actionTarget,
+		float seconds, Action progressCompleteAction)
 	{
 		//check tool stats
 		var toolStats = tool.GetComponent<Tool>();
@@ -238,7 +279,8 @@ public static class ToolUtils
 	/// <param name="inventoryApply"></param>
 	public static void ServerPlayToolSound(InventoryApply inventoryApply)
 	{
-		ServerPlayToolSound(inventoryApply.UsedObject, inventoryApply.Performer.TileWorldPosition(), inventoryApply.Performer);
+		ServerPlayToolSound(inventoryApply.UsedObject, inventoryApply.Performer.TileWorldPosition(),
+			inventoryApply.Performer);
 	}
 
 	/// <summary>
@@ -249,8 +291,8 @@ public static class ToolUtils
 	/// <param name="seconds">seconds taken to perform the action, 0 for instant.</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
-	public static ProgressBar ServerUseTool(PositionalHandApply positionalHandApply, float seconds=0,
-		Action progressCompleteAction=null)
+	public static ProgressBar ServerUseTool(PositionalHandApply positionalHandApply, float seconds = 0,
+		Action progressCompleteAction = null)
 	{
 		return ServerUseTool(positionalHandApply.Performer, positionalHandApply.HandObject,
 			ActionTarget.Tile(positionalHandApply.WorldPositionTarget), seconds, progressCompleteAction);
@@ -264,8 +306,8 @@ public static class ToolUtils
 	/// <param name="seconds">seconds taken to perform the action, 0 for instant.</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
-	public static ProgressBar ServerUseTool(HandApply handApply, float seconds=0,
-		Action progressCompleteAction=null)
+	public static ProgressBar ServerUseTool(HandApply handApply, float seconds = 0,
+		Action progressCompleteAction = null)
 	{
 		return ServerUseTool(handApply.Performer, handApply.HandObject,
 			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, progressCompleteAction);
@@ -279,8 +321,8 @@ public static class ToolUtils
 	/// <param name="seconds">seconds taken to perform the action, 0 for instant.</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
-	public static ProgressBar ServerUseTool(TileApply tileApply, float seconds=0,
-		Action progressCompleteAction=null)
+	public static ProgressBar ServerUseTool(TileApply tileApply, float seconds = 0,
+		Action progressCompleteAction = null)
 	{
 		return ServerUseTool(tileApply.Performer, tileApply.HandObject,
 			ActionTarget.Tile(tileApply.WorldPositionTarget), seconds, progressCompleteAction);

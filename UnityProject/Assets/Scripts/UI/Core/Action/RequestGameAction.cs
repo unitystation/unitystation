@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Messages.Client;
 
-public class RequestGameAction : ClientMessage
+public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 {
-	public int ComponentLocation;
-	public uint NetObject;
-	public ushort ComponentID;
+	public struct NetMessage : NetworkMessage
+	{
+		public int ComponentLocation;
+		public uint NetObject;
+		public ushort ComponentID;
+	}
 
 	public static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>(); //These are useful
 	public static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
@@ -32,17 +35,17 @@ public class RequestGameAction : ClientMessage
 
 	}
 
-	public override void Process()
+	public override void Process(NetMessage msg)
 	{
-		var type = componentIDToComponentType[ComponentID];
-		LoadNetworkObject(NetObject);
+		var type = componentIDToComponentType[msg.ComponentID];
+		LoadNetworkObject(msg.NetObject);
 
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
 			var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
-			if (IActionGUIs.Length > ComponentLocation)
+			if (IActionGUIs.Length > msg.ComponentLocation)
 			{
-				var IServerActionGUI = IActionGUIs[ComponentLocation] as IServerActionGUI;
+				var IServerActionGUI = IActionGUIs[msg.ComponentLocation] as IServerActionGUI;
 				IServerActionGUI.CallActionServer(SentByPlayer);
 			}
 		}
@@ -75,16 +78,16 @@ public class RequestGameAction : ClientMessage
 		}
 		if (found)
 		{
-			var msg = new RequestGameAction
+			var msg = new NetMessage
 			{
 				NetObject = netObject.netId,
 				ComponentLocation = componentLocation,
 				ComponentID = componentTypeToComponentID[componentType],
 			};
-			msg.Send();
+			Send(msg);
 			return;
 		}
 
-		Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity");
+		Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
 	}
 }

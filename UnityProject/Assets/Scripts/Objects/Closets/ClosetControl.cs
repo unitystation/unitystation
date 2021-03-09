@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AddressableReferences;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
 using Objects;
-using SoundMessages;
+
 
 /// <summary>
 /// Allows closet to be opened / closed / locked
@@ -178,7 +180,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		{
 			if (pushPull == null)
 			{
-				Logger.LogErrorFormat("Closet {0} has no PushPull component! All contained items will appear at HiddenPos!", Category.Transform, gameObject.ExpensiveName());
+				Logger.LogErrorFormat("Closet {0} has no PushPull component! All contained items will appear at HiddenPos!", Category.PushPull, gameObject.ExpensiveName());
 			}
 			return pushPull;
 		}
