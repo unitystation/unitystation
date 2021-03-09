@@ -9,13 +9,10 @@ public class EmoteActionManager : MonoBehaviour
 
     public static bool FindEmote(string emote, EmoteActionManager instance)
     {
+		var emoteArray = emote.Split(' ');
         foreach (var e in instance.emotes)
         {
-            if(e.emoteName == emote)
-            {
-                return true;
-            }
-            if(emote.Contains(e.emoteName))
+            if(emoteArray[1] == e.emoteName)
             {
                 return true;
             }
@@ -25,9 +22,9 @@ public class EmoteActionManager : MonoBehaviour
 
     public static void DoEmote(string emote, GameObject player, EmoteActionManager instance)
     {
-        foreach (var e in instance.emotes)
+		foreach (var e in instance.emotes)
         {
-            if(emote.Contains(e.emoteName))
+            if(emote == e.emoteName)
             {
                 e.Do(player);
                 return;
