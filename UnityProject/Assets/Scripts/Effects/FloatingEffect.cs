@@ -8,14 +8,14 @@ public class FloatingEffect : LTEffect
 	private const float speed = 0.9f;
 	private const float pos = 0.08f;
 
-	public void startFloating()
+	public void StartFloating()
 	{
 		willAnimate = true;
 		tween.isAnim = true;
-		StartCoroutine(animate());
+		StartCoroutine(Animate());
 	}
 
-	public void stopFloating()
+	public void StopFloating()
 	{
 		willAnimate = false;
 		tween.CmdLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
@@ -23,7 +23,7 @@ public class FloatingEffect : LTEffect
 		StopAllCoroutines();
 	}
 
-	private IEnumerator animate()
+	private IEnumerator Animate()
 	{
 		while(willAnimate == true)
 		{
