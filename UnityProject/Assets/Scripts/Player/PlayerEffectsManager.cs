@@ -26,16 +26,16 @@ public class PlayerEffectsManager : MonoBehaviour
 	{
 		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == true && floatingEffect.willAnimate == false)
 		{
-			AnimateFloating();
+			animateFloating();
 			return;
 		}
 		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == false && floatingEffect.willAnimate == true)
 		{
-			AnimateFloating();
+			animateFloating();
 		}
 	}
 
-	public void AnimateFloating()
+	public void animateFloating()
 	{
 		if (floatingEffect.willAnimate)
 		{

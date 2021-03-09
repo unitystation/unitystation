@@ -14,7 +14,7 @@ public class Surrender : EmoteSO
 			Chat.AddActionMsgToChat(player, $"{failText}", "");
 			return;
 		}
-		if(CheckHandState(player) == false)
+		if(checkHandState(player) == false)
 		{
 			Chat.AddActionMsgToChat(player, "You surrender in defeat then lay faced down on the ground.", $"{player.ExpensiveName()} surrenders in defeat then lay faced down on the ground.");
 		}

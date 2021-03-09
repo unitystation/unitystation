@@ -42,7 +42,7 @@ public class EmoteSO : ScriptableObject
 
 	public virtual void Do(GameObject player)
 	{
-		if(requiresHands == true && CheckHandState(player) == false)
+		if(requiresHands == true && checkHandState(player) == false)
 		{
 			Chat.AddActionMsgToChat(player, $"{failText}", $"");
 		}
@@ -89,7 +89,7 @@ public class EmoteSO : ScriptableObject
 	}
 
 
-	public bool CheckHandState(GameObject player)
+	public bool checkHandState(GameObject player)
 	{
 		if (!PlayerManager.LocalPlayerScript.playerMove.IsCuffed)
 		{
