@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: sway
   m_EditorClassIdentifier: 
   emoteName: sway
+  requiresHands: 0
   viewText: sways dizzily.
-  youText: 
-  emoteDefaultSounds: []
+  youText: '{player.ExpensiveName()} sways dizzily.'
+  failText: You were unable to preform this action!
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  audioToUse: []

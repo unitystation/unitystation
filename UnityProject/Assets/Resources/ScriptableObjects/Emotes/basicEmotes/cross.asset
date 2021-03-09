@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: cross
   m_EditorClassIdentifier: 
   emoteName: cross
+  requiresHands: 1
   viewText: crosses their arms.
   youText: You cross your arms.
-  emoteDefaultSounds: []
+  failText: You cannot do this action because your arms cannot make this motion!
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  audioToUse: []

@@ -745,13 +745,14 @@ public static class Validations
 
 	public static bool HasHand(GameObject player)
 	{
-		if(player.TryGetComponent<LivingHealthMasterBase>(out var bodyParts)
-
-		foreach(var part in bodyParts.ImplantList)
+		if (player.TryGetComponent<LivingHealthMasterBase>(out var bodyParts))
 		{
-			if(part.bodyPartType == BodyPartType.LeftArm || part.bodyPartType == BodyPartType.RightArm)
+			foreach (var part in bodyParts.ImplantList)
 			{
-				return true;
+				if (part.bodyPartType == BodyPartType.LeftArm || part.bodyPartType == BodyPartType.RightArm)
+				{
+					return true;
+				}
 			}
 		}
 		return false;
