@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 namespace Systems.Explosions
@@ -71,7 +72,7 @@ namespace Systems.Explosions
 			{
 
 				// do damage
-				player.GetComponent<PlayerHealth>().ApplyDamage(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
+				player.GetComponent<PlayerHealthV2>().ApplyDamageAll(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
 
 			}
 

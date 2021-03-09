@@ -176,7 +176,7 @@ public class GameData : MonoBehaviour
 
 		if (!string.IsNullOrEmpty(response.errorMsg))
 		{
-			Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.Hub);
+			Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.DatabaseAPI);
 			LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");
 			return;
 		}
@@ -186,14 +186,14 @@ public class GameData : MonoBehaviour
 			{
 				if (task.IsCanceled)
 				{
-					Logger.LogError("Custom token sign in was canceled.", Category.Hub);
+					Logger.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
 					LobbyManager.Instance.lobbyDialogue.LoginError($"Sign in was cancelled");
 					return;
 				}
 
 				if (task.IsFaulted)
 				{
-					Logger.LogError("Task Faulted: " + task.Exception, Category.Hub);
+					Logger.LogError("Task Faulted: " + task.Exception, Category.DatabaseAPI);
 					LobbyManager.Instance.lobbyDialogue.LoginError($"Task Faulted: " + task.Exception);
 					return;
 				}
@@ -202,7 +202,7 @@ public class GameData : MonoBehaviour
 
 				if (success)
 				{
-					Logger.Log("Signed in successfully with valid token", Category.Hub);
+					Logger.Log("Signed in successfully with valid token", Category.DatabaseAPI);
 					LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
 				}
 				else

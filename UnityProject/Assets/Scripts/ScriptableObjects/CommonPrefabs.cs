@@ -11,6 +11,7 @@ namespace ScriptableObjects
 	{
 		public GameObject Metal;
 		public GameObject Plasteel;
+		public GameObject ReinforcedGlassSheet;
 		public GameObject GlassSheet;
 		public GameObject WoodenPlank;
 		public GameObject MetalRods;
@@ -19,6 +20,8 @@ namespace ScriptableObjects
 		public GameObject Mask;
 		public GameObject EmergencyOxygenTank;
 		public GameObject MachineFrame;
+
+		public GameObject DiamondSheet;
 
 		public GameObject SparkEffect;
 	}

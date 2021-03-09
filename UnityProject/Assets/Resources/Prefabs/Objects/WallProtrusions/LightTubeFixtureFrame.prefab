@@ -57,6 +57,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 338588115043544032, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: Passable
@@ -64,8 +69,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: initialIntegrity
-      value: 200
+      propertyPath: Armor.Fire
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -79,13 +89,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 80
+      propertyPath: initialIntegrity
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -105,6 +110,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -120,6 +130,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -132,16 +147,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -163,6 +168,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightTubeFixtureFrame
       objectReference: {fileID: 0}
+    - target: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_Sprite
@@ -171,13 +181,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: m_SortingLayer
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_SortingLayerID
       value: -1964781063
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 19
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}

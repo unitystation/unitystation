@@ -29,7 +29,7 @@ namespace UI.Objects.Security
 		{
 			if (record == null)
 			{
-				Logger.Log("SecurityRecordItem: no record found, not doing init", Category.NetUI);
+				Logger.Log("SecurityRecordItem: no record found, not doing init", Category.Machines);
 				return;
 			}
 			securityRecord = record;

@@ -1,3 +1,4 @@
+using HealthV2;
 using Messages.Server.SoundMessages;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.HandObject != null) return false;
 		if (interaction.TargetObject == interaction.Performer) return false;
 
-		if (interaction.TargetObject.TryGetComponent(out PlayerHealth targetPlayerHealth))
+		if (interaction.TargetObject.TryGetComponent(out PlayerHealthV2 targetPlayerHealth))
 		{
 			if (targetPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS) return false;
 		}
@@ -63,13 +64,13 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private bool TryFieryHug()
 	{
-		var performerLHB = interaction.Performer.GetComponent<LivingHealthBehaviour>();
-		var targetLHB = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+		var performerLHB = interaction.Performer.GetComponent<LivingHealthMasterBase>();
+		var targetLHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 
 		if (performerLHB != null && targetLHB != null && (performerLHB.FireStacks > 0 || targetLHB.FireStacks > 0))
 		{
-			performerLHB.ApplyDamage(interaction.TargetObject, 1, AttackType.Fire, DamageType.Burn);
-			targetLHB.ApplyDamage(interaction.Performer, 1, AttackType.Fire, DamageType.Burn);
+			performerLHB.ApplyDamageAll(interaction.TargetObject, 1, AttackType.Fire, DamageType.Burn);
+			targetLHB.ApplyDamageAll(interaction.Performer, 1, AttackType.Fire, DamageType.Burn);
 
 			Chat.AddCombatMsgToChat(
 					interaction.Performer, $"You hug {targetName} with fire!", $"{performerName} hugs {targetName} with fire!");

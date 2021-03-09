@@ -220,7 +220,7 @@ namespace Objects.Construction
 					if (circuitBoard == null)
 					{
 						Logger.LogWarningFormat("Cannot complete computer, circuit board not in frame {0}. Probably a coding error.",
-							Category.Interaction, name);
+							Category.Construction, name);
 						return;
 					}
 					Spawn.ServerPrefab(circuitBoard.ComputerToSpawn, SpawnDestination.At(gameObject));

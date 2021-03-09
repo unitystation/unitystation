@@ -55,7 +55,7 @@ namespace Messages.Server
 				//Sanity check to make sure this isnt the last message
 				if (msg.NumOfMessages == ElementValuesCache[msg.UniqueID].Item2 + 1)
 				{
-					Debug.LogError("This message didnt arrive in time before the end message!");
+					Logger.LogError("This message didnt arrive in time before the end message!", Category.NetUI);
 					ElementValuesCache.Remove(msg.UniqueID);
 					return;
 				}
@@ -74,7 +74,7 @@ namespace Messages.Server
 				//Check to make sure its the last message
 				if (msg.NumOfMessages != ElementValuesCache[msg.UniqueID].Item2)
 				{
-					Debug.LogError("Not all the messages arrived in time for the NetUI update.");
+					Logger.LogError("Not all the messages arrived in time for the NetUI update.", Category.NetUI);
 					return;
 				}
 
@@ -173,7 +173,7 @@ namespace Messages.Server
 					//If a single value is bigger than max packet size cannot proceed
 					if (size + 60 >= maxPacketSize)
 					{
-						Debug.LogError($"This value is above the max mirror packet limit, and cannot be split. Is {size + 60} bytes");
+						Logger.LogError($"This value is above the max mirror packet limit, and cannot be split. Is {size + 60} bytes", Category.NetUI);
 						return null;
 					}
 

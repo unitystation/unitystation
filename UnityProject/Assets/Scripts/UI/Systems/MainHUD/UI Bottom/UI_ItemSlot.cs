@@ -384,7 +384,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[ContextMenu("Debug Slot")]
 	void DebugItem()
 	{
-		Logger.Log(itemSlot.ToString(), Category.Inventory);
+		Logger.Log(itemSlot.ToString(), Category.PlayerInventory);
 	}
 
 	/// <summary>

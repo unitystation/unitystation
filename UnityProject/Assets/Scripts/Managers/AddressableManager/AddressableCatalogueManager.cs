@@ -218,7 +218,7 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 					{
 						if (FoundFile != "")
 						{
-							Logger.LogError("two catalogues present please only ensure one");
+							Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
 						}
 
 						FoundFile = File;
@@ -227,7 +227,7 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 
 				if (FoundFile == "")
 				{
-					Logger.LogWarning("missing json file");
+					Logger.LogWarning("missing json file", Category.Addressables);
 				}
 				else
 				{

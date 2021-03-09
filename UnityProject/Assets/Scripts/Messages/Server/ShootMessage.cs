@@ -2,6 +2,7 @@
 using UnityEngine;
 using Weapons;
 using Weapons.Projectiles;
+using Weapons.Projectiles.Behaviours;
 
 namespace Messages.Server
 {
@@ -59,6 +60,12 @@ namespace Messages.Server
 			if (PlayerManager.LocalPlayer == null) return;
 
 			LoadMultipleObjects(new uint[] { msg.Shooter, msg.Weapon});
+
+			if (NetworkObjects[0] == null || NetworkObjects[1] == null)
+			{
+				Debug.LogError($"Shoot message had null: {(NetworkObjects[0] == null ? "shooter" : "")} {(NetworkObjects[1] == null ? "weapon" : "")}");
+				return;
+			}
 
 			Gun wep = NetworkObjects[1].GetComponent<Gun>();
 			if (wep == null)
@@ -129,6 +136,10 @@ namespace Messages.Server
 			/// targeted body part
 			/// </summary>
 			public BodyPartType DamageZone;
+			/// <summary>
+			/// Whether this bullet should have already moved a certain distance for the range check
+			/// </summary>
+			public float RangeChange;
 		}
 
 		///To be run on client
@@ -151,16 +162,25 @@ namespace Messages.Server
 			LoadNetworkObject(msg.Shooter);
 			GameObject shooter = NetworkObject;
 
-			ShootProjectile(msg.ProjectilePrefabName, shooter, msg.Direction, msg.DamageZone);
+			ShootProjectile(msg.ProjectilePrefabName, shooter, msg.Direction, msg.DamageZone, msg.RangeChange);
 		}
 
-		private static void ShootProjectile(string prefab, GameObject shooter, Vector2 direction, BodyPartType damageZone)
+		private static void ShootProjectile(string prefab, GameObject shooter, Vector2 direction, BodyPartType damageZone,
+			float rangeChange)
 		{
 			GameObject projectile = Spawn.ClientPrefab(prefab, shooter.transform.position, shooter.transform.parent).GameObject;
 
 			if (projectile == null) return;
 			Bullet bullet = projectile.GetComponent<Bullet>();
 			if (bullet == null) return;
+
+			if (rangeChange >= 0)
+			{
+				if (bullet.TryGetComponent<ProjectileRangeLimited>(out var rangeLimited))
+				{
+					rangeLimited.SetDistance(rangeChange);
+				}
+			}
 
 			bullet.Shoot(direction, shooter, null, damageZone);
 		}
@@ -172,12 +192,14 @@ namespace Messages.Server
 		/// <param name="damageZone">body part being targeted</param>
 		/// <param name="shooter">gameobject of player making the shot</param>
 		/// <param name="isSuicide">if the shooter is shooting themselves</param>
+		/// <param name="rangeChange">If this bullet has used some of its range already</param>
 		/// <returns></returns>
-		public static NetMessage SendToAll(GameObject shooter, GameObject projectilePrefab, Vector2 direction, BodyPartType damageZone)
+		public static NetMessage SendToAll(GameObject shooter, GameObject projectilePrefab, Vector2 direction, BodyPartType damageZone,
+			float rangeChange = -1)
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				ShootProjectile(projectilePrefab.name, shooter, direction, damageZone);
+				ShootProjectile(projectilePrefab.name, shooter, direction, damageZone, rangeChange);
 			}
 
 			var msg = new NetMessage
@@ -186,6 +208,37 @@ namespace Messages.Server
 				ProjectilePrefabName = projectilePrefab.name,
 				Direction = direction,
 				DamageZone = damageZone,
+				RangeChange = rangeChange
+			};
+
+			SendToAll(msg);
+			return msg;
+		}
+
+		/// <summary>
+		/// Tell all clients + server to perform a shot with the specified parameters.
+		/// </summary>
+		/// <param name="direction">Direction of shot from shooter</param>
+		/// <param name="damageZone">body part being targeted</param>
+		/// <param name="shooter">gameobject of player making the shot</param>
+		/// <param name="isSuicide">if the shooter is shooting themselves</param>
+		/// <param name="rangeChange">If this bullet has used some of its range already</param>
+		/// <returns></returns>
+		public static NetMessage SendToAll(GameObject shooter, string projectilePrefabName, Vector2 direction, BodyPartType damageZone,
+			float rangeChange = -1)
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				ShootProjectile(projectilePrefabName, shooter, direction, damageZone, rangeChange);
+			}
+
+			var msg = new NetMessage
+			{
+				Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				ProjectilePrefabName = projectilePrefabName,
+				Direction = direction,
+				DamageZone = damageZone,
+				RangeChange = rangeChange
 			};
 
 			SendToAll(msg);

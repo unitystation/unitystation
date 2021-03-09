@@ -82,7 +82,7 @@ namespace Objects.Engineering
 					continue;
 				}
 
-				Debug.Log($"{name} has a null value in {i}.");
+				Logger.Log($"{name} has a null value in {i}.", Category.Electrical);
 				connectedDevices.RemoveAt(i);
 			}
 		}

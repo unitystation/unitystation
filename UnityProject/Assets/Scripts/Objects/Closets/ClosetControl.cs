@@ -180,7 +180,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		{
 			if (pushPull == null)
 			{
-				Logger.LogErrorFormat("Closet {0} has no PushPull component! All contained items will appear at HiddenPos!", Category.Transform, gameObject.ExpensiveName());
+				Logger.LogErrorFormat("Closet {0} has no PushPull component! All contained items will appear at HiddenPos!", Category.PushPull, gameObject.ExpensiveName());
 			}
 			return pushPull;
 		}

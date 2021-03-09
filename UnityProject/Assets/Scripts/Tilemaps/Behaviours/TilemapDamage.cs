@@ -126,7 +126,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 					if (overFlowProtection > maxOverflowProtection)
 					{
-						Debug.LogError($"Overflow protection triggered on {basicTile.name}, theres a loop in the ToTileWhenDestroyed");
+						Logger.LogError($"Overflow protection triggered on {basicTile.name}, ToTileWhenDestroyed is spawning tiles in a loop", Category.TileMaps);
 						break;
 					}
 				}
@@ -184,7 +184,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 		
 		if (damageTaken > totalDamageTaken){
-			Logger.LogError($"Applying damage to {basicTile.DisplayName} increased the damage to be dealt, when it should have decreased!", Category.TileMaps);
+			Logger.LogError($"Applying damage to {basicTile.DisplayName} increased the damage to be dealt, when it should have decreased!", Category.Damage);
 			return totalDamageTaken;
 		}
 

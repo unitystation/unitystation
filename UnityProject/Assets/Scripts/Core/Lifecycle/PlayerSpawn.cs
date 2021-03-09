@@ -25,7 +25,6 @@ public static class PlayerSpawn
 	/// <param name="joinedViewer">viewer who should control the player</param>
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
-	/// <param name="showBanner">whether to show banner when spawned</param>
 	/// <returns>the game object of the spawned player</returns>
 	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
 	{
@@ -33,7 +32,6 @@ public static class PlayerSpawn
 
 		// TODO: add a nice cutscene/animation for the respawn transition
 		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null, showBanner: showBanner);
-
 		if (newPlayer != null && occupation.IsCrewmember)
 		{
 			CrewManifestManager.Instance.AddMember(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
@@ -91,7 +89,7 @@ public static class PlayerSpawn
 	/// </summary>
 	/// <param name="forMind"></param>
 	/// <param name="worldPosition"></param>
-	public static void ServerClonePlayer(Mind forMind, Vector3Int worldPosition)
+	public static GameObject ServerClonePlayer(Mind forMind, Vector3Int worldPosition)
 	{
 		//TODO: Can probably remove characterSettings from cloningrecord
 		//determine previous occupation / settings
@@ -100,7 +98,7 @@ public static class PlayerSpawn
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
 
-		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false, showBanner: false);
+		return ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false, showBanner: false);
 	}
 
 	//Time to start spawning players at arrivals
@@ -149,7 +147,7 @@ public static class PlayerSpawn
 			{
 				Logger.LogErrorFormat(
 					"Unable to determine spawn position for connection {0} occupation {1}. Cannot spawn player.",
-					Category.ItemSpawn,
+					Category.EntitySpawn,
 					connection.address, occupation.DisplayName);
 				return null;
 			}
@@ -260,7 +258,7 @@ public static class PlayerSpawn
 	{
 		if (forMind == null)
 		{
-			Logger.LogError("Mind was null for ServerSpawnGhost", Category.Server);
+			Logger.LogError("Mind was null for ServerSpawnGhost", Category.Ghosts);
 			return;
 		}
 		//determine where to spawn the ghost
@@ -268,7 +266,7 @@ public static class PlayerSpawn
 
 		if (body == null)
 		{
-			Logger.LogError("Body was null for ServerSpawnGhost", Category.Server);
+			Logger.LogError("Body was null for ServerSpawnGhost", Category.Ghosts);
 			return;
 		}
 
@@ -277,7 +275,7 @@ public static class PlayerSpawn
 		var registerTile = body.GetComponent<RegisterTile>();
 		if (registerTile == null)
 		{
-			Logger.LogErrorFormat("Cannot spawn ghost for body {0} because it has no registerTile", Category.ItemSpawn,
+			Logger.LogErrorFormat("Cannot spawn ghost for body {0} because it has no registerTile", Category.Ghosts,
 				body.name);
 			return;
 		}
@@ -292,7 +290,7 @@ public static class PlayerSpawn
 			Transform spawnTransform = SpawnPoint.GetRandomPointForJob(forMind.occupation.JobType);
 			if (spawnTransform == null)
 			{
-				Logger.LogErrorFormat("Unable to determine spawn position for occupation {1}. Cannot spawn ghost.", Category.ItemSpawn,
+				Logger.LogErrorFormat("Unable to determine spawn position for occupation {1}. Cannot spawn ghost.", Category.Ghosts,
 					forMind.occupation.DisplayName);
 				return;
 			}

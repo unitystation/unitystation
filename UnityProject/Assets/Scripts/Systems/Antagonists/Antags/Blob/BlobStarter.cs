@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Antagonists;
+using HealthV2;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -129,7 +130,7 @@ namespace Blob
 					EndState();
 					break;
 				default:
-					Debug.LogError("Unused state");
+					Logger.LogError("Unused state", Category.Blob);
 					break;
 			}
 		}
@@ -274,7 +275,7 @@ namespace Blob
 
 			if (!spawnResult.Successful)
 			{
-				Debug.LogError("Failed to spawn blob!");
+				Logger.LogError("Failed to spawn blob!", Category.Blob);
 				return;
 			}
 
@@ -287,7 +288,7 @@ namespace Blob
 			//Start the blob control script
 			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart();
 
-			gameObject.GetComponent<LivingHealthBehaviour>().Harvest();
+			gameObject.GetComponent<LivingHealthMasterBase>().Harvest();
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			Destroy(this);

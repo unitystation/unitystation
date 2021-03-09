@@ -162,10 +162,10 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	//Handle by UpdateManager
 	void ServerPeriodicUpdate()
 	{
-		if (MatrixManager.IsInitialized && !CanBreatheAnywhere)
-		{
-			MonitorSystem();
-		}
+		// if (MatrixManager.IsInitialized && !CanBreatheAnywhere)
+		// {
+			// MonitorSystem();
+		// }
 	}
 
 	private void MonitorSystem()

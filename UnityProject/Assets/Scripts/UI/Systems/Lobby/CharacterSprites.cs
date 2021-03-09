@@ -7,7 +7,7 @@ namespace Lobby
 {
 	public class CharacterSprites : MonoBehaviour
 	{
-		private CharacterDir currentDir = CharacterDir.down;
+		private CharacterCustomization.CharacterDir currentDir = CharacterCustomization.CharacterDir.down;
 		public SpriteHandler sprites = null;
 
 		private int referenceOffset;
@@ -19,7 +19,7 @@ namespace Lobby
 		{
 			sprites = GetComponent<SpriteHandler>();
 			if(!sprites)
-				Logger.LogWarning("SpriteHandler component is missing!");
+				Logger.LogWarning("SpriteHandler component is missing!", Category.Sprites);
 		}
 		private void Start()
 		{
@@ -45,19 +45,19 @@ namespace Lobby
 
 		private void UpdateReferenceOffset()
 		{
-			if (currentDir == CharacterDir.down)
+			if (currentDir == CharacterCustomization.CharacterDir.down)
 			{
 				referenceOffset = 0;
 			}
-			if (currentDir == CharacterDir.up)
+			if (currentDir == CharacterCustomization.CharacterDir.up)
 			{
 				referenceOffset = 1;
 			}
-			if (currentDir == CharacterDir.right)
+			if (currentDir == CharacterCustomization.CharacterDir.right)
 			{
 				referenceOffset = 2;
 			}
-			if (currentDir == CharacterDir.left)
+			if (currentDir == CharacterCustomization.CharacterDir.left)
 			{
 				referenceOffset = 3;
 			}

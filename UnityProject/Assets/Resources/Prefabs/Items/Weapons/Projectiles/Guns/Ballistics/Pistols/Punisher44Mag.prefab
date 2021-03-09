@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1176912263951196322, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
+      propertyPath: hitDamage
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1176912263951196322, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
       propertyPath: initialName
       value: Punisher .44 Mag pistol
       objectReference: {fileID: 0}
@@ -16,11 +21,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A robust .44 handgun.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176912263951196322, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: hitDamage
-      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1305095031322091924, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
@@ -33,6 +33,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 013fe2712ccbda146924992ee4e22f32,
         type: 3}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
@@ -111,19 +111,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
+      propertyPath: FireRate
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
       propertyPath: ammoType
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: FiringSound
-      value: ShootGun04
+      propertyPath: FireDelay
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: FireRate
-      value: 3
-      objectReference: {fileID: 0}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 21396104557255652, guid: b050e4c5d57a78745b27d25436f42c04,
+        type: 3}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: ammoPrefab
@@ -132,10 +138,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 21396104557255652, guid: b050e4c5d57a78745b27d25436f42c04,
-        type: 3}
+      propertyPath: FiringSound
+      value: ShootGun04
+      objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: FiringSoundA.AssetAddress

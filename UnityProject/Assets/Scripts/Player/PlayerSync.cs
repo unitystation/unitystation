@@ -324,7 +324,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		if (isServer)
 		{
-			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2) serverState.WorldPosition,
+			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Movement, name, (Vector2) serverState.WorldPosition,
 				toWorldPosition.To2Int());
 			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition, true);
 			ServerState = nextStateServer;

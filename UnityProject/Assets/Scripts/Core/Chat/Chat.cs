@@ -174,7 +174,7 @@ public partial class Chat : MonoBehaviour
 				return;
 			}
 
-			if (player.playerHealth.IsCrit || player.playerHealth.IsCardiacArrest)
+			if (player.playerHealth.IsCrit)
 			{
 				if (!player.playerHealth.IsDead)
 				{
@@ -364,17 +364,15 @@ public partial class Chat : MonoBehaviour
 			victimName = "yourself";
 			if (player != null)
 			{
-				if (player.Script.characterSettings.Gender == Gender.Female)
+				if (player.Script.characterSettings.BodyType == BodyType.Female)
 				{
 					victimNameOthers = "herself";
 				}
-
-				if (player.Script.characterSettings.Gender == Gender.Male)
+				else if (player.Script.characterSettings.BodyType == BodyType.Male)
 				{
 					victimNameOthers = "himself";
 				}
-
-				if (player.Script.characterSettings.Gender == Gender.Neuter)
+				else
 				{
 					victimNameOthers = "itself";
 				}

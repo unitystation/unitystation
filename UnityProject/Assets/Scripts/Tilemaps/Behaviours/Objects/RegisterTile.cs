@@ -440,7 +440,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	{
 		if (matrix == null)
 		{
-			Logger.LogWarning("Error - [RegisterTile.WaitForMatrixInit] - Matrix is null", Category.Matrix);
+			Logger.LogWarning("RegisterTile tried to wait for Matrix to init, but Matrix was null", Category.Matrix);
 			return;
 		}
 

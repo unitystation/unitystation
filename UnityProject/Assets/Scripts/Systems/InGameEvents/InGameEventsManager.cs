@@ -99,7 +99,7 @@ namespace InGameEvents
 
 			if (list == null)
 			{
-				Debug.LogError("An event has been set to random type, random is a dummy type and cant be accessed.");
+				Logger.LogError("An event has been set to random type, random is a dummy type and cant be accessed.", Category.Event);
 				return;
 			}
 
@@ -123,7 +123,7 @@ namespace InGameEvents
 
 			if (list == null)
 			{
-				Debug.LogError("Event List was null shouldn't happen unless new type wasn't added to switch");
+				Logger.LogError("Event List was null shouldn't happen unless new type wasn't added to switch", Category.Event);
 				return;
 			}
 

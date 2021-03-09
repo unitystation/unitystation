@@ -265,7 +265,7 @@ public class UIActionManager : MonoBehaviour
 		{
 			if (action.Key.ActionData == null)
 			{
-				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UIAction, action.Key+":"+action.Value );
+				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, action.Key+":"+action.Value );
 				continue;
 			}
 			if (action.Key.ActionData.DisableOnEvent.Contains(Event)) {

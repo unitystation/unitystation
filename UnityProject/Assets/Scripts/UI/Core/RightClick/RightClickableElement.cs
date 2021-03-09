@@ -65,7 +65,7 @@ public class RightClickableElement
 			Logger.LogWarningFormat("Unable to find right click option with name {0}. Ensure" +
 			                      " the RightClickOption scriptable object exists in the folder {1}." +
 			                      " A default option will be displayed instead with the same name.",
-									Category.UI, optionName, RIGHT_CLICK_OPTION_FOLDER);
+									Category.UserInput, optionName, RIGHT_CLICK_OPTION_FOLDER);
 			return FromOptionName("Default", action, bgColorOverride, nameOverride != null ? nameOverride : optionName, spriteOverride, bgSpriteOverride, keepMenuOpen);
 		}
 	}

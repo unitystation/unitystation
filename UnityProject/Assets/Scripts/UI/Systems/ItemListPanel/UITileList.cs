@@ -208,7 +208,7 @@ public class UITileList : MonoBehaviour
 	{
 		if (!Instance.listedObjects.Contains(tileListItemObject))
 		{
-			Logger.LogError("Attempted to remove tileListItem not on list", Category.UI);
+			Logger.LogError("Attempted to remove tileListItem not on list", Category.NetUI);
 			return;
 		}
 

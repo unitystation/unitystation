@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems.Atmospherics;
 using Systems.Radiation;
+using HealthV2;
 using Light2D;
 using Mirror;
 using Objects.Engineering;
@@ -298,7 +299,7 @@ namespace Objects
 			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
 			{
 				//Try stun player
-				if (DMMath.Prob(10) && TryGetComponent<PlayerHealth>(out var playerHealth) && playerHealth != null
+				if (DMMath.Prob(10) && TryGetComponent<PlayerHealthV2>(out var playerHealth) && playerHealth != null
 				&& !playerHealth.IsDead)
 				{
 					playerHealth.RegisterPlayer.ServerStun();
@@ -391,7 +392,7 @@ namespace Objects
 				{
 					if(objectToMove.gameObject == gameObject) continue;
 
-					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealth>(out var health) && health != null)
+					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealthV2>(out var health) && health != null)
 					{
 						if (health.RegisterPlayer.PlayerScript != null &&
 						    health.RegisterPlayer.PlayerScript.mind != null &&
@@ -662,20 +663,20 @@ namespace Objects
 			}
 		}
 
-		public void OnHitDetect(DamageData damageData)
+		public void OnHitDetect(OnHitDetectData data)
 		{
-			if(damageData.AttackType != AttackType.Rad) return;
+			if(data.DamageData.AttackType != AttackType.Rad) return;
 
-			if (damageData.Damage >= 20f)
+			if (data.DamageData.Damage >= 20f)
 			{
 				// PA at any setting will prevent point loss
 				pointLock = true;
 				lockTimer = 20;
 			}
-			if (damageData.Damage > 20f)
+			if (data.DamageData.Damage > 20f)
 			{
 				// PA at setting greater than 0 will do 20 damage
-				ChangePoints((int)damageData.Damage);
+				ChangePoints((int)data.DamageData.Damage);
 			}
 		}
 

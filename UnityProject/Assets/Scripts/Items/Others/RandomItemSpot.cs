@@ -66,7 +66,7 @@ namespace Items
 
             if (itemPool == null)
 			{
-				Debug.LogError($"Item pool was null in {gameObject.name}");
+				Logger.LogError($"Item pool was null in {gameObject.name}", Category.ItemSpawn);
 				return;
 			}
 

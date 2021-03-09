@@ -327,7 +327,7 @@ public class RightClickManager : MonoBehaviour
 		{
 			Logger.LogWarningFormat("Could not determine sprite to use for right click menu" +
 					" for object {0}. Please manually configure a sprite in a RightClickAppearance component" +
-					" on this object.", Category.UI, forObject.name);
+					" on this object.", Category.UserInput, forObject.name);
 		}
 
 		return RightClickMenuItem.CreateObjectMenuItem(ButtonColor, sprite, null, label, subMenus, spriteRenderer.color, palette);

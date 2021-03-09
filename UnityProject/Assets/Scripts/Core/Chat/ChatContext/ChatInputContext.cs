@@ -42,7 +42,7 @@ public class ChatInputContext : IChatInputContext
 			var key = playerHeadset.EncryptionKey;
 			if (!EncryptionKey.DefaultChannel.ContainsKey(key))
 			{
-				Logger.LogError($"Can't find default channel for a {key}");
+				Logger.LogError($"Can't find default channel for a {key}", Category.Chat);
 				return ChatChannel.None;
 			}
 
@@ -58,7 +58,7 @@ public class ChatInputContext : IChatInputContext
 		// Player doesn't have any storage? That's bad
 		if (!playerStorage)
 		{
-			Debug.LogError("Can't find current headset, becouse local player storage doesn't exist");
+			Logger.LogError("Can't find current headset, because local player storage doesn't exist", Category.PlayerInventory);
 			return null;
 		}
 

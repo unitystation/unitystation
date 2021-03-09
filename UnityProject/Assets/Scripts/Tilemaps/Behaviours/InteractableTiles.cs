@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Mirror;
 using System.Linq;
+using HealthV2;
 using Messages.Client.Interaction;
 using TileManagement;
 using UnityEngine;
@@ -277,7 +278,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
 			float voltage = ElectricalData.InData.Data.ActualVoltage;
 			var electrocution = new Electrocution(voltage, message.targetWorldPosition, "cable");
-			var performerLHB = message.performer.GetComponent<LivingHealthBehaviour>();
+			var performerLHB = message.performer.GetComponent<LivingHealthMasterBase>();
 			var severity = performerLHB.Electrocute(electrocution);
 			if (severity > LivingShockResponse.Mild) return;
 
@@ -385,7 +386,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	public bool Interact(MouseDrop interaction)
 	{
-		Logger.Log("Interaction detected on InteractableTiles.");
+		Logger.Log("Interaction detected on InteractableTiles.", Category.Interaction);
 
 		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation, true);
 

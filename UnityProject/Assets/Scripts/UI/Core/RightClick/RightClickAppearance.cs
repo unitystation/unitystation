@@ -44,7 +44,7 @@ public class RightClickAppearance : MonoBehaviour
 
 			Logger.LogWarningFormat("Could not determine sprite to use for right click menu" +
 			                        " for object {0}. Please specify a sprite in the RightClickMenu component" +
-			                        " for this object.", Category.UI, gameObject.name);
+			                        " for this object.", Category.UserInput, gameObject.name);
 		}
 		else
 		{
