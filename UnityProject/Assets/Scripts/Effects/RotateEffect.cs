@@ -8,7 +8,7 @@ public class RotateEffect : LTEffect
     private int flips;
     private float animTime;
     private float rotationAngle;
-	private bool isRandom = true;
+    private bool isRandom = true;
 
     public override void CmdStartAnimation()
     {
