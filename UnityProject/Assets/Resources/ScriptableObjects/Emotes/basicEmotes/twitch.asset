@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: twitch
   m_EditorClassIdentifier: 
   emoteName: twitch
+  requiresHands: 0
   viewText: twitches violently.
-  youText: 
-  emoteDefaultSounds: []
+  youText: you twitch violently.
+  failText: You were unable to preform this action!
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  audioToUse: []
