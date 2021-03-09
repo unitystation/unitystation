@@ -37,7 +37,7 @@ public class EmoteSO : ScriptableObject
 	public List<AddressableAudioSource> femaleSounds = new List<AddressableAudioSource>();
 
 	[SerializeField, MinMaxSlider(0.1f, 2)]
-	private RangeAttribute pitchRange = new RangeAttribute(0.7f, 1f); //This doesn't want to appear in the inspector for some reason.
+	private Vector2 pitchRange = new Vector2(0.7f, 1f);
 
 	[HideInInspector]
 	public List<AddressableAudioSource> audioToUse;
