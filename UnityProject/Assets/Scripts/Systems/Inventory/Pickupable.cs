@@ -181,7 +181,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 				SpinMultiplier = 15,
 				InitialSpeed = 2
 			} );
-			Logger.LogTraceFormat("Nudging! server pos:{0} player pos:{1}", Category.Movement,
+			Logger.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Movement,
 				cnt.ServerState.WorldPosition, interaction.Performer.transform.position);
 			//client prediction doesn't handle nudging, so we need to roll them back
 			ServerRollbackClient(interaction);
