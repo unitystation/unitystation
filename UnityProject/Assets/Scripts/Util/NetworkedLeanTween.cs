@@ -39,7 +39,10 @@ public class NetworkedLeanTween : NetworkBehaviour
 	}
 
 	private void Awake() {
-		if(target == null){ target = this.transform;}
+		if(target == null)
+		{
+		    target = this.transform;
+		}
 	}
 
 	private void FixedUpdate() {
@@ -179,4 +182,3 @@ public class NetworkedLeanTween : NetworkBehaviour
 		LeanTween.value(target.gameObject, from, to, time);
 	}
 }
-
