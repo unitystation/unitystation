@@ -24,12 +24,12 @@ public class PlayerEffectsManager : MonoBehaviour
 
 	private void Update()
 	{
-		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == true && floatingEffect.willAnimate == false)
+		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == true && floatingEffect.WillAnimate == false)
 		{
 			AnimateFloating();
 			return;
 		}
-		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == false && floatingEffect.willAnimate == true)
+		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == false && floatingEffect.WillAnimate == true)
 		{
 			AnimateFloating();
 		}
@@ -37,7 +37,7 @@ public class PlayerEffectsManager : MonoBehaviour
 
 	public void AnimateFloating()
 	{
-		if (floatingEffect.willAnimate)
+		if (floatingEffect.WillAnimate)
 		{
 			floatingEffect.StopFloating();
 		}
