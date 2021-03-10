@@ -800,7 +800,7 @@ namespace HealthV2
 			// On fire?
 			if (FireStacks > 0)
 			{
-				healthString.Append("And is on fire!");
+				healthString.Append(" And is on fire!");
 			}
 
 			return healthString.ToString();
