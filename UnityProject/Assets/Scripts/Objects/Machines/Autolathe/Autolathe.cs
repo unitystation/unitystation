@@ -6,7 +6,7 @@ using Systems.Electricity;
 
 namespace Objects.Machines
 {
-	public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn, IAPCPowered, IMaterialSiloLink
+	public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn, IAPCPowered
 	{
 
 		public PowerStates PoweredState;
