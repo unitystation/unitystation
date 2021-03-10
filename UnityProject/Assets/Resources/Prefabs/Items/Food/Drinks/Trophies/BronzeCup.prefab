@@ -30,6 +30,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8661430826484982873, guid: 8396fd38ae379ec468d261d584a05953,
         type: 3}
@@ -96,8 +96,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
         type: 3}
-      propertyPath: initialDescription
-      value: At least you ranked!
+      propertyPath: hitDamage
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
         type: 3}
@@ -111,13 +111,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
         type: 3}
-      propertyPath: hitDamage
-      value: 5
+      propertyPath: throwDamage
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
         type: 3}
-      propertyPath: throwDamage
-      value: 4
+      propertyPath: initialDescription
+      value: At least you ranked!
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137115239423735375, guid: 8396fd38ae379ec468d261d584a05953,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/GenericHit.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8396fd38ae379ec468d261d584a05953, type: 3}

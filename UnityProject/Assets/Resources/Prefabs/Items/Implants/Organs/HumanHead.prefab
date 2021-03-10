@@ -185,7 +185,7 @@ PrefabInstance:
     - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: initialName
-      value: Human Head
+      value: human head
       objectReference: {fileID: 0}
     - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -196,6 +196,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A decapitated human head.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 2733873253844105974, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}

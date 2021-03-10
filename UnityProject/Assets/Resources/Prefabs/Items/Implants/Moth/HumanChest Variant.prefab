@@ -118,5 +118,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9026603045993328123, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: initialName
+      value: moth chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026603045993328123, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc032f91cda505e44b066c36db32760d, type: 3}

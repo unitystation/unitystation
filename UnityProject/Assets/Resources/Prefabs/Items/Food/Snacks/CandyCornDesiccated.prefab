@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1354048438170125792, guid: bbc7436813f44d747863d0ee12b2deef,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354048438170125792, guid: bbc7436813f44d747863d0ee12b2deef,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1354048438170125792, guid: bbc7436813f44d747863d0ee12b2deef,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354048438170125792, guid: bbc7436813f44d747863d0ee12b2deef,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1354048438170125792, guid: bbc7436813f44d747863d0ee12b2deef,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1354048438170125792, guid: bbc7436813f44d747863d0ee12b2deef,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1354048438170125792, guid: bbc7436813f44d747863d0ee12b2deef,
         type: 3}
@@ -74,9 +74,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1455950712333932534, guid: bbc7436813f44d747863d0ee12b2deef,
         type: 3}
-      propertyPath: initialDescription
-      value: If this candy corn were any harder Security would confiscate it for
-        being a potential shiv.
+      propertyPath: hitDamage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1455950712333932534, guid: bbc7436813f44d747863d0ee12b2deef,
         type: 3}
@@ -90,8 +89,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1455950712333932534, guid: bbc7436813f44d747863d0ee12b2deef,
         type: 3}
-      propertyPath: hitDamage
-      value: 1
+      propertyPath: initialDescription
+      value: If this candy corn were any harder Security would confiscate it for
+        being a potential shiv.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1455950712333932534, guid: bbc7436813f44d747863d0ee12b2deef,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbc7436813f44d747863d0ee12b2deef, type: 3}

@@ -9,14 +9,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
-      propertyPath: initialDescription
-      value: A powerful and versatile flashbulb device, with applications ranging
-        from disorienting attackers to acting as visual receptors in robot production.
+      propertyPath: initialName
+      value: flash
       objectReference: {fileID: 0}
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
-      propertyPath: initialName
-      value: flash
+      propertyPath: initialSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: hitSoundSettings
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: initialDescription
+      value: A powerful and versatile flashbulb device, with applications ranging
+        from disorienting attackers to acting as visual receptors in robot production.
       objectReference: {fileID: 0}
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -30,17 +40,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 94e44961fee397b4c97b288402a285fd,
         type: 2}
-    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
-        type: 3}
-      propertyPath: initialSize
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4390993211494916771, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ffc4e04ded9a5044b857040ee8e47c7f,
         type: 3}
+    - target: {fileID: 4390993211494916771, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -58,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -70,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -99,7 +109,7 @@ PrefabInstance:
     - target: {fileID: 4476020110803030527, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_Name
-      value: Flash
+      value: _FlashBase
       objectReference: {fileID: 0}
     - target: {fileID: 4578525896496213067, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}

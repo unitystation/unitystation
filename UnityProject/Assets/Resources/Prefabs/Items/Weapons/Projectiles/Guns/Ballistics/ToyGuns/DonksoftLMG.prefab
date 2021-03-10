@@ -235,6 +235,11 @@ PrefabInstance:
       value: A heavily modified toy light machine gun, designated the 'Buzzsaw'.
         Ages 8 and up.
       objectReference: {fileID: 0}
+    - target: {fileID: 2730685772635794717, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 8979097940314571549, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
       propertyPath: allowClumsy

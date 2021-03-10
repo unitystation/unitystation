@@ -575,6 +575,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A prototype three-round burst toy submachine gun. Ages 8 and up.
       objectReference: {fileID: 0}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a940a8ef1ee65024fb0a322703040d98, type: 3}
 --- !u!4 &4781140486872850506 stripped
