@@ -32,13 +32,16 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   isSurface: 0
+  ClothingHide: 0
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   isBloodReagentConsumed: 1
+  isBloodReagentCirculated: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   _bloodReagentConsumed: 0.1
   bloodReagentProcessed: 0.15
   bloodReagentStoreAmount: 0.01
+  bloodReagentStoredMax: 0.5
   NutrimentConsumption: 0.02
   NutrimentPassiveConsumption: 0.001
   BloodContainer: {fileID: 0}
@@ -70,6 +73,7 @@ MonoBehaviour:
   DamageContributesToOverallHealth: 0
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
+  Severity: 0
   heartRateDelta: 10
   maxHeartRate: 200
   heartStrength: 100
@@ -169,7 +173,7 @@ PrefabInstance:
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialName
-      value: Human Heart
+      value: heart
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -179,7 +183,7 @@ PrefabInstance:
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialDescription
-      value: A human heart.
+      value: A heart.
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}

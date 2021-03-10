@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: ae11a2c90809700428d5aa97848f8ea1, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: af2df8b74c8123d478dac1098e7def39, type: 2}
   CurrentClothIndex: 3
@@ -135,6 +134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A sword humming with unholy energy. It glows with a dim red light.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}

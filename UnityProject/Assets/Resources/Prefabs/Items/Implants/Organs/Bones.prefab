@@ -32,6 +32,7 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   isSurface: 0
+  ClothingHide: 0
   SurgeryProcedureBase: []
   isBloodReagentConsumed: 0
   isBloodReagentCirculated: 1
@@ -71,6 +72,7 @@ MonoBehaviour:
   DamageContributesToOverallHealth: 0
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
+  Severity: 0
   BloodGeneratedByOneNutriment: 1
   GeneratesThis: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
 --- !u!1001 &7897882321571350356
@@ -161,6 +163,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialName
+      value: bone
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialDescription
+      value: A bone.
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}

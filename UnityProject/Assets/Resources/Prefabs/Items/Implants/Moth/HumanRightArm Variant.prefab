@@ -25,6 +25,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7897d6389c487ff4da3c05718d54bae2,
         type: 2}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: initialDescription
+      value: A fragile moth right arm.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 7301997280600668226, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_Sprite

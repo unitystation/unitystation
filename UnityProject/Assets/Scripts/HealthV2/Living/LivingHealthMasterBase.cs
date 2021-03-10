@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Systems.Atmospherics;
 using Chemistry;
 using Health.Sickness;
@@ -743,10 +744,57 @@ namespace HealthV2
 			healthStateController.SetFireStacks(0);
 		}
 
-		public virtual string GetExamineText()
+		#region Examine
+
+		public string GetExamineText()
 		{
-			return "Weeee";
+			if (this is PlayerHealthV2)
+			{
+				// Let ExaminablePlayer take care of this.
+				return default;
+			}
+
+			// Assume animal
+			var healthString = new StringBuilder("It is ");
+
+			if (IsDead)
+			{
+				healthString.Append("limp and unresponsive; there are no signs of life...");
+
+				return healthString.ToString();
+			}
+
+			healthString.Append($"{ConsciousState.ToString().ToLower().Replace("_", " ")} and ");
+
+			var healthFraction = OverallHealth / maxHealth;
+			if (healthFraction < 0.2f)
+			{
+				healthString.Append("heavily wounded.");
+			}
+			else if (healthFraction < 0.6f)
+			{
+				healthString.Append("wounded.");
+			}
+			else
+			{
+				healthString.Append("in good shape.");
+			}
+
+			if (respiratorySystem != null && respiratorySystem.IsSuffocating)
+			{
+				healthString.Append("having trouble breathing!");
+			}
+
+			// On fire?
+			if (FireStacks > 0)
+			{
+				healthString.Append(" And is on fire!");
+			}
+
+			return healthString.ToString();
 		}
+
+		#endregion
 
 		#region Sickness
 

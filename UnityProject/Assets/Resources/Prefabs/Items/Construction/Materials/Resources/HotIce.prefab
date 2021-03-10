@@ -12,25 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58efcc097778a3646b453ece41fb2ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8670566117553005211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2265521501557685915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 669232669da8f03448704f901bcfc787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doesDamage: 1
-  doesDamageChance: 0.5
-  amountOfDamage: 10
-  attackType: 0
-  damageType: 0
-  protectionItemTraits:
-  - {fileID: 11400000, guid: 30a421d219292474595f4c1e34917e51, type: 2}
 --- !u!114 &3033766669888354519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,6 +42,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHotIce: 1
+--- !u!114 &8670566117553005211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265521501557685915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669232669da8f03448704f901bcfc787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doesDamage: 1
+  doesDamageChance: 0.5
+  amountOfDamage: 10
+  attackType: 0
+  damageType: 0
+  protectionItemTraits:
+  - {fileID: 11400000, guid: 30a421d219292474595f4c1e34917e51, type: 2}
 --- !u!1001 &2266199196745466401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,6 +196,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A weird kind of ice, feels warm to the touch
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

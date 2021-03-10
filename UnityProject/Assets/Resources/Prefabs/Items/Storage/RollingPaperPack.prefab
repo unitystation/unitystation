@@ -15,11 +15,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: initialDescription
-      value: A pack of Nanotrasen brand rolling papers.
-      objectReference: {fileID: 0}
-    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
       propertyPath: initialName
       value: rolling paper pack
       objectReference: {fileID: 0}
@@ -27,6 +22,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialSize
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: initialDescription
+      value: A pack of Nanotrasen brand rolling papers.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 8466288508669376144, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -58,6 +68,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
@@ -76,16 +91,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -101,15 +106,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8665744195155266582, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: itemStoragePopulator
-      value: 
-      objectReference: {fileID: 11400000, guid: 437e23327567a4e4f8c4657f84a90784,
-        type: 2}
-    - target: {fileID: 8665744195155266582, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: d6a27d2b29f40ee4c9cbe49c02300355,
+        type: 2}
+    - target: {fileID: 8665744195155266582, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: 437e23327567a4e4f8c4657f84a90784,
         type: 2}
     - target: {fileID: 8665744195155266582, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}

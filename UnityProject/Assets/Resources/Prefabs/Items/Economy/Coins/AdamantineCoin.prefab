@@ -9,6 +9,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
+      propertyPath: variantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c397dca87bfa1084980db5395acd3ad4,
+        type: 2}
+    - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -18,17 +29,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c397dca87bfa1084980db5395acd3ad4,
         type: 2}
-    - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: c397dca87bfa1084980db5395acd3ad4,
-        type: 2}
-    - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
-        type: 3}
-      propertyPath: variantIndex
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
       propertyPath: SubCatalogue.Array.data[1]
@@ -53,6 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -68,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -80,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
@@ -113,8 +113,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7803244772613623836, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
-      propertyPath: initialDescription
-      value: An adamantine coin. It has a worth of 100 credits.
+      propertyPath: exportCost
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7803244772613623836, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
@@ -123,8 +123,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7803244772613623836, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
-      propertyPath: exportCost
-      value: 100
+      propertyPath: initialDescription
+      value: An adamantine coin. It has a worth of 100 credits.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803244772613623836, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7d543912ffafe3478e119cbce62b13b, type: 3}

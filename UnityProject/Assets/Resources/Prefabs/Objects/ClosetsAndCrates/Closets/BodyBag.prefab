@@ -65,6 +65,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
+      propertyPath: soundOnOpen.AssetAddress
+      value: Assets/Prefabs/Effects/zip.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: soundOnClose.AssetAddress
+      value: Assets/Prefabs/Effects/zip.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
       propertyPath: soundOnOpenOrClose.AssetAddress
       value: Assets/Prefabs/Effects/zip.prefab
       objectReference: {fileID: 0}
