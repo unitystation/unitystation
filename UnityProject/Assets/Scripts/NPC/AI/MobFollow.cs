@@ -9,7 +9,7 @@ namespace Systems.MobAIs
 	public class MobFollow : MobAgent
 	{
 		public GameObject FollowTarget;
-		public RegisterTile TargetTile;
+		protected RegisterTile TargetTile;
 
 		private float distanceCache = 0;
 

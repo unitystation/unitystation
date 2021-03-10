@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
-using HealthV2;
 
 
 namespace Systems.MobAIs
@@ -91,7 +90,7 @@ namespace Systems.MobAIs
 				if (coll.GameObject == null) continue;
 
 				if (coll.GameObject != gameObject && coll.GameObject.GetComponent<MouseAI>() != null
-				                                  && !coll.GameObject.GetComponent<LivingHealthMasterBase>().IsDead)
+				                                  && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead)
 				{
 					return coll.GameObject.GetComponent<MouseAI>();
 				}

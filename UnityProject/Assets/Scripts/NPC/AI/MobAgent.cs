@@ -32,7 +32,7 @@ namespace Systems.MobAIs
 		private float decisionTimeOut;
 
 		public bool Pause { get; set; }
-		public RegisterTile OriginTile;
+		protected RegisterTile OriginTile;
 
 		void Awake()
 		{

@@ -18,7 +18,7 @@ namespace Systems.MobAIs
 				 "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
 				 "a player originally.")]
 		[SerializeField]
-		public bool targetOtherPlayersWhoGetInWay = true;
+		protected bool targetOtherPlayersWhoGetInWay = true;
 
 		[Tooltip("Act on nothing but the target. No players in the way, no tiles, nada.")]
 		[SerializeField]
@@ -33,9 +33,9 @@ namespace Systems.MobAIs
 		[SerializeField]
 		private float actionCooldown = 1f;
 
-		public LayerMask checkMask;
-		public int playersLayer;
-		public int npcLayer;
+		protected LayerMask checkMask;
+		protected int playersLayer;
+		protected int npcLayer;
 
 		public MobAI mobAI;
 
@@ -49,7 +49,7 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// Maximum range that the mob will continue to try to act on the target
 		/// </summary>
-		public float TetherRange = 30f;
+		protected float TetherRange = 30f;
 
 		public override void OnEnable()
 		{
@@ -147,13 +147,26 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected virtual bool PerformActionOnlyOnTarget(MatrixManager.CustomPhysicsHit hitInfo, Vector3 dir)
 		{
-			var healthBehaviour = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthMasterBase>();
-			if (healthBehaviour != null)
+			var healthBehaviourV2 = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthMasterBase>();
+			if (healthBehaviourV2 != null)
 			{
-				if (hitInfo.CollisionHit.GameObject.transform == FollowTarget && healthBehaviour.IsDead == false)
+				if (hitInfo.CollisionHit.GameObject.transform == FollowTarget && healthBehaviourV2.IsDead == false)
 				{
-					ActOnLiving(dir, healthBehaviour);
+					ActOnLivingV2(dir, healthBehaviourV2);
 					return true;
+				}
+
+			}
+			else
+			{
+				var healthBehaviour = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthBehaviour>();
+				if (healthBehaviour != null)
+				{
+					if (hitInfo.CollisionHit.GameObject.transform == FollowTarget && healthBehaviour.IsDead == false)
+					{
+						ActOnLiving(dir, healthBehaviour);
+						return true;
+					}
 				}
 			}
 			return false;
@@ -172,7 +185,7 @@ namespace Systems.MobAIs
 					return false;
 				}
 
-				ActOnLiving(dir, healthBehaviour);
+				ActOnLivingV2(dir, healthBehaviour);
 
 				if (FollowTarget.gameObject.layer != playersLayer)
 				{
@@ -211,7 +224,9 @@ namespace Systems.MobAIs
 				}
 			}
 
-			var healthBehaviour = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthMasterBase>();
+			var healthBehaviour = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthBehaviour>();
+
+
 			if (healthBehaviour != null)
 			{
 				if (healthBehaviour.IsDead)
@@ -221,6 +236,21 @@ namespace Systems.MobAIs
 
 				ActOnLiving(dir, healthBehaviour);
 				return true;
+			}
+			else
+			{
+				//Safety catch in case the NPC is using the new health system
+				var healthBehaviourV2 = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthMasterBase>();
+				if (healthBehaviourV2 != null)
+				{
+					if (healthBehaviourV2.IsDead)
+					{
+						return false;
+					}
+
+					ActOnLivingV2(dir, healthBehaviourV2);
+					return true;
+				}
 			}
 
 			return false;
@@ -242,8 +272,16 @@ namespace Systems.MobAIs
 		}
 
 		/// <summary>
-		/// Virtual method to override on extensions of this class for acting on living targets
-		protected virtual void ActOnLiving(Vector3 dir, LivingHealthMasterBase healthBehaviour) { }
+		/// Virtual method to override on extensions of this class for acting on living targets using the old health system
+		/// </summary>
+		protected virtual void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour) { }
+
+		/// <summary>
+		/// Virtual method to override on extensions of this class for acting on living targets using the new health system
+		/// </summary>
+		protected virtual void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase healthBehaviour) { }
+
+
 		/// <summary>
 		/// Virtual method to override on extensions of this class for acting on tiles
 		/// </summary>
