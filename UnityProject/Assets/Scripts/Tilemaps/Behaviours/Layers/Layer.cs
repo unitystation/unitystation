@@ -241,11 +241,11 @@ public class Layer : MonoBehaviour
 		{
 			if (tileOverlays.ContainsKey(tile.OverlayName) == false)
 			{
-				var z = -1;
+				var z = 1;
 
 				while (tileOverlays.ContainsValue(z))
 				{
-					z--;
+					z++;
 				}
 
 				tileOverlays.Add(tile.OverlayName, z);
@@ -259,8 +259,8 @@ public class Layer : MonoBehaviour
 		}
 		else
 		{
-			overlayStore.Add(pos, new Dictionary<string, int>{{tile.OverlayName, -1}});
-			pos.z = -1;
+			overlayStore.Add(pos, new Dictionary<string, int>{{tile.OverlayName, 0}});
+			pos.z = 0;
 		}
 
 		InternalSetTile(pos, tile);
@@ -281,17 +281,14 @@ public class Layer : MonoBehaviour
 
 		if (overlayStore.TryGetValue(position, out var pos) && pos.TryGetValue(overlayName, out var z))
 		{
-			if (pos.Count == 1)
-			{
-				overlayStore.Remove(position);
-			}
-			else
-			{
-				pos.Remove(overlayName);
-			}
+			pos.Remove(overlayName);
 
 			position.z = z;
 			tileRemoved = InternalSetTile(position, null);
+		}
+		else
+		{
+			return false;
 		}
 
 		position.z = 0;
@@ -331,6 +328,10 @@ public class Layer : MonoBehaviour
 				pos.Remove(removed);
 			}
 		}
+		else
+		{
+			return;
+		}
 
 		subsystemManager.UpdateAt(position);
 	}
@@ -349,6 +350,10 @@ public class Layer : MonoBehaviour
 
 			position.z = 0;
 			overlayStore.Remove(position);
+		}
+		else
+		{
+			return;
 		}
 
 		subsystemManager.UpdateAt(position);

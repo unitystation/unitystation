@@ -194,29 +194,21 @@ namespace Systems.Atmospherics
 
 				var gasAmount = node.GasMix.GetMoles(gas);
 
-				if(gasAmount == 0) continue;
-
-				var data = new ReactionManager.FogEffect {metaDataNode = node, gas = gas};
-
-				//Dont add if already adding
-				if(node.ReactionManager.AddFog.Contains(data)) continue;
-
-				//Dont remove if already removing
-				if(node.ReactionManager.RemoveFog.Contains(data)) continue;
-
 				if(gasAmount > gas.MinMolesToSee)
 				{
-					//Dont add if tile is already set
-					if (node.ReactionManager.FogTiles.ContainsKey(data.metaDataNode.Position) && node.ReactionManager.FogTiles[data.metaDataNode.Position].Contains(gas)) continue;
+					if(node.GasOverlayData.Contains(gas)) continue;
 
-					node.ReactionManager.AddFogEvent(data);
+					node.AddGasOverlay(gas);
+
+					node.ReactionManager.TileChangeManager.AddOverlay(node.Position, TileManager.GetTile(TileType.Effects, gas.TileName) as OverlayTile);
 				}
 				else
 				{
-					//Dont remove if there isn't a tile set
-					if (node.ReactionManager.FogTiles.ContainsKey(data.metaDataNode.Position) == false) continue;
+					if(node.GasOverlayData.Contains(gas) == false) continue;
 
-					node.ReactionManager.RemoveFogEvent(data);
+					//node.RemoveGasOverlay(gas);
+
+					node.ReactionManager.TileChangeManager.RemoveOverlaysOfName(node.Position, LayerType.Effects, gas.TileName);
 				}
 			}
 		}
@@ -249,7 +241,7 @@ namespace Systems.Atmospherics
 				//If too much Hyper-Noblium theres no reactions!!!
 				if(gasMix.GetMoles(Gas.HyperNoblium) >= AtmosDefines.REACTION_OPPRESSION_THRESHOLD) break;
 
-				node.ReactionManager.AddReactionEvent(new ReactionManager.ReactionData{gasReaction = gasReaction, metaDataNode = node});
+				gasReaction.Reaction.React(gasMix, node.Position, node.PositionMatrix);
 			}
 		}
 

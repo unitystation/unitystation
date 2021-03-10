@@ -149,7 +149,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				{
 					if (overlayData.damagePercentage <= totalDamageTaken / basicTile.MaxHealth)
 					{
-						tileChangeManager.UpdateOverlay(data.Position, overlayData.overlayTile);
+						tileChangeManager.AddOverlay(data.Position, overlayData.overlayTile);
 						break;
 					}
 				}
@@ -167,7 +167,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				{
 					if (overlayData.damagePercentage <= totalDamageTaken / basicTile.MaxHealth)
 					{
-						tileChangeManager.UpdateOverlay(data.Position, overlayData.overlayTile);
+						tileChangeManager.AddOverlay(data.Position, overlayData.overlayTile);
 						break;
 					}
 				}

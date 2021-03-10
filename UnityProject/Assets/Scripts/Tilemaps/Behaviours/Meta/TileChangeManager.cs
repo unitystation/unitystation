@@ -171,7 +171,7 @@ public class TileChangeManager : NetworkBehaviour
 	/// Dynamically adds overlays to tile position
 	/// </summary>
 	[Server]
-	public void UpdateOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
+	public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
 		if(overlayTile == null) return;
@@ -249,7 +249,7 @@ public class TileChangeManager : NetworkBehaviour
 
 				if (overlayTile.OverlayType == overlayType)
 				{
-					var nullCellPosition = metaTileMap.GetOverlayPos(cellPosition, layerType, overlayTile.name);
+					var nullCellPosition = metaTileMap.GetOverlayPos(cellPosition, layerType, overlayTile.OverlayName);
 
 					if(nullCellPosition == null) continue;
 
