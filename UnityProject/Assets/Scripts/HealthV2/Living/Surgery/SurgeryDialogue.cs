@@ -45,16 +45,24 @@ public class SurgeryDialogue : MonoBehaviour
 
 		if (TopLayer == false)
 		{
-			foreach (var Procedure in Dissectible.currentlyOn.SurgeryProcedureBase)
+			foreach (var Procedure in Dissectible.BodyPartIsOn.SurgeryProcedureBase)
 			{
 				if (Procedure is CloseProcedure || Procedure is ImplantProcedure)
 				{
 					var newItem = Instantiate(ListItem, ScrollList.transform);
-					newItem.ProcedureToChoose( Dissectible.currentlyOn, () => { StartProcedure(Dissectible,  Dissectible.currentlyOn, Procedure); },
+					newItem.ProcedureToChoose( Dissectible.currentlyOn, () => { StartProcedure(Dissectible,  Dissectible.BodyPartIsOn, Procedure); },
 						Procedure.ProcedureSprite, Procedure.ProcedureName);
 					OpenItems.Add(newItem);
 				}
 			}
+		}
+		else
+		{
+			var Procedure = Dissectible.GetComponent<PlayerSprites>().RaceBodyparts.Base.RootImplantProcedure;
+			var newItem = Instantiate(ListItem, ScrollList.transform);
+			newItem.ProcedureToChoose( Dissectible.gameObject, () => { StartProcedure(Dissectible,  Dissectible.BodyPartIsOn, Procedure); },
+				Procedure.ProcedureSprite, Procedure.ProcedureName);
+			OpenItems.Add(newItem);
 
 		}
 	}
@@ -68,7 +76,7 @@ public class SurgeryDialogue : MonoBehaviour
 		{
 			if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
 			var newItem = Instantiate(ListItem, ScrollList.transform);
-			newItem.ProcedureToChoose(BodyPart, () => { StartProcedure(Dissectible, BodyPart, Procedure); },
+			newItem.ProcedureToChoose(BodyPart.gameObject, () => { StartProcedure(Dissectible, BodyPart, Procedure); },
 				Procedure.ProcedureSprite, Procedure.ProcedureName);
 			OpenItems.Add(newItem);
 		}
@@ -78,7 +86,7 @@ public class SurgeryDialogue : MonoBehaviour
 	{
 		Clear();
 		this.SetActive(false);
-		RequestSurgery.Send(bodyPart.gameObject, Dissectible.gameObject, SurgeryProcedureBase);
+		RequestSurgery.Send(bodyPart?.gameObject, Dissectible.gameObject, SurgeryProcedureBase);
 		// send message to server
 		// Dissectible.currentlyOn = bodyPart;
 		// Dissectible.ThisPresentProcedure.SetupProcedure(Dissectible, bodyPart, SurgeryProcedureBase);

@@ -38,6 +38,7 @@ public class RaceHealthData
 
 	public BloodType BloodType;
 
+	public ImplantProcedure RootImplantProcedure;
 }
 
 

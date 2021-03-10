@@ -358,6 +358,11 @@ namespace HealthV2
 			return toReturn;
 		}
 
+		public void AddBodyPartToRoot()
+		{
+
+		}
+
 		public bool HasBodyPart(BodyPartType bodyPartType, bool surfaceOnly = false)
 		{
 			foreach (var bodyPart in implantList)
@@ -607,6 +612,20 @@ namespace HealthV2
 			return new List<BodyPart>(0);
 		}
 
+
+		public RootBodyPartContainer GetRootBodyPartInZone(BodyPartType bodyPartAim)
+		{
+			foreach (var cntainers in RootBodyPartContainers)
+			{
+				if (cntainers.bodyPartType == bodyPartAim)
+				{
+					return cntainers;
+				}
+			}
+
+			return null;
+		}
+
 		private void TryGibbing(float damage)
 		{
 			//idk
@@ -627,37 +646,6 @@ namespace HealthV2
 			}
 			return Stomachs;
 		}
-
-		/// <summary>
-		/// Radiation damage Calculations
-		/// </summary>
-		// [Server]
-		// public void CalculateRadiationDamage()
-		// {
-		// 	var RadLevel = (registerTile.Matrix.GetRadiationLevel(registerTile.LocalPosition) * (tickRate / 5f) / 6);
-		// 	var Chest = BodyParts.First(part => part.Type == BodyPartType.Chest);
-		// 	RadiationStacks += Chest.armor.GetDamage(RadLevel, AttackType.Rad);
-		//
-		// 	var ProcessingRadiation = RadiationStacks * 0.001f;
-		// 	if (ProcessingRadiation < 20 && ProcessingRadiation > 0.5f)
-		// 	{
-		// 		ProcessingRadiation = 20;
-		// 	}
-		//
-		// 	RadiationStacks -= ProcessingRadiation;
-		// 	bloodSystem.ToxinLevel +=  ProcessingRadiation * 0.05f;
-		//
-		// 	//Natural healing
-		// 	//Problems should be in the metabolic system
-		// 	//but thats on players only
-		// 	bloodSystem.ToxinLevel -= 0.01f;
-		//
-		// 	if (RadiationStacks < 0)
-		// 	{
-		// 		RadiationStacks = 0;
-		// 	}
-		// }
-
 
 		public void ResetDamageAll()
 		{
