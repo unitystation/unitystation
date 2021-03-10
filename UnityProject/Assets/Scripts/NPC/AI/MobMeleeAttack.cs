@@ -45,7 +45,7 @@ namespace Systems.MobAIs
 			if (PlayerManager.LocalPlayerScript != null
 				&& PlayerManager.LocalPlayerScript.playerHealth != null
 				&& PlayerManager.LocalPlayerScript.playerHealth == targetHealthV2 ||
-				rtt == 0f)
+				rtt < 0.02f)
 			{
 				//Wait until the end of the frame
 				await Task.Delay(1);
