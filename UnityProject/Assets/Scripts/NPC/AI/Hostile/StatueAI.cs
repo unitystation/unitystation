@@ -9,7 +9,7 @@ namespace Systems.MobAIs
 	/// Enemy Statue NPC's
 	/// Will attack any human that they see
 	/// </summary>
-	[RequireComponent(typeof(MobMeleeAttack))]
+	[RequireComponent(typeof(MobMeleeAction))]
 	[RequireComponent(typeof(ConeOfSight))]
 	public class StatueAI : GenericHostileAI
 	{
@@ -84,7 +84,7 @@ namespace Systems.MobAIs
 		protected override void MonitorIdleness()
 		{
 
-			if (!mobMeleeAttack.performingDecision && mobMeleeAttack.followTarget == null && !IsSomeoneLookingAtMe())
+			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null && !IsSomeoneLookingAtMe())
 			{
 				BeginSearch();
 			}
@@ -94,23 +94,23 @@ namespace Systems.MobAIs
 		{
 			ResetBehaviours();
 			currentStatus = MobStatus.None;
-			mobMeleeAttack.followTarget = null;
+			mobMeleeAction.FollowTarget = null;
 		}
 
 		protected override void BeginAttack(GameObject target)
 		{
 			ResetBehaviours();
 			currentStatus = MobStatus.Attacking;
-			StartCoroutine(StatueStalk(target.transform));
+			StartCoroutine(StatueStalk(target));
 		}
 
-		IEnumerator StatueStalk(Transform stalked)
+		IEnumerator StatueStalk(GameObject stalked)
 		{
 			while (!IsSomeoneLookingAtMe())
 			{
-				if(mobMeleeAttack.followTarget == null)
+				if(mobMeleeAction.FollowTarget == null)
 				{
-					mobMeleeAttack.StartFollowing(stalked);
+					mobMeleeAction.StartFollowing(stalked);
 				}
 				yield return WaitFor.Seconds(.2f);
 			}
