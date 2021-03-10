@@ -56,7 +56,7 @@ namespace HealthV2
 			}
 		}
 
-		public BodyType BodyType = BodyType.Neutral;
+		public BodyType BodyType = BodyType.NonBinary;
 
 		//I don't know what this is. It was in the first Health system.
 		public float RTT;

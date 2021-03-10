@@ -1,13 +1,13 @@
 ﻿public enum Gender
 {
+	NonBinary,
 	Male,
-	Female,
-	Neuter //adding anymore genders will break things do not edit
+	Female  //adding anymore genders will require changes to the player customisation menu script(s)
 }
 
 public enum BodyType //Now with cup Rests
 {
-	Neutral = 0,
+	NonBinary = 0,
 	Male,
 	Female,
 	Other1,
@@ -24,7 +24,7 @@ public enum BodyType //Now with cup Rests
 
 public enum GenderPronouns
 {
-	Neutral,
+	NonBinary,
 	Male,
 	Female,
 }
