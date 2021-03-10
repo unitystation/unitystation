@@ -7,7 +7,7 @@ namespace Objects.Machines
 	public class MaterialStorage : MonoBehaviour
 	{
 		public Dictionary<ItemTrait, int> MaterialList = new Dictionary<ItemTrait, int>();
-		public int currentResources;
+		private int currentResources;
 
 		public bool infiniteStorage;
 		//wont appear to be edited if the storage is infinite
@@ -15,7 +15,7 @@ namespace Objects.Machines
 		public int maximumResources;
 
 		//2000cm per sheet is standard for SS13
-		private int Cm3PerSheet = 2000;
+		private static readonly int Cm3PerSheet = 2000;
 
 		private void Awake()
 		{
