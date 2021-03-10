@@ -9,10 +9,12 @@ public class PlayerEffectsManager : MonoBehaviour
     public List<LTEffect> Effects;
 
 	private FloatingEffect floatingEffect;
+	private RotateEffect rotateEffect;
     private void Awake() 
     {
 		tween = GetComponent<NetworkedLeanTween>();
 		floatingEffect = GetComponent<FloatingEffect>();
+		rotateEffect = GetComponent<RotateEffect>();
 		foreach (var effect in Effects)
 		{
 			if(effect.tween == null)
@@ -45,5 +47,11 @@ public class PlayerEffectsManager : MonoBehaviour
 		{
 			floatingEffect.StartFloating();
 		}
+	}
+
+	public void RotatePlayer(int times, float speed, float degree, bool random)
+	{
+		rotateEffect.setupEffectvars(times, speed, degree, random);
+		rotateEffect.CmdStartAnimNoNLT();
 	}
 }
