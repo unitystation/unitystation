@@ -9,11 +9,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
       propertyPath: initialName
       value: mining drill
       objectReference: {fileID: 0}
@@ -24,15 +19,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
-      value: 
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: 2672f871bf0236e4cbd045078fa3d3c7,
-        type: 2}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -41,10 +30,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: a05e7a7af972ba244be8f6b315886ad9,
         type: 2}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2672f871bf0236e4cbd045078fa3d3c7,
+        type: 2}
+    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -116,6 +116,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f5760fcca2a9d684688e271d5f29a9dd,
         type: 3}
+    - target: {fileID: 7675473296682472099, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: timeMultiplier
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 8184022938753632022, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: PresentSpriteSet
