@@ -23,8 +23,7 @@ public class PlayerSprites : MonoBehaviour
 {
 	#region Inspector fields
 
-	[Tooltip("The body parts for this race.")] [SerializeField]
-	private PlayerHealthData RaceBodyparts;
+	public PlayerHealthData RaceBodyparts;
 
 	[Tooltip("Assign the prefab responsible for the partial burning overlay.")] [SerializeField]
 	private GameObject partialBurningPrefab = default;
