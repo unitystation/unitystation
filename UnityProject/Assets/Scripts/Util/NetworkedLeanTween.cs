@@ -77,13 +77,11 @@ public class NetworkedLeanTween : NetworkBehaviour
 		}
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdsetTarget(Transform t)
 	{
 		target = t;
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdsetAnimType(AnimType type)
 	{
 		animType = type;
@@ -92,37 +90,31 @@ public class NetworkedLeanTween : NetworkBehaviour
 	//The functions below just handle playing animations on target.
 	//Mainly used to help people not worry about getting the target to animate and make cleaner code.
 
-	[Command(requiresAuthority = false)]
 	public void CmdStopAll(bool state)
 	{
 		LeanTween.cancelAll(state);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdCancelObject(GameObject gameObject, bool callOnComplete)
 	{
 		LeanTween.cancel(gameObject, callOnComplete);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdAlphaGameObject(float to, float time)
 	{
 		LeanTween.alpha(target.gameObject, to, time);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdMoveGMToTransform(Transform transform, float time)
 	{
 		LeanTween.move(target.gameObject, transform, time);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdMoveGMToVector3Local(Vector3 vector, float time)
 	{
 		LeanTween.moveLocal(target.gameObject, vector, time);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdMove(Axis axis, Vector3 vector, float time)
 	{
 		switch (axis)
@@ -141,7 +133,6 @@ public class NetworkedLeanTween : NetworkBehaviour
 				break;
 		}
 	}
-	[Command(requiresAuthority = false)]
 	public void CmdLocalMove(Axis axis, Vector3 vector, float time)
 	{
 		switch (axis)
@@ -161,37 +152,31 @@ public class NetworkedLeanTween : NetworkBehaviour
 		}
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdRotateGameObject(Vector3 vector, float time)
 	{
 		LeanTween.rotate(target.gameObject, vector, time);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdScaleGameObject(Vector3 vector, float time)
 	{
 		LeanTween.scale(target.gameObject, vector, time);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdValueFloat(float from, float to, float time)
 	{
 		LeanTween.value(target.gameObject, from, to, time);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdValueVector2(Vector2 from, Vector2 to, float time)
 	{
 		LeanTween.value(target.gameObject, from, to, time);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdValueVector3(Vector2 from, Vector2 to, float time)
 	{
 		LeanTween.value(target.gameObject, from, to, time);
 	}
 
-	[Command(requiresAuthority = false)]
 	public void CmdValueColor(Color from, Color to, float time)
 	{
 		LeanTween.value(target.gameObject, from, to, time);

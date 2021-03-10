@@ -52,6 +52,6 @@ public class PlayerEffectsManager : MonoBehaviour
 	public void RotatePlayer(int times, float speed, float degree, bool random)
 	{
 		rotateEffect.setupEffectvars(times, speed, degree, random);
-		rotateEffect.CmdStartAnimNoNLT();
+		rotateEffect.CmdStartAnimation();
 	}
 }
