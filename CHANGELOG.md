@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/3/10: you can cancel surgeries with cautery by [Bod9001](https://github.com/Bod9001) in PR #[6223](https://github.com/unitystation/unitystation/pull/6223)
 * 2021/3/8: Ice forms in stacks now to avoid lots of gameobjects spawning in by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)
 * 2021/3/8: Hot ice export value now 400 by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)
 * 2021/3/8: Adds hot ice melting at high temperatures by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)

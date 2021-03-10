@@ -33,7 +33,8 @@ MonoBehaviour:
   OptionalReplacementOrgan: []
   isSurface: 0
   ClothingHide: 0
-  SurgeryProcedureBase: []
+  SurgeryProcedureBase:
+  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   isBloodReagentConsumed: 0
   isBloodReagentCirculated: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}

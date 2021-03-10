@@ -23,8 +23,8 @@ public class RequestSurgery : ClientMessage<RequestSurgery.NetMessage>
 		var Dissectible = NetworkObjects[0].GetComponent<Dissectible>();
 		if (Dissectible == null) return;
 
-		var EBodyPart = NetworkObjects[1].GetComponent<BodyPart>();
-		if (EBodyPart == null) return;
+		var EBodyPart = NetworkObjects[1]?.GetComponent<BodyPart>();
+
 
 		var InSurgeryProcedureBase = SurgeryProcedureBaseSingleton.Instance.StoredReferences[msg.SurgeryProcedureBase];
 		Dissectible.ServerCheck(InSurgeryProcedureBase ,EBodyPart);
