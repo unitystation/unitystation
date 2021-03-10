@@ -112,14 +112,14 @@ namespace UI.Objects
 			//Subscribes to the MaterialsManipulated event
 			Autolathe.MaterialsManipulated += UpdateMaterialsDisplay;
 
-			materialsAndCategoryDisplay.InitMaterialList(autolathe.MaterialStorage);
+			materialsAndCategoryDisplay.InitMaterialList(autolathe.materialStorageLink.usedStorage);
 			materialsAndCategoryDisplay.InitCategories(autolathe.AutolatheProducts);
 			OnTabOpened.AddListener(UpdateGUIForPeepers);
 		}
 
 		public void UpdateMaterialsDisplay()
 		{
-			materialsAndCategoryDisplay.UpdateMaterialList(autolathe.MaterialStorage);
+			materialsAndCategoryDisplay.UpdateMaterialList(autolathe.materialStorageLink.usedStorage);
 		}
 
 		//Everytime someone new looks at the tab, update the tab for the client
@@ -135,7 +135,7 @@ namespace UI.Objects
 		private IEnumerator WaitForClient()
 		{
 			yield return new WaitForSeconds(0.2f);
-			materialsAndCategoryDisplay.UpdateMaterialList(autolathe.MaterialStorage);
+			materialsAndCategoryDisplay.UpdateMaterialList(autolathe.materialStorageLink.usedStorage);
 			queueDisplay.UpdateQueue();
 			isUpdating = false;
 		}

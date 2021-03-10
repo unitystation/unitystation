@@ -6,7 +6,7 @@ using Systems.Electricity;
 
 namespace Objects.Machines
 {
-	public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn, IAPCPowered
+	public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn, IAPCPowered, IMaterialSiloLink
 	{
 
 		public PowerStates PoweredState;
@@ -28,10 +28,7 @@ namespace Objects.Machines
 
 		private RegisterObject registerObject;
 
-		[SerializeField]
-		private MaterialStorage materialStorage;
-
-		public MaterialStorage MaterialStorage { get => materialStorage; }
+		public MaterialStorageLink materialStorageLink;
 
 		[SerializeField]
 		private MachineProductsCollection autolatheProducts;
@@ -60,6 +57,7 @@ namespace Objects.Machines
 		public void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
+			materialStorageLink = GetComponent<MaterialStorageLink>();
 		}
 
 		private void UpdateGUI()
@@ -76,7 +74,7 @@ namespace Objects.Machines
 			if (interaction.HandSlot.IsEmpty) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-			InsertedMaterialType = materialStorage.FindMaterial(interaction.HandObject);
+			InsertedMaterialType = materialStorageLink.usedStorage.FindMaterial(interaction.HandObject);
 			if (InsertedMaterialType != null)
 			{
 				return true;
@@ -90,7 +88,7 @@ namespace Objects.Machines
 			if (stateSync != AutolatheState.Production)
 			{
 				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
-				if (materialStorage.TryAddSheet(InsertedMaterialType, materialSheetAmount))
+				if (materialStorageLink.TryAddSheet(InsertedMaterialType, materialSheetAmount))
 				{
 					Inventory.ServerDespawn(interaction.HandObject);
 					if (stateSync == AutolatheState.Idle)
@@ -123,14 +121,14 @@ namespace Objects.Machines
 
 		public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 		{
-			materialStorage.DispenseSheet(amountOfSheets, materialType);
+			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType);
 			UpdateGUI();
 		}
 
 		[Server]
 		public bool CanProcessProduct(MachineProduct product)
 		{
-			if (materialStorage.TryConsumeList(product.materialToAmounts))
+			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts))
 			{
 				if (APCPoweredDevice.IsOn(PoweredState))
 				{
@@ -176,8 +174,7 @@ namespace Objects.Machines
 				StopCoroutine(currentProduction);
 				currentProduction = null;
 			}
-
-			materialStorage.DropAllMaterials();
+			materialStorageLink.Despawn();
 		}
 
 		public void PowerNetworkUpdate(float Voltage) { }

@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Objects.Machines;
 
 public class CraftingManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class CraftingManager : MonoBehaviour
 	[SerializeField]
 	private List<MaterialSheet> MaterialSheetList;
 	public static Dictionary<ItemTrait, MaterialSheet> MaterialSheetData = new Dictionary<ItemTrait, MaterialSheet>();
+	public static MaterialSilo RoundstartStationSilo;
 
 	public static CraftingDatabase Meals => Instance.meals;
 	public static CraftingDatabase Cuts => Instance.cuts;
