@@ -73,7 +73,6 @@ namespace Systems.MobAIs
 				}
 				SoundManager.PlayNetworkedAtPos(attackSound, OriginTile.WorldPositionServer, sourceObj: gameObject);
 			}
-			return;
 		}
 
 		protected override void ActOnTile(Vector3Int worldPos, Vector3 dir)
