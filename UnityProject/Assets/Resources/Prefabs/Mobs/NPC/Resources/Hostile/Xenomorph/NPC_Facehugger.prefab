@@ -280,12 +280,12 @@ GameObject:
   - component: {fileID: 4826045711076760867}
   - component: {fileID: 3493423571535560689}
   - component: {fileID: 3651291330810827203}
+  - component: {fileID: 6377642271645965250}
   - component: {fileID: 2052235574987344614}
   - component: {fileID: 3611455284223927780}
   - component: {fileID: 1894956765386061361}
   - component: {fileID: 700465870708930573}
   - component: {fileID: 8234615412304531865}
-  - component: {fileID: 6377642271645965250}
   m_Layer: 12
   m_Name: NPC_Facehugger
   m_TagString: Untagged
@@ -587,6 +587,46 @@ MonoBehaviour:
   hasFoodPrefereces: 0
   foodPreferences: []
   IsEmagged: 0
+--- !u!114 &6377642271645965250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10a3248df701d54a8766c917e03aa80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
+  agentParameters:
+    agentCameras: []
+    agentRenderTextures: []
+    maxStep: 0
+    resetOnDone: 1
+    onDemandDecision: 1
+    numberOfActionsBetweenDecisions: 1
+  performingDecision: 0
+  performingAction: 0
+  activated: 0
+  tickRate: 0.3
+  FollowTarget: {fileID: 0}
+  targetOtherPlayersWhoGetInWay: 1
+  onlyActOnTarget: 0
+  doLerpOnAction: 1
+  spriteHolder: {fileID: 3392343644113499114}
+  actionCooldown: 1
+  mobAI: {fileID: 0}
+  maskObject: {fileID: 8320299039891337921, guid: 6fecf534029349145b17735e15c9498c,
+    type: 3}
+  bite:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Facehugger.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &2052235574987344614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -698,42 +738,3 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 6879569256576700587}
---- !u!114 &6377642271645965250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4827737755655954553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a10a3248df701d54a8766c917e03aa80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
-  agentParameters:
-    agentCameras: []
-    agentRenderTextures: []
-    maxStep: 0
-    resetOnDone: 1
-    onDemandDecision: 1
-    numberOfActionsBetweenDecisions: 1
-  performingDecision: 0
-  performingAction: 0
-  activated: 0
-  tickRate: 0.3
-  FollowTarget: {fileID: 0}
-  targetOtherPlayersWhoGetInWay: 1
-  onlyActOnTarget: 0
-  doLerpOnAction: 1
-  spriteHolder: {fileID: 3392343644113499114}
-  actionCooldown: 1
-  mobAI: {fileID: 0}
-  maskObject: {fileID: 0}
-  bite:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 

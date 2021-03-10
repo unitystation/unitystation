@@ -18,7 +18,7 @@ namespace Systems.MobAIs
 	/// in its sight. Hostile AI's should inherit this one and
 	/// override its methods!
 	/// </summary>
-	[RequireComponent(typeof(MobMeleeAttack))]
+	[RequireComponent(typeof(MobMeleeAction))]
 	[RequireComponent(typeof(ConeOfSight))]
 	public class GenericHostileAI : MobAI, IServerSpawn
 	{
@@ -48,7 +48,7 @@ namespace Systems.MobAIs
 
 		protected LayerMask hitMask;
 		protected int playersLayer;
-		protected MobMeleeAttack mobMeleeAttack;
+		protected MobMeleeAction mobMeleeAction;
 		protected ConeOfSight coneOfSight;
 		protected SimpleAnimal simpleAnimal;
 		protected int fleeChance = 30;
@@ -59,7 +59,7 @@ namespace Systems.MobAIs
 			base.OnEnable();
 			hitMask = LayerMask.GetMask( "Players");
 			playersLayer = LayerMask.NameToLayer("Players");
-			mobMeleeAttack = GetComponent<MobMeleeAttack>();
+			mobMeleeAction = GetComponent<MobMeleeAction>();
 			coneOfSight = GetComponent<ConeOfSight>();
 			simpleAnimal = GetComponent<SimpleAnimal>();
 			PlayRandomSound();
@@ -94,14 +94,14 @@ namespace Systems.MobAIs
 		protected override void ResetBehaviours()
 		{
 			base.ResetBehaviours();
-			mobFollow.FollowTarget = null;
+			mobMeleeAction.FollowTarget = null;
 			currentStatus = MobStatus.None;
 			searchWaitTime = 0f;
 		}
 
 		protected virtual void MonitorIdleness()
 		{
-			if (!mobFollow.performingDecision && mobFollow.FollowTarget == null)
+			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null)
 			{
 				BeginSearch();
 			}
@@ -278,7 +278,7 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if ((damagedBy is null) != false || damagedBy == mobFollow.FollowTarget)
+			if ((damagedBy is null) != false || damagedBy == mobMeleeAction.FollowTarget)
 			{
 				return;
 			}

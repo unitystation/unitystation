@@ -184,7 +184,6 @@ namespace Systems.MobAIs
 				{
 					return false;
 				}
-
 				ActOnLivingV2(dir, healthBehaviour);
 
 				if (FollowTarget.gameObject.layer != playersLayer)

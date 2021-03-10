@@ -111,7 +111,6 @@ namespace Systems.MobAIs
 				Done();
 				SetReward(2f);
 			}
-
 			base.OnTileReached(tilePos);
 		}
 
