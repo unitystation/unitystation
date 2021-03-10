@@ -85,7 +85,7 @@ namespace AdminTools
 			{
 				var config = File.ReadAllText(AutoModConfigPath);
 				loadedConfig = JsonUtility.FromJson<AutoModConfig>(config);
-				Logger.Log("Successfully loaded Auto Mod config");
+				Logger.Log("Successfully loaded Auto Mod config", Category.Admin);
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace AdminTools
 			if (!Instance.loadedConfig.enableAllocationProtection) return;
 			if (Application.platform == RuntimePlatform.LinuxPlayer)
 			{
-				Logger.Log($"Auto mod has taken steps to protect against an allocation attack from {ipAddress}");
+				Logger.Log($"Auto mod has taken steps to protect against an allocation attack from {ipAddress}", Category.Admin);
 				ProcessStartInfo processInfo = new ProcessStartInfo();
 				processInfo.FileName = "ufw";
 				processInfo.Arguments = $"insert 1 deny from {ipAddress} to any";

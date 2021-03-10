@@ -186,19 +186,19 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		Logger.Log($"Player {player.Username}'s client ID is: {player.ClientId}.");
+		Logger.Log($"Player {player.Username}'s client ID is: {player.ClientId}.", Category.Connections);
 
 		var loggedOffClient = GetLoggedOffClient(player.ClientId);
 		if (loggedOffClient != null)
 		{
 			Logger.Log(
 				$"ConnectedPlayer Username({player.Username}) already exists in this server's PlayerList as Character({loggedOffClient.Name}) " +
-				$"Will update existing player instead of adding this new connected player.");
+				$"Will update existing player instead of adding this new connected player.", Category.Connections);
 
 			if (loggedOffClient.GameObject == null)
 			{
 				Logger.LogFormat(
-					$"The existing ConnectedPlayer contains a null GameObject reference. Removing the entry");
+					$"The existing ConnectedPlayer contains a null GameObject reference. Removing the entry", Category.Connections);
 				loggedOff.Remove(loggedOffClient);
 				return player;
 			}
@@ -462,15 +462,15 @@ public partial class PlayerList : NetworkBehaviour
 			}
 			else
 			{
-				Logger.LogError($"{player.Username} was set to ready with NULL character settings:\n{player}");
+				Logger.LogError($"{player.Username} was set to ready with NULL character settings:\n{player}", Category.Round);
 			}
 			ReadyPlayers.Add(player);
-			Logger.Log($"Set {player.Username} to ready with these character settings:\n{charSettings}");
+			Logger.Log($"Set {player.Username} to ready with these character settings:\n{charSettings}", Category.Round);
 		}
 		else
 		{
 			ReadyPlayers.Remove(player);
-			Logger.Log($"Set {player.Username} to NOT ready!");
+			Logger.Log($"Set {player.Username} to NOT ready!", Category.Round);
 		}
 	}
 

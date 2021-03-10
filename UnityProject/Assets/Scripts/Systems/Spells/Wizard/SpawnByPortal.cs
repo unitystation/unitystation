@@ -58,7 +58,7 @@ namespace Systems.Spells.Wizard
 			}
 			if (spriteObject == null)
 			{
-				Logger.LogError($"No Sprite object found on {entity}! Cannot animate with {nameof(SpawnByPortal)}.");
+				Logger.LogError($"No Sprite object found on {entity}! Cannot animate with {nameof(SpawnByPortal)}.", Category.Spells);
 			}
 			float fallingTime = GetFallingTime(settings.PortalHeight);
 

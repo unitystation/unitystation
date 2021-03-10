@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -200,6 +201,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -264,7 +266,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  FireRate: 2
+  FireDelay: 0.5
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
@@ -272,6 +274,7 @@ MonoBehaviour:
     RecoilDuration: 0
     RecoveryDuration: 0
   WeaponType: 0
+  allowPinSwap: 1
   isSuppressed: 0
   isSuppressible: 0
   firemodeProjectiles:
@@ -385,6 +388,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -487,6 +491,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -506,25 +511,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: SpawnsCasing
-      value: 0
+      propertyPath: ammoType
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: ammoType
-      value: 14
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+    - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: SpawnsCasing
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: genericInternalMag
       value: 
       objectReference: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
-        type: 3}
-    - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -535,6 +540,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -553,6 +563,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -565,16 +580,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -598,8 +603,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
+      propertyPath: initialName
+      value: energy gun
       objectReference: {fileID: 0}
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -608,8 +613,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: initialName
-      value: energy gun
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}

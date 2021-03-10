@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 /// <summary>
@@ -54,7 +55,7 @@ public class ElectricalCableDeconstruction : TileInteraction
 			ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
 			float voltage = ElectricalData.InData.Data.ActualVoltage;
 			var electrocution = new Electrocution(voltage, interaction.WorldPositionTarget, "cable");
-			var performerLHB = interaction.Performer.GetComponent<LivingHealthBehaviour>();
+			var performerLHB = interaction.Performer.GetComponent<LivingHealthMasterBase>();
 			var severity = performerLHB.Electrocute(electrocution);
 			if (severity > LivingShockResponse.Mild) return;
 

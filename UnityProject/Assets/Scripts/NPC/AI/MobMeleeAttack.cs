@@ -5,6 +5,7 @@ using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using HealthV2;
 using Messages.Server;
 
 namespace Systems.MobAIs
@@ -27,7 +28,7 @@ namespace Systems.MobAIs
 		public bool onlyHitTarget;
 
 		[SerializeField] private AddressableAudioSource attackSound = null;
-		
+
 
 		public int hitDamage = 30;
 		public string attackVerb;
@@ -81,7 +82,7 @@ namespace Systems.MobAIs
 					return false;
 				}
 
-				var followLivingBehaviour = followTarget.GetComponent<LivingHealthBehaviour>();
+				var followLivingBehaviour = followTarget.GetComponent<LivingHealthMasterBase>();
 				var distanceToTarget = Vector3.Distance(followTarget.transform.position, transform.position);
 				if (followLivingBehaviour != null)
 				{
@@ -107,7 +108,7 @@ namespace Systems.MobAIs
 						//Only hit target
 						if (onlyHitTarget)
 						{
-							var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+							var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthMasterBase>();
 							if (hitInfo.CollisionHit.GameObject.transform != followTarget || healthBehaviour.IsDead)
 							{
 								return false;
@@ -122,7 +123,7 @@ namespace Systems.MobAIs
 						//What to do with player hit?
 						if (hitInfo.CollisionHit.GameObject.transform.gameObject.layer == playersLayer)
 						{
-							var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+							var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthMasterBase>();
 							if (healthBehaviour.IsDead)
 							{
 								return false;
@@ -156,7 +157,7 @@ namespace Systems.MobAIs
 								}
 							}
 
-							var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+							var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthMasterBase>();
 							if (healthBehaviour != null)
 							{
 								if (healthBehaviour.IsDead) return false;
@@ -182,13 +183,13 @@ namespace Systems.MobAIs
 			return false;
 		}
 
-		private void AttackFlesh(Vector2 dir, LivingHealthBehaviour healthBehaviour)
+		private void AttackFlesh(Vector2 dir, LivingHealthMasterBase healthBehaviour)
 		{
 			StartCoroutine(AttackFleshRoutine(dir, healthBehaviour));
 		}
 
 		//We need to slow the attack down because clients are behind server
-		IEnumerator AttackFleshRoutine(Vector2 dir, LivingHealthBehaviour healthBehaviour)
+		IEnumerator AttackFleshRoutine(Vector2 dir, LivingHealthMasterBase healthBehaviour)
 		{
 			if (healthBehaviour.connectionToClient == null)
 			{
@@ -197,8 +198,9 @@ namespace Systems.MobAIs
 
 			ServerDoLerpAnimation(dir);
 
-			Debug.Log(
-				$"CONN CLIENT TIME: {healthBehaviour.connectionToClient.lastMessageTime} Network time: {(float)NetworkTime.time}");
+			Logger.Log(
+				$"CONN CLIENT TIME: {healthBehaviour.connectionToClient.lastMessageTime} Network time: {(float)NetworkTime.time}",
+				Category.Mobs);
 			if (PlayerManager.LocalPlayerScript != null
 				&& PlayerManager.LocalPlayerScript.playerHealth != null
 				&& PlayerManager.LocalPlayerScript.playerHealth == healthBehaviour ||
@@ -208,7 +210,7 @@ namespace Systems.MobAIs
 			}
 			else
 			{
-				Debug.Log($"WAIT FOR ATTACK: {healthBehaviour.RTT / 2f}");
+				Logger.Log($"WAIT FOR ATTACK: {healthBehaviour.RTT / 2f}", Category.Mobs);
 				yield return WaitFor.Seconds(healthBehaviour.RTT / 2f);
 			}
 

@@ -13,7 +13,7 @@ namespace Messages.Server
 		public static void SendToAll(T msg)
 		{
 			NetworkServer.SendToAll(msg, 0);
-			Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, msg.GetType());
+			Logger.LogTraceFormat("SentToAll {0}", Category.Server, msg.GetType());
 		}
 
 		public static void SendToAllExcept(T msg, GameObject excluded)
@@ -34,10 +34,10 @@ namespace Messages.Server
 				}
 			}
 
-			Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, msg.GetType(), excluded.name);
+			Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.Server, msg.GetType(), excluded.name);
 		}
 
-		public static void SendTo(GameObject recipient, T msg, Category category = Category.NetMessage)
+		public static void SendTo(GameObject recipient, T msg, Category category = Category.Server)
 		{
 			if (recipient == null)
 			{

@@ -44,7 +44,7 @@ namespace UI.Objects.Cargo
 			category = null;
 			if (order == null)
 			{
-				Logger.Log("CargoItem: no order found, not doing init", Category.NetUI);
+				Logger.Log("CargoItem: no order found, not doing init", Category.Cargo);
 				return;
 			}
 			foreach (var element in Elements)

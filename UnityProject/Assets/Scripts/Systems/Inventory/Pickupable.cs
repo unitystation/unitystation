@@ -168,7 +168,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 				SpinMultiplier = 15,
 				InitialSpeed = 2
 			} );
-			Logger.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Security,
+			Logger.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Movement,
 				cnt.ServerState.WorldPosition, interaction.Performer.transform.position);
 			//client prediction doesn't handle nudging, so we need to roll them back
 			ServerRollbackClient(interaction);
@@ -179,7 +179,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			//set ForceInform to false for simulation
 			if (Inventory.ServerAdd(this, interaction.HandSlot))
 			{
-				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security,
+				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Interaction,
 					cnt.ServerState.WorldPosition, interaction.Performer.transform.position, cnt.IsFloatingServer);
 			}
 			else

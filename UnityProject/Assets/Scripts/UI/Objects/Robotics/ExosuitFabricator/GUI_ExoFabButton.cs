@@ -27,7 +27,7 @@ namespace UI.Objects.Robotics
 				}
 				else
 				{
-					Logger.Log("Interactable shouldn't be set to anything other than true or false.");
+					Logger.Log("Interactable shouldn't be set to anything other than true or false.", Category.Machines);
 				}
 			}
 		}

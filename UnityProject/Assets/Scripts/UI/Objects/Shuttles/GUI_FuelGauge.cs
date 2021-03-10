@@ -18,7 +18,7 @@ public class GUI_FuelGauge : MonoBehaviour
     {
 		if (fuelGaugeTransform == null || colourBarTransform == null || pointerTransform == null)
 		{
-			Logger.LogError("No Fuel Gauge Set on Shuttle!", Category.UI);
+			Logger.LogError("No Fuel Gauge Set on Shuttle!", Category.Shuttles);
 			this.enabled = false;
 			return;
 		}
@@ -34,7 +34,7 @@ public class GUI_FuelGauge : MonoBehaviour
 		PercentageFuel = percentageFuel;
 		if (percentageFuel < 0f || percentageFuel > 100f)
 		{
-			Logger.LogWarning("Can't set fuel to a non-percent value", Category.UI);
+			Logger.LogWarning("Can't set fuel to a non-percent value", Category.Shuttles);
 			return;
 		}
 		float fuelGaugeWidth = (fuelGaugeMaxWidth) / 100 * percentageFuel;

@@ -144,7 +144,7 @@ public partial class MatrixManager : MonoBehaviour
 			}
 			else
 			{
-				Logger.Log("There is already a space matrix registered");
+				Logger.Log("There is already a space matrix registered", Category.Matrix);
 			}
 		}
 
@@ -156,7 +156,7 @@ public partial class MatrixManager : MonoBehaviour
 			}
 			else
 			{
-				Logger.Log("There is already a main station matrix registered");
+				Logger.Log("There is already a main station matrix registered", Category.Matrix);
 			}
 		}
 
@@ -168,7 +168,7 @@ public partial class MatrixManager : MonoBehaviour
 			}
 			else
 			{
-				Logger.Log("There is already a lava land matrix registered");
+				Logger.Log("There is already a lava land matrix registered", Category.Matrix);
 			}
 		}
 
@@ -405,7 +405,7 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
 		{
-			Debug.Log("MATRIX: " + Instance.ActiveMatrices[i].Name);
+			Logger.Log("MATRIX: " + Instance.ActiveMatrices[i].Name, Category.Matrix);
 		}
 	}
 

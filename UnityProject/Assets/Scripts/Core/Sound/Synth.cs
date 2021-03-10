@@ -35,7 +35,7 @@ public class Synth : MonoBehaviour, IInitialise
 				{
 					enabled = false;
 					Disabled = true;
-					Logger.Log("Headless Detected: Disabling Synth", Category.Server);
+					Logger.Log("Headless Detected: Disabling Synth", Category.Audio);
 				}
 			}
 		} //else gets destroyed by parent

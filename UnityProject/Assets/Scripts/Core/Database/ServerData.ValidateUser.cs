@@ -126,7 +126,7 @@ namespace DatabaseAPI
 				//fail silently for local offline testing
 				if (!GameData.Instance.OfflineMode)
 				{
-					Logger.Log($"Something went wrong with token validation {e.Message}");
+					Logger.Log($"Something went wrong with token validation {e.Message}", Category.DatabaseAPI);
 				}
 
 				return null;

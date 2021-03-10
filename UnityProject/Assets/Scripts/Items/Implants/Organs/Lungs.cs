@@ -33,7 +33,7 @@ public class Lungs : BodyPart
 	{
 		base.ImplantPeriodicUpdate(healthMaster);
 
-		Vector3Int position = healthMaster.OBehavior.AssumedWorldPositionServer();
+		Vector3Int position = healthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 		if (Breathe(node, healthMaster))
@@ -148,7 +148,7 @@ public class Lungs : BodyPart
 	//A bit hacky, get the gas mask the player is wearing if they have one.
 	private GasContainer GetInternalGasMix(PlayerHealthV2 playerHealth)
 	{
-		PlayerScript playerScript = playerHealth.RegPlayer.PlayerScript;
+		PlayerScript playerScript = playerHealth.RegisterPlayer.PlayerScript;
 		if (playerScript != null)
 		{
 			// Check if internals exist
@@ -181,7 +181,7 @@ public class Lungs : BodyPart
 		{
 			if (Random.value < 0.1)
 			{
-				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{gameObject.ExpensiveName()} gasps");
+				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{HealthMaster.gameObject.ExpensiveName()} gasps");
 			}
 
 			if (oxygenPressure > 0)

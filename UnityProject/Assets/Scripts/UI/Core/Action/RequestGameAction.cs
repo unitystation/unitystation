@@ -88,6 +88,6 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 			return;
 		}
 
-		Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity");
+		Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
 	}
 }

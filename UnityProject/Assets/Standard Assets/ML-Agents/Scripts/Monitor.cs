@@ -495,11 +495,11 @@ namespace MLAgents
 
                             if (valsSum < float.Epsilon)
                             {
-                                Debug.LogError(
+                                Logger.LogError(
                                     $"The Monitor value for key {key} " +
                                     "must be a list or array of " +
                                     "positive values and cannot " +
-                                    "be empty.");
+                                    "be empty.", Category.Mobs);
                             }
                             else
                             {

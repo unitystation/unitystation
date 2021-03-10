@@ -103,7 +103,7 @@ namespace Systems.Scenes
 
 			SetQuantumPads();
 
-			Debug.Log("Finished generating LavaLand");
+			Logger.Log("Finished generating LavaLand", Category.Round);
 
 			yield break;
 		}

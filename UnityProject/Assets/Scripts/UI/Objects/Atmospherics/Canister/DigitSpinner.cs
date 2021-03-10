@@ -123,7 +123,7 @@ public class DigitSpinner : MonoBehaviour
 		if (digit < 0 || digit > 9)
 		{
 			Logger.LogErrorFormat("Specified digit {0} is out of range, must be value between 0 and 9 inclusive",
-				Category.UI, digit);
+				Category.Atmos, digit);
 			return false;
 		}
 

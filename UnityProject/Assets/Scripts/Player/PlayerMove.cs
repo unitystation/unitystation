@@ -287,8 +287,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (netid == NetId.Invalid)
 		{
 			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
-			                " can only be used on objects with a Net ID. Ensure this object has one.",
-				Category.Movement);
+			    " can only be used on objects with a Net ID. Ensure this object has one.", Category.Movement);
 			return;
 		}
 

@@ -15,13 +15,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 832917580050276182, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: initialDescription
-      value: A small lighting fixture.
+      propertyPath: initialName
+      value: light bulb fixture
       objectReference: {fileID: 0}
     - target: {fileID: 832917580050276182, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: initialName
-      value: light bulb fixture
+      propertyPath: initialDescription
+      value: A small lighting fixture.
       objectReference: {fileID: 0}
     - target: {fileID: 1689274832931870787, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -47,16 +47,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3662677150203288956, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3662677150203288956, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: m_Offset.y
-      value: 0.3642767
-      objectReference: {fileID: 0}
-    - target: {fileID: 3662677150203288956, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
       propertyPath: m_Size.x
       value: 0.2374755
       objectReference: {fileID: 0}
@@ -65,6 +55,16 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 0.2779311
       objectReference: {fileID: 0}
+    - target: {fileID: 3662677150203288956, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662677150203288956, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.3642767
+      objectReference: {fileID: 0}
     - target: {fileID: 6807309527984598602, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: wattusage
@@ -72,48 +72,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
+      propertyPath: boxColl
+      value: 
+      objectReference: {fileID: 445604691200519404}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: integrity
+      value: 
+      objectReference: {fileID: 2323088392600845931}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
       propertyPath: ONColour.a
       value: 0.32156864
       objectReference: {fileID: 0}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: collDownSetting.x
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: directional
+      value: 
+      objectReference: {fileID: 2089160542943999880}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: collDownSetting.y
-      value: 0.3642767
-      objectReference: {fileID: 0}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6391088716132193761}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: collDownSetting.z
-      value: 0.2374755
-      objectReference: {fileID: 0}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: collDownSetting.w
-      value: 0.2779311
-      objectReference: {fileID: 0}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: collRightSetting.x
-      value: -0.3346747
-      objectReference: {fileID: 0}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: collRightSetting.y
-      value: -0.001173973
-      objectReference: {fileID: 0}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: collRightSetting.z
-      value: 0.3067206
-      objectReference: {fileID: 0}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: collRightSetting.w
-      value: 0.3087062
+      propertyPath: collUpSetting.w
+      value: 0.3010119
       objectReference: {fileID: 0}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -132,8 +117,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: collUpSetting.w
-      value: 0.3010119
+      propertyPath: collDownSetting.w
+      value: 0.2779311
+      objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: collDownSetting.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: collDownSetting.y
+      value: 0.3642767
+      objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: collDownSetting.z
+      value: 0.2374755
+      objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: collLeftSetting.w
+      value: 0.304859
       objectReference: {fileID: 0}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -152,14 +157,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: collLeftSetting.w
-      value: 0.304859
+      propertyPath: collRightSetting.w
+      value: 0.3087062
       objectReference: {fileID: 0}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: spriteRenderer
+      propertyPath: collRightSetting.x
+      value: -0.3346747
+      objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: collRightSetting.y
+      value: -0.001173973
+      objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: collRightSetting.z
+      value: 0.3067206
+      objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: mountStatesMachine
       value: 
-      objectReference: {fileID: 6391088716132193761}
+      objectReference: {fileID: 11400000, guid: 3bd2d676f24e6864dbff58a5436afb74,
+        type: 2}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: spritesStateOnEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: 726dca084060d4241bf0ffddd39509fe,
+        type: 2}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: spriteRendererLightOn
@@ -170,33 +197,6 @@ PrefabInstance:
       propertyPath: emergencyLightAnimator
       value: 
       objectReference: {fileID: 8220138473564574690}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: integrity
-      value: 
-      objectReference: {fileID: 2323088392600845931}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: directional
-      value: 
-      objectReference: {fileID: 2089160542943999880}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: boxColl
-      value: 
-      objectReference: {fileID: 445604691200519404}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: spritesStateOnEffect
-      value: 
-      objectReference: {fileID: 11400000, guid: 726dca084060d4241bf0ffddd39509fe,
-        type: 2}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: mountStatesMachine
-      value: 
-      objectReference: {fileID: 11400000, guid: 3bd2d676f24e6864dbff58a5436afb74,
-        type: 2}
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_Sprite
@@ -207,6 +207,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LightBulbFixture
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -225,6 +230,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -237,16 +247,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}

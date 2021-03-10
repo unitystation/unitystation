@@ -62,7 +62,7 @@ public class MyProjectViewExtentions
 				{
 					Logger.Log("hey, Texture read and write is not enabled for this Sprite " +
 					           spriteDataSO.Variance[0].Frames[0].sprite +
-					           "Please update the values on the import settings to make it Read and write");
+					           "Please update the values on the import settings to make it Read and write", Category.Editor);
 					return;
 				}
 
@@ -135,7 +135,7 @@ public class MyProjectViewExtentions
 				if (importer.isReadable == false)
 				{
 					Logger.Log("hey, Texture read and write is not enabled for this Sprite " + SR.sprite +
-					           "Please update the values on the import settings to make it Read and write");
+					           "Please update the values on the import settings to make it Read and write", Category.Editor);
 					return T2D;
 				}
 

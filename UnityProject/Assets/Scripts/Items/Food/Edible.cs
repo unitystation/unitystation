@@ -49,7 +49,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		}
 		else
 		{
-			Logger.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.ItemSpawn, name);
+			Logger.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
 		}
 	}
 

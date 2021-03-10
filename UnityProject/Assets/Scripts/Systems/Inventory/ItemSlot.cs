@@ -238,7 +238,7 @@ public class ItemSlot
 
 	/// <summary>
 	/// Gets the top-level ItemStorage containing this slot. I.e. if this
-	/// is inside a crate in a backpack, will return the backpack ItemStorage.
+	/// is inside a crate in a backpack, will return the crate ItemStorage.
 	/// </summary>
 	/// <returns></returns>
 	public ItemStorage GetRootStorage()
@@ -479,7 +479,7 @@ public class ItemSlot
 				slots.Remove(instanceID);
 			}
 		}
-		
+
 	}
 
 	/// <summary>

@@ -34,7 +34,7 @@ namespace UI.Core.SpriteProcessing
 			{
 				Logger.LogWarning(
 					$"Texture \"{texture.name}\" is not read enabled. Using default sprite metadata",
-					Category.UI);
+					Category.Sprites);
 				return SpriteMetadata.Default;
 			}
 

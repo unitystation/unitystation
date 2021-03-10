@@ -62,7 +62,7 @@ public class ControlInternals : TooltipMonoBehaviour
 					mask.enabled = true;
 					break;
 				default:
-					Logger.LogError("currentState is out of range. <1; 5>");
+					Logger.LogError("Internals state is out of range. <1; 5>", Category.PlayerInventory);
 					break;
 			}
 		}

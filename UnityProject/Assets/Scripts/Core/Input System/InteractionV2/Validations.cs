@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using Items;
 using TileManagement;
 using UnityEngine;
@@ -317,7 +318,7 @@ public static class Validations
 
 			Logger.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
 				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.registerTile.WorldPositionServer} " +
-								  $"(floating={isFloating})", Category.Security);
+								  $"(floating={isFloating})", Category.Exploits);
 		}
 
 		return result;

@@ -24,10 +24,10 @@ public class ElectricalPool
 
 	public static void PoolsStatuses()
 	{
-		Logger.Log("PooledResistanceWraps" + PooledResistanceWraps.Count);
-		Logger.Log("PooledVIRResistances" + PooledVIRResistances.Count);
-		Logger.Log("PooledVIRCurrent" + PooledVIRCurrent.Count);
-		Logger.Log("PooledWrapCurrent" + PooledWrapCurrent.Count);
+		Logger.Log("PooledResistanceWraps" + PooledResistanceWraps.Count, Category.Electrical);
+		Logger.Log("PooledVIRResistances" + PooledVIRResistances.Count, Category.Electrical);
+		Logger.Log("PooledVIRCurrent" + PooledVIRCurrent.Count, Category.Electrical);
+		Logger.Log("PooledWrapCurrent" + PooledWrapCurrent.Count, Category.Electrical);
 	}
 
 	public static ResistanceWrap GetResistanceWrap()

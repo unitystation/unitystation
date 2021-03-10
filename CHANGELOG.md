@@ -2,6 +2,10 @@
 ---
 
 
+* 2021/3/8: Ice forms in stacks now to avoid lots of gameobjects spawning in by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)
+* 2021/3/8: Hot ice export value now 400 by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)
+* 2021/3/8: Adds hot ice melting at high temperatures by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)
+* 2021/3/8: Adds the ability to melt ice and hot ice using welder by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)
 * 2021/3/7: Health by [Bod9001](https://github.com/Bod9001) in PR #[6152](https://github.com/unitystation/unitystation/pull/6152)
 * 2021/3/6: Adds reflectors by [ThatDan123](https://github.com/ThatDan123) in PR #[6174](https://github.com/unitystation/unitystation/pull/6174)
 * 2021/3/6: Adds working supermatter by [ThatDan123](https://github.com/ThatDan123) in PR #[6174](https://github.com/unitystation/unitystation/pull/6174)

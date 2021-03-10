@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using Antagonists;
 using Systems.Spells;
+using HealthV2;
 using Object = UnityEngine.Object;
 using ScriptableObjects.Systems.Spells;
 

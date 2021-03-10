@@ -551,7 +551,7 @@ public partial class Chat
 					}
 					else
 					{
-						Debug.LogWarning("Chat context is null - can't resolve :h tag");
+						Logger.LogWarning("Chat context is null - can't resolve :h tag", Category.Chat);
 						extractedChanel = ChatChannel.None;
 					}
 

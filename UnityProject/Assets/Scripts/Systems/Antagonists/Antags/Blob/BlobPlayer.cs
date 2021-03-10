@@ -12,6 +12,7 @@ using TMPro;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using EpPathFinding.cs;
+using HealthV2;
 using Managers;
 using Strings;
 using UnityEngine.Profiling;
@@ -240,7 +241,7 @@ namespace Blob
 
 			if (playerScript == null && (!TryGetComponent(out playerScript) || playerScript == null))
 			{
-				Debug.LogError("Playerscript was null on blob and couldnt be found.");
+				Logger.LogError("Playerscript was null on blob and couldnt be found.", Category.Blob);
 				return;
 			}
 
@@ -257,7 +258,7 @@ namespace Blob
 
 			if (!result.Successful)
 			{
-				Debug.LogError("Failed to spawn blob core for player!");
+				Logger.LogError("Failed to spawn blob core for player!", Category.Blob);
 				return;
 			}
 
@@ -723,7 +724,7 @@ namespace Blob
 
 			if (matrix == null)
 			{
-				Debug.LogError("matrix for blob click was null");
+				Logger.LogError("matrix for blob click was null", Category.Blob);
 				return false;
 			}
 
@@ -735,13 +736,13 @@ namespace Blob
 
 			foreach (var hitObject in objects)
 			{
-				if (hitObject.TryGetComponent<LivingHealthBehaviour>(out var npcPlayerComponent))
+				if (hitObject.TryGetComponent<LivingHealthMasterBase>(out var npcPlayerComponent))
 				{
 					if(npcPlayerComponent.IsDead) continue;
 
 					foreach (var playerDamage in currentStrain.playerDamages)
 					{
-						npcPlayerComponent.ApplyDamage(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
+						npcPlayerComponent.ApplyDamageToRandom(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
 					}
 
 					PlayAttackEffect(pos);
@@ -1059,7 +1060,7 @@ namespace Blob
 					cost = resourceBlobCost;
 					break;
 				default:
-					Debug.LogError("Switch has no correct case for blob structure!");
+					Logger.LogError("Switch has no correct case for blob structure!", Category.Blob);
 					break;
 			}
 
@@ -1107,7 +1108,7 @@ namespace Blob
 							resourceBlobs.Add(structure);
 							break;
 						default:
-							Debug.LogError("Switch has no correct case for blob structure!");
+							Logger.LogError("Switch has no correct case for blob structure!", Category.Blob);
 							break;
 					}
 
@@ -1194,7 +1195,7 @@ namespace Blob
 						Chat.AddExamineMsgFromServer(gameObject, "This is a blob node. It cannot be removed");
 						return;
 					default:
-						Debug.LogError("Switch has no correct case for blob structure!");
+						Logger.LogError("Switch has no correct case for blob structure!", Category.Blob);
 						break;
 				}
 

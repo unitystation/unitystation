@@ -75,7 +75,7 @@ namespace UI.UI_Bottom
 			}
 			else
 			{
-				Logger.LogError($"Construction Entry {entry.Name} doesn't use prefab");
+				Logger.LogError($"Construction Entry {entry.Name} doesn't use prefab", Category.Construction);
 			}
 
 			entryName.text = entry.Name;

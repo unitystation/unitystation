@@ -19,7 +19,7 @@ namespace Lobby
 		{
 			sprites = GetComponent<SpriteHandler>();
 			if(!sprites)
-				Logger.LogWarning("SpriteHandler component is missing!");
+				Logger.LogWarning("SpriteHandler component is missing!", Category.Sprites);
 		}
 		private void Start()
 		{

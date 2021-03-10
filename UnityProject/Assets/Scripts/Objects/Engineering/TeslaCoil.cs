@@ -199,7 +199,7 @@ namespace Objects.Engineering
 					spriteHandler.ChangeSprite(IsWrenched ? 1 : 0);
 					break;
 				default:
-					Debug.LogError("Forgot to add case to switch");
+					Logger.LogError("Tried to wrench Tesla Coil, but switch case was out of bounds", Category.Machines);
 					break;
 			}
 		}

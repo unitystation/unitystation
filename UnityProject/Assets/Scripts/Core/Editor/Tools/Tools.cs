@@ -31,7 +31,7 @@ public class Tools : Editor
 			allDirs[i].transform.localEulerAngles = Vector3.zero;
 		}
 
-		Debug.Log($"Refreshed {allDirs.Length} directionals");
+		Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
 	}
 
 	[MenuItem("Networking/Set all sceneids to 0")]
@@ -45,7 +45,7 @@ public class Tools : Editor
 			EditorUtility.SetDirty(allNets[i]);
 		}
 
-		Debug.Log($"Set {allNets.Length} scene ids");
+		Logger.Log($"Set {allNets.Length} scene ids", Category.Editor);
 	}
 
 	[MenuItem("Networking/Find all network identities without visibility component (Scene Check)")]
