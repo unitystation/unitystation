@@ -101,7 +101,7 @@ namespace Systems.MobAIs
 
 		protected virtual void MonitorIdleness()
 		{
-			if (!mobMeleeAttack.performingDecision && mobMeleeAttack.FollowTarget == null)
+			if (!mobFollow.performingDecision && mobFollow.FollowTarget == null)
 			{
 				BeginSearch();
 			}
@@ -278,7 +278,7 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if ((damagedBy is null) != false || damagedBy == mobMeleeAttack.FollowTarget)
+			if ((damagedBy is null) != false || damagedBy == mobFollow.FollowTarget)
 			{
 				return;
 			}
