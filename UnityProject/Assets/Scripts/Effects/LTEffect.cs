@@ -40,12 +40,25 @@ public class LTEffect : NetworkBehaviour
         tween.isAnim = true;
     }
 
+	[ClientRpc]
+	public virtual void RpcStartAnim()
+	{
+		tween.isAnim = true;
+	}
+
 	[Command(requiresAuthority = false)]
 	public virtual void CmdStopAnimation()
     {
         tween.CmdCancelObject(this.gameObject, false);
         tween.isAnim = false;
     }
+
+	[ClientRpc]
+	public virtual void RpcStopAnim()
+	{
+		tween.CmdCancelObject(this.gameObject, false);
+		tween.isAnim = false;
+	}
 
     public void getOriginalPosition()
     {
