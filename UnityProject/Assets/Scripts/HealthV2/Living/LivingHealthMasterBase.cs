@@ -771,9 +771,7 @@ namespace HealthV2
 
 			if (IsDead)
 			{
-				healthString.Append("limp and unresponsive; there are no signs of life");
-
-				healthString.Append("...");
+				healthString.Append("limp and unresponsive; there are no signs of life...");
 
 				return healthString.ToString();
 			}
