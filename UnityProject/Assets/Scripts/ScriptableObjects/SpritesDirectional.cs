@@ -35,6 +35,21 @@ namespace ScriptableObjects
 					return sprites[3];
 			}
 		}
+
+		public static int OrientationIndex(OrientationEnum direction)
+		{
+			switch (direction)
+			{
+				case OrientationEnum.Up:
+					return 0;
+				case OrientationEnum.Down:
+					return 1;
+				case OrientationEnum.Left:
+					return 2;
+				default:
+					return 3;
+			}
+		}
 	}
 }
 

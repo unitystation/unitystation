@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Objects.Construction;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -88,5 +89,11 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 		var Directional = WallMount.GetComponent<Directional>();
 		Directional.FaceDirection(Orientation.FromEnum(FaceDirection));
 		Inventory.ServerConsume(interaction.HandSlot, 1);
+
+		var construction = WallMount.GetComponent<LightFixtureConstruction>();
+		if(construction!= null)
+		{
+			construction.ServerSetState(LightFixtureConstruction.State.initial);
+		}
 	}
 }

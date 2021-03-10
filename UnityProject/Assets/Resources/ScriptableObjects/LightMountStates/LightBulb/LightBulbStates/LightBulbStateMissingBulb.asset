@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b5f87a270c04ff585c8a23897a9f934, type: 3}
   m_Name: LightBulbStateMissingBulb
   m_EditorClassIdentifier: 
-  spritesDirectional: {fileID: 11400000, guid: fe5f087d62f4eae4faf0b95a7c43b821, type: 2}
-  state: 3
+  spriteData: {fileID: 11400000, guid: 6dea116fd792d17429bd156dea4be999, type: 2}
   tube: {fileID: 0}
   traitRequired: {fileID: 11400000, guid: e3c06d233d4623549bc9ec895f304ff5, type: 2}
   multiplierIntegrity: 0
-  lootDrop: {fileID: 11400000, guid: 1a6ee5e601c87774ea81e5d1b687b436, type: 2}
+  lootDrop: {fileID: 0}
   lightColor: {r: 0, g: 0, b: 0, a: 0}
