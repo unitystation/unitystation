@@ -21,10 +21,3 @@ public enum BodyType //Now with cup Rests
 	Other9,
 	Other10
 }
-
-public enum GenderPronouns
-{
-	NonBinary,
-	Male,
-	Female,
-}

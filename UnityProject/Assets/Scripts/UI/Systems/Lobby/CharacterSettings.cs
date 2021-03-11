@@ -23,6 +23,7 @@ public class CharacterSettings
 	public BodyType BodyType = BodyType.Male;
 	public ClothingStyle ClothingStyle = ClothingStyle.JumpSuit;
 	public BagStyle BagStyle = BagStyle.Backpack;
+	public PlayerPronoun PlayerPronoun = PlayerPronoun.He_him;
 	public int Age = 22;
 	public Speech Speech = Speech.None;
 	public string SkinTone = "#ffe0d1";
@@ -51,6 +52,7 @@ public class CharacterSettings
 		sb.AppendLine($"Name: {Name}");
 		sb.AppendLine($"ClothingStyle: {ClothingStyle}");
 		sb.AppendLine($"BagStyle: {BagStyle}");
+		sb.AppendLine($"Pronouns: {PlayerPronoun}");
 		sb.AppendLine($"Age: {Age}");
 		sb.AppendLine($"Speech: {Speech}");
 		sb.AppendLine($"SkinTone: {SkinTone}");
@@ -107,11 +109,11 @@ public class CharacterSettings
 		{
 			return "their";
 		}
-		switch (BodyType)
+		switch (PlayerPronoun)
 		{
-			case BodyType.Male:
+			case PlayerPronoun.He_him:
 				return "his";
-			case BodyType.Female:
+			case PlayerPronoun.She_her:
 				return "her";
 			default:
 				return "their";
@@ -127,11 +129,11 @@ public class CharacterSettings
 		{
 			return "they";
 		}
-		switch (BodyType)
+		switch (PlayerPronoun)
 		{
-			case BodyType.Male:
+			case PlayerPronoun.He_him:
 				return "he";
-			case BodyType.Female:
+			case PlayerPronoun.She_her:
 				return "she";
 			default:
 				return "they";
@@ -146,11 +148,11 @@ public class CharacterSettings
 		{
 			return "them";
 		}
-		switch (BodyType)
+		switch (PlayerPronoun)
 		{
-			case BodyType.Male:
+			case PlayerPronoun.He_him:
 				return "him";
-			case BodyType.Female:
+			case PlayerPronoun.She_her:
 				return "her";
 			default:
 				return "them";
@@ -166,11 +168,11 @@ public class CharacterSettings
 		{
 			return "they're";
 		}
-		switch (BodyType)
+		switch (PlayerPronoun)
 		{
-			case BodyType.Male:
+			case PlayerPronoun.He_him:
 				return "he's";
-			case BodyType.Female:
+			case PlayerPronoun.She_her:
 				return "she's";
 			default:
 				return "they're";
@@ -179,12 +181,16 @@ public class CharacterSettings
 
 	public string IsPronoun(PlayerScript script)
 	{
-		switch (BodyType)
+		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
 		{
-			case BodyType.Male:
-			case BodyType.Female:
+			return "are";
+		}
+		switch (PlayerPronoun)
+		{
+			case PlayerPronoun.He_him:
+			case PlayerPronoun.She_her:
 				return "is";
-			case BodyType.NonBinary:
+			case PlayerPronoun.They_them:
 			default:
 				return "are";
 		}
@@ -192,12 +198,16 @@ public class CharacterSettings
 
 	public string HasPronoun(PlayerScript script)
 	{
-		switch (BodyType)
+		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
 		{
-			case BodyType.Male:
-			case BodyType.Female:
+			return "have";
+		}
+		switch (PlayerPronoun)
+		{
+			case PlayerPronoun.He_him:
+			case PlayerPronoun.She_her:
 				return "has";
-			case BodyType.NonBinary:
+			case PlayerPronoun.They_them:
 			default:
 				return "have";
 		}

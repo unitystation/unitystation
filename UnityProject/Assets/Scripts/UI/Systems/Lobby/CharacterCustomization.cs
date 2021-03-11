@@ -47,6 +47,7 @@ namespace Lobby
 		public Text backpackText;
 		public Text accentText;
 		public Text raceText;
+		public Text pronounText;
 
 		public PlayerHealthData ThisSetRace = null;
 
@@ -442,6 +443,7 @@ namespace Lobby
 			RefreshBodyType();
 			RefreshBackpack();
 			RefreshClothing();
+			RefreshPronoun();
 			RefreshRace();
 		}
 
@@ -956,6 +958,27 @@ namespace Lobby
 		private void RefreshBackpack()
 		{
 			backpackText.text = currentCharacter.BagStyle.ToString();
+		}
+
+		//------------------
+		//PRONOUN PREFERENCE:
+		//------------------
+
+		public void OnPronounChange()
+		{
+			int pronoun = (int) currentCharacter.PlayerPronoun;
+			pronoun++;
+			if (pronoun == (int) PlayerPronoun.None)
+			{
+				pronoun = 0;
+			}
+			currentCharacter.PlayerPronoun = (PlayerPronoun) pronoun;
+			RefreshPronoun();
+		}
+
+		private void RefreshPronoun()
+		{
+			pronounText.text = currentCharacter.PlayerPronoun.ToString().Replace("_", "/");
 		}
 
 		//------------------
