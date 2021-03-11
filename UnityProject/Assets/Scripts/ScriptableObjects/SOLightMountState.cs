@@ -15,8 +15,8 @@ namespace ScriptableObjects
 	[CreateAssetMenu(fileName = "SOLightMountState", menuName = "ScriptableObjects/States/SOLightMountState", order = 0)]
 	public class SOLightMountState : UnityEngine.ScriptableObject
 	{
-		[SerializeField]private SpritesDirectional spritesDirectional = null;
-		public SpritesDirectional SpritesDirectional => spritesDirectional;
+		[SerializeField]private SpriteDataSO spriteData = null;
+		public SpriteDataSO SpriteData => spriteData;
 
 		[Tooltip("Will drop this item.")]
 		[SerializeField]private GameObject tube = null;

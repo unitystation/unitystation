@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 21
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300016, guid: 4866054b12864074ca72678ebef13a7c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4866054b12864074ca72678ebef13a7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -152,10 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDamage: 25
+  livingHealthBehaviour: {fileID: 0}
   Type: 1
   isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
   Severity: 0
   armor:
     Melee: 0
@@ -211,10 +210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDamage: 25
+  livingHealthBehaviour: {fileID: 0}
   Type: 0
   isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
   Severity: 0
   armor:
     Melee: 0
@@ -282,6 +280,7 @@ GameObject:
   - component: {fileID: 4826045711076760867}
   - component: {fileID: 3493423571535560689}
   - component: {fileID: 3651291330810827203}
+  - component: {fileID: 6377642271645965250}
   - component: {fileID: 2052235574987344614}
   - component: {fileID: 3611455284223927780}
   - component: {fileID: 1894956765386061361}
@@ -385,7 +384,7 @@ MonoBehaviour:
   isInitiallyNotPushable: 0
   pushPullSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -446,13 +445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+  butcherSound: 
 --- !u!114 &4859213822428636291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,6 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 0
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &4859335736327027429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,7 +502,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &4826045711076760864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,19 +581,52 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 1
-  EatFoodA:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
   CB_REAGENT: {fileID: 0}
   target: 0
   actionPerformTime: 0
   hasFoodPrefereces: 0
   foodPreferences: []
   IsEmagged: 0
+--- !u!114 &6377642271645965250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10a3248df701d54a8766c917e03aa80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
+  agentParameters:
+    agentCameras: []
+    agentRenderTextures: []
+    maxStep: 0
+    resetOnDone: 1
+    onDemandDecision: 1
+    numberOfActionsBetweenDecisions: 1
+  performingDecision: 0
+  performingAction: 0
+  activated: 0
+  tickRate: 0.3
+  FollowTarget: {fileID: 0}
+  targetOtherPlayersWhoGetInWay: 1
+  onlyActOnTarget: 0
+  doLerpOnAction: 1
+  spriteHolder: {fileID: 3392343644113499114}
+  actionCooldown: 1
+  mobAI: {fileID: 0}
+  maskObject: {fileID: 8320299039891337921, guid: 6fecf534029349145b17735e15c9498c,
+    type: 3}
+  bite:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Facehugger.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &2052235574987344614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,12 +651,13 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 0.3
-  followTarget: {fileID: 0}
+  FollowTarget: {fileID: 0}
   targetOtherPlayersWhoGetInWay: 1
   onlyActOnTarget: 0
   doLerpOnAction: 1
   spriteHolder: {fileID: 3392343644113499114}
   actionCooldown: 1
+  mobAI: {fileID: 0}
 --- !u!114 &3611455284223927780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,26 +679,12 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  randomSound:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Facehugger.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+  randomSounds: []
   playRandomSoundTimer: 3
   randomSoundProbability: 20
-  bite:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Facehugger.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
   searchTickRate: 0.5
   currentStatus: 0
-  maskObject: {fileID: 8320299039891337921, guid: 6fecf534029349145b17735e15c9498c,
-    type: 3}
+  ignoreInQueenCount: 0
 --- !u!114 &1894956765386061361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -681,6 +697,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &700465870708930573
 MonoBehaviour:
   m_ObjectHideFlags: 0

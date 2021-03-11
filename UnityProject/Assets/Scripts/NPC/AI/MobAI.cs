@@ -243,7 +243,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		/// <param name="target"></param>
 		/// <param name="followDuration"></param>
-		protected void FollowTarget(Transform target, float followDuration = -1f)
+		protected void FollowTarget(GameObject target, float followDuration = -1f)
 		{
 			ResetBehaviours();
 			followTimeMax = followDuration;

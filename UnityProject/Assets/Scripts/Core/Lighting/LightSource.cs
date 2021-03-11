@@ -7,6 +7,7 @@ using ScriptableObjects;
 using UnityEngine;
 using Systems.Electricity;
 using Random = UnityEngine.Random;
+using Objects.Construction;
 
 public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerLifecycle, ISetMultitoolSlave
 {
@@ -28,8 +29,8 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	public bool IsWithoutSwitch => isWithoutSwitch;
 	private bool switchState = true;
 	private PowerStates powerState;
-
-	[SerializeField] private SpriteRenderer spriteRenderer;
+	
+	[SerializeField] private SpriteHandler spriteHandler;
 	[SerializeField] private SpriteRenderer spriteRendererLightOn;
 	private LightSprite lightSprite;
 	[SerializeField] private EmergencyLightAnimator emergencyLightAnimator = default;
@@ -45,6 +46,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
 	private SOLightMountState currentState;
 	private RegisterTile registerTile;
+	private LightFixtureConstruction construction;
 
 	private ItemTrait traitRequired;
 	private GameObject itemInMount;
@@ -69,6 +71,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
+		construction = GetComponent<LightFixtureConstruction>();
 		if (mLightRendererObject == null)
 		{
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
@@ -122,6 +125,11 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		}
 	}
 
+	public bool HasBulb()
+	{
+		return mState != LightMountState.MissingBulb && mState != LightMountState.None;
+	}
+
 	private void SyncLightState(LightMountState oldState, LightMountState newState)
 	{
 		mState = newState;
@@ -138,16 +146,14 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		SetSprites();
 	}
 
-	//Editor only syncing
 	public void EditorDirectionChange()
 	{
 		directional = GetComponent<Directional>();
-		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
-			? GetComponentsInChildren<SpriteRenderer>()[1] : GetComponentsInChildren<SpriteRenderer>()[0];
-
+			spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
+				? GetComponentsInChildren<SpriteRenderer>()[1] : GetComponentsInChildren<SpriteRenderer>()[0];
 		var state = mountStatesMachine.LightMountStates[LightMountState.On];
-		spriteRenderer.sprite = state.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+
+		spriteHandler.SetSpriteSO(state.SpriteData, null, SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
 		spriteRendererLightOn.sprite = spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
 		RefreshBoxCollider();
 	}
@@ -184,7 +190,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void SetSprites()
 	{
-		spriteRenderer.sprite = currentState.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+		spriteHandler.SetSpriteSO(currentState.SpriteData, null, SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));		
 		spriteRendererLightOn.sprite = mState == LightMountState.On
 				? spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum())
 				: null;
@@ -237,7 +243,9 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (!construction.isFullyBuilt()) return false;
 		if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
+		if (interaction.HandObject != null && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer) && !Validations.HasItemTrait(interaction.HandObject, traitRequired)) return false;
 
 		return true;
 	}
@@ -413,7 +421,6 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 		if (mState == LightMountState.Broken)
 		{
-
 			ServerChangeLightState(LightMountState.MissingBulb);
 			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GlassStep, pos, sourceObj: gameObject);
 		}

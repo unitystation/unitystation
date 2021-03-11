@@ -73,6 +73,11 @@ namespace HealthV2
 		private List<SpriteDataSO>  femaleSprite;
 
 		[SerializeField]
+		[ShowIf(nameof(isDimorphic))]
+		[Tooltip("The NONBINARY/NEUTRAL visuals of this implant (is also used as fallback sprite)")]
+		private List<SpriteDataSO>  nonbinarySprite;
+
+		[SerializeField]
 		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents." +
 		         "It is intended for things like arms/legs/heads." +
 		         "Leave empty if it shouldn't change this.")]
@@ -87,17 +92,21 @@ namespace HealthV2
 			//If gendered part then set the sprite limb data to it
 			if (isDimorphic)
 			{
-				if(gender == Gender.Male)
+				switch (gender)
 				{
-					limbSpriteData = maleSprite;
-				}
-				else if(gender == Gender.Female)
-				{
-					limbSpriteData = femaleSprite;
-				}
-				else
-				{
-					//TODO: Error log
+					case Gender.Male:
+						limbSpriteData = maleSprite;
+						break;
+					case Gender.Female:
+						limbSpriteData = femaleSprite;
+						break;
+					case Gender.NonBinary:
+						limbSpriteData = nonbinarySprite;
+						break;
+					default:
+						//TODO: error log 
+						limbSpriteData = nonbinarySprite; //set NB as fallbackk
+						break;
 				}
 			}
 

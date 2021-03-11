@@ -20,7 +20,7 @@ namespace Objects.Robotics
 		[SerializeField] private SpriteDataSO acceptingMaterialsSprite;
 		[SerializeField] private SpriteDataSO productionSprite;
 		private RegisterObject registerObject;
-		public MaterialStorage materialStorage;
+		public MaterialStorageLink materialStorageLink;
 		public MachineProductsCollection exoFabProducts;
 		private ItemTrait InsertedMaterialType;
 		private IEnumerator currentProduction;
@@ -54,7 +54,7 @@ namespace Objects.Robotics
 		{
 			registerObject = GetComponent<RegisterObject>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			materialStorage = GetComponent<MaterialStorage>();
+			materialStorageLink = GetComponent<MaterialStorageLink>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -62,7 +62,7 @@ namespace Objects.Robotics
 			if (interaction.HandSlot.IsEmpty) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-			InsertedMaterialType = materialStorage.FindMaterial(interaction.HandObject);
+			InsertedMaterialType = materialStorageLink.usedStorage.FindMaterial(interaction.HandObject);
 			if (InsertedMaterialType != null)
 			{
 				return true;
@@ -80,7 +80,7 @@ namespace Objects.Robotics
 			if (stateSync != ExosuitFabricatorState.Production)
 			{
 				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
-				if (materialStorage.TryAddSheet(InsertedMaterialType, materialSheetAmount))
+				if (materialStorageLink.usedStorage.TryAddSheet(InsertedMaterialType, materialSheetAmount))
 				{
 					Inventory.ServerDespawn(interaction.HandObject);
 					if (stateSync == ExosuitFabricatorState.Idle)
@@ -113,7 +113,7 @@ namespace Objects.Robotics
 
 		public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 		{
-			materialStorage.DispenseSheet(amountOfSheets, materialType);
+			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType);
 			UpdateGUI();
 		}
 
@@ -122,7 +122,7 @@ namespace Objects.Robotics
 		/// </summary>
 		public bool CanProcessProduct(MachineProduct product)
 		{
-			if (materialStorage.TryConsumeList(product.materialToAmounts))
+			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts))
 			{
 				currentProduction = ProcessProduction(product.Product, product.ProductionTime);
 				StartCoroutine(currentProduction);
@@ -170,7 +170,7 @@ namespace Objects.Robotics
 				currentProduction = null;
 			}
 
-			materialStorage.DropAllMaterials();
+			materialStorageLink.usedStorage.DropAllMaterials();
 		}
 	}
 }

@@ -116,7 +116,7 @@ namespace HealthV2
 					limbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
 					if (BodyTypesSprites.BodyTypes.Count > 0)
 					{
-						limbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) BodyType.Neutral].Sprites;
+						limbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) BodyType.NonBinary].Sprites;
 					}
 				}
 
@@ -327,7 +327,7 @@ namespace HealthV2
 	{
 		public SpriteOrder SpriteOrder;
 
-		[Tooltip("Neutral, male, female, Other1, other2 , ect.")]
+		[Tooltip("NonBinary, male, female, Other1, other2 , ect.")]
 		public List<ListSpriteDataSO> BodyTypes = new List<ListSpriteDataSO>();
 	}
 

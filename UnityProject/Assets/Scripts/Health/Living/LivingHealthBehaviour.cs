@@ -1020,11 +1020,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		string theyPronoun = "It";
 		string theirPronoun = "its";
 
-		var cs = GetComponentInParent<PlayerScript>()?.characterSettings;
+		var ps = GetComponentInParent<PlayerScript>();
+		var cs = ps?.characterSettings;
 		if (cs != null)
 		{
-			theyPronoun = cs.TheyPronoun().Capitalize();
-			theirPronoun = cs.TheirPronoun();
+			theyPronoun = cs.TheyPronoun(ps).Capitalize();
+			theirPronoun = cs.TheirPronoun(ps);
 		}
 
 		var healthString = $"{theyPronoun} is ";

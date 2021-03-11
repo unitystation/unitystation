@@ -45,7 +45,7 @@ MonoBehaviour:
   productionSprite: {fileID: 11400000, guid: 6453b4f4edb12784eafebe700d4dc3e3, type: 2}
   acceptingMaterialsSprite: {fileID: 11400000, guid: 7988fd4d8b0936249bca1529ef12f9d6,
     type: 2}
-  materialStorage: {fileID: 3971876006832429833}
+  materialStorageLink: {fileID: 0}
   autolatheProducts: {fileID: 11400000, guid: d1a052e3f8a86d0409f54e6f2f803fa5, type: 2}
 --- !u!114 &3971876006832429833
 MonoBehaviour:
@@ -59,16 +59,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  materials: []
-  cm3PerSheet: 2000
   infiniteStorage: 0
-  materialsInMachines: {fileID: 11400000, guid: b6e83d10ca1eed247949504321b25658,
-    type: 2}
   maximumResources: 1000000
-  currentResources: 0
-  getthislistfromsomewhere: []
+--- !u!114 &4397833373819759390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278827525492321370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedStorage: {fileID: 0}
 --- !u!114 &4515876064805449849
 MonoBehaviour:
   m_ObjectHideFlags: 0

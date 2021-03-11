@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 145
       objectReference: {fileID: 0}
+    - target: {fileID: 3194054077450859374, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5525576654264826294, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
@@ -20,13 +25,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6586896859430772348, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
-      propertyPath: initialDescription
-      value: A classic orange creamsicle. A sunny frozen treat.
+      propertyPath: initialName
+      value: orange creamsicle
       objectReference: {fileID: 0}
     - target: {fileID: 6586896859430772348, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
-      propertyPath: initialName
-      value: orange creamsicle
+      propertyPath: initialDescription
+      value: A classic orange creamsicle. A sunny frozen treat.
       objectReference: {fileID: 0}
     - target: {fileID: 6634071525805919402, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
@@ -37,6 +42,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OrangeCreamsicle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
@@ -55,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -67,16 +82,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6743933044063226986, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}

@@ -170,7 +170,7 @@ namespace HealthV2
 					string descriptor = null;
 					if (player != null)
 					{
-						descriptor = player.CharacterSettings?.TheirPronoun();
+						descriptor = player.CharacterSettings?.TheirPronoun(player.Script);
 					}
 
 					if (descriptor == null)
