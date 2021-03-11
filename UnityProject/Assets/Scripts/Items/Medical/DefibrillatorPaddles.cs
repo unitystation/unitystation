@@ -23,7 +23,7 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 		if (equipment == null) return false;
 		var ObjectInSlot = equipment.GetClothingItem(NamedSlot.back).GameObjectReference;
 		if (ObjectInSlot == null) return false;
-		if (ObjectInSlot.GetComponent<ItemAttributesV2>().HasTrait(DefibrillatorTrait) == false) return false;
+		if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false) return false;
 		return true;
 	}
 
