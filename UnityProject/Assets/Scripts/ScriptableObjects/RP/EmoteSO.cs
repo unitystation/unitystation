@@ -42,13 +42,14 @@ public class EmoteSO : ScriptableObject
 
 	public virtual void Do(GameObject player)
 	{
+		string finalYouText = textGetName(youText, player);
 		if(requiresHands == true && checkHandState(player) == false)
 		{
 			Chat.AddActionMsgToChat(player, $"{failText}", $"");
 		}
 		else
 		{
-			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
+			Chat.AddActionMsgToChat(player, $"{finalYouText}", $"{player.ExpensiveName()} {viewText}.");
 			playAudio(defaultSounds, player);
 		}
 	}
@@ -68,6 +69,11 @@ public class EmoteSO : ScriptableObject
 		SoundManager.PlayNetworkedAtPos(audioList.PickRandom(), player.transform.position, audioSourceParameters, polyphonic: true);
 	}
 
+
+	/// <summary>
+	/// Responsible for making sure the right audio plays
+	/// for the correct gender.
+	/// </summary>
 	public void genderCheck(BodyType gender)
 	{
 		//Add race checks later when lizard men, slime people and lusty xeno-maids get added after the new health system gets merged.
@@ -89,6 +95,9 @@ public class EmoteSO : ScriptableObject
 	}
 
 
+	/// <summary>
+	/// Checks if the player has arms and if they're cuffed or not.
+	/// </summary>
 	public bool checkHandState(GameObject player)
 	{
 		if (!player.transform.GetComponent<PlayerScript>().playerMove.IsCuffed)
@@ -107,5 +116,17 @@ public class EmoteSO : ScriptableObject
 	public PlayerHealthV2 getPlayerHealth(GameObject player)
 	{
 		return player.transform.GetComponent<PlayerScript>().playerHealth;
+	}
+
+
+	/// <summary>
+	/// This is for using {player.ExpensiveName()} in the inspector.
+	/// </summary>
+	/// <param name="txt">the viewText.</param>
+	/// <param name="player">the player's gameobject to get their name.</param>
+	/// <returns>the player's name in txt when {player.ExpensiveName()} exists.</returns>
+	public string textGetName(string txt, GameObject player)
+	{
+		return txt.Replace("{player.ExpensiveName()}", player.ExpensiveName());
 	}
 }
