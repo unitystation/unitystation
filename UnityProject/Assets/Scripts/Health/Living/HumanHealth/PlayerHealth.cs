@@ -204,7 +204,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 				string descriptor = null;
 				if (player != null)
 				{
-					descriptor = player.CharacterSettings?.TheirPronoun();
+					descriptor = player.CharacterSettings?.TheirPronoun(player.Script);
 				}
 
 				if (descriptor == null)
