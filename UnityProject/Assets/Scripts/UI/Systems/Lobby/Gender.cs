@@ -1,8 +1,8 @@
 ﻿public enum Gender
 {
-	NonBinary,
-	Male,
-	Female  //adding anymore genders will require changes to the player customisation menu script(s)
+	NonBinary = 3,
+	Male = 1,
+	Female = 2
 }
 
 public enum BodyType //Now with cup Rests

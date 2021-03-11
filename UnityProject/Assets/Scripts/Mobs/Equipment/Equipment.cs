@@ -27,8 +27,8 @@ public class Equipment : NetworkBehaviour
 	[NonSerialized]
 	public NamedSlotFlagged obscuredSlots = NamedSlotFlagged.None;
 
-	private string TheyPronoun => script.characterSettings.TheyPronoun();
-	private string TheirPronoun => script.characterSettings.TheirPronoun();
+	private string TheyPronoun => script.characterSettings.TheyPronoun(script);
+	private string TheirPronoun => script.characterSettings.TheirPronoun(script);
 
 	private void Awake()
 	{
@@ -190,34 +190,14 @@ public class Equipment : NetworkBehaviour
 		string equipment = "";
 		string pronounIs = "";
 		string pronounHas = "";
-		string theyPronoun = "";
-		string theirPronoun = "";
-
-		if (GetPlayerNameByEquipment() == "Unknown" && IsIdentityObscured())
-		{
-			//if the identity of the examined player is unknown use neutral pronouns, 
-			//because if you don't know the identity you also shouldn't really know the gender.
-			theyPronoun = "They";
-			theirPronoun = "their";
-		}
-		else
-		{
-			theyPronoun = TheyPronoun;
-			theyPronoun = theyPronoun[0].ToString().ToUpper() + theyPronoun.Substring(1);
-			theirPronoun = TheirPronoun;
-		}
+		string theyPronoun = TheyPronoun;
+		theyPronoun = theyPronoun[0].ToString().ToUpper() + theyPronoun.Substring(1);
+		string theirPronoun = TheirPronoun;
 
 		//switch out words depending on if the examined player is nonbinary, because "they is wearing" is not how you grammer.
-		if (theyPronoun == "They")
-		{
-			pronounIs = "are";
-			pronounHas = "have";
-		}
-		else
-		{
-			pronounIs = "is";
-			pronounHas = "has";
-		}
+		pronounIs = script.characterSettings.IsPronoun(script);
+		pronounHas = script.characterSettings.HasPronoun(script);
+
 
 		if (IsExaminable(NamedSlot.uniform))
 		{

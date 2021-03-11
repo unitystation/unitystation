@@ -101,8 +101,12 @@ public class CharacterSettings
 	/// <summary>
 	/// Returns a possessive string (i.e. "their", "his", "her") for the provided gender enum.
 	/// </summary>
-	public string TheirPronoun()
+	public string TheirPronoun(PlayerScript script)
 	{
+		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+		{
+			return "their";
+		}
 		switch (BodyType)
 		{
 			case BodyType.Male:
@@ -117,8 +121,12 @@ public class CharacterSettings
 	/// <summary>
 	/// Returns a personal pronoun string (i.e. "he", "she", "they") for the provided gender enum.
 	/// </summary>
-	public string TheyPronoun()
+	public string TheyPronoun(PlayerScript script)
 	{
+		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+		{
+			return "they";
+		}
 		switch (BodyType)
 		{
 			case BodyType.Male:
@@ -132,8 +140,12 @@ public class CharacterSettings
 	/// <summary>
 	/// Returns an object pronoun string (i.e. "him", "her", "them") for the provided gender enum.
 	/// </summary>
-	public string ThemPronoun()
+	public string ThemPronoun(PlayerScript script)
 	{
+		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+		{
+			return "them";
+		}
 		switch (BodyType)
 		{
 			case BodyType.Male:
@@ -148,8 +160,12 @@ public class CharacterSettings
 	/// <summary>
 	/// Returns an object pronoun string (i.e. "he's", "she's", "they're") for the provided gender enum.
 	/// </summary>
-	public string TheyrePronoun()
-	{
+	public string TheyrePronoun(PlayerScript script)
+	{	
+		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+		{
+			return "they're";
+		}
 		switch (BodyType)
 		{
 			case BodyType.Male:
@@ -158,6 +174,32 @@ public class CharacterSettings
 				return "she's";
 			default:
 				return "they're";
+		}
+	}
+
+	public string IsPronoun(PlayerScript script)
+	{
+		switch (BodyType)
+		{
+			case BodyType.Male:
+			case BodyType.Female:
+				return "is";
+			case BodyType.NonBinary:
+			default:
+				return "are";
+		}
+	}
+
+	public string HasPronoun(PlayerScript script)
+	{
+		switch (BodyType)
+		{
+			case BodyType.Male:
+			case BodyType.Female:
+				return "has";
+			case BodyType.NonBinary:
+			default:
+				return "have";
 		}
 	}
 }
