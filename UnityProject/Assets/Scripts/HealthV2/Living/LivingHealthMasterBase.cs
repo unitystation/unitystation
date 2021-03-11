@@ -137,12 +137,6 @@ namespace HealthV2
 
 		protected GameObject LastDamagedBy;
 
-		// public float MaxNutrimentLevel = 30;
-
-		// public float NutrimentLevel = 20;
-
-		public Reagent Cem;
-
 		public HungerState hungerState => CalculateHungerState();
 
 		public HungerState CalculateHungerState()
@@ -236,14 +230,6 @@ namespace HealthV2
 			var bit =  RootBodyPartContainers.PickRandom();
 			bit.TakeDamage(null, 1, AttackType.Melee, DamageType.Brute);
 		}
-
-
-		[RightClickMethod]
-		public void TestChemistry()
-		{
-			circulatorySystem.UseBloodPool.Add(Cem, 20);
-		}
-
 
 		/// <summary>
 		/// Adds a new implant to the health master.
