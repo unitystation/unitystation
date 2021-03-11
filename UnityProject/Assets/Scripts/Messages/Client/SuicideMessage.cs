@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using HealthV2;
+using Mirror;
 using UnityEngine;
 
 namespace Messages.Client
@@ -9,7 +10,7 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
-			if (SentByPlayer.Script.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
+			if (SentByPlayer.Script.TryGetComponent<LivingHealthMasterBase>(out var livingHealthBehaviour))
 			{
 				if (livingHealthBehaviour.IsDead)
 				{
@@ -18,7 +19,7 @@ namespace Messages.Client
 				else
 				{
 					Logger.Log("Player '" + SentByPlayer.Name + "' has committed suicide", Category.Health);
-					livingHealthBehaviour.ApplyDamage(null, float.MaxValue, AttackType.Melee, DamageType.Brute);
+					livingHealthBehaviour.ApplyDamageAll(null, float.MaxValue, AttackType.Melee, DamageType.Brute);
 				}
 			}
 		}

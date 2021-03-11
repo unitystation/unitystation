@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Sunglasses with a medical HUD.
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3273994478765017941, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: m_Sprite
@@ -97,14 +102,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 14a7fdc936d6ff548b7a5db4f9918f67,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 14a7fdc936d6ff548b7a5db4f9918f67,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

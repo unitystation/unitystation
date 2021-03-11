@@ -17,14 +17,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: a975dd8ebdf0cb3499dc62ecd9976952,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4443546477690345710, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: a975dd8ebdf0cb3499dc62ecd9976952,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4443546477690345710, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -44,8 +42,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
+      propertyPath: canConnectToTank
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
       propertyPath: initialDescription
       value: A roll of dried plant matter wrapped in thin paper.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}

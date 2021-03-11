@@ -8,10 +8,16 @@ namespace Systems.MobAIs
 	/// </summary>
 	public class MobFollow : MobAgent
 	{
-		public Transform followTarget;
+		public GameObject FollowTarget;
+		protected RegisterTile TargetTile;
 
 		private float distanceCache = 0;
 
+		public override void OnEnable()
+		{
+			base.OnEnable();
+			OriginTile = GetComponent<RegisterTile>();
+		}
 		public override void AgentReset()
 		{
 			distanceCache = 0;
@@ -21,7 +27,7 @@ namespace Systems.MobAIs
 		protected override void AgentServerStart()
 		{
 			//begin following:
-			if (followTarget != null)
+			if (FollowTarget != null)
 			{
 				activated = true;
 			}
@@ -30,10 +36,19 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// Make the mob start following a target
 		/// </summary>
-		public void StartFollowing(Transform target)
+		public void StartFollowing(GameObject target)
 		{
-			followTarget = target;
+			FollowTarget = target;
+			TargetTile = FollowTarget.GetComponent<RegisterTile>();
 			Activate();
+		}
+
+		/// <summary>
+		/// Returns the distance between the mob and the target
+		/// </summary>
+		public float TargetDistance()
+		{
+			return Vector3.Distance(TargetTile.WorldPositionServer, OriginTile.WorldPositionServer);
 		}
 
 		public override void CollectObservations()
@@ -41,7 +56,7 @@ namespace Systems.MobAIs
 			//You need to feed ML agents null obs
 			//if the follow target is null
 			//otherwise ML agents will break
-			if (followTarget == null)
+			if (FollowTarget == null)
 			{
 				AddVectorObs(0f);
 				AddVectorObs(0f);
@@ -50,7 +65,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			var curDist = Vector2.Distance(followTarget.transform.position, transform.position);
+			var curDist = TargetDistance();
 			if (distanceCache == 0)
 			{
 				distanceCache = curDist;
@@ -59,21 +74,21 @@ namespace Systems.MobAIs
 			AddVectorObs(curDist / 100f);
 			AddVectorObs(distanceCache / 100f);
 			//Observe the direction to target
-			AddVectorObs(((Vector2)(followTarget.transform.position - transform.position)).normalized);
+			AddVectorObs((TargetTile.WorldPositionServer - OriginTile.WorldPositionServer).NormalizeTo2Int());
 
-			ObserveAdjacentTiles(true, followTarget);
+			ObserveAdjacentTiles(true, TargetTile);
 		}
 
 		public override void AgentAction(float[] vectorAction, string textAction)
 		{
-			if (followTarget == null) return;
+			if (FollowTarget == null) return;
 
 			PerformMoveAction(Mathf.FloorToInt(vectorAction[0]));
 		}
 
 		protected override void OnPushSolid(Vector3Int destination)
 		{
-			if (destination == Vector3Int.RoundToInt(followTarget.transform.localPosition))
+			if (destination == Vector3Int.RoundToInt(TargetTile.WorldPositionServer))
 			{
 				SetReward(1f);
 			}
@@ -81,9 +96,9 @@ namespace Systems.MobAIs
 
 		protected override void OnTileReached(Vector3Int tilePos)
 		{
-			if (!activated || followTarget == null) return;
+			if (!activated || FollowTarget == null) return;
 
-			var compareDist = Vector2.Distance(followTarget.transform.position, transform.position);
+			var compareDist = TargetDistance();
 
 			if (compareDist < distanceCache)
 			{
@@ -96,7 +111,6 @@ namespace Systems.MobAIs
 				Done();
 				SetReward(2f);
 			}
-
 			base.OnTileReached(tilePos);
 		}
 

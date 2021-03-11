@@ -14,7 +14,7 @@ namespace HealthV2
 			if (PresentProcedure.RelatedBodyPart.ContainedIn != null)
 			{
 				PresentProcedure.ISon.SetBodyPartIsOpen(false,  false);
-				PresentProcedure.ISon.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn;
+				PresentProcedure.ISon.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
 			}
 			else
 			{

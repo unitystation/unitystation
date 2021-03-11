@@ -32,13 +32,16 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   isSurface: 0
+  ClothingHide: 0
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   isBloodReagentConsumed: 1
+  isBloodReagentCirculated: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   _bloodReagentConsumed: 0.1
   bloodReagentProcessed: 0.15
   bloodReagentStoreAmount: 0.01
+  bloodReagentStoredMax: 0.5
   NutrimentConsumption: 0.02
   NutrimentPassiveConsumption: 0.001
   BloodContainer: {fileID: 2977043642595652637}
@@ -70,6 +73,7 @@ MonoBehaviour:
   DamageContributesToOverallHealth: 0
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
+  Severity: 0
   MaxRunSpeedDebuff: -2
   MaxWalkingDebuff: -1.5
   MaxCrawlDebuff: -0.2
@@ -169,6 +173,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialName
+      value: fat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialDescription
+      value: Fat shaming is rude.
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}

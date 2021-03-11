@@ -88,6 +88,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Used to see the boundaries of shuttle regions.
       objectReference: {fileID: 0}
+    - target: {fileID: 396144615403470253, guid: 67edff078434b7d46a845a17839398cf,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6256879694011033928, guid: 67edff078434b7d46a845a17839398cf,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -98,14 +103,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 99085f8acbcd4974fb9ce903a3016f1e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6624728334120714570, guid: 67edff078434b7d46a845a17839398cf,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 99085f8acbcd4974fb9ce903a3016f1e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6624728334120714570, guid: 67edff078434b7d46a845a17839398cf,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

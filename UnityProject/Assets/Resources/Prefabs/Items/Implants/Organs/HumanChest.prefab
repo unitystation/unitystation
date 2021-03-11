@@ -109,13 +109,13 @@ PrefabInstance:
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
+      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -209,6 +209,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ccfebde2cc0de824b80261ac774928d7,
         type: 2}
+    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: initialName
+      value: chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's impolite to stare at a person's chest.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 2733873253844105974, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_Sprite

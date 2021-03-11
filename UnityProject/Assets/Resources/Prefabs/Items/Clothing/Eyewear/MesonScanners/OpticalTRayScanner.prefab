@@ -89,6 +89,11 @@ PrefabInstance:
       value: Used by engineering staff to see underfloor objects such as cables and
         pipes.
       objectReference: {fileID: 0}
+    - target: {fileID: 396144615403470253, guid: 67edff078434b7d46a845a17839398cf,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6256879694011033928, guid: 67edff078434b7d46a845a17839398cf,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -99,14 +104,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4af0b134cb1af3e409005428cb8fc0f9,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6624728334120714570, guid: 67edff078434b7d46a845a17839398cf,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4af0b134cb1af3e409005428cb8fc0f9,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6624728334120714570, guid: 67edff078434b7d46a845a17839398cf,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

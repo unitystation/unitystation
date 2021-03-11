@@ -72,6 +72,14 @@ namespace HealthV2
 
 		public List<uint> InternalNetIDs;
 
+
+		public virtual void AddBodyPartSlot(ItemSlot ItemSlot)
+		{
+			storage.ServerTryTransferFrom(ItemSlot);
+		}
+
+
+
 		public void UpdateChildren(List<uint> NewInternalNetIDs )
 		{
 			List<SpriteHandler> SHS = new List<SpriteHandler>();
@@ -272,7 +280,10 @@ namespace HealthV2
 				else
 				{
 					var OrganToDamage = ContainsLimbs.PickRandom();
-					OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType);
+					if (OrganToDamage != null)
+					{
+						OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType);
+					}
 				}
 			}
 		}

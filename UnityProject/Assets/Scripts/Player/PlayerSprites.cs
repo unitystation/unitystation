@@ -23,8 +23,7 @@ public class PlayerSprites : MonoBehaviour
 {
 	#region Inspector fields
 
-	[Tooltip("The body parts for this race.")] [SerializeField]
-	private PlayerHealthData RaceBodyparts;
+	public PlayerHealthData RaceBodyparts;
 
 	[Tooltip("Assign the prefab responsible for the partial burning overlay.")] [SerializeField]
 	private GameObject partialBurningPrefab = default;
@@ -78,7 +77,7 @@ public class PlayerSprites : MonoBehaviour
 	private PlayerSync playerSync;
 
 	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
-	private ulong overflow = 0UL;
+	private ulong overflow = 0;
 
 	/// <summary>
 	/// Define which piece of clothing are hidden (not rendering) right now
@@ -91,7 +90,7 @@ public class PlayerSprites : MonoBehaviour
 
 	public List<uint> InternalNetIDs;
 
-	public bool BodyPartsLoaded = false;
+	public bool RootBodyPartsLoaded = false;
 
 	protected void Awake()
 	{
@@ -224,18 +223,12 @@ public class PlayerSprites : MonoBehaviour
 	public void SetupCharacterData(CharacterSettings Character)
 	{
 		ThisCharacter = Character;
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			if (BodyPartsLoaded == false)
-			{
-				StartCoroutine(WaitForPlayerinitialisation());
-			}
-		}
+		StartCoroutine(WaitForPlayerinitialisation());
+
 	}
 
 	public void SetupsSprites()
 	{
-		BodyPartsLoaded = true;
 		foreach (var Root in livingHealthMasterBase.RootBodyPartContainers)
 		{
 			CustomisationStorage customisationStorage = null;
@@ -268,6 +261,7 @@ public class PlayerSprites : MonoBehaviour
 				SetRace = Race;
 			}
 		}
+
 		List<uint> ToClient = new List<uint>();
 		foreach (var Customisation in SetRace.Base.CustomisationSettings)
 		{
@@ -499,28 +493,32 @@ public class PlayerSprites : MonoBehaviour
 
 	public void OnCharacterSettingsChange(CharacterSettings characterSettings)
 	{
-		if (characterSettings == null)
+		if (RootBodyPartsLoaded == false)
 		{
-			characterSettings = new CharacterSettings();
-		}
-
-		ThisCharacter = characterSettings;
-
-		PlayerHealthData SetRace = null;
-		foreach (var Race in RaceSOSingleton.Instance.Races)
-		{
-			if (Race.name == ThisCharacter.Species)
+			RootBodyPartsLoaded = true;
+			if (characterSettings == null)
 			{
-				RaceBodyparts = Race;
+				characterSettings = new CharacterSettings();
 			}
+
+			ThisCharacter = characterSettings;
+
+			PlayerHealthData SetRace = null;
+			foreach (var Race in RaceSOSingleton.Instance.Races)
+			{
+				if (Race.name == ThisCharacter.Species)
+				{
+					RaceBodyparts = Race;
+				}
+			}
+
+
+			SetUpCharacter(characterSettings);
+			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
+			SetupCharacterData(characterSettings);
+			// FIXME: this probably shouldn't send ALL of the character settings to everyone
+			PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
 		}
-
-
-		SetUpCharacter(characterSettings);
-		livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
-		SetupCharacterData(characterSettings);
-		// FIXME: this probably shouldn't send ALL of the character settings to everyone
-		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
 	}
 
 	public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)
@@ -656,21 +654,20 @@ public class PlayerSprites : MonoBehaviour
 		DisableElectrocutedOverlay();
 	}
 
-	public void UpdateChildren(List<uint> NewInternalNetIDs )
+	public void UpdateChildren(List<uint> NewInternalNetIDs)
 	{
 		OpenSprites.Clear();
 		List<SpriteHandler> SHS = new List<SpriteHandler>();
 		InternalNetIDs = NewInternalNetIDs;
 		foreach (var ID in InternalNetIDs)
 		{
-
 			if (NetworkIdentity.spawned.ContainsKey(ID) && NetworkIdentity.spawned[ID] != null)
 			{
 				var OB = NetworkIdentity.spawned[ID].gameObject.transform;
 
 				var SH = OB.GetComponent<SpriteHandler>();
 
-				var Net= SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
+				var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
 				SpriteHandlerManager.UnRegisterHandler(Net, SH);
 				SHS.Add(SH);
 				SH.name = Regex.Replace(SH.name, @"\(.*\)", "").Trim();
@@ -679,7 +676,7 @@ public class PlayerSprites : MonoBehaviour
 				OB.localPosition = Vector3.zero;
 				OB.localRotation = Quaternion.identity;
 
-				SpriteHandlerManager.RegisterHandler(Net,SH );
+				SpriteHandlerManager.RegisterHandler(Net, SH);
 				var SNO = OB.GetComponent<SpriteHandlerNorder>();
 
 				if (OpenSprites.Contains(SNO) == false)
@@ -687,11 +684,8 @@ public class PlayerSprites : MonoBehaviour
 					OpenSprites.Add(SNO);
 				}
 			}
-
 		}
 
 		RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
 	}
-
-
 }

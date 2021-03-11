@@ -49,9 +49,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/GenericHit.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 37c4a6d4eba154147b6f50a35f9b4b47,
+        type: 2}
+    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: cde22e8f459e8884d857a3737b646f2e,
+        type: 2}
+    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: b2f28a87da59d3f4ca092c213d68f883, type: 3}
+    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: b9f328c0322b4d14d8500f7fb92338d4, type: 3}
+    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: b5a189630b71bd44b9df327341e0604a, type: 3}
+    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 5d6aa2b2a8127e748b57f4ad9e560645, type: 3}
     - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -78,16 +110,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: b5a189630b71bd44b9df327341e0604a, type: 3}
-    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: b9f328c0322b4d14d8500f7fb92338d4, type: 3}
-    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: b9f328c0322b4d14d8500f7fb92338d4,
@@ -110,23 +132,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: b9f328c0322b4d14d8500f7fb92338d4,
         type: 3}
-    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 5d6aa2b2a8127e748b57f4ad9e560645, type: 3}
-    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 37c4a6d4eba154147b6f50a35f9b4b47,
-        type: 2}
-    - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: cde22e8f459e8884d857a3737b646f2e,
-        type: 2}
     - target: {fileID: 7859536243489094831, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
       propertyPath: m_Sprite
@@ -145,6 +150,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -160,6 +170,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -172,16 +187,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
