@@ -3,6 +3,7 @@ using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
+using HealthV2;
 
 [CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/BasicEmote")]
 public class EmoteSO : ScriptableObject
@@ -42,7 +43,7 @@ public class EmoteSO : ScriptableObject
 
 	public virtual void Do(GameObject player)
 	{
-		string finalYouText = textGetName(youText, player);
+		string finalYouText = TextGetName(youText, player);
 		if(requiresHands == true && checkHandState(player) == false)
 		{
 			Chat.AddActionMsgToChat(player, $"{failText}", $"");
@@ -85,7 +86,7 @@ public class EmoteSO : ScriptableObject
 			case (BodyType.Female):
 				audioToUse = femaleSounds;
 				break;
-			case (BodyType.Neutral):
+			case (BodyType.NonBinary):
 				audioToUse = defaultSounds;
 				break;
 			default:
@@ -125,7 +126,7 @@ public class EmoteSO : ScriptableObject
 	/// <param name="txt">the viewText.</param>
 	/// <param name="player">the player's gameobject to get their name.</param>
 	/// <returns>the player's name in txt when {player.ExpensiveName()} exists.</returns>
-	public string textGetName(string txt, GameObject player)
+	public string TextGetName(string txt, GameObject player)
 	{
 		return txt.Replace("{player.ExpensiveName()}", player.ExpensiveName());
 	}

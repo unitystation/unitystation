@@ -3,6 +3,7 @@ using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
+using HealthV2;
 
 [CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/GenderedEmote")]
 public class GenderedEmote : EmoteSO
