@@ -9,13 +9,11 @@ public class RotateEffect : LTEffect
     private float animTime;
     private float rotationAngle;
     private bool isRandom = true;
-	private bool usesNormalLeanTween = false;
 
-    public override void CmdStartAnimation()
+    public void StartAnimation()
     {
         StopAllCoroutines();
         StartCoroutine(Rotate(flips, animTime));
-        base.CmdStartAnimation();
     }
 
     public void setupEffectvars(int f, float at, float rotAngle, bool random)
@@ -25,21 +23,6 @@ public class RotateEffect : LTEffect
         rotationAngle = rotAngle;
 		isRandom = random;
     }
-
-	[Server]
-	public void CmdStartAnimNoNLT()
-	{
-		RpcStartAnimNoNTL();
-	}
-
-	[ClientRpc]
-	private void RpcStartAnimNoNTL()
-	{
-		usesNormalLeanTween = true;
-		StopAllCoroutines();
-		StartCoroutine(Rotate(flips, animTime));
-		base.CmdStartAnimation();
-	}
 
 	private IEnumerator Rotate(int numberOfrotates, float time)
     {
@@ -57,20 +40,12 @@ public class RotateEffect : LTEffect
             rotateObject(rot, time);
             yield return new WaitForSeconds(time);
         }
-		usesNormalLeanTween = false;
-		base.CmdStopAnimation();
+		base.StopAnimation();
     }
 
     private void rotateObject(Vector3 rot, float time)
     {
-		if(usesNormalLeanTween == false)
-		{
-			tween.CmdRotateGameObject(rot, time);
-		}
-		else
-		{
-			LeanTween.rotate(transform.gameObject, rot, time);
-		}
+		tween.RpcRotateGameObject(rot, time);
     }
 
 	private float pickRandomRotation(Vector3 rotation, float target, float result)

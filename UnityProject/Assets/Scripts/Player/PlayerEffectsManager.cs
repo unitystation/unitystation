@@ -26,12 +26,12 @@ public class PlayerEffectsManager : MonoBehaviour
 
 	private void Update()
 	{
-		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == true && floatingEffect.WillAnimate == false)
+		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == true && floatingEffect.willAnimate == false)
 		{
 			AnimateFloating();
 			return;
 		}
-		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == false && floatingEffect.WillAnimate == true)
+		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == false && floatingEffect.willAnimate == true)
 		{
 			AnimateFloating();
 		}
@@ -39,7 +39,7 @@ public class PlayerEffectsManager : MonoBehaviour
 
 	public void AnimateFloating()
 	{
-		if (floatingEffect.WillAnimate)
+		if (floatingEffect.willAnimate)
 		{
 			floatingEffect.StopFloating();
 		}
@@ -52,6 +52,6 @@ public class PlayerEffectsManager : MonoBehaviour
 	public void RotatePlayer(int times, float speed, float degree, bool random)
 	{
 		rotateEffect.setupEffectvars(times, speed, degree, random);
-		rotateEffect.CmdStartAnimation();
+		rotateEffect.StartAnimation();
 	}
 }

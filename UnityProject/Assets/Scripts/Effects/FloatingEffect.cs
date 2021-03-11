@@ -4,34 +4,45 @@ using UnityEngine;
 
 public class FloatingEffect : LTEffect
 {
-	public bool WillAnimate;
+	public bool animateOnStartup = true;
+
+	[HideInInspector]
+	public bool willAnimate = false;
+
 	private const float speed = 0.9f;
 	private const float pos = 0.08f;
 
+
+	private void Awake()
+	{
+		if (animateOnStartup)
+		{
+			StartFloating();
+		}
+	}
+
 	public void StartFloating()
 	{
-		WillAnimate = true;
-		tween.isAnim = true;
+		willAnimate = true;
 		StartCoroutine(Animate());
 	}
 
 	public void StopFloating()
 	{
-		WillAnimate = false;
-		tween.CmdLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
-		tween.isAnim = false;
+		willAnimate = false;
+		tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
 		StopAllCoroutines();
 	}
 
 	private IEnumerator Animate()
 	{
-		while(WillAnimate == true)
+		while(willAnimate == true)
 		{
-			tween.CmdLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, pos, 0), speed);
+			tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, pos, 0), speed);
 			yield return new WaitForSeconds(speed);
-			tween.CmdLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, -pos, 0), speed);
+			tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, -pos, 0), speed);
 			yield return new WaitForSeconds(speed);
-			tween.CmdLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), speed / 2);
+			tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), speed / 2);
 			yield return new WaitForSeconds(speed / 2);
 		}
 	}
