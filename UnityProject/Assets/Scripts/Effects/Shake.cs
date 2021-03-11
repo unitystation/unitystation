@@ -26,21 +26,13 @@ public class Shake : LTEffect
     public void startShake(float duration, float distance, float delay)
     {
         storeShakeData(duration, distance, delay);
-        StartCoroutine(Shaking(shakeDuration, shakeDistance, delayBetweenShakes)); // <-- So the server can see the animation.
-        CmdStartAnimation();
-    }
-
-	[Command(requiresAuthority = false)]
-	public override void CmdStartAnimation()
-    {
         StartCoroutine(Shaking(shakeDuration, shakeDistance, delayBetweenShakes));
     }
 
-    [Command(requiresAuthority =false)]
-    public override void CmdStopAnimation()
+    public override void RpcStopAnim()
     {
         haltShake();
-        base.CmdStopAnimation();
+        base.RpcStopAnim();
     }
     public void haltShake()
     {
@@ -91,11 +83,9 @@ public class Shake : LTEffect
         {
             case AnimMode.GAMEOBJECT:
                 LeanTween.move(gameObject, originalPosition, 0.1f);
-                tween.isAnim = false;
                 break;
             case AnimMode.SPRITE:
                 LeanTween.move(spriteReference.gameObject, originalPosition, 0.1f);
-                tween.isAnim = false;
                 break;
         }
         
@@ -103,11 +93,11 @@ public class Shake : LTEffect
 
     private void animateSpritePosition(Vector3 pos)
     {
-        tween.CmdMove(axisMode, pos, 0.1f);
+        tween.RpcMove(axisMode, pos, 0.1f);
     }
 
     private void animatePosition(Vector3 pos)
     {
-        tween.CmdLocalMove(axisMode, pos, 0.1f);
+        tween.RpcLocalMove(axisMode, pos, 0.1f);
     }
 }
