@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Core.Chat;
 using Mirror;
 using ScriptableObjects;
 using Tilemaps.Behaviours.Meta;
@@ -183,8 +184,9 @@ public partial class Chat
 
 		//Skip everything if it is an action or examine message or if it is a local message
 		//without a speaker (which is used by machines)
-		if (channels.HasFlag(ChatChannel.Examine) || channels.HasFlag(ChatChannel.Action)
-			|| channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
+		if (channels.HasFlag(ChatChannel.Examine) ||
+		    channels.HasFlag(ChatChannel.Action) ||
+		    channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
@@ -207,15 +209,13 @@ public partial class Chat
 			channels = ChatChannel.Local;
 			if(playerGameObject != null)
 			{
-				doEmoteAction(message, playerGameObject, Instance.emoteActionManager);
+				DoEmoteAction(message, playerGameObject, Instance.emoteActionManager);
 				playerGameObject = null;
 				return "";
 			}
-			else
-			{
-				message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
-				return message;
-			}
+
+			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
+			return message;
 		}
 
 		//Check for OOC. If selected, remove all other channels and modifiers (could happen if UI fucks up or someone tampers with it)
@@ -611,7 +611,7 @@ public partial class Chat
 	{
 		return EmoteActionManager.FindEmote(emote, data);
 	}
-	private static void doEmoteAction(string emoteName, GameObject player, EmoteActionManager data)
+	private static void DoEmoteAction(string emoteName, GameObject player, EmoteActionManager data)
 	{
 		EmoteActionManager.DoEmote(emoteName, player, data);
 	}

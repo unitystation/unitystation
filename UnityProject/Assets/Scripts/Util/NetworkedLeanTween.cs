@@ -1,138 +1,142 @@
-﻿using UnityEngine;
+﻿using System;
 using Mirror;
+using UnityEngine;
 
-/// <summary>
-/// A class that lets you write clean LeanTween code that needs to be synced across all clients.
-/// </summary>
-
-public class NetworkedLeanTween : NetworkBehaviour
+namespace Util
 {
-	public Transform Target;
+	/// <summary>
+	/// A class that lets you write clean LeanTween code that needs to be synced across all clients.
+	/// </summary>
 
-	public enum Axis
+	public class NetworkedLeanTween : NetworkBehaviour
 	{
-		X,
-		Y,
-		XY,
-		Z
-	}
+		[NonSerialized] public Transform Target;
 
-	private void Awake() {
-		if(Target == null)
+		public enum Axis
 		{
-		    Target = this.transform;
+			X,
+			Y,
+			XY,
+			Z
 		}
-	}
 
-	[ClientRpc]
-	public void RpcsetTarget(Transform t)
-	{
-		Target = t;
-	}
+		private void Awake() {
+			if(Target == null)
+			{
+				Target = transform;
+			}
+		}
 
-	[ClientRpc]
-	public void RpcStopAll(bool state)
-	{
-		LeanTween.cancelAll(state);
-	}
-
-	[ClientRpc]
-	public void RpcCancelObject(GameObject gameObject, bool callOnComplete)
-	{
-		LeanTween.cancel(gameObject, callOnComplete);
-	}
-
-	[ClientRpc]
-	public void RpcAlphaGameObject(float to, float time)
-	{
-		LeanTween.alpha(Target.gameObject, to, time);
-	}
-
-	[ClientRpc]
-	public void RpcMoveGMToTransform(Transform transform, float time)
-	{
-		LeanTween.move(Target.gameObject, transform, time);
-	}
-
-	[ClientRpc]
-	public void RpcMoveGMToVector3Local(Vector3 vector, float time)
-	{
-		LeanTween.moveLocal(Target.gameObject, vector, time);
-	}
-
-	[ClientRpc]
-	public void RpcMove(Axis axis, Vector3 vector, float time)
-	{
-		switch (axis)
+		[ClientRpc]
+		public void RpcsetTarget(Transform t)
 		{
-			case (Axis.X):
-				LeanTween.moveX(Target.gameObject, vector.x, time);
-				break;
-			case (Axis.Y):
-				LeanTween.moveY(Target.gameObject, vector.y, time);
-				break;
-			case (Axis.Z):
-				LeanTween.moveZ(Target.gameObject, vector.z, time);
-				break;
-			case (Axis.XY):
-				LeanTween.move(Target.gameObject, vector, time);
-				break;
+			Target = t;
 		}
-	}
 
-	[ClientRpc]
-	public void RpcLocalMove(Axis axis, Vector3 vector, float time)
-	{
-		switch (axis)
+		[ClientRpc]
+		public void RpcStopAll(bool state)
 		{
-			case (Axis.X):
-				LeanTween.moveLocalX(Target.gameObject, vector.x, time);
-				break;
-			case (Axis.Y):
-				LeanTween.moveLocalY(Target.gameObject, vector.y, time);
-				break;
-			case (Axis.Z):
-				LeanTween.moveLocalZ(Target.gameObject, vector.z, time);
-				break;
-			case (Axis.XY):
-				LeanTween.moveLocal(Target.gameObject, vector, time);
-				break;
+			LeanTween.cancelAll(state);
 		}
-	}
 
-	[ClientRpc]
-	public void RpcRotateGameObject(Vector3 vector, float time)
-	{
-		LeanTween.rotate(Target.gameObject, vector, time);
-	}
+		[ClientRpc]
+		public void RpcCancelObject(GameObject gameObject, bool callOnComplete)
+		{
+			LeanTween.cancel(gameObject, callOnComplete);
+		}
 
-	[ClientRpc]
-	public void RpcScaleGameObject(Vector3 vector, float time)
-	{
-		LeanTween.scale(Target.gameObject, vector, time);
-	}
+		[ClientRpc]
+		public void RpcAlphaGameObject(float to, float time)
+		{
+			LeanTween.alpha(Target.gameObject, to, time);
+		}
 
-	[ClientRpc]
-	public void RpcValueFloat(float from, float to, float time)
-	{
-		LeanTween.value(Target.gameObject, from, to, time);
-	}
+		[ClientRpc]
+		public void RpcMoveGMToTransform(Transform transform, float time)
+		{
+			LeanTween.move(Target.gameObject, transform, time);
+		}
 
-	[ClientRpc]
-	public void RpcValueVector2(Vector2 from, Vector2 to, float time)
-	{
-		LeanTween.value(Target.gameObject, from, to, time);
-	}
+		[ClientRpc]
+		public void RpcMoveGMToVector3Local(Vector3 vector, float time)
+		{
+			LeanTween.moveLocal(Target.gameObject, vector, time);
+		}
 
-	[ClientRpc]
-	public void RpcValueVector3(Vector2 from, Vector2 to, float time)
-	{
-		LeanTween.value(Target.gameObject, from, to, time);
-	}
+		[ClientRpc]
+		public void RpcMove(Axis axis, Vector3 vector, float time)
+		{
+			switch (axis)
+			{
+				case (Axis.X):
+					LeanTween.moveX(Target.gameObject, vector.x, time);
+					break;
+				case (Axis.Y):
+					LeanTween.moveY(Target.gameObject, vector.y, time);
+					break;
+				case (Axis.Z):
+					LeanTween.moveZ(Target.gameObject, vector.z, time);
+					break;
+				case (Axis.XY):
+					LeanTween.move(Target.gameObject, vector, time);
+					break;
+			}
+		}
 
-	[ClientRpc]
-	public void RpcValueColor(Color from, Color to, float time)
-	{
-		LeanTween.value(Target.gameObject, from, to, time);
+		[ClientRpc]
+		public void RpcLocalMove(Axis axis, Vector3 vector, float time)
+		{
+			switch (axis)
+			{
+				case (Axis.X):
+					LeanTween.moveLocalX(Target.gameObject, vector.x, time);
+					break;
+				case (Axis.Y):
+					LeanTween.moveLocalY(Target.gameObject, vector.y, time);
+					break;
+				case (Axis.Z):
+					LeanTween.moveLocalZ(Target.gameObject, vector.z, time);
+					break;
+				case (Axis.XY):
+					LeanTween.moveLocal(Target.gameObject, vector, time);
+					break;
+			}
+		}
+
+		[ClientRpc]
+		public void RpcRotateGameObject(Vector3 vector, float time)
+		{
+			LeanTween.rotate(Target.gameObject, vector, time);
+		}
+
+		[ClientRpc]
+		public void RpcScaleGameObject(Vector3 vector, float time)
+		{
+			LeanTween.scale(Target.gameObject, vector, time);
+		}
+
+		[ClientRpc]
+		public void RpcValueFloat(float from, float to, float time)
+		{
+			LeanTween.value(Target.gameObject, from, to, time);
+		}
+
+		[ClientRpc]
+		public void RpcValueVector2(Vector2 from, Vector2 to, float time)
+		{
+			LeanTween.value(Target.gameObject, from, to, time);
+		}
+
+		[ClientRpc]
+		public void RpcValueVector3(Vector2 from, Vector2 to, float time)
+		{
+			LeanTween.value(Target.gameObject, from, to, time);
+		}
+
+		[ClientRpc]
+		public void RpcValueColor(Color from, Color to, float time)
+		{
+			LeanTween.value(Target.gameObject, from, to, time);
+		}
 	}
 }

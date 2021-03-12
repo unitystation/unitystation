@@ -1,19 +1,21 @@
+using ScriptableObjects.RP;
 using UnityEngine;
-using Mirror;
 
-
-[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/Backflip")]
-public class Backflip : EmoteSO 
+namespace Player.EmoteScripts
 {
-	public override void Do(GameObject player)
-    {
-		PlayerEffectsManager manager = player.transform.GetComponent<PlayerScript>().PlayerEffectsManager;
-		if(manager == null)
+	[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/Backflip")]
+	public class Backflip : EmoteSO
+	{
+		public override void Do(GameObject player)
 		{
-			Logger.LogError("[EmoteSO/Backflip] - Could not find a rotate effect on the player!");
-			return;
+			var manager = player.GetComponent<PlayerEffectsManager>();
+			if(manager == null)
+			{
+				Logger.LogError("[EmoteSO/Backflip] - Could not find a rotate effect on the player!");
+				return;
+			}
+			manager.RotatePlayer(1, 0.2f, 180, true);
+			base.Do(player);
 		}
-        manager.RotatePlayer(1, 0.2f, 180, true);
-        base.Do(player);
-    }
+	}
 }
