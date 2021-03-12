@@ -86,7 +86,7 @@ namespace Effects
 					LeanTween.move(gameObject, originalPosition, 0.1f);
 					break;
 				case AnimMode.SPRITE:
-					LeanTween.move(spriteReference.gameObject, originalPosition, 0.1f);
+					LeanTween.moveLocal(spriteReference.gameObject, new Vector3(0,0,0), 0.1f);
 					break;
 			}
 
