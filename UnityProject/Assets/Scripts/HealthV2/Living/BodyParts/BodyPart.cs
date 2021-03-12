@@ -38,7 +38,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// A storage container for all of the item versions of the things contained within the body part,
+		/// The storage container for all of the item versions of the things contained within the body part,
 		/// usually other body parts.
 		/// </summary>
 		public ItemStorage storage = null;
@@ -46,7 +46,7 @@ namespace HealthV2
 		/// <summary>
 		/// The category that this body part falls under for purposes of targeting with the UI
 		/// </summary>
-		[SerializeField] public BodyPartType bodyPartType;
+		[SerializeField] public BodyPartType BodyPartType;
 
 		/// <summary>
 		/// The list of body parts contained within this body part
@@ -106,9 +106,10 @@ namespace HealthV2
 		/// </summary>
 		public BodyPartCustomisationBase LobbyCustomisation;
 
-		[Tooltip("The organs that can be put inside of this")]
-		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
-		public List<BodyPart> OptionalOrgans => optionalOrgans;
+		/// <summary>
+		/// The list of body parts that are allowed to be stored inside this body part
+		/// </summary>
+		[SerializeField] public List<BodyPart> OptionalOrgans {get; private set;} = new List<BodyPart>();
 
 		[Tooltip("The organ that this can be replaced with")]
 		public List<BodyPart> OptionalReplacementOrgan = new List<BodyPart>();
@@ -116,7 +117,7 @@ namespace HealthV2
 		/// <summary>
 		/// Boolean that is true if the body part is external (exposed to the outside world), false if it is internal
 		/// </summary>
-		public bool isSurface = false;
+		public bool IsSurface = false;
 
 		public ClothingHideFlags ClothingHide;
 
@@ -177,7 +178,7 @@ namespace HealthV2
 		{
 			foreach (BodyPartSprites b in GetComponentsInParent<BodyPartSprites>())
 			{
-				if (b.bodyPartType.Equals(bodyPartType))
+				if (b.BodyPartType.Equals(BodyPartType))
 				{
 					Debug.Log(b);
 				}
@@ -213,7 +214,8 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Updates the body part according to the related systems (default: blood system, radiation damage)
+		/// Updates the body part and all contained body parts relative to their related
+		/// systems (default: blood system, radiation damage)
 		/// </summary>
 		public virtual void ImplantPeriodicUpdate()
 		{
@@ -242,7 +244,7 @@ namespace HealthV2
 		/// To complicate things, a body part doesn't know what 'depth' it is, and only can talk to its parent
 		/// (the body part that contains it), and each body part needs to know all of the body parts it does and 
 		/// doesn't contain in order to coordinate.  We accomplish this by each organ telling its parent when its 
-		/// contents change, and the parent tell the parent's parent and so on until it reaches the Health Master.
+		/// contents change, and the parent tell the parent's parent and so on until it reaches the highest container.
 
 		/// <summary>
 		/// Adds an object to the body part's internal storage, usually another body part
@@ -373,8 +375,8 @@ namespace HealthV2
 		/// Adds a new body part to this body part, and removes the old part whose place is
 		/// being taken if possible
 		/// </summary>
-		/// <param name="implant">Old body part to be removed</param>
-		/// <param name="implant">New body part to be added</param>
+		/// <param name="prevImplant">Old body part to be removed</param>
+		/// <param name="newImplant">New body part to be added</param>
 		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
 			//Check what's being added and add sprites if appropriate

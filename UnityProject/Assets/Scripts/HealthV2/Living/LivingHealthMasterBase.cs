@@ -311,7 +311,7 @@ namespace HealthV2
 			{
 				foreach (var implant in RootBodyPartContainers)
 				{
-					implant.ImplantUpdate(this);
+					implant.ImplantUpdate();
 				}
 			}
 			//do Separate delayed blood update
@@ -423,9 +423,9 @@ namespace HealthV2
 		{
 			foreach (var bodyPart in ImplantList)
 			{
-				if (bodyPart.bodyPartType == bodyPartType)
+				if (bodyPart.BodyPartType == bodyPartType)
 				{
-					if (surfaceOnly && bodyPart.isSurface == false)
+					if (surfaceOnly && bodyPart.IsSurface == false)
 					{
 						continue;
 					}
@@ -636,7 +636,7 @@ namespace HealthV2
 
 			foreach (var bodyPartContainer in RootBodyPartContainers)
 			{
-				if (bodyPartContainer.bodyPartType == bodyPartAim)
+				if (bodyPartContainer.BodyPartType == bodyPartAim)
 				{
 					//Assuming is only going to be one otherwise damage will be duplicated across them
 					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType);
@@ -656,7 +656,7 @@ namespace HealthV2
 		{
 			foreach (var cntainers in RootBodyPartContainers)
 			{
-				if (cntainers.bodyPartType == bodyPartAim)
+				if (cntainers.BodyPartType == bodyPartAim)
 				{
 					if (surfaceOnly)
 					{
@@ -687,7 +687,7 @@ namespace HealthV2
 		{
 			foreach (var cntainers in RootBodyPartContainers)
 			{
-				if (cntainers.bodyPartType == bodyPartAim)
+				if (cntainers.BodyPartType == bodyPartAim)
 				{
 					return cntainers;
 				}
@@ -747,7 +747,7 @@ namespace HealthV2
 		{
 			foreach (var cntainers in RootBodyPartContainers)
 			{
-				if (cntainers.bodyPartType == bodyPartAim)
+				if (cntainers.BodyPartType == bodyPartAim)
 				{
 					cntainers.HealDamage(healingItem, healAmt, damageTypeToHeal);
 				}

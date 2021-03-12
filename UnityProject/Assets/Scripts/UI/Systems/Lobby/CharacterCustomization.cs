@@ -312,7 +312,7 @@ namespace Lobby
 					i++;
 				}
 
-				if (bodyPart.isSurface)
+				if (bodyPart.IsSurface)
 				{
 					SurfaceSprite.AddRange(OpenBodySprites[bodyPart]);
 				}
@@ -321,7 +321,7 @@ namespace Lobby
 
 		public void RemoveBodyPart(BodyPart bodyPart, bool removeBodyCustomisation = true)
 		{
-			if (bodyPart.isSurface)
+			if (bodyPart.IsSurface)
 			{
 				foreach (var sp in OpenBodySprites[bodyPart])
 				{

@@ -12,7 +12,7 @@ public class BodyPartSprites : NetworkBehaviour
 {
 	[SerializeField] public SpriteHandler baseSpriteHandler;
 
-	[SerializeField] public BodyPartType bodyPartType;
+	[SerializeField] public BodyPartType BodyPartType;
 
 	public SpriteRenderer spriteRenderer;
 

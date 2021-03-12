@@ -163,7 +163,7 @@ public class PlayerHealthUI : MonoBehaviour
 	{
 		for (int i = 0; i < bodyPartListeners.Count; i++)
 		{
-			if (bodyPartListeners[i].bodyPartType != bodyPart.bodyPartType)
+			if (bodyPartListeners[i].BodyPartType != bodyPart.BodyPartType)
 			{
 				continue;
 			}
