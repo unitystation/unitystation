@@ -15,7 +15,7 @@ namespace Tests
 
 			if (assets.Any() == false)
 			{
-				sb.AppendLine($"{typeName}: could not localte {typeName}");
+				sb.AppendLine($"{typeName}: could not locate {typeName}");
 				return false;
 			}
 
