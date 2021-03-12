@@ -37,6 +37,10 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// A storage container for all of the item versions of the things contained within the body part,
+		/// usually other body parts.
+		/// </summary>
 		public ItemStorage storage = null;
 
 		/// <summary>
@@ -223,17 +227,44 @@ namespace HealthV2
 			CalculateRadiationDamage();
 		}
 
+		#region BodyPartStorage
 
+		/// ---------------------------
+		/// Body Part Storage Methods
+		/// ---------------------------
+		/// Body parts are capable of storing other body parts, and are themselves stored in either a body part
+		/// or a Body Part Container.  Additionally, adding or removing a body part from 'storage' is a two part
+		/// process: the storage of the actual body part item, and the connecting of the body part to the health
+		/// system.  Think of it like an electronic device: putting it into a storage is like placing it in a 
+		/// room, adding it to a body is like plugging it in.  If you just put it into a room it wont work until
+		/// you plug it in, and you shouldn't try to plug something in until you've moved it into the room first.
+
+		/// To complicate things, a body part doesn't know what 'depth' it is, and only can talk to its parent
+		/// (the body part that contains it), and each body part needs to know all of the body parts it does and 
+		/// doesn't contain in order to coordinate.  We accomplish this by each organ telling its parent when its 
+		/// contents change, and the parent tell the parent's parent and so on until it reaches the Health Master.
+
+		/// <summary>
+		/// Adds an object to the body part's internal storage, usually another body part
+		/// </summary>
+		/// <param name="IngameObject">Object to try and store in the Body Part</param>
 		public virtual void AddBodyPart(GameObject IngameObject)
 		{
 			storage.ServerTryAdd(IngameObject);
 		}
 
+		/// <summary>
+		/// Transfers an item from an item slot to the body part's internal storage, usually another body part
+		/// </summary>
+		/// <param name="ItemSlot">Item Slot to transfer from</param>
 		public virtual void AddBodyPartSlot(ItemSlot ItemSlot)
 		{
 			storage.ServerTryTransferFrom(ItemSlot);
 		}
 
+		/// <summary>
+		/// Removes the Body Part Item from the storage of its parent (a body part container or another body part)
+		/// </summary>
 		public virtual void RemoveFromBodyThis()
 		{
 			var parent = this.GetParent();
@@ -243,11 +274,19 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Removes a specified item from the body part's storage
+		/// </summary>
+		/// <param name="inOrgan">Item to remove</param>
 		public virtual void RemoveSpecifiedFromThis(GameObject inOrgan)
 		{
 			storage.ServerTryRemove(inOrgan);
 		}
 
+		/// <summary>
+		/// Adds this body part to a host body system
+		/// </summary>
+		/// <param name="livingHealthMasterBase">Body to be added to</param>
 		public virtual void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
 			if (ContainedIn != null)
@@ -256,6 +295,10 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Removes this body part from its host body system
+		/// </summary>
+		/// <param name="livingHealthMasterBase">Body to be removed from</param>
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
 			if (ContainedIn != null)
@@ -264,6 +307,11 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Gets the part of the body that the body part resides in (a body part container or another body part)
+		/// </summary>
+		/// <returns>A body part that contains it OR a body part container that contains it OR null if it is not
+		/// contained in anything</returns>
 		public dynamic GetParent()
 		{
 			if (ContainedIn != null)
@@ -281,6 +329,11 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Tells this body part's parent to remove a specified body part contained within this body part from the
+		/// host body system.
+		/// </summary>
+		/// <param name="implant">Body Part to be removed</param>
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
 			var Parent = GetParent();
@@ -290,6 +343,10 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Adds a body part contained within this body part to the host body system
+		/// </summary>
+		/// <param name="implant">Body Part to be added</param>
 		public virtual void SubBodyPartAdded(BodyPart implant)
 		{
 			var Parent = GetParent();
@@ -299,6 +356,11 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Initializes a body part contained within this body part, setting it to use the same
+		/// health master as this body part.
+		/// </summary>
+		/// <param name="implant">Body Part to be initialized</param>
 		public void SetUpBodyPart(BodyPart implant)
 		{
 			implant.HealthMaster = HealthMaster;
@@ -307,6 +369,12 @@ namespace HealthV2
 			implant.AddedToBody(HealthMaster);
 		}
 
+		/// <summary>
+		/// Adds a new body part to this body part, and removes the old part whose place is
+		/// being taken if possible
+		/// </summary>
+		/// <param name="implant">Old body part to be removed</param>
+		/// <param name="implant">New body part to be added</param>
 		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
 			//Check what's being added and add sprites if appropriate
@@ -335,6 +403,12 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Takes a list and adds this body part to it, all body parts contained within this body part, as well
+		/// as all body parts contained within those body parts, etc.
+		/// </summary>
+		/// <param name="ReturnList">List to be added to</param>
+		/// <returns>The list with added body parts</returns>
 		public List<BodyPart> GetAllBodyPartsAndItself(List<BodyPart> ReturnList)
 		{
 			ReturnList.Add(this);
@@ -346,6 +420,8 @@ namespace HealthV2
 			return ReturnList;
 		}
 	}
+
+	#endregion
 
 	[System.Serializable]
 	public class BodyTypesWithOrder
