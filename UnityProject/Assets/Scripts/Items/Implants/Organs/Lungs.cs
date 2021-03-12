@@ -153,7 +153,7 @@ public class Lungs : BodyPart
 		{
 			// Check if internals exist
 			var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
-			bool internalsEnabled = playerHealth.Equip.IsInternalsEnabled;
+			bool internalsEnabled = playerHealth.Equipment.IsInternalsEnabled;
 			if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
 			{
 				foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())

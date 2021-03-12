@@ -33,22 +33,13 @@ namespace HealthV2
 		private float tickRate = 1f;
 		private float tick = 0;
 
-		/// <summary>
-		/// Amount of blood avaiable in the circulatory system, currently unimplmented
-		/// </summary>
+		/// Amount of blood avaiable in the circulatory system, currently unimplemented
 		//public float AvailableBlood = 0;
 
-
-		private RegisterTile registerTile;
 		/// <summary>
 		/// The Register Tile of the living creature
 		/// </summary>
-		public RegisterTile RegisterTile => registerTile;
-
-		/// <summary>
-		/// Event for when the consciousness state of the creature changes, ie becoming unconscious or dead
-		/// </summary>
-		[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
+		public RegisterTile RegisterTile { get; private set; }
 
 		/// <summary>
 		/// The amount of damage taken per tick per stack of fire
@@ -60,13 +51,13 @@ namespace HealthV2
 		/// </summary>
 		public ConsciousState ConsciousState
 		{
-			get => healthStateController.ConsciousState;
+			get => HealthStateController.ConsciousState;
 			protected set
 			{
-				ConsciousState oldState = healthStateController.ConsciousState;
+				ConsciousState oldState = HealthStateController.ConsciousState;
 				if (value != oldState)
 				{
-					healthStateController.SetConsciousState(value);
+					HealthStateController.SetConsciousState(value);
 
 					if (isServer)
 					{
@@ -80,6 +71,24 @@ namespace HealthV2
 				}
 			}
 		}
+
+		/// <summary>
+		/// Event for when the consciousness state of the creature changes, ie becoming unconscious or dead
+		/// </summary>
+		[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
+
+		/// <summary>
+		/// Returns true if the creature's current conscious state is dead
+		/// </summary>
+		public bool IsDead => ConsciousState == ConsciousState.DEAD;
+		/// <summary>
+		/// Returns true if the creature's current conscious state is unconscious
+		/// </summary>
+		public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
+		/// <summary>
+		/// Returns true if the creature's current conscious state is barely conscious
+		/// </summary>
+		public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
 
 		/// <summary>
 		/// The current body type of the creature
@@ -102,7 +111,7 @@ namespace HealthV2
 		/// The current overall health of the creature.
 		/// -15 is barely conscious, -50 unconscious, and -100 is dying/dead
 		/// </summary>
-		public float OverallHealth => healthStateController.OverallHealth;
+		public float OverallHealth => HealthStateController.OverallHealth;
 
 		/// <summary>
 		/// List of all of the body parts of the creature, currently unimplemented
@@ -110,56 +119,27 @@ namespace HealthV2
 		//[SerializeField] [Tooltip("These are the things that will hold all our organs and implants.")]
 		//private List<BodyPart> bodyPartContainers;
 
-		[CanBeNull] private CirculatorySystemBase circulatorySystem;
 		/// <summary>
 		/// The creature's Circulatory System
 		/// </summary>
-		public CirculatorySystemBase CirculatorySystem => circulatorySystem;
+		[CanBeNull] public CirculatorySystemBase CirculatorySystem  { get; private set; }
 
 		private Brain brain;
 
-		[CanBeNull] private RespiratorySystemBase respiratorySystem;
 		/// <summary>
 		/// The creature's Respiratory System
 		/// </summary>
-		public RespiratorySystemBase RespiratorySystem => respiratorySystem;
-
-		[CanBeNull] private MetabolismSystemV2 metabolism;
-		/// <summary>
-		/// The creature's Metabolism System, currently unimplmented
-		/// </summary>
-		//public MetabolismSystemV2 Metabolism => metabolism;
-
-		private bool isDead
-		{
-			get
-			{
-				if (ConsciousState.DEAD == ConsciousState)
-				{
-					return true;
-				}
-				return false;
-			}
-		}
+		[CanBeNull] public RespiratorySystemBase RespiratorySystem { get; private set; }
 
 		/// <summary>
-		/// Returns true if the creature's current conscious state is dead
+		/// The creature's Metabolism System, currently unimplemented
 		/// </summary>
-		public bool IsDead => isDead;
-		/// <summary>
-		/// Returns true if the creature's current conscious state is unconscious
-		/// </summary>
-		public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
-		/// <summary>
-		/// Returns true if the creature's current conscious state is barely conscious
-		/// </summary>
-		public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
+		[CanBeNull] public MetabolismSystemV2 Metabolism { get; private set; }
 
-		private HashSet<BodyPart> implantList = new HashSet<BodyPart>();
 		/// <summary>
 		/// A list of all body parts of the creature
 		/// </summary>
-		public HashSet<BodyPart> ImplantList => implantList;
+		public HashSet<BodyPart> ImplantList { get; private set; } = new HashSet<BodyPart>();
 
 		/// <summary>
 		/// A list of all body part containers of the creature.
@@ -179,7 +159,7 @@ namespace HealthV2
 
 		// FireStacks note: It's called "stacks" but it's really just a floating point value that
 		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
-		private float fireStacks => healthStateController.FireStacks;
+		private float fireStacks => HealthStateController.FireStacks;
 		/// <summary>
 		/// How on fire we are, same as tg fire_stacks. 0 = not on fire.
 		/// Exists client side - synced with server.
@@ -195,11 +175,9 @@ namespace HealthV2
 		/// </summary>
 		[NonSerialized] public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
 
-		private ObjectBehaviour objectBehaviour;
-		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
+		public ObjectBehaviour ObjectBehaviour { get; private set; }
 
-		private HealthStateController healthStateController;
-		public HealthStateController HealthStateController => healthStateController;
+		public HealthStateController HealthStateController { get; private set; }
 
 		protected DamageType LastDamageType;
 
@@ -258,12 +236,12 @@ namespace HealthV2
 
 		public virtual void EnsureInit()
 		{
-			if (registerTile) return;
-			registerTile = GetComponent<RegisterTile>();
-			respiratorySystem = GetComponent<RespiratorySystemBase>();
-			circulatorySystem = GetComponent<CirculatorySystemBase>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
-			healthStateController = GetComponent<HealthStateController>();
+			if (RegisterTile) return;
+			RegisterTile = GetComponent<RegisterTile>();
+			RespiratorySystem = GetComponent<RespiratorySystemBase>();
+			CirculatorySystem = GetComponent<CirculatorySystemBase>();
+			ObjectBehaviour = GetComponent<ObjectBehaviour>();
+			HealthStateController = GetComponent<HealthStateController>();
 			immunedSickness = new List<Sickness>();
 			mobSickness = GetComponent<MobSickness>();
 			//Always include blood for living entities:
@@ -280,7 +258,7 @@ namespace HealthV2
 			mobID = PlayerManager.Instance.GetMobID();
 
 			//Generate BloodType and DNA
-			healthStateController.SetDNA(new DNAandBloodType());
+			HealthStateController.SetDNA(new DNAandBloodType());
 		}
 
 
@@ -309,7 +287,7 @@ namespace HealthV2
 		/// <param name="implant"></param>
 		public void AddNewImplant(BodyPart implant)
 		{
-			implantList.Add(implant);
+			ImplantList.Add(implant);
 		}
 
 		/// <summary>
@@ -317,7 +295,7 @@ namespace HealthV2
 		/// </summary>
 		public void RemoveImplant(BodyPart implantBase)
 		{
-			implantList.Remove(implantBase);
+			ImplantList.Remove(implantBase);
 		}
 
 
@@ -361,7 +339,7 @@ namespace HealthV2
 		[Server]
 		public void CalculateRadiationDamage()
 		{
-			var radLevel = (registerTile.Matrix.GetRadiationLevel(registerTile.LocalPosition) * (tickRate / 5f) / 6);
+			var radLevel = (RegisterTile.Matrix.GetRadiationLevel(RegisterTile.LocalPosition) * (tickRate / 5f) / 6);
 
 			if (radLevel == 0) return;
 
@@ -378,15 +356,15 @@ namespace HealthV2
 				//TODO: Burn clothes (see species.dm handle_fire)
 				ApplyDamageAll(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn, true);
 				//gradually deplete fire stacks
-				healthStateController.SetFireStacks(fireStacks - 0.1f);
+				HealthStateController.SetFireStacks(fireStacks - 0.1f);
 				//instantly stop burning if there's no oxygen at this location
-				MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+				MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
 				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 				{
-					healthStateController.SetFireStacks(0);
+					HealthStateController.SetFireStacks(0);
 				}
 
-				registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
+				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
 			}
 		}
 
@@ -404,7 +382,7 @@ namespace HealthV2
 		public float GetTotalBruteDamage()
 		{
 			float toReturn = 0;
-			foreach (var implant in implantList)
+			foreach (var implant in ImplantList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Brute;
@@ -419,7 +397,7 @@ namespace HealthV2
 		public float GetTotalBurnDamage()
 		{
 			float toReturn = 0;
-			foreach (var implant in implantList)
+			foreach (var implant in ImplantList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Burn;
@@ -443,7 +421,7 @@ namespace HealthV2
 		/// <param name="surfaceOnly">Checks only external bodyparts if true, all if false (default)</param>
 		public bool HasBodyPart(BodyPartType bodyPartType, bool surfaceOnly = false)
 		{
-			foreach (var bodyPart in implantList)
+			foreach (var bodyPart in ImplantList)
 			{
 				if (bodyPart.bodyPartType == bodyPartType)
 				{
@@ -465,7 +443,7 @@ namespace HealthV2
 		public void CalculateOverallHealth()
 		{
 			float currentHealth = maxHealth;
-			foreach (var implant in implantList)
+			foreach (var implant in ImplantList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				currentHealth -= implant.TotalDamageWithoutOxyClone;
@@ -474,7 +452,7 @@ namespace HealthV2
 			currentHealth -= brain.Oxy; //Assuming has brain
 
 			//Sync health
-			healthStateController.SetOverallHealth(currentHealth);
+			HealthStateController.SetOverallHealth(currentHealth);
 
 			if (currentHealth < -100)
 			{
@@ -750,7 +728,7 @@ namespace HealthV2
 		/// </summary>
 		public void ResetDamageAll()
 		{
-			foreach (var bodyPart in implantList)
+			foreach (var bodyPart in ImplantList)
 			{
 				bodyPart.ResetDamage();
 			}
@@ -846,15 +824,15 @@ namespace HealthV2
 		{
 			if (fireStacks + deltaValue < 0)
 			{
-				healthStateController.SetFireStacks(0);
+				HealthStateController.SetFireStacks(0);
 			}
 			else if (fireStacks + deltaValue > maxFireStacks)
 			{
-				healthStateController.SetFireStacks(maxFireStacks);
+				HealthStateController.SetFireStacks(maxFireStacks);
 			}
 			else
 			{
-				healthStateController.SetFireStacks(fireStacks + deltaValue);
+				HealthStateController.SetFireStacks(fireStacks + deltaValue);
 			}
 		}
 
@@ -863,7 +841,7 @@ namespace HealthV2
 		/// </summary>
 		public void Extinguish()
 		{
-			healthStateController.SetFireStacks(0);
+			HealthStateController.SetFireStacks(0);
 		}
 
 		#region Examine
@@ -906,7 +884,7 @@ namespace HealthV2
 				healthString.Append("in good shape.");
 			}
 
-			if (respiratorySystem != null && respiratorySystem.IsSuffocating)
+			if (RespiratorySystem != null && RespiratorySystem.IsSuffocating)
 			{
 				healthString.Append(" It's having trouble breathing.");
 			}

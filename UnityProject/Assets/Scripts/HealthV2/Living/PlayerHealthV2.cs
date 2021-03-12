@@ -13,23 +13,29 @@ namespace HealthV2
 {
 	public class PlayerHealthV2 : LivingHealthMasterBase
 	{
-		private PlayerMove playerMove;
-		public PlayerMove PlayerMove => playerMove;
+		/// <summary>
+		/// Controller for sprite direction and walking into objects
+		/// </summary>
+		public PlayerMove PlayerMove { get; private set; }
 
 		private PlayerSprites playerSprites;
 
-		private PlayerScript playerScript;
-		public PlayerScript PlayerScript => playerScript;
+		/// <summary>
+		/// The associated Player Script
+		/// </summary>
+		public PlayerScript PlayerScript { get; private set; }
 
 		private PlayerNetworkActions playerNetworkActions;
+
 		/// <summary>
 		/// Cached register player
 		/// </summary>
-		private RegisterPlayer registerPlayer;
-		public RegisterPlayer RegisterPlayer => registerPlayer;
+		public RegisterPlayer RegisterPlayer { get; private set; }
 
-		private Equipment equipment;
-		public Equipment Equip => equipment;
+		/// <summary>
+		/// The associated Player Equipment
+		/// </summary>
+		public Equipment Equipment { get; private set; }
 
 		private ItemStorage itemStorage;
 
@@ -63,12 +69,12 @@ namespace HealthV2
 
 			base.EnsureInit();
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-			playerMove = GetComponent<PlayerMove>();
+			PlayerMove = GetComponent<PlayerMove>();
 			playerSprites = GetComponent<PlayerSprites>();
-			registerPlayer = GetComponent<RegisterPlayer>();
+			RegisterPlayer = GetComponent<RegisterPlayer>();
 			itemStorage = GetComponent<ItemStorage>();
-			equipment = GetComponent<Equipment>();
-			playerScript = GetComponent<PlayerScript>();
+			Equipment = GetComponent<Equipment>();
+			PlayerScript = GetComponent<PlayerScript>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 		}
 
@@ -86,7 +92,7 @@ namespace HealthV2
 
 		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
 		{
-			if (playerNetworkActions == null || registerPlayer == null) EnsureInit();
+			if (playerNetworkActions == null || RegisterPlayer == null) EnsureInit();
 
 			if (isServer)
 			{
@@ -94,9 +100,12 @@ namespace HealthV2
 			}
 
 			//we stay upright if buckled or conscious
-			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
+			RegisterPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
 		}
 
+		/// <summary>
+		/// Server only. Gibs the player.
+		/// </summary>
 		[Server]
 		public void ServerGibPlayer()
 		{
@@ -119,6 +128,9 @@ namespace HealthV2
 			playerNetworkActions.ServerSpawnPlayerGhost();
 		}
 
+		/// <summary>
+		/// Actions the server performs when the player dies
+		/// </summary>
 		protected override void OnDeathActions()
 		{
 			if (CustomNetworkManager.Instance._isServer)
@@ -138,7 +150,7 @@ namespace HealthV2
 
 				if (killerName == null)
 				{
-					killerName = "Stressful work";
+					killerName = "stressful work";
 				}
 
 				string playerName = player?.Name ?? "dummy";
@@ -148,9 +160,18 @@ namespace HealthV2
 				}
 				else if (killerName.EndsWith(playerName))
 				{
+					string themself = null;
+					if (player != null)
+					{
+						themself = player.CharacterSettings?.ThemselfPronoun(player.Script);
+					}
+					if (themself == null)
+					{
+						themself = "themself";
+					}
 					//chain reactions
-					Chat.AddActionMsgToChat(gameObject, $" You screwed yourself up with some help from {killerName}",
-						$"{playerName} screwed himself up with some help from {killerName}");
+					Chat.AddActionMsgToChat(gameObject, $"You screwed yourself up with some help from {killerName}",
+						$"{playerName} screwed {themself} up with some help from {killerName}");
 				}
 				else
 				{
@@ -166,19 +187,19 @@ namespace HealthV2
 
 				if (isServer)
 				{
-					EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
-					string descriptor = null;
+					EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+					string their = null;
 					if (player != null)
 					{
-						descriptor = player.CharacterSettings?.TheirPronoun(player.Script);
+						their = player.CharacterSettings?.TheirPronoun(player.Script);
 					}
 
-					if (descriptor == null)
+					if (their == null)
 					{
-						descriptor = "their";
+						their = "their";
 					}
 
-					Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", gameObject);
+					Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
 				}
 
 				TriggerEventMessage.SendTo(gameObject, EVENT.PlayerDied);
@@ -188,8 +209,10 @@ namespace HealthV2
 		#region Sickness
 		//Player only sickness stuff, general stuff in LivingHealthMasterBase as all mobs should be able to get sick
 
-		// At round start, a percent of players start with mild allergy
-		// The purpose of this, is to make believe that coughing and sneezing at random is "probably" not a real sickness.
+		/// <summary>
+		/// Randomly determines whether the player has common allergies at round start
+		/// This is to give the idea that coughing and sneezing at random is "probably" not a real sickness.
+		/// </summary>
 		private void ApplyStartingAllergies()
 		{
 			if (UnityEngine.Random.Range(0, 100) < percentAllergies)
@@ -280,7 +303,7 @@ namespace HealthV2
 
 		protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ElectricShock, registerPlayer.WorldPosition);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ElectricShock, RegisterPlayer.WorldPosition);
 			Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 		}
 
@@ -292,7 +315,7 @@ namespace HealthV2
 
 			// Slip is essentially a yelp SFX.
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, RegisterPlayer.WorldPosition,
 					audioSourceParameters, sourceObj: gameObject);
 
 			string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
@@ -340,10 +363,10 @@ namespace HealthV2
 
 			yield return WaitFor.Seconds(timeBeforeDrop); // Instantly dropping to ground looks odd.
 														  // TODO: Add sparks VFX at shockSourcePos.
-			registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
+			RegisterPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, RegisterPlayer.WorldPosition,
 					audioSourceParameters, sourceObj: gameObject);
 
 			yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);
