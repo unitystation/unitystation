@@ -1,31 +1,43 @@
 ﻿using System.Collections;
+using ScriptableObjects.RP;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/Dance")]
-public class Dance : EmoteSO
+namespace Player.EmoteScripts
 {
-	public override void Do(GameObject player)
+	[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/Dance")]
+	public class Dance : EmoteSO
 	{
-		//I can't use StartCoroutine in a scriptableobject so someone else find a solution to this.
-		dance(player);
-	}
-
-	private void dance(GameObject player)
-	{
-		Directional directional = player.transform.GetComponent<Directional>();
-		PlayerMove move = player.transform.GetComponent<PlayerMove>();
-		if (move.allowInput && !move.IsBuckled)
+		public override void Do(GameObject player)
 		{
-			//Yes I know this is stupid but Unity is stupid as well.
-			//No, I'm not making a seperate script for this because that's stupid as well.
-			directional.FaceDirection(Orientation.Up);
-			directional.FaceDirection(Orientation.Left);
-			directional.FaceDirection(Orientation.Right);
-			directional.FaceDirection(Orientation.Down);
-			directional.FaceDirection(Orientation.Up);
-			directional.FaceDirection(Orientation.Left);
-			directional.FaceDirection(Orientation.Right);
+			//Hacky way to run a coroutine inside an SO
+			var something = player.GetComponent<PlayerScript>();
+			something.StartCoroutine(PerformDance(player));
+		}
+
+		private IEnumerator PerformDance(GameObject player)
+		{
+			var directional = player.transform.GetComponent<Directional>();
+			var move = player.transform.GetComponent<PlayerMove>();
+
+			if (move.allowInput && !move.IsBuckled)
+			{
+				directional.FaceDirection(Orientation.Up);
+				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				directional.FaceDirection(Orientation.Left);
+				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				directional.FaceDirection(Orientation.Right);
+				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				directional.FaceDirection(Orientation.Down);
+				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				directional.FaceDirection(Orientation.Up);
+				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				directional.FaceDirection(Orientation.Left);
+				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				directional.FaceDirection(Orientation.Right);
+				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+			}
+
+			yield break;
 		}
 	}
 }
