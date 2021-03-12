@@ -136,7 +136,7 @@ namespace HealthV2
 				healthMaster.AddNewImplant(implant);
 				implant.AddedToBody(healthMaster);
 				implant.Root = this;
-				implant.healthMaster = healthMaster;
+				implant.HealthMaster = healthMaster;
 				SetupSpritesNID(implant);
 			}
 
@@ -147,7 +147,7 @@ namespace HealthV2
 				ContainsLimbs.Remove(implant);
 				healthMaster.RemoveImplant(implant);
 				implant.RemovedFromBody(healthMaster);
-				implant.healthMaster = null;
+				implant.HealthMaster = null;
 				implant.Root = null;
 				RemoveSpritesNID(implant);
 			}
@@ -162,11 +162,11 @@ namespace HealthV2
 			var sprites = implant.GetBodyTypeSprites(PlayerSprites.ThisCharacter.BodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
-				var Newspite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, this.transform)
+				var newSprite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, this.transform)
 					.GameObject.GetComponent<BodyPartSprites>();
-				Newspite.transform.localPosition = Vector3.zero;
-				//Newspite.name = implant.name;
-				PlayerSprites.Addedbodypart.Add(Newspite);
+				newSprite.transform.localPosition = Vector3.zero;
+				//newSprite.name = implant.name;
+				PlayerSprites.Addedbodypart.Add(newSprite);
 				if (ImplantBaseSpritesDictionary.ContainsKey(implant) == false)
 				{
 					ImplantBaseSpritesDictionary[implant] = new List<BodyPartSprites>();
@@ -174,15 +174,15 @@ namespace HealthV2
 
 				if (IsSurfaceSprite)
 				{
-					PlayerSprites.SurfaceSprite.Add(Newspite);
+					PlayerSprites.SurfaceSprite.Add(newSprite);
 				}
 
-				implant.RelatedPresentSprites.Add(Newspite);
-				ImplantBaseSpritesDictionary[implant].Add(Newspite);
+				implant.RelatedPresentSprites.Add(newSprite);
+				ImplantBaseSpritesDictionary[implant].Add(newSprite);
 				var newOrder = new SpriteOrder(sprites.Item1);
 				newOrder.Add(i);
-				Newspite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, this, newOrder);
-				InternalNetIDs.Add(Newspite.GetComponent<NetworkIdentity>().netId);
+				newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, this, newOrder);
+				InternalNetIDs.Add(newSprite.GetComponent<NetworkIdentity>().netId);
 
 				i++;
 			}
@@ -230,15 +230,15 @@ namespace HealthV2
 		{
 			foreach (BodyPart prop in ContainsLimbs)
 			{
-				prop.ImplantUpdate(healthMaster);
+				prop.ImplantUpdate();
 			}
 		}
 
-		public virtual void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
+		public virtual void ImplantPeriodicUpdate()
 		{
 			foreach (BodyPart prop in ContainsLimbs)
 			{
-				prop.ImplantPeriodicUpdate(healthMaster);
+				prop.ImplantPeriodicUpdate();
 			}
 		}
 

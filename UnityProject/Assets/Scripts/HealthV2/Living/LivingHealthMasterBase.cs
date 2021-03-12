@@ -323,7 +323,7 @@ namespace HealthV2
 			{
 				foreach (var implant in RootBodyPartContainers)
 				{
-					implant.ImplantPeriodicUpdate(this);
+					implant.ImplantPeriodicUpdate();
 				}
 
 				fireStacksDamage();

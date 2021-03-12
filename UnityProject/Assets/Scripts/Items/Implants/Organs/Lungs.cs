@@ -29,9 +29,9 @@ public class Lungs : BodyPart
 	public List<Reagent> TEPList = new List<Reagent>();
 
 
-	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
+	public override void ImplantPeriodicUpdate()
 	{
-		base.ImplantPeriodicUpdate(healthMaster);
+		base.ImplantPeriodicUpdate();
 
 		Vector3Int position = healthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);

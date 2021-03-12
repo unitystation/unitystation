@@ -16,9 +16,9 @@ namespace HealthV2
 
 		public BodyFat BodyFatToInstantiate;
 
-		public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
+		public override void ImplantPeriodicUpdate()
 		{
-			base.ImplantPeriodicUpdate(healthMaster);
+			base.ImplantPeriodicUpdate();
 			//BloodContainer
 			if (StomachContents.ReagentMixTotal > 0)
 			{

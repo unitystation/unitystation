@@ -41,9 +41,9 @@ public class Heart : BodyPart
 
 	public int CurrentPulse = 0;
 
-	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
+	public override void ImplantPeriodicUpdate()
 	{
-		base.ImplantPeriodicUpdate(healthMaster);
+		base.ImplantPeriodicUpdate();
 		if (healthMaster.OverallHealth < -100)
 		{
 
@@ -95,7 +95,7 @@ public class Heart : BodyPart
 
 	public void Heartbeat(float initialPumpAmount)
 	{
-		CirculatorySystemBase circulatorySystem = healthMaster.CirculatorySystem;
+		CirculatorySystemBase circulatorySystem = HealthMaster.CirculatorySystem;
 		if (circulatorySystem)
 		{
 			//circulatorySystem.HeartBeat(heartStrength * TotalModified);
@@ -108,7 +108,7 @@ public class Heart : BodyPart
 			// Logger.Log("heart pumpedReagent " + pumpedReagent);
 
 			float WantedBlood = 0;
-			foreach (BodyPart implant in healthMaster.ImplantList)
+			foreach (BodyPart implant in HealthMaster.ImplantList)
 			{
 				if (implant.IsBloodReagentCirculated == false) continue;
 				WantedBlood += implant.BloodReagentStoreAmount;
@@ -118,7 +118,7 @@ public class Heart : BodyPart
 
 			ReagentMix SpareBlood = new ReagentMix();
 
-			foreach (BodyPart implant in healthMaster.ImplantList)
+			foreach (BodyPart implant in HealthMaster.ImplantList)
 			{
 				if (implant.IsBloodReagentCirculated == false) continue;
 				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((implant.BloodReagentStoreAmount / WantedBlood) * pumpedReagent);

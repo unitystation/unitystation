@@ -131,7 +131,7 @@ namespace HealthV2
 
 			//TotalDamage// Could do without oxygen maybe
 			//May be changed to individual damage
-			if (containBodyParts.Count > 0)
+			if (ContainBodyParts.Count > 0)
 			{
 				var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType);
 				if (maxHealth-Damages[(int)damageType] < SubOrganDamageIncreasePoint)
@@ -141,7 +141,7 @@ namespace HealthV2
 				}
 
 				var OrganDamage = damage * organDamageRatingValue;
-				var OrganToDamage = containBodyParts.PickRandom(); //It's not like you can aim for Someone's  liver can you
+				var OrganToDamage = ContainBodyParts.PickRandom(); //It's not like you can aim for Someone's  liver can you
 				OrganToDamage.TakeDamage(damagedBy,OrganDamage,attackType,damageType);
 			}
 
@@ -246,7 +246,7 @@ namespace HealthV2
 
 		protected bool IsLocalPlayer()
 		{
-			var Player = healthMaster as PlayerHealthV2;
+			var Player = HealthMaster as PlayerHealthV2;
 			if (Player == null) return false;
 			return PlayerManager.LocalPlayerScript == Player.PlayerScript;
 		}

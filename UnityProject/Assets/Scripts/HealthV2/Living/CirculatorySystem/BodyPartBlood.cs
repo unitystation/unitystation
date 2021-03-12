@@ -116,7 +116,7 @@ namespace HealthV2
 				reagentMix.Remove(requiredReagent, Single.MaxValue);
 			}
 
-			healthMaster.CirculatorySystem.UseBloodPool.Add(reagentMix);
+			HealthMaster.CirculatorySystem.UseBloodPool.Add(reagentMix);
 
 			if (TotalDamageWithoutOxy > 0 && BloodContainer[Nutriment]> 0)
 			{
