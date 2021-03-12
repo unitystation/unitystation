@@ -1,47 +1,33 @@
-﻿using System.Collections.Generic;
-using AddressableReferences;
+﻿using HealthV2;
 using UnityEngine;
-using Random = UnityEngine.Random;
-using Messages.Server.SoundMessages;
-using HealthV2;
 
-[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/GenderedEmote")]
-public class GenderedEmote : EmoteSO
+namespace ScriptableObjects.RP
 {
-	[SerializeField]
-	private string critViewText = "screams in pain!";
-
-	private string viewText_Final;
-
-	
-	public override void Do(GameObject player)
+	[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/GenderedEmote")]
+	public class GenderedEmote : EmoteSO
 	{
-		BodyType playerGender = checkPlayerGender(player);
-		PlayerHealthV2 playerHealth = getPlayerHealth(player);
-		checkPlayerState(playerHealth, playerGender);
-		Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText_Final}.");
-		playAudio(audioToUse, player);
-	}
+		[SerializeField]
+		private string critViewText = "screams in pain!";
 
-	private void checkPlayerState(PlayerHealthV2 health, BodyType gender)
-	{
-		HealthCheck(health);
-		genderCheck(gender);
-	}
+		private string viewTextFinal;
 
-	private void HealthCheck(PlayerHealthV2 health)
-	{
-		if (health.IsDead)
+		public override void Do(GameObject player)
 		{
-			return;
+			HealthCheck(player);
+			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewTextFinal}.");
+			PlayAudio(GetBodyTypeAudio(player), player);
 		}
-		if (health.IsCrit)
+
+		private void HealthCheck(GameObject player)
 		{
-			viewText_Final = critViewText;
-		}
-		else
-		{
-			viewText_Final = viewText;
+			var health = player.GetComponent<LivingHealthMasterBase>();
+
+			if (health == null || health.IsDead)
+			{
+				return;
+			}
+
+			viewTextFinal = health.IsCrit ? critViewText : viewText;
 		}
 	}
 }
