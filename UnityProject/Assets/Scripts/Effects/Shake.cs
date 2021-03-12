@@ -57,7 +57,7 @@ namespace Effects
 			{
 				timer += Time.deltaTime;
 
-				Vector3 randomPosition = originalPosition + (Random.insideUnitSphere * distance);
+				Vector3 randomPosition = tween.Target.transform.position + (Random.insideUnitSphere * distance);
 
 				switch (animType)
 				{
