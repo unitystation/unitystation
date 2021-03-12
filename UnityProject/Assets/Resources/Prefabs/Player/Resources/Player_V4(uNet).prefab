@@ -1217,8 +1217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  target: {fileID: 4962232741225816}
-  animType: 0
+  Target: {fileID: 4962232741225816}
 --- !u!114 &-4488124535960073640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1276,7 +1275,7 @@ MonoBehaviour:
   animType: 0
   spriteReference: {fileID: 4962232741225816}
   tween: {fileID: -8106636780342977062}
-  animateOnStartup: 1
+  animateOnStartup: 0
   willAnimate: 0
 --- !u!1 &1147423205297840
 GameObject:
@@ -8228,7 +8227,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -1841058614580174146, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
