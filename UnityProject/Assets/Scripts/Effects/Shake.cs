@@ -13,7 +13,7 @@ public class Shake : LTEffect
     private float delayBetweenShakes;
     private void Awake()
     {
-       getOriginalPosition();
+       GetOriginalPosition();
     }
 
     private void storeShakeData(float duration, float distance, float delay)

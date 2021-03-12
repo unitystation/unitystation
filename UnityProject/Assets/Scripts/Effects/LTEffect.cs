@@ -19,7 +19,8 @@ public class LTEffect : NetworkBehaviour
     [Tooltip("The sprite gameObject that will be used for the animation.")]
     public Transform spriteReference;
 
-    public NetworkedLeanTween tween;
+	[Tooltip("The NetworkedLeanTween compontent that let's [ClientRpc] LeanTween functions to be called.")]
+	public NetworkedLeanTween tween;
 
     [HideInInspector]
     public enum AnimMode
@@ -31,7 +32,7 @@ public class LTEffect : NetworkBehaviour
 
     private void Awake()
     {
-       getOriginalPosition();
+       GetOriginalPosition();
     }
 
 	public virtual void StopAnimation()
@@ -45,7 +46,7 @@ public class LTEffect : NetworkBehaviour
 		tween.RpcCancelObject(this.gameObject, false);
 	}
 
-    public void getOriginalPosition()
+    public void GetOriginalPosition()
     {
         originalPosition = transform.position;
     }

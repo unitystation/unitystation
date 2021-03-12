@@ -8,7 +8,7 @@ public class RotateEffect : LTEffect
     private int flips;
     private float animTime;
     private float rotationAngle;
-    private bool isRandom = true;
+    private bool isRandom = true; //If you're rotating more than once and want your rotations to be random.
 
     public void StartAnimation()
     {
@@ -34,7 +34,7 @@ public class RotateEffect : LTEffect
 		var trackedrotates = 0;
         while (numberOfrotates >= trackedrotates)
         {
-            var rot = tween.target.rotation.eulerAngles;
+            var rot = tween.Target.rotation.eulerAngles;
             rot.z = pickRandomRotation(rot, rotationAngle, rotationResult);
             trackedrotates++;
             rotateObject(rot, time);

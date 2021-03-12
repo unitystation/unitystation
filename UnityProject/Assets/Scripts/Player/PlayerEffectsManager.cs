@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// All effects that needed to be played on the player can be called or looked up from here.
+/// </summary>
 public class PlayerEffectsManager : MonoBehaviour
 {
     private NetworkedLeanTween tween;
@@ -28,6 +31,7 @@ public class PlayerEffectsManager : MonoBehaviour
 
 	private void Update()
 	{
+		//Checks if the player is floating and animates them up in down if they are.
 		if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == true && floatingEffect.willAnimate == false)
 		{
 			AnimateFloating();
