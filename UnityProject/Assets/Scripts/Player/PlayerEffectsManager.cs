@@ -10,11 +10,13 @@ public class PlayerEffectsManager : MonoBehaviour
 
 	private FloatingEffect floatingEffect;
 	private RotateEffect rotateEffect;
+	private Shake shakeEffect;
     private void Awake() 
     {
 		tween = GetComponent<NetworkedLeanTween>();
 		floatingEffect = GetComponent<FloatingEffect>();
 		rotateEffect = GetComponent<RotateEffect>();
+		shakeEffect = GetComponent<Shake>();
 		foreach (var effect in Effects)
 		{
 			if(effect.tween == null)
@@ -53,5 +55,10 @@ public class PlayerEffectsManager : MonoBehaviour
 	{
 		rotateEffect.setupEffectvars(times, speed, degree, random);
 		rotateEffect.StartAnimation();
+	}
+
+	public void ShakePlayer(float duration, float distance, float delay)
+	{
+		shakeEffect.startShake(duration, distance, delay);
 	}
 }

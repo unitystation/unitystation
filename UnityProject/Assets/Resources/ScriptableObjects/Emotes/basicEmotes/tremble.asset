@@ -9,10 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b9c037cd481c0f4db1c77e9cdf31787, type: 3}
+  m_Script: {fileID: 11500000, guid: 577ba712124b4924bb09a87d19785e8f, type: 3}
   m_Name: tremble
   m_EditorClassIdentifier: 
   emoteName: tremble
+  requiresHands: 0
   viewText: trembles in fear!
-  youText: Fear overcomes you as you tremble in fear!
-  emoteDefaultSounds: []
+  youText: Fear overcomes you.
+  failText: You were unable to preform this action!
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  pitchRange: {x: 0.7, y: 1}
+  audioToUse: []
+  shakeDuration: 1
+  shakeIntensity: 0.1
+  shakeDelay: 0.1
