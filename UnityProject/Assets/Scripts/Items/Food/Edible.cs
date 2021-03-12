@@ -86,7 +86,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		var feeder = feederGO.GetComponent<PlayerScript>();
 
 		// Show eater message
-		var eaterHungerState = eater.playerHealth.hungerState;
+		var eaterHungerState = eater.playerHealth.HungerState;
 		ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 		// Check if eater can eat anything

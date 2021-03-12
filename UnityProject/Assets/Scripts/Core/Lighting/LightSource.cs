@@ -275,7 +275,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		{
 			var playerHealth = interaction.PerformerPlayerScript.playerHealth;
 			var burntBodyPart = interaction.HandSlot.NamedSlot == NamedSlot.leftHand ? BodyPartType.LeftArm : BodyPartType.RightArm;
-			playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn, burntBodyPart);
+			playerHealth.ApplyDamageToBodyPart(gameObject, 10f, AttackType.Energy, DamageType.Burn, burntBodyPart);
 
 			Chat.AddExamineMsgFromServer(interaction.Performer,
 					"<color=red>You burn your hand on the bulb while attempting to remove it!</color>");

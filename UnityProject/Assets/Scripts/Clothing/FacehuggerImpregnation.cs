@@ -97,7 +97,7 @@ namespace Clothing
 			KillHugger();
 			await Task.Delay(TimeSpan.FromSeconds(pregnancyTime));
 			//TODO check if the larvae was removed from stomach
-			player.ApplyDamageToBodypart(
+			player.ApplyDamageToBodyPart(
 				gameObject,
 				200,
 				AttackType.Internal,

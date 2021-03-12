@@ -51,11 +51,11 @@ public class DamageOnPickUp : MonoBehaviour, IServerInventoryMove
 
 			if (info.ToSlot.NamedSlot == NamedSlot.leftHand)
 			{
-				player.playerHealth.ApplyDamageToBodypart(gameObject, amountOfDamage, attackType, damageType, BodyPartType.LeftArm);
+				player.playerHealth.ApplyDamageToBodyPart(gameObject, amountOfDamage, attackType, damageType, BodyPartType.LeftArm);
 			}
 			else
 			{
-				player.playerHealth.ApplyDamageToBodypart(gameObject, amountOfDamage, attackType, damageType, BodyPartType.RightArm);
+				player.playerHealth.ApplyDamageToBodyPart(gameObject, amountOfDamage, attackType, damageType, BodyPartType.RightArm);
 			}
 
 			Chat.AddExamineMsgFromServer(player.gameObject, "<color=red>You injure yourself picking up the " + GetComponent<ItemAttributesV2>().ArticleName + "</color>");

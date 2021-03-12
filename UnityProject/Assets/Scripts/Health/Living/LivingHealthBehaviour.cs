@@ -377,7 +377,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		foreach (var bodyPart in BodyParts)
 		{
-			ApplyDamageToBodypart(damagedBy, damage / BodyParts.Count, attackType, damageType, bodyPart.Type);
+			ApplyDamageToBodyPart(damagedBy, damage / BodyParts.Count, attackType, damageType, bodyPart.Type);
 		}
 	}
 
@@ -389,10 +389,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// <param name="attackType">type of attack that is causing the damage</param>
 	/// <param name="damageType">The Type of Damage</param>
 	[Server]
-	public void ApplyDamageToBodypart(GameObject damagedBy, float damage,
+	public void ApplyDamageToBodyPart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType)
 	{
-		ApplyDamageToBodypart(damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize(0));
+		ApplyDamageToBodyPart(damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize(0));
 	}
 
 	/// <summary>
@@ -404,7 +404,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// <param name="damageType">The Type of Damage</param>
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
-	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
+	public virtual void ApplyDamageToBodyPart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
 		TryGibbing(damage);
@@ -527,7 +527,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		if (fireStacks > 0)
 		{
 			//TODO: Burn clothes (see species.dm handle_fire)
-			ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn);
+			ApplyDamageToBodyPart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn);
 			//gradually deplete fire stacks
 			SyncFireStacks(fireStacks, fireStacks - 0.1f);
 			//instantly stop burning if there's no oxygen at this location

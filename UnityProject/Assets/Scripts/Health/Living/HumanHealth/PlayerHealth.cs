@@ -344,7 +344,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	/// <param name="bodypart">The BodyPartType to damage.</param>
 	private void DealElectrocutionDamage(float damage, BodyPartType bodypart)
 	{
-		ApplyDamageToBodypart(null, damage, AttackType.Internal, DamageType.Burn, bodypart);
+		ApplyDamageToBodyPart(null, damage, AttackType.Internal, DamageType.Burn, bodypart);
 	}
 
 	protected override void MildElectrocution(Electrocution electrocution, float shockPower)

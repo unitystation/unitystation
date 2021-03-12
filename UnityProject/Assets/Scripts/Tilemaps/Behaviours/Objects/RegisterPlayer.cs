@@ -181,7 +181,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit
 			|| playerScript.playerHealth.IsDead
-			|| playerScript.playerHealth.hungerState == HungerState.Starving)
+			|| playerScript.playerHealth.HungerState == HungerState.Starving)
 		{
 			return;
 		}

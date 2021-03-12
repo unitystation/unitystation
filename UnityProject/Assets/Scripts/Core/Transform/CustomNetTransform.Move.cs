@@ -690,7 +690,7 @@ public partial class CustomNetTransform
 			//Remove cast to int when moving health values to float
 			var damage = (int)(ItemAttributes.ServerThrowDamage);
 			var hitZone = info.Aim.Randomize();
-			creature.ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
+			creature.ApplyDamageToBodyPart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 			Chat.AddThrowHitMsgToChat(gameObject,creature.gameObject, hitZone);
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, transform.position, audioSourceParameters, sourceObj: gameObject);

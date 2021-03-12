@@ -11,12 +11,12 @@ namespace HealthV2
 	[DisallowMultipleComponent]
 	public class HealthStateController : NetworkBehaviour
 	{
-		private LivingHealthMasterBase livingHealthMasterBase;
+		public LivingHealthMasterBase livingHealthMasterBase;
 
 		#region SyncVars
 
 		[SyncVar(hook = nameof(SyncOverallHealth))]
-		private float overallHealthSync = 100;
+		private float overallHealthSync;
 		public float OverallHealth => overallHealthSync;
 
 		[SyncVar(hook = nameof(SyncDNABloodTypeJSON))]
@@ -55,6 +55,7 @@ namespace HealthV2
 		private void Awake()
 		{
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
+			overallHealthSync = livingHealthMasterBase.MaxHealth;
 		}
 
 		#endregion
