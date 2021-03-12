@@ -34,7 +34,7 @@ namespace HealthV2
 		private float tick = 0;
 
 		/// <summary>
-		/// Ammount of blood avaiable in the circulatory system, currently unimplmented
+		/// Amount of blood avaiable in the circulatory system, currently unimplmented
 		/// </summary>
 		//public float AvailableBlood = 0;
 
@@ -51,7 +51,7 @@ namespace HealthV2
 		[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
 
 		/// <summary>
-		/// The ammount of damage taken per tick per stack of fire
+		/// The amount of damage taken per tick per stack of fire
 		/// </summary>
 		private static readonly float DAMAGE_PER_FIRE_STACK = 0.08f;
 
@@ -88,7 +88,7 @@ namespace HealthV2
 
 		/// <summary>
 		/// The difference between network time and player time for the entity if its a player
-		/// Used to calculate ammount of time to delay health changes if client is behind server
+		/// Used to calculate amount of time to delay health changes if client is behind server
 		/// </summary>
 		public float RTT;
 
