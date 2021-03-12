@@ -49,7 +49,7 @@ namespace ScriptableObjects.RP
 
 		public virtual void Do(GameObject player)
 		{
-			var finalYouText = string.Format(youText, player.ExpensiveName());
+			var finalYouText = youText.Replace("{player.ExpensiveName()}", player.ExpensiveName());
 			if(requiresHands && CheckHandState(player) == false)
 			{
 				Chat.AddActionMsgToChat(player, $"{failText}", $"");
