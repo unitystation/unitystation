@@ -19,7 +19,7 @@ public class GUI_MaterialEntry : DynamicEntry
 	public void SetValues(ItemTrait material, int amount, GUI_MaterialsList matListDisplay)
 	{
 		materialList = matListDisplay;
-		currentAmount = amount;
+		//currentAmount = amount;
 		materialType = material;
 		labelAmount.SetValueServer($"{currentAmount} cm3");
 		labelName.SetValueServer(material.name);
