@@ -10,7 +10,8 @@ namespace Util
 
 	public class NetworkedLeanTween : NetworkBehaviour
 	{
-		[NonSerialized] public Transform Target;
+		[Tooltip("Set this to the object you want to animate or leave it null (unset) to animate the enite object this NTL compontent is on.")]
+		public Transform Target;
 
 		public enum Axis
 		{
