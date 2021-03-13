@@ -11,7 +11,7 @@ namespace Objects.Mining
 	/// Causes object to consume ore on the tile above it and produce materials on the tile below it. Temporary
 	/// until ORM UI is implemented.
 	/// </summary>
-	public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
+	public class OreRedemptionMachine : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		private RegisterObject registerObject;
 		private MaterialStorageLink materialStorageLink;
@@ -22,21 +22,40 @@ namespace Objects.Mining
 			materialStorageLink = GetComponent<MaterialStorageLink>();
 		}
 
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side))
+				return false;
+			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OreGeneral))
+				return false;
+			return true;
+		}
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			var localPosInt = MatrixManager.Instance.WorldToLocalInt(registerObject.WorldPositionServer, registerObject.Matrix);
-			var OreItems = registerObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
+			var itemsOnFloor = registerObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
 
-			foreach (var Ore in OreItems)
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OreGeneral))
+				AddOre(interaction.HandObject);
+
+			foreach (var item in itemsOnFloor)
 			{
-				foreach (var materialSheet in CraftingManager.MaterialSheetData.Values)
+				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OreGeneral))
 				{
-					if (Ore.HasTrait(materialSheet.oreTrait))
-					{
-						var inStackable = Ore.gameObject.GetComponent<Stackable>();
-						materialStorageLink.TryAddSheet(materialSheet.materialTrait, inStackable.Amount);
-						Despawn.ServerSingle(Ore.transform.gameObject);
-					}
+					AddOre(item.gameObject);
+				}
+			}
+		}
+
+		private void AddOre(GameObject ore)
+		{
+			foreach (var materialSheet in CraftingManager.MaterialSheetData.Values)
+			{
+				if (Validations.HasItemTrait(ore, materialSheet.oreTrait))
+				{
+					var inStackable = ore.GetComponent<Stackable>();
+					materialStorageLink.TryAddSheet(materialSheet.materialTrait, inStackable.Amount);
+					Despawn.ServerSingle(ore);
 				}
 			}
 		}

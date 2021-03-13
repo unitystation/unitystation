@@ -14,6 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linkedStorages: []
   materialStorage: {fileID: 0}
+--- !u!114 &4941392364254511558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8808594067259233453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 36
 --- !u!114 &7548568334678346801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,6 +41,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infiniteStorage: 1
   maximumResources: 0
+  UpdateGUIs:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7897134970269053135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8808594067259233453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsingSilo: 1
+  usedStorage: {fileID: 0}
+  materialListGUI: {fileID: 0}
 --- !u!1001 &7828612527874871569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,7 +158,6 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-<<<<<<< HEAD
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialName
@@ -139,8 +169,6 @@ PrefabInstance:
       value: An all-in-one bluespace storage and transmission system for the station's
         mineral distribution needs.
       objectReference: {fileID: 0}
-=======
->>>>>>> 04cb08ac6ac9c1c18898c9d665ce3a5e4d92f9d0
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!1 &8808594067259233453 stripped

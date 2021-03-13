@@ -13,6 +13,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usedStorage: {fileID: 0}
+--- !u!114 &531004782889982676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735666357076621607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 35
 --- !u!114 &1892107992577685649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,6 +38,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed1afb988e22a0445a9ebcf788bf0110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3654639354915468639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735666357076621607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infiniteStorage: 0
+  maximumResources: 1000000
 --- !u!114 &5600573209671788888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,20 +70,6 @@ MonoBehaviour:
   canNotBeDeconstructed: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
---- !u!114 &3654639354915468639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735666357076621607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infiniteStorage: 0
-  maximumResources: 1000000
 --- !u!1001 &2473681083921268590
 PrefabInstance:
   m_ObjectHideFlags: 0

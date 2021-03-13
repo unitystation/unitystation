@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Objects.Machines
 {
@@ -12,11 +14,12 @@ namespace Objects.Machines
 		public bool infiniteStorage;
 		//wont appear to be edited if the storage is infinite
 		[ConditionalField(nameof(infiniteStorage), false)]
-		public int maximumResources;
+		public int maximumResources = 1000000;
 
 		//2000cm per sheet is standard for SS13
-		private static readonly int Cm3PerSheet = 2000;
+		public static readonly int Cm3PerSheet = 2000;
 
+		public UnityEvent UpdateGUIs;
 		private void Awake()
 		{
 			foreach (var material in CraftingManager.MaterialSheetData.Keys)
@@ -45,6 +48,7 @@ namespace Objects.Machines
 			if (infiniteStorage || totalSum <= maximumResources)
 			{
 				AddMaterial(material, quantity);
+				UpdateGUIs.Invoke();
 				return true;
 			}
 			return false;
@@ -56,6 +60,7 @@ namespace Objects.Machines
 			if (MaterialList[material] >= quantity)
 			{
 				ConsumeMaterial(material, quantity);
+				UpdateGUIs.Invoke();
 				return true;
 			}
 			return false;
@@ -79,15 +84,17 @@ namespace Objects.Machines
 			{
 				ConsumeMaterial(materialSheet.materialTrait, consume[materialSheet]);
 			}
+
+			UpdateGUIs.Invoke();
 			return true;
 		}
 
-		public void DispenseSheet(int amountOfSheets, ItemTrait material)
+		public void DispenseSheet(int amountOfSheets, ItemTrait material, Vector3 worldPos)
 		{
 			if (TryRemoveSheet(material, amountOfSheets))
 			{
 				var materialToSpawn = CraftingManager.MaterialSheetData[material].RefinedPrefab;
-				Spawn.ServerPrefab(materialToSpawn, gameObject.WorldPosServer(), transform.parent, count: amountOfSheets);
+				Spawn.ServerPrefab(materialToSpawn, worldPos, transform.parent, count: amountOfSheets);
 			}
 		}
 
