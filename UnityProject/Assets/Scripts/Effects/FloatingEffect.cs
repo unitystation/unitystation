@@ -7,11 +7,11 @@ namespace Effects
 {
 	public class FloatingEffect : LTEffect
 	{
-		public bool animateOnStartup = true;
+		public bool animateOnStartup = false;
 
 		[NonSerialized] public bool WillAnimate = false;
 
-		private const float SPEED = 0.9f;
+		private const float SPEED = 0.95f;
 		private const float POS = 0.08f;
 
 
