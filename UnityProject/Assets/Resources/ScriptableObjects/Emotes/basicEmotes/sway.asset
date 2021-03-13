@@ -15,9 +15,9 @@ MonoBehaviour:
   emoteName: sway
   requiresHands: 0
   viewText: sways dizzily.
-  youText: '{player.ExpensiveName()} sways dizzily.'
+  youText: You sway dizzily.
   failText: You were unable to preform this action!
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
+  pitchRange: {x: 0.7, y: 1}
