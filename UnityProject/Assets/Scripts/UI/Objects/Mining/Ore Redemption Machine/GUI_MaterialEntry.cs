@@ -7,7 +7,7 @@ public class GUI_MaterialEntry : DynamicEntry
 	private GUI_MaterialsList materialList;
 
 	private ItemTrait materialType;
-	private int currentAmount;
+	//private int currentAmount;
 
 	public NetLabel labelName;
 	public NetLabel labelAmount;
@@ -21,7 +21,7 @@ public class GUI_MaterialEntry : DynamicEntry
 		materialList = matListDisplay;
 		//currentAmount = amount;
 		materialType = material;
-		labelAmount.SetValueServer($"{currentAmount} cm3");
+		labelAmount.SetValueServer($"{amount} cm3");
 		labelName.SetValueServer(material.name);
 	}
 }
