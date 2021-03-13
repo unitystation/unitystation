@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: cef0acf9fcd0bf340ab79662a60de428, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 5118904567897562044, guid: 85745799887db29418a4ddc4fe68d535,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &4345289403541654959
 MonoBehaviour:
@@ -31,11 +30,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  materialsInMachines: {fileID: 11400000, guid: b6e83d10ca1eed247949504321b25658,
-    type: 2}
-  maximumTotalResourceStorage: 500000
+  infiniteStorage: 0
+  maximumResources: 1000000
 --- !u!114 &4434257373069083471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,13 +74,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 1117575778632656562}
   idleSprite: {fileID: 11400000, guid: c28dca4f44ef37849a23ff6d8976a5bc, type: 2}
   acceptingMaterialsSprite: {fileID: 11400000, guid: 2dc805ead8817ae449f66efb16c4a809,
     type: 2}
   productionSprite: {fileID: 11400000, guid: 0e601845f1e569f45abe3c93b83a4ddb, type: 2}
-  materialStorage: {fileID: 4345289403541654959}
+  materialStorageLink: {fileID: 0}
   exoFabProducts: {fileID: 11400000, guid: 5de8c3642d9b41742bd0f830d07a5bd7, type: 2}
+--- !u!114 &-6688608445877633530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5607718071721086056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedStorage: {fileID: 0}
 --- !u!1001 &8615537192462600737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237,15 +245,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8615537192462600737}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1117575778632656562 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
-    type: 3}
-  m_PrefabInstance: {fileID: 8615537192462600737}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

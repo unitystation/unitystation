@@ -15,14 +15,16 @@ namespace UI.Objects
 
 		public void InitMaterialList(MaterialStorage materialStorage)
 		{
-			List<MaterialRecord> materialRecords = materialStorage.MaterialRecordList;
+			var materialRecords = materialStorage.MaterialList;
 
 			materialList.Clear();
 			materialList.AddItems(materialRecords.Count);
-			for (int i = 0; i < materialRecords.Count; i++)
+			var i = 0;
+			foreach (var material in materialRecords.Keys)
 			{
 				GUI_AutolatheMaterialEntry item = materialList.Entries[i] as GUI_AutolatheMaterialEntry;
-				item.ReInit(materialRecords[i]);
+				item.ReInit(material, materialRecords[material]);
+				i++;
 			}
 		}
 

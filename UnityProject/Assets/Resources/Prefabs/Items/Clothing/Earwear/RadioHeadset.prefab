@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: 0bdc62ebe3b1c0f47a307aa3f46272c2, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: 9cde52bc3b745174792c289919248f5c, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
@@ -59,6 +59,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An updated, modular intercom that fits over the head. Takes encryption
         keys.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}

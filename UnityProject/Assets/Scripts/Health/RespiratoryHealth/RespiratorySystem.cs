@@ -338,7 +338,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 			// 10% chances of message
 			var theirPronoun = gameObject.Player() != null
-				? gameObject.Player().Script.characterSettings.TheirPronoun()
+				? gameObject.Player().Script.characterSettings.TheirPronoun(gameObject.Player().Script)
 				: "its";
 			Chat.AddActionMsgToChat(
 				gameObject,
@@ -362,7 +362,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 			// 10% chances of message
 			var theirPronoun = gameObject.Player() != null
-				? gameObject.Player().Script.characterSettings.TheirPronoun()
+				? gameObject.Player().Script.characterSettings.TheirPronoun(gameObject.Player().Script)
 				: "its";
 			Chat.AddActionMsgToChat(
 				gameObject,
@@ -386,7 +386,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 			// 10% chances of message
 			var theirPronoun = gameObject.Player() != null
-				? gameObject.Player().Script.characterSettings.TheirPronoun()
+				? gameObject.Player().Script.characterSettings.TheirPronoun(gameObject.Player().Script)
 				: "its";
 			Chat.AddActionMsgToChat(
 				gameObject,
@@ -414,7 +414,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 				// 10% chances of message
 				var theirPronoun = gameObject.Player() != null
-					? gameObject.Player().Script.characterSettings.TheirPronoun()
+					? gameObject.Player().Script.characterSettings.TheirPronoun(gameObject.Player().Script)
 					: "its";
 				Chat.AddActionMsgToChat(
 					gameObject,
@@ -434,7 +434,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 				// 10% chances of message
 				var theirPronoun = gameObject.Player() != null
-					? gameObject.Player().Script.characterSettings.TheirPronoun()
+					? gameObject.Player().Script.characterSettings.TheirPronoun(gameObject.Player().Script)
 					: "its";
 				Chat.AddActionMsgToChat(
 					gameObject,
@@ -498,7 +498,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		{
 			// 10% chance of message
 			var theirPronoun = gameObject.Player() != null
-				? gameObject.Player().Script.characterSettings.TheirPronoun()
+				? gameObject.Player().Script.characterSettings.TheirPronoun(gameObject.Player().Script)
 				: "its";
 			Chat.AddActionMsgToChat(
 				gameObject,

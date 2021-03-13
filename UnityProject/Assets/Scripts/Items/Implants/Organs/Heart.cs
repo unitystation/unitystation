@@ -63,16 +63,12 @@ public class Heart : BodyPart
 					DoHeartAttack();
 				}
 			}
-
-
-
 		}
 		else if (healthMaster.OverallHealth < -50)
 		{
 			CanTriggerHeartAttack = true;
 			CurrentPulse = 0;
 		}
-
 
 		DoHeartBeat(healthMaster);
 	}

@@ -9,8 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
-      propertyPath: initialDescription
-      value: It's an expensive fountain pen. The nib is quite sharp.
+      propertyPath: hitDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
+        type: 3}
+      propertyPath: throwSpeed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
@@ -19,18 +24,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
-      propertyPath: hitDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
-        type: 3}
       propertyPath: throwDamage
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
-      propertyPath: throwSpeed
-      value: 4
+      propertyPath: initialDescription
+      value: It's an expensive fountain pen. The nib is quite sharp.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 3175459966878302438, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
@@ -49,6 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3285851136747646054, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285851136747646054, guid: 8aed0ee99da5fca4d93befe72d7da164,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -64,6 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3285851136747646054, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285851136747646054, guid: 8aed0ee99da5fca4d93befe72d7da164,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -76,16 +91,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285851136747646054, guid: 8aed0ee99da5fca4d93befe72d7da164,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285851136747646054, guid: 8aed0ee99da5fca4d93befe72d7da164,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3285851136747646054, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}

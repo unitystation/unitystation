@@ -9,18 +9,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8886012489182465320, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
+      propertyPath: initialName
+      value: cigar butt
+      objectReference: {fileID: 0}
+    - target: {fileID: 8886012489182465320, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
       propertyPath: initialDescription
       value: A manky old cigar butt.
       objectReference: {fileID: 0}
     - target: {fileID: 8886012489182465320, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
-      propertyPath: initialName
-      value: cigar butt
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 8946640814207148030, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}

@@ -90,5 +90,15 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6684255344632002315, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: initialName
+      value: lizard right leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 6684255344632002315, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}

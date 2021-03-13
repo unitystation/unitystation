@@ -29,6 +29,11 @@ PrefabInstance:
       value: A strange eye, said to have been torn from an omniscient creature that
         used to roam the wastes.
       objectReference: {fileID: 0}
+    - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 2603249282374549947, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: Resistances.FireProof
@@ -130,14 +135,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 78f1dc4328b63b941b70038421d81710,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 78f1dc4328b63b941b70038421d81710,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: allClothingData.Array.size

@@ -101,10 +101,10 @@ namespace Systems.MobAIs
 		private void HuntMouse(MouseAI mouse)
 		{
 			//Random chance of going nuts and destroying whatever is in the way
-			mobAttack.onlyHitTarget = Random.value != 0.1f;
+			mobAttack.onlyActOnTarget = Random.value != 0.1f;
 
 			Hiss(mouse.gameObject);
-			mobAttack.StartFollowing(mouse.transform);
+			mobAttack.StartFollowing(mouse.gameObject);
 		}
 
 		private void Purr(GameObject purred = null)

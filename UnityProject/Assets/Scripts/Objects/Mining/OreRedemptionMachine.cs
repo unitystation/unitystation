@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Items;
-using UnityEngine.Serialization;
+using Objects.Machines;
 
 namespace Objects.Mining
 {
@@ -13,15 +13,13 @@ namespace Objects.Mining
 	/// </summary>
 	public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
 	{
-		[FormerlySerializedAs("ExpectedOres")]
-		[SerializeField]
-		private List<OreToMaterial> expectedOres = null;
-
 		private RegisterObject registerObject;
+		private MaterialStorageLink materialStorageLink;
 
-		public void OnEnable()
+		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
+			materialStorageLink = GetComponent<MaterialStorageLink>();
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -31,27 +29,16 @@ namespace Objects.Mining
 
 			foreach (var Ore in OreItems)
 			{
-				foreach (var exOre in expectedOres)
+				foreach (var materialSheet in CraftingManager.MaterialSheetData.Values)
 				{
-					if (Ore != null)
+					if (Ore.HasTrait(materialSheet.oreTrait))
 					{
-						if (Ore.HasTrait(exOre.Trait))
-						{
-							var inStackable = Ore.gameObject.GetComponent<Stackable>();
-							Spawn.ServerPrefab(exOre.Material, registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: inStackable.Amount);
-							Despawn.ServerSingle(Ore.transform.gameObject);
-						}
+						var inStackable = Ore.gameObject.GetComponent<Stackable>();
+						materialStorageLink.TryAddSheet(materialSheet.materialTrait, inStackable.Amount);
+						Despawn.ServerSingle(Ore.transform.gameObject);
 					}
 				}
 			}
 		}
-	}
-
-	[Serializable]
-	public class OreToMaterial
-	{
-		[FormerlySerializedAs("Tray")]
-		public ItemTrait Trait;
-		public GameObject Material;
 	}
 }

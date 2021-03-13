@@ -2,6 +2,10 @@
 ---
 
 
+* 2021/3/13: Mining conscription bag added to the Mining Equipment Vendor by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6242](https://github.com/unitystation/unitystation/pull/6242)
+* 2021/3/12: Fixed bug where the exosuit fabricator's products wouldn't work as prosthetics. by [PetMudstone](https://github.com/PetMudstone) in PR #[6233](https://github.com/unitystation/unitystation/pull/6233)
+* 2021/3/11: addes basic defibrillatoor by [Bod9001](https://github.com/Bod9001) in PR #[6231](https://github.com/unitystation/unitystation/pull/6231)
+* 2021/3/10: you can cancel surgeries with cautery by [Bod9001](https://github.com/Bod9001) in PR #[6223](https://github.com/unitystation/unitystation/pull/6223)
 * 2021/3/8: Ice forms in stacks now to avoid lots of gameobjects spawning in by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)
 * 2021/3/8: Hot ice export value now 400 by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)
 * 2021/3/8: Adds hot ice melting at high temperatures by [ThatDan123](https://github.com/ThatDan123) in PR #[6197](https://github.com/unitystation/unitystation/pull/6197)

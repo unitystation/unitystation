@@ -14,18 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
   wattusage: 500
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 0
-  SelfPowered: 1
-  State: 2
   conType: 1
 --- !u!114 &1220382244776406165
 MonoBehaviour:
@@ -47,7 +45,7 @@ MonoBehaviour:
   productionSprite: {fileID: 11400000, guid: 6453b4f4edb12784eafebe700d4dc3e3, type: 2}
   acceptingMaterialsSprite: {fileID: 11400000, guid: 7988fd4d8b0936249bca1529ef12f9d6,
     type: 2}
-  materialStorage: {fileID: 3971876006832429833}
+  materialStorageLink: {fileID: 0}
   autolatheProducts: {fileID: 11400000, guid: d1a052e3f8a86d0409f54e6f2f803fa5, type: 2}
 --- !u!114 &3971876006832429833
 MonoBehaviour:
@@ -61,11 +59,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  materialsInMachines: {fileID: 11400000, guid: b6e83d10ca1eed247949504321b25658,
-    type: 2}
-  maximumTotalResourceStorage: 1000000
+  infiniteStorage: 0
+  maximumResources: 1000000
+--- !u!114 &4397833373819759390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278827525492321370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedStorage: {fileID: 0}
 --- !u!114 &4515876064805449849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,11 +87,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 4394c26a74214e64da4d9683de90400b, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 8026946951644424067, guid: 78caa60e5ab06b34abfae4aa8c2e0396,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &4583094959117635624
 MonoBehaviour:
@@ -99,6 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &8690583159735545812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,10 +148,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: cb6cc74aa021d3746aafef8fbf2c6dd7,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
       value: Autolathe
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -162,6 +180,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -174,16 +197,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

@@ -15,26 +15,23 @@ namespace Objects.Machines
 		private AutolatheState stateSync;
 
 		[SerializeField]
-		private SpriteHandler spriteHandler = null;
+		private SpriteHandler spriteHandler;
 
 		[SerializeField]
-		private SpriteDataSO idleSprite = null;
+		private SpriteDataSO idleSprite;
 
 		[SerializeField]
-		private SpriteDataSO productionSprite = null;
+		private SpriteDataSO productionSprite;
 
 		[SerializeField]
-		private SpriteDataSO acceptingMaterialsSprite = null;
+		private SpriteDataSO acceptingMaterialsSprite;
 
-		private RegisterObject registerObject = null;
+		private RegisterObject registerObject;
 
-		[SerializeField]
-		private MaterialStorage materialStorage = null;
-
-		public MaterialStorage MaterialStorage { get => materialStorage; }
+		public MaterialStorageLink materialStorageLink;
 
 		[SerializeField]
-		private MachineProductsCollection autolatheProducts = null;
+		private MachineProductsCollection autolatheProducts;
 
 		public MachineProductsCollection AutolatheProducts { get => autolatheProducts; }
 
@@ -42,8 +39,8 @@ namespace Objects.Machines
 
 		public static event MaterialsManipulating MaterialsManipulated;
 
-		private ItemTrait insertedMaterialType = null;
-		private IEnumerator currentProduction = null;
+		private ItemTrait InsertedMaterialType;
+		private IEnumerator currentProduction;
 
 		public enum AutolatheState
 		{
@@ -52,30 +49,15 @@ namespace Objects.Machines
 			Production,
 		}
 
-		public override void OnStartClient()
-		{
-			SyncSprite(AutolatheState.Idle, AutolatheState.Idle);
-			base.OnStartClient();
-		}
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			EnsureInit();
-		}
-
-		private void Awake()
-		{
-			EnsureInit();
-		}
-
-		public void EnsureInit()
-		{
 			SyncSprite(AutolatheState.Idle, AutolatheState.Idle);
 		}
 
-		public void OnEnable()
+		public void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
+			materialStorageLink = GetComponent<MaterialStorageLink>();
 		}
 
 		private void UpdateGUI()
@@ -89,21 +71,14 @@ namespace Objects.Machines
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (interaction.HandSlot.IsEmpty) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-			if (!interaction.HandSlot.IsEmpty)
+			InsertedMaterialType = materialStorageLink.usedStorage.FindMaterial(interaction.HandObject);
+			if (InsertedMaterialType != null)
 			{
-				//Checks if materialStorage has the materialRecord
-				foreach (ItemTrait material in materialStorage.ItemTraitToMaterialRecord.Keys)
-				{
-					if (Validations.HasItemTrait(interaction.HandObject, material))
-					{
-						insertedMaterialType = material;
-						return true;
-					};
-				}
+				return true;
 			}
-
 			return false;
 		}
 
@@ -113,7 +88,7 @@ namespace Objects.Machines
 			if (stateSync != AutolatheState.Production)
 			{
 				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
-				if (materialStorage.TryAddMaterialSheet(insertedMaterialType, materialSheetAmount))
+				if (materialStorageLink.TryAddSheet(InsertedMaterialType, materialSheetAmount))
 				{
 					Inventory.ServerDespawn(interaction.HandObject);
 					if (stateSync == AutolatheState.Idle)
@@ -144,22 +119,16 @@ namespace Objects.Machines
 			}
 		}
 
-		[Server]
 		public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 		{
-			if (materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets))
-			{
-				Spawn.ServerPrefab(materialStorage.ItemTraitToMaterialRecord[materialType].materialPrefab,
-					registerObject.WorldPositionServer, transform.parent, count: amountOfSheets);
-
-				UpdateGUI();
-			}
+			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType);
+			UpdateGUI();
 		}
 
 		[Server]
 		public bool CanProcessProduct(MachineProduct product)
 		{
-			if (materialStorage.TryRemoveCM3Materials(product.materialToAmounts))
+			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts))
 			{
 				if (APCPoweredDevice.IsOn(PoweredState))
 				{
@@ -179,22 +148,6 @@ namespace Objects.Machines
 
 			Spawn.ServerPrefab(productObject, registerObject.WorldPositionServer, transform.parent, count: 1);
 			stateSync = AutolatheState.Idle;
-		}
-
-		[Server]
-		public void DropAllMaterials()
-		{
-			foreach (MaterialRecord materialRecord in materialStorage.ItemTraitToMaterialRecord.Values)
-			{
-				GameObject materialToSpawn = materialRecord.materialPrefab;
-				int sheetsPerCM3 = materialStorage.CM3PerSheet;
-				int amountToSpawn = materialRecord.CurrentAmount / sheetsPerCM3;
-
-				if (amountToSpawn > 0)
-				{
-					Spawn.ServerPrefab(materialToSpawn, gameObject.transform.position, transform.parent, count: amountToSpawn);
-				}
-			}
 		}
 
 		public void SyncSprite(AutolatheState stateOld, AutolatheState stateNew)
@@ -221,8 +174,7 @@ namespace Objects.Machines
 				StopCoroutine(currentProduction);
 				currentProduction = null;
 			}
-
-			DropAllMaterials();
+			materialStorageLink.Despawn();
 		}
 
 		public void PowerNetworkUpdate(float Voltage) { }

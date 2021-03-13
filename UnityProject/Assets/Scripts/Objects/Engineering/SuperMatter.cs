@@ -270,7 +270,8 @@ namespace Objects.Engineering
 		private float previousIntegrity;
 
 		private float power;
-		private float warningTimer;
+		// = 29 so when it first reaches the warning level there will be an alert
+		private float warningTimer = 29;
 
 		private RegisterTile registerTile;
 
@@ -750,18 +751,21 @@ namespace Objects.Engineering
 
 		private void CheckWarnings()
 		{
-
-			warningTimer += updateTime;
 			//Tells the engi team to get their butt in gear
 			// while the core is still damaged and it's still worth noting its status
 			if (superMatterIntegrity < WarningPoint)
 			{
+				warningTimer += updateTime;
 				isDelam = true;
+
+				if (warningTimer % 15 == 0)
+				{
+					//Play sound every 15 seconds
+					PlayAlarmSound();
+				}
 
 				if (warningTimer >= 30)
 				{
-					PlayAlarmSound();
-
 					if (superMatterIntegrity < EmergencyPoint)
 					{
 						AddMessageToChat($"{emergencyAlertText} Integrity: {GetIntegrityPercentage()}%", true);

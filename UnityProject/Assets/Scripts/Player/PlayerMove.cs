@@ -242,7 +242,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		direction.y = Mathf.Clamp(direction.y, -1, 1);
 		//			Logger.LogTrace(direction.ToString(), Category.Movement);
 
-		if (matrixInfo.MatrixMove)
+		if (matrixInfo?.MatrixMove)
 		{
 			// Converting world direction to local direction
 			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
@@ -342,6 +342,19 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	{
 		if (IsCuffed)
 		{
+			Chat.AddActionMsgToChat(
+				playerScript.gameObject,
+				"You're trying to ubuckle yourself from the chair! (this will take some time...)",
+				playerScript.name + " is trying to ubuckle themself from the chair!"
+			);
+			StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
+				Unbuckle
+			).ServerStartProgress(
+				buckledObject.RegisterTile(),
+				buckledObject.GetComponent<BuckleInteract>().ResistTime,
+				playerScript.gameObject
+			);
 			return;
 		}
 		Unbuckle();

@@ -374,7 +374,7 @@ public partial class Chat : MonoBehaviour
 				}
 				else
 				{
-					victimNameOthers = "itself";
+					victimNameOthers = "themselves";
 				}
 			}
 			else

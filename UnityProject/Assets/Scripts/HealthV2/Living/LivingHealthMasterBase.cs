@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Systems.Atmospherics;
 using Chemistry;
 using Health.Sickness;
@@ -56,7 +57,7 @@ namespace HealthV2
 			}
 		}
 
-		public BodyType BodyType = BodyType.Neutral;
+		public BodyType BodyType = BodyType.NonBinary;
 
 		//I don't know what this is. It was in the first Health system.
 		public float RTT;
@@ -135,12 +136,6 @@ namespace HealthV2
 		protected DamageType LastDamageType;
 
 		protected GameObject LastDamagedBy;
-
-		// public float MaxNutrimentLevel = 30;
-
-		// public float NutrimentLevel = 20;
-
-		public Reagent Cem;
 
 		public HungerState hungerState => CalculateHungerState();
 
@@ -235,14 +230,6 @@ namespace HealthV2
 			var bit =  RootBodyPartContainers.PickRandom();
 			bit.TakeDamage(null, 1, AttackType.Melee, DamageType.Brute);
 		}
-
-
-		[RightClickMethod]
-		public void TestChemistry()
-		{
-			circulatorySystem.UseBloodPool.Add(Cem, 20);
-		}
-
 
 		/// <summary>
 		/// Adds a new implant to the health master.
@@ -357,6 +344,11 @@ namespace HealthV2
 			return toReturn;
 		}
 
+		public void AddBodyPartToRoot()
+		{
+
+		}
+
 		public bool HasBodyPart(BodyPartType bodyPartType, bool surfaceOnly = false)
 		{
 			foreach (var bodyPart in implantList)
@@ -380,7 +372,7 @@ namespace HealthV2
 			foreach (var implant in implantList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
-				currentHealth -= implant.TotalDamageWithoutOxyClone;
+				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
 			currentHealth -= brain.Oxy; //Assuming has brain
@@ -606,6 +598,20 @@ namespace HealthV2
 			return new List<BodyPart>(0);
 		}
 
+
+		public RootBodyPartContainer GetRootBodyPartInZone(BodyPartType bodyPartAim)
+		{
+			foreach (var cntainers in RootBodyPartContainers)
+			{
+				if (cntainers.bodyPartType == bodyPartAim)
+				{
+					return cntainers;
+				}
+			}
+
+			return null;
+		}
+
 		private void TryGibbing(float damage)
 		{
 			//idk
@@ -626,37 +632,6 @@ namespace HealthV2
 			}
 			return Stomachs;
 		}
-
-		/// <summary>
-		/// Radiation damage Calculations
-		/// </summary>
-		// [Server]
-		// public void CalculateRadiationDamage()
-		// {
-		// 	var RadLevel = (registerTile.Matrix.GetRadiationLevel(registerTile.LocalPosition) * (tickRate / 5f) / 6);
-		// 	var Chest = BodyParts.First(part => part.Type == BodyPartType.Chest);
-		// 	RadiationStacks += Chest.armor.GetDamage(RadLevel, AttackType.Rad);
-		//
-		// 	var ProcessingRadiation = RadiationStacks * 0.001f;
-		// 	if (ProcessingRadiation < 20 && ProcessingRadiation > 0.5f)
-		// 	{
-		// 		ProcessingRadiation = 20;
-		// 	}
-		//
-		// 	RadiationStacks -= ProcessingRadiation;
-		// 	bloodSystem.ToxinLevel +=  ProcessingRadiation * 0.05f;
-		//
-		// 	//Natural healing
-		// 	//Problems should be in the metabolic system
-		// 	//but thats on players only
-		// 	bloodSystem.ToxinLevel -= 0.01f;
-		//
-		// 	if (RadiationStacks < 0)
-		// 	{
-		// 		RadiationStacks = 0;
-		// 	}
-		// }
-
 
 		public void ResetDamageAll()
 		{
@@ -755,10 +730,57 @@ namespace HealthV2
 			healthStateController.SetFireStacks(0);
 		}
 
-		public virtual string GetExamineText()
+		#region Examine
+
+		public string GetExamineText()
 		{
-			return "Weeee";
+			if (this is PlayerHealthV2)
+			{
+				// Let ExaminablePlayer take care of this.
+				return default;
+			}
+
+			// Assume animal
+			var healthString = new StringBuilder("It is ");
+
+			if (IsDead)
+			{
+				healthString.Append("limp and unresponsive; there are no signs of life...");
+
+				return healthString.ToString();
+			}
+
+			healthString.Append($"{ConsciousState.ToString().ToLower().Replace("_", " ")} and ");
+
+			var healthFraction = OverallHealth / maxHealth;
+			if (healthFraction < 0.2f)
+			{
+				healthString.Append("heavily wounded.");
+			}
+			else if (healthFraction < 0.6f)
+			{
+				healthString.Append("wounded.");
+			}
+			else
+			{
+				healthString.Append("in good shape.");
+			}
+
+			if (respiratorySystem != null && respiratorySystem.IsSuffocating)
+			{
+				healthString.Append("having trouble breathing!");
+			}
+
+			// On fire?
+			if (FireStacks > 0)
+			{
+				healthString.Append(" And is on fire!");
+			}
+
+			return healthString.ToString();
 		}
+
+		#endregion
 
 		#region Sickness
 

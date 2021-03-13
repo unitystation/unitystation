@@ -170,14 +170,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: hitDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: initialName
       value: foam force shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: throwDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: initialDescription
       value: A toy shotgun with wood furniture and a four-shell capacity underneath.
         Ages 8 and up.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 3365730268199074847, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}

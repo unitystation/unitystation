@@ -35,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/GenericHit.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 3
       objectReference: {fileID: 0}

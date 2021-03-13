@@ -18,7 +18,15 @@ namespace HealthV2
 
 			if (interaction.HandSlot.Item != null && interaction.HandSlot.Item.GetComponent<ItemAttributesV2>().HasTrait(RequiredImplantTrait))
 			{
-				OnBodyPart.AddBodyPartSlot(interaction.HandSlot);
+				if (OnBodyPart != null)
+				{
+					OnBodyPart.AddBodyPartSlot(interaction.HandSlot);
+				}
+				else
+				{
+					PresentProcedure.ISon.GetComponent<LivingHealthMasterBase>().GetRootBodyPartInZone(interaction.TargetBodyPart).AddBodyPartSlot(interaction.HandSlot);
+					PresentProcedure.ISon.currentlyOn = null;
+				}
 			}
 		}
 	}

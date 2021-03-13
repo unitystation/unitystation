@@ -102,6 +102,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f0594d5820b2ebd4d90a67a4b81c7ba0,
         type: 2}
+    - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: initialName
+      value: right leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: initialDescription
+      value: You put your right leg in, your right leg out. In, out, in, out, shake
+        it all about. And apparently then it detaches. The hokey pokey has certainly
+        changed a lot since space colonisation.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6100172161442356487, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: m_RootOrder

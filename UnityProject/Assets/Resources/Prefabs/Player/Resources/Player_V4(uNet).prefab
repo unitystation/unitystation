@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 50
+  m_SortingOrder: 56
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -225,7 +225,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 50
+  m_SortingOrder: 51
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -549,14 +549,13 @@ MonoBehaviour:
   - {fileID: 114133756563624140}
   - {fileID: 114352699279829420}
   - {fileID: 114292210339441364}
-  - {fileID: 0}
   - {fileID: 114572444233789018}
   - {fileID: 114683599938915282}
   ToInstantiateSpriteCustomisation: {fileID: 7987984179268195915, guid: 8e0d016d897a86947a17dcc45971c4c1,
     type: 3}
   CustomisationSprites: {fileID: 975496025995574624}
   InternalNetIDs: 
-  BodyPartsLoaded: 0
+  RootBodyPartsLoaded: 0
 --- !u!114 &114413669770135258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1048,7 +1047,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d675f20bb354d4b8d5e20051f2f2ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
   sicknessAfflictions: []
 --- !u!114 &1354417930896543338
 MonoBehaviour:
@@ -1071,8 +1069,6 @@ MonoBehaviour:
   bodyPartContainers: []
   RootBodyPartContainers: []
   Cem: {fileID: 11400000, guid: 442231bc33df82e49ace4a567c7aed5c, type: 2}
-  PlayerMove: {fileID: 0}
-  PlayerScript: {fileID: 0}
   percentAllergies: 30
   commonAllergies: {fileID: 0}
 --- !u!114 &2708192528502292653
@@ -1114,9 +1110,6 @@ MonoBehaviour:
   respiratoryInfo: {fileID: 11400000, guid: b6c38107088779a448643e7f7c63eb23, type: 2}
   canBreathAnywhere: 0
   tickRate: 1
-  IsSuffocating: 0
-  temperature: 293.15
-  pressure: 101.325
 --- !u!114 &-5098788322438649402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1261,7 +1254,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 50
+  m_SortingOrder: 53
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1624,7 +1617,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 50
+  m_SortingOrder: 52
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1745,7 +1738,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 55
+  m_SortingOrder: 52
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1987,7 +1980,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 50
+  m_SortingOrder: 52
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2445,7 +2438,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 50
+  m_SortingOrder: 52
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8139,7 +8132,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

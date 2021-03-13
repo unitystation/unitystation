@@ -83,5 +83,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: CatHead
       objectReference: {fileID: 0}
+    - target: {fileID: 7879089347396255999, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: initialName
+      value: catperson head
+      objectReference: {fileID: 0}
+    - target: {fileID: 7879089347396255999, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: initialDescription
+      value: A decapitated catperson head, humanity at it's finest.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7879089347396255999, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
