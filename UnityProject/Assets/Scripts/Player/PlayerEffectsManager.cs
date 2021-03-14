@@ -9,30 +9,15 @@ using Util;
 /// </summary>
 public class PlayerEffectsManager : MonoBehaviour
 {
-    private NetworkedLeanTween tween;
-
-    [FormerlySerializedAs("Effects")]
-    [Tooltip("All effects that can be played on this player.")]
-    [SerializeField]
-    private List<LTEffect> effects;
-
     private FloatingEffect floatingEffect;
     private RotateEffect rotateEffect;
     private Shake shakeEffect;
 
     private void Awake()
     {
-	    tween = GetComponent<NetworkedLeanTween>();
 	    floatingEffect = GetComponent<FloatingEffect>();
 	    rotateEffect = GetComponent<RotateEffect>();
 	    shakeEffect = GetComponent<Shake>();
-	    foreach (var effect in effects)
-	    {
-		    if(effect.tween == null)
-		    {
-			    effect.tween = tween;
-		    }
-	    }
     }
 
     private void Update()
