@@ -98,7 +98,7 @@ namespace Effects
 
 		private void AnimateSpritePosition(Vector3 pos)
 		{
-			LeanTween.moveLocal(spriteReference.gameObject, pos, 0.1f);
+			LeanTween.move(spriteReference.gameObject, pos, 0.1f);
 			tween.RpcMove(axisMode, pos, 0.1f);
 		}
 
