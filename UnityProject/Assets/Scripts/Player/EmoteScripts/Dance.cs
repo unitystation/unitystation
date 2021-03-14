@@ -21,20 +21,25 @@ namespace Player.EmoteScripts
 
 			if (move.allowInput && !move.IsBuckled)
 			{
+				base.Do(player);
 				directional.FaceDirection(Orientation.Up);
-				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 				directional.FaceDirection(Orientation.Left);
-				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 				directional.FaceDirection(Orientation.Right);
-				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 				directional.FaceDirection(Orientation.Down);
-				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 				directional.FaceDirection(Orientation.Up);
-				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 				directional.FaceDirection(Orientation.Left);
-				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 				directional.FaceDirection(Orientation.Right);
-				WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(player, $"{failText}", "");
 			}
 
 			yield break;
