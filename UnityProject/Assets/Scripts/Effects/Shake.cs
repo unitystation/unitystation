@@ -53,6 +53,8 @@ namespace Effects
 		{
 			float timer = 0f;
 
+			GetOriginalPosition(); //Fix for teleporting objects that have moved away from their original location on spawn.
+
 			while (timer < duration)
 			{
 				timer += Time.deltaTime;
