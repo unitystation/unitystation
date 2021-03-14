@@ -20,6 +20,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7518649724926587439, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
+      propertyPath: isEVACapable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518649724926587439, guid: 5615206684c0a714997f9e856ba438ce,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/trayhit1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518649724926587439, guid: 5615206684c0a714997f9e856ba438ce,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 3ff158f16a0e2de4cb4be915e5569139,
@@ -44,6 +54,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7974050312375754809, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7974050312375754809, guid: 5615206684c0a714997f9e856ba438ce,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -59,6 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7974050312375754809, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7974050312375754809, guid: 5615206684c0a714997f9e856ba438ce,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -71,16 +91,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7974050312375754809, guid: 5615206684c0a714997f9e856ba438ce,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7974050312375754809, guid: 5615206684c0a714997f9e856ba438ce,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7974050312375754809, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Items;
-using UnityEngine.Serialization;
+using Objects.Machines;
 
 namespace Objects.Mining
 {
@@ -11,47 +11,53 @@ namespace Objects.Mining
 	/// Causes object to consume ore on the tile above it and produce materials on the tile below it. Temporary
 	/// until ORM UI is implemented.
 	/// </summary>
-	public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
+	public class OreRedemptionMachine : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-		[FormerlySerializedAs("ExpectedOres")]
-		[SerializeField]
-		private List<OreToMaterial> expectedOres = null;
-
 		private RegisterObject registerObject;
+		private MaterialStorageLink materialStorageLink;
 
-		public void OnEnable()
+		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
+			materialStorageLink = GetComponent<MaterialStorageLink>();
 		}
 
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side))
+				return false;
+			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OreGeneral))
+				return false;
+			return true;
+		}
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			var localPosInt = MatrixManager.Instance.WorldToLocalInt(registerObject.WorldPositionServer, registerObject.Matrix);
-			var OreItems = registerObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
+			var itemsOnFloor = registerObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
 
-			foreach (var Ore in OreItems)
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OreGeneral))
+				AddOre(interaction.HandObject);
+
+			foreach (var item in itemsOnFloor)
 			{
-				foreach (var exOre in expectedOres)
+				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OreGeneral))
 				{
-					if (Ore != null)
-					{
-						if (Ore.HasTrait(exOre.Trait))
-						{
-							var inStackable = Ore.gameObject.GetComponent<Stackable>();
-							Spawn.ServerPrefab(exOre.Material, registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: inStackable.Amount);
-							Despawn.ServerSingle(Ore.transform.gameObject);
-						}
-					}
+					AddOre(item.gameObject);
 				}
 			}
 		}
-	}
 
-	[Serializable]
-	public class OreToMaterial
-	{
-		[FormerlySerializedAs("Tray")]
-		public ItemTrait Trait;
-		public GameObject Material;
+		private void AddOre(GameObject ore)
+		{
+			foreach (var materialSheet in CraftingManager.MaterialSheetData.Values)
+			{
+				if (Validations.HasItemTrait(ore, materialSheet.oreTrait))
+				{
+					var inStackable = ore.GetComponent<Stackable>();
+					materialStorageLink.TryAddSheet(materialSheet.materialTrait, inStackable.Amount);
+					Despawn.ServerSingle(ore);
+				}
+			}
+		}
 	}
 }

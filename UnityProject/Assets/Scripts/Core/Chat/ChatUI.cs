@@ -168,7 +168,7 @@ public class ChatUI : MonoBehaviour
 		// TODO add events to inventory slot changes to trigger channel refresh
 		if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())
 		{
-			Logger.Log("Channel list is outdated!", Category.UI);
+			Logger.Log("Channel list is outdated!", Category.Chat);
 			RefreshChannelPanel();
 		}
 
@@ -435,8 +435,8 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private void RefreshChannelPanel()
 	{
-		Logger.LogTrace("Refreshing channel panel!", Category.UI);
-		Logger.Log("Selected channels: " + ListChannels(SelectedChannels), Category.UI);
+		Logger.LogTrace("Refreshing channel panel!", Category.Chat);
+		Logger.Log("Selected channels: " + ListChannels(SelectedChannels), Category.Chat);
 		RefreshToggles();
 		RefreshRadioChannelPanel();
 		UpdateInputLabel();
@@ -494,7 +494,7 @@ public class ChatUI : MonoBehaviour
 		// Check a channel toggle doesn't already exist
 		if (ChannelToggles.ContainsKey(channel))
 		{
-			Logger.LogWarning($"Channel toggle already exists for {channel}!", Category.UI);
+			Logger.LogWarning($"Channel toggle already exists for {channel}!", Category.Chat);
 			return;
 		}
 
@@ -513,7 +513,7 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private void CreateActiveRadioEntry(ChatChannel channel)
 	{
-		Logger.Log($"Creating radio channel entry for {channel}", Category.UI);
+		Logger.Log($"Creating radio channel entry for {channel}", Category.Chat);
 		// Create the template object which is hidden in the list but deactivated
 		GameObject radioEntry = Instantiate(activeChannelTemplate, activeChannelTemplate.transform.parent, false);
 
@@ -646,7 +646,7 @@ public class ChatUI : MonoBehaviour
 
 	private void ClearActiveRadioChannels()
 	{
-		Logger.Log("Clearing active radio channel panel", Category.UI);
+		Logger.Log("Clearing active radio channel panel", Category.Chat);
 		foreach (var channelEntry in ActiveChannels)
 		{
 			channelEntry.Value.SetActive(false);
@@ -699,7 +699,7 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private void EnableChannel(ChatChannel channel)
 	{
-		Logger.Log($"Enabling {channel}", Category.UI);
+		Logger.Log($"Enabling {channel}", Category.Chat);
 
 		if (ChannelToggles.ContainsKey(channel))
 		{
@@ -707,7 +707,7 @@ public class ChatUI : MonoBehaviour
 		}
 		else
 		{
-			Logger.LogWarning($"Can't enable {channel} because it isn't in ChannelToggles!");
+			Logger.LogWarning($"Can't enable {channel} because it isn't in ChannelToggles!", Category.Chat);
 		}
 
 		//Deselect all other channels in UI if it's a main channel
@@ -767,7 +767,7 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private void DisableChannel(ChatChannel channel)
 	{
-		Logger.Log($"Disabling {channel}", Category.UI);
+		Logger.Log($"Disabling {channel}", Category.Chat);
 
 		// Special behaviour for main channels
 		if (MainChannels.Contains(channel))
@@ -836,7 +836,7 @@ public class ChatUI : MonoBehaviour
 			else
 			{
 				// TODO: need some addition UX indication that channel is not avaliable
-				Logger.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.UI);
+				Logger.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.Chat);
 			}
 
 			// delete all tags from input

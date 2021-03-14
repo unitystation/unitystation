@@ -7,6 +7,7 @@ using Systems.ElectricalArcs;
 using Systems.Explosions;
 using Systems.Radiation;
 using AddressableReferences;
+using HealthV2;
 using Light2D;
 using Messages.Server;
 using Mirror;
@@ -269,7 +270,8 @@ namespace Objects.Engineering
 		private float previousIntegrity;
 
 		private float power;
-		private float warningTimer;
+		// = 29 so when it first reaches the warning level there will be an alert
+		private float warningTimer = 29;
 
 		private RegisterTile registerTile;
 
@@ -580,9 +582,10 @@ namespace Objects.Engineering
 				//Also keep in mind we are only adding this temperature to (efficiency)% of the one tile the rock
 				//is on. An increase of 4*C @ 25% efficiency here results in an increase of 1*C / (#tilesincore) overall.
 				//Power * 0.55 * (some value between 1.5 and 23) / 5
-				removeMix.Temperature += ((deviceEnergy * dynamicHeatModifier) / ThermalReleaseModifier);
+				removeMix.ChangeTemperature((deviceEnergy * dynamicHeatModifier) / ThermalReleaseModifier);
 				//We can only emit so much heat, that being 57500
-				removeMix.Temperature = Mathf.Max(0, Mathf.Min(removeMix.Temperature, 2500 * dynamicHeatModifier));
+				//TODO this removes heat if it is above 57500, is that what we want?
+				removeMix.SetTemperature(Mathf.Max(0, Mathf.Min(removeMix.Temperature, 2500 * dynamicHeatModifier)));
 
 				//Calculate how much gas to release
 				//Varies based on power and gas content
@@ -748,18 +751,21 @@ namespace Objects.Engineering
 
 		private void CheckWarnings()
 		{
-
-			warningTimer += updateTime;
 			//Tells the engi team to get their butt in gear
 			// while the core is still damaged and it's still worth noting its status
 			if (superMatterIntegrity < WarningPoint)
 			{
+				warningTimer += updateTime;
 				isDelam = true;
+
+				if (warningTimer % 15 == 0)
+				{
+					//Play sound every 15 seconds
+					PlayAlarmSound();
+				}
 
 				if (warningTimer >= 30)
 				{
-					PlayAlarmSound();
-
 					if (superMatterIntegrity < EmergencyPoint)
 					{
 						AddMessageToChat($"{emergencyAlertText} Integrity: {GetIntegrityPercentage()}%", true);
@@ -1100,7 +1106,7 @@ namespace Objects.Engineering
 		{
 			if(isHugBox) return;
 
-			if (bumpedBy.TryGetComponent<PlayerHealth>(out var playerHealth))
+			if (bumpedBy.TryGetComponent<PlayerHealthV2>(out var playerHealth))
 			{
 				//Players, you big idiot
 				var job = bumpedBy.GetComponent<PlayerScript>().mind?.occupation;
@@ -1157,7 +1163,7 @@ namespace Objects.Engineering
 					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
 					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				interaction.Performer.GetComponent<PlayerHealth>().ServerGibPlayer();
+				interaction.Performer.GetComponent<PlayerHealthV2>().ServerGibPlayer();
 				matterPower += 200;
 				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
 				return;

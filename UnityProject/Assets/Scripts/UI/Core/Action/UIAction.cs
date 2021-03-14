@@ -32,7 +32,7 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		actionData = iActionGUI.ActionData;
 		if (actionData == null)
 		{
-			Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UIAction, iActionGUI );
+			Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iActionGUI );
 			return;
 		}
 

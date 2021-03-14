@@ -77,5 +77,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FoamForceFiringPin
       objectReference: {fileID: 0}
+    - target: {fileID: 6177181837291090887, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c0328cbf94ffe648a0903cfc375ab91, type: 3}

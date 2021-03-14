@@ -98,6 +98,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Sunglasses with a diagnostic HUD.
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3273994478765017941, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
       propertyPath: m_Sprite
@@ -123,20 +128,17 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: b5197f4923282f5409c99b53e17d7a33,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: b964b7dd648b9424f897e919146cc82d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: b964b7dd648b9424f897e919146cc82d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

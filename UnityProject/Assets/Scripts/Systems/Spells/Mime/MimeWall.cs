@@ -4,7 +4,7 @@ namespace Systems.Spells
 	{
 		protected override string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
 		{
-			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.ThemPronoun());
+			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.ThemPronoun(caster.Script));
 		}
 		public override bool ValidateCast(ConnectedPlayer caster)
 		{

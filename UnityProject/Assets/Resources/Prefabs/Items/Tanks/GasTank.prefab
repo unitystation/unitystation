@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
@@ -78,16 +78,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 22f92cbfcb287d044b647ce628464cc0,
         type: 3}
+    - target: {fileID: 2564446943044314748, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
-      propertyPath: initialDescription
-      value: A generic tank used for storing and transporting gasses. Can be used
-        for internals.
+      propertyPath: hitDamage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: initialName
       value: gas tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: initialDescription
+      value: A generic tank used for storing and transporting gasses. Can be used
+        for internals.
       objectReference: {fileID: 0}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
@@ -101,15 +111,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 58d6e8fa67e53774b8b8f60286124b96,
         type: 2}
-    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
-        type: 3}
-      propertyPath: hitDamage
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: ReleasePressure
-      value: 16
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 8368062230162943655, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}

@@ -37,13 +37,24 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.size
+      propertyPath: FireRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: FireDelay
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeFiringSound.Array.size
-      value: 2
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
+        type: 3}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootTazer
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
@@ -57,40 +68,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: FiringSound
-      value: ShootTazer
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/Taser1.prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: FireRate
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: firemodeFiringSound.Array.data[0]
-      value: ShootTazer
-      objectReference: {fileID: 0}
-    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
-        type: 3}
-    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: firemodeProjectiles.Array.data[0]
-      value: 
-      objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
-        type: 3}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: firemodeName.Array.data[0]
       value: Stun
-      objectReference: {fileID: 0}
-    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: firemodeFiringSound.Array.data[1]
-      value: ShootLaser
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
@@ -99,15 +83,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
+      propertyPath: firemodeUsage.Array.data[1]
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[0]
+      value: ShootTazer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[1]
+      value: ShootLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
+        type: 3}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
       propertyPath: firemodeProjectiles.Array.data[1]
       value: 
       objectReference: {fileID: 5418626791516505491, guid: b4492e96cb32b8941a4cf47edcf7c3cc,
         type: 3}
-    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: firemodeUsage.Array.data[1]
-      value: 500
-      objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: firemodeFiringSound.Array.data[0].AssetAddress
@@ -117,11 +127,6 @@ PrefabInstance:
         type: 3}
       propertyPath: firemodeFiringSound.Array.data[1].AssetAddress
       value: Assets/Prefabs/Weapons/Taser2.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/Weapons/Taser1.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 4979405696378388488, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
@@ -142,13 +147,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
+      propertyPath: initialName
+      value: hybrid taser v43
       objectReference: {fileID: 0}
     - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: initialName
-      value: hybrid taser v43
+      propertyPath: initialSize
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
@@ -158,9 +163,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: afca2ad5a55c4684e99cb2b9394407ee,
+        type: 2}
+    - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 54f3eb2e915e0724cb547bca694b7157,
         type: 2}
     - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
@@ -168,21 +184,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fb4ec893cf4767741a7c3cae4df348c3,
         type: 2}
-    - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: initialSize
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: initialTraits.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 54f3eb2e915e0724cb547bca694b7157,
-        type: 2}
     - target: {fileID: 6693620148964760645, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
@@ -201,6 +211,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -213,16 +228,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
@@ -276,18 +281,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7789201627290542266, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: SmartGun
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7789201627290542266, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: FiringSound
-      value: ShootTazer
-      objectReference: {fileID: 0}
-    - target: {fileID: 7789201627290542266, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
       propertyPath: FireRate
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789201627290542266, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: SmartGun
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7789201627290542266, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
@@ -301,6 +301,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5913760418817138735, guid: 3b4b277bf203d4347a0a5a182890e0bf,
         type: 3}
+    - target: {fileID: 7789201627290542266, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootTazer
+      objectReference: {fileID: 0}
     - target: {fileID: 8316631766976624318, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: PresentSpriteSet

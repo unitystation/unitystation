@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using AddressableReferences;
+using HealthV2;
 using Items;
 using Messages.Server.SoundMessages;
 using UnityEngine;
@@ -119,7 +120,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		{
 			//a regular object being attacked
 
-			LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
+			LivingHealthMasterBase victimHealth = victim.GetComponent<LivingHealthMasterBase>();
 
 			var integrity = victim.GetComponent<Integrity>();
 			var meleeable = victim.GetComponent<Meleeable>();

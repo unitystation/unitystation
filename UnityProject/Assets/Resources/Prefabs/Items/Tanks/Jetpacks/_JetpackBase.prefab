@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
@@ -78,6 +78,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3c4a4d6f9a0f8924d8013222418f728e,
         type: 3}
+    - target: {fileID: 1886752052804364948, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      propertyPath: initialName
+      value: jetpack (empty)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      propertyPath: initialDescription
+      value: A tank of compressed gas for use as propulsion in zero-gravity areas.
+        Use with caution.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/smash.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -90,22 +116,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a4ca6b3a108138b4a83648e365db1da9,
         type: 2}
-    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
-        type: 3}
-      propertyPath: initialName
-      value: jetpack (empty)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
-        type: 3}
-      propertyPath: initialDescription
-      value: A tank of compressed gas for use as propulsion in zero-gravity areas.
-        Use with caution.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
-        type: 3}
-      propertyPath: initialSize
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5591496382283457103, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -153,7 +153,7 @@ namespace Messages.Server
 				}
 				else
 				{
-					Logger.LogError("Failed to find IActionGUI on NetworkIdentity");
+					Logger.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
 				}
 			}
 

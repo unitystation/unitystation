@@ -155,6 +155,8 @@ namespace Objects.Kitchen
 			CheckCooked();
 		}
 
+
+
 		/// <summary>
 		/// The micro-laser's tier affects the speed in which the microwave counts down and the speed
 		/// in which food is cooked. For each tier above one, cook time is decreased by a factor of 0.5;

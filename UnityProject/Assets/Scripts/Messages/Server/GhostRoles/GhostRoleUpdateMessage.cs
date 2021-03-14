@@ -39,7 +39,11 @@ namespace Messages.Server.GhostRoles
 
 				foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
 				{
-					if (player?.Script == null) { Logger.LogError("SendToDead, player?.Script == null"); continue; }
+					if (player?.Script == null) 
+					{ 
+						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts); 
+						continue;
+					}
 					if (player.Script.IsDeadOrGhost == false) continue;
 					SendTo(player, key, role);
 				}
@@ -47,7 +51,7 @@ namespace Messages.Server.GhostRoles
 			}
 			else
 			{
-				Logger.LogError("SendToDead, GhostRoleManager.Instance == null");
+				Logger.LogError("SendToDead, GhostRoleManager.Instance == null", Category.Ghosts);
 			}
 
 			return new NetMessage();

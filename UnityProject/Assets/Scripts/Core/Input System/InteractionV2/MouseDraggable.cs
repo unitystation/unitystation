@@ -51,7 +51,7 @@ public class MouseDraggable : MonoBehaviour
 			if (shadow == null)
 			{
 				Logger.LogWarning("No drag shadow sprite was set and no sprite renderer found for " + name +
-				                  " so there will be no drag shadow for this object.");
+				                  " so there will be no drag shadow for this object.", Category.Sprites);
 			}
 		}
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();

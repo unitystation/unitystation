@@ -15,6 +15,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3063805286163523616, guid: 703ee43e84da301438311278f13a496f,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063805286163523616, guid: 703ee43e84da301438311278f13a496f,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -30,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3063805286163523616, guid: 703ee43e84da301438311278f13a496f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063805286163523616, guid: 703ee43e84da301438311278f13a496f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +52,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3063805286163523616, guid: 703ee43e84da301438311278f13a496f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3063805286163523616, guid: 703ee43e84da301438311278f13a496f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3063805286163523616, guid: 703ee43e84da301438311278f13a496f,
         type: 3}
@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 3067346511363075834, guid: 703ee43e84da301438311278f13a496f,
         type: 3}
       propertyPath: m_Name
-      value: LightFixtureFrameSmall
+      value: LightBulbFixtureFrame
       objectReference: {fileID: 0}
     - target: {fileID: 5635298977466413514, guid: 703ee43e84da301438311278f13a496f,
         type: 3}

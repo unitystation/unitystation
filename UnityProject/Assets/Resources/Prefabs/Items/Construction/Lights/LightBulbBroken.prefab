@@ -90,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1716433438106799361, guid: bb018450ceda0b24d83c74bfd253bdc1,
         type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1716433438106799361, guid: bb018450ceda0b24d83c74bfd253bdc1,
+        type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 11ce8d65a70014d4997c0bf4f1045b67,

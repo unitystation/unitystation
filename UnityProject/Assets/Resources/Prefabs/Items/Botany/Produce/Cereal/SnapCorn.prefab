@@ -9,18 +9,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
+      propertyPath: initialName
+      value: snap corn
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
       propertyPath: initialDescription
       value: A cob with snap pops.
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
-      propertyPath: initialName
-      value: snap corn
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 4353717592831911221, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
       propertyPath: m_Name
       value: SnapCorn
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}

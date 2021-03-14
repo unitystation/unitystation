@@ -380,7 +380,7 @@ namespace Objects.Construction
 
 				if (spawnedObject == null)
 				{
-					Logger.LogWarning(machineParts.machine + " is missing the machine script!", Category.ItemSpawn);
+					Logger.LogWarning(machineParts.machine + " is missing the machine script!", Category.Construction);
 					return;
 				}
 
@@ -655,7 +655,7 @@ namespace Objects.Construction
 
 			if (board == null)
 			{
-				Logger.LogWarning("MachineBoardPrefab was null", Category.ItemSpawn);
+				Logger.LogWarning("MachineBoardPrefab was null", Category.Construction);
 				return;
 			}
 

@@ -201,7 +201,7 @@ public class PanelHudBottomController : MonoBehaviour
 		if (itemSlot.ItemSlot.IsEmpty || PlayerManager.LocalPlayerScript.IsGhost)
 			return;
 
-		Logger.Log("Drop pocket item - uniform is null", Category.Inventory);
+		Logger.Log("Drop pocket item - uniform is null", Category.PlayerInventory);
 
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemWithoutValidations(itemSlot.NamedSlot);
 	}

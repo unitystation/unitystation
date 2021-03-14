@@ -52,14 +52,14 @@ public class RightClickMethod : Attribute
 		else
 		{
 			Logger.LogWarningFormat("Unable to parse hex color string {0} in RightClickMethod. Please ensure this is a" +
-			                        " valid hex color string like #223344. Defaulting to gray.", Category.UI, bgColorHex);
+			                        " valid hex color string like #223344. Defaulting to gray.", Category.UserInput, bgColorHex);
 		}
 
 		var sprite = Resources.Load<Sprite>(spritePath);
 		if (sprite == null)
 		{
 			Logger.LogWarningFormat("Unable to load sprite at path {0} in RightClickMethod. Please ensure this is a" +
-			                        " valid path to a sprite. Defaulting to question mark.", Category.UI, spritePath);
+			                        " valid path to a sprite. Defaulting to question mark.", Category.UserInput, spritePath);
 			sprite = Resources.Load<Sprite>("UI/RightClickButtonIcon/question_mark.png");
 		}
 
@@ -71,7 +71,7 @@ public class RightClickMethod : Attribute
 			{
 				Logger.LogWarningFormat(
 					"Unable to load bgSprite at path {0} in RightClickMethod. Please ensure this is a" +
-					" valid path to a sprite. Defaulting to question no background.", Category.UI, bgSpritePath);
+					" valid path to a sprite. Defaulting to question no background.", Category.UserInput, bgSpritePath);
 			}
 		}
 

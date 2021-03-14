@@ -12,7 +12,7 @@ namespace MLAgents
     {
         public static void SwitchAllLearningBrainToControlMode()
         {
-            Debug.Log("The Switching to control mode function is triggered");
+            Logger.Log("The Switching to control mode function is triggered");
             string[] scenePaths = Directory.GetFiles("Assets/ML-Agents/Examples/", "*.unity", SearchOption.AllDirectories);
             foreach (string scenePath in scenePaths)
             {
@@ -26,7 +26,7 @@ namespace MLAgents
                     {
                         if (!aca.broadcastHub.IsControlled(brain))
                         {
-                            Debug.Log("Switched brain in scene " + scenePath);
+                            Logger.Log("Switched brain in scene " + scenePath);
                             aca.broadcastHub.SetControlled(brain, true);
                         }
                     }
@@ -34,7 +34,7 @@ namespace MLAgents
                 }
                 else
                 {
-                    Debug.Log("scene " + scenePath + " doesn't have a Academy in it");
+                    Logger.Log("scene " + scenePath + " doesn't have a Academy in it");
                 }
             }
         }

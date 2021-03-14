@@ -57,10 +57,8 @@ public static class ElectricityFunctions
 					if ((OIinheritance.WireEndA == con.WireEndA && OIinheritance.WireEndB == con.WireEndB) ||
 						(OIinheritance.WireEndA == con.WireEndB && OIinheritance.WireEndB == con.WireEndA))
 					{
-						Logger.LogErrorFormat("{0} < duplicate Please remove {1}",
-							Category.Electrical,
-							searchVecInt,
-							OIinheritance.Categorytype);
+						Logger.LogError($"{searchVecInt} < duplicate Please remove {OIinheritance.Categorytype}",
+							Category.Electrical);
 					}
 				}
 			}

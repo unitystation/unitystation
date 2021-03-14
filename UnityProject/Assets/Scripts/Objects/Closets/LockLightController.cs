@@ -56,7 +56,7 @@ public class LockLightController : MonoBehaviour
 
 		if (spriteRenderer == null)
 		{
-			Logger.Log($"SpriteRender is not assigned for LockLightController on {gameObject.name}");
+			Logger.Log($"SpriteRender is not assigned for LockLightController on {gameObject.name}", Category.Sprites);
 			return false;
 		}
 

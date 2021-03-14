@@ -1,3 +1,4 @@
+using HealthV2;
 using Items.PDA;
 using UnityEngine;
 using Machines;
@@ -17,7 +18,6 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public DepartmentList DepartmentList;
 	public OccupationList OccupationList;
 	public BestSlotForTrait BestSlotForTrait;
-	public PlayerCustomisationDataSOs PlayerCustomisationDataSOs;
 	public PlayerTextureDataSOs PlayerTextureDataSOs;
 	public CommonPrefabs CommonPrefabs;
 	public CommonCooldowns CommonCooldowns;
@@ -33,4 +33,7 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public AlcoholicDrinksSOScript AlcoholicDrinksSOScript;
 	public SpriteCatalogue SpriteCatalogue;
 	public SingletonSOSounds SingletonSOSounds;
+	public RaceSOSingleton RaceSOSingleton;
+	public GAS2ReagentSingleton GAS2ReagentSingleton;
+	public SurgeryProcedureBaseSingleton SurgeryProcedureBaseSingleton;
 }

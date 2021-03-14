@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Used by miners to detect ores deep within the rock.
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: 0ddc990b10e91c146836b276e01bd9d7,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3317552745358689725, guid: 0ddc990b10e91c146836b276e01bd9d7,
         type: 3}
       propertyPath: m_AssetId

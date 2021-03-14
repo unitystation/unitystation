@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 749843543778249653}
   - component: {fileID: 3212830626524822905}
   - component: {fileID: 180474513144253669}
+  - component: {fileID: -7331234345338998758}
+  - component: {fileID: 394345308302228078}
   m_Layer: 11
   m_Name: IcecreamCart
   m_TagString: Untagged
@@ -117,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114603998155745004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,13 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+  butcherSound: 
 --- !u!114 &114606720968377460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +177,10 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
 --- !u!114 &114251073917058144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +196,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &749843543778249653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +236,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -253,6 +261,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &-7331234345338998758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147578870404542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0
+--- !u!114 &394345308302228078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147578870404542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialVendorContent:
+  - ItemName: Berry Creamsicle
+    Item: {fileID: 8938376424530961626, guid: 61172890db55d3943b1a2a923ad33ce5, type: 3}
+    Stock: 3
+  - ItemName: Orange Creamsicle
+    Item: {fileID: 4172288064172063717, guid: 6a335e99bedd3e24eb3201c1f211f94e, type: 3}
+    Stock: 3
+  - ItemName: Cornuto
+    Item: {fileID: 3040265357538634785, guid: fe6948efb6cdc5147bf3997d9b3d0312, type: 3}
+    Stock: 2
+  - ItemName: Jumbo ice cream pop
+    Item: {fileID: 518708270638934352, guid: ab00c973ec3aabc43b432cbb78ddcdb7, type: 3}
+    Stock: 3
+  - ItemName: Vanilla Icecream Sandwich
+    Item: {fileID: 3486408137043295472, guid: 92ba7e6c5cff2dc49a496e870b7d4eb7, type: 3}
+    Stock: 5
+  - ItemName: Strawberry Icecream Sandwich
+    Item: {fileID: 3767046870115088516, guid: e4b36eb23624a964ea341ece8f412110, type: 3}
+    Stock: 3
+  HullColor: {r: 0.9433962, g: 0.6007476, b: 0.72257215, a: 1}
+  EjectObjects: 0
+  EjectDirection: 0
+  VendingSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  isEmagged: 0
+  VendorContent: []
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!1 &1862351942716826
 GameObject:
   m_ObjectHideFlags: 0

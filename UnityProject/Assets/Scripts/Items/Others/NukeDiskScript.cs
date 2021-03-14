@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Atmospherics;
+using HealthV2;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
@@ -116,7 +117,7 @@ namespace Items.Command
 				{
 					return true;
 				}
-				if (player.GetComponent<PlayerHealth>().IsDead)
+				if (player.GetComponent<PlayerHealthV2>().IsDead)
 				{
 					return true;
 				}

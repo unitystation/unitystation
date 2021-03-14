@@ -17,14 +17,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 615657c05dc0a5e48b16a0680b391a61,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3118957259161963395, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 615657c05dc0a5e48b16a0680b391a61,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3118957259161963395, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -121,6 +119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Protects your hearing from loud noises, and quiet ones as well."
+      objectReference: {fileID: 0}
+    - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9c4649a88c0143b68f95ac8adfa3067, type: 3}

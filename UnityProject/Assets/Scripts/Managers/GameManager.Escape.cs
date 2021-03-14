@@ -28,7 +28,7 @@ public partial class GameManager
 				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
 			}
-			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene");
+			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
 			primaryEscapeShuttle = shuttles[0];
 		}
 	}
@@ -48,7 +48,7 @@ public partial class GameManager
 				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
 			}
-			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene");
+			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
 			primaryEscapeShuttle = shuttles[0];
 		}
 
@@ -56,7 +56,7 @@ public partial class GameManager
 
 		if (primaryEscapeShuttle.MatrixInfo == null)
 		{
-			Logger.LogError("Primary escape shuttle has no associated matrix!");
+			Logger.LogError("Primary escape shuttle has no associated matrix!", Category.Round);
 			return;
 		}
 

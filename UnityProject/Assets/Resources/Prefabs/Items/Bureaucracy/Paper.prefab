@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialText: 
 --- !u!114 &3029048239083948324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +141,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A piece of paper
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

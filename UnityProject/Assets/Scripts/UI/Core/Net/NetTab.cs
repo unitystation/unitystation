@@ -44,7 +44,9 @@ public enum NetTabType
 	MagicMirror = 32,
 	ContractOfApprenticeship = 33,
 	ParticleAccelerator = 34,
-	SyndicateOpConsole = 35,
+	OreRedemptionMachine = 35,
+	MaterialSilo = 36,
+  SyndicateOpConsole = 37,
 
 	//add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name

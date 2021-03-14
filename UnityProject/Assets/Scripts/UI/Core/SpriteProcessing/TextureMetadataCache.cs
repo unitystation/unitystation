@@ -27,7 +27,7 @@ namespace UI.Core.SpriteProcessing
 			if (texture == null)
 			{
 				Logger.LogWarning($"No texture found for sprite \"{sprite.name}\". Unable to create sprite metadata.",
-					Category.UI);
+					Category.Sprites);
 				return null;
 			}
 

@@ -32,7 +32,7 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 		{
 			if (SpriteHandlerHere == null)
 			{
-				Logger.Log("Sprite handler is missing on" + this.gameObject);
+				Logger.Log("Sprite handler is missing on" + this.gameObject, Category.Sprites);
 				return;
 			}
 			SpriteHandlerHere.PushTexture();

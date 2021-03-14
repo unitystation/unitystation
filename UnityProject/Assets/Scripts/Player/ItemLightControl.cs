@@ -67,7 +67,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 	{
 		if (objectLightEmission == null)
 		{
-			Debug.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.");
+			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
 			return;
 		}
 
@@ -114,7 +114,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		if (IsOn == on) return;
 		if (LightEmission == null)
 		{
-			Debug.LogError($"{this} field LightEmission is null, please check scripts.");
+			Logger.LogError($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
 			return;
 		}
 
@@ -129,7 +129,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 	{
 		if (PlayerLightData == null)
 		{
-			Debug.LogError("PlayerLightData returned Null please check scripts");
+			Logger.LogError("PlayerLightData returned Null please check scripts", Category.Lighting);
 			return;
 		}
 		if (IsOn && intensity > -1)

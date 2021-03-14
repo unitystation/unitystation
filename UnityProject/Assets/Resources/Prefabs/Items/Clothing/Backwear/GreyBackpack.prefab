@@ -87,18 +87,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: You wear this on your back and put items into it.
       objectReference: {fileID: 0}
+    - target: {fileID: 2030966178880945371, guid: 868598a9acc5f40b0811af946a2c4c27,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 4809792473518981180, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e33da839e54e7fd4394ce36343dc8bae,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4809792473518981180, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: e33da839e54e7fd4394ce36343dc8bae,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4809792473518981180, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: allClothingData.Array.size
