@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace Tests
 {
-	public class Utils
+	public static class Utils
 	{
 		public static bool TryGetScriptableObjectGUID(Type scriptableObjectType, StringBuilder sb, out string assetGUID)
 		{
