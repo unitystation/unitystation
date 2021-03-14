@@ -94,13 +94,17 @@ namespace Effects
 
 		}
 
+		//We call regular LeanTween alongside NTL to make sure the animation plays on the server as well.
+
 		private void AnimateSpritePosition(Vector3 pos)
 		{
+			LeanTween.moveLocal(spriteReference.gameObject, pos, 0.1f);
 			tween.RpcMove(axisMode, pos, 0.1f);
 		}
 
 		private void AnimatePosition(Vector3 pos)
 		{
+			LeanTween.move(gameObject, originalPosition, 0.1f);
 			tween.RpcLocalMove(axisMode, pos, 0.1f);
 		}
 	}
