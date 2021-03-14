@@ -45,6 +45,11 @@ namespace Effects
 
 		private void RotateObject(Vector3 rot, float time)
 		{
+			if(spriteReference != null && isServer == false)
+			{
+				LeanTween.rotate(spriteReference.gameObject, rot, time);
+			}
+			
 			tween.RpcRotateGameObject(rot, time);
 		}
 
