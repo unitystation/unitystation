@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Weapons/Drill.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -120,6 +125,11 @@ PrefabInstance:
         type: 3}
       propertyPath: timeMultiplier
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675473296682472099, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: pickaxeSound.AssetAddress
+      value: Assets/Prefabs/Weapons/Drill.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 8184022938753632022, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}

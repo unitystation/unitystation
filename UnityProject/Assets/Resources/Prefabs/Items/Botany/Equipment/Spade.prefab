@@ -26,6 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6511207373575406613, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6511207373575406613, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6511207373575406613, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6511207373575406613, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511207373575406613, guid: 1488f67a55cb9b84098e095e65e5a2b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511207373575406613, guid: 1488f67a55cb9b84098e095e65e5a2b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6511207373575406613, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
@@ -86,13 +86,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
-      propertyPath: initialSize
+      propertyPath: hitDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
+      propertyPath: exportCost
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
-      propertyPath: initialDescription
-      value: A small tool for digging and moving dirt.
+      propertyPath: exportName
+      value: spade
       objectReference: {fileID: 0}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
@@ -101,10 +106,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: 8a6a82a7cca3770438f2415010876c53,
-        type: 2}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
+      propertyPath: throwDamage
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
+      propertyPath: initialDescription
+      value: A small tool for digging and moving dirt.
+      objectReference: {fileID: 0}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -119,13 +133,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
-      propertyPath: hitDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
-        type: 3}
-      propertyPath: throwDamage
-      value: 7
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a6a82a7cca3770438f2415010876c53,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
