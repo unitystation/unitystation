@@ -446,7 +446,7 @@ namespace HealthV2
 			foreach (var implant in ImplantList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
-				currentHealth -= implant.TotalDamageWithoutOxyClone;
+				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
 			currentHealth -= brain.Oxy; //Assuming has brain
