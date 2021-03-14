@@ -63,6 +63,13 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 	public static void ShowAChatBubble(Transform followTarget, string msg,
 		ChatModifier chatModifier = ChatModifier.None)
 	{
+		//TODO this will prevent emotes from appearing as speech. We should streamline it and simply don't use
+		// the chat api when the message is an emote, instead generate an action message.
+		if ((chatModifier & ChatModifier.Emote) == ChatModifier.Emote)
+		{
+			return;
+		}
+
 		var index = Instance.chatBubblePool.FindIndex(x => x.Target == followTarget);
 
 		if (index != -1)
