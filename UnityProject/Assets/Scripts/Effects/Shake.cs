@@ -59,14 +59,14 @@ namespace Effects
 			{
 				timer += Time.deltaTime;
 
-				Vector3 randomPosition = tween.Target.transform.position + (Random.insideUnitSphere * distance);
-
 				switch (animType)
 				{
 					case AnimMode.GAMEOBJECT:
+						Vector3 randomPosition = tween.Target.transform.position + (Random.insideUnitSphere * distance);
 						AnimatePosition(randomPosition);
 						break;
 					case AnimMode.SPRITE:
+						Vector3 randomPosition = tween.Target.transform.localPosition + (Random.insideUnitSphere * distance);
 						AnimateSpritePosition(randomPosition);
 						break;
 				}
