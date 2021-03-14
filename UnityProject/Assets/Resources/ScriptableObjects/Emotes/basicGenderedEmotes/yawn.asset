@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
   m_Name: yawn
   m_EditorClassIdentifier: 
-  emoteName: yamw
+  emoteName: yawn
   requiresHands: 0
   viewText: yawns.
   youText: A nap wouldn't hurt..
@@ -20,5 +20,5 @@ MonoBehaviour:
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: screams in pain!
+  pitchRange: {x: 0.7, y: 1}
+  critViewText: has some troubles keeping their eyes open!
