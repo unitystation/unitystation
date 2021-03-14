@@ -210,17 +210,17 @@ namespace HealthV2
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
 
 			attributes = GetComponent<ItemAttributesV2>();
-			BloodInitialise();
-			DamageInitialisation();
-
-
 			health = maxHealth;
 
+			BloodInitialise();
+			DamageInitialisation();
 			UpdateSeverity();
 			Initialisation();
-
 		}
 
+		/// <summary>
+		/// Overridable method for variant body parts to use for their initialization
+		/// </summary>
 		public virtual void Initialisation()
 		{
 		}

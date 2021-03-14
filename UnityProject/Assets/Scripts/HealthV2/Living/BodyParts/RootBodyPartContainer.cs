@@ -16,7 +16,7 @@ namespace HealthV2
 	public class RootBodyPartContainer : MonoBehaviour, IBodyPartDropDownOrgans, IServerSpawn
 	{
 		[Required("Need a health master to send updates too. " +
-		          "Will attempt to find a components in its parents if not already set in editor.")]
+				  "Will attempt to find a components in its parents if not already set in editor.")]
 		[SerializeField] public LivingHealthMasterBase healthMaster = null;
 
 		/// <summary>
@@ -35,7 +35,7 @@ namespace HealthV2
 		/// <summary>
 		/// The list of body parts that are allowed to be stored inside this body part container
 		/// </summary>
-		 public List<BodyPart> OptionalOrgans => optionalOrgans;
+		public List<BodyPart> OptionalOrgans => optionalOrgans;
 
 		/// <summary>
 		/// The category that this body part container falls under for purposes of targeting with the UI
@@ -105,7 +105,7 @@ namespace HealthV2
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
 		}
 
-		public void UpdateChildren(List<uint> NewInternalNetIDs )
+		public void UpdateChildren(List<uint> NewInternalNetIDs)
 		{
 			List<SpriteHandler> SHS = new List<SpriteHandler>();
 			InternalNetIDs = NewInternalNetIDs;
@@ -119,8 +119,8 @@ namespace HealthV2
 					var SHSs = OB.GetComponentsInChildren<SpriteHandler>();
 					// foreach (var SH in SHSs)
 					// {
-						// var Net= SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
-						// SpriteHandlerManager.UnRegisterHandler(Net, SH);
+					// var Net= SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
+					// SpriteHandlerManager.UnRegisterHandler(Net, SH);
 					// }
 
 					OB.parent = this.transform;
@@ -196,7 +196,7 @@ namespace HealthV2
 		/// Sets up the sprite of a specified body part and adds its Net ID to InternalNetIDs
 		/// </summary>
 		/// <param name="implant">Body Part to display</param>
-		public void SetupSpritesNID(BodyPart implant )
+		public void SetupSpritesNID(BodyPart implant)
 		{
 
 			int i = 0;
@@ -328,36 +328,26 @@ namespace HealthV2
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
 		/// <param name="damage">Damage amount</param>
 		/// <param name="attackType">Type of attack that is causing the damage</param>
-		/// <param name="damageType">The type of Damage</param>
+		/// <param name="damageType">The type of damage</param>
 		/// <param name="damageSplit">Should the damage be divided amongst the contained body parts or applied to a random body part</param>
 		public void TakeDamage(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType, bool SplitDamage = false)
+			AttackType attackType, DamageType damageType, bool damageSplit = false)
 		{
 			//Logger.Log("dmg  > " + damage + "attackType > " + attackType + " damageType > " + damageType);
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
-			if (attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
+			if (damageSplit || attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
 				foreach (var ContainsLimb in ContainsLimbs)
 				{
-					ContainsLimb.TakeDamage(damagedBy, damage / ContainsLimbs.Count, attackType, damageType);
+					ContainsLimb.TakeDamage(damagedBy, damage / ContainsLimbs.Count, attackType, damageType, damageSplit);
 				}
 			}
 			else
 			{
-				if (SplitDamage)
+				var OrganToDamage = ContainsLimbs.PickRandom();
+				if (OrganToDamage != null)
 				{
-					foreach (var ContainsLimb in ContainsLimbs)
-					{
-						ContainsLimb.TakeDamage(damagedBy, damage / ContainsLimbs.Count, attackType, damageType);
-					}
-				}
-				else
-				{
-					var OrganToDamage = ContainsLimbs.PickRandom();
-					if (OrganToDamage != null)
-					{
-						OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType);
-					}
+					OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
 				}
 			}
 		}
@@ -375,7 +365,7 @@ namespace HealthV2
 			{
 				//yes It technically duplicates the healing but, I've would feel pretty robbed if There was a damage on one limb Of 50
 				//and I used a bandage of 50 and only healed 25,  if the healing was split across the two limbs
-				limb.HealDamage(healingItem, healAmt, (int) damageTypeToHeal);
+				limb.HealDamage(healingItem, healAmt, (int)damageTypeToHeal);
 			}
 		}
 	}
