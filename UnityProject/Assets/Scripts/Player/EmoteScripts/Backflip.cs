@@ -14,7 +14,7 @@ namespace Player.EmoteScripts
 				Logger.LogError("[EmoteSO/Backflip] - Could not find a rotate effect on the player!");
 				return;
 			}
-			manager.RotatePlayer(1, 0.2f, 180, true);
+			manager.RotatePlayer(1, 0.2f, 180, false);
 			base.Do(player);
 		}
 	}
