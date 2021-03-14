@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ScriptableObjects.RP;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Core.Chat
 		[SerializeField]
 		private List<EmoteSO> emotes;
 
-		public static bool FindEmote(string emote, EmoteActionManager instance)
+		public static bool HasEmote(string emote, EmoteActionManager instance)
 		{
 			string[] emoteArray;
 			if (emote.StartsWith("*"))
@@ -22,7 +23,7 @@ namespace Core.Chat
 			}
 			foreach (var e in instance.emotes)
 			{
-				if(emoteArray[1] == e.EmoteName)
+				if(emoteArray[1].Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
 				{
 					return true;
 				}
@@ -34,7 +35,7 @@ namespace Core.Chat
 		{
 			foreach (var e in instance.emotes)
 			{
-				if(emote == e.EmoteName)
+				if(emote.Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
 				{
 					e.Do(player);
 					return;
