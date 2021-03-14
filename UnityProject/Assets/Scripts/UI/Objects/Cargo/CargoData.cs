@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
-using Objects;
 
 namespace Systems.Cargo
 {
@@ -9,11 +9,5 @@ namespace Systems.Cargo
 	{
 		//Stores all possible supplies broken into categories
 		public List<CargoOrderCategory> Supplies = new List<CargoOrderCategory>();
-
-		//TO-DO - comeup with clever idea for bounties
-		public int GetBounty(ObjectBehaviour item)
-		{
-			return 50;
-		}
 	}
 }

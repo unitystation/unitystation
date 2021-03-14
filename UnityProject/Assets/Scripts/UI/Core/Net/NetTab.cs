@@ -44,6 +44,8 @@ public enum NetTabType
 	MagicMirror = 32,
 	ContractOfApprenticeship = 33,
 	ParticleAccelerator = 34,
+	OreRedemptionMachine = 35,
+	MaterialSilo = 36
 
 	//add your tabs here
 }

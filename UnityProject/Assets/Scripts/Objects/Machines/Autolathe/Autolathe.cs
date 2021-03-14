@@ -121,7 +121,7 @@ namespace Objects.Machines
 
 		public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 		{
-			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType);
+			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType, gameObject.WorldPosServer());
 			UpdateGUI();
 		}
 
