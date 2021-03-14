@@ -10,15 +10,16 @@ namespace Objects.Machines
 	/// </summary>
 	public class MaterialStorageLink : MonoBehaviour
 	{
-		private bool IsUsingSilo;
+		public bool IsUsingSilo;
 		public MaterialStorage usedStorage;
 		private MaterialStorage selfStorage;
-
+		public GUI_MaterialsList materialListGUI;
 
 		private void Awake()
 		{
 			selfStorage = GetComponent<MaterialStorage>();
 			usedStorage = selfStorage;
+			usedStorage.UpdateGUIs.AddListener(UpdateGUI);
 		}
 
 		public bool TryAddSheet(ItemTrait InsertedMaterialType, int materialSheetAmount)
@@ -29,14 +30,23 @@ namespace Objects.Machines
 
 		public void ConnectToSilo(MaterialStorage silo)
 		{
-			usedStorage = silo;
-			IsUsingSilo = true;
+			if (!IsUsingSilo)
+			{
+				usedStorage.UpdateGUIs.RemoveListener(UpdateGUI);
+				usedStorage = silo;
+				IsUsingSilo = true;
+				usedStorage.UpdateGUIs.AddListener(UpdateGUI);
+				UpdateGUI();
+			}
 		}
 
 		public void DisconnectFromSilo()
 		{
+			usedStorage.UpdateGUIs.RemoveListener(UpdateGUI);
 			usedStorage = selfStorage;
 			IsUsingSilo = false;
+			usedStorage.UpdateGUIs.AddListener(UpdateGUI);
+			UpdateGUI();
 		}
 
 		public void Despawn()
@@ -44,6 +54,14 @@ namespace Objects.Machines
 			if (IsUsingSilo)
 				return;
 			usedStorage.DropAllMaterials();
+		}
+
+		public void UpdateGUI()
+		{
+			if (materialListGUI)
+			{
+				materialListGUI.UpdateMaterialList();
+			}
 		}
 	}
 }
