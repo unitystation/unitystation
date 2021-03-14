@@ -12,7 +12,9 @@ public class SyndicateOpConsole : MonoBehaviour
 
 	public int TcReserve;
 
-	private int timer;
+	private bool warDeclared = false;
+	private bool rewardGiven = false;
+	private int timer = 1200;
 	public int Timer => timer;
 
 	private void Awake()
@@ -27,6 +29,15 @@ public class SyndicateOpConsole : MonoBehaviour
 		}
 	}
 
+
+	private void OnEnable()
+	{
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(ServerUpdateTimer, 1f);
+		}
+	}
+
 	private void OnDisable()
 	{
 		if (CustomNetworkManager.IsServer)
@@ -38,26 +49,29 @@ public class SyndicateOpConsole : MonoBehaviour
 
 	public void AnnounceWar(string DeclerationMessage)
 	{
-		GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Red, true);
-		CentComm.MakeAnnouncement(ChatTemplates.PriorityAnnouncement, 
-		$"Attention all crew! An open message from the syndicate has been picked up on local radiowaves! Message Reads:\n" +
-		$"{DeclerationMessage}" ,CentComm.UpdateSound.Alert);
-
-		if (CustomNetworkManager.IsServer)
+		if (warDeclared == false)
 		{
-			UpdateManager.Add(ServerUpdateTimer, 60f);
+			warDeclared = true;
+
+			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Red, true);
+			CentComm.MakeAnnouncement(ChatTemplates.PriorityAnnouncement, 
+			$"Attention all crew! An open message from the syndicate has been picked up on local radiowaves! Message Reads:\n" +
+			$"{DeclerationMessage}" ,CentComm.UpdateSound.Alert);
 		}
 	}
 
 	public void ServerUpdateTimer()
 	{
-		if (timer < 20)
+		if (warDeclared == false || rewardGiven) return;
+
+		if (timer > 0)
 		{
-			timer++;
+			timer--;
 			return;
 		}
+		rewardGiven = true;
 		RewardTelecrystals();
-		this.OnDisable();
+
 	}
 
 	public void RewardTelecrystals()

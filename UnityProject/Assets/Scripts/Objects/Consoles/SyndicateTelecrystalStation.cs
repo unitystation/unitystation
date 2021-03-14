@@ -39,12 +39,19 @@ class SyndicateTelecrystalStation : MonoBehaviour,  ICheckedInteractable<HandApp
 				operatives.Add(antag);
 			}
 		}
-
-		tcPerOperative = TcReserve / operatives.Count;
+		if (operatives == null)
+		{
+			Logger.LogError("no syndicate operatives found.");
+		}
+		else
+		{
+			tcPerOperative = TcReserve / operatives.Count;		
+		}
 	}
 
 	public void WithdrawTeleCrystals(HandApply interaction)
 	{
+		if (interaction.UsedObject == null) return;
 		PDALogic pdaComp = interaction.UsedObject.GetComponent<PDALogic>();
 		if (pdaComp != null && pdaComp.IsUplinkLocked == false)
 		{

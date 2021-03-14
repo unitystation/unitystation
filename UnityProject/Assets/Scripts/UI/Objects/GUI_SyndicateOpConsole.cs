@@ -1,22 +1,32 @@
 using System.Collections;
+using System.Timers;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GUI_SyndicateOpConsole : NetTab
 {
 	private SyndicateOpConsole console;
 
 	[SerializeField]
-	private InputFieldFocus textComp;
-
-	[SerializeField]
-	private Text timer;
+	private NetLabel timerLabel = null;
 
 	public override void OnEnable()
 	{
 		base.OnEnable();
 		StartCoroutine(WaitForProvider());
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(UpdateTimer, 1f);
+		}
 	}
+
+	private void OnDisable()
+	{
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateTimer);
+		}
+	}
+
 
 	IEnumerator WaitForProvider()
 	{
@@ -28,9 +38,21 @@ public class GUI_SyndicateOpConsole : NetTab
 		console = Provider.GetComponentInChildren<SyndicateOpConsole>();
 	}
 
-	private void UpdateTimer(ConnectedPlayer player)
+
+
+	private void UpdateTimer()
 	{
-		timer.text = $"{20 - console.Timer}:00";
+		if (console.Timer == 0)
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateTimer);
+			}
+		}
+		string min = Mathf.FloorToInt((console.Timer) / 60).ToString();
+		string sec = ((console.Timer) % 60).ToString();
+		sec = sec.Length >= 2 ? sec : "0" + sec;
+		timerLabel.SetValueServer($"{min}:{sec}");
 	}
 
 
