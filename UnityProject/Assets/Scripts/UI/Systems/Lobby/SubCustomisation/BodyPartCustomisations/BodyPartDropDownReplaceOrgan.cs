@@ -72,8 +72,8 @@ public class BodyPartDropDownReplaceOrgan : BodyPartCustomisationBase
 		var Parent = Body_Part.GetParent();
 		if (Parent != null)
 		{
-			Parent.storage.ServerTryAdd(spawned.GameObject);
-			Parent.storage.ServerTryRemove(Body_Part.gameObject);
+			Parent.Storage.ServerTryAdd(spawned.GameObject);
+			Parent.Storage.ServerTryRemove(Body_Part.gameObject);
 		}
 	}
 

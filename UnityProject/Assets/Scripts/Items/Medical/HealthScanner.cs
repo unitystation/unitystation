@@ -24,7 +24,7 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 		var livingHealth = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		string ToShow = (livingHealth.name + " is " + livingHealth.ConsciousState.ToString() + "\n"
 		                 + "OverallHealth = " + livingHealth.OverallHealth.ToString() + " Blood level = " +
-		                 livingHealth.CirculatorySystem.UseBloodPool.ToString() + "\n");
+		                 livingHealth.CirculatorySystem.UsedBloodPool.ToString() + "\n");
 		string StringBuffer = "";
 		float TotalBruteDamage = 0;
 		float TotalBurnDamage = 0;

@@ -52,7 +52,7 @@ namespace HealthV2
 				var Parent = GetParent();
 				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
 				BodyFats.Add(Added);
-				Parent.storage.ServerTryAdd(Added.gameObject);
+				Parent.Storage.ServerTryAdd(Added.gameObject);
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace HealthV2
 			var Parent = GetParent();
 			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
 			BodyFats.Add(Added);
-			Parent.storage.ServerTryAdd(Added.gameObject);
+			Parent.Storage.ServerTryAdd(Added.gameObject);
 		}
 	}
 }

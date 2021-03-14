@@ -10,14 +10,13 @@ using Items;
 namespace HealthV2
 {
 	/// <summary>
-	/// A part of a body. Can be external, such as a limb, or internal ie an organ
-	/// Body parts can also contain other body parts, ie brain body part in the head body part
+	/// A part of a body. Can be external, such as a limb, or internal like an organ.
+	/// Body parts can also contain other body parts, ie the 'brain body part' contained in the 'head body part'.
+	/// BodyPart is a partial class split into BodyPart, BodyPartDamage, BodyPartBlood, and BodyPartSurgery.
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
 	{
-		[SerializeField]
-		// [Required("Need a health master to send updates too." +
-		// "Will attempt to find a components in its parents if not already set in editor.")]
+		[SerializeField] [Tooltip("The Heath Master associated with this part, will find from parents if not set in editor")]
 		protected LivingHealthMasterBase healthMaster = null;
 
 		public LivingHealthMasterBase HealthMaster
@@ -38,88 +37,109 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// The storage container for all of the item versions of the things contained within the body part,
-		/// usually other body parts.
+		/// Storage container for things (typcially other organs) held within this body part
 		/// </summary>
-		public ItemStorage storage = null;
+		[Tooltip("Things (ie other organs) held within this")]
+		public ItemStorage Storage = null;
 
 		/// <summary>
-		/// The category that this body part falls under for purposes of targeting with the UI
+		/// The category that this body part falls under for targeting purposes
 		/// </summary>
+		[Tooltip("The category that this body part falls under for targeting purposes")]
 		[SerializeField] public BodyPartType BodyPartType;
+
 
 		/// <summary>
 		/// The list of body parts contained within this body part
 		/// </summary>
-		[SerializeField] public List<BodyPart> ContainBodyParts { get; private set; } = new List<BodyPart>();
-
-		private ItemAttributesV2 attributes;
+		[Tooltip("List of body parts contained within this")]
+		[SerializeField] private List<BodyPart> containBodyParts = new List<BodyPart>();
+		public List<BodyPart> ContainBodyParts => containBodyParts;
 
 		//This should be utilized in most implants so as to make changing the effectivenss of it easy.
 		//Some organs wont boil down to just one efficiency score, so you'll have to keep that in mind.
-		[SerializeField]
 		[Tooltip("This is a generic variable representing the 'efficieny' of the implant." +
 				 "Can be modified by implant modifiers.")]
-		private float efficiency = 1;
-
-
-		[SerializeField]
+		[SerializeField] private float efficiency = 1;
+		
+		/// <summary>
+		/// Flag for if the sprite for this body type changes with gender, true means it does
+		/// </summary>
 		[Tooltip("Does the sprite change depending on Gender?")]
-		private bool isDimorphic = false;
+		[SerializeField] private bool isDimorphic = false;
 
 		/// <summary>
 		/// The body part 'container' to which this body part belongs, (ie legs group, arms group), if any
 		/// </summary>
+		[Tooltip("The 'container' to which this belongs (legs group, arms group, etc), if any")]
 		public RootBodyPartContainer Root;
 
 		/// <summary>
 		/// The body part in which this body part is contained, if any
 		/// </summary>
+		[Tooltip("The body part in which this body part is contained, if any")]
 		public BodyPart ContainedIn;
 
 		[SerializeField]
-		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents." +
-				 "It is intended for things like arms/legs/heads." +
+		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents. " +
+				 "It is intended for things like arms/legs/heads. " +
 				 "Leave empty if it shouldn't change this.")]
 		private BodyTypesWithOrder BodyTypesSprites = new BodyTypesWithOrder();
 
 		/// <summary>
 		/// The list of sprites associated with this body part
 		/// </summary>
+		[Tooltip("Sprites associated wtih this part, generated when part is initialized/changed")]
 		public List<BodyPartSprites> RelatedPresentSprites = new List<BodyPartSprites>();
 
-		//Needs to be converted over four sexes/Body type
+		/// <summary>
+		/// The final sprite data for this body part accounting for body type and gender
+		/// </summary>
 		public ListSpriteDataSOWithOrder LimbSpriteData { get; private set; }
 
 		/// <summary>
 		/// The prefab sprites for this body part
 		/// </summary>
+		[Tooltip("The prefab sprites for this")]
 		public BodyPartSprites SpritePrefab;
 
 		/// <summary>
 		/// Boolean for whether the sprites for the body part have been set, returns true when they are
 		/// </summary>
-		public bool BodySpriteSet = false;
+		[HideInInspector] public bool BodySpriteSet = false;
 
 		/// <summary>
-		/// Custom settings from the lobby character designer, unimplemented
+		/// Custom settings from the lobby character designer
 		/// </summary>
+		[Tooltip("Custom options from the Character Customizer that modifys this")]
 		public BodyPartCustomisationBase LobbyCustomisation;
 
+		[Tooltip("List of optional body added to this, ie what wings a Moth has")]
+		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
 		/// <summary>
-		/// The list of body parts that are allowed to be stored inside this body part
+		/// The list of optional body that are attached/stored in this body part, ie what wings a Moth has
 		/// </summary>
-		[SerializeField] public List<BodyPart> OptionalOrgans {get; private set;} = new List<BodyPart>();
+		public List<BodyPart> OptionalOrgans => optionalOrgans;
 
-		[Tooltip("The organ that this can be replaced with")]
+		/// <summary>
+		/// The list of optional body that can be attached/stored in this body part, ie what wings are available on a Moth chest
+		/// </summary>
+		[Tooltip("List of optional body that can be added to this, ie what wings are available to Moths")]
 		public List<BodyPart> OptionalReplacementOrgan = new List<BodyPart>();
 
 		/// <summary>
-		/// Boolean that is true if the body part is external (exposed to the outside world), false if it is internal
+		/// Flag that is true if the body part is external (exposed to the outside world), false if it is internal
 		/// </summary>
+		[Tooltip("Is the body part on the surface?")]
 		public bool IsSurface = false;
 
+		/// <summary>
+		/// Flag to hide clothing on this body part
+		/// </summary>
+		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
+
+		private ItemAttributesV2 attributes;
 
 		/// <summary>
 		/// Initializes the body part
@@ -185,9 +205,9 @@ namespace HealthV2
 
 				//TODO: Do we need to add listeners for implant removal
 			}
-
-			storage = GetComponent<ItemStorage>();
-			storage.ServerInventoryItemSlotSet += ImplantAdded;
+			healthMaster = GetComponent<LivingHealthMasterBase>();
+			Storage = GetComponent<ItemStorage>();
+			Storage.ServerInventoryItemSlotSet += ImplantAdded;
 
 			attributes = GetComponent<ItemAttributesV2>();
 			BloodInitialise();
@@ -252,7 +272,7 @@ namespace HealthV2
 		/// <param name="IngameObject">Object to try and store in the Body Part</param>
 		public virtual void AddBodyPart(GameObject IngameObject)
 		{
-			storage.ServerTryAdd(IngameObject);
+			Storage.ServerTryAdd(IngameObject);
 		}
 
 		/// <summary>
@@ -261,7 +281,7 @@ namespace HealthV2
 		/// <param name="ItemSlot">Item Slot to transfer from</param>
 		public virtual void AddBodyPartSlot(ItemSlot ItemSlot)
 		{
-			storage.ServerTryTransferFrom(ItemSlot);
+			Storage.ServerTryTransferFrom(ItemSlot);
 		}
 
 		/// <summary>
@@ -282,7 +302,7 @@ namespace HealthV2
 		/// <param name="inOrgan">Item to remove</param>
 		public virtual void RemoveSpecifiedFromThis(GameObject inOrgan)
 		{
-			storage.ServerTryRemove(inOrgan);
+			Storage.ServerTryRemove(inOrgan);
 		}
 
 		/// <summary>

@@ -275,9 +275,9 @@ namespace Lobby
 
 			//Setup sprite//
 			//OpenBodySprites
-			if (bodyPart?.storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.Contents != null)
 			{
-				foreach (var Organ in bodyPart.storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.Contents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					ParentDictionary[bodyPart].Add(subBodyPart);
@@ -656,9 +656,9 @@ namespace Lobby
 				}
 			}
 
-			if (bodyPart?.storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.Contents != null)
 			{
-				foreach (var Organ in bodyPart.storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.Contents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSetBodyPart(subBodyPart, path);
@@ -744,9 +744,9 @@ namespace Lobby
 				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[bodyPart.name]);
 			}
 
-			if (bodyPart?.storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.Contents != null)
 			{
-				foreach (var Organ in bodyPart.storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.Contents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSaveBodyPart(subBodyPart, path);

@@ -16,7 +16,7 @@ namespace HealthV2
 		private BloodType bloodType = null;
 		public BloodType BloodType => bloodType;
 
-		public ReagentMix UseBloodPool;
+		public ReagentMix UsedBloodPool;
 		public ReagentMix ReadyBloodPool;
 
 		public Chemistry.Reagent BloodReagent => bloodType.Blood;
@@ -55,7 +55,7 @@ namespace HealthV2
 		public void ConvertUsedBlood(float Toadd)
 		{
 			//TODOH technically violates the laws of thermodynamics but meh
-			var addAmount = healthMaster.CirculatorySystem.UseBloodPool.Take(Toadd);
+			var addAmount = healthMaster.CirculatorySystem.UsedBloodPool.Take(Toadd);
 			AddUsefulBloodReagent(addAmount);
 		}
 
