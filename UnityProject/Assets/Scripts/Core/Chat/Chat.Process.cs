@@ -609,7 +609,7 @@ public partial class Chat
 
 	private static bool CheckForEmoteAction(string emote, EmoteActionManager data)
 	{
-		return EmoteActionManager.FindEmote(emote, data);
+		return EmoteActionManager.HasEmote(emote, data);
 	}
 	private static void DoEmoteAction(string emoteName, GameObject player, EmoteActionManager data)
 	{
