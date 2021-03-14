@@ -16,7 +16,7 @@ namespace HealthV2
 		[Tooltip("Does this consume reagents from its blood?")]
 		private bool isBloodReagentConsumed = false;
 		/// <summary>
-		/// Flag that is true if the body part consumes reagents (ie oxygen) from the blood
+		/// Flag that is true if the body part consumes reagents (eg oxygen) from the blood
 		/// </summary>
 		public bool IsBloodReagentConsumed => isBloodReagentConsumed;
 
@@ -29,7 +29,7 @@ namespace HealthV2
 		public bool IsBloodReagentCirculated => isBloodReagentCirculated;
 
 		/// <summary>
-		/// The reagent that is used by this body part, ie oxygen
+		/// The reagent that is used by this body part, eg oxygen
 		/// </summary>
 		[SerializeField]
 		[Tooltip("What blood reagent does this use?")]
@@ -77,7 +77,7 @@ namespace HealthV2
 		//private float bloodReagentStored = 0;
 
 		/// <summary>
-		/// The amount of of nutriment to consume in order to perform work, ie heal damage or replenish blood supply
+		/// The amount of of nutriment to consume in order to perform work, eg heal damage or replenish blood supply
 		/// </summary>
 		[Tooltip("How much nutriment does this consume to perform work?")]
 		public float NutrimentConsumption = 0.02f;

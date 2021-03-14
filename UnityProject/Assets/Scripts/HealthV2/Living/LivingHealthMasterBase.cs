@@ -51,13 +51,13 @@ namespace HealthV2
 		/// </summary>
 		public ConsciousState ConsciousState
 		{
-			get => HealthStateController.ConsciousState;
+			get => healthStateController.ConsciousState;
 			protected set
 			{
-				ConsciousState oldState = HealthStateController.ConsciousState;
+				ConsciousState oldState = healthStateController.ConsciousState;
 				if (value != oldState)
 				{
-					HealthStateController.SetConsciousState(value);
+					healthStateController.SetConsciousState(value);
 
 					if (isServer)
 					{
@@ -73,7 +73,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Event for when the consciousness state of the creature changes, ie becoming unconscious or dead
+		/// Event for when the consciousness state of the creature changes, eg becoming unconscious or dead
 		/// </summary>
 		[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
 
@@ -111,7 +111,7 @@ namespace HealthV2
 		/// The current overall health of the creature.
 		/// -15 is barely conscious, -50 unconscious, and -100 is dying/dead
 		/// </summary>
-		public float OverallHealth => HealthStateController.OverallHealth;
+		public float OverallHealth => healthStateController.OverallHealth;
 
 		/// <summary>
 		/// List of all of the body parts of the creature, currently unimplemented
@@ -159,7 +159,7 @@ namespace HealthV2
 
 		// FireStacks note: It's called "stacks" but it's really just a floating point value that
 		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
-		private float fireStacks => HealthStateController.FireStacks;
+		private float fireStacks => healthStateController.FireStacks;
 		/// <summary>
 		/// How on fire we are, same as tg fire_stacks. 0 = not on fire.
 		/// Exists client side - synced with server.
@@ -175,9 +175,11 @@ namespace HealthV2
 		/// </summary>
 		[NonSerialized] public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
 
-		public ObjectBehaviour ObjectBehaviour { get; private set; }
+		private ObjectBehaviour objectBehaviour;
+		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
 
-		public HealthStateController HealthStateController { get; private set; }
+		private HealthStateController healthStateController;
+		public HealthStateController HealthStateController => healthStateController;
 
 		protected DamageType LastDamageType;
 
@@ -240,8 +242,8 @@ namespace HealthV2
 			RegisterTile = GetComponent<RegisterTile>();
 			RespiratorySystem = GetComponent<RespiratorySystemBase>();
 			CirculatorySystem = GetComponent<CirculatorySystemBase>();
-			ObjectBehaviour = GetComponent<ObjectBehaviour>();
-			HealthStateController = GetComponent<HealthStateController>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
+			healthStateController = GetComponent<HealthStateController>();
 			immunedSickness = new List<Sickness>();
 			mobSickness = GetComponent<MobSickness>();
 			//Always include blood for living entities:
@@ -258,7 +260,7 @@ namespace HealthV2
 			mobID = PlayerManager.Instance.GetMobID();
 
 			//Generate BloodType and DNA
-			HealthStateController.SetDNA(new DNAandBloodType());
+			healthStateController.SetDNA(new DNAandBloodType());
 		}
 
 
@@ -356,12 +358,12 @@ namespace HealthV2
 				//TODO: Burn clothes (see species.dm handle_fire)
 				ApplyDamageAll(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn, true);
 				//gradually deplete fire stacks
-				HealthStateController.SetFireStacks(fireStacks - 0.1f);
+				healthStateController.SetFireStacks(fireStacks - 0.1f);
 				//instantly stop burning if there's no oxygen at this location
 				MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
 				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 				{
-					HealthStateController.SetFireStacks(0);
+					healthStateController.SetFireStacks(0);
 				}
 
 				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
@@ -452,7 +454,7 @@ namespace HealthV2
 			currentHealth -= brain.Oxy; //Assuming has brain
 
 			//Sync health
-			HealthStateController.SetOverallHealth(currentHealth);
+			healthStateController.SetOverallHealth(currentHealth);
 
 			if (currentHealth < -100)
 			{
@@ -824,15 +826,15 @@ namespace HealthV2
 		{
 			if (fireStacks + deltaValue < 0)
 			{
-				HealthStateController.SetFireStacks(0);
+				healthStateController.SetFireStacks(0);
 			}
 			else if (fireStacks + deltaValue > maxFireStacks)
 			{
-				HealthStateController.SetFireStacks(maxFireStacks);
+				healthStateController.SetFireStacks(maxFireStacks);
 			}
 			else
 			{
-				HealthStateController.SetFireStacks(fireStacks + deltaValue);
+				healthStateController.SetFireStacks(fireStacks + deltaValue);
 			}
 		}
 
@@ -841,7 +843,7 @@ namespace HealthV2
 		/// </summary>
 		public void Extinguish()
 		{
-			HealthStateController.SetFireStacks(0);
+			healthStateController.SetFireStacks(0);
 		}
 
 		#region Examine

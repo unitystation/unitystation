@@ -13,29 +13,36 @@ namespace HealthV2
 {
 	public class PlayerHealthV2 : LivingHealthMasterBase
 	{
+
+		private PlayerMove playerMove;
 		/// <summary>
 		/// Controller for sprite direction and walking into objects
 		/// </summary>
-		public PlayerMove PlayerMove { get; private set; }
+		public PlayerMove PlayerMove => playerMove;
 
 		private PlayerSprites playerSprites;
 
+
+		private PlayerScript playerScript;
 		/// <summary>
 		/// The associated Player Script
 		/// </summary>
-		public PlayerScript PlayerScript { get; private set; }
+		public PlayerScript PlayerScript => playerScript;
 
 		private PlayerNetworkActions playerNetworkActions;
 
+		private RegisterPlayer registerPlayer;
 		/// <summary>
 		/// Cached register player
 		/// </summary>
-		public RegisterPlayer RegisterPlayer { get; private set; }
+		public RegisterPlayer RegisterPlayer => registerPlayer;
 
+
+		private Equipment equipment;
 		/// <summary>
 		/// The associated Player Equipment
 		/// </summary>
-		public Equipment Equipment { get; private set; }
+		public Equipment Equipment => equipment;
 
 		private ItemStorage itemStorage;
 
@@ -69,12 +76,12 @@ namespace HealthV2
 
 			base.EnsureInit();
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-			PlayerMove = GetComponent<PlayerMove>();
+			playerMove = GetComponent<PlayerMove>();
 			playerSprites = GetComponent<PlayerSprites>();
-			RegisterPlayer = GetComponent<RegisterPlayer>();
+			registerPlayer = GetComponent<RegisterPlayer>();
 			itemStorage = GetComponent<ItemStorage>();
-			Equipment = GetComponent<Equipment>();
-			PlayerScript = GetComponent<PlayerScript>();
+			equipment = GetComponent<Equipment>();
+			playerScript = GetComponent<PlayerScript>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 		}
 
@@ -92,7 +99,7 @@ namespace HealthV2
 
 		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
 		{
-			if (playerNetworkActions == null || RegisterPlayer == null) EnsureInit();
+			if (playerNetworkActions == null || registerPlayer == null) EnsureInit();
 
 			if (isServer)
 			{
@@ -100,7 +107,7 @@ namespace HealthV2
 			}
 
 			//we stay upright if buckled or conscious
-			RegisterPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
+			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
 		}
 
 		/// <summary>
@@ -115,7 +122,7 @@ namespace HealthV2
 		protected override void Gib()
 		{
 			Death();
-			EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
+			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			//drop clothes, gib... but don't destroy actual player, a piece should remain
 
 			//drop everything
@@ -303,7 +310,7 @@ namespace HealthV2
 
 		protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ElectricShock, RegisterPlayer.WorldPosition);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ElectricShock, registerPlayer.WorldPosition);
 			Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 		}
 
@@ -315,7 +322,7 @@ namespace HealthV2
 
 			// Slip is essentially a yelp SFX.
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, RegisterPlayer.WorldPosition,
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
 					audioSourceParameters, sourceObj: gameObject);
 
 			string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
@@ -363,10 +370,10 @@ namespace HealthV2
 
 			yield return WaitFor.Seconds(timeBeforeDrop); // Instantly dropping to ground looks odd.
 														  // TODO: Add sparks VFX at shockSourcePos.
-			RegisterPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
+			registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, RegisterPlayer.WorldPosition,
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
 					audioSourceParameters, sourceObj: gameObject);
 
 			yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);

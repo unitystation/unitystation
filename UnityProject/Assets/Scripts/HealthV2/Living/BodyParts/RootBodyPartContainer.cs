@@ -22,7 +22,7 @@ namespace HealthV2
 		/// <summary>
 		/// Storage container for things (typcially other organs) held within this body part
 		/// </summary>
-		[Tooltip("Things (ie other organs) held within this")]
+		[Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage Storage;
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace HealthV2
 		/// </summary>
 		public ItemStorage ItemStorage;
 
-		[Tooltip("List of optional body added to this, ie what wings a Moth has")]
+		[Tooltip("List of optional body added to this, eg what wings a Moth has")]
 		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
 		/// <summary>
 		/// The list of body parts that are allowed to be stored inside this body part container

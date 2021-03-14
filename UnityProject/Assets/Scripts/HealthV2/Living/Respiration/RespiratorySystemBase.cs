@@ -19,6 +19,7 @@ namespace HealthV2
 		private CirculatorySystemBase circulatorySystem;
 		[Tooltip("If this is turned on, the organism can breathe anywhere and wont affect atmospherics.")]
 		[SerializeField] private bool canBreathAnywhere = false;
+		[Tooltip("How often the respiration system should update.")]
 		[SerializeField] private float tickRate = 1f;
 		public bool IsSuffocating => healthStateController.IsSuffocating;
 		public float temperature => healthStateController.Temperature;

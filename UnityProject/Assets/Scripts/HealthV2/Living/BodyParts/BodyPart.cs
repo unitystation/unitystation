@@ -11,7 +11,7 @@ namespace HealthV2
 {
 	/// <summary>
 	/// A part of a body. Can be external, such as a limb, or internal like an organ.
-	/// Body parts can also contain other body parts, ie the 'brain body part' contained in the 'head body part'.
+	/// Body parts can also contain other body parts, eg the 'brain body part' contained in the 'head body part'.
 	/// BodyPart is a partial class split into BodyPart, BodyPartDamage, BodyPartBlood, and BodyPartSurgery.
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
@@ -39,7 +39,7 @@ namespace HealthV2
 		/// <summary>
 		/// Storage container for things (typcially other organs) held within this body part
 		/// </summary>
-		[Tooltip("Things (ie other organs) held within this")]
+		[Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage Storage = null;
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace HealthV2
 		[SerializeField] private bool isDimorphic = false;
 
 		/// <summary>
-		/// The body part 'container' to which this body part belongs, (ie legs group, arms group), if any
+		/// The body part 'container' to which this body part belongs, (eg legs group, arms group), if any
 		/// </summary>
 		[Tooltip("The 'container' to which this belongs (legs group, arms group, etc), if any")]
 		public RootBodyPartContainer Root;
@@ -114,17 +114,17 @@ namespace HealthV2
 		[Tooltip("Custom options from the Character Customizer that modifys this")]
 		public BodyPartCustomisationBase LobbyCustomisation;
 
-		[Tooltip("List of optional body added to this, ie what wings a Moth has")]
+		[Tooltip("List of optional body added to this, eg what wings a Moth has")]
 		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
 		/// <summary>
-		/// The list of optional body that are attached/stored in this body part, ie what wings a Moth has
+		/// The list of optional body that are attached/stored in this body part, eg what wings a Moth has
 		/// </summary>
 		public List<BodyPart> OptionalOrgans => optionalOrgans;
 
 		/// <summary>
-		/// The list of optional body that can be attached/stored in this body part, ie what wings are available on a Moth chest
+		/// The list of optional body that can be attached/stored in this body part, eg what wings are available on a Moth chest
 		/// </summary>
-		[Tooltip("List of optional body that can be added to this, ie what wings are available to Moths")]
+		[Tooltip("List of body parts this can be replaced with")]
 		public List<BodyPart> OptionalReplacementOrgan = new List<BodyPart>();
 
 		/// <summary>
