@@ -59,14 +59,15 @@ namespace Effects
 			{
 				timer += Time.deltaTime;
 
+				Vector3 randomPosition = tween.Target.transform.position + (Random.insideUnitSphere * distance);
+
 				switch (animType)
 				{
 					case AnimMode.GAMEOBJECT:
-						Vector3 randomPosition = tween.Target.transform.position + (Random.insideUnitSphere * distance);
 						AnimatePosition(randomPosition);
 						break;
 					case AnimMode.SPRITE:
-						Vector3 randomPosition = tween.Target.transform.localPosition + (Random.insideUnitSphere * distance);
+						randomPosition = new Vector3(0,0,0) + (Random.insideUnitSphere * distance);
 						AnimateSpritePosition(randomPosition);
 						break;
 				}
@@ -98,14 +99,14 @@ namespace Effects
 
 		private void AnimateSpritePosition(Vector3 pos)
 		{
-			LeanTween.move(spriteReference.gameObject, pos, 0.1f);
-			tween.RpcMove(axisMode, pos, 0.1f);
+			LeanTween.moveLocal(spriteReference.gameObject, pos, 0.1f);
+			tween.RpcLocalMove(axisMode, pos, 0.1f);
 		}
 
 		private void AnimatePosition(Vector3 pos)
 		{
 			LeanTween.move(gameObject, originalPosition, 0.1f);
-			tween.RpcLocalMove(axisMode, pos, 0.1f);
+			tween.RpcMove(axisMode, pos, 0.1f);
 		}
 	}
 }
