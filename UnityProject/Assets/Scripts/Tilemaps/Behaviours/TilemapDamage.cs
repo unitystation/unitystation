@@ -161,28 +161,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (basicTile.MaxHealth < basicTile.MaxHealth - totalDamageTaken)
 		{
-			if (basicTile.DamageOverlayList != null)
-			{
-				foreach (var overlayData in basicTile.DamageOverlayList.DamageOverlays)
-				{
-					if (overlayData.damagePercentage <= totalDamageTaken / basicTile.MaxHealth)
-					{
-						tileChangeManager.AddOverlay(data.Position, overlayData.overlayTile);
-						break;
-					}
-				}
-			}
-
-			//All the damage was absorbed, none left to return for next layer
-			damageTaken = 0;
-		}
-
-
-		if (basicTile.MaxHealth < basicTile.MaxHealth - totalDamageTaken)
-		{
 			data.ResetDamage(Layer.LayerType);
 		}
-		
+
 		if (damageTaken > totalDamageTaken){
 			Logger.LogError($"Applying damage to {basicTile.DisplayName} increased the damage to be dealt, when it should have decreased!", Category.Damage);
 			return totalDamageTaken;
@@ -206,7 +187,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void RemoveTileEffects(Vector3Int cellPos)
 	{
 		var data = metaDataLayer.Get(cellPos);
-		
+
 		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Damage);
 		data.ResetDamage(Layer.LayerType);
 	}
