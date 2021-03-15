@@ -107,22 +107,22 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		ItemSlot.Free(this);
 	}
 
-	public bool ServerTrySpawnAndAdd(GameObject InGameObject)
+	public bool ServerTrySpawnAndAdd(GameObject inGameObject)
 	{
-		var spawned = Spawn.ServerPrefab(InGameObject);
+		var spawned = Spawn.ServerPrefab(inGameObject);
 		if (spawned.Successful == false) return false;
 		return ServerTryAdd(spawned.GameObject);
 	}
 
 	//True equals successful false equals unsuccessful
-	public bool ServerTryAdd(GameObject InGameObject)
+	public bool ServerTryAdd(GameObject inGameObject)
 	{
-		var Item = InGameObject.GetComponent<ItemAttributesV2>();
-		if (Item == null) return false;
-		var slot = GetBestSlotFor(InGameObject);
+		var item = inGameObject.GetComponent<ItemAttributesV2>();
+		if (item == null) return false;
+		var slot = GetBestSlotFor(inGameObject);
 		if (slot == null) return false;
 
-		return Inventory.ServerAdd(InGameObject, slot);
+		return Inventory.ServerAdd(inGameObject, slot);
 	}
 
 	public bool ServerTryTransferFrom(ItemSlot inSlot)

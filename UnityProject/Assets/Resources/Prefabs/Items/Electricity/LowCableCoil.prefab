@@ -11,8 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 20396c9482ca30c42acc20f3fc2e1ed2,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1987768667762010246, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -26,15 +25,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
+      propertyPath: initialDescription
+      value: A coil of insulated low power cable.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f5ef7dcd1a179ae489ce556c76d0cd7f,
+        type: 2}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764,
         type: 2}
     - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: de7c8fb297b8d83439a6883b074398e9,
+        type: 2}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: e16268898303f824da054305ad3e20c2, type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 4fc275ebdf468a342b3cfaedf59c45a6, type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 48d9fcf12fa13a34d90bf443c3f68334, type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 8f6dd94b7246aeb4080807c7df1e4057, type: 3}
     - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -61,16 +97,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 48d9fcf12fa13a34d90bf443c3f68334, type: 3}
-    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 4fc275ebdf468a342b3cfaedf59c45a6, type: 3}
-    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: 4fc275ebdf468a342b3cfaedf59c45a6,
@@ -93,28 +119,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 4fc275ebdf468a342b3cfaedf59c45a6,
         type: 3}
-    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 8f6dd94b7246aeb4080807c7df1e4057, type: 3}
-    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: initialDescription
-      value: A coil of insulated low power cable.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: f5ef7dcd1a179ae489ce556c76d0cd7f,
-        type: 2}
-    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: de7c8fb297b8d83439a6883b074398e9,
-        type: 2}
     - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: CableType
@@ -133,8 +137,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: m_Color.r
-      value: 0
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
@@ -143,8 +147,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: m_Color.b
-      value: 1
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
@@ -163,6 +172,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -175,16 +189,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
@@ -218,8 +222,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: m_Color.r
-      value: 0.1462264
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
@@ -228,8 +232,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: m_Color.b
-      value: 1
+      propertyPath: m_Color.r
+      value: 0.1462264
       objectReference: {fileID: 0}
     - target: {fileID: 6201122676745406775, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
@@ -249,8 +253,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8951186497684717993, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: backgroundColor.r
-      value: 0
+      propertyPath: backgroundColor.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8951186497684717993, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
@@ -259,8 +263,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8951186497684717993, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: backgroundColor.b
-      value: 1
+      propertyPath: backgroundColor.r
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3e6805b264a935428b0de415ea57943, type: 3}

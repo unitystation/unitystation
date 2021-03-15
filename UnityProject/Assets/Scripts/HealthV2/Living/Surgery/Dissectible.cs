@@ -15,10 +15,10 @@ namespace HealthV2
 		[SyncVar(hook = nameof(SetProcedureInProgress))]
 		private bool ProcedureInProgress = false;
 
-		private BodyPart InternalcurrentlyOn = null;
+		private GameObject InternalcurrentlyOn = null;
 
 
-		public BodyPart currentlyOn
+		public GameObject currentlyOn
 		{
 			get
 			{
@@ -30,7 +30,7 @@ namespace HealthV2
 				{
 					if (NetworkIdentity.spawned.ContainsKey(netId) && NetworkIdentity.spawned[netId] != null)
 					{
-						return NetworkIdentity.spawned[netId].gameObject.GetComponent<BodyPart>();
+						return NetworkIdentity.spawned[netId].gameObject;
 					}
 
 					return null;
@@ -42,6 +42,8 @@ namespace HealthV2
 				InternalcurrentlyOn = value;
 			}
 		}
+
+		public BodyPart BodyPartIsOn => currentlyOn?.GetComponent<BodyPart>();
 
 		[SyncVar(hook = nameof(SetBodyPartIsOpen))]
 		private bool BodyPartIsopen = false;
@@ -104,7 +106,7 @@ namespace HealthV2
 
 			if (ProcedureInProgress == false) //Defer to server
 			{
-				if (currentlyOn != null) //Body part not picked?
+				if (BodyPartIsOn != null) //Body part not picked?
 				{
 					if (BodyPartIsopen)
 					{
@@ -136,7 +138,6 @@ namespace HealthV2
 			else
 			{
 				return false; //?
-				ThisPresentProcedure.TryTool(interaction);
 				//Pass over to Body part being operated on
 			}
 		}
@@ -161,11 +162,11 @@ namespace HealthV2
 		{
 			if (ProcedureInProgress == false) //Defer to server
 			{
-				if (currentlyOn != null)
+				if (BodyPartIsOn != null)
 				{
 					if (BodyPartIsopen)
 					{
-						foreach (var inBodyPart in currentlyOn.ContainBodyParts)
+						foreach (var inBodyPart in BodyPartIsOn.ContainBodyParts)
 						{
 							if (inBodyPart == ONBodyPart)
 							{
@@ -174,41 +175,47 @@ namespace HealthV2
 									if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
 									if (SurgeryProcedureBase == Procedure)
 									{
-										this.currentlyOn = inBodyPart;
+										this.currentlyOn = inBodyPart.gameObject;
 										this.ThisPresentProcedure.SetupProcedure(this, inBodyPart, Procedure);
+										return;
 									}
 								}
+								return;
 							}
 						}
 
 						if (currentlyOn == ONBodyPart)
 						{
-							foreach (var Procedure in currentlyOn.SurgeryProcedureBase)
+							foreach (var Procedure in BodyPartIsOn.SurgeryProcedureBase)
 							{
 								if (Procedure is CloseProcedure || Procedure is ImplantProcedure)
 								{
 									if (SurgeryProcedureBase == Procedure)
 									{
 										this.currentlyOn = currentlyOn;
-										this.ThisPresentProcedure.SetupProcedure(this, currentlyOn, Procedure);
+										this.ThisPresentProcedure.SetupProcedure(this, BodyPartIsOn, Procedure);
+										return;
 									}
 								}
 							}
+							return;
 						}
 					}
 					else
 					{
 						if (ONBodyPart == currentlyOn)
 						{
-							foreach (var Procedure in currentlyOn.SurgeryProcedureBase)
+							foreach (var Procedure in BodyPartIsOn.SurgeryProcedureBase)
 							{
 								if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
 								if (SurgeryProcedureBase == Procedure)
 								{
 									this.currentlyOn = currentlyOn;
-									this.ThisPresentProcedure.SetupProcedure(this, currentlyOn, Procedure);
+									this.ThisPresentProcedure.SetupProcedure(this, BodyPartIsOn, Procedure);
+									return;
 								}
 							}
+							return;
 						}
 					}
 				}
@@ -225,12 +232,20 @@ namespace HealthV2
 									if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
 									if (SurgeryProcedureBase == Procedure)
 									{
-										this.currentlyOn = Limb;
+										this.currentlyOn = Limb.gameObject;
 										this.ThisPresentProcedure.SetupProcedure(this, Limb, Procedure);
+										return;
 									}
 								}
 							}
 						}
+					}
+
+					if (LivingHealthMasterBase.GetComponent<PlayerSprites>().RaceBodyparts.Base.RootImplantProcedure ==
+					    SurgeryProcedureBase)
+					{
+						this.currentlyOn = LivingHealthMasterBase.gameObject;
+						this.ThisPresentProcedure.SetupProcedure(this,  null, SurgeryProcedureBase);
 					}
 				}
 			}
@@ -246,11 +261,11 @@ namespace HealthV2
 			{
 				if (BodyPartIsopen)
 				{
-					SendSurgeryBodyParts.SendTo( currentlyOn.ContainBodyParts,this, SentByPlayer);
+					SendSurgeryBodyParts.SendTo( BodyPartIsOn.ContainBodyParts,this, SentByPlayer);
 				}
 				else
 				{
-					SendSurgeryBodyParts.SendTo(new List<BodyPart>(){currentlyOn},this , SentByPlayer);
+					SendSurgeryBodyParts.SendTo(new List<BodyPart>(){BodyPartIsOn},this , SentByPlayer);
 				}
 			}
 		}
@@ -260,7 +275,7 @@ namespace HealthV2
 		{
 			if (ProcedureInProgress == false)
 			{
-				if (currentlyOn != null)
+				if (BodyPartIsOn != null)
 				{
 					if (BodyPartIsopen)
 					{
@@ -288,6 +303,10 @@ namespace HealthV2
 			public int CurrentStep = 0;
 			public BodyPart RelatedBodyPart;
 
+			//Used for when surgeries are cancelled
+			public BodyPart PreviousBodyPart;
+
+
 			public PositionalHandApply Stored;
 			public SurgeryStep ThisSurgeryStep;
 
@@ -310,7 +329,13 @@ namespace HealthV2
 							ThisSurgeryStep.StartOther, ThisSurgeryStep.SuccessSelf, ThisSurgeryStep.SuccessOther,
 							SuccessfulProcedure, ThisSurgeryStep.FailSelf, ThisSurgeryStep.FailOther,
 							UnsuccessfulProcedure);
+						return;
 					}
+				}
+
+				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Cautery))
+				{
+					CancelSurgery();
 				}
 			}
 
@@ -332,7 +357,7 @@ namespace HealthV2
 
 					SurgeryProcedureBase.FinnishSurgeryProcedure(RelatedBodyPart, Stored, this);
 
-					RelatedBodyPart.SuccessfulProcedure(Stored, this);
+					RelatedBodyPart?.SuccessfulProcedure(Stored, this);
 					ISon.ProcedureInProgress = false;
 					//reset!
 				}
@@ -342,11 +367,21 @@ namespace HealthV2
 			{
 				SurgeryProcedureBase.UnsuccessfulStep(RelatedBodyPart, Stored, this);
 
-				RelatedBodyPart.UnsuccessfulStep(Stored, this);
+				RelatedBodyPart?.UnsuccessfulStep(Stored, this);
+			}
+
+			public void CancelSurgery()
+			{
+				RelatedBodyPart = PreviousBodyPart;
+				ISon.currentlyOn = RelatedBodyPart?.gameObject;
+				CurrentStep = 0;
+				SurgeryProcedureBase = null;
+				ISon.ProcedureInProgress = false;
 			}
 
 			public void Clean()
 			{
+				PreviousBodyPart = RelatedBodyPart;
 				RelatedBodyPart = null;
 				CurrentStep = 0;
 				SurgeryProcedureBase = null;
@@ -356,6 +391,10 @@ namespace HealthV2
 				SurgeryProcedureBase inSurgeryProcedureBase)
 			{
 				Clean();
+				if (ISon != Dissectible)
+				{
+					PreviousBodyPart = null;
+				}
 				ISon = Dissectible;
 				ISon.ProcedureInProgress = true;
 				RelatedBodyPart = bodyPart;

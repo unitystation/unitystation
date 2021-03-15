@@ -184,6 +184,11 @@ PrefabInstance:
       propertyPath: matsDroppedOnDestroy
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: soundOnClose.AssetAddress
+      value: Assets/Prefabs/Machines/Closet/wooden_closet_close.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}

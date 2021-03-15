@@ -47,6 +47,7 @@ namespace Lobby
 		public Text backpackText;
 		public Text accentText;
 		public Text raceText;
+		public Text pronounText;
 
 		public PlayerHealthData ThisSetRace = null;
 
@@ -442,6 +443,7 @@ namespace Lobby
 			RefreshBodyType();
 			RefreshBackpack();
 			RefreshClothing();
+			RefreshPronoun();
 			RefreshRace();
 		}
 
@@ -459,18 +461,18 @@ namespace Lobby
 			// facialHairDropdown.value = UnityEngine.Random.Range(0, facialHairDropdown.options.Count - 1);
 			// underwearDropdown.value = UnityEngine.Random.Range(0, underwearDropdown.options.Count - 1);
 			// socksDropdown.value = UnityEngine.Random.Range(0, socksDropdown.options.Count - 1);
-
-			// Do gender specific randomisation
-			if (currentCharacter.BodyType == BodyType.Male)
-			{
-				currentCharacter.Name = StringManager.GetRandomMaleName();
-				//currentCharacter.FacialHairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			}
-			else
-			{
-				currentCharacter.Name = StringManager.GetRandomFemaleName();
-			}
-
+				switch (currentCharacter.BodyType)
+				{
+					case BodyType.Male:
+						currentCharacter.Name = StringManager.GetRandomMaleName();
+						break;
+					case BodyType.Female:
+						currentCharacter.Name = StringManager.GetRandomFemaleName();
+						break;
+					default:
+						currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names? 
+						break;																	//for now it will pick from both the male and female name pools
+				}
 			// Randomise rest of data
 			// currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
 			// currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
@@ -795,13 +797,17 @@ namespace Lobby
 
 		public void RandomNameBtn()
 		{
-			if (currentCharacter.BodyType == BodyType.Male)
+			switch (currentCharacter.BodyType)
 			{
-				currentCharacter.Name = TruncateName(StringManager.GetRandomMaleName());
-			}
-			else
-			{
-				currentCharacter.Name = TruncateName(StringManager.GetRandomFemaleName());
+				case BodyType.Male:
+					currentCharacter.Name = StringManager.GetRandomMaleName();
+					break;
+				case BodyType.Female:
+					currentCharacter.Name = StringManager.GetRandomFemaleName();
+					break;
+				default:
+					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);
+					break;
 			}
 
 			RefreshName();
@@ -952,6 +958,27 @@ namespace Lobby
 		private void RefreshBackpack()
 		{
 			backpackText.text = currentCharacter.BagStyle.ToString();
+		}
+
+		//------------------
+		//PRONOUN PREFERENCE:
+		//------------------
+
+		public void OnPronounChange()
+		{
+			int pronoun = (int) currentCharacter.PlayerPronoun;
+			pronoun++;
+			if (pronoun == (int) PlayerPronoun.None)
+			{
+				pronoun = 0;
+			}
+			currentCharacter.PlayerPronoun = (PlayerPronoun) pronoun;
+			RefreshPronoun();
+		}
+
+		private void RefreshPronoun()
+		{
+			pronounText.text = currentCharacter.PlayerPronoun.ToString().Replace("_", "/");
 		}
 
 		//------------------

@@ -325,7 +325,9 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
 --- !u!114 &325157265441756014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +373,7 @@ MonoBehaviour:
   throwRange: 7
   hitSound:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/GenericHit.prefab
+    AssetAddress: Assets/Prefabs/Effects/Tap.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

@@ -9,7 +9,7 @@ public class PlayerCustomisationData : ScriptableObject
 	public SpriteDataSO SpriteEquipped;
 	public string Name;
 	public CustomisationType Type;
-	public Gender gender = Gender.Neuter;
+	public Gender gender = Gender.NonBinary;
 
 }
 

@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A pair of thermal optic goggles with an onboard chameleon generator.
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3273994478765017941, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
       propertyPath: m_Sprite
@@ -92,14 +97,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 925d96c64f19b0048bf5b852bfbcae88,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 925d96c64f19b0048bf5b852bfbcae88,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
       propertyPath: allClothingData.Array.size

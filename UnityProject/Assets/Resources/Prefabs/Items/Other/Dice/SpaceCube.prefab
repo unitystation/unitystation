@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &8272211228211520649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3763335238711151114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf65f1a5695e88446a38bae1424c84fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sides: 6
+  isRiggable: 1
 --- !u!1 &8144169718610373448
 GameObject:
   m_ObjectHideFlags: 0
@@ -48,6 +62,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -72,6 +87,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7859436567787233061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,20 +114,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8144169718610373448}
   m_Mesh: {fileID: 0}
---- !u!114 &8272211228211520649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3763335238711151114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf65f1a5695e88446a38bae1424c84fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sides: 6
-  riggable: 1
 --- !u!1001 &8342763745875671596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133,14 +135,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4688498644431036228, guid: ae7ed875728dfbc47b016001e4d0f6cd,
         type: 3}
+      propertyPath: initialName
+      value: space cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688498644431036228, guid: ae7ed875728dfbc47b016001e4d0f6cd,
+        type: 3}
       propertyPath: initialDescription
       value: 'A die with six sides. 6 TIMES 255 TIMES 255 TILE TOTAL EXISTENCE, SQUARE
         YOUR MIND OF EDUCATED STUPID: 2 DOES NOT EXIST.'
       objectReference: {fileID: 0}
     - target: {fileID: 4688498644431036228, guid: ae7ed875728dfbc47b016001e4d0f6cd,
         type: 3}
-      propertyPath: initialName
-      value: space cube
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 4975505095817855866, guid: ae7ed875728dfbc47b016001e4d0f6cd,
         type: 3}
@@ -152,6 +159,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183357543864323410, guid: ae7ed875728dfbc47b016001e4d0f6cd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5183357543864323410, guid: ae7ed875728dfbc47b016001e4d0f6cd,
         type: 3}
@@ -170,6 +182,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5183357543864323410, guid: ae7ed875728dfbc47b016001e4d0f6cd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183357543864323410, guid: ae7ed875728dfbc47b016001e4d0f6cd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -182,16 +199,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183357543864323410, guid: ae7ed875728dfbc47b016001e4d0f6cd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183357543864323410, guid: ae7ed875728dfbc47b016001e4d0f6cd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5183357543864323410, guid: ae7ed875728dfbc47b016001e4d0f6cd,
         type: 3}
@@ -215,6 +222,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8732747239943713120, guid: ae7ed875728dfbc47b016001e4d0f6cd,
         type: 3}
+      propertyPath: variantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8732747239943713120, guid: ae7ed875728dfbc47b016001e4d0f6cd,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 178250173dc40014496f8666d4eb397f,
@@ -225,11 +237,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 178250173dc40014496f8666d4eb397f,
         type: 2}
-    - target: {fileID: 8732747239943713120, guid: ae7ed875728dfbc47b016001e4d0f6cd,
-        type: 3}
-      propertyPath: variantIndex
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5463398768012232765, guid: ae7ed875728dfbc47b016001e4d0f6cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ae7ed875728dfbc47b016001e4d0f6cd, type: 3}

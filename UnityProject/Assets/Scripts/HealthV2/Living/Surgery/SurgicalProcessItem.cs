@@ -28,7 +28,7 @@ public class SurgicalProcessItem : MonoBehaviour
 		ToPerform = inAction;
 	}
 
-	public void ProcedureToChoose(BodyPart bodyPart, Action inAction, SpriteDataSO InOperationSprite, string Operation)
+	public void ProcedureToChoose(GameObject bodyPart, Action inAction, SpriteDataSO InOperationSprite, string Operation)
 	{
 		var Sprite = bodyPart.GetComponentInChildren<SpriteHandler>();
 		if (Sprite != null && Sprite.GetCurrentSpriteSO() != null)

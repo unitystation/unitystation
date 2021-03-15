@@ -120,7 +120,7 @@ namespace Systems.MobAIs
 					SingleBark();
 				}
 
-				FollowTarget(speaker.GameObject.transform);
+				FollowTarget(speaker.GameObject);
 				yield break;
 			}
 
@@ -218,7 +218,7 @@ namespace Systems.MobAIs
 
 			//Make the cat flee!
 			cat.RunFromDog(gameObject.transform);
-			FollowTarget(cat.gameObject.transform, 5f);
+			FollowTarget(cat.gameObject, 5f);
 			StartCoroutine(RandomBarks());
 		}
 

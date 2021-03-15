@@ -13,21 +13,9 @@ namespace UI.Objects.Robotics
 		}
 
 		private ItemTrait materialType;
-
-		public ItemTrait MaterialType {
-			set => materialType = value;
-		}
-
 		private int currentAmount;
 
-		public int CurrentAmount {
-			set {
-				currentAmount = value;
-			}
-		}
-
 		private NetLabel amountLabel;
-		public NetLabel AmountLabel { get => amountLabel; }
 
 		private GUI_ExoFabButton buttonOne;
 		private GUI_ExoFabButton buttonTen;
@@ -39,22 +27,21 @@ namespace UI.Objects.Robotics
 			else { ExoFabMasterTab?.OnDispenseSheetClicked.Invoke(amount, materialType); }
 		}
 
-		public void ReInit(MaterialRecord materialRecord)
+		public void ReInit(ItemTrait material, int amount)
 		{
-			currentAmount = materialRecord.CurrentAmount;
-			materialType = materialRecord.materialType;
-
+			currentAmount = amount;
+			materialType = material;
 			foreach (var element in Elements)
 			{
 				string nameBeforeIndex = element.name.Split('~')[0];
 				switch (nameBeforeIndex)
 				{
 					case "MaterialName":
-						((NetUIElement<string>)element).SetValueServer(materialRecord.materialName + ":");
+						((NetUIElement<string>)element).SetValueServer(CraftingManager.MaterialSheetData[material].displayName + ":");
 						break;
 
 					case "MaterialAmount":
-						((NetUIElement<string>)element).SetValueServer(materialRecord.CurrentAmount + " cm3");
+						((NetUIElement<string>)element).SetValueServer(currentAmount + " cm3");
 						amountLabel = element as NetLabel;
 						break;
 

@@ -13,7 +13,7 @@ namespace Spells
 
 		protected override string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
 		{
-			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.TheirPronoun());
+			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.TheirPronoun(caster.Script));
 		}
 
 		public override bool ValidateCast(ConnectedPlayer caster)

@@ -56,7 +56,7 @@ namespace HealthV2
 
 
 		//
-		public float TotalDamageWithoutOxyClone
+		public float TotalDamageWithoutOxyCloneRadStam
 		{
 			get
 			{
@@ -66,6 +66,7 @@ namespace HealthV2
 					if ((int)DamageType.Oxy == i) continue;
 					if ((int)DamageType.Clone == i) continue;
 					if ((int)DamageType.Radiation == i) continue;
+					if ((int)DamageType.Stamina == i) continue;
 					TDamage += Damages[i];
 				}
 
@@ -196,7 +197,7 @@ namespace HealthV2
 		private void UpdateSeverity()
 		{
 			// update UI limbs depending on their severity of damage
-			float severity = 1 - (Mathf.Max(health, 0) / maxHealth);
+			float severity = 1 - (Mathf.Max(maxHealth-TotalDamageWithoutOxyCloneRadStam, 0) / maxHealth);
 			// If the limb is uninjured
 			if (severity <= 0)
 			{

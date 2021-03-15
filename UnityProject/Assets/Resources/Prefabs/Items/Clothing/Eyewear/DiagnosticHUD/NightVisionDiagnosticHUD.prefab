@@ -133,6 +133,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A robotics diagnostic HUD fitted with a light amplifier.
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3273994478765017941, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
       propertyPath: m_Sprite

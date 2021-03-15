@@ -103,6 +103,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c1a6b7603a812b34b908525796b891c5,
         type: 2}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: initialName
+      value: left arm
+      objectReference: {fileID: 0}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: willHighlight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: initialDescription
+      value: Did you know that the word 'sinister' stems originally from the Latin
+        'sinestra' (left hand), because the left hand was supposed to be possessed
+        by the devil? This arm appears to be possessed by no one though.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 7301997280600668226, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_Sprite

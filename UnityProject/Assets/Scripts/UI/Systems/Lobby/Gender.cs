@@ -1,13 +1,13 @@
 ﻿public enum Gender
 {
-	Male,
-	Female,
-	Neuter //adding anymore genders will break things do not edit
+	NonBinary = 3,
+	Male = 1,
+	Female = 2
 }
 
 public enum BodyType //Now with cup Rests
 {
-	Neutral = 0,
+	NonBinary = 0,
 	Male,
 	Female,
 	Other1,
@@ -20,11 +20,4 @@ public enum BodyType //Now with cup Rests
 	Other8,
 	Other9,
 	Other10
-}
-
-public enum GenderPronouns
-{
-	Neutral,
-	Male,
-	Female,
 }

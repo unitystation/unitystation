@@ -446,6 +446,7 @@ public partial class PlayerSync
 
 	/// Tries to assign next target from queue to serverTargetState if there are any
 	/// (In order to start lerping towards it)
+	/// do not loop
 	[Server]
 	private void TryUpdateServerTarget()
 	{
@@ -483,7 +484,6 @@ public partial class PlayerSync
 			SyncMatrix();
 		}
 
-		TryUpdateServerTarget();
 		//Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 	}
 
