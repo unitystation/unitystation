@@ -97,6 +97,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			data.RemoveTileDamage(Layer.LayerType);
 			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
+			tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, TileChangeManager.OverlayType.Damage);
 
 			//Add new tile if needed
 			//TODO change floors to using overlays, but generic overlay will need to be sprited

@@ -920,7 +920,7 @@ namespace TileManagement
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
 					}
 
-					if (tileLocation == null && layer.overlayStore.Contains(position) == false)
+					if ((tileLocation == null || tileLocation.Tile == null) && layer.overlayStore.Contains(position) == false)
 					{
 						layer.overlayStore.Add(position);
 						return position;
@@ -954,7 +954,7 @@ namespace TileManagement
 
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
@@ -1008,7 +1008,7 @@ namespace TileManagement
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
 			List<Vector3Int> pos = new List<Vector3Int>();
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
@@ -1062,7 +1062,7 @@ namespace TileManagement
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
 			List<Vector3Int> pos = new List<Vector3Int>();
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
