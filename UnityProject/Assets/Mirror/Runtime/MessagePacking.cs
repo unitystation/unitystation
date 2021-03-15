@@ -101,10 +101,7 @@ namespace Mirror
             }
             catch (Exception exception)
             {
-	            //CUSTOM UNITYSTATION CODE//
-	            //Used to debug connection loss from invalid messages
-                Debug.LogError($"Closed connection: {conn}. This can happen if the other side accidentally (or an attacker intentionally) sent invalid data. Reason:");
-                Debug.LogError($"{exception.GetType().Name} {exception.Message}\n{exception.StackTrace}");
+	            Debug.LogError($"Closed connection: {conn}. This can happen if the other side accidentally (or an attacker intentionally) sent invalid data. Reason: {exception}");
                 conn.Disconnect();
                 return;
             }

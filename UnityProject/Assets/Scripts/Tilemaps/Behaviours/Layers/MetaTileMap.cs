@@ -468,20 +468,11 @@ namespace TileManagement
 					PresentTiles[layer].TryGetValue(position, out TileLcation);
 				}
 
-				var overlayTile = tile as OverlayTile;
-
 				if (TileLcation != null)
 				{
 					TileLcation.Tile = tile;
 					TileLcation.TransformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
 					TileLcation.Colour = color.GetValueOrDefault(Color.white);
-					TileLcation.overlayName = null;
-
-					if (overlayTile != null)
-					{
-						TileLcation.overlayName = overlayTile.OverlayName;
-					}
-
 					TileLcation.OnStateChange();
 				}
 				else
@@ -490,13 +481,6 @@ namespace TileManagement
 					TileLcation.PresentlyOn = layer;
 					TileLcation.PresentMetaTileMap = this;
 					TileLcation.TileCoordinates = position;
-					TileLcation.overlayName = null;
-
-					if (overlayTile != null)
-					{
-						TileLcation.overlayName = overlayTile.OverlayName;
-					}
-
 					TileLcation.Tile = tile;
 					TileLcation.TransformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
 					TileLcation.Colour = color.GetValueOrDefault(Color.white);
@@ -1194,61 +1178,6 @@ namespace TileManagement
 			else
 			{
 				LogMissingLayer(position, refLayer);
-			}
-		}
-
-		public void RemoveOverlayWithlayer(Vector3Int position, LayerType refLayer, string overlayName)
-		{
-			if (refLayer == LayerType.Objects) return;
-
-			if (Layers.TryGetValue(refLayer, out var layer))
-			{
-				var overlay = GetOverlayPos(position, refLayer, overlayName);
-
-				if(overlay == null) return;
-
-				TileLocation tileLocation = null;
-				lock (PresentTiles)
-				{
-					PresentTiles[layer].TryGetValue(overlay.Value, out tileLocation);
-				}
-
-				if (tileLocation != null)
-				{
-					tileLocation.Tile = null;
-					tileLocation.OnStateChange();
-				}
-
-			}
-			else
-			{
-				LogMissingLayer(position, refLayer);
-			}
-		}
-
-		public void ChangeTileLocationPosition(Vector3Int newPos, Vector3Int oldPos, Layer layer)
-		{
-			lock (PresentTiles)
-			{
-				if (PresentTiles[layer].TryGetValue(oldPos, out var tileLocation) && PresentTiles[layer].ContainsKey(newPos) == false)
-				{
-					tileLocation.TileCoordinates = newPos;
-					PresentTiles[layer].Add(newPos, tileLocation);
-					PresentTiles[layer].Remove(oldPos);
-					return;
-				}
-			}
-
-			lock (QueuedChanges)
-			{
-				foreach (var tileLocation in QueuedChanges)
-				{
-					if (tileLocation.TileCoordinates == oldPos)
-					{
-						tileLocation.TileCoordinates = newPos;
-						break;
-					}
-				}
 			}
 		}
 

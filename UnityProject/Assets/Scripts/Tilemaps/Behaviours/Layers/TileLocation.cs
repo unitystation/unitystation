@@ -14,8 +14,6 @@ namespace TileManagement
 		public Vector3Int TileCoordinates = Vector3Int.zero;
 		private Color colour = Color.white;
 
-		public string overlayName = null;
-
 		public Color Colour
 		{
 			get => colour;
@@ -82,7 +80,6 @@ namespace TileManagement
 			tile = null;
 			transformMatrix = Matrix4x4.identity;
 			InQueue = false;
-			overlayName = null;
 		}
 	}
 }
