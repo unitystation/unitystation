@@ -365,6 +365,7 @@ MonoBehaviour:
   ProviderRegisterTile: {fileID: 0}
   Type: 35
   materialsListDisplay: {fileID: 1815899555180757094}
+  laborPointsLabel: {fileID: 4159848316621143485}
 --- !u!1 &5370860064539535629
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,7 +461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5914426841277353365
 RectTransform:
   m_ObjectHideFlags: 0
@@ -521,7 +522,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You have 10 points to claim
+  m_Text: 'Unclaimed points: 10'
 --- !u!114 &4159848316621143485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,13 +861,14 @@ GameObject:
   - component: {fileID: 9148647480223803888}
   - component: {fileID: 7559357163178935421}
   - component: {fileID: 2565594833102910402}
+  - component: {fileID: 2292375802329778207}
   m_Layer: 5
   m_Name: ClaimButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4777924441665517838
 RectTransform:
   m_ObjectHideFlags: 0
@@ -884,7 +886,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 617, y: -75}
+  m_AnchoredPosition: {x: 537, y: -75}
   m_SizeDelta: {x: 200.18, y: 43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6925779240122656439
@@ -983,10 +985,37 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 2292375802329778207}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
         m_MethodName: ExecuteClient
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2292375802329778207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8710442241119043883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3914321362406773978}
+        m_TargetAssemblyTypeName: Objects.Mining.GUI_OreRedemptionMachine, Assets
+        m_MethodName: ClaimLaborPoints
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
