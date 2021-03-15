@@ -154,7 +154,7 @@ namespace Systems.MobAIs
 			{
 				isKnockedDown = true;
 
-				registerObject.Passable = true;
+				registerObject.SetPassable(false, true);
 				mobSprite.SetToBodyLayer();
 
 				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);

@@ -26,6 +26,8 @@ public class ControlIntent : TooltipMonoBehaviour
 	[SerializeField] private string startRunningMessage = "You start running";
 	[SerializeField] private string startWalkingMessage = "You start walking";
 
+	private bool clientResting = false;
+
 	public bool Running { get; set; } = true;
 
 	private void Start()
@@ -52,9 +54,9 @@ public class ControlIntent : TooltipMonoBehaviour
 	{
 		Logger.Log("OnClickRest", Category.UserInput);
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-
+		clientResting = !clientResting;
 		Chat.AddExamineMsgToClient(restMessage);
-
+		RequestRest.Send(clientResting);
 		// TODO: trigger rest intent
 	}
 

@@ -338,7 +338,7 @@ namespace Systems.MobAIs
 			base.OnDespawnServer(info);
 			mobSprite.SetToBodyLayer();
 			deathSoundPlayed = false;
-			registerObject.Passable = true;
+			registerObject.SetPassable(false, true);
 		}
 
 		public enum MobStatus

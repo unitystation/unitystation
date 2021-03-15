@@ -65,6 +65,10 @@ namespace HealthV2
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (ProcedureInProgress == false) return false;
+			var RegisterPlayer = interaction.TargetObject.GetComponent<RegisterPlayer>();
+
+			if (RegisterPlayer == null) return false; //Player script changes needed
+			if (RegisterPlayer.IsLayingDown ==false) return false;
 			return (Validations.HasAnyTrait(interaction.HandObject, InitiateSurgeryItemTraits));
 		}
 
@@ -81,6 +85,14 @@ namespace HealthV2
 		{
 			if (DefaultWillInteract.Default(interaction, NetworkSide.Client) == false) return false;
 			//**Client**
+			if (Validations.HasComponent<Dissectible>(interaction.TargetObject) == false) return false;
+
+			var RegisterPlayer = interaction.TargetObject.GetComponent<RegisterPlayer>();
+
+			if (RegisterPlayer == null) return false; //Player script changes needed
+
+
+			if (RegisterPlayer.IsLayingDown == false) return false;
 
 			if (ProcedureInProgress == false)
 			{
