@@ -905,7 +905,7 @@ namespace TileManagement
 			}
 
 			TileLocation tileLocation = null;
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{

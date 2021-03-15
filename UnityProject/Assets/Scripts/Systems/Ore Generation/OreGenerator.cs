@@ -89,7 +89,7 @@ public class OreGenerator : MonoBehaviour
 				tileChangeManager.UpdateTile(oreTile, oreCategory.WallTile);
 				var intLocation = oreTile + Vector3Int.zero;
 				intLocation.z = -1;
-				tileChangeManager.UpdateTile(intLocation, oreCategory.OverlayTile);
+				tileChangeManager.AddOverlay(intLocation, oreCategory.OverlayTile as OverlayTile);
 
 				NodeScatter(oreTile, oreCategory);
 			}
@@ -112,7 +112,7 @@ public class OreGenerator : MonoBehaviour
 				tileChangeManager.UpdateTile(ranLocation, materialSpecified.WallTile);
 				locations.Add(ranLocation);
 				ranLocation.z = -1;
-				tileChangeManager.UpdateTile(ranLocation, materialSpecified.OverlayTile);
+				tileChangeManager.AddOverlay(ranLocation, materialSpecified.OverlayTile as OverlayTile);
 			}
 			strength--;
 		}
