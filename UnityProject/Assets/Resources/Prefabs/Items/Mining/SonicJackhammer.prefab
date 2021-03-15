@@ -90,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4567172765289801393, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Weapons/SonicJackhammer.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567172765289801393, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 3779b8b9b92ee7340843ce6213187890,
@@ -104,6 +109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: timeMultiplier
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8637307195371743201, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
+      propertyPath: pickaxeSound.AssetAddress
+      value: Assets/Prefabs/Weapons/SonicJackhammer.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d508ff5a5539124bb4e3e4c33ff3dda, type: 3}
