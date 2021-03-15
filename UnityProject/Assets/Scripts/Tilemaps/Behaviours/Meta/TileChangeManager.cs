@@ -174,11 +174,15 @@ public class TileChangeManager : NetworkBehaviour
 	public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
+		//use remove methods to remove overlay instead
 		if(overlayTile == null) return;
 
 		cellPosition.z = 0;
 
-		if (metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile.OverlayName)) return;
+		var overlayPos = metaTileMap.GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
+		if (overlayPos == null) return;
+
+		cellPosition = overlayPos.Value;
 
 		InternalUpdateTile(cellPosition, overlayTile, transformMatrix, color);
 
@@ -193,37 +197,24 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		cellPosition.z = 0;
 
-		if (metaTileMap.HasAnyOverlay(cellPosition, layerType))
+		var overlayPos = metaTileMap.GetOverlayPos(cellPosition, layerType, overlayName);
+		if(overlayPos == null) return;
+
+		cellPosition = overlayPos.Value;
+
+		if (onlyIfCleanable)
 		{
-			if (onlyIfCleanable)
-			{
-				//only remove it if it's a cleanable tile
-				var tile = metaTileMap.GetTile(cellPosition, layerType) as OverlayTile;
-				//it's not an overlay tile or it's not cleanable so don't remove it
-				if (tile == null || !tile.IsCleanable) return;
-			}
-
-			foreach (var tile in TileManager.GetTiles(tileType))
-			{
-				var overlayTile = tile.Value as OverlayTile;
-				if(overlayTile == null) continue;
-
-				if (overlayTile.OverlayName == overlayName)
-				{
-					var nullCellPosition = metaTileMap.GetOverlayPos(cellPosition, layerType, overlayTile.OverlayName);
-
-					if(nullCellPosition == null) continue;
-
-					cellPosition = nullCellPosition.Value;
-
-					InternalRemoveTile(cellPosition, layerType, false);
-
-					RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
-
-					AddToChangeList(cellPosition, layerType, removeAll: true);
-				}
-			}
+			//only remove it if it's a cleanable tile
+			var tile = metaTileMap.GetTile(cellPosition, layerType) as OverlayTile;
+			//it's not an overlay tile or it's not cleanable so don't remove it
+			if (tile == null || !tile.IsCleanable) return;
 		}
+
+		InternalRemoveTile(cellPosition, layerType, false);
+
+		RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
+
+		AddToChangeList(cellPosition, layerType, removeAll: true);
 	}
 
 	[Server]
@@ -232,36 +223,26 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		cellPosition.z = 0;
 
-		if (metaTileMap.HasAnyOverlay(cellPosition, layerType))
+		var overlayPos = metaTileMap.GetOverlayPosByType(cellPosition, layerType, overlayType);
+		if(overlayPos == null || overlayPos.Count == 0) return;
+
+		foreach (var overlay in overlayPos)
 		{
+			cellPosition = overlay;
+
 			if (onlyIfCleanable)
 			{
 				//only remove it if it's a cleanable tile
 				var tile = metaTileMap.GetTile(cellPosition, layerType) as OverlayTile;
 				//it's not an overlay tile or it's not cleanable so don't remove it
-				if (tile == null || !tile.IsCleanable) return;
+				if (tile == null || !tile.IsCleanable) continue;
 			}
 
-			foreach (var tile in TileManager.GetTiles(tileType))
-			{
-				var overlayTile = tile.Value as OverlayTile;
-				if(overlayTile == null) continue;
+			InternalRemoveTile(cellPosition, layerType, false);
 
-				if (overlayTile.OverlayType == overlayType)
-				{
-					var nullCellPosition = metaTileMap.GetOverlayPos(cellPosition, layerType, overlayTile.OverlayName);
+			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
 
-					if(nullCellPosition == null) continue;
-
-					cellPosition = nullCellPosition.Value;
-
-					InternalRemoveTile(cellPosition, layerType, false);
-
-					RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
-
-					AddToChangeList(cellPosition, layerType, removeAll: true);
-				}
-			}
+			AddToChangeList(cellPosition, layerType, removeAll: true);
 		}
 	}
 
@@ -270,33 +251,26 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		cellPosition.z = 0;
 
-		if (metaTileMap.HasAnyOverlay(cellPosition, layerType))
+		var overlayPos = metaTileMap.GetAllOverlayPos(cellPosition, layerType);
+		if(overlayPos == null || overlayPos.Count == 0) return;
+
+		foreach (var overlay in overlayPos)
 		{
+			cellPosition = overlay;
+
 			if (onlyIfCleanable)
 			{
 				//only remove it if it's a cleanable tile
 				var tile = metaTileMap.GetTile(cellPosition, layerType) as OverlayTile;
 				//it's not an overlay tile or it's not cleanable so don't remove it
-				if (tile == null || !tile.IsCleanable) return;
+				if (tile == null || !tile.IsCleanable) continue;
 			}
 
-			foreach (var tile in TileManager.GetTiles(tileType))
-			{
-				var overlayTile = tile.Value as OverlayTile;
-				if(overlayTile == null) continue;
+			InternalRemoveTile(cellPosition, layerType, false);
 
-				var nullCellPosition = metaTileMap.GetOverlayPos(cellPosition, layerType, overlayTile.name);
+			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
 
-				if(nullCellPosition == null) continue;
-
-				cellPosition = nullCellPosition.Value;
-
-				InternalRemoveTile(cellPosition, layerType, false);
-
-				RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
-
-				AddToChangeList(cellPosition, layerType, removeAll: true);
-			}
+			AddToChangeList(cellPosition, layerType, removeAll: true);
 		}
 	}
 

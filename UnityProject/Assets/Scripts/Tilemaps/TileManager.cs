@@ -75,6 +75,12 @@ public class TileManager : MonoBehaviour, IInitialise
 		{
 			Destroy(this);
 		}
+
+#if UNITY_EDITOR
+		CacheAllAssets();
+#endif
+
+		if (!initialized) StartCoroutine(LoadAllTiles());
 	}
 
 	[ContextMenu("Cache All Assets")]

@@ -206,7 +206,7 @@ namespace Systems.Atmospherics
 				{
 					if(node.GasOverlayData.Contains(gas) == false) continue;
 
-					//node.RemoveGasOverlay(gas);
+					node.RemoveGasOverlay(gas);
 
 					node.ReactionManager.TileChangeManager.RemoveOverlaysOfName(node.Position, LayerType.Effects, gas.TileName);
 				}
