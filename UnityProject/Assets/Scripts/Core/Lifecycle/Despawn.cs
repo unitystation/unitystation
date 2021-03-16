@@ -1,4 +1,5 @@
 
+using System.Threading.Tasks;
 using Mirror;
 using UnityEngine;
 
@@ -20,9 +21,9 @@ public static class Despawn
 	/// intended to be set to true for particular internal use cases in the lifecycle system, so should
 	/// almost always be left at the default</param>
 	/// <returns></returns>
-	public static DespawnResult ServerSingle(GameObject toDespawn, bool skipInventoryDespawn = false)
+	public static async Task<DespawnResult> ServerSingle(GameObject toDespawn, bool skipInventoryDespawn = false)
 	{
-		return Server(DespawnInfo.Single(toDespawn), skipInventoryDespawn);
+		return await Server(DespawnInfo.Single(toDespawn), skipInventoryDespawn);
 	}
 
 	/// <summary>
@@ -37,7 +38,7 @@ public static class Despawn
 	/// intended to be set to true for particular internal use cases in the lifecycle system, so should
 	/// almost always be left at the default</param>
 	/// <returns></returns>
-	private static DespawnResult Server(DespawnInfo info, bool skipInventoryDespawn = false)
+	private static async Task<DespawnResult> Server(DespawnInfo info, bool skipInventoryDespawn = false)
 	{
 		if (info == null)
 		{
@@ -79,6 +80,8 @@ public static class Despawn
 		{
 			cnt.DisappearFromWorldServer();
 		}
+
+		await Task.Delay(10);
 
 		if (Spawn._ObjectPool.TryDespawnToPool(info.GameObject, false))
 		{
