@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-35779334114406443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8096842924384943973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 4d3ef8addd2f0af4e880e487a1ed52a6, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
 --- !u!1001 &1177912565818634448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18,10 +39,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 46204272e15305c4f8911cbc23b0d60f,
         type: 2}
+    - target: {fileID: 6018046557049769832, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: m_Name
       value: Crowbar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -40,6 +71,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +88,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -91,23 +117,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: initialName
-      value: crowbar
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: initialDescription
-      value: It's a big crowbar. It doesn't fit in your pockets, because it's big.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
       propertyPath: hitDamage
       value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: throwSpeed
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -116,8 +127,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
+      propertyPath: throwSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: initialName
+      value: crowbar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
       propertyPath: initialSize
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's a big crowbar. It doesn't fit in your pockets, because it's big.
       objectReference: {fileID: 0}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -131,5 +157,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 77d404601fd8516418f0e0747b787721,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6018046557049769832, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
+--- !u!1 &8096842924384943973 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1177912565818634448}
+  m_PrefabAsset: {fileID: 0}
