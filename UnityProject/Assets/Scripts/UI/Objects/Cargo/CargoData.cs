@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -9,5 +8,9 @@ namespace Systems.Cargo
 	{
 		//Stores all possible supplies broken into categories
 		public List<CargoOrderCategory> Supplies = new List<CargoOrderCategory>();
+
+		[ReorderableList]
+		[Tooltip("Stores all possible supplies broken into categories")]
+		public List<CargoCategory> Categories = new List<CargoCategory>();
 	}
 }

@@ -162,7 +162,7 @@ namespace Systems.Cargo
 		/// Server only.
 		/// </summary>
 		/// <param name="order">Order to spawn.</param>
-		public bool SpawnOrder(CargoOrder order)
+		public bool SpawnOrder(CargoOrderSO order)
 		{
 			Vector3 pos = GetRandomFreePos();
 			if (pos == TransformState.HiddenPos)

@@ -103,7 +103,7 @@ namespace UI.Objects.Cargo
 
 		private void DisplayCurrentCart()
 		{
-			List<CargoOrder> currentCart = CargoManager.Instance.CurrentCart;
+			List<CargoOrderSO> currentCart = CargoManager.Instance.CurrentCart;
 
 			orderList.Clear();
 			orderList.AddItems(currentCart.Count);
