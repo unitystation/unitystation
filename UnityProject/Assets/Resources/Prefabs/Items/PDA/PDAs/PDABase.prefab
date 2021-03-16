@@ -103,6 +103,27 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+--- !u!114 &-5894057774179110017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234969413023505447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: acd107c7e75b48a4ca8bb95080f28a48, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
 --- !u!114 &-2461206429612825053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +227,10 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: b6353b80914314e4eba7f19cfa358fb4,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!114 &3675490826683128217
 MonoBehaviour:
   m_ObjectHideFlags: 0
