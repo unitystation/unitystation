@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -20,24 +21,22 @@ namespace Systems.Atmospherics
 
 		private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
 
-		public Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
+		private Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
+		public Dictionary<Vector3Int, HashSet<Gas>> FogTiles => fogTiles;
 
 		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> reactions =
 			new ConcurrentDictionary<Vector3Int, HashSet<GasReactions>>();
+		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> Reactions => reactions;
 
 		private static readonly int FIRE_FX_Z = -2;
 
 		private TileChangeManager tileChangeManager;
+		public TileChangeManager TileChangeManager => tileChangeManager;
 		private MetaDataLayer metaDataLayer;
 		private Matrix matrix;
 
 		private ConcurrentDictionary<Vector3Int, MetaDataNode> hotspots;
 		private UniqueQueue<MetaDataNode> winds;
-
-		private UniqueQueue<FogEffect> addFog; //List of tiles to add chemcial fx to
-		private UniqueQueue<FogEffect> removeFog; //List of tiles to remove the chemical fx from
-
-		private UniqueQueue<ReactionData> addReaction; //List of tiles to add chemcial fx to
 
 		private List<Hotspot> hotspotsToAdd;
 		private List<Vector3Int> hotspotsToRemove;
@@ -61,11 +60,6 @@ namespace Systems.Atmospherics
 			hotspots = new ConcurrentDictionary<Vector3Int, MetaDataNode>();
 			winds = new UniqueQueue<MetaDataNode>();
 
-			addFog = new UniqueQueue<FogEffect>();
-			removeFog = new UniqueQueue<FogEffect>();
-
-			addReaction = new UniqueQueue<ReactionData>();
-
 			hotspotsToRemove = new List<Vector3Int>();
 			hotspotsToAdd = new List<Hotspot>();
 			tilemapDamages = GetComponentsInChildren<TilemapDamage>();
@@ -83,55 +77,52 @@ namespace Systems.Atmospherics
 
 			Profiler.BeginSample("Wind");
 
-			int count = winds.Count;
-			if (count > 0)
+			for (int i = 0; i < winds.Count; i++)
 			{
-				for (int i = 0; i < count; i++)
+				if (winds.TryDequeue(out var windyNode))
 				{
-					if (winds.TryDequeue(out var windyNode))
+					foreach (var pushable in matrix.Get<PushPull>(windyNode.Position, true))
 					{
-						foreach (var pushable in matrix.Get<PushPull>(windyNode.Position, true))
+						float correctedForce = (windyNode.WindForce * PushMultiplier) / (int)pushable.Pushable.Size;
+						if (correctedForce >= AtmosConstants.MinPushForce)
 						{
-							float correctedForce = (windyNode.WindForce * PushMultiplier) / (int)pushable.Pushable.Size;
-							if (correctedForce >= AtmosConstants.MinPushForce)
+							if (pushable.Pushable.IsTileSnap)
 							{
-								if (pushable.Pushable.IsTileSnap)
+								byte pushes = (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10);
+								for (byte j = 0; j < pushes; j++)
 								{
-									byte pushes = (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10);
-									for (byte j = 0; j < pushes; j++)
-									{
-										//converting push to world coords because winddirection is in local coords
-										pushable.QueuePush((transform.rotation * windyNode.WindDirection.To3Int()).To2Int(),
-											Random.Range((float)(correctedForce * 0.8), correctedForce));
-									}
-								}
-								else
-								{
-									pushable.Pushable.Nudge(new NudgeInfo
-									{
-										OriginPos = pushable.Pushable.ServerPosition,
-										Trajectory = (Vector2)windyNode.WindDirection,
-										SpinMode = SpinMode.None,
-										SpinMultiplier = 1,
-										InitialSpeed = correctedForce,
-									});
+									//converting push to world coords because winddirection is in local coords
+									pushable.QueuePush((transform.rotation * windyNode.WindDirection.To3Int()).To2Int(),
+										Random.Range((float)(correctedForce * 0.8), correctedForce));
 								}
 							}
+							else
+							{
+								pushable.Pushable.Nudge(new NudgeInfo
+								{
+									OriginPos = pushable.Pushable.ServerPosition,
+									Trajectory = (Vector2)windyNode.WindDirection,
+									SpinMode = SpinMode.None,
+									SpinMultiplier = 1,
+									InitialSpeed = correctedForce,
+								});
+							}
 						}
+					}
 
-						windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
-						if (windyNode.WindForce >= 0.5f * (1f / PushMultiplier))
-						{
-							winds.Enqueue(windyNode);
-						}
-						else
-						{
-							windyNode.WindForce = 0;
-							windyNode.WindDirection = Vector2Int.zero;
-						}
+					windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
+					if (windyNode.WindForce >= 0.5f * (1f / PushMultiplier))
+					{
+						winds.Enqueue(windyNode);
+					}
+					else
+					{
+						windyNode.WindForce = 0;
+						windyNode.WindDirection = Vector2Int.zero;
 					}
 				}
 			}
+
 			Profiler.EndSample();
 			#endregion
 
@@ -239,93 +230,6 @@ namespace Systems.Atmospherics
 					}
 				}
 			}
-
-			Profiler.BeginSample("GasReactions");
-
-			int gasReactionCount = addReaction.Count;
-			if (gasReactionCount > 0)
-			{
-				for (int i = gasReactionCount; i >= 0; i--)
-				{
-					if (addReaction.TryDequeue(out var addReactionNode))
-					{
-						var gasMix = addReactionNode.metaDataNode.GasMix;
-
-						addReactionNode.gasReaction.Reaction.React(gasMix, addReactionNode.metaDataNode.Position, addReactionNode.metaDataNode.PositionMatrix);
-
-						if (reactions.TryGetValue(addReactionNode.metaDataNode.Position, out var gasHashSet) &&
-							gasHashSet.Count == 1)
-						{
-							reactions.TryRemove(addReactionNode.metaDataNode.Position, out var value);
-							continue;
-						}
-
-						reactions[addReactionNode.metaDataNode.Position].Remove(addReactionNode.gasReaction);
-					}
-				}
-			}
-
-			Profiler.EndSample();
-
-			#region TileOverlays
-
-			Profiler.BeginSample("FogModifyAdd");
-			//Here we check to see if chemical fog fx needs to be applied, and if so, add them. If not, we remove them
-			int addFogCount = addFog.Count;
-			if (addFogCount > 0)
-			{
-				for (int i = 0; i < addFogCount; i++)
-				{
-					if (addFog.TryDequeue(out var addFogNode))
-					{
-						if (fogTiles.ContainsKey(addFogNode.metaDataNode.Position))
-						{
-							if (fogTiles[addFogNode.metaDataNode.Position].Contains(addFogNode.gas)) continue;
-
-							fogTiles[addFogNode.metaDataNode.Position].Add(addFogNode.gas); //Add it to fogTiles
-						}
-						else
-						{
-							fogTiles.Add(addFogNode.metaDataNode.Position,
-								new HashSet<Gas> { addFogNode.gas }); //Add it to fogTiles
-						}
-
-						tileChangeManager.UpdateTile(addFogNode.metaDataNode.Position, TileType.Effects, addFogNode.gas.TileName);
-					}
-				}
-			}
-
-			Profiler.EndSample();
-			Profiler.BeginSample("FogModifyRemove");
-
-			//Similar to above, but for removing chemical fog fx
-			int removeFogCount = removeFog.Count;
-			if (removeFogCount > 0)
-			{
-				for (int i = 0; i < removeFogCount; i++)
-				{
-					if (removeFog.TryDequeue(out var removeFogNode))
-					{
-						if (!fogTiles.ContainsKey(removeFogNode.metaDataNode.Position)) continue;
-
-						if (!fogTiles[removeFogNode.metaDataNode.Position].Contains(removeFogNode.gas)) continue;
-
-						tileChangeManager.RemoveTile(removeFogNode.metaDataNode.Position, LayerType.Effects, false);
-
-						if (fogTiles[removeFogNode.metaDataNode.Position].Count == 1)
-						{
-							fogTiles.Remove(removeFogNode.metaDataNode.Position);
-							continue;
-						}
-
-						fogTiles[removeFogNode.metaDataNode.Position].Remove(removeFogNode.gas);
-					}
-				}
-			}
-
-			Profiler.EndSample();
-
-			#endregion
 		}
 
 		/// Same as ExposeHotspot but allows providing a world position and handles the conversion
@@ -460,38 +364,6 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		//Add tile to add fog effect queue
-		//Being called by AtmosSimulation
-		public void AddFogEvent(FogEffect node)
-		{
-			addFog.Enqueue(node);
-		}
-
-		//Add tile to remove fog effect queue
-		//Being called by AtmosSimulation
-		public void RemoveFogEvent(FogEffect node)
-		{
-			removeFog.Enqueue(node);
-		}
-
-		//Add tile to add reaction effect queue
-		//Being called by AtmosSimulation
-		public void AddReactionEvent(ReactionData node)
-		{
-			if (reactions.TryGetValue(node.metaDataNode.Position, out var gasHastSet))
-			{
-				if (gasHastSet.Contains(node.gasReaction)) return;
-
-				gasHastSet.Add(node.gasReaction);
-			}
-			else
-			{
-				reactions.TryAdd(node.metaDataNode.Position, new HashSet<GasReactions> { node.gasReaction });
-			}
-
-			addReaction.Enqueue(node);
-		}
-
 		/// <summary>
 		/// So we can avoid GC caused by creating lambdas, we create one instance of this and re-use it when
 		/// applying a fire exposure to multiple objects
@@ -530,18 +402,6 @@ namespace Systems.Atmospherics
 					registerTile.OnExposed(FireExposure);
 				}
 			}
-		}
-
-		public class FogEffect
-		{
-			public MetaDataNode metaDataNode;
-			public Gas gas;
-		}
-
-		public class ReactionData
-		{
-			public MetaDataNode metaDataNode;
-			public GasReactions gasReaction;
 		}
 	}
 }
