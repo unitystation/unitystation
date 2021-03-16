@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
   m_Name: belt_overlays_stunbaton
   m_EditorClassIdentifier: 
-  Variance: []
+  Variance:
+  - Frames:
+    - sprite: {fileID: -5173810757641226338, guid: 8c140c79283db6740b670a0dc29e2365,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 0}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 0}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 3270717947991156093, guid: 8c140c79283db6740b670a0dc29e2365,
+        type: 3}
+      secondDelay: 0
   IsPalette: 0
   setID: -1
