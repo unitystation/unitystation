@@ -57,7 +57,7 @@ namespace Alien
 			incubationTime = UnityEngine.Random.Range(60f, incubationTime);
 			UpdatePhase(initialState);
 			UpdateExamineMessage();
-			registerObject.Passable = false;
+			registerObject.SetPassable(false, false);
 		}
 
 
@@ -85,7 +85,7 @@ namespace Alien
 					break;
 				case EggState.Burst:
 					spriteHandler.ChangeSprite(HATCHED_SPRITE);
-					registerObject.Passable = true;
+					registerObject.SetPassable(false, true);
 					break;
 				case EggState.Squished:
 					spriteHandler.ChangeSprite(SQUISHED_SPRITE);
@@ -177,7 +177,7 @@ namespace Alien
 				$"{interaction.Performer.ExpensiveName()} squishes the alien egg!");
 
 			UpdatePhase(EggState.Squished);
-			registerObject.Passable = true;
+			registerObject.SetPassable(false, true);
 		}
 
 
