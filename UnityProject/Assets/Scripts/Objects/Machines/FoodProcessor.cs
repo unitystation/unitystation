@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Electricity;
 using AddressableReferences;
+using Effects;
 using Items;
 using Machines;
 using Objects.Machines;
@@ -255,12 +256,12 @@ namespace Objects.Kitchen
 		{
 			if(state == 1)
 			{
-				shaker.startShake(duration, distance, delayBetweenShakes);
+				shaker.StartShake(duration, distance, delayBetweenShakes);
 				RpcShake(duration, distance, delayBetweenShakes);
 			}
 			else
 			{
-				shaker.haltShake();
+				shaker.HaltShake();
 				RpcHaltProcessorAnim();
 			}
 		}
@@ -271,7 +272,7 @@ namespace Objects.Kitchen
 		[ClientRpc]
 		private void RpcShake(float duration, float distance, float delayBetweenShakes)
 		{
-			shaker.startShake(duration, distance, delayBetweenShakes);
+			shaker.StartShake(duration, distance, delayBetweenShakes);
 		}
 
 		private void OnSyncPlayAudioLoop(bool oldState, bool newState)

@@ -1,140 +1,112 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Shake : MonoBehaviour
+namespace Effects
 {
-    /// <summary>
-    /// A shake effect that comes in two modes, SPRITE and GAMEOBJECT
-    /// SPRITE animates a given sprite only.
-    /// GAMEOBJECT animates the entire object's position.
-    /// </summary>
+	public class Shake : LTEffect
+	{
+		/// <summary>
+		/// A shake effect that shakes an entire GameObject or it's sprites only.
+		/// </summary>
 
-    private Vector3 originalPosition;
+		private float shakeDuration;
+		private float shakeDistance;
+		private float delayBetweenShakes;
+		private void Awake()
+		{
+			GetOriginalPosition();
+		}
 
-    [SerializeField, Tooltip("Which Axis will the animation play on?")]
-    private AxisMode axisMode = AxisMode.X;
+		private void StoreShakeData(float duration, float distance, float delay)
+		{
+			shakeDistance = distance;
+			shakeDuration = duration;
+			delayBetweenShakes = delay;
+		}
 
-    [SerializeField, Tooltip("Do you want to animate the entire gameObject or just the sprite?")]
-    private ShakeMode shakeType = ShakeMode.SPRITE;
+		public void StartShake(float duration, float distance, float delay)
+		{
+			StoreShakeData(duration, distance, delay);
+			StartCoroutine(Shaking(shakeDuration, shakeDistance, delayBetweenShakes));
+		}
 
-    [Tooltip("The sprite gameObject that will be used for the shake animation.")]
-    public Transform spriteReference;
+		public override void RpcStopAnim()
+		{
+			HaltShake();
+			base.RpcStopAnim();
+		}
+		public void HaltShake()
+		{
+			StopAllCoroutines();
+			if(animType == AnimMode.GAMEOBJECT)
+			{
+				transform.position = originalPosition;
 
-    private enum ShakeMode
-    {
-        SPRITE,
-        GAMEOBJECT
-    }
+			}
+			else
+			{
+				spriteReference.transform.position = new Vector2(0,0);
+			}
+		}
 
-    private enum AxisMode 
-    {
-        X,
-        XY,
-        Y
-    }
+		private IEnumerator Shaking(float duration, float distance, float delayBetweenShakes)
+		{
+			float timer = 0f;
 
-    private void Awake()
-    {
-       getOriginalPosition();
-    }
+			GetOriginalPosition(); //Fix for teleporting objects that have moved away from their original location on spawn.
 
-    public void startShake(float duration, float distance, float delayBetweenShakes)
-    {
-        StartCoroutine(Shaking(duration, distance, delayBetweenShakes));
-    }
+			while (timer < duration)
+			{
+				timer += Time.deltaTime;
 
-    public void haltShake()
-    {
-        StopAllCoroutines();
-        if(shakeType == ShakeMode.GAMEOBJECT)
-        {
-            transform.position = originalPosition;
-            
-        }
-        else
-        {
-            spriteReference.transform.position = new Vector2(0,0);
-        }
-    }
- 
-    private IEnumerator Shaking(float duration, float distance, float delayBetweenShakes)
-    {
-        float timer = 0f;
- 
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
- 
-            Vector3 randomPosition = originalPosition + (Random.insideUnitSphere * distance);
-            
-            switch (shakeType)
-            {
-                case ShakeMode.GAMEOBJECT:
-                    animatePosition(randomPosition);
-                    break;
-                case ShakeMode.SPRITE:
-                    animateSpritePosition(randomPosition);
-                    break;
-            }
+				Vector3 randomPosition = tween.Target.transform.position + (Random.insideUnitSphere * distance);
+
+				switch (animType)
+				{
+					case AnimMode.GAMEOBJECT:
+						AnimatePosition(randomPosition);
+						break;
+					case AnimMode.SPRITE:
+						randomPosition = new Vector3(0,0,0) + (Random.insideUnitSphere * distance);
+						AnimateSpritePosition(randomPosition);
+						break;
+				}
 
 
-            if (delayBetweenShakes > 0f)
-            {
-                yield return new WaitForSeconds(delayBetweenShakes);
-            }
-            else
-            {
-                yield return null;
-            }
-        }
+				if (delayBetweenShakes > 0f)
+				{
+					yield return new WaitForSeconds(delayBetweenShakes);
+				}
+				else
+				{
+					yield return null;
+				}
+			}
 
-        switch (shakeType)
-        {
-            case ShakeMode.GAMEOBJECT:
-                LeanTween.move(gameObject, originalPosition, 0.1f);
-                break;
-            case ShakeMode.SPRITE:
-                LeanTween.move(spriteReference.gameObject, originalPosition, 0.1f);
-                break;
-        }
-        
-    }
+			switch (animType)
+			{
+				case AnimMode.GAMEOBJECT:
+					LeanTween.move(gameObject, originalPosition, 0.1f);
+					break;
+				case AnimMode.SPRITE:
+					LeanTween.moveLocal(spriteReference.gameObject, new Vector3(0,0,0), 0.1f);
+					break;
+			}
 
-    private void animateSpritePosition(Vector2 pos)
-    {
-        switch (axisMode)
-        {
-            case AxisMode.X:
-                LeanTween.moveX(spriteReference.gameObject, pos.x, 0.1f);
-                break;
-            case AxisMode.Y:
-                LeanTween.moveY(spriteReference.gameObject, pos.y, 0.1f);
-                break;
-            case AxisMode.XY:
-                LeanTween.move(spriteReference.gameObject, pos, 0.1f);
-                break;
-        }
-    }
+		}
 
-    private void animatePosition(Vector3 pos)
-    {
-        switch (axisMode)
-        {
-            case AxisMode.X:
-                LeanTween.moveX(gameObject, pos.x, 0.1f);
-                break;
-            case AxisMode.Y:
-                LeanTween.moveY(gameObject, pos.y, 0.1f);
-                break;
-            case AxisMode.XY:
-                LeanTween.move(gameObject, pos, 0.1f);
-                break;
-        }
-    }
+		//We call regular LeanTween alongside NTL to make sure the animation plays on the server as well.
 
-    public void getOriginalPosition()
-    {
-        originalPosition = transform.position;
-    }
+		private void AnimateSpritePosition(Vector3 pos)
+		{
+			LeanTween.moveLocal(spriteReference.gameObject, pos, 0.1f);
+			tween.RpcLocalMove(axisMode, pos, 0.1f);
+		}
+
+		private void AnimatePosition(Vector3 pos)
+		{
+			LeanTween.move(gameObject, originalPosition, 0.1f);
+			tween.RpcMove(axisMode, pos, 0.1f);
+		}
+	}
 }
