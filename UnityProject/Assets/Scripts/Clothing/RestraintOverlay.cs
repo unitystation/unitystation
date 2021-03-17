@@ -68,34 +68,22 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 		positionCache = thisPlayerScript.registerTile.LocalPositionServer;
 		if (!CanUncuff()) return;
 
-		uncuffCoroutine = UncuffCountDown(resistTime);
-		StartCoroutine(uncuffCoroutine);
+		var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Unbuckle, false, false, true), TryUncuff);
+		bar.ServerStartProgress(thisPlayerScript.registerTile, resistTime, thisPlayerScript.gameObject);
 		Chat.AddActionMsgToChat(
 			thisPlayerScript.gameObject,
 			$"You are attempting to remove the cuffs. This takes up to {resistTime:0} seconds",
 			thisPlayerScript.playerName + " is attempting to remove their cuffs");
 	}
 
-	private IEnumerator UncuffCountDown(float resistTime)
+	private void TryUncuff()
 	{
-		float waitTime = 0f;
-		while (waitTime < resistTime)
+		if (CanUncuff())
 		{
-			waitTime += Time.deltaTime;
-			if (!CanUncuff())
-			{
-				yield break;
-			}
-			else
-			{
-				yield return WaitFor.EndOfFrame;
-			}
+			thisPlayerScript.playerMove.Uncuff();
+			Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
+				thisPlayerScript.playerName + " has removed their cuffs");
 		}
-
-		thisPlayerScript.playerMove.Uncuff();
-		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
-			thisPlayerScript.playerName + " has removed their cuffs");
-
 	}
 
 	private bool CanUncuff()
