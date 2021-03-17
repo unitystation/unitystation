@@ -12,7 +12,7 @@ namespace HealthV2
 	/// <summary>
 	/// A part of a body. Can be external, such as a limb, or internal like an organ.
 	/// Body parts can also contain other body parts, eg the 'brain body part' contained in the 'head body part'.
-	/// BodyPart is a partial class split into BodyPart, BodyPartDamage, BodyPartBlood, and BodyPartSurgery.
+	/// BodyPart is a partial class split into BodyPart, BodyPartDamage, BodyPartBlood, BodyPartSurgery, and BodyPartModifiers.
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
 	{
@@ -38,7 +38,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Storage container for things (typcially other organs) held within this body part
+		/// Storage container for things (usually other body parts) held within this body part
 		/// </summary>
 		[Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage Storage = null;
@@ -49,7 +49,6 @@ namespace HealthV2
 		[Tooltip("The category that this body part falls under for targeting purposes")]
 		[SerializeField] public BodyPartType BodyPartType;
 
-
 		/// <summary>
 		/// The list of body parts contained within this body part
 		/// </summary>
@@ -57,8 +56,10 @@ namespace HealthV2
 		[SerializeField] private List<BodyPart> containBodyParts = new List<BodyPart>();
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
-		//This should be utilized in most implants so as to make changing the effectivenss of it easy.
-		//Some organs wont boil down to just one efficiency score, so you'll have to keep that in mind.
+		/// <summary>
+		/// This should be utilized in most implants so as to make changing the effectiveness of it easy.
+		/// Some organs wont boil down to just one efficiency score, so you'll have to keep that in mind.
+		/// </summary>
 		[Tooltip("This is a generic variable representing the 'efficieny' of the implant." +
 				 "Can be modified by implant modifiers.")]
 		[SerializeField] private float efficiency = 1;

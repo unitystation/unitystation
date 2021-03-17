@@ -384,6 +384,15 @@ namespace Chemistry
 			RemoveVolume(removed);
 		}
 
+		/// <summary>
+		/// Get the what fraction of the total a specific reagent is
+		/// </summary>
+		public float GetPercent(Reagent reagent)
+		{
+			return reagents[reagent] / Total;
+		}
+
+
 		public void Clear()
 		{
 			reagents.Clear();

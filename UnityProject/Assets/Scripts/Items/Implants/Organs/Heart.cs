@@ -19,11 +19,10 @@ public class Heart : BodyPart
 	[SerializeField] [Tooltip("The maximum heartrate of the implant. Human maximum is about 200.")]
 	private float maxHeartRate = 200;
 
-	[SerializeField]
 	[Tooltip("Arbitrary rating of 'strengh'. Used to determine how much bloodflow the heart can provide." +
 	         "100 is a human heart." +
 	         "The higher this is, the more total blood can be pushed around per heartbeat.")]
-	private float heartStrength = 100f;
+	[SerializeField] private float heartStrength = 100f;
 
 	private float lastHeartBeat = 0f;
 	private float nextHeartBeat = 0f;
@@ -121,7 +120,6 @@ public class Heart : BodyPart
 				float wantedBlood = implant.BloodThroughput + implant.BloodContainer.MaxCapacity - implant.BloodContainer.ReagentMixTotal;
 				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((wantedBlood / totalWantedBlood) * pumpedReagent);
 				BloodToGive.Add(SpareBlood);
-				Debug.Log(implant.gameObject.name + " - Desired: " + wantedBlood + " Actual: " + BloodToGive.Total + " Spare: " + SpareBlood.Total);
 				SpareBlood.Clear();
 				SpareBlood.Add(implant.BloodPumpedEvent(BloodToGive));
 			}

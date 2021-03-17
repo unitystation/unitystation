@@ -14,6 +14,7 @@ public class Lungs : BodyPart
 	/// </summary>
 	[Tooltip("The number of ticks to wait until next breath is attempted")]
 	[SerializeField] private int breatheCooldown = 4;
+	private int currentBreatheCooldown = 4;
 
 	/// <summary>
 	/// The minimum presure of the required gas needed to avoid suffocation
@@ -37,13 +38,7 @@ public class Lungs : BodyPart
 	/// The base amount of blood that this attempts to process each single breath
 	/// </summary>
 	[Tooltip("The base amount of blood in litres that this processes each breath")]
-	public float LungProcessAmount = 10;
-
-	/// <summary>
-	/// The type of blood that this works with
-	/// </summary>
-	[Tooltip("The type of blood that this works with")]
-	public BloodType InteractsWith;
+	public float LungProcessAmount = 5;
 
 	public override void ImplantPeriodicUpdate()
 	{
@@ -64,19 +59,17 @@ public class Lungs : BodyPart
 	/// </summary>
 	/// <param name="node">The gas node at this lung's position</param>
 	/// <returns>True if gas was exchanged</returns>
-
-	// TODO: May want to have a check for the circulatory system having the same desired gas as these lungs
 	private bool TryBreathing(IGasMixContainer node)
 	{
 		//Breathing is not timebased, but tick based, it will be slow when the blood has all the oxygen it needs
 		//and will speed up if more oxygen is needed
-		breatheCooldown--;
-		if (breatheCooldown > 0)
+		currentBreatheCooldown--;
+		if (currentBreatheCooldown > 0)
 		{
 			return false;
 		}
-		
-		if (healthMaster.CirculatorySystem.UsedBloodPool.Total == 0)
+
+		if (healthMaster.CirculatorySystem.UsedBloodPool[bloodType.Blood] == 0)
 		{
 			//No point breathing if we dont have blood.
 			return false;
@@ -88,10 +81,12 @@ public class Lungs : BodyPart
 		//Can probably edit this to use the volume of the lungs instead.
 		GasMix gasMix = container.GasMix;
 
-		var AvailableBlood = healthMaster.CirculatorySystem.UsedBloodPool.Take(LungProcessAmount * TotalModified);
+		// Take blood equal to the modified Lung Process Amount and a proportional amount of non-blood reagents
+		float amountToTake = (LungProcessAmount * TotalModified) / healthMaster.CirculatorySystem.UsedBloodPool.GetPercent(bloodType.Blood);
+		var AvailableBlood = healthMaster.CirculatorySystem.UsedBloodPool.Take(amountToTake);
+
 		bool tryExhale = BreatheOut(gasMix, AvailableBlood);
 		bool tryInhale = BreatheIn(gasMix, AvailableBlood);
-
 		healthMaster.CirculatorySystem.AddUsefulBloodReagent(AvailableBlood);
 
 		return tryExhale || tryInhale;
@@ -133,12 +128,12 @@ public class Lungs : BodyPart
 	{
 		//Fill lungs
 		float reagentInhaled = healthMaster.RespiratorySystem.HandleBreathing(gasMix, requiredGas, reagentSafeMin) * 10000f;
-		
-		if (reagentInhaled >= InteractsWith.GetSpareCapacity(blood))
+
+		if (reagentInhaled >= bloodType.GetSpareCapacity(blood))
 		{
 			// Lungs are able to bring blood to capacity, only pull in at most as much reagent as the blood can carry
-			reagentInhaled = InteractsWith.GetSpareCapacity(blood);
-			breatheCooldown = 4; //Slow breathing, we're all good
+			reagentInhaled = bloodType.GetSpareCapacity(blood);
+			currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
 		}
 
 		ReagentMix toInhale = new ReagentMix();

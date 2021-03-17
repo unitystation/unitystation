@@ -37,7 +37,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   isBloodCirculated: 1
   isBloodReagentConsumed: 1
+  bloodType: {fileID: 0}
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  wasteReagent: {fileID: 0}
   BloodContainer: {fileID: 0}
   bloodStoredMax: 0.5
   bloodReagentConsumed: 0.05
@@ -75,8 +77,7 @@ MonoBehaviour:
   Severity: 0
   breatheCooldown: 4
   reagentSafeMin: 16
-  LungProcessAmount: 10
-  InteractsWith: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+  LungProcessAmount: 5
 --- !u!1001 &1441624991261802461
 PrefabInstance:
   m_ObjectHideFlags: 0

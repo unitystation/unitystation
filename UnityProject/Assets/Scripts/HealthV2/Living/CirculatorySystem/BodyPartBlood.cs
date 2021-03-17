@@ -41,9 +41,8 @@ namespace HealthV2
 		/// <summary>
 		/// The reagent that the body part expels as waste, eg co2
 		/// </summary>
-		[Tooltip("What blood reagent does expel as waste?")]
-		[SerializeField] protected Chemistry.Reagent wasteReagent;
-
+		[Tooltip("What reagent does this expel as waste?")]
+		[SerializeField] protected Chemistry.Reagent wasteReagent = null;
 
 		/// <summary>
 		/// The part's internal working set of the body's blood. This is the limit of the blood that the part can
@@ -60,17 +59,16 @@ namespace HealthV2
 		public float bloodStoredMax = 0.5f;
 
 		/// <summary>
-		/// The amount of reagent this body part needs consume each tick.
+		/// The amount of required reagent (eg oxygen) this body part needs consume each tick.
 		/// </summary>
-
 		[Tooltip("How much blood reagent (eg oxygen) does this need each tick?")]
 		[SerializeField] private float bloodReagentConsumed = 0.05f;
 
 		/// <summary>
-		/// Used to calculate the point at which the concentration of reagent in the blood is low enough to
-		/// damage the organ
+		/// The level of reagent in the Blood Container needed to not take damage
 		/// </summary>
-		private float lowReagentDamageFactor = 3;
+		[Tooltip("What is the minimum amount of blood reagent in the Blood Container before damage is taken?")]
+		[SerializeField] private float safeReagentLevel = 0.15f;
 
 		[SerializeField]
 		[Tooltip("How much blood reagent does this request per blood pump event?")]
@@ -100,71 +98,7 @@ namespace HealthV2
 		[Tooltip("How much nutriment does this consume to perform work?")]
 		public float NutrimentConsumption = 0.02f;
 
-		/// <summary>
-		/// Event that fires when the body part's modifier total changes
-		/// </summary>
-		public event Action ModifierChange;
-
-		/// <summary>
-		/// The total product of all modifiers applied to this body part.  This acts as a multiplier for efficiency,
-		/// thus a low TotalModified means the part is less effective, high means it is more effective
-		/// </summary>
-		[Tooltip("The total amount that modifiers are affecting this part's efficiency by")]
-		public float TotalModified = 1;
-
-		/// <summary>
-		/// The list of all modifiers currently applied to this part
-		/// </summary>
-		[Tooltip("All modifiers applied to this")]
-		public List<Modifier> AppliedModifiers = new List<Modifier>();
-
-		/// <summary>
-		/// Updates the body part's TotalModified value based off of the modifiers being applied to it
-		/// </summary>
-		public void UpdateMultiplier()
-		{
-			TotalModified = 1;
-			foreach (var Modifier in AppliedModifiers)
-			{
-				TotalModified *= Mathf.Max(0, Modifier.Multiplier);
-			}
-			ModifierChange?.Invoke();
-		}
-
-		/// <summary>
-		/// Adds a new modifier to the body part
-		/// </summary>
-		public void AddModifier(Modifier InModifier)
-		{
-			InModifier.RelatedPart = this;
-			AppliedModifiers.Add(InModifier);
-		}
-
-		/// <summary>
-		/// Removes a modifier from the bodypart
-		/// </summary>
-		public void RemoveModifier(Modifier InModifier)
-		{
-			InModifier.RelatedPart = null;
-			AppliedModifiers.Remove(InModifier);
-		}
-
 		#region BloodReagents
-		/// ---------------------------
-		/// Blood Reagent and Nutriment Methods
-		/// ---------------------------
-		/// There are two basic reagents that a body part can require to function. The first is 'Blood
-		/// Reagents', a common example of this is oxygen. These are essential to the function of the part,
-		/// and the part will take damage if there is not enough of it available, commonly because the lungs
-		/// are failing. The second is 'Nutriments', these are required for the part to do work, such as
-		/// healing, replenishing blood supply, and moving.  When there is not enough Nutriment in the blood
-		/// the body part's efficieny will go down, causing sluggish movement and eventually unconsciousness
-		/// and death as the heart and lungs fail.
-
-		/// Body parts have an internal pool of blood, their BloodContainer, which the circulatory system
-		/// refreshes from the Ready Blood. Body parts draw from this container for their needed reagents. When
-		/// the concentration of reagents in the BloodContainer gets to low, the body part will start consuming
-		/// less, to its own detriment.
 
 		/// <summary>
 		/// Initializes the body part as part of the circulatory system
@@ -193,8 +127,13 @@ namespace HealthV2
 			ConsumeNutriments();
 		}
 
+		/// <summary>
+		/// Handles the body part's consumption of required reagents (eg oxygen)
+		/// </summary>
 		protected virtual void ConsumeReagents()
 		{
+			// Numbers could use some tweaking, maybe consumption goes down when unconscious?
+
 			if (!isBloodReagentConsumed) return;
 
 			// Only get as much oxygen as the appropriate type of blood can give us
@@ -206,10 +145,10 @@ namespace HealthV2
 			{
 				AffectDamage(10f, (int)DamageType.Oxy);
 			}
-			else if (availableReagent < bloodReagentConsumed * lowReagentDamageFactor)
+			else if (availableReagent < safeReagentLevel)
 			{
-				//Starts at 1 damage per tick, scales up to 10 as oxygen gets real low
-				var damage = Mathf.Min(bloodReagentConsumed * lowReagentDamageFactor / availableReagent, 10f);
+				// Starts at 1 damage per tick, scales up to 10 as oxygen gets real low
+				var damage = Mathf.Min(safeReagentLevel / availableReagent, 10f);
 				AffectDamage(damage, (int)DamageType.Oxy);
 			}
 			else
@@ -233,6 +172,9 @@ namespace HealthV2
 			//}
 		}
 
+		/// <summary>
+		/// Handles the body part's consumption of required nutriments
+		/// </summary>
 		protected virtual void ConsumeNutriments()
 		{
 			float availableNutriment = BloodContainer.CurrentReagentMix.Subtract(Nutriment, Single.MaxValue);
@@ -258,8 +200,6 @@ namespace HealthV2
 			}
 		}
 
-		#endregion
-
 		/// <summary>
 		/// Heals damage caused by sources other than lack of blood reagent
 		/// </summary>
@@ -278,7 +218,7 @@ namespace HealthV2
 		/// <summary>
 		/// This is called whenever blood is pumped through the circulatory system by a heartbeat.
 		/// Can happen multiple times if there's multiple hearts. Pushes out old blood and brings
-		/// in new blood, up to the parts capacity.
+		/// in new blood, up to the part's capacity.
 		/// </summary>
 		/// <param name="bloodIn">Incoming blood</param>
 		/// <returns>Whatever is left over from bloodIn</returns>
@@ -291,6 +231,8 @@ namespace HealthV2
 			// }
 			//bloodReagent.Subtract()
 			//BloodContainer.Add(bloodReagent);
+
+			//Maybe have damage from high/low blood levels and high blood pressure
 
 			var bloodOut = BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, bloodThroughput);
 
@@ -320,35 +262,5 @@ namespace HealthV2
 		{
 			return amount;
 		}
-	}
-
-	/// <summary>
-	/// A modifier that affects the efficiency of a body part.  Modifiers are applied multiplicatively
-	/// </summary>
-	public class Modifier
-	{
-		public float Multiplier
-		{
-			get
-			{
-				return multiplier;
-			}
-			set
-			{
-				if (multiplier != value)
-				{
-					multiplier = value;
-					if (RelatedPart != null)
-					{
-						RelatedPart.UpdateMultiplier();
-					}
-				}
-			}
-		}
-
-		private float multiplier;
-
-		public BodyPart RelatedPart;
-
 	}
 }
