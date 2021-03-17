@@ -173,9 +173,10 @@ namespace HealthV2
 				BodyPart implant = newImplant.GetComponent<BodyPart>();
 				ContainsLimbs.Add(implant);
 				healthMaster.AddNewImplant(implant);
-				implant.AddedToBody(healthMaster);
+				SubBodyPartAdded(implant);
 				implant.Root = this;
 				implant.HealthMaster = healthMaster;
+				implant.SetUpSystems();
 				SetupSpritesNID(implant);
 			}
 

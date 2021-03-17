@@ -89,10 +89,10 @@ namespace HealthV2
 			}
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
+		public override void SetUpSystems()
 		{
-			base.AddedToBody(livingHealthMasterBase);
-			var playerHealthV2 = livingHealthMasterBase as PlayerHealthV2;
+			base.SetUpSystems();
+			var playerHealthV2 = HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.AddModifier(this);
@@ -109,7 +109,6 @@ namespace HealthV2
 			{
 				playerHealthV2.PlayerMove.AddModifier(this);
 			}
-
 		}
 
 		public void ModifierChanged()

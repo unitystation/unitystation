@@ -16,7 +16,8 @@ namespace HealthV2
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
 	{
-		[SerializeField] [Tooltip("The Heath Master associated with this part, will find from parents if not set in editor")]
+		[SerializeField]
+		[Tooltip("The Heath Master associated with this part, will find from parents if not set in editor")]
 		protected LivingHealthMasterBase healthMaster = null;
 
 		public LivingHealthMasterBase HealthMaster
@@ -61,7 +62,7 @@ namespace HealthV2
 		[Tooltip("This is a generic variable representing the 'efficieny' of the implant." +
 				 "Can be modified by implant modifiers.")]
 		[SerializeField] private float efficiency = 1;
-		
+
 		/// <summary>
 		/// Flag for if the sprite for this body type changes with gender, true means it does
 		/// </summary>
@@ -205,21 +206,18 @@ namespace HealthV2
 
 				//TODO: Do we need to add listeners for implant removal
 			}
-			healthMaster = GetComponent<LivingHealthMasterBase>();
+
 			Storage = GetComponent<ItemStorage>();
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
-
 			attributes = GetComponent<ItemAttributesV2>();
 			health = maxHealth;
-
-			BloodInitialise();
 			DamageInitialisation();
 			UpdateSeverity();
 			Initialisation();
 		}
 
 		/// <summary>
-		/// Overridable method for variant body parts to use for their initialization
+		/// Overridable method for variant body parts to use for their non-systems based initialisation
 		/// </summary>
 		public virtual void Initialisation()
 		{
@@ -244,7 +242,6 @@ namespace HealthV2
 			{
 				prop.ImplantPeriodicUpdate();
 			}
-
 			BloodUpdate();
 			CalculateRadiationDamage();
 		}
@@ -305,17 +302,7 @@ namespace HealthV2
 			Storage.ServerTryRemove(inOrgan);
 		}
 
-		/// <summary>
-		/// Adds this body part to a host body system
-		/// </summary>
-		/// <param name="livingHealthMasterBase">Body to be added to</param>
-		public virtual void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
-		{
-			if (ContainedIn != null)
-			{
-				ContainedIn.SubBodyPartAdded(this);
-			}
-		}
+
 
 		/// <summary>
 		/// Removes this body part from its host body system
@@ -379,8 +366,8 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Initializes a body part contained within this body part, setting it to use the same
-		/// health master as this body part.
+		/// Ensures the health master of all sub body parts are the same as their parent, and that the
+		/// health master and body part containers know of all contained body parts
 		/// </summary>
 		/// <param name="implant">Body Part to be initialized</param>
 		public void SetUpBodyPart(BodyPart implant)
@@ -388,7 +375,23 @@ namespace HealthV2
 			implant.HealthMaster = HealthMaster;
 			if (HealthMaster == null) return;
 			HealthMaster.AddNewImplant(implant);
-			implant.AddedToBody(HealthMaster);
+			if (ContainedIn != null)
+			{
+				SubBodyPartAdded(implant);
+			}
+		}
+
+		/// <summary>
+		/// Sets up the body part to be connected to the internal systems of the body (circulation, respiration, etc)
+		/// </summary>
+		public virtual void SetUpSystems()
+		{
+			if (HealthMaster == null) return;
+			foreach (BodyPart prop in ContainBodyParts)
+			{
+				prop.SetUpSystems();
+			}
+			BloodInitialise();
 		}
 
 		/// <summary>

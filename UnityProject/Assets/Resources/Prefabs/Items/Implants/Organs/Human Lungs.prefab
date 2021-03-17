@@ -13,39 +13,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
-  RelatedPresentSprites: []
   Storage: {fileID: 6924831777124808690}
   BodyPartType: 9
   containBodyParts: []
   efficiency: 1
   isDimorphic: 0
+  Root: {fileID: 0}
+  ContainedIn: {fileID: 0}
   BodyTypesSprites:
     SpriteOrder:
       Orders: 00000000000000000000000000000000
     BodyTypes: []
-  Root: {fileID: 0}
-  ContainedIn: {fileID: 0}
+  RelatedPresentSprites: []
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   BodySpriteSet: 0
   LobbyCustomisation: {fileID: 0}
   optionalOrgans: []
   OptionalReplacementOrgan: []
-  isSurface: 0
+  IsSurface: 0
   ClothingHide: 0
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
+  isBloodCirculated: 1
   isBloodReagentConsumed: 1
-  isBloodReagentCirculated: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  _bloodReagentConsumed: 0.1
-  bloodReagentProcessed: 0.15
-  bloodReagentStoreAmount: 0.01
-  bloodReagentStoredMax: 0.5
-  NutrimentConsumption: 0.02
-  NutrimentPassiveConsumption: 0.001
   BloodContainer: {fileID: 0}
+  bloodStoredMax: 0.5
+  bloodReagentConsumed: 0.05
+  bloodThroughput: 0.15
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+  NutrimentPassiveConsumption: 0.001
+  NutrimentConsumption: 0.02
   TotalModified: 1
   BodyPartArmour:
     Melee: 0
@@ -78,7 +77,6 @@ MonoBehaviour:
   reagentSafeMin: 16
   LungProcessAmount: 10
   InteractsWith: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
-  TEPList: []
 --- !u!1001 &1441624991261802461
 PrefabInstance:
   m_ObjectHideFlags: 0

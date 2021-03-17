@@ -33,7 +33,7 @@ namespace HealthV2
 
 		public float GetSpareCapacity(ReagentMix ReagentMix)
 		{
-			return (GetCapacity(ReagentMix) * BloodCapacityOf) - ReagentMix[CirculatedReagent];
+			return GetCapacity(ReagentMix) - ReagentMix[CirculatedReagent];
 		}
 	}
 }

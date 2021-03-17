@@ -93,43 +93,42 @@ public class Heart : BodyPart
 	}
 
 
-	public void Heartbeat(float initialPumpAmount)
+	public void Heartbeat(float maxPump)
 	{
 		CirculatorySystemBase circulatorySystem = HealthMaster.CirculatorySystem;
 		if (circulatorySystem)
 		{
 			//circulatorySystem.HeartBeat(heartStrength * TotalModified);
 			//TODOH Balance all this stuff, Currently takes an eternity to suffocate
-
-
 			// Logger.Log("heart Available  " + ReadyBloodPool);
-			float pumpedReagent = Math.Min(initialPumpAmount, circulatorySystem.ReadyBloodPool.Total);
-
 			// Logger.Log("heart pumpedReagent " + pumpedReagent);
 
-			float WantedBlood = 0;
+			float totalWantedBlood = 0;
 			foreach (BodyPart implant in HealthMaster.ImplantList)
 			{
-				if (implant.IsBloodReagentCirculated == false) continue;
-				WantedBlood += implant.BloodReagentStoreAmount;
+				if (implant.isBloodBloodCirculated == false) continue;
+				totalWantedBlood += implant.BloodThroughput;
+				// Due to how blood is implemented as a single pool with its solutes, we need to compensate for
+				// consumed solutes.  This may change in the future if blood changes
+				totalWantedBlood += implant.BloodContainer.MaxCapacity - implant.BloodContainer.ReagentMixTotal;
 			}
-
-			// Logger.Log("heart Wanted blood " + WantedBlood);
+			float pumpedReagent = Mathf.Min(totalWantedBlood, circulatorySystem.ReadyBloodPool.Total, maxPump);
 
 			ReagentMix SpareBlood = new ReagentMix();
-
 			foreach (BodyPart implant in HealthMaster.ImplantList)
 			{
-				if (implant.IsBloodReagentCirculated == false) continue;
-				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((implant.BloodReagentStoreAmount / WantedBlood) * pumpedReagent);
+				if (implant.isBloodBloodCirculated == false) continue;
+				float wantedBlood = implant.BloodThroughput + implant.BloodContainer.MaxCapacity - implant.BloodContainer.ReagentMixTotal;
+				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((wantedBlood / totalWantedBlood) * pumpedReagent);
 				BloodToGive.Add(SpareBlood);
+				Debug.Log(implant.gameObject.name + " - Desired: " + wantedBlood + " Actual: " + BloodToGive.Total + " Spare: " + SpareBlood.Total);
 				SpareBlood.Clear();
 				SpareBlood.Add(implant.BloodPumpedEvent(BloodToGive));
 			}
 
 			// Logger.Log("heart SpareBlood " + SpareBlood);
 			//heartRateNeedsIncreasing = (SpareBlood.Total == 0);
-			circulatorySystem.ReadyBloodPool = SpareBlood;
+			circulatorySystem.UsedBloodPool.Add(SpareBlood);
 		}
 	}
 

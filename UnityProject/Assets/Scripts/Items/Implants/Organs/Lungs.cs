@@ -34,9 +34,9 @@ public class Lungs : BodyPart
 	[SerializeField] private Gas expelledGas = Gas.CarbonDioxide;
 
 	/// <summary>
-	/// The amount of gas that this can process in a single breath
+	/// The base amount of blood that this attempts to process each single breath
 	/// </summary>
-	[Tooltip("The amount of gas that this can process in a single breath")]
+	[Tooltip("The base amount of blood in litres that this processes each breath")]
 	public float LungProcessAmount = 10;
 
 	/// <summary>

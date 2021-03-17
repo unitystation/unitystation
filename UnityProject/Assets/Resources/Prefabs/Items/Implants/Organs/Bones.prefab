@@ -31,16 +31,15 @@ MonoBehaviour:
   LobbyCustomisation: {fileID: 0}
   optionalOrgans: []
   OptionalReplacementOrgan: []
-  isSurface: 0
+  IsSurface: 0
   ClothingHide: 0
   SurgeryProcedureBase: []
   isBloodReagentConsumed: 0
-  isBloodReagentCirculated: 1
-  requiredReagent: {fileID: 0}
-  _bloodReagentConsumed: 0.1
-  bloodReagentProcessed: 0.15
-  bloodReagentStoreAmount: 0.01
-  bloodReagentStoredMax: 0.5
+  isBloodCirculated: 1
+  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  bloodReagentConsumed: 0.05
+  bloodThroughput: 0.15
+  bloodStoredMax: 0.5
   NutrimentConsumption: 0.02
   NutrimentPassiveConsumption: 0.001
   BloodContainer: {fileID: 0}

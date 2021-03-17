@@ -63,18 +63,10 @@ namespace HealthV2
 		//fixme: not actually set or modified. keep an eye on this!
 		public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
-		public override void Awake()
-		{
-			base.Awake();
-			EnsureInit();
-		}
-
 		public override void EnsureInit()
 		{
 			if (init) return;
-			init = true;
-
-			base.EnsureInit();
+			
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			playerMove = GetComponent<PlayerMove>();
 			playerSprites = GetComponent<PlayerSprites>();
@@ -83,18 +75,9 @@ namespace HealthV2
 			equipment = GetComponent<Equipment>();
 			playerScript = GetComponent<PlayerScript>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
-		}
 
-		public override void OnStartClient()
-		{
-			EnsureInit();
-			base.OnStartClient();
-		}
-
-		public override void OnStartServer()
-		{
-			EnsureInit();
-			base.OnStartServer();
+			base.EnsureInit();
+			init = true;
 		}
 
 		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)

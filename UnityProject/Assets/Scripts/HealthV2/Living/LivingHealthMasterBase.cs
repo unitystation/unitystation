@@ -139,7 +139,7 @@ namespace HealthV2
 		/// <summary>
 		/// A list of all body parts of the creature
 		/// </summary>
-		public HashSet<BodyPart> ImplantList { get; private set; } = new HashSet<BodyPart>();
+		public List<BodyPart> ImplantList = new List<BodyPart>();
 
 		/// <summary>
 		/// A list of all body part containers of the creature.
@@ -246,7 +246,13 @@ namespace HealthV2
 			healthStateController = GetComponent<HealthStateController>();
 			immunedSickness = new List<Sickness>();
 			mobSickness = GetComponent<MobSickness>();
-			//Always include blood for living entities:
+			
+			foreach(var implant in ImplantList)
+			{
+				Debug.Log(implant.gameObject.name);
+				implant.HealthMaster = this;
+				implant.Initialisation();
+			}
 		}
 
 		public void Setbrain(Brain _brain)

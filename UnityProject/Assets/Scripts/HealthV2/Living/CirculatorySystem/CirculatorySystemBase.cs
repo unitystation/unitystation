@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
+using Chemistry.Components;
 using NaughtyAttributes;
 
 namespace HealthV2
@@ -19,7 +20,8 @@ namespace HealthV2
 		public ReagentMix UsedBloodPool;
 		public ReagentMix ReadyBloodPool;
 
-		public Chemistry.Reagent BloodReagent => bloodType.Blood;
+		public Chemistry.Reagent Blood => bloodType.Blood;
+		public Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
 
 		[SerializeField]
 		[Required("Need to know our limits for how much blood we have and what not.")]
@@ -31,17 +33,26 @@ namespace HealthV2
 		public void SetBloodType(BloodType inBloodType)
 		{
 			bloodType = inBloodType;
-			ReadyBloodPool.Add(BloodReagent,5);
-			ReadyBloodPool.Add(bloodType.CirculatedReagent,2.5f);
 		}
 
 		private void Awake()
 		{
 			healthMaster = GetComponent<LivingHealthMasterBase>();
-			ReadyBloodPool.Add(BloodReagent,5);
-			// ReadyBloodPool.Add(bloodType.CirculatedReagent,2.5f);
-			// bloodReagentAmount = BloodInfo.BLOOD_REAGENT_DEFAULT;
-			// bloodAmount = BloodInfo.BLOOD_DEFAULT;
+			AddFreshBlood(ReadyBloodPool, 5);
+		}
+
+		public void AddFreshBlood(ReagentMix bloodPool, float amount)
+		{
+			var bloodToAdd = new ReagentMix(Blood, amount);
+			bloodToAdd.Add(CirculatedReagent, bloodType.GetCapacity(bloodToAdd));
+			bloodPool.Add(bloodToAdd);
+		}
+
+		public void FillWithFreshBlood(ReagentContainerBody bloodContainer)
+		{
+			float bloodToAdd = (bloodContainer.MaxCapacity - bloodContainer.ReagentMixTotal) / bloodType.BloodCapacityOf;
+			bloodContainer.CurrentReagentMix.Add(Blood, bloodToAdd);
+			bloodContainer.CurrentReagentMix.Add(CirculatedReagent, bloodToAdd * bloodType.BloodCapacityOf);
 		}
 
 		public virtual void AddUsefulBloodReagent(ReagentMix amount) //Return excess
@@ -51,6 +62,7 @@ namespace HealthV2
 			//ReadyBloodPool = Mathf.Min(bloodInfo.BLOOD_REAGENT_MAX, bloodReagentAmount);
 			//return 0;
 		}
+
 
 		public void ConvertUsedBlood(float Toadd)
 		{

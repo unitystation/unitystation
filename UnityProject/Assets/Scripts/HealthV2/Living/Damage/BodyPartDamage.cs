@@ -200,7 +200,7 @@ namespace HealthV2
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs
-			if (ContainBodyParts.Count > 0 && damageType != DamageType.Oxy)
+			if (ContainBodyParts.Count > 0)
 			{
 				var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType);
 				if (maxHealth - Damages[(int)damageType] < SubOrganDamageIncreasePoint)

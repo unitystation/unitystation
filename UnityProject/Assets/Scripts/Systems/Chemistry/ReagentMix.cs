@@ -276,7 +276,7 @@ namespace Chemistry
 
 				// change amount to subtraction result
 				reagents[reagent] = newAmount;
-				return amount;
+				return subAmount;
 			}
 
 			// have nothing to remove, just return zero

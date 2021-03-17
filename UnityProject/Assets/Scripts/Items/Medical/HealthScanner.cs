@@ -21,41 +21,49 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		var livingHealth = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
-		string ToShow = (livingHealth.name + " is " + livingHealth.ConsciousState.ToString() + "\n"
-		                 + "OverallHealth = " + livingHealth.OverallHealth.ToString() + " Blood level = " +
-		                 livingHealth.CirculatorySystem.UsedBloodPool.ToString() + "\n");
+		var performerName = interaction.Performer.ExpensiveName();
+		var targetName = interaction.TargetObject.ExpensiveName();
+		Chat.AddActionMsgToChat(interaction.Performer, $"You analyze {targetName}'s vitals.",
+					$"{performerName} analyzes {targetName}'s vitals.");
+
+		var health = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+		var totalPercent = Mathf.Round(100 * health.OverallHealth / health.MaxHealth);
+		var bloodTotal = Mathf.Round(health.CirculatorySystem.UsedBloodPool[health.CirculatorySystem.Blood]
+			+ health.CirculatorySystem.ReadyBloodPool[health.CirculatorySystem.Blood]) * 1000;
+		var bloodPercent = Mathf.Round(bloodTotal / health.CirculatorySystem.BloodInfo.BLOOD_NORMAL * 100);
+
+
+
+		var availOxy = health.CirculatorySystem.ReadyBloodPool[GAS2ReagentSingleton.Instance.Oxygen];
+
+		string ToShow = ("----------------------------------------\n" +
+						targetName + " is " + health.ConsciousState.ToString() + "\n" +
+						"Overall status: " + totalPercent + "% health\n" +
+						"Blood level = " + bloodPercent + "%, " + bloodTotal + "cc\n" +
+						"Oxy Level = " + availOxy + "cc\n");
 		string StringBuffer = "";
-		float TotalBruteDamage = 0;
-		float TotalBurnDamage = 0;
-		float TotalTOXDamage = 0;
-		float TotalCloneDamage = 0;
-		foreach (var BodyPart in livingHealth.ImplantList)
+		float[] fullDamage = new float[7];
+
+		foreach (var BodyPart in health.ImplantList)
 		{
 			if (AdvancedHealthScanner == false && BodyPart.DamageContributesToOverallHealth == false) continue;
+			if (BodyPart.TotalDamage == 0) continue;
 
-			if (BodyPart.DamageContributesToOverallHealth)
+			for (int i = 0; i < BodyPart.Damages.Length; i++)
 			{
-				TotalBruteDamage += BodyPart.Brute;
-				TotalBurnDamage += BodyPart.Burn;
-				TotalTOXDamage += BodyPart.Toxin;
-				TotalCloneDamage += BodyPart.Cellular;
+				fullDamage[i] += BodyPart.Damages[i];
 			}
 
-			StringBuffer += BodyPart.name + "\t";
-			StringBuffer += BodyPart.Brute + "\t";
-			StringBuffer += BodyPart.Burn + "\t";
-			StringBuffer += BodyPart.Toxin + "\t";
-			StringBuffer += BodyPart.Cellular;
-
-			StringBuffer += "\n";
+			StringBuffer += BodyPart.gameObject.ExpensiveName() + "\t  ";
+			StringBuffer += Mathf.Round(BodyPart.Brute) + "\t  ";
+			StringBuffer += Mathf.Round(BodyPart.Burn) + "\t  ";
+			StringBuffer += Mathf.Round(BodyPart.Toxin) + "\t    ";
+			StringBuffer += Mathf.Round(BodyPart.Oxy) + "\n";
 		}
 
-		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() +
-		         " Toxin " + TotalTOXDamage +
-		         " Cellular " + TotalCloneDamage + "\n" +
-		         "Body Part, Brute, Burn, Toxin, Cellular \n" +
-		         StringBuffer;
+		ToShow += "General status:\nDamage:\tBrute\tBurn\tToxin\tSuffocation\n" +
+					$"Overall:\t  {fullDamage[(int)DamageType.Brute]}\t  {fullDamage[(int)DamageType.Burn]}\t  " +
+					$"{fullDamage[(int)DamageType.Tox]}\t    {fullDamage[(int)DamageType.Oxy]}\n" + StringBuffer;
 
 		Chat.AddExamineMsgFromServer(interaction.Performer, ToShow);
 	}
