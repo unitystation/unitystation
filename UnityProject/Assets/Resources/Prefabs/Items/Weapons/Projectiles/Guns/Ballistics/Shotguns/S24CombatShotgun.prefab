@@ -23,6 +23,18 @@ PrefabInstance:
       value: A semi automatic shotgun with tactical furniture and a six-shell capacity
         underneath.
       objectReference: {fileID: 0}
+    - target: {fileID: 1996529631628265754, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: cba8697d0db58224fa0114e9fc7a9eb3,
+        type: 2}
+    - target: {fileID: 1996529631628265754, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d3634bf6c3c01d94c92efabeb8ffcbee,
+        type: 2}
     - target: {fileID: 2075233859075398604, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
       propertyPath: m_AssetId

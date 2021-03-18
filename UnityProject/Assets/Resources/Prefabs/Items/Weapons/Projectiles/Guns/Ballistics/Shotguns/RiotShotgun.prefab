@@ -69,6 +69,18 @@ PrefabInstance:
       value: A sturdy shotgun with a longer magazine and a fixed tactical stock designed
         for non-lethal riot control.
       objectReference: {fileID: 0}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 30d99d85a7a53224899de044f0d42f38,
+        type: 2}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: fa964e9db6f2ba34da49f09ba82652f2,
+        type: 2}
     - target: {fileID: 3301342883353866999, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: m_Sprite
