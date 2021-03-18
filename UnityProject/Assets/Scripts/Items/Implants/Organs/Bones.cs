@@ -21,7 +21,6 @@ namespace HealthV2
 
 				BloodContainer.CurrentReagentMix.Remove(Nutriment,toConsume );
 				BloodContainer.CurrentReagentMix.Add(GeneratesThis.Blood, BloodGeneratedByOneNutriment * toConsume);
-				NutrimentHeal(toConsume);
 			}
 
 			base.BloodUpdate();

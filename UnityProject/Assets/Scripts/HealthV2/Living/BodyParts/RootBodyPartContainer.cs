@@ -185,6 +185,7 @@ namespace HealthV2
 				InternalNetIDs.Add(Newspite.GetComponent<NetworkIdentity>().netId);
 
 				i++;
+				i++;
 			}
 			RootBodyPartController.RequestUpdate(this);
 		}
