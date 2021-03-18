@@ -14,7 +14,9 @@ namespace Objects.Mining
 	public class OreRedemptionMachine : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		private RegisterObject registerObject;
-		private MaterialStorageLink materialStorageLink;
+		public MaterialStorageLink materialStorageLink;
+		public GUI_OreRedemptionMachine oreRedemptiomMachineGUI;
+		public int laborPoints;
 
 		private void Awake()
 		{
@@ -45,6 +47,11 @@ namespace Objects.Mining
 					AddOre(item.gameObject);
 				}
 			}
+
+			if (oreRedemptiomMachineGUI)
+			{
+				oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
+			}
 		}
 
 		private void AddOre(GameObject ore)
@@ -54,10 +61,21 @@ namespace Objects.Mining
 				if (Validations.HasItemTrait(ore, materialSheet.oreTrait))
 				{
 					var inStackable = ore.GetComponent<Stackable>();
+					laborPoints += inStackable.Amount * materialSheet.laborPoint;
 					materialStorageLink.TryAddSheet(materialSheet.materialTrait, inStackable.Amount);
 					Despawn.ServerSingle(ore);
 				}
 			}
+		}
+
+		public void ClaimLaborPoints(GameObject player)
+		{
+			var playerStorage = player.GetComponent<ItemStorage>();
+			var idCardObj = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
+			var idCard = AccessRestrictions.GetIDCard(idCardObj);
+			idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
+			laborPoints = 0;
+			oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
 		}
 	}
 }

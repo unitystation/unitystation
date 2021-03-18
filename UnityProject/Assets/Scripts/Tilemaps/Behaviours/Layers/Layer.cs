@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Initialisation;
+using TileManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -61,6 +62,11 @@ public class Layer : MonoBehaviour
 	public Vector3 LocalToWorld(Vector3 localPos) => tilemap.LocalToWorld(localPos);
 	public Vector3 CellToWorld(Vector3Int cellPos) => tilemap.CellToWorld(cellPos);
 	public Vector3 WorldToLocal(Vector3 worldPos) => tilemap.WorldToLocal(worldPos);
+
+	//Used to make sure two overlays dont conflict before being set, cleared on the update
+	public HashSet<Vector3> overlayStore = new HashSet<Vector3>();
+
+	public MetaTileMap metaTileMap;
 
 	public void Awake()
 	{
@@ -204,7 +210,6 @@ public class Layer : MonoBehaviour
 		bool TileREmoved = false;
 		if (removeAll)
 		{
-			//TODO: OVERLAYS - This wouldn't work reliably if there is something at level -3 but nothing at -1 and -2.
 			position.z = 0;
 			while (tilemap.HasTile(position))
 			{

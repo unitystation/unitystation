@@ -83,6 +83,7 @@ namespace TileManagement
 
 			foreach (Layer layer in GetComponentsInChildren<Layer>(true))
 			{
+				layer.metaTileMap = this;
 				var type = layer.LayerType;
 				Layers[type] = layer;
 				layersKeys.Add(type);
@@ -183,6 +184,7 @@ namespace TileManagement
 					}
 
 					QueueTileChange.PresentlyOn.RemoveTile(QueueTileChange.TileCoordinates);
+
 					// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 					QueueTileChange.Clean();
 					lock (PooledTileLocation)
@@ -203,6 +205,11 @@ namespace TileManagement
 			}
 
 			stopwatch.Stop();
+
+			foreach (var layer in LayersValues)
+			{
+				layer.overlayStore.Clear();
+			}
 		}
 
 		/// <summary>
@@ -364,7 +371,7 @@ namespace TileManagement
 				}
 
 				if (TileLcation?.Tile == null) continue;
-				if ((TileLcation.Tile as BasicTile).IsAtmosPassable() == false)
+				if ((TileLcation.Tile as BasicTile)?.IsAtmosPassable() == false)
 				{
 					return false;
 				}
@@ -395,7 +402,7 @@ namespace TileManagement
 				}
 
 				if (TileLcation?.Tile == null) continue;
-				if ((TileLcation.Tile as BasicTile).IsSpace() == false)
+				if ((TileLcation.Tile as BasicTile)?.IsSpace() == false)
 				{
 					return false;
 				}
@@ -474,7 +481,6 @@ namespace TileManagement
 					TileLcation.PresentlyOn = layer;
 					TileLcation.PresentMetaTileMap = this;
 					TileLcation.TileCoordinates = position;
-
 					TileLcation.Tile = tile;
 					TileLcation.TransformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
 					TileLcation.Colour = color.GetValueOrDefault(Color.white);
@@ -881,6 +887,215 @@ namespace TileManagement
 			}
 
 			return false;
+		}
+
+		/// <summary>
+		/// Gets the next free overlay position
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="layerType"></param>
+		/// <param name="overlayName"></param>
+		/// <returns></returns>
+		public Vector3Int? GetFreeOverlayPos(Vector3Int position, LayerType layerType)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return null;
+			}
+
+			TileLocation tileLocation = null;
+			position.z = 1;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				//Only check 20 as its unlikely to ever have more than 20 overlays
+				var count = 0;
+				while (count < 20)
+				{
+					position.z += count;
+
+					lock (PresentTiles)
+					{
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
+					}
+
+					if ((tileLocation == null || tileLocation.Tile == null) && layer.overlayStore.Contains(position) == false)
+					{
+						layer.overlayStore.Add(position);
+						return position;
+					}
+
+					count++;
+				}
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Get position of an overlay by name
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="layerType"></param>
+		/// <param name="overlayName"></param>
+		/// <returns></returns>
+		public Vector3Int? GetOverlayPos(Vector3Int position, LayerType layerType, string overlayName)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return null;
+			}
+
+			TileLocation tileLocation = null;
+			OverlayTile overlayTile = null;
+			position.z = 1;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				//Only check 20 as its unlikely to ever have more than 20 overlays
+				var count = 0;
+				while (count < 20)
+				{
+					position.z += count;
+
+					lock (PresentTiles)
+					{
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
+					}
+
+					if (tileLocation != null)
+					{
+						overlayTile = tileLocation.Tile as OverlayTile;
+
+						if (overlayTile != null && overlayTile.OverlayName == overlayName)
+						{
+							return position;
+						}
+					}
+
+					count++;
+				}
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Gets all positions with a specific overlay type
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="layerType"></param>
+		/// <param name="overlayName"></param>
+		/// <returns></returns>
+		public List<Vector3Int> GetOverlayPosByType(Vector3Int position, LayerType layerType, TileChangeManager.OverlayType overlayType)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return null;
+			}
+
+			TileLocation tileLocation = null;
+			OverlayTile overlayTile = null;
+			List<Vector3Int> pos = new List<Vector3Int>();
+			position.z = 1;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				//Only check 20 as its unlikely to ever have more than 20 overlays
+				var count = 0;
+				while (count < 20)
+				{
+					position.z += count;
+
+					lock (PresentTiles)
+					{
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
+					}
+
+					if (tileLocation != null)
+					{
+						overlayTile = tileLocation.Tile as OverlayTile;
+
+						if (overlayTile != null && overlayTile.OverlayType == overlayType)
+						{
+							 pos.Add(position);
+						}
+					}
+
+					count++;
+				}
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return pos;
+		}
+
+		/// <summary>
+		/// Get all overlay positions
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="layerType"></param>
+		/// <param name="overlayName"></param>
+		/// <returns></returns>
+		public List<Vector3Int> GetAllOverlayPos(Vector3Int position, LayerType layerType)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return null;
+			}
+
+			TileLocation tileLocation = null;
+			OverlayTile overlayTile = null;
+			List<Vector3Int> pos = new List<Vector3Int>();
+			position.z = 1;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				//Only check 20 as its unlikely to ever have more than 20 overlays
+				var count = 0;
+				while (count < 20)
+				{
+					position.z += count;
+
+					lock (PresentTiles)
+					{
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
+					}
+
+					if (tileLocation != null)
+					{
+						overlayTile = tileLocation.Tile as OverlayTile;
+
+						if (overlayTile != null)
+						{
+							pos.Add(position);
+						}
+					}
+
+					count++;
+				}
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return pos;
 		}
 
 		public void RemoveTile(Vector3Int position, bool RemoveAll = true)

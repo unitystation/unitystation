@@ -10,6 +10,9 @@ namespace Objects.Mining
 		[SerializeField]
 		private GUI_MaterialsList materialsListDisplay = null;
 
+		private OreRedemptionMachine oreRedemptionMachine;
+
+		public NetLabel laborPointsLabel;
 		protected override void InitServer()
 		{
 			StartCoroutine(WaitForProvider());
@@ -21,9 +24,23 @@ namespace Objects.Mining
 			{
 				yield return WaitFor.EndOfFrame;
 			}
-			materialsListDisplay.materialStorageLink = Provider.GetComponent<MaterialStorageLink>();
+
+			oreRedemptionMachine = Provider.GetComponent<OreRedemptionMachine>();
+			UpdateLaborPoints(oreRedemptionMachine.laborPoints);
+			oreRedemptionMachine.oreRedemptiomMachineGUI = this;
+			materialsListDisplay.materialStorageLink = oreRedemptionMachine.materialStorageLink;
 			materialsListDisplay.materialStorageLink.materialListGUI = materialsListDisplay;
 			materialsListDisplay.UpdateMaterialList();
+		}
+
+		public void UpdateLaborPoints(int laborPoints)
+		{
+			laborPointsLabel.SetValueServer($"Unclaimed points: {laborPoints.ToString()}");
+		}
+
+		public void ClaimLaborPoints(ConnectedPlayer connectedPlayer)
+		{
+			oreRedemptionMachine.ClaimLaborPoints(connectedPlayer.GameObject);
 		}
 	}
 }

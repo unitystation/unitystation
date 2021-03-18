@@ -75,6 +75,12 @@ public class TileManager : MonoBehaviour, IInitialise
 		{
 			Destroy(this);
 		}
+
+#if UNITY_EDITOR
+		CacheAllAssets();
+#endif
+
+		if (!initialized) StartCoroutine(LoadAllTiles());
 	}
 
 	[ContextMenu("Cache All Assets")]
@@ -155,6 +161,16 @@ public class TileManager : MonoBehaviour, IInitialise
 	public static LayerTile GetTile(TileType tileType, string key)
 	{
 		if (!Instance.initialized) Instance.StartCoroutine(Instance.LoadAllTiles());
-		return Instance.tiles[tileType][key];
+
+		if (Instance.tiles.TryGetValue(tileType, out var tiles) && tiles.TryGetValue(key, out var layerTile))
+		{
+			return layerTile;
+		}
+
+		Debug.LogError(tiles == null
+			? $"Could not find {tileType} dictionary"
+			: $"Could not find layerTile in {tileType} dictionary with key: {key}");
+
+		return null;
 	}
 }

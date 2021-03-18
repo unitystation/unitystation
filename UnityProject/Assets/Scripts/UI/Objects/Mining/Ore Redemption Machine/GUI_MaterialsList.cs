@@ -8,8 +8,6 @@ using Objects.Machines;
 public class GUI_MaterialsList : NetPage
 {
 	[SerializeField] private EmptyItemList materialList = null;
-	private int numberOfCategoriesInFirstColumn = 0;
-	private int numberOfCategoriesInSecondColumn = 0;
 	public MaterialStorageLink materialStorageLink;
 
 	public void UpdateMaterialList()

@@ -11,8 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0b87c53e5c7ea644caf0b18c4c67d119,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 200070983791577357, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: SpeedMultiplier
@@ -20,13 +19,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 295dcd44e2fe7b049a64f84141a18b6f,
+        type: 2}
     - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.size
-      value: 4
+      propertyPath: Sprites.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
@@ -35,9 +35,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 295dcd44e2fe7b049a64f84141a18b6f,
+        type: 2}
+    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
       propertyPath: Sprites.Array.data[0].Texture
       value: 
       objectReference: {fileID: 2800000, guid: 77d5c2548c03c4544ae941bc09a8bc0f, type: 3}
+    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 744b7d93d3c726148ba693ce021ba39a, type: 3}
+    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
@@ -62,23 +78,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 77d5c2548c03c4544ae941bc09a8bc0f,
         type: 3}
-    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 744b7d93d3c726148ba693ce021ba39a, type: 3}
-    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 295dcd44e2fe7b049a64f84141a18b6f,
-        type: 2}
-    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 295dcd44e2fe7b049a64f84141a18b6f,
-        type: 2}
     - target: {fileID: 4282312991069114565, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: m_Sprite
@@ -115,6 +114,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -130,6 +134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -142,16 +151,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
@@ -186,13 +185,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
+      propertyPath: exportCost
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.size
-      value: 4
+      propertyPath: exportName
+      value: experimental welding tool
+      objectReference: {fileID: 0}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: initialName
+      value: experimental welding tool
       objectReference: {fileID: 0}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
@@ -202,14 +206,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: initialName
-      value: experimental welding tool
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ba3d2a2d9f7c8344a946fa411b385829,
+        type: 2}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: dddaaca292cc8a05eb38c8cd5ae2bb0e,
+        type: 2}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b8951e7732642b349b57e0b66cf14762,
+        type: 2}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 74aa7845cd9ebbf47ac6b5113738f104, type: 3}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: a1e525df28e0fe0428a6fa08db9aa7a7, type: 3}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 247a744420f1fda4d8b52b4594927ed4, type: 3}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 797828cd5bb13944ca1410a75437b4e1, type: 3}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -234,16 +276,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 74aa7845cd9ebbf47ac6b5113738f104,
         type: 3}
-    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 247a744420f1fda4d8b52b4594927ed4, type: 3}
-    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: a1e525df28e0fe0428a6fa08db9aa7a7, type: 3}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
@@ -316,37 +348,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300022, guid: e3766bb437a62934dbdd7c12a8269559,
         type: 3}
-    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 797828cd5bb13944ca1410a75437b4e1, type: 3}
-    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: initialTraits.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: dddaaca292cc8a05eb38c8cd5ae2bb0e,
-        type: 2}
-    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: ba3d2a2d9f7c8344a946fa411b385829,
-        type: 2}
-    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: b8951e7732642b349b57e0b66cf14762,
-        type: 2}
     - target: {fileID: 9051842671118403817, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: maxCapacity
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 9051842671118403817, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: maxCapacity
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 9166176503069144041, guid: b735ab74dab174a4f90c79558cd51e43,

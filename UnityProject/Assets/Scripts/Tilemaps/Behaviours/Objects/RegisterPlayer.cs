@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
@@ -10,8 +11,14 @@ using Messages.Server.SoundMessages;
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(UprightSprites))]
 [ExecuteInEditMode]
-public class RegisterPlayer : RegisterTile, IServerSpawn
+public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IControlPlayerState
 {
+
+	public interface IControlPlayerState
+	{
+		bool AllowChange(bool rest);
+	}
+
 	const int HELP_CHANCE = 33; // Percent.
 
 	// tracks whether player is down or upright.
@@ -27,6 +34,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	/// True when the player is slipping
 	/// </summary>
 	public bool IsSlippingServer { get; private set; }
+
+	private HashSet<IControlPlayerState> CheckableStatuses = new HashSet<IControlPlayerState>();
 
 	/// <summary>
 	/// Invoked on server when slip state is change. Provides old and new value as 1st and 2nd args
@@ -53,7 +62,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	protected override void Awake()
 	{
 		base.Awake();
+		AddStatus(this);
 		EnsureInit();
+	}
+
+	public void AddStatus(IControlPlayerState iThisControlPlayerState)
+	{
+		CheckableStatuses.Add(iThisControlPlayerState);
 	}
 
 	private void EnsureInit()
@@ -71,12 +86,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	{
 		base.OnStartClient();
 		EnsureInit();
-		SyncIsLayingDown(isLayingDown, isLayingDown);
+		ServerCheckStandingChange( isLayingDown);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncIsLayingDown(isLayingDown, false);
+		ServerCheckStandingChange(false);
 	}
 
 	public override bool IsPassable(bool isServer, GameObject context = null)
@@ -96,7 +111,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerLayDown()
 	{
-		SyncIsLayingDown(isLayingDown, true);
+		ServerCheckStandingChange(true);
 	}
 
 	/// <summary>
@@ -106,7 +121,17 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerStandUp()
 	{
-		SyncIsLayingDown(isLayingDown, false);
+		ServerCheckStandingChange(false);
+	}
+
+	/// <summary>
+	/// Make the player appear standing up.
+	/// When up, they become impassable.
+	/// </summary>
+	[Server]
+	public void ServerStandUp(bool DoBar = false, float Time = 0.5f)
+	{
+		ServerCheckStandingChange(false,DoBar, Time);
 	}
 
 	/// <summary>
@@ -116,7 +141,33 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerSetIsStanding(bool isStanding)
 	{
-		SyncIsLayingDown(isLayingDown, !isStanding);
+		ServerCheckStandingChange(!isStanding);
+	}
+
+
+	public void ServerCheckStandingChange(bool LayingDown, bool DoBar = false, float Time = 0.5f)
+	{
+		if (this.isLayingDown != LayingDown)
+		{
+			foreach (var Status in CheckableStatuses)
+			{
+				if (Status.AllowChange(LayingDown) == false)
+				{
+					return;
+				}
+			}
+
+			if (DoBar)
+			{
+				var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.SelfHeal, false, false, true), ServerStandUp);
+				bar.ServerStartProgress(this, 1.5f,gameObject);
+			}
+			else
+			{
+				SyncIsLayingDown(isLayingDown, LayingDown);
+			}
+
+		}
 	}
 
 	private void SyncIsLayingDown(bool wasDown, bool isDown)
@@ -125,25 +176,28 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		this.isLayingDown = isDown;
 		if (isDown)
 		{
-			uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
+			LeanTween.rotate(uprightSprites.gameObject, new Vector3(0, 0, -90), 0.15f);
+			//uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
-
+			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.CrawlSpeed;
 			//lock current direction
 			playerDirectional.LockDirection = true;
 		}
 		else
 		{
-			uprightSprites.ExtraRotation = Quaternion.identity;
+			LeanTween.rotate(uprightSprites.gameObject, new Vector3(0, 0, 0), 0.19f);
+			//uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Players";
 			}
 			playerDirectional.LockDirection = false;
+			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.RunSpeed;
 		}
 	}
 
@@ -160,6 +214,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 
 		ServerRemoveStun();
 	}
+
+	bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
+	{
+		return !IsSlippingServer;
+	}
+
 
 	/// <summary>
 	/// Slips and stuns the player.
@@ -204,7 +264,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	{
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
-		SyncIsLayingDown(isLayingDown, true);
+		ServerCheckStandingChange( true);
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		if (dropItem)
 		{
@@ -235,7 +295,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		// Do not raise up a dead body
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
 		{
-			SyncIsLayingDown(isLayingDown, false);
+			ServerCheckStandingChange( false);
 		}
 
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);

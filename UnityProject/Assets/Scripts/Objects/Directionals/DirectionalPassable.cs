@@ -93,11 +93,11 @@ namespace Core.Directionals
 			{
 				case PassType.Entering:
 					isEnterableOnAll = true;
-					Passable = true;
+					SetPassable(false, true);
 					break;
 				case PassType.Leaving:
 					isLeavableOnAll = true;
-					Passable = true;
+					SetPassable(false, true);
 					break;
 				case PassType.Atmospheric:
 					isAtmosPassableOnAll = true;
@@ -118,11 +118,11 @@ namespace Core.Directionals
 			{
 				case PassType.Entering:
 					isEnterableOnAll = false;
-					Passable = false;
+					SetPassable(false, false);
 					break;
 				case PassType.Leaving:
 					isLeavableOnAll = false;
-					Passable = false;
+					SetPassable(false, false);
 					break;
 				case PassType.Atmospheric:
 					isAtmosPassableOnAll = false;
@@ -143,11 +143,11 @@ namespace Core.Directionals
 			{
 				case PassType.Entering:
 					isEnterableOnAll = false;
-					Passable = true;
+					SetPassable(false, true);
 					break;
 				case PassType.Leaving:
 					isLeavableOnAll = false;
-					Passable = true;
+					SetPassable(false, true);
 					break;
 				case PassType.Atmospheric:
 					isAtmosPassableOnAll = false;

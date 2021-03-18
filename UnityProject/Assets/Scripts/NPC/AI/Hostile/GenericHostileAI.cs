@@ -62,6 +62,8 @@ namespace Systems.MobAIs
 			mobMeleeAction = GetComponent<MobMeleeAction>();
 			coneOfSight = GetComponent<ConeOfSight>();
 			simpleAnimal = GetComponent<SimpleAnimal>();
+
+			if(CustomNetworkManager.IsServer == false) return;
 			PlayRandomSound();
 		}
 
@@ -338,7 +340,7 @@ namespace Systems.MobAIs
 			base.OnDespawnServer(info);
 			mobSprite.SetToBodyLayer();
 			deathSoundPlayed = false;
-			registerObject.Passable = true;
+			registerObject.SetPassable(false, true);
 		}
 
 		public enum MobStatus

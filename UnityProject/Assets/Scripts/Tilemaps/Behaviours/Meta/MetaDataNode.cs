@@ -68,6 +68,20 @@ public class MetaDataNode : IGasMixContainer
 
 	private Dictionary<LayerType, float> damageInfo  = new Dictionary<LayerType, float>();
 
+	//Which overlays this node has on
+	private HashSet<Gas> gasOverlayData = new HashSet<Gas>();
+	public HashSet<Gas> GasOverlayData => gasOverlayData;
+
+	public void AddGasOverlay(Gas gas)
+	{
+		gasOverlayData.Add(gas);
+	}
+
+	public void RemoveGasOverlay(Gas gas)
+	{
+		gasOverlayData.Remove(gas);
+	}
+
 	public float GetTileDamage(LayerType layerType)
 	{
 		TryCreateDamageInfo(layerType);
