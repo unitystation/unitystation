@@ -39,7 +39,7 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      mix:
+      Mix:
         temperature: 273.15
         reagents:
           m_keys: []
@@ -63,7 +63,6 @@ MonoBehaviour:
         - 0
         Pressure: 0
         Volume: 0.05
-        Temperature: 0
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}
@@ -170,7 +169,6 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 0e6943577fd84c644af8024d83287aac, type: 2}
-  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -190,11 +188,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
       propertyPath: m_SortingOrder
       value: 70
       objectReference: {fileID: 0}
@@ -205,8 +198,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
+      propertyPath: m_SortingLayer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -217,11 +210,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -240,11 +228,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -257,6 +240,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -275,22 +268,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 80
+      propertyPath: damageDeflection
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: damageDeflection
-      value: 20
+      propertyPath: Armor.Fire
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: Passable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: initialPassable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
