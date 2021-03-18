@@ -65,6 +65,9 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	//It can be null, or it can be a pickupable.(Health V2)
 	public event Action<Pickupable, Pickupable> ServerInventoryItemSlotSet;
 
+	[SerializeField]
+	private bool dropItemsOnDespawn;
+
 	public bool UesAddlistPopulater = false;
 
 	[ShowIf(nameof(UesAddlistPopulater))] public PrefabListPopulater Populater;
@@ -97,6 +100,9 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			ServerRemoveObserverPlayer(gameObject);
 		}
+		if(dropItemsOnDespawn)
+			ServerDropAll();
+
 		//reclaim the space in the slot pool.
 		ItemSlot.Free(this);
 	}
