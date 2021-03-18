@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace HealthV2
@@ -17,36 +19,49 @@ namespace HealthV2
 
 		[SyncVar(hook = nameof(SyncOverallHealth))]
 		private float overallHealthSync = 100;
+
 		public float OverallHealth => overallHealthSync;
 
 		[SyncVar(hook = nameof(SyncDNABloodTypeJSON))]
 		private string DNABloodTypeJSONSync;
+
 		public string DnaBloodTypeJsonSync => DNABloodTypeJSONSync;
 		public DNAandBloodType DNABloodType { get; private set; }
 
 		[SyncVar(hook = nameof(SyncConsciousState))]
 		private ConsciousState consciousState = ConsciousState.CONSCIOUS;
+
 		public ConsciousState ConsciousState => consciousState;
 
 		[SyncVar(hook = nameof(SyncBloodHealth))]
 		private HealthBloodMessage bloodHealth;
+
 		private HealthBloodMessage BloodHealth => bloodHealth;
 
 		[SyncVar(hook = nameof(SyncFireStacks))]
 		private float fireStacks;
+
 		public float FireStacks => fireStacks;
 
 		[SyncVar(hook = nameof(SyncSuffocating))]
 		private bool isSuffocating;
+
 		public bool IsSuffocating => isSuffocating;
 
 		[SyncVar(hook = nameof(SyncTemperature))]
 		private float temperature = 295.15f;
+
 		public float Temperature => temperature;
 
-		[SyncVar(hook = nameof(SyncPressure))]
-		private float pressure = 101;
+		[SyncVar(hook = nameof(SyncPressure))] private float pressure = 101;
 		public float Pressure => pressure;
+
+		private HealthDollStorage CurrentHealthDollStorage = new HealthDollStorage();
+
+		[SyncVar(hook = nameof(SyncHealthDoll))]
+		private string healthDollData;
+
+		private bool DollDataChanged = false;
 
 		#endregion
 
@@ -54,12 +69,22 @@ namespace HealthV2
 
 		private void Awake()
 		{
+			CurrentHealthDollStorage.DollStates = new List<HealthDollStorage.HealthDollState>();
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
 		}
 
 		#endregion
 
+		private void LateUpdate()
+		{
+			if (DollDataChanged)
+			{
+				SyncHealthDoll(healthDollData, JsonConvert.SerializeObject(CurrentHealthDollStorage));
+			}
+		}
+
 		#region ServerSetValue
+
 		//Holds all methods which the server will use to change a health value, will then sync change to client
 
 		[Server]
@@ -71,7 +96,7 @@ namespace HealthV2
 		[Server]
 		public void SetDNA(DNAandBloodType newDNA)
 		{
-			DNABloodTypeJSONSync =  JsonUtility.ToJson(newDNA);
+			DNABloodTypeJSONSync = JsonUtility.ToJson(newDNA);
 			DNABloodType = newDNA;
 		}
 
@@ -111,9 +136,28 @@ namespace HealthV2
 			pressure = newPressure;
 		}
 
+		[Server]
+		public void ServerUpdateDoll(int inLocation, Color INdamageColor, Color INbodyPartColor)
+		{
+			DollDataChanged = true;
+			if (inLocation >= CurrentHealthDollStorage.DollStates.Count)
+			{
+				while (inLocation >= CurrentHealthDollStorage.DollStates.Count)
+				{
+					CurrentHealthDollStorage.DollStates.Add(new HealthDollStorage.HealthDollState());
+				}
+			}
+
+			var DollState = CurrentHealthDollStorage.DollStates[inLocation];
+			DollState.damageColor = INdamageColor.ToStringCompressed();
+			DollState.bodyPartColor = INbodyPartColor.ToStringCompressed();
+			CurrentHealthDollStorage.DollStates[inLocation] = DollState;
+		}
+
 		#endregion
 
 		#region ClientSyncMethods
+
 		//Called when client receives new data from sync vars
 
 		[Client]
@@ -166,6 +210,18 @@ namespace HealthV2
 			pressure = newPressure;
 		}
 
+		[Client]
+		private void SyncHealthDoll(string oldDollData, string newDollData)
+		{
+			healthDollData = newDollData;
+			CurrentHealthDollStorage = JsonConvert.DeserializeObject<HealthDollStorage>(healthDollData);
+			for (int i = 0; i < CurrentHealthDollStorage.DollStates.Count; i++)
+			{
+				UIManager.PlayerHealthUI.bodyPartListeners[i].SetDamageColor(CurrentHealthDollStorage.DollStates[i].damageColor.UncompresseToColour());
+				UIManager.PlayerHealthUI.bodyPartListeners[i].SetBodyPartColor(CurrentHealthDollStorage.DollStates[i].bodyPartColor.UncompresseToColour());
+			}
+		}
+
 		#endregion
 
 		public struct HealthBloodMessage
@@ -174,6 +230,18 @@ namespace HealthV2
 			public float BloodLevel;
 			public float OxygenDamage;
 			public float ToxinLevel;
+		}
+
+
+		public struct HealthDollStorage
+		{
+			public List<HealthDollState> DollStates;
+
+			public struct HealthDollState
+			{
+				public string damageColor;
+				public string bodyPartColor;
+			}
 		}
 	}
 }

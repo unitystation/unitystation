@@ -88,7 +88,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			Chat.AddActionMsgToChat(
 				performer,
-				$"You perform CPR on {targetName} Finding it doesn't help Maybe they're missing something.",
+				$"You perform CPR on {targetName}. It doesn't seem to work, maybe they're missing something.",
 				$"{performerName} performs CPR on {targetName} In vain.");
 		}
 

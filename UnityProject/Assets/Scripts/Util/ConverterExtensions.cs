@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 
@@ -194,21 +195,21 @@ public static class ConverterExtensions
 	public static Color UncompresseToColour(this string SerialiseData)
 	{
 		Color TheColour = Color.white;
-		TheColour.r = ((int)SerialiseData[1] / 255f);
-		TheColour.g = ((int)SerialiseData[2] / 255f);
-		TheColour.b = ((int)SerialiseData[3] / 255f);
-		TheColour.a = ((int)SerialiseData[4] / 255f);
+		TheColour.r = ((int)SerialiseData[0] / 255f);
+		TheColour.g = ((int)SerialiseData[1] / 255f);
+		TheColour.b = ((int)SerialiseData[2] / 255f);
+		TheColour.a = ((int)SerialiseData[3] / 255f);
 		return TheColour;
 	}
 
 	public static string ToStringCompressed(this Color SetColour)
 	{
-		var ToReturn = "";
-		ToReturn += (Convert.ToChar(Mathf.RoundToInt(SetColour.r * 255)));
-		ToReturn += (Convert.ToChar(Mathf.RoundToInt(SetColour.g * 255)));
-		ToReturn +=(Convert.ToChar(Mathf.RoundToInt(SetColour.b * 255)));
-		ToReturn += (Convert.ToChar(Mathf.RoundToInt(SetColour.a * 255)));
-		return ToReturn;
+		StringBuilder ToReturn = new StringBuilder(4);
+		ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(SetColour.r * 255)));
+		ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(SetColour.g * 255)));
+		ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(SetColour.b * 255)));
+		ToReturn.Append(Convert.ToChar(Mathf.RoundToInt(SetColour.a * 255)));
+		return ToReturn.ToString();
 	}
 
 }

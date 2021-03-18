@@ -235,7 +235,7 @@ namespace HealthV2
 				Severity = DamageSeverity.Max;
 			}
 
-			if (oldSeverity != Severity)
+			if (oldSeverity != Severity && healthMaster != null)
 			{
 				UpdateIcons();
 			}

@@ -210,7 +210,7 @@ public class PlayerHealthUI : MonoBehaviour
 				{
 					if (bodyPart.healthMaster != null)
 					{
-						HealthDollIpdate.SendTo(i, damageColor, bodyPartColor, bodyPart.healthMaster.gameObject);
+						bodyPart.healthMaster.HealthStateController.ServerUpdateDoll(i, damageColor,bodyPartColor);
 					}
 				}
 			}
