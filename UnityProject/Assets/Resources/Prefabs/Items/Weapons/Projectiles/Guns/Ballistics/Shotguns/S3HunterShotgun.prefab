@@ -111,6 +111,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A double-barreled shotgun. A true classic.
       objectReference: {fileID: 0}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: bb0e7bbe440b5e4409a70efd7261686c,
+        type: 2}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b78229974a14b1248a39af73f8200db0,
+        type: 2}
     - target: {fileID: 3301342883353866999, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: m_Sprite
