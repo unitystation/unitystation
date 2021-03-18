@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Timers;
 using UnityEngine;
 
 public class GUI_SyndicateOpConsole : NetTab

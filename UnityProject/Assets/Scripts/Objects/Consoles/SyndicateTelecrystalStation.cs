@@ -1,22 +1,8 @@
 using UnityEngine;
-using Managers;
-using Antagonists;
-using Mirror;
-using System.Collections.Generic;
 using Items.PDA;
 
 class SyndicateTelecrystalStation : MonoBehaviour,  ICheckedInteractable<HandApply>, IExaminable
 {
-	private int tcPerOperative = 0;
-	public int TcReserve => SyndicateOpConsole.Instance.TcReserve;
-
-	private List<SpawnedAntag> operatives;
-
-	private void Awake()
-	{
-	   SyndicateOpConsole.Instance.OnTimerExpired += RecieveTeleCrystals;
-	}
-
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (DefaultWillInteract.Default(interaction, side)) return true;
@@ -25,51 +11,26 @@ class SyndicateTelecrystalStation : MonoBehaviour,  ICheckedInteractable<HandApp
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (TcReserve > 0) WithdrawTeleCrystals(interaction);
+		if (SyndicateOpConsole.Instance.TcReserve > 0) WithdrawTeleCrystals(interaction);
 	}
-
-	public void RecieveTeleCrystals()
-	{
-		var antagplayers = AntagManager.Instance.CurrentAntags;
-
-		foreach (var antag in antagplayers )
-		{
-			if (antag.Antagonist.AntagJobType == JobType.SYNDICATE)
-			{
-				operatives.Add(antag);
-			}
-		}
-		if (operatives == null)
-		{
-			Logger.LogError("no syndicate operatives found.");
-		}
-		else
-		{
-			tcPerOperative = TcReserve / operatives.Count;		
-		}
-	}
-
 	public void WithdrawTeleCrystals(HandApply interaction)
 	{
-		if (interaction.UsedObject == null) return;
+		if (interaction.UsedObject == null)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"It seems to have {SyndicateOpConsole.Instance.TcReserve} telecrystals in reserve");
+			return;
+		}
 		PDALogic pdaComp = interaction.UsedObject.GetComponent<PDALogic>();
 		if (pdaComp != null && pdaComp.IsUplinkLocked == false)
 		{
-			foreach (var op in operatives)
-			{
-				if (op.Owner == interaction.PerformerPlayerScript.mind)
-				{
-					operatives.Remove(op);
-					pdaComp.UplinkTC += tcPerOperative;
-					SyndicateOpConsole.Instance.TcReserve -= tcPerOperative;
-				}
-			}
+			int tc = Mathf.FloorToInt(SyndicateOpConsole.Instance.OpCount / SyndicateOpConsole.Instance.TcIncrement);
+			pdaComp.UplinkTC += tc;
+			SyndicateOpConsole.Instance.TcReserve -= tc;
 		}
 	}
-
 	public string Examine(Vector3 vector)
 	{
-		var examine = $"It seems to have {TcReserve} telecrystals in reserve, {tcPerOperative} per Operative";
+		var examine = $"It seems to have {SyndicateOpConsole.Instance.TcReserve} telecrystals in reserve";
 		return examine;
 	}
 }

@@ -1,10 +1,13 @@
 using UnityEngine;
 using Managers;
+using Antagonists;
 using Strings;
 using System;
+using System.Collections.Generic;
 
 public class SyndicateOpConsole : MonoBehaviour
 {
+
 
 	public static SyndicateOpConsole Instance;
 
@@ -12,9 +15,17 @@ public class SyndicateOpConsole : MonoBehaviour
 
 	public int TcReserve;
 
+	public int TcIncrement = 14;
+
 	private bool warDeclared = false;
 	private bool rewardGiven = false;
 	private int timer = 1200;
+
+	private int timerIncrement = 60;
+	private int tcToGive = 280;
+
+	public List<SpawnedAntag> operatives = new List<SpawnedAntag>();
+
 	public int Timer => timer;
 
 	private void Awake()
@@ -32,6 +43,8 @@ public class SyndicateOpConsole : MonoBehaviour
 
 	private void OnEnable()
 	{
+		TcReserve = 0;
+
 		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Add(ServerUpdateTimer, 1f);
@@ -57,6 +70,16 @@ public class SyndicateOpConsole : MonoBehaviour
 			CentComm.MakeAnnouncement(ChatTemplates.PriorityAnnouncement, 
 			$"Attention all crew! An open message from the syndicate has been picked up on local radiowaves! Message Reads:\n" +
 			$"{DeclerationMessage}" ,CentComm.UpdateSound.Alert);
+
+			var antagplayers = AntagManager.Instance.CurrentAntags;
+
+			foreach (var antag in antagplayers )
+			{
+				if (antag.Antagonist.AntagJobType == JobType.SYNDICATE)
+				{
+					operatives.Add(antag);
+				}
+			}
 		}
 	}
 
@@ -64,19 +87,33 @@ public class SyndicateOpConsole : MonoBehaviour
 	{
 		if (warDeclared == false || rewardGiven) return;
 
-		if (timer > 0)
+		if (timerIncrement > 0 || timer > 0)
 		{
+			timerIncrement--;
 			timer--;
 			return;
 		}
-		rewardGiven = true;
-		RewardTelecrystals();
-
+		else
+		{
+			timerIncrement = 60;
+			RewardTelecrystals();
+		}
 	}
-
 	public void RewardTelecrystals()
 	{
-		TcReserve = 280;
+		if (tcToGive == TcIncrement) rewardGiven = true;
+		if (tcToGive >= TcIncrement)
+		{
+
+			TcReserve += TcIncrement;
+			tcToGive -= TcIncrement;
+		}
+		if (tcToGive < TcIncrement)
+		{
+			TcReserve += tcToGive;
+			tcToGive -= tcToGive;
+		}
+
 		OnTimerExpired?.Invoke();
 	}
 }
