@@ -24,6 +24,36 @@ namespace Objects.Mining
 			materialStorageLink = GetComponent<MaterialStorageLink>();
 		}
 
+		public void LoadNearbyOres()
+		{
+			var nearbyObjects = MatrixManager.GetAdjacent<ObjectBehaviour>(registerObject.WorldPosition, true);
+			foreach (var objectBehaviour in nearbyObjects)
+			{
+				var item = objectBehaviour.gameObject;
+				if (Validations.HasItemTrait(item, CommonTraits.Instance.OreGeneral))
+				{
+					AddOre(item);
+				}
+				else
+				{
+					var oreBox = item.GetComponent<OreBox>();
+					if (oreBox != null)
+					{
+						var itemStorage = oreBox.GetComponent<ItemStorage>();
+						var itemSlotList = itemStorage.GetItemSlots();
+						foreach (var itemSlot in itemSlotList)
+						{
+							if (itemSlot.IsEmpty)
+							{
+								continue;
+							}
+							AddOre(itemSlot.ItemObject);
+						}
+					}
+				}
+			}
+		}
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side))

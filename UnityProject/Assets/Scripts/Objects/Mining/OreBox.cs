@@ -6,10 +6,36 @@ using Mirror;
 public class OreBox : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerDespawn
 {
 	private ItemStorage oreBoxItemStorage;
+	private RegisterTile registerTile;
 	public GameObject matsOnDestroy;
 	private void Awake()
 	{
 		oreBoxItemStorage = GetComponent<ItemStorage>();
+		registerTile = GetComponent<RegisterTile>();
+	}
+
+	private void OnEnable()
+	{
+		registerTile.OnLocalPositionChangedServer.AddListener(AfterMovement);
+	}
+
+	private void OnDisable()
+	{
+		registerTile.OnLocalPositionChangedServer.RemoveListener(AfterMovement);
+	}
+
+	private void AfterMovement(Vector3Int newLocalPosition)
+	{
+		var tileObjects = MatrixManager.GetAt<ObjectBehaviour>(registerTile.WorldPosition, true);
+		foreach (var objectBehaviour in tileObjects)
+		{
+			var item = objectBehaviour.gameObject;
+			if (Validations.HasItemTrait(item, CommonTraits.Instance.OreGeneral))
+			{
+				var oreBoxSlot = oreBoxItemStorage.GetBestSlotFor(item);
+				Inventory.ServerAdd(item, oreBoxSlot);
+			}
+		}
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
