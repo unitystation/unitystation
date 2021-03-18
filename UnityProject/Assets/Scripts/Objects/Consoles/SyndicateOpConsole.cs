@@ -11,8 +11,6 @@ public class SyndicateOpConsole : MonoBehaviour
 
 	public static SyndicateOpConsole Instance;
 
-	public event Action OnTimerExpired;
-
 	public int TcReserve;
 
 	public int TcIncrement = 14;
@@ -24,7 +22,7 @@ public class SyndicateOpConsole : MonoBehaviour
 	private int timerIncrement = 60;
 	private int tcToGive = 280;
 
-	public List<SpawnedAntag> operatives = new List<SpawnedAntag>();
+	public List<SpawnedAntag> Operatives = new List<SpawnedAntag>();
 
 	public int Timer => timer;
 
@@ -43,8 +41,6 @@ public class SyndicateOpConsole : MonoBehaviour
 
 	private void OnEnable()
 	{
-		TcReserve = 0;
-
 		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Add(ServerUpdateTimer, 1f);
@@ -77,7 +73,7 @@ public class SyndicateOpConsole : MonoBehaviour
 			{
 				if (antag.Antagonist.AntagJobType == JobType.SYNDICATE)
 				{
-					operatives.Add(antag);
+					Operatives.Add(antag);
 				}
 			}
 		}
@@ -101,7 +97,7 @@ public class SyndicateOpConsole : MonoBehaviour
 	}
 	public void RewardTelecrystals()
 	{
-		if (tcToGive == TcIncrement) rewardGiven = true;
+		if (tcToGive <= TcIncrement) rewardGiven = true;
 		if (tcToGive >= TcIncrement)
 		{
 
@@ -113,7 +109,5 @@ public class SyndicateOpConsole : MonoBehaviour
 			TcReserve += tcToGive;
 			tcToGive -= tcToGive;
 		}
-
-		OnTimerExpired?.Invoke();
 	}
 }

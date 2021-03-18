@@ -13,6 +13,7 @@ class SyndicateTelecrystalStation : MonoBehaviour,  ICheckedInteractable<HandApp
 	{
 		if (SyndicateOpConsole.Instance.TcReserve > 0) WithdrawTeleCrystals(interaction);
 	}
+
 	public void WithdrawTeleCrystals(HandApply interaction)
 	{
 		if (interaction.UsedObject == null)
@@ -23,11 +24,12 @@ class SyndicateTelecrystalStation : MonoBehaviour,  ICheckedInteractable<HandApp
 		PDALogic pdaComp = interaction.UsedObject.GetComponent<PDALogic>();
 		if (pdaComp != null && pdaComp.IsUplinkLocked == false)
 		{
-			int tc = Mathf.FloorToInt(SyndicateOpConsole.Instance.OpCount / SyndicateOpConsole.Instance.TcIncrement);
+			int tc = Mathf.FloorToInt(SyndicateOpConsole.Instance.Operatives.Count / SyndicateOpConsole.Instance.TcIncrement);
 			pdaComp.UplinkTC += tc;
 			SyndicateOpConsole.Instance.TcReserve -= tc;
 		}
 	}
+	
 	public string Examine(Vector3 vector)
 	{
 		var examine = $"It seems to have {SyndicateOpConsole.Instance.TcReserve} telecrystals in reserve";
