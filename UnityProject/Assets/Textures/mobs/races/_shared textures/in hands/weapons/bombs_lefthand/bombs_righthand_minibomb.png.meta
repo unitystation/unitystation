@@ -1,21 +1,21 @@
 fileFormatVersion: 2
-guid: c6cf69466458d704a84f2cd53a4a0a0e
+guid: 16217f2caf4dfd846a8151befc7091f3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: bomb_0
+      213: -367686146511675571
+    second: bombs_righthand_minibomb_0
   - first:
-      213: 21300002
-    second: bomb_1
+      213: -3375897128416422804
+    second: bombs_righthand_minibomb_1
   - first:
-      213: 21300004
-    second: bomb_2
+      213: 7013409427385861687
+    second: bombs_righthand_minibomb_2
   - first:
-      213: 21300006
-    second: bomb_3
+      213: 7422837297911996362
+    second: bombs_righthand_minibomb_3
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -35,6 +35,7 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -69,6 +70,8 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -81,7 +84,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -93,12 +96,12 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bomb_0
+      name: bombs_righthand_minibomb_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +115,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: d4fd658d567b5eaf0800000000000000
+      internalID: -367686146511675571
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bomb_1
+      name: bombs_righthand_minibomb_1
       rect:
         serializedVersion: 2
         x: 32
@@ -133,14 +136,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: c645a7ea2776621d0800000000000000
+      internalID: -3375897128416422804
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bomb_2
+      name: bombs_righthand_minibomb_2
       rect:
         serializedVersion: 2
         x: 64
@@ -154,14 +157,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 736c5bf27b2a45160800000000000000
+      internalID: 7013409427385861687
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bomb_3
+      name: bombs_righthand_minibomb_3
       rect:
         serializedVersion: 2
         x: 96
@@ -175,8 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: acf909fc137330760800000000000000
+      internalID: 7422837297911996362
       vertices: []
       indices: 
       edges: []
@@ -184,7 +187,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 280b93732caf29f42b334a277f625760
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
