@@ -167,6 +167,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
 
+		//Start the animation on all clients.
+		StartCoroutine(RpcPickupAnimation(interaction.Performer.transform));
+
 		//if it's in extended range only, then we will nudge it if it is stationary
 		//or pick it up if it is floating.
 		if (extendedRangeOnly && !cnt.IsFloatingServer)
@@ -203,6 +206,15 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 				ServerRollbackClient(interaction);
 			}
 		}
+	}
+
+	[ClientRpc]
+	private IEnumerator RpcPickupAnimation(Transform interactor)
+	{
+		LeanTween.move(gameObject, interactor, pickupAnimSpeed);
+		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
+		yield return WaitFor.Seconds(pickupAnimSpeed);
+		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
 	}
 
 	public RightClickableResult GenerateRightClickOptions()
