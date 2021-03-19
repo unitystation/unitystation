@@ -33,9 +33,21 @@ namespace UI.Core
 		[HideInInspector]
 		public GameObject openingObject = null;
 
-		private void OnEnable()
+		private void Awake()
 		{
 			SetUpColour();
+		}
+
+		private void OnEnable()
+		{
+			if (openingObject.TryGetComponent<CrayonSprayCan>(out var cr) && cr.IsCan == false)
+			{
+				colourDropDown.SetActive(false);
+			}
+			else
+			{
+				colourDropDown.SetActive(true);
+			}
 
 			SetUpCategories();
 		}
@@ -88,9 +100,8 @@ namespace UI.Core
 				newCategory.GetComponent<Image>().sprite = graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles[i].PreviewSprite;
 				newCategory.GetComponent<Image>().color = GetCurrentColour();
 
-				var name = graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles[i].name;
-				name.Replace("Graffiti", "");
-				newCategory.GetComponentInChildren<TMP_Text>().text = name;
+				var overlayName = graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles[i].name;
+				newCategory.GetComponentInChildren<TMP_Text>().text = overlayName.Replace("Graffiti", "");;
 			}
 
 			dummyButton.SetActive(false);
@@ -108,8 +119,6 @@ namespace UI.Core
 
 		private void SetUpColour()
 		{
-			colourDropDown.SetActive(true);
-
 			var optionsData = new List<TMP_Dropdown.OptionData>();
 			foreach (var colourName in Enum.GetNames(typeof(CrayonSprayCan.Colour)))
 			{
@@ -119,11 +128,6 @@ namespace UI.Core
 			}
 
 			colourDropDown.options = optionsData;
-
-			if (openingObject.TryGetComponent<CrayonSprayCan>(out var cr) && cr.IsCan == false)
-			{
-				colourDropDown.SetActive(false);
-			}
 		}
 
 		public void OnColourChange()

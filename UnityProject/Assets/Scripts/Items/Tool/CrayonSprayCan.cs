@@ -214,18 +214,18 @@ namespace Items.Tool
 		[Client]
 		public bool Interact(HandActivate interaction)
 		{
-			UIManager.Instance.CrayonUI.SetActive(true);
 			UIManager.Instance.CrayonUI.openingObject = gameObject;
+			UIManager.Instance.CrayonUI.SetActive(true);
 			return true;
 		}
 
 		public void SetTileFromClient(uint categoryIndex, uint index, uint colourIndex)
 		{
-			if(graffitiLists.GraffitiTilesCategories.Count >= categoryIndex) return;
+			if(graffitiLists.GraffitiTilesCategories.Count < categoryIndex) return;
 
 			var category = graffitiLists.GraffitiTilesCategories[(int)categoryIndex];
 
-			if(category.GraffitiTiles.Count >= index) return;
+			if(category.GraffitiTiles.Count < index) return;
 
 			tileToUse = category.GraffitiTiles[(int)index];
 

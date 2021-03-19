@@ -866,7 +866,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSetCrayon(GameObject crayon, uint category, uint index, uint colourIndex)
 	{
-		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript)) return;
+		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript) ==  false) return;
 
 		crayonScript.SetTileFromClient(category, index, colourIndex);
 	}
