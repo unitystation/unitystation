@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 1d5035c6104d1e744b4bd1a5dd575d60,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 1d5035c6104d1e744b4bd1a5dd575d60,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -49,6 +47,18 @@ PrefabInstance:
         mobility and flexibility. Issued only to the station's finest, although it
         does chafe your nipples.
       objectReference: {fileID: 0}
+    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 149544def65d4f04f8a6ffa865ef0eea,
+        type: 2}
+    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 44d3b9e29c47da54890287be026867bb,
+        type: 2}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: m_RootOrder
