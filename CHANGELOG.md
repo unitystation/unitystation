@@ -2,6 +2,9 @@
 ---
 
 
+* 2021/3/17: closes #6173 as it is fixed. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6214](https://github.com/unitystation/unitystation/pull/6214)
+* 2021/3/17: Added Emotes (Based off /TG/'s Emotes). by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6214](https://github.com/unitystation/unitystation/pull/6214)
+* 2021/3/17: Adds new animations by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6214](https://github.com/unitystation/unitystation/pull/6214)
 * 2021/3/16: you can now crawl around by [Bod9001](https://github.com/Bod9001) in PR #[6252](https://github.com/unitystation/unitystation/pull/6252)
 * 2021/3/14: adds a bunch of new orders and reorganize categories in cargo console. by [SluggyWuggies](https://github.com/SluggyWuggies) in PR #[6193](https://github.com/unitystation/unitystation/pull/6193)
 * 2021/3/13: Mining conscription bag added to the Mining Equipment Vendor by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6242](https://github.com/unitystation/unitystation/pull/6242)

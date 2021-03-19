@@ -62,6 +62,8 @@ namespace Systems.MobAIs
 			mobMeleeAction = GetComponent<MobMeleeAction>();
 			coneOfSight = GetComponent<ConeOfSight>();
 			simpleAnimal = GetComponent<SimpleAnimal>();
+
+			if(CustomNetworkManager.IsServer == false) return;
 			PlayRandomSound();
 		}
 

@@ -11,6 +11,7 @@ namespace Objects.Mining
 		private GUI_MaterialsList materialsListDisplay = null;
 
 		private OreRedemptionMachine oreRedemptionMachine;
+		private bool loadOresCooldown;
 
 		public NetLabel laborPointsLabel;
 		protected override void InitServer()
@@ -41,6 +42,22 @@ namespace Objects.Mining
 		public void ClaimLaborPoints(ConnectedPlayer connectedPlayer)
 		{
 			oreRedemptionMachine.ClaimLaborPoints(connectedPlayer.GameObject);
+		}
+
+		public void LoadNearbyOres()
+		{
+			if (!loadOresCooldown)
+			{
+				oreRedemptionMachine.LoadNearbyOres();
+				StartCoroutine(LoadOresCooldown());
+			}
+		}
+
+		private IEnumerator LoadOresCooldown()
+		{
+			loadOresCooldown = true;
+			yield return new WaitForSeconds(2);
+			loadOresCooldown = false;
 		}
 	}
 }

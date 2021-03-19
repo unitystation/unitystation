@@ -7,6 +7,7 @@ using DatabaseAPI;
 using Systems.MobAIs;
 using System.Text;
 using System.Text.RegularExpressions;
+using Core.Chat;
 using Items;
 using Messages.Server;
 
@@ -31,11 +32,12 @@ public partial class Chat : MonoBehaviour
 			return chat;
 		}
 	}
-
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
 	public bool OOCMute = false;
+
+	public EmoteActionManager emoteActionManager;
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
