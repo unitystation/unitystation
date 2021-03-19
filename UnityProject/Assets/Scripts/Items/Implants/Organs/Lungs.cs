@@ -130,7 +130,7 @@ public class Lungs : BodyPart
 			}
 		}
 		healthMaster.RespiratorySystem.GasExchangeFromBlood(gasMix, blood, toExhale);
-		//Debug.Log("Gas exhaled: " + toExhale.Total);
+		Debug.Log("Gas exhaled: " + toExhale.Total);
 		return toExhale.Total > 0;
 	}
 
@@ -153,7 +153,6 @@ public class Lungs : BodyPart
 
 		ReagentMix toInhale = new ReagentMix();
 
-		float TotalGas = breathGasMix.Moles;
 		for (int i = 0; i < breathGasMix.Gases.Length; i++)
 		{
 			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(Gas.All[i]))
