@@ -12,6 +12,7 @@ using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
 using HealthV2;
+using Items.Tool;
 using Messages.Server;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
@@ -860,5 +861,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				return;
 			}
 		}
+	}
+
+	[Command]
+	public void CmdSetCrayon(GameObject crayon, uint category, uint index, uint colourIndex)
+	{
+		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript)) return;
+
+		crayonScript.SetTileFromClient(category, index, colourIndex);
 	}
 }

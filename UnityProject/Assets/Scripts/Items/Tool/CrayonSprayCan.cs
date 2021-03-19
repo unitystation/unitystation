@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,6 +22,8 @@ namespace Items.Tool
 		private float timeToDraw = 5;
 
 		[SerializeField]
+		private GraffitiCategoriesScriptableObject graffitiLists = null;
+
 		private OverlayTile tileToUse = null;
 
 		[SerializeField]
@@ -28,7 +31,7 @@ namespace Items.Tool
 
 		private bool capRemoved;
 
-		private readonly Dictionary<Colour, Color> colours = new Dictionary<Colour,Color>
+		public static readonly Dictionary<Colour, Color> PickableColours = new Dictionary<Colour,Color>
 		{
 			{Colour.White, Color.white},
 			{Colour.Black, Color.black},
@@ -68,6 +71,12 @@ namespace Items.Tool
 			if (registerItem.Matrix.IsSpaceAt(interaction.WorldPositionTarget.RoundToInt(), true))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on space");
+				return;
+			}
+
+			if (tileToUse == null)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need to chose a type of graffiti to {(isCan ? "spray" : "draw")} first");
 				return;
 			}
 
@@ -135,12 +144,12 @@ namespace Items.Tool
 				else if (colour == Colour.NormalRainbow)
 				{
 					//random from set values
-					chosenColour = colours.PickRandom().Value;
+					chosenColour = PickableColours.PickRandom().Value;
 				}
 				else
 				{
 					//chosen value
-					chosenColour = colours[colour];
+					chosenColour = PickableColours[colour];
 				}
 			}
 
@@ -202,16 +211,33 @@ namespace Items.Tool
 		[Client]
 		public bool Interact(HandActivate interaction)
 		{
-			//UIManager.Instance;
-
+			UIManager.Instance.CrayonUI.SetActive(true);
+			UIManager.Instance.CrayonUI.openingObject = gameObject;
 			return true;
+		}
+
+		public void SetTileFromClient(uint categoryIndex, uint index, uint colourIndex)
+		{
+			if(graffitiLists.GraffitiTilesCategories.Count >= categoryIndex) return;
+
+			var category = graffitiLists.GraffitiTilesCategories[(int)categoryIndex];
+
+			if(category.GraffitiTiles.Count >= index) return;
+
+			tileToUse = category.GraffitiTiles[(int)index];
+
+			if(isCan == false) return;
+
+			if(colourIndex >= Enum.GetNames(typeof(Colour)).Length) return;
+
+			colour = (Colour)colourIndex;
 		}
 
 		#endregion
 
 		//If new colour is added then add at the end or you'll mess up the prefabs
 		//Also add to the colours dictionary at the top of this script
-		private enum Colour
+		public enum Colour
 		{
 			White,
 			Black,
