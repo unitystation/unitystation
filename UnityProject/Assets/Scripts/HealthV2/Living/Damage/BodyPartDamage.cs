@@ -176,7 +176,6 @@ namespace HealthV2
 			float toDamage = Damages[damageType] + damage;
 
 			if (toDamage < 0) toDamage = 0;
-			if (toDamage > maxHealth) toDamage = maxHealth;
 
 			Damages[damageType] = toDamage;
 			health = maxHealth - TotalDamage;
