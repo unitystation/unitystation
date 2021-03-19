@@ -55,6 +55,10 @@ namespace Items.Tool
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
+			if (interaction.HandObject == null) return false;
+
+			if (interaction.HandObject != gameObject) return false;
+
 			return true;
 		}
 
@@ -79,7 +83,8 @@ namespace Items.Tool
 		private void TryCrayon(PositionalHandApply interaction)
 		{
 			//If crayon cannot use unless it is not blocked
-			if (registerItem.Matrix.IsPassableAtOneMatrixOneTile(interaction.WorldPositionTarget.RoundToInt(), true, false) == false)
+			if (registerItem.Matrix.IsPassableAtOneMatrixOneTile(interaction.WorldPositionTarget.RoundToInt(), true, false,
+				ignoreObjects: true) == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on blocked tile");
 				return;
@@ -143,7 +148,7 @@ namespace Items.Tool
 				registerItem.Matrix.MatrixInfo);
 
 			var graffitiAlreadyOnTile = registerItem.TileChangeManager
-				.GetAllOverlayTiles(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Cleanable)
+				.GetAllOverlayTiles(cellPos, LayerType.FloorEffects, TileChangeManager.OverlayType.Cleanable)
 				.Where(t => t.IsGraffiti).ToList();
 
 			foreach (var graffiti in graffitiAlreadyOnTile)
@@ -159,7 +164,7 @@ namespace Items.Tool
 						$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} graffiti on to the {(isWall ? "wall" : "floor")}",
 						() =>
 						{
-							registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, LayerType.Effects, graffiti.OverlayName);
+							registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, LayerType.FloorEffects, graffiti.OverlayName);
 							registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, color: chosenColour);
 						}
 					);
