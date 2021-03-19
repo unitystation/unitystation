@@ -66,7 +66,8 @@ namespace HealthV2
 		public override void EnsureInit()
 		{
 			if (init) return;
-			
+			init = true;
+			base.EnsureInit();
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			playerMove = GetComponent<PlayerMove>();
 			playerSprites = GetComponent<PlayerSprites>();
@@ -76,10 +77,6 @@ namespace HealthV2
 			playerScript = GetComponent<PlayerScript>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 			registerPlayer.AddStatus(this);
-		}
-
-			base.EnsureInit();
-			init = true;
 		}
 
 		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
