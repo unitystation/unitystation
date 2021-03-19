@@ -98,7 +98,7 @@ namespace HealthV2
 			{
 				if (isBloodCirculated)
 				{
-					var test = HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(BloodContainer.CurrentReagentMix, BloodStoredMax);
+					HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(BloodContainer.CurrentReagentMix, BloodStoredMax);
 				}
 				BloodContainer.ContentsSet = true;
 			}
