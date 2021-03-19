@@ -60,7 +60,8 @@ namespace Lobby
 
 		public CharacterDir currentDir;
 
-		[SerializeField] public List<Color> availableSkinColors = new List<Color>();
+		public List<Color> SkinColors;
+		private List<Color> availableSkinColors;
 		private CharacterSettings currentCharacter;
 
 		public ColorPicker colorPicker;
@@ -93,6 +94,12 @@ namespace Lobby
 
 
 		public InputField SerialiseData;
+
+		private void Start()
+		{
+			//Fixes an issue where skin colors are no longer avaliable after the game loads.
+			availableSkinColors = SkinColors;
+		}
 
 		void OnEnable()
 		{
@@ -450,36 +457,38 @@ namespace Lobby
 		public void RollRandomCharacter()
 		{
 			// Randomise gender
-			var changeGender = (UnityEngine.Random.Range(0, 2) == 0);
-			if (changeGender)
-			{
-				//OnGenderChange();
-			}
+			Type gender = typeof(BodyType);
+			Array genders = gender.GetEnumValues();
+			int index = UnityEngine.Random.Range(0,3);
+			int hairIndex = UnityEngine.Random.Range(0, currentCharacter.SerialisedBodyPartCustom.Count());
+			currentCharacter.BodyType = (BodyType)genders.GetValue(index);
+			//OnGenderChange();
 
 			// Select a random value from each dropdown
 			// hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
 			// facialHairDropdown.value = UnityEngine.Random.Range(0, facialHairDropdown.options.Count - 1);
 			// underwearDropdown.value = UnityEngine.Random.Range(0, underwearDropdown.options.Count - 1);
 			// socksDropdown.value = UnityEngine.Random.Range(0, socksDropdown.options.Count - 1);
-				switch (currentCharacter.BodyType)
-				{
-					case BodyType.Male:
-						currentCharacter.Name = StringManager.GetRandomMaleName();
-						break;
-					case BodyType.Female:
-						currentCharacter.Name = StringManager.GetRandomFemaleName();
-						break;
-					default:
-						currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names? 
-						break;																	//for now it will pick from both the male and female name pools
-				}
+			switch (currentCharacter.BodyType)
+			{
+				case BodyType.Male:
+					currentCharacter.Name = StringManager.GetRandomMaleName();
+					break;
+				case BodyType.Female:
+					currentCharacter.Name = StringManager.GetRandomFemaleName();
+					break;
+				default:
+					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names?
+					break;																	//for now it will pick from both the male and female name pools
+			}
 			// Randomise rest of data
 			// currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
 			// currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			// currentCharacter.SkinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
+
+			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
-			//RefreshAll();
+			RefreshAll();
 		}
 
 		//------------------
