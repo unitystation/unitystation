@@ -190,16 +190,6 @@ namespace HealthV2
 
 		void Awake()
 		{
-			foreach (BodyPartSprites b in GetComponentsInParent<BodyPartSprites>())
-			{
-				if (b.BodyPartType.Equals(BodyPartType))
-				{
-					Debug.Log(b);
-				}
-
-				//TODO: Do we need to add listeners for implant removal
-			}
-
 			Storage = GetComponent<ItemStorage>();
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
 			attributes = GetComponent<ItemAttributesV2>();
