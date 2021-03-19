@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
@@ -80,14 +80,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 337646958669920702, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
+      propertyPath: initialName
+      value: pink donut
+      objectReference: {fileID: 0}
+    - target: {fileID: 337646958669920702, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
       propertyPath: initialDescription
       value: Goes great with a soy latte.
       objectReference: {fileID: 0}
     - target: {fileID: 337646958669920702, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
-      propertyPath: initialName
-      value: pink donut
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 45a74943414e9974d96f20aceb842157,
+        type: 2}
+    - target: {fileID: 337646958669920702, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c6a0878d01f70ba4eb0d6c3b3f380984,
+        type: 2}
     - target: {fileID: 6270160345599159643, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
       propertyPath: PresentSpriteSet

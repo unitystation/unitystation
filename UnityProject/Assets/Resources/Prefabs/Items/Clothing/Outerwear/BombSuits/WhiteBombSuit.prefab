@@ -12,6 +12,18 @@ PrefabInstance:
       propertyPath: initialName
       value: white bomb suit
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: 64819b198f747d24196e161eacaa366b,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e6a71dd940af2b74395d96f5dea3118d,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: 64819b198f747d24196e161eacaa366b,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ed0b0ed7ba5c5546ae90c303cbf393b,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: 64819b198f747d24196e161eacaa366b,
         type: 3}
       propertyPath: m_Sprite
@@ -93,14 +105,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 721621b3a8146304db38a0fa769475e7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7931175119129480439, guid: 64819b198f747d24196e161eacaa366b,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 721621b3a8146304db38a0fa769475e7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7931175119129480439, guid: 64819b198f747d24196e161eacaa366b,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
