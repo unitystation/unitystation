@@ -57,7 +57,7 @@ namespace Systems.Mob
 			{
 				mobSprite.SetToDead();
 				mobSprite.SetToBodyLayer();
-				registerObject.Passable = state;
+				registerObject.SetPassable(true,state);
 			}
 			else
 			{

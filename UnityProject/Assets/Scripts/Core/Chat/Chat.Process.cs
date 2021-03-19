@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Core.Chat;
 using Mirror;
 using ScriptableObjects;
 using Tilemaps.Behaviours.Meta;
@@ -40,6 +41,8 @@ public partial class Chat
 	public Color warningColor;
 	public Color blobColor;
 	public Color defaultColor;
+
+	private static GameObject playerGameObject;
 
 
 	/// <summary>
@@ -97,6 +100,12 @@ public partial class Chat
 		// Emote
 		if (message.StartsWith("*") || message.StartsWith("/me ", true, CultureInfo.CurrentCulture))
 		{
+			//Note : This is stupid but it's the only way I could find a way to make this work
+			//We shouldn't have to check twice in different functions just to have a reference of the player who did the emote.
+			if(CheckForEmoteAction(message, Instance.emoteActionManager))
+			{
+				playerGameObject = sentByPlayer.GameObject;
+			}
 			message = message.Replace("/me", ""); // note that there is no space here as compared to the above if
 			message = message.Substring(1); // so that this substring can properly cut off both * and the space
 			chatModifiers |= ChatModifier.Emote;
@@ -175,8 +184,9 @@ public partial class Chat
 
 		//Skip everything if it is an action or examine message or if it is a local message
 		//without a speaker (which is used by machines)
-		if (channels.HasFlag(ChatChannel.Examine) || channels.HasFlag(ChatChannel.Action)
-			|| channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
+		if (channels.HasFlag(ChatChannel.Examine) ||
+		    channels.HasFlag(ChatChannel.Action) ||
+		    channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
@@ -197,6 +207,13 @@ public partial class Chat
 		{
 			// /me message
 			channels = ChatChannel.Local;
+			if(playerGameObject != null)
+			{
+				DoEmoteAction(message, playerGameObject, Instance.emoteActionManager);
+				playerGameObject = null;
+				return "";
+			}
+
 			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
 			return message;
 		}
@@ -589,4 +606,13 @@ public partial class Chat
 		{Speech.Stutter, ChatModifier.Stutter},
 		{Speech.Scotsman, ChatModifier.Scotsman}
 	};
+
+	private static bool CheckForEmoteAction(string emote, EmoteActionManager data)
+	{
+		return EmoteActionManager.HasEmote(emote, data);
+	}
+	private static void DoEmoteAction(string emoteName, GameObject player, EmoteActionManager data)
+	{
+		EmoteActionManager.DoEmote(emoteName, player, data);
+	}
 }

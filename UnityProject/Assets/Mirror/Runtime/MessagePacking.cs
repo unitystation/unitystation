@@ -101,7 +101,7 @@ namespace Mirror
             }
             catch (Exception exception)
             {
-                Debug.LogError($"Closed connection: {conn}. This can happen if the other side accidentally (or an attacker intentionally) sent invalid data. Reason: {exception}");
+	            Debug.LogError($"Closed connection: {conn}. This can happen if the other side accidentally (or an attacker intentionally) sent invalid data. Reason: {exception}");
                 conn.Disconnect();
                 return;
             }

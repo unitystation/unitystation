@@ -180,7 +180,8 @@ public class VotingManager : NetworkBehaviour
 			{
 				case VoteType.RestartRound:
 					if (voteRestartSuccess) return;
-					voteRestartSuccess = true;
+					if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+						voteRestartSuccess = true;
 					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
 					VideoPlayerMessage.Send(VideoType.RestartRound);
 					GameManager.Instance.EndRound();

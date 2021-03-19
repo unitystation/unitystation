@@ -742,4 +742,34 @@ public static class Validations
 	{
 		return interaction.TargetObject != null;
 	}
+
+	/// <summary>
+	/// Validates that the player has at least a hand.
+	/// </summary>
+	/// <param name="player"></param>
+	/// <returns></returns>
+	public static bool HasHand(GameObject player)
+	{
+		if (player.TryGetComponent<LivingHealthMasterBase>(out var health) == false)
+		{
+			return false;
+		}
+
+		return health.HasBodyPart(BodyPartType.LeftArm, true) || health.HasBodyPart(BodyPartType.RightArm, true);
+	}
+
+	/// <summary>
+	/// Validates that the player has both hands.
+	/// </summary>
+	/// <param name="player"></param>
+	/// <returns></returns>
+	public static bool HasBothHands(GameObject player)
+	{
+		if (player.TryGetComponent<LivingHealthMasterBase>(out var health) == false)
+		{
+			return false;
+		}
+
+		return health.HasBodyPart(BodyPartType.LeftArm, true) && health.HasBodyPart(BodyPartType.RightArm, true);
+	}
 }

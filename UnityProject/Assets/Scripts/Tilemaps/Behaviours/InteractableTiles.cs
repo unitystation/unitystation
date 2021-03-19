@@ -536,7 +536,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		Spawn.ServerPrefab(getTile.SpawnOnDeconstruct, worldPosition,
 			count: getTile.SpawnAmountOnDeconstruct);
 		tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-		tileChangeManager.RemoveOverlay(cellPos, LayerType.Effects);
+		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Mining);
 
 		return true;
 	}

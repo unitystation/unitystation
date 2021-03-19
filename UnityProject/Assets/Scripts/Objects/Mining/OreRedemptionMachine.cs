@@ -14,12 +14,44 @@ namespace Objects.Mining
 	public class OreRedemptionMachine : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		private RegisterObject registerObject;
-		private MaterialStorageLink materialStorageLink;
+		public MaterialStorageLink materialStorageLink;
+		public GUI_OreRedemptionMachine oreRedemptiomMachineGUI;
+		public int laborPoints;
 
 		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
 			materialStorageLink = GetComponent<MaterialStorageLink>();
+		}
+
+		public void LoadNearbyOres()
+		{
+			var nearbyObjects = MatrixManager.GetAdjacent<ObjectBehaviour>(registerObject.WorldPosition, true);
+			foreach (var objectBehaviour in nearbyObjects)
+			{
+				var item = objectBehaviour.gameObject;
+				if (Validations.HasItemTrait(item, CommonTraits.Instance.OreGeneral))
+				{
+					AddOre(item);
+				}
+				else
+				{
+					var oreBox = item.GetComponent<OreBox>();
+					if (oreBox != null)
+					{
+						var itemStorage = oreBox.GetComponent<ItemStorage>();
+						var itemSlotList = itemStorage.GetItemSlots();
+						foreach (var itemSlot in itemSlotList)
+						{
+							if (itemSlot.IsEmpty)
+							{
+								continue;
+							}
+							AddOre(itemSlot.ItemObject);
+						}
+					}
+				}
+			}
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -45,6 +77,11 @@ namespace Objects.Mining
 					AddOre(item.gameObject);
 				}
 			}
+
+			if (oreRedemptiomMachineGUI)
+			{
+				oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
+			}
 		}
 
 		private void AddOre(GameObject ore)
@@ -54,10 +91,21 @@ namespace Objects.Mining
 				if (Validations.HasItemTrait(ore, materialSheet.oreTrait))
 				{
 					var inStackable = ore.GetComponent<Stackable>();
+					laborPoints += inStackable.Amount * materialSheet.laborPoint;
 					materialStorageLink.TryAddSheet(materialSheet.materialTrait, inStackable.Amount);
 					Despawn.ServerSingle(ore);
 				}
 			}
+		}
+
+		public void ClaimLaborPoints(GameObject player)
+		{
+			var playerStorage = player.GetComponent<ItemStorage>();
+			var idCardObj = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
+			var idCard = AccessRestrictions.GetIDCard(idCardObj);
+			idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
+			laborPoints = 0;
+			oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
 		}
 	}
 }

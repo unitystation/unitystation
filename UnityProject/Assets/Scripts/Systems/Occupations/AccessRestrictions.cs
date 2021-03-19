@@ -29,17 +29,30 @@ public class AccessRestrictions : MonoBehaviour
 
 	public bool CheckAccessCard(GameObject idCardObj)
 	{
-		if (idCardObj == null) return false;
-		var idcard = idCardObj.GetComponent<IDCard>();
-		var pda = idCardObj.GetComponent<PDALogic>();
-		if (idcard != null) return idcard.HasAccess(restriction);
-		// Not an ID card? Perhaps its a PDA.
-		if (pda != null && pda.IDCard != null)
+		if (idCardObj == null)
+			return false;
+		var idCard = GetIDCard(idCardObj);
+		if (idCard)
 		{
-			// Its a PDA, check the contents.
-			return pda.IDCard.HasAccess(restriction);
+			return idCard.HasAccess(restriction);
 		}
-		//The hell did it detect then?
 		return false;
+	}
+
+	public static IDCard GetIDCard(GameObject idCardObj)
+	{
+		var idCard = idCardObj.GetComponent<IDCard>();
+		var pda = idCardObj.GetComponent<PDALogic>();
+		if (idCard != null)
+		{
+			return idCard;
+		}
+
+		if (pda != null)
+		{
+			return pda.IDCard;
+		}
+
+		return null;
 	}
 }

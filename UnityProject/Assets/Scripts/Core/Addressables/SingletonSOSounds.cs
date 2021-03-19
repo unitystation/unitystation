@@ -91,4 +91,7 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource GlassKnock = null;
 
    public AddressableAudioSource ElectricShock = null;
+
+
+   public AddressableAudioSource Crawl1 = null;
 }
