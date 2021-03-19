@@ -11,14 +11,15 @@ namespace HealthV2
 		public override void SetUpSystems()
 		{
 			base.SetUpSystems();
-			if(GeneratesThis == null)
+			if (GeneratesThis == null)
 			{
 				GeneratesThis = healthMaster.CirculatorySystem.BloodType;
 			}
 		}
-		protected override void ConsumeNutriments()
+		protected override void BloodUpdate()
 		{
-			if (bloodStoredMax > BloodContainer.ReagentMixTotal && BloodContainer[Nutriment] > 0)
+			if (BloodStoredMax > BloodContainer.ReagentMixTotal && BloodContainer[Nutriment] > 0 &&
+				healthMaster.GetTotalBlood() < healthMaster.CirculatorySystem.BloodInfo.BLOOD_NORMAL / 1000)
 			{
 				float toConsume = NutrimentConsumption;
 				if (NutrimentConsumption > BloodContainer[Nutriment])
@@ -26,11 +27,11 @@ namespace HealthV2
 					toConsume = BloodContainer[Nutriment];
 				}
 
-				BloodContainer.CurrentReagentMix.Remove(Nutriment,toConsume );
+				BloodContainer.CurrentReagentMix.Remove(Nutriment, toConsume);
 				BloodContainer.CurrentReagentMix.Add(GeneratesThis.Blood, BloodGeneratedByOneNutriment * toConsume);
 				NutrimentHeal(toConsume);
 			}
-			base.ConsumeNutriments();
+			base.BloodUpdate();
 		}
 	}
 }

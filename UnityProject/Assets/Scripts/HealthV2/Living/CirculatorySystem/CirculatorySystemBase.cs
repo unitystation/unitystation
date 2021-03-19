@@ -41,36 +41,15 @@ namespace HealthV2
 			AddFreshBlood(ReadyBloodPool, 5);
 		}
 
+		///<summary>
+		/// Adds a volume of blood along with the maximum normal reagents
+		///</summary>
 		public void AddFreshBlood(ReagentMix bloodPool, float amount)
 		{
+			// Currently only does blood and required reagents, should at nutriments and other common gases
 			var bloodToAdd = new ReagentMix(Blood, amount);
-			bloodToAdd.Add(CirculatedReagent, bloodType.GetCapacity(bloodToAdd));
+			bloodToAdd.Add(CirculatedReagent, bloodType.GetGasCapacity(bloodToAdd)*0.95f);
 			bloodPool.Add(bloodToAdd);
 		}
-
-		public void FillWithFreshBlood(ReagentContainerBody bloodContainer)
-		{
-			float bloodToAdd = (bloodContainer.MaxCapacity - bloodContainer.ReagentMixTotal) / bloodType.BloodCapacityOf;
-			bloodContainer.CurrentReagentMix.Add(Blood, bloodToAdd);
-			bloodContainer.CurrentReagentMix.Add(CirculatedReagent, bloodToAdd * bloodType.BloodCapacityOf);
-		}
-
-		public virtual void AddUsefulBloodReagent(ReagentMix amount) //Return excess
-		{
-			ReadyBloodPool.Add(amount);
-			//Add mechanism for recovering blood naturally
-			//ReadyBloodPool = Mathf.Min(bloodInfo.BLOOD_REAGENT_MAX, bloodReagentAmount);
-			//return 0;
-		}
-
-
-		public void ConvertUsedBlood(float Toadd)
-		{
-			//TODOH technically violates the laws of thermodynamics but meh
-			var addAmount = healthMaster.CirculatorySystem.UsedBloodPool.Take(Toadd);
-			AddUsefulBloodReagent(addAmount);
-		}
-
 	}
-
 }

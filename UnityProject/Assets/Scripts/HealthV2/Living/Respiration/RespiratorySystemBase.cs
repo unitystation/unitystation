@@ -19,6 +19,7 @@ namespace HealthV2
 		private CirculatorySystemBase circulatorySystem;
 		[Tooltip("If this is turned on, the organism can breathe anywhere and wont affect atmospherics.")]
 		[SerializeField] private bool canBreathAnywhere = false;
+		public bool CanBreathAnywhere => canBreathAnywhere;
 		[Tooltip("How often the respiration system should update.")]
 		[SerializeField] private float tickRate = 1f;
 		public bool IsSuffocating => healthStateController.IsSuffocating;
@@ -84,25 +85,29 @@ namespace HealthV2
 			}
 		}
 
-		public void GasExchange(GasMix atmos, ReagentMix blood, ReagentMix toProcess, bool takeFromBlood = false)
+		/// <summary>
+		/// Takes reagents from blood and puts them into a GasMix as gases
+		/// </summary>
+		public void GasExchangeFromBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
 		{
-			if (takeFromBlood)
+			foreach (var Reagent in toProcess)
 			{
-				foreach (var Reagent in toProcess)
-				{
-					blood.Remove(Reagent.Key, Reagent.Value);
-					if(!canBreathAnywhere)
-						atmos.AddGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value / 10000f);
-				}
+				blood.Remove(Reagent.Key, Reagent.Value);
+				if (!canBreathAnywhere)
+					atmos.AddGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
 			}
-			else
+		}
+
+		/// <summary>
+		/// Takes gases from a GasMix and puts them into blood as a reagent
+		/// </summary>
+		public void GasExchangeToBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
+		{
+			foreach (var Reagent in toProcess)
 			{
-				foreach (var Reagent in toProcess)
-				{
-					blood.Add(Reagent.Key, Reagent.Value);
-					if(!canBreathAnywhere)
-						atmos.RemoveGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value / 10000f);
-				}
+				blood.Add(Reagent.Key, Reagent.Value);
+				if (!canBreathAnywhere)
+					atmos.RemoveGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
 			}
 		}
 
@@ -127,39 +132,6 @@ namespace HealthV2
 				}
 			}
 			return null;
-		}
-
-		public float HandleBreathing(GasMix breathGasMix, Gas requiredGas, float reagentSafeMin)
-		{
-			if(canBreathAnywhere)
-			{
-				return float.MaxValue;
-			}
-			float gasPressure = breathGasMix.GetPressure(requiredGas);
-
-			float gasInhaled = 0;
-
-			if (gasPressure < reagentSafeMin)
-			{
-				if (Random.value < 0.1)
-				{
-					Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{healthMaster.gameObject.ExpensiveName()} gasps");
-				}
-
-				if (gasPressure > 0)
-				{
-					float ratio = 1 - gasPressure / reagentSafeMin;
-					gasInhaled = breathGasMix.GetMoles(requiredGas) * ratio * AtmosConstants.BREATH_VOLUME;
-				}
-
-				healthStateController.SetSuffocating(true);
-			}
-			else
-			{
-				gasInhaled = breathGasMix.GetMoles(requiredGas);
-				healthStateController.SetSuffocating(false);
-			}
-			return gasInhaled;
 		}
 
 		private void CheckPressureDamage()

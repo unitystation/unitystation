@@ -12,6 +12,14 @@ namespace HealthV2
 	public partial class BodyPart
 	{
 		/// <summary>
+		/// This should be utilized in most implants so as to make changing the effectiveness of it easy.
+		/// Some organs wont boil down to just one efficiency score, so you'll have to keep that in mind.
+		/// </summary>
+		[Tooltip("This is a generic variable representing the 'efficieny' of the implant." +
+				 "Can be modified by implant modifiers.")]
+		[SerializeField] protected float efficiency = 1;
+
+		/// <summary>
 		/// Event that fires when the body part's modifier total changes
 		/// </summary>
 		public event Action ModifierChange;

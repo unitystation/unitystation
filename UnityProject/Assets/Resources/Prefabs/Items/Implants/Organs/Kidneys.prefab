@@ -16,7 +16,6 @@ MonoBehaviour:
   Storage: {fileID: 6888952145977536889}
   BodyPartType: 0
   containBodyParts: []
-  efficiency: 1
   isDimorphic: 0
   Root: {fileID: 0}
   ContainedIn: {fileID: 0}
@@ -33,21 +32,21 @@ MonoBehaviour:
   OptionalReplacementOrgan: []
   IsSurface: 0
   ClothingHide: 0
+  efficiency: 1
+  TotalModified: 1
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   isBloodCirculated: 1
-  isBloodReagentConsumed: 0
+  isBloodReagentConsumed: 1
   bloodType: {fileID: 0}
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  wasteReagent: {fileID: 0}
+  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
   BloodContainer: {fileID: 0}
-  bloodStoredMax: 0.5
-  bloodReagentConsumed: 0.05
-  bloodThroughput: 0.15
+  bloodReagentConsumed: 0.0002
+  bloodThroughput: 0.0225
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   NutrimentPassiveConsumption: 0.001
   NutrimentConsumption: 0.02
-  TotalModified: 1
   BodyPartArmour:
     Melee: 0
     Bullet: 0
@@ -89,6 +88,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 55538d1aeac5a1a458e5b3dc993b7f3e,
         type: 2}
+    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId

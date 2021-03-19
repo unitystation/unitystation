@@ -19,21 +19,52 @@ namespace HealthV2
 
 		//public CirculatorySystemBase.BloodStat bloodStat;
 
-		public int BloodCapacityOf;
+		///<summary>
+		/// The capacity of blood for the circulated reagent, in humans for oxygen this is 0.2
+		///</summary>
+		public float BloodCapacityOf;
 
-		public float GetCapacity(float AvailableBlood)
+		// Somewhat arbitrary, for humans its calculable per gas by: Moles = Henry's Constant for the Gas / Atmospheric Pressure
+		// Used nitrogen at sea level to get 0.0005, could expand this for realism later, but would make non-human blood challenging
+		///<summary>
+		/// The moles of gas / litre of blood that will disolve in the blood plasma, 0.0005 for humans
+		///</summary>
+		public float BloodGasCapability;
+
+		public float GetGasCapacity(Reagent reagent = null)
 		{
-			return AvailableBlood * BloodCapacityOf;
+			if (reagent == CirculatedReagent || reagent == null)
+			{
+				return BloodCapacityOf;
+			}
+			return BloodGasCapability;
 		}
 
-		public float GetCapacity(ReagentMix ReagentMix)
+		public float GetGasCapacity(float availableBlood, Reagent reagent = null)
 		{
-			return ReagentMix[Blood] * BloodCapacityOf;
+			if (reagent == CirculatedReagent || reagent == null)
+			{
+				return availableBlood * BloodCapacityOf;
+			}
+			return availableBlood * BloodGasCapability;
 		}
 
-		public float GetSpareCapacity(ReagentMix ReagentMix)
+		public float GetGasCapacity(ReagentMix reagentMix, Reagent reagent = null)
 		{
-			return GetCapacity(ReagentMix) - ReagentMix[CirculatedReagent];
+			if (reagent == CirculatedReagent || reagent == null)
+			{
+				return reagentMix[Blood] * BloodCapacityOf;
+			}
+			return reagentMix[Blood] * BloodGasCapability;
+		}
+
+		public float GetSpareGasCapacity(ReagentMix reagentMix, Reagent reagent = null)
+		{
+			if (reagent == CirculatedReagent || reagent == null)
+			{
+				return GetGasCapacity(reagentMix) - reagentMix[CirculatedReagent];
+			}
+			return GetGasCapacity(reagentMix, reagent) - reagentMix[reagent];
 		}
 	}
 }

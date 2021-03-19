@@ -57,14 +57,6 @@ namespace HealthV2
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
 		/// <summary>
-		/// This should be utilized in most implants so as to make changing the effectiveness of it easy.
-		/// Some organs wont boil down to just one efficiency score, so you'll have to keep that in mind.
-		/// </summary>
-		[Tooltip("This is a generic variable representing the 'efficieny' of the implant." +
-				 "Can be modified by implant modifiers.")]
-		[SerializeField] private float efficiency = 1;
-
-		/// <summary>
 		/// Flag for if the sprite for this body type changes with gender, true means it does
 		/// </summary>
 		[Tooltip("Does the sprite change depending on Gender?")]

@@ -17,7 +17,7 @@ namespace HealthV2
 		/// Flag that is true if the body part is connected to the blood stream. If this is false
 		/// it will be ignored by circulatory organs (the heart).
 		/// </summary>
-		public bool isBloodBloodCirculated => isBloodCirculated;
+		public bool IsBloodCirculated => isBloodCirculated;
 
 		[Tooltip("Does this consume reagents from its blood?")]
 		[SerializeField] private bool isBloodReagentConsumed = false;
@@ -42,7 +42,7 @@ namespace HealthV2
 		/// The reagent that the body part expels as waste, eg co2
 		/// </summary>
 		[Tooltip("What reagent does this expel as waste?")]
-		[SerializeField] protected Chemistry.Reagent wasteReagent = null;
+		[SerializeField] protected Chemistry.Reagent wasteReagent;
 
 		/// <summary>
 		/// The part's internal working set of the body's blood. This is the limit of the blood that the part can
@@ -54,25 +54,16 @@ namespace HealthV2
 		/// <summary>
 		/// The maximum size of the Blood Container
 		/// </summary>
-		[SerializeField]
-		[Tooltip("How much blood can this store internally?")]
-		public float bloodStoredMax = 0.5f;
+		public float BloodStoredMax => BloodContainer.MaxCapacity;
 
 		/// <summary>
-		/// The amount of required reagent (eg oxygen) this body part needs consume each tick.
+		/// The amount (in moles) of required reagent (eg oxygen) this body part needs consume each tick.
 		/// </summary>
-		[Tooltip("How much blood reagent (eg oxygen) does this need each tick?")]
-		[SerializeField] private float bloodReagentConsumed = 0.05f;
+		[Tooltip("How much (in moles) blood reagent (eg oxygen) does this need each tick?")]
+		[SerializeField] private float bloodReagentConsumed = 0.0002f;
 
-		/// <summary>
-		/// The level of reagent in the Blood Container needed to not take damage
-		/// </summary>
-		[Tooltip("What is the minimum amount of blood reagent in the Blood Container before damage is taken?")]
-		[SerializeField] private float safeReagentLevel = 0.15f;
-
-		[SerializeField]
 		[Tooltip("How much blood reagent does this request per blood pump event?")]
-		private float bloodThroughput = 0.15f;
+		[SerializeField] private float bloodThroughput = 0.015f; //This will need to be reworked when heartrate gets finished
 		/// <summary>
 		/// The amount of blood ReagentMix this body part will remove and add each blood pump event
 		/// Essentially controls the rate of blood flow through the organ
@@ -82,9 +73,8 @@ namespace HealthV2
 		/// <summary>
 		/// The nutriment reagent that this part consumes in order to perform tasks
 		/// </summary>
-		[SerializeField]
 		[Tooltip("What does this live off?")]
-		public Reagent Nutriment;
+		[SerializeField] public Reagent Nutriment;
 
 		/// <summary>
 		/// The amount of of nutriment to consumed each tick as part of passive metabolism
@@ -98,8 +88,6 @@ namespace HealthV2
 		[Tooltip("How much nutriment does this consume to perform work?")]
 		public float NutrimentConsumption = 0.02f;
 
-		#region BloodReagents
-
 		/// <summary>
 		/// Initializes the body part as part of the circulatory system
 		/// </summary>
@@ -108,10 +96,13 @@ namespace HealthV2
 			BloodContainer = this.GetComponent<ReagentContainerBody>();
 			if (BloodContainer.ContentsSet == false)
 			{
-				HealthMaster.CirculatorySystem.FillWithFreshBlood(BloodContainer);
+				if (isBloodCirculated)
+				{
+					var test = HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(BloodContainer.CurrentReagentMix, BloodStoredMax);
+				}
 				BloodContainer.ContentsSet = true;
 			}
-			if(bloodType == null)
+			if (bloodType == null)
 			{
 				bloodType = HealthMaster.CirculatorySystem.BloodType;
 			}
@@ -136,40 +127,74 @@ namespace HealthV2
 
 			if (!isBloodReagentConsumed) return;
 
-			// Only get as much oxygen as the appropriate type of blood can give us
-			// Useful for bad transplants and if we got injected with orange juice or something
-			float maxReagentInBlood = bloodType.GetCapacity(BloodContainer.CurrentReagentMix);
-			float availableReagent = BloodContainer.CurrentReagentMix.Subtract(requiredReagent, maxReagentInBlood);
-
-			if (availableReagent <= 0)
-			{
-				AffectDamage(10f, (int)DamageType.Oxy);
-			}
-			else if (availableReagent < safeReagentLevel)
-			{
-				// Starts at 1 damage per tick, scales up to 10 as oxygen gets real low
-				var damage = Mathf.Min(safeReagentLevel / availableReagent, 10f);
-				AffectDamage(damage, (int)DamageType.Oxy);
-			}
-			else
-			{
-				// Plenty of reagent, heal some damage
-				AffectDamage(-1f, (int)DamageType.Oxy);
-			}
-			availableReagent -= bloodReagentConsumed;
-			BloodContainer.CurrentReagentMix.Add(requiredReagent, Mathf.Max(0, availableReagent));
+			float consumed = BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumed);
 
 			// Adds waste product (eg CO2) if any, currently always 1:1, could add code to change the ratio
 			if (wasteReagent)
 			{
-				BloodContainer.CurrentReagentMix.Add(wasteReagent, Mathf.Max(bloodReagentConsumed, bloodReagentConsumed + availableReagent));
+				BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed);
 			}
 
-			// Over saturated blood can be harmful to organs
-			//if (BloodContainer[requiredReagent] > maxReagentInBlood)
-			//{
-				//AffectDamage(1f, (int)DamageType.Brute);
-			//}
+			//Heal if blood saturation post consumption is fine, otherwise do damage
+			float bloodSaturation = 0;
+			if(bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix) > 0)
+			{
+				bloodSaturation  = BloodContainer[requiredReagent] / bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix);
+			}
+
+			float critical = HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD;
+
+			float damage;
+			if (bloodSaturation < critical)
+			{
+				//Deals damage that ramps to 10 as blood saturation levels drop, halved if unconscious
+				if (bloodSaturation <= 0)
+				{
+					damage = 10f;
+				}
+				else
+				{
+					// Arbitrary damage formula, could use anything here
+					damage = Mathf.Min(90 * ((critical / bloodSaturation) - 1), 10f);
+				}
+				if (HealthMaster.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
+				{
+					damage = damage / 2;
+				}
+				if (HealthMaster.ConsciousState == ConsciousState.UNCONSCIOUS)
+				{
+					damage = 1;
+				}
+			}
+			else if (bloodSaturation > 1)
+			{
+				//There is more oxygen in the organ than the blood can hold
+				//Blood might be oversaturated, we might have the wrong blood, maybe do something here
+				damage = 0;
+			}
+			else
+			{
+				var okayLevel = HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY;
+				if(bloodSaturation > okayLevel)
+				{
+					OxyHeal(BloodContainer.CurrentReagentMix, BloodContainer[requiredReagent] * (bloodSaturation-okayLevel));
+				}
+				//We already consumed some earlier as well
+				damage = -1;
+			}
+			AffectDamage(damage, (int)DamageType.Oxy);
+		}
+
+		/// <summary>
+		/// Heals damage caused by lack of blood reagent by consume reagent
+		/// </summary>
+		/// <param name="reagentMix">Reagent mix to consume reagent from</param>
+		/// <param name="amount">Amount to consume</param>
+		public void OxyHeal(ReagentMix reagentMix, float amount)
+		{
+			if (Oxy <= 0) return;
+			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumed);
+			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumed, (int)DamageType.Oxy);
 		}
 
 		/// <summary>
@@ -234,7 +259,7 @@ namespace HealthV2
 
 			//Maybe have damage from high/low blood levels and high blood pressure
 
-			var bloodOut = BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, bloodThroughput);
+			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, bloodThroughput);
 
 			if ((BloodContainer.ReagentMixTotal + bloodIn.Total) > BloodContainer.MaxCapacity)
 			{

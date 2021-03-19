@@ -62,8 +62,6 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		var health = target.GetComponent<LivingHealthMasterBase>();
 
-		health.CirculatorySystem.ConvertUsedBlood(OXYLOSS_HEAL_AMOUNT);
-
 		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart))
 		{
 			var heart = BodyPart as Heart;
@@ -71,6 +69,10 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 			{
 				heart.Heartbeat(HeartbeatStrength);
 			}
+
+			// Still violates thermodynamics, but meh.
+			BodyPart.BloodContainer.CurrentReagentMix.Add(health.CirculatorySystem.CirculatedReagent,
+				health.CirculatorySystem.BloodType.GetSpareGasCapacity(BodyPart.BloodContainer.CurrentReagentMix));
 		}
 		health.GetBodyPartsInZone(TargetBodyPart);
 

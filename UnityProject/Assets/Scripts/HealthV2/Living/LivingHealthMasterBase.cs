@@ -122,7 +122,7 @@ namespace HealthV2
 		/// <summary>
 		/// The creature's Circulatory System
 		/// </summary>
-		[CanBeNull] public CirculatorySystemBase CirculatorySystem  { get; private set; }
+		[CanBeNull] public CirculatorySystemBase CirculatorySystem { get; private set; }
 
 		private Brain brain;
 
@@ -246,8 +246,8 @@ namespace HealthV2
 			healthStateController = GetComponent<HealthStateController>();
 			immunedSickness = new List<Sickness>();
 			mobSickness = GetComponent<MobSickness>();
-			
-			foreach(var implant in ImplantList)
+
+			foreach (var implant in ImplantList)
 			{
 				Debug.Log(implant.gameObject.name);
 				implant.HealthMaster = this;
@@ -412,6 +412,36 @@ namespace HealthV2
 			}
 
 			return toReturn;
+		}
+
+		/// <summary>
+		/// Returns the total amount of blood in the body of the type of blood the body should have
+		/// </summary>
+		public float GetTotalBlood()
+		{
+			return GetSpareBlood() + GetImplantBlood();
+		}
+
+		/// <summary>
+		/// Returns the total amount of blood contained within body parts
+		/// </summary>
+		public float GetImplantBlood()
+		{
+			float toReturn = 0;
+			foreach (var implant in ImplantList)
+			{
+				toReturn += implant.BloodContainer[CirculatorySystem.Blood];
+			}
+			return toReturn;
+		}
+
+		/// <summary>
+		/// Returns the total amount of 'spare' blood outside of the organs
+		/// </summary>
+		public float GetSpareBlood()
+		{
+			return CirculatorySystem.UsedBloodPool[CirculatorySystem.Blood]
+					+ CirculatorySystem.ReadyBloodPool[CirculatorySystem.Blood];
 		}
 
 		/// <summary>
