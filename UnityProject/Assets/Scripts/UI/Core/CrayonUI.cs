@@ -87,7 +87,10 @@ namespace UI.Core
 				newCategory.GetComponent<Button>().onClick.AddListener(() => OnTileSelect(categoryIndex, i1));
 				newCategory.GetComponent<Image>().sprite = graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles[i].PreviewSprite;
 				newCategory.GetComponent<Image>().color = GetCurrentColour();
-				newCategory.GetComponentInChildren<TMP_Text>().text = graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles[i].name;
+
+				var name = graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles[i].name;
+				name.Replace("Graffiti", "");
+				newCategory.GetComponentInChildren<TMP_Text>().text = name;
 			}
 
 			dummyButton.SetActive(false);
@@ -105,6 +108,8 @@ namespace UI.Core
 
 		private void SetUpColour()
 		{
+			colourDropDown.SetActive(true);
+
 			var optionsData = new List<TMP_Dropdown.OptionData>();
 			foreach (var colourName in Enum.GetNames(typeof(CrayonSprayCan.Colour)))
 			{
@@ -114,6 +119,11 @@ namespace UI.Core
 			}
 
 			colourDropDown.options = optionsData;
+
+			if (openingObject.TryGetComponent<CrayonSprayCan>(out var cr) && cr.IsCan == false)
+			{
+				colourDropDown.SetActive(false);
+			}
 		}
 
 		public void OnColourChange()
@@ -126,6 +136,12 @@ namespace UI.Core
 
 		private Color GetCurrentColour()
 		{
+			if (openingObject.TryGetComponent<CrayonSprayCan>(out var cr) && cr.IsCan == false)
+			{
+				//This wont work if admin VVs, but eh
+				return CrayonSprayCan.PickableColours[cr.SetColour];
+			}
+
 			Color colour = Color.black;
 
 			if ((CrayonSprayCan.Colour) colourDropDown.value == CrayonSprayCan.Colour.UnlimitedRainbow)

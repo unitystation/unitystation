@@ -11,7 +11,9 @@ namespace Items.Tool
 	public class CrayonSprayCan : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IClientInteractable<HandActivate>
 	{
 		[SerializeField]
-		private Colour colour = Colour.White;
+		private Colour setColour = Colour.White;
+
+		public Colour SetColour => setColour;
 
 		[SerializeField]
 		[Tooltip("If this isn't white then this colour will be used instead")]
@@ -24,12 +26,13 @@ namespace Items.Tool
 		[SerializeField]
 		private GraffitiCategoriesScriptableObject graffitiLists = null;
 
-		private OverlayTile tileToUse = null;
-
 		[SerializeField]
 		private bool isCan;
+		public bool IsCan => isCan;
 
+		//TODO CAP STUFF
 		private bool capRemoved;
+		private OverlayTile tileToUse;
 
 		public static readonly Dictionary<Colour, Color> PickableColours = new Dictionary<Colour,Color>
 		{
@@ -136,12 +139,12 @@ namespace Items.Tool
 			}
 			else
 			{
-				if (colour == Colour.UnlimitedRainbow)
+				if (SetColour == Colour.UnlimitedRainbow)
 				{
 					//any random colour
 					chosenColour = new Color(Random.Range(0, 1), Random.Range(0, 1) , Random.Range(0, 1));
 				}
-				else if (colour == Colour.NormalRainbow)
+				else if (SetColour == Colour.NormalRainbow)
 				{
 					//random from set values
 					chosenColour = PickableColours.PickRandom().Value;
@@ -149,7 +152,7 @@ namespace Items.Tool
 				else
 				{
 					//chosen value
-					chosenColour = PickableColours[colour];
+					chosenColour = PickableColours[SetColour];
 				}
 			}
 
@@ -230,7 +233,7 @@ namespace Items.Tool
 
 			if(colourIndex >= Enum.GetNames(typeof(Colour)).Length) return;
 
-			colour = (Colour)colourIndex;
+			setColour = (Colour)colourIndex;
 		}
 
 		#endregion
