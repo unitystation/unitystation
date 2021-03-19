@@ -64,21 +64,33 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		health.CirculatorySystem.ConvertUsedBlood(OXYLOSS_HEAL_AMOUNT);
 
+		bool HasHeart = false;
 		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart))
 		{
 			var heart = BodyPart as Heart;
 			if (heart != null)
 			{
 				heart.Heartbeat(HeartbeatStrength);
+				HasHeart = true;
 			}
+
 		}
-		health.GetBodyPartsInZone(TargetBodyPart);
 
-
-		Chat.AddActionMsgToChat(
+		if (HasHeart)
+		{
+			Chat.AddActionMsgToChat(
 				performer,
 				$"You perform CPR on {targetName}.",
 				$"{performerName} performs CPR on {targetName}.");
-		Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs. It feels good!");
+			Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs. It feels good!");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(
+				performer,
+				$"You perform CPR on {targetName}. It doesn't seem to work, maybe they're missing something.",
+				$"{performerName} performs CPR on {targetName} In vain.");
+		}
+
 	}
 }

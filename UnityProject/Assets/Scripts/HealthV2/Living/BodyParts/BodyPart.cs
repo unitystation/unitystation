@@ -122,6 +122,7 @@ namespace HealthV2
 
 				BodySpriteSet = true;
 			}
+			UpdateIcons();
 		}
 
 		public Tuple<SpriteOrder, List<SpriteDataSO>> GetBodyTypeSprites(BodyType BodyType)

@@ -35,7 +35,7 @@ namespace HealthV2
 		         "Implants will start with this amount of health.")]
 		private float maxHealth = 100; //Is used for organ functionIt
 
-		public DamageSeverity Severity;
+		public DamageSeverity Severity = DamageSeverity.LightModerate;
 
 		//Used for Calculating Overall damage
 		public float TotalDamageWithoutOxy
@@ -196,6 +196,7 @@ namespace HealthV2
 
 		private void UpdateSeverity()
 		{
+			var oldSeverity = Severity;
 			// update UI limbs depending on their severity of damage
 			float severity = 1 - (Mathf.Max(maxHealth-TotalDamageWithoutOxyCloneRadStam, 0) / maxHealth);
 			// If the limb is uninjured
@@ -234,23 +235,14 @@ namespace HealthV2
 				Severity = DamageSeverity.Max;
 			}
 
-			UpdateIcons();
+			if (oldSeverity != Severity && healthMaster != null)
+			{
+				UpdateIcons();
+			}
 		}
 		private void UpdateIcons()
 		{
-			if (!IsLocalPlayer())
-			{
-				return;
-			}
 			UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
 		}
-
-		protected bool IsLocalPlayer()
-		{
-			var Player = healthMaster as PlayerHealthV2;
-			if (Player == null) return false;
-			return PlayerManager.LocalPlayerScript == Player.PlayerScript;
-		}
-
 	}
 }
