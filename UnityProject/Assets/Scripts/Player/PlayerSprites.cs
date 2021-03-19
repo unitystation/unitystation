@@ -516,18 +516,12 @@ public class PlayerSprites : MonoBehaviour
 			SetUpCharacter(characterSettings);
 			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
 			SetupCharacterData(characterSettings);
-			// FIXME: this probably shouldn't send ALL of the character settings to everyone
-			PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
 		}
 	}
 
 	public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)
 	{
-		if (!clothItems)
-		{
-			PlayerCustomisationMessage.SendTo(gameObject, recipient, ThisCharacter);
-		}
-		else
+		if (clothItems)
 		{
 			for (int i = 0; i < characterSprites.Length; i++)
 			{
