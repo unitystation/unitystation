@@ -460,7 +460,6 @@ namespace Lobby
 			Type gender = typeof(BodyType);
 			Array genders = gender.GetEnumValues();
 			int index = UnityEngine.Random.Range(0,3);
-			int hairIndex = UnityEngine.Random.Range(0, currentCharacter.SerialisedBodyPartCustom.Count());
 			currentCharacter.BodyType = (BodyType)genders.GetValue(index);
 			//OnGenderChange();
 
