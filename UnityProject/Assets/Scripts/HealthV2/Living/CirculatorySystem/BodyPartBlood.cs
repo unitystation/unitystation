@@ -60,7 +60,7 @@ namespace HealthV2
 		/// The amount (in moles) of required reagent (eg oxygen) this body part needs consume each tick.
 		/// </summary>
 		[Tooltip("How much (in moles) blood reagent (eg oxygen) does this need each tick?")]
-		[SerializeField] private float bloodReagentConsumed = 0.0002f;
+		[SerializeField] private float bloodReagentConsumed = 0.00002f;
 
 		[Tooltip("How much blood reagent does this request per blood pump event?")]
 		[SerializeField] private float bloodThroughput = 0.015f; //This will need to be reworked when heartrate gets finished

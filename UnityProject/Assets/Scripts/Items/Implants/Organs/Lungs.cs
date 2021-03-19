@@ -130,7 +130,7 @@ public class Lungs : BodyPart
 			}
 		}
 		healthMaster.RespiratorySystem.GasExchangeFromBlood(gasMix, blood, toExhale);
-		Debug.Log("Gas exhaled: " + toExhale.Total);
+		//Debug.Log("Gas exhaled: " + toExhale.Total);
 		return toExhale.Total > 0;
 	}
 

@@ -54,8 +54,7 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 			// Not the best way to do this, need a list of races
 			if (partName.StartsWith("human ") || partName.StartsWith("lizard ") || partName.StartsWith("moth ") || partName.StartsWith("cat "))
 			{
-				int i = partName.IndexOf(" ") + 1;
-				partName = partName.Substring(i);
+				partName = partName.Substring(partName.IndexOf(" ") + 1);
 			}
 			toShow.Append(textInfo.ToTitleCase(partName));
 			if (partName.Length < 6)
