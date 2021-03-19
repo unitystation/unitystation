@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 33714aa8b960f27468d7e1498a40a14a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 67fcb57cf667d944691867a665b42a9d,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 33714aa8b960f27468d7e1498a40a14a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 67fcb57cf667d944691867a665b42a9d,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -107,5 +105,17 @@ PrefabInstance:
       propertyPath: initialName
       value: security bomb hood
       objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 67fcb57cf667d944691867a665b42a9d,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b6e17b2bd028eee4b9f5fd2607f7bb25,
+        type: 2}
+    - target: {fileID: 8004422176852823208, guid: 67fcb57cf667d944691867a665b42a9d,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 40896fb5e3627b1479db4e0ce8a20700,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67fcb57cf667d944691867a665b42a9d, type: 3}

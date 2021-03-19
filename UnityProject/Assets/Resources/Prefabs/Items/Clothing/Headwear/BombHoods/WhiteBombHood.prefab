@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 399b67b5347029d4b870baa08a5d8454,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 67fcb57cf667d944691867a665b42a9d,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 399b67b5347029d4b870baa08a5d8454,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 67fcb57cf667d944691867a665b42a9d,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -107,5 +105,11 @@ PrefabInstance:
       propertyPath: initialName
       value: white bomb hood
       objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 67fcb57cf667d944691867a665b42a9d,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b73873ffa75d4e348ba207a7fd9b3326,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67fcb57cf667d944691867a665b42a9d, type: 3}
