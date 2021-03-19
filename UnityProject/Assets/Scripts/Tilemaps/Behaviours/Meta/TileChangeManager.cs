@@ -274,6 +274,12 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
+	[Server]
+	public List<OverlayTile> GetAllOverlayTiles(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType)
+	{
+		return metaTileMap.GetOverlayTilesByType(cellPosition, layerType, overlayType);
+	}
+
 	#endregion
 
 

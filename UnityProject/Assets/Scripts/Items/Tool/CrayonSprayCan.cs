@@ -1,0 +1,224 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Mirror;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+namespace Items.Tool
+{
+	public class CrayonSprayCan : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IClientInteractable<HandActivate>
+	{
+		[SerializeField]
+		private Colour colour = Colour.White;
+
+		[SerializeField]
+		[Tooltip("If this isn't white then this colour will be used instead")]
+		private Color customColour = Color.white;
+
+		[SerializeField]
+		[Min(0)]
+		private float timeToDraw = 5;
+
+		[SerializeField]
+		private OverlayTile tileToUse = null;
+
+		[SerializeField]
+		private bool isCan;
+
+		private bool capRemoved;
+
+		private readonly Dictionary<Colour, Color> colours = new Dictionary<Colour,Color>
+		{
+			{Colour.White, Color.white},
+			{Colour.Black, Color.black},
+			{Colour.Blue, Color.blue},
+			{Colour.Green, Color.green},
+			{Colour.Mime, Color.grey},
+			{Colour.Orange, new Color(1, 0.65f, 0)},
+			{Colour.Purple, new Color(0.6901961f, 0, 0.9490197f)},
+			{Colour.Yellow, Color.yellow},
+			{Colour.Red, Color.red}
+		};
+
+		private RegisterItem registerItem;
+
+		private void Awake()
+		{
+			registerItem = GetComponent<RegisterItem>();
+		}
+
+		#region PositionalHandApply
+
+		//Drawing and Spraying
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			//If space cannot use
+			if (registerItem.Matrix.IsSpaceAt(interaction.WorldPositionTarget.RoundToInt(), true))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on space");
+				return;
+			}
+
+			if (isCan)
+			{
+				TryCan(interaction);
+				return;
+			}
+
+			TryCrayon(interaction);
+		}
+
+		private void TryCrayon(PositionalHandApply interaction)
+		{
+			//If crayon cannot use unless it is not blocked
+			if (registerItem.Matrix.IsPassableAtOneMatrixOneTile(interaction.WorldPositionTarget.RoundToInt(), true, false) == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on blocked tile");
+				return;
+			}
+
+			//Cant use crayons on walls
+			if (registerItem.Matrix.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), true))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on a wall, try a spray can instead");
+				return;
+			}
+
+			AddOverlay(interaction);
+		}
+
+		private void TryCan(PositionalHandApply interaction)
+		{
+			var isWall = registerItem.Matrix.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), true);
+
+			//Can can only be used if it is not blocked or it is a wall
+			if (isWall == false
+			    && registerItem.Matrix.IsPassableAtOneMatrixOneTile(interaction.WorldPositionTarget.RoundToInt(), true, false) == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on blocked tile");
+				return;
+			}
+
+			AddOverlay(interaction, isWall);
+		}
+
+		private void AddOverlay(PositionalHandApply interaction, bool isWall = false)
+		{
+			//Work out colour
+			Color chosenColour;
+
+			//If custom colour set, use that instead
+			if (customColour != Color.white)
+			{
+				chosenColour = customColour;
+			}
+			else
+			{
+				if (colour == Colour.UnlimitedRainbow)
+				{
+					//any random colour
+					chosenColour = new Color(Random.Range(0, 1), Random.Range(0, 1) , Random.Range(0, 1));
+				}
+				else if (colour == Colour.NormalRainbow)
+				{
+					//random from set values
+					chosenColour = colours.PickRandom().Value;
+				}
+				else
+				{
+					//chosen value
+					chosenColour = colours[colour];
+				}
+			}
+
+			var cellPos = MatrixManager.WorldToLocalInt(interaction.WorldPositionTarget.RoundToInt(),
+				registerItem.Matrix.MatrixInfo);
+
+			var graffitiAlreadyOnTile = registerItem.TileChangeManager
+				.GetAllOverlayTiles(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Cleanable)
+				.Where(t => t.IsGraffiti).ToList();
+
+			foreach (var graffiti in graffitiAlreadyOnTile)
+			{
+				//replace if type already on tile
+				if (graffiti == tileToUse)
+				{
+					//Add change overlay
+					ToolUtils.ServerUseToolWithActionMessages(interaction, timeToDraw,
+						$"You begin to {(isCan ? "spray" : "draw")} graffiti on to the {(isWall ? "wall" : "floor")}...",
+						$"{interaction.Performer.ExpensiveName()} starts to {(isCan ? "spray" : "draw")} graffiti on the {(isWall ? "wall" : "floor")}...",
+						$"You {(isCan ? "spray" : "draw")} graffiti on to the {(isWall ? "wall" : "floor")}",
+						$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} graffiti on to the {(isWall ? "wall" : "floor")}",
+						() =>
+						{
+							registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, LayerType.Effects, graffiti.OverlayName);
+							registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, color: chosenColour);
+						}
+					);
+
+					//Should only ever be one of the overlay
+					return;
+				}
+			}
+
+			//Only allow 5 graffiti overlays on a tile
+			if (graffitiAlreadyOnTile.Count > 5)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Adding any more graffiti would make the art messy");
+				return;
+			}
+
+			//Add overlay
+			ToolUtils.ServerUseToolWithActionMessages(interaction, timeToDraw,
+				$"You begin to {(isCan ? "spray" : "draw")} on the {(isWall ? "wall" : "floor")}...",
+				$"{interaction.Performer.ExpensiveName()} starts to {(isCan ? "spray" : "draw")} on the {(isWall ? "wall" : "floor")}...",
+				$"You {(isCan ? "spray" : "draw")} on the {(isWall ? "wall" : "floor")}",
+				$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} on the {(isWall ? "wall" : "floor")}",
+				() =>
+				{
+					registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, color: chosenColour);
+				}
+			);
+		}
+
+		#endregion
+
+		#region Chosing Tile
+
+		//This is all client side only
+		[Client]
+		public bool Interact(HandActivate interaction)
+		{
+			//UIManager.Instance;
+
+			return true;
+		}
+
+		#endregion
+
+		//If new colour is added then add at the end or you'll mess up the prefabs
+		//Also add to the colours dictionary at the top of this script
+		private enum Colour
+		{
+			White,
+			Black,
+			Blue,
+			Green,
+			Mime,
+			Orange,
+			Purple,
+			Yellow,
+			Red,
+			NormalRainbow,
+			UnlimitedRainbow
+		}
+	}
+}
