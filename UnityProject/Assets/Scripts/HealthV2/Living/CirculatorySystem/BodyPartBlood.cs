@@ -137,31 +137,25 @@ namespace HealthV2
 
 			//Heal if blood saturation post consumption is fine, otherwise do damage
 			float bloodSaturation = 0;
-			if(bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix) > 0)
+			if (bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix) > 0)
 			{
-				bloodSaturation  = BloodContainer[requiredReagent] / bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix);
+				bloodSaturation = BloodContainer[requiredReagent] / bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix);
 			}
-
-			float critical = HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD;
-
+			var info = HealthMaster.CirculatorySystem.BloodInfo;
 			float damage;
-			if (bloodSaturation < critical)
+			if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				//Deals damage that ramps to 10 as blood saturation levels drop, halved if unconscious
 				if (bloodSaturation <= 0)
 				{
 					damage = 10f;
 				}
-				else
+				else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_CRITICAL)
 				{
 					// Arbitrary damage formula, could use anything here
-					damage = Mathf.Min(90 * ((critical / bloodSaturation) - 1), 10f);
+					damage = 10 * (1 - Mathf.Sqrt(bloodSaturation));
 				}
-				if (HealthMaster.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
-				{
-					damage = damage / 2;
-				}
-				if (HealthMaster.ConsciousState == ConsciousState.UNCONSCIOUS)
+				else
 				{
 					damage = 1;
 				}
@@ -174,10 +168,9 @@ namespace HealthV2
 			}
 			else
 			{
-				var okayLevel = HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY;
-				if(bloodSaturation > okayLevel)
+				if (bloodSaturation > info.BLOOD_REAGENT_SATURATION_OKAY)
 				{
-					OxyHeal(BloodContainer.CurrentReagentMix, BloodContainer[requiredReagent] * (bloodSaturation-okayLevel));
+					OxyHeal(BloodContainer.CurrentReagentMix, BloodContainer[requiredReagent] * (bloodSaturation - info.BLOOD_REAGENT_SATURATION_OKAY));
 				}
 				//We already consumed some earlier as well
 				damage = -1;
@@ -247,7 +240,7 @@ namespace HealthV2
 		/// </summary>
 		/// <param name="bloodIn">Incoming blood</param>
 		/// <returns>Whatever is left over from bloodIn</returns>
-		public ReagentMix BloodPumpedEvent(ReagentMix bloodIn)
+		public ReagentMix BloodPumpedEvent(ReagentMix bloodIn, float efficiency)
 		{
 			//Maybe have a dynamic 50% other blood in this blood
 			// if (bloodReagent != requiredReagent)
@@ -259,7 +252,7 @@ namespace HealthV2
 
 			//Maybe have damage from high/low blood levels and high blood pressure
 
-			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, bloodThroughput);
+			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, bloodThroughput * efficiency);
 
 			if ((BloodContainer.ReagentMixTotal + bloodIn.Total) > BloodContainer.MaxCapacity)
 			{

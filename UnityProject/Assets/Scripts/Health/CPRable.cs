@@ -7,10 +7,6 @@ using UnityEngine;
 public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	const float CPR_TIME = 5;
-	const float OXYLOSS_HEAL_AMOUNT = 7;
-
-	public float HeartbeatStrength = 25;
-
 
 	private static readonly StandardProgressActionConfig CPRProgressConfig =
 			new StandardProgressActionConfig(StandardProgressActionType.CPR);
@@ -58,25 +54,31 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
-	private void ServerDoCPR(GameObject performer, GameObject target,BodyPartType TargetBodyPart)
+	private void ServerDoCPR(GameObject performer, GameObject target, BodyPartType TargetBodyPart)
 	{
 		var health = target.GetComponent<LivingHealthMasterBase>();
+		Vector3Int position = health.ObjectBehaviour.AssumedWorldPositionServer();
+		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
+
 
 		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart))
 		{
-			var heart = BodyPart as Heart;
-			if (heart != null)
+			var lung = BodyPart as Lungs;
+			if (lung != null)
 			{
-				heart.Heartbeat(HeartbeatStrength);
+				lung.TryBreathing(node, 1);
 			}
-
-			// Still violates thermodynamics, but meh.
-			BodyPart.BloodContainer.CurrentReagentMix.Add(health.CirculatorySystem.CirculatedReagent,
-				health.CirculatorySystem.BloodType.GetSpareGasCapacity(BodyPart.BloodContainer.CurrentReagentMix));
+			else
+			{
+				var heart = BodyPart as Heart;
+				if (heart != null)
+				{
+					heart.Heartbeat(1);
+				}
+			}
 		}
+
 		health.GetBodyPartsInZone(TargetBodyPart);
-
-
 		Chat.AddActionMsgToChat(
 				performer,
 				$"You perform CPR on {targetName}.",

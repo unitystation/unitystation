@@ -18,7 +18,7 @@ public class CirculatoryInfo : ScriptableObject
 	[Tooltip("It is at this point you'll start taking oxygen damage.")]
 	public float BLOOD_BAD = 2500; //It is at this point you'll start taking oxygen damage.
 
-	[Tooltip("If we reach critical, the organism will very quickly accumalte damage.")]
+	[Tooltip("If we reach critical, the organism will very quickly accumalate damage.")]
 	//If we reach critical, the organism will very quickly accumalte damage.
 	public float BLOOD_CRITICAL = 2000;
 
@@ -48,9 +48,12 @@ public class CirculatoryInfo : ScriptableObject
 	         "100 is the human normal.")]
 	public float HEART_STRENGTH_MAX = 150;
 
-	[Tooltip("When saturation of blood reagent falls below this point the organism will start taking oxy damage.")]
+	[Tooltip("When saturation of blood reagent falls below this point you'll start to feel symptoms, like being light headed.")]
 	public float BLOOD_REAGENT_SATURATION_OKAY = 0.92f;
 	
 	[Tooltip("When saturation of blood reagent falls below this point the organism will start taking oxy damage.")]
 	public float BLOOD_REAGENT_SATURATION_BAD = 0.90f;
+
+	[Tooltip("If we reach critical, the organism will very quickly accumalate oxy damage.")]
+	public float BLOOD_REAGENT_SATURATION_CRITICAL = 0.80f;
 }

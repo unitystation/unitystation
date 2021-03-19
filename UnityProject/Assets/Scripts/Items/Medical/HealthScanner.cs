@@ -35,10 +35,7 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 		//var availOxy = health.CirculatorySystem.ReadyBloodPool[GAS2ReagentSingleton.Instance.Oxygen];
 		float[] fullDamage = new float[7];
 		TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-		StringBuilder toShow = new StringBuilder("----------------------------------------\n" +
-						targetName + " is " + health.ConsciousState.ToString() + "\n" +
-						"<b>Overall status: " + totalPercent + "% healthy</b>\n" +
-						"Blood level = " + bloodPercent + "%, " + bloodTotal + "cc\n", 265);
+		StringBuilder toShow = new StringBuilder();
 		foreach (var BodyPart in health.ImplantList)
 		{
 			if (AdvancedHealthScanner == false && BodyPart.DamageContributesToOverallHealth == false) continue;
@@ -62,19 +59,23 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 			if (partName.Length < 9)
 				toShow.Append("\t");
 
-			toShow.Append(	$"{partName}\t\t  " +
-							$"<color=brown>{Mathf.Round(BodyPart.Brute)}</color>\t\t   " +
+			toShow.Append(	$"\t\t\t<color=brown>{Mathf.Round(BodyPart.Brute)}</color>\t\t   " +
 							$"<color=orange>{Mathf.Round(BodyPart.Burn)}</color>\t\t   " +
 							$"<color=lime>{Mathf.Round(BodyPart.Toxin)}</color>\t\t  " +
 							$"<color=cyan>{Mathf.Round(BodyPart.Oxy)}</color>\n");
 		}
 
-		toShow.Append("General Status:\n<b>Damage:\t\t<color=brown>Brute</color>\t<color=orange>Burn</color>\t<color=lime>Toxin</color>\t<color=cyan>Oxy</color>\n" +
+		toShow.Insert(0, "----------------------------------------\n" +
+					targetName + " is " + health.ConsciousState.ToString() + "\n" +
+					"<b>Overall status: " + totalPercent + "% healthy</b>\n" +
+					"Blood level = " + bloodPercent + "%, " + bloodTotal + "cc\n" + 
+					"General Status:\n<b>Damage:\t\t<color=brown>Brute</color>\t<color=orange>Burn</color>" +
+					"\t<color=lime>Toxin</color>\t<color=cyan>Oxy</color>\n" +
 					$"Overall:\t\t\t   <color=brown>{Mathf.Round(fullDamage[(int)DamageType.Brute])}</color>\t\t" +
 					$"    <color=orange>{Mathf.Round(fullDamage[(int)DamageType.Burn])}</color>\t\t" +
 					$"    <color=lime>{Mathf.Round(fullDamage[(int)DamageType.Tox])}</color>\t\t" +
-					$"  <color=cyan>{Mathf.Round(fullDamage[(int)DamageType.Oxy])}</color></b>\n" +
-					"\n----------------------------------------");
+					$"  <color=cyan>{Mathf.Round(fullDamage[(int)DamageType.Oxy])}</color></b>\n");
+		toShow.Append("----------------------------------------");
 
 		Chat.AddExamineMsgFromServer(interaction.Performer, toShow.ToString());
 	}

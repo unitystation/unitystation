@@ -53,7 +53,7 @@ public class Lungs : BodyPart
 		Vector3Int position = healthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
-		if (TryBreathing(node))
+		if (TryBreathing(node, TotalModified))
 		{
 			AtmosManager.Update(node);
 		}
@@ -65,8 +65,11 @@ public class Lungs : BodyPart
 	/// </summary>
 	/// <param name="node">The gas node at this lung's position</param>
 	/// <returns>True if gas was exchanged</returns>
-	private bool TryBreathing(IGasMixContainer node)
+	public bool TryBreathing(IGasMixContainer node, float efficiency)
 	{
+		//Base effeciency is a little strong on the lungs
+		//efficiency = (1 + efficiency) / 2;
+
 		//Breathing is not timebased, but tick based, it will be slow when the blood has all the oxygen it needs
 		//and will speed up if more oxygen is needed
 		currentBreatheCooldown--;
@@ -85,8 +88,8 @@ public class Lungs : BodyPart
 
 		ReagentMix AvailableBlood = healthMaster.CirculatorySystem.UsedBloodPool.Take(healthMaster.CirculatorySystem.UsedBloodPool.Total);
 
-		bool tryExhale = BreatheOut(container.GasMix, AvailableBlood);
-		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood);
+		bool tryExhale = BreatheOut(container.GasMix, AvailableBlood, efficiency);
+		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
 		healthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
 
 		return tryExhale || tryInhale;
@@ -98,7 +101,7 @@ public class Lungs : BodyPart
 	/// <param name="gasMix">The gas mix to breathe out into</param>
 	/// <param name="blood">The blood to pull gases from</param>
 	/// <returns> True if breathGasMix was changed </returns>
-	private bool BreatheOut(GasMix gasMix, ReagentMix blood)
+	private bool BreatheOut(GasMix gasMix, ReagentMix blood, float efficiency)
 	{
 		// This isn't exactly realistic, should also factor concentration of gases in the gasMix
 		ReagentMix toExhale = new ReagentMix();
@@ -111,7 +114,7 @@ public class Lungs : BodyPart
 				var gas = GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key);
 				if (gas != requiredGas && Reagent.Value > 0)
 				{
-					toExhale.Add(Reagent.Key, Reagent.Value);
+					toExhale.Add(Reagent.Key, Reagent.Value * efficiency);
 				}
 				else if (gas == requiredGas)
 				{
@@ -125,7 +128,7 @@ public class Lungs : BodyPart
 						// Will still lose required gas suspended in plasma
 						ratio = bloodType.BloodGasCapability / bloodType.BloodCapacityOf;
 					}
-					toExhale.Add(Reagent.Key, ratio * Reagent.Value);
+					toExhale.Add(Reagent.Key, ratio * Reagent.Value * efficiency);
 				}
 			}
 		}
@@ -140,17 +143,13 @@ public class Lungs : BodyPart
 	/// <param name="gasMix">The gas mix to breathe in from</param>
 	/// <param name="blood">The blood to put gases into</param>
 	/// <returns> True if breathGasMix was changed </returns>
-	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood)
+	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 	{
 		if (healthMaster.RespiratorySystem.CanBreathAnywhere)
 		{
 			blood.Add(requiredReagent, bloodType.GetSpareGasCapacity(blood));
 			return false;
 		}
-
-		// TODO: Fix modifiers and add them here, they are too powerful at the moment
-		float effectiveLungSize = LungSize;
-
 		ReagentMix toInhale = new ReagentMix();
 
 		for (int i = 0; i < breathGasMix.Gases.Length; i++)
@@ -158,12 +157,12 @@ public class Lungs : BodyPart
 			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(Gas.All[i]))
 			{
 				// n = PV/RT
-				float gasMoles = breathGasMix.GetPressure(Gas.All[i]) * effectiveLungSize / 8.314f / breathGasMix.Temperature;
+				float gasMoles = breathGasMix.GetPressure(Gas.All[i]) * LungSize / 8.314f / breathGasMix.Temperature;
 
 				// Get as much as we need, or as much as in the lungs, whichever is lower
 				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(Gas.All[i]);
 				float molesRecieved = Mathf.Min(gasMoles, bloodType.GetSpareGasCapacity(blood, gasReagent));
-				toInhale.Add(gasReagent, molesRecieved);
+				toInhale.Add(gasReagent, molesRecieved * efficiency);
 
 				//TODO: Add pressureSafeMax check here, for hyperoxia
 			}

@@ -48,7 +48,7 @@ namespace HealthV2
 		{
 			// Currently only does blood and required reagents, should at nutriments and other common gases
 			var bloodToAdd = new ReagentMix(Blood, amount);
-			bloodToAdd.Add(CirculatedReagent, bloodType.GetGasCapacity(bloodToAdd)*0.95f);
+			bloodToAdd.Add(CirculatedReagent, bloodType.GetGasCapacity(bloodToAdd));
 			bloodPool.Add(bloodToAdd);
 		}
 	}
