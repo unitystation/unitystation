@@ -57,7 +57,7 @@ namespace HealthV2
 		/// <summary>
 		/// Stores how severely the body part is damage for purposes of examine
 		/// </summary>
-		public DamageSeverity Severity;
+		public DamageSeverity Severity = DamageSeverity.LightModerate;
 
 		/// <summary>
 		/// Toxin damage taken
@@ -279,6 +279,7 @@ namespace HealthV2
 		/// </summary>
 		private void UpdateSeverity()
 		{
+			var oldSeverity = Severity;
 			// update UI limbs depending on their severity of damage
 			float severity = 1 - (Mathf.Max(maxHealth-TotalDamageWithoutOxyCloneRadStam, 0) / maxHealth);
 			// If the limb is uninjured
@@ -317,27 +318,18 @@ namespace HealthV2
 				Severity = DamageSeverity.Max;
 			}
 
-			UpdateIcons();
+			if (oldSeverity != Severity && healthMaster != null)
+			{
+				UpdateIcons();
+			}
 		}
-
-		/// <summary>
+    
+    /// <summary>
 		/// Updates the player health UI if present
 		/// </summary>
 		private void UpdateIcons()
 		{
-			if (!IsLocalPlayer())
-			{
-				return;
-			}
 			UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
 		}
-
-		protected bool IsLocalPlayer()
-		{
-			var Player = HealthMaster as PlayerHealthV2;
-			if (Player == null) return false;
-			return PlayerManager.LocalPlayerScript == Player.PlayerScript;
-		}
-
 	}
 }

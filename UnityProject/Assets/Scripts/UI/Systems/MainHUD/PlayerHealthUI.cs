@@ -193,15 +193,33 @@ public class PlayerHealthUI : MonoBehaviour
 						damageColor = disabledBodyPartColor;
 						break;
 					case DamageSeverity.Max:
+						bodyPartColor = damageMonitorColors[6];
+						damageColor = destroyedBodyPartColor;
+						break;
 					default:
 						bodyPartColor = damageMonitorColors[6];
 						damageColor = destroyedBodyPartColor;
 						break;
 				}
-
-				bodyPartListeners[i].SetDamageColor(damageColor);
-				bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
+				if (IsLocalPlayer(bodyPart))
+				{
+					bodyPartListeners[i].SetDamageColor(damageColor);
+					bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
+				}
+				else
+				{
+					if (bodyPart.healthMaster != null)
+					{
+						bodyPart.healthMaster.HealthStateController.ServerUpdateDoll(i, damageColor,bodyPartColor);
+					}
+				}
 			}
+		}
+		bool IsLocalPlayer(BodyPart BbodyPart)
+		{
+			var Player = BbodyPart.healthMaster as PlayerHealthV2;
+			if (Player == null) return false;
+			return PlayerManager.LocalPlayerScript == Player.PlayerScript;
 		}
 	}
 }

@@ -228,6 +228,7 @@ namespace HealthV2
 				InternalNetIDs.Add(newSprite.GetComponent<NetworkIdentity>().netId);
 
 				i++;
+				i++;
 			}
 			RootBodyPartController.RequestUpdate(this);
 		}

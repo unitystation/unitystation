@@ -51,7 +51,7 @@ namespace UI.Objects.Cargo
 
 		private void DisplayCategoriesCatalog()
 		{
-			List<CargoOrderCategory> categories = CargoManager.Instance.Supplies;
+			List<CargoCategory> categories = CargoManager.Instance.Supplies;
 
 			orderList.Clear();
 			orderList.AddItems(categories.Count);
@@ -65,7 +65,7 @@ namespace UI.Objects.Cargo
 
 		private void DisplayCurrentSupplies()
 		{
-			List<CargoOrder> supplies = CargoManager.Instance.CurrentCategory.Supplies;
+			List<CargoOrderSO> supplies = CargoManager.Instance.CurrentCategory.Orders;
 
 			orderList.Clear();
 			orderList.AddItems(supplies.Count);

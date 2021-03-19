@@ -161,6 +161,7 @@ namespace HealthV2
 
 				BodySpriteSet = true;
 			}
+			UpdateIcons();
 		}
 
 		/// <summary>

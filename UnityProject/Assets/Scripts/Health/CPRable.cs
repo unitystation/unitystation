@@ -60,13 +60,15 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		Vector3Int position = health.ObjectBehaviour.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
-
+    bool hasLung = false;
+		bool hasHeart = false;
 		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart))
 		{
 			var lung = BodyPart as Lungs;
 			if (lung != null)
 			{
 				lung.TryBreathing(node, 1);
+        hasLung = true;
 			}
 			else
 			{
@@ -74,15 +76,27 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 				if (heart != null)
 				{
 					heart.Heartbeat(1);
+          hasHeart = true;
 				}
 			}
 		}
+    
+		if (hasHeart && hasLung)
+		{
+			Chat.AddActionMsgToChat(
 
-		health.GetBodyPartsInZone(TargetBodyPart);
-		Chat.AddActionMsgToChat(
 				performer,
 				$"You perform CPR on {targetName}.",
 				$"{performerName} performs CPR on {targetName}.");
-		Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs. It feels good!");
+			Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs. It feels good!");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(
+				performer,
+				$"You perform CPR on {targetName}. It doesn't seem to work, maybe they're missing something.",
+				$"{performerName} performs CPR on {targetName} In vain.");
+		}
+
 	}
 }

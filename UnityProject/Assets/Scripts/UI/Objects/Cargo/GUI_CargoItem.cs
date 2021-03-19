@@ -7,8 +7,8 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoItem : DynamicEntry
 	{
-		private CargoOrder order = null;
-		public CargoOrder Order {
+		private CargoOrderSO order = null;
+		public CargoOrderSO Order {
 			get {
 				return order;
 			}
@@ -17,7 +17,7 @@ namespace UI.Objects.Cargo
 				ReInit();
 			}
 		}
-		private CargoOrderCategory category;
+		private CargoCategory category;
 
 		public void AddToCart()
 		{
@@ -56,10 +56,10 @@ namespace UI.Objects.Cargo
 						((NetUIElement<string>)element).SetValueServer(order.OrderName);
 						break;
 					case "Price":
-						((NetUIElement<string>)element).SetValueServer(order.CreditsCost + " credits");
+						((NetUIElement<string>)element).SetValueServer(order.CreditCost + " credits");
 						break;
 					case "CartName":
-						((NetUIElement<string>)element).SetValueServer(order.OrderName + "\n" + order.CreditsCost + " credits");
+						((NetUIElement<string>)element).SetValueServer(order.OrderName + "\n" + order.CreditCost + " credits");
 						break;
 					case "Cancel":
 						((NetUIElement<string>)element).SetValueServer("CANCEL");
@@ -69,7 +69,7 @@ namespace UI.Objects.Cargo
 		}
 
 
-		public void ReInit(CargoOrderCategory _category)
+		public void ReInit(CargoCategory _category)
 		{
 			category = _category;
 			foreach (var element in Elements)
