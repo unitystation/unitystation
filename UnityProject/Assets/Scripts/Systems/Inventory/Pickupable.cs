@@ -161,14 +161,16 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		var ps = interaction.Performer.GetComponent<PlayerScript>();
 		var extendedRangeOnly = !ps.IsRegisterTileReachable(cnt.RegisterTile, true);
 
+		//Start the animation on all clients.
+		StartCoroutine(PickupAnim(interaction.Performer.gameObject));
+
+		//Start the animation on the server.
 		LeanTween.move(gameObject, interaction.Performer.transform, pickupAnimSpeed);
 		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
 		yield return WaitFor.Seconds(pickupAnimSpeed);
 
+		//Make sure that the object is scaled back to it's original size.
 		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
-
-		//Start the animation on all clients.
-		StartCoroutine(PickupAnim(interaction.Performer.gameObject));
 
 		//if it's in extended range only, then we will nudge it if it is stationary
 		//or pick it up if it is floating.
