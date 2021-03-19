@@ -168,7 +168,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
 
 		//Start the animation on all clients.
-		StartCoroutine(RpcPickupAnimation(interaction.Performer.transform));
+		StartCoroutine(PickupAnim(interaction.Performer.gameObject));
 
 		//if it's in extended range only, then we will nudge it if it is stationary
 		//or pick it up if it is floating.
@@ -208,12 +208,23 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
-	[ClientRpc]
-	private IEnumerator RpcPickupAnimation(Transform interactor)
+	private IEnumerator PickupAnim(GameObject interactor)
 	{
-		LeanTween.move(gameObject, interactor, pickupAnimSpeed);
-		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
+		RpcPickupAnimation(interactor);
 		yield return WaitFor.Seconds(pickupAnimSpeed);
+		RpcResetPickupAnim();
+	}
+
+	[ClientRpc]
+	private void RpcPickupAnimation(GameObject interactor)
+	{
+		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
+		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
+	}
+
+	[ClientRpc]
+	private void RpcResetPickupAnim()
+	{
 		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
 	}
 
