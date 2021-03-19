@@ -54,6 +54,7 @@ namespace AdminCommands
 			{
 				return false;
 			}
+
 			return true;
 		}
 
@@ -124,17 +125,19 @@ namespace AdminCommands
 		public void CmdEndRound(string adminId, string adminToken)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
+			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
+			{
+				GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by admin.
 
-			GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by admin.
+				VideoPlayerMessage.Send(VideoType.RestartRound);
+				GameManager.Instance.EndRound();
 
-			VideoPlayerMessage.Send(VideoType.RestartRound);
-			GameManager.Instance.EndRound();
+				var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Force ENDED the round.";
 
-			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Force ENDED the round.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
+					"");
+			}
 		}
 
 		[Command(requiresAuthority = false)]
@@ -329,13 +332,17 @@ namespace AdminCommands
 			{
 				foreach (ConnectedPlayer player in players)
 				{
-					string message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Smited Username: {player.Username} ({player.Name})";
+					string message =
+						$"{PlayerList.Instance.GetByUserID(adminId).Username}: Smited Username: {player.Username} ({player.Name})";
 					Logger.Log(message, Category.Admin);
-					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null); DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message, "");
+					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+					DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(
+						DiscordWebhookURLs.DiscordWebhookAdminLogURL, message, "");
 					player.Script.playerHealth.ServerGibPlayer();
 				}
 			}
 		}
+
 		#endregion
 
 		#region Sound
@@ -352,7 +359,7 @@ namespace AdminCommands
 			foreach (PlayerScript player in players)
 			{
 				// SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject,
-					// player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
+				// player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
 			}
 
 			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: played the global sound: {index}.";
@@ -393,6 +400,7 @@ namespace AdminCommands
 			{
 				File.Delete(path);
 			}
+
 			ProfileMessage.SendToApplicable();
 		}
 

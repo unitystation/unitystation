@@ -954,18 +954,7 @@ namespace Blob
 
 		private void PlayAttackEffect(Vector3 worldPos)
 		{
-			var result = Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform);
-
-			if (!result.Successful) return;
-
-			StartCoroutine(DespawnEffect(result.GameObject));
-		}
-
-		private IEnumerator DespawnEffect(GameObject effect)
-		{
-			yield return WaitFor.Seconds(0.5f);
-
-			Despawn.ServerSingle(effect);
+			Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform);
 		}
 
 		#endregion

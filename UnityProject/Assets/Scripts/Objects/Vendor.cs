@@ -43,6 +43,8 @@ namespace Objects
 		[SerializeField]
 		private string noAccessMessage = "Access denied!";
 
+		private string tooExpensiveMessage = "This is too expensive!";
+
 		public bool isEmagged;
 
 		[HideInInspector]
@@ -171,6 +173,22 @@ namespace Objects
 				}
 			}
 
+			if (itemToSpawn.Price > 0)
+			{
+				var playerStorage = player.GameObject.GetComponent<ItemStorage>();
+				var idCardObj = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
+				var idCard = AccessRestrictions.GetIDCard(idCardObj);
+				if (idCard.currencies[(int) itemToSpawn.Currency] >= itemToSpawn.Price)
+				{
+					idCard.currencies[(int) itemToSpawn.Currency] -= itemToSpawn.Price;
+				}
+				else
+				{
+					Chat.AddWarningMsgFromServer(player.GameObject, tooExpensiveMessage);
+					return false;
+				}
+			}
+
 			return isSelectionValid;
 		}
 
@@ -263,12 +281,16 @@ namespace Objects
 		public string ItemName;
 		public GameObject Item;
 		public int Stock = 5;
+		public CurrencyType Currency = CurrencyType.Credits;
+		public int Price = 0;
 
 		public VendorItem(VendorItem item)
 		{
-			this.Item = item.Item;
-			this.Stock = item.Stock;
-			this.ItemName = Item.name;
+			Item = item.Item;
+			Stock = item.Stock;
+			ItemName = item.ItemName;
+			Currency = item.Currency;
+			Price = item.Price;
 		}
 	}
 }

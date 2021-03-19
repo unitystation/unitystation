@@ -174,7 +174,7 @@ namespace Objects.Atmospherics
 		{
 			if (newState)
 			{
-				registerObject.Passable = true;
+				registerObject.SetPassable(false, true);
 				// After the canister bursts, we switch appropriate scripts.
 				GetComponent<BurstCanister>().enabled = true;
 				networkTab.enabled = false;

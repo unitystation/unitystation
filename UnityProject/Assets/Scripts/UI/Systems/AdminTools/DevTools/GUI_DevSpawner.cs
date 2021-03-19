@@ -64,16 +64,17 @@ public class GUI_DevSpawner : MonoBehaviour
     {
 	    if (searchWhileTyping)
 	    {
-		    if (searchBox.text.Length >= minCharactersForSearch)
-		    {
-			    Search();
-		    }
+		    Search();
 	    }
     }
 
     public void Search()
     {
-	    //delete previous results
+	    if (searchBox.text.Length < minCharactersForSearch)
+	    {
+		    return;
+	    }
+		//delete previous results
 	    foreach (Transform child in contentPanel.transform)
 	    {
 		    Destroy(child.gameObject);

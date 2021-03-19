@@ -310,8 +310,8 @@ public partial class MatrixManager
 			}
 			foreach ( var layer in effectsToRemove )
 			{
-				i.Matrix1.TileChangeManager.RemoveOverlay( cellPos1, layer );
-				i.Matrix2.TileChangeManager.RemoveOverlay( cellPos2, layer );
+				i.Matrix1.TileChangeManager.RemoveAllOverlays( cellPos1, layer );
+				i.Matrix2.TileChangeManager.RemoveAllOverlays( cellPos2, layer );
 			}
 		}
 

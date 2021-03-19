@@ -14,7 +14,7 @@ using Objects;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI, ICheckedInteractable<ContextMenuApply>
+public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI, ICheckedInteractable<ContextMenuApply>, RegisterPlayer.IControlPlayerState
 {
 	public PlayerScript PlayerScript => playerScript;
 
@@ -151,7 +151,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-
+		playerScript.registerTile.AddStatus(this);
 		//Aren't these set up with sync vars? Why are they set like this?
 		//They don't appear to ever get synced either.
 		if (PlayerScript.IsGhost == false)
@@ -211,6 +211,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		return Vector3Int.zero;
 	}
+
+
 
 	private void ProcessAction(PlayerAction action)
 	{
@@ -273,6 +275,18 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		}
 
 		return Vector3Int.zero;
+	}
+
+	bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
+	{
+		if (BuckledObject == null)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/// <summary>
@@ -478,18 +492,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (RunSpeed < 0) RunSpeed = 0;
 		if (WalkSpeed < 0) WalkSpeed = 0;
 		if (CrawlSpeed < 0) CrawlSpeed = 0;
-	}
-
-	/// <summary>
-	/// Changes the player speed from Server. Values inputted as arguments will OVERRIDE the current speed!
-	/// </summary>
-	/// <param name="run">At what speed should the player run</param>
-	/// <param name="walk">At what speed should the player walk</param>
-	[Server]
-	public void ServerChangeSpeed(float run = 0f, float walk = 0f)
-	{
-		RunSpeed = run < CrawlSpeed ? CrawlSpeed : run;
-		WalkSpeed = walk < CrawlSpeed ? CrawlSpeed : walk;
 	}
 
 	private void SyncRunSpeed(float oldSpeed, float newSpeed)
