@@ -17,12 +17,12 @@ public class PlayerCustomisationMessage : ServerMessage<PlayerCustomisationMessa
 	{
 		if (CustomNetworkManager.Instance._isServer == false)
 		{
-			CharacterSettings characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(msg.Character);
-			LoadNetworkObject(msg.EquipmentObject);
-			if (NetworkObject != null)
-			{
-				NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(characterSettings);
-			}
+			// CharacterSettings characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(msg.Character);
+			// LoadNetworkObject(msg.EquipmentObject);
+			// if (NetworkObject != null)
+			// {
+				// NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(characterSettings);
+			// }
 		}
 	}
 
