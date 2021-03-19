@@ -24,7 +24,17 @@ namespace Items.Tool
 		private float timeToDraw = 5;
 
 		[SerializeField]
-		private GraffitiCategoriesScriptableObject graffitiLists = null;
+		[Min(0)]
+		private int charges = 30;
+
+		//Have to have two lists of the same thing due to layering issues, and cannot dynamically change SO LayerTile
+		//Due to late join client syncing as they wouldn't have that SO
+		//These two lists need to be identical in sequence, i.e. have same tile in same index but with different layerTile
+		[SerializeField]
+		private GraffitiCategoriesScriptableObject graffitiListsFloor = null;
+
+		[SerializeField]
+		private GraffitiCategoriesScriptableObject graffitiListsWalls = null;
 
 		[SerializeField]
 		private bool isCan;
@@ -32,7 +42,9 @@ namespace Items.Tool
 
 		//TODO CAP STUFF
 		private bool capRemoved;
-		private OverlayTile tileToUse;
+
+		private int categoryIndex = -1;
+		private int index = -1;
 
 		public static readonly Dictionary<Colour, Color> PickableColours = new Dictionary<Colour,Color>
 		{
@@ -70,32 +82,29 @@ namespace Items.Tool
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
+			var cellPos = MatrixManager.WorldToLocalInt(interaction.WorldPositionTarget.RoundToInt(),
+				registerItem.Matrix.MatrixInfo);
+
 			//If space cannot use
-			if (registerItem.Matrix.IsSpaceAt(interaction.WorldPositionTarget.RoundToInt(), true))
+			if (registerItem.Matrix.IsSpaceAt(cellPos, true))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on space");
 				return;
 			}
 
-			if (tileToUse == null)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need to chose a type of graffiti to {(isCan ? "spray" : "draw")} first");
-				return;
-			}
-
 			if (isCan)
 			{
-				TryCan(interaction);
+				TryCan(interaction, cellPos);
 				return;
 			}
 
-			TryCrayon(interaction);
+			TryCrayon(interaction, cellPos);
 		}
 
-		private void TryCrayon(PositionalHandApply interaction)
+		private void TryCrayon(PositionalHandApply interaction, Vector3Int cellPos)
 		{
 			//If crayon cannot use unless it is not blocked
-			if (registerItem.Matrix.IsPassableAtOneMatrixOneTile(interaction.WorldPositionTarget.RoundToInt(), true, false,
+			if (registerItem.Matrix.IsPassableAtOneMatrixOneTile(cellPos, true, false,
 				ignoreObjects: true) == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on blocked tile");
@@ -103,31 +112,31 @@ namespace Items.Tool
 			}
 
 			//Cant use crayons on walls
-			if (registerItem.Matrix.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), true))
+			if (registerItem.Matrix.IsWallAt(cellPos, true))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on a wall, try a spray can instead");
 				return;
 			}
 
-			AddOverlay(interaction);
+			AddOverlay(interaction, cellPos);
 		}
 
-		private void TryCan(PositionalHandApply interaction)
+		private void TryCan(PositionalHandApply interaction, Vector3Int cellPos)
 		{
-			var isWall = registerItem.Matrix.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), true);
+			var isWall = registerItem.Matrix.IsWallAt(cellPos, true);
 
 			//Can can only be used if it is not blocked or it is a wall
 			if (isWall == false
-			    && registerItem.Matrix.IsPassableAtOneMatrixOneTile(interaction.WorldPositionTarget.RoundToInt(), true, false) == false)
+			    && registerItem.Matrix.IsPassableAtOneMatrixOneTile(cellPos, true, false) == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on blocked tile");
 				return;
 			}
 
-			AddOverlay(interaction, isWall);
+			AddOverlay(interaction, cellPos, isWall);
 		}
 
-		private void AddOverlay(PositionalHandApply interaction, bool isWall = false)
+		private void AddOverlay(PositionalHandApply interaction, Vector3Int cellPos, bool isWall = false)
 		{
 			//Work out colour
 			Color chosenColour;
@@ -156,11 +165,16 @@ namespace Items.Tool
 				}
 			}
 
-			var cellPos = MatrixManager.WorldToLocalInt(interaction.WorldPositionTarget.RoundToInt(),
-				registerItem.Matrix.MatrixInfo);
+			var tileToUse = GetTileFromIndex(isWall);
+
+			if (tileToUse == null)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need to chose a type of graffiti to {(isCan ? "spray" : "draw")} first");
+				return;
+			}
 
 			var graffitiAlreadyOnTile = registerItem.TileChangeManager
-				.GetAllOverlayTiles(cellPos, LayerType.FloorEffects, TileChangeManager.OverlayType.Cleanable)
+				.GetAllOverlayTiles(cellPos, isWall ? LayerType.Walls : LayerType.Floors, TileChangeManager.OverlayType.Cleanable)
 				.Where(t => t.IsGraffiti).ToList();
 
 			foreach (var graffiti in graffitiAlreadyOnTile)
@@ -176,10 +190,13 @@ namespace Items.Tool
 						$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} graffiti on to the {(isWall ? "wall" : "floor")}",
 						() =>
 						{
-							registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, LayerType.FloorEffects, graffiti.OverlayName);
+							registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, isWall ? LayerType.Walls : LayerType.Floors, graffiti.OverlayName);
 							registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, color: chosenColour);
+							UseAndCheckCharges(interaction);
 						}
 					);
+
+					UseAndCheckCharges(interaction);
 
 					//Should only ever be one of the overlay
 					return;
@@ -202,8 +219,18 @@ namespace Items.Tool
 				() =>
 				{
 					registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, color: chosenColour);
+					UseAndCheckCharges(interaction);
 				}
 			);
+		}
+
+		private void UseAndCheckCharges(PositionalHandApply interaction)
+		{
+			charges--;
+			if (charges > 0) return;
+
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"There is no more of the {gameObject.ExpensiveName()} left!");
+			Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion
@@ -219,21 +246,64 @@ namespace Items.Tool
 			return true;
 		}
 
-		public void SetTileFromClient(uint categoryIndex, uint index, uint colourIndex)
+		public void SetTileFromClient(uint newCategoryIndex, uint newIndex, uint colourIndex)
 		{
-			if(graffitiLists.GraffitiTilesCategories.Count < categoryIndex) return;
-
-			var category = graffitiLists.GraffitiTilesCategories[(int)categoryIndex];
-
-			if(category.GraffitiTiles.Count < index) return;
-
-			tileToUse = category.GraffitiTiles[(int)index];
+			categoryIndex = (int)newCategoryIndex;
+			index = (int)newIndex;
 
 			if(isCan == false) return;
 
 			if(colourIndex >= Enum.GetNames(typeof(Colour)).Length) return;
 
 			setColour = (Colour)colourIndex;
+		}
+
+		//Both lists must have the same layout as this assumes indexes are the same
+		private OverlayTile GetTileFromIndex(bool isWall)
+		{
+			if (categoryIndex == -1 || index == -1)
+			{
+				return null;
+			}
+
+			//If wall get wall variant of the overlay tile
+			if (isWall)
+			{
+				if(graffitiListsWalls.GraffitiTilesCategories.Count < categoryIndex)
+				{
+					categoryIndex = -1;
+					return null;
+				}
+
+				var wallCategory = graffitiListsWalls.GraffitiTilesCategories[(int)categoryIndex];
+
+				if(wallCategory.GraffitiTiles.Count < index)
+				{
+					categoryIndex = -1;
+					index = -1;
+					return null;
+				}
+
+				return wallCategory.GraffitiTiles[index];
+			}
+
+			//Else get floor variant of the overlay tile
+			if(graffitiListsFloor.GraffitiTilesCategories.Count < categoryIndex)
+			{
+				categoryIndex = -1;
+				return null;
+			}
+
+			var floorCategory = graffitiListsFloor.GraffitiTilesCategories[(int)categoryIndex];
+
+			if (floorCategory.GraffitiTiles.Count < index)
+			{
+				categoryIndex = -1;
+				index = -1;
+				return null;
+			}
+
+			return floorCategory.GraffitiTiles[index];
 		}
 
 		#endregion

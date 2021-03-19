@@ -25,7 +25,7 @@ public partial class MatrixManager
 	public List<MatrixIntersection> TrackedIntersections => trackedIntersections;
 
 	private static LayerType[] layersToRemove = { LayerType.Effects };
-	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills};
+	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills, LayerType.Floors};
 
 	private void InitCollisions(MatrixInfo matrixInfo)
 	{

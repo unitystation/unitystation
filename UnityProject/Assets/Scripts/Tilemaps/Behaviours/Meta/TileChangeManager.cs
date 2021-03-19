@@ -214,7 +214,7 @@ public class TileChangeManager : NetworkBehaviour
 
 		RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
 
-		AddToChangeList(cellPosition, layerType, removeAll: true);
+		AddToChangeList(cellPosition, layerType);
 	}
 
 	[Server]
@@ -242,7 +242,7 @@ public class TileChangeManager : NetworkBehaviour
 
 			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
 
-			AddToChangeList(cellPosition, layerType, removeAll: true);
+			AddToChangeList(cellPosition, layerType);
 		}
 	}
 
@@ -270,7 +270,7 @@ public class TileChangeManager : NetworkBehaviour
 
 			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
 
-			AddToChangeList(cellPosition, layerType, removeAll: true);
+			AddToChangeList(cellPosition, layerType);
 		}
 	}
 

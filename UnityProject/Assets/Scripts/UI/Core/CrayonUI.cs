@@ -40,6 +40,12 @@ namespace UI.Core
 
 		private void OnEnable()
 		{
+			if (openingObject == null)
+			{
+				gameObject.SetActive(false);
+				return;
+			}
+
 			if (openingObject.TryGetComponent<CrayonSprayCan>(out var cr) && cr.IsCan == false)
 			{
 				colourDropDown.SetActive(false);
@@ -109,6 +115,12 @@ namespace UI.Core
 
 		private void OnTileSelect(int categoryIndex, int index)
 		{
+			if (openingObject == null)
+			{
+				gameObject.SetActive(false);
+				return;
+			}
+
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value);
 			gameObject.SetActive(false);
 		}
@@ -146,14 +158,9 @@ namespace UI.Core
 				return CrayonSprayCan.PickableColours[cr.SetColour];
 			}
 
-			Color colour = Color.black;
+			Color colour;
 
-			if ((CrayonSprayCan.Colour) colourDropDown.value == CrayonSprayCan.Colour.UnlimitedRainbow)
-			{
-				//any random colour
-				colour = new Color(Random.Range(0, 1), Random.Range(0, 1) , Random.Range(0, 1));
-			}
-			else if ((CrayonSprayCan.Colour)colourDropDown.value == CrayonSprayCan.Colour.NormalRainbow)
+			if ((CrayonSprayCan.Colour)colourDropDown.value == CrayonSprayCan.Colour.NormalRainbow)
 			{
 				//random from set values
 				colour = CrayonSprayCan.PickableColours.PickRandom().Value;

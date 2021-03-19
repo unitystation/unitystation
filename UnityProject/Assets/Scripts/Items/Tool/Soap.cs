@@ -68,7 +68,7 @@ public class Soap : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IE
 		var worldPos = interaction.WorldPositionTarget;
 		var checkPos = worldPos.RoundToInt();
 		var matrixInfo = MatrixManager.AtPoint(checkPos, true);
-		matrixInfo.MetaDataLayer.Clean(checkPos, checkPos, false);
+		matrixInfo.MetaDataLayer.Clean(checkPos, MatrixManager.WorldToLocalInt(checkPos, matrixInfo), false);
 		UseUpSoap();
 	}
 
@@ -84,7 +84,7 @@ public class Soap : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IE
 	public string Examine(Vector3 worldPos = default)
 	{
 		float percentageLeft = (float) uses / (float) maxUses;
-		
+
 		if (percentageLeft <= 0.15f)
 		{
 			return "There's just a tiny bit left of what it used to be, you're not sure it'll last much longer.";

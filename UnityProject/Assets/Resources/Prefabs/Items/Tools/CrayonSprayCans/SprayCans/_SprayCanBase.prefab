@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d138364514c28c94082e6a2b3b63a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: 0
+  setColour: 0
   customColour: {r: 1, g: 1, b: 1, a: 1}
   timeToDraw: 5
-  graffitiLists: {fileID: 11400000, guid: fbe8c48fc4e93c5469f9ded8984f04da, type: 2}
+  charges: 30
+  graffitiListsFloor: {fileID: 11400000, guid: fbe8c48fc4e93c5469f9ded8984f04da, type: 2}
+  graffitiListsWalls: {fileID: 11400000, guid: 6b22e9fd96237144b94ee30e9468e752, type: 2}
   isCan: 1
 --- !u!1001 &5948266683916824422
 PrefabInstance:
