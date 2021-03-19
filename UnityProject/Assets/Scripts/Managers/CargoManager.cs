@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
@@ -17,10 +18,10 @@ namespace Systems.Cargo
 		public ShuttleStatus ShuttleStatus = ShuttleStatus.DockedStation;
 		public float CurrentFlyTime = 0f;
 		public string CentcomMessage = "";  // Message that will appear in status tab. Resets on sending shuttle to centcom.
-		public List<CargoOrderCategory> Supplies = new List<CargoOrderCategory>(); // Supplies - all the stuff cargo can order
-		public CargoOrderCategory CurrentCategory;
-		public List<CargoOrder> CurrentOrders = new List<CargoOrder>(); // Orders - payed orders that will spawn in shuttle on centcom arrival
-		public List<CargoOrder> CurrentCart = new List<CargoOrder>(); // Cart - current orders, that haven't been payed for/ordered yet
+		public List<CargoCategory> Supplies = new List<CargoCategory>(); // Supplies - all the stuff cargo can order
+		public CargoCategory CurrentCategory;
+		public List<CargoOrderSO> CurrentOrders = new List<CargoOrderSO>(); // Orders - payed orders that will spawn in shuttle on centcom arrival
+		public List<CargoOrderSO> CurrentCart = new List<CargoOrderSO>(); // Cart - current orders, that haven't been payed for/ordered yet
 
 		public int cartSizeLimit = 20;
 
@@ -155,7 +156,7 @@ namespace Systems.Cargo
 		public void LoadData()
 		{
 			//need a shallow copy so the actual SO list isn't cleared on round restart!
-			Supplies = new List<CargoOrderCategory>(cargoData.Supplies);
+			Supplies = new List<CargoCategory>(cargoData.Categories);
 		}
 
 		private IEnumerator Timer(bool launchToStation)
@@ -327,7 +328,7 @@ namespace Systems.Cargo
 			}
 		}
 
-		public void AddToCart(CargoOrder orderToAdd)
+		public void AddToCart(CargoOrderSO orderToAdd)
 		{
 			if (!CustomNetworkManager.Instance._isServer)
 			{
@@ -343,7 +344,7 @@ namespace Systems.Cargo
 			OnCartUpdate?.Invoke();
 		}
 
-		public void RemoveFromCart(CargoOrder orderToRemove)
+		public void RemoveFromCart(CargoOrderSO orderToRemove)
 		{
 			if (!CustomNetworkManager.Instance._isServer)
 			{
@@ -354,7 +355,7 @@ namespace Systems.Cargo
 			OnCartUpdate?.Invoke();
 		}
 
-		public void OpenCategory(CargoOrderCategory categoryToOpen)
+		public void OpenCategory(CargoCategory categoryToOpen)
 		{
 			if (!CustomNetworkManager.Instance._isServer)
 			{
@@ -370,7 +371,7 @@ namespace Systems.Cargo
 			int totalPrice = 0;
 			for (int i = 0; i < CurrentCart.Count; i++)
 			{
-				totalPrice += CurrentCart[i].CreditsCost;
+				totalPrice += CurrentCart[i].CreditCost;
 			}
 			return (totalPrice);
 		}
@@ -419,7 +420,7 @@ namespace Systems.Cargo
 		}
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class CargoOrder
 	{
 		public string OrderName = "Crate with beer and steak";
@@ -431,10 +432,11 @@ namespace Systems.Cargo
 		public int TotalCreditExport = 0;
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class CargoOrderCategory
 	{
 		public string CategoryName = "";
+		[ReorderableList]
 		public List<CargoOrder> Supplies = new List<CargoOrder>();
 	}
 
