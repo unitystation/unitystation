@@ -87,7 +87,6 @@ public class SyndicateOpConsole : MonoBehaviour
 		{
 			timerIncrement--;
 			timer--;
-			return;
 		}
 		else
 		{
@@ -107,7 +106,7 @@ public class SyndicateOpConsole : MonoBehaviour
 		if (tcToGive < TcIncrement)
 		{
 			TcReserve += tcToGive;
-			tcToGive -= tcToGive;
+			tcToGive = 0;
 		}
 	}
 }
