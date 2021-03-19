@@ -87,8 +87,7 @@ public class Heart : BodyPart
 			return;
 		}
 
-		Heartbeat(heartStrength * TotalModified);
-
+		Heartbeat(heartStrength);
 	}
 
 

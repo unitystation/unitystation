@@ -148,8 +148,8 @@ public class Lungs : BodyPart
 			return false;
 		}
 
-		// Lungs pull in less air as their efficiency goes down
-		float effectiveLungSize = LungSize * TotalModified;
+		// TODO: Fix modifiers and add them here, they are too powerful at the moment
+		float effectiveLungSize = LungSize;
 
 		ReagentMix toInhale = new ReagentMix();
 

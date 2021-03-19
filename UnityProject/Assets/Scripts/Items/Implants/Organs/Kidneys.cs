@@ -37,6 +37,7 @@ namespace HealthV2
 			{
 				BloodContainer.CurrentReagentMix.Add(Reagents.Key, Reagents.Value);
 			}
+			//Debug.Log("Kidney: " + BloodContainer[requiredReagent]/bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix));
 		}
 	}
 }

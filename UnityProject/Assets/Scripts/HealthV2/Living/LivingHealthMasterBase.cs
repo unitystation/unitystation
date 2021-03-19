@@ -337,7 +337,6 @@ namespace HealthV2
 				fireStacksDamage();
 				CalculateRadiationDamage();
 				CalculateOverallHealth();
-
 			}
 		}
 
@@ -822,6 +821,8 @@ namespace HealthV2
 		public virtual void Death()
 		{
 			OnDeathActions();
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			//TODO: Reimplemenmt
 		}
 
