@@ -21,7 +21,10 @@ public class RequestRest : ClientMessage<RequestRest.NetMessage>
 		}
 		else
 		{
-			SentByPlayer.Script.registerTile.ServerStandUp(true, 0.3f);
+			if(SentByPlayer.Script.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
+			{
+				SentByPlayer.Script.registerTile.ServerStandUp(true, 0.3f);
+			}
 		}
 	}
 
