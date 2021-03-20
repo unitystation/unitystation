@@ -62,7 +62,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		bool hasLung = false;
 		bool hasHeart = false;
-		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart))
+		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart, false))
 		{
 			var lung = BodyPart as Lungs;
 			if (lung != null)

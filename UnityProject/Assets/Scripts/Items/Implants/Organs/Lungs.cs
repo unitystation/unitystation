@@ -116,7 +116,7 @@ public class Lungs : BodyPart
 				{
 					toExhale.Add(Reagent.Key, Reagent.Value * efficiency);
 				}
-				else if (gas == requiredGas)
+				else if (gas == requiredGas && Reagent.Value > 0)
 				{
 					float ratio;
 					if (gasMix.GetPressure(requiredGas) < pressureSafeMin)
@@ -125,7 +125,7 @@ public class Lungs : BodyPart
 					}
 					else
 					{
-						// Will still lose required gas suspended in plasma
+						// Will still lose required gas suspended in blood plasma
 						ratio = bloodType.BloodGasCapability / bloodType.BloodCapacityOf;
 					}
 					toExhale.Add(Reagent.Key, ratio * Reagent.Value * efficiency);
@@ -167,25 +167,27 @@ public class Lungs : BodyPart
 				//TODO: Add pressureSafeMax check here, for hyperoxia
 			}
 		}
+		healthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
 
 		// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
 		// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
-		if (toInhale[GAS2ReagentSingleton.Instance.GetGasToReagent(requiredGas)] >= bloodType.GetSpareGasCapacity(blood))
+		var inGas = GAS2ReagentSingleton.Instance.GetGasToReagent(requiredGas);
+		var saturation = (toInhale[inGas] + blood[inGas]) / bloodType.GetGasCapacity(blood);
+		if (saturation >= HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY)
 		{
-			healthMaster.HealthStateController.SetSuffocating(false);
 			currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
+			healthMaster.HealthStateController.SetSuffocating(false);
 		}
-		else
+		else if(saturation <= HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
 		{
 			healthMaster.HealthStateController.SetSuffocating(true);
-			if (Random.value < 0.1)
+						if (Random.value < 0.2)
 			{
 				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{healthMaster.gameObject.ExpensiveName()} gasps");
 			}
 		}
 
-		healthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
-		//Debug.Log("Gas inhaled: " + toInhale.Total);
+		//Debug.Log("Gas inhaled: " + toInhale.Total + " Saturation: " + saturation);
 		return toInhale.Total > 0;
 	}
 }
