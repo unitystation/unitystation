@@ -70,7 +70,7 @@ namespace UI.Core
 		{
 			dummyCategoryButton.SetActive(true);
 
-			for (int i = 0; i < graffitiLists.GraffitiTilesCategories.Count - 1; i++)
+			for (int i = 0; i < graffitiLists.GraffitiTilesCategories.Count; i++)
 			{
 				var newCategory = Instantiate(dummyCategoryButton, categoryContent.transform);
 
@@ -106,7 +106,7 @@ namespace UI.Core
 
 			var currentDirection = GetDirection();
 
-			for (int i = 0; i < graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles.Count - 1; i++)
+			for (int i = 0; i < graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles.Count; i++)
 			{
 				var newCategory = Instantiate(dummyButton, tileContent.transform);
 
