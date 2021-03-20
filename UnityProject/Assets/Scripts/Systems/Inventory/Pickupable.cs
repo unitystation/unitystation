@@ -217,8 +217,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	[ClientRpc]
 	private void RpcPickupAnimation(GameObject interactor)
 	{
-		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
-		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
+		PickupAnim(interactor);
 	}
 
 	[ClientRpc]
