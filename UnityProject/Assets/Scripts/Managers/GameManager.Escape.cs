@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Objects.Wallmounts;
+using Strings;
 
 /// <summary>
 /// Escape-related part of GameManager
@@ -118,7 +119,7 @@ public partial class GameManager
 			if ( status == EscapeShuttleStatus.DockedCentcom && beenToStation )
 			{
 				Logger.Log("Shuttle arrived at Centcom", Category.Round);
-				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>", MatrixManager.MainStationMatrix);
+				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>"), MatrixManager.MainStationMatrix);
 				StartCoroutine(WaitForRoundEnd());
 			}
 
@@ -133,7 +134,7 @@ public partial class GameManager
 			{
 				beenToStation = true;
 				SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleDocked);
-				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix);
+				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>"), MatrixManager.MainStationMatrix);
 				//should be changed to manual send later
 				departCoroutine = StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
 			}
@@ -141,7 +142,7 @@ public partial class GameManager
 			{
 				beenToStation = true;
 				SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleDocked);
-				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>", MatrixManager.MainStationMatrix);
+				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>"), MatrixManager.MainStationMatrix);
 			}
 		} );
 	}
