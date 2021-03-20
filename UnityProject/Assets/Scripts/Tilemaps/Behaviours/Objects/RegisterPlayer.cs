@@ -217,7 +217,15 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 	bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
 	{
-		return !IsSlippingServer;
+		if (rest)
+		{
+			return true;
+		}
+		else
+		{
+			return !IsSlippingServer;
+		}
+
 	}
 
 
