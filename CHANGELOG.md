@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/3/20: Logs can now be copied from the in-game console by just left clicking on them. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6274](https://github.com/unitystation/unitystation/pull/6274)
 * 2021/3/20: pickup animations will now play on all clients. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6267](https://github.com/unitystation/unitystation/pull/6267)
 * 2021/3/19: health  doll now works properly by [Bod9001](https://github.com/Bod9001) in PR #[6264](https://github.com/unitystation/unitystation/pull/6264)
 * 2021/3/19: added progress bar for resisting out of handcuffs by [Bod9001](https://github.com/Bod9001) in PR #[6264](https://github.com/unitystation/unitystation/pull/6264)
