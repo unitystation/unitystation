@@ -16,9 +16,9 @@ namespace HealthV2
 			base.SetUpSystems();
 			if(WhiteListReagents.Count == 0)
 			{
-				WhiteListReagents.Add(HealthMaster.CirculatorySystem.Blood);
+				WhiteListReagents.Add(bloodType);
 				WhiteListReagents.Add(requiredReagent);
-				//WhiteListReagents.Add(wasteReagent);
+				WhiteListReagents.Add(wasteReagent);
 				WhiteListReagents.Add(Nutriment);
 			}
 		}

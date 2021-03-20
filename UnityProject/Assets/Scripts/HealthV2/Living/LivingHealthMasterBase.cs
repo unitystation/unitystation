@@ -429,7 +429,7 @@ namespace HealthV2
 			float toReturn = 0;
 			foreach (var implant in ImplantList)
 			{
-				toReturn += implant.BloodContainer[CirculatorySystem.Blood];
+				toReturn += implant.BloodContainer[CirculatorySystem.BloodType];
 			}
 			return toReturn;
 		}
@@ -439,8 +439,8 @@ namespace HealthV2
 		/// </summary>
 		public float GetSpareBlood()
 		{
-			return CirculatorySystem.UsedBloodPool[CirculatorySystem.Blood]
-					+ CirculatorySystem.ReadyBloodPool[CirculatorySystem.Blood];
+			return CirculatorySystem.UsedBloodPool[CirculatorySystem.BloodType]
+					+ CirculatorySystem.ReadyBloodPool[CirculatorySystem.BloodType];
 		}
 
 		/// <summary>

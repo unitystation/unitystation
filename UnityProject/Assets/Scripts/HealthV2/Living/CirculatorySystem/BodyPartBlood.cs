@@ -137,9 +137,12 @@ namespace HealthV2
 
 			//Heal if blood saturation post consumption is fine, otherwise do damage
 			float bloodSaturation = 0;
-			if (bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix) > 0)
+			float bloodCap = bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix);
+			if (bloodCap > 0)
 			{
-				bloodSaturation = BloodContainer[requiredReagent] / bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix);
+				float foreignCap = bloodType.GetGasCapacityForeign(BloodContainer.CurrentReagentMix);
+				var ratioNativeBlood = bloodCap / (bloodCap + foreignCap);
+				bloodSaturation = BloodContainer[requiredReagent] * ratioNativeBlood / bloodCap;
 			}
 			var info = HealthMaster.CirculatorySystem.BloodInfo;
 			float damage;

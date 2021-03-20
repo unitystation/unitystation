@@ -4,20 +4,13 @@ using Chemistry;
 namespace HealthV2
 {
 	[CreateAssetMenu(fileName = "BloodType", menuName = "ScriptableObjects/Health/BloodType", order = 0)]
-	public class BloodType : ScriptableObject
+	public class BloodType : Reagent
 	{
-
-		public Chemistry.Reagent Blood;
-
 		[Tooltip("This is the reagent actually metabolised and circulated through this circulatory system.")]
-		public Chemistry.Reagent CirculatedReagent;
-		//Just one for now feel free to add the code for more if needed
+		public Chemistry.Reagent CirculatedReagent;	//Just one for now feel free to add the code for more if needed
 
-
-		[Tooltip("The color of this bloodtype.")]
-		public Color Color;
-
-		//public CirculatorySystemBase.BloodStat bloodStat;
+		// A, B, O, etc.  Don't know how alien blood types will work, but you can add anything over there.
+		public BloodTypes Type;
 
 		///<summary>
 		/// The capacity of blood for the circulated reagent, in humans for oxygen this is 0.2
@@ -31,31 +24,13 @@ namespace HealthV2
 		///</summary>
 		public float BloodGasCapability;
 
-		public float GetGasCapacity(Reagent reagent = null)
-		{
-			if (reagent == CirculatedReagent || reagent == null)
-			{
-				return BloodCapacityOf;
-			}
-			return BloodGasCapability;
-		}
-
-		public float GetGasCapacity(float availableBlood, Reagent reagent = null)
-		{
-			if (reagent == CirculatedReagent || reagent == null)
-			{
-				return availableBlood * BloodCapacityOf;
-			}
-			return availableBlood * BloodGasCapability;
-		}
-
 		public float GetGasCapacity(ReagentMix reagentMix, Reagent reagent = null)
 		{
 			if (reagent == CirculatedReagent || reagent == null)
 			{
-				return reagentMix[Blood] * BloodCapacityOf;
+				return reagentMix[this] * BloodCapacityOf;
 			}
-			return reagentMix[Blood] * BloodGasCapability;
+			return reagentMix[this] * BloodGasCapability;
 		}
 
 		public float GetSpareGasCapacity(ReagentMix reagentMix, Reagent reagent = null)
@@ -65,6 +40,33 @@ namespace HealthV2
 				return GetGasCapacity(reagentMix) - reagentMix[CirculatedReagent];
 			}
 			return GetGasCapacity(reagentMix, reagent) - reagentMix[reagent];
+		}
+
+		public float GetGasCapacityForeign(ReagentMix reagentMix, Reagent reagent = null)
+		{
+			float toReturn = 0;
+			foreach(var reagen in reagentMix)
+			{
+				var kindOfBlood = reagen.Key as BloodType;
+				if(kindOfBlood != null && kindOfBlood != this)
+				{
+					toReturn += kindOfBlood.GetGasCapacity(reagentMix, reagent);
+				}
+			}
+			return toReturn;
+		}
+		public float GetSpareGasCapacityForeign(ReagentMix reagentMix, Reagent reagent = null)
+		{
+			float toReturn = 0;
+			foreach(var reagen in reagentMix)
+			{
+				var kindOfBlood = reagen.Key as BloodType;
+				if(kindOfBlood != null && kindOfBlood != this)
+				{
+					toReturn += kindOfBlood.GetSpareGasCapacity(reagentMix, reagent);
+				}
+			}
+			return toReturn;
 		}
 	}
 }

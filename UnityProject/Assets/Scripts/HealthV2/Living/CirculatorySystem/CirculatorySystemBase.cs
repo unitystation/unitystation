@@ -16,11 +16,8 @@ namespace HealthV2
 		[Required("Must have a blood type in a circulatory system.")]
 		private BloodType bloodType = null;
 		public BloodType BloodType => bloodType;
-
 		public ReagentMix UsedBloodPool;
 		public ReagentMix ReadyBloodPool;
-
-		public Chemistry.Reagent Blood => bloodType.Blood;
 		public Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
 
 		[SerializeField]
@@ -47,7 +44,7 @@ namespace HealthV2
 		public void AddFreshBlood(ReagentMix bloodPool, float amount)
 		{
 			// Currently only does blood and required reagents, should at nutriments and other common gases
-			var bloodToAdd = new ReagentMix(Blood, amount);
+			var bloodToAdd = new ReagentMix(BloodType, amount);
 			bloodToAdd.Add(CirculatedReagent, bloodType.GetGasCapacity(bloodToAdd));
 			bloodPool.Add(bloodToAdd);
 		}

@@ -78,7 +78,7 @@ public class Lungs : BodyPart
 			return false;
 		}
 
-		if (healthMaster.CirculatorySystem.UsedBloodPool[bloodType.Blood] == 0)
+		if (healthMaster.CirculatorySystem.UsedBloodPool[bloodType] == 0)
 		{
 			return false; //No point breathing if we dont have blood.
 		}
