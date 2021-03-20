@@ -12,6 +12,7 @@ using Items;
 /// </summary>
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(ItemAttributesV2))]
+[RequireComponent(typeof(ReagentContainer))]
 public class Edible : Consumable, ICheckedInteractable<HandActivate>
 {
 	public GameObject leavings;
