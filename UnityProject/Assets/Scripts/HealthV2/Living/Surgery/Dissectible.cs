@@ -196,7 +196,7 @@ namespace HealthV2
 							}
 						}
 
-						if (currentlyOn == ONBodyPart)
+						if (currentlyOn == ONBodyPart.gameObject)
 						{
 							foreach (var Procedure in BodyPartIsOn.SurgeryProcedureBase)
 							{
@@ -215,7 +215,7 @@ namespace HealthV2
 					}
 					else
 					{
-						if (ONBodyPart == currentlyOn)
+						if (ONBodyPart.gameObject == currentlyOn)
 						{
 							foreach (var Procedure in BodyPartIsOn.SurgeryProcedureBase)
 							{

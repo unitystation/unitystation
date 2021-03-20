@@ -49,7 +49,7 @@ namespace Messages.Server.SpritesMessages
 				ProcessingData.Clear();
 				ProcessingData.AddRange(UnprocessedData);
 				UnprocessedData.Clear();
-				foreach (var UnprocessedDataSingle in UnprocessedData)
+				foreach (var UnprocessedDataSingle in ProcessingData)
 				{
 					ProcessSection(0, 0, UnprocessedDataSingle);
 				}

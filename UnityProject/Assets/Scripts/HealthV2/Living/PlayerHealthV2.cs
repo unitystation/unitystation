@@ -122,7 +122,15 @@ namespace HealthV2
 
 		bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
 		{
-			return ConsciousState == ConsciousState.CONSCIOUS;
+			if (rest)
+			{
+				return true;
+			}
+			else
+			{
+				return ConsciousState == ConsciousState.CONSCIOUS;
+			}
+
 		}
 
 		protected override void OnDeathActions()
