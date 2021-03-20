@@ -178,10 +178,10 @@ public class Lungs : BodyPart
 			currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
 			healthMaster.HealthStateController.SetSuffocating(false);
 		}
-		else if(saturation <= HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
+		else if (saturation <= HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
 		{
 			healthMaster.HealthStateController.SetSuffocating(true);
-						if (Random.value < 0.2)
+			if (Random.value < 0.2)
 			{
 				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{healthMaster.gameObject.ExpensiveName()} gasps");
 			}
