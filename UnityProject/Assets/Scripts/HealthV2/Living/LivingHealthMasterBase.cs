@@ -554,10 +554,10 @@ namespace HealthV2
 		public void ApplyDamageAll(GameObject damagedBy, float damage,
 			AttackType attackType, DamageType damageType, bool damageSplit = true)
 		{
-			float BodyParts = 0;
 			if (damageSplit)
 			{
-				BodyParts += RootBodyPartContainers.Sum(Container => Container.ContainsLimbs.Count());
+				float bodyParts = RootBodyPartContainers.Sum(Container => Container.ContainsLimbs.Count());
+				damage /= bodyParts;
 			}
 
 			foreach (var Container in RootBodyPartContainers)
@@ -568,7 +568,7 @@ namespace HealthV2
 				}
 				else
 				{
-					Container.TakeDamage(damagedBy, damage * Container.ContainsLimbs.Count, attackType, damageType, true);
+					Container.TakeDamage(damagedBy, damage, attackType, damageType, true);
 				}
 			}
 
