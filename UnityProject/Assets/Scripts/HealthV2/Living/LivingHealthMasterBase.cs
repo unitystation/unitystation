@@ -249,7 +249,7 @@ namespace HealthV2
 
 			foreach (var implant in ImplantList)
 			{
-				Debug.Log(implant.gameObject.name);
+				//Debug.Log(implant.gameObject.name);
 				implant.HealthMaster = this;
 				implant.Initialisation();
 			}
@@ -564,7 +564,7 @@ namespace HealthV2
 			{
 				if (damageSplit)
 				{
-					Container.TakeDamage(damagedBy, damage * (Container.ContainsLimbs.Count / BodyParts), attackType, damageType);
+					Container.TakeDamage(damagedBy, damage * Container.ContainsLimbs.Count, attackType, damageType);
 				}
 				else
 				{
