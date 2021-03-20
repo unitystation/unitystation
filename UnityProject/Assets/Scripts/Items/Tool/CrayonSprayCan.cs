@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace Items.Tool
 {
-	public class CrayonSprayCan : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IClientInteractable<HandActivate>, IExaminable
+	public class CrayonSprayCan : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IClientInteractable<HandActivate>, IExaminable, IServerInventoryMove
 	{
 		[FormerlySerializedAs("setColour")] [SerializeField]
 		private CrayonColour setCrayonColour = CrayonColour.White;
@@ -27,7 +27,7 @@ namespace Items.Tool
 		private float timeToDraw = 5;
 
 		[SerializeField]
-		[Min(0)]
+		[Min(-1)]
 		private int charges = 30;
 
 		//Have to have two lists of the same thing due to layering issues, and cannot dynamically change SO LayerTile
@@ -45,6 +45,9 @@ namespace Items.Tool
 
 		[SerializeField]
 		private AddressableAudioSource spraySound = null;
+
+		[SerializeField]
+		private ItemStorageCapacity crayonBoxCapacity = null;
 
 		[SyncVar(hook = nameof(SyncCapState))]
 		private bool capRemoved;
@@ -208,7 +211,7 @@ namespace Items.Tool
 						$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} graffiti on to the {(isWall ? "wall" : "floor")}",
 						() =>
 						{
-							if (charges > 0)
+							if (charges > 0 || charges == -1)
 							{
 								registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, isWall ? LayerType.Walls : LayerType.Floors, graffiti.OverlayName);
 								registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
@@ -240,7 +243,7 @@ namespace Items.Tool
 				$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} on the {(isWall ? "wall" : "floor")}",
 				() =>
 				{
-					if (charges > 0)
+					if (charges > 0 || charges == -1)
 					{
 						registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
 					}
@@ -293,14 +296,18 @@ namespace Items.Tool
 
 		private void UseAndCheckCharges(PositionalHandApply interaction)
 		{
-			charges--;
+			if (charges != -1)
+			{
+				charges--;
+			}
 
 			if (isCan)
 			{
 				SoundManager.PlayNetworkedAtPos(spraySound, interaction.Performer.WorldPosServer(), sourceObj: interaction.Performer);
 			}
 
-			if (charges > 0) return;
+			// -1 means infinite
+			if (charges > 0 || charges == -1) return;
 
 			if (isCan)
 			{
@@ -433,6 +440,32 @@ namespace Items.Tool
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
 			return $"The {gameObject.ExpensiveName()} has {charges} uses left";
+		}
+
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			if(info.ToSlot == null || info.ToSlot.ItemStorage == null) return;
+
+			if(info.ToSlot.ItemStorage.ItemStorageCapacity != crayonBoxCapacity) return;
+
+			if (isCan)
+			{
+				Chat.AddExamineMsgFromServer(info.FromPlayer.OrNull()?.gameObject, "Spray cans are not crayons!");
+				return;
+			}
+
+			if (setCrayonColour == CrayonColour.Mime)
+			{
+				Chat.AddExamineMsgFromServer(info.FromPlayer.OrNull()?.gameObject, "This crayon is too sad to be contained in this box!");
+				Inventory.ServerTransfer(info.ToSlot, info.FromSlot);
+				return;
+			}
+
+			if (setCrayonColour == CrayonColour.NormalRainbow || setCrayonColour == CrayonColour.UnlimitedRainbow)
+			{
+				Chat.AddExamineMsgFromServer(info.FromPlayer.OrNull()?.gameObject, "This crayon is too powerful to be contained in this box!");
+				Inventory.ServerTransfer(info.ToSlot, info.FromSlot);
+			}
 		}
 	}
 }
