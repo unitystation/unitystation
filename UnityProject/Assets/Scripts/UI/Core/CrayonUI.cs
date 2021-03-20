@@ -5,6 +5,7 @@ using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace UI.Core
 {
@@ -167,26 +168,34 @@ namespace UI.Core
 
 		private Color GetCurrentColour()
 		{
+			//If this is a crayon it will use the set colour server side, this only affects client UI colours
 			if (openingObject.TryGetComponent<CrayonSprayCan>(out var cr) && cr.IsCan == false)
 			{
+				if (cr.SetCrayonColour == CrayonSprayCan.CrayonColour.NormalRainbow)
+				{
+					//random from set values
+					return CrayonSprayCan.PickableColours.PickRandom().Value;
+				}
+
+				if (cr.SetCrayonColour == CrayonSprayCan.CrayonColour.UnlimitedRainbow)
+				{
+					//random from any values
+					return new Color(Random.Range(0, 1f), Random.Range(0, 1f) , Random.Range(0, 1f));
+				}
+
 				//This wont work if admin VVs, but eh
 				return CrayonSprayCan.PickableColours[cr.SetCrayonColour];
 			}
 
-			Color colour;
-
+			//However for can these values will be sent to server, so cannot do CrayonColour.UnlimitedRainbow as it expects enum
 			if ((CrayonSprayCan.CrayonColour)colourDropDown.value == CrayonSprayCan.CrayonColour.NormalRainbow)
 			{
 				//random from set values
-				colour = CrayonSprayCan.PickableColours.PickRandom().Value;
-			}
-			else
-			{
-				//chosen value
-				colour = CrayonSprayCan.PickableColours[(CrayonSprayCan.CrayonColour)colourDropDown.value];
+				return CrayonSprayCan.PickableColours.PickRandom().Value;
 			}
 
-			return colour;
+			//chosen value
+			return CrayonSprayCan.PickableColours[(CrayonSprayCan.CrayonColour)colourDropDown.value];
 		}
 
 		#endregion

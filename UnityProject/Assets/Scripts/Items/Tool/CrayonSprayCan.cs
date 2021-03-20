@@ -264,7 +264,7 @@ namespace Items.Tool
 			if (SetCrayonColour == CrayonColour.UnlimitedRainbow)
 			{
 				//any random colour
-				return new Color(Random.Range(0, 1), Random.Range(0, 1) , Random.Range(0, 1));
+				return new Color(Random.Range(0, 1f), Random.Range(0, 1f) , Random.Range(0, 1f));
 			}
 
 			if (SetCrayonColour == CrayonColour.NormalRainbow)
