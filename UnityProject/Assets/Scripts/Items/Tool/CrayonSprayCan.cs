@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using Mirror;
 using ScriptableObjects;
+using UI.Action;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Items.Tool
 {
-	public class CrayonSprayCan : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IClientInteractable<HandActivate>
+	public class CrayonSprayCan : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IClientInteractable<HandActivate>, IExaminable
 	{
-		[SerializeField]
-		private Colour setColour = Colour.White;
+		[FormerlySerializedAs("setColour")] [SerializeField]
+		private CrayonColour setCrayonColour = CrayonColour.White;
 
-		public Colour SetColour => setColour;
+		public CrayonColour SetCrayonColour => setCrayonColour;
 
 		[SerializeField]
 		[Tooltip("If this isn't white then this colour will be used instead")]
@@ -40,31 +43,57 @@ namespace Items.Tool
 		private bool isCan;
 		public bool IsCan => isCan;
 
-		//TODO CAP STUFF
+		[SerializeField]
+		private AddressableAudioSource spraySound = null;
+
+		[SyncVar(hook = nameof(SyncCapState))]
 		private bool capRemoved;
 
 		private int categoryIndex = -1;
 		private int index = -1;
+		private OrientationEnum orientation = OrientationEnum.Up;
 
-		public static readonly Dictionary<Colour, Color> PickableColours = new Dictionary<Colour,Color>
+		public static readonly Dictionary<CrayonColour, Color> PickableColours = new Dictionary<CrayonColour,Color>
 		{
-			{Colour.White, Color.white},
-			{Colour.Black, Color.black},
-			{Colour.Blue, Color.blue},
-			{Colour.Green, Color.green},
-			{Colour.Mime, Color.grey},
-			{Colour.Orange, new Color(1, 0.65f, 0)},
-			{Colour.Purple, new Color(0.6901961f, 0, 0.9490197f)},
-			{Colour.Yellow, Color.yellow},
-			{Colour.Red, Color.red}
+			{CrayonColour.White, Color.white},
+			{CrayonColour.Black, Color.black},
+			{CrayonColour.Blue, Color.blue},
+			{CrayonColour.Green, Color.green},
+			{CrayonColour.Mime, Color.grey},
+			{CrayonColour.Orange, new Color(1, 0.65f, 0)},
+			{CrayonColour.Purple, new Color(0.6901961f, 0, 0.9490197f)},
+			{CrayonColour.Yellow, Color.yellow},
+			{CrayonColour.Red, Color.red}
 		};
 
 		private RegisterItem registerItem;
+		private SpriteHandler spriteHandler;
+		private ItemActionButton itemActionButton;
+
+		#region LifeCycle
 
 		private void Awake()
 		{
 			registerItem = GetComponent<RegisterItem>();
+			itemActionButton = GetComponent<ItemActionButton>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
+
+		private void OnEnable()
+		{
+			if (itemActionButton == null) return;
+
+			itemActionButton.ServerActionClicked += ServerToggleCap;
+		}
+
+		private void OnDisable()
+		{
+			if (itemActionButton == null) return;
+
+			itemActionButton.ServerActionClicked -= ServerToggleCap;
+		}
+
+		#endregion
 
 		#region PositionalHandApply
 
@@ -92,6 +121,12 @@ namespace Items.Tool
 				return;
 			}
 
+			if (charges <= 0)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} needs refilling");
+				return;
+			}
+
 			if (isCan)
 			{
 				TryCan(interaction, cellPos);
@@ -107,7 +142,7 @@ namespace Items.Tool
 			if (registerItem.Matrix.IsPassableAtOneMatrixOneTile(cellPos, true, false,
 				ignoreObjects: true) == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on blocked tile");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on that surface");
 				return;
 			}
 
@@ -123,13 +158,19 @@ namespace Items.Tool
 
 		private void TryCan(PositionalHandApply interaction, Vector3Int cellPos)
 		{
+			if (capRemoved == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You need to remove the cap before spraying");
+				return;
+			}
+
 			var isWall = registerItem.Matrix.IsWallAt(cellPos, true);
 
 			//Can can only be used if it is not blocked or it is a wall
 			if (isWall == false
 			    && registerItem.Matrix.IsPassableAtOneMatrixOneTile(cellPos, true, false) == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on blocked tile");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on that surface");
 				return;
 			}
 
@@ -139,31 +180,8 @@ namespace Items.Tool
 		private void AddOverlay(PositionalHandApply interaction, Vector3Int cellPos, bool isWall = false)
 		{
 			//Work out colour
-			Color chosenColour;
-
-			//If custom colour set, use that instead
-			if (customColour != Color.white)
-			{
-				chosenColour = customColour;
-			}
-			else
-			{
-				if (SetColour == Colour.UnlimitedRainbow)
-				{
-					//any random colour
-					chosenColour = new Color(Random.Range(0, 1), Random.Range(0, 1) , Random.Range(0, 1));
-				}
-				else if (SetColour == Colour.NormalRainbow)
-				{
-					//random from set values
-					chosenColour = PickableColours.PickRandom().Value;
-				}
-				else
-				{
-					//chosen value
-					chosenColour = PickableColours[SetColour];
-				}
-			}
+			var chosenColour = GetColour();
+			var chosenDirection = GetDirection();
 
 			var tileToUse = GetTileFromIndex(isWall);
 
@@ -190,8 +208,12 @@ namespace Items.Tool
 						$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} graffiti on to the {(isWall ? "wall" : "floor")}",
 						() =>
 						{
-							registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, isWall ? LayerType.Walls : LayerType.Floors, graffiti.OverlayName);
-							registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, color: chosenColour);
+							if (charges > 0)
+							{
+								registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, isWall ? LayerType.Walls : LayerType.Floors, graffiti.OverlayName);
+								registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
+							}
+
 							UseAndCheckCharges(interaction);
 						}
 					);
@@ -218,16 +240,73 @@ namespace Items.Tool
 				$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} on the {(isWall ? "wall" : "floor")}",
 				() =>
 				{
-					registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, color: chosenColour);
+					if (charges > 0)
+					{
+						registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
+					}
+
 					UseAndCheckCharges(interaction);
 				}
 			);
 		}
 
+		private Color GetColour()
+		{
+			//If custom colour set, use that instead
+			if (customColour != Color.white)
+			{
+				return customColour;
+			}
+
+			if (SetCrayonColour == CrayonColour.UnlimitedRainbow)
+			{
+				//any random colour
+				return new Color(Random.Range(0, 1), Random.Range(0, 1) , Random.Range(0, 1));
+			}
+
+			if (SetCrayonColour == CrayonColour.NormalRainbow)
+			{
+				//random from set values
+				return PickableColours.PickRandom().Value;
+			}
+
+			//chosen value
+			return PickableColours[SetCrayonColour];
+		}
+
+		private Matrix4x4 GetDirection()
+		{
+			switch (orientation)
+			{
+				case OrientationEnum.Up:
+					return Matrix4x4.identity;
+				case OrientationEnum.Right:
+					return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 270f), Vector3.one);
+				case OrientationEnum.Left:
+					return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 90f), Vector3.one);
+				case OrientationEnum.Down:
+					return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 180f), Vector3.one);
+				default:
+					return Matrix4x4.identity;
+			}
+		}
+
 		private void UseAndCheckCharges(PositionalHandApply interaction)
 		{
 			charges--;
+
+			if (isCan)
+			{
+				SoundManager.PlayNetworkedAtPos(spraySound, interaction.Performer.WorldPosServer(), sourceObj: interaction.Performer);
+			}
+
 			if (charges > 0) return;
+
+			if (isCan)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} needs refilling!");
+				return;
+			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"There is no more of the {gameObject.ExpensiveName()} left!");
 			Despawn.ServerSingle(gameObject);
@@ -241,21 +320,28 @@ namespace Items.Tool
 		[Client]
 		public bool Interact(HandActivate interaction)
 		{
+			if (isCan && capRemoved == false)
+			{
+				Chat.AddExamineMsgToClient("Need to remove the cap first");
+				return false;
+			}
+
 			UIManager.Instance.CrayonUI.openingObject = gameObject;
 			UIManager.Instance.CrayonUI.SetActive(true);
 			return true;
 		}
 
-		public void SetTileFromClient(uint newCategoryIndex, uint newIndex, uint colourIndex)
+		public void SetTileFromClient(uint newCategoryIndex, uint newIndex, uint colourIndex, OrientationEnum direction)
 		{
 			categoryIndex = (int)newCategoryIndex;
 			index = (int)newIndex;
+			orientation = direction;
 
 			if(isCan == false) return;
 
-			if(colourIndex >= Enum.GetNames(typeof(Colour)).Length) return;
+			if(colourIndex >= Enum.GetNames(typeof(CrayonColour)).Length) return;
 
-			setColour = (Colour)colourIndex;
+			setCrayonColour = (CrayonColour)colourIndex;
 		}
 
 		//Both lists must have the same layout as this assumes indexes are the same
@@ -308,9 +394,28 @@ namespace Items.Tool
 
 		#endregion
 
+		#region ToggleCap
+
+		private void ServerToggleCap()
+		{
+			if (isCan == false) return;
+
+			capRemoved = !capRemoved;
+
+			spriteHandler.ChangeSprite(capRemoved ? 1 : 0);
+		}
+
+		[Client]
+		private void SyncCapState(bool oldVar, bool newVar)
+		{
+			capRemoved = newVar;
+		}
+
+		#endregion
+
 		//If new colour is added then add at the end or you'll mess up the prefabs
 		//Also add to the colours dictionary at the top of this script
-		public enum Colour
+		public enum CrayonColour
 		{
 			White,
 			Black,
@@ -323,6 +428,11 @@ namespace Items.Tool
 			Red,
 			NormalRainbow,
 			UnlimitedRainbow
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return $"The {gameObject.ExpensiveName()} has {charges} uses left";
 		}
 	}
 }

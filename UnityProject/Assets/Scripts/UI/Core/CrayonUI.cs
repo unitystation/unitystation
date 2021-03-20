@@ -4,9 +4,7 @@ using Items.Tool;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace UI.Core
 {
@@ -28,14 +26,22 @@ namespace UI.Core
 		private TMP_Dropdown colourDropDown = null;
 
 		[SerializeField]
+		private TMP_Dropdown directionDropDown = null;
+
+		[SerializeField]
 		private GraffitiCategoriesScriptableObject graffitiLists = null;
 
 		[HideInInspector]
 		public GameObject openingObject = null;
 
+		private int categoryIndex = -1;
+		private int index = -1;
+
 		private void Awake()
 		{
 			SetUpColour();
+
+			SetUpDirection();
 		}
 
 		private void OnEnable()
@@ -70,7 +76,8 @@ namespace UI.Core
 
 				var i1 = i;
 				newCategory.GetComponent<Button>().onClick.AddListener(() => OnClickCategory(i1));
-				newCategory.GetComponentInChildren<TMP_Text>().text = graffitiLists.GraffitiTilesCategories[i].name;
+				var categoryName = graffitiLists.GraffitiTilesCategories[i].name;
+				newCategory.GetComponentInChildren<TMP_Text>().text = categoryName.Replace("FloorGraffiti", "");
 			}
 
 			dummyCategoryButton.SetActive(false);
@@ -97,6 +104,8 @@ namespace UI.Core
 		{
 			dummyButton.SetActive(true);
 
+			var currentDirection = GetDirection();
+
 			for (int i = 0; i < graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles.Count - 1; i++)
 			{
 				var newCategory = Instantiate(dummyButton, tileContent.transform);
@@ -105,15 +114,16 @@ namespace UI.Core
 				newCategory.GetComponent<Button>().onClick.AddListener(() => OnTileSelect(categoryIndex, i1));
 				newCategory.GetComponent<Image>().sprite = graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles[i].PreviewSprite;
 				newCategory.GetComponent<Image>().color = GetCurrentColour();
+				newCategory.transform.rotation = currentDirection;
 
 				var overlayName = graffitiLists.GraffitiTilesCategories[categoryIndex].GraffitiTiles[i].name;
-				newCategory.GetComponentInChildren<TMP_Text>().text = overlayName.Replace("Graffiti", "");;
+				newCategory.GetComponentInChildren<TMP_Text>().text = overlayName.Replace("Graffiti", "");
 			}
 
 			dummyButton.SetActive(false);
 		}
 
-		private void OnTileSelect(int categoryIndex, int index)
+		private void OnTileSelect(int newCategoryIndex, int newIndex)
 		{
 			if (openingObject == null)
 			{
@@ -121,7 +131,10 @@ namespace UI.Core
 				return;
 			}
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value);
+			categoryIndex = newCategoryIndex;
+			index = newIndex;
+
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value, (OrientationEnum)directionDropDown.value);
 			gameObject.SetActive(false);
 		}
 
@@ -132,9 +145,9 @@ namespace UI.Core
 		private void SetUpColour()
 		{
 			var optionsData = new List<TMP_Dropdown.OptionData>();
-			foreach (var colourName in Enum.GetNames(typeof(CrayonSprayCan.Colour)))
+			foreach (var colourName in Enum.GetNames(typeof(CrayonSprayCan.CrayonColour)))
 			{
-				if(colourName == CrayonSprayCan.Colour.UnlimitedRainbow.ToString()) continue;
+				if(colourName == CrayonSprayCan.CrayonColour.UnlimitedRainbow.ToString()) continue;
 
 				optionsData.Add(new TMP_Dropdown.OptionData(colourName));
 			}
@@ -148,6 +161,8 @@ namespace UI.Core
 			{
 				child.GetComponent<Image>().color = GetCurrentColour();
 			}
+
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value, (OrientationEnum)directionDropDown.value);
 		}
 
 		private Color GetCurrentColour()
@@ -155,12 +170,12 @@ namespace UI.Core
 			if (openingObject.TryGetComponent<CrayonSprayCan>(out var cr) && cr.IsCan == false)
 			{
 				//This wont work if admin VVs, but eh
-				return CrayonSprayCan.PickableColours[cr.SetColour];
+				return CrayonSprayCan.PickableColours[cr.SetCrayonColour];
 			}
 
 			Color colour;
 
-			if ((CrayonSprayCan.Colour)colourDropDown.value == CrayonSprayCan.Colour.NormalRainbow)
+			if ((CrayonSprayCan.CrayonColour)colourDropDown.value == CrayonSprayCan.CrayonColour.NormalRainbow)
 			{
 				//random from set values
 				colour = CrayonSprayCan.PickableColours.PickRandom().Value;
@@ -168,10 +183,64 @@ namespace UI.Core
 			else
 			{
 				//chosen value
-				colour = CrayonSprayCan.PickableColours[(CrayonSprayCan.Colour)colourDropDown.value];
+				colour = CrayonSprayCan.PickableColours[(CrayonSprayCan.CrayonColour)colourDropDown.value];
 			}
 
 			return colour;
+		}
+
+		#endregion
+
+		#region Direction
+
+		private void SetUpDirection()
+		{
+			var optionsData = new List<TMP_Dropdown.OptionData>();
+
+			foreach (var orientation in Enum.GetNames(typeof(OrientationEnum)))
+			{
+				optionsData.Add(new TMP_Dropdown.OptionData(orientation));
+			}
+
+			directionDropDown.options = optionsData;
+
+			//Make up default direction
+			directionDropDown.value = 1;
+		}
+
+		public void OnDirectionChange()
+		{
+			if (openingObject == null)
+			{
+				gameObject.SetActive(false);
+				return;
+			}
+
+			var currentDirection = GetDirection();
+
+			foreach (Transform child in tileContent.transform)
+			{
+				child.rotation = currentDirection;
+			}
+
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value, (OrientationEnum)directionDropDown.value);
+		}
+
+		private Quaternion GetDirection()
+		{
+			switch ((OrientationEnum)directionDropDown.value)
+			{
+				case OrientationEnum.Up:
+					return Quaternion.Euler(0f, 0f, 0);
+				case OrientationEnum.Right:
+					return Quaternion.Euler(0f, 0f, 270f);
+				case OrientationEnum.Left:
+					return Quaternion.Euler(0f, 0f, 90f);
+				case OrientationEnum.Down:
+					return Quaternion.Euler(0f, 0f, 180f);
+				default:
+					return Quaternion.Euler(0f, 0f, 0);
+			}
 		}
 
 		#endregion
