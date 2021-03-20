@@ -219,7 +219,7 @@ public class TileChangeManager : NetworkBehaviour
 
 	[Server]
 	public void RemoveOverlaysOfType(Vector3Int cellPosition, LayerType layerType,
-		OverlayType overlayType, bool onlyIfCleanable = false, TileType tileType = TileType.Effects)
+		OverlayType overlayType, bool onlyIfCleanable = false)
 	{
 		cellPosition.z = 0;
 
@@ -247,7 +247,7 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void RemoveAllOverlays(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false, TileType tileType = TileType.Effects)
+	public void RemoveAllOverlays(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
 	{
 		cellPosition.z = 0;
 
@@ -272,6 +272,13 @@ public class TileChangeManager : NetworkBehaviour
 
 			AddToChangeList(cellPosition, layerType);
 		}
+	}
+
+	[Server]
+	public void RemoveFloorWallOverlaysOfType(Vector3Int cellPosition, OverlayType overlayType, bool onlyIfCleanable = false)
+	{
+		RemoveOverlaysOfType(cellPosition, LayerType.Floors, overlayType, onlyIfCleanable);
+		RemoveOverlaysOfType(cellPosition, LayerType.Walls, overlayType, onlyIfCleanable);
 	}
 
 	[Server]
