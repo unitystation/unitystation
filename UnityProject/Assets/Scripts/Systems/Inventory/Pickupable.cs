@@ -161,15 +161,13 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		var ps = interaction.Performer.GetComponent<PlayerScript>();
 		var extendedRangeOnly = !ps.IsRegisterTileReachable(cnt.RegisterTile, true);
 
-		//Start the animation on all clients.
-		StartCoroutine(PickupAnim(interaction.Performer.gameObject));
-
-		//Start the animation on the server.
-		LeanTween.move(gameObject, interaction.Performer.transform, pickupAnimSpeed);
-		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
+		//Start the animation on the server and clients.
+		PickupAnim(interaction.Performer.gameObject);
+		RpcPickupAnimation(interaction.Performer.gameObject);
 		yield return WaitFor.Seconds(pickupAnimSpeed);
 
 		//Make sure that the object is scaled back to it's original size.
+		RpcResetPickupAnim();
 		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
 
 		//if it's in extended range only, then we will nudge it if it is stationary
@@ -210,11 +208,10 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
-	private IEnumerator PickupAnim(GameObject interactor)
+	private void PickupAnim(GameObject interactor)
 	{
-		RpcPickupAnimation(interactor);
-		yield return WaitFor.Seconds(pickupAnimSpeed);
-		RpcResetPickupAnim();
+		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
+		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
 	}
 
 	[ClientRpc]
