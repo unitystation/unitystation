@@ -60,8 +60,7 @@ namespace Lobby
 
 		public CharacterDir currentDir;
 
-		public List<Color> SkinColors;
-		private List<Color> availableSkinColors;
+		[SerializeField] private List<Color> availableSkinColors;
 		private CharacterSettings currentCharacter;
 
 		public ColorPicker colorPicker;
@@ -95,11 +94,6 @@ namespace Lobby
 
 		public InputField SerialiseData;
 
-		private void Start()
-		{
-			//Fixes an issue where skin colors are no longer avaliable after the game loads.
-			availableSkinColors = SkinColors;
-		}
 
 		void OnEnable()
 		{
@@ -202,7 +196,7 @@ namespace Lobby
 			AvailableBodyTypes = SetRace.Base.bodyTypeSettings.AvailableBodyTypes;
 			ThisSetRace = SetRace;
 
-			availableSkinColors = SetRace.Base.SkinColours;
+			//availableSkinColors = SetRace.Base.SkinColours; //this is empty and breaks character customization.
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
 			DoInitChecks();
