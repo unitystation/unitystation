@@ -94,6 +94,8 @@ namespace Lobby
 
 		public InputField SerialiseData;
 
+		private BodyPartColourSprite eyeDropdown;
+
 
 		void OnEnable()
 		{
@@ -254,6 +256,7 @@ namespace Lobby
 				var newSprite = Instantiate(bodyPart.LobbyCustomisation, ScrollListBody.transform);
 				newSprite.SetUp(this, bodyPart, ""); //Update path
 				OpenBodyCustomisation[bodyPart.name] = (newSprite);
+				eyeDropdown = newSprite.GetComponent<BodyPartColourSprite>();
 			}
 
 			if (bodyPart.OptionalOrgans.Count > 0)
@@ -462,6 +465,8 @@ namespace Lobby
 			// facialHairDropdown.value = UnityEngine.Random.Range(0, facialHairDropdown.options.Count - 1);
 			// underwearDropdown.value = UnityEngine.Random.Range(0, underwearDropdown.options.Count - 1);
 			// socksDropdown.value = UnityEngine.Random.Range(0, socksDropdown.options.Count - 1);
+
+			//Randomises player name and age.
 			switch (currentCharacter.BodyType)
 			{
 				case BodyType.Male:
@@ -474,13 +479,20 @@ namespace Lobby
 					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names?
 					break;																	//for now it will pick from both the male and female name pools
 			}
-			// Randomise rest of data
-			// currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			// currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-
-			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
+			// Randomise rest of data
+			// currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+
+			//Randomises character skin tones from a select list of colors.
+			//(Max): Do not use Bod's Race SkinTones list as they break character randomisation.
+			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
+
+			//Randomises eye colors.
+			eyeDropdown.BodyPartColour = UnityEngine.Random.ColorHSV();
+			eyeDropdown.RequestColourPicker();
+
+			//Refresh the player character's sprites so they can see their new changes.
 			RefreshAll();
 		}
 
