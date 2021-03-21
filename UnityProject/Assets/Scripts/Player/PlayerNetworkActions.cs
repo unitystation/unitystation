@@ -14,6 +14,7 @@ using Systems.Atmospherics;
 using HealthV2;
 using Items.Tool;
 using Messages.Server;
+using UI.Systems.AdminTools.DevTools;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -779,6 +780,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//admin only commands
 
 	#region Admin
+	//Use this if commands can only be used when in game not in lobby
+	//If you want to allow commands to be used in lobby use AdminCommandManager
 
 	[Command]
 	public void CmdAGhost(string adminId, string adminToken)
@@ -844,6 +847,56 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdGetAdminOverlayFullUpdate(string adminId, string adminToken)
 	{
 		AdminOverlay.RequestFullUpdate(adminId, adminToken);
+	}
+
+	[Command]
+	public void CmdPlaceTile(string adminId, string adminToken, int categoryIndex, int tileIndex, Vector3Int worldPosition, int matrixId)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		//TODO place tile
+	}
+
+	[Command]
+	public void CmdRemoveTile(string adminId, string adminToken, Vector3 worldPosition, int matrixId, LayerType layerType)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		//TODO remove tile
+	}
+
+	[Command]
+	public void CmdAskForMatrixIds(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		var matrixIds = new int[MatrixManager.Instance.ActiveMatrices.Count];
+		var matrixNames = new string[MatrixManager.Instance.ActiveMatrices.Count];
+
+		for (int i = 0; i < MatrixManager.Instance.ActiveMatrices.Count; i++)
+		{
+			matrixIds[i] = MatrixManager.Instance.ActiveMatrices[i].Id;
+			matrixNames[i] = MatrixManager.Instance.ActiveMatrices[i].Name;
+		}
+
+		TargetRpcSendMatrixIds(connectionToClient, matrixIds, matrixNames);
+	}
+
+	[TargetRpc]
+	private void TargetRpcSendMatrixIds(NetworkConnection connection, int[] ids, string[] names)
+	{
+		var matrixIds = new SortedDictionary<int, string>();
+
+		for (int i = 0; i < ids.Length; i++)
+		{
+			matrixIds.Add(ids[i], names[i]);
+		}
+
+		UIManager.Instance.TileChanger.MatrixIds = matrixIds;
+		UIManager.Instance.TileChanger.SetUpMatrix();
 	}
 
 	#endregion

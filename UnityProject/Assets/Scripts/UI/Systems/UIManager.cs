@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UI.Core.Windows;
+using UI.Systems.AdminTools.DevTools;
 using UI.Windows;
 
 public class UIManager : MonoBehaviour, IInitialise
@@ -59,6 +60,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public SurgeryDialogue SurgeryDialogue;
 
 	public CrayonUI CrayonUI;
+	public GUI_DevTileChanger TileChanger;
 
 	public static bool PreventChatInput
 	{
