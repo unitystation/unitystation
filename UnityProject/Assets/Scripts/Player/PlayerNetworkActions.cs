@@ -858,10 +858,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var matrixInfo = MatrixManager.Get(matrixId);
 		if(matrixInfo == null) return;
 
-		var tiles = TileCategorySO.Instance.TileCategories[categoryIndex].Tiles;
-		tiles.AddRange(TileCategorySO.Instance.TileCategories[categoryIndex].CommonTiles);
-
-		var tile = tiles[tileIndex] as LayerTile;
+		var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex] as LayerTile;
 
 		//TODO electrical/pipe
 		if (tile != null)

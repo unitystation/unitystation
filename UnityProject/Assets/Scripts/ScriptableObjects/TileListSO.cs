@@ -18,12 +18,13 @@ namespace ScriptableObjects
 		[SerializeField]
 		[Tooltip("The most used tiles of this type")]
 		private List<GenericTile> commonTileList = new List<GenericTile>();
-		public List<GenericTile> CommonTiles => commonTileList;
 
 		[SerializeField]
 		[Tooltip("Other tiles of this type")]
 		private List<GenericTile> tileList = new List<GenericTile>();
-		public List<GenericTile> Tiles => tileList;
+
+		private List<GenericTile> combinedTileList = new List<GenericTile>();
+		public List<GenericTile> CombinedTileList => combinedTileList;
 
 		private void OnValidate()
 		{
@@ -33,6 +34,14 @@ namespace ScriptableObjects
 				{
 					tileList.Remove(value);
 				}
+			}
+
+			combinedTileList = commonTileList;
+			combinedTileList.AddRange(tileList);
+
+			if (combinedTileList.Count > commonTileList.Count + tileList.Count)
+			{
+				Debug.LogError("That shouldnt happen...");
 			}
 		}
 	}

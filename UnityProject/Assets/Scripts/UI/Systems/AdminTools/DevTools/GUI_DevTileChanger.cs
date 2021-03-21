@@ -44,7 +44,6 @@ namespace UI.Systems.AdminTools.DevTools
 		private int matrixIndex = 0;
 
 		private Image selectedButton;
-		private bool clickedUI;
 
 		private ActionType currentAction = ActionType.None;
 
@@ -88,13 +87,6 @@ namespace UI.Systems.AdminTools.DevTools
 				InputUnfocus();
 			}
 
-			//Dont place tile if we clicked a UI button this frame
-			if (clickedUI)
-			{
-				clickedUI = false;
-				return;
-			}
-
 			OnClick();
 		}
 
@@ -116,12 +108,6 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void SetUpCategories()
 		{
-			//Clean up old tiles
-			foreach (Transform child in tileContentPanel.transform)
-			{
-				Destroy(child.gameObject);
-			}
-
 			categoryButtonPrefab.SetActive(true);
 
 			for (int i = 0; i < TileCategorySO.Instance.TileCategories.Count; i++)
@@ -143,8 +129,6 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void OnClickCategory(int index)
 		{
-			clickedUI = true;
-
 			//Clean old ones out
 			foreach (Transform child in tileContentPanel.transform)
 			{
@@ -161,19 +145,22 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void LoadTiles(int categoryIndex)
 		{
+			//Clean up old tiles
+			foreach (Transform child in tileContentPanel.transform)
+			{
+				Destroy(child.gameObject);
+			}
+
 			tileButtonPrefab.SetActive(true);
 
-			var tiles = TileCategorySO.Instance.TileCategories[categoryIndex].CommonTiles;
-			tiles.AddRange(TileCategorySO.Instance.TileCategories[categoryIndex].Tiles);
-
-			for (int i = 0; i < tiles.Count; i++)
+			for (int i = 0; i < TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList.Count; i++)
 			{
 				var newTile = Instantiate(tileButtonPrefab, tileContentPanel.transform);
 
 				var i1 = i;
 				newTile.GetComponent<Button>().onClick.AddListener(() => OnTileSelect(categoryIndex, i1, newTile));
-				newTile.GetComponentInChildren<Image>().sprite = tiles[i].PreviewSprite;
-				newTile.GetComponentInChildren<TMP_Text>().text = tiles[i].name;
+				newTile.GetComponentInChildren<Image>().sprite = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[i].PreviewSprite;
+				newTile.GetComponentInChildren<TMP_Text>().text = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[i].name;
 			}
 
 			tileButtonPrefab.SetActive(false);
@@ -181,7 +168,6 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void OnTileSelect(int newCategoryIndex, int newIndex, GameObject button)
 		{
-			clickedUI = true;
 			categoryIndex = newCategoryIndex;
 			tileIndex = newIndex;
 
@@ -224,8 +210,6 @@ namespace UI.Systems.AdminTools.DevTools
 
 		public void OnActionButtonClick(int buttonType)
 		{
-			clickedUI = true;
-
 			currentAction = (ActionType) buttonType;
 
 			modeText.text = currentAction.ToString();
@@ -239,6 +223,14 @@ namespace UI.Systems.AdminTools.DevTools
 		private void OnClick()
 		{
 			if(currentAction == ActionType.None) return;
+
+			//Right click to stop placing
+			if (Input.GetMouseButtonDown(1))
+			{
+				currentAction = ActionType.None;
+				modeText.text = currentAction.ToString();
+				return;
+			}
 
 			//Clicking once
 			if (Input.GetMouseButtonDown(0))
