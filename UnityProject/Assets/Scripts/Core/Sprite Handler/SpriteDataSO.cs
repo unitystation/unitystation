@@ -34,8 +34,7 @@ public class SpriteDataSO : ScriptableObject
 			{
 				if (SpriteCatalogue.Instance == null)
 				{
-					Logger.LogError("No SpriteCatalogue found, this could happen if the file doesnt exist anywhere!");
-					return;
+					Resources.LoadAll<SpriteCatalogue>("ScriptableObjects/SOs singletons");
 				}
 
 				if (!SpriteCatalogue.Instance.Catalogue.Contains(this))
@@ -56,8 +55,7 @@ public class SpriteDataSO : ScriptableObject
 		{
 			if (SpriteCatalogue.Instance == null)
 			{
-				Logger.LogError("No SpriteCatalogue found, this could happen if the file doesnt exist anywhere!");
-				return;
+				Resources.LoadAll<SpriteCatalogue>("ScriptableObjects/SOs singletons");
 			}
 
 			if (!SpriteCatalogue.Instance.Catalogue.Contains(this))
