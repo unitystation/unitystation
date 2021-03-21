@@ -97,9 +97,7 @@ namespace Lobby
 		private BodyPartSpriteAndColour facialHairList;
 		private BodyPartSpriteAndColour hairList;
 		private BodyPartColourSprite eyeDropdown;
-		private CustomisationSubPart socksList;
-		private CustomisationSubPart undershirtList;
-		private CustomisationSubPart underwearList;
+		private CustomisationSubPart socksList, undershirtList, underwearList;
 
 
 		void OnEnable()
@@ -247,16 +245,16 @@ namespace Lobby
 		}
 
 
-		public void SetUpBodyPart(BodyPart bodyPart, bool addOrganReplacement = true)
+		public void SetUpBodyPart(BodyPart Body_Part, bool addOrganReplacement = true)
 		{
 			//bodyPart.LimbSpriteData;
 
 			//OpenBodyCustomisation[bodyPart.name] = new List<GameObject>();
-			ParentDictionary[bodyPart] = new List<BodyPart>();
+			ParentDictionary[Body_Part] = new List<BodyPart>();
 
 			//
-			SetupBodyPartsSprites(bodyPart);
-			if (bodyPart.LobbyCustomisation != null)
+			SetupBodyPartsSprites(Body_Part);
+			if (Body_Part.LobbyCustomisation != null)
 			{
 				var newSprite = Instantiate(Body_Part.LobbyCustomisation, ScrollListBody.transform);
 				newSprite.SetUp(this, Body_Part, ""); //Update path
@@ -264,32 +262,32 @@ namespace Lobby
 				eyeDropdown = newSprite.GetComponent<BodyPartColourSprite>();
 			}
 
-			if (bodyPart.OptionalOrgans.Count > 0)
+			if (Body_Part.OptionalOrgans.Count > 0)
 			{
 				var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
-				Option.SetUp(this, bodyPart, "");
-				OpenBodyCustomisation[bodyPart.name] = (Option);
+				Option.SetUp(this, Body_Part, "");
+				OpenBodyCustomisation[Body_Part.name] = (Option);
 			}
 
 			if (addOrganReplacement)
 			{
-				if (bodyPart.OptionalReplacementOrgan.Count > 0)
+				if (Body_Part.OptionalReplacementOrgan.Count > 0)
 				{
 					var Option = Instantiate(ReplacementOrgan, ScrollListBody.transform);
-					Option.SetUp(this, bodyPart, "");
-					OpenBodyCustomisation[bodyPart.name] = (Option);
+					Option.SetUp(this, Body_Part, "");
+					OpenBodyCustomisation[Body_Part.name] = (Option);
 				}
 			}
 
 
 			//Setup sprite//
 			//OpenBodySprites
-			if (bodyPart?.Storage?.Populater?.Contents != null)
+			if (Body_Part?.Storage?.Populater?.Contents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				foreach (var Organ in Body_Part.Storage.Populater.Contents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
-					ParentDictionary[bodyPart].Add(subBodyPart);
+					ParentDictionary[Body_Part].Add(subBodyPart);
 					SetUpBodyPart(subBodyPart);
 				}
 			}
@@ -552,13 +550,33 @@ namespace Lobby
 		//------------------
 		private void PopulateAllDropdowns(PlayerHealthData Race)
 		{
+			//Checks what customisation settings the player's race has avaliable
+			//Then spawns customisation dropdowns for cloth and other stuff.
 			foreach (var customisation in Race.Base.CustomisationSettings)
 			{
-				//customisationSubPart
 				var Customisation = Instantiate(customisationSubPart, ScrollList.transform);
 				OpenCustomisation.Add(Customisation);
 				Customisation.Setup(customisation.CustomisationGroup, this,
 					customisation.CustomisationGroup.SpriteOrder);
+
+				//Makes sure the dropdowns for socks, underwear and undershirts are referenced for Character randomization.
+				getClothDropdown(Customisation);
+			}
+		}
+
+		private void getClothDropdown(CustomisationSubPart Customisation)
+		{
+			if (Customisation.ThisType == global::CustomisationType.Socks)
+			{
+				socksList = Customisation;
+			}
+			if(Customisation.ThisType == global::CustomisationType.Undershirt)
+			{
+				undershirtList = Customisation;
+			}
+			if(Customisation.ThisType == global::CustomisationType.Underwear)
+			{
+				underwearList = Customisation;
 			}
 		}
 
