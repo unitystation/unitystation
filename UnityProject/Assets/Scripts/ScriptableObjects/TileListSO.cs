@@ -11,6 +11,11 @@ namespace ScriptableObjects
 	public class TileListSO : ScriptableObject
 	{
 		[SerializeField]
+		[Tooltip("The layertype these tiles use, this is used to determine removal")]
+		private LayerType layerType = LayerType.Base;
+		public LayerType LayerType => layerType;
+
+		[SerializeField]
 		[Tooltip("The most used tiles of this type")]
 		private List<GenericTile> commonTileList = new List<GenericTile>();
 		public List<GenericTile> CommonTiles => commonTileList;

@@ -32,10 +32,10 @@ namespace UI.Systems.AdminTools.DevTools
 		private int minCharactersForSearch = 3;
 
 		[SerializeField]
-		private TileCategorySO tileCategoryList = null;
+		private TMP_Dropdown matrixDropdown = null;
 
 		[SerializeField]
-		private TMP_Dropdown matrixDropdown = null;
+		private TMP_Text modeText= null;
 
 		private bool isFocused;
 		private int lastCategory = 0;
@@ -44,6 +44,9 @@ namespace UI.Systems.AdminTools.DevTools
 		private int matrixIndex = 0;
 
 		private Image selectedButton;
+		private bool clickedUI;
+
+		private ActionType currentAction = ActionType.None;
 
 		public SortedDictionary<int, string> MatrixIds = new SortedDictionary<int, string>();
 
@@ -51,6 +54,10 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			//request matrix ids
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAskForMatrixIds(ServerData.UserID, PlayerList.Instance.AdminToken);
+
+			SetUpCategories();
+
+			modeText.text = currentAction.ToString();
 		}
 
 		private void OnDisable()
@@ -70,7 +77,7 @@ namespace UI.Systems.AdminTools.DevTools
 		/// <summary>
 		/// There is no event for focusing input, so we must check for it manually in Update
 		/// </summary>
-		void Update()
+		void LateUpdate()
 		{
 			if (tileSearchBox.isFocused && isFocused == false)
 			{
@@ -80,6 +87,15 @@ namespace UI.Systems.AdminTools.DevTools
 			{
 				InputUnfocus();
 			}
+
+			//Dont place tile if we clicked a UI button this frame
+			if (clickedUI)
+			{
+				clickedUI = false;
+				return;
+			}
+
+			OnClick();
 		}
 
 		private void InputFocus()
@@ -100,31 +116,42 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void SetUpCategories()
 		{
+			//Clean up old tiles
+			foreach (Transform child in tileContentPanel.transform)
+			{
+				Destroy(child.gameObject);
+			}
+
 			categoryButtonPrefab.SetActive(true);
 
-			for (int i = 0; i < tileCategoryList.TileCategories.Count; i++)
+			for (int i = 0; i < TileCategorySO.Instance.TileCategories.Count; i++)
 			{
 				var newCategory = Instantiate(categoryButtonPrefab, categoryContentPanel.transform);
 
 				var i1 = i;
 				newCategory.GetComponent<Button>().onClick.AddListener(() => OnClickCategory(i1));
-				var categoryName = tileCategoryList.TileCategories[i].name;
+				var categoryName = TileCategorySO.Instance.TileCategories[i].name;
 				newCategory.GetComponentInChildren<TMP_Text>().text = categoryName.Replace("TileList", "");
 			}
 
 			categoryButtonPrefab.SetActive(false);
+			categoryIndex = lastCategory;
+			tileIndex = -1;
 
 			LoadTiles(lastCategory);
 		}
 
 		private void OnClickCategory(int index)
 		{
+			clickedUI = true;
+
 			//Clean old ones out
 			foreach (Transform child in tileContentPanel.transform)
 			{
 				GameObject.Destroy(child.gameObject);
 			}
 
+			categoryIndex = index;
 			LoadTiles(index);
 		}
 
@@ -136,8 +163,8 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			tileButtonPrefab.SetActive(true);
 
-			var tiles = tileCategoryList.TileCategories[categoryIndex].CommonTiles;
-			tiles.AddRange(tileCategoryList.TileCategories[categoryIndex].Tiles);
+			var tiles = TileCategorySO.Instance.TileCategories[categoryIndex].CommonTiles;
+			tiles.AddRange(TileCategorySO.Instance.TileCategories[categoryIndex].Tiles);
 
 			for (int i = 0; i < tiles.Count; i++)
 			{
@@ -145,7 +172,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 				var i1 = i;
 				newTile.GetComponent<Button>().onClick.AddListener(() => OnTileSelect(categoryIndex, i1, newTile));
-				newTile.GetComponent<Image>().sprite = tiles[i].PreviewSprite;
+				newTile.GetComponentInChildren<Image>().sprite = tiles[i].PreviewSprite;
 				newTile.GetComponentInChildren<TMP_Text>().text = tiles[i].name;
 			}
 
@@ -154,6 +181,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void OnTileSelect(int newCategoryIndex, int newIndex, GameObject button)
 		{
+			clickedUI = true;
 			categoryIndex = newCategoryIndex;
 			tileIndex = newIndex;
 
@@ -163,7 +191,7 @@ namespace UI.Systems.AdminTools.DevTools
 				selectedButton.color = Color.white;
 			}
 
-			selectedButton = button.GetComponent<Image>();
+			selectedButton = button.GetComponentInChildren<Image>();
 			selectedButton.color = Color.green;
 		}
 
@@ -184,10 +212,54 @@ namespace UI.Systems.AdminTools.DevTools
 			matrixDropdown.value = matrixIndex;
 		}
 
-		private void OnMatrixChange(int index)
+		public void OnMatrixChange(int index)
 		{
 			//Sorted dictionary so it should be correct to get index from this dropdown directly
 			matrixIndex = index;
+		}
+
+		#endregion
+
+		#region ActionButtons
+
+		public void OnActionButtonClick(int buttonType)
+		{
+			clickedUI = true;
+
+			currentAction = (ActionType) buttonType;
+
+			modeText.text = currentAction.ToString();
+		}
+
+
+		#endregion
+
+		#region Clicking
+
+		private void OnClick()
+		{
+			if(currentAction == ActionType.None) return;
+
+			//Clicking once
+			if (Input.GetMouseButtonDown(0))
+			{
+				switch (currentAction)
+				{
+					case ActionType.Place:
+						//Also remove if shift is pressed when placing for quick remove
+						if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+						{
+							RemoveTile();
+							return;
+						}
+
+						PlaceTile();
+						return;
+					case ActionType.Remove:
+						RemoveTile();
+						return;
+				}
+			}
 		}
 
 		#endregion
@@ -196,8 +268,27 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			if(categoryIndex == -1 || tileIndex == -1) return;
 
+			//TODO detect wires and do custom add instead?
+
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceTile(ServerData.UserID,
 				PlayerList.Instance.AdminToken, categoryIndex, tileIndex, MouseInputController.MouseWorldPosition.RoundToInt(), matrixIndex);
+		}
+
+		private void RemoveTile()
+		{
+			if(categoryIndex == -1) return;
+
+			var layerType = TileCategorySO.Instance.TileCategories[categoryIndex].LayerType;
+
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRemoveTile(ServerData.UserID,
+				PlayerList.Instance.AdminToken, MouseInputController.MouseWorldPosition.RoundToInt(), matrixIndex, layerType);
+		}
+
+		private enum ActionType
+		{
+			None,
+			Place,
+			Remove
 		}
 	}
 }

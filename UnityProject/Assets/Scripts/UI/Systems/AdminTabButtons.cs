@@ -13,6 +13,7 @@ public class AdminTabButtons : MonoBehaviour
 	public GUI_DevDestroyer devDestroyer;
 	public GUI_DevSelectVVTile devSelectTile;
 	public GUI_VariableViewer vv;
+	public GUI_DevTileChanger tileChanger;
 
 	void Awake()
 	{
@@ -58,6 +59,12 @@ public class AdminTabButtons : MonoBehaviour
 		devSelectTile.Open();
 	}
 
+	public void BtnOpenTileChange()
+	{
+		DisableAllGUI();
+		tileChanger.SetActive(true);
+	}
+
 	void DisableAllGUI()
 	{
 		adminTools.gameObject.SetActive(false);
@@ -65,5 +72,6 @@ public class AdminTabButtons : MonoBehaviour
 		devCloner.gameObject.SetActive(false);
 		devDestroyer.gameObject.SetActive(false);
 		devSelectTile.gameObject.SetActive(false);
+		tileChanger.SetActive(false);
 	}
 }

@@ -855,7 +855,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		//TODO place tile
+		var matrixInfo = MatrixManager.Get(matrixId);
+		if(matrixInfo == null) return;
+
+		var tiles = TileCategorySO.Instance.TileCategories[categoryIndex].Tiles;
+		tiles.AddRange(TileCategorySO.Instance.TileCategories[categoryIndex].CommonTiles);
+
+		var tile = tiles[tileIndex] as LayerTile;
+
+		//TODO electrical/pipe
+		if (tile != null)
+		{
+			matrixInfo.TileChangeManager.UpdateTile(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo), tile);
+		}
 	}
 
 	[Command]
@@ -864,7 +876,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		//TODO remove tile
+		var matrixInfo = MatrixManager.Get(matrixId);
+		if(matrixInfo == null) return;
+
+		matrixInfo.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo), layerType);
 	}
 
 	[Command]
