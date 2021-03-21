@@ -255,9 +255,9 @@ namespace Lobby
 			SetupBodyPartsSprites(bodyPart);
 			if (bodyPart.LobbyCustomisation != null)
 			{
-				var newSprite = Instantiate(bodyPart.LobbyCustomisation, ScrollListBody.transform);
-				newSprite.SetUp(this, bodyPart, ""); //Update path
-				OpenBodyCustomisation[bodyPart.name] = (newSprite);
+				var newSprite = Instantiate(Body_Part.LobbyCustomisation, ScrollListBody.transform);
+				newSprite.SetUp(this, Body_Part, ""); //Update path
+				OpenBodyCustomisation[Body_Part.name] = (newSprite);
 				eyeDropdown = newSprite.GetComponent<BodyPartColourSprite>();
 			}
 
