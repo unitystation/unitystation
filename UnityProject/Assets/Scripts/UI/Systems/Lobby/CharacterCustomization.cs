@@ -97,6 +97,9 @@ namespace Lobby
 		private BodyPartSpriteAndColour facialHairList;
 		private BodyPartSpriteAndColour hairList;
 		private BodyPartColourSprite eyeDropdown;
+		private CustomisationSubPart socksList;
+		private CustomisationSubPart undershirtList;
+		private CustomisationSubPart underwearList;
 
 
 		void OnEnable()
@@ -255,9 +258,9 @@ namespace Lobby
 			SetupBodyPartsSprites(bodyPart);
 			if (bodyPart.LobbyCustomisation != null)
 			{
-				var newSprite = Instantiate(Body_Part.LobbyCustomisation, ScrollListBody.transform);
-				newSprite.SetUp(this, Body_Part, ""); //Update path
-				OpenBodyCustomisation[Body_Part.name] = (newSprite);
+				var newSprite = Instantiate(bodyPart.LobbyCustomisation, ScrollListBody.transform);
+				newSprite.SetUp(this, bodyPart, ""); //Update path
+				OpenBodyCustomisation[bodyPart.name] = (newSprite);
 				eyeDropdown = newSprite.GetComponent<BodyPartColourSprite>();
 			}
 
@@ -292,10 +295,10 @@ namespace Lobby
 			}
 
 			//Get Hair and Facial hair dropdown menus.
-			getDropdowns();
+			getHairDropdowns();
 		}
 
-		private void getDropdowns()
+		private void getHairDropdowns()
 		{
 			foreach (var dropdown in GetComponentsInChildren<BodyPartSpriteAndColour>())
 			{
@@ -511,10 +514,34 @@ namespace Lobby
 
 			//Randomize hair and facial hair.
 			int randomHair = UnityEngine.Random.Range(0, hairList.OptionalSprites.Count - 1);
+			int randomFacialHair = UnityEngine.Random.Range(0, facialHairList.OptionalSprites.Count - 1);
 			hairList.Dropdown.value = randomHair;
-			hairList.ItemChange(randomHair);
+			//hairList.ItemChange(randomHair);
 			hairList.BodyPartColour = UnityEngine.Random.ColorHSV();
 			hairList.RequestColourPicker();
+			if(currentCharacter.BodyType == BodyType.Male)
+			{
+				facialHairList.Dropdown.value = randomFacialHair;
+				facialHairList.BodyPartColour = UnityEngine.Random.ColorHSV();
+			}
+
+			//Randomize clothes.
+			int nudeChance = UnityEngine.Random.Range(0, 100);
+			if(nudeChance >= 25)
+			{
+				int randomSock = UnityEngine.Random.Range(0, socksList.Dropdown.options.Count - 1);
+				int randomShirt = UnityEngine.Random.Range(0, undershirtList.Dropdown.options.Count - 1);
+				int randomUnderwear = UnityEngine.Random.Range(0, underwearList.Dropdown.options.Count - 1);
+				socksList.Dropdown.value = randomSock;
+				undershirtList.Dropdown.value = randomShirt;
+				underwearList.Dropdown.value = randomUnderwear;
+			}
+			else
+			{
+				socksList.Dropdown.value = 0;
+				undershirtList.Dropdown.value = 0;
+				underwearList.Dropdown.value = 0;
+			}
 
 			//Refresh the player character's sprites so they can see their new changes.
 			RefreshAll();
