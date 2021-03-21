@@ -58,6 +58,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public SurgeryDialogue SurgeryDialogue;
 
+	public CrayonUI CrayonUI;
+
 	public static bool PreventChatInput
 	{
 		get { return uiManager.preventChatInput; }
