@@ -6,6 +6,7 @@ using Managers;
 using Pipes;
 using Strings;
 using NaughtyAttributes;
+using ScriptableObjects;
 
 namespace InGameEvents
 {
@@ -29,8 +30,7 @@ namespace InGameEvents
 		{
 			if (allReagents != null && allReagents.Length > 0) return;
 
-			// TODO: avoid Resources.LoadAll()
-			allReagents = Resources.LoadAll<Reagent>("ScriptableObjects/Chemistry/Reagents");
+			allReagents = ChemistryReagentsSO.Instance.AllChemistryReagents;
 		}
 
 		public override void OnEventStart()

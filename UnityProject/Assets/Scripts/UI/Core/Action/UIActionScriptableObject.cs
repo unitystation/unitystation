@@ -37,7 +37,8 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI
 		{
 			if (UIActionSOSingleton.Instance == null)
 			{
-				Resources.LoadAll<UIActionSOSingleton>("ScriptableObjects/SOs singletons");
+				Logger.LogError("No UIActionSOSingleton found, this could happen if the file doesnt exist anywhere!");
+				return;
 			}
 			if (!UIActionSOSingleton.Instance.uIActions.Contains(this))
 			{
