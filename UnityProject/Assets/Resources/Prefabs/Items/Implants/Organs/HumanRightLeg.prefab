@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9b97ba9bc37c76643b0ed8e37e27e8af,
         type: 2}
+    - target: {fileID: 3749293798277539676, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: Nutriment
@@ -26,9 +31,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
-      propertyPath: bodyPartType
+      propertyPath: BodyPartType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: wasteReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4,
+        type: 2}
     - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: armEfficiency
@@ -38,6 +49,11 @@ PrefabInstance:
         type: 3}
       propertyPath: crawlingSpeed
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: bloodThroughput
+      value: 0.0225
       objectReference: {fileID: 0}
     - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}

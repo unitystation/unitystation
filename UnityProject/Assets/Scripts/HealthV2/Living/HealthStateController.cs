@@ -13,13 +13,12 @@ namespace HealthV2
 	[DisallowMultipleComponent]
 	public class HealthStateController : NetworkBehaviour
 	{
-		private LivingHealthMasterBase livingHealthMasterBase;
+		public LivingHealthMasterBase livingHealthMasterBase;
 
 		#region SyncVars
 
 		[SyncVar(hook = nameof(SyncOverallHealth))]
 		private float overallHealthSync = 100;
-
 		public float OverallHealth => overallHealthSync;
 
 		[SyncVar(hook = nameof(SyncDNABloodTypeJSON))]
@@ -71,6 +70,7 @@ namespace HealthV2
 		{
 			CurrentHealthDollStorage.DollStates = new List<HealthDollStorage.HealthDollState>();
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
+			overallHealthSync = livingHealthMasterBase.MaxHealth;
 		}
 
 		#endregion

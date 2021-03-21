@@ -7,10 +7,6 @@ using UnityEngine;
 public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	const float CPR_TIME = 5;
-	const float OXYLOSS_HEAL_AMOUNT = 7;
-
-	public float HeartbeatStrength = 25;
-
 
 	private static readonly StandardProgressActionConfig CPRProgressConfig =
 			new StandardProgressActionConfig(StandardProgressActionType.CPR);
@@ -58,27 +54,37 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
-	private void ServerDoCPR(GameObject performer, GameObject target,BodyPartType TargetBodyPart)
+	private void ServerDoCPR(GameObject performer, GameObject target, BodyPartType TargetBodyPart)
 	{
 		var health = target.GetComponent<LivingHealthMasterBase>();
+		Vector3Int position = health.ObjectBehaviour.AssumedWorldPositionServer();
+		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
-		health.CirculatorySystem.ConvertUsedBlood(OXYLOSS_HEAL_AMOUNT);
-
-		bool HasHeart = false;
-		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart))
+		bool hasLung = false;
+		bool hasHeart = false;
+		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart, false))
 		{
-			var heart = BodyPart as Heart;
-			if (heart != null)
+			var lung = BodyPart as Lungs;
+			if (lung != null)
 			{
-				heart.Heartbeat(HeartbeatStrength);
-				HasHeart = true;
+				lung.TryBreathing(node, 1);
+				hasLung = true;
 			}
-
+			else
+			{
+				var heart = BodyPart as Heart;
+				if (heart != null)
+				{
+					heart.Heartbeat(1);
+					hasHeart = true;
+				}
+			}
 		}
 
-		if (HasHeart)
+		if (hasHeart && hasLung)
 		{
 			Chat.AddActionMsgToChat(
+
 				performer,
 				$"You perform CPR on {targetName}.",
 				$"{performerName} performs CPR on {targetName}.");

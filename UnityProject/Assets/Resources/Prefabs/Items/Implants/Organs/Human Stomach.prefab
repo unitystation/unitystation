@@ -12,41 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthMaster: {fileID: 0}
-  RelatedPresentSprites: []
-  storage: {fileID: 0}
-  bodyPartType: 0
+  healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  BodyPartType: 0
   containBodyParts: []
-  efficiency: 1
   isDimorphic: 0
+  Root: {fileID: 0}
+  ContainedIn: {fileID: 0}
   BodyTypesSprites:
     SpriteOrder:
       Orders: 00000000000000000000000000000000
     BodyTypes: []
-  Root: {fileID: 0}
-  ContainedIn: {fileID: 0}
+  RelatedPresentSprites: []
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   BodySpriteSet: 0
   LobbyCustomisation: {fileID: 0}
   optionalOrgans: []
   OptionalReplacementOrgan: []
-  isSurface: 0
+  IsSurface: 0
   ClothingHide: 0
+  efficiency: 1
+  TotalModified: 1
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
+  isBloodCirculated: 1
   isBloodReagentConsumed: 1
-  isBloodReagentCirculated: 1
+  bloodType: {fileID: 0}
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  _bloodReagentConsumed: 0.1
-  bloodReagentProcessed: 0.15
-  bloodReagentStoreAmount: 0.01
-  bloodReagentStoredMax: 0.5
-  NutrimentConsumption: 0.02
-  NutrimentPassiveConsumption: 0.001
+  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
   BloodContainer: {fileID: 0}
+  bloodReagentConsumed: 0.00002
+  bloodThroughput: 0.0225
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  TotalModified: 1
+  NutrimentPassiveConsumption: 0.001
+  NutrimentConsumption: 0.02
   BodyPartArmour:
     Melee: 0
     Bullet: 0
@@ -121,6 +121,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 64dcf963a85219640a1f5875fa7c43b7,
         type: 2}
+    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId

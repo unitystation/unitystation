@@ -79,6 +79,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: wasteReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4,
+        type: 2}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: bloodThroughput
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: SurgeryProcedureBase.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -93,6 +104,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
         type: 2}
+    - target: {fileID: 8113072997116454967, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 0.3
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -6818438612513610564, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}

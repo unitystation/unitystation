@@ -26,8 +26,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: bodyPartType
+      propertyPath: BodyPartType
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: wasteReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4,
+        type: 2}
+    - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: bloodThroughput
+      value: 0.0225
       objectReference: {fileID: 0}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -51,6 +62,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176,
         type: 2}
+    - target: {fileID: 4223574755396394822, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 6403927333314702133, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_Sprite

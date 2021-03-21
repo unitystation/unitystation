@@ -430,7 +430,7 @@ public partial class MatrixManager
 			byte count = 0;
 			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthBehaviour>( cellPos, true ) )
 			{
-				healthBehaviour.ApplyDamageToBodypart( matrix.GameObject, damage, AttackType.Melee, DamageType.Brute );
+				healthBehaviour.ApplyDamageToBodyPart( matrix.GameObject, damage, AttackType.Melee, DamageType.Brute );
 				count++;
 			}
 

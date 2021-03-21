@@ -45,7 +45,7 @@ public class BodyPartDropDownOrgans : BodyPartCustomisationBase
 			if (PreviousOptions[i])
 			{
 				var spawned = Spawn.ServerPrefab(Body_Part.OptionalOrgans[i].gameObject);
-				Actual.storage.ServerTryAdd(spawned.GameObject);
+				Actual.Storage.ServerTryAdd(spawned.GameObject);
 			}
 		}
 

@@ -163,7 +163,7 @@ public class PlayerHealthUI : MonoBehaviour
 	{
 		for (int i = 0; i < bodyPartListeners.Count; i++)
 		{
-			if (bodyPartListeners[i].bodyPartType != bodyPart.bodyPartType)
+			if (bodyPartListeners[i].BodyPartType != bodyPart.BodyPartType)
 			{
 				continue;
 			}
@@ -208,16 +208,16 @@ public class PlayerHealthUI : MonoBehaviour
 				}
 				else
 				{
-					if (bodyPart.healthMaster != null)
+					if (bodyPart.HealthMaster != null)
 					{
-						bodyPart.healthMaster.HealthStateController.ServerUpdateDoll(i, damageColor,bodyPartColor);
+						bodyPart.HealthMaster.HealthStateController.ServerUpdateDoll(i, damageColor,bodyPartColor);
 					}
 				}
 			}
 		}
 		bool IsLocalPlayer(BodyPart BbodyPart)
 		{
-			var Player = BbodyPart.healthMaster as PlayerHealthV2;
+			var Player = BbodyPart.HealthMaster as PlayerHealthV2;
 			if (Player == null) return false;
 			return PlayerManager.LocalPlayerScript == Player.PlayerScript;
 		}

@@ -30,7 +30,7 @@ public class XenomorphFood : Edible
 		var feeder = feederGO.GetComponent<PlayerScript>();
 
 		// Show eater message
-		var eaterHungerState = eater.playerHealth.hungerState;
+		var eaterHungerState = eater.playerHealth.HungerState;
 		ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 		// Check if eater can eat anything
@@ -76,7 +76,7 @@ public class XenomorphFood : Edible
 		Chat.AddActionMsgToChat(player.gameObject, "Your stomach gurgles uncomfortably...",
 			$"A dangerous sounding gurgle emanates from " + player.name + "!");
 		await Task.Delay(TimeSpan.FromSeconds(killTime / 8));
-		player.ApplyDamageToBodypart(
+		player.ApplyDamageToBodyPart(
 			gameObject,
 			200,
 			AttackType.Internal,

@@ -9,96 +9,135 @@ using Items;
 
 namespace HealthV2
 {
+	/// <summary>
+	/// A part of a body. Can be external, such as a limb, or internal like an organ.
+	/// Body parts can also contain other body parts, eg the 'brain body part' contained in the 'head body part'.
+	/// BodyPart is a partial class split into BodyPart, BodyPartDamage, BodyPartBlood, BodyPartSurgery, and BodyPartModifiers.
+	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
 	{
 		[SerializeField]
-		// [Required("Need a health master to send updates too." +
-		// "Will attempt to find a components in its parents if not already set in editor.")]
-		protected LivingHealthMasterBase HealthMaster = null;
+		[Tooltip("The Heath Master associated with this part, will find from parents if not set in editor")]
+		protected LivingHealthMasterBase healthMaster = null;
 
-
-		public LivingHealthMasterBase healthMaster
+		public LivingHealthMasterBase HealthMaster
 		{
-			get { return HealthMaster; }
+			get { return healthMaster; }
 			set
 			{
-				HealthMaster = value;
-				for (int i = containBodyParts.Count; i >= 0; i--)
+				healthMaster = value;
+				for (int i = ContainBodyParts.Count; i >= 0; i--)
 				{
-					if (i < containBodyParts.Count)
+					if (i < ContainBodyParts.Count)
 					{
-						SetUpBodyPart(containBodyParts[i]);
+						SetUpBodyPart(ContainBodyParts[i]);
 					}
-
 				}
-
 				HealthMasterSet();
 			}
 		}
 
+		/// <summary>
+		/// Storage container for things (usually other body parts) held within this body part
+		/// </summary>
+		[Tooltip("Things (eg other organs) held within this")]
+		public ItemStorage Storage = null;
+
+		/// <summary>
+		/// The category that this body part falls under for targeting purposes
+		/// </summary>
+		[Tooltip("The category that this body part falls under for targeting purposes")]
+		[SerializeField] public BodyPartType BodyPartType;
+
+		/// <summary>
+		/// The list of body parts contained within this body part
+		/// </summary>
+		[Tooltip("List of body parts contained within this")]
+		[SerializeField] private List<BodyPart> containBodyParts = new List<BodyPart>();
+		public List<BodyPart> ContainBodyParts => containBodyParts;
+
+		/// <summary>
+		/// Flag for if the sprite for this body type changes with gender, true means it does
+		/// </summary>
+		[Tooltip("Does the sprite change depending on Gender?")]
+		[SerializeField] private bool isDimorphic = false;
+
+		/// <summary>
+		/// The body part 'container' to which this body part belongs, (eg legs group, arms group), if any
+		/// </summary>
+		[Tooltip("The 'container' to which this belongs (legs group, arms group, etc), if any")]
+		public RootBodyPartContainer Root;
+
+		/// <summary>
+		/// The body part in which this body part is contained, if any
+		/// </summary>
+		[Tooltip("The body part in which this body part is contained, if any")]
+		public BodyPart ContainedIn;
+
+		[SerializeField]
+		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents. " +
+				 "It is intended for things like arms/legs/heads. " +
+				 "Leave empty if it shouldn't change this.")]
+		private BodyTypesWithOrder BodyTypesSprites = new BodyTypesWithOrder();
+
+		/// <summary>
+		/// The list of sprites associated with this body part
+		/// </summary>
+		[Tooltip("Sprites associated wtih this part, generated when part is initialized/changed")]
 		public List<BodyPartSprites> RelatedPresentSprites = new List<BodyPartSprites>();
 
-		public ItemStorage storage = null;
+		/// <summary>
+		/// The final sprite data for this body part accounting for body type and gender
+		/// </summary>
+		public ListSpriteDataSOWithOrder LimbSpriteData { get; private set; }
 
+		/// <summary>
+		/// The prefab sprites for this body part
+		/// </summary>
+		[Tooltip("The prefab sprites for this")]
+		public BodyPartSprites SpritePrefab;
 
-		[SerializeField] public BodyPartType bodyPartType;
+		/// <summary>
+		/// Boolean for whether the sprites for the body part have been set, returns true when they are
+		/// </summary>
+		[HideInInspector] public bool BodySpriteSet = false;
 
-		//The implanted things in this
-		[SerializeField] private List<BodyPart> containBodyParts = new List<BodyPart>();
+		/// <summary>
+		/// Custom settings from the lobby character designer
+		/// </summary>
+		[Tooltip("Custom options from the Character Customizer that modifys this")]
+		public BodyPartCustomisationBase LobbyCustomisation;
 
-		public  List<BodyPart>  ContainBodyParts => containBodyParts;
+		[Tooltip("List of optional body added to this, eg what wings a Moth has")]
+		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
+		/// <summary>
+		/// The list of optional body that are attached/stored in this body part, eg what wings a Moth has
+		/// </summary>
+		public List<BodyPart> OptionalOrgans => optionalOrgans;
+
+		/// <summary>
+		/// The list of optional body that can be attached/stored in this body part, eg what wings are available on a Moth chest
+		/// </summary>
+		[Tooltip("List of body parts this can be replaced with")]
+		public List<BodyPart> OptionalReplacementOrgan = new List<BodyPart>();
+
+		/// <summary>
+		/// Flag that is true if the body part is external (exposed to the outside world), false if it is internal
+		/// </summary>
+		[Tooltip("Is the body part on the surface?")]
+		public bool IsSurface = false;
+
+		/// <summary>
+		/// Flag to hide clothing on this body part
+		/// </summary>
+		[Tooltip("Should clothing be hidden on this?")]
+		public ClothingHideFlags ClothingHide;
 
 		private ItemAttributesV2 attributes;
 
-
-		//This should be utilized in most implants so as to make changing the effectivenss of it easy.
-		//Some organs wont boil down to just one efficiency score, so you'll have to keep that in mind.
-		[SerializeField]
-		[Tooltip("This is a generic variable representing the 'efficieny' of the implant." +
-		         "Can be modified by implant modifiers.")]
-		private float efficiency = 1;
-
-
-		[SerializeField] [Tooltip("Does the sprite change dependning on Gender?")]
-		private bool isDimorphic = false;
-
-		[SerializeField]
-		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents." +
-		         "It is intended for things like arms/legs/heads." +
-		         "Leave empty if it shouldn't change this.")]
-		private BodyTypesWithOrder BodyTypesSprites = new BodyTypesWithOrder();
-
-
-		private ListSpriteDataSOWithOrder limbSpriteData;
-
-		//Needs to be converted over four sexes/Body type
-		public ListSpriteDataSOWithOrder LimbSpriteData => limbSpriteData;
-
-
-		public RootBodyPartContainer Root;
-
-		public BodyPart ContainedIn;
-
-
-		public BodyPartSprites SpritePrefab;
-
-		public bool BodySpriteSet = false;
-
-		public BodyPartCustomisationBase LobbyCustomisation;
-
-		public List<BodyPart> OptionalOrgans => optionalOrgans;
-
-		[Tooltip("The organs that can be put inside of this")]
-		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
-
-		[Tooltip("The organ that this can be replaced with")]
-		public List<BodyPart> OptionalReplacementOrgan = new List<BodyPart>();
-
-		public bool isSurface = false;
-
-		public ClothingHideFlags ClothingHide;
-
-
+		/// <summary>
+		/// Initializes the body part
+		/// </summary>
 		public virtual void HealthMasterSet()
 		{
 			if (BodySpriteSet == false)
@@ -106,17 +145,17 @@ namespace HealthV2
 				//If gendered part then set the sprite limb data to it
 				if (isDimorphic)
 				{
-					limbSpriteData = new ListSpriteDataSOWithOrder();
-					limbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
-					limbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) healthMaster.BodyType].Sprites;
+					LimbSpriteData = new ListSpriteDataSOWithOrder();
+					LimbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
+					LimbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int)HealthMaster.BodyType].Sprites;
 				}
 				else
 				{
-					limbSpriteData = new ListSpriteDataSOWithOrder();
-					limbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
+					LimbSpriteData = new ListSpriteDataSOWithOrder();
+					LimbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
 					if (BodyTypesSprites.BodyTypes.Count > 0)
 					{
-						limbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) BodyType.NonBinary].Sprites;
+						LimbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int)BodyType.NonBinary].Sprites;
 					}
 				}
 
@@ -125,13 +164,18 @@ namespace HealthV2
 			UpdateIcons();
 		}
 
+		/// <summary>
+		/// Gets the sprites for the body part based of a specified body type
+		/// </summary>
+		/// <param name="BodyType">The body type to get sprites for</param>
+		/// <returns>List of SpriteDataSO's</returns>
 		public Tuple<SpriteOrder, List<SpriteDataSO>> GetBodyTypeSprites(BodyType BodyType)
 		{
-			if (BodyTypesSprites.BodyTypes.Count > (int) BodyType)
+			if (BodyTypesSprites.BodyTypes.Count > (int)BodyType)
 			{
 
 				return new Tuple<SpriteOrder, List<SpriteDataSO>>(BodyTypesSprites.SpriteOrder,
-					BodyTypesSprites.BodyTypes[(int) BodyType].Sprites);
+					BodyTypesSprites.BodyTypes[(int)BodyType].Sprites);
 			}
 			else
 			{
@@ -147,67 +191,83 @@ namespace HealthV2
 
 		void Awake()
 		{
-			foreach (BodyPartSprites b in GetComponentsInParent<BodyPartSprites>())
-			{
-				if (b.bodyPartType.Equals(bodyPartType))
-				{
-					Debug.Log(b);
-				}
-
-				//TODO: Do we need to add listeners for implant removal
-			}
-
-			storage = GetComponent<ItemStorage>();
-			storage.ServerInventoryItemSlotSet += ImplantAdded;
-
+			Storage = GetComponent<ItemStorage>();
+			Storage.ServerInventoryItemSlotSet += ImplantAdded;
 			attributes = GetComponent<ItemAttributesV2>();
-			BloodInitialise();
-			DamageInitialisation();
-
-
 			health = maxHealth;
-
+			DamageInitialisation();
 			UpdateSeverity();
 			Initialisation();
-
 		}
 
-
+		/// <summary>
+		/// Overridable method for variant body parts to use for their non-systems based initialisation
+		/// </summary>
 		public virtual void Initialisation()
 		{
 		}
 
-		public virtual void ImplantUpdate(LivingHealthMasterBase healthMaster)
+		public virtual void ImplantUpdate()
 		{
-			foreach (BodyPart prop in containBodyParts)
+			foreach (BodyPart prop in ContainBodyParts)
 			{
-				prop.ImplantUpdate(healthMaster);
+				prop.ImplantUpdate();
 			}
 		}
 
-		public virtual void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
+		/// <summary>
+		/// Updates the body part and all contained body parts relative to their related
+		/// systems (default: blood system, radiation damage)
+		/// </summary>
+		public virtual void ImplantPeriodicUpdate()
 		{
 			//TODOH backwards for i
-			foreach (BodyPart prop in containBodyParts)
+			foreach (BodyPart prop in ContainBodyParts)
 			{
-				prop.ImplantPeriodicUpdate(healthMaster);
+				prop.ImplantPeriodicUpdate();
 			}
-
 			BloodUpdate();
 			CalculateRadiationDamage();
 		}
 
+		#region BodyPartStorage
 
+		/// ---------------------------
+		/// Body Part Storage Methods
+		/// ---------------------------
+		/// Body parts are capable of storing other body parts, and are themselves stored in either a body part
+		/// or a Body Part Container.  Additionally, adding or removing a body part from 'storage' is a two part
+		/// process: the storage of the actual body part item, and the connecting of the body part to the health
+		/// system.  Think of it like an electronic device: putting it into a storage is like placing it in a 
+		/// room, adding it to a body is like plugging it in.  If you just put it into a room it wont work until
+		/// you plug it in, and you shouldn't try to plug something in until you've moved it into the room first.
+
+		/// To complicate things, a body part doesn't know what 'depth' it is, and only can talk to its parent
+		/// (the body part that contains it), and each body part needs to know all of the body parts it does and 
+		/// doesn't contain in order to coordinate.  We accomplish this by each organ telling its parent when its 
+		/// contents change, and the parent tell the parent's parent and so on until it reaches the highest container.
+
+		/// <summary>
+		/// Adds an object to the body part's internal storage, usually another body part
+		/// </summary>
+		/// <param name="IngameObject">Object to try and store in the Body Part</param>
 		public virtual void AddBodyPart(GameObject IngameObject)
 		{
-			storage.ServerTryAdd(IngameObject);
+			Storage.ServerTryAdd(IngameObject);
 		}
 
+		/// <summary>
+		/// Transfers an item from an item slot to the body part's internal storage, usually another body part
+		/// </summary>
+		/// <param name="ItemSlot">Item Slot to transfer from</param>
 		public virtual void AddBodyPartSlot(ItemSlot ItemSlot)
 		{
-			storage.ServerTryTransferFrom(ItemSlot);
+			Storage.ServerTryTransferFrom(ItemSlot);
 		}
 
+		/// <summary>
+		/// Removes the Body Part Item from the storage of its parent (a body part container or another body part)
+		/// </summary>
 		public virtual void RemoveFromBodyThis()
 		{
 			var parent = this.GetParent();
@@ -217,19 +277,21 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Removes a specified item from the body part's storage
+		/// </summary>
+		/// <param name="inOrgan">Item to remove</param>
 		public virtual void RemoveSpecifiedFromThis(GameObject inOrgan)
 		{
-			storage.ServerTryRemove(inOrgan);
+			Storage.ServerTryRemove(inOrgan);
 		}
 
-		public virtual void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
-		{
-			if (ContainedIn != null)
-			{
-				ContainedIn.SubBodyPartAdded(this);
-			}
-		}
 
+
+		/// <summary>
+		/// Removes this body part from its host body system
+		/// </summary>
+		/// <param name="livingHealthMasterBase">Body to be removed from</param>
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
 			if (ContainedIn != null)
@@ -238,6 +300,11 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Gets the part of the body that the body part resides in (a body part container or another body part)
+		/// </summary>
+		/// <returns>A body part that contains it OR a body part container that contains it OR null if it is not
+		/// contained in anything</returns>
 		public dynamic GetParent()
 		{
 			if (ContainedIn != null)
@@ -255,6 +322,11 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Tells this body part's parent to remove a specified body part contained within this body part from the
+		/// host body system.
+		/// </summary>
+		/// <param name="implant">Body Part to be removed</param>
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
 			var Parent = GetParent();
@@ -264,6 +336,10 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Adds a body part contained within this body part to the host body system
+		/// </summary>
+		/// <param name="implant">Body Part to be added</param>
 		public virtual void SubBodyPartAdded(BodyPart implant)
 		{
 			var Parent = GetParent();
@@ -273,26 +349,51 @@ namespace HealthV2
 			}
 		}
 
-
+		/// <summary>
+		/// Ensures the health master of all sub body parts are the same as their parent, and that the
+		/// health master and body part containers know of all contained body parts
+		/// </summary>
+		/// <param name="implant">Body Part to be initialized</param>
 		public void SetUpBodyPart(BodyPart implant)
 		{
-			implant.healthMaster = healthMaster;
-			if (healthMaster == null) return;
-			healthMaster.AddNewImplant(implant);
-			implant.AddedToBody(healthMaster);
+			implant.HealthMaster = HealthMaster;
+			if (HealthMaster == null) return;
+			HealthMaster.AddNewImplant(implant);
+			if (ContainedIn != null)
+			{
+				SubBodyPartAdded(implant);
+			}
 		}
 
+		/// <summary>
+		/// Sets up the body part to be connected to the internal systems of the body (circulation, respiration, etc)
+		/// </summary>
+		public virtual void SetUpSystems()
+		{
+			if (HealthMaster == null) return;
+			foreach (BodyPart prop in ContainBodyParts)
+			{
+				prop.SetUpSystems();
+			}
+			BloodInitialise();
+		}
 
+		/// <summary>
+		/// Adds a new body part to this body part, and removes the old part whose place is
+		/// being taken if possible
+		/// </summary>
+		/// <param name="prevImplant">Old body part to be removed</param>
+		/// <param name="newImplant">New body part to be added</param>
 		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
 			//Check what's being added and add sprites if appropriate
 			if (newImplant)
 			{
 				BodyPart implant = newImplant.GetComponent<BodyPart>();
-				containBodyParts.Add(implant);
+				ContainBodyParts.Add(implant);
 				implant.ContainedIn = this;
 				//Initialisation jizz
-				if (healthMaster != null)
+				if (HealthMaster != null)
 				{
 					SetUpBodyPart(implant);
 				}
@@ -302,19 +403,25 @@ namespace HealthV2
 			if (prevImplant)
 			{
 				BodyPart implant = prevImplant.GetComponent<BodyPart>();
-				implant.healthMaster = null;
-				healthMaster.RemoveImplant(implant);
-				implant.RemovedFromBody(healthMaster);
+				implant.HealthMaster = null;
+				HealthMaster.RemoveImplant(implant);
+				implant.RemovedFromBody(HealthMaster);
 				implant.ContainedIn = null;
-				containBodyParts.Remove(implant);
+				ContainBodyParts.Remove(implant);
 				//bodyPartSprites?.UpdateSpritesOnImplantRemoved(implant);
 			}
 		}
 
+		/// <summary>
+		/// Takes a list and adds this body part to it, all body parts contained within this body part, as well
+		/// as all body parts contained within those body parts, etc.
+		/// </summary>
+		/// <param name="ReturnList">List to be added to</param>
+		/// <returns>The list with added body parts</returns>
 		public List<BodyPart> GetAllBodyPartsAndItself(List<BodyPart> ReturnList)
 		{
 			ReturnList.Add(this);
-			foreach (var BodyPart in containBodyParts)
+			foreach (var BodyPart in ContainBodyParts)
 			{
 				BodyPart.GetAllBodyPartsAndItself(ReturnList);
 			}
@@ -322,6 +429,8 @@ namespace HealthV2
 			return ReturnList;
 		}
 	}
+
+	#endregion
 
 	[System.Serializable]
 	public class BodyTypesWithOrder
@@ -337,7 +446,6 @@ namespace HealthV2
 	{
 		public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
 	}
-
 
 	[System.Serializable]
 	public class ListSpriteDataSOWithOrder

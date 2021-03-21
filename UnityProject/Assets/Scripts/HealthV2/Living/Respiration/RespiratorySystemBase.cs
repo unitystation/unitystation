@@ -1,4 +1,5 @@
 ﻿using Systems.Atmospherics;
+using Chemistry;
 using Items;
 using NaughtyAttributes;
 using Objects.Atmospherics;
@@ -11,41 +12,25 @@ namespace HealthV2
 	[RequireComponent(typeof(CirculatorySystemBase))]
 	public class RespiratorySystemBase : MonoBehaviour
 	{
-
-		[SerializeField]
-		[Required("Must have information about our respiratory system.")]
-		private RespiratoryInfo respiratoryInfo;
-		public RespiratoryInfo RespiratoryInfo => respiratoryInfo;
-
 		private LivingHealthMasterBase healthMaster;
 		private PlayerScript playerScript;
-		private RegisterTile registerTile;
-		private Equipment equipment;
 		private ObjectBehaviour objectBehaviour;
 		private HealthStateController healthStateController;
-
-		//If the organism breathes, it needs a way to circulate that.
 		private CirculatorySystemBase circulatorySystem;
-
-		[SerializeField]
-		[Tooltip("If this is turned on, the organism can breathe anyway and wont effect atmospherics.")]
-		private bool canBreathAnywhere = false;
-
-		[SerializeField]
-		private float tickRate = 1f;
-
+		[Tooltip("If this is turned on, the organism can breathe anywhere and wont affect atmospherics.")]
+		[SerializeField] private bool canBreathAnywhere = false;
+		public bool CanBreathAnywhere => canBreathAnywhere;
+		[Tooltip("How often the respiration system should update.")]
+		[SerializeField] private float tickRate = 1f;
 		public bool IsSuffocating => healthStateController.IsSuffocating;
 		public float temperature => healthStateController.Temperature;
 		public float pressure => healthStateController.Pressure;
-		private float breatheCooldown = 0;
 
 		private void Awake()
 		{
 			circulatorySystem = GetComponent<CirculatorySystemBase>();
 			healthMaster = GetComponent<LivingHealthMasterBase>();
 			playerScript = GetComponent<PlayerScript>();
-			registerTile = GetComponent<RegisterTile>();
-			equipment = GetComponent<Equipment>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			healthStateController = GetComponent<HealthStateController>();
 		}
@@ -63,12 +48,12 @@ namespace HealthV2
 		//Handle by UpdateManager
 		void UpdateMe()
 		{
-				//Server Only:
-			 if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
-			                                   && !canBreathAnywhere)
-			 {
-				 MonitorSystem();
-			 }
+			//Server Only:
+			if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
+											  && !canBreathAnywhere)
+			{
+				MonitorSystem();
+			}
 		}
 
 		private void MonitorSystem()
@@ -100,83 +85,53 @@ namespace HealthV2
 			}
 		}
 
-		private bool Breathe(IGasMixContainer node)
+		/// <summary>
+		/// Takes reagents from blood and puts them into a GasMix as gases
+		/// </summary>
+		public void GasExchangeFromBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
 		{
-			breatheCooldown --; //not timebased, but tickbased
-			if(breatheCooldown > 0){
-				return false;
-			}
-			// if no internal breathing is possible, get the from the surroundings
-			IGasMixContainer container = GetInternalGasMix() ?? node;
-
-			GasMix gasMix = container.GasMix;
-
-
-			float gasUsed = HandleBreathing(gasMix);
-
-			if (gasUsed > 0)
+			foreach (var Reagent in toProcess)
 			{
-				gasMix.RemoveGas(respiratoryInfo.RequiredGas, gasUsed);
-				node.GasMix.AddGas(respiratoryInfo.ReleasedGas, gasUsed);
-				registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
+				blood.Remove(Reagent.Key, Reagent.Value);
+				if (!canBreathAnywhere)
+					atmos.AddGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
 			}
-
-			return gasUsed > 0;
 		}
 
-		private GasContainer GetInternalGasMix()
+		/// <summary>
+		/// Takes gases from a GasMix and puts them into blood as a reagent
+		/// </summary>
+		public void GasExchangeToBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
+		{
+			foreach (var Reagent in toProcess)
+			{
+				blood.Add(Reagent.Key, Reagent.Value);
+				if (!canBreathAnywhere)
+					atmos.RemoveGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
+			}
+		}
+
+		public GasContainer GetInternalGasMix()
 		{
 			if (playerScript != null)
 			{
-
 				// Check if internals exist
 				var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
-				bool internalsEnabled = equipment.IsInternalsEnabled;
+				bool internalsEnabled = playerScript.Equipment.IsInternalsEnabled;
 				if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
 				{
-					foreach ( var gasSlot in playerScript.ItemStorage.GetGasSlots() )
+					foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())
 					{
 						if (gasSlot.Item == null) continue;
 						var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-						if ( gasContainer )
+						if (gasContainer)
 						{
 							return gasContainer;
 						}
 					}
 				}
 			}
-
 			return null;
-		}
-
-		private float HandleBreathing(GasMix breathGasMix)
-		{
-			float gasPressure = breathGasMix.GetPressure(respiratoryInfo.RequiredGas);
-
-			float gasUsed = 0;
-
-			if (gasPressure < respiratoryInfo.MinimumSafePressure)
-			{
-				if (Random.value < 0.1)
-				{
-					Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{gameObject.name} gasps");
-				}
-
-				if (gasPressure > 0)
-				{
-					float ratio = 1 - gasPressure / respiratoryInfo.MinimumSafePressure;
-					gasUsed = breathGasMix.GetMoles(respiratoryInfo.RequiredGas) * ratio;
-				}
-
-				healthStateController.SetSuffocating(true);
-			}
-			else
-			{
-				gasUsed = breathGasMix.GetMoles(respiratoryInfo.RequiredGas);
-				healthStateController.SetSuffocating(false);
-				breatheCooldown = respiratoryInfo.breathCooldown;
-			}
-			return gasUsed;
 		}
 
 		private void CheckPressureDamage()
@@ -220,4 +175,3 @@ namespace HealthV2
 	}
 
 }
-

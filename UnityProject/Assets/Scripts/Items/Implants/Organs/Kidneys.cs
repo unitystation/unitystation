@@ -11,7 +11,19 @@ namespace HealthV2
 
 		public Dictionary<Reagent, float> ContainedGoodReagents = new Dictionary<Reagent, float>();
 
-		public override void BloodUpdate()
+		public override void SetUpSystems()
+		{
+			base.SetUpSystems();
+			if(WhiteListReagents.Count == 0)
+			{
+				WhiteListReagents.Add(bloodType);
+				WhiteListReagents.Add(requiredReagent);
+				WhiteListReagents.Add(wasteReagent);
+				WhiteListReagents.Add(Nutriment);
+			}
+		}
+
+		protected override void BloodUpdate()
 		{
 			base.BloodUpdate();
 			ContainedGoodReagents.Clear();
@@ -25,8 +37,7 @@ namespace HealthV2
 			{
 				BloodContainer.CurrentReagentMix.Add(Reagents.Key, Reagents.Value);
 			}
+			//Debug.Log("Kidney: " + BloodContainer[requiredReagent]/bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix));
 		}
-
-
 	}
 }

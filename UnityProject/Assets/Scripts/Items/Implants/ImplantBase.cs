@@ -54,7 +54,7 @@ namespace HealthV2
 
 		[SerializeField]
 		[Tooltip("Can we store any blood reagent?")]
-		private float bloodReagentStoredMax = 20f;
+		private float BloodStoredMax = 20f;
 
 		private float bloodReagentStored = 0;
 
@@ -87,7 +87,7 @@ namespace HealthV2
 		private void Awake()
 		{
 			attributes = GetComponent<ItemAttributesV2>();
-			bloodReagentStored = bloodReagentStoredMax; //Organs spawn in oxygenated.
+			bloodReagentStored = BloodStoredMax; //Organs spawn in oxygenated.
 			health = maxHealth;
 			//If gendered part then set the sprite limb data to it
 			if (isDimorphic)

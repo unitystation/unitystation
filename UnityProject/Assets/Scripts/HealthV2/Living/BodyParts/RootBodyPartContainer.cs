@@ -9,24 +9,74 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	//Used for handling multiple sprites meant for base limbs and stuff
-	//for example if have 2 arms this would generate a Sprite for each arm
+	/// <summary>
+	/// A container for multiple body parts each with sprites to be rendered on the player.  Used to 
+	/// group two or more like body parts, eg two arms, two legs, etc and generate a sprite for each.
+	/// </summary>
 	public class RootBodyPartContainer : MonoBehaviour, IBodyPartDropDownOrgans, IServerSpawn
 	{
-		[SerializeField]
-		[Required("Need a health master to send updates too." +
-		          "Will attempt to find a components in its parents if not already set in editor.")]
-		public LivingHealthMasterBase healthMaster = null;
+		[Required("Need a health master to send updates too. " +
+				  "Will attempt to find a components in its parents if not already set in editor.")]
+		[SerializeField] public LivingHealthMasterBase healthMaster = null;
 
-		private ItemStorage storage;
+		/// <summary>
+		/// Storage container for things (typcially other organs) held within this body part
+		/// </summary>
+		[Tooltip("Things (eg other organs) held within this")]
+		public ItemStorage Storage;
 
+		/// <summary>
+		/// The storage container for the items held by the limbs
+		/// </summary>
+		public ItemStorage ItemStorage;
+
+		[Tooltip("List of optional body added to this, eg what wings a Moth has")]
+		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
+		/// <summary>
+		/// The list of body parts that are allowed to be stored inside this body part container
+		/// </summary>
 		public List<BodyPart> OptionalOrgans => optionalOrgans;
 
+		/// <summary>
+		/// The category that this body part container falls under for purposes of targeting with the UI
+		/// </summary>
+		[Tooltip("The category that this falls under for targeting purposes")]
+		[SerializeField] public BodyPartType BodyPartType;
 
-		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
+		/// <summary>
+		/// Player sprites for rendering equipment and clothing on the body part container
+		/// </summary>
+		[Tooltip("Player sprites for rendering equipment and clothing on this")]
+		public PlayerSprites PlayerSprites;
 
+		/// <summary>
+		/// The prefab sprites for this body part container
+		/// </summary>
+		[Tooltip("The prefab sprites for this")]
+		public BodyPartSprites PrefabToSpawn = null;
 
-		[SerializeField] public BodyPartType bodyPartType;
+		/// <summary>
+		/// A dictionary of all of the body parts and their list of associated sprites contained within
+		/// this body part container.
+		/// </summary>
+		[Tooltip("all of the body parts and their list of associated sprites contained within this")]
+		public Dictionary<BodyPart, List<BodyPartSprites>> ImplantBaseSpritesDictionary =
+			new Dictionary<BodyPart, List<BodyPartSprites>>();
+
+		/// <summary>
+		/// The list of individual limbs contained within this Body Part Container
+		/// </summary>
+		[Tooltip("Individual limbs contained within this")]
+		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
+
+		public RootBodyPartController RootBodyPartController;
+
+		/// <summary>
+		/// The list of the internal net ids of the body parts contained within this container
+		/// </summary>
+		[Tooltip("The internal net ids of the body parts contained within this")]
+		public List<uint> InternalNetIDs;
+
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
@@ -39,7 +89,7 @@ namespace HealthV2
 			healthMaster = GetComponentInParent<LivingHealthMasterBase>();
 			foreach (BodyPartSprites b in GetComponentsInParent<BodyPartSprites>())
 			{
-				if (b.bodyPartType.Equals(bodyPartType))
+				if (b.BodyPartType.Equals(BodyPartType))
 				{
 					Debug.Log(b);
 				}
@@ -47,40 +97,15 @@ namespace HealthV2
 				//TODO: Do we need to add listeners for implant removal
 			}
 
-			if (storage == null)
+			if (Storage == null)
 			{
-				storage = GetComponent<ItemStorage>();
+				Storage = GetComponent<ItemStorage>();
 			}
 
-			storage.ServerInventoryItemSlotSet += ImplantAdded;
+			Storage.ServerInventoryItemSlotSet += ImplantAdded;
 		}
 
-		public ItemStorage ItemStorage;
-
-		public PlayerSprites PlayerSprites;
-
-		public BodyPartSprites PrefabToSpawn = null;
-
-		public Dictionary<BodyPart, List<BodyPartSprites>> ImplantBaseSpritesDictionary =
-			new Dictionary<BodyPart, List<BodyPartSprites>>();
-
-
-		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
-
-
-		public RootBodyPartController RootBodyPartController;
-
-		public List<uint> InternalNetIDs;
-
-
-		public virtual void AddBodyPartSlot(ItemSlot ItemSlot)
-		{
-			storage.ServerTryTransferFrom(ItemSlot);
-		}
-
-
-
-		public void UpdateChildren(List<uint> NewInternalNetIDs )
+		public void UpdateChildren(List<uint> NewInternalNetIDs)
 		{
 			List<SpriteHandler> SHS = new List<SpriteHandler>();
 			InternalNetIDs = NewInternalNetIDs;
@@ -94,8 +119,8 @@ namespace HealthV2
 					var SHSs = OB.GetComponentsInChildren<SpriteHandler>();
 					// foreach (var SH in SHSs)
 					// {
-						// var Net= SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
-						// SpriteHandlerManager.UnRegisterHandler(Net, SH);
+					// var Net= SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
+					// SpriteHandlerManager.UnRegisterHandler(Net, SH);
 					// }
 
 					OB.parent = this.transform;
@@ -124,8 +149,22 @@ namespace HealthV2
 			// RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
 		}
 
+		/// <summary>
+		/// Transfers an item from an item slot to the body part container's internal storage, usually 
+		/// another body part
+		/// </summary>
+		/// <param name="ItemSlot">Item Slot to transfer from</param>
+		public virtual void AddBodyPartSlot(ItemSlot ItemSlot)
+		{
+			Storage.ServerTryTransferFrom(ItemSlot);
+		}
 
-
+		/// <summary>
+		/// Adds a new body part to this body part container, and removes the old part whose place is
+		/// being taken if possible
+		/// </summary>
+		/// <param name="prevImplant">Old body part to be removed</param>
+		/// <param name="newImplant">New body part to be added</param>
 		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
 			//Check what's being added and add sprites if appropriate
@@ -134,9 +173,10 @@ namespace HealthV2
 				BodyPart implant = newImplant.GetComponent<BodyPart>();
 				ContainsLimbs.Add(implant);
 				healthMaster.AddNewImplant(implant);
-				implant.AddedToBody(healthMaster);
+				SubBodyPartAdded(implant);
 				implant.Root = this;
-				implant.healthMaster = healthMaster;
+				implant.HealthMaster = healthMaster;
+				implant.SetUpSystems();
 				SetupSpritesNID(implant);
 			}
 
@@ -147,42 +187,45 @@ namespace HealthV2
 				ContainsLimbs.Remove(implant);
 				healthMaster.RemoveImplant(implant);
 				implant.RemovedFromBody(healthMaster);
-				implant.healthMaster = null;
+				implant.HealthMaster = null;
 				implant.Root = null;
 				RemoveSpritesNID(implant);
 			}
 		}
 
-
-		public void SetupSpritesNID(BodyPart implant )
+		/// <summary>
+		/// Sets up the sprite of a specified body part and adds its Net ID to InternalNetIDs
+		/// </summary>
+		/// <param name="implant">Body Part to display</param>
+		public void SetupSpritesNID(BodyPart implant)
 		{
 
 			int i = 0;
-			bool IsSurfaceSprite = implant.isSurface;
+			bool isSurfaceSprite = implant.IsSurface;
 			var sprites = implant.GetBodyTypeSprites(PlayerSprites.ThisCharacter.BodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
-				var Newspite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, this.transform)
+				var newSprite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, this.transform)
 					.GameObject.GetComponent<BodyPartSprites>();
-				Newspite.transform.localPosition = Vector3.zero;
-				//Newspite.name = implant.name;
-				PlayerSprites.Addedbodypart.Add(Newspite);
+				newSprite.transform.localPosition = Vector3.zero;
+				//newSprite.name = implant.name;
+				PlayerSprites.Addedbodypart.Add(newSprite);
 				if (ImplantBaseSpritesDictionary.ContainsKey(implant) == false)
 				{
 					ImplantBaseSpritesDictionary[implant] = new List<BodyPartSprites>();
 				}
 
-				if (IsSurfaceSprite)
+				if (isSurfaceSprite)
 				{
-					PlayerSprites.SurfaceSprite.Add(Newspite);
+					PlayerSprites.SurfaceSprite.Add(newSprite);
 				}
 
-				implant.RelatedPresentSprites.Add(Newspite);
-				ImplantBaseSpritesDictionary[implant].Add(Newspite);
+				implant.RelatedPresentSprites.Add(newSprite);
+				ImplantBaseSpritesDictionary[implant].Add(newSprite);
 				var newOrder = new SpriteOrder(sprites.Item1);
 				newOrder.Add(i);
-				Newspite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, this, newOrder);
-				InternalNetIDs.Add(Newspite.GetComponent<NetworkIdentity>().netId);
+				newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, this, newOrder);
+				InternalNetIDs.Add(newSprite.GetComponent<NetworkIdentity>().netId);
 
 				i++;
 				i++;
@@ -190,6 +233,10 @@ namespace HealthV2
 			RootBodyPartController.RequestUpdate(this);
 		}
 
+		/// <summary>
+		/// Removes a body part from the container, including its sprite and Net ID
+		/// </summary>
+		/// <param name="implant">Body Part to remove</param>
 		public void RemoveSpritesNID(BodyPart implant)
 		{
 			foreach (var BodyPart in implant.GetAllBodyPartsAndItself(new List<BodyPart>()))
@@ -200,7 +247,7 @@ namespace HealthV2
 				foreach (var Sprite in oldone)
 				{
 					InternalNetIDs.Remove(Sprite.GetComponent<NetworkIdentity>().netId);
-					if (BodyPart.isSurface)
+					if (BodyPart.IsSurface)
 					{
 						PlayerSprites.SurfaceSprite.Remove(Sprite);
 					}
@@ -214,11 +261,18 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Removes a specified item (usually a body part) from the body part containers internal storage
+		/// </summary>
+		/// <param name="inOrgan">Item to remove</param>
 		public virtual void RemoveSpecifiedFromThis(GameObject inOrgan)
 		{
-			storage.ServerTryRemove(inOrgan);
+			Storage.ServerTryRemove(inOrgan);
 		}
 
+		/// <summary>
+		/// Removes all limbs from the container and drops all items that they are holding
+		/// </summary>
 		public void RemoveLimbs()
 		{
 			if (ItemStorage == null) ItemStorage = this.GetComponent<ItemStorage>();
@@ -227,68 +281,85 @@ namespace HealthV2
 			Destroy(gameObject); //?
 		}
 
-		public virtual void ImplantUpdate(LivingHealthMasterBase healthMaster)
+		public virtual void ImplantUpdate()
 		{
 			foreach (BodyPart prop in ContainsLimbs)
 			{
-				prop.ImplantUpdate(healthMaster);
+				prop.ImplantUpdate();
 			}
 		}
 
-		public virtual void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
+		/// <summary>
+		/// Updates the body part container and all contained body parts relative to their related
+		/// systems (default: blood system, radiation damage)
+		/// </summary>
+		public virtual void ImplantPeriodicUpdate()
 		{
 			foreach (BodyPart prop in ContainsLimbs)
 			{
-				prop.ImplantPeriodicUpdate(healthMaster);
+				prop.ImplantPeriodicUpdate();
 			}
 		}
 
-		//yes is uesd
+		/// <summary>
+		/// Removes a specified body part contained within this body part container from the host body system.
+		/// Called by contained body parts. See BodyPart's "Body Part Storage Methods" for more info
+		/// </summary>
+		/// <param name="implant">Body Part to be removed</param>
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
 			RemoveSpritesNID(implant);
 		}
 
 
-		//yes is uesd
+		/// <summary>
+		/// Adds a specified body part contained within this body part container to the host body system.
+		/// Called by contained body parts. See BodyPart's "Body Part Storage Methods" for more info
+		/// </summary>
+		/// <param name="implant">Body Part to be added</param>
 		public virtual void SubBodyPartAdded(BodyPart implant)
 		{
 			SetupSpritesNID(implant);
 		}
 
-
+		/// <summary>
+		/// Damages the body parts contained within the body part container. Damage will either be spread evenly across all
+		/// contained body parts (spread damage like a shotgun) or dealt to one body part (pinpoint damage like a knife)
+		/// Damaged body parts will assign damage to their contained body parts according to BodyPart.TakeDamage.
+		/// </summary>
+		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+		/// <param name="damage">Damage amount</param>
+		/// <param name="attackType">Type of attack that is causing the damage</param>
+		/// <param name="damageType">The type of damage</param>
+		/// <param name="damageSplit">Should the damage be divided amongst the contained body parts or applied to a random body part</param>
 		public void TakeDamage(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType, bool SplitDamage = false)
+			AttackType attackType, DamageType damageType, bool damageSplit = false)
 		{
 			//Logger.Log("dmg  > " + damage + "attackType > " + attackType + " damageType > " + damageType);
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
-			if (attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
+			if (damageSplit || attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
 				foreach (var ContainsLimb in ContainsLimbs)
 				{
-					ContainsLimb.TakeDamage(damagedBy, damage / ContainsLimbs.Count, attackType, damageType);
+					ContainsLimb.TakeDamage(damagedBy, damage / ContainsLimbs.Count, attackType, damageType, damageSplit);
 				}
 			}
 			else
 			{
-				if (SplitDamage)
+				var OrganToDamage = ContainsLimbs.PickRandom();
+				if (OrganToDamage != null)
 				{
-					foreach (var ContainsLimb in ContainsLimbs)
-					{
-						ContainsLimb.TakeDamage(damagedBy, damage / ContainsLimbs.Count, attackType, damageType);
-					}
-				}
-				else
-				{
-					var OrganToDamage = ContainsLimbs.PickRandom();
-					if (OrganToDamage != null)
-					{
-						OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType);
-					}
+					OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
 				}
 			}
 		}
 
+		/// <summary>
+		/// Removes damage from limbs. Currently heals all limbs contained in the container by the heal amount
+		/// </summary>
+		/// <param name="healingItem">The game object performing the healing</param>
+		/// <param name="healAmt">Amount each limb heals</param>
+		/// <param name="damageTypeToHeal">The type of damage to heal</param>
 		public void HealDamage(GameObject healingItem, int healAmt,
 			DamageType damageTypeToHeal)
 		{
@@ -296,7 +367,7 @@ namespace HealthV2
 			{
 				//yes It technically duplicates the healing but, I've would feel pretty robbed if There was a damage on one limb Of 50
 				//and I used a bandage of 50 and only healed 25,  if the healing was split across the two limbs
-				limb.HealDamage(healingItem, healAmt, (int) damageTypeToHeal);
+				limb.HealDamage(healingItem, healAmt, (int)damageTypeToHeal);
 			}
 		}
 	}

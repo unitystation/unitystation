@@ -104,7 +104,7 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 					// AttackType.Fire will set character on fire
 					player.playerHealth?.
-						ApplyDamageToBodypart(gameObject, 5f, AttackType.Energy, DamageType.Burn, bodyPart);
+						ApplyDamageToBodyPart(gameObject, 5f, AttackType.Energy, DamageType.Burn, bodyPart);
 
 					var they = player.characterSettings.TheyPronoun(player);
 					var their = player.characterSettings.TheirPronoun(player);

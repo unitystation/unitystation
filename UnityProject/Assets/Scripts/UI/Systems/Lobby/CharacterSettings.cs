@@ -179,6 +179,26 @@ public class CharacterSettings
 		}
 	}
 
+	/// <summary>
+	/// Returns an object pronoun string (i.e. "himself", "herself", "themself") for the provided gender enum.
+	/// </summary>
+	public string ThemselfPronoun(PlayerScript script)
+	{	
+		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+		{
+			return "themself";
+		}
+		switch (PlayerPronoun)
+		{
+			case PlayerPronoun.He_him:
+				return "himself";
+			case PlayerPronoun.She_her:
+				return "herself";
+			default:
+				return "themself";
+		}
+	}
+
 	public string IsPronoun(PlayerScript script)
 	{
 		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())

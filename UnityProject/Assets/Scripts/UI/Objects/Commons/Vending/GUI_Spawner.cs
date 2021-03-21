@@ -202,7 +202,7 @@ public class GUI_Spawner : NetTab
 			SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.Notice1, Provider.transform.position );
 
 			//Get mob's gameobject and do something bad to it
-			mob.TrackedObject.GetComponent<LivingHealthBehaviour>().ApplyDamageToBodypart( null, 500, AttackType.Internal, DamageType.Brute, BodyPartType.Head );
+			mob.TrackedObject.GetComponent<LivingHealthBehaviour>().ApplyDamageToBodyPart( null, 500, AttackType.Internal, DamageType.Brute, BodyPartType.Head );
 			SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.Smash, mob.TrackedObject.transform.position );
 
 			SpawnedObjectList.Remove( index );

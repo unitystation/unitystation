@@ -12,6 +12,12 @@ using UnityEngine;
 
 namespace HealthV2
 {
+
+	/// <Summary>
+	/// The required component for all living creatures.
+	/// Monitors and controls all things health, organs, and limbs.
+	/// Equivalent to the old LivingHealthBehaviour
+	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour
@@ -21,19 +27,28 @@ namespace HealthV2
 		/// </summary>
 		public int mobID { get; private set; }
 
+		/// <summary>
+		/// Rate at which periodic damage, such as radiation, should be applied
+		/// </summary>
 		private float tickRate = 1f;
 		private float tick = 0;
 
-		public float AvailableBlood = 0;
+		/// Amount of blood avaiable in the circulatory system, currently unimplemented
+		//public float AvailableBlood = 0;
 
-		private RegisterTile registerTile;
-		public RegisterTile RegisterTile => registerTile;
+		/// <summary>
+		/// The Register Tile of the living creature
+		/// </summary>
+		public RegisterTile RegisterTile { get; private set; }
 
-		[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
-
-		//damage incurred per tick per fire stack
+		/// <summary>
+		/// The amount of damage taken per tick per stack of fire
+		/// </summary>
 		private static readonly float DAMAGE_PER_FIRE_STACK = 0.08f;
 
+		/// <summary>
+		/// Returns the current conscious state of the creature
+		/// </summary>
 		public ConsciousState ConsciousState
 		{
 			get => healthStateController.ConsciousState;
@@ -57,68 +72,101 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Event for when the consciousness state of the creature changes, eg becoming unconscious or dead
+		/// </summary>
+		[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
+
+		/// <summary>
+		/// Returns true if the creature's current conscious state is dead
+		/// </summary>
+		public bool IsDead => ConsciousState == ConsciousState.DEAD;
+		/// <summary>
+		/// Returns true if the creature's current conscious state is unconscious
+		/// </summary>
+		public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
+		/// <summary>
+		/// Returns true if the creature's current conscious state is barely conscious
+		/// </summary>
+		public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
+
+		/// <summary>
+		/// The current body type of the creature
+		/// </summary>
 		public BodyType BodyType = BodyType.NonBinary;
 
-		//I don't know what this is. It was in the first Health system.
+		/// <summary>
+		/// The difference between network time and player time for the entity if its a player
+		/// Used to calculate amount of time to delay health changes if client is behind server
+		/// </summary>
 		public float RTT;
 
-		[SerializeField] private float maxHealth = 100; //player stuff
+		/// <summary>
+		/// The health of the creature when it has taken no damage
+		/// </summary>
+		[SerializeField] private float maxHealth = 100;
+		public float MaxHealth { get => maxHealth; }
 
+		/// <summary>
+		/// The current overall health of the creature.
+		/// -15 is barely conscious, -50 unconscious, and -100 is dying/dead
+		/// </summary>
 		public float OverallHealth => healthStateController.OverallHealth;
 
-		[SerializeField] [Tooltip("These are the things that will hold all our organs and implants.")]
-		private List<BodyPart> bodyPartContainers;
+		/// <summary>
+		/// List of all of the body parts of the creature, currently unimplemented
+		/// </summary>
+		//[SerializeField] [Tooltip("These are the things that will hold all our organs and implants.")]
+		//private List<BodyPart> bodyPartContainers;
 
-		[CanBeNull] private CirculatorySystemBase circulatorySystem;
-		public CirculatorySystemBase CirculatorySystem => circulatorySystem;
+		/// <summary>
+		/// The creature's Circulatory System
+		/// </summary>
+		[CanBeNull] public CirculatorySystemBase CirculatorySystem { get; private set; }
 
 		private Brain brain;
 
-		[CanBeNull] private RespiratorySystemBase respiratorySystem;
-		public RespiratorySystemBase RespiratorySystem => respiratorySystem;
-
-		[CanBeNull] private MetabolismSystemV2 metabolism;
-		//public MetabolismSystemV2 Metabolism => metabolism;
-
-		private bool isDead
-		{
-			get
-			{
-				if (ConsciousState.DEAD == ConsciousState)
-				{
-					return true;
-				}
-				return false;
-			}
-		}
-
-		public bool IsDead => isDead;
-
-		public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
-		public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
-
-		private HashSet<BodyPart> implantList = new HashSet<BodyPart>();
-
-		public HashSet<BodyPart> ImplantList => implantList;
-
-		public List<RootBodyPartContainer> RootBodyPartContainers = new List<RootBodyPartContainer>();
-
-		public event Action<GameObject> applyDamageEvent;
-
-		public event Action OnDeathNotifyEvent;
-
-		//how on fire we are, sames as tg fire_stacks. 0 = not on fire.
-		//It's called "stacks" but it's really just a floating point value that
-		//can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
-		private float fireStacks => healthStateController.FireStacks;
-
-		private float maxFireStacks = 5f;
-		private bool maxFireStacksReached = false;
+		/// <summary>
+		/// The creature's Respiratory System
+		/// </summary>
+		[CanBeNull] public RespiratorySystemBase RespiratorySystem { get; private set; }
 
 		/// <summary>
-		/// How on fire we are. Exists client side - synced with server.
+		/// The creature's Metabolism System, currently unimplemented
+		/// </summary>
+		[CanBeNull] public MetabolismSystemV2 Metabolism { get; private set; }
+
+		/// <summary>
+		/// A list of all body parts of the creature
+		/// </summary>
+		public List<BodyPart> ImplantList = new List<BodyPart>();
+
+		/// <summary>
+		/// A list of all body part containers of the creature.
+		/// A body part container is a grouping of like body parts (legs, arms, eyes, etc)
+		/// </summary>
+		public List<RootBodyPartContainer> RootBodyPartContainers = new List<RootBodyPartContainer>();
+
+		/// <summary>
+		/// Event that fires when damage is applied to the creature
+		/// </summary>
+		public event Action<GameObject> ApplyDamageEvent;
+
+		/// <summary>
+		/// Event that fires when the creature dies
+		/// </summary>
+		public event Action OnDeathNotifyEvent;
+
+		// FireStacks note: It's called "stacks" but it's really just a floating point value that
+		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
+		private float fireStacks => healthStateController.FireStacks;
+		/// <summary>
+		/// How on fire we are, same as tg fire_stacks. 0 = not on fire.
+		/// Exists client side - synced with server.
 		/// </summary>
 		public float FireStacks => fireStacks;
+		private float maxFireStacks = 5f;
+		private bool maxFireStacksReached = false;
 
 		/// <summary>
 		/// Client side event which fires when this object's fire status changes
@@ -137,7 +185,10 @@ namespace HealthV2
 
 		protected GameObject LastDamagedBy;
 
-		public HungerState hungerState => CalculateHungerState();
+		/// <summary>
+		/// The current hunger state of the creature, currently always returns normal
+		/// </summary>
+		public HungerState HungerState => CalculateHungerState();
 
 		public HungerState CalculateHungerState()
 		{
@@ -159,12 +210,12 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Current sicknesses status of the player and their current stage.
+		/// Current sicknesses status of the creature and it's current stage
 		/// </summary>
 		private MobSickness mobSickness = null;
 
 		/// <summary>
-		/// List of sicknesses that player has gained immunity.
+		/// List of sicknesses that creature has gained immunity to
 		/// </summary>
 		private List<Sickness> immunedSickness;
 
@@ -187,15 +238,21 @@ namespace HealthV2
 
 		public virtual void EnsureInit()
 		{
-			if (registerTile) return;
-			registerTile = GetComponent<RegisterTile>();
-			respiratorySystem = GetComponent<RespiratorySystemBase>();
-			circulatorySystem = GetComponent<CirculatorySystemBase>();
+			if (RegisterTile) return;
+			RegisterTile = GetComponent<RegisterTile>();
+			RespiratorySystem = GetComponent<RespiratorySystemBase>();
+			CirculatorySystem = GetComponent<CirculatorySystemBase>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			healthStateController = GetComponent<HealthStateController>();
 			immunedSickness = new List<Sickness>();
 			mobSickness = GetComponent<MobSickness>();
-			//Always include blood for living entities:
+
+			foreach (var implant in ImplantList)
+			{
+				//Debug.Log(implant.gameObject.name);
+				implant.HealthMaster = this;
+				implant.Initialisation();
+			}
 		}
 
 		public void Setbrain(Brain _brain)
@@ -219,31 +276,34 @@ namespace HealthV2
 			foreach (var ImplantLis in ImplantList)
 			{
 				Logger.Log(ImplantLis.name + "\n" + "Byrne >" + ImplantLis.Burn + " Brute > " + ImplantLis.Brute +
-				           " Oxy > " + ImplantLis.Oxy + " Cellular > " + ImplantLis.Cellular + " Stamina > " +
-				           ImplantLis.Stamina + " Toxin > " + ImplantLis.Toxin + " DamageEfficiencyMultiplier > " + ImplantLis.DamageEfficiencyMultiplier);
+						   " Oxy > " + ImplantLis.Oxy + " Cellular > " + ImplantLis.Cellular + " Stamina > " +
+						   ImplantLis.Stamina + " Toxin > " + ImplantLis.Toxin + " DamageEfficiencyMultiplier > " + ImplantLis.DamageEfficiencyMultiplier);
 			}
 		}
 
 		[RightClickMethod]
 		public void DODMG()
 		{
-			var bit =  RootBodyPartContainers.PickRandom();
+			var bit = RootBodyPartContainers.PickRandom();
 			bit.TakeDamage(null, 1, AttackType.Melee, DamageType.Brute);
 		}
 
 		/// <summary>
-		/// Adds a new implant to the health master.
-		/// This is NOT how implants should be added, it is called automatically by the body part container system!
+		/// Adds a new body part to the health master.
+		/// This is NOT how body parts should be added, it is called automatically by the body part container system!
 		/// </summary>
 		/// <param name="implant"></param>
 		public void AddNewImplant(BodyPart implant)
 		{
-			implantList.Add(implant);
+			ImplantList.Add(implant);
 		}
 
+		/// <summary>
+		/// Removes a body part from the health master
+		/// </summary>
 		public void RemoveImplant(BodyPart implantBase)
 		{
-			implantList.Remove(implantBase);
+			ImplantList.Remove(implantBase);
 		}
 
 
@@ -259,7 +319,7 @@ namespace HealthV2
 			{
 				foreach (var implant in RootBodyPartContainers)
 				{
-					implant.ImplantUpdate(this);
+					implant.ImplantUpdate();
 				}
 			}
 			//do Separate delayed blood update
@@ -271,30 +331,31 @@ namespace HealthV2
 			{
 				foreach (var implant in RootBodyPartContainers)
 				{
-					implant.ImplantPeriodicUpdate(this);
+					implant.ImplantPeriodicUpdate();
 				}
 
 				fireStacksDamage();
 				CalculateRadiationDamage();
 				CalculateOverallHealth();
-
 			}
 		}
 
 		/// <summary>
-		/// Radiation damage Calculations
+		/// Calculates and applies radiation damage
 		/// </summary>
 		[Server]
 		public void CalculateRadiationDamage()
 		{
-			var radLevel = (registerTile.Matrix.GetRadiationLevel(registerTile.LocalPosition) * (tickRate / 5f) / 6);
+			var radLevel = (RegisterTile.Matrix.GetRadiationLevel(RegisterTile.LocalPosition) * (tickRate / 5f) / 6);
 
 			if (radLevel == 0) return;
 
-			ApplyDamageAll( null, radLevel * 0.001f, AttackType.Rad, DamageType.Radiation);
+			ApplyDamageAll(null, radLevel * 0.001f, AttackType.Rad, DamageType.Radiation);
 		}
 
-
+		/// <summary>
+		/// Applys damage from fire stacks and handles their effects and decay
+		/// </summary>
 		public void fireStacksDamage()
 		{
 			if (fireStacks > 0)
@@ -304,25 +365,31 @@ namespace HealthV2
 				//gradually deplete fire stacks
 				healthStateController.SetFireStacks(fireStacks - 0.1f);
 				//instantly stop burning if there's no oxygen at this location
-				MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+				MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
 				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 				{
 					healthStateController.SetFireStacks(0);
 				}
 
-				registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
+				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
 			}
 		}
 
+		/// <summary>
+		/// Returns the current amount of oxy damage the brain has taken
+		/// </summary>
 		public float GetOxyDamage()
 		{
 			return brain.Oxy;
 		}
 
+		/// <summary>
+		/// Returns the the sum of all brute damage taken by body parts
+		/// </summary>
 		public float GetTotalBruteDamage()
 		{
 			float toReturn = 0;
-			foreach (var implant in implantList)
+			foreach (var implant in ImplantList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Brute;
@@ -331,11 +398,13 @@ namespace HealthV2
 			return toReturn;
 		}
 
-
+		/// <summary>
+		/// Returns the the sum of all burn damage taken by body parts
+		/// </summary>
 		public float GetTotalBurnDamage()
 		{
 			float toReturn = 0;
-			foreach (var implant in implantList)
+			foreach (var implant in ImplantList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Burn;
@@ -344,18 +413,56 @@ namespace HealthV2
 			return toReturn;
 		}
 
+		/// <summary>
+		/// Returns the total amount of blood in the body of the type of blood the body should have
+		/// </summary>
+		public float GetTotalBlood()
+		{
+			return GetSpareBlood() + GetImplantBlood();
+		}
+
+		/// <summary>
+		/// Returns the total amount of blood contained within body parts
+		/// </summary>
+		public float GetImplantBlood()
+		{
+			float toReturn = 0;
+			foreach (var implant in ImplantList)
+			{
+				toReturn += implant.BloodContainer[CirculatorySystem.BloodType];
+			}
+			return toReturn;
+		}
+
+		/// <summary>
+		/// Returns the total amount of 'spare' blood outside of the organs
+		/// </summary>
+		public float GetSpareBlood()
+		{
+			return CirculatorySystem.UsedBloodPool[CirculatorySystem.BloodType]
+					+ CirculatorySystem.ReadyBloodPool[CirculatorySystem.BloodType];
+		}
+
+		/// <summary>
+		/// Unimplemented
+		/// </summary>
 		public void AddBodyPartToRoot()
 		{
 
 		}
 
+		/// <summary>
+		/// Returns true if the creature has the given body part of a type targetable by the UI
+		/// </summary>
+		/// <param name="bodyPartType">The type of Body Part to check</param>
+		/// <param name="surfaceOnly">Checks only external bodyparts if true, all if false (default)</param>
 		public bool HasBodyPart(BodyPartType bodyPartType, bool surfaceOnly = false)
 		{
-			foreach (var bodyPart in implantList)
+			foreach (var bodyPart in ImplantList)
 			{
-				if (bodyPart.bodyPartType == bodyPartType)
+				if (bodyPart.BodyPartType == bodyPartType)
 				{
-					if (surfaceOnly && bodyPart.isSurface == false)
+					if (surfaceOnly && bodyPart.IsSurface == false)
 					{
 						continue;
 					}
@@ -366,10 +473,14 @@ namespace HealthV2
 			return false;
 		}
 
+		/// <summary>
+		/// Updates overall health based on damage sustained by body parts thus far.
+		/// Also updates consciousness status and will initiate a heart attack if low enough.
+		/// </summary>
 		public void CalculateOverallHealth()
 		{
 			float currentHealth = maxHealth;
-			foreach (var implant in implantList)
+			foreach (var implant in ImplantList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
@@ -432,7 +543,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		///  Apply Damage to the whole body of this Living thing. Server only
+		/// Apply damage to the all body parts of the creature. Server only
 		/// </summary>
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
 		/// <param name="damage">Damage Amount. will be distributed evenly across all bodyparts</param>
@@ -461,12 +572,12 @@ namespace HealthV2
 				}
 			}
 
-			EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
+			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 		}
 
 
 		/// <summary>
-		///  Apply Damage to Random body part body of this Living thing. Server only
+		/// Apply damage to a random body part body of the creature. Server only
 		/// </summary>
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
 		/// <param name="damage">Damage Amount.</param>
@@ -480,19 +591,19 @@ namespace HealthV2
 
 			body.TakeDamage(damagedBy, damage, attackType, damageType);
 
-			EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
+			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			//TODO: Reimplement
 		}
 
 		/// <summary>
-		///  Apply Damage to random bodypart of the Living thing. Server only
+		/// Apply damage to a random bodypart of the creature. Server only
 		/// </summary>
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
 		/// <param name="damage">Damage Amount</param>
 		/// <param name="attackType">type of attack that is causing the damage</param>
 		/// <param name="damageType">The Type of Damage</param>
 		[Server]
-		public void ApplyDamageToBodypart(GameObject damagedBy, float damage,
+		public void ApplyDamageToBodyPart(GameObject damagedBy, float damage,
 			AttackType attackType, DamageType damageType)
 		{
 			//what Outer body part hit
@@ -542,11 +653,11 @@ namespace HealthV2
 			//brains always recoverable, even if they get nuked, imo have tight regulations on what can destroy a brain
 			//Surgery should be, Versus medicine medicine slow but dependable, surgery fast but requires someone doing surgery , Two only related for internal organs
 			//Remove clothing item from sprites completely useless and unneeded
-			ApplyDamageToBodypart(damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize(0));
+			ApplyDamageToBodyPart(damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize(0));
 		}
 
 		/// <summary>
-		///  Apply Damage to the Living thing. Server only
+		///  Apply Damage to a specified body part of the creature. Server only
 		/// </summary>
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
 		/// <param name="damage">Damage Amount</param>
@@ -554,7 +665,7 @@ namespace HealthV2
 		/// <param name="damageType">The Type of Damage</param>
 		/// <param name="bodyPartAim">Body Part that is affected</param>
 		[Server]
-		public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
+		public virtual void ApplyDamageToBodyPart(GameObject damagedBy, float damage,
 			AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 		{
 			LastDamageType = damageType;
@@ -562,21 +673,27 @@ namespace HealthV2
 
 			foreach (var bodyPartContainer in RootBodyPartContainers)
 			{
-				if (bodyPartContainer.bodyPartType == bodyPartAim)
+				if (bodyPartContainer.BodyPartType == bodyPartAim)
 				{
 					//Assuming is only going to be one otherwise damage will be duplicated across them
 					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType);
 				}
 			}
 
-			EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
+			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 		}
 
-		public List<BodyPart> GetBodyPartsInZone( BodyPartType bodyPartAim, bool surfaceOnly = true )
+		/// <summary>
+		/// Gets all body parts in a zone targetable by the UI (head, chest, left arm, etc)
+		/// </summary>
+		/// <param name="bodyPartAim">The body part being aimed at</param>
+		/// <param name="surfaceOnly">Returns only external bodyparts if true (default), all if false</param>
+		/// <returns>List of BodyParts</returns>
+		public List<BodyPart> GetBodyPartsInZone(BodyPartType bodyPartAim, bool surfaceOnly = true)
 		{
 			foreach (var cntainers in RootBodyPartContainers)
 			{
-				if (cntainers.bodyPartType == bodyPartAim)
+				if (cntainers.BodyPartType == bodyPartAim)
 				{
 					if (surfaceOnly)
 					{
@@ -598,12 +715,16 @@ namespace HealthV2
 			return new List<BodyPart>(0);
 		}
 
-
+		/// <summary>
+		/// Gets all body part containers (arms, legs, eyes, etc) in a zone targetable by the UI 
+		/// </summary>
+		/// <param name="bodyPartAim">The body part being aimed at</param>
+		/// <returns>List of RootBodyPartContainers</returns>
 		public RootBodyPartContainer GetRootBodyPartInZone(BodyPartType bodyPartAim)
 		{
 			foreach (var cntainers in RootBodyPartContainers)
 			{
-				if (cntainers.bodyPartType == bodyPartAim)
+				if (cntainers.BodyPartType == bodyPartAim)
 				{
 					return cntainers;
 				}
@@ -612,13 +733,19 @@ namespace HealthV2
 			return null;
 		}
 
+		/// <summary>
+		/// Gibs the creature if possible, not implemented
+		/// </summary>
 		private void TryGibbing(float damage)
 		{
 			//idk
 			//TODO: Reimplement
 		}
 
-
+		/// <summary>
+		/// Gets a list of all the stomachs in the creature
+		/// </summary>
+		/// <returns>List of Stomachs</returns>
 		public List<Stomach> GetStomachs()
 		{
 			var Stomachs = new List<Stomach>();
@@ -633,16 +760,19 @@ namespace HealthV2
 			return Stomachs;
 		}
 
+		/// <summary>
+		/// Resets all damage values of all body parts to 0
+		/// </summary>
 		public void ResetDamageAll()
 		{
-			foreach (var bodyPart in implantList)
+			foreach (var bodyPart in ImplantList)
 			{
 				bodyPart.ResetDamage();
 			}
 		}
 
 		/// <summary>
-		///  Apply healing to a living thing. Server Only
+		/// Apply healing to the creature. Server Only
 		/// </summary>
 		/// <param name="healingItem">the item used for healing (bruise pack etc). Null if there is none</param>
 		/// <param name="healAmt">Amount of healing to add</param>
@@ -654,7 +784,7 @@ namespace HealthV2
 		{
 			foreach (var cntainers in RootBodyPartContainers)
 			{
-				if (cntainers.bodyPartType == bodyPartAim)
+				if (cntainers.BodyPartType == bodyPartAim)
 				{
 					cntainers.HealDamage(healingItem, healAmt, damageTypeToHeal);
 				}
@@ -684,10 +814,15 @@ namespace HealthV2
 		/// ---------------------------
 		/// CRIT + DEATH METHODS
 		/// ---------------------------
-		///Death from other causes
+		///<Summary>
+		/// Kills the creature, used for causes of death other than damage.
+		/// Currently not implemented
+		///</Summary>
 		public virtual void Death()
 		{
 			OnDeathActions();
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			//TODO: Reimplemenmt
 		}
 
@@ -720,11 +855,29 @@ namespace HealthV2
 			//TODO: Reimplement
 		}
 
+		/// <summary>
+		/// Adjusts the amount of fire stacks, to a min of 0 (not on fire) and a max of maxFireStacks
+		/// </summary>
+		/// <param name="deltaValue">The amount to adjust the stacks by, negative if reducing positive if increasing</param>
 		public void ChangeFireStacks(float deltaValue)
 		{
-			healthStateController.SetFireStacks(fireStacks + deltaValue);
+			if (fireStacks + deltaValue < 0)
+			{
+				healthStateController.SetFireStacks(0);
+			}
+			else if (fireStacks + deltaValue > maxFireStacks)
+			{
+				healthStateController.SetFireStacks(maxFireStacks);
+			}
+			else
+			{
+				healthStateController.SetFireStacks(fireStacks + deltaValue);
+			}
 		}
 
+		/// <summary>
+		/// Removes all Fire Stacks
+		/// </summary>
 		public void Extinguish()
 		{
 			healthStateController.SetFireStacks(0);
@@ -732,6 +885,10 @@ namespace HealthV2
 
 		#region Examine
 
+		/// <summary>
+		/// Gets the appropriate examine text based on the creature's health state
+		/// </summary>
+		/// <returns>String describing the creature</returns>
 		public string GetExamineText()
 		{
 			if (this is PlayerHealthV2)
@@ -766,15 +923,15 @@ namespace HealthV2
 				healthString.Append("in good shape.");
 			}
 
-			if (respiratorySystem != null && respiratorySystem.IsSuffocating)
+			if (RespiratorySystem != null && RespiratorySystem.IsSuffocating)
 			{
-				healthString.Append("having trouble breathing!");
+				healthString.Append(" It's having trouble breathing.");
 			}
 
 			// On fire?
 			if (FireStacks > 0)
 			{
-				healthString.Append(" And is on fire!");
+				healthString.Append(" And it's on fire!");
 			}
 
 			return healthString.ToString();
@@ -787,9 +944,9 @@ namespace HealthV2
 
 
 		/// <summary>
-		/// Add a sickness to the player if he doesn't already has it and isn't immuned
+		/// Adds a sickness to the creature if it doesn't already have it and isn't dead or immune
 		/// </summary>
-		/// <param name="">The sickness to add</param>
+		/// <param name="sickness">The sickness to add</param>
 		public void AddSickness(Sickness sickness)
 		{
 			if (IsDead)
@@ -800,8 +957,10 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// This will remove the sickness from the player, healing him.
+		/// Removes the specified sickness from the creature, healing it
+		/// The creature will not be immune, to immunize it as well use ImmuneSickness
 		/// </summary>
+		/// <param name="sickness">The sickness to remove</param>
 		/// <remarks>Thread safe</remarks>
 		public void RemoveSickness(Sickness sickness)
 		{
@@ -812,8 +971,10 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// This will remove the sickness from the player, healing him.  This will also make him immune for the current round.
+		/// Removes the specified sickness from the creature, healing it.  
+		/// Also immunizes it for the current round, to only cure it use RemoveSickness.
 		/// </summary>
+		/// <param name="sickness">The sickness to remove</param>
 		public void ImmuneSickness(Sickness sickness)
 		{
 			RemoveSickness(sickness);
