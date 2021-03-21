@@ -99,6 +99,11 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: f0cf26da94f1b4520a902840eebe5eb8,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!114 &5321606084769466320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +219,18 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d17044a94af1a74db692ad95f2a441b,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b28e45aac63ecd46a5eafb2c5eb189b,
+        type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
