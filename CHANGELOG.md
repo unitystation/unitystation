@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/3/21: Added working crayons and spray cans by [ThatDan123](https://github.com/ThatDan123) in PR #[6277](https://github.com/unitystation/unitystation/pull/6277)
 * 2021/3/20: Fixes shuttle sounds by [ThatDan123](https://github.com/ThatDan123) in PR #[6278](https://github.com/unitystation/unitystation/pull/6278)
 * 2021/3/20: Makes the shuttle arrive message a priority announcement by [ThatDan123](https://github.com/ThatDan123) in PR #[6278](https://github.com/unitystation/unitystation/pull/6278)
 * 2021/3/20: Logs can now be copied from the in-game console by just left clicking on them. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6274](https://github.com/unitystation/unitystation/pull/6274)

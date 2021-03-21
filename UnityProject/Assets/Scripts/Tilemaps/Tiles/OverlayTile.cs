@@ -25,6 +25,11 @@ public class OverlayTile : LayerTile
 	private bool isCleanable = false;
 	public bool IsCleanable => isCleanable;
 
+	[Tooltip("Is this tile graffiti")]
+	[SerializeField]
+	private bool isGraffiti = false;
+	public bool IsGraffiti => isGraffiti;
+
 	[Tooltip("The type of overlay?")]
 	[SerializeField]
 	private TileChangeManager.OverlayType overlayType = TileChangeManager.OverlayType.None;

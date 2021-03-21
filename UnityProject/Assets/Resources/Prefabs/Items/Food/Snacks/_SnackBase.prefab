@@ -25,15 +25,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leavings: {fileID: 0}
-  copyPlantDataToLeavings: 0
-  eatSound:
+  sound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  NutritionLevel: 10
+  StartingNutrients: 10
+  Nutriment: {fileID: 0}
+  FoodContents: {fileID: 0}
 --- !u!1001 &1737151937450733888
 PrefabInstance:
   m_ObjectHideFlags: 0
