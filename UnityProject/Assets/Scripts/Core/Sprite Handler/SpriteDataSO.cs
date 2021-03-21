@@ -55,7 +55,7 @@ public class SpriteDataSO : ScriptableObject
 		{
 			if (SpriteCatalogue.Instance == null)
 			{
-				Resources.LoadAll<SpriteCatalogue>("ScriptableObjects/SOs singletons");
+				Resources.LoadAll<SpriteCatalogue>("ScriptableObjectsSingletons");
 			}
 
 			if (!SpriteCatalogue.Instance.Catalogue.Contains(this))
