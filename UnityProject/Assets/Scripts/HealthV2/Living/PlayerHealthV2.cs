@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class PlayerHealthV2 : LivingHealthMasterBase
+	public class PlayerHealthV2 : LivingHealthMasterBase, RegisterPlayer.IControlPlayerState
 	{
 
 		private PlayerMove playerMove;
@@ -76,6 +76,7 @@ namespace HealthV2
 			equipment = GetComponent<Equipment>();
 			playerScript = GetComponent<PlayerScript>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
+			registerPlayer.AddStatus(this);
 		}
 
 		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
@@ -115,7 +116,20 @@ namespace HealthV2
 			PlayerMove.PlayerScript.pushPull.VisibleState = false;
 			playerNetworkActions.ServerSpawnPlayerGhost();
 		}
-  
+
+		bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
+		{
+			if (rest)
+			{
+				return true;
+			}
+			else
+			{
+				return ConsciousState == ConsciousState.CONSCIOUS;
+			}
+
+		}
+
 		/// <summary>
 		/// Actions the server performs when the player dies
 		/// </summary>
