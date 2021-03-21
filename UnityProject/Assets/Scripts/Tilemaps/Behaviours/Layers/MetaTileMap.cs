@@ -1098,6 +1098,60 @@ namespace TileManagement
 			return pos;
 		}
 
+		/// <summary>
+		/// Gets all OverlayTiles with a specific overlay type at the cell position
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="layerType"></param>
+		/// <param name="overlayType"></param>
+		/// <returns></returns>
+		public List<OverlayTile> GetOverlayTilesByType(Vector3Int position, LayerType layerType, TileChangeManager.OverlayType overlayType)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return null;
+			}
+
+			TileLocation tileLocation = null;
+			OverlayTile overlayTile = null;
+			List<OverlayTile> overlayTiles = new List<OverlayTile>();
+			position.z = 1;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				//Only check 20 as its unlikely to ever have more than 20 overlays
+				var count = 0;
+				while (count < 20)
+				{
+					position.z += count;
+
+					lock (PresentTiles)
+					{
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
+					}
+
+					if (tileLocation != null)
+					{
+						overlayTile = tileLocation.Tile as OverlayTile;
+
+						if (overlayTile != null && overlayTile.OverlayType == overlayType)
+						{
+							overlayTiles.Add(overlayTile);
+						}
+					}
+
+					count++;
+				}
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return overlayTiles;
+		}
+
 		public void RemoveTile(Vector3Int position, bool RemoveAll = true)
 		{
 			TileLocation TileLcation = null;

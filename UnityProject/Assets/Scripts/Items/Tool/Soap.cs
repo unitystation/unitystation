@@ -32,17 +32,13 @@ public class Soap : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IE
 		//can only scrub tiles, for now
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 
-		//don't attempt to scrub walls
-		if (MatrixManager.IsWallAtAnyMatrix(interaction.WorldPositionTarget.RoundToInt(), isServer: side == NetworkSide.Server))
-		{
-			return false;
-		}
-
 		return true;
 	}
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
+		var isWall = MatrixManager.IsWallAtAnyMatrix(interaction.WorldPositionTarget.RoundToInt(), true);
+
 		//server is performing server-side logic for the interaction
 		//do the scrubbing
 		void CompleteProgress()
@@ -58,8 +54,8 @@ public class Soap : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IE
 		if (bar)
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You begin to scrub the floor with the {gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.name} begins to scrub the floor with the {gameObject.ExpensiveName()}.");
+				$"You begin to scrub the {(isWall ? "wall" : "floor")} with the {gameObject.ExpensiveName()}...",
+				$"{interaction.Performer.name} begins to scrub the {(isWall ? "wall" : "floor")} with the {gameObject.ExpensiveName()}.");
 		}
 	}
 
@@ -68,7 +64,7 @@ public class Soap : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IE
 		var worldPos = interaction.WorldPositionTarget;
 		var checkPos = worldPos.RoundToInt();
 		var matrixInfo = MatrixManager.AtPoint(checkPos, true);
-		matrixInfo.MetaDataLayer.Clean(checkPos, checkPos, false);
+		matrixInfo.MetaDataLayer.Clean(checkPos, MatrixManager.WorldToLocalInt(checkPos, matrixInfo), false);
 		UseUpSoap();
 	}
 
@@ -84,7 +80,7 @@ public class Soap : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IE
 	public string Examine(Vector3 worldPos = default)
 	{
 		float percentageLeft = (float) uses / (float) maxUses;
-		
+
 		if (percentageLeft <= 0.15f)
 		{
 			return "There's just a tiny bit left of what it used to be, you're not sure it'll last much longer.";
