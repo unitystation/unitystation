@@ -69,7 +69,7 @@ public class GenerateSpriteSO : EditorWindow
 	{
 		spriteCatalogue =
 			AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
-				"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
+				"Assets/Resources/ScriptableObjectsSingletons/SpriteCatalogueSingleton.asset");
 		ToSeve.Clear();
 		ToDel.Clear();
 		DirSearch_ex3(Application.dataPath + "/SpriteJsonToSO");
@@ -118,7 +118,7 @@ public class GenerateSpriteSO : EditorWindow
 	{
 		//AssetDatabase.StopAssetEditing();
 		//spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
-		//	"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
+		//	"Assets/Resources/ScriptableObjectsSingletons/SpriteCatalogueSingleton.asset");
 		//
 		//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
 		//

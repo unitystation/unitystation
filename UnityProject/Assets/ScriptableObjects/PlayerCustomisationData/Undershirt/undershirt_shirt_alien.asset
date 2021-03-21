@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618246b5f03aca141b4ac0f9f9eabe59, type: 3}
+  m_Name: undershirt_shirt_alien
+  m_EditorClassIdentifier: 
+  SpriteEquipped: {fileID: 11400000, guid: 24a306dd03891a145b86fdb3f0ac42bc, type: 2}
+  Equipped:
+    Texture: {fileID: 2800000, guid: bd4c745a2ba76964a885faec13d346a0, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: bd4c745a2ba76964a885faec13d346a0, type: 3}
+    - {fileID: 21300002, guid: bd4c745a2ba76964a885faec13d346a0, type: 3}
+    - {fileID: 21300004, guid: bd4c745a2ba76964a885faec13d346a0, type: 3}
+    - {fileID: 21300006, guid: bd4c745a2ba76964a885faec13d346a0, type: 3}
+    EquippedData: {fileID: 4900000, guid: a207e3ef83cc2544fa2cae5ff81cd186, type: 3}
+  Name: Shirt (Alien)
+  Type: 4
+  gender: 2

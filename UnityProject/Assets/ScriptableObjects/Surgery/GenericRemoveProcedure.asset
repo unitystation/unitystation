@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 457201bba3c52ab4ba012c9fb173abf3, type: 3}
+  m_Name: GenericRemoveProcedure
+  m_EditorClassIdentifier: 
+  ProcedureName: Remove
+  ProcedureSprite: {fileID: 11400000, guid: 6aa0a2d5b6e02054b88b71ecc67ca0fb, type: 2}
+  SurgerySteps:
+  - RequiredTrait: {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c, type: 2}
+    Time: 1
+    SuccessChance: 100
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: 
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  - RequiredTrait: {fileID: 11400000, guid: fc51d63cf9b06574ca78a62da76969e5, type: 2}
+    Time: 0
+    SuccessChance: 100
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: 
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  - RequiredTrait: {fileID: 11400000, guid: 1e5559e895a286845ae6c1d616f3f26d, type: 2}
+    Time: 0
+    SuccessChance: 100
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: 
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 

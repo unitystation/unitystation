@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bf4d5e2bd850949b9b9f6afe22de9b, type: 3}
+  m_Name: Fugitive
+  m_EditorClassIdentifier: 
+  name: Fugitive
+  description: Survive on the station after escaping from a NanoTrasen superjail.
+    Move in the shadows and keep out of sight.
+  sprite: {fileID: 11400000, guid: 6f2180fedef59fb41bf603daa92a001c, type: 2}
+  respawnType: 1
+  targetOccupation: {fileID: 11400000, guid: 664fc7dd82e0d0f4aadd3a166f9bdb23, type: 2}
+  targetAntagonist: {fileID: 11400000, guid: 8e452e9949d197548ad09c2b68d7d879, type: 2}
+  minPlayers: 1
+  maxPlayers: 3
+  timeout: 30
+  playerCountType: 1
