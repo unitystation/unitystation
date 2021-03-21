@@ -94,6 +94,8 @@ namespace Lobby
 
 		public InputField SerialiseData;
 
+		private BodyPartSpriteAndColour facialHairList;
+		private BodyPartSpriteAndColour hairList;
 		private BodyPartColourSprite eyeDropdown;
 
 
@@ -286,6 +288,24 @@ namespace Lobby
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					ParentDictionary[bodyPart].Add(subBodyPart);
 					SetUpBodyPart(subBodyPart);
+				}
+			}
+
+			//Get Hair and Facial hair dropdown menus.
+			getDropdowns();
+		}
+
+		private void getDropdowns()
+		{
+			foreach (var dropdown in GetComponentsInChildren<BodyPartSpriteAndColour>())
+			{
+				if (dropdown.RelatedBodyPart.name == "Hair")
+				{
+					hairList = dropdown;
+				}
+				if(dropdown.RelatedBodyPart.name == "Facial Hair")
+				{
+					facialHairList = dropdown;
 				}
 			}
 		}
@@ -481,9 +501,6 @@ namespace Lobby
 			}
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
-			// Randomise rest of data
-			// currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-
 			//Randomises character skin tones from a select list of colors.
 			//(Max): Do not use Bod's Race SkinTones list as they break character randomisation.
 			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
@@ -491,6 +508,13 @@ namespace Lobby
 			//Randomises eye colors.
 			eyeDropdown.BodyPartColour = UnityEngine.Random.ColorHSV();
 			eyeDropdown.RequestColourPicker();
+
+			//Randomize hair and facial hair.
+			int randomHair = UnityEngine.Random.Range(0, hairList.OptionalSprites.Count - 1);
+			hairList.Dropdown.value = randomHair;
+			hairList.ItemChange(randomHair);
+			hairList.BodyPartColour = UnityEngine.Random.ColorHSV();
+			hairList.RequestColourPicker();
 
 			//Refresh the player character's sprites so they can see their new changes.
 			RefreshAll();
