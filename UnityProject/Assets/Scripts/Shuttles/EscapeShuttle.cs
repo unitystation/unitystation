@@ -258,7 +258,6 @@ public class EscapeShuttle : NetworkBehaviour
 			return;
 		}
 
-
 		//arrived to destination
 		if ( mm.ServerState.IsMoving )
 		{
@@ -290,7 +289,7 @@ public class EscapeShuttle : NetworkBehaviour
 					Status = EscapeShuttleStatus.DockedCentcom;
 					if (Status == EscapeShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
 					{
-						SoundManager.PlayAtPosition(SingletonSOSounds.Instance.HyperSpaceEnd, transform.position, gameObject);
+						SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.HyperSpaceEnd, transform.position, sourceObj: gameObject);
 					}
 				}
 			}
@@ -535,12 +534,11 @@ public class EscapeShuttle : NetworkBehaviour
 
 	#endregion
 
-
 	#region Moving To CentCom
 
 	public void SendShuttle()
 	{
-		SoundManager.PlayAtPosition(SingletonSOSounds.Instance.HyperSpaceBegin, transform.position, gameObject);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.HyperSpaceBegin, transform.position, sourceObj: gameObject);
 
 		StartCoroutine(WaitForShuttleLaunch());
 	}
@@ -549,7 +547,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		yield return WaitFor.Seconds(7f);
 
-		SoundManager.PlayAtPosition(SingletonSOSounds.Instance.HyperSpaceProgress, transform.position, gameObject);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.HyperSpaceProgress, transform.position, sourceObj: gameObject);
 
 		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
 

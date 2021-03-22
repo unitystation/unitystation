@@ -53,9 +53,9 @@ namespace HealthV2
 
 		public bool WasApplyingDebuff = false;
 
-		public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
+		public override void ImplantPeriodicUpdate()
 		{
-			base.ImplantPeriodicUpdate(healthMaster);
+			base.ImplantPeriodicUpdate();
 			float NutrimentPercentage = (BloodContainer[Nutriment] / BloodContainer.ReagentMixTotal);
 			// Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
 			if (NutrimentPercentage < ReleaseNutrimentAtPercent)
@@ -104,7 +104,7 @@ namespace HealthV2
 		public override void Initialisation()
 		{
 			base.Initialisation();
-			var playerHealthV2 = healthMaster as PlayerHealthV2;
+			var playerHealthV2 = HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.AddModifier(this);
@@ -121,10 +121,10 @@ namespace HealthV2
 			}
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
+		public override void SetUpSystems()
 		{
-			base.AddedToBody(livingHealthMasterBase);
-			var playerHealthV2 = livingHealthMasterBase as PlayerHealthV2;
+			base.SetUpSystems();
+			var playerHealthV2 = healthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.AddModifier(this);

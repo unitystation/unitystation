@@ -66,7 +66,7 @@ public class PlayerSprites : MonoBehaviour
 
 	public readonly List<BodyPartSprites> SurfaceSprite = new List<BodyPartSprites>();
 
-	public readonly Dictionary<string, GameObject> bodyparts = new Dictionary<string, GameObject>();
+	public readonly Dictionary<string, GameObject> bodyParts = new Dictionary<string, GameObject>();
 
 	private Directional directional;
 	private PlayerDirectionalOverlay engulfedBurningOverlay;
@@ -107,7 +107,7 @@ public class PlayerSprites : MonoBehaviour
 		for (int i = 0; i < BodyParts.transform.childCount; i++)
 		{
 			//TODO: Do we need to add listeners for implant removalv
-			bodyparts[BodyParts.transform.GetChild(i).name] = BodyParts.transform.GetChild(i).gameObject;
+			bodyParts[BodyParts.transform.GetChild(i).name] = BodyParts.transform.GetChild(i).gameObject;
 		}
 
 
@@ -155,12 +155,12 @@ public class PlayerSprites : MonoBehaviour
 		//TODOH Get race file from character settings
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			InstantiateAndSetUp(RaceBodyparts.Base.Head, bodyparts["Head"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.Torso, bodyparts["Chest"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft, bodyparts["LeftArm"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.ArmRight, bodyparts["RightArm"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.LegLeft, bodyparts["LeftLeg"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.LegRight, bodyparts["RightLeg"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.Head, bodyParts["Head"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.Torso, bodyParts["Chest"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft, bodyParts["LeftArm"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.ArmRight, bodyParts["RightArm"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.LegLeft, bodyParts["LeftLeg"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.LegRight, bodyParts["RightLeg"].transform);
 		}
 	}
 
@@ -349,7 +349,6 @@ public class PlayerSprites : MonoBehaviour
 				rootBodyPartContainer.ItemStorage.ServerTryAdd(InSpawnResult);
 			}
 
-
 			//Spawn._ServerFireClientServerSpawnHooks(InSpawnResult);
 		}
 
@@ -516,18 +515,12 @@ public class PlayerSprites : MonoBehaviour
 			SetUpCharacter(characterSettings);
 			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
 			SetupCharacterData(characterSettings);
-			// FIXME: this probably shouldn't send ALL of the character settings to everyone
-			PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
 		}
 	}
 
 	public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)
 	{
-		if (!clothItems)
-		{
-			PlayerCustomisationMessage.SendTo(gameObject, recipient, ThisCharacter);
-		}
-		else
+		if (clothItems)
 		{
 			for (int i = 0; i < characterSprites.Length; i++)
 			{

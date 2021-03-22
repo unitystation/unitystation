@@ -163,7 +163,7 @@ public class PlayerHealthUI : MonoBehaviour
 	{
 		for (int i = 0; i < bodyPartListeners.Count; i++)
 		{
-			if (bodyPartListeners[i].bodyPartType != bodyPart.bodyPartType)
+			if (bodyPartListeners[i].BodyPartType != bodyPart.BodyPartType)
 			{
 				continue;
 			}
@@ -193,15 +193,33 @@ public class PlayerHealthUI : MonoBehaviour
 						damageColor = disabledBodyPartColor;
 						break;
 					case DamageSeverity.Max:
+						bodyPartColor = damageMonitorColors[6];
+						damageColor = destroyedBodyPartColor;
+						break;
 					default:
 						bodyPartColor = damageMonitorColors[6];
 						damageColor = destroyedBodyPartColor;
 						break;
 				}
-
-				bodyPartListeners[i].SetDamageColor(damageColor);
-				bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
+				if (IsLocalPlayer(bodyPart))
+				{
+					bodyPartListeners[i].SetDamageColor(damageColor);
+					bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
+				}
+				else
+				{
+					if (bodyPart.HealthMaster != null)
+					{
+						bodyPart.HealthMaster.HealthStateController.ServerUpdateDoll(i, damageColor,bodyPartColor);
+					}
+				}
 			}
+		}
+		bool IsLocalPlayer(BodyPart BbodyPart)
+		{
+			var Player = BbodyPart.HealthMaster as PlayerHealthV2;
+			if (Player == null) return false;
+			return PlayerManager.LocalPlayerScript == Player.PlayerScript;
 		}
 	}
 }

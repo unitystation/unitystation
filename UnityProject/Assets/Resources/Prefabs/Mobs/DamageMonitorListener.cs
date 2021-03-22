@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class DamageMonitorListener : MonoBehaviour
 {
-	public BodyPartType bodyPartType;
+	public BodyPartType BodyPartType;
 
 	[SerializeField] private Image bodyPartImage = default;
 	[SerializeField] private Image damageMaskImage = default;

@@ -22,6 +22,7 @@ public class PlayerEffectsManager : MonoBehaviour
 
     private void Update()
     {
+	    if (PlayerManager.PlayerScript.OrNull()?.PlayerSync == null ) return;
 	    //Checks if the player is floating and animates them up in down if they are.
 	    if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient && floatingEffect.WillAnimate == false)
 	    {

@@ -18,7 +18,7 @@ public class CirculatoryInfo : ScriptableObject
 	[Tooltip("It is at this point you'll start taking oxygen damage.")]
 	public float BLOOD_BAD = 2500; //It is at this point you'll start taking oxygen damage.
 
-	[Tooltip("If we reach critical, the organism will very quickly accumalte damage.")]
+	[Tooltip("If we reach critical, the organism will very quickly accumalate damage.")]
 	//If we reach critical, the organism will very quickly accumalte damage.
 	public float BLOOD_CRITICAL = 2000;
 
@@ -44,27 +44,16 @@ public class CirculatoryInfo : ScriptableObject
 	//The minimum heartrate of the circulatory system. If this is reached, the organism will enter cardiac arrest.
 	public float HEARTRATE_MIN = 5;
 
-
 	[Tooltip("The maximum strength that a heart can pump with without damaging the organism." +
 	         "100 is the human normal.")]
 	public float HEART_STRENGTH_MAX = 150;
 
-	//The maximum amount of reagent we can have in our circulatory system.
-	//This has no unit, and is an arbitrary amount. Essentially, it will be a value that
-	//is purely used for gameplay interaction, with no tangible real world component.
-	[Tooltip("The maximum amount of reagent that we can have in our circulatory system." +
-	         "This value has no unit and is an arbitrary number." +
-	         "It is used purely for gameplay interaction, with no tangible real world component." +
-	         "Human max is 200.")]
-	public float BLOOD_REAGENT_MAX = 200;
+	[Tooltip("When saturation of blood reagent falls below this point you'll start to feel symptoms, like being light headed.")]
+	public float BLOOD_REAGENT_SATURATION_OKAY = 0.92f;
+	
+	[Tooltip("When saturation of blood reagent falls below this point the organism will start taking oxy damage.")]
+	public float BLOOD_REAGENT_SATURATION_BAD = 0.90f;
 
-	[Tooltip("Default amount of blood reagent in the body.")]
-	public float BLOOD_REAGENT_DEFAULT = 10;
-
-	//How much of our blood reagent is consumed per heartbeat.
-	//Organs and body parts may consume additional.
-	//How this is refilled isn't handled by the circulatory system.
-	[Tooltip("How much of our blood reagent is consumed per heartbeat." +
-	         "Organs and body parts may consume additional amounts of oxygen.")]
-	public float BLOOD_REAGENT_CONSUME_PER_BEAT = 0.1f;
+	[Tooltip("If we reach critical, the organism will very quickly accumalate oxy damage.")]
+	public float BLOOD_REAGENT_SATURATION_CRITICAL = 0.80f;
 }

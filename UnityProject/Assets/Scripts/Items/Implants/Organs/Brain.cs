@@ -8,9 +8,10 @@ namespace HealthV2
 	{
 		//stuff in here?
 		//nah
-		public override void AddedToBody(LivingHealthMasterBase livingHealthMasterBase)
+		public override void SetUpSystems()
 		{
-			livingHealthMasterBase.Setbrain(this);
+			base.SetUpSystems();
+			healthMaster.Setbrain(this);
 		}
 		//Ensure removal of brain
 	}

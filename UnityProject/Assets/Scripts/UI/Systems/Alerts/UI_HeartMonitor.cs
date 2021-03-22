@@ -103,32 +103,33 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		{
 			return;
 		}
+		float maxHealth = PlayerManager.LocalPlayerScript.playerHealth.MaxHealth;
 		overallHealthCache = PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
 
-		if (overallHealthCache >= 100)
+		if (overallHealthCache >= maxHealth)
 		{
 			CurrentSpriteSet = 0;
 			overlayCrits.SetState(OverlayState.normal);
 		}
-		else if (overallHealthCache >= 67)
+		else if (overallHealthCache >= maxHealth*(2/3))
 		{
 			CurrentSpriteSet = 1;
 			overlayCrits.SetState(OverlayState.normal);
 		}
-		else if (overallHealthCache <= 66 &&
-			overallHealthCache > 33)
+		else if (overallHealthCache <= maxHealth*(2/3) &&
+			overallHealthCache > maxHealth/3)
 		{
 			CurrentSpriteSet = 2;
 			overlayCrits.SetState(OverlayState.injured);
 		}
-		else if (overallHealthCache <= 33 &&
+		else if (overallHealthCache <= maxHealth/3 &&
 			overallHealthCache > 0)
 		{
 			CurrentSpriteSet = 3;
 			overlayCrits.SetState(OverlayState.injured);
 		}
 		else if (overallHealthCache <= 0 &&
-			overallHealthCache < 15)
+			overallHealthCache > -15)
 		{
 			CurrentSpriteSet = 3;
 			overlayCrits.SetState(OverlayState.unconscious);

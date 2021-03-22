@@ -25,7 +25,7 @@ public partial class MatrixManager
 	public List<MatrixIntersection> TrackedIntersections => trackedIntersections;
 
 	private static LayerType[] layersToRemove = { LayerType.Effects };
-	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills};
+	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills, LayerType.Floors};
 
 	private void InitCollisions(MatrixInfo matrixInfo)
 	{
@@ -430,7 +430,7 @@ public partial class MatrixManager
 			byte count = 0;
 			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthBehaviour>( cellPos, true ) )
 			{
-				healthBehaviour.ApplyDamageToBodypart( matrix.GameObject, damage, AttackType.Melee, DamageType.Brute );
+				healthBehaviour.ApplyDamageToBodyPart( matrix.GameObject, damage, AttackType.Melee, DamageType.Brute );
 				count++;
 			}
 

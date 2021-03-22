@@ -20,6 +20,7 @@ namespace HealthV2
 			{
 				PresentProcedure.ISon.SetBodyPartIsOpen(false,  false);
 				PresentProcedure.ISon.currentlyOn = null;
+				PresentProcedure.RelatedBodyPart = null;
 			}
 		}
 

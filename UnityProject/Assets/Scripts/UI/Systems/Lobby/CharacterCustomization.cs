@@ -37,7 +37,7 @@ namespace Lobby
 
 		public BodyTypeName ThisBodyType => AvailableBodyTypes[SelectedBodyType];
 
-		public SpriteHandlerNorder BodyPartSpite;
+		public SpriteHandlerNorder BodyPartSprite;
 
 		public InputField characterNameField;
 		public InputField ageField;
@@ -221,8 +221,8 @@ namespace Lobby
 
 			foreach (var Organ in GameObjectBody.Elements)
 			{
-				var Body_part = Organ.GetComponent<BodyPart>();
-				SetUpBodyPart(Body_part);
+				var bodyPart = Organ.GetComponent<BodyPart>();
+				SetUpBodyPart(bodyPart);
 			}
 
 
@@ -239,91 +239,91 @@ namespace Lobby
 		}
 
 
-		public void SetUpBodyPart(BodyPart Body_Part, bool addOrganReplacement = true)
+		public void SetUpBodyPart(BodyPart bodyPart, bool addOrganReplacement = true)
 		{
-			//Body_Part.LimbSpriteData;
+			//bodyPart.LimbSpriteData;
 
-			//OpenBodyCustomisation[Body_Part.name] = new List<GameObject>();
-			ParentDictionary[Body_Part] = new List<BodyPart>();
+			//OpenBodyCustomisation[bodyPart.name] = new List<GameObject>();
+			ParentDictionary[bodyPart] = new List<BodyPart>();
 
 			//
-			SetupBodyPartsSprites(Body_Part);
-			if (Body_Part.LobbyCustomisation != null)
+			SetupBodyPartsSprites(bodyPart);
+			if (bodyPart.LobbyCustomisation != null)
 			{
-				var newSprite = Instantiate(Body_Part.LobbyCustomisation, ScrollListBody.transform);
-				newSprite.SetUp(this, Body_Part, ""); //Update path
-				OpenBodyCustomisation[Body_Part.name] = (newSprite);
+				var newSprite = Instantiate(bodyPart.LobbyCustomisation, ScrollListBody.transform);
+				newSprite.SetUp(this, bodyPart, ""); //Update path
+				OpenBodyCustomisation[bodyPart.name] = (newSprite);
 			}
 
-			if (Body_Part.OptionalOrgans.Count > 0)
+			if (bodyPart.OptionalOrgans.Count > 0)
 			{
 				var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
-				Option.SetUp(this, Body_Part, "");
-				OpenBodyCustomisation[Body_Part.name] = (Option);
+				Option.SetUp(this, bodyPart, "");
+				OpenBodyCustomisation[bodyPart.name] = (Option);
 			}
 
 			if (addOrganReplacement)
 			{
-				if (Body_Part.OptionalReplacementOrgan.Count > 0)
+				if (bodyPart.OptionalReplacementOrgan.Count > 0)
 				{
 					var Option = Instantiate(ReplacementOrgan, ScrollListBody.transform);
-					Option.SetUp(this, Body_Part, "");
-					OpenBodyCustomisation[Body_Part.name] = (Option);
+					Option.SetUp(this, bodyPart, "");
+					OpenBodyCustomisation[bodyPart.name] = (Option);
 				}
 			}
 
 
 			//Setup sprite//
 			//OpenBodySprites
-			if (Body_Part?.storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.Contents != null)
 			{
-				foreach (var Organ in Body_Part.storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.Contents)
 				{
-					var SUbBody_part = Organ.GetComponent<BodyPart>();
-					ParentDictionary[Body_Part].Add(SUbBody_part);
-					SetUpBodyPart(SUbBody_part);
+					var subBodyPart = Organ.GetComponent<BodyPart>();
+					ParentDictionary[bodyPart].Add(subBodyPart);
+					SetUpBodyPart(subBodyPart);
 				}
 			}
 		}
 
-		public void SetupBodyPartsSprites(BodyPart Body_Part)
+		public void SetupBodyPartsSprites(BodyPart bodyPart)
 		{
-			OpenBodySprites[Body_Part] = new List<SpriteHandlerNorder>();
-			var Sprites = Body_Part.GetBodyTypeSprites(ThisBodyType.bodyType); //Get the correct one
+			OpenBodySprites[bodyPart] = new List<SpriteHandlerNorder>();
+			var Sprites = bodyPart.GetBodyTypeSprites(ThisBodyType.bodyType); //Get the correct one
 
 
 			if (Sprites != null)
 			{
 				if (Sprites?.Item1?.Orders == null || Sprites.Item1.Orders.Count == 0)
 				{
-					Logger.LogError("Rendering order not specified on " + Body_Part.name, Category.Character);
+					Logger.LogError("Rendering order not specified on " + bodyPart.name, Category.Character);
 				}
 
 
 				int i = 0;
 				foreach (var SpriteData in Sprites.Item2)
 				{
-					var newSprite = Instantiate(BodyPartSpite, SpriteContainer.transform);
+					var newSprite = Instantiate(BodyPartSprite, SpriteContainer.transform);
 					newSprite.gameObject.transform.localPosition = Vector3.zero;
 					newSprite.SetSpriteOrder(new SpriteOrder(Sprites.Item1), true);
 					newSprite.SpriteOrder.Add(i);
 					newSprite.SpriteHandler.SetSpriteSO(SpriteData);
-					OpenBodySprites[Body_Part].Add(newSprite);
+					OpenBodySprites[bodyPart].Add(newSprite);
 					i++;
 				}
 
-				if (Body_Part.isSurface)
+				if (bodyPart.IsSurface)
 				{
-					SurfaceSprite.AddRange(OpenBodySprites[Body_Part]);
+					SurfaceSprite.AddRange(OpenBodySprites[bodyPart]);
 				}
 			}
 		}
 
-		public void RemoveBodyPart(BodyPart Body_Part, bool removeBodyCustomisation = true)
+		public void RemoveBodyPart(BodyPart bodyPart, bool removeBodyCustomisation = true)
 		{
-			if (Body_Part.isSurface)
+			if (bodyPart.IsSurface)
 			{
-				foreach (var sp in OpenBodySprites[Body_Part])
+				foreach (var sp in OpenBodySprites[bodyPart])
 				{
 					SurfaceSprite.Remove(sp);
 				}
@@ -331,43 +331,43 @@ namespace Lobby
 
 			foreach (var Keyv in ParentDictionary)
 			{
-				if (Keyv.Value.Contains(Body_Part))
+				if (Keyv.Value.Contains(bodyPart))
 				{
-					Keyv.Value.Remove(Body_Part);
+					Keyv.Value.Remove(bodyPart);
 				}
 			}
 
-			if (OpenBodySprites.ContainsKey(Body_Part))
+			if (OpenBodySprites.ContainsKey(bodyPart))
 			{
-				foreach (var Sprite in OpenBodySprites[Body_Part])
+				foreach (var Sprite in OpenBodySprites[bodyPart])
 				{
 					Destroy(Sprite.gameObject);
 				}
 
-				OpenBodySprites.Remove(Body_Part);
+				OpenBodySprites.Remove(bodyPart);
 			}
 
-			if (OpenBodyCustomisation.ContainsKey(Body_Part.name))
+			if (OpenBodyCustomisation.ContainsKey(bodyPart.name))
 			{
 				//removeBodyCustomisation
 
 				if (removeBodyCustomisation == true &&
-				    OpenBodyCustomisation[Body_Part.name].GetComponent<BodyPartDropDownReplaceOrgan>() == null)
+				    OpenBodyCustomisation[bodyPart.name].GetComponent<BodyPartDropDownReplaceOrgan>() == null)
 				{
-					Destroy(OpenBodyCustomisation[Body_Part.name]);
+					Destroy(OpenBodyCustomisation[bodyPart.name]);
 				}
 
-				OpenBodyCustomisation.Remove(Body_Part.name);
+				OpenBodyCustomisation.Remove(bodyPart.name);
 			}
 
-			if (ParentDictionary.ContainsKey(Body_Part))
+			if (ParentDictionary.ContainsKey(bodyPart))
 			{
-				foreach (var SubBody_part in ParentDictionary[Body_Part])
+				foreach (var subBodyPart in ParentDictionary[bodyPart])
 				{
-					RemoveBodyPart(SubBody_part);
+					RemoveBodyPart(subBodyPart);
 				}
 
-				ParentDictionary.Remove(Body_Part);
+				ParentDictionary.Remove(bodyPart);
 			}
 		}
 
@@ -560,11 +560,11 @@ namespace Lobby
 				Customisation.SetRotation(referenceOffset);
 			}
 
-			foreach (var PartSpites in OpenBodySprites)
+			foreach (var PartSprites in OpenBodySprites)
 			{
-				foreach (var PartSpite in PartSpites.Value)
+				foreach (var PartSprite in PartSprites.Value)
 				{
-					PartSpite.ChangeSpriteVariant(referenceOffset);
+					PartSprite.ChangeSpriteVariant(referenceOffset);
 				}
 			}
 		}
@@ -629,16 +629,16 @@ namespace Lobby
 
 			foreach (var Organ in GameObjectBody.Elements)
 			{
-				var Body_part = Organ.GetComponent<BodyPart>();
-				SubSetBodyPart(Body_part, "");
+				var bodyPart = Organ.GetComponent<BodyPart>();
+				SubSetBodyPart(bodyPart, "");
 			}
 		}
 
 
-		public void SubSetBodyPart(BodyPart Body_Part, string path)
+		public void SubSetBodyPart(BodyPart bodyPart, string path)
 		{
-			path = path + "/" + Body_Part.name;
-			if (OpenBodyCustomisation.ContainsKey(Body_Part.name))
+			path = path + "/" + bodyPart.name;
+			if (OpenBodyCustomisation.ContainsKey(bodyPart.name))
 			{
 				CustomisationStorage Customisation = null;
 				foreach (var bodyPartCustomisation in bodyPartCustomisationStorage)
@@ -651,17 +651,17 @@ namespace Lobby
 
 				if (Customisation != null)
 				{
-					var TCustomisation = OpenBodyCustomisation[Body_Part.name];
+					var TCustomisation = OpenBodyCustomisation[bodyPart.name];
 					TCustomisation.Deserialise(Customisation.Data.Replace("@£", "\""));
 				}
 			}
 
-			if (Body_Part?.storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.Contents != null)
 			{
-				foreach (var Organ in Body_Part.storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.Contents)
 				{
-					var SUbBody_part = Organ.GetComponent<BodyPart>();
-					SubSetBodyPart(SUbBody_part, path);
+					var subBodyPart = Organ.GetComponent<BodyPart>();
+					SubSetBodyPart(subBodyPart, path);
 				}
 			}
 		}
@@ -714,8 +714,8 @@ namespace Lobby
 
 			foreach (var Organ in GameObjectBody.Elements)
 			{
-				var Body_part = Organ.GetComponent<BodyPart>();
-				SubSaveBodyPart(Body_part, "");
+				var bodyPart = Organ.GetComponent<BodyPart>();
+				SubSaveBodyPart(bodyPart, "");
 			}
 		}
 
@@ -733,23 +733,23 @@ namespace Lobby
 			//SavingDataStorage
 		}
 
-		public void SubSaveBodyPart(BodyPart Body_Part, string path)
+		public void SubSaveBodyPart(BodyPart bodyPart, string path)
 		{
-			path = path + "/" + Body_Part.name;
-			if (OpenBodyCustomisation.ContainsKey(Body_Part.name))
+			path = path + "/" + bodyPart.name;
+			if (OpenBodyCustomisation.ContainsKey(bodyPart.name))
 			{
 				var NewCustomisationStorage = new CustomisationStorage();
 				NewCustomisationStorage.path = path;
 				bodyPartCustomisationStorage.Add(NewCustomisationStorage);
-				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[Body_Part.name]);
+				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[bodyPart.name]);
 			}
 
-			if (Body_Part?.storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.Contents != null)
 			{
-				foreach (var Organ in Body_Part.storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.Contents)
 				{
-					var SUbBody_part = Organ.GetComponent<BodyPart>();
-					SubSaveBodyPart(SUbBody_part, path);
+					var subBodyPart = Organ.GetComponent<BodyPart>();
+					SubSaveBodyPart(subBodyPart, path);
 				}
 			}
 		}

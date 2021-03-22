@@ -46,7 +46,7 @@ namespace Weapons.Projectiles.Behaviours
 			//TODO REMOVE AFTER CHANGING MOBS OVER TO NEW HEALTH
 			if (livingHealth != null)
 			{
-				livingHealth.ApplyDamageToBodypart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
+				livingHealth.ApplyDamageToBodyPart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 
@@ -59,7 +59,7 @@ namespace Weapons.Projectiles.Behaviours
 				return true;
 			}
 
-			health.ApplyDamageToBodypart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
+			health.ApplyDamageToBodyPart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 
 			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 

@@ -155,7 +155,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					if (victimHealth == null || gameObject == null) return;
 					// The attack hit.
-					victimHealth.ApplyDamageToBodypart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
+					victimHealth.ApplyDamageToBodyPart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
 					didHit = true;
 				}
 				else

@@ -8,169 +8,243 @@ using UnityEngine;
 
 namespace HealthV2
 {
+	/// Handles the body part's usage of the blood stream.
 	public partial class BodyPart
 	{
-		[SerializeField] [Tooltip("Do we consume any reagent in our blood?")]
-		private bool isBloodReagentConsumed = false;
+		[Tooltip("Is this connected to the blood stream at all?")]
+		[SerializeField] private bool isBloodCirculated = true;
+		/// <summary>
+		/// Flag that is true if the body part is connected to the blood stream. If this is false
+		/// it will be ignored by circulatory organs (the heart).
+		/// </summary>
+		public bool IsBloodCirculated => isBloodCirculated;
 
+		[Tooltip("Does this consume reagents from its blood?")]
+		[SerializeField] private bool isBloodReagentConsumed = false;
+		/// <summary>
+		/// Flag that is true if the body part consumes reagents (eg oxygen) from the blood
+		/// </summary>
 		public bool IsBloodReagentConsumed => isBloodReagentConsumed;
 
-		[SerializeField] [Tooltip("Does this have any blood Flow at all?")]
-		private bool isBloodReagentCirculated = true;
+		/// <summary>
+		/// The reagent that is used by this body part, eg oxygen.
+		/// </summary>
+		[Tooltip("What type of blood does this body part work with?")]
+		[SerializeField] protected BloodType bloodType = null;
 
-		public bool IsBloodReagentCirculated => isBloodReagentCirculated;
+		/// <summary>
+		/// The reagent that is used by this body part, eg oxygen.
+		/// </summary>
+		[Tooltip("What blood reagent does this use?")]
+		[SerializeField] protected Chemistry.Reagent requiredReagent;
 
+		/// <summary>
+		/// The reagent that the body part expels as waste, eg co2
+		/// </summary>
+		[Tooltip("What reagent does this expel as waste?")]
+		[SerializeField] protected Chemistry.Reagent wasteReagent;
 
-		[SerializeField] [Tooltip("What reagent do we use?")]
-		protected Chemistry.Reagent requiredReagent;
-
-		[SerializeField] [Tooltip("How much blood reagent do we actually consume per second?")]
-		private float _bloodReagentConsumed = 0.10f;
-
-		[SerializeField] [Tooltip("How much blood it processes per second")]
-		private float bloodReagentProcessed = 0.15f;
-
-		[SerializeField] [Tooltip("How much blood reagent is stored per blood pump event.")]
-		private float bloodReagentStoreAmount = 0.01f;
-
-		public float BloodReagentStoreAmount => bloodReagentStoreAmount;
-
-		[Tooltip("Can we store any blood reagent?")]
-		public  float bloodReagentStoredMax = 0.5f;
-
-		private float BloodDamageLow = 0;
-
-		//private float bloodReagentStored = 0;
-
-		public float NutrimentConsumption = 0.02f;
-		public float NutrimentPassiveConsumption = 0.001f;
-
-
+		/// <summary>
+		/// The part's internal working set of the body's blood. This is the limit of the blood that the part can
+		/// interact with at any given time.  It is refreshed by blood pump events
+		/// </summary>
+		[Tooltip("The part's internal blood pool")]
 		public ReagentContainerBody BloodContainer = null;
 
-		[SerializeField] [Tooltip("What does this live off?")]
-		public Reagent Nutriment;
+		/// <summary>
+		/// The maximum size of the Blood Container
+		/// </summary>
+		public float BloodStoredMax => BloodContainer.MaxCapacity;
 
-		public event Action ModifierChange;
+		/// <summary>
+		/// The amount (in moles) of required reagent (eg oxygen) this body part needs consume each tick.
+		/// </summary>
+		[Tooltip("How much (in moles) blood reagent (eg oxygen) does this need each tick?")]
+		[SerializeField] private float bloodReagentConsumed = 0.00002f;
 
-		public float TotalModified = 1;
+		[Tooltip("How much blood reagent does this request per blood pump event?")]
+		[SerializeField] private float bloodThroughput = 0.015f; //This will need to be reworked when heartrate gets finished
+		/// <summary>
+		/// The amount of blood ReagentMix this body part will remove and add each blood pump event
+		/// Essentially controls the rate of blood flow through the organ
+		/// </summary>
+		public float BloodThroughput => bloodThroughput;
 
-		public List<Modifier> AppliedModifiers = new List<Modifier>();
+		/// <summary>
+		/// The nutriment reagent that this part consumes in order to perform tasks
+		/// </summary>
+		[Tooltip("What does this live off?")]
+		[SerializeField] public Reagent Nutriment;
 
-		public void UpdateMultiplier()
-		{
-			TotalModified = 1;
-			foreach (var Modifier in AppliedModifiers)
-			{
-				TotalModified *= Mathf.Max(0, Modifier.Multiplier);
-			}
-			ModifierChange?.Invoke();
-		}
+		/// <summary>
+		/// The amount of of nutriment to consumed each tick as part of passive metabolism
+		/// </summary>
+		[Tooltip("How much nutriment does this passively consume to each tick?")]
+		public float NutrimentPassiveConsumption = 0.001f;
 
+		/// <summary>
+		/// The amount of of nutriment to consume in order to perform work, eg heal damage or replenish blood supply
+		/// </summary>
+		[Tooltip("How much nutriment does this consume to perform work?")]
+		public float NutrimentConsumption = 0.02f;
 
-		public void AddModifier(Modifier InModifier)
-		{
-			InModifier.RelatedPart = this;
-			AppliedModifiers.Add(InModifier);
-		}
-
-		public void RemoveModifier(Modifier InModifier)
-		{
-			InModifier.RelatedPart = null;
-			AppliedModifiers.Remove(InModifier);
-		}
-
-
+		/// <summary>
+		/// Initializes the body part as part of the circulatory system
+		/// </summary>
 		public void BloodInitialise()
 		{
 			BloodContainer = this.GetComponent<ReagentContainerBody>();
-			BloodContainer.Add(new ReagentMix(requiredReagent, bloodReagentStoredMax));
-			//bloodReagentStored = bloodReagentStoredMax; //Organs spawn in oxygenated.
-			BloodDamageLow = bloodReagentStoredMax * 0.25f;
-			BloodContainer.ContentsSet = true;
+			if (BloodContainer.ContentsSet == false)
+			{
+				if (isBloodCirculated)
+				{
+					HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(BloodContainer.CurrentReagentMix, BloodStoredMax);
+				}
+				BloodContainer.ContentsSet = true;
+			}
+			if (bloodType == null)
+			{
+				bloodType = HealthMaster.CirculatorySystem.BloodType;
+			}
 		}
 
-		public virtual void BloodUpdate()
+		/// <summary>
+		/// Handles the body part's use of blood for each tick
+		/// </summary>
+		protected virtual void BloodUpdate()
 		{
-			//Can do something about purity
-			//low Blood content punishment but no damage
+			if (isBloodCirculated == false) return;
+			ConsumeReagents();
+			ConsumeNutriments();
+		}
 
-			//Logger.Log("Available blood"  + BloodContainer[requiredReagent]);
+		/// <summary>
+		/// Handles the body part's consumption of required reagents (eg oxygen)
+		/// </summary>
+		protected virtual void ConsumeReagents()
+		{
+			// Numbers could use some tweaking, maybe consumption goes down when unconscious?
 
-			if (isBloodReagentConsumed)
+			if (!isBloodReagentConsumed) return;
+
+			float consumed = BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumed);
+
+			// Adds waste product (eg CO2) if any, currently always 1:1, could add code to change the ratio
+			if (wasteReagent)
 			{
-				if (BloodContainer[requiredReagent] < BloodDamageLow)
+				BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed);
+			}
+
+			//Heal if blood saturation post consumption is fine, otherwise do damage
+			float bloodSaturation = 0;
+			float bloodCap = bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix);
+			if (bloodCap > 0)
+			{
+				float foreignCap = bloodType.GetGasCapacityForeign(BloodContainer.CurrentReagentMix);
+				var ratioNativeBlood = bloodCap / (bloodCap + foreignCap);
+				bloodSaturation = BloodContainer[requiredReagent] * ratioNativeBlood / bloodCap;
+			}
+			var info = HealthMaster.CirculatorySystem.BloodInfo;
+			float damage;
+			if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
+			{
+				//Deals damage that ramps to 10 as blood saturation levels drop, halved if unconscious
+				if (bloodSaturation <= 0)
 				{
-					AffectDamage(1f, (int) DamageType.Oxy);
+					damage = 10f;
+				}
+				else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_CRITICAL)
+				{
+					// Arbitrary damage formula, could use anything here
+					damage = 10 * (1 - Mathf.Sqrt(bloodSaturation));
 				}
 				else
 				{
-					AffectDamage(-1f, (int) DamageType.Oxy);
+					damage = 1;
 				}
-
 			}
-
-			ReagentMix reagentMix = BloodContainer.TakeReagents(bloodReagentProcessed);
-			if (isBloodReagentConsumed)
+			else if (bloodSaturation > 1)
 			{
-				reagentMix.Remove(requiredReagent, Single.MaxValue);
-			}
-
-			healthMaster.CirculatorySystem.UseBloodPool.Add(reagentMix);
-
-			if (TotalDamageWithoutOxy > 0 && BloodContainer[Nutriment]> 0)
-			{
-
-				float toConsume = NutrimentConsumption;
-				if (NutrimentConsumption > BloodContainer[Nutriment])
-				{
-					toConsume = BloodContainer[Nutriment];
-				}
-
-				BloodContainer.CurrentReagentMix.Remove(Nutriment,toConsume );
-				NutrimentHeal(toConsume);
-			}
-
-			if (BloodContainer[Nutriment] > 0)
-			{
-				float toConsume = NutrimentPassiveConsumption;
-				if (NutrimentConsumption > BloodContainer[Nutriment])
-				{
-					toConsume = BloodContainer[Nutriment];
-				}
-
-				BloodContainer.CurrentReagentMix.Remove(Nutriment,toConsume );
-				if (BloodContainer[Nutriment] < NutrimentPassiveConsumption * 1000)
-				{
-					//is Hungary
-				}
+				//There is more oxygen in the organ than the blood can hold
+				//Blood might be oversaturated, we might have the wrong blood, maybe do something here
+				damage = 0;
 			}
 			else
 			{
-				//Is starving
+				if (bloodSaturation > info.BLOOD_REAGENT_SATURATION_OKAY)
+				{
+					OxyHeal(BloodContainer.CurrentReagentMix, BloodContainer[requiredReagent] * (bloodSaturation - info.BLOOD_REAGENT_SATURATION_OKAY));
+				}
+				//We already consumed some earlier as well
+				damage = -1;
+			}
+			AffectDamage(damage, (int)DamageType.Oxy);
+		}
+
+		/// <summary>
+		/// Heals damage caused by lack of blood reagent by consume reagent
+		/// </summary>
+		/// <param name="reagentMix">Reagent mix to consume reagent from</param>
+		/// <param name="amount">Amount to consume</param>
+		public void OxyHeal(ReagentMix reagentMix, float amount)
+		{
+			if (Oxy <= 0) return;
+			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumed);
+			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumed, (int)DamageType.Oxy);
+		}
+
+		/// <summary>
+		/// Handles the body part's consumption of required nutriments
+		/// </summary>
+		protected virtual void ConsumeNutriments()
+		{
+			float availableNutriment = BloodContainer.CurrentReagentMix.Subtract(Nutriment, Single.MaxValue);
+
+			if (availableNutriment > NutrimentPassiveConsumption)
+			{
+				availableNutriment -= NutrimentPassiveConsumption;
+				if (TotalDamageWithoutOxy > 0)
+				{
+					float toConsume = Mathf.Min(NutrimentConsumption, availableNutriment);
+					availableNutriment -= toConsume;
+					NutrimentHeal(toConsume);
+				}
+				if (availableNutriment < NutrimentPassiveConsumption * 1000)
+				{
+					// Is Hungry
+				}
+				BloodContainer.CurrentReagentMix.Add(Nutriment, availableNutriment);
+			}
+			else
+			{
+				// Is Starving
 			}
 		}
 
-		public void NutrimentHeal(double Amount)
+		/// <summary>
+		/// Heals damage caused by sources other than lack of blood reagent
+		/// </summary>
+		/// <param name="amount">Amount to heal</param>
+		public void NutrimentHeal(double amount)
 		{
-			double DamageMultiplier = TotalDamageWithoutOxy / Amount;
+			double DamageMultiplier = TotalDamageWithoutOxy / amount;
 
 			for (int i = 0; i < Damages.Length; i++)
 			{
-				if ((int) DamageType.Oxy == i) continue;
-				HealDamage(null, (float) (Damages[i] / DamageMultiplier), i);
+				if ((int)DamageType.Oxy == i) continue;
+				HealDamage(null, (float)(Damages[i] / DamageMultiplier), i);
 			}
 		}
 
 		/// <summary>
 		/// This is called whenever blood is pumped through the circulatory system by a heartbeat.
-		/// Can happen multiple times if there's multiple hearts.
+		/// Can happen multiple times if there's multiple hearts. Pushes out old blood and brings
+		/// in new blood, up to the part's capacity.
 		/// </summary>
-		/// <param name="bloodReagent"></param>
-		/// <returns></returns>
-		public ReagentMix BloodPumpedEvent(ReagentMix bloodReagent)
+		/// <param name="bloodIn">Incoming blood</param>
+		/// <returns>Whatever is left over from bloodIn</returns>
+		public ReagentMix BloodPumpedEvent(ReagentMix bloodIn, float efficiency)
 		{
-			//Logger.Log("BloodPumpedEvent  " + bloodReagent);
 			//Maybe have a dynamic 50% other blood in this blood
 			// if (bloodReagent != requiredReagent)
 			// {
@@ -178,22 +252,23 @@ namespace HealthV2
 			// }
 			//bloodReagent.Subtract()
 			//BloodContainer.Add(bloodReagent);
-			if ((BloodContainer.ReagentMixTotal + bloodReagent.Total) > BloodContainer.MaxCapacity)
+
+			//Maybe have damage from high/low blood levels and high blood pressure
+
+			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, bloodThroughput * efficiency);
+
+			if ((BloodContainer.ReagentMixTotal + bloodIn.Total) > BloodContainer.MaxCapacity)
 			{
-				float BloodToTake = (BloodContainer.MaxCapacity - BloodContainer.ReagentMixTotal );
-				bloodReagent.TransferTo(BloodContainer.CurrentReagentMix, BloodToTake);
-				BloodContainer.OnReagentMixChanged?.Invoke();
-				BloodContainer.ReagentsChanged();
-				return bloodReagent;
+				float BloodToTake = BloodContainer.MaxCapacity - BloodContainer.ReagentMixTotal;
+				bloodIn.TransferTo(BloodContainer.CurrentReagentMix, BloodToTake);
 			}
 			else
 			{
-				bloodReagent.TransferTo(BloodContainer.CurrentReagentMix, bloodReagent.Total);
-				BloodContainer.OnReagentMixChanged?.Invoke();
-				BloodContainer.ReagentsChanged();
+				bloodIn.TransferTo(BloodContainer.CurrentReagentMix, bloodIn.Total);
 			}
-
-			return bloodReagent;
+			BloodContainer.OnReagentMixChanged?.Invoke();
+			BloodContainer.ReagentsChanged();
+			return bloodIn;
 		}
 
 		/// <summary>
@@ -208,33 +283,5 @@ namespace HealthV2
 		{
 			return amount;
 		}
-	}
-
-
-	public class Modifier
-	{
-		public float Multiplier
-		{
-			get
-			{
-				return multiplier;
-			}
-			set
-			{
-				if (multiplier != value)
-				{
-					multiplier = value;
-					if (RelatedPart != null)
-					{
-						RelatedPart.UpdateMultiplier();
-					}
-				}
-			}
-		}
-
-		private float multiplier;
-
-		public BodyPart RelatedPart;
-
 	}
 }

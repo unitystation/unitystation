@@ -35,7 +35,7 @@ namespace Weapons.Projectiles.Behaviours
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
 			if (livingHealth != null)
 			{
-				livingHealth.ApplyDamageToBodypart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
+				livingHealth.ApplyDamageToBodyPart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
 
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
@@ -49,7 +49,7 @@ namespace Weapons.Projectiles.Behaviours
 			var health = coll.GetComponent<LivingHealthMasterBase>();
 			if (health != null)
 			{
-				health.ApplyDamageToBodypart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
+				health.ApplyDamageToBodyPart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 				Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,

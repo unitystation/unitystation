@@ -217,7 +217,15 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 	bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
 	{
-		return !IsSlippingServer;
+		if (rest)
+		{
+			return true;
+		}
+		else
+		{
+			return !IsSlippingServer;
+		}
+
 	}
 
 
@@ -241,7 +249,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit
 			|| playerScript.playerHealth.IsDead
-			|| playerScript.playerHealth.hungerState == HungerState.Starving)
+			|| playerScript.playerHealth.HungerState == HungerState.Starving)
 		{
 			return;
 		}

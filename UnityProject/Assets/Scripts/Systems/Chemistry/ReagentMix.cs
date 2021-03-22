@@ -276,7 +276,7 @@ namespace Chemistry
 
 				// change amount to subtraction result
 				reagents[reagent] = newAmount;
-				return amount;
+				return subAmount;
 			}
 
 			// have nothing to remove, just return zero
@@ -383,6 +383,15 @@ namespace Chemistry
 			removed = Math.Max(Total - max, 0);
 			RemoveVolume(removed);
 		}
+
+		/// <summary>
+		/// Get the what fraction of the total a specific reagent is
+		/// </summary>
+		public float GetPercent(Reagent reagent)
+		{
+			return reagents[reagent] / Total;
+		}
+
 
 		public void Clear()
 		{

@@ -13,23 +13,36 @@ namespace HealthV2
 {
 	public class PlayerHealthV2 : LivingHealthMasterBase, RegisterPlayer.IControlPlayerState
 	{
+
 		private PlayerMove playerMove;
+		/// <summary>
+		/// Controller for sprite direction and walking into objects
+		/// </summary>
 		public PlayerMove PlayerMove => playerMove;
 
 		private PlayerSprites playerSprites;
 
+
 		private PlayerScript playerScript;
+		/// <summary>
+		/// The associated Player Script
+		/// </summary>
 		public PlayerScript PlayerScript => playerScript;
 
 		private PlayerNetworkActions playerNetworkActions;
+
+		private RegisterPlayer registerPlayer;
 		/// <summary>
 		/// Cached register player
 		/// </summary>
-		private RegisterPlayer registerPlayer;
 		public RegisterPlayer RegisterPlayer => registerPlayer;
 
+
 		private Equipment equipment;
-		public Equipment Equip => equipment;
+		/// <summary>
+		/// The associated Player Equipment
+		/// </summary>
+		public Equipment Equipment => equipment;
 
 		private ItemStorage itemStorage;
 
@@ -50,17 +63,10 @@ namespace HealthV2
 		//fixme: not actually set or modified. keep an eye on this!
 		public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
-		public override void Awake()
-		{
-			base.Awake();
-			EnsureInit();
-		}
-
 		public override void EnsureInit()
 		{
 			if (init) return;
 			init = true;
-
 			base.EnsureInit();
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			playerMove = GetComponent<PlayerMove>();
@@ -71,18 +77,6 @@ namespace HealthV2
 			playerScript = GetComponent<PlayerScript>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 			registerPlayer.AddStatus(this);
-		}
-
-		public override void OnStartClient()
-		{
-			EnsureInit();
-			base.OnStartClient();
-		}
-
-		public override void OnStartServer()
-		{
-			EnsureInit();
-			base.OnStartServer();
 		}
 
 		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
@@ -98,6 +92,9 @@ namespace HealthV2
 			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
 		}
 
+		/// <summary>
+		/// Server only. Gibs the player.
+		/// </summary>
 		[Server]
 		public void ServerGibPlayer()
 		{
@@ -107,7 +104,7 @@ namespace HealthV2
 		protected override void Gib()
 		{
 			Death();
-			EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
+			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			//drop clothes, gib... but don't destroy actual player, a piece should remain
 
 			//drop everything
@@ -122,9 +119,20 @@ namespace HealthV2
 
 		bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
 		{
-			return ConsciousState == ConsciousState.CONSCIOUS;
+			if (rest)
+			{
+				return true;
+			}
+			else
+			{
+				return ConsciousState == ConsciousState.CONSCIOUS;
+			}
+
 		}
 
+		/// <summary>
+		/// Actions the server performs when the player dies
+		/// </summary>
 		protected override void OnDeathActions()
 		{
 			if (CustomNetworkManager.Instance._isServer)
@@ -144,7 +152,7 @@ namespace HealthV2
 
 				if (killerName == null)
 				{
-					killerName = "Stressful work";
+					killerName = "stressful work";
 				}
 
 				string playerName = player?.Name ?? "dummy";
@@ -154,9 +162,18 @@ namespace HealthV2
 				}
 				else if (killerName.EndsWith(playerName))
 				{
+					string themself = null;
+					if (player != null)
+					{
+						themself = player.CharacterSettings?.ThemselfPronoun(player.Script);
+					}
+					if (themself == null)
+					{
+						themself = "themself";
+					}
 					//chain reactions
-					Chat.AddActionMsgToChat(gameObject, $" You screwed yourself up with some help from {killerName}",
-						$"{playerName} screwed himself up with some help from {killerName}");
+					Chat.AddActionMsgToChat(gameObject, $"You screwed yourself up with some help from {killerName}",
+						$"{playerName} screwed {themself} up with some help from {killerName}");
 				}
 				else
 				{
@@ -172,19 +189,19 @@ namespace HealthV2
 
 				if (isServer)
 				{
-					EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, BloodSplatType.red);
-					string descriptor = null;
+					EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+					string their = null;
 					if (player != null)
 					{
-						descriptor = player.CharacterSettings?.TheirPronoun(player.Script);
+						their = player.CharacterSettings?.TheirPronoun(player.Script);
 					}
 
-					if (descriptor == null)
+					if (their == null)
 					{
-						descriptor = "their";
+						their = "their";
 					}
 
-					Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", gameObject);
+					Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
 				}
 
 				TriggerEventMessage.SendTo(gameObject, EVENT.PlayerDied);
@@ -194,8 +211,10 @@ namespace HealthV2
 		#region Sickness
 		//Player only sickness stuff, general stuff in LivingHealthMasterBase as all mobs should be able to get sick
 
-		// At round start, a percent of players start with mild allergy
-		// The purpose of this, is to make believe that coughing and sneezing at random is "probably" not a real sickness.
+		/// <summary>
+		/// Randomly determines whether the player has common allergies at round start
+		/// This is to give the idea that coughing and sneezing at random is "probably" not a real sickness.
+		/// </summary>
 		private void ApplyStartingAllergies()
 		{
 			if (UnityEngine.Random.Range(0, 100) < percentAllergies)
@@ -281,7 +300,7 @@ namespace HealthV2
 		/// <param name="bodypart">The BodyPartType to damage.</param>
 		private void DealElectrocutionDamage(float damage, BodyPartType bodypart)
 		{
-			ApplyDamageToBodypart(null, damage, AttackType.Internal, DamageType.Burn, bodypart);
+			ApplyDamageToBodyPart(null, damage, AttackType.Internal, DamageType.Burn, bodypart);
 		}
 
 		protected override void MildElectrocution(Electrocution electrocution, float shockPower)

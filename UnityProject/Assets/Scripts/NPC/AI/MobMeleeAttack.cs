@@ -61,13 +61,13 @@ namespace Systems.MobAIs
 			{
 				if(targetHealth != null)
 				{
-					targetHealth.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
+					targetHealth.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
 						defaultTarget.Randomize());
 					Chat.AddAttackMsgToChat(gameObject, targetHealth.gameObject, defaultTarget, null, attackVerb);
 				}
 				else
 				{
-					targetHealthV2.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
+					targetHealthV2.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
 						defaultTarget.Randomize());
 					Chat.AddAttackMsgToChat(gameObject, targetHealthV2.gameObject, defaultTarget, null, attackVerb);
 				}

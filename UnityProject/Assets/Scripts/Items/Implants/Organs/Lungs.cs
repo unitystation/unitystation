@@ -9,202 +9,185 @@ using Random = UnityEngine.Random;
 
 public class Lungs : BodyPart
 {
+	/// <summary>
+	/// The number of ticks to wait until next breath is attempted
+	/// </summary>
+	[Tooltip("The number of ticks to wait until next breath is attempted")]
 	[SerializeField] private int breatheCooldown = 4;
+	private int currentBreatheCooldown = 4;
 
-	[SerializeField] private float reagentSafeMin = 16;
+	/// <summary>
+	/// The minimum pressure of the required gas needed to avoid suffocation
+	/// </summary>
+	[Tooltip("The minimum pressure needed to avoid suffocation")]
+	[SerializeField] private float pressureSafeMin = 16;
 
+	/// <summary>
+	/// The gas that this tries to put into the blood stream
+	/// </summary>
+	[Tooltip("The gas that this tries to put into the blood stream")]
 	[SerializeField] private Gas requiredGas = Gas.Oxygen;
 
+	/// <summary>
+	/// The gas that this expels when breathing out
+	/// </summary>
+	[Tooltip("The gas that this expels when breathing out")]
 	[SerializeField] private Gas expelledGas = Gas.CarbonDioxide;
 
-	private bool isSuffocating = false;
-	public bool IsSuffocating => isSuffocating;
+	/// <summary>
+	/// The base amount of blood that this attempts to process each single breath
+	/// </summary>
+	//[Tooltip("The base amount of blood in litres that this processes each breath")]
+	//public float LungProcessAmount = 1.5f;
 
+	/// <summary>
+	/// The volume of the lung in litres
+	/// </summary>
+	[Tooltip("The volume of the lung in litres")]
+	public float LungSize = 6;
 
-	public float LungProcessAmount = 10;
-
-	public BloodType InteractsWith;
-
-
-	public List<Reagent> TEPList = new List<Reagent>();
-
-
-	public override void ImplantPeriodicUpdate(LivingHealthMasterBase healthMaster)
+	public override void ImplantPeriodicUpdate()
 	{
-		base.ImplantPeriodicUpdate(healthMaster);
+		base.ImplantPeriodicUpdate();
 
 		Vector3Int position = healthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
-		if (Breathe(node, healthMaster))
+		if (TryBreathing(node, TotalModified))
 		{
 			AtmosManager.Update(node);
 		}
 	}
 
-
-	private bool Breathe(IGasMixContainer node, LivingHealthMasterBase healthMaster)
+	/// <summary>
+	/// Performs the action of breathing, expelling waste products from the used blood pool and refreshing
+	/// the desired blood reagent (ie oxygen)
+	/// </summary>
+	/// <param name="node">The gas node at this lung's position</param>
+	/// <returns>True if gas was exchanged</returns>
+	public bool TryBreathing(IGasMixContainer node, float efficiency)
 	{
-		// Logger.Log("Lungs have " + healthMaster.CirculatorySystem.UseBloodPool + " Of Used blood available ");
-		if (healthMaster.CirculatorySystem.UseBloodPool.Total == 0) //No point breathing if we dont have blood.
+		//Base effeciency is a little strong on the lungs
+		//efficiency = (1 + efficiency) / 2;
+
+		//Breathing is not timebased, but tick based, it will be slow when the blood has all the oxygen it needs
+		//and will speed up if more oxygen is needed
+		currentBreatheCooldown--;
+		if (currentBreatheCooldown > 0)
 		{
 			return false;
 		}
 
-		//TODO: This should also make sure that the circulatory system accepts the type of gas these lungs do!
-
-		// if no internal breathing is possible, get the from the surroundings
-		IGasMixContainer container = node;
-		if (healthMaster is PlayerHealthV2 playerHealth)
+		if (healthMaster.CirculatorySystem.UsedBloodPool[bloodType] == 0)
 		{
-			container = GetInternalGasMix(playerHealth) ?? node;
+			return false; //No point breathing if we dont have blood.
 		}
 
+		// Try to get internal breathing if possible, otherwise get from the surroundings
+		IGasMixContainer container = healthMaster.RespiratorySystem.GetInternalGasMix() ?? node;
 
-		//Can probably edit this to use the volume of the lungs instead.
-		GasMix gasMix = container.GasMix;
+		ReagentMix AvailableBlood = healthMaster.CirculatorySystem.UsedBloodPool.Take(healthMaster.CirculatorySystem.UsedBloodPool.Total);
 
+		bool tryExhale = BreatheOut(container.GasMix, AvailableBlood, efficiency);
+		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
+		healthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
 
+		return tryExhale || tryInhale;
+	}
 
-
-
-		var AvailableBlood = healthMaster.CirculatorySystem.UseBloodPool.Take(LungProcessAmount * TotalModified);
-
-		TEPList.Clear();
-		//Remove gas from blood
-		foreach (var Reagent in AvailableBlood)
+	/// <summary>
+	/// Expels unwanted gases from the blood stream into the given gas mix
+	/// </summary>
+	/// <param name="gasMix">The gas mix to breathe out into</param>
+	/// <param name="blood">The blood to pull gases from</param>
+	/// <returns> True if breathGasMix was changed </returns>
+	private bool BreatheOut(GasMix gasMix, ReagentMix blood, float efficiency)
+	{
+		// This isn't exactly realistic, should also factor concentration of gases in the gasMix
+		ReagentMix toExhale = new ReagentMix();
+		foreach (var Reagent in blood)
 		{
 			if (GAS2ReagentSingleton.Instance.DictionaryReagentToGas.ContainsKey(Reagent.Key))
 			{
-				gasMix.AddGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value/10000f);
-				TEPList.Add(Reagent.Key);
-			}
-		}
-
-		foreach (var Reagent in TEPList)
-		{
-			AvailableBlood.Remove(Reagent, Single.MaxValue);
-		}
-
-
-		float reagentUsed = HandleBreathing(gasMix);
-		float gasUsed = reagentUsed;
-		reagentUsed = reagentUsed * 10000f;
-
-
-		if (reagentUsed > InteractsWith.GetSpareCapacity(AvailableBlood))
-		{
-			//Calculate it better
-			reagentUsed = InteractsWith.GetSpareCapacity(AvailableBlood);
-			gasUsed = reagentUsed / 10000f;
-		}
-		else
-		{
-			// var Bloodremove = (AvailableBlood[requiredReagent] - reagentUsed);
-			// AvailableBlood.Remove(requiredReagent, Bloodremove);
-			// healthMaster.CirculatorySystem.UseBloodPool.Add(requiredReagent, Bloodremove);
-		}
-
-		AvailableBlood.Add(requiredReagent, reagentUsed);
-
-
-		// Logger.Log("Lungs produced " + reagentUsed + " Of useful blood");
-
-		gasMix.RemoveGas(requiredGas, gasUsed);
-
-
-
-		float BloodGasCapability = AvailableBlood[requiredReagent] * 0.01f;
-		float TotalGas = gasMix.Moles;
-
-		for (int i = 0; i < gasMix.Gases.Length; i++)
-		{
-			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(Gas.All[i]))
-			{
-				float uToRemove = (gasMix.Gases[i] / TotalGas) * BloodGasCapability;
-
-				gasMix.RemoveGas(Gas.All[i], uToRemove);
-				AvailableBlood.Add(GAS2ReagentSingleton.Instance.DictionaryGasToReagent[Gas.All[i]], uToRemove);
-			}
-		}
-
-		gasMix.AddGas(expelledGas, gasUsed);
-
-		if (float.IsNaN(gasMix.Temperature))
-		{
-			Logger.LogError("HELPP!");
-			Debug.Break();
-		}
-
-		healthMaster.RegisterTile.Matrix.MetaDataLayer.UpdateSystemsAt(healthMaster.RegisterTile.LocalPositionClient,
-			SystemType.AtmosSystem);
-
-		healthMaster.CirculatorySystem.AddUsefulBloodReagent(AvailableBlood);
-
-
-		return reagentUsed > 0;
-	}
-
-	//A bit hacky, get the gas mask the player is wearing if they have one.
-	private GasContainer GetInternalGasMix(PlayerHealthV2 playerHealth)
-	{
-		PlayerScript playerScript = playerHealth.RegisterPlayer.PlayerScript;
-		if (playerScript != null)
-		{
-			// Check if internals exist
-			var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
-			bool internalsEnabled = playerHealth.Equip.IsInternalsEnabled;
-			if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
-			{
-				foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())
+				// Try to prevent lungs removing desired gases and non gases from blood.
+				// May want to add other gases that the lungs are unable to remove as well (ie toxins)
+				var gas = GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key);
+				if (gas != requiredGas && Reagent.Value > 0)
 				{
-					if (gasSlot.Item == null) continue;
-					var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-					if (gasContainer)
+					toExhale.Add(Reagent.Key, Reagent.Value * efficiency);
+				}
+				else if (gas == requiredGas && Reagent.Value > 0)
+				{
+					float ratio;
+					if (gasMix.GetPressure(requiredGas) < pressureSafeMin)
 					{
-						return gasContainer;
+						ratio = 1 - gasMix.GetPressure(requiredGas) / pressureSafeMin;
 					}
+					else
+					{
+						// Will still lose required gas suspended in blood plasma
+						ratio = bloodType.BloodGasCapability / bloodType.BloodCapacityOf;
+					}
+					toExhale.Add(Reagent.Key, ratio * Reagent.Value * efficiency);
 				}
 			}
 		}
-
-		return null;
+		healthMaster.RespiratorySystem.GasExchangeFromBlood(gasMix, blood, toExhale);
+		//Debug.Log("Gas exhaled: " + toExhale.Total);
+		return toExhale.Total > 0;
 	}
 
-	private float HandleBreathing(GasMix gasMix)
+	/// <summary>
+	/// Pulls in the desired gas, as well as others, from the specified gas mix and adds them to the blood stream
+	/// </summary>
+	/// <param name="gasMix">The gas mix to breathe in from</param>
+	/// <param name="blood">The blood to put gases into</param>
+	/// <returns> True if breathGasMix was changed </returns>
+	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 	{
-		float oxygenPressure = gasMix.GetPressure(Gas.Oxygen);
-
-		float oxygenUsed = 0;
-
-		if (oxygenPressure < reagentSafeMin)
+		if (healthMaster.RespiratorySystem.CanBreathAnywhere)
 		{
-			if (Random.value < 0.1)
-			{
-				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{HealthMaster.gameObject.ExpensiveName()} gasps");
-			}
-
-			if (oxygenPressure > 0)
-			{
-				float ratio = 1 - oxygenPressure / reagentSafeMin;
-				//bloodSystem.OxygenDamage += 1 * ratio;
-				oxygenUsed = gasMix.GetMoles(Gas.Oxygen) * ratio * AtmosConstants.BREATH_VOLUME;
-			}
-			else
-			{
-				//bloodSystem.OxygenDamage += 1;
-			}
-
-			isSuffocating = true;
+			blood.Add(requiredReagent, bloodType.GetSpareGasCapacity(blood));
+			return false;
 		}
-		else
+		ReagentMix toInhale = new ReagentMix();
+
+		for (int i = 0; i < breathGasMix.Gases.Length; i++)
 		{
-			oxygenUsed = gasMix.GetMoles(Gas.Oxygen) * AtmosConstants.BREATH_VOLUME;
-			isSuffocating = false;
-			//bloodSystem.OxygenDamage -= 2.5f;
-			breatheCooldown = 4;
+			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(Gas.All[i]))
+			{
+				// n = PV/RT
+				float gasMoles = breathGasMix.GetPressure(Gas.All[i]) * LungSize / 8.314f / breathGasMix.Temperature;
+
+				// Get as much as we need, or as much as in the lungs, whichever is lower
+				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(Gas.All[i]);
+				float molesRecieved = Mathf.Min(gasMoles, bloodType.GetSpareGasCapacity(blood, gasReagent));
+				toInhale.Add(gasReagent, molesRecieved * efficiency);
+
+				//TODO: Add pressureSafeMax check here, for hyperoxia
+			}
+		}
+		healthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
+
+		// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
+		// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
+		var inGas = GAS2ReagentSingleton.Instance.GetGasToReagent(requiredGas);
+		var saturation = (toInhale[inGas] + blood[inGas]) / bloodType.GetGasCapacity(blood);
+		if (saturation >= HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY)
+		{
+			currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
+			healthMaster.HealthStateController.SetSuffocating(false);
+		}
+		else if (saturation <= HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
+		{
+			healthMaster.HealthStateController.SetSuffocating(true);
+			if (Random.value < 0.2)
+			{
+				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{healthMaster.gameObject.ExpensiveName()} gasps");
+			}
 		}
 
-		return oxygenUsed;
+		//Debug.Log("Gas inhaled: " + toInhale.Total + " Saturation: " + saturation);
+		return toInhale.Total > 0;
 	}
 }

@@ -25,8 +25,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
-      propertyPath: bodyPartType
+      propertyPath: BodyPartType
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: wasteReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4,
+        type: 2}
+    - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: bloodThroughput
+      value: 0.0225
       objectReference: {fileID: 0}
     - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -97,6 +108,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 13fa3e7a251a7b54aa67fd153c616ab7,
         type: 2}
+    - target: {fileID: 511036447239998513, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: PresentSpriteSet
