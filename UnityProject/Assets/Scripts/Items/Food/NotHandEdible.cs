@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
+using Items;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Items;
 
 /// <summary>
 /// Indicates an edible object
@@ -13,9 +13,10 @@ using Items;
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(ItemAttributesV2))]
 [RequireComponent(typeof(ReagentContainer))]
-public class Edible : Consumable, ICheckedInteractable<HandActivate>
+public class NotHandEdible : Consumable
 {
-	public GameObject leavings;
+	[SerializeField]
+	private GameObject leavings;
 
 	[SerializeField]
 	private AddressableAudioSource sound = null;
@@ -23,16 +24,16 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 	private static readonly StandardProgressActionConfig ProgressConfig
 		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
-	[FormerlySerializedAs("NutrientsHealAmount")]
-	[FormerlySerializedAs("NutritionLevel")]
-	public int StartingNutrients = 10;
+	[SerializeField]
+	private int StartingNutrients = 10;
 
-	public Reagent Nutriment;
+	[SerializeField]
+	private Reagent Nutriment;
 
 	protected ItemAttributesV2 itemAttributes;
 	private Stackable stackable;
 	private RegisterItem item;
-	protected ReagentContainer FoodContents;
+	private ReagentContainer FoodContents;
 
 	private string Name => itemAttributes.ArticleName;
 
@@ -53,20 +54,6 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		{
 			Logger.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
 		}
-	}
-
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		return true;
-	}
-
-	/// <summary>
-	/// Eat by activating from inventory
-	/// </summary>
-	public void ServerPerformInteraction(HandActivate interaction)
-	{
-		TryConsume(interaction.PerformerPlayerScript.gameObject);
 	}
 
 	public override void TryConsume(GameObject feederGO, GameObject eaterGO)
@@ -104,10 +91,8 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 				}).ServerStartProgress(eater.registerTile, 3f, feeder.gameObject);
 				return;
 			}
-			else
-			{
-				Eat(eater, feeder);
-			}
+
+			Eat(eater, feeder);
 		}
 	}
 
