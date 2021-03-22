@@ -115,6 +115,9 @@ namespace Systems.Explosions
 
 		public IEnumerator TimedFireEffect(Vector3Int position, float time, TileChangeManager tileChangeManager)
 		{
+			//Dont do fire if already fire
+			if(tileChangeManager.HasOverlay(position, TileType.Effects, "Fire")) yield break;
+
 			tileChangeManager.AddOverlay(position, TileType.Effects, "Fire");
 			yield return WaitFor.Seconds(time);
 			tileChangeManager.RemoveOverlaysOfName(position, LayerType.Effects, "Fire");

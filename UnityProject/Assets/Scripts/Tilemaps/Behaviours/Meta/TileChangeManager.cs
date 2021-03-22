@@ -180,7 +180,7 @@ public class TileChangeManager : NetworkBehaviour
 		cellPosition.z = 0;
 
 		//Dont add the same overlay twice
-		if(metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile)) return;
+		if(HasOverlay(cellPosition, overlayTile)) return;
 
 		var overlayPos = metaTileMap.GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
 		if (overlayPos == null) return;
@@ -299,6 +299,21 @@ public class TileChangeManager : NetworkBehaviour
 	public List<OverlayTile> GetAllOverlayTiles(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType)
 	{
 		return metaTileMap.GetOverlayTilesByType(cellPosition, layerType, overlayType);
+	}
+
+	[Server]
+	public bool HasOverlay(Vector3Int cellPosition, OverlayTile overlayTile)
+	{
+		return metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
+	}
+
+	[Server]
+	public bool HasOverlay(Vector3Int cellPosition, TileType tileType, string overlayName)
+	{
+		var overlayTile = TileManager.GetTile(tileType, overlayName) as OverlayTile;
+		if (overlayTile == null) return false;
+
+		return metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
 	}
 
 	#endregion
