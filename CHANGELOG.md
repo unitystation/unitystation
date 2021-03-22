@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/3/22: Fixes Overlays for proto, explosions and hotspots by [ThatDan123](https://github.com/ThatDan123) in PR #[6287](https://github.com/unitystation/unitystation/pull/6287)
 * 2021/3/22: added things to buy from the Mining Equipment Vendor by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6285](https://github.com/unitystation/unitystation/pull/6285)
 * 2021/3/21: Added working crayons and spray cans by [ThatDan123](https://github.com/ThatDan123) in PR #[6277](https://github.com/unitystation/unitystation/pull/6277)
 * 2021/3/20: Fixes shuttle sounds by [ThatDan123](https://github.com/ThatDan123) in PR #[6278](https://github.com/unitystation/unitystation/pull/6278)
