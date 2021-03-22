@@ -201,9 +201,16 @@ public class PlayerSprites : MonoBehaviour
 
 			if (pass)
 			{
-				Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part,
-					customisationStorage.Data.Replace("@£", "\""),
-					livingHealthMasterBase);
+				if(Body_Part.LobbyCustomisation.characterCustomization != null)
+				{
+					Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part,
+						customisationStorage.Data.Replace("@£", "\""),
+						livingHealthMasterBase);
+				}
+				else
+				{
+					Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.LobbyCustomisation.characterCustomization}", Category.Character);
+				}
 			}
 		}
 
