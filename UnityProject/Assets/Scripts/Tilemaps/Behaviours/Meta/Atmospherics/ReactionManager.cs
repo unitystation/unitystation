@@ -138,7 +138,7 @@ namespace Systems.Atmospherics
 				{
 					addedHotspot.node.Hotspot = addedHotspot;
 					hotspots.TryAdd(addedHotspot.node.Position, addedHotspot.node);
-					tileChangeManager.UpdateTile(
+					tileChangeManager.AddOverlay(
 						new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
 						TileType.Effects, "Fire");
 
@@ -158,9 +158,9 @@ namespace Systems.Atmospherics
 				    affectedNode.HasHotspot)
 				{
 					affectedNode.Hotspot = null;
-					tileChangeManager.RemoveTile(
+					tileChangeManager.RemoveOverlaysOfName(
 						new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
-						LayerType.Effects, false);
+						LayerType.Effects, "Fire");
 					hotspots.TryRemove(removedHotspot, out var value);
 
 					if (!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;

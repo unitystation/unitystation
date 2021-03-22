@@ -547,34 +547,27 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	/// <param name="worldPosition"> Where to create tile </param>
 	/// <param name="animatedTile"></param>
 	/// <param name="animationTime"></param>
-	public void CreateAnimatedTile(Vector3 worldPosition, AnimatedTile animatedTile, float animationTime)
+	public void CreateAnimatedTile(Vector3 worldPosition, AnimatedOverlayTile animatedTile, float animationTime)
 	{
 		Vector3Int cellPos = metaTileMap.WorldToCell(worldPosition);
-		var oldEffectLayerTile = metaTileMap.GetTile(cellPos, LayerType.Effects);
 
-		StartCoroutine(EnableAnimationCoroutine(cellPos,animatedTile, animationTime, oldEffectLayerTile));
+		StartCoroutine(EnableAnimationCoroutine(cellPos, animatedTile, animationTime));
 	}
 
 	private IEnumerator EnableAnimationCoroutine(
 		Vector3Int cellPos,
-		AnimatedTile animatedTile,
-		float animationTime,
-		LayerTile oldEffectLayerTile)
+		AnimatedOverlayTile animatedTile,
+		float animationTime)
 	{
-		tileChangeManager.UpdateTile(cellPos, TileType.Effects, animatedTile.name);
+		tileChangeManager.AddOverlay(cellPos, animatedTile);
 
 		yield return WaitFor.Seconds(animationTime);
 
-		ApplyOldOverlay(cellPos, oldEffectLayerTile);
+		RemoveOverlay(cellPos, animatedTile);
 	}
 
-	private void ApplyOldOverlay(Vector3Int cellPos, LayerTile oldEffectLayerTile)
+	private void RemoveOverlay(Vector3Int cellPos, AnimatedOverlayTile animatedTile)
 	{
-		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
-
-		if (oldEffectLayerTile)
-		{
-			tileChangeManager.UpdateTile(cellPos, oldEffectLayerTile.TileType, oldEffectLayerTile.name);
-		}
+		tileChangeManager.RemoveOverlaysOfName(cellPos, LayerType.Effects, animatedTile.name);
 	}
 }
