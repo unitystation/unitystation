@@ -179,6 +179,9 @@ public class TileChangeManager : NetworkBehaviour
 
 		cellPosition.z = 0;
 
+		//Dont add the same overlay twice
+		if(metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile)) return;
+
 		var overlayPos = metaTileMap.GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
 		if (overlayPos == null) return;
 
@@ -189,6 +192,17 @@ public class TileChangeManager : NetworkBehaviour
 		AlertClients(cellPosition, overlayTile.TileType, overlayTile.OverlayName, transformMatrix, color);
 
 		AddToChangeList(cellPosition, overlayTile.LayerType,  overlayTile.TileType, overlayTile.OverlayName, transformMatrix : transformMatrix,color : color);
+	}
+
+	/// <summary>
+	/// Dynamically adds overlays to tile position, from tile name, remember that OverlayName must be the same as the tile name
+	/// </summary>
+	[Server]
+	public void AddOverlay(Vector3Int cellPosition, TileType tileType, string tileName,
+		Matrix4x4? transformMatrix = null, Color? color = null)
+	{
+		var overlayTile = TileManager.GetTile(tileType, tileName) as OverlayTile;
+		AddOverlay(cellPosition, overlayTile, transformMatrix, color);
 	}
 
 	[Server]

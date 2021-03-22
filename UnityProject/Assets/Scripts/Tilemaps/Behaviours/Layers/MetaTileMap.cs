@@ -1152,6 +1152,55 @@ namespace TileManagement
 			return overlayTiles;
 		}
 
+		/// <summary>
+		/// Whether a tile has this overlay already
+		/// </summary>
+		public bool HasOverlay(Vector3Int position, LayerType layerType, OverlayTile overlayTileWanted)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return false;
+			}
+
+			TileLocation tileLocation = null;
+			OverlayTile overlayTile = null;
+			position.z = 1;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				//Only check 20 as its unlikely to ever have more than 20 overlays
+				var count = 0;
+				while (count < 20)
+				{
+					position.z += count;
+
+					lock (PresentTiles)
+					{
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
+					}
+
+					if (tileLocation != null)
+					{
+						overlayTile = tileLocation.Tile as OverlayTile;
+
+						if (overlayTile != null && overlayTile == overlayTileWanted)
+						{
+							return true;
+						}
+					}
+
+					count++;
+				}
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return false;
+		}
+
 		public void RemoveTile(Vector3Int position, bool RemoveAll = true)
 		{
 			TileLocation TileLcation = null;
