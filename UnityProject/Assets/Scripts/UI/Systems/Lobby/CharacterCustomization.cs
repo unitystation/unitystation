@@ -60,7 +60,7 @@ namespace Lobby
 
 		public CharacterDir currentDir;
 
-		[SerializeField] public List<Color> availableSkinColors = new List<Color>();
+		[SerializeField] private List<Color> availableSkinColors;
 		private CharacterSettings currentCharacter;
 
 		public ColorPicker colorPicker;
@@ -93,6 +93,12 @@ namespace Lobby
 
 
 		public InputField SerialiseData;
+
+		private BodyPartSpriteAndColour facialHairList;
+		private BodyPartSpriteAndColour hairList;
+		private BodyPartColourSprite eyeDropdown;
+		private CustomisationSubPart socksList, undershirtList, underwearList;
+
 
 		void OnEnable()
 		{
@@ -253,6 +259,7 @@ namespace Lobby
 				var newSprite = Instantiate(bodyPart.LobbyCustomisation, ScrollListBody.transform);
 				newSprite.SetUp(this, bodyPart, ""); //Update path
 				OpenBodyCustomisation[bodyPart.name] = (newSprite);
+				eyeDropdown = newSprite.GetComponent<BodyPartColourSprite>();
 			}
 
 			if (bodyPart.OptionalOrgans.Count > 0)
@@ -282,6 +289,24 @@ namespace Lobby
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					ParentDictionary[bodyPart].Add(subBodyPart);
 					SetUpBodyPart(subBodyPart);
+				}
+			}
+
+			//Get Hair and Facial hair dropdown menus.
+			getHairDropdowns();
+		}
+
+		private void getHairDropdowns()
+		{
+			foreach (var dropdown in GetComponentsInChildren<BodyPartSpriteAndColour>())
+			{
+				if (dropdown.RelatedBodyPart.name == "Hair")
+				{
+					hairList = dropdown;
+				}
+				if(dropdown.RelatedBodyPart.name == "Facial Hair")
+				{
+					facialHairList = dropdown;
 				}
 			}
 		}
@@ -450,36 +475,73 @@ namespace Lobby
 		public void RollRandomCharacter()
 		{
 			// Randomise gender
-			var changeGender = (UnityEngine.Random.Range(0, 2) == 0);
-			if (changeGender)
-			{
-				//OnGenderChange();
-			}
+			Type gender = typeof(BodyType);
+			Array genders = gender.GetEnumValues();
+			int index = UnityEngine.Random.Range(0,3);
+			currentCharacter.BodyType = (BodyType)genders.GetValue(index);
+			//OnGenderChange();
 
 			// Select a random value from each dropdown
 			// hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
 			// facialHairDropdown.value = UnityEngine.Random.Range(0, facialHairDropdown.options.Count - 1);
 			// underwearDropdown.value = UnityEngine.Random.Range(0, underwearDropdown.options.Count - 1);
 			// socksDropdown.value = UnityEngine.Random.Range(0, socksDropdown.options.Count - 1);
-				switch (currentCharacter.BodyType)
-				{
-					case BodyType.Male:
-						currentCharacter.Name = StringManager.GetRandomMaleName();
-						break;
-					case BodyType.Female:
-						currentCharacter.Name = StringManager.GetRandomFemaleName();
-						break;
-					default:
-						currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names? 
-						break;																	//for now it will pick from both the male and female name pools
-				}
-			// Randomise rest of data
-			// currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			// currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			// currentCharacter.SkinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
+
+			//Randomises player name and age.
+			switch (currentCharacter.BodyType)
+			{
+				case BodyType.Male:
+					currentCharacter.Name = StringManager.GetRandomMaleName();
+					break;
+				case BodyType.Female:
+					currentCharacter.Name = StringManager.GetRandomFemaleName();
+					break;
+				default:
+					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names?
+					break;																	//for now it will pick from both the male and female name pools
+			}
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
-			//RefreshAll();
+			//Randomises character skin tones from a select list of colors.
+			//(Max): Do not use Bod's Race SkinTones list as they break character randomisation.
+			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
+
+			//Randomises eye colors.
+			eyeDropdown.BodyPartColour = UnityEngine.Random.ColorHSV();
+			eyeDropdown.RequestColourPicker();
+
+			//Randomize hair and facial hair.
+			hairList.Dropdown.value = UnityEngine.Random.Range(0, hairList.OptionalSprites.Count - 1);
+			hairList.BodyPartColour = UnityEngine.Random.ColorHSV();
+			hairList.RequestColourPicker();
+			if(currentCharacter.BodyType == BodyType.Male)
+			{
+				facialHairList.Dropdown.value = UnityEngine.Random.Range(0, facialHairList.OptionalSprites.Count - 1);
+				facialHairList.BodyPartColour = UnityEngine.Random.ColorHSV();
+			}
+			else
+			{
+				//Makes sure females have no facial hair.
+				facialHairList.Dropdown.value = 0;
+			}
+
+			//Randomize clothes.
+			int nudeChance = UnityEngine.Random.Range(0, 100);
+			if(nudeChance >= 25)
+			{
+				socksList.Dropdown.value = UnityEngine.Random.Range(0, socksList.Dropdown.options.Count - 1);
+				undershirtList.Dropdown.value = UnityEngine.Random.Range(0, undershirtList.Dropdown.options.Count - 1);
+				underwearList.Dropdown.value = UnityEngine.Random.Range(0, underwearList.Dropdown.options.Count - 1);
+			}
+			else
+			{
+				socksList.Dropdown.value = 0;
+				undershirtList.Dropdown.value = 0;
+				underwearList.Dropdown.value = 0;
+			}
+
+			//Refresh the player character's sprites so they can see their new changes.
+			RefreshAll();
 		}
 
 		//------------------
@@ -487,13 +549,33 @@ namespace Lobby
 		//------------------
 		private void PopulateAllDropdowns(PlayerHealthData Race)
 		{
+			//Checks what customisation settings the player's race has avaliable
+			//Then spawns customisation dropdowns for cloth and other stuff.
 			foreach (var customisation in Race.Base.CustomisationSettings)
 			{
-				//customisationSubPart
 				var Customisation = Instantiate(customisationSubPart, ScrollList.transform);
 				OpenCustomisation.Add(Customisation);
 				Customisation.Setup(customisation.CustomisationGroup, this,
 					customisation.CustomisationGroup.SpriteOrder);
+
+				//Makes sure the dropdowns for socks, underwear and undershirts are referenced for Character randomization.
+				getClothDropdown(Customisation);
+			}
+		}
+
+		private void getClothDropdown(CustomisationSubPart Customisation)
+		{
+			if (Customisation.ThisType == global::CustomisationType.Socks)
+			{
+				socksList = Customisation;
+			}
+			if(Customisation.ThisType == global::CustomisationType.Undershirt)
+			{
+				undershirtList = Customisation;
+			}
+			if(Customisation.ThisType == global::CustomisationType.Underwear)
+			{
+				underwearList = Customisation;
 			}
 		}
 
