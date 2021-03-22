@@ -20,6 +20,9 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 	[SerializeField]
 	private AddressableAudioSource sound = null;
 
+	[SerializeField]
+	private bool triggerOnInventoryClick = true;
+
 	private static readonly StandardProgressActionConfig ProgressConfig
 		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
@@ -67,6 +70,8 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 	/// </summary>
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
+		if(triggerOnInventoryClick == false) return;
+
 		TryConsume(interaction.PerformerPlayerScript.gameObject);
 	}
 
