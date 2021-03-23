@@ -494,6 +494,7 @@ namespace Lobby
 			{
 				dropdown.RandomizeDropdownValue();
 			}
+			//Hair, tail, etc radomization.
 			foreach (var color in GetComponentsInChildren<BodyPartSpriteAndColour>())
 			{
 				if(currentCharacter.BodyType == BodyType.Female && color.RelatedBodyPart.name == "Facial Hair")
@@ -508,9 +509,10 @@ namespace Lobby
 					color.RandomizeColors();
 				}
 			}
+			//Makes sure clothes are randomized with a small nude chance.
 			foreach (var subpart in GetComponentsInChildren<CustomisationSubPart>())
 			{
-				if (nudeChance >= 25)
+				if (nudeChance >= 35)
 				{
 					subpart.RandomizeDropdownValue();
 				}
@@ -519,6 +521,11 @@ namespace Lobby
 					subpart.Dropdown.value = 0;
 					subpart.Refresh();
 				}
+			}
+			//Makes sure sprites such as eyes have random colors
+			foreach(var spritecolor in GetComponentsInChildren<BodyPartColourSprite>())
+			{
+				spritecolor.RandomizeColors();
 			}
 		}
 
