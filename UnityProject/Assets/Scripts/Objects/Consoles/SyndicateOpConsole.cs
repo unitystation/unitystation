@@ -5,108 +5,105 @@ using Strings;
 using System;
 using System.Collections.Generic;
 
-public class SyndicateOpConsole : MonoBehaviour
+namespace SyndicateOps
 {
-
-
-	public static SyndicateOpConsole Instance;
-
-	public int TcReserve;
-
-	public int TcIncrement = 14;
-
-	private bool warDeclared = false;
-	private bool rewardGiven = false;
-	private int timer = 1200;
-
-	private int timerIncrement = 60;
-	private int tcToGive = 280;
-
-	public List<SpawnedAntag> Operatives = new List<SpawnedAntag>();
-
-	public int Timer => timer;
-
-	private void Awake()
+	public class SyndicateOpConsole : MonoBehaviour
 	{
-		if ( Instance == null )
+		[NonSerialized] public static SyndicateOpConsole Instance;
+
+		[NonSerialized] public int TcReserve;
+
+		public int TcIncrement => timer / 60;
+
+		private bool warDeclared = false;
+		private bool rewardGiven = false;
+		[SerializeField] private int timer = 1200;
+
+		[SerializeField] private int tcToGive = 280;
+
+		[NonSerialized] public List<SpawnedAntag> Operatives = new List<SpawnedAntag>();
+
+		public int Timer => timer;
+
+		private void Awake()
 		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-	}
-
-
-	private void OnEnable()
-	{
-		if (CustomNetworkManager.IsServer)
-		{
-			UpdateManager.Add(ServerUpdateTimer, 1f);
-		}
-	}
-
-	private void OnDisable()
-	{
-		if (CustomNetworkManager.IsServer)
-		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerUpdateTimer);
-		}
-	}
-
-
-	public void AnnounceWar(string DeclerationMessage)
-	{
-		if (warDeclared == false)
-		{
-			warDeclared = true;
-
-			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Red, true);
-			CentComm.MakeAnnouncement(ChatTemplates.PriorityAnnouncement, 
-			$"Attention all crew! An open message from the syndicate has been picked up on local radiowaves! Message Reads:\n" +
-			$"{DeclerationMessage}" ,CentComm.UpdateSound.Alert);
-
-			var antagplayers = AntagManager.Instance.CurrentAntags;
-
-			foreach (var antag in antagplayers )
+			if ( Instance == null )
 			{
-				if (antag.Antagonist.AntagJobType == JobType.SYNDICATE)
+				Instance = this;
+			}
+			else
+			{
+				Destroy(gameObject);
+			}
+		}
+
+		private void OnEnable()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				UpdateManager.Add(ServerUpdateTimer, 1f);
+			}
+		}
+
+		private void OnDisable()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerUpdateTimer);
+			}
+		}
+
+		public void AnnounceWar(string declarationMessage)
+		{
+			if (warDeclared == false)
+			{
+				warDeclared = true;
+
+				GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Red, true);
+				CentComm.MakeAnnouncement(ChatTemplates.PriorityAnnouncement, 
+				$"Attention all crew! An open message from the syndicate has been picked up on local radiowaves! Message Reads:\n" +
+				$"{declarationMessage}" ,CentComm.UpdateSound.Alert);
+
+				var antagPlayers = AntagManager.Instance.CurrentAntags;
+
+				foreach (var antag in antagPlayers )
 				{
-					Operatives.Add(antag);
+					if (antag.Antagonist.AntagJobType == JobType.SYNDICATE)
+					{
+						Operatives.Add(antag);
+					}
 				}
 			}
 		}
-	}
 
-	public void ServerUpdateTimer()
-	{
-		if (warDeclared == false || rewardGiven) return;
+		public void ServerUpdateTimer()
+		{
+			if (warDeclared == false || rewardGiven) return;
 
-		if (timerIncrement > 0 || timer > 0)
-		{
-			timerIncrement--;
-			timer--;
-		}
-		else
-		{
-			timerIncrement = 60;
-			RewardTelecrystals();
-		}
-	}
-	public void RewardTelecrystals()
-	{
-		if (tcToGive <= TcIncrement) rewardGiven = true;
-		if (tcToGive >= TcIncrement)
-		{
+			if (timer > 0)
+			{
+				timer--;
+			}
 
-			TcReserve += TcIncrement;
-			tcToGive -= TcIncrement;
+			if (timer % 60 == 0)
+			{
+				RewardTelecrystals();
+			}
 		}
-		if (tcToGive < TcIncrement)
+		public void RewardTelecrystals()
 		{
-			TcReserve += tcToGive;
-			tcToGive = 0;
+			if (tcToGive <= TcIncrement) rewardGiven = true;
+			if (tcToGive >= TcIncrement)
+			{	
+
+				TcReserve += TcIncrement;
+				tcToGive -= TcIncrement;
+			}
+			if (tcToGive < TcIncrement)
+			{
+				TcReserve += tcToGive;
+				tcToGive = 0;
+			}
 		}
 	}
 }

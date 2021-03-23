@@ -46,7 +46,7 @@ public enum NetTabType
 	ParticleAccelerator = 34,
 	OreRedemptionMachine = 35,
 	MaterialSilo = 36,
-  SyndicateOpConsole = 37,
+	SyndicateOpConsole = 37,
 
 	//add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name

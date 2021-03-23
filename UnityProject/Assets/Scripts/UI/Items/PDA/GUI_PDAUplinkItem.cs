@@ -25,14 +25,12 @@ namespace UI.Items.PDA
 		{
 			controller.SetBreadcrumb($"{controller.UPLINK_DIRECTORY}/categories/{category.CategoryName}/");
 			bool isNukie = controller.mainController.PDA.IsNukeOps;
-			int skipped = 0;
 			for (int i = 0; i < category.ItemList.Count; i++)
 			{
 				if (isNukie || category.ItemList[i].IsNukeOps == false)
 				{
 					dynamicList.AddItem();
 					dynamicList.Entries[i].GetComponent<GUI_PDAUplinkItemTemplate>().ReInit(category.ItemList[i]);
-					skipped++;
 				}
 			}
 		}
