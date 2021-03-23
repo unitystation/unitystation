@@ -94,12 +94,6 @@ namespace Lobby
 
 		public InputField SerialiseData;
 
-		//References to dynamic dropdowns generated when bringing up the character customization menu.
-		private BodyPartSpriteAndColour facialHairList;
-		private BodyPartSpriteAndColour hairList;
-		private BodyPartColourSprite eyeDropdown;
-		private CustomisationSubPart socksList, undershirtList, underwearList;
-
 
 		void OnEnable()
 		{
@@ -291,9 +285,6 @@ namespace Lobby
 					SetUpBodyPart(subBodyPart);
 				}
 			}
-
-			//Get Hair and Facial hair dropdown menus.
-			getHairDropdowns();
 		}
 
 		public void SetupBodyPartsSprites(BodyPart bodyPart)
@@ -485,21 +476,50 @@ namespace Lobby
 			//Randomises player accents. (Italian, Scottish, etc)
 			randomizeAccent();
 
+
 			//Randomises character skin tones.
 			randomizeSkinTones();
 
-			//Randomises eye colors.
-			randomizeEyeColors();
-
-			//Randomize hair and facial hair.
-			randomizeHair();
-			randomizeFacialHair();
-
-			//Randomize clothes.
-			randomizeClothes();
+			//Randomises character clothes, cat ears, moth wings, etc.
+			randomizeEverything();
 
 			//Refresh the player character's sheet so they can see their new changes.
 			RefreshAll();
+		}
+
+		private void randomizeEverything()
+		{
+			int nudeChance = UnityEngine.Random.Range(0, 100);
+			foreach(var dropdown in GetComponentsInChildren<BodyPartDropDownReplaceOrgan>())
+			{
+				dropdown.RandomizeDropdownValue();
+			}
+			foreach (var color in GetComponentsInChildren<BodyPartSpriteAndColour>())
+			{
+				if(currentCharacter.BodyType == BodyType.Female && color.RelatedBodyPart.name == "Facial Hair")
+				{
+					//Makes sure female characters can't have facial hair.
+					color.Dropdown.value = 0;
+					color.Refresh();
+				}
+				else
+				{
+					color.RandomizeDropdownValue();
+					color.RandomizeColors();
+				}
+			}
+			foreach (var subpart in GetComponentsInChildren<CustomisationSubPart>())
+			{
+				if (nudeChance >= 25)
+				{
+					subpart.RandomizeDropdownValue();
+				}
+				else
+				{
+					subpart.Dropdown.value = 0;
+					subpart.Refresh();
+				}
+			}
 		}
 
 		private void randomizeAccent()
@@ -518,70 +538,24 @@ namespace Lobby
 			}
 		}
 
-		private void randomizeEyeColors()
-		{
-			getEyeDropdown();
-			if (eyeDropdown != null)
-			{
-				eyeDropdown.BodyPartColour = UnityEngine.Random.ColorHSV();
-				eyeDropdown.RequestColourPicker(); //Updates the color.
-			}
-		}
 		private void randomizeSkinTones()
 		{
+			//Checks to see if the player's race has specfic skin tones that it can use and picks it from that list
+			//If there are none, randomly generate a new skin tone for the player.
 			if (availableSkinColors.Count != 0)
 			{
-				currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
+				currentCharacter.SkinTone = "#" +
+					ColorUtility.ToHtmlStringRGB(availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
 			}
 			else
 			{
-				currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGBA(new Color(UnityEngine.Random.Range(15, 225), UnityEngine.Random.Range(15, 225), UnityEngine.Random.Range(15, 225), 255));
+				currentCharacter.SkinTone = "#" +
+					ColorUtility.ToHtmlStringRGBA(new Color(UnityEngine.Random.Range(0.1f, 1f),
+					UnityEngine.Random.Range(0.1f, 1f),
+					UnityEngine.Random.Range(0.1f, 1f), 1f));
 			}
 		}
 
-		private void randomizeHair()
-		{
-			getHairDropdowns(); //Refresh hair dropdowns incase we switched to a different race.
-			if (hairList != null)
-			{
-				hairList.Dropdown.value = UnityEngine.Random.Range(0, hairList.OptionalSprites.Count - 1);
-				hairList.BodyPartColour = UnityEngine.Random.ColorHSV();
-				hairList.RequestColourPicker();
-			}
-		}
-
-		private void randomizeFacialHair()
-		{
-			getHairDropdowns(); //Refresh facial hair dropdowns incase we switched to a different race.
-			if (facialHairList != null && currentCharacter.BodyType == BodyType.Male)
-			{
-				facialHairList.Dropdown.value = UnityEngine.Random.Range(0, facialHairList.OptionalSprites.Count - 1);
-				facialHairList.BodyPartColour = UnityEngine.Random.ColorHSV();
-			}
-			else
-			{
-				//Makes sure females and non-binary people have no facial hair.
-				facialHairList.Dropdown.value = 0;
-			}
-		}
-
-		private void randomizeClothes()
-		{
-			getClothDropdown();
-			int nudeChance = UnityEngine.Random.Range(0, 100);
-			if (nudeChance >= 25)
-			{
-				if (socksList != null) { socksList.Dropdown.value = UnityEngine.Random.Range(0, socksList.Dropdown.options.Count - 1); }
-				if (undershirtList != null) { undershirtList.Dropdown.value = UnityEngine.Random.Range(0, undershirtList.Dropdown.options.Count - 1); }
-				if (underwearList != null) { underwearList.Dropdown.value = UnityEngine.Random.Range(0, underwearList.Dropdown.options.Count - 1); }
-			}
-			else
-			{
-				if (socksList != null) { socksList.Dropdown.value = 0; }
-				if (undershirtList != null) { undershirtList.Dropdown.value = 0; }
-				if (underwearList != null) { underwearList.Dropdown.value = 0; }
-			}
-		}
 
 		//------------------
 		//DROPDOWN BOXES:
@@ -596,55 +570,6 @@ namespace Lobby
 				OpenCustomisation.Add(Customisation);
 				Customisation.Setup(customisation.CustomisationGroup, this,
 					customisation.CustomisationGroup.SpriteOrder);
-			}
-		}
-
-		private void getClothDropdown()
-		{
-			socksList = null;
-			underwearList = null;
-			undershirtList = null;
-
-			foreach(var clothDropdown in GetComponentsInChildren<CustomisationSubPart>())
-			{
-				if (clothDropdown.ThisType == global::CustomisationType.Socks)
-				{
-					socksList = clothDropdown;
-				}
-				if(clothDropdown.ThisType == global::CustomisationType.Undershirt)
-				{
-					undershirtList = clothDropdown;
-				}
-				if(clothDropdown.ThisType == global::CustomisationType.Underwear)
-				{
-					underwearList = clothDropdown;
-				}
-			}
-		}
-
-		private void getHairDropdowns()
-		{
-			foreach (var dropdown in GetComponentsInChildren<BodyPartSpriteAndColour>())
-			{
-				if (dropdown.RelatedBodyPart.name == "Hair")
-				{
-					hairList = dropdown;
-				}
-				if (dropdown.RelatedBodyPart.name == "Facial Hair")
-				{
-					facialHairList = dropdown;
-				}
-			}
-		}
-
-		private void getEyeDropdown()
-		{
-			foreach (var dropdown in GetComponentsInChildren<BodyPartColourSprite>())
-			{
-				if (dropdown.RelatedBodyPart.name == "Eyes")
-				{
-					eyeDropdown = dropdown;
-				}
 			}
 		}
 

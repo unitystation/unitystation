@@ -65,6 +65,11 @@ public class CustomisationSubPart : MonoBehaviour
 
 	}
 
+	public void RandomizeDropdownValue()
+	{
+		Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
+		Refresh();
+	}
 
 	public void SetDropdownValue(CharacterSettings.CustomisationClass currentSetting)
 	{
