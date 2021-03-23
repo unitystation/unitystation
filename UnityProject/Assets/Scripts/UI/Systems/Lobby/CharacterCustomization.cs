@@ -482,16 +482,14 @@ namespace Lobby
 			}
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
+			//Randomises player accents. (Italian, Scottish, etc)
+			randomizeAccent();
+
 			//Randomises character skin tones.
 			randomizeSkinTones();
 
 			//Randomises eye colors.
-			getEyeDropdown();
-			if(eyeDropdown != null)
-			{
-				eyeDropdown.BodyPartColour = UnityEngine.Random.ColorHSV();
-				eyeDropdown.RequestColourPicker(); //Updates the color.
-			}
+			randomizeEyeColors();
 
 			//Randomize hair and facial hair.
 			randomizeHair();
@@ -504,6 +502,31 @@ namespace Lobby
 			RefreshAll();
 		}
 
+		private void randomizeAccent()
+		{
+			int accentChance = UnityEngine.Random.Range(0, 100);
+			if(accentChance <= 35)
+			{
+				Type accent = typeof(Speech);
+				Array accents = accent.GetEnumValues();
+				int index = UnityEngine.Random.Range(0, 7);
+				currentCharacter.Speech = (Speech)accents.GetValue(index);
+			}
+			else
+			{
+				currentCharacter.Speech = Speech.None;
+			}
+		}
+
+		private void randomizeEyeColors()
+		{
+			getEyeDropdown();
+			if (eyeDropdown != null)
+			{
+				eyeDropdown.BodyPartColour = UnityEngine.Random.ColorHSV();
+				eyeDropdown.RequestColourPicker(); //Updates the color.
+			}
+		}
 		private void randomizeSkinTones()
 		{
 			if (availableSkinColors.Count != 0)
