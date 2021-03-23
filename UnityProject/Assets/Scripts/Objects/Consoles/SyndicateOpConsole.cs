@@ -64,7 +64,7 @@ namespace SyndicateOps
 				$"Attention all crew! An open message from the syndicate has been picked up on local radiowaves! Message Reads:\n" +
 				$"{declarationMessage}" ,CentComm.UpdateSound.Alert);
 
-				var antagPlayers = AntagManager.Instance.CurrentAntags;
+				var antagPlayers = AntagManager.Instance.ActiveAntags;
 
 				foreach (var antag in antagPlayers )
 				{
@@ -92,13 +92,17 @@ namespace SyndicateOps
 		}
 		public void RewardTelecrystals()
 		{
-			if (tcToGive <= TcIncrement) rewardGiven = true;
+			if (tcToGive <= TcIncrement)
+			{
+				rewardGiven = true;
+			}
+
 			if (tcToGive >= TcIncrement)
 			{	
-
 				TcReserve += TcIncrement;
 				tcToGive -= TcIncrement;
 			}
+
 			if (tcToGive < TcIncrement)
 			{
 				TcReserve += tcToGive;
