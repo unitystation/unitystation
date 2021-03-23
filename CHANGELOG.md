@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/3/23: Implement Warops, reinforcement teleporter and nuke op exclusive uplink items by [the-other-autumn](https://github.com/the-other-autumn) in PR #[6167](https://github.com/unitystation/unitystation/pull/6167)
 * 2021/3/22: Fixes Overlays for proto, explosions and hotspots by [ThatDan123](https://github.com/ThatDan123) in PR #[6287](https://github.com/unitystation/unitystation/pull/6287)
 * 2021/3/22: added things to buy from the Mining Equipment Vendor by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6285](https://github.com/unitystation/unitystation/pull/6285)
 * 2021/3/21: Added working crayons and spray cans by [ThatDan123](https://github.com/ThatDan123) in PR #[6277](https://github.com/unitystation/unitystation/pull/6277)
