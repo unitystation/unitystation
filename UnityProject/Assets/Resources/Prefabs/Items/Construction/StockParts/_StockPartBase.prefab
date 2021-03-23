@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a965911a45c0d43bcf62a847baadc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tier: 1
+  tier: 1
 --- !u!1001 &3051415753974065259
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95,9 +95,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6753513f7a4d9cb4ba582fa86e4c037a,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 0ce8d5c07b7a94c45a0747a66466e58a,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b3830cc392b75f440857107f7cbc42ca,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
