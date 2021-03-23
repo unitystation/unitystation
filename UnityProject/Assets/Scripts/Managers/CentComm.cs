@@ -172,7 +172,7 @@ namespace Managers
 		{
 			if (CurrentAlertLevel == toLevel) return;
 
-			if (CurrentAlertLevel > toLevel && toLevel == AlertLevel.Green)
+			if (CurrentAlertLevel > toLevel && toLevel == AlertLevel.Green && announce)
 			{
 				MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 					ChatTemplates.GetAlertLevelMessage(AlertLevelChange.DownToGreen),
