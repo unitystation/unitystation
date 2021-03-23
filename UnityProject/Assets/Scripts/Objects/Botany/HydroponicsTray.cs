@@ -534,6 +534,7 @@ namespace Objects.Botany
 					plantData = PlantData.CreateNewPlant(_plantData);
 					UpdatePlantGrowthStage(0, 0);
 					UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
+					UpdateHarvestFlag(showHarvestFlag, false);
 					Inventory.ServerVanish(slot);
 					Chat.AddActionMsgToChat(interaction.Performer,
 						$"You plant the {foodObject.name} in the {gameObject.ExpensiveName()}.",
@@ -548,6 +549,7 @@ namespace Objects.Botany
 				plantData = PlantData.CreateNewPlant(slot.Item.GetComponent<SeedPacket>().plantData);
 				UpdatePlantGrowthStage(0, 0);
 				UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
+				UpdateHarvestFlag(showHarvestFlag, false);
 				Inventory.ServerVanish(slot);
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You plant the {Object.name} in the {gameObject.ExpensiveName()}.",
