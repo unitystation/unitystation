@@ -492,13 +492,12 @@ namespace Lobby
 			//Randomizes hair, tails, etc
 			foreach(var custom in GetComponentsInChildren<BodyPartCustomisationBase>())
 			{
-				custom.RandomizeDropdownValue();
-				custom.RandomizeColors();
+				custom.RandomizeValues();
 			}
 			//Randomizes clothes
 			foreach(var customSubPart in GetComponentsInChildren<CustomisationSubPart>())
 			{
-				customSubPart.RandomizeDropdownValue();
+				customSubPart.RandomizeValues();
 			}
 		}
 

@@ -65,7 +65,7 @@ public class CustomisationSubPart : MonoBehaviour
 
 	}
 
-	public void RandomizeDropdownValue()
+	public void RandomizeValues()
 	{
 		Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
 		Refresh();
