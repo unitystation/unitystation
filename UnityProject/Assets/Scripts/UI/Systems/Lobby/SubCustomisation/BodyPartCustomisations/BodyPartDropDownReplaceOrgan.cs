@@ -122,6 +122,12 @@ public class BodyPartDropDownReplaceOrgan : BodyPartCustomisationBase
 		}
 	}
 
+	public override void RandomizeValues()
+	{
+		Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
+		Refresh();
+	}
+
 	public void ItemChange(int newValue)
 	{
 		Refresh();
