@@ -52,6 +52,8 @@ namespace Objects.Mining
 					}
 				}
 			}
+
+			UpdateLaborPointsUI();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -78,6 +80,11 @@ namespace Objects.Mining
 				}
 			}
 
+			UpdateLaborPointsUI();
+		}
+
+		void UpdateLaborPointsUI()
+		{
 			if (oreRedemptiomMachineGUI)
 			{
 				oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
