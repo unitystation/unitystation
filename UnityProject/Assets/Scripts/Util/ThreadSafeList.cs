@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public delegate void GenericDelegate<T>(T item);
+public delegate void GenericDelegate<in T>(T item);
 
 public class ThreadSafeList<T>
 {
