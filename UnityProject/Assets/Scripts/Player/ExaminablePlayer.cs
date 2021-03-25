@@ -111,14 +111,16 @@ namespace Player
 		public void Examine(GameObject sentByPlayer)
 		{
 			// if distance is too big or is self-examination, send normal examine message
-			if (Vector3.Distance(sentByPlayer.WorldPosServer(), gameObject.WorldPosServer()) >= maxInteractionDistance
-			    || sentByPlayer == gameObject)
+			if (PlayerUtils.IsGhost(sentByPlayer) == false)
 			{
-				Chat.AddExamineMsg(sentByPlayer,
-					$"This is <b>{VisibleName}</b>.\n" +
-					$"{Equipment.Examine()}" +
-					$"<color={LILAC_COLOR}>{Health.GetExamineText()}</color>");
-				return;
+				if (Vector3.Distance(sentByPlayer.WorldPosServer(), gameObject.WorldPosServer()) >= maxInteractionDistance || sentByPlayer == gameObject)
+				{
+					Chat.AddExamineMsg(sentByPlayer,
+						$"This is <b>{VisibleName}</b>.\n" +
+						$"{Equipment.Examine()}" +
+						$"<color={LILAC_COLOR}>{Health.GetExamineText()}</color>");
+					return;
+				}
 			}
 
 			// start itemslot observation
