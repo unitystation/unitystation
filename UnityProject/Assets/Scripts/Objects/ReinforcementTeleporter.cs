@@ -8,29 +8,30 @@ using ScriptableObjects;
 public class ReinforcementTeleporter : MonoBehaviour, ICheckedInteractable<HandActivate>
 {
 
-	bool WasUsed = false;
+	private bool WasUsed = false;
 
 	[SerializeField] private GhostRoleData ghostRole = default;
 
 	private uint createdRoleKey;
 
+	private GameObject userPlayer;
+
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (WasUsed) return false;
 		return true;
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		CreateGhostRole();
+		CreateGhostRole(interaction);
 	}
 
-	public void CreateGhostRole()
+	public void CreateGhostRole(HandActivate interaction)
 	{
-		if (GhostRoleManager.Instance.serverAvailableRoles.ContainsKey(createdRoleKey))
+		if (createdRoleKey != null && GhostRoleManager.Instance.serverAvailableRoles.ContainsKey(createdRoleKey))
 		{
-				return;
+			return;
 		}
 		else if (WasUsed)
 		{
@@ -41,11 +42,15 @@ public class ReinforcementTeleporter : MonoBehaviour, ICheckedInteractable<HandA
 
 		role.OnPlayerAdded += SpawnReinforcement;
 		role.OnTimerExpired += ClearGhostRole;
+
+		userPlayer = interaction.Performer;
+		Chat.AddExamineMsgFromServer(userPlayer, $"The {gameObject.ExpensiveName()} sends out a reinforcement request!");
 	}
 
 	private void SpawnReinforcement(ConnectedPlayer player)
 	{
 		player.Script.playerNetworkActions.ServerRespawnPlayerAntag(player, "Nuclear Operative");
+		Chat.AddExamineMsgFromServer(userPlayer, $"The {gameObject.ExpensiveName()} lets out a chime, reinforcement found!");
 		WasUsed = true;
 		StartCoroutine(TeleportOnSpawn(player));
 	}
@@ -59,13 +64,11 @@ public class ReinforcementTeleporter : MonoBehaviour, ICheckedInteractable<HandA
 		}
 
 		player.Script.PlayerSync.SetPosition(this.gameObject.AssumedWorldPosServer(), true);
-
 	}
 
 	public void ClearGhostRole()
 	{
 		GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+		Chat.AddExamineMsgFromServer(userPlayer, $"The reinforcement request times out.");
 	}
-
-
 }
