@@ -34,6 +34,15 @@ public class BodyPartCustomisationBase : MonoBehaviour
 	}
 
 
+	public virtual void RandomizeDropdownValue()
+	{
+
+	}
+
+	public virtual void RandomizeColors()
+	{
+
+	}
 
 	public virtual void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
 	{

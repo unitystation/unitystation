@@ -31,7 +31,7 @@ public class BodyPartColourSprite : BodyPartCustomisationBase
 		Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
 	}
 
-	public void RandomizeColors()
+	public override void RandomizeColors()
 	{
 		ColorChange(new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), 1f));
 	}

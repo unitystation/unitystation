@@ -481,51 +481,24 @@ namespace Lobby
 			randomizeSkinTones();
 
 			//Randomises character clothes, cat ears, moth wings, etc.
-			randomizeEverything();
+			randomizeAppearance();
 
 			//Refresh the player character's sheet so they can see their new changes.
 			RefreshAll();
 		}
 
-		private void randomizeEverything()
+		private void randomizeAppearance()
 		{
-			int nudeChance = UnityEngine.Random.Range(0, 100);
-			foreach(var dropdown in GetComponentsInChildren<BodyPartDropDownReplaceOrgan>())
+			//Randomizes hair, tails, etc
+			foreach(var custom in GetComponentsInChildren<BodyPartCustomisationBase>())
 			{
-				dropdown.RandomizeDropdownValue();
+				custom.RandomizeDropdownValue();
+				custom.RandomizeColors();
 			}
-			//Hair, tail, etc radomization.
-			foreach (var color in GetComponentsInChildren<BodyPartSpriteAndColour>())
+			//Randomizes clothes
+			foreach(var customSubPart in GetComponentsInChildren<CustomisationSubPart>())
 			{
-				if(currentCharacter.BodyType == BodyType.Female && color.RelatedBodyPart.name == "Facial Hair")
-				{
-					//Makes sure female characters can't have facial hair.
-					color.Dropdown.value = 0;
-					color.Refresh();
-				}
-				else
-				{
-					color.RandomizeDropdownValue();
-					color.RandomizeColors();
-				}
-			}
-			//Makes sure clothes are randomized with a small nude chance.
-			foreach (var subpart in GetComponentsInChildren<CustomisationSubPart>())
-			{
-				if (nudeChance >= 35)
-				{
-					subpart.RandomizeDropdownValue();
-				}
-				else
-				{
-					subpart.Dropdown.value = 0;
-					subpart.Refresh();
-				}
-			}
-			//Makes sure sprites such as eyes have random colors
-			foreach(var spritecolor in GetComponentsInChildren<BodyPartColourSprite>())
-			{
-				spritecolor.RandomizeColors();
+				customSubPart.RandomizeDropdownValue();
 			}
 		}
 
