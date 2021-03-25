@@ -24,6 +24,13 @@ public class GhostSprites : MonoBehaviour
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
 
+		StartCoroutine(setRandomSprite());
+	}
+
+	private IEnumerator setRandomSprite()
+	{
+		//Possible fix to the ghost visibility issues.
+		yield return WaitFor.Seconds(0.4f);
 		SpriteHandler.SetSpriteSO(GhostSpritesSOs.PickRandom());
 	}
 
