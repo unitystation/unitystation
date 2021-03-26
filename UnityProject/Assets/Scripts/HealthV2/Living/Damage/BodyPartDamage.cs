@@ -225,6 +225,16 @@ namespace HealthV2
 			}
 		}
 
+
+		/// <summary>
+		/// Heals damage taken by this body part
+		/// </summary>
+		public void HealDamage(GameObject healingItem, float healAmt,
+			DamageType damageTypeToHeal)
+		{
+			AffectDamage(-healAmt, (int)damageTypeToHeal);
+		}
+
 		/// <summary>
 		/// Heals damage taken by this body part
 		/// </summary>
@@ -323,7 +333,7 @@ namespace HealthV2
 				UpdateIcons();
 			}
 		}
-    
+
     /// <summary>
 		/// Updates the player health UI if present
 		/// </summary>

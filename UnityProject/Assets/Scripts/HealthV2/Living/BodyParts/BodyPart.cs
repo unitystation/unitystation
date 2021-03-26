@@ -238,13 +238,13 @@ namespace HealthV2
 		/// Body parts are capable of storing other body parts, and are themselves stored in either a body part
 		/// or a Body Part Container.  Additionally, adding or removing a body part from 'storage' is a two part
 		/// process: the storage of the actual body part item, and the connecting of the body part to the health
-		/// system.  Think of it like an electronic device: putting it into a storage is like placing it in a 
+		/// system.  Think of it like an electronic device: putting it into a storage is like placing it in a
 		/// room, adding it to a body is like plugging it in.  If you just put it into a room it wont work until
 		/// you plug it in, and you shouldn't try to plug something in until you've moved it into the room first.
 
 		/// To complicate things, a body part doesn't know what 'depth' it is, and only can talk to its parent
-		/// (the body part that contains it), and each body part needs to know all of the body parts it does and 
-		/// doesn't contain in order to coordinate.  We accomplish this by each organ telling its parent when its 
+		/// (the body part that contains it), and each body part needs to know all of the body parts it does and
+		/// doesn't contain in order to coordinate.  We accomplish this by each organ telling its parent when its
 		/// contents change, and the parent tell the parent's parent and so on until it reaches the highest container.
 
 		/// <summary>
@@ -294,10 +294,7 @@ namespace HealthV2
 		/// <param name="livingHealthMasterBase">Body to be removed from</param>
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
-			if (ContainedIn != null)
-			{
-				ContainedIn.SubBodyPartRemoved(this);
-			}
+			ContainedIn.SubBodyPartRemoved(this);
 		}
 
 		/// <summary>
@@ -359,10 +356,9 @@ namespace HealthV2
 			implant.HealthMaster = HealthMaster;
 			if (HealthMaster == null) return;
 			HealthMaster.AddNewImplant(implant);
-			if (ContainedIn != null)
-			{
-				SubBodyPartAdded(implant);
-			}
+
+			SubBodyPartAdded(implant);
+
 		}
 
 		/// <summary>

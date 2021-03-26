@@ -91,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -103,6 +103,18 @@ PrefabInstance:
       propertyPath: SurgeryProcedureBase.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
+        type: 2}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a,
+        type: 2}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5,
         type: 2}
     - target: {fileID: 8113072997116454967, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
