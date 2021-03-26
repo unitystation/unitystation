@@ -1,5 +1,6 @@
 using UnityEngine;
 using Items.PDA;
+using System;
 
 namespace SyndicateOps
 {
@@ -13,7 +14,7 @@ namespace SyndicateOps
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (SyndicateOpConsole.Instance.TcReserve > 0) WithdrawTeleCrystals(interaction);
+			WithdrawTeleCrystals(interaction);
 		}
 
 		public void WithdrawTeleCrystals(HandApply interaction)
@@ -24,11 +25,21 @@ namespace SyndicateOps
 				return;
 			}
 			PDALogic pdaComp = interaction.UsedObject.GetComponent<PDALogic>();
-			if (pdaComp != null && pdaComp.IsUplinkLocked == false)
+			if (pdaComp != null)
 			{
-				int tc = Mathf.FloorToInt(SyndicateOpConsole.Instance.Operatives.Count / SyndicateOpConsole.Instance.TcIncrement);
-				pdaComp.UplinkTC += tc;
-				SyndicateOpConsole.Instance.TcReserve -= tc;
+				if (pdaComp.IsUplinkLocked == false)
+				{
+
+					int tc = Mathf.FloorToInt(SyndicateOpConsole.Instance.Operatives.Count / SyndicateOpConsole.Instance.TcIncrement);
+					//this is to prevent tc being unobtainable when the value above is bigger then the amount of tc left within the reserves
+					var var = Math.Min(tc, SyndicateOpConsole.Instance.TcReserve);
+					pdaComp.UplinkTC += tc;
+					SyndicateOpConsole.Instance.TcReserve -= tc;
+				}
+				else
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"Your {interaction.TargetObject.ExpensiveName()} must be unlocked to transfer TC!");
+				}
 			}
 		}
 	
