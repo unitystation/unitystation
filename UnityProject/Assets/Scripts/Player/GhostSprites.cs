@@ -22,12 +22,7 @@ public class GhostSprites : MonoBehaviour
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		SpriteHandler = GetComponentInChildren<SpriteHandler>();
 		if (CustomNetworkManager.Instance._isServer == false) return;
-	}
-
-	protected IEnumerator Start()
-	{
-		//Possible fix to the ghost visibility issues.
-		yield return WaitFor.Seconds(0.3f);
+		
 		SpriteHandler.SetSpriteSO(GhostSpritesSOs.PickRandom());
 	}
 
