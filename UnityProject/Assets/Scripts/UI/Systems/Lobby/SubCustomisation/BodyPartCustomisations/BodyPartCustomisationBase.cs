@@ -34,6 +34,10 @@ public class BodyPartCustomisationBase : MonoBehaviour
 	}
 
 
+	public virtual void RandomizeValues()
+	{
+
+	}
 
 	public virtual void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
 	{

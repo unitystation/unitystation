@@ -60,7 +60,7 @@ namespace Lobby
 
 		public CharacterDir currentDir;
 
-		[SerializeField] public List<Color> availableSkinColors = new List<Color>();
+		[SerializeField] private List<Color> availableSkinColors;
 		private CharacterSettings currentCharacter;
 
 		public ColorPicker colorPicker;
@@ -93,6 +93,7 @@ namespace Lobby
 
 
 		public InputField SerialiseData;
+
 
 		void OnEnable()
 		{
@@ -246,7 +247,7 @@ namespace Lobby
 			//OpenBodyCustomisation[bodyPart.name] = new List<GameObject>();
 			ParentDictionary[bodyPart] = new List<BodyPart>();
 
-			//
+			//This spawns the eyes.
 			SetupBodyPartsSprites(bodyPart);
 			if (bodyPart.LobbyCustomisation != null)
 			{
@@ -312,6 +313,8 @@ namespace Lobby
 					i++;
 				}
 
+				//Checks if the body part is not an internal organ (I.e: head, arm, etc.)
+				//If it's not an internal organ, add it to the sprite manager to display the character.
 				if (bodyPart.IsSurface)
 				{
 					SurfaceSprite.AddRange(OpenBodySprites[bodyPart]);
@@ -450,46 +453,98 @@ namespace Lobby
 		public void RollRandomCharacter()
 		{
 			// Randomise gender
-			var changeGender = (UnityEngine.Random.Range(0, 2) == 0);
-			if (changeGender)
-			{
-				//OnGenderChange();
-			}
+			Type gender = typeof(BodyType);
+			Array genders = gender.GetEnumValues();
+			int index = UnityEngine.Random.Range(0,3);
+			currentCharacter.BodyType = (BodyType)genders.GetValue(index);
 
-			// Select a random value from each dropdown
-			// hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
-			// facialHairDropdown.value = UnityEngine.Random.Range(0, facialHairDropdown.options.Count - 1);
-			// underwearDropdown.value = UnityEngine.Random.Range(0, underwearDropdown.options.Count - 1);
-			// socksDropdown.value = UnityEngine.Random.Range(0, socksDropdown.options.Count - 1);
-				switch (currentCharacter.BodyType)
-				{
-					case BodyType.Male:
-						currentCharacter.Name = StringManager.GetRandomMaleName();
-						break;
-					case BodyType.Female:
-						currentCharacter.Name = StringManager.GetRandomFemaleName();
-						break;
-					default:
-						currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names? 
-						break;																	//for now it will pick from both the male and female name pools
-				}
-			// Randomise rest of data
-			// currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			// currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			// currentCharacter.SkinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
+			//Randomises player name and age.
+			switch (currentCharacter.BodyType)
+			{
+				case BodyType.Male:
+					currentCharacter.Name = StringManager.GetRandomMaleName();
+					break;
+				case BodyType.Female:
+					currentCharacter.Name = StringManager.GetRandomFemaleName();
+					break;
+				default:
+					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names?
+					break;																	//for now it will pick from both the male and female name pools
+			}
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
-			//RefreshAll();
+			//Randomises player accents. (Italian, Scottish, etc)
+			randomizeAccent();
+
+
+			//Randomises character skin tones.
+			randomizeSkinTones();
+
+			//Randomises character clothes, cat ears, moth wings, etc.
+			randomizeAppearance();
+
+			//Refresh the player character's sheet so they can see their new changes.
+			RefreshAll();
 		}
+
+		private void randomizeAppearance()
+		{
+			//Randomizes hair, tails, etc
+			foreach(var custom in GetComponentsInChildren<BodyPartCustomisationBase>())
+			{
+				custom.RandomizeValues();
+			}
+			//Randomizes clothes
+			foreach(var customSubPart in GetComponentsInChildren<CustomisationSubPart>())
+			{
+				customSubPart.RandomizeValues();
+			}
+		}
+
+		private void randomizeAccent()
+		{
+			int accentChance = UnityEngine.Random.Range(0, 100);
+			if(accentChance <= 35)
+			{
+				Type accent = typeof(Speech);
+				Array accents = accent.GetEnumValues();
+				int index = UnityEngine.Random.Range(0, 7);
+				currentCharacter.Speech = (Speech)accents.GetValue(index);
+			}
+			else
+			{
+				currentCharacter.Speech = Speech.None;
+			}
+		}
+
+		private void randomizeSkinTones()
+		{
+			//Checks to see if the player's race has specfic skin tones that it can use and picks it from that list
+			//If there are none, randomly generate a new skin tone for the player.
+			if (availableSkinColors.Count != 0)
+			{
+				currentCharacter.SkinTone = "#" +
+					ColorUtility.ToHtmlStringRGB(availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
+			}
+			else
+			{
+				currentCharacter.SkinTone = "#" +
+					ColorUtility.ToHtmlStringRGBA(new Color(UnityEngine.Random.Range(0.1f, 1f),
+					UnityEngine.Random.Range(0.1f, 1f),
+					UnityEngine.Random.Range(0.1f, 1f), 1f));
+			}
+		}
+
 
 		//------------------
 		//DROPDOWN BOXES:
 		//------------------
 		private void PopulateAllDropdowns(PlayerHealthData Race)
 		{
+			//Checks what customisation settings the player's race has avaliable
+			//Then spawns customisation dropdowns for cloth and other stuff.
 			foreach (var customisation in Race.Base.CustomisationSettings)
 			{
-				//customisationSubPart
 				var Customisation = Instantiate(customisationSubPart, ScrollList.transform);
 				OpenCustomisation.Add(Customisation);
 				Customisation.Setup(customisation.CustomisationGroup, this,

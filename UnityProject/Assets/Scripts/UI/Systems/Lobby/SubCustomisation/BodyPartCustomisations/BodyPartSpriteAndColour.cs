@@ -69,6 +69,13 @@ public class BodyPartSpriteAndColour : BodyPartCustomisationBase
 		Dropdown.onValueChanged.AddListener(ItemChange);
 	}
 
+	public override void RandomizeValues()
+	{
+		Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
+		ColorChange(new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), 1f));
+		Refresh();
+	}
+
 	public void ItemChange(int newValue)
 	{
 		Refresh();

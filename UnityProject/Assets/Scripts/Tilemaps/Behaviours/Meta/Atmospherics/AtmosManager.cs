@@ -23,7 +23,8 @@ namespace Systems.Atmospherics
 
 		public HashSet<PipeData> inGameNewPipes = new HashSet<PipeData>();
 		public HashSet<FireAlarm> inGameFireAlarms = new HashSet<FireAlarm>();
-		public ConcurrentBag<PipeData> pipeToAdd = new ConcurrentBag<PipeData>();
+		private ThreadSafeList<PipeData> pipeList = new ThreadSafeList<PipeData>();
+		private GenericDelegate<PipeData> processPipeDelegator;
 
 		public static int currentTick;
 		private const int Steps = 1;
@@ -39,6 +40,7 @@ namespace Systems.Atmospherics
 
 		private void Awake()
 		{
+			processPipeDelegator = ProcessPipe;
 			if (Instance == null)
 			{
 				Instance = this;
@@ -70,25 +72,25 @@ namespace Systems.Atmospherics
 		{
 			if (StopPipes == false)
 			{
-				foreach (var pipeData in pipeToAdd)
-				{
-					if(pipeData.MonoPipe == null)
-						continue;
-					pipeData.TickUpdate();
-				}
+				pipeList.Iterate(processPipeDelegator);
 			}
 
 			currentTick = ++currentTick % Steps;
 		}
 
+		private void ProcessPipe(PipeData pipeData)
+		{
+			pipeData.TickUpdate();
+		}
+
 		public void AddPipe(PipeData pipeData)
 		{
-			pipeToAdd.Add(pipeData);
+			pipeList.Add(pipeData);
 		}
 
 		public void RemovePipe(PipeData pipeData)
 		{
-			pipeToAdd.TryTake(out pipeData);
+			pipeList.Remove(pipeData);
 		}
 
 		void OnEnable()
