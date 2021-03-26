@@ -32,7 +32,7 @@ namespace SyndicateOps
 
 					int tc = Mathf.FloorToInt(SyndicateOpConsole.Instance.Operatives.Count / SyndicateOpConsole.Instance.TcIncrement);
 					//this is to prevent tc being unobtainable when the value above is bigger then the amount of tc left within the reserves
-					var var = Math.Min(tc, SyndicateOpConsole.Instance.TcReserve);
+					tc = Math.Min(tc, SyndicateOpConsole.Instance.TcReserve);
 					pdaComp.UplinkTC += tc;
 					SyndicateOpConsole.Instance.TcReserve -= tc;
 				}
