@@ -13,7 +13,7 @@ namespace SyndicateOps
 
 		[NonSerialized] public int TcReserve;
 
-		public int TcIncrement => timer / 60;
+		public int TcIncrement = 14;
 
 		private bool warDeclared = false;
 		private bool rewardGiven = false;
