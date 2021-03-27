@@ -52,7 +52,7 @@ namespace Doors
 		public bool IsClosed
 		{
 			get => registerTile.IsClosed;
-			private set => registerTile.IsClosed = value;
+			set => registerTile.IsClosed = value;
 		}
 
 		//Whether or not users can interact with the door.
@@ -67,36 +67,42 @@ namespace Doors
 
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
+		private SpriteRenderer spriteRenderer;
 
 		private Matrix matrix => registerTile.Matrix;
 		private List<DoorModuleBase> modulesList;
 		private APCPoweredDevice apc;
 		public APCPoweredDevice Apc => apc;
 
+		[Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;
+		private int openLayer;
+		private int openSortingLayer;
+		private int closedLayer;
+		private int closedSortingLayer;
 
 		private void Awake()
 		{
-			EnsureInit();
-		}
-
-		private void EnsureInit()
-		{
+			if (isWindowedDoor == false)
+			{
+				closedLayer = LayerMask.NameToLayer("Door Closed");
+			}
+			else
+			{
+				closedLayer = LayerMask.NameToLayer("Windows");
+			}
+			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
+			openLayer = LayerMask.NameToLayer("Door Open");
+			openSortingLayer = SortingLayer.NameToID("Doors Open");
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			registerTile = GetComponent<RegisterDoor>();
-
-			//Get out list of modules for use later.
 			modulesList = GetComponentsInChildren<DoorModuleBase>().ToList();
-
-			//Our APC powered device.
 			apc = GetComponent<APCPoweredDevice>();
-
 			doorAnimator = GetComponent<DoorAnimatorV2>();
-
 			doorAnimator.AnimationFinished += OnAnimationFinished;
 		}
 
 		public override void OnStartClient()
 		{
-			EnsureInit();
 			DoorNewPlayer.Send(netId);
 		}
 
@@ -274,8 +280,6 @@ namespace Doors
 
 			IsClosed = true;
 
-			StartCoroutine(doorAnimator.PlayClosingAnimation(lights: HasPower));
-
 			if (isPerformingAction)
 			{
 				return;
@@ -298,11 +302,33 @@ namespace Doors
 				ResetWaiting();
 			}
 			IsClosed = false;
-			StartCoroutine(doorAnimator.PlayOpeningAnimation(lights: HasPower));
 
 			if (!isPerformingAction)
 			{
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Open );
+			}
+		}
+
+		public void BoxCollToggleOn()
+		{
+			IsClosed = true;
+			SetLayer(closedLayer);
+			spriteRenderer.sortingLayerID = closedSortingLayer;
+		}
+
+		public void BoxCollToggleOff()
+		{
+			IsClosed = false;
+			SetLayer(openLayer);
+			spriteRenderer.sortingLayerID = openSortingLayer;
+		}
+
+		private void SetLayer(int layer)
+		{
+			gameObject.layer = layer;
+			foreach (Transform child in transform)
+			{
+				child.gameObject.layer = layer;
 			}
 		}
 
