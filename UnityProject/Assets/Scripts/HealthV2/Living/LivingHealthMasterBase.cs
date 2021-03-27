@@ -716,7 +716,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Gets all body part containers (arms, legs, eyes, etc) in a zone targetable by the UI 
+		/// Gets all body part containers (arms, legs, eyes, etc) in a zone targetable by the UI
 		/// </summary>
 		/// <param name="bodyPartAim">The body part being aimed at</param>
 		/// <returns>List of RootBodyPartContainers</returns>
@@ -731,6 +731,30 @@ namespace HealthV2
 			}
 
 			return null;
+		}
+
+
+		/// <summary>
+		/// Only does damage to the first layer
+		/// </summary>
+		/// <returns></returns>
+		public bool ZoneHasDamageOf(BodyPartType bodyPartAim, DamageType SpecifiedType)
+		{
+			foreach (var cntainers in RootBodyPartContainers)
+			{
+				if (cntainers.BodyPartType == bodyPartAim)
+				{
+					foreach (var bodyPart in cntainers.ContainsLimbs)
+					{
+						if (bodyPart.Damages[(int) SpecifiedType] > 0)
+						{
+							return true;
+						}
+					}
+
+				}
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -971,7 +995,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Removes the specified sickness from the creature, healing it.  
+		/// Removes the specified sickness from the creature, healing it.
 		/// Also immunizes it for the current round, to only cure it use RemoveSickness.
 		/// </summary>
 		/// <param name="sickness">The sickness to remove</param>

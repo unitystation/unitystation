@@ -294,10 +294,7 @@ namespace HealthV2
 		/// <param name="livingHealthMasterBase">Body to be removed from</param>
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
-			if (ContainedIn != null)
-			{
-				ContainedIn.SubBodyPartRemoved(this);
-			}
+			ContainedIn.SubBodyPartRemoved(this);
 		}
 
 		/// <summary>

@@ -11,6 +11,7 @@ namespace HealthV2
 
 		public ItemTrait RequiredImplantTrait;
 
+
 		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, PositionalHandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{

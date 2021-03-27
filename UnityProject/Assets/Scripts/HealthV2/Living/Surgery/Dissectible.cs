@@ -63,13 +63,14 @@ namespace HealthV2
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
+			if (interaction.Intent != Intent.Help) return false; //TODO problem with surgery in Progress and Trying to use something on help content on them
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (ProcedureInProgress == false) return false;
 			var RegisterPlayer = interaction.TargetObject.GetComponent<RegisterPlayer>();
 
 			if (RegisterPlayer == null) return false; //Player script changes needed
-			if (RegisterPlayer.IsLayingDown ==false) return false;
-			return (Validations.HasAnyTrait(interaction.HandObject, InitiateSurgeryItemTraits));
+			if (RegisterPlayer.IsLayingDown == false) return false;
+			return (true);
 		}
 
 
@@ -141,7 +142,7 @@ namespace HealthV2
 				{
 					// var Options = LivingHealthMasterBase.GetBodyPartsInZone(interaction.TargetBodyPart);
 					// UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options, true);
-					RequestBodyParts.Send(this.gameObject,interaction.TargetBodyPart);
+					RequestBodyParts.Send(this.gameObject, interaction.TargetBodyPart);
 					return true;
 					//showDialogue box, For which body part
 					// Set currently on and choose what surgery
@@ -192,6 +193,7 @@ namespace HealthV2
 										return;
 									}
 								}
+
 								return;
 							}
 						}
@@ -210,6 +212,7 @@ namespace HealthV2
 									}
 								}
 							}
+
 							return;
 						}
 					}
@@ -227,6 +230,7 @@ namespace HealthV2
 									return;
 								}
 							}
+
 							return;
 						}
 					}
@@ -257,27 +261,28 @@ namespace HealthV2
 					    SurgeryProcedureBase)
 					{
 						this.currentlyOn = LivingHealthMasterBase.gameObject;
-						this.ThisPresentProcedure.SetupProcedure(this,  null, SurgeryProcedureBase);
+						this.ThisPresentProcedure.SetupProcedure(this, null, SurgeryProcedureBase);
 					}
 				}
 			}
 		}
 
-		public void SendClientBodyParts(ConnectedPlayer SentByPlayer,BodyPartType inTargetBodyPart = BodyPartType.None)
+		public void SendClientBodyParts(ConnectedPlayer SentByPlayer, BodyPartType inTargetBodyPart = BodyPartType.None)
 		{
 			if (currentlyOn == null)
 			{
-				SendSurgeryBodyParts.SendTo(LivingHealthMasterBase.GetBodyPartsInZone(inTargetBodyPart),this, SentByPlayer);
+				SendSurgeryBodyParts.SendTo(LivingHealthMasterBase.GetBodyPartsInZone(inTargetBodyPart), this,
+					SentByPlayer);
 			}
 			else
 			{
 				if (BodyPartIsopen)
 				{
-					SendSurgeryBodyParts.SendTo( BodyPartIsOn.ContainBodyParts,this, SentByPlayer);
+					SendSurgeryBodyParts.SendTo(BodyPartIsOn.ContainBodyParts, this, SentByPlayer);
 				}
 				else
 				{
-					SendSurgeryBodyParts.SendTo(new List<BodyPart>(){BodyPartIsOn},this , SentByPlayer);
+					SendSurgeryBodyParts.SendTo(new List<BodyPart>() {BodyPartIsOn}, this, SentByPlayer);
 				}
 			}
 		}
@@ -335,11 +340,18 @@ namespace HealthV2
 				{
 					if (Validations.HasItemTrait(interaction.HandObject, ThisSurgeryStep.RequiredTrait))
 					{
+						string StartSelf = ApplyChatModifiers(ThisSurgeryStep.StartSelf);
+						string StartOther = ApplyChatModifiers(ThisSurgeryStep.StartOther);
+						string SuccessSelf = ApplyChatModifiers(ThisSurgeryStep.SuccessSelf);
+						string SuccessOther = ApplyChatModifiers(ThisSurgeryStep.SuccessOther);
+						string FailSelf = ApplyChatModifiers(ThisSurgeryStep.FailSelf);
+						string FailOther = ApplyChatModifiers(ThisSurgeryStep.FailOther);
 						ToolUtils.ServerUseToolWithActionMessages(interaction.Performer, interaction.HandObject,
 							ActionTarget.Object(interaction.TargetObject.RegisterTile()), ThisSurgeryStep.Time,
-							ThisSurgeryStep.StartSelf,
-							ThisSurgeryStep.StartOther, ThisSurgeryStep.SuccessSelf, ThisSurgeryStep.SuccessOther,
-							SuccessfulProcedure, ThisSurgeryStep.FailSelf, ThisSurgeryStep.FailOther,
+							StartSelf, StartOther,
+							SuccessSelf, SuccessOther,
+							SuccessfulProcedure,
+							FailSelf, FailOther,
 							UnsuccessfulProcedure);
 						return;
 					}
@@ -407,12 +419,35 @@ namespace HealthV2
 				{
 					PreviousBodyPart = null;
 				}
+
 				ISon = Dissectible;
 				ISon.ProcedureInProgress = true;
 				RelatedBodyPart = bodyPart;
 				SurgeryProcedureBase = inSurgeryProcedureBase;
 			}
+
+			public string ApplyChatModifiers(string toReplace)
+			{
+				if (!string.IsNullOrWhiteSpace(toReplace))
+				{
+					toReplace = toReplace.Replace("{WhoOn}", RelatedBodyPart.HealthMaster.gameObject.ExpensiveName());
+				}
+
+				if (!string.IsNullOrWhiteSpace(toReplace))
+				{
+					toReplace = toReplace.Replace("{Using}", Stored.UsedObject.ExpensiveName());
+				}
+
+				if (!string.IsNullOrWhiteSpace(toReplace))
+				{
+					toReplace = toReplace.Replace("{OnPart}", RelatedBodyPart.gameObject.ExpensiveName());
+				}
+
+				return toReplace;
+			}
 		}
+
+
 
 		public enum ProcedureType
 		{
