@@ -88,13 +88,13 @@ namespace HealthV2
 		/// The amount of of nutriment to consumed each tick as part of passive metabolism
 		/// </summary>
 		[Tooltip("How much nutriment does this passively consume to each tick?")]
-		public float NutrimentPassiveConsumption = 0.001f;
+		public float PassiveConsumptionNutriment = 0.0005f;
 
 		/// <summary>
 		/// The amount of of nutriment to consume in order to perform work, eg heal damage or replenish blood supply
 		/// </summary>
 		[Tooltip("How much nutriment does this consume to perform work?")]
-		public float NutrimentConsumption = 0.02f;
+		public float ConsumptionNutriment = 0.002f;
 
 
 		public float ReagentMetabolism = 0.2f;
@@ -112,6 +112,7 @@ namespace HealthV2
 				if (isBloodCirculated)
 				{
 					HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(BloodContainer.CurrentReagentMix, BloodStoredMax);
+					//BloodContainer.CurrentReagentMix.Add(Nutriment, 0.01f);
 				}
 				BloodContainer.ContentsSet = true;
 			}
@@ -132,7 +133,7 @@ namespace HealthV2
 			if (isBloodCirculated == false) return;
 			ConsumeReagents();
 			ConsumeNutriments();
-
+			MetaboliseReactions();
 			//Assuming it's changed in this update since none of them use the Inbuilt functions
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
@@ -141,11 +142,12 @@ namespace HealthV2
 		protected virtual void MetaboliseReactions()
 		{
 			if (MetabolismReactions.Count == 0) return;
-			float ReagentsProcessed = ReagentMetabolism / MetabolismReactions.Count;
+			float ReagentsProcessed = (ReagentMetabolism * TotalModified) / MetabolismReactions.Count;
 			foreach (var Reaction in MetabolismReactions)
 			{
-
+				Reaction.React(this, BloodContainer.CurrentReagentMix,  ReagentsProcessed);
 			}
+			MetabolismReactions.Clear();
 		}
 
 		/// <summary>
@@ -154,7 +156,6 @@ namespace HealthV2
 		protected virtual void ConsumeReagents()
 		{
 			// Numbers could use some tweaking, maybe consumption goes down when unconscious?
-
 			if (!isBloodReagentConsumed) return;
 
 			float consumed = BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumed);
@@ -230,19 +231,23 @@ namespace HealthV2
 		{
 			float availableNutriment = BloodContainer.CurrentReagentMix.Subtract(Nutriment, Single.MaxValue);
 
-			if (availableNutriment > NutrimentPassiveConsumption)
+			if (availableNutriment > PassiveConsumptionNutriment)
 			{
-				availableNutriment -= NutrimentPassiveConsumption;
+				availableNutriment -= PassiveConsumptionNutriment;
 				if (TotalDamageWithoutOxy > 0)
 				{
-					float toConsume = Mathf.Min(NutrimentConsumption, availableNutriment);
+					float toConsume = Mathf.Min(ConsumptionNutriment, availableNutriment);
 					availableNutriment -= toConsume;
 					NutrimentHeal(toConsume);
 				}
-				if (availableNutriment < NutrimentPassiveConsumption * 10)
+				if (availableNutriment < PassiveConsumptionNutriment * 7)
 				{
 					HungerModifier.Multiplier = 0.75f;
 					// Is Hungry
+				}
+				else
+				{
+					HungerModifier.Multiplier = 1f;
 				}
 				BloodContainer.CurrentReagentMix.Add(Nutriment, availableNutriment);
 			}
@@ -287,7 +292,7 @@ namespace HealthV2
 
 			//Maybe have damage from high/low blood levels and high blood pressure
 
-			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, bloodThroughput * efficiency);
+			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, float.MaxValue);
 
 			if ((BloodContainer.ReagentMixTotal + bloodIn.Total) > BloodContainer.MaxCapacity)
 			{
@@ -300,7 +305,13 @@ namespace HealthV2
 			}
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
+			BloodWasPumped();
 			return bloodIn;
+		}
+
+		public virtual void BloodWasPumped()
+		{
+
 		}
 
 		/// <summary>

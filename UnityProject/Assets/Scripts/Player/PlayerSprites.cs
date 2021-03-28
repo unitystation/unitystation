@@ -152,7 +152,6 @@ public class PlayerSprites : MonoBehaviour
 
 	public void SetUpCharacter(CharacterSettings Character)
 	{
-		//TODOH Get race file from character settings
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			InstantiateAndSetUp(RaceBodyparts.Base.Head, bodyParts["Head"].transform);
@@ -201,7 +200,7 @@ public class PlayerSprites : MonoBehaviour
 
 			if (pass)
 			{
-				if(Body_Part.LobbyCustomisation.characterCustomization != null)
+				if(Body_Part.LobbyCustomisation != null)
 				{
 					Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part,
 						customisationStorage.Data.Replace("@£", "\""),

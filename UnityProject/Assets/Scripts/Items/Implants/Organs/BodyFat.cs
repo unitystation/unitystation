@@ -37,21 +37,23 @@ namespace HealthV2
 
 		public Stomach RelatedStomach;
 
-		public float ReleaseNutrimentAtPercent = 0.05f;
+		public float ReleaseNutrimentAtPercent = 0.20f;
 
-		public float AbsorbNutrimentAtPercent = 0.25f;
+		public float AbsorbNutrimentAtPercent = 0.35f;
 
-		public float ReleaseAmount = 0.5f;
+		public float ReleaseAmount = 1f;
 
 		public float MaxAmount = 500;
 
-		public float AbsorbedAmount = 25;
+		public float AbsorbedAmount = 100;
 
 		public bool IsFull => Math.Abs(MaxAmount - AbsorbedAmount) < 0.01f;
 
 		public float DebuffCutInPoint = 100; //some fat is ok
 
 		public bool WasApplyingDebuff = false;
+
+		public bool isFreshBlood;
 
 		public override void ImplantPeriodicUpdate()
 		{
@@ -68,9 +70,10 @@ namespace HealthV2
 
 				BloodContainer.CurrentReagentMix.Add(Nutriment, ToRelease);
 				AbsorbedAmount -= ToRelease;
+				isFreshBlood = false;
 				// Logger.Log("ToRelease >" + ToRelease);
 			}
-			else if (NutrimentPercentage > AbsorbNutrimentAtPercent && AbsorbedAmount < MaxAmount)
+			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentAtPercent && AbsorbedAmount < MaxAmount)
 			{
 				float ToAbsorb = BloodContainer[Nutriment];
 				if (AbsorbedAmount + ToAbsorb > MaxAmount)
@@ -99,6 +102,11 @@ namespace HealthV2
 					playerHealthV2.PlayerMove.UpdateSpeeds();
 				}
 			}
+		}
+
+		public override void BloodWasPumped()
+		{
+			isFreshBlood = true;
 		}
 
 		public override void Initialisation()

@@ -270,15 +270,12 @@ namespace HealthV2
 		}
 
 
+		public Reagent CHem;
+
 		[RightClickMethod]
-		public void PrintHealth()
+		public void InjectChemical()
 		{
-			foreach (var ImplantLis in ImplantList)
-			{
-				Logger.Log(ImplantLis.name + "\n" + "Byrne >" + ImplantLis.Burn + " Brute > " + ImplantLis.Brute +
-						   " Oxy > " + ImplantLis.Oxy + " Cellular > " + ImplantLis.Cellular + " Stamina > " +
-						   ImplantLis.Stamina + " Toxin > " + ImplantLis.Toxin + " DamageEfficiencyMultiplier > " + ImplantLis.DamageEfficiencyMultiplier);
-			}
+			CirculatorySystem.ReadyBloodPool.Add(CHem, 5);
 		}
 
 		[RightClickMethod]
