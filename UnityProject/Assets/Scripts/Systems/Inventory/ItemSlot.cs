@@ -183,15 +183,7 @@ public class ItemSlot
 	/// <returns></returns>
 	public static ItemSlot GetNamed(ItemStorage itemStorage, NamedSlot named)
 	{
-		if(itemStorage != null)
-		{
-			return Get(itemStorage, SlotIdentifier.Named(named));
-		}
-		else
-		{
-			Logger.LogError("[ItemSlot] - itemStorage is null! Cannot get any names.");
-			return null;
-		}
+		return Get(itemStorage, SlotIdentifier.Named(named));
 	}
 
 	/// <summary>

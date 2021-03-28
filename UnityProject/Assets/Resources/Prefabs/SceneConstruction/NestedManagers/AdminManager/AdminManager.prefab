@@ -27,7 +27,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 230.5842, y: 320.23022, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 744200998588035166}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43,5 +44,98 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9eb6434559518f459b85a993fd92cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LocalAdminGhostStorage: {fileID: 600401429656050696}
   ItemStorageHolderPrefab: {fileID: 5719856537884556532, guid: 69d0673ca33c7564b9325c94b7a881e3,
     type: 3}
+--- !u!1001 &720911625487429240
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2891357792983856179}
+    m_Modifications:
+    - target: {fileID: -8464927437020319508, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5719856537884556532, guid: 69d0673ca33c7564b9325c94b7a881e3,
+        type: 3}
+      propertyPath: m_Name
+      value: AdminGhostItemStorageHolder
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 69d0673ca33c7564b9325c94b7a881e3, type: 3}
+--- !u!4 &744200998588035166 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 23326758832184870, guid: 69d0673ca33c7564b9325c94b7a881e3,
+    type: 3}
+  m_PrefabInstance: {fileID: 720911625487429240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &600401429656050696 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 167825772313686640, guid: 69d0673ca33c7564b9325c94b7a881e3,
+    type: 3}
+  m_PrefabInstance: {fileID: 720911625487429240}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
