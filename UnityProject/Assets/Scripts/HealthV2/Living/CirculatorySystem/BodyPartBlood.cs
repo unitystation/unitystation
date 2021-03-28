@@ -11,6 +11,14 @@ namespace HealthV2
 	/// Handles the body part's usage of the blood stream.
 	public partial class BodyPart
 	{
+
+		/// <summary>
+		/// Modifier that multiplicatively reduces the efficiency of the body part based on damage
+		/// </summary>
+		[Tooltip("Modifier to reduce efficiency when the character gets hungry")]
+		public Modifier HungerModifier = new Modifier();
+
+
 		[Tooltip("Is this connected to the blood stream at all?")]
 		[SerializeField] private bool isBloodCirculated = true;
 		/// <summary>
@@ -88,6 +96,11 @@ namespace HealthV2
 		[Tooltip("How much nutriment does this consume to perform work?")]
 		public float NutrimentConsumption = 0.02f;
 
+
+		public float ReagentMetabolism = 0.2f;
+
+		public HashSet<MetabolismReaction> MetabolismReactions = new HashSet<MetabolismReaction>();
+
 		/// <summary>
 		/// Initializes the body part as part of the circulatory system
 		/// </summary>
@@ -106,6 +119,9 @@ namespace HealthV2
 			{
 				bloodType = HealthMaster.CirculatorySystem.BloodType;
 			}
+
+			AddModifier(HungerModifier);
+
 		}
 
 		/// <summary>
@@ -116,6 +132,20 @@ namespace HealthV2
 			if (isBloodCirculated == false) return;
 			ConsumeReagents();
 			ConsumeNutriments();
+
+			//Assuming it's changed in this update since none of them use the Inbuilt functions
+			BloodContainer.OnReagentMixChanged?.Invoke();
+			BloodContainer.ReagentsChanged();
+		}
+
+		protected virtual void MetaboliseReactions()
+		{
+			if (MetabolismReactions.Count == 0) return;
+			float ReagentsProcessed = ReagentMetabolism / MetabolismReactions.Count;
+			foreach (var Reaction in MetabolismReactions)
+			{
+
+			}
 		}
 
 		/// <summary>
@@ -209,14 +239,16 @@ namespace HealthV2
 					availableNutriment -= toConsume;
 					NutrimentHeal(toConsume);
 				}
-				if (availableNutriment < NutrimentPassiveConsumption * 1000)
+				if (availableNutriment < NutrimentPassiveConsumption * 10)
 				{
+					HungerModifier.Multiplier = 0.75f;
 					// Is Hungry
 				}
 				BloodContainer.CurrentReagentMix.Add(Nutriment, availableNutriment);
 			}
 			else
 			{
+				HungerModifier.Multiplier = 0.5f;
 				// Is Starving
 			}
 		}

@@ -12,7 +12,7 @@ namespace Chemistry
 		public ReactionSet[] parents = new ReactionSet[0];
 		public Reaction[] reactions = new Reaction[0];
 
-		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
+		public virtual bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
 			bool changing;
 			var changed = false;

@@ -93,7 +93,7 @@ namespace HealthV2
 			}
 		}
 
-		private float multiplier;
+		private float multiplier = 1;
 
 		public BodyPart RelatedPart;
 	}
