@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e66dcbbf6b63f74da3f53fcc85ae1cc, type: 3}
-  m_Name: BicaridineInBody
+  m_Name: PoloniumInBody
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 3f66aa437de46f18eb6229dfa2ffcf91, type: 2}
+    - {fileID: 11400000, guid: cb08e4c00d2933413a176598c4bf5977, type: 2}
     m_values: 01000000
   useExactAmounts: 0
   catalysts:
@@ -27,10 +27,10 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   effects: []
-  ReagentMetabolismMultiplier: 1
-  DamageEffect: 0
-  AttackType: 9
-  EffectPerOne: -1
-  CanOverdose: 1
+  ReagentMetabolismMultiplier: 0.2
+  DamageEffect: 6
+  AttackType: 5
+  EffectPerOne: 1
+  CanOverdose: 0
   PercentageBloodOverdose: 0.5
   OverdoseDamageMultiplier: 2

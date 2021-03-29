@@ -123,8 +123,8 @@ namespace Tests
 				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
 
 				var Openedscene = EditorSceneManager.OpenScene(scene);
-				report.AppendLine($"Checking {scene}");
-				Logger.Log($"Checking {scene}", Category.Tests);
+				//report.AppendLine($"Checking {scene}");
+				//Logger.Log($"Checking {scene}", Category.Tests);
 				var gameObjects = Openedscene.GetRootGameObjects();
 				foreach (var gameObject in gameObjects)
 				{

@@ -21,8 +21,8 @@ namespace HealthV2
 			if (BloodStoredMax > BloodContainer.ReagentMixTotal && BloodContainer[Nutriment] > 0 &&
 				healthMaster.GetTotalBlood() < healthMaster.CirculatorySystem.BloodInfo.BLOOD_NORMAL / 1000)
 			{
-				float toConsume = NutrimentConsumption;
-				if (NutrimentConsumption > BloodContainer[Nutriment])
+				float toConsume = ConsumptionNutriment;
+				if (ConsumptionNutriment > BloodContainer[Nutriment])
 				{
 					toConsume = BloodContainer[Nutriment];
 				}
