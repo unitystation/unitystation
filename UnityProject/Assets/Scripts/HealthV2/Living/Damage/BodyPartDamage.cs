@@ -8,10 +8,15 @@ namespace HealthV2
 	public partial class BodyPart
 	{
 		/// <summary>
-		/// The amount damage taken by this is modified by
+		/// The armor of the body part itself, ignoring the clothing (for example the xenomorph's exoskeleton).
 		/// </summary>
-		[Tooltip("The amount that damage taken by this is modified by")]
-		public Armor BodyPartArmour = new Armor();
+		[Tooltip("The armor of the body part itself, ignoring the clothing.")]
+		public Armor selfArmor = new Armor();
+
+		/// <summary>
+		/// The armor of the clothing covering a part of the body, ignoring selfArmor.
+		/// </summary>
+		internal readonly LinkedList<Armor> ClothingArmor = new LinkedList<Armor>();
 
 		/// <summary>
 		/// The amount damage taken by body parts contained within this body part is modified by
@@ -184,7 +189,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Applys damage to this body part. Damage will be divided among it and sub organs depending on their
+		/// Applies damage to this body part. Damage will be divided among it and sub organs depending on their
 		/// armor values.
 		/// </summary>
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
@@ -195,7 +200,13 @@ namespace HealthV2
 		public void TakeDamage(GameObject damagedBy, float damage,
 			AttackType attackType, DamageType damageType, bool damageSplit = false)
 		{
-			var damageToLimb = BodyPartArmour.GetDamage(damage, attackType);
+			var damageToLimb = damage;
+			foreach (Armor clothingArmor in ClothingArmor)
+			{
+				damageToLimb = clothingArmor.GetDamage(damageToLimb, attackType);
+			}
+
+			damageToLimb = selfArmor.GetDamage(damageToLimb, attackType);
 			AffectDamage(damageToLimb, (int)damageType);
 
 			// May be changed to individual damage

@@ -13,16 +13,21 @@ using UnityEngine;
 [Serializable]
 public class Armor
 {
-	[Range(-100,100)] public float Melee;
-	[Range(-100,100)] public float Bullet;
-	[Range(-100,100)] public float Laser;
-	[Range(-100,100)] public float Energy;
-	[Range(-100,100)] public float Bomb;
-	[Range(-100,100)] public float Rad;
-	[Range(-100,100)] public float Fire;
-	[Range(-100,100)] public float Acid;
-	[Range(-100,100)] public float Magic;
-	[Range(-100,100)] public float Bio;
+	[Range(-100,100)] public float Melee = 0;
+	[Range(-100,100)] public float Bullet = 0;
+	[Range(-100,100)] public float Laser = 0;
+	[Range(-100,100)] public float Energy = 0;
+	[Range(-100,100)] public float Bomb = 0;
+	[Range(-100,100)] public float Rad = 0;
+	[Range(-100,100)] public float Fire = 0;
+	[Range(-100,100)] public float Acid = 0;
+	[Range(-100,100)] public float Magic = 0;
+	[Range(-100,100)] public float Bio = 0;
+
+	/// <summary>
+	/// If it is a piece of clothing(wearableArmor), this variable will have value).
+	/// </summary>
+	private WearableArmor partOfWearableArmor;
 
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance
