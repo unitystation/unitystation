@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class BodyFat : BodyPart, PlayerMove.IMovementEffect
+	public class BodyFat : BodyPartModification, PlayerMove.IMovementEffect
 	{
 		public float MaxRunSpeedDebuff = -2;
 		public float MaxWalkingDebuff = -1.5f;
@@ -58,7 +58,7 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-			float NutrimentPercentage = (BloodContainer[Nutriment] / BloodContainer.ReagentMixTotal);
+			float NutrimentPercentage = (RelatedPart.BloodContainer[RelatedPart.Nutriment] / RelatedPart.BloodContainer.ReagentMixTotal);
 			// Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
 			if (NutrimentPercentage < ReleaseNutrimentAtPercent)
 			{
@@ -68,20 +68,20 @@ namespace HealthV2
 					ToRelease = AbsorbedAmount;
 				}
 
-				BloodContainer.CurrentReagentMix.Add(Nutriment, ToRelease);
+				RelatedPart.BloodContainer.CurrentReagentMix.Add(RelatedPart.Nutriment, ToRelease);
 				AbsorbedAmount -= ToRelease;
 				isFreshBlood = false;
 				// Logger.Log("ToRelease >" + ToRelease);
 			}
 			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentAtPercent && AbsorbedAmount < MaxAmount)
 			{
-				float ToAbsorb = BloodContainer[Nutriment];
+				float ToAbsorb = RelatedPart.BloodContainer[RelatedPart.Nutriment];
 				if (AbsorbedAmount + ToAbsorb > MaxAmount)
 				{
 					ToAbsorb = ToAbsorb - ((AbsorbedAmount + ToAbsorb) - MaxAmount);
 				}
 
-				float Absorbing = BloodContainer.CurrentReagentMix.Remove(Nutriment, ToAbsorb);
+				float Absorbing = RelatedPart.BloodContainer.CurrentReagentMix.Remove(RelatedPart.Nutriment, ToAbsorb);
 				AbsorbedAmount += Absorbing;
 				// Logger.Log("Absorbing >" + Absorbing);
 			}
@@ -96,7 +96,7 @@ namespace HealthV2
 				runSpeedDebuff = MaxRunSpeedDebuff * DeBuffMultiplier;
 				WalkingDebuff = MaxWalkingDebuff * DeBuffMultiplier;
 				CrawlDebuff = MaxCrawlDebuff * DeBuffMultiplier;
-				var playerHealthV2 = healthMaster as PlayerHealthV2;
+				var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 				if (playerHealthV2 != null)
 				{
 					playerHealthV2.PlayerMove.UpdateSpeeds();
@@ -112,7 +112,7 @@ namespace HealthV2
 		public override void Initialisation()
 		{
 			base.Initialisation();
-			var playerHealthV2 = HealthMaster as PlayerHealthV2;
+			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.AddModifier(this);
@@ -132,7 +132,7 @@ namespace HealthV2
 		public override void SetUpSystems()
 		{
 			base.SetUpSystems();
-			var playerHealthV2 = healthMaster as PlayerHealthV2;
+			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.AddModifier(this);

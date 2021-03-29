@@ -34,13 +34,17 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 			var LHMB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 			foreach (var BodyPart in LHMB.ImplantList)
 			{
-				var heart = BodyPart as Heart;
-				if (heart != null)
+				foreach (var bodyPartModification in BodyPart.BodyPartModifications)
 				{
-					heart.HeartAttack = false;
-					heart.CanTriggerHeartAttack = false;
-					heart.CurrentPulse = 0;
+					var heart = bodyPartModification as Heart;
+					if (heart != null)
+					{
+						heart.HeartAttack = false;
+						heart.CanTriggerHeartAttack = false;
+						heart.CurrentPulse = 0;
+					}
 				}
+
 			}
 		}
 		var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false, true), Perform);

@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Systems.Clothing;
 using Items;
@@ -133,7 +134,8 @@ namespace HealthV2
 		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
 
-
+		[System.NonSerialized]
+		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
 
 		/// <summary>
 		/// Initializes the body part
@@ -162,6 +164,10 @@ namespace HealthV2
 				BodySpriteSet = true;
 			}
 			UpdateIcons();
+			foreach (var bodyPartModification in BodyPartModifications)
+			{
+				bodyPartModification.HealthMasterSet();
+			}
 		}
 
 		/// <summary>
@@ -197,6 +203,14 @@ namespace HealthV2
 			DamageInitialisation();
 			UpdateSeverity();
 			Initialisation();
+
+			BodyPartModifications = this.GetComponents<BodyPartModification>().ToList();
+
+			foreach (var bodyPartModification in BodyPartModifications)
+			{
+				bodyPartModification.RelatedPart = this;
+				bodyPartModification.Initialisation();
+			}
 		}
 
 		/// <summary>
@@ -227,6 +241,11 @@ namespace HealthV2
 			}
 			BloodUpdate();
 			CalculateRadiationDamage();
+
+			foreach (var bodyPartModification in BodyPartModifications)
+			{
+				bodyPartModification.ImplantPeriodicUpdate();
+			}
 		}
 
 		#region BodyPartStorage
@@ -294,6 +313,10 @@ namespace HealthV2
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
 			SubBodyPartRemoved(this);
+			foreach (var bodyPartModification in BodyPartModifications)
+			{
+				bodyPartModification.RemovedFromBody(livingHealthMasterBase);
+			}
 		}
 
 		/// <summary>
@@ -370,6 +393,10 @@ namespace HealthV2
 				prop.SetUpSystems();
 			}
 			BloodInitialise();
+			foreach (var bodyPartModification in BodyPartModifications)
+			{
+				bodyPartModification.SetUpSystems();
+			}
 		}
 
 		/// <summary>
@@ -446,6 +473,19 @@ namespace HealthV2
 	{
 		public SpriteOrder SpriteOrder;
 		public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
+	}
+	public class BodyPartModification : MonoBehaviour
+	{
+
+		public BodyPart RelatedPart;
+		public virtual void ImplantPeriodicUpdate() { }
+		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase){}
+		public virtual void HealthMasterSet(){}
+		public virtual void SetUpSystems(){}
+
+		public virtual void Initialisation(){}
+		public virtual void BloodWasPumped(){}
+
 	}
 
 }

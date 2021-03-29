@@ -9,7 +9,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 	const float CPR_TIME = 5;
 
 	private static readonly StandardProgressActionConfig CPRProgressConfig =
-			new StandardProgressActionConfig(StandardProgressActionType.CPR);
+		new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
 	private string performerName;
 	private string targetName;
@@ -38,19 +38,20 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		targetName = interaction.TargetObject.ExpensiveName();
 
 		var cardiacArrestPlayerRegister = interaction.TargetObject.GetComponent<RegisterPlayer>();
+
 		void ProgressComplete()
 		{
 			ServerDoCPR(interaction.Performer, interaction.TargetObject, interaction.TargetBodyPart);
 		}
 
 		var cpr = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
-				.ServerStartProgress(cardiacArrestPlayerRegister, CPR_TIME, interaction.Performer);
+			.ServerStartProgress(cardiacArrestPlayerRegister, CPR_TIME, interaction.Performer);
 		if (cpr != null)
 		{
 			Chat.AddActionMsgToChat(
-					interaction.Performer,
-					$"You begin performing CPR on {targetName}'s " + interaction.TargetBodyPart,
-					$"{performerName} is trying to perform CPR on {targetName}'s " + interaction.TargetBodyPart);
+				interaction.Performer,
+				$"You begin performing CPR on {targetName}'s " + interaction.TargetBodyPart,
+				$"{performerName} is trying to perform CPR on {targetName}'s " + interaction.TargetBodyPart);
 		}
 	}
 
@@ -64,15 +65,16 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		bool hasHeart = false;
 		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart, false))
 		{
-			var lung = BodyPart as Lungs;
-			if (lung != null)
+			foreach (var bodyPartModification in BodyPart.BodyPartModifications)
 			{
-				lung.TryBreathing(node, 1);
-				hasLung = true;
-			}
-			else
-			{
-				var heart = BodyPart as Heart;
+				var lung = bodyPartModification as Lungs;
+				if (lung != null)
+				{
+					lung.TryBreathing(node, 1);
+					hasLung = true;
+				}
+
+				var heart = bodyPartModification as Heart;
 				if (heart != null)
 				{
 					heart.Heartbeat(1);
@@ -84,7 +86,6 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (hasHeart && hasLung)
 		{
 			Chat.AddActionMsgToChat(
-
 				performer,
 				$"You perform CPR on {targetName}.",
 				$"{performerName} performs CPR on {targetName}.");
@@ -97,6 +98,5 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 				$"You perform CPR on {targetName}. It doesn't seem to work, maybe they're missing something.",
 				$"{performerName} performs CPR on {targetName} In vain.");
 		}
-
 	}
 }

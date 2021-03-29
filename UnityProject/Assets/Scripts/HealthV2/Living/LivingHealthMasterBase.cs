@@ -377,7 +377,7 @@ namespace HealthV2
 		/// </summary>
 		public float GetOxyDamage()
 		{
-			return brain.Oxy;
+			return brain.RelatedPart.Oxy;
 		}
 
 		/// <summary>
@@ -483,7 +483,7 @@ namespace HealthV2
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
-			currentHealth -= brain.Oxy; //Assuming has brain
+			currentHealth -= brain.RelatedPart.Oxy; //Assuming has brain
 
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);
@@ -493,17 +493,21 @@ namespace HealthV2
 				bool hasAllHeartAttack = true;
 				foreach (var Implant in ImplantList)
 				{
-					var heart = Implant as Heart;
-					if (heart != null)
+					foreach (var bodyPartModification in Implant.BodyPartModifications)
 					{
-						if (heart.HeartAttack == false)
+						var heart = bodyPartModification as Heart;
+						if (heart != null)
 						{
-							hasAllHeartAttack = false;
-							if (ConsciousState != ConsciousState.UNCONSCIOUS)
+							if (heart.HeartAttack == false)
 							{
-								ConsciousState = ConsciousState.UNCONSCIOUS;
+								hasAllHeartAttack = false;
+								if (ConsciousState != ConsciousState.UNCONSCIOUS)
+								{
+									ConsciousState = ConsciousState.UNCONSCIOUS;
+								}
+
+								break;
 							}
-							break;
 						}
 					}
 				}
@@ -772,10 +776,13 @@ namespace HealthV2
 			var Stomachs = new List<Stomach>();
 			foreach (var Implant in ImplantList)
 			{
-				var stomach = Implant as Stomach;
-				if (stomach != null)
+				foreach (var bodyPartModification in Implant.BodyPartModifications)
 				{
-					Stomachs.Add(stomach);
+					var stomach = bodyPartModification as Stomach;
+					if (stomach != null)
+					{
+						Stomachs.Add(stomach);
+					}
 				}
 			}
 			return Stomachs;

@@ -38,19 +38,19 @@ namespace HealthV2
 		/// The reagent that is used by this body part, eg oxygen.
 		/// </summary>
 		[Tooltip("What type of blood does this body part work with?")]
-		[SerializeField] protected BloodType bloodType = null;
+		[SerializeField] public BloodType bloodType = null;
 
 		/// <summary>
 		/// The reagent that is used by this body part, eg oxygen.
 		/// </summary>
 		[Tooltip("What blood reagent does this use?")]
-		[SerializeField] protected Chemistry.Reagent requiredReagent;
+		[SerializeField] public Chemistry.Reagent requiredReagent;
 
 		/// <summary>
 		/// The reagent that the body part expels as waste, eg co2
 		/// </summary>
 		[Tooltip("What reagent does this expel as waste?")]
-		[SerializeField] protected Chemistry.Reagent wasteReagent;
+		[SerializeField] public Chemistry.Reagent wasteReagent;
 
 		/// <summary>
 		/// The part's internal working set of the body's blood. This is the limit of the blood that the part can
@@ -311,7 +311,10 @@ namespace HealthV2
 
 		public virtual void BloodWasPumped()
 		{
-
+			foreach (var bodyPartModification in BodyPartModifications)
+			{
+				bodyPartModification.BloodWasPumped();
+			}
 		}
 
 		/// <summary>
