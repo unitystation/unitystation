@@ -36,8 +36,7 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 			{
 				foreach (var bodyPartModification in BodyPart.BodyPartModifications)
 				{
-					var heart = bodyPartModification as Heart;
-					if (heart != null)
+					if (bodyPartModification is Heart heart)
 					{
 						heart.HeartAttack = false;
 						heart.CanTriggerHeartAttack = false;

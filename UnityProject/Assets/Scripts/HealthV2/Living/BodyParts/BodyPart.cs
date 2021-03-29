@@ -137,7 +137,6 @@ namespace HealthV2
 		[System.NonSerialized]
 		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
 
-
 		/// <summary>
 		/// Initializes the body part
 		/// </summary>
@@ -475,18 +474,7 @@ namespace HealthV2
 		public SpriteOrder SpriteOrder;
 		public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
 	}
-	public class BodyPartModification : MonoBehaviour
-	{
 
-		public BodyPart RelatedPart;
-		public virtual void ImplantPeriodicUpdate() { }
-		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase){}
-		public virtual void HealthMasterSet(){}
-		public virtual void SetUpSystems(){}
 
-		public virtual void Initialisation(){}
-		public virtual void BloodWasPumped(){}
-
-	}
 }
 

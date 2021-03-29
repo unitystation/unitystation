@@ -67,15 +67,13 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			foreach (var bodyPartModification in BodyPart.BodyPartModifications)
 			{
-				var lung = bodyPartModification as Lungs;
-				if (lung != null)
+				if (bodyPartModification is Lungs lung)
 				{
 					lung.TryBreathing(node, 1);
 					hasLung = true;
 				}
 
-				var heart = bodyPartModification as Heart;
-				if (heart != null)
+				if (bodyPartModification is Heart heart)
 				{
 					heart.Heartbeat(1);
 					hasHeart = true;
