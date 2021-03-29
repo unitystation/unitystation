@@ -137,6 +137,7 @@ namespace HealthV2
 		[System.NonSerialized]
 		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
 
+
 		/// <summary>
 		/// Initializes the body part
 		/// </summary>
@@ -487,6 +488,5 @@ namespace HealthV2
 		public virtual void BloodWasPumped(){}
 
 	}
-
 }
 
