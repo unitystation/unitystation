@@ -13,7 +13,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 6
-  bodyPartsCovered: 1008
+  armoredBodyParts:
+  - bodyPartName: {fileID: 1333560892388078, guid: 71443f01ca2ea014ca6b6c58d03955ae,
+      type: 3}
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+  - bodyPartName: {fileID: 0}
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
 --- !u!1001 &7586200644617787968
 PrefabInstance:
   m_ObjectHideFlags: 0

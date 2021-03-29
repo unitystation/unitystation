@@ -14,7 +14,7 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 	private NamedSlot slot = NamedSlot.outerwear;
 
 	[SerializeField] [Tooltip("What body parts does this item protect and how well does it protect.")]
-	public List<ProtectedBodyPart> armoredBodyPart = new List<ProtectedBodyPart>();
+	private List<ProtectedBodyPart> armoredBodyParts = new List<ProtectedBodyPart>();
 
 	private PlayerHealthV2 playerHealthV2;
 
@@ -22,12 +22,17 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 	[Serializable]
 	public class ProtectedBodyPart
 	{
-		public BodyPart bodyPart;
+		[SerializeField]
+		public GameObject bodyPartPrefab;
+		[SerializeField]
 		public Armor armor;
+
+		internal BodyPart BodyPart = null;
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
+
 		//Wearing
 		if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
 		{
@@ -57,7 +62,7 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 	/// <param name="currentlyRemovingArmor">Are we taking off our armor or putting it on?</param>
 	private void UpdateBodyPartsArmor(bool currentlyRemovingArmor = false)
 	{
-		foreach (Tuple<BodyPart, Armor> protectedBodyPart in armoredBodyPart)
+		foreach (ProtectedBodyPart protectedBodyPart in armoredBodyParts)
 		{
 			foreach (RootBodyPartContainer rootBodyPartContainer in playerHealthV2.RootBodyPartContainers)
 			{
@@ -79,29 +84,31 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 	/// <returns>true if the bodyPart was updated, false otherwise</returns>
 	private static bool DeepUpdateBodyPartArmor(
 		BodyPart bodyPart,
-		Tuple<BodyPart, Armor> protectedBodyPart,
+		ProtectedBodyPart protectedBodyPart,
 		bool currentlyRemovingArmor
 	)
 	{
-		if (protectedBodyPart.Item1 == bodyPart)
+		if (bodyPart.gameObject == protectedBodyPart.bodyPartPrefab.gameObject)
 		{
 			if (currentlyRemovingArmor)
 			{
-				bodyPart.ClothingArmor.Remove(protectedBodyPart.Item2);
+				bodyPart.ClothingArmor.Remove(protectedBodyPart.armor);
+				protectedBodyPart.BodyPart = null;
 			}
 			else
 			{
-				bodyPart.ClothingArmor.AddFirst(protectedBodyPart.Item2);
+				bodyPart.ClothingArmor.AddFirst(protectedBodyPart.armor);
+				protectedBodyPart.BodyPart = bodyPart;
 			}
 			return true;
 		}
 
-		if (protectedBodyPart.Item1.ContainBodyParts.Count == 0)
+		if (protectedBodyPart.BodyPart.ContainBodyParts.Count == 0)
 		{
 			return false;
 		}
 
-		foreach (BodyPart innerBodyPart in protectedBodyPart.Item1.ContainBodyParts)
+		foreach (BodyPart innerBodyPart in protectedBodyPart.BodyPart.ContainBodyParts)
 		{
 			if (DeepUpdateBodyPartArmor(bodyPart, protectedBodyPart, currentlyRemovingArmor))
 			{
@@ -111,4 +118,124 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 
 		return false;
 	}
+
+	/*
+	 * using System;
+using System.Collections.Generic;
+using System.Linq;
+using HealthV2;
+using UnityEngine;
+
+/// <summary>
+/// allows clothing to add its armor values to the creature wearing it
+/// </summary>
+[RequireComponent(typeof(Integrity))]
+public class WearableArmor : MonoBehaviour, IServerInventoryMove
+{
+	[SerializeField]
+	[Tooltip("When wore in this slot, the armor values will be applied to player.")]
+	private NamedSlot slot = NamedSlot.outerwear;
+
+	[SerializeField]
+	[Tooltip("What body parts does this item protect")]
+	private BodyPartsCovered bodyPartsCovered = BodyPartsCovered.None;
+
+	private PlayerHealthV2 player;
+	private Armor armor;
+
+	public void Awake()
+	{
+		armor = GetComponent<Integrity>().Armor;
+	}
+
+	public void OnInventoryMoveServer(InventoryMove info)
+	{
+		//Wearing
+		if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+		{
+			player = info.ToRootPlayer?.PlayerScript.playerHealth;
+
+			if (player != null && info.ToSlot.NamedSlot == slot)
+			{
+				UpdateBodyPartsArmor();
+			}
+		}
+		//taking off
+		if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
+		{
+			player = info.FromRootPlayer?.PlayerScript.playerHealth;
+
+			if (player != null && info.FromSlot.NamedSlot == slot)
+			{
+				UpdateBodyPartsArmor(remove: true);
+			}
+		}
+	}
+
+	private void UpdateBodyPartsArmor(bool remove = false)
+	{
+		foreach(BodyPartsCovered coveredPart in bodyPartsCovered.GetFlags())
+		{
+			if (coveredPart == BodyPartsCovered.None)
+			{
+				continue;
+			}
+
+			//TODO: Reimplement adding armor to body parts.
+			var bodyPart = bodyParts[coveredPart];
+			foreach (var part in player.BodyParts.Where(part => part.Type == bodyPart))
+			{
+				if (remove)
+				{
+					part.armor -= armor;
+					break;
+				}
+				else
+				{
+					part.armor += armor;
+					break;
+				}
+			}
+		}
+	}
+
+[Flags]
+	private enum BodyPartsCovered
+	{
+		None = 0,
+		Head = 1 << 1,
+		Eyes = 1 << 2,
+		Mouth = 1 << 3,
+		Chest = 1 << 4,
+		LeftArm = 1 << 5,
+		RightArm = 1 << 6,
+		Groin = 1 << 7,
+		LeftLeg = 1 << 8,
+		RightLeg = 1 << 9,
+		RightHand = 1 << 10,
+		LeftHand = 1 << 11,
+		LeftFoot = 1 << 12,
+		RightFoot = 1 << 13
+	}
+
+	private readonly Dictionary<BodyPartsCovered, BodyPartType> bodyParts = new Dictionary<BodyPartsCovered, BodyPartType> ()
+	{
+		{BodyPartsCovered.None, BodyPartType.None},
+		{BodyPartsCovered.Head, BodyPartType.Head},
+		{BodyPartsCovered.Eyes, BodyPartType.Eyes},
+		{BodyPartsCovered.Mouth, BodyPartType.Mouth},
+		{BodyPartsCovered.Chest, BodyPartType.Chest},
+		{BodyPartsCovered.LeftArm, BodyPartType.LeftArm},
+		{BodyPartsCovered.RightArm, BodyPartType.RightArm},
+		{BodyPartsCovered.Groin, BodyPartType.Groin},
+		{BodyPartsCovered.LeftLeg, BodyPartType.LeftLeg},
+		{BodyPartsCovered.RightLeg, BodyPartType.RightLeg},
+		{BodyPartsCovered.LeftHand, BodyPartType.LeftHand},
+		{BodyPartsCovered.RightHand, BodyPartType.RightHand},
+		{BodyPartsCovered.LeftFoot, BodyPartType.LeftFoot},
+		{BodyPartsCovered.RightFoot, BodyPartType.RightFoot},
+	};
+
+}
+	 */
 }
