@@ -133,7 +133,7 @@ namespace HealthV2
 		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
 
-		private ItemAttributesV2 attributes;
+
 
 		/// <summary>
 		/// Initializes the body part
@@ -193,7 +193,6 @@ namespace HealthV2
 		{
 			Storage = GetComponent<ItemStorage>();
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
-			attributes = GetComponent<ItemAttributesV2>();
 			health = maxHealth;
 			DamageInitialisation();
 			UpdateSeverity();
@@ -294,7 +293,7 @@ namespace HealthV2
 		/// <param name="livingHealthMasterBase">Body to be removed from</param>
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
-			ContainedIn.SubBodyPartRemoved(this);
+			SubBodyPartRemoved(this);
 		}
 
 		/// <summary>
@@ -448,4 +447,6 @@ namespace HealthV2
 		public SpriteOrder SpriteOrder;
 		public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
 	}
+
 }
+
