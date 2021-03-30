@@ -122,7 +122,7 @@ namespace Lobby
 
 		void OnEnable()
 		{
-			GetSavedCharacters();
+			getSavedCharacters();
 			WindowName.text = "Select your character";
 			LoadSettings(PlayerManager.CurrentCharacterSettings);
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
@@ -220,6 +220,7 @@ namespace Lobby
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
 			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
+			saveLastCharacterIndex();
 		}
 
 		public void scrollSelectorLeft()
@@ -842,15 +843,18 @@ namespace Lobby
 
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
 			ServerData.UpdateCharacterProfile(currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
-			SaveCurrentCharacter(currentCharacter);
-			SaveCurrentCharacterSnaps();
+			saveCurrentCharacterSnaps();
+			saveCurrentCharacter(currentCharacter);
 		}
 
-		private void SaveCurrentCharacterSnaps()
+		/// <summary>
+		/// Takes 4 pictures of the character from all sides and stores them in %AppData%/Locallow/unitystation
+		/// </summary>
+		private void saveCurrentCharacterSnaps()
 		{
 			int dir = 0;
 			snapCapturer.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
-			while(dir < 4)
+			while(dir < 3)
 			{
 				RightRotate();
 				snapCapturer.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
@@ -859,24 +863,42 @@ namespace Lobby
 			}
 		}
 
-		private void SaveCurrentCharacter(CharacterSettings settings)
+
+		/// <summary>
+		/// Saves this current character that's being created/edited to the characters list
+		/// </summary>
+		private void saveCurrentCharacter(CharacterSettings settings)
 		{
 			PlayerCharacters[currentCharacterIndex] = settings;
-			PlayerPrefs.SetInt("lastCharacter", currentCharacterIndex);
-			PlayerPrefs.Save();
-			SaveCharacters();
+			saveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
+			saveCharacters();
 		}
 
-		private void SaveCharacters()
+		/// <summary>
+		/// Remembers what was the last character the player chose in the character selector screen.
+		/// </summary>
+		private void saveLastCharacterIndex()
+		{
+			PlayerPrefs.SetInt("lastCharacter", currentCharacterIndex);
+			PlayerPrefs.Save();
+		}
+
+		/// <summary>
+		/// Save all characters in a json file.
+		/// </summary>
+		private void saveCharacters()
 		{
 			string json = JsonConvert.SerializeObject(PlayerCharacters);
 			string path = Application.persistentDataPath;
 			System.IO.File.WriteAllText(path + "characters.json", json);
 		}
 
-		private void GetSavedCharacters()
+		/// <summary>
+		/// Get all characters that are saved.
+		/// </summary>
+		private void getSavedCharacters()
 		{
-			PlayerCharacters.Clear();
+			PlayerCharacters.Clear(); //Clear all entries so we don't have duplicates when re-opening the character page.
 			string path = Application.persistentDataPath;
 
 			if(System.IO.File.Exists(path + "characters.json"))

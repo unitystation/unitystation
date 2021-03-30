@@ -1,8 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 
+/// <summary>
+/// Take a picture from the game then stores it to a place in %APPDATA%/LocalLow/unitystation.
+/// This script takes transparancy into account.
+/// </summary>
 public class CaptureScreen : MonoBehaviour
 {
 	public Camera cam;
@@ -15,9 +17,11 @@ public class CaptureScreen : MonoBehaviour
 
 	private bool takingScreenshot = false;
 
-
 	private void Awake()
 	{
+		//Make sure there is a camera avaliable so the game doesn't throw an error.
+		//Though it's best to setup your own camera with it's own position and size for
+		//specifc use cases that does not require taking an entire picture of the screen.
 		if(cam == null)
 		{
 			cam = Camera.main;
