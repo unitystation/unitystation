@@ -12,7 +12,6 @@ using UnityEngine;
 
 namespace HealthV2
 {
-
 	/// <Summary>
 	/// The required component for all living creatures.
 	/// Monitors and controls all things health, organs, and limbs.
@@ -31,6 +30,7 @@ namespace HealthV2
 		/// Rate at which periodic damage, such as radiation, should be applied
 		/// </summary>
 		private float tickRate = 1f;
+
 		private float tick = 0;
 
 		/// Amount of blood avaiable in the circulatory system, currently unimplemented
@@ -81,10 +81,12 @@ namespace HealthV2
 		/// Returns true if the creature's current conscious state is dead
 		/// </summary>
 		public bool IsDead => ConsciousState == ConsciousState.DEAD;
+
 		/// <summary>
 		/// Returns true if the creature's current conscious state is unconscious
 		/// </summary>
 		public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
+
 		/// <summary>
 		/// Returns true if the creature's current conscious state is barely conscious
 		/// </summary>
@@ -105,7 +107,11 @@ namespace HealthV2
 		/// The health of the creature when it has taken no damage
 		/// </summary>
 		[SerializeField] private float maxHealth = 100;
-		public float MaxHealth { get => maxHealth; }
+
+		public float MaxHealth
+		{
+			get => maxHealth;
+		}
 
 		/// <summary>
 		/// The current overall health of the creature.
@@ -122,19 +128,22 @@ namespace HealthV2
 		/// <summary>
 		/// The creature's Circulatory System
 		/// </summary>
-		[CanBeNull] public CirculatorySystemBase CirculatorySystem { get; private set; }
+		[CanBeNull]
+		public CirculatorySystemBase CirculatorySystem { get; private set; }
 
 		private Brain brain;
 
 		/// <summary>
 		/// The creature's Respiratory System
 		/// </summary>
-		[CanBeNull] public RespiratorySystemBase RespiratorySystem { get; private set; }
+		[CanBeNull]
+		public RespiratorySystemBase RespiratorySystem { get; private set; }
 
 		/// <summary>
 		/// The creature's Metabolism System, currently unimplemented
 		/// </summary>
-		[CanBeNull] public MetabolismSystemV2 Metabolism { get; private set; }
+		[CanBeNull]
+		public MetabolismSystemV2 Metabolism { get; private set; }
 
 		/// <summary>
 		/// A list of all body parts of the creature
@@ -160,11 +169,13 @@ namespace HealthV2
 		// FireStacks note: It's called "stacks" but it's really just a floating point value that
 		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
 		private float fireStacks => healthStateController.FireStacks;
+
 		/// <summary>
 		/// How on fire we are, same as tg fire_stacks. 0 = not on fire.
 		/// Exists client side - synced with server.
 		/// </summary>
 		public float FireStacks => fireStacks;
+
 		private float maxFireStacks = 5f;
 		private bool maxFireStacksReached = false;
 
@@ -270,15 +281,12 @@ namespace HealthV2
 		}
 
 
+		public Reagent CHem;
+
 		[RightClickMethod]
-		public void PrintHealth()
+		public void InjectChemical()
 		{
-			foreach (var ImplantLis in ImplantList)
-			{
-				Logger.Log(ImplantLis.name + "\n" + "Byrne >" + ImplantLis.Burn + " Brute > " + ImplantLis.Brute +
-						   " Oxy > " + ImplantLis.Oxy + " Cellular > " + ImplantLis.Cellular + " Stamina > " +
-						   ImplantLis.Stamina + " Toxin > " + ImplantLis.Toxin + " DamageEfficiencyMultiplier > " + ImplantLis.DamageEfficiencyMultiplier);
-			}
+			CirculatorySystem.ReadyBloodPool.Add(CHem, 5);
 		}
 
 		[RightClickMethod]
@@ -322,6 +330,7 @@ namespace HealthV2
 					implant.ImplantUpdate();
 				}
 			}
+
 			//do Separate delayed blood update
 		}
 
@@ -380,7 +389,7 @@ namespace HealthV2
 		/// </summary>
 		public float GetOxyDamage()
 		{
-			return brain.Oxy;
+			return brain.RelatedPart.Oxy;
 		}
 
 		/// <summary>
@@ -431,6 +440,7 @@ namespace HealthV2
 			{
 				toReturn += implant.BloodContainer[CirculatorySystem.BloodType];
 			}
+
 			return toReturn;
 		}
 
@@ -440,7 +450,7 @@ namespace HealthV2
 		public float GetSpareBlood()
 		{
 			return CirculatorySystem.UsedBloodPool[CirculatorySystem.BloodType]
-					+ CirculatorySystem.ReadyBloodPool[CirculatorySystem.BloodType];
+			       + CirculatorySystem.ReadyBloodPool[CirculatorySystem.BloodType];
 		}
 
 		/// <summary>
@@ -448,7 +458,6 @@ namespace HealthV2
 		/// </summary>
 		public void AddBodyPartToRoot()
 		{
-
 		}
 
 		/// <summary>
@@ -466,6 +475,7 @@ namespace HealthV2
 					{
 						continue;
 					}
+
 					return true;
 				}
 			}
@@ -486,60 +496,62 @@ namespace HealthV2
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
-			currentHealth -= brain.Oxy; //Assuming has brain
+			currentHealth -= brain.RelatedPart.Oxy; //Assuming has brain
 
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);
 
 			if (currentHealth < -100)
 			{
-				bool hasAllHeartAttack = true;
-				foreach (var Implant in ImplantList)
-				{
-					var heart = Implant as Heart;
-					if (heart != null)
-					{
-						if (heart.HeartAttack == false)
-						{
-							hasAllHeartAttack = false;
-							if (ConsciousState != ConsciousState.UNCONSCIOUS)
-							{
-								ConsciousState = ConsciousState.UNCONSCIOUS;
-							}
-							break;
-						}
-					}
-				}
-
-				if (hasAllHeartAttack)
-				{
-					ConsciousState = ConsciousState.DEAD;
-				}
-
+				CheckHeartStatus();
 			}
 			else if (currentHealth < -50)
 			{
-				if (ConsciousState != ConsciousState.UNCONSCIOUS)
-				{
-					ConsciousState = ConsciousState.UNCONSCIOUS;
-				}
+				SetConsciousState(ConsciousState.UNCONSCIOUS);
 			}
 			else if (currentHealth < 0)
 			{
-				if (ConsciousState != ConsciousState.BARELY_CONSCIOUS)
-				{
-					ConsciousState = ConsciousState.BARELY_CONSCIOUS;
-				}
+				SetConsciousState(ConsciousState.BARELY_CONSCIOUS);
 			}
 			else
 			{
-				if (ConsciousState != ConsciousState.CONSCIOUS)
-				{
-					ConsciousState = ConsciousState.CONSCIOUS;
-				}
+				SetConsciousState(ConsciousState.CONSCIOUS);
 			}
+
 			//Logger.Log("overallHealth >" + overallHealth  +  " ConsciousState > " + ConsciousState);
 			// Logger.Log("NutrimentLevel >" + NutrimentLevel);
+		}
+
+
+		private void CheckHeartStatus()
+		{
+			bool hasAllHeartAttack = true;
+			foreach (var Implant in ImplantList)
+			{
+				foreach (var bodyPartModification in Implant.BodyPartModifications)
+				{
+					if (bodyPartModification is Heart heart && heart.HeartAttack == false)
+					{
+						hasAllHeartAttack = false;
+						SetConsciousState(ConsciousState.UNCONSCIOUS);
+
+						break;
+					}
+				}
+			}
+
+			if (hasAllHeartAttack)
+			{
+				SetConsciousState(ConsciousState.DEAD);
+			}
+		}
+
+		private void SetConsciousState(ConsciousState NewConsciousState)
+		{
+			if (ConsciousState != NewConsciousState)
+			{
+				ConsciousState = NewConsciousState;
+			}
 		}
 
 		/// <summary>
@@ -709,9 +721,9 @@ namespace HealthV2
 
 						return TOReturn;
 					}
-
 				}
 			}
+
 			return new List<BodyPart>(0);
 		}
 
@@ -751,9 +763,9 @@ namespace HealthV2
 							return true;
 						}
 					}
-
 				}
 			}
+
 			return false;
 		}
 
@@ -775,12 +787,16 @@ namespace HealthV2
 			var Stomachs = new List<Stomach>();
 			foreach (var Implant in ImplantList)
 			{
-				var stomach = Implant as Stomach;
-				if (stomach != null)
+				foreach (var bodyPartModification in Implant.BodyPartModifications)
 				{
-					Stomachs.Add(stomach);
+					var stomach = bodyPartModification as Stomach;
+					if (stomach != null)
+					{
+						Stomachs.Add(stomach);
+					}
 				}
 			}
+
 			return Stomachs;
 		}
 
@@ -965,8 +981,6 @@ namespace HealthV2
 
 		#region Sickness
 
-
-
 		/// <summary>
 		/// Adds a sickness to the creature if it doesn't already have it and isn't dead or immune
 		/// </summary>
@@ -988,7 +1002,8 @@ namespace HealthV2
 		/// <remarks>Thread safe</remarks>
 		public void RemoveSickness(Sickness sickness)
 		{
-			SicknessAffliction sicknessAffliction = mobSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
+			SicknessAffliction sicknessAffliction =
+				mobSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
 
 			if (sicknessAffliction != null)
 				sicknessAffliction.Heal();

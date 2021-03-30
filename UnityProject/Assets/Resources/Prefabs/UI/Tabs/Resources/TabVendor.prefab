@@ -60,7 +60,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -135,6 +137,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -260,6 +264,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.084905684, g: 0.084905684, b: 0.084905684, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -375,6 +381,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!114 &3660859473899783605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,21 +397,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 0
-  Provider: {fileID: 0}
-  ProviderRegisterTile: {fileID: 0}
-  Type: 0
-  OnTabOpened:
-    m_PersistentCalls:
-      m_Calls: []
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
-  allowSell: 1
-  cooldownTimer: 2
+  OnTabOpened:
+    m_PersistentCalls:
+      m_Calls: []
+  Provider: {fileID: 0}
+  ProviderRegisterTile: {fileID: 0}
+  Type: 0
   itemList: {fileID: 5580798613843605129}
   hullColor: {fileID: 9001420605263812156}
-  deniedMessage: Bzzt.
-  restockMessage: Items restocked.
 --- !u!1 &1798241223018842356
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,6 +485,7 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!114 &1433062486819714593
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -899,7 +899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ab76fda08230e43a566f34cf5c85c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HeartbeatStrength: 25
 --- !u!114 &114279031792796038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1069,12 +1068,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  AvailableBlood: 0
   BodyType: 0
   RTT: 0
   maxHealth: 100
-  bodyPartContainers: []
+  ImplantList: []
   RootBodyPartContainers: []
+  CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   percentAllergies: 30
   commonAllergies: {fileID: 0}
 --- !u!114 &2708192528502292653
@@ -1090,7 +1089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
-  UseBloodPool:
+  UsedBloodPool:
     temperature: 0
     reagents:
       m_keys: []
@@ -1187,6 +1186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0
+  livingHealthMasterBase: {fileID: 0}
 --- !u!114 &108550902244119649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7893,9 +7893,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 8271366125234986503}
   optionalOrgans: []
   BodyPartType: 1
-  ItemStorage: {fileID: 8271366125234986503}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -7988,9 +7989,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 4508263270075214926}
   optionalOrgans: []
   BodyPartType: 2
-  ItemStorage: {fileID: 4508263270075214926}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -8114,9 +8116,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 3010957235167502249}
   optionalOrgans: []
   BodyPartType: 0
-  ItemStorage: {fileID: 3010957235167502249}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -8321,9 +8324,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 6433378785423412763}
   optionalOrgans: []
   BodyPartType: 5
-  ItemStorage: {fileID: 6433378785423412763}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -8523,9 +8527,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 9114892414776758325}
   optionalOrgans: []
   BodyPartType: 4
-  ItemStorage: {fileID: 9114892414776758325}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -8618,9 +8623,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 3506449732822759296}
   optionalOrgans: []
   BodyPartType: 3
-  ItemStorage: {fileID: 3506449732822759296}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}

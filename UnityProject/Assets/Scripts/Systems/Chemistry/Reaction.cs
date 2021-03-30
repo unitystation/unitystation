@@ -18,7 +18,7 @@ namespace Chemistry
 		public DictionaryReagentInt results;
 		public Effect[] effects;
 
-		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
+		public virtual bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
 			if (tempMin != null && reagentMix.Temperature <= tempMin ||
 			    tempMax != null && reagentMix.Temperature >= tempMax)

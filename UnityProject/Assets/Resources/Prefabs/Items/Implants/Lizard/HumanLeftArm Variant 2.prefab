@@ -88,6 +88,18 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2371767b78363464c902953217c61d3f,
+        type: 2}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a25b3d89d5961e24da2e3fdc505c6f2b,
+        type: 2}
     - target: {fileID: 5603819714738991316, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: PresentSpriteSet

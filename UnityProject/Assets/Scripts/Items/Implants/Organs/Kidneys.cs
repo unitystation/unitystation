@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Kidneys : BodyPart
+	public class Kidneys : BodyPartModification
 	{
 		public List<Reagent> WhiteListReagents = new List<Reagent>();
 
@@ -16,26 +16,25 @@ namespace HealthV2
 			base.SetUpSystems();
 			if(WhiteListReagents.Count == 0)
 			{
-				WhiteListReagents.Add(bloodType);
-				WhiteListReagents.Add(requiredReagent);
-				WhiteListReagents.Add(wasteReagent);
-				WhiteListReagents.Add(Nutriment);
+				WhiteListReagents.Add(RelatedPart.bloodType);
+				WhiteListReagents.Add(RelatedPart.requiredReagent);
+				WhiteListReagents.Add(RelatedPart.wasteReagent);
+				WhiteListReagents.Add(RelatedPart.Nutriment);
 			}
 		}
 
-		protected override void BloodUpdate()
+		public override void ImplantPeriodicUpdate()
 		{
-			base.BloodUpdate();
 			ContainedGoodReagents.Clear();
 			foreach (var Reagent in WhiteListReagents)
 			{
-				ContainedGoodReagents[Reagent] = BloodContainer[Reagent];
+				ContainedGoodReagents[Reagent] = RelatedPart.BloodContainer[Reagent];
 			}
-			BloodContainer.CurrentReagentMix.Clear();
+			RelatedPart.BloodContainer.CurrentReagentMix.Clear();
 
 			foreach (var Reagents in ContainedGoodReagents)
 			{
-				BloodContainer.CurrentReagentMix.Add(Reagents.Key, Reagents.Value);
+				RelatedPart.BloodContainer.CurrentReagentMix.Add(Reagents.Key, Reagents.Value);
 			}
 			//Debug.Log("Kidney: " + BloodContainer[requiredReagent]/bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix));
 		}

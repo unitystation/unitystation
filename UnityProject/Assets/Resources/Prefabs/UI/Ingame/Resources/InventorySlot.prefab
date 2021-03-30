@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -243,6 +243,7 @@ MonoBehaviour:
   hoverName: 
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 3614130826295839780}
   MoreInventoryImage: {fileID: 927948408797094197}
   HasSubInventory: {fileID: 5946663002225764041}

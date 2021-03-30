@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.93194723, b: 0.5514706, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -150,6 +152,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.85294116, g: 0.85294116, b: 0.85294116, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -227,6 +231,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.9419879, b: 0.61764705, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -307,6 +313,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.75735295, g: 0.75735295, b: 0.75735295, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -364,6 +372,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114140039504512894}
+        m_TargetAssemblyTypeName: 
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -391,6 +400,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114153163653926564, guid: b7f20152cb1593a4a8d7b756a6abba1e,
           type: 3}
+        m_TargetAssemblyTypeName: 
         m_MethodName: HugMobByIndex
         m_Mode: 0
         m_Arguments:
@@ -464,6 +474,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.18382353, b: 0.18382353, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -521,6 +533,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114059510460850692}
+        m_TargetAssemblyTypeName: 
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -548,6 +561,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114153163653926564, guid: b7f20152cb1593a4a8d7b756a6abba1e,
           type: 3}
+        m_TargetAssemblyTypeName: 
         m_MethodName: RemoveMobByIndex
         m_Mode: 0
         m_Arguments:
@@ -619,7 +633,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -778,6 +794,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

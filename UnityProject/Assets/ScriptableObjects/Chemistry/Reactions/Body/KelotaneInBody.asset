@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e66dcbbf6b63f74da3f53fcc85ae1cc, type: 3}
   m_Name: KelotaneInBody
   m_EditorClassIdentifier: 
   ingredients:
@@ -26,5 +26,11 @@ MonoBehaviour:
   results:
     m_keys: []
     m_values: 
-  effects:
-  - {fileID: 11400000, guid: cf5749413b7e8d74abb4918c616182ba, type: 2}
+  effects: []
+  ReagentMetabolismMultiplier: 1
+  DamageEffect: 1
+  AttackType: 0
+  EffectPerOne: -1
+  CanOverdose: 1
+  PercentageBloodOverdose: 0.5
+  OverdoseDamageMultiplier: 2
