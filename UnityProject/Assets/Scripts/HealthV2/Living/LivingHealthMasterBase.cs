@@ -503,53 +503,55 @@ namespace HealthV2
 
 			if (currentHealth < -100)
 			{
-				bool hasAllHeartAttack = true;
-				foreach (var Implant in ImplantList)
-				{
-					foreach (var bodyPartModification in Implant.BodyPartModifications)
-					{
-						if (bodyPartModification is Heart heart && heart.HeartAttack == false)
-						{
-							hasAllHeartAttack = false;
-							if (ConsciousState != ConsciousState.UNCONSCIOUS)
-							{
-								ConsciousState = ConsciousState.UNCONSCIOUS;
-							}
-
-							break;
-						}
-					}
-				}
-
-				if (hasAllHeartAttack)
-				{
-					ConsciousState = ConsciousState.DEAD;
-				}
+				CheckHeartStatus();
 			}
 			else if (currentHealth < -50)
 			{
-				if (ConsciousState != ConsciousState.UNCONSCIOUS)
-				{
-					ConsciousState = ConsciousState.UNCONSCIOUS;
-				}
+				SetConsciousState(ConsciousState.UNCONSCIOUS);
 			}
 			else if (currentHealth < 0)
 			{
-				if (ConsciousState != ConsciousState.BARELY_CONSCIOUS)
-				{
-					ConsciousState = ConsciousState.BARELY_CONSCIOUS;
-				}
+				SetConsciousState(ConsciousState.BARELY_CONSCIOUS);
 			}
 			else
 			{
-				if (ConsciousState != ConsciousState.CONSCIOUS)
-				{
-					ConsciousState = ConsciousState.CONSCIOUS;
-				}
+				SetConsciousState(ConsciousState.CONSCIOUS);
 			}
 
 			//Logger.Log("overallHealth >" + overallHealth  +  " ConsciousState > " + ConsciousState);
 			// Logger.Log("NutrimentLevel >" + NutrimentLevel);
+		}
+
+
+		private void CheckHeartStatus()
+		{
+			bool hasAllHeartAttack = true;
+			foreach (var Implant in ImplantList)
+			{
+				foreach (var bodyPartModification in Implant.BodyPartModifications)
+				{
+					if (bodyPartModification is Heart heart && heart.HeartAttack == false)
+					{
+						hasAllHeartAttack = false;
+						SetConsciousState(ConsciousState.UNCONSCIOUS);
+
+						break;
+					}
+				}
+			}
+
+			if (hasAllHeartAttack)
+			{
+				SetConsciousState(ConsciousState.DEAD);
+			}
+		}
+
+		private void SetConsciousState(ConsciousState NewConsciousState)
+		{
+			if (ConsciousState != NewConsciousState)
+			{
+				ConsciousState = NewConsciousState;
+			}
 		}
 
 		/// <summary>
