@@ -96,6 +96,8 @@ namespace Lobby
 
 		public InputField SerialiseData;
 
+		[SerializeField] private CaptureScreen snapCapturer;
+
 		[Header("Character Selector")]
 		[SerializeField] private Text WindowName;
 
@@ -841,7 +843,20 @@ namespace Lobby
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
 			ServerData.UpdateCharacterProfile(currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
 			SaveCurrentCharacter(currentCharacter);
-			Logger.Log($"{PlayerCharacters.Count()}");
+			SaveCurrentCharacterSnaps();
+		}
+
+		private void SaveCurrentCharacterSnaps()
+		{
+			int dir = 0;
+			snapCapturer.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
+			while(dir < 4)
+			{
+				snapCapturer.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
+				snapCapturer.TakeScreenshot();
+				RightRotate();
+				dir++;
+			}
 		}
 
 		private void SaveCurrentCharacter(CharacterSettings settings)
