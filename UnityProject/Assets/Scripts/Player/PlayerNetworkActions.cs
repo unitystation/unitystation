@@ -870,4 +870,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		crayonScript.SetTileFromClient(category, index, colourIndex, direction);
 	}
+
+	[Command]
+	public void CmdRequestNightVisionState(GameObject goggles, GameObject player)
+	{
+		if(player == null || goggles == null || goggles.TryGetComponent<NightVisionGoggles>(out var nightVision) ==  false) return;
+
+		nightVision.ReSyncClient(player);
+	}
 }
