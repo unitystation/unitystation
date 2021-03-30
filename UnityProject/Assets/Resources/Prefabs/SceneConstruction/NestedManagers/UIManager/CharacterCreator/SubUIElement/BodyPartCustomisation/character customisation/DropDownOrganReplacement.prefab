@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 4043889440569410899}
   - component: {fileID: 3990991980635944224}
   m_Layer: 5
-  m_Name: BodyPartDropDownOrganReplacement
+  m_Name: DropDownOrganReplacement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -485,11 +485,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Text: {fileID: 5868306023520389002}
   characterCustomization: {fileID: 0}
-  RelatedRelatedPreviewSprites: []
+  RelatedBodyPart: {fileID: 0}
   pathTo: 
   Dropdown: {fileID: 1890426535454907643}
   ToChooseFromBodyParts: []
-  RelatedBodyPart: {fileID: 0}
   CurrentBodyPart: {fileID: 0}
   ParentBodyPart: {fileID: 0}
 --- !u!1 &4043889441017580977
@@ -760,7 +759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.03137255, g: 0.03137255, b: 0.050980397, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -921,7 +920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1428,7 +1427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1507,7 +1506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 1, b: 0.005622387, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
