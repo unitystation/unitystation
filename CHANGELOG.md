@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/3/30: Add colours to cc and syndicate tcomm channels by [DTraitor](https://github.com/DTraitor) in PR #[6314](https://github.com/unitystation/unitystation/pull/6314)
+* 2021/3/30: Some UI optimisation by [DTraitor](https://github.com/DTraitor) in PR #[6314](https://github.com/unitystation/unitystation/pull/6314)
 * 2021/3/25: adds skin tones for humans. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6282](https://github.com/unitystation/unitystation/pull/6282)
 * 2021/3/25: Restores random character generation functionality by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6282](https://github.com/unitystation/unitystation/pull/6282)
 * 2021/3/23: Implement Warops, reinforcement teleporter and nuke op exclusive uplink items by [the-other-autumn](https://github.com/the-other-autumn) in PR #[6167](https://github.com/unitystation/unitystation/pull/6167)
