@@ -13,7 +13,7 @@ namespace HealthV2
 		RightHand
 	}
 
-	public class Limb : BodyPart, PlayerMove.IMovementEffect
+	public class Limb : BodyPartModification, PlayerMove.IMovementEffect
 	{
 		[SerializeField]
 		[Tooltip("The walking speed that will be used when attached as a leg.\n" +
@@ -64,18 +64,18 @@ namespace HealthV2
 
 		public float GetWalkingSpeed()
 		{
-			return walkingSpeed * legEfficiency * TotalModified;
+			return walkingSpeed * legEfficiency * RelatedPart.TotalModified;
 		}
 
 		public float GetRunningSpeed()
 		{
-			return runningSpeed * legEfficiency * TotalModified;
+			return runningSpeed * legEfficiency * RelatedPart.TotalModified;
 			;
 		}
 
 		public float GetCrawlingSpeed()
 		{
-			return crawlingSpeed * armEfficiency * TotalModified;
+			return crawlingSpeed * armEfficiency * RelatedPart.TotalModified;
 			;
 		}
 
@@ -92,7 +92,7 @@ namespace HealthV2
 		public override void SetUpSystems()
 		{
 			base.SetUpSystems();
-			var playerHealthV2 = HealthMaster as PlayerHealthV2;
+			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.AddModifier(this);
@@ -103,8 +103,8 @@ namespace HealthV2
 		public override void Initialisation()
 		{
 			base.Initialisation();
-			ModifierChange += ModifierChanged;
-			var playerHealthV2 = HealthMaster as PlayerHealthV2;
+			RelatedPart.ModifierChange += ModifierChanged;
+			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.AddModifier(this);
@@ -113,7 +113,7 @@ namespace HealthV2
 
 		public void ModifierChanged()
 		{
-			var playerHealthV2 = HealthMaster as PlayerHealthV2;
+			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.UpdateSpeeds();
