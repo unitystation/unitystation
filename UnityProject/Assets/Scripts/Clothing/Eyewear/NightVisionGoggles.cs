@@ -109,11 +109,11 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 		if(currentPlayer == null || currentPlayer.connectionToClient == null) return;
 
 		isOn = newState;
-		var item = PlayerManager.LocalPlayerScript.Equipment.GetClothingItem(NamedSlot.eyes).GameObjectReference;
+		var item = currentPlayer.PlayerScript.Equipment.GetClothingItem(NamedSlot.eyes).OrNull()?.GameObjectReference;
 		if (item == gameObject)
 		{
 			RpcToggleGoggles(currentPlayer.connectionToClient, isOn);
-			Chat.AddExamineMsgToClient($"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
+			Chat.AddExamineMsgFromServer(currentPlayer.gameObject, $"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
 		}
 	}
 
