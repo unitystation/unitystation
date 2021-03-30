@@ -862,6 +862,8 @@ namespace Lobby
 		private void SaveCurrentCharacter(CharacterSettings settings)
 		{
 			PlayerCharacters[currentCharacterIndex] = settings;
+			PlayerPrefs.SetInt("lastCharacter", currentCharacterIndex);
+			PlayerPrefs.Save();
 			SaveCharacters();
 		}
 
@@ -886,6 +888,7 @@ namespace Lobby
 				{
 					PlayerCharacters.Add(c);
 				}
+				currentCharacterIndex = PlayerPrefs.GetInt("lastCharacter", currentCharacterIndex);
 				RefreshSelectorData();
 			}
 			else
