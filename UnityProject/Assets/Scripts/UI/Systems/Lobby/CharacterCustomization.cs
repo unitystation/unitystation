@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
@@ -11,6 +12,7 @@ namespace Lobby
 {
 	public class CharacterCustomization : MonoBehaviour
 	{
+		[Header("Character Customizer")]
 		public GameObject SpriteContainer;
 
 		public CustomisationSubPart customisationSubPart;
@@ -65,7 +67,7 @@ namespace Lobby
 
 		public ColorPicker colorPicker;
 
-		private CharacterSettings lastSettings;
+		
 
 		public Action onCloseAction;
 
@@ -94,25 +96,40 @@ namespace Lobby
 
 		public InputField SerialiseData;
 
+		[Header("Character Selector")]
+		[SerializeField] private Text WindowName;
+
+		[SerializeField] private Text SlotsUsed;
+		[SerializeField] private Text CharacterPreviewName;
+		[SerializeField] private Text CharacterPreviewRace;
+		[SerializeField] private Text CharacterPreviewBodyType;
+
+		public Image CharacterPreviewImg;
+		[SerializeField] private GameObject CharacterPreviews;
+		[SerializeField] private GameObject NoCharactersError;
+		[SerializeField] private GameObject GoBackButton;
+
+		[SerializeField] private GameObject CharacterSelectorPage;
+		[SerializeField] private GameObject CharacterCreatorPage;
+
+		public List<CharacterSettings> PlayerCharacters = new List<CharacterSettings>();
+
+		private CharacterSettings lastSettings;
+		private int currentCharacterIndex = 0;
+
 
 		void OnEnable()
 		{
+			GetSavedCharacters();
+			WindowName.text = "Select your character";
 			LoadSettings(PlayerManager.CurrentCharacterSettings);
-			colorPicker.gameObject.SetActive(false);
-			colorPicker.onValueChanged.AddListener(OnColorChange);
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
 			lastSettings = JsonConvert.DeserializeObject<CharacterSettings>(copyStr);
+			colorPicker.gameObject.SetActive(false);
+			colorPicker.onValueChanged.AddListener(OnColorChange);
 			DisplayErrorText("");
-
-			//torsoSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Torso);
-			//headSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Head);
-			// RarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmRight);
-			// LarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmLeft);
-			// RlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegRight);
-			// LlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegLeft);
-			// RHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandRight);
-			// LHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandLeft);
-			// eyesSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Eyes);
+			RefreshSelectorData();
+			
 		}
 
 		void OnDisable()
@@ -155,6 +172,83 @@ namespace Lobby
 			OpenBodyCustomisation.Clear();
 			OpenCustomisation.Clear();
 			SurfaceSprite.Clear();
+		}
+
+		private void showNoCharacterError()
+		{
+			CharacterPreviews.SetActive(false);
+			NoCharactersError.SetActive(true);
+		}
+
+		private void showCharacterCreator()
+		{
+			WindowName.text = "Character Settings";
+			CharacterSelectorPage.SetActive(false);
+			CharacterCreatorPage.SetActive(true);
+			GoBackButton.SetActive(true);
+		}
+
+		public void ShowCharacterSelectorPage()
+		{
+			WindowName.text = "Select your character";
+			CharacterSelectorPage.SetActive(true);
+			CharacterCreatorPage.SetActive(false);
+			GoBackButton.SetActive(false);
+		}
+
+		public void CreateCharacter()
+		{
+			PlayerCharacters.Add(currentCharacter);
+			currentCharacterIndex = PlayerCharacters.Count();
+			RollRandomCharacter();
+			showCharacterCreator();
+		}
+
+		public void EditCharacter()
+		{
+			currentCharacter = PlayerCharacters[currentCharacterIndex];
+			SetAllDropdowns();
+			showCharacterCreator();
+		}
+
+		private void RefreshSelectorData()
+		{
+			//Work on image preview later
+			CharacterPreviewName.text = PlayerCharacters[currentCharacterIndex].Name;
+			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
+			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
+			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
+		}
+
+		public void scrollSelectorLeft()
+		{
+			if (currentCharacterIndex >= PlayerCharacters.Count() - 1)
+			{
+				currentCharacterIndex = PlayerCharacters.Count();
+				currentCharacter = PlayerCharacters[currentCharacterIndex];
+			}
+			else
+			{
+				currentCharacterIndex--;
+				currentCharacter = PlayerCharacters[currentCharacterIndex];
+			}
+			RefreshSelectorData();
+			RefreshAll();
+		}
+		public void scrollSelectorRight()
+		{
+			if (currentCharacterIndex < PlayerCharacters.Count() - 1)
+			{
+				currentCharacterIndex++;
+				currentCharacter = PlayerCharacters[currentCharacterIndex];
+			}
+			else
+			{
+				currentCharacterIndex = 0;
+				currentCharacter = PlayerCharacters[currentCharacterIndex];
+			}
+			RefreshSelectorData();
+			RefreshAll();
 		}
 
 		private void LoadSettings(CharacterSettings inCharacterSettings)
@@ -745,10 +839,45 @@ namespace Lobby
 			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
-			ServerData.UpdateCharacterProfile(
-				currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
+			ServerData.UpdateCharacterProfile(currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
+			SaveCurrentCharacter(currentCharacter);
+			Logger.Log($"{PlayerCharacters.Count()}");
 		}
 
+		private void SaveCurrentCharacter(CharacterSettings settings)
+		{
+			PlayerCharacters[currentCharacterIndex] = settings;
+			SaveCharacters();
+		}
+
+		private void SaveCharacters()
+		{
+			string json = JsonConvert.SerializeObject(PlayerCharacters);
+			string path = Application.persistentDataPath;
+			System.IO.File.WriteAllText(path + "characters.json", json);
+		}
+
+		private void GetSavedCharacters()
+		{
+			PlayerCharacters.Clear();
+			string path = Application.persistentDataPath;
+
+			if(System.IO.File.Exists(path + "characters.json"))
+			{
+				string json = System.IO.File.ReadAllText(path + "characters.json");
+				var characters = JsonConvert.DeserializeObject<List<CharacterSettings>>(json);
+
+				foreach (var c in characters)
+				{
+					PlayerCharacters.Add(c);
+				}
+				RefreshSelectorData();
+			}
+			else
+			{
+				showNoCharacterError();
+			}
+		}
 
 		public void SaveExternalCustomisations()
 		{
@@ -828,6 +957,7 @@ namespace Lobby
 			}
 
 			SaveData();
+			ShowCharacterSelectorPage();
 			gameObject.SetActive(false);
 		}
 
@@ -994,7 +1124,7 @@ namespace Lobby
 		}
 
 		//------------------
-		//BACKPACK PREFERENCE:
+		//BACKPACK PREFERENCE
 		//------------------
 
 		public void OnBackpackChange()
