@@ -852,9 +852,9 @@ namespace Lobby
 			snapCapturer.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
 			while(dir < 4)
 			{
+				RightRotate();
 				snapCapturer.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
 				snapCapturer.TakeScreenshot();
-				RightRotate();
 				dir++;
 			}
 		}

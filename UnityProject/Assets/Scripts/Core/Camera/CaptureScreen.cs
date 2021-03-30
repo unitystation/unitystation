@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
 public class CaptureScreen : MonoBehaviour
 {
 	public Camera cam;
