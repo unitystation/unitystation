@@ -105,8 +105,8 @@ namespace Lobby
 		[SerializeField] private Text CharacterPreviewName;
 		[SerializeField] private Text CharacterPreviewRace;
 		[SerializeField] private Text CharacterPreviewBodyType;
+		[SerializeField] private Image CharacterPreviewImg;
 
-		public Image CharacterPreviewImg;
 		[SerializeField] private GameObject CharacterPreviews;
 		[SerializeField] private GameObject NoCharactersError;
 		[SerializeField] private GameObject GoBackButton;
@@ -221,18 +221,36 @@ namespace Lobby
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
 			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
 			saveLastCharacterIndex();
+			checkPreviewImage();
+		}
+
+
+		/// <summary>
+		/// If there is no sprite, show an error.
+		/// The error is hidden inside the white space ;)
+		/// </summary>
+		private void checkPreviewImage()
+		{
+			if(CharacterPreviewImg.sprite == null)
+			{
+				CharacterPreviewImg.color = new Color(0f, 0f, 0f, 0f);
+			}
+			else
+			{
+				CharacterPreviewImg.color = new Color(1f, 1f, 1f, 1f);
+			}
 		}
 
 		public void scrollSelectorLeft()
 		{
-			if (currentCharacterIndex >= PlayerCharacters.Count() - 1)
+			if (currentCharacterIndex > 0)
 			{
-				currentCharacterIndex = PlayerCharacters.Count();
+				currentCharacterIndex--;
 				currentCharacter = PlayerCharacters[currentCharacterIndex];
 			}
 			else
 			{
-				currentCharacterIndex--;
+				currentCharacterIndex = PlayerCharacters.Count();
 				currentCharacter = PlayerCharacters[currentCharacterIndex];
 			}
 			RefreshSelectorData();
