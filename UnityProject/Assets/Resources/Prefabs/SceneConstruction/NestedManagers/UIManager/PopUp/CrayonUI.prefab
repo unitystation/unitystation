@@ -280,8 +280,6 @@ MonoBehaviour:
   dummyButton: {fileID: 4059312999635620297}
   categoryContent: {fileID: 4127768572497627476}
   tileContent: {fileID: 3055765226582164335}
-  categoryScrollbar: {fileID: 212770544772116869}
-  tileScrollbar: {fileID: 202153791915533598}
   colourDropDown: {fileID: 1189463847797847427}
   directionDropDown: {fileID: 2854921971044985372}
   graffitiLists: {fileID: 11400000, guid: fbe8c48fc4e93c5469f9ded8984f04da, type: 2}
@@ -405,8 +403,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1557910295282698766}
   m_HandleRect: {fileID: 224461058915511672}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.50000006
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -686,7 +684,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1306,7 +1304,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 220.96303}
+  m_AnchoredPosition: {x: 0, y: 220.96306}
   m_SizeDelta: {x: 760, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &3564751133066871701
@@ -1502,8 +1500,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 333851795688189059}
   m_HandleRect: {fileID: 8718349572877539662}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1808,7 +1806,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -414.9786, y: 30.339996}
+  m_AnchoredPosition: {x: -414.97858, y: 30.339996}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6889140950481331007
@@ -4304,7 +4302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
