@@ -16,7 +16,7 @@ namespace HealthV2
 		/// <summary>
 		/// The armor of the clothing covering a part of the body, ignoring selfArmor.
 		/// </summary>
-		internal readonly LinkedList<Armor> ClothingArmor = new LinkedList<Armor>();
+		public readonly LinkedList<Armor> ClothingArmors = new LinkedList<Armor>();
 
 		/// <summary>
 		/// The amount damage taken by body parts contained within this body part is modified by
@@ -210,7 +210,7 @@ namespace HealthV2
 			AttackType attackType, DamageType damageType, bool damageSplit = false, bool DamageSubOrgans = true)
 		{
 			var damageToLimb = damage;
-			foreach (Armor clothingArmor in ClothingArmor)
+			foreach (Armor clothingArmor in ClothingArmors)
 			{
 				damageToLimb = clothingArmor.GetDamage(damageToLimb, attackType);
 			}

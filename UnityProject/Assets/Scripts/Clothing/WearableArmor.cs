@@ -14,13 +14,13 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 	private NamedSlot slot = NamedSlot.outerwear;
 
 	[SerializeField] [Tooltip("What body parts does this item protect and how well does it protect.")]
-	private List<ProtectedBodyPart> armoredBodyParts = new List<ProtectedBodyPart>();
+	private List<ArmoredBodyPart> armoredBodyParts = new List<ArmoredBodyPart>();
 
 	private PlayerHealthV2 playerHealthV2;
 
 
 	[Serializable]
-	public class ProtectedBodyPart
+	public class ArmoredBodyPart
 	{
 		[SerializeField]
 		private BodyPartType armoringBodyPartType;
@@ -44,7 +44,7 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 
 			if (playerHealthV2 != null && info.ToSlot.NamedSlot == slot)
 			{
-				UpdateBodyPartsArmor();
+				UpdateBodyPartsArmor(false);
 			}
 		}
 
@@ -60,13 +60,13 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 		}
 	}
 
-/// <summary>
+		/// <summary>
 		/// Adds or removes armor per body part depending on the characteristics of this armor.
 		/// </summary>
 		/// <param name="currentlyRemovingArmor">Are we taking off our armor or putting it on?</param>
-		private void UpdateBodyPartsArmor(bool currentlyRemovingArmor = false)
+		private void UpdateBodyPartsArmor(bool currentlyRemovingArmor)
 		{
-			foreach (ProtectedBodyPart protectedBodyPart in armoredBodyParts)
+			foreach (ArmoredBodyPart protectedBodyPart in armoredBodyParts)
 			{
 				foreach (RootBodyPartContainer rootBodyPartContainer in playerHealthV2.RootBodyPartContainers)
 				{
@@ -83,39 +83,34 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 		/// Checks not only the bodyPart, but also all other body parts nested in bodyPart.
 		/// </summary>
 		/// <param name="bodyPart">body part to update</param>
-		/// <param name="protectedBodyPart">a tuple of the body part associated with the body part</param>
+		/// <param name="armoredBodyPart">a tuple of the body part associated with the body part</param>
 		/// <param name="currentlyRemovingArmor">Are we taking off our armor or putting it on?</param>
 		/// <returns>true if the bodyPart was updated, false otherwise</returns>
 		private static bool DeepUpdateBodyPartArmor(
 			BodyPart bodyPart,
-			ProtectedBodyPart protectedBodyPart,
+			ArmoredBodyPart armoredBodyPart,
 			bool currentlyRemovingArmor
-		)
+			)
 		{
-			if (bodyPart.BodyPartType == protectedBodyPart.ArmoringBodyPartType)
+			if (bodyPart.BodyPartType == armoredBodyPart.ArmoringBodyPartType)
 			{
 				if (currentlyRemovingArmor)
 				{
-					bodyPart.ClothingArmor.Remove(protectedBodyPart.Armor);
-					protectedBodyPart.bodyPartScript = null;
+					bodyPart.ClothingArmors.Remove(armoredBodyPart.Armor);
+					armoredBodyPart.bodyPartScript = null;
 				}
 				else
 				{
-					bodyPart.ClothingArmor.AddFirst(protectedBodyPart.Armor);
-					protectedBodyPart.bodyPartScript = bodyPart;
+					bodyPart.ClothingArmors.AddFirst(armoredBodyPart.Armor);
+					armoredBodyPart.bodyPartScript = bodyPart;
 				}
 
 				return true;
 			}
 
-			if (protectedBodyPart.bodyPartScript.ContainBodyParts.Count == 0)
+			foreach (BodyPart innerBodyPart in bodyPart.ContainBodyParts)
 			{
-				return false;
-			}
-
-			foreach (BodyPart innerBodyPart in protectedBodyPart.bodyPartScript.ContainBodyParts)
-			{
-				if (DeepUpdateBodyPartArmor(bodyPart, protectedBodyPart, currentlyRemovingArmor))
+				if (DeepUpdateBodyPartArmor(innerBodyPart, armoredBodyPart, currentlyRemovingArmor))
 				{
 					return true;
 				}
