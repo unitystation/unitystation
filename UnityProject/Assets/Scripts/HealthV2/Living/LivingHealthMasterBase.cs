@@ -131,7 +131,7 @@ namespace HealthV2
 		[CanBeNull]
 		public CirculatorySystemBase CirculatorySystem { get; private set; }
 
-		private Brain brain;
+		public Brain brain;
 
 		/// <summary>
 		/// The creature's Respiratory System
@@ -496,7 +496,18 @@ namespace HealthV2
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
-			currentHealth -= brain.RelatedPart.Oxy; //Assuming has brain
+			if (brain == null ||  brain.RelatedPart.Health < -100)
+			{
+				currentHealth -= 200;
+				healthStateController.SetOverallHealth(currentHealth);
+				CheckHeartStatus();
+				return;
+			}
+			else
+			{
+				currentHealth -= brain.RelatedPart.Oxy;
+			}
+
 
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);

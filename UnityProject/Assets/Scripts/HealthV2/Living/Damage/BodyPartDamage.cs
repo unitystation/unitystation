@@ -50,10 +50,14 @@ namespace HealthV2
 		[Tooltip("This part's maximum health, which it will start at.")] [SerializeField]
 		private float maxHealth = 100;
 
+		public float MaxHealth => maxHealth;
+
 		/// <summary>
 		/// The body part's current health
 		/// </summary>
 		private float health;
+
+		public float Health => health;
 
 		/// <summary>
 		/// Stores how severely the body part is damage for purposes of examine
@@ -280,7 +284,7 @@ namespace HealthV2
 		//Probably custom curves would be good here
 		public void RecalculateEffectiveness()
 		{
-			DamageModifier.Multiplier = Mathf.Sqrt(Mathf.Max(health, 0) / maxHealth);
+			DamageModifier.Multiplier = Mathf.Max(health, 0) / maxHealth;
 		}
 
 		/// <summary>

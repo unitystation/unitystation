@@ -32,6 +32,11 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 		void Perform()
 		{
 			var LHMB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+			if (LHMB.brain == null || LHMB.brain?.RelatedPart?.Health < -100)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "It appears they're missing their brain or Their brain is too damaged");
+			}
+
 			foreach (var BodyPart in LHMB.ImplantList)
 			{
 				foreach (var bodyPartModification in BodyPart.BodyPartModifications)

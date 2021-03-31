@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using HealthV2;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using UnityEngine;
@@ -252,7 +253,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	private void OnHighSpeedCollision(CollisionInfo collision)
 	{
 		bool collided = false;
-		foreach (var living in MatrixManager.GetAt<LivingHealthBehaviour>(collision.CollisionTile, true))
+		foreach (var living in MatrixManager.GetAt<LivingHealthMasterBase>(collision.CollisionTile, true))
 		{
 			living.ApplyDamageToBodyPart(gameObject, collision.Damage, AttackType.Melee, DamageType.Brute);
 			collided = true;
@@ -266,7 +267,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		if (collided)
 		{
 			//Damage self as bad as the thing you collide with
-			GetComponent<LivingHealthBehaviour>()?.ApplyDamageToBodyPart(gameObject, collision.Damage, AttackType.Melee, DamageType.Brute);
+			GetComponent<LivingHealthMasterBase>()?.ApplyDamageToBodyPart(gameObject, collision.Damage, AttackType.Melee, DamageType.Brute);
 			Logger.LogFormat("{0}: collided with something at {2}, both received {1} damage",
 				Category.Damage, gameObject.name, collision.Damage, collision.CollisionTile);
 		}

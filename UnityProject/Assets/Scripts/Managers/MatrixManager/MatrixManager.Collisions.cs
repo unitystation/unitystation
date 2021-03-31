@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Systems.Explosions;
+using HealthV2;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -428,7 +429,7 @@ public partial class MatrixManager
 			if (matrix == null) return 0;
 
 			byte count = 0;
-			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthBehaviour>( cellPos, true ) )
+			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthMasterBase>( cellPos, true ) )
 			{
 				healthBehaviour.ApplyDamageToBodyPart( matrix.GameObject, damage, AttackType.Melee, DamageType.Brute );
 				count++;
