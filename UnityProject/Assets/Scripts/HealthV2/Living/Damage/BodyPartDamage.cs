@@ -202,16 +202,34 @@ namespace HealthV2
 		/// <param name="attackType">Type of attack that is causing the damage</param>
 		/// <param name="damageType">The type of damage</param>
 		/// <param name="damageSplit">Should the damage be divided amongst the contained body parts or applied to a random body part</param>
-		public void TakeDamage(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType, bool damageSplit = false, bool DamageSubOrgans = true)
+		public void TakeDamage(
+			GameObject damagedBy,
+			float damage,
+			AttackType attackType,
+			DamageType damageType,
+			bool damageSplit = false,
+			bool DamageSubOrgans = true,
+			Armor armorPenetration = null
+		)
 		{
-			var damageToLimb = damage;
-			foreach (Armor clothingArmor in ClothingArmors)
+			float damageToLimb;
+			if (armorPenetration == null)
 			{
-				damageToLimb = clothingArmor.GetDamage(damageToLimb, attackType);
+				damageToLimb = Armor.GetTotalDamage(
+					SelfArmor.GetDamage(damage, attackType),
+					attackType,
+					ClothingArmors
+				);
 			}
-
-			damageToLimb = SelfArmor.GetDamage(damageToLimb, attackType);
+			else
+			{
+				damageToLimb = Armor.GetTotalDamage(
+					SelfArmor.GetDamage(damage, attackType, armorPenetration),
+					attackType,
+					ClothingArmors,
+					armorPenetration
+				);
+			}
 			AffectDamage(damageToLimb, (int)damageType);
 
 			// May be changed to individual damage

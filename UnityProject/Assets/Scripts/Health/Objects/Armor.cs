@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -35,16 +36,53 @@ public class Armor
 		return damage * GetRatingValue(attackType);
 	}
 
-	public float GetRatingValue(AttackType attackType)
+	public float GetDamage(float damage, AttackType attackType, Armor armorPenetration)
 	{
-		float rating = GetRating(attackType);
-		if (rating > 100)
-		{
-			rating = 100;
-		}
-		return  (1 - rating / 100);
+		return damage * GetRatingValue(attackType, armorPenetration);
 	}
 
+	public float GetRatingValue(AttackType attackType)
+	{
+		return  1 - GetRating(attackType) / 100;
+	}
+
+	public float GetRatingValue(AttackType attackType, Armor armorPenetration)
+	{
+		return  1 - GetRating(attackType, armorPenetration) / 100;
+	}
+
+	public float GetRating(AttackType attackType, Armor armorPenetration)
+	{
+		var currentArmorRating = GetRating(attackType);
+		var armorPenetrationRating = armorPenetration.GetRating(attackType);
+		if (currentArmorRating < armorPenetrationRating)
+		{
+			// a good armor-piercing bullet shouldn't deal extra damage to poorly armored targets, should it?
+			return currentArmorRating < 0 ? currentArmorRating : 0;
+		}
+
+		return Mathf.Clamp(currentArmorRating - armorPenetrationRating, -100, 100);
+	}
+
+	public static float GetTotalDamage(float damage, AttackType attackType, IEnumerable<Armor> armors)
+	{
+		foreach (Armor armor in armors)
+		{
+			damage *= armor.GetRatingValue(attackType);
+		}
+
+		return damage;
+	}
+
+	public static float GetTotalDamage(float damage, AttackType attackType, IEnumerable<Armor> armors, Armor armorPenetration)
+	{
+		foreach (Armor armor in armors)
+		{
+			damage *= armor.GetRatingValue(attackType, armorPenetration);
+		}
+
+		return damage;
+	}
 
 	/// <summary>
 	/// Get the armor rating against a certain type of attack
