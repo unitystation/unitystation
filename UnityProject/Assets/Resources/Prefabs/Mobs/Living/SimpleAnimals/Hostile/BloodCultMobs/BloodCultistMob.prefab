@@ -1,5 +1,121 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2463086199746877855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6028082779352172778}
+  - component: {fileID: 6091333060600635530}
+  m_Layer: 12
+  m_Name: MobLeftLeg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6028082779352172778
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2463086199746877855}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3126533848659168335}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6091333060600635530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2463086199746877855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  livingHealthBehaviour: {fileID: 5286958794126478425}
+  Type: 5
+  isBleeding: 0
+  Severity: 0
+  armor:
+    Melee: 40
+    Bullet: 30
+    Laser: 40
+    Energy: 40
+    Bomb: 25
+    Rad: 0
+    Fire: 10
+    Acid: 10
+    Magic: 0
+    Bio: 10
+--- !u!1 &2702506236234876220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7654740541059394578}
+  - component: {fileID: 132252930818627956}
+  m_Layer: 12
+  m_Name: MobRightLeg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7654740541059394578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702506236234876220}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3126533848659168335}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &132252930818627956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702506236234876220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  livingHealthBehaviour: {fileID: 5286958794126478425}
+  Type: 4
+  isBleeding: 0
+  Severity: 0
+  armor:
+    Melee: 40
+    Bullet: 30
+    Laser: 40
+    Energy: 40
+    Bomb: 25
+    Rad: 0
+    Fire: 10
+    Acid: 10
+    Magic: 0
+    Bio: 10
 --- !u!114 &5488912693399037342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,6 +133,122 @@ MonoBehaviour:
   - {fileID: 4801339576872443896, guid: e507b79cc25485b46b2b9a34029c95de, type: 3}
   - {fileID: 8168246026424338935, guid: 2d38bd05b126a474fb2bb0bc351220ee, type: 3}
   - {fileID: 733360818655498300, guid: f165d0512a4d5ef44ba3d22decd038b7, type: 3}
+--- !u!1 &4394041216094035216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6444212724445143247}
+  - component: {fileID: 1379044511145352068}
+  m_Layer: 12
+  m_Name: MobLeftArm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6444212724445143247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4394041216094035216}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3126533848659168335}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1379044511145352068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4394041216094035216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  livingHealthBehaviour: {fileID: 5286958794126478425}
+  Type: 3
+  isBleeding: 0
+  Severity: 0
+  armor:
+    Melee: 40
+    Bullet: 30
+    Laser: 40
+    Energy: 40
+    Bomb: 25
+    Rad: 0
+    Fire: 10
+    Acid: 10
+    Magic: 0
+    Bio: 10
+--- !u!1 &6686139951718317625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7923549249721505190}
+  - component: {fileID: 5092111941939624014}
+  m_Layer: 12
+  m_Name: MobRightArm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7923549249721505190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686139951718317625}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3126533848659168335}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5092111941939624014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686139951718317625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  livingHealthBehaviour: {fileID: 5286958794126478425}
+  Type: 2
+  isBleeding: 0
+  Severity: 0
+  armor:
+    Melee: 40
+    Bullet: 30
+    Laser: 40
+    Energy: 40
+    Bomb: 25
+    Rad: 0
+    Fire: 10
+    Acid: 10
+    Magic: 0
+    Bio: 10
 --- !u!1001 &4328279435503120021
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28,6 +260,11 @@ PrefabInstance:
         type: 3}
       propertyPath: mobName
       value: blood cultist
+      objectReference: {fileID: 0}
+    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -46,6 +283,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -57,16 +299,6 @@ PrefabInstance:
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
@@ -99,12 +331,98 @@ PrefabInstance:
       propertyPath: MaxDamage
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Fire
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: MaxDamage
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Fire
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 6753142181857435957, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bfb68bbc06c8fd04d8c83a8744832d9c,
+        type: 2}
+    - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
@@ -115,12 +433,6 @@ PrefabInstance:
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: bfb68bbc06c8fd04d8c83a8744832d9c,
-        type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -135,27 +447,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: aliveSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: e93df1d94d7607f4a81dd59a64dcafe3,
-        type: 3}
-    - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
       propertyPath: deadSprite
       value: 
       objectReference: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb,
+        type: 3}
+    - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: aliveSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e93df1d94d7607f4a81dd59a64dcafe3,
         type: 3}
     - target: {fileID: 8528472920219531194, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: upSprite
       value: 
       objectReference: {fileID: 21300002, guid: e93df1d94d7607f4a81dd59a64dcafe3,
-        type: 3}
-    - target: {fileID: 8528472920219531194, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: rightSprite
-      value: 
-      objectReference: {fileID: 21300004, guid: e93df1d94d7607f4a81dd59a64dcafe3,
         type: 3}
     - target: {fileID: 8528472920219531194, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -169,17 +475,61 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: e93df1d94d7607f4a81dd59a64dcafe3,
         type: 3}
+    - target: {fileID: 8528472920219531194, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: rightSprite
+      value: 
+      objectReference: {fileID: 21300004, guid: e93df1d94d7607f4a81dd59a64dcafe3,
+        type: 3}
     - target: {fileID: 8598374214700404016, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: e93df1d94d7607f4a81dd59a64dcafe3,
         type: 3}
+    - target: {fileID: 8598374214700404016, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: hitDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: attackVerb
+      value: slashed
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: attackSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
 --- !u!1 &620003916377113297 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4328279435503120021}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5286958794126478425 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4328279435503120021}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620003916377113297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c86f0d5246b4abe8fd9bb34e7cee0d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &3126533848659168335 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1689569827818709722, guid: cf769d410d94f0e47bab5eee03a3b07d,
     type: 3}
   m_PrefabInstance: {fileID: 4328279435503120021}
   m_PrefabAsset: {fileID: 0}
