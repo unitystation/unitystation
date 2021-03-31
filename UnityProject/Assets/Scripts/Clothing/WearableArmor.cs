@@ -53,7 +53,7 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 
 			if (playerHealthV2 != null && info.FromSlot.NamedSlot == slot)
 			{
-				UpdateBodyPartsArmor(currentlyRemovingArmor: true);
+				UpdateBodyPartsArmor(true);
 			}
 		}
 	}
@@ -90,7 +90,7 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 		bool currentlyRemovingArmor
 	)
 	{
-		if (bodyPart.BodyPartType == armoredBodyPart.ArmoringBodyPartType)
+		if (bodyPart.BodyPartType != BodyPartType.None && bodyPart.BodyPartType == armoredBodyPart.ArmoringBodyPartType)
 		{
 			if (currentlyRemovingArmor)
 			{

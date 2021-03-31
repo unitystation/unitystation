@@ -8,23 +8,19 @@ namespace HealthV2
 	public partial class BodyPart
 	{
 		/// <summary>
-		/// The armor of the body part itself, ignoring the clothing (for example the xenomorph's exoskeleton).
-		/// </summary>
-		[Tooltip("The armor of the body part itself, ignoring the clothing.")]
-		public Armor selfArmor = new Armor();
-
-		/// <summary>
 		/// The armor of the clothing covering a part of the body, ignoring selfArmor.
 		/// </summary>
+		[Tooltip("The armor of the clothing covering a part of the body, ignoring selfArmor.")]
 		public readonly LinkedList<Armor> ClothingArmors = new LinkedList<Armor>();
 
 		/// <summary>
+		/// The armor of the body part itself, ignoring the clothing (for example the xenomorph's exoskeleton).
 		/// The amount damage taken by body parts contained within this body part is modified by
 		/// increases as this body part sustains more damage, to a maximum of 100% damage when the
 		/// health of this part is 0.
 		/// </summary>
-		[Tooltip("The amount that damage taken by contained body parts is modified by")]
-		public Armor SubOrganBodyPartArmour = new Armor();
+		[Tooltip("The armor of the body part itself, ignoring the clothing.")]
+		public Armor SelfArmor = new Armor();
 
 		/// <summary>
 		/// Threshold at which body parts contained within this body part start taking increased damage
@@ -215,7 +211,7 @@ namespace HealthV2
 				damageToLimb = clothingArmor.GetDamage(damageToLimb, attackType);
 			}
 
-			damageToLimb = selfArmor.GetDamage(damageToLimb, attackType);
+			damageToLimb = SelfArmor.GetDamage(damageToLimb, attackType);
 			AffectDamage(damageToLimb, (int)damageType);
 
 			// May be changed to individual damage
@@ -224,7 +220,7 @@ namespace HealthV2
 			{
 				if (ContainBodyParts.Count > 0)
 				{
-					var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType);
+					var organDamageRatingValue = SelfArmor.GetRatingValue(attackType);
 					if (maxHealth - Damages[(int) damageType] < SubOrganDamageIncreasePoint)
 					{
 						organDamageRatingValue +=
