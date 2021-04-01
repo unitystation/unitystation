@@ -16,7 +16,7 @@ namespace Player
 		[SyncVar(hook = nameof(SyncNightVision))]
 		private bool nightVisionState;
 		[SyncVar]
-		private Vector3 nightVisionVisibility;
+		private Vector3 nightVisionVisibility = new Vector3(10.5f, 10.5f, 21);
 		[SyncVar]
 		private float visibilityAnimationSpeed = 1.5f;
 
