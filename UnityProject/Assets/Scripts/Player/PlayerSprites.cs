@@ -285,7 +285,7 @@ public class PlayerSprites : MonoBehaviour
 			var SpriteHandlerNorder =
 				Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
 					.GameObject.GetComponent<SpriteHandlerNorder>();
-
+			SpriteHandlerNorder.transform.localPosition = Vector3.zero;
 			ToClient.Add(SpriteHandlerNorder.GetComponent<NetworkIdentity>().netId);
 			OpenSprites.Add(SpriteHandlerNorder);
 			//SubSetBodyPart
