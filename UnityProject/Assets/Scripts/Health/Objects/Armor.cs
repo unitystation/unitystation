@@ -55,7 +55,7 @@ public class Armor
 	/// <param name="attackType">Type of attack</param>
 	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
 	/// <returns>The armor protection rating from the attackType depending on armor penetration of the attack</returns>
-	public float GetRating(AttackType attackType, float armorPenetration = 0)
+	public float GetRating(AttackType attackType, float armorPenetration)
 	{
 		float armorRating = GetRating(attackType);
 		return armorRating < 0 ? armorRating : armorRating * (1 - armorPenetration / 100);
