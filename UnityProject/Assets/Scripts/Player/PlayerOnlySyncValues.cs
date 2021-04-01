@@ -19,7 +19,6 @@ namespace Player
 		private Vector3 nightVisionVisibility;
 		[SyncVar]
 		private float visibilityAnimationSpeed = 1.5f;
-		//
 
 		#endregion
 
@@ -27,7 +26,6 @@ namespace Player
 
 		//NightVision
 		private CameraEffectControlScript cameraEffectControlScript;
-		//
 
 		#endregion
 
