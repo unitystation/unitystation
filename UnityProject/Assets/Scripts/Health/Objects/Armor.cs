@@ -44,7 +44,7 @@ public class Armor
 	/// <param name="attackType">Type of attack</param>
 	/// <param name="armorPenetration">How well or poorly the attack will break through different types of armor</param>
 	/// <returns>What proportion of damage will be dealt through this armor</returns>
-	public float GetRatingValue(AttackType attackType, float armorPenetration)
+	public float GetRatingValue(AttackType attackType, float armorPenetration = 0)
 	{
 		return  1 - GetRating(attackType, armorPenetration) / 100;
 	}
@@ -55,9 +55,10 @@ public class Armor
 	/// <param name="attackType">Type of attack</param>
 	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
 	/// <returns>The armor protection rating from the attackType depending on armor penetration of the attack</returns>
-	public float GetRating(AttackType attackType, float armorPenetration)
+	public float GetRating(AttackType attackType, float armorPenetration = 0)
 	{
-		return GetRating(attackType) * (1 - armorPenetration / 100);
+		float armorRating = GetRating(attackType);
+		return armorRating < 0 ? armorRating : armorRating * (1 - armorPenetration / 100);
 	}
 
 	/// <summary>
@@ -73,7 +74,7 @@ public class Armor
 		float damage,
 		AttackType attackType,
 		IEnumerable<Armor> armors,
-		float armorPenetration
+		float armorPenetration = 0
 	)
 	{
 		foreach (Armor armor in armors)
