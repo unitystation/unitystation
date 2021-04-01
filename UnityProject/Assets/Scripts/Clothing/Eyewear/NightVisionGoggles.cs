@@ -112,7 +112,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 	{
 		if(currentPlayer == null) return;
 
-		currentPlayer.PlayerScript.playerOnlySyncValues.ServerSetNightVision(newState, nightVisionVisibility, visibilityAnimationSpeed);
+		currentPlayer.PlayerScript.PlayerOnlySyncValues.ServerSetNightVision(newState, nightVisionVisibility, visibilityAnimationSpeed);
 	}
 }
 
