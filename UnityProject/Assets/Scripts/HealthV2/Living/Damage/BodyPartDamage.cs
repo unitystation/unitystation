@@ -209,28 +209,16 @@ namespace HealthV2
 			DamageType damageType,
 			bool damageSplit = false,
 			bool DamageSubOrgans = true,
-			Armor armorPenetration = null
+			float armorPenetration = 0
 		)
 		{
-			float damageToLimb;
-			if (armorPenetration == null)
-			{
-				damageToLimb = Armor.GetTotalDamage(
-					SelfArmor.GetDamage(damage, attackType),
-					attackType,
-					ClothingArmors
-				);
-			}
-			else
-			{
-				damageToLimb = Armor.GetTotalDamage(
-					SelfArmor.GetDamage(damage, attackType, armorPenetration),
-					attackType,
-					ClothingArmors,
-					armorPenetration
-				);
-			}
-			AffectDamage(damageToLimb, (int)damageType);
+			float damageToLimb = Armor.GetTotalDamage(
+				SelfArmor.GetDamage(damage, attackType, armorPenetration),
+				attackType,
+				ClothingArmors,
+				armorPenetration
+			);
+			AffectDamage(damageToLimb, (int) damageType);
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs
@@ -238,7 +226,7 @@ namespace HealthV2
 			{
 				if (ContainBodyParts.Count > 0)
 				{
-					var organDamageRatingValue = SelfArmor.GetRatingValue(attackType);
+					var organDamageRatingValue = SelfArmor.GetRatingValue(attackType, armorPenetration);
 					if (maxHealth - Damages[(int) damageType] < SubOrganDamageIncreasePoint)
 					{
 						organDamageRatingValue +=

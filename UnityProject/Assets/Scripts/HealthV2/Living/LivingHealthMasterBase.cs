@@ -707,7 +707,7 @@ namespace HealthV2
 			AttackType attackType,
 			DamageType damageType,
 			BodyPartType bodyPartAim,
-			Armor armorPenetration = null
+			float armorPenetration = 0
 		)
 		{
 			LastDamageType = damageType;

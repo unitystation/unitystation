@@ -21,11 +21,12 @@ namespace ScriptableObjects.Gun
 		[SerializeField] private AttackType attackType = AttackType.Bullet;
 		public AttackType AttackType => attackType;
 
-		[Tooltip("How well or poorly this breaks through different types of armor.")]
+		[Tooltip("How well this breaks through different types of armor.")]
 		[SerializeField]
-		private Armor armorPenetration;
+		[Range(0, 100)]
+		private float armorPenetration;
 
-		public Armor ArmorPenetration => armorPenetration;
+		public float ArmorPenetration => armorPenetration;
 
 		public void SetDamage(float Damage)
 		{

@@ -26,24 +26,13 @@ public class Armor
 	[Range(-100,100)] public float Bio;
 
 	/// <summary>
-	/// Calculates how much damage would be done based on armor resistance.
-	/// </summary>
-	/// <param name="damage">Base damage</param>
-	/// <param name="attackType">Type of attack</param>
-	/// <returns>New damage after applying protection values</returns>
-	public float GetDamage(float damage, AttackType attackType)
-	{
-		return damage * GetRatingValue(attackType);
-	}
-
-	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance and armor penetration.
 	/// </summary>
 	/// <param name="damage">Base damage</param>
 	/// <param name="attackType">Type of attack</param>
-	/// <param name="armorPenetration">How well or poorly the attack will break through different types of armor</param>
+	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
 	/// <returns>New damage after applying protection values</returns>
-	public float GetDamage(float damage, AttackType attackType, Armor armorPenetration)
+	public float GetDamage(float damage, AttackType attackType, float armorPenetration = 0)
 	{
 		return damage * GetRatingValue(attackType, armorPenetration);
 	}
@@ -53,20 +42,9 @@ public class Armor
 	/// depending on the armor penetration of the attack.
 	/// </summary>
 	/// <param name="attackType">Type of attack</param>
-	/// <returns>What proportion of damage will be dealt through this armor</returns>
-	public float GetRatingValue(AttackType attackType)
-	{
-		return  1 - GetRating(attackType) / 100;
-	}
-
-	/// <summary>
-	/// Get the proportion of damage that will be dealt through this armor
-	/// depending on the armor penetration of the attack.
-	/// </summary>
-	/// <param name="attackType">Type of attack</param>
 	/// <param name="armorPenetration">How well or poorly the attack will break through different types of armor</param>
 	/// <returns>What proportion of damage will be dealt through this armor</returns>
-	public float GetRatingValue(AttackType attackType, Armor armorPenetration)
+	public float GetRatingValue(AttackType attackType, float armorPenetration)
 	{
 		return  1 - GetRating(attackType, armorPenetration) / 100;
 	}
@@ -75,36 +53,11 @@ public class Armor
 	/// Get the armor protection rating from the attackType depending on armor penetration of the attack.
 	/// </summary>
 	/// <param name="attackType">Type of attack</param>
-	/// <param name="armorPenetration">How well or poorly the attack will break through different types of armor</param>
+	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
 	/// <returns>The armor protection rating from the attackType depending on armor penetration of the attack</returns>
-	public float GetRating(AttackType attackType, Armor armorPenetration)
+	public float GetRating(AttackType attackType, float armorPenetration)
 	{
-		var currentArmorRating = GetRating(attackType);
-		var armorPenetrationRating = armorPenetration.GetRating(attackType);
-		if (currentArmorRating < armorPenetrationRating)
-		{
-			// a good armor-piercing bullet shouldn't deal extra damage to poorly armored targets, should it?
-			return currentArmorRating < 0 ? currentArmorRating : 0;
-		}
-
-		return Mathf.Clamp(currentArmorRating - armorPenetrationRating, -100, 100);
-	}
-
-	/// <summary>
-	/// Calculates how much damage would be done based on multiple armors' resistance.
-	/// </summary>
-	/// <param name="damage">Base damage</param>
-	/// <param name="attackType">Type of attack</param>
-	/// <param name="armors">List of armor trying to protect something from damage</param>
-	/// <returns>New damage after applying protection values</returns>
-	public static float GetTotalDamage(float damage, AttackType attackType, IEnumerable<Armor> armors)
-	{
-		foreach (Armor armor in armors)
-		{
-			damage *= armor.GetRatingValue(attackType);
-		}
-
-		return damage;
+		return GetRating(attackType) * (1 - armorPenetration / 100);
 	}
 
 	/// <summary>
@@ -116,7 +69,12 @@ public class Armor
 	/// <param name="armors">List of armor trying to protect something from damage</param>
 	/// <param name="armorPenetration">Armor penetration of the attack</param>
 	/// <returns>New damage after applying protection and armor penetration values</returns>
-	public static float GetTotalDamage(float damage, AttackType attackType, IEnumerable<Armor> armors, Armor armorPenetration)
+	public static float GetTotalDamage(
+		float damage,
+		AttackType attackType,
+		IEnumerable<Armor> armors,
+		float armorPenetration
+	)
 	{
 		foreach (Armor armor in armors)
 		{

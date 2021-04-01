@@ -337,7 +337,7 @@ namespace HealthV2
 			float damage,
 			AttackType attackType,
 			DamageType damageType,
-			Armor armorPenetration = null,
+			float armorPenetration = 0,
 			bool damageSplit = false
 		)
 		{
