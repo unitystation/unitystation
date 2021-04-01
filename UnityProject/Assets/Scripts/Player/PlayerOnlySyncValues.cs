@@ -26,7 +26,7 @@ namespace Player
 		#region OtherVariables
 
 		//NightVision
-		private Camera mainCamera;
+		private CameraEffectControlScript cameraEffectControlScript;
 		//
 
 		#endregion
@@ -35,7 +35,7 @@ namespace Player
 
 		private void Awake()
 		{
-			mainCamera = Camera.main;
+			cameraEffectControlScript = Camera.main.OrNull()?.GetComponent<CameraEffectControlScript>();
 		}
 
 		#endregion
@@ -58,8 +58,8 @@ namespace Player
 		private void SyncNightVision(bool oldState, bool newState)
 		{
 			nightVisionState = newState;
-			mainCamera.GetComponent<CameraEffectControlScript>().AdjustPlayerVisibility(nightVisionVisibility, nightVisionState ? visibilityAnimationSpeed : 0.1f);
-			mainCamera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState(nightVisionState);
+			cameraEffectControlScript.AdjustPlayerVisibility(nightVisionVisibility, nightVisionState ? visibilityAnimationSpeed : 0.1f);
+			cameraEffectControlScript.ToggleNightVisionEffectState(nightVisionState);
 		}
 
 		#endregion

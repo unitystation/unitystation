@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
-using CameraEffects;
 using Player;
 using UI.Action;
 
@@ -105,21 +102,17 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 		var item = currentPlayer.PlayerScript.Equipment.GetClothingItem(NamedSlot.eyes).OrNull()?.GameObjectReference;
 		if (item == gameObject)
 		{
-			currentPlayer.gameObject.GetComponent<PlayerOnlySyncValues>().ServerSetNightVision(newState, nightVisionVisibility, visibilityAnimationSpeed);
+			ServerToggleClient(newState);
 			Chat.AddExamineMsgFromServer(currentPlayer.gameObject, $"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
 		}
 	}
 
-	/// <summary>
-	/// Removing or adding goggles to eye slot
-	/// </summary>
-	/// <param name="newState"></param>
 	[Server]
 	private void ServerToggleClient(bool newState)
 	{
 		if(currentPlayer == null) return;
 
-		currentPlayer.gameObject.GetComponent<PlayerOnlySyncValues>().ServerSetNightVision(newState, nightVisionVisibility, visibilityAnimationSpeed);
+		currentPlayer.PlayerScript.playerOnlySyncValues.ServerSetNightVision(newState, nightVisionVisibility, visibilityAnimationSpeed);
 	}
 }
 
