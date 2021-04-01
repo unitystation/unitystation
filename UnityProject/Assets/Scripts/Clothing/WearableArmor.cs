@@ -65,52 +65,48 @@ namespace Clothing
 		/// <param name="currentlyRemovingArmor">Are we taking off our armor or putting it on?</param>
 		private void UpdateBodyPartsArmor(bool currentlyRemovingArmor)
 		{
+			if (currentlyRemovingArmor)
+			{
+				foreach (ArmoredBodyPart protectedBodyPart in armoredBodyParts)
+				{
+					protectedBodyPart.bodyPartScript.ClothingArmors.Remove(protectedBodyPart.Armor);
+					protectedBodyPart.bodyPartScript = null;
+				}
+				return;
+			}
+
 			foreach (ArmoredBodyPart protectedBodyPart in armoredBodyParts)
 			{
 				foreach (RootBodyPartContainer rootBodyPartContainer in playerHealthV2.RootBodyPartContainers)
 				{
 					foreach (BodyPart bodyPart in rootBodyPartContainer.ContainsLimbs)
 					{
-						DeepUpdateBodyPartArmor(bodyPart, protectedBodyPart, currentlyRemovingArmor);
+						DeepAddArmorToBodyPart(bodyPart, protectedBodyPart);
 					}
 				}
 			}
 		}
 
 		/// <summary>
-		/// Adds or removes armor per body part depending on the characteristics of this armor.
+		/// Adds armor per body part depending on the characteristics of this armor.
 		/// Checks not only the bodyPart, but also all other body parts nested in bodyPart.
 		/// </summary>
-		/// <param name="bodyPart">body part to update</param>
-		/// <param name="armoredBodyPart">a couple of the body part associated with the armor</param>
-		/// <param name="currentlyRemovingArmor">Are we taking off our armor or putting it on?</param>
-		/// <returns>true if the bodyPart was updated, false otherwise</returns>
-		private static bool DeepUpdateBodyPartArmor(
-			BodyPart bodyPart,
-			ArmoredBodyPart armoredBodyPart,
-			bool currentlyRemovingArmor
-		)
+		/// <param name="bodyPart">Body part to update</param>
+		/// <param name="armoredBodyPart">A couple of the body part associated with the armor</param>
+		/// <returns>True if the armor was added to the bodyPart or bodyPart.ContainBodyParts, false otherwise</returns>
+		private static bool DeepAddArmorToBodyPart(BodyPart bodyPart, ArmoredBodyPart armoredBodyPart)
 		{
 			if (bodyPart.BodyPartType != BodyPartType.None &&
 			    bodyPart.BodyPartType == armoredBodyPart.ArmoringBodyPartType)
 			{
-				if (currentlyRemovingArmor)
-				{
-					bodyPart.ClothingArmors.Remove(armoredBodyPart.Armor);
-					armoredBodyPart.bodyPartScript = null;
-				}
-				else
-				{
-					bodyPart.ClothingArmors.AddFirst(armoredBodyPart.Armor);
-					armoredBodyPart.bodyPartScript = bodyPart;
-				}
-
+				bodyPart.ClothingArmors.AddFirst(armoredBodyPart.Armor);
+				armoredBodyPart.bodyPartScript = bodyPart;
 				return true;
 			}
 
 			foreach (BodyPart innerBodyPart in bodyPart.ContainBodyParts)
 			{
-				if (DeepUpdateBodyPartArmor(innerBodyPart, armoredBodyPart, currentlyRemovingArmor))
+				if (DeepAddArmorToBodyPart(innerBodyPart, armoredBodyPart))
 				{
 					return true;
 				}
