@@ -16,12 +16,15 @@ namespace HealthV2
 
 		/// <summary>
 		/// The armor of the body part itself, ignoring the clothing (for example the xenomorph's exoskeleton).
-		/// The amount damage taken by body parts contained within this body part is modified by
-		/// increases as this body part sustains more damage, to a maximum of 100% damage when the
-		/// health of this part is 0.
 		/// </summary>
 		[Tooltip("The armor of the body part itself, ignoring the clothing.")]
 		public Armor SelfArmor = new Armor();
+
+		/// The amount damage taken by body parts contained within this body part is modified by
+		/// increases as this body part sustains more damage, to a maximum of 100% damage when the
+		/// health of this part is 0.
+		[Tooltip("The amount that damage taken by contained body parts is modified by")]
+		public Armor SubOrganBodyPartArmour = new Armor();
 
 		/// <summary>
 		/// Threshold at which body parts contained within this body part start taking increased damage
@@ -227,7 +230,7 @@ namespace HealthV2
 			{
 				if (ContainBodyParts.Count > 0)
 				{
-					var organDamageRatingValue = SelfArmor.GetRatingValue(attackType, armorPenetration);
+					var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType, armorPenetration);
 					if (maxHealth - Damages[(int) damageType] < SubOrganDamageIncreasePoint)
 					{
 						organDamageRatingValue +=
