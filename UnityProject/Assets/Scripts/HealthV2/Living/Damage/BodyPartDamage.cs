@@ -10,8 +10,9 @@ namespace HealthV2
 		/// <summary>
 		/// The armor of the clothing covering a part of the body, ignoring selfArmor.
 		/// </summary>
-		[Tooltip("The armor of the clothing covering a part of the body, ignoring selfArmor.")]
-		public readonly LinkedList<Armor> ClothingArmors = new LinkedList<Armor>();
+		private readonly LinkedList<Armor> clothingArmors = new LinkedList<Armor>();
+
+		public LinkedList<Armor> ClothingArmors => clothingArmors;
 
 		/// <summary>
 		/// The armor of the body part itself, ignoring the clothing (for example the xenomorph's exoskeleton).
