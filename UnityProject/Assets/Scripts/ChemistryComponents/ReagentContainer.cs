@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using Items;
 using Messages.Client.Interaction;
 using UnityEngine;
@@ -34,6 +35,9 @@ namespace Chemistry.Components
 			get => reactionSet;
 			private set { reactionSet = value; }
 		}
+
+		[Tooltip("If its unique container and can't be bothered to make SO")]
+		public List<Reaction> AdditionalReactions = new List<Reaction>();
 
 		[Tooltip("Initial mix of reagent inside container")]
 		[FormerlySerializedAs("reagentMix")]
@@ -153,7 +157,7 @@ namespace Chemistry.Components
 		{
 			if (ReactionSet != null)
 			{
-				ReactionSet.Apply(this, CurrentReagentMix);
+				ReactionSet.Apply(this, CurrentReagentMix,AdditionalReactions);
 			}
 		}
 
@@ -364,7 +368,7 @@ namespace Chemistry.Components
 
 		private void NotifyPlayersOfSpill(Vector3Int worldPos)
 		{
-			var mobs = MatrixManager.GetAt<LivingHealthBehaviour>(worldPos, true);
+			var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPos, true);
 			if (mobs.Count > 0)
 			{
 				foreach (var mob in mobs)

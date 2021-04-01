@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using Systems.Atmospherics;
+using HealthV2;
 using TileManagement;
 
 /// <summary>
@@ -162,7 +163,7 @@ public class Matrix : MonoBehaviour
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
 		return IsPassableAtOneMatrix(position, position, isServer) &&
-		       GetFirst<LivingHealthBehaviour>(position, isServer) == null;
+		       GetFirst<LivingHealthMasterBase>(position, isServer) == null;
 	}
 
 	/// Can one pass from `origin` to adjacent `position`?

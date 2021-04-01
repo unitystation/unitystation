@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.Atmospherics;
 using Chemistry;
+using HealthV2;
 using UnityEngine;
 using Objects.Construction;
 
@@ -116,7 +117,7 @@ public class MetaDataLayer : MonoBehaviour
 				{
 					matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 
-					foreach (var livingHealthBehaviour in matrix.Get<LivingHealthBehaviour>(localPosInt, true))
+					foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
 					{
 						livingHealthBehaviour.Extinguish();
 					}

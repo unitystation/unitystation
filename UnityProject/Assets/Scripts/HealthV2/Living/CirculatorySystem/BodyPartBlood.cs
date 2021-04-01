@@ -179,15 +179,15 @@ namespace HealthV2
 			float damage;
 			if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
 			{
-				//Deals damage that ramps to 10 as blood saturation levels drop, halved if unconscious
+				//Deals damage that ramps to 1 as blood saturation levels drop, halved if unconscious
 				if (bloodSaturation <= 0)
 				{
-					damage = 10f;
+					damage = 1f;
 				}
 				else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_CRITICAL)
 				{
 					// Arbitrary damage formula, could use anything here
-					damage = 10 * (1 - Mathf.Sqrt(bloodSaturation));
+					damage = 1 * (1 - Mathf.Sqrt(bloodSaturation));
 				}
 				else
 				{

@@ -14,5 +14,11 @@ namespace HealthV2
 			RelatedPart.HealthMaster.Setbrain(this);
 		}
 		//Ensure removal of brain
+
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
+		{
+			livingHealthMasterBase.brain = null;
+
+		}
 	}
 }
