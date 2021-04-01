@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/4/1: Fixed surgery and crayon UI not being draggable by [ThatDan123](https://github.com/ThatDan123) in PR #[6315](https://github.com/unitystation/unitystation/pull/6315)
+* 2021/4/1: Fixed night vision goggle not being able to be toggled via action button by [ThatDan123](https://github.com/ThatDan123) in PR #[6315](https://github.com/unitystation/unitystation/pull/6315)
 * 2021/3/31: Bugfix: Racks are now spawning rack parts when deconstructed. by [JesterX666](https://github.com/JesterX666) in PR #[6316](https://github.com/unitystation/unitystation/pull/6316)
 * 2021/3/30: Add colours to cc and syndicate tcomm channels by [DTraitor](https://github.com/DTraitor) in PR #[6314](https://github.com/unitystation/unitystation/pull/6314)
 * 2021/3/30: Some UI optimisation by [DTraitor](https://github.com/DTraitor) in PR #[6314](https://github.com/unitystation/unitystation/pull/6314)
