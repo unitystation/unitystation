@@ -100,11 +100,11 @@ namespace Tests
 		/// Check if there are scriptable objects that lost their script
 		/// </summary>
 		[Test]
-		public void CheckMissingScritpableObjects()
+		public void CheckMissingScriptableObjects()
 		{
 			// Get all assets paths
 			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
-				.Where(p => p.Contains("Resources/"));
+				.Where(p => p.Contains("ScriptableObjects/"));
 
 			// Find all .asset (almost always it is SO)
 			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
@@ -136,11 +136,11 @@ namespace Tests
 		/// Check if there are scriptable objects that has missing reference fields 
 		/// </summary>
 		[Test]
-		public void CheckMissingRefenceFieldsScritpableObjects()
+		public void CheckMissingRefenceFieldsScriptableObjects()
 		{
 			// Get all assets paths
 			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
-				.Where(p => p.Contains("Resources/"));
+				.Where(p => p.Contains("ScriptableObjects/"));
 
 			// Find all .asset (almost always it is SO)
 			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
