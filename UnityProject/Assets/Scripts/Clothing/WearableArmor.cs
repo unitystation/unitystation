@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HealthV2;
 using UnityEngine;
 
@@ -31,7 +32,9 @@ namespace Clothing
 
 			internal Armor Armor => armor;
 
-			internal BodyPart bodyPartScript;
+			private readonly LinkedList<BodyPart> relatedBodyParts = new LinkedList<BodyPart>();
+
+			public LinkedList<BodyPart> RelatedBodyParts => relatedBodyParts;
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)
@@ -69,8 +72,11 @@ namespace Clothing
 			{
 				foreach (ArmoredBodyPart protectedBodyPart in armoredBodyParts)
 				{
-					protectedBodyPart.bodyPartScript.ClothingArmors.Remove(protectedBodyPart.Armor);
-					protectedBodyPart.bodyPartScript = null;
+					while (protectedBodyPart.RelatedBodyParts.Count > 0)
+					{
+						protectedBodyPart.RelatedBodyParts.First().ClothingArmors.Remove(protectedBodyPart.Armor);
+						protectedBodyPart.RelatedBodyParts.RemoveFirst();
+					}
 				}
 				return;
 			}
@@ -93,26 +99,19 @@ namespace Clothing
 		/// </summary>
 		/// <param name="bodyPart">Body part to update</param>
 		/// <param name="armoredBodyPart">A couple of the body part associated with the armor</param>
-		/// <returns>True if the armor was added to the bodyPart or bodyPart.ContainBodyParts, false otherwise</returns>
-		private static bool DeepAddArmorToBodyPart(BodyPart bodyPart, ArmoredBodyPart armoredBodyPart)
+		private static void DeepAddArmorToBodyPart(BodyPart bodyPart, ArmoredBodyPart armoredBodyPart)
 		{
 			if (bodyPart.BodyPartType != BodyPartType.None &&
 			    bodyPart.BodyPartType == armoredBodyPart.ArmoringBodyPartType)
 			{
 				bodyPart.ClothingArmors.AddFirst(armoredBodyPart.Armor);
-				armoredBodyPart.bodyPartScript = bodyPart;
-				return true;
+				armoredBodyPart.RelatedBodyParts.AddFirst(bodyPart);
 			}
 
 			foreach (BodyPart innerBodyPart in bodyPart.ContainBodyParts)
 			{
-				if (DeepAddArmorToBodyPart(innerBodyPart, armoredBodyPart))
-				{
-					return true;
-				}
+				DeepAddArmorToBodyPart(innerBodyPart, armoredBodyPart);
 			}
-
-			return false;
 		}
 	}
 }
