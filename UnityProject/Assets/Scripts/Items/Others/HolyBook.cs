@@ -111,7 +111,7 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 		else  //Heal a bodypart if possible.
 		{
 			//If there is no damage, do nothing.
-			if (!(LHB.OverallHealth >= LHB.MaxHealth))
+			if (LHB.OverallHealth < LHB.MaxHealth)
 			{
 				//Break foreach loop once a single heal is applied.
 				foreach (BodyPart bodyPart in LHB.ImplantList)
