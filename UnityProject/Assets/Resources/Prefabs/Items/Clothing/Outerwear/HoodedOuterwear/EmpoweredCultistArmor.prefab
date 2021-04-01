@@ -133,18 +133,36 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Empowered armor which creates a powerful shield around the user."
       objectReference: {fileID: 0}
+    - target: {fileID: 4008498615140754243, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008498615140754243, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008498615140754243, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008498615140754243, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5931330098935284665, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ea471b3bb9434d445becc55dd74001b5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5931330098935284665, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: ea471b3bb9434d445becc55dd74001b5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5931330098935284665, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

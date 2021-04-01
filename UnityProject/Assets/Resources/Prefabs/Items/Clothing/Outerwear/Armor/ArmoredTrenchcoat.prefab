@@ -89,18 +89,81 @@ PrefabInstance:
       value: A trenchcoat enhanced with a special lightweight kevlar. The epitome
         of tactical plainclothes.
       objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bomb
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bomb
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Laser
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Laser
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bullet
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Energy
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bullet
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Energy
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armoringBodyPartType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4701789493151038243, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 87d60c05621a3884e85bd85192e533c6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4701789493151038243, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 87d60c05621a3884e85bd85192e533c6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4701789493151038243, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

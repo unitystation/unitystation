@@ -7,6 +7,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Magic
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: m_RootOrder
@@ -139,14 +164,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 678f59d66e8d44d409e52b05c21f484e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 678f59d66e8d44d409e52b05c21f484e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: allClothingData.Array.size

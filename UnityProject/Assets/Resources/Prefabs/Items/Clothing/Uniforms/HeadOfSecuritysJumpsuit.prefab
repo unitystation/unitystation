@@ -144,6 +144,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Laser
       value: 5
       objectReference: {fileID: 0}
@@ -155,7 +160,7 @@ PrefabInstance:
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
-      value: 50
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
