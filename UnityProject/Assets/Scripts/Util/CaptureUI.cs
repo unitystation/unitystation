@@ -23,7 +23,6 @@ namespace Util
 		{
 			width = System.Convert.ToInt32(UI_ToCapture.rect.width / zoomLevel);
 			height = System.Convert.ToInt32(UI_ToCapture.rect.height / zoomLevel);
-			Debug.Log(width + height);
 		}
 
 		public void TakeScreenShot()
@@ -35,14 +34,12 @@ namespace Util
 			tex.ReadPixels(new Rect(startX, startY, width, height), 0, 0);
 			tex.Apply();
 
-			// Encode texture into PNG
 			var bytes = tex.EncodeToPNG();
 			Destroy(tex);
 
 			if (Directory.Exists(Application.persistentDataPath + Path))
 			{
 				File.WriteAllBytes(Application.persistentDataPath + Path + "/" + FileName, bytes);
-				Debug.Log(Application.persistentDataPath + Path);
 			}
 			else
 			{
