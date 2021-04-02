@@ -1045,7 +1045,7 @@ namespace Lobby
 		{
 			StartCoroutine(SaveCurrentCharacterSnaps());
 
-
+			DisplayErrorText("Saving..");
 			//A hacky solution to be able to get character snaps before the UI shuts itself and hides/deletes the player. 
 			await Task.Delay(500);
 
