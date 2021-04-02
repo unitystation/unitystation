@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using HealthV2;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 namespace Lobby
 {
@@ -105,10 +107,11 @@ namespace Lobby
 		[SerializeField] private Text CharacterPreviewName;
 		[SerializeField] private Text CharacterPreviewRace;
 		[SerializeField] private Text CharacterPreviewBodyType;
-		[SerializeField] private Image CharacterPreviewImg;
+		[SerializeField] private RawImage CharacterPreviewImg;
 
 		[SerializeField] private GameObject CharacterPreviews;
 		[SerializeField] private GameObject NoCharactersError;
+		[SerializeField] private GameObject NoPreviewError;
 		[SerializeField] private GameObject GoBackButton;
 
 		[SerializeField] private GameObject CharacterSelectorPage;
@@ -216,29 +219,53 @@ namespace Lobby
 
 		private void RefreshSelectorData()
 		{
-			//Work on image preview later
 			CharacterPreviewName.text = PlayerCharacters[currentCharacterIndex].Name;
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
 			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
 			SaveLastCharacterIndex();
-			checkPreviewImage();
+			CheckPreviewImage();
 		}
 
 
 		/// <summary>
 		/// If there is no sprite, show an error.
-		/// The error is hidden inside the white space ;)
 		/// </summary>
-		private void checkPreviewImage()
+		private void CheckPreviewImage()
 		{
-			if(CharacterPreviewImg.sprite == null)
+			string path = Application.persistentDataPath + "/" +
+				$"{PlayerCharacters[currentCharacterIndex].Username}/" + PlayerCharacters[currentCharacterIndex].Name;
+			if (Directory.Exists(path))
 			{
-				CharacterPreviewImg.color = new Color(0f, 0f, 0f, 0f);
+				CharacterPreviewImg.SetActive(true);
+				NoPreviewError.SetActive(false);
+				Debug.Log(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG");
+				StartCoroutine(GetPreviewImage(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG"));
 			}
 			else
 			{
-				CharacterPreviewImg.color = new Color(1f, 1f, 1f, 1f);
+				CharacterPreviewImg.SetActive(false);
+				NoPreviewError.SetActive(true);
+			}
+		}
+
+
+		private IEnumerator<UnityWebRequestAsyncOperation> GetPreviewImage(string path)
+		{
+			using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(path))
+			{
+				yield return uwr.SendWebRequest();
+
+				if (uwr.result != UnityWebRequest.Result.Success)
+				{
+					Debug.Log(uwr.error);
+					CharacterPreviewImg.SetActive(false);
+					NoPreviewError.SetActive(true);
+				}
+				else
+				{
+					CharacterPreviewImg.texture = DownloadHandlerTexture.GetContent(uwr);
+				}
 			}
 		}
 
