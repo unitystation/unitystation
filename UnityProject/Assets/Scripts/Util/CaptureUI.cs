@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
-using Unity.EditorCoroutines.Editor;
 
 namespace Util
 {
@@ -16,14 +14,15 @@ namespace Util
 
 		private int width;
 		private int height;
+		[SerializeField] private float zoomLevel = 2.2f;
 
 		public string Path = "/SNAPS";
 		public string FileName = "filename.PNG";
 
 		private void Awake()
 		{
-			width = System.Convert.ToInt32(UI_ToCapture.rect.width / 2.2f);
-			height = System.Convert.ToInt32(UI_ToCapture.rect.height / 2.2f);
+			width = System.Convert.ToInt32(UI_ToCapture.rect.width / zoomLevel);
+			height = System.Convert.ToInt32(UI_ToCapture.rect.height / zoomLevel);
 			Debug.Log(width + height);
 		}
 
