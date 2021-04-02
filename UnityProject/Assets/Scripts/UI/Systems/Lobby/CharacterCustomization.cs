@@ -863,7 +863,7 @@ namespace Lobby
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
 			ServerData.UpdateCharacterProfile(currentCharacter);
 			// TODO Consider adding await. Otherwise this causes a compile warning.
-			saveCurrentCharacter(currentCharacter);
+			SaveCurrentCharacter(currentCharacter);
 		}
 
 		/// <summary>
@@ -890,7 +890,7 @@ namespace Lobby
 		/// <summary>
 		/// Saves this current character that's being created/edited to the characters list
 		/// </summary>
-		private void saveCurrentCharacter(CharacterSettings settings)
+		private void SaveCurrentCharacter(CharacterSettings settings)
 		{
 			PlayerCharacters[currentCharacterIndex] = settings;
 			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
