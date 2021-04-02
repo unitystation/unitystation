@@ -99,20 +99,19 @@ namespace Tests
 		/// <summary>
 		/// Check if there are scriptable objects that lost their script
 		/// </summary>
-		[Test]
-		public void CheckMissingScriptableObjects()
+		private void CheckMissingScriptableObjects(string path)
 		{
 			// Get all assets paths
 			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
-				.Where(p => p.Contains("ScriptableObjects/"));
+				.Where(p => p.Contains(path));
 
 			// Find all .asset (almost always it is SO)
 			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
 
 			var listResults = new List<string>();
-			foreach (var path in allAssetPaths)
+			foreach (var lookUpPath in allAssetPaths)
 			{
-				var asset = AssetDatabase.LoadMainAssetAtPath(path);
+				var asset = AssetDatabase.LoadMainAssetAtPath(lookUpPath);
 
 				// if we can't load it - something bad happend with SO
 				if (!asset)
@@ -135,20 +134,19 @@ namespace Tests
 		/// <summary>
 		/// Check if there are scriptable objects that has missing reference fields 
 		/// </summary>
-		[Test]
-		public void CheckMissingRefenceFieldsScriptableObjects()
+		private void CheckMissingRefenceFieldsScriptableObjects(string path)
 		{
 			// Get all assets paths
 			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
-				.Where(p => p.Contains("ScriptableObjects/"));
+				.Where(p => p.Contains(path));
 
 			// Find all .asset (almost always it is SO)
 			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
 
 			var listResults = new List<(string, string)>();
-			foreach (var path in allAssetPaths)
+			foreach (var lookUpPath in allAssetPaths)
 			{
-				var asset = AssetDatabase.LoadMainAssetAtPath(path);
+				var asset = AssetDatabase.LoadMainAssetAtPath(lookUpPath);
 
 				// skip invalid assets
 				if (!asset || !(asset is ScriptableObject))
@@ -170,6 +168,20 @@ namespace Tests
 			}
 
 			Assert.IsEmpty(listResults, report.ToString());
+		}
+
+		[Test]
+		public void TestScriptableObjects()
+		{
+			CheckMissingScriptableObjects("ScriptableObjects");
+			CheckMissingRefenceFieldsScriptableObjects("ScriptableObjects");
+		}
+
+		[Test]
+		public void TestSingletonScriptableObjects()
+		{
+			CheckMissingScriptableObjects("Resources/ScriptableObjectsSingletons");
+			CheckMissingRefenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons");
 		}
 
 
