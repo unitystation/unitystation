@@ -123,7 +123,7 @@ namespace Lobby
 
 		void OnEnable()
 		{
-			getSavedCharacters();
+			GetSavedCharacters();
 			WindowName.text = "Select your character";
 			LoadSettings(PlayerManager.CurrentCharacterSettings);
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
@@ -221,7 +221,7 @@ namespace Lobby
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
 			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
-			saveLastCharacterIndex();
+			SaveLastCharacterIndex();
 			checkPreviewImage();
 		}
 
@@ -869,7 +869,7 @@ namespace Lobby
 		/// <summary>
 		/// Takes 4 pictures of the character from all sides and stores them in %AppData%/Locallow/unitystation
 		/// </summary>
-		private IEnumerator<WaitForEndOfFrame> saveCurrentCharacterSnaps()
+		private IEnumerator<WaitForEndOfFrame> SaveCurrentCharacterSnaps()
 		{
 			savingPictures = true;
 			Util.CaptureUI capture = snapCapturer.GetComponent<Util.CaptureUI>();
@@ -893,14 +893,14 @@ namespace Lobby
 		private void saveCurrentCharacter(CharacterSettings settings)
 		{
 			PlayerCharacters[currentCharacterIndex] = settings;
-			saveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
-			saveCharacters();
+			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
+			SaveCharacters();
 		}
 
 		/// <summary>
 		/// Remembers what was the last character the player chose in the character selector screen.
 		/// </summary>
-		private void saveLastCharacterIndex()
+		private void SaveLastCharacterIndex()
 		{
 			PlayerPrefs.SetInt("lastCharacter", currentCharacterIndex);
 			PlayerPrefs.Save();
@@ -909,7 +909,7 @@ namespace Lobby
 		/// <summary>
 		/// Save all characters in a json file.
 		/// </summary>
-		private void saveCharacters()
+		private void SaveCharacters()
 		{
 			string json = JsonConvert.SerializeObject(PlayerCharacters);
 			string path = Application.persistentDataPath;
@@ -919,7 +919,7 @@ namespace Lobby
 		/// <summary>
 		/// Get all characters that are saved.
 		/// </summary>
-		private void getSavedCharacters()
+		private void GetSavedCharacters()
 		{
 			PlayerCharacters.Clear(); //Clear all entries so we don't have duplicates when re-opening the character page.
 			string path = Application.persistentDataPath;
@@ -1007,7 +1007,7 @@ namespace Lobby
 
 		public async void OnApplyBtn()
 		{
-			StartCoroutine(saveCurrentCharacterSnaps());
+			StartCoroutine(SaveCurrentCharacterSnaps());
 
 
 			//A hacky solution to be able to get character snaps before the UI shuts itself and hides/deletes the player. 
