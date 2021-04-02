@@ -135,7 +135,7 @@ public partial class PlayerList : NetworkBehaviour
 			if (player.PendingSpawn) continue;
 			if (player.Job == JobType.SYNDICATE) continue;
 			UIManager.Instance.statsTab.nameList.text +=
-				$"{player.Name} ({player.Job.JobString()})\r\n";
+				$"{player.UserName}\r\n";
 		}
 	}
 
