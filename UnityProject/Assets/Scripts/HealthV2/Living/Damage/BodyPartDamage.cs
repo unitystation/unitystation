@@ -8,16 +8,21 @@ namespace HealthV2
 	public partial class BodyPart
 	{
 		/// <summary>
-		/// The amount damage taken by this is modified by
+		/// The armor of the clothing covering a part of the body, ignoring selfArmor.
 		/// </summary>
-		[Tooltip("The amount that damage taken by this is modified by")]
-		public Armor BodyPartArmour = new Armor();
+		private readonly LinkedList<Armor> clothingArmors = new LinkedList<Armor>();
+
+		public LinkedList<Armor> ClothingArmors => clothingArmors;
 
 		/// <summary>
+		/// The armor of the body part itself, ignoring the clothing (for example the xenomorph's exoskeleton).
+		/// </summary>
+		[Tooltip("The armor of the body part itself, ignoring the clothing.")]
+		public Armor SelfArmor = new Armor();
+
 		/// The amount damage taken by body parts contained within this body part is modified by
 		/// increases as this body part sustains more damage, to a maximum of 100% damage when the
 		/// health of this part is 0.
-		/// </summary>
 		[Tooltip("The amount that damage taken by contained body parts is modified by")]
 		public Armor SubOrganBodyPartArmour = new Armor();
 
@@ -197,7 +202,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Applys damage to this body part. Damage will be divided among it and sub organs depending on their
+		/// Applies damage to this body part. Damage will be divided among it and sub organs depending on their
 		/// armor values.
 		/// </summary>
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
@@ -205,10 +210,22 @@ namespace HealthV2
 		/// <param name="attackType">Type of attack that is causing the damage</param>
 		/// <param name="damageType">The type of damage</param>
 		/// <param name="damageSplit">Should the damage be divided amongst the contained body parts or applied to a random body part</param>
-		public void TakeDamage(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType, bool damageSplit = false, bool DamageSubOrgans = true)
+		public void TakeDamage(
+			GameObject damagedBy,
+			float damage,
+			AttackType attackType,
+			DamageType damageType,
+			bool damageSplit = false,
+			bool DamageSubOrgans = true,
+			float armorPenetration = 0
+		)
 		{
-			var damageToLimb = BodyPartArmour.GetDamage(damage, attackType);
+			float damageToLimb = Armor.GetTotalDamage(
+				SelfArmor.GetDamage(damage, attackType, armorPenetration),
+				attackType,
+				ClothingArmors,
+				armorPenetration
+			);
 			AffectDamage(damageToLimb, (int) damageType);
 
 			// May be changed to individual damage
@@ -217,7 +234,7 @@ namespace HealthV2
 			{
 				if (ContainBodyParts.Count > 0)
 				{
-					var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType);
+					var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType, armorPenetration);
 					if (maxHealth - Damages[(int) damageType] < SubOrganDamageIncreasePoint)
 					{
 						organDamageRatingValue +=

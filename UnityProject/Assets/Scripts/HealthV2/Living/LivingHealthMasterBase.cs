@@ -8,6 +8,7 @@ using Chemistry;
 using Health.Sickness;
 using JetBrains.Annotations;
 using Mirror;
+using ScriptableObjects.Gun;
 using UnityEngine;
 
 namespace HealthV2
@@ -591,7 +592,7 @@ namespace HealthV2
 				}
 				else
 				{
-					Container.TakeDamage(damagedBy, damage, attackType, damageType, true);
+					Container.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit: true);
 				}
 			}
 
@@ -680,6 +681,29 @@ namespace HealthV2
 		}
 
 		/// <summary>
+		/// Apply Damage to a specified body part of the creature. Server only
+		/// </summary>
+		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+		/// <param name="damageData">Damage data</param>
+		/// <param name="bodyPartAim">Body Part that is affected</param>
+		/// <param name="armorPenetration">How well or poorly it will break through different types of armor</param>
+		public virtual void ApplyDamageToBodyPart(
+			GameObject damagedBy,
+			DamageData damageData,
+			BodyPartType bodyPartAim
+		)
+		{
+			ApplyDamageToBodyPart(
+				damagedBy,
+				damageData.Damage,
+				damageData.AttackType,
+				damageData.DamageType,
+				bodyPartAim,
+				damageData.ArmorPenetration
+			);
+		}
+
+		/// <summary>
 		///  Apply Damage to a specified body part of the creature. Server only
 		/// </summary>
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
@@ -688,8 +712,14 @@ namespace HealthV2
 		/// <param name="damageType">The Type of Damage</param>
 		/// <param name="bodyPartAim">Body Part that is affected</param>
 		[Server]
-		public virtual void ApplyDamageToBodyPart(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
+		public virtual void ApplyDamageToBodyPart(
+			GameObject damagedBy,
+			float damage,
+			AttackType attackType,
+			DamageType damageType,
+			BodyPartType bodyPartAim,
+			float armorPenetration = 0
+		)
 		{
 			LastDamageType = damageType;
 			LastDamagedBy = damagedBy;
@@ -699,7 +729,7 @@ namespace HealthV2
 				if (bodyPartContainer.BodyPartType == bodyPartAim)
 				{
 					//Assuming is only going to be one otherwise damage will be duplicated across them
-					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType);
+					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType, armorPenetration);
 				}
 			}
 

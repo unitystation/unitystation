@@ -7,6 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 855803449108065293, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 855803449108065293, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 855803449108065293, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3791466462619397166, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
       propertyPath: m_Sprite
@@ -113,14 +128,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 5aa3e378b1c9a2c468bf9411b91b4105,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7931175119129480439, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 5aa3e378b1c9a2c468bf9411b91b4105,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7931175119129480439, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
