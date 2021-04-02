@@ -217,6 +217,10 @@ namespace Lobby
 			showCharacterCreator();
 		}
 
+
+		/// <summary>
+		/// Responsible for refreshing all data in the character selector page.
+		/// </summary>
 		private void RefreshSelectorData()
 		{
 			CharacterPreviewName.text = PlayerCharacters[currentCharacterIndex].Name;
@@ -230,6 +234,7 @@ namespace Lobby
 
 		/// <summary>
 		/// If there is no sprite, show an error.
+		/// If there is a sprite, display it.
 		/// </summary>
 		private void CheckPreviewImage()
 		{
@@ -249,7 +254,11 @@ namespace Lobby
 			}
 		}
 
-
+		/// <summary>
+		/// Loads an image from a localpath or from a server.
+		/// </summary>
+		/// <param name="path">The path to the image that will be used as a texture.</param>
+		/// <returns></returns>
 		private IEnumerator<UnityWebRequestAsyncOperation> GetPreviewImage(string path)
 		{
 			using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(path))
@@ -944,16 +953,16 @@ namespace Lobby
 		}
 
 		/// <summary>
-		/// Get all characters that are saved.
+		/// Get all characters that are saved in %APPDATA%/Locallow/unitystation/characters.json
 		/// </summary>
 		private void GetSavedCharacters()
 		{
 			PlayerCharacters.Clear(); //Clear all entries so we don't have duplicates when re-opening the character page.
 			string path = Application.persistentDataPath;
 
-			if(System.IO.File.Exists(path + "characters.json"))
+			if(File.Exists(path + "characters.json"))
 			{
-				string json = System.IO.File.ReadAllText(path + "characters.json");
+				string json = File.ReadAllText(path + "characters.json");
 				var characters = JsonConvert.DeserializeObject<List<CharacterSettings>>(json);
 
 				foreach (var c in characters)
