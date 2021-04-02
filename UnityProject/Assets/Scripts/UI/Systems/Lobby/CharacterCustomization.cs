@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
@@ -118,6 +118,7 @@ namespace Lobby
 
 		private CharacterSettings lastSettings;
 		private int currentCharacterIndex = 0;
+		private bool savingPictures = false;
 
 
 		void OnEnable()
@@ -860,26 +861,29 @@ namespace Lobby
 			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
-			ServerData.UpdateCharacterProfile(currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
-			saveCurrentCharacterSnaps();
+			ServerData.UpdateCharacterProfile(currentCharacter);
+			// TODO Consider adding await. Otherwise this causes a compile warning.
 			saveCurrentCharacter(currentCharacter);
 		}
 
 		/// <summary>
 		/// Takes 4 pictures of the character from all sides and stores them in %AppData%/Locallow/unitystation
 		/// </summary>
-		private void saveCurrentCharacterSnaps()
+		private IEnumerator<WaitForEndOfFrame> saveCurrentCharacterSnaps()
 		{
+			savingPictures = true;
 			Util.CaptureUI capture = snapCapturer.GetComponent<Util.CaptureUI>();
 			int dir = 0;
 			capture.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
-			while(dir < 3)
+			while(dir < 4)
 			{
 				RightRotate();
 				capture.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
-				capture.StartCoroutine(capture.TakeScreenShot());
+				yield return WaitFor.EndOfFrame;
+				capture.TakeScreenShot();
 				dir++;
 			}
+			savingPictures = false;
 		}
 
 
@@ -1001,8 +1005,14 @@ namespace Lobby
 		//SAVE & CANCEL BUTTONS:
 		//------------------
 
-		public void OnApplyBtn()
+		public async void OnApplyBtn()
 		{
+			StartCoroutine(saveCurrentCharacterSnaps());
+
+
+			//A hacky solution to be able to get character snaps before the UI shuts itself and hides/deletes the player. 
+			await Task.Delay(500);
+
 			DisplayErrorText("");
 			try
 			{

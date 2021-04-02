@@ -1,9 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Unity.EditorCoroutines.Editor;
 
-namespace Util{
+namespace Util
+{
 
 	/// <summary>
 	/// Takes a picture of the UI then stores it to a place in %APPDATA%/LocalLow/unitystation.
@@ -26,17 +27,11 @@ namespace Util{
 			Debug.Log(width + height);
 		}
 
-		public IEnumerator TakeScreenShot()
+		public void TakeScreenShot()
 		{
-
 			Vector2 temp = UI_ToCapture.transform.position;
 			var startX = temp.x - width / 2;
 			var startY = temp.y - height / 2;
-
-			Debug.Log(temp);
-
-			yield return WaitFor.EndOfFrame;
-
 			var tex = new Texture2D(width, height, TextureFormat.RGB24, false);
 			tex.ReadPixels(new Rect(startX, startY, width, height), 0, 0);
 			tex.Apply();
