@@ -2,62 +2,73 @@
 using UnityEngine;
 
 /// <summary>
-/// Take a picture from the game then stores it to a place in %APPDATA%/LocalLow/unitystation.
+/// Take a picture from a part of the game then stores it to a place in %APPDATA%/LocalLow/unitystation.
 /// This script takes transparancy into account.
 /// </summary>
-public class CaptureScreen : MonoBehaviour
+///
+namespace Core.Cam
 {
-	public Camera cam;
-
-	public int width;
-	public int height;
-
-	public string Path = "/SNAPS";
-	public string FileName = "filename.PNG";
-
-	private bool takingScreenshot = false;
-
-	private void Awake()
+	public class CaptureScreen : MonoBehaviour
 	{
-		//Make sure there is a camera avaliable so the game doesn't throw an error.
-		//Though it's best to setup your own camera with it's own position and size for
-		//specifc use cases that does not require taking an entire picture of the screen.
-		if(cam == null)
+		public Camera cam;
+
+		public int width;
+		public int height;
+
+		public string Path = "/SNAPS";
+		public string FileName = "filename.PNG";
+
+		private bool takingScreenshot = false;
+
+		private void Awake()
 		{
-			cam = Camera.main;
+			//Make sure there is a camera avaliable so the game doesn't throw an error.
+			//Though it's best to setup your own camera with it's own position and size for
+			//specifc use cases that does not require taking an entire picture of the screen.
+			if(cam == null)
+			{
+				cam = Camera.main;
+			}
 		}
-	}
 
-	private void OnPostRender()
-	{
-		if (takingScreenshot)
+		private void OnPostRender()
 		{
-			takingScreenshot = false;
-			RenderTexture texture = cam.targetTexture;
-			Texture2D result = new Texture2D(texture.width, texture.height, TextureFormat.ARGB32, false);
-
-			Rect rect = new Rect(0, 0, texture.width, texture.height);
-			result.ReadPixels(rect, 0, 0);
-
-			byte[] byteArray = result.EncodeToPNG();
-			if(Directory.Exists(Application.persistentDataPath + Path))
+			if (takingScreenshot)
 			{
-				File.WriteAllBytes(Application.persistentDataPath + Path + "/" + FileName, byteArray);
-			}
-			else
-			{
-				Directory.CreateDirectory(Application.persistentDataPath + Path);
-				File.WriteAllBytes(Application.persistentDataPath + Path + "/" + FileName, byteArray);
-			}
+				takingScreenshot = false;
+				RenderTexture texture = cam.targetTexture;
+				Texture2D result = new Texture2D(texture.width, texture.height, TextureFormat.ARGB32, false);
 
-			RenderTexture.ReleaseTemporary(texture);
-			cam.targetTexture = null;
+				Rect rect = new Rect(0, 0, texture.width, texture.height);
+				result.ReadPixels(rect, 0, 0);
+
+				byte[] byteArray = result.EncodeToPNG();
+				if(Directory.Exists(Application.persistentDataPath + Path))
+				{
+					File.WriteAllBytes(Application.persistentDataPath + Path + "/" + FileName, byteArray);
+				}
+				else
+				{
+					Directory.CreateDirectory(Application.persistentDataPath + Path);
+					File.WriteAllBytes(Application.persistentDataPath + Path + "/" + FileName, byteArray);
+				}
+
+				RenderTexture.ReleaseTemporary(texture);
+				cam.targetTexture = null;
+			}
 		}
-	}
 
-	public void TakeScreenshot()
-	{
-		cam.targetTexture = RenderTexture.GetTemporary(width, height, 16);
-		takingScreenshot = true;
+		/// <summary>
+		/// Takes a screen of a specfied preset area.
+		/// </summary>
+		/// <param name="w">Width of the picture</param>
+		/// <param name="h">Height of the picture</param>
+		public void TakeScreenshot(int w, int h)
+		{
+			width = w;
+			height = h;
+			cam.targetTexture = RenderTexture.GetTemporary(width, height, 16);
+			takingScreenshot = true;
+		}
 	}
 }

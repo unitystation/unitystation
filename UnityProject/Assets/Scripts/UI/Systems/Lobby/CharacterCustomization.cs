@@ -96,7 +96,7 @@ namespace Lobby
 
 		public InputField SerialiseData;
 
-		[SerializeField] private CaptureScreen snapCapturer;
+		[SerializeField] private GameObject snapCapturer;
 
 		[Header("Character Selector")]
 		[SerializeField] private Text WindowName;
@@ -870,13 +870,14 @@ namespace Lobby
 		/// </summary>
 		private void saveCurrentCharacterSnaps()
 		{
+			Util.CaptureUI capture = snapCapturer.GetComponent<Util.CaptureUI>();
 			int dir = 0;
-			snapCapturer.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
+			capture.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
 			while(dir < 3)
 			{
 				RightRotate();
-				snapCapturer.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
-				snapCapturer.TakeScreenshot();
+				capture.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
+				capture.StartCoroutine(capture.TakeScreenShot());
 				dir++;
 			}
 		}
