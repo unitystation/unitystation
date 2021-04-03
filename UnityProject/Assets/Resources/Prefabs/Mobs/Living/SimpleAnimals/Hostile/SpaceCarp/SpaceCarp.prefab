@@ -1,63 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6473453305497664804
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3800179152394891836}
-  - component: {fileID: 7417839142466607489}
-  m_Layer: 12
-  m_Name: MobHead
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3800179152394891836
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6473453305497664804}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2566163705794518893}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7417839142466607489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6473453305497664804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  livingHealthBehaviour: {fileID: 0}
-  Type: 0
-  isBleeding: 0
-  Severity: 0
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
 --- !u!1001 &3814081067237506487
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134,6 +76,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468827998133232709, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -218,9 +165,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
---- !u!4 &2566163705794518893 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1689569827818709722, guid: cf769d410d94f0e47bab5eee03a3b07d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3814081067237506487}
-  m_PrefabAsset: {fileID: 0}
