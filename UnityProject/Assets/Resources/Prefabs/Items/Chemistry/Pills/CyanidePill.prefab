@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cc63ff3eb80c3cb459a3f2cd5f1f7fd5,
         type: 2}
+    - target: {fileID: 3881552929857019967, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
+      propertyPath: sound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -47,6 +52,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -62,6 +72,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +89,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
@@ -107,13 +112,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialDescription
-      value: Don't swallow this.
+      propertyPath: initialName
+      value: cyanide pill
       objectReference: {fileID: 0}
     - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialName
-      value: cyanide pill
+      propertyPath: initialDescription
+      value: Don't swallow this.
       objectReference: {fileID: 0}
     - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}

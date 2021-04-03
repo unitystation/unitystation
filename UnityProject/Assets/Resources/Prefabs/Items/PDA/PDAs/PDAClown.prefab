@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3362057103415789642, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c1b0f08e63d8fc84cb9b37123e68ca30,
+        type: 2}
     - target: {fileID: 122497636241256315, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
       propertyPath: m_Sprite
@@ -25,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -37,6 +48,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
@@ -55,16 +71,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -80,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 409649289188668229, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
+      propertyPath: initialName
+      value: clown PDA
+      objectReference: {fileID: 0}
+    - target: {fileID: 409649289188668229, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -89,10 +100,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 63ebb1ff93c93354994ab009bc8ccf7d,
         type: 2}
-    - target: {fileID: 409649289188668229, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
-      propertyPath: initialName
-      value: clown PDA
+      propertyPath: UIBG.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: UIBG.b
+      value: 0.92156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: UIBG.g
+      value: 0.7647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: UIBG.r
+      value: 0.92156863
       objectReference: {fileID: 0}
     - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
@@ -106,26 +132,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3098732368173960856, guid: e9e2178f036230e48ad3864597515722,
         type: 3}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.r
-      value: 0.92156863
-      objectReference: {fileID: 0}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.g
-      value: 0.7647059
-      objectReference: {fileID: 0}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.b
-      value: 0.92156863
-      objectReference: {fileID: 0}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.a
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6198316859901323168, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
       propertyPath: PresentSpriteSet
