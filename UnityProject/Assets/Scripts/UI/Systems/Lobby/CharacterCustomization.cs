@@ -208,6 +208,7 @@ namespace Lobby
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
 			RollRandomCharacter();
 			showCharacterCreator();
+			RefreshAll();
 		}
 
 		public void EditCharacter()
@@ -215,6 +216,7 @@ namespace Lobby
 			currentCharacter = PlayerCharacters[currentCharacterIndex];
 			SetAllDropdowns();
 			showCharacterCreator();
+			RefreshAll();
 		}
 
 
