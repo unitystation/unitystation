@@ -17,9 +17,9 @@ MonoBehaviour:
   isToy: 0
   coitusTime: 10
   pregnancyTime: 300
-  facehugger: {fileID: 4827737755655954553, guid: 89d417cb15d3feb4890b78355113e696,
+  facehugger: {fileID: 3580619421430961846, guid: 28f0f699598b8074389bd2fecadaaf7a,
     type: 3}
-  larvae: {fileID: 4827737755655954553, guid: a1fd9c56261d0264aa95947190b7a5dd, type: 3}
+  larvae: {fileID: 7455546943915704510, guid: 2ba8c4b90a981a94fb6946f53f09667f, type: 3}
 --- !u!1001 &1877733125468623936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31,14 +31,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 909126ea3408f934d92c37ef1307b15c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 909126ea3408f934d92c37ef1307b15c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: hideClothingFlags
@@ -136,7 +134,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4866054b12864074ca72678ebef13a7c,
+      objectReference: {fileID: 21300024, guid: 4866054b12864074ca72678ebef13a7c,
         type: 3}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}

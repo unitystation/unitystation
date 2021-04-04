@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 16
+  m_SortingLayer: 21
   m_SortingOrder: 11
   m_Sprite: {fileID: 5762826081608939889, guid: 293575e6be357864482aa5a5f0113b59,
     type: 3}
@@ -101,6 +101,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 70925da296a4c0745ba561f3c7904fbc, type: 2}
   - {fileID: 11400000, guid: 70925da296a4c0745ba561f3c7904fbc, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 70925da296a4c0745ba561f3c7904fbc, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -148,17 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
-  MaxDamage: 200
+  livingHealthBehaviour: {fileID: 0}
   Type: 1
   isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
   Severity: 0
   armor:
     Melee: 0
@@ -214,17 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 0}
-  GreenDamageMonitorIcon: {fileID: 0}
-  YellowDamageMonitorIcon: {fileID: 0}
-  OrangeDamageMonitorIcon: {fileID: 0}
-  DarkOrangeDamageMonitorIcon: {fileID: 0}
-  RedDamageMonitorIcon: {fileID: 0}
-  GrayDamageMonitorIcon: {fileID: 0}
-  MaxDamage: 200
+  livingHealthBehaviour: {fileID: 0}
   Type: 0
   isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
   Severity: 0
   armor:
     Melee: 0
@@ -393,7 +378,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -417,7 +408,9 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   AtmosPassable: 1
-  Passable: 0
+  ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &4859363408336224435
 MonoBehaviour:
@@ -490,6 +483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 0
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &4859335736327027429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,7 +499,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &4826045711076760864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,10 +577,12 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 1
+  CB_REAGENT: {fileID: 0}
   target: 0
   actionPerformTime: 0
   hasFoodPrefereces: 0
   foodPreferences: []
+  IsEmagged: 0
 --- !u!114 &3708589072684735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,14 +607,22 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 0
-  followTarget: {fileID: 0}
-  spriteHolder: {fileID: 3392343644113499114}
+  FollowTarget: {fileID: 0}
   targetOtherPlayersWhoGetInWay: 1
-  onlyHitTarget: 0
+  onlyActOnTarget: 0
+  doLerpOnAction: 0
+  spriteHolder: {fileID: 3392343644113499114}
+  actionCooldown: 1
+  mobAI: {fileID: 0}
+  attackSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   hitDamage: 15
   attackVerb: slashed
-  defaultTarget: 0
-  meleeCoolDown: 0.4
 --- !u!114 &-4996062402519425927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,9 +638,13 @@ MonoBehaviour:
   mobName: Sheeple
   knockedDownRotation: 90
   deathSounds:
-  - Sheepdeath#
-  randomSound:
-  - Sheepfemale#
+  - SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  randomSounds: []
   playRandomSoundTimer: 3
   randomSoundProbability: 20
   searchTickRate: 0.5
@@ -651,6 +661,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &-4619773293426012802
 MonoBehaviour:
   m_ObjectHideFlags: 0

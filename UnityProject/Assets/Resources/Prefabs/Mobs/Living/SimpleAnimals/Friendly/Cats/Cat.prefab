@@ -62,21 +62,22 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 1
-  followTarget: {fileID: 0}
-  spriteHolder: {fileID: 8081786582678036113}
+  FollowTarget: {fileID: 0}
   targetOtherPlayersWhoGetInWay: 0
-  onlyHitTarget: 1
+  onlyActOnTarget: 0
+  doLerpOnAction: 0
+  spriteHolder: {fileID: 8081786582678036113}
+  actionCooldown: 1
+  mobAI: {fileID: 0}
   attackSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: Assets/Prefabs/NPC/bite.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  hitDamage: 70
+  hitDamage: 5
   attackVerb: swiped
-  defaultTarget: 1
-  meleeCoolDown: 0.4
 --- !u!1001 &8459564455701055161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90,6 +91,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 639fe71c8579b98479fe7f032db1bb85,
         type: 2}
+    - target: {fileID: 1714471794134156218, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
       propertyPath: deadSprite

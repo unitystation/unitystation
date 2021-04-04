@@ -76,6 +76,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2513532832345771573, guid: 3b255a0fd9be64644a636021b434902f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3797389721343150917, guid: 3b255a0fd9be64644a636021b434902f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -85,6 +90,11 @@ PrefabInstance:
     - target: {fileID: 6638013786229492514, guid: 3b255a0fd9be64644a636021b434902f,
         type: 3}
       propertyPath: Passable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6638013786229492514, guid: 3b255a0fd9be64644a636021b434902f,
+        type: 3}
+      propertyPath: initialPassable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6638066568943557800, guid: 3b255a0fd9be64644a636021b434902f,
