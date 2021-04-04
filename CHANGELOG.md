@@ -2,6 +2,12 @@
 ---
 
 
+* 2021/4/4: Fixed sprayer bottles not having any sounds. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: Fixed some sprite overlay rendering issues (back items used to go on top of items, so if you held a sniper rifle, your backpack straps would go through it, also head items rendered on top of back items, so if you weared a sniper rifle on your back, the sniper rifle would go inside your head item, that is fixed now.) by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: Fixed some rotation issues with tanks (they used turn in incorrect ways for some reason, for example if you pulled it to the right, the sprite would go up) by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: You can now wear emags in your ID slot (why? why the hell not? plus it's literally an ID, you can wear it) by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: Nuclear devices now have proper names and descriptions. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: Added overlays for every ID and PDA in the game. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
 * 2021/4/4: Antags and character names will no longer be displayed inside of the stats tab. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6324](https://github.com/unitystation/unitystation/pull/6324)
 * 2021/4/2: Armor system was reworked by [Lizurt](https://github.com/Lizurt) in PR #[6319](https://github.com/unitystation/unitystation/pull/6319)
 * 2021/4/1: Fixed surgery and crayon UI not being draggable by [ThatDan123](https://github.com/ThatDan123) in PR #[6315](https://github.com/unitystation/unitystation/pull/6315)
