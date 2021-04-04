@@ -231,7 +231,6 @@ namespace Lobby
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
 			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
-			SaveLastCharacterIndex();
 			CheckPreviewImage();
 		}
 
@@ -284,18 +283,19 @@ namespace Lobby
 
 		public void scrollSelectorLeft()
 		{
-			if (currentCharacterIndex > 0)
+			if (currentCharacterIndex != 0)
 			{
 				currentCharacterIndex--;
 				currentCharacter = PlayerCharacters[currentCharacterIndex];
 			}
 			else
 			{
-				currentCharacterIndex = PlayerCharacters.Count();
+				currentCharacterIndex = PlayerCharacters.Count() - 1;
 				currentCharacter = PlayerCharacters[currentCharacterIndex];
 			}
 			RefreshSelectorData();
 			RefreshAll();
+			SaveLastCharacterIndex();
 		}
 		public void scrollSelectorRight()
 		{
@@ -311,6 +311,7 @@ namespace Lobby
 			}
 			RefreshSelectorData();
 			RefreshAll();
+			SaveLastCharacterIndex();
 		}
 
 		private void LoadSettings(CharacterSettings inCharacterSettings)
