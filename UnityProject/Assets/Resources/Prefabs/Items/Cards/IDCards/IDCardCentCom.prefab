@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8041853587368618433, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 938f9e6f00303e2479a329918c621777,
+        type: 2}
     - target: {fileID: 3828910587391036435, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -17,6 +23,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: IDCardCentCom
+      objectReference: {fileID: 0}
+    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
@@ -35,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
@@ -86,13 +92,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: initialDescription
-      value: An ID straight from Central Command.
+      propertyPath: initialName
+      value: CentCom ID
       objectReference: {fileID: 0}
     - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: initialName
-      value: CentCom ID
+      propertyPath: initialDescription
+      value: An ID straight from Central Command.
       objectReference: {fileID: 0}
     - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}

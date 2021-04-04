@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8041853587368618433, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ba7b8511785c014cacb736b4296b898,
+        type: 2}
     - target: {fileID: 3828910587391036435, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -17,6 +23,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: IDCardGold
+      objectReference: {fileID: 0}
+    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
@@ -35,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
@@ -96,12 +102,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: 2d6ee02c86e688644a6d27e1f4afc9f8,
-        type: 2}
-    - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
-        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 64c58963775870a4083e61b3f5cc2751,
@@ -111,6 +111,12 @@ PrefabInstance:
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 430ab9ba025b97f43ac1f9d1c2bd24a7,
+        type: 2}
+    - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d6ee02c86e688644a6d27e1f4afc9f8,
         type: 2}
     - target: {fileID: 7463286768668721107, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}

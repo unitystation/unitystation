@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8041853587368618433, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a507c238d9463943ac8f0bb1dd64284,
+        type: 2}
     - target: {fileID: 3828910587391036435, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -17,6 +23,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: IDCardPrisoner
+      objectReference: {fileID: 0}
+    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
@@ -35,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6950911245208390368, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
@@ -86,10 +92,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: 6a90bb5d7e4390c4b83b421bc4f70271,
-        type: 2}
+      propertyPath: initialName
+      value: prisoner ID card
+      objectReference: {fileID: 0}
+    - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
+      propertyPath: initialDescription
+      value: You are a number, you are not a free man.
+      objectReference: {fileID: 0}
     - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -104,13 +114,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: initialName
-      value: prisoner ID card
-      objectReference: {fileID: 0}
-    - target: {fileID: 7388296369326495990, guid: 7cef0e2714d9c8c4587deef900a0b670,
-        type: 3}
-      propertyPath: initialDescription
-      value: You are a number, you are not a free man.
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a90bb5d7e4390c4b83b421bc4f70271,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cef0e2714d9c8c4587deef900a0b670, type: 3}

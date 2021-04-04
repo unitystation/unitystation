@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3362057103415789642, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 96a5716c81178cb45aa64e5c81aedb43,
+        type: 2}
     - target: {fileID: 122497636241256315, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
       propertyPath: m_Sprite
@@ -25,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -40,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
@@ -85,6 +91,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
+      propertyPath: UIBG.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: UIBG.b
+      value: 0.45490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: UIBG.g
+      value: 0.78039217
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: UIBG.r
+      value: 0.89411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
       propertyPath: pdaCartridge
       value: 
       objectReference: {fileID: 1762079556223392725, guid: 19b08cb0176be3847b9e10b5b3f3d16b,
@@ -95,26 +121,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1762079556223392725, guid: 19b08cb0176be3847b9e10b5b3f3d16b,
         type: 3}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.r
-      value: 0.89411765
-      objectReference: {fileID: 0}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.g
-      value: 0.78039217
-      objectReference: {fileID: 0}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.b
-      value: 0.45490196
-      objectReference: {fileID: 0}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.a
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6198316859901323168, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
       propertyPath: PresentSpriteSet

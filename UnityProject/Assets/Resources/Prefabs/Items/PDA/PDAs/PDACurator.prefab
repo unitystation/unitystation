@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3362057103415789642, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a711c82548e398d48bb7ac3699a1e72b,
+        type: 2}
     - target: {fileID: 122497636241256315, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
       propertyPath: m_Sprite
@@ -30,6 +36,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -45,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 239048463826641235, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
@@ -96,6 +102,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
+      propertyPath: UIBG.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: UIBG.b
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: UIBG.g
+      value: 0.7254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: UIBG.r
+      value: 0.7647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
       propertyPath: pdaCartridge
       value: 
       objectReference: {fileID: 321679529963810912, guid: 52a740743cf87b7478b60ad5f36acdd3,
@@ -106,26 +132,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 321679529963810912, guid: 52a740743cf87b7478b60ad5f36acdd3,
         type: 3}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.r
-      value: 0.7647059
-      objectReference: {fileID: 0}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.g
-      value: 0.7254902
-      objectReference: {fileID: 0}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.b
-      value: 0.78431374
-      objectReference: {fileID: 0}
-    - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: UIBG.a
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2764472803529064531, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
       propertyPath: m_Sprite
