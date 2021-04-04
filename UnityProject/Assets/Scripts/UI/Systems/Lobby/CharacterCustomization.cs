@@ -231,6 +231,7 @@ namespace Lobby
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
 			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
+			currentCharacter = PlayerCharacters[currentCharacterIndex];
 			SaveLastCharacterIndex();
 			CheckPreviewImage();
 		}
@@ -901,9 +902,9 @@ namespace Lobby
 			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
-			ServerData.UpdateCharacterProfile(currentCharacter);
 			// TODO Consider adding await. Otherwise this causes a compile warning.
-			SaveCurrentCharacter(currentCharacter);
+			ServerData.UpdateCharacterProfile(currentCharacter);
+			SaveCharacters();
 		}
 
 		/// <summary>
@@ -926,17 +927,6 @@ namespace Lobby
 			savingPictures = false;
 		}
 
-
-		/// <summary>
-		/// Saves this current character that's being created/edited to the characters list
-		/// </summary>
-		private void SaveCurrentCharacter(CharacterSettings settings)
-		{
-			PlayerCharacters[currentCharacterIndex] = settings;
-			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
-			SaveCharacters();
-		}
-
 		/// <summary>
 		/// Remembers what was the last character the player chose in the character selector screen.
 		/// </summary>
@@ -951,9 +941,14 @@ namespace Lobby
 		/// </summary>
 		private void SaveCharacters()
 		{
+			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
 			string json = JsonConvert.SerializeObject(PlayerCharacters);
-			string path = Application.persistentDataPath;
-			System.IO.File.WriteAllText(path + "characters.json", json);
+			string path = Application.persistentDataPath + "characters.json";
+			if(File.Exists(path))
+			{
+				File.Delete(path);
+			}
+			File.WriteAllText(path, json);
 		}
 
 		/// <summary>
@@ -1066,6 +1061,8 @@ namespace Lobby
 				DisplayErrorText(e.Message);
 				return;
 			}
+
+			PlayerCharacters[currentCharacterIndex] = currentCharacter;
 
 			SaveData();
 			ShowCharacterSelectorPage();
