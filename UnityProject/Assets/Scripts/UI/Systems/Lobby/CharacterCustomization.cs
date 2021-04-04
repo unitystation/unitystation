@@ -231,7 +231,6 @@ namespace Lobby
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
 			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
-			currentCharacter = PlayerCharacters[currentCharacterIndex];
 			SaveLastCharacterIndex();
 			CheckPreviewImage();
 		}
