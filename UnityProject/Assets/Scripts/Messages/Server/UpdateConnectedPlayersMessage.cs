@@ -31,7 +31,6 @@ namespace Messages.Server
 				}
 			}
 
-			PlayerList.Instance.RefreshPlayerListText();
 			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
 			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().UpdatePlayerCount(msg.Players?.Length ?? 0);
 		}

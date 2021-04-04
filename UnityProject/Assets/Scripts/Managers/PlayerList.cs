@@ -127,18 +127,6 @@ public partial class PlayerList : NetworkBehaviour
 		return players.FindAll(p => !p.Script.IsGhost && p.Script.playerMove.allowInput);
 	}
 
-	public void RefreshPlayerListText()
-	{
-		UIManager.Instance.statsTab.nameList.text = "";
-		foreach (var player in ClientConnectedPlayers)
-		{
-			if (player.PendingSpawn) continue;
-			if (player.Job == JobType.SYNDICATE) continue;
-			UIManager.Instance.statsTab.nameList.text +=
-				$"{player.Name} ({player.Job.JobString()})\r\n";
-		}
-	}
-
 	/// Don't do this unless you realize the consequences
 	[Server]
 	public void Clear()
