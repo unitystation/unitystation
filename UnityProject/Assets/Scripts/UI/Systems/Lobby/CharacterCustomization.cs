@@ -1342,7 +1342,6 @@ namespace Lobby
 			currentCharacter.Species = RaceSOSingleton.Instance.Races[SelectedSpecies].name;
 
 			Cleanup();
-			SaveData();
 			var SetRace = RaceSOSingleton.Instance.Races[SelectedSpecies];
 			availableSkinColors = SetRace.Base.SkinColours;
 			SetUpSpeciesBody(SetRace);
