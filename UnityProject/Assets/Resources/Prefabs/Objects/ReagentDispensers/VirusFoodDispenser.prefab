@@ -46,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -61,6 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -73,16 +83,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
@@ -116,6 +116,16 @@ PrefabInstance:
       propertyPath: Passable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4962757311139566552, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962757311139566552, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: initialCrawlPassable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5323037765139105522, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
       propertyPath: m_AssetId
@@ -123,13 +133,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6388099446472322208, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
-      propertyPath: initialDescription
-      value: A dispenser of low-potency virus mutagenic.
+      propertyPath: initialName
+      value: virus food dispenser
       objectReference: {fileID: 0}
     - target: {fileID: 6388099446472322208, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
-      propertyPath: initialName
-      value: virus food dispenser
+      propertyPath: initialDescription
+      value: A dispenser of low-potency virus mutagenic.
       objectReference: {fileID: 0}
     - target: {fileID: 9102368241754052938, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}

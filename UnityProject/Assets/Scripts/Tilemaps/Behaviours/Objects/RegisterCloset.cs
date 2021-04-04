@@ -28,6 +28,7 @@ public class RegisterCloset : RegisterObject
 		{
 			//become passable to bullets and people when open
 			Passable = !isClosed;
+			CrawlPassable = !isClosed;
 			//switching to item layer if open so bullets pass through it
 			if (Passable)
 			{

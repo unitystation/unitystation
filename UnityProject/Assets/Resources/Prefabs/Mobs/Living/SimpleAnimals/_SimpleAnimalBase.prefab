@@ -65,7 +65,7 @@ MonoBehaviour:
   performingAction: 0
   activated: 1
   tickRate: 1
-  followTarget: {fileID: 0}
+  FollowTarget: {fileID: 0}
 --- !u!114 &7921348372470815473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,17 +90,12 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 1
-  EatFoodA:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+  CB_REAGENT: {fileID: 0}
   target: 0
   actionPerformTime: 0
   hasFoodPrefereces: 0
   foodPreferences: []
+  IsEmagged: 0
 --- !u!114 &8017358683391853898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +132,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3938016633596514094, guid: 7d1194368de61d14b85c45c90d409c20,
+        type: 3}
+      propertyPath: initialCrawlPassable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3938245326393415844, guid: 7d1194368de61d14b85c45c90d409c20,
         type: 3}
       propertyPath: m_AssetId
