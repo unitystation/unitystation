@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/4/4: Antags and character names will no longer be displayed inside of the stats tab. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6324](https://github.com/unitystation/unitystation/pull/6324)
 * 2021/4/2: Armor system was reworked by [Lizurt](https://github.com/Lizurt) in PR #[6319](https://github.com/unitystation/unitystation/pull/6319)
 * 2021/4/1: Fixed surgery and crayon UI not being draggable by [ThatDan123](https://github.com/ThatDan123) in PR #[6315](https://github.com/unitystation/unitystation/pull/6315)
 * 2021/4/1: Fixed night vision goggle not being able to be toggled via action button by [ThatDan123](https://github.com/ThatDan123) in PR #[6315](https://github.com/unitystation/unitystation/pull/6315)
