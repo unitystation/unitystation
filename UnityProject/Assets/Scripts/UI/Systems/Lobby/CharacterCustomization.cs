@@ -964,8 +964,8 @@ namespace Lobby
 
 			if(File.Exists(path + "characters.json"))
 			{
-				CharacterPreviews.SetActive(false);
-				NoCharactersError.SetActive(true);
+				CharacterPreviews.SetActive(true);
+				NoCharactersError.SetActive(false);
 				string json = File.ReadAllText(path + "characters.json");
 				var characters = JsonConvert.DeserializeObject<List<CharacterSettings>>(json);
 
