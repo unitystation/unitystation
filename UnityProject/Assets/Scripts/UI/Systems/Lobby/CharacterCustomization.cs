@@ -204,8 +204,10 @@ namespace Lobby
 
 		public void CreateCharacter()
 		{
-			PlayerCharacters.Add(currentCharacter);
+			CharacterSettings character = currentCharacter;
+			PlayerCharacters.Add(character);
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
+			currentCharacter = PlayerCharacters[currentCharacterIndex];
 			RollRandomCharacter();
 			showCharacterCreator();
 			RefreshAll();
