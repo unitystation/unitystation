@@ -3,10 +3,7 @@ using UnityEngine.UI;
 
 public class StatsTab : MonoBehaviour
 {
-	public Text nameList;
 	public GameObject window;
-
-	public ScrollRect scrollRect;
 
 	[SerializeField]
 	private Text roundStatus = default;
@@ -23,11 +20,6 @@ public class StatsTab : MonoBehaviour
 		EventManager.AddHandler(EVENT.MatrixManagerInit, OnMapInit);
 		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStarted);
 		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnded);
-	}
-
-	void SetScrollToTop()
-	{
-		scrollRect.verticalScrollbar.value = 1f;
 	}
 
 	private void OnPreRoundStarted()
