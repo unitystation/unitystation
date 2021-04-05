@@ -181,7 +181,7 @@ namespace Lobby
 			SurfaceSprite.Clear();
 		}
 
-		private void showNoCharacterError()
+		private void ShowNoCharacterError()
 		{
 			CharacterPreviews.SetActive(false);
 			NoCharactersError.SetActive(true);
@@ -282,7 +282,7 @@ namespace Lobby
 			}
 		}
 
-		public void scrollSelectorLeft()
+		public void ScrollSelectorLeft()
 		{
 			if (currentCharacterIndex != 0)
 			{
@@ -298,7 +298,7 @@ namespace Lobby
 			RefreshAll();
 			SaveLastCharacterIndex();
 		}
-		public void scrollSelectorRight()
+		public void ScrollSelectorRight()
 		{
 			if (currentCharacterIndex < PlayerCharacters.Count() - 1)
 			{
@@ -983,7 +983,7 @@ namespace Lobby
 			}
 			else
 			{
-				showNoCharacterError();
+				ShowNoCharacterError();
 			}
 		}
 
