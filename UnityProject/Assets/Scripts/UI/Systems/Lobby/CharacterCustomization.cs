@@ -1376,7 +1376,10 @@ namespace Lobby
 				Customisation.Refresh();
 			}
 
+
 			RefreshRace();
+
+			OnSurfaceColourChange();
 		}
 
 		private void RefreshRace()
