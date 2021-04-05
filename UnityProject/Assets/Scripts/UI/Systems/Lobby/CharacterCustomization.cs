@@ -187,7 +187,7 @@ namespace Lobby
 			NoCharactersError.SetActive(true);
 		}
 
-		private void showCharacterCreator()
+		private void ShowCharacterCreator()
 		{
 			WindowName.text = "Character Settings";
 			CharacterSelectorPage.SetActive(false);
@@ -209,7 +209,7 @@ namespace Lobby
 			PlayerCharacters.Add(character);
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
 			currentCharacter = PlayerCharacters[currentCharacterIndex];
-			showCharacterCreator();
+			ShowCharacterCreator();
 			DoInitChecks();
 			RefreshAll();
 		}
@@ -217,7 +217,7 @@ namespace Lobby
 		public void EditCharacter()
 		{
 			SetAllDropdowns();
-			showCharacterCreator();
+			ShowCharacterCreator();
 			RefreshAll();
 		}
 
