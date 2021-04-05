@@ -9,7 +9,6 @@ using Weapons;
 using Mirror;
 using Weapons.Projectiles;
 
-
 public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 {
 	public List<GameObject> firemodeProjectiles = new List<GameObject>();
@@ -116,7 +115,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 			MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 			if (mag)
 			{
-				base.RequestReload(mag.gameObject);
+				base.ServerHandleReloadRequest(mag.gameObject);
 			}
 			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
 			{
@@ -136,7 +135,7 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"The {gameObject.ExpensiveName()}'s power cell pops out",
 				$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
-			base.RequestUnload(CurrentMagazine);
+			base.ServerHandleUnloadRequest();
 		}
 
 		var bar = StandardProgressAction.Create(base.ProgressConfig, ProgressFinishAction)
@@ -171,15 +170,4 @@ public class GunElectrical : Gun, ICheckedInteractable<HandActivate>
 
 		return returnstring;
 	}
-
-	#if UNITY_EDITOR
-	[CustomEditor(typeof(GunElectrical), true)]
-	public class GunEditor : Editor
-	{
-		public override void OnInspectorGUI()
-		{
-			DrawDefaultInspector();
-		}
-	}
-#endif
 }

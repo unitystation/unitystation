@@ -23,7 +23,7 @@ namespace Weapons
 		private float randomPitch => Random.Range( 0.7f, 1.2f );
 
 		[Server]
-		public int TriggerPull(GameObject shotBy)
+		public TriggerBehaviour TriggerPull(GameObject shotBy)
 		{
 			if (playHONK)
 			{
@@ -34,7 +34,7 @@ namespace Weapons
 
 			if (alwaysFail)
 			{
-				return 0;
+				return TriggerBehaviour.None;
 			}
 
 			JobType job = PlayerList.Instance.Get(shotBy).Job;
@@ -43,20 +43,22 @@ namespace Weapons
 			(job != JobType.CLOWN && allowNonClumsy || job == JobType.CLOWN && allowClumsy)))
 			{
 				// a normal shot
-				return 2;
+				return TriggerBehaviour.NormalShot;
 			}
 			else if (setRestriction == JobType.NULL && (job == JobType.CLOWN && !allowClumsy))
 			{
-				//shooting a non-clumsy weapon as a clumsy person
-				return 3;
+				//shooting a non-clumsy weapon as a clumsy player
+				return TriggerBehaviour.ClumsyShot;
 			}
 			else if (setRestriction == JobType.NULL && (job != JobType.CLOWN && !allowNonClumsy))
 			{
-				return 1;
+				//shooting a clusmy only weapon as a non clumsy player
+				return TriggerBehaviour.NonClumsyShot;
 			}
 			else
 			{
-				return 0;
+				//Job restriction not met
+				return TriggerBehaviour.None;
 			}
 		}
 	}

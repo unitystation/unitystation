@@ -74,7 +74,7 @@ namespace Messages.Server
 			}
 
 			//only needs to run on the clients other than the shooter
-			if (!wep.isServer && PlayerManager.LocalPlayer.gameObject != NetworkObjects[0])
+			if (!wep.isServer && PlayerManager.LocalPlayer != NetworkObjects[0])
 			{
 				wep.DisplayShot(NetworkObjects[0], msg.Direction, msg.DamageZone, msg.IsSuicideShot, msg.ProjectileName, msg.Quantity);
 			}
