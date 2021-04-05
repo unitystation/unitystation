@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Objects;
 using Items;
+using Items.Cargo.Wrapping;
 
 namespace Systems.Cargo
 {
@@ -143,7 +144,7 @@ namespace Systems.Cargo
 				//need VisibleState check because despawned objects still stick around on their matrix transform
 				if (item != null && item.VisibleState)
 				{
-					CargoManager.Instance.DestroyItem(item, alreadySold);
+					CargoManager.Instance.ProcessCargo(item, alreadySold);
 				}
 			}
 		}
