@@ -42,6 +42,43 @@ namespace Weapons
 			return DefaultWillInteract.Default(interaction, side);
 		}
 
+		public override void ServerPerformInteraction(HandActivate interaction)
+		{
+			if (firemodeProjectiles.Count <= 1)
+			{
+				return;
+			}
+			if (currentFiremode == firemodeProjectiles.Count - 1)
+			{
+				UpdateFiremode(currentFiremode, 0);
+			}
+			else
+			{
+				UpdateFiremode(currentFiremode, currentFiremode + 1);
+			}
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
+			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
+		}
+
+		public override bool WillInteract(AimApply interaction, NetworkSide side)
+		{
+			if (Battery == null || firemodeUsage[currentFiremode] > Battery.Watts)
+			{
+				PlayEmptySfx();
+				return false;
+			}
+			CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
+			CurrentElectricalMag.toRemove = firemodeUsage[currentFiremode];
+			return base.WillInteract(interaction, side);
+		}
+
+		public override void ServerPerformInteraction(AimApply interaction)
+		{
+			if (firemodeUsage[currentFiremode] > Battery.Watts) return;
+			base.ServerPerformInteraction(interaction);
+			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
+		}
+
 		public override bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
@@ -67,64 +104,24 @@ namespace Weapons
 			return false;
 		}
 
-		public override bool WillInteract(AimApply interaction, NetworkSide side)
-		{
-			if (Battery == null || firemodeUsage[currentFiremode] > Battery.Watts)
-			{
-				PlayEmptySfx();
-				return false;
-			}
-			CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
-			CurrentElectricalMag.toRemove = firemodeUsage[currentFiremode];
-			return base.WillInteract(interaction, side);
-		}
-
-		public override void ServerPerformInteraction(HandActivate interaction)
-		{
-			if (firemodeProjectiles.Count <= 1)
-			{
-				return;
-			}
-			if (currentFiremode == firemodeProjectiles.Count - 1)
-			{
-				UpdateFiremode(currentFiremode, 0);
-			}
-			else
-			{
-				UpdateFiremode(currentFiremode, currentFiremode + 1);
-			}
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
-			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
-		}
-
-		public override void ServerPerformInteraction(AimApply interaction)
-		{
-			if (firemodeUsage[currentFiremode] > Battery.Watts) return;
-			base.ServerPerformInteraction(interaction);
-			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
-		}
-
 		public override void ServerPerformInteraction(InventoryApply interaction)
 		{
-			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && allowScrewdriver)
 			{
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && allowScrewdriver)
-				{
-					PowerCellRemoval(interaction);
-				}
-				MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
-				if (mag)
-				{
-					base.ServerHandleReloadRequest(mag.gameObject);
-				}
-				else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
-				{
-					PinRemoval(interaction);
-				}
-				else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
-				{
-					PinAddition(interaction);
-				}
+				PowerCellRemoval(interaction);
+			}
+			MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+			if (mag)
+			{
+				ServerHandleReloadRequest(mag.gameObject);
+			}
+			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
+			{
+				PinRemoval(interaction);
+			}
+			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
+			{
+				PinAddition(interaction);
 			}
 		}
 

@@ -57,8 +57,6 @@ public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-		if (interaction.TargetObject != gameObject && !interaction.IsFromHandSlot) return;
-
 		//TODO: switch this trait to the circular saw when that is implemented
 		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) && gunComp.FireCountDown == 0)
 		{

@@ -6,6 +6,8 @@ using AddressableReferences;
 
 public class GunPKA : Gun
 {
+
+	[SerializeField]
 	private GameObject projectile;
 
 	private bool allowRecharge = true;
