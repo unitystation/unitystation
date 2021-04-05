@@ -441,13 +441,7 @@ namespace Blob
 		[Client]
 		private void SyncTurnOnClientLight(bool oldVar, bool newVar)
 		{
-			if (newVar == false)
-			{
-				playerScript.IsPlayerSemiGhost = false;
-				PlayerManager.LocalPlayerScript.IsPlayerSemiGhost = false;
-				overmindLightObject.SetActive(false);
-				return;
-			}
+			if (newVar == false)return;
 
 			TurnOnClientLight();
 			playerScript.IsPlayerSemiGhost = true;
@@ -534,6 +528,14 @@ namespace Blob
 
 				clientLinerenderers.Add(blob.gameObject);
 			}
+		}
+
+		[TargetRpc]
+		private void TargetRpcTurnOffLight(NetworkConnection target)
+		{
+			playerScript.IsPlayerSemiGhost = false;
+			PlayerManager.LocalPlayerScript.IsPlayerSemiGhost = false;
+			overmindLightObject.SetActive(false);
 		}
 
 		#endregion
@@ -1202,6 +1204,11 @@ namespace Blob
 
 			playerScript.IsPlayerSemiGhost = false;
 			clientLight = false;
+
+			if (connectionToClient != null)
+			{
+				TargetRpcTurnOffLight(connectionToClient);
+			}
 
 			//Make blob into ghost
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
