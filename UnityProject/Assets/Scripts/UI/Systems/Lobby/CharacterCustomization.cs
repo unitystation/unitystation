@@ -205,18 +205,17 @@ namespace Lobby
 
 		public void CreateCharacter()
 		{
-			CharacterSettings character = currentCharacter;
+			CharacterSettings character = new CharacterSettings();
 			PlayerCharacters.Add(character);
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
 			currentCharacter = PlayerCharacters[currentCharacterIndex];
-			RollRandomCharacter();
 			showCharacterCreator();
+			DoInitChecks();
 			RefreshAll();
 		}
 
 		public void EditCharacter()
 		{
-			currentCharacter = PlayerCharacters[currentCharacterIndex];
 			SetAllDropdowns();
 			showCharacterCreator();
 			RefreshAll();
