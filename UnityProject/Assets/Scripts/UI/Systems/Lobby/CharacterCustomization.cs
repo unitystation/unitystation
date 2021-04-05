@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using Newtonsoft;
 
 namespace Lobby
 {
@@ -941,8 +942,15 @@ namespace Lobby
 		/// </summary>
 		private void SaveCharacters()
 		{
+			var settings = new JsonSerializerSettings
+			{
+				PreserveReferencesHandling = PreserveReferencesHandling.All,
+				NullValueHandling = NullValueHandling.Ignore,
+				ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+				Formatting = Formatting.Indented
+			};
 			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
-			string json = JsonConvert.SerializeObject(PlayerCharacters);
+			string json = JsonConvert.SerializeObject(PlayerCharacters, settings);
 			string path = Application.persistentDataPath + "characters.json";
 			if(File.Exists(path))
 			{
