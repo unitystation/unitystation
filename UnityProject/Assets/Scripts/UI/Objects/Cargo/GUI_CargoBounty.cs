@@ -7,13 +7,10 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoBounty : DynamicEntry
 	{
-		private CargoBounty cargoBounty;
-
 		public NetLabel bountyDescription;
 
-		public void SetValues(CargoBounty newCargoBounty)
+		public void SetValues(CargoBounty cargoBounty)
 		{
-			cargoBounty = newCargoBounty;
 			bountyDescription.SetValueServer($"{cargoBounty.Reward.ToString()} credits - {cargoBounty.Description}");
 		}
 	}
