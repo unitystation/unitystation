@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 435841801542321328}
   - component: {fileID: -3156721346394010278}
   - component: {fileID: -1301878598643499119}
+  - component: {fileID: -9201460293526449076}
   m_Layer: 10
   m_Name: Hit
   m_TagString: Untagged
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: -932335445
   m_SortingLayer: 23
   m_SortingOrder: 560
-  m_Sprite: {fileID: 21300002, guid: 07ad26cf531e211429c5a1e9deda91d6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 07ad26cf531e211429c5a1e9deda91d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 0
   SubCatalogue:
-  - {fileID: 11400000, guid: e1becc39f77311e45805231f8a1e2299, type: 2}
+  - {fileID: 11400000, guid: 5bb19429fda0e584cab3534a4527ed13, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 5bb19429fda0e584cab3534a4527ed13, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
@@ -123,6 +124,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
   hasSpawned: 0
 --- !u!114 &435841801542321328
@@ -171,3 +173,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &-9201460293526449076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558421102126524431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3de31b69fa398848855bf41d71eb2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0.4

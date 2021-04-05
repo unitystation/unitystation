@@ -294,6 +294,11 @@ namespace Objects.Engineering
 			mask = LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC");
 		}
 
+		public override void OnStartClient()
+		{
+			SyncIsDelam(isDelam, isDelam);
+		}
+
 		private void Start()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
