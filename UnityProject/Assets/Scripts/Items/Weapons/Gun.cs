@@ -189,7 +189,6 @@ namespace Weapons
 		private uint queuedLoadMagNetID = NetId.Invalid;
 
 		private RegisterTile registerTile;
-		private ItemStorage itemStorage;
 		public ItemSlot magSlot;
 		public ItemSlot pinSlot;
 		public ItemSlot suppressorSlot;
@@ -221,7 +220,7 @@ namespace Weapons
 		{
 			//init weapon with missing settings
 			GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.Gun);
-			itemStorage = GetComponent<ItemStorage>();
+			ItemStorage itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
 			pinSlot = itemStorage.GetIndexedItemSlot(1);
 			suppressorSlot = itemStorage.GetIndexedItemSlot(2);
@@ -408,7 +407,7 @@ namespace Weapons
 
 			if (CurrentMagazine == null)
 			{
-				PlayEmptySFX();
+				PlayEmptySfx();
 				if (side == NetworkSide.Server)
 				{
 					Logger.LogTrace("Server rejected shot - No magazine being loaded", Category.Firearms);
@@ -437,11 +436,11 @@ namespace Weapons
 					if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
 					{
 						ServerHandleUnloadRequest();
-						OutOfAmmoSFX();
+						OutOfAmmoSfx();
 					}
 					else
 					{
-						PlayEmptySFX();
+						PlayEmptySfx();
 					}
 					if (side == NetworkSide.Server)
 					{
@@ -965,12 +964,12 @@ namespace Weapons
 
 		#region Weapon Sounds
 
-		private void OutOfAmmoSFX()
+		private void OutOfAmmoSfx()
 		{
 			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GunEmptyAlarm, transform.position, sourceObj: serverHolder);
 		}
 
-		public void PlayEmptySFX()
+		public void PlayEmptySfx()
 		{
 			SoundManager.PlayNetworkedAtPos(DryFireSound, transform.position, sourceObj: serverHolder);
 		}

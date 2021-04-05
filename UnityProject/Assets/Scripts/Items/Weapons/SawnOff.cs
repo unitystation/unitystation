@@ -42,10 +42,9 @@ public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
 
 		//only reload if the gun is the target and tool is in hand slot
-		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot && side == NetworkSide.Client)
+		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 		{
 			//TODO: switch this trait to the circular saw when that is implemented
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder))

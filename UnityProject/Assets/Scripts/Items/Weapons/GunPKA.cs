@@ -6,21 +6,21 @@ using AddressableReferences;
 
 public class GunPKA : Gun
 {
-	public GameObject Projectile;
+	private GameObject projectile;
 
-	bool allowRecharge = true;
-	public float rechargeTime = 2.0f;
+	private bool allowRecharge = true;
+	private float rechargeTime = 2.0f;
 
 	public override void OnSpawnServer(SpawnInfo info)
 	{
 		base.OnSpawnServer(info);
-		CurrentMagazine.containedBullets[0] = Projectile;
+		CurrentMagazine.containedBullets[0] = projectile;
 		CurrentMagazine.ServerSetAmmoRemains(1);
 	}
 
 	public override bool WillInteract(AimApply interaction, NetworkSide side)
 	{
-		CurrentMagazine.containedBullets[0] = Projectile;
+		CurrentMagazine.containedBullets[0] = projectile;
 		return base.WillInteract(interaction, side);
 	}
 
@@ -38,7 +38,7 @@ public class GunPKA : Gun
 		allowRecharge = false;
 		yield return WaitFor.Seconds(rechargeTime);
 		CurrentMagazine.ServerSetAmmoRemains(1);
-		CurrentMagazine.LoadProjectile(Projectile, 1);
+		CurrentMagazine.LoadProjectile(projectile, 1);
 		if (IsSuppressed)
 		{
 			if (serverHolder != null)
