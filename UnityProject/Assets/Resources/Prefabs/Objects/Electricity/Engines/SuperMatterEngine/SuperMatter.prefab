@@ -262,14 +262,14 @@ MonoBehaviour:
       m_SubObjectType: 
   engineAlert1:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlert1.prefab
+    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlertOne.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   engineAlert2:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlert2.prefab
+    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlertTwo.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -330,7 +330,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8d985022609148a4f8fbc1f3acb023cc,
+      objectReference: {fileID: 21300004, guid: 8d985022609148a4f8fbc1f3acb023cc,
         type: 3}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -543,6 +543,11 @@ PrefabInstance:
     - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: Resistances.LightningDamageProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: isDirty
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
