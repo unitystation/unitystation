@@ -492,7 +492,7 @@ namespace Blob
 		}
 
 		[Client]
-		private void SyncStrainIndex(NetworkConnection target, int newVar)
+		private void SyncStrainIndex(int oldVar, int newVar)
 		{
 			strainIndex = newVar;
 			clientCurrentStrain = blobStrains[newVar];
