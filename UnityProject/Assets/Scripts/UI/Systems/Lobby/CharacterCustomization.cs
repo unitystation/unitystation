@@ -193,6 +193,7 @@ namespace Lobby
 			CharacterSelectorPage.SetActive(false);
 			CharacterCreatorPage.SetActive(true);
 			GoBackButton.SetActive(true);
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		public void ShowCharacterSelectorPage()
@@ -201,6 +202,7 @@ namespace Lobby
 			CharacterSelectorPage.SetActive(true);
 			CharacterCreatorPage.SetActive(false);
 			GoBackButton.SetActive(false);
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		public void CreateCharacter()
@@ -212,10 +214,12 @@ namespace Lobby
 			ShowCharacterCreator();
 			DoInitChecks();
 			RefreshAll();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		public void EditCharacter()
 		{
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			SetAllDropdowns();
 			ShowCharacterCreator();
 			RefreshAll();
@@ -296,6 +300,7 @@ namespace Lobby
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 		public void ScrollSelectorRight()
 		{
@@ -312,6 +317,7 @@ namespace Lobby
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		private void LoadSettings(CharacterSettings inCharacterSettings)
@@ -1065,6 +1071,7 @@ namespace Lobby
 			catch (InvalidOperationException e)
 			{
 				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
+				SoundManager.Play(SingletonSOSounds.Instance.AccessDenied);
 				DisplayErrorText(e.Message);
 				return;
 			}
@@ -1073,6 +1080,7 @@ namespace Lobby
 
 			SaveData();
 			ShowCharacterSelectorPage();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			gameObject.SetActive(false);
 		}
 
