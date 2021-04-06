@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3790612676194922331, guid: b8fb81ca58d782b49bf75a15183aa0e6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4703772245403916857, guid: b8fb81ca58d782b49bf75a15183aa0e6,
         type: 3}
       propertyPath: m_Name
-      value: GasFlowMeter
+      value: _GasFlowMeterAtmosBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706985249203920099, guid: b8fb81ca58d782b49bf75a15183aa0e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4706985249203920099, guid: b8fb81ca58d782b49bf75a15183aa0e6,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4706985249203920099, guid: b8fb81ca58d782b49bf75a15183aa0e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706985249203920099, guid: b8fb81ca58d782b49bf75a15183aa0e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4706985249203920099, guid: b8fb81ca58d782b49bf75a15183aa0e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4706985249203920099, guid: b8fb81ca58d782b49bf75a15183aa0e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4706985249203920099, guid: b8fb81ca58d782b49bf75a15183aa0e6,
         type: 3}

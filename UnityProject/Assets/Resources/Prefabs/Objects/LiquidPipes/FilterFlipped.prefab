@@ -32,6 +32,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5395967075633974283, guid: 84a45367bc0e3144593bd956f9858dee,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395967075633974283, guid: 84a45367bc0e3144593bd956f9858dee,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -47,6 +52,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5395967075633974283, guid: 84a45367bc0e3144593bd956f9858dee,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395967075633974283, guid: 84a45367bc0e3144593bd956f9858dee,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +69,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5395967075633974283, guid: 84a45367bc0e3144593bd956f9858dee,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5395967075633974283, guid: 84a45367bc0e3144593bd956f9858dee,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5395967075633974283, guid: 84a45367bc0e3144593bd956f9858dee,
         type: 3}
@@ -92,8 +92,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7818499384421910333, guid: 84a45367bc0e3144593bd956f9858dee,
         type: 3}
+      propertyPath: SpawnOnDeconstruct
+      value: 
+      objectReference: {fileID: 7897349000822447281, guid: 43e66cc377c795d4399ac7b50bbb0549,
+        type: 3}
+    - target: {fileID: 7818499384421910333, guid: 84a45367bc0e3144593bd956f9858dee,
+        type: 3}
       propertyPath: pipeData.Connections.Directions.Array.data[0].PortType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818499384421910333, guid: 84a45367bc0e3144593bd956f9858dee,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[2].PortType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7818499384421910333, guid: 84a45367bc0e3144593bd956f9858dee,
         type: 3}
@@ -105,17 +116,6 @@ PrefabInstance:
       propertyPath: pipeData.Connections.Directions.Array.data[2].flagLogic
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7818499384421910333, guid: 84a45367bc0e3144593bd956f9858dee,
-        type: 3}
-      propertyPath: pipeData.Connections.Directions.Array.data[2].PortType
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7818499384421910333, guid: 84a45367bc0e3144593bd956f9858dee,
-        type: 3}
-      propertyPath: SpawnOnDeconstruct
-      value: 
-      objectReference: {fileID: 7897349000822447281, guid: 43e66cc377c795d4399ac7b50bbb0549,
-        type: 3}
     - target: {fileID: 8067553572352720633, guid: 84a45367bc0e3144593bd956f9858dee,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -160,6 +160,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ef28a8661c8db184e9708449f4c45436,
@@ -171,16 +181,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
@@ -188,6 +188,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ReservoirTank
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -206,6 +211,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -218,16 +228,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -244,10 +244,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportName
+      value: Reservoir tank
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -258,11 +268,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: stores a large amount of water
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: exportName
-      value: Reservoir tank
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

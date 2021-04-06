@@ -27,6 +27,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1476839761764063064, guid: d867a6391836ada4ab3327716b7dc931,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476839761764063064, guid: d867a6391836ada4ab3327716b7dc931,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -42,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1476839761764063064, guid: d867a6391836ada4ab3327716b7dc931,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476839761764063064, guid: d867a6391836ada4ab3327716b7dc931,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -54,16 +64,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1476839761764063064, guid: d867a6391836ada4ab3327716b7dc931,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1476839761764063064, guid: d867a6391836ada4ab3327716b7dc931,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1476839761764063064, guid: d867a6391836ada4ab3327716b7dc931,
         type: 3}
@@ -88,18 +88,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1660492161544582549, guid: d867a6391836ada4ab3327716b7dc931,
         type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1855317293
-      objectReference: {fileID: 0}
-    - target: {fileID: 1660492161544582549, guid: d867a6391836ada4ab3327716b7dc931,
-        type: 3}
       propertyPath: m_SortingLayer
-      value: 14
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1660492161544582549, guid: d867a6391836ada4ab3327716b7dc931,
         type: 3}
       propertyPath: m_SortingOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1660492161544582549, guid: d867a6391836ada4ab3327716b7dc931,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1855317293
       objectReference: {fileID: 0}
     - target: {fileID: 1685528453062184022, guid: d867a6391836ada4ab3327716b7dc931,
         type: 3}
@@ -138,15 +138,25 @@ PrefabInstance:
       propertyPath: Passable
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8128577093234773682, guid: d867a6391836ada4ab3327716b7dc931,
+    - target: {fileID: 7833684096248885706, guid: d867a6391836ada4ab3327716b7dc931,
         type: 3}
-      propertyPath: initialDescription
-      value: Used for watching an empty arena.
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7833684096248885706, guid: d867a6391836ada4ab3327716b7dc931,
+        type: 3}
+      propertyPath: initialCrawlPassable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8128577093234773682, guid: d867a6391836ada4ab3327716b7dc931,
         type: 3}
       propertyPath: initialName
       value: telescreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128577093234773682, guid: d867a6391836ada4ab3327716b7dc931,
+        type: 3}
+      propertyPath: initialDescription
+      value: Used for watching an empty arena.
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4356098485195770615, guid: d867a6391836ada4ab3327716b7dc931, type: 3}

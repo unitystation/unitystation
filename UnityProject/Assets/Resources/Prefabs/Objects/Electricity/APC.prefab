@@ -51,6 +51,13 @@ MonoBehaviour:
   powerLights: 1
   powerEnvironment: 1
   netTabType: 6
+  NoPowerSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/APCPowerOff.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   criticalSprites:
   - {fileID: 21300000, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
   - {fileID: 21300004, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
@@ -73,13 +80,6 @@ MonoBehaviour:
   connectedDepartmentBatteries: []
   conType: 1
   multiMaster: 1
-  NoPowerSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/APCPowerOff.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1 &9053875397184046594
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +183,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   PresentSpriteSet: {fileID: 11400000, guid: ef212a545b6dd294f8d0d6cdfb382dba, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -252,6 +253,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -267,6 +273,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -279,16 +290,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
@@ -312,13 +313,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: initialDescription
-      value: A control terminal for the area's electrical systems.
+      propertyPath: initialName
+      value: area power controller
       objectReference: {fileID: 0}
     - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: initialName
-      value: area power controller
+      propertyPath: initialDescription
+      value: A control terminal for the area's electrical systems.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6327756969131596099, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: isDirty
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6327756969131596099, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
@@ -335,6 +341,16 @@ PrefabInstance:
       propertyPath: Resistances.FireProof
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6543957505355943017, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543957505355943017, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: initialCrawlPassable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -343,9 +359,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: ListCanConnectTo.Array.size
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: Node
+      value: 
+      objectReference: {fileID: 4174387146121027881}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: WireEndB
@@ -353,9 +369,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: Node
-      value: 
-      objectReference: {fileID: 4174387146121027881}
+      propertyPath: ListCanConnectTo.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: ListCanConnectTo.Array.data[0]

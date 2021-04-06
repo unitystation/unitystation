@@ -107,8 +107,9 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   AtmosPassable: 1
-  Passable: 1
   ReachableThrough: 1
+  initialPassable: 1
+  initialCrawlPassable: 1
   passableExclusionsToThis: []
 --- !u!114 &8902598492986650915
 MonoBehaviour:
@@ -140,13 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+  butcherSound: 
 --- !u!114 &114987107583708958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +187,7 @@ MonoBehaviour:
     LightningDamageProof: 0
   HeatResistance: 100
   ExplosionsDamage: 100
+  doDamageMessage: 1
 --- !u!114 &114993487225253824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +203,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &5303129370152436876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &3853657128741492507
 MonoBehaviour:
   m_ObjectHideFlags: 0

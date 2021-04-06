@@ -17,7 +17,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -117,10 +123,40 @@ PrefabInstance:
       propertyPath: Passable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: initialCrawlPassable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: initialIntegrity
-      value: 200
+      propertyPath: Armor.Bio
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -134,33 +170,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
       propertyPath: Armor.Energy
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: Armor.Rad
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: Armor.Bio
-      value: 100
+      propertyPath: initialIntegrity
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -201,6 +217,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -216,6 +237,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -228,16 +254,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -261,17 +277,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: b21965a32f70e73419f2c12488812de8,
-        type: 3}
-    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
       propertyPath: m_Size.x
       value: 1
       objectReference: {fileID: 0}
@@ -282,7 +287,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: m_Color.r
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b21965a32f70e73419f2c12488812de8,
+        type: 3}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
@@ -292,8 +303,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: m_Color.b
+      propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -302,8 +318,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 11
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}

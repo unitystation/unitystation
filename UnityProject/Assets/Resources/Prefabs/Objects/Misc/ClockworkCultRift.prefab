@@ -26,12 +26,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300024, guid: 7842f07df063e9841bb226f92378ede2,
+      objectReference: {fileID: 21300000, guid: 7842f07df063e9841bb226f92378ede2,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
       value: ClockworkCultRift
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -50,6 +60,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +77,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -96,6 +101,16 @@ PrefabInstance:
     - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: Passable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialCrawlPassable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,

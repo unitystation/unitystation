@@ -38,11 +38,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: c761eccc2206b4f45828e4c0a939e29d, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 8858825759565460069, guid: 5d4ca840d60cf294f9d681a372052569,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &4583094959117635624
 MonoBehaviour:
@@ -58,6 +57,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &7895995485355306842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,8 +77,6 @@ MonoBehaviour:
   padDirection: 0
   disallowLinkChange: 0
   messageOnTravelToThis: 
-  MutatedBread: {fileID: 7211410574268338187, guid: 55dca02dfb005cf4e8bc3686c0229b90,
-    type: 3}
   IsLavaLandBase1: 0
   IsLavaLandBase1Connector: 0
   IsLavaLandBase2: 0
@@ -111,6 +109,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c17e015f7f56fa04cbb0eb953ec8c72b,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
@@ -179,6 +182,16 @@ PrefabInstance:
     - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: Passable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialCrawlPassable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
