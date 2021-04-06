@@ -1037,7 +1037,7 @@ namespace Weapons
 
 		private float MagSyncedRandomFloat(float min, float max)
 		{
-			return (float)(CurrentMagazine.CurrentRNG() * (max - min) + min);
+			return (float)(CurrentMagazine.CurrentRng() * (max - min) + min);
 		}
 
 		private void AppendRecoil()
