@@ -14,8 +14,20 @@ TextureImporter:
   - first:
       213: 21300006
     second: darkmatter_glow_3
+  - first:
+      213: 8039003985586899325
+    second: supermatter_darkmatter_glow_0
+  - first:
+      213: 9121194778427077769
+    second: supermatter_darkmatter_glow_1
+  - first:
+      213: 18940666468806657
+    second: supermatter_darkmatter_glow_2
+  - first:
+      213: -5784399720796245542
+    second: supermatter_darkmatter_glow_3
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -35,6 +47,7 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -69,6 +82,8 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -98,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: darkmatter_glow_0
+      name: supermatter_darkmatter_glow_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,20 +127,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: d794bdc4887409f60800000000000000
+      internalID: 8039003985586899325
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: darkmatter_glow_1
+      name: supermatter_darkmatter_glow_1
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -133,20 +148,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 9843b47235ef49e70800000000000000
+      internalID: 9121194778427077769
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: darkmatter_glow_2
+      name: supermatter_darkmatter_glow_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,20 +169,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 100bea09f6a434000800000000000000
+      internalID: 18940666468806657
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: darkmatter_glow_3
+      name: supermatter_darkmatter_glow_3
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,8 +190,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: ad1321bd91fa9bfa0800000000000000
+      internalID: -5784399720796245542
       vertices: []
       indices: 
       edges: []
