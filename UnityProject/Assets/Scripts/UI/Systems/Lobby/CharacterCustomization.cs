@@ -193,6 +193,9 @@ namespace Lobby
 			CharacterSelectorPage.SetActive(false);
 			CharacterCreatorPage.SetActive(true);
 			GoBackButton.SetActive(true);
+			Cleanup();
+			LoadSettings(currentCharacter);
+			RefreshAll();
 			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
@@ -220,7 +223,6 @@ namespace Lobby
 		public void EditCharacter()
 		{
 			SoundManager.Play(SingletonSOSounds.Instance.Click01);
-			SetAllDropdowns();
 			ShowCharacterCreator();
 			RefreshAll();
 		}
