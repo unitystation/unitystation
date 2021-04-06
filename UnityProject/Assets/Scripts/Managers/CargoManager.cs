@@ -222,12 +222,12 @@ namespace Systems.Cargo
 			OnShuttleUpdate.Invoke();
 		}
 
-		public void ProcessCargo(ObjectBehaviour item, HashSet<GameObject> alreadySold)
+		public void ProcessCargo(PushPull item, HashSet<GameObject> alreadySold)
 		{
 			var wrappedItem = item.GetComponent<WrappedBase>();
 			if (wrappedItem)
 			{
-				var wrappedContents = wrappedItem.GetOrGenerateContent().GetComponent<ObjectBehaviour>();
+				var wrappedContents = wrappedItem.GetOrGenerateContent().GetComponent<PushPull>();
 				ProcessCargo(wrappedContents, alreadySold);
 				DespawnItem(item, alreadySold);
 				return;
@@ -242,7 +242,7 @@ namespace Systems.Cargo
 				{
 					if (slot.Item)
 					{
-						ProcessCargo(slot.Item.GetComponent<ObjectBehaviour>(), alreadySold);
+						ProcessCargo(slot.Item.GetComponent<PushPull>(), alreadySold);
 					}
 				}
 			}
@@ -330,7 +330,7 @@ namespace Systems.Cargo
 			DespawnItem(item, alreadySold);
 		}
 
-		private void DespawnItem(ObjectBehaviour item, HashSet<GameObject> alreadySold)
+		private void DespawnItem(PushPull item, HashSet<GameObject> alreadySold)
 		{
 			item.registerTile.UnregisterClient();
 			item.registerTile.UnregisterServer();
@@ -444,7 +444,7 @@ namespace Systems.Cargo
 			OnCartUpdate.Invoke();
 		}
 
-		public int GetSellPrice(ObjectBehaviour item)
+		public int GetSellPrice(PushPull item)
 		{
 			if (!CustomNetworkManager.Instance._isServer)
 			{

@@ -140,7 +140,7 @@ namespace Systems.Cargo
 			HashSet<GameObject> alreadySold = new HashSet<GameObject>();
 			for (int i = 0; i < objectHolder.childCount; i++)
 			{
-				ObjectBehaviour item = objectHolder.GetChild(i).GetComponent<ObjectBehaviour>();
+				PushPull item = objectHolder.GetChild(i).GetComponent<PushPull>();
 				//need VisibleState check because despawned objects still stick around on their matrix transform
 				if (item != null && item.VisibleState)
 				{
