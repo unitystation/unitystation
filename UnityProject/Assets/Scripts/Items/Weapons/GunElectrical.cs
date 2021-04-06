@@ -115,13 +115,9 @@ namespace Weapons
 			{
 				ServerHandleReloadRequest(mag.gameObject);
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
+			else
 			{
-				PinRemoval(interaction);
-			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
-			{
-				PinAddition(interaction);
+				base.PinInteraction(interaction);
 			}
 		}
 

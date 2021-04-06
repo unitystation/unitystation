@@ -380,13 +380,9 @@ namespace Weapons
 						SyncIsSuppressed(isSuppressed, true);
 						Inventory.ServerTransfer(interaction.FromSlot, suppressorSlot);
 					}
-					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
+					else
 					{
-						PinRemoval(interaction);
-					}
-					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
-					{
-						PinAddition(interaction);
+						PinInteraction(interaction);
 					}
 				}
 				else if (isSuppressed && isSuppressible && suppressorSlot.Item != null)
@@ -646,10 +642,23 @@ namespace Weapons
 			}
 		}
 
+
+		protected void PinInteraction(InventoryApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
+			{
+				PinRemoval(interaction);
+			}
+			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) && allowPinSwap)
+			{
+				PinAddition(interaction);
+			}
+		}
+
 		/// <summary>
 		/// method that handles inserting a firing pin into a firearm
 		/// </summary>
-		protected void PinAddition(InventoryApply interaction)
+		private void PinAddition(InventoryApply interaction)
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You insert the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.",
@@ -661,7 +670,7 @@ namespace Weapons
 		/// <summary>
 		/// method that handles removal of a firing pin
 		/// </summary>
-		protected void PinRemoval(InventoryApply interaction)
+		private void PinRemoval(InventoryApply interaction)
 		{
 			void ProgressFinishAction()
 			{
