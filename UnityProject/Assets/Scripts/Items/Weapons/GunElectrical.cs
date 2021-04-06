@@ -28,7 +28,7 @@ namespace Weapons
 		public Battery Battery =>
 				magSlot.Item != null ? magSlot.Item.GetComponent<Battery>() : null;
 
-	public ElectricalMagazine CurrentElectricalMag =>
+		public ElectricalMagazine CurrentElectricalMag =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<ElectricalMagazine>() : null;
 
 		public override void OnSpawnServer(SpawnInfo info)
@@ -161,7 +161,7 @@ namespace Weapons
 			exam.AppendLine($"{WeaponType} - Fires {ammoType} ammunition")
 				.AppendLine(CurrentMagazine != null ? $"{Mathf.Floor(Battery.Watts / firemodeUsage[currentFiremode])} rounds loaded" : "It's empty!")
 				.AppendLine(FiringPin != null ? $"It has a {FiringPin.gameObject.ExpensiveName()} installed" : "It doesn't have a firing pin installed, it won't fire")
-				.Append(firemodeProjectiles.Count > 1 ? $"\nIt is set to {firemodeName[currentFiremode]} mode." : "");
+				.Append(firemodeProjectiles.Count > 1 ? $"It is set to {firemodeName[currentFiremode]} mode." : "");
 			return exam.ToString();
 		}
 	}

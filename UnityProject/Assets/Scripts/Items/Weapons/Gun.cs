@@ -93,13 +93,13 @@ namespace Weapons
 		/// <summary>
 		/// Whether the gun uses an internal magazine.
 		/// </summary>
-		[Tooltip("Effects if the gun will use an internal mag")]
+		[HideIf("SmartGun"), Tooltip("Effects if the gun will use an internal mag")]
 		public bool MagInternal = false;
 
 		/// <summary>
 		/// If the gun should eject it's magazine automatically (external-magazine-specific)
 		/// </summary>
-		[HideIf("SmartGun"), Tooltip("If the gun should eject an empty mag automatically")]
+		[HideIf("MagInternal"), Tooltip("If the gun should eject an empty mag automatically")]
 		public bool SmartGun = false;
 
 		/// <summary>

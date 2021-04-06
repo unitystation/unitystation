@@ -193,16 +193,27 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		SyncServerAmmo(remaining, remaining);
 	}
+
 	/// <summary>
 	/// Loads as much ammo as possible from the given clip. Returns reloading message.
 	/// </summary>
-	public String LoadFromClip( MagazineBehaviour clip)
+	public String LoadFromClip(MagazineBehaviour clip)
 	{
 		if (clip == null) return "";
 
 		int toTransfer = Math.Min(magazineSize - serverAmmoRemains, clip.serverAmmoRemains);
 
+		if (clip.serverAmmoRemains == 0)
+		{
+			return $"{clip.gameObject.ExpensiveName()} is empty!";
+		}
+		else if (toTransfer == 0)
+		{
+			return $"{gameObject.ExpensiveName()} is full";
+		}
+
 		clip.ExpendAmmo(toTransfer);
+
 		if (magType == MagType.Standard)
 		{
 			for (int i = toTransfer;i != 0;i--)
@@ -211,9 +222,11 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 				containedProjectilesFired.Add(clip.ProjectilesFired);
 			}
 		}
+
 		ServerSetAmmoRemains(serverAmmoRemains + toTransfer);
 
-		return ("Loaded " + toTransfer + (toTransfer == 1 ? " piece" : " pieces") + " of ammunition.");
+		var plural = toTransfer == 1 ? "" : "s";
+		return $"Loaded {toTransfer} round{plural}";
 	}
 
 	/// <summary>
@@ -252,7 +265,6 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		Chat.AddExamineMsg(interaction.Performer, message);
 	}
 
-
 	/// <summary>
 	/// Gets an RNG double which is based on the current ammo remaining and this mag's net ID so client
 	///  can predict deviation / recoil based on how many shots.
@@ -268,7 +280,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 	public virtual String Examine(Vector3 pos)
 	{
-		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0 ? (ServerAmmoRemains.ToString() + " left") : "empty") + ")";
+		return $"Accepts {ammoType}\n It has {ServerAmmoRemains} out of {magazineSize} rounds within";
 	}
 }
 

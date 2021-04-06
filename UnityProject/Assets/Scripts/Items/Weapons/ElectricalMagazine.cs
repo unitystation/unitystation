@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 /// <summary>
-/// Gun scripts are strange, This is to make it easy to have a charging Ammo clip
+/// Rechargabe firearm cell
 /// </summary>
 [RequireComponent(typeof(Battery))]
 public class ElectricalMagazine : MagazineBehaviour
@@ -23,10 +23,15 @@ public class ElectricalMagazine : MagazineBehaviour
 
 	public override void InitLists()
 	{
-		containedProjectilesFired  = new List<int>(1);
-		containedBullets  = new List<GameObject>(1);
-		containedBullets.Add(initalProjectile);
-		containedProjectilesFired.Add(ProjectilesFired);
+		containedBullets  = new List<GameObject>(1)
+		{
+			initalProjectile
+		};
+
+		containedProjectilesFired  = new List<int>(1)
+		{
+			ProjectilesFired
+		};
 	}
 
 	public override void ExpendAmmo(int amount = 1)
