@@ -152,6 +152,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: This looks disgusting... but edible?
       objectReference: {fileID: 0}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 837c44216b08c6545a61f88559aaabc7,
+        type: 2}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ce4bb557f8010e43ab8c8039cda4496,
+        type: 2}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet

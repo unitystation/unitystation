@@ -42,6 +42,18 @@ PrefabInstance:
       value: A specialized medical kit for when the toxins lab spontaneously burns
         down.
       objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a35d2faf788a5f479ea90b9cfd39e31,
+        type: 2}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2aa1f6dbc2f49aa4ba6fe4ff4d6aa9ad,
+        type: 2}
     - target: {fileID: 8441880568126201350, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
       propertyPath: m_Sprite
@@ -52,6 +64,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
@@ -70,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -82,16 +104,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
