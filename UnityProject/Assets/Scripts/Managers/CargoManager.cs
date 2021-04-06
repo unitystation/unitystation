@@ -313,23 +313,7 @@ namespace Systems.Cargo
 			{
 				foreach (var itemTrait in itemAttributes.GetTraits())
 				{
-					for (int i = ActiveBounties.Count - 1; i >= 0; i--)
-					{
-						var activeBounty = ActiveBounties[i];
-						if (activeBounty.Demands.ContainsKey(itemTrait))
-						{
-							if (activeBounty.Demands[itemTrait] >= count)
-							{
-								activeBounty.Demands[itemTrait] -= count;
-								count = 0;
-								CheckBountyCompletion(activeBounty);
-								break;
-							}
-							count -= activeBounty.Demands[itemTrait];
-							activeBounty.Demands[itemTrait] = 0;
-							CheckBountyCompletion(activeBounty);
-						}
-					}
+					count = TryCompleteBounty(itemTrait, count);
 					if (count == 0)
 					{
 						break;
@@ -352,6 +336,30 @@ namespace Systems.Cargo
 			item.registerTile.UnregisterServer();
 			alreadySold.Add(item.gameObject);
 			Despawn.ServerSingle(item.gameObject);
+		}
+
+
+		private int TryCompleteBounty(ItemTrait itemTrait, int count)
+		{
+			for (var i = ActiveBounties.Count - 1; i >= 0; i--)
+			{
+				var activeBounty = ActiveBounties[i];
+				if (activeBounty.Demands.ContainsKey(itemTrait))
+				{
+					if (activeBounty.Demands[itemTrait] >= count)
+					{
+						activeBounty.Demands[itemTrait] -= count;
+						count = 0;
+						CheckBountyCompletion(activeBounty);
+						break;
+					}
+					count -= activeBounty.Demands[itemTrait];
+					activeBounty.Demands[itemTrait] = 0;
+					CheckBountyCompletion(activeBounty);
+				}
+			}
+
+			return count;
 		}
 
 		private void CheckBountyCompletion(CargoBounty cargoBounty)

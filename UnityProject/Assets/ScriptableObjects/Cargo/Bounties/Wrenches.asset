@@ -10,7 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 942de2d1e5138ff479292c0ff88783b8, type: 3}
-  m_Name: Bounty
+  m_Name: Wrenches
   m_EditorClassIdentifier: 
-  Reward: 0
-  Description: 
+  Demands:
+    m_keys:
+    - {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+    m_values: 05000000
+  Reward: 200
+  Description: 'Send 5 wrenches '

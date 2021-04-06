@@ -6,8 +6,9 @@ namespace Systems.Cargo
 {
 	public class CargoData : ScriptableObject
 	{
+		[ReorderableList]
 		public List<CargoCategory> Categories = new List<CargoCategory>();
-		public List<CargoBounty> CargoBounties = new List<CargoBounty>();
 
+		public List<CargoBounty> CargoBounties = new List<CargoBounty>();
 	}
 }
