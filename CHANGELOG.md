@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/4/7: Removes watts examine text on grounding rods by [ThatDan123](https://github.com/ThatDan123) in PR #[6336](https://github.com/unitystation/unitystation/pull/6336)
 * 2021/4/4: Fixed sprayer bottles not having any sounds. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
 * 2021/4/4: Fixed some sprite overlay rendering issues (back items used to go on top of items, so if you held a sniper rifle, your backpack straps would go through it, also head items rendered on top of back items, so if you weared a sniper rifle on your back, the sniper rifle would go inside your head item, that is fixed now.) by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
 * 2021/4/4: Fixed some rotation issues with tanks (they used turn in incorrect ways for some reason, for example if you pulled it to the right, the sprite would go up) by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
