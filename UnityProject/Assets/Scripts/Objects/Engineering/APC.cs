@@ -39,11 +39,11 @@ namespace Objects.Engineering
 
 		private int cashOfConnectedDevices;
 		private bool batteryCharging;
-
+		#region Inspector options
 		private int integrity = 100;
 
 		private int maxIntegrity = 100;
-
+		#endregion
 		public float Voltage => voltageSync;
 
 		private RegisterObject registerObject;
@@ -189,6 +189,8 @@ namespace Objects.Engineering
 			}
 			float CalculatingResistance = new float();
 
+			APCPoweredDevice deviceToRemove = null;
+
 			foreach (APCPoweredDevice Device in connectedDevices)
 			{
 				Device.PowerNetworkUpdate(Voltages);
@@ -200,9 +202,14 @@ namespace Objects.Engineering
 					var rand = new System.Random();
 					if (rand.Next(100) < (100-integrity)/10)
 					{
-						RemoveDevice(Device);
+						deviceToRemove = Device;
 					}
 				}
+			}
+
+			if (deviceToRemove != null)
+			{
+				RemoveDevice(deviceToRemove);
 			}
 
 			resistanceSourceModule.Resistance = (1 / CalculatingResistance);
