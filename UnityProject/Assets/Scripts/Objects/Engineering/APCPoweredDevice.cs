@@ -48,6 +48,9 @@ namespace Systems.Electricity
 		[FormerlySerializedAs("Resistance")]
 		private float resistance = 99999999;
 
+		private int integrity = 100;
+		private int maxIntegrity = 100;
+
 		public float Resistance {
 			get => resistance;
 			set => resistance = value;
@@ -116,6 +119,8 @@ namespace Systems.Electricity
 
 		private void EnsureInit()
 		{
+			var rand = new System.Random();
+			integrity = maxIntegrity-rand.Next(maxIntegrity/5);
 			if (Powered != null) return;
 			Powered = GetComponent<IAPCPowered>();
 			if (isSelfPowered)
@@ -161,6 +166,16 @@ namespace Systems.Electricity
 
 		public void PowerNetworkUpdate(float voltage) //Could be optimised to not update when voltage is same as previous voltage
 		{
+			//If integrity is low, voltage can vary wildly.
+			if (integrity < maxIntegrity/4)
+			{
+				var rand = System.Random();
+				voltage = rand.Next(voltage * 5);
+			} else if (integrity < maxIntegrity / 2)
+			{
+				var rand = System.Random();
+				voltage = rand.Next(voltage * 2);
+			}
 			if (AdvancedControlToScript)
 			{
 				recordedVoltage = voltage;
@@ -176,6 +191,7 @@ namespace Systems.Electricity
 				else if (voltage > maximumWorkingVoltage)
 				{
 					newState = PowerStates.OverVoltage;
+					integrity--;
 				}
 				else if (voltage < minimumWorkingVoltage)
 				{
@@ -185,7 +201,14 @@ namespace Systems.Electricity
 				{
 					newState = PowerStates.On;
 				}
-
+				if (integrity < 10)
+				{
+					var rand = System.Random();
+					if (rand.Next() < 100 - integrity)
+					{
+						newState = PowerStates.Off;
+					}
+				}
 				if (newState == state) return;
 				state = newState;
 				Powered?.StateUpdate(state);

@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using AddressableReferences;
 using Electricity.Inheritance;
 using Systems.Electricity;
+using Systems.Explosions;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
+
 
 namespace Objects.Engineering
 {
@@ -38,7 +40,13 @@ namespace Objects.Engineering
 		private int cashOfConnectedDevices;
 		private bool batteryCharging;
 
+		private int integrity = 100;
+
+		private int maxIntegrity = 100;
+
 		public float Voltage => voltageSync;
+
+		private RegisterObject registerObject;
 
 		public float Current { get; private set; }
 
@@ -63,8 +71,11 @@ namespace Objects.Engineering
 
 		private void Awake()
 		{
+			var rand = new System.Random();
+			integrity = maxIntegrity-rand.Next(maxIntegrity/5);
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
+			registerObject = this.GetComponent<RegisterObject>();
 		}
 
 		private void Start()
@@ -161,12 +172,19 @@ namespace Objects.Engineering
 
 		/// <summary>
 		/// Change brightness of lights connected to this APC proportionally to voltage
+		/// additionally runs integrity and over-drawing checks. Over-drawing your APC can
+		/// result in !!FUN!! things happening, while letting your integrity drop too low
+		/// can cause devices to disconnect randomly. (Proportinate to your integrity)
 		/// </summary>
 		private void HandleDevices()
 		{
 			float Voltages = Voltage;
 			if (Voltages > 270)
 			{
+				overvoltage_critical();
+			} else if (Voltages > 219f)
+			{
+				overvoltage();
 				Voltages = 0.001f;
 			}
 			float CalculatingResistance = new float();
@@ -174,16 +192,81 @@ namespace Objects.Engineering
 			foreach (APCPoweredDevice Device in connectedDevices)
 			{
 				Device.PowerNetworkUpdate(Voltages);
+
 				CalculatingResistance += (1 / Device.Resistance);
+				if (integrity <= 50)
+				{
+					//At 50 integrity there's a 5% chance a device gets removed
+					var rand = new System.Random();
+					if (rand.Next(100) < (100-integrity)/10)
+					{
+						RemoveDevice(Device);
+					}
+				}
 			}
 
 			resistanceSourceModule.Resistance = (1 / CalculatingResistance);
 		}
 
+		/// <summary>
+		/// Explosion if you over-draw your APC too much.
+		/// </summary>
+		private void overvoltage_critical()
+		{
+			Explosion.StartExplosion(registerObject.LocalPosition, 120, registerObject.Matrix);
+		}
+
+		/// <summary>
+		/// Over-drawing an APC for too long results in a loss of integrity
+		/// if integrity reaches zero due to this then there's a 50% chance it blows up.
+		/// otherwise, it just goes dead.
+		/// </summary>
+		private void overvoltage()
+		{
+			if (integrity > 0)
+			{
+				integrity--;
+			}
+			else
+			{
+				var rand = new System.Random();
+				if (rand.Next(100) < 50)
+				{
+					overvoltage_critical();
+				}
+				else
+				{
+					State = APCState.Dead;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Repairs the APC
+		/// </summary>
+		public void RepairDevice()
+		{
+			integrity = maxIntegrity;
+			State = APCState.Charging;
+		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			TabUpdateMessage.Send(interaction.Performer, gameObject, netTabType, TabAction.Open);
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
+			{
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
+					$"You begin to fix the APC...",
+					$"{interaction.Performer.ExpensiveName()} starts fix the APC...",
+					$"You fix the APC",
+					$"{interaction.Performer.ExpensiveName()} fixes the APC",
+					() =>
+					{
+						RepairDevice();
+					}
+				);
+				return;
+			}
 		}
 
 		// -----------------------------------------------------
@@ -399,6 +482,8 @@ namespace Objects.Engineering
 		public void AddSlave(object slaveObject)
 		{
 		}
+
+
 
 		public void RemoveDevice(APCPoweredDevice apcPoweredDevice)
 		{
