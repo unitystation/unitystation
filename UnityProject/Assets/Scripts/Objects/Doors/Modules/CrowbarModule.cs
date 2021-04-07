@@ -17,6 +17,8 @@ namespace Doors.Modules
 				return ModuleSignal.Continue;
 			}
 
+			master.Apc.damage(10);
+
 			//allows the jaws of life to pry close doors
 			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
 				"You start prying open the door...",

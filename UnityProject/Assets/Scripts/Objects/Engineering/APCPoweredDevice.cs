@@ -117,6 +117,11 @@ namespace Systems.Electricity
 			}
 		}
 
+		public void damage(int x)
+		{
+			integrity = integrity-x;
+		}
+
 		private void EnsureInit()
 		{
 			var rand = new System.Random();
@@ -169,12 +174,12 @@ namespace Systems.Electricity
 			//If integrity is low, voltage can vary wildly.
 			if (integrity < maxIntegrity/4)
 			{
-				var rand = System.Random();
-				voltage = rand.Next(voltage * 5);
+				var rand = new System.Random();
+				voltage = rand.Next((int)voltage * 5);
 			} else if (integrity < maxIntegrity / 2)
 			{
-				var rand = System.Random();
-				voltage = rand.Next(voltage * 2);
+				var rand = new System.Random();
+				voltage = rand.Next((int)voltage * 2);
 			}
 			if (AdvancedControlToScript)
 			{
@@ -203,7 +208,7 @@ namespace Systems.Electricity
 				}
 				if (integrity < 10)
 				{
-					var rand = System.Random();
+					var rand = new System.Random();
 					if (rand.Next() < 100 - integrity)
 					{
 						newState = PowerStates.Off;
