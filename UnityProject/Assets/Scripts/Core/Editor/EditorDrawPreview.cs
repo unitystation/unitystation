@@ -50,7 +50,7 @@ public class MyProjectViewExtentions
 
 				if (mainTex == null)
 				{
-					Debug.LogError($"Sprite SO {sTing} has null value");
+					Logger.LogError($"Sprite SO {sTing} has null value");
 				}
 			}
 			else
