@@ -23,6 +23,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Useful for treating the effects of radiation
       objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a66651b9547ad064c88be9ee090f048b,
+        type: 2}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ed1368f15500def4893d1454c141cb02,
+        type: 2}
     - target: {fileID: 8441880568126201350, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
       propertyPath: m_Sprite
@@ -33,6 +45,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
@@ -51,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
