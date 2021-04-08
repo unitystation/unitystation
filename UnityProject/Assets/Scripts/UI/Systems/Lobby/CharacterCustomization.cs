@@ -929,6 +929,9 @@ namespace Lobby
 			{
 				RightRotate();
 				capture.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
+				//Wait for 3 frames to make sure that all sprites have been loaded and layered correctly when rotating.
+				yield return WaitFor.EndOfFrame;
+				yield return WaitFor.EndOfFrame;
 				yield return WaitFor.EndOfFrame;
 				capture.TakeScreenShot();
 				dir++;
