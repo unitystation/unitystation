@@ -362,6 +362,7 @@ namespace Lobby
 			ThisSetRace = SetRace;
 
 			availableSkinColors = SetRace.Base.SkinColours;
+			currentCharacter.SkinTone = inCharacterSettings.SkinTone;
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
 			DoInitChecks();
@@ -1078,7 +1079,13 @@ namespace Lobby
 				return;
 			}
 
+
+
 			PlayerCharacters[currentCharacterIndex] = currentCharacter;
+
+			//Ensure that the character skin tone is assigned when saving the character
+			string skintone = currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
+			PlayerCharacters[currentCharacterIndex].SkinTone = skintone;
 
 			SaveData();
 			ShowCharacterSelectorPage();
@@ -1189,7 +1196,6 @@ namespace Lobby
 		//------------------
 		//AGE:
 		//------------------
-
 		private void RefreshAge()
 		{
 			ageField.text = currentCharacter.Age.ToString();
