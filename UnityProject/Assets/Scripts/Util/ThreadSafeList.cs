@@ -36,6 +36,17 @@ public class ThreadSafeList<T>
 		}
 	}
 
+	public void AddIfMissing(T item)
+	{
+		lock (list)
+		{
+			if (list.Contains(item) == false)
+			{
+				list.Add(item);
+			}
+		}
+	}
+
 	public void Clear()
 	{
 		lock (list)
