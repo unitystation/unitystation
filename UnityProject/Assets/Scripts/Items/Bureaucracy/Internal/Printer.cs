@@ -45,13 +45,12 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 			&& TrayCount > 0
 			&& isAvailableForPrinting;
 
-		public Printer Print(string content, GameObject printerObj, bool isAvailableForPrinting)
+		public Printer Print(string content, GameObject printerObj, bool isAvailableForPrinting, GameObject paperPrefab)
 		{
 			if (!CanPrint(content, isAvailableForPrinting))
 				throw new InvalidOperationException("Cannot print");
 
-			var prefab = Spawn.GetPrefabByName("Paper");
-			var result = Spawn.ServerPrefab(prefab, SpawnDestination.At(printerObj));
+			var result = Spawn.ServerPrefab(paperPrefab, SpawnDestination.At(printerObj));
 			if (!result.Successful)
 				throw new InvalidOperationException("Spawn paper failed!");
 

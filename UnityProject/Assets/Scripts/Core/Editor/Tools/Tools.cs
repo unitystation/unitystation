@@ -110,12 +110,11 @@ public class Tools : Editor
 	{
 		List<GameObject> result = new List<GameObject>();
 
-		var allFiles = Resources.LoadAll<UnityEngine.Object>(path);
+		var allFiles = AssetDatabase.LoadAllAssetsAtPath(path);
 		foreach (var obj in allFiles)
 		{
-			if (obj is GameObject)
+			if (obj is GameObject go)
 			{
-				GameObject go = obj as GameObject;
 				if (go.GetComponent<T>() != null)
 				{
 					result.Add(go);

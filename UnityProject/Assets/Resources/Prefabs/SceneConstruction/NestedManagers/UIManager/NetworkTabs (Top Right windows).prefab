@@ -2845,6 +2845,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4717b142ec2d48ed8254f69a73e554b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FingerPrefab: {fileID: 1107031999978216, guid: 61238ecb181609e4c9b152401586fca0,
+    type: 3}
+  TabHeaderPrefab: {fileID: 1542134260383568, guid: 767787c7b73f8e846a5abc6302a4e94a,
+    type: 3}
   TabStorage: {fileID: 5310318155140641550}
   TabStoragePopOut: {fileID: 0}
   HeaderStorage: {fileID: 5310468323469827364}
@@ -3567,9 +3571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f4bf676556fdb42b0f26fba7681ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameList: {fileID: 0}
   window: {fileID: 5380619161662900898}
-  scrollRect: {fileID: 0}
   roundStatus: {fileID: 8816250071503743211}
   currentMap: {fileID: 3834484045144413883}
   gameMode: {fileID: 8806876473847814390}

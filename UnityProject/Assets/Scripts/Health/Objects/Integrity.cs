@@ -144,8 +144,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (registerTile != null) return;
 		if (SMALL_BURNING_PREFAB == null)
 		{
-			SMALL_BURNING_PREFAB = Resources.Load<GameObject>("BurningSmall");
-			LARGE_BURNING_PREFAB = Resources.Load<GameObject>("BurningLarge");
+			SMALL_BURNING_PREFAB = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("BurningSmall");
+			LARGE_BURNING_PREFAB = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("BurningLarge");
 		}
 
 		if (SMALL_ASH == null)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ using DatabaseAPI;
 using IgnoranceTransport;
 using Initialisation;
 using Messages.Server;
+using UnityEditor;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
@@ -120,11 +122,31 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		spawnPrefabs.Clear();
 
-		NetworkIdentity[] networkObjects = Resources.LoadAll<NetworkIdentity>("Prefabs");
-		foreach (NetworkIdentity netObj in networkObjects)
+		var networkObjects = AssetDatabase.LoadAllAssetsAtPath("Prefabs");
+		foreach (var netObj in networkObjects)
 		{
-			spawnPrefabs.Add(netObj.gameObject);
+			if (netObj is GameObject gameObj && gameObj.TryGetComponent<NetworkIdentity>(out _))
+			{
+				spawnPrefabs.Add(gameObj);
+			}
 		}
+	}
+
+	public GameObject GetSpawnablePrefabFromName(string prefabName)
+	{
+		var prefab = spawnPrefabs.Where(o => o.name == prefabName).ToList();
+
+		if (prefab.Any())
+		{
+			if (prefab.Count > 1)
+			{
+				Logger.LogError($"There is {prefab.Count} prefabs with the name: {prefabName}, please rename them");
+			}
+
+			return prefab[0];
+		}
+
+		return null;
 	}
 
 	private void OnEnable()

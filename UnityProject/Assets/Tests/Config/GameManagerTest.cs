@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 namespace Tests.Config
@@ -10,7 +11,7 @@ namespace Tests.Config
 		[Test]
 		public void CheckQuickLoad()
 		{
-			var gameManagerPrefab = Resources.Load<GameObject>(GAMEMANAGER_PATH);
+			var gameManagerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(GAMEMANAGER_PATH);
 			if (gameManagerPrefab == null)
 			{
 				Assert.Fail($"Couldn't find GameManager prefab in specified path: {GAMEMANAGER_PATH}");
