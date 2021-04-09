@@ -36,7 +36,7 @@ namespace Systems.Atmospherics
 		private Matrix matrix;
 
 		private ConcurrentDictionary<Vector3Int, MetaDataNode> hotspots;
-		private ThreadSafeList<MetaDataNode> windsTwo;
+		private ThreadSafeList<MetaDataNode> winds;
 		private GenericDelegate<MetaDataNode> windsNodeDelegator;
 
 		private List<Hotspot> hotspotsToAdd;
@@ -59,7 +59,7 @@ namespace Systems.Atmospherics
 			matrix = GetComponent<Matrix>();
 
 			hotspots = new ConcurrentDictionary<Vector3Int, MetaDataNode>();
-			windsTwo =  new ThreadSafeList<MetaDataNode>();
+			winds =  new ThreadSafeList<MetaDataNode>();
 			windsNodeDelegator = ProcessWindNodes;
 
 			hotspotsToRemove = new List<Vector3Int>();
@@ -76,7 +76,7 @@ namespace Systems.Atmospherics
 		private void Update()
 		{
 			Profiler.BeginSample("Wind");
-			windsTwo.Iterate(windsNodeDelegator);
+			winds.Iterate(windsNodeDelegator);
 			Profiler.EndSample();
 
 			Profiler.BeginSample("HotspotModify");
@@ -191,7 +191,7 @@ namespace Systems.Atmospherics
 			windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
 			if (windyNode.WindForce < 0.5f * (1f / PushMultiplier))
 			{
-				windsTwo.Remove(windyNode);
+				winds.Remove(windyNode);
 				windyNode.WindForce = 0;
 				windyNode.WindDirection = Vector2Int.zero;
 			}
@@ -345,7 +345,7 @@ namespace Systems.Atmospherics
 			if (node != MetaDataNode.None && pressureDifference > AtmosConstants.MinWindForce
 										  && windDirection != Vector2Int.zero)
 			{
-				windsTwo.AddIfMissing(node);
+				winds.AddIfMissing(node);
 
 				node.WindForce = (node.WindForce * ((RollingAverageN - 1) / RollingAverageN)) +
 				                 pressureDifference / RollingAverageN;
