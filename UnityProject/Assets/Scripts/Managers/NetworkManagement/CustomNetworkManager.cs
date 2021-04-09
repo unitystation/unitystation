@@ -122,9 +122,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		spawnPrefabs.Clear();
 
-		var networkObjects = AssetDatabase.LoadAllAssetsAtPath("Prefabs");
+		var networkObjects = AssetDatabase.LoadAllAssetsAtPath("Assets/Prefabs");
 		foreach (var netObj in networkObjects)
 		{
+			Debug.LogError($"{netObj.name}");
 			if (netObj is GameObject gameObj && gameObj.TryGetComponent<NetworkIdentity>(out _))
 			{
 				spawnPrefabs.Add(gameObj);
@@ -145,6 +146,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 			return prefab[0];
 		}
+
+		Logger.LogError($"There is no spawnable prefab with the name: {prefabName}, can only find prefabs which have net identities using this method");
 
 		return null;
 	}
