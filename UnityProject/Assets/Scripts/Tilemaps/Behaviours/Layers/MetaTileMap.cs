@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using Debug = UnityEngine.Debug;
@@ -1272,6 +1273,12 @@ namespace TileManagement
 
 				if (TileLcation != null)
 				{
+					if (TileLcation.Tile is BasicTile tile && tile.SoundOnDestroy.Count > 0)
+					{
+						// Because this function is called through a network message, the sound does not have to
+						// be played through the network, as all clients will receive the network message.
+						SoundManager.PlayAtPosition(tile.SoundOnDestroy.RandomElement(), position);
+					}
 					TileLcation.Tile = null;
 					TileLcation.OnStateChange();
 				}
