@@ -15,26 +15,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7173215006781413682, guid: bb2bcbb3619330d41965879e35f7c3ce,
         type: 3}
+      propertyPath: initialName
+      value: Badminka vodka
+      objectReference: {fileID: 0}
+    - target: {fileID: 7173215006781413682, guid: bb2bcbb3619330d41965879e35f7c3ce,
+        type: 3}
       propertyPath: initialDescription
       value: The label's written in Cyrillic. All you can make out is the name and
         a word that looks vaguely like 'Vodka'.
       objectReference: {fileID: 0}
     - target: {fileID: 7173215006781413682, guid: bb2bcbb3619330d41965879e35f7c3ce,
         type: 3}
-      propertyPath: initialName
-      value: Badminka vodka
-      objectReference: {fileID: 0}
-    - target: {fileID: 7173215006781413682, guid: bb2bcbb3619330d41965879e35f7c3ce,
-        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 11400000, guid: ee3b2217b7c0d8d459d1eb3ab18a80ac,
+      objectReference: {fileID: 11400000, guid: 1830abd54ea321342b747714176cd89c,
         type: 2}
     - target: {fileID: 7173215006781413682, guid: bb2bcbb3619330d41965879e35f7c3ce,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
-      objectReference: {fileID: 11400000, guid: 008ff497d2c82754db57ec850ab23e02,
+      objectReference: {fileID: 11400000, guid: 32de1f4d04e224f4399721f51621df9d,
         type: 2}
     - target: {fileID: 7274947440120613860, guid: bb2bcbb3619330d41965879e35f7c3ce,
         type: 3}
@@ -45,6 +45,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BadminkaVodka
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310038869089225508, guid: bb2bcbb3619330d41965879e35f7c3ce,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7310038869089225508, guid: bb2bcbb3619330d41965879e35f7c3ce,
         type: 3}
@@ -63,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7310038869089225508, guid: bb2bcbb3619330d41965879e35f7c3ce,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310038869089225508, guid: bb2bcbb3619330d41965879e35f7c3ce,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -75,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7310038869089225508, guid: bb2bcbb3619330d41965879e35f7c3ce,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7310038869089225508, guid: bb2bcbb3619330d41965879e35f7c3ce,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7310038869089225508, guid: bb2bcbb3619330d41965879e35f7c3ce,
         type: 3}

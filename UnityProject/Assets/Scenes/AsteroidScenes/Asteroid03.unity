@@ -308,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 8
   matrix: {fileID: 1491001673}
+  metaTileMap: {fileID: 1491001674}
 --- !u!483693784 &98672260
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -409,7 +410,7 @@ PrefabInstance:
     - target: {fileID: 5316695102526796559, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5316695102526796559, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
         type: 3}
@@ -549,6 +550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 1491001673}
+  metaTileMap: {fileID: 1491001674}
 --- !u!483693784 &273011173
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -1056,6 +1058,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 3
   matrix: {fileID: 1491001673}
+  metaTileMap: {fileID: 1491001674}
 --- !u!483693784 &675403624
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -1429,96 +1432,91 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 837517319}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &905854956
+--- !u!4 &940092939 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5727247646144013472, guid: 00ba0ed75e40b254bb69e80ab1bdec09,
+    type: 3}
+  m_PrefabInstance: {fileID: 1201041765}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1029052017
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 1951479755}
     m_Modifications:
-    - target: {fileID: 4330355114301591593, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7495180291926065977, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
-      propertyPath: disableAscension
-      value: 1
+      propertyPath: m_Name
+      value: XenomorphHunterSimple
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 29
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4827737755655954553, guid: 9ff670259caaa5c488c14453dd5d8c63,
-        type: 3}
-      propertyPath: m_Name
-      value: NPC_Xenomorph
-      objectReference: {fileID: 0}
-    - target: {fileID: 4859335736327027429, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    - target: {fileID: 7607845521540798885, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: sceneId
-      value: 2916637909
+      value: 1568602114
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9ff670259caaa5c488c14453dd5d8c63, type: 3}
---- !u!4 &905854957 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 00a84f751afb412428a586d23cf90b39, type: 3}
+--- !u!4 &1029052018 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4825096394861217405, guid: 9ff670259caaa5c488c14453dd5d8c63,
+  m_CorrespondingSourceObject: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
     type: 3}
-  m_PrefabInstance: {fileID: 905854956}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &940092939 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5727247646144013472, guid: 00ba0ed75e40b254bb69e80ab1bdec09,
-    type: 3}
-  m_PrefabInstance: {fileID: 1201041765}
+  m_PrefabInstance: {fileID: 1029052017}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1030259621
 PrefabInstance:
@@ -1727,7 +1725,7 @@ PrefabInstance:
     - target: {fileID: 5316695102526796559, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5316695102526796559, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
         type: 3}
@@ -2378,7 +2376,7 @@ PrefabInstance:
     - target: {fileID: 5316695102526796559, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5316695102526796559, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
         type: 3}
@@ -2496,6 +2494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 9
   matrix: {fileID: 1491001673}
+  metaTileMap: {fileID: 1491001674}
 --- !u!114 &1785209570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2722,6 +2721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 1491001673}
+  metaTileMap: {fileID: 1491001674}
 --- !u!483693784 &1881395534
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -28601,10 +28601,10 @@ Transform:
   - {fileID: 1104342591}
   - {fileID: 1030259622}
   - {fileID: 1672335131}
+  - {fileID: 1029052018}
   - {fileID: 1774755706}
-  - {fileID: 1134129860}
   - {fileID: 125029527}
-  - {fileID: 905854957}
+  - {fileID: 1134129860}
   m_Father: {fileID: 1491001671}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -28622,6 +28622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 2
   matrix: {fileID: 1491001673}
+  metaTileMap: {fileID: 1491001674}
 --- !u!1001 &2018338670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28806,6 +28807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 6
   matrix: {fileID: 1491001673}
+  metaTileMap: {fileID: 1491001674}
 --- !u!483693784 &2060754340
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -28940,6 +28942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 1491001673}
+  metaTileMap: {fileID: 1491001674}
 --- !u!483693784 &2114120480
 TilemapRenderer:
   m_ObjectHideFlags: 0

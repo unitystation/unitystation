@@ -44,10 +44,13 @@ MonoBehaviour:
   performingAction: 0
   activated: 1
   tickRate: 1
-  followTarget: {fileID: 0}
-  spriteHolder: {fileID: 6440154112111017943}
+  FollowTarget: {fileID: 0}
   targetOtherPlayersWhoGetInWay: 0
-  onlyHitTarget: 0
+  onlyActOnTarget: 0
+  doLerpOnAction: 0
+  spriteHolder: {fileID: 6440154112111017943}
+  actionCooldown: 1
+  mobAI: {fileID: 811126669682120101}
   attackSound:
     SetLoadSetting: 0
     AssetAddress: null
@@ -57,8 +60,6 @@ MonoBehaviour:
       m_SubObjectType: 
   hitDamage: 30
   attackVerb: 
-  defaultTarget: 0
-  meleeCoolDown: 1
 --- !u!1001 &6668068784741760215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128,12 +129,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
+      propertyPath: isDirty
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7607628398152424837, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: Passable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607628398152424837, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: initialPassable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607628398152424837, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: initialCrawlPassable
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

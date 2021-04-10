@@ -67,11 +67,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snake
       objectReference: {fileID: 0}
-    - target: {fileID: 2097622882949070881, guid: 38ec040ecea27f74dad0e315030ca53d,
-        type: 3}
-      propertyPath: Passable
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2097992311592261547, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
       propertyPath: m_AssetId
@@ -95,10 +90,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 400afa54cac54ae4dadf3b79f41b26bd,
         type: 2}
+    - target: {fileID: 4912760198450532147, guid: 38ec040ecea27f74dad0e315030ca53d,
+        type: 3}
+      propertyPath: mobName
+      value: snake
+      objectReference: {fileID: 0}
+    - target: {fileID: 6237937272759942530, guid: 38ec040ecea27f74dad0e315030ca53d,
+        type: 3}
+      propertyPath: attackVerb
+      value: bit
+      objectReference: {fileID: 0}
     - target: {fileID: 6237937272759942530, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
       propertyPath: attackSound.AssetAddress
-      value: null
+      value: Assets/Prefabs/NPC/bite.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 6869620749315484739, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
@@ -109,6 +114,11 @@ PrefabInstance:
     - target: {fileID: 6869620749315484739, guid: 38ec040ecea27f74dad0e315030ca53d,
         type: 3}
       propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197713661554820406, guid: 38ec040ecea27f74dad0e315030ca53d,
+        type: 3}
+      propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

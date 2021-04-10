@@ -10,7 +10,7 @@ namespace Chemistry
 	public class ReagentMix : IEnumerable<KeyValuePair<Reagent, float>>
 	{
 		[Temperature]
-		[SerializeField] private float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
+		[SerializeField] private float temperature = TemperatureUtils.ToKelvin(20f, TemeratureUnits.C);
 
 		[SerializeField]
 		private DictionaryReagentFloat reagents;

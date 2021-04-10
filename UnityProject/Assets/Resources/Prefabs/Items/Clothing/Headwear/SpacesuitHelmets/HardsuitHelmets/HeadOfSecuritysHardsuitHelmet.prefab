@@ -7,6 +7,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 974012143178466493, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 974012143178466493, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 974012143178466493, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 974012143178466493, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 974012143178466493, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 974012143178466493, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 3523893521537234427, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: toggleSprites.Array.data[0]
@@ -158,14 +188,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ee17fdae00025614aa7f179f037b1b3f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7954250596011379165, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: ee17fdae00025614aa7f179f037b1b3f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7954250596011379165, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: allClothingData.Array.size

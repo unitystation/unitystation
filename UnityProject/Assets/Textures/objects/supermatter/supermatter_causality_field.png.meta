@@ -17,8 +17,20 @@ TextureImporter:
   - first:
       213: 21300008
     second: causality_field_4
+  - first:
+      213: -1410666991276869242
+    second: supermatter_causality_field_0
+  - first:
+      213: -6356017488945525764
+    second: supermatter_causality_field_1
+  - first:
+      213: -4574839856207876485
+    second: supermatter_causality_field_2
+  - first:
+      213: 9104590444622398696
+    second: supermatter_causality_field_3
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -38,6 +50,7 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -72,6 +85,8 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -101,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: causality_field_0
+      name: supermatter_causality_field_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: 689b29078dd4c6ce0800000000000000
+      internalID: -1410666991276869242
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: causality_field_1
+      name: supermatter_causality_field_1
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,20 +151,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: cfb4b39f4c3eac7a0800000000000000
+      internalID: -6356017488945525764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: causality_field_2
+      name: supermatter_causality_field_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,20 +172,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: b7e2e6aa367e280c0800000000000000
+      internalID: -4574839856207876485
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: causality_field_3
+      name: supermatter_causality_field_3
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,29 +193,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: causality_field_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300008
+      spriteID: 8e4422d65c00a5e70800000000000000
+      internalID: 9104590444622398696
       vertices: []
       indices: 
       edges: []

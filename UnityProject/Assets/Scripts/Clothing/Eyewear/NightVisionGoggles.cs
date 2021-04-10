@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
-using CameraEffects;
+using Player;
 using UI.Action;
 
 public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheckedInteractable<HandActivate>
@@ -10,65 +8,68 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 	[SerializeField, Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
 	private Vector3 nightVisionVisibility;
 
-	[SerializeField, Tooltip("The default minimal visibility size.")]
-	private Vector3 defaultVisionVisibility;
-
 	[SerializeField, Tooltip("How fast will the player gain visibility?")]
 	private float visibilityAnimationSpeed = 1.50f;
 
 	private bool isOn = true;
-
-	private Pickupable pickupable;
 	private ItemActionButton actionButton;
-	
-	private void OnStartClient()
-	{
-		//(ThatDan123) : this wont work as equipment wont be sync'd in time for the check,
-		if(PlayerManager.LocalPlayerScript != null)
-		{
-			var item = getWhatsOnThePlayerEyes();
-			if(item == gameObject) {enableEffect(true);}
-		}
-	}
+
+	private RegisterPlayer currentPlayer;
+
+	#region LifeCycle
+
 	private void Awake()
 	{
-		pickupable = GetComponent<Pickupable>();
 		actionButton = GetComponent<ItemActionButton>();
 	}
 
 	private void OnEnable()
 	{
-		actionButton.ServerActionClicked += turnOnGoggles;
+		actionButton.ServerActionClicked += ToggleGoggles;
 	}
 
 	private void OnDisable()
 	{
-		actionButton.ServerActionClicked -= turnOnGoggles;
+		actionButton.ServerActionClicked -= ToggleGoggles;
 	}
 
-	//IServerInventoryMove should be replaced with IClienInventoryMove but that needs more functionality first
+	#endregion
+
+	#region InventoryMove
+
+	//IServerInventoryMove should be replaced with IClientInventoryMove but that needs more functionality first
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		RegisterPlayer registerPlayer = info.ToRootPlayer;
+		currentPlayer = info.ToRootPlayer;
 
-		if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
+		//Equipping goggles
+		if (info.ToSlot?.NamedSlot != null)
 		{
-
-			if (registerPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
+			if (currentPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
 			{
-				TargetOnWearing(registerPlayer.connectionToClient);
+				//Only turn on goggle for client if they are on
+				if(isOn == false) return;
+
+				ServerToggleClient(true);
 			}
 		}
 
-		if (info.FromSlot != null && info.FromSlot?.NamedSlot != null)
+		//Removing goggles
+		if (info.FromSlot?.NamedSlot != null)
 		{
-			if (registerPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
+			if (currentPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
 			{
-				TargetOnTakingOff(registerPlayer.connectionToClient);
+				//Always try to turn client off when removing
+				ServerToggleClient(false);
+				currentPlayer = null;
 			}
 		}
 	}
-	
+
+	#endregion
+
+	#region HandInteract
+
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
 		return DefaultWillInteract.Default(interaction, side);
@@ -76,57 +77,42 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		turnOnGoggles();
+		isOn = !isOn;
+		Chat.AddExamineMsgToClient($"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
 	}
 
-	private void turnOnGoggles()
+	#endregion
+
+	[Server]
+	private void ToggleGoggles()
 	{
-		if(isOn == true)
-		{
-			isOn = false;
-			var item = getWhatsOnThePlayerEyes();
-			if(item == gameObject) {enableEffect(false);}
-			Chat.AddExamineMsgToClient($"You turned off the {gameObject.ExpensiveName()}.");
-		}
-		else
-		{
-			isOn = true;
-			var item = getWhatsOnThePlayerEyes();
-			if(item == gameObject) {enableEffect(true);}
-			Chat.AddExamineMsgToClient($"You turned on the {gameObject.ExpensiveName()}.");
-		}
+		SetGoggleState(!isOn);
 	}
 
-	private GameObject getWhatsOnThePlayerEyes()
+	/// <summary>
+	/// Turning goggles on or off
+	/// </summary>
+	/// <param name="newState"></param>
+	[Server]
+	private void SetGoggleState(bool newState)
 	{
-		return PlayerManager.LocalPlayerScript.Equipment.GetClothingItem(NamedSlot.eyes).GameObjectReference;
-	}
+		if(currentPlayer == null || currentPlayer.connectionToClient == null) return;
 
-	private void enableEffect(bool check)
-	{
-		var camera = Camera.main;
-		if(check == true)
+		isOn = newState;
+		var item = currentPlayer.PlayerScript.Equipment.GetClothingItem(NamedSlot.eyes).OrNull()?.GameObjectReference;
+		if (item == gameObject)
 		{
-			camera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState();
-			camera.GetComponent<CameraEffectControlScript>().AdjustPlayerVisibility(nightVisionVisibility, visibilityAnimationSpeed);
-		}
-		else
-		{
-			camera.GetComponent<CameraEffectControlScript>().ToggleNightVisionEffectState();
-			camera.GetComponent<CameraEffectControlScript>().AdjustPlayerVisibility(defaultVisionVisibility, 0.1f);
+			ServerToggleClient(newState);
+			Chat.AddExamineMsgFromServer(currentPlayer.gameObject, $"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
 		}
 	}
 
-	[TargetRpc]
-	private void TargetOnTakingOff(NetworkConnection target)
+	[Server]
+	private void ServerToggleClient(bool newState)
 	{
-		if(isOn == true){enableEffect(false);}
-	}
+		if(currentPlayer == null) return;
 
-	[TargetRpc]
-	private void TargetOnWearing(NetworkConnection target)
-	{
-		if(isOn == true){enableEffect(true);}
+		currentPlayer.PlayerScript.PlayerOnlySyncValues.ServerSetNightVision(newState, nightVisionVisibility, visibilityAnimationSpeed);
 	}
 }
 

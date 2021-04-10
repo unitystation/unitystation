@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leavings: {fileID: 0}
-  copyPlantDataToLeavings: 0
-  eatSound:
+  sound:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  NutritionLevel: 165
+  StartingNutrients: 165
+  Nutriment: {fileID: 0}
   healBruteDamage: 5
   healableJobs: 1700000021000000110000002a00000029000000
 --- !u!1001 &1205097671078976283
@@ -167,9 +167,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b23a4b1a5d286e84eb1330dc417b8608,
+        type: 2}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 7b9f470d9aa5545ce87447d3cd3d61ce,
+        type: 2}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a0b9474c1437f6f4cb8e29626079733b,
         type: 2}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}

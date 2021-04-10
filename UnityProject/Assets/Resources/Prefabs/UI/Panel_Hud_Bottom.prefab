@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -603,7 +603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.31764707, g: 0.43921572, b: 0.5294118, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -700,7 +700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.31764707, g: 0.43921572, b: 0.5294118, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1024,7 +1024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1205,7 +1205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1280,7 +1280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1359,7 +1359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1437,6 +1437,7 @@ MonoBehaviour:
   hoverName: i_clothing
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -1499,7 +1500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1780,7 +1781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.08627451, g: 0.08627451, b: 0.10196079, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1855,7 +1856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2313,7 +2314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2389,7 +2390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.31764707, g: 0.43921572, b: 0.5294118, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2486,6 +2487,7 @@ MonoBehaviour:
   hoverName: shoes
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -2548,7 +2550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2729,6 +2731,7 @@ MonoBehaviour:
   hoverName: right hand
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 6303621425200999732}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -2931,7 +2934,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3160,7 +3163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3694,7 +3697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3921,7 +3924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.16470589, g: 0.16862746, b: 0.19607845, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3996,7 +3999,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4074,6 +4077,7 @@ MonoBehaviour:
   hoverName: ears
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4137,7 +4141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4215,6 +4219,7 @@ MonoBehaviour:
   hoverName: neck
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4460,6 +4465,7 @@ MonoBehaviour:
   hoverName: SuitStorage
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 9027438441449657414}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4631,6 +4637,7 @@ MonoBehaviour:
   hoverName: gloves
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4696,6 +4703,7 @@ MonoBehaviour:
   hoverName: back
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -4758,7 +4766,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.24313727, g: 0.24705884, b: 0.2784314, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5004,6 +5012,7 @@ MonoBehaviour:
   hoverName: o_clothing
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -5275,7 +5284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5428,6 +5437,7 @@ MonoBehaviour:
   hoverName: suit storage
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -5875,6 +5885,7 @@ MonoBehaviour:
   hoverName: left hand
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 7509826716592249208}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -6343,6 +6354,7 @@ MonoBehaviour:
   hoverName: belt
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -6408,6 +6420,7 @@ MonoBehaviour:
   hoverName: mask
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -6473,6 +6486,7 @@ MonoBehaviour:
   hoverName: storage1
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 462445106604139935}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -6610,7 +6624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7081,7 +7095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7208,6 +7222,7 @@ MonoBehaviour:
   hoverName: 
   initiallyHidden: 1
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -7323,7 +7338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.08627451, g: 0.08627451, b: 0.10196079, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7401,6 +7416,7 @@ MonoBehaviour:
   hoverName: id
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -8518,7 +8534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.31764707, g: 0.43921572, b: 0.5294118, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -9631,6 +9647,7 @@ MonoBehaviour:
   hoverName: head
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -9694,7 +9711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.31764707, g: 0.43921572, b: 0.5294118, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -9883,7 +9900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10060,7 +10077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10135,7 +10152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.16470589, g: 0.16862746, b: 0.19607845, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10212,7 +10229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10287,7 +10304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10365,6 +10382,7 @@ MonoBehaviour:
   hoverName: eyes
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -10822,7 +10840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.31764707, g: 0.43921572, b: 0.5294118, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -11122,7 +11140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -11197,7 +11215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -11272,7 +11290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.24313727, g: 0.24705884, b: 0.2784314, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -11347,7 +11365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -11425,6 +11443,7 @@ MonoBehaviour:
   hoverName: storage2
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 4949455730005461735}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -11927,7 +11946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -12101,7 +12120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.3019608, g: 0.5137255, b: 0.5137255, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -12461,6 +12480,7 @@ MonoBehaviour:
   hoverName: right hand
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 4820603719642766245}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -12554,7 +12574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -12831,7 +12851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13123,7 +13143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13271,6 +13291,7 @@ MonoBehaviour:
   hoverName: left hand
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 3725035644177709530}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -13450,6 +13471,7 @@ MonoBehaviour:
   hoverName: neck
   initiallyHidden: 1
   placeholderImage: {fileID: 8281058639250155227}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -13514,7 +13536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13660,7 +13682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13807,6 +13829,7 @@ MonoBehaviour:
   hoverName: gloves
   initiallyHidden: 1
   placeholderImage: {fileID: 8281196515086637841}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -13871,7 +13894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -14836,7 +14859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -14983,6 +15006,7 @@ MonoBehaviour:
   hoverName: back
   initiallyHidden: 0
   placeholderImage: {fileID: 6364260957554802200}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15048,6 +15072,7 @@ MonoBehaviour:
   hoverName: mask
   initiallyHidden: 1
   placeholderImage: {fileID: 8277999282005555175}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15218,6 +15243,7 @@ MonoBehaviour:
   hoverName: o_clothing
   initiallyHidden: 1
   placeholderImage: {fileID: 8281666249806141003}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15283,6 +15309,7 @@ MonoBehaviour:
   hoverName: i_clothing
   initiallyHidden: 1
   placeholderImage: {fileID: 8278030082089836185}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15450,6 +15477,7 @@ MonoBehaviour:
   hoverName: ears
   initiallyHidden: 1
   placeholderImage: {fileID: 8281585469773882971}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15589,6 +15617,7 @@ MonoBehaviour:
   hoverName: belt
   initiallyHidden: 0
   placeholderImage: {fileID: 5491501073979613826}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -15959,7 +15988,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -16412,7 +16441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -16994,6 +17023,7 @@ MonoBehaviour:
   hoverName: head
   initiallyHidden: 1
   placeholderImage: {fileID: 8281131112353500217}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17134,6 +17164,7 @@ MonoBehaviour:
   hoverName: shoes
   initiallyHidden: 0
   placeholderImage: {fileID: 8277947513816033171}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17471,6 +17502,7 @@ MonoBehaviour:
   hoverName: storage2
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 2053330118055208131}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17536,6 +17568,7 @@ MonoBehaviour:
   hoverName: storage1
   initiallyHidden: 0
   placeholderImage: {fileID: 0}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 6806866905320476867}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17601,6 +17634,7 @@ MonoBehaviour:
   hoverName: eyes
   initiallyHidden: 1
   placeholderImage: {fileID: 8281055785561640595}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -17665,7 +17699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -17812,6 +17846,7 @@ MonoBehaviour:
   hoverName: pda
   initiallyHidden: 0
   placeholderImage: {fileID: 5612918694531810790}
+  ItemStorageLinkOrigin: 0
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
@@ -18240,7 +18275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -18443,7 +18478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -18624,7 +18659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -18699,7 +18734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: IsSurface
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: Nutriment
       value: 
       objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
@@ -118,6 +123,23 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c1a6b7603a812b34b908525796b891c5,
+        type: 2}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyPartType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 47ce1199e6a946842a2a987e048e4340,
+        type: 2}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 13fa3e7a251a7b54aa67fd153c616ab7,
         type: 2}
     - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}

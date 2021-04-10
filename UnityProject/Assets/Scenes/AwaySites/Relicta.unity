@@ -3767,6 +3767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 3
   matrix: {fileID: 1201430353}
+  metaTileMap: {fileID: 1201430356}
 --- !u!483693784 &129298931
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -11858,7 +11859,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (16)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -11922,7 +11923,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -12457,7 +12458,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (12)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -12521,7 +12522,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -15269,7 +15270,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (3)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -15333,7 +15334,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -15441,7 +15442,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (24)
+      value: MobSpawner - Ghost
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -15505,7 +15506,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 540a1a87a1b0f214e991eee2d4a61299,
+      objectReference: {fileID: 8283214133302398796, guid: 2b870ee0f0fe9594ba2c5df6911a53db,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -16307,7 +16308,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (7)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -16371,7 +16372,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -16744,7 +16745,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (5)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -16808,7 +16809,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -19363,6 +19364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 9
   matrix: {fileID: 1201430353}
+  metaTileMap: {fileID: 1201430356}
 --- !u!114 &527580297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21766,6 +21768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 8
   matrix: {fileID: 1201430353}
+  metaTileMap: {fileID: 1201430356}
 --- !u!483693784 &594602646
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -27268,7 +27271,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (2)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -27332,7 +27335,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -28152,6 +28155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 6
   matrix: {fileID: 1201430353}
+  metaTileMap: {fileID: 1201430356}
 --- !u!483693784 &632040014
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -28564,6 +28568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 1201430353}
+  metaTileMap: {fileID: 1201430356}
 --- !u!483693784 &642218641
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -62901,7 +62906,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (6)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -62965,7 +62970,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -63904,7 +63909,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (4)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -63968,7 +63973,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -64444,7 +64449,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (22)
+      value: MobSpawner - Ghost
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -64508,7 +64513,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 540a1a87a1b0f214e991eee2d4a61299,
+      objectReference: {fileID: 8283214133302398796, guid: 2b870ee0f0fe9594ba2c5df6911a53db,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -65409,7 +65414,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (18)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -65473,7 +65478,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -66837,7 +66842,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (13)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -66901,7 +66906,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -68248,7 +68253,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (11)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -68312,7 +68317,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -70031,7 +70036,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (9)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -70095,7 +70100,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -73850,7 +73855,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (17)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -73914,7 +73919,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -74983,7 +74988,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (15)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -75047,7 +75052,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -75569,6 +75574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 1201430353}
+  metaTileMap: {fileID: 1201430356}
 --- !u!483693784 &1296891231
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -81485,7 +81491,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (8)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -81549,7 +81555,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -85276,7 +85282,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (21)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -85340,7 +85346,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -86577,7 +86583,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (25)
+      value: MobSpawner - Shambling Husk
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -86641,7 +86647,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 8c68760c062caa043894d888473b6086,
+      objectReference: {fileID: 5563146936407818944, guid: 24dd134af3b26d446aaab32a68011a5b,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -89813,6 +89819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 2
   matrix: {fileID: 1201430353}
+  metaTileMap: {fileID: 1201430356}
 --- !u!1001 &1698229679
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90446,6 +90453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 1201430353}
+  metaTileMap: {fileID: 1201430356}
 --- !u!483693784 &1711801762
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -97329,7 +97337,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (19)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -97393,7 +97401,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -100447,7 +100455,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (10)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -100511,7 +100519,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -103083,6 +103091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 1201430353}
+  metaTileMap: {fileID: 1201430356}
 --- !u!483693784 &1980616547
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -108432,7 +108441,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (20)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -108496,7 +108505,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -109252,7 +109261,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (23)
+      value: MobSpawner - Ghost
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -109316,7 +109325,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 540a1a87a1b0f214e991eee2d4a61299,
+      objectReference: {fileID: 8283214133302398796, guid: 2b870ee0f0fe9594ba2c5df6911a53db,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -111598,7 +111607,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (1)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -111662,7 +111671,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -111770,7 +111779,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner (14)
+      value: MobSpawner - Shambling Corpse
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -111834,7 +111843,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: cce621dc19be49c4fa5dea87c55c8153,
+      objectReference: {fileID: 7516670754343575980, guid: b630726c9e54b1c4abfbe90b31311407,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}

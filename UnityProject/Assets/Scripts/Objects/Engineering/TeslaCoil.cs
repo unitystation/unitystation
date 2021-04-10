@@ -206,6 +206,8 @@ namespace Objects.Engineering
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
+			if (CurrentState != TeslaCoilState.Power) return null;
+
 			return $"Generating {generatedWatts} watts of energy";
 		}
 

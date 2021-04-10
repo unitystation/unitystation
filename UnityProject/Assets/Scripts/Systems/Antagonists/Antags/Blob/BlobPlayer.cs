@@ -148,73 +148,26 @@ namespace Blob
 		private int bottomXCoord;
 		private int bottomYCoord;
 
-		public float Resources
-		{
-			get { return resources; }
-			set
-			{
-				resources = value;
-
-				TargetRpcSyncResources(connectionToClient, resources);
-			}
-		}
-
+		[SyncVar(hook = nameof(SyncResources))]
 		private float resources = 0;
 
-		public float Health
-		{
-			get { return health; }
-			set
-			{
-				health = value;
-
-				TargetRpcSyncHealth(connectionToClient, health);
-			}
-		}
-
+		[SyncVar(hook = nameof(SyncHealth))]
 		private float health = 400f;
 
-		public int NumOfNonSpaceBlobTiles
-		{
-			get { return numOfNonSpaceBlobTiles; }
-			set
-			{
-				numOfNonSpaceBlobTiles = value;
-
-				TargetRpcSyncNumOfBlobTiles(connectionToClient, numOfNonSpaceBlobTiles);
-			}
-		}
-
+		[SyncVar(hook = nameof(SyncNumOfBlobTiles))]
 		private int numOfNonSpaceBlobTiles = 1;
 
 		//Amount of free strain rerolls
-		public int StrainRerolls
-		{
-			get { return strainRerolls; }
-			set
-			{
-				strainRerolls = value;
-
-				TargetRpcSyncStrainRerolls(connectionToClient, strainRerolls);
-			}
-		}
-
+		[SyncVar(hook = nameof(SyncStrainRerolls))]
 		private int strainRerolls = 1;
 
-		//Needed to run the Rpc on client
-		public int StrainIndex
-		{
-			get { return strainIndex; }
-			set
-			{
-				strainIndex = value;
-
-				TargetRpcSyncStrainIndex(connectionToClient, strainIndex);
-			}
-		}
-
+		[SyncVar(hook = nameof(SyncStrainIndex))]
 		private int strainIndex;
 
+		[SyncVar(hook = nameof(SyncTurnOnClientLight))]
+		private bool clientLight;
+
+		[HideInInspector]
 		public BlobStrain clientCurrentStrain;
 
 		private int numOfBlobTiles = 1;
@@ -262,7 +215,7 @@ namespace Blob
 				return;
 			}
 
-			TargetRpcTurnOnClientLight(connectionToClient);
+			clientLight = true;
 
 			blobCore = result.GameObject.GetComponent<BlobStructure>();
 
@@ -275,7 +228,7 @@ namespace Blob
 			blobCore.overmindName = overmindName;
 
 			currentStrain = blobStrains.PickRandom();
-			StrainIndex = blobStrains.IndexOf(currentStrain);
+			strainIndex = blobStrains.IndexOf(currentStrain);
 
 			SetStrainData(blobCore);
 			SetLightAndColor(blobCore);
@@ -335,7 +288,7 @@ namespace Blob
 			nonSpaceBlobTiles.Remove(null);
 
 			//Count number of blob tiles
-			NumOfNonSpaceBlobTiles = nonSpaceBlobTiles.Count;
+			numOfNonSpaceBlobTiles = nonSpaceBlobTiles.Count;
 			numOfBlobTiles = blobTiles.Count;
 
 			if (numOfBlobTiles > maxCount)
@@ -343,12 +296,12 @@ namespace Blob
 				maxCount = numOfBlobTiles;
 			}
 
-			if (NumOfNonSpaceBlobTiles > maxNonSpaceCount)
+			if (numOfNonSpaceBlobTiles > maxNonSpaceCount)
 			{
-				maxNonSpaceCount = NumOfNonSpaceBlobTiles;
+				maxNonSpaceCount = numOfNonSpaceBlobTiles;
 			}
 
-			if (isBlobGamemode && !halfWay && NumOfNonSpaceBlobTiles >= numOfTilesForVictory / 2)
+			if (isBlobGamemode && !halfWay && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 2)
 			{
 				halfWay = true;
 
@@ -359,7 +312,7 @@ namespace Blob
 				SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
 			}
 
-			if (isBlobGamemode && !nearlyWon && NumOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
+			if (isBlobGamemode && !nearlyWon && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
 			{
 				nearlyWon = true;
 
@@ -371,7 +324,7 @@ namespace Blob
 			}
 
 			//Blob wins after number of blob tiles reached
-			if (!victory && NumOfNonSpaceBlobTiles >= numOfTilesForVictory)
+			if (!victory && numOfNonSpaceBlobTiles >= numOfTilesForVictory)
 			{
 				victory = true;
 				BlobWins();
@@ -393,7 +346,7 @@ namespace Blob
 			{
 				rerollTimer = 0f;
 
-				StrainRerolls += 1;
+				strainRerolls += 1;
 			}
 
 			CheckConnections();
@@ -408,7 +361,7 @@ namespace Blob
 
 			if (blobCore == null) return;
 
-			Health = coreHealth.integrity;
+			health = coreHealth.integrity;
 		}
 
 		#region teleport
@@ -483,11 +436,13 @@ namespace Blob
 
 		#endregion
 
-		#region TargetRpc
+		#region SyncVar Hooks
 
-		[TargetRpc]
-		private void TargetRpcTurnOnClientLight(NetworkConnection target)
+		[Client]
+		private void SyncTurnOnClientLight(bool oldVar, bool newVar)
 		{
+			if (newVar == false)return;
+
 			TurnOnClientLight();
 			playerScript.IsPlayerSemiGhost = true;
 			uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
@@ -495,7 +450,7 @@ namespace Blob
 			uiBlob.controller = GetComponent<BlobMouseInputController>();
 		}
 
-		//Client Side
+		[Client]
 		public void TurnOnClientLight()
 		{
 			overmindLightObject.SetActive(true);
@@ -512,44 +467,42 @@ namespace Blob
 			overmindSprite.layer = 29;
 		}
 
-		[TargetRpc]
-		private void TargetRpcTurnOffBlob(NetworkConnection target)
-		{
-			playerScript.IsPlayerSemiGhost = false;
-			PlayerManager.LocalPlayerScript.IsPlayerSemiGhost = false;
-		}
-
-		[TargetRpc]
-		private void TargetRpcSyncResources(NetworkConnection target, float newVar)
+		[Client]
+		private void SyncResources(float oldVar, float newVar)
 		{
 			uiBlob.resourceText.text = Mathf.FloorToInt(newVar).ToString();
 		}
 
-		[TargetRpc]
-		private void TargetRpcSyncHealth(NetworkConnection target, float newVar)
+		[Client]
+		private void SyncHealth(float oldVar, float newVar)
 		{
 			uiBlob.healthText.text = newVar.ToString();
 		}
 
-		[TargetRpc]
-		private void TargetRpcSyncNumOfBlobTiles(NetworkConnection target, int newVar)
+		[Client]
+		private void SyncNumOfBlobTiles(int oldVar, int newVar)
 		{
 			uiBlob.numOfBlobTilesText.text = newVar.ToString();
 		}
 
-		[TargetRpc]
-		private void TargetRpcSyncStrainRerolls(NetworkConnection target, int newVar)
+		[Client]
+		private void SyncStrainRerolls(int oldVar, int newVar)
 		{
 			uiBlob.strainRerollsText.text = newVar.ToString();
 		}
 
-		[TargetRpc]
-		private void TargetRpcSyncStrainIndex(NetworkConnection target, int newVar)
+		[Client]
+		private void SyncStrainIndex(int oldVar, int newVar)
 		{
+			strainIndex = newVar;
 			clientCurrentStrain = blobStrains[newVar];
 			uiBlob.UpdateStrainInfo();
 			TurnOnClientLight();
 		}
+
+		#endregion
+
+		#region TargetRPCs
 
 		[TargetRpc]
 		private void TargetRpcForceStrainReset(NetworkConnection target)
@@ -575,6 +528,14 @@ namespace Blob
 
 				clientLinerenderers.Add(blob.gameObject);
 			}
+		}
+
+		[TargetRpc]
+		private void TargetRpcTurnOffLight(NetworkConnection target)
+		{
+			playerScript.IsPlayerSemiGhost = false;
+			PlayerManager.LocalPlayerScript.IsPlayerSemiGhost = false;
+			overmindLightObject.SetActive(false);
 		}
 
 		#endregion
@@ -613,7 +574,7 @@ namespace Blob
 		{
 			if (!ValidateAction(worldPos)) return false;
 
-			if (!autoExpanding && Resources < attackCost)
+			if (!autoExpanding && resources < attackCost)
 			{
 				Chat.AddExamineMsgFromServer(gameObject,
 					$"Not enough biomass to attack, you need {attackCost} biomass");
@@ -638,7 +599,7 @@ namespace Blob
 					Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
 				}
 
-				Resources -= attackCost;
+				resources -= attackCost;
 				return true;
 			}
 
@@ -819,16 +780,16 @@ namespace Blob
 		/// <returns></returns>
 		private bool ValidateCost(int cost, GameObject toSpawn, bool noMsg = false)
 		{
-			if (Resources >= cost)
+			if (resources >= cost)
 			{
-				Resources -= cost;
+				resources -= cost;
 				return true;
 			}
 
 			if (noMsg) return false;
 
 			Chat.AddExamineMsgFromServer(gameObject,
-				$"Unable to place {toSpawn.ExpensiveName()}, {cost - Resources} biomass missing");
+				$"Unable to place {toSpawn.ExpensiveName()}, {cost - resources} biomass missing");
 
 			return false;
 		}
@@ -1242,7 +1203,12 @@ namespace Blob
 				MatrixManager.MainStationMatrix);
 
 			playerScript.IsPlayerSemiGhost = false;
-			TargetRpcTurnOffBlob(connectionToClient);
+			clientLight = false;
+
+			if (connectionToClient != null)
+			{
+				TargetRpcTurnOffLight(connectionToClient);
+			}
 
 			//Make blob into ghost
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
@@ -1252,7 +1218,7 @@ namespace Blob
 				GameManager.Instance.EndRound();
 			}
 
-			Destroy(this);
+			Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion
@@ -1329,7 +1295,7 @@ namespace Blob
 			if (!ValidateCost(moveCoreCost, blobCorePrefab, true))
 			{
 				Chat.AddExamineMsgFromServer(gameObject,
-					$"Not enough biomass to move core, {moveCoreCost - Resources} biomass missing");
+					$"Not enough biomass to move core, {moveCoreCost - resources} biomass missing");
 				return;
 			}
 
@@ -1526,22 +1492,22 @@ namespace Blob
 			var used = 0f;
 
 			//Reset to max if over
-			if (Resources >= maxBiomass)
+			if (resources >= maxBiomass)
 			{
-				Resources = maxBiomass;
+				resources = maxBiomass;
 				return maxBiomass;
 			}
 			//Add only to max if it would go above max
-			else if (Resources + newBiomass > maxBiomass)
+			else if (resources + newBiomass > maxBiomass)
 			{
-				used = maxBiomass - Resources;
+				used = maxBiomass - resources;
 			}
 			else
 			{
 				used = newBiomass;
 			}
 
-			Resources += used;
+			resources += used;
 			return used;
 		}
 
@@ -1649,9 +1615,9 @@ namespace Blob
 		[Command]
 		public void CmdChangeStrain(int newStrainIndex)
 		{
-			if (StrainRerolls > 0)
+			if (strainRerolls > 0)
 			{
-				StrainRerolls -= 1;
+				strainRerolls -= 1;
 			}
 			else
 			{
@@ -1667,9 +1633,10 @@ namespace Blob
 			Chat.AddExamineMsgFromServer(gameObject, $"You readapt and mutate into the {blobStrains[newStrainIndex].strainName} strain");
 
 			currentStrain = blobStrains[newStrainIndex];
-			StrainIndex = newStrainIndex;
+			strainIndex = newStrainIndex;
 			UpdateBlobStrain();
 
+			if(connectionToClient == null) return;
 			TargetRpcForceStrainReset(connectionToClient);
 		}
 
@@ -1684,6 +1651,7 @@ namespace Blob
 
 			resources -= rerollStrainsCost;
 
+			if(connectionToClient == null) return;
 			TargetRpcForceStrainReset(connectionToClient);
 		}
 
@@ -1891,7 +1859,10 @@ namespace Blob
 					positions[i] = new Vector3(resultPathList[i].x + bottomXCoord, resultPathList[i].y + bottomYCoord, 0);
 				}
 
-				TargetRpcSetLineRender(connectionToClient, blobStructure.location, positions);
+				if(connectionToClient != null)
+				{
+					TargetRpcSetLineRender(connectionToClient, blobStructure.location, positions);
+				}
 			}
 
 			if (resultPathList?.Count > 0)
@@ -2099,7 +2070,11 @@ namespace Blob
 		/// <param name="blob"></param>
 		private void ResetConnection(BlobStructure blob)
 		{
-			TargetRpcSetLineRender(connectionToClient, blob.location, new Vector3[0]);
+			if (connectionToClient != null)
+			{
+				TargetRpcSetLineRender(connectionToClient, blob.location, new Vector3[0]);
+			}
+
 			blob.connectedToBlobNet = false;
 			blob.connectedNode = null;
 			blob.connectedPath.Clear();

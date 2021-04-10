@@ -11,8 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: bbb7b78ea0f4ec24e949c08e390bfc10,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
       propertyPath: hidesSlots
@@ -27,8 +26,7 @@ PrefabInstance:
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: bbb7b78ea0f4ec24e949c08e390bfc10,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
       propertyPath: hideClothingFlags
@@ -50,6 +48,96 @@ PrefabInstance:
         type: 3}
       propertyPath: bodyPartsCovered
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bio
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bio
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Rad
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bio
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Rad
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bomb
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bomb
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bullet
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bullet
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armoringBodyPartType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}

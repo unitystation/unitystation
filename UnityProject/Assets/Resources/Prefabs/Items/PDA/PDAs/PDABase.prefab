@@ -103,6 +103,27 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+--- !u!114 &-3362057103415789642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234969413023505447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: ae1c5ec42bb58d74b86450f9ba02d77a, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
 --- !u!114 &-2461206429612825053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +191,7 @@ MonoBehaviour:
   UIOVER: {r: 0, g: 0, b: 0, a: 0}
   OVERLAY: 0
   informUplinkCodeDelay: 10
+  telecrystalTrait: {fileID: 11400000, guid: 556eec86dd9773d21b1c44d80f058ab9, type: 2}
   debugUplink: 0
 --- !u!114 &2787272482076754036
 MonoBehaviour:
@@ -206,6 +228,11 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: b6353b80914314e4eba7f19cfa358fb4,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!114 &3675490826683128217
 MonoBehaviour:
   m_ObjectHideFlags: 0

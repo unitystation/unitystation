@@ -57,7 +57,7 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 1
-  followTarget: {fileID: 0}
+  FollowTarget: {fileID: 0}
 --- !u!1001 &191984071840633513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,6 +94,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d82728b1d19d842478602c242f162aeb,
         type: 2}
+    - target: {fileID: 1687885785096132754, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3085675842200537965, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: upSprite
@@ -122,7 +127,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300064, guid: dd9d409ce2befdd4b94599c70a4b471b,
+      objectReference: {fileID: 21300000, guid: dd9d409ce2befdd4b94599c70a4b471b,
         type: 3}
     - target: {fileID: 3159894102938464743, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}

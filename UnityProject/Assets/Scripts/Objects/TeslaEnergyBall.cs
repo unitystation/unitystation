@@ -5,6 +5,7 @@ using Systems.ElectricalArcs;
 using Systems.Explosions;
 using Systems.Mob;
 using AddressableReferences;
+using HealthV2;
 using Mirror;
 using Objects.Engineering;
 using ScriptableObjects.Gun;
@@ -335,9 +336,9 @@ namespace Objects
 		{
 			if (arc.Settings.endObject == null) return;
 
-			if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var health) && health != null)
+			if (arc.Settings.endObject.TryGetComponent<LivingHealthMasterBase>(out var health) && health != null)
 			{
-				health.ApplyDamage(gameObject, damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn);
+				health.ApplyDamageAll(gameObject, damage * ((int)currentStage + 1), AttackType.Magic, DamageType.Burn);
 			}
 			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity != null && integrity.Resistances.LightningDamageProof == false)
 			{
@@ -375,7 +376,7 @@ namespace Objects
 
 		private GameObject TryGetGameObjectAt(Vector3 targetPosition)
 		{
-			var mob = GetFirstAt<LivingHealthBehaviour>(targetPosition.CutToInt());
+			var mob = GetFirstAt<LivingHealthMasterBase>(targetPosition.CutToInt());
 			if (mob != null)
 			{
 				return mob.gameObject;

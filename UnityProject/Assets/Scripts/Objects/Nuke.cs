@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine.Events;
 using AddressableReferences;
 using Antagonists;
+using HealthV2;
 using Managers;
 using Messages.Server;
 using Random = UnityEngine.Random;
@@ -281,7 +282,7 @@ namespace Objects.Command
 		{
 			yield return WaitFor.Seconds(5f);
 			var worldPos = gameObject.GetComponent<RegisterTile>().WorldPosition;
-			foreach (LivingHealthBehaviour living in FindObjectsOfType<LivingHealthBehaviour>())
+			foreach (LivingHealthMasterBase living in FindObjectsOfType<LivingHealthMasterBase>())
 			{
 				var dist = Vector3.Distance(worldPos, living.GetComponent<RegisterTile>().WorldPosition);
 				if (dist < explosionRadius)

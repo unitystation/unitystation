@@ -7,7 +7,7 @@ using Objects.Atmospherics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Lungs : BodyPart
+public class Lungs : BodyPartModification
 {
 	/// <summary>
 	/// The number of ticks to wait until next breath is attempted
@@ -50,10 +50,10 @@ public class Lungs : BodyPart
 	{
 		base.ImplantPeriodicUpdate();
 
-		Vector3Int position = healthMaster.ObjectBehaviour.AssumedWorldPositionServer();
+		Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
-		if (TryBreathing(node, TotalModified))
+		if (TryBreathing(node, RelatedPart.TotalModified))
 		{
 			AtmosManager.Update(node);
 		}
@@ -78,19 +78,19 @@ public class Lungs : BodyPart
 			return false;
 		}
 
-		if (healthMaster.CirculatorySystem.UsedBloodPool[bloodType] == 0)
+		if (RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool[RelatedPart.bloodType] == 0)
 		{
 			return false; //No point breathing if we dont have blood.
 		}
 
 		// Try to get internal breathing if possible, otherwise get from the surroundings
-		IGasMixContainer container = healthMaster.RespiratorySystem.GetInternalGasMix() ?? node;
+		IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix() ?? node;
 
-		ReagentMix AvailableBlood = healthMaster.CirculatorySystem.UsedBloodPool.Take(healthMaster.CirculatorySystem.UsedBloodPool.Total);
+		ReagentMix AvailableBlood = RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Take(RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Total);
 
 		bool tryExhale = BreatheOut(container.GasMix, AvailableBlood, efficiency);
 		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
-		healthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
+		RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
 
 		return tryExhale || tryInhale;
 	}
@@ -126,13 +126,13 @@ public class Lungs : BodyPart
 					else
 					{
 						// Will still lose required gas suspended in blood plasma
-						ratio = bloodType.BloodGasCapability / bloodType.BloodCapacityOf;
+						ratio = RelatedPart.bloodType.BloodGasCapability / RelatedPart.bloodType.BloodCapacityOf;
 					}
 					toExhale.Add(Reagent.Key, ratio * Reagent.Value * efficiency);
 				}
 			}
 		}
-		healthMaster.RespiratorySystem.GasExchangeFromBlood(gasMix, blood, toExhale);
+		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeFromBlood(gasMix, blood, toExhale);
 		//Debug.Log("Gas exhaled: " + toExhale.Total);
 		return toExhale.Total > 0;
 	}
@@ -145,9 +145,9 @@ public class Lungs : BodyPart
 	/// <returns> True if breathGasMix was changed </returns>
 	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 	{
-		if (healthMaster.RespiratorySystem.CanBreathAnywhere)
+		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere)
 		{
-			blood.Add(requiredReagent, bloodType.GetSpareGasCapacity(blood));
+			blood.Add(RelatedPart.requiredReagent, RelatedPart.bloodType.GetSpareGasCapacity(blood));
 			return false;
 		}
 		ReagentMix toInhale = new ReagentMix();
@@ -161,29 +161,29 @@ public class Lungs : BodyPart
 
 				// Get as much as we need, or as much as in the lungs, whichever is lower
 				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(Gas.All[i]);
-				float molesRecieved = Mathf.Min(gasMoles, bloodType.GetSpareGasCapacity(blood, gasReagent));
+				float molesRecieved = Mathf.Min(gasMoles, RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent));
 				toInhale.Add(gasReagent, molesRecieved * efficiency);
 
 				//TODO: Add pressureSafeMax check here, for hyperoxia
 			}
 		}
-		healthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
+		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
 
 		// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
 		// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
 		var inGas = GAS2ReagentSingleton.Instance.GetGasToReagent(requiredGas);
-		var saturation = (toInhale[inGas] + blood[inGas]) / bloodType.GetGasCapacity(blood);
-		if (saturation >= HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY)
+		var saturation = (toInhale[inGas] + blood[inGas]) / RelatedPart.bloodType.GetGasCapacity(blood);
+		if (saturation >=RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY)
 		{
 			currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
-			healthMaster.HealthStateController.SetSuffocating(false);
+			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(false);
 		}
-		else if (saturation <= HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
+		else if (saturation <= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
 		{
-			healthMaster.HealthStateController.SetSuffocating(true);
+			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			if (Random.value < 0.2)
 			{
-				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{healthMaster.gameObject.ExpensiveName()} gasps");
+				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} gasps");
 			}
 		}
 

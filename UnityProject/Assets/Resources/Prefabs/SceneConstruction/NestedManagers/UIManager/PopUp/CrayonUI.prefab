@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 8741946697922882598}
   - component: {fileID: 449541594741429880}
   - component: {fileID: 2805821246381991464}
+  - component: {fileID: 992746432061308860}
   - component: {fileID: 7040877938469685003}
   m_Layer: 0
   m_Name: CrayonUI
@@ -264,6 +265,51 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   DisableOnEscape: 1
+--- !u!114 &992746432061308860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627735686710330990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 5
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 449541594741429880}
+          m_TargetAssemblyTypeName: WindowDrag, Assets
+          m_MethodName: OnDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 449541594741429880}
+          m_TargetAssemblyTypeName: WindowDrag, Assets
+          m_MethodName: BeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &7040877938469685003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,8 +326,6 @@ MonoBehaviour:
   dummyButton: {fileID: 4059312999635620297}
   categoryContent: {fileID: 4127768572497627476}
   tileContent: {fileID: 3055765226582164335}
-  categoryScrollbar: {fileID: 212770544772116869}
-  tileScrollbar: {fileID: 202153791915533598}
   colourDropDown: {fileID: 1189463847797847427}
   directionDropDown: {fileID: 2854921971044985372}
   graffitiLists: {fileID: 11400000, guid: fbe8c48fc4e93c5469f9ded8984f04da, type: 2}
@@ -686,7 +730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1502,8 +1546,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 333851795688189059}
   m_HandleRect: {fileID: 8718349572877539662}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0
+  m_Value: 0
+  m_Size: 0.49999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1808,7 +1852,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -414.9786, y: 30.339996}
+  m_AnchoredPosition: {x: -414.9785, y: 30.339996}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6889140950481331007
@@ -2385,7 +2429,6 @@ GameObject:
   - component: {fileID: 7721293054343513167}
   - component: {fileID: 1608817485228096715}
   - component: {fileID: 5502593669447266929}
-  - component: {fileID: 8547543239232021623}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -2457,20 +2500,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8547543239232021623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5390332019124277076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a14ed3befbaf4893bc7f04d3a44e9639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableDrag: 0
-  resetPositionOnDisable: 1
 --- !u!1 &6063541812629537565
 GameObject:
   m_ObjectHideFlags: 0
@@ -4304,7 +4333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

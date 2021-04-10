@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1900537248984229643, guid: a65257a8eed4c0749a33323e8b6f2bde,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900537248984229643, guid: a65257a8eed4c0749a33323e8b6f2bde,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1900537248984229643, guid: a65257a8eed4c0749a33323e8b6f2bde,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900537248984229643, guid: a65257a8eed4c0749a33323e8b6f2bde,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,16 +45,6 @@ PrefabInstance:
     - target: {fileID: 1900537248984229643, guid: a65257a8eed4c0749a33323e8b6f2bde,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1900537248984229643, guid: a65257a8eed4c0749a33323e8b6f2bde,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1900537248984229643, guid: a65257a8eed4c0749a33323e8b6f2bde,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1900537248984229643, guid: a65257a8eed4c0749a33323e8b6f2bde,
@@ -66,6 +66,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GiantSpider
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015900755977886611, guid: a65257a8eed4c0749a33323e8b6f2bde,
+        type: 3}
+      propertyPath: isDirty
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2015900755977886611, guid: a65257a8eed4c0749a33323e8b6f2bde,
         type: 3}
@@ -100,16 +105,26 @@ PrefabInstance:
       propertyPath: hitDamage
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 5797787539338408378, guid: a65257a8eed4c0749a33323e8b6f2bde,
+        type: 3}
+      propertyPath: attackVerb
+      value: bit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5797787539338408378, guid: a65257a8eed4c0749a33323e8b6f2bde,
+        type: 3}
+      propertyPath: attackSound.AssetAddress
+      value: Assets/Prefabs/NPC/bite.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6463140757093998715, guid: a65257a8eed4c0749a33323e8b6f2bde,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300008, guid: b2f01ea70c7fe67449b793600277c437,
+      objectReference: {fileID: 21300000, guid: b2f01ea70c7fe67449b793600277c437,
         type: 3}
-    - target: {fileID: 6605674241141804935, guid: a65257a8eed4c0749a33323e8b6f2bde,
+    - target: {fileID: 6463140757093998715, guid: a65257a8eed4c0749a33323e8b6f2bde,
         type: 3}
-      propertyPath: butcherResults.Array.size
-      value: 10
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6605674241141804935, guid: a65257a8eed4c0749a33323e8b6f2bde,
         type: 3}
@@ -120,6 +135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bloodColor
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605674241141804935, guid: a65257a8eed4c0749a33323e8b6f2bde,
+        type: 3}
+      propertyPath: butcherResults.Array.size
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6605674241141804935, guid: a65257a8eed4c0749a33323e8b6f2bde,
         type: 3}

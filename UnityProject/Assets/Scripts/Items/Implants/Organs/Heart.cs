@@ -5,7 +5,7 @@ using Chemistry;
 using HealthV2;
 using UnityEngine;
 
-public class Heart : BodyPart
+public class Heart : BodyPartModification
 {
 	//The actual heartrate of this implant, in BPM.
 	/// <summary>
@@ -45,7 +45,7 @@ public class Heart : BodyPart
 	public override void ImplantPeriodicUpdate()
 	{
 		base.ImplantPeriodicUpdate();
-		if (healthMaster.OverallHealth < -100)
+		if (RelatedPart.HealthMaster.OverallHealth < -100)
 		{
 
 			if (CanTriggerHeartAttack)
@@ -65,13 +65,13 @@ public class Heart : BodyPart
 				}
 			}
 		}
-		else if (healthMaster.OverallHealth < -50)
+		else if (RelatedPart.HealthMaster.OverallHealth < -50)
 		{
 			CanTriggerHeartAttack = true;
 			CurrentPulse = 0;
 		}
 
-		DoHeartBeat(healthMaster);
+		DoHeartBeat(RelatedPart.HealthMaster);
 	}
 
 	public void DoHeartBeat(LivingHealthMasterBase healthMaster)
@@ -89,13 +89,13 @@ public class Heart : BodyPart
 			return;
 		}
 
-		Heartbeat(TotalModified);
+		Heartbeat(RelatedPart.TotalModified);
 	}
 
 
 	public void Heartbeat(float efficiency)
 	{
-		CirculatorySystemBase circulatorySystem = HealthMaster.CirculatorySystem;
+		CirculatorySystemBase circulatorySystem = RelatedPart.HealthMaster.CirculatorySystem;
 		if (circulatorySystem)
 		{
 			//circulatorySystem.HeartBeat(heartStrength * TotalModified);
@@ -104,7 +104,7 @@ public class Heart : BodyPart
 			// Logger.Log("heart pumpedReagent " + pumpedReagent);
 
 			float totalWantedBlood = 0;
-			foreach (BodyPart implant in HealthMaster.ImplantList)
+			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
 				totalWantedBlood += implant.BloodThroughput * efficiency;
@@ -121,10 +121,10 @@ public class Heart : BodyPart
 			}
 
 			ReagentMix SpareBlood = new ReagentMix();
-			foreach (BodyPart implant in HealthMaster.ImplantList)
+			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
-				ReagentMix transfer = bloodToGive.Take((implant.BloodThroughput * efficiency + implant.BloodContainer.MaxCapacity 
+				ReagentMix transfer = bloodToGive.Take((implant.BloodThroughput * efficiency + implant.BloodContainer.MaxCapacity
 					- implant.BloodContainer.ReagentMixTotal) / totalWantedBlood * bloodToGive.Total);
 				transfer.Add(SpareBlood);
 				SpareBlood.Clear();

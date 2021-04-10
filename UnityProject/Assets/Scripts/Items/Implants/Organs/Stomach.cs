@@ -6,7 +6,7 @@ using Chemistry.Components;
 
 namespace HealthV2
 {
-	public class Stomach : BodyPart
+	public class Stomach : BodyPartModification
 	{
 		public ReagentContainer StomachContents = null;
 
@@ -22,14 +22,14 @@ namespace HealthV2
 			//BloodContainer
 			if (StomachContents.ReagentMixTotal > 0)
 			{
-				float ToDigest = DigesterAmountPerSecond * TotalModified;
+				float ToDigest = DigesterAmountPerSecond * RelatedPart.TotalModified;
 				if (StomachContents.ReagentMixTotal < ToDigest)
 				{
 					ToDigest = StomachContents.ReagentMixTotal;
 				}
 				var Digesting = StomachContents.TakeReagents(ToDigest);
 
-				BloodContainer.Add(Digesting);
+				RelatedPart.BloodContainer.Add(Digesting);
 
 				//healthMaster.NutrimentLevel += Digesting[Nutriment];
 				//What to do with non Digesting content, put back in stomach?
@@ -49,7 +49,7 @@ namespace HealthV2
 
 			if (AllFat)
 			{
-				var Parent = GetParent();
+				var Parent = RelatedPart.GetParent();
 				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
 				BodyFats.Add(Added);
 				Parent.Storage.ServerTryAdd(Added.gameObject);
@@ -66,7 +66,7 @@ namespace HealthV2
 		public override void HealthMasterSet()
 		{
 			base.HealthMasterSet();
-			var Parent = GetParent();
+			var Parent = RelatedPart.GetParent();
 			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
 			BodyFats.Add(Added);
 			Parent.Storage.ServerTryAdd(Added.gameObject);

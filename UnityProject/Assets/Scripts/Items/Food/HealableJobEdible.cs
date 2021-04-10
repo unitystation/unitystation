@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 
@@ -17,7 +18,7 @@ public class HealableJobEdible : Edible
 	/// </summary>
 	public override void Eat(PlayerScript eater, PlayerScript feeder)
 	{
-		if (CheckForJob(eater)) 
+		if (CheckForJob(eater))
 		{
 			Heal(eater);
 		}
@@ -29,12 +30,12 @@ public class HealableJobEdible : Edible
 	/// </summary>
     private void Heal(PlayerScript player)
     {
-		var livingHealth = player.GetComponent<LivingHealthBehaviour>();
-		foreach (BodyPartBehaviour BodyPart in livingHealth.BodyParts)
+		var livingHealth = player.GetComponent<LivingHealthMasterBase>();
+		foreach (BodyPart BodyPart in livingHealth.ImplantList)
 		{
-			if(BodyPart.BruteDamage > 0)
+			if(BodyPart.Brute > 0)
 			{
-				BodyPart.HealDamage(healBruteDamage, DamageType.Brute);
+				BodyPart.HealDamage(this.gameObject, healBruteDamage, DamageType.Brute);
 			}
 		}
 	}

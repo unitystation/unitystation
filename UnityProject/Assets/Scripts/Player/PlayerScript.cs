@@ -6,6 +6,7 @@ using Audio.Managers;
 using Blob;
 using HealthV2;
 using Objects;
+using Player;
 
 public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 {
@@ -49,6 +50,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	public Equipment Equipment { get; private set; }
 
 	public RegisterPlayer registerTile { get; set; }
+
+	public PlayerOnlySyncValues PlayerOnlySyncValues { get; private set; }
 
 	public HasCooldowns Cooldowns { get; set; }
 
@@ -214,6 +217,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		ItemStorage = GetComponent<ItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
+		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
 
 		if (GetComponent<BlobPlayer>() != null)
 		{

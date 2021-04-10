@@ -294,6 +294,11 @@ namespace Objects.Engineering
 			mask = LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC");
 		}
 
+		public override void OnStartClient()
+		{
+			SyncIsDelam(isDelam, isDelam);
+		}
+
 		private void Start()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
@@ -905,7 +910,7 @@ namespace Objects.Engineering
 			}
 
 			//Dont shoot dead stuff so it doesnt loop
-			objectsToShoot = objectsToShoot.Where(o => o.TryGetComponent<LivingHealthBehaviour>(out var health) == false || health.IsDead == false).ToList();
+			objectsToShoot = objectsToShoot.Where(o => o.TryGetComponent<LivingHealthMasterBase>(out var health) == false || health.IsDead == false).ToList();
 
 			for (int i = 0; i < zapCount; i++)
 			{
@@ -1016,9 +1021,9 @@ namespace Objects.Engineering
 		{
 			if (arc.Settings.endObject == null) return;
 
-			if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var health) && health != null)
+			if (arc.Settings.endObject.TryGetComponent<LivingHealthMasterBase>(out var health) && health != null)
 			{
-				health.ApplyDamage(gameObject, Mathf.Clamp(power * 2, 4000, 20000), AttackType.Magic, DamageType.Burn);
+				health.ApplyDamageAll(gameObject, Mathf.Clamp(power * 2, 4000, 20000), AttackType.Magic, DamageType.Burn);
 			}
 			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity) && integrity != null && integrity.Resistances.LightningDamageProof == false)
 			{
@@ -1118,14 +1123,14 @@ namespace Objects.Engineering
 				playerHealth.ServerGibPlayer();
 				matterPower += 100;
 			}
-			else if (bumpedBy.TryGetComponent<LivingHealthBehaviour>(out var health))
+			else if (bumpedBy.TryGetComponent<LivingHealthMasterBase>(out var health))
 			{
 				//Npcs
 				Chat.AddLocalMsgToChat(
 					$"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... its body starts to glow and burst into flames before flashing into dust!",
 					bumpedBy);
 
-				health.ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute);
+				health.ApplyDamageAll(gameObject, 1000, AttackType.Internal, DamageType.Brute);
 			}
 			else if(bumpedBy.TryGetComponent<Integrity>(out var integrity))
 			{

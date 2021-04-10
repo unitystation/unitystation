@@ -12,68 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
-  Storage: {fileID: 1900478478944793783}
-  BodyPartType: 0
-  containBodyParts: []
-  isDimorphic: 0
-  Root: {fileID: 0}
-  ContainedIn: {fileID: 0}
-  BodyTypesSprites:
-    SpriteOrder:
-      Orders: 00000000000000000000000000000000
-    BodyTypes: []
-  RelatedPresentSprites: []
-  SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
-    type: 3}
-  BodySpriteSet: 0
-  LobbyCustomisation: {fileID: 0}
-  optionalOrgans: []
-  OptionalReplacementOrgan: []
-  IsSurface: 0
-  ClothingHide: 0
-  efficiency: 1
-  TotalModified: 1
-  SurgeryProcedureBase:
-  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
-  isBloodCirculated: 1
-  isBloodReagentConsumed: 1
-  bloodType: {fileID: 0}
-  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
-  BloodContainer: {fileID: 0}
-  bloodReagentConsumed: 0.00002
-  bloodThroughput: 0.0225
-  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  NutrimentPassiveConsumption: 0.001
-  NutrimentConsumption: 0.02
-  BodyPartArmour:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-  SubOrganBodyPartArmour:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-  SubOrganDamageIncreasePoint: 50
-  DamageContributesToOverallHealth: 0
-  DamageEfficiencyMultiplier: 1
-  maxHealth: 100
-  Severity: 0
+--- !u!114 &8557864071590038898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3442747058158572537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2cd4df264ca2434792937c1337b5b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  severityAndSymptoms:
+  - HealthPercentageAndBelow: 0.5
+    Affects:
+    - Your head aches mildly
+    - You feel slightly sick
+    - You feel a bit dizzy
+  - HealthPercentageAndBelow: 0.25
+    Affects:
+    - Your head hurts immensely
+    - You feel very sick
+    - You find it hard to keep your balance
+  TimeBetweenSymptoms: 120
 --- !u!1001 &7946465884936551576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92,6 +54,23 @@ PrefabInstance:
       propertyPath: maxCapacity
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: AdditionalReactions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: AdditionalReactions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 11e70b972f4994f40ba26c72d9bc4b5e,
+        type: 2}
+    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: AdditionalReactions.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 70f22bab240e3b3468ad4b1509c90e9f,
+        type: 2}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -179,8 +158,7 @@ PrefabInstance:
       value: Not so intelligent now, ay?
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
-    - {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &3442747058158572537 stripped
 GameObject:
@@ -188,15 +166,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7946465884936551576}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1900478478944793783 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7946465884936551576}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3442747058158572537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

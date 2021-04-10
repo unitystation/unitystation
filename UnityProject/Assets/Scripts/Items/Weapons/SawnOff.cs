@@ -94,5 +94,8 @@ namespace Weapons
 				}
 			}
 		}
+
+		// Propagates the InventoryApply Interaction to the Gun component for all basic gun InventoryApply interactions.	
+		gunComp.ServerPerformInteraction(interaction);
 	}
 }

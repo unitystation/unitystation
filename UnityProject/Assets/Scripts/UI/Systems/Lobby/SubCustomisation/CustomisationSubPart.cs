@@ -29,6 +29,8 @@ public class CustomisationSubPart : MonoBehaviour
 
 	public SpriteHandlerNorder spriteHandlerNorder;
 
+	[SerializeField] private bool canRandomizeColors = false;
+	
 	public void Setup(CustomisationGroup Customisations, CharacterCustomization incharacterCustomization, SpriteOrder _SpriteOrder )
 	{
 		thisCustomisations = Customisations;
@@ -65,6 +67,15 @@ public class CustomisationSubPart : MonoBehaviour
 
 	}
 
+	public void RandomizeValues()
+	{
+		Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
+		if (canRandomizeColors)
+		{
+			ColorChange(new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), 1f));
+		}
+		Refresh();
+	}
 
 	public void SetDropdownValue(CharacterSettings.CustomisationClass currentSetting)
 	{

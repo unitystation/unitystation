@@ -117,6 +117,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: maxHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: bloodColor
       value: 1
       objectReference: {fileID: 0}
@@ -148,6 +153,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: attackVerb
+      value: bites
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: defaultTarget
       value: 6
       objectReference: {fileID: 0}
@@ -155,6 +165,11 @@ PrefabInstance:
         type: 3}
       propertyPath: meleeCoolDown
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: attackSound.AssetAddress
+      value: Assets/Prefabs/NPC/bite.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2454989357612926794, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}

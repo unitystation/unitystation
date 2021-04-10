@@ -47,6 +47,11 @@ public class MyProjectViewExtentions
 			if (Dictionaryguid.ContainsKey(guid))
 			{
 				mainTex = GetCorrectTexture(Dictionaryguid[guid]);
+
+				if (mainTex == null)
+				{
+					Logger.LogError($"Sprite SO {sTing} has null value");
+				}
 			}
 			else
 			{
@@ -118,7 +123,7 @@ public class MyProjectViewExtentions
 			}
 		}
 
-		return Db?.Textdict[Db?.PresentFrame];
+		return Db.Textdict.TryGetValue(Db.PresentFrame, out var frame) ? frame : null;
 	}
 
 	public static Texture2D GetSpriteRenderer(GameObject GameO)

@@ -672,7 +672,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				pointedName = tile.DisplayName;
 			}
 		}
-		var livinghealthbehavior = pointTarget.GetComponent<LivingHealthBehaviour>();
+		var livinghealthbehavior = pointTarget.GetComponent<LivingHealthMasterBase>();
 		var preposition = "";
 		if (livinghealthbehavior == null)
 			preposition = "the ";

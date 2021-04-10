@@ -12,67 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
-  Storage: {fileID: 6999556221578282813}
-  BodyPartType: 0
-  containBodyParts: []
-  isDimorphic: 0
-  Root: {fileID: 0}
-  ContainedIn: {fileID: 0}
-  BodyTypesSprites:
-    SpriteOrder:
-      Orders: 00000000000000000000000000000000
-    BodyTypes: []
-  RelatedPresentSprites: []
-  SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
-    type: 3}
-  BodySpriteSet: 0
-  LobbyCustomisation: {fileID: 0}
-  optionalOrgans: []
-  OptionalReplacementOrgan: []
-  IsSurface: 0
-  ClothingHide: 0
-  efficiency: 1
-  TotalModified: 1
-  SurgeryProcedureBase: []
-  isBloodCirculated: 1
-  isBloodReagentConsumed: 1
-  bloodType: {fileID: 0}
-  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  wasteReagent: {fileID: 0}
-  BloodContainer: {fileID: 0}
-  bloodReagentConsumed: 0.00003
-  bloodThroughput: 0.0225
-  Nutriment: {fileID: 0}
-  NutrimentPassiveConsumption: 0.001
-  NutrimentConsumption: 0.02
-  BodyPartArmour:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-  SubOrganBodyPartArmour:
-    Melee: 100
-    Bullet: 90
-    Laser: 100
-    Energy: 99
-    Bomb: 80
-    Rad: 30
-    Fire: 100
-    Acid: 100
-    Magic: 100
-    Bio: 0
-  SubOrganDamageIncreasePoint: 50
-  DamageContributesToOverallHealth: 1
-  DamageEfficiencyMultiplier: 1
-  maxHealth: 100
-  Severity: 0
+  RelatedPart: {fileID: 0}
   walkingSpeed: 1.5
   runningSpeed: 3
   crawlingSpeed: 0.3
@@ -156,8 +96,7 @@ PrefabInstance:
       propertyPath: maxCapacity
       value: 0.3
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}
 --- !u!1 &6105658861398253683 stripped
 GameObject:
@@ -165,15 +104,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8339248978158643673}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6999556221578282813 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
-    type: 3}
-  m_PrefabInstance: {fileID: 8339248978158643673}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6105658861398253683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 56
+  m_SortingOrder: 61
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -449,6 +449,7 @@ GameObject:
   - component: {fileID: 8755570904728665727}
   - component: {fileID: -854922976880339718}
   - component: {fileID: 2105882665300898234}
+  - component: {fileID: 1952996692186363365}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -899,7 +900,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ab76fda08230e43a566f34cf5c85c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HeartbeatStrength: 25
 --- !u!114 &114279031792796038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1069,12 +1069,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  AvailableBlood: 0
   BodyType: 0
   RTT: 0
   maxHealth: 100
-  bodyPartContainers: []
+  brain: {fileID: 0}
+  ImplantList: []
   RootBodyPartContainers: []
+  CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   percentAllergies: 30
   commonAllergies: {fileID: 0}
 --- !u!114 &2708192528502292653
@@ -1090,7 +1091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
-  UseBloodPool:
+  UsedBloodPool:
     temperature: 0
     reagents:
       m_keys: []
@@ -1187,6 +1188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0
+  livingHealthMasterBase: {fileID: 0}
 --- !u!114 &108550902244119649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1282,6 +1284,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passableExclusions: []
+--- !u!114 &1952996692186363365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2289be7f53edd4a99fd0e94ec456bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 1
+  syncInterval: 0
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,7 +1733,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 52
+  m_SortingOrder: 63
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2080,7 +2096,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 52
+  m_SortingOrder: 63
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2760,6 +2776,7 @@ Transform:
   - {fileID: 4813964138953014}
   - {fileID: 4535270191266732}
   - {fileID: 4330403555079520}
+  - {fileID: 6034976519768164428}
   m_Father: {fileID: 4962232741225816}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7893,9 +7910,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 8271366125234986503}
   optionalOrgans: []
   BodyPartType: 1
-  ItemStorage: {fileID: 8271366125234986503}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -7988,9 +8006,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 4508263270075214926}
   optionalOrgans: []
   BodyPartType: 2
-  ItemStorage: {fileID: 4508263270075214926}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -8114,9 +8133,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 3010957235167502249}
   optionalOrgans: []
   BodyPartType: 0
-  ItemStorage: {fileID: 3010957235167502249}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -8235,7 +8255,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8275,6 +8295,127 @@ MonoBehaviour:
   - Texture: {fileID: 2800000, guid: 37e6c24b3c7e32f4e85502799da9c86b, type: 3}
   - Texture: {fileID: 2800000, guid: 1d6a4a738a10d7642afdbb67afc5bc14, type: 3}
   - Texture: {fileID: 2800000, guid: 4713bd3c8ac12ad4c847a7b3d17d95dc, type: 3}
+--- !u!1 &4006269813396621170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6034976519768164428}
+  - component: {fileID: 2177368776128030758}
+  - component: {fileID: 1188767118502487502}
+  - component: {fileID: 2724071657106087493}
+  m_Layer: 8
+  m_Name: id
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6034976519768164428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4006269813396621170}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4892080207053079231}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2177368776128030758
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4006269813396621170}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -902452607
+  m_SortingLayer: 22
+  m_SortingOrder: 62
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1188767118502487502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4006269813396621170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Slot: 15
+  spriteHandler: {fileID: 2724071657106087493}
+  GameObjectReference: {fileID: 0}
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &2724071657106087493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4006269813396621170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &4250834435536807425
 GameObject:
   m_ObjectHideFlags: 0
@@ -8321,9 +8462,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 6433378785423412763}
   optionalOrgans: []
   BodyPartType: 5
-  ItemStorage: {fileID: 6433378785423412763}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -8441,7 +8583,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 57
+  m_SortingOrder: 64
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8523,9 +8665,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 9114892414776758325}
   optionalOrgans: []
   BodyPartType: 4
-  ItemStorage: {fileID: 9114892414776758325}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
@@ -8618,9 +8761,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
+  Storage: {fileID: 0}
+  ItemStorage: {fileID: 3506449732822759296}
   optionalOrgans: []
   BodyPartType: 3
-  ItemStorage: {fileID: 3506449732822759296}
   PlayerSprites: {fileID: 114285118255153820}
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}

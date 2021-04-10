@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 1417926705260422826}
   - component: {fileID: 3768506210123730191}
   - component: {fileID: 5903341338632580079}
+  - component: {fileID: 610456076500646556}
   m_Layer: 11
   m_Name: Jukebox
   m_TagString: Untagged
@@ -83,13 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+  butcherSound: 
 --- !u!114 &1225539788758698613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,8 +127,9 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114348264163667782
 MonoBehaviour:
@@ -149,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114203140017427936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +204,10 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
 --- !u!114 &114085600953189384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,10 +220,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
+  isDirty: 1
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &-345617527643195386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &1417926705260422826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,11 +253,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: fb6b786c3a5d4df45a8fe68e806a5d4a, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 2407683757881208479, guid: dd0556b2e76bfac48bfb3217e1177605,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &3768506210123730191
 MonoBehaviour:
@@ -293,6 +296,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 27
+--- !u!114 &610456076500646556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010765165894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: jukebox
+  initialDescription: A bastion of goodwill, peace, and hope.
+  willHighlight: 1
+  exportCost: 250
+  exportName: Jukebox
+  exportMessage: Jukebox succesfully received, we might throw a party here at CentCom!
 --- !u!1 &1000010906387252
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 92d17c50f2351c94cb27834ffd5b9009, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: f0ef570011ab3c3448bc70e91b398ef4, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0

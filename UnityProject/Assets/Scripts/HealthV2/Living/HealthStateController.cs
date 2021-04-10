@@ -79,7 +79,8 @@ namespace HealthV2
 		{
 			if (DollDataChanged)
 			{
-				SyncHealthDoll(healthDollData, JsonConvert.SerializeObject(CurrentHealthDollStorage));
+				healthDollData = JsonConvert.SerializeObject(CurrentHealthDollStorage);
+				DollDataChanged = false;
 			}
 		}
 

@@ -10,7 +10,7 @@ using UnityEngine;
 namespace HealthV2
 {
 	/// <summary>
-	/// A container for multiple body parts each with sprites to be rendered on the player.  Used to 
+	/// A container for multiple body parts each with sprites to be rendered on the player.  Used to
 	/// group two or more like body parts, eg two arms, two legs, etc and generate a sprite for each.
 	/// </summary>
 	public class RootBodyPartContainer : MonoBehaviour, IBodyPartDropDownOrgans, IServerSpawn
@@ -150,7 +150,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Transfers an item from an item slot to the body part container's internal storage, usually 
+		/// Transfers an item from an item slot to the body part container's internal storage, usually
 		/// another body part
 		/// </summary>
 		/// <param name="ItemSlot">Item Slot to transfer from</param>
@@ -332,8 +332,14 @@ namespace HealthV2
 		/// <param name="attackType">Type of attack that is causing the damage</param>
 		/// <param name="damageType">The type of damage</param>
 		/// <param name="damageSplit">Should the damage be divided amongst the contained body parts or applied to a random body part</param>
-		public void TakeDamage(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType, bool damageSplit = false)
+		public void TakeDamage(
+			GameObject damagedBy,
+			float damage,
+			AttackType attackType,
+			DamageType damageType,
+			float armorPenetration = 0,
+			bool damageSplit = false
+		)
 		{
 			//Logger.Log("dmg  > " + damage + "attackType > " + attackType + " damageType > " + damageType);
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
@@ -341,7 +347,14 @@ namespace HealthV2
 			{
 				foreach (var ContainsLimb in ContainsLimbs)
 				{
-					ContainsLimb.TakeDamage(damagedBy, damage / ContainsLimbs.Count, attackType, damageType, damageSplit);
+					ContainsLimb.TakeDamage(
+						damagedBy,
+						damage / ContainsLimbs.Count,
+						attackType,
+						damageType,
+						damageSplit,
+						armorPenetration: armorPenetration
+					);
 				}
 			}
 			else
@@ -349,7 +362,14 @@ namespace HealthV2
 				var OrganToDamage = ContainsLimbs.PickRandom();
 				if (OrganToDamage != null)
 				{
-					OrganToDamage.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
+					OrganToDamage.TakeDamage(
+						damagedBy,
+						damage,
+						attackType,
+						damageType,
+						damageSplit,
+						armorPenetration: armorPenetration
+					);
 				}
 			}
 		}

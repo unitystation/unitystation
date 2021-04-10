@@ -7,7 +7,9 @@ namespace Objects.Construction
 {
 	public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 	{
-		public GameObject rackParts;
+		[SerializeField]
+		[Tooltip("The item that spawns when the rack is deconstructed")]
+		private GameObject rackParts;
 
 		private Integrity integrity;
 

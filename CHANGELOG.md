@@ -2,6 +2,22 @@
 ---
 
 
+* 2021/4/7: Removes watts examine text on grounding rods by [ThatDan123](https://github.com/ThatDan123) in PR #[6336](https://github.com/unitystation/unitystation/pull/6336)
+* 2021/4/4: Fixed sprayer bottles not having any sounds. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: Fixed some sprite overlay rendering issues (back items used to go on top of items, so if you held a sniper rifle, your backpack straps would go through it, also head items rendered on top of back items, so if you weared a sniper rifle on your back, the sniper rifle would go inside your head item, that is fixed now.) by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: Fixed some rotation issues with tanks (they used turn in incorrect ways for some reason, for example if you pulled it to the right, the sprite would go up) by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: You can now wear emags in your ID slot (why? why the hell not? plus it's literally an ID, you can wear it) by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: Nuclear devices now have proper names and descriptions. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: Added overlays for every ID and PDA in the game. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
+* 2021/4/4: Antags and character names will no longer be displayed inside of the stats tab. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6324](https://github.com/unitystation/unitystation/pull/6324)
+* 2021/4/2: Armor system was reworked by [Lizurt](https://github.com/Lizurt) in PR #[6319](https://github.com/unitystation/unitystation/pull/6319)
+* 2021/4/1: Fixed surgery and crayon UI not being draggable by [ThatDan123](https://github.com/ThatDan123) in PR #[6315](https://github.com/unitystation/unitystation/pull/6315)
+* 2021/4/1: Fixed night vision goggle not being able to be toggled via action button by [ThatDan123](https://github.com/ThatDan123) in PR #[6315](https://github.com/unitystation/unitystation/pull/6315)
+* 2021/3/31: Bugfix: Racks are now spawning rack parts when deconstructed. by [JesterX666](https://github.com/JesterX666) in PR #[6316](https://github.com/unitystation/unitystation/pull/6316)
+* 2021/3/30: Add colours to cc and syndicate tcomm channels by [DTraitor](https://github.com/DTraitor) in PR #[6314](https://github.com/unitystation/unitystation/pull/6314)
+* 2021/3/30: Some UI optimisation by [DTraitor](https://github.com/DTraitor) in PR #[6314](https://github.com/unitystation/unitystation/pull/6314)
+* 2021/3/25: adds skin tones for humans. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6282](https://github.com/unitystation/unitystation/pull/6282)
+* 2021/3/25: Restores random character generation functionality by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6282](https://github.com/unitystation/unitystation/pull/6282)
 * 2021/3/23: Implement Warops, reinforcement teleporter and nuke op exclusive uplink items by [the-other-autumn](https://github.com/the-other-autumn) in PR #[6167](https://github.com/unitystation/unitystation/pull/6167)
 * 2021/3/22: Fixes Overlays for proto, explosions and hotspots by [ThatDan123](https://github.com/ThatDan123) in PR #[6287](https://github.com/unitystation/unitystation/pull/6287)
 * 2021/3/22: added things to buy from the Mining Equipment Vendor by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6285](https://github.com/unitystation/unitystation/pull/6285)
