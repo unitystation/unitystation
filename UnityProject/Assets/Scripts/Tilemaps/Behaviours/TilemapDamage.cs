@@ -1,4 +1,5 @@
 ﻿using System;
+using Light2D;
 using Mirror;
 using TileManagement;
 using UnityEngine;
@@ -95,6 +96,10 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (totalDamageTaken >= basicTile.MaxHealth)
 		{
+			if (basicTile.SoundOnDestroy.Count > 0)
+			{
+				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnDestroy.RandomElement(), worldPosition);
+			}
 			data.RemoveTileDamage(Layer.LayerType);
 			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
 			tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, TileChangeManager.OverlayType.Damage);
