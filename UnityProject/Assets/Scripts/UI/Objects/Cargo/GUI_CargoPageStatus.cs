@@ -7,55 +7,34 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageStatus : GUI_CargoPage
 	{
-		[SerializeField]
-		private NetLabel creditsText = null;
-		[SerializeField]
-		private NetLabel shuttleButtonText = null;
-		[SerializeField]
-		private NetLabel messageText = null;
-		[SerializeField]
-		private NetColorChanger statusCargoImage = null;
-		[SerializeField]
-		private NetColorChanger statusTransitImage = null;
-		[SerializeField]
-		private NetColorChanger statusCentcomImage = null;
-		private bool inited = false;
+		public NetLabel creditsText;
+		public NetLabel shuttleButtonText;
+		public NetLabel messageText;
+		public NetColorChanger statusCargoImage;
+		public NetColorChanger statusTransitImage;
+		public NetColorChanger statusCentcomImage;
 
-		public override void Init()
+		public override void OpenTab()
 		{
-			if (inited || !gameObject.activeInHierarchy)
-			{
-				return;
-			}
 			CargoManager.Instance.OnCreditsUpdate.AddListener(UpdateTab);
 			CargoManager.Instance.OnShuttleUpdate.AddListener(UpdateTab);
 			CargoManager.Instance.OnTimerUpdate.AddListener(UpdateTab);
 		}
 
-		public override void OpenTab()
+		public override void UpdateTab()
 		{
-			if (!inited)
-			{
-				Init();
-				inited = true;
-			}
-			UpdateTab();
-		}
-
-		private void UpdateTab()
-		{
-			CargoManager cm = CargoManager.Instance;
+			var cm = CargoManager.Instance;
 
 			if (cm.ShuttleStatus == ShuttleStatus.OnRouteCentcom ||
 				cm.ShuttleStatus == ShuttleStatus.OnRouteStation)
 			{
 				if (cm.CurrentFlyTime > 0)
 				{
-					string min = Mathf.FloorToInt(cm.CurrentFlyTime / 60).ToString();
-					string sec = (cm.CurrentFlyTime % 60).ToString();
-					sec = sec.Length >= 10 ? sec : "0" + sec;
+					var min = Mathf.FloorToInt(cm.CurrentFlyTime / 60).ToString();
+					var sec = (cm.CurrentFlyTime % 60).ToString();
+					sec = sec.Length >= 10 ? sec : $"0{sec}";
 
-					shuttleButtonText.SetValueServer(min + ":" + sec);
+					shuttleButtonText.SetValueServer($"{min}:{sec}");
 				}
 				else
 				{

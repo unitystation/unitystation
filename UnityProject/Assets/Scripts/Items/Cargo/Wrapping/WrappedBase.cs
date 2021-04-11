@@ -76,7 +76,7 @@ namespace Items.Cargo.Wrapping
 		/// random content. Useful for mapping!
 		/// </summary>
 		/// <returns>The game object related to the content of this package</returns>
-		protected GameObject GetOrGenerateContent()
+		public GameObject GetOrGenerateContent()
 		{
 			if (content == null && randomContentList.Count > 0)
 			{

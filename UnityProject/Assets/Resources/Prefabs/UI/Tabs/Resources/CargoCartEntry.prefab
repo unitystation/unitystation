@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4760123875520080070}
   - component: {fileID: 1098926129202944411}
   - component: {fileID: 1486424344477127055}
-  - component: {fileID: 1332292009012541675}
+  - component: {fileID: 4615996608251569511}
   m_Layer: 5
   m_Name: CargoCartEntry
   m_TagString: Untagged
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1332292009012541675
+--- !u!114 &4615996608251569511
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,9 +87,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3799708768014915418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67d66a129a739ab79b26ca3247ae3bef, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fd6526c77993a24ca9124a8edd662b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cartNameLabel: {fileID: 8779792195888048211}
 --- !u!1 &4725405272059664319
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,7 +102,6 @@ GameObject:
   - component: {fileID: 1729699296891638166}
   - component: {fileID: 5366262139582248407}
   - component: {fileID: 6634566088672936946}
-  - component: {fileID: 6518585259488634389}
   m_Layer: 5
   m_Name: Cancel
   m_TagString: Untagged
@@ -170,18 +170,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: CANCEL
---- !u!114 &6518585259488634389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4725405272059664319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8846101208323033228
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,8 +334,8 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1332292009012541675}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 4615996608251569511}
+        m_TargetAssemblyTypeName: UI.Objects.Cargo.GUI_CargoCartItem, Assets
         m_MethodName: RemoveFromCart
         m_Mode: 1
         m_Arguments:
