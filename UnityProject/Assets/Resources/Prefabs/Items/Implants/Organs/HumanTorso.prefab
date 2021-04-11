@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5527291208086791735
+--- !u!1001 &6676634485609286451
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -15,37 +15,43 @@ PrefabInstance:
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: Populater.Contents.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: Populater.Contents.Array.data[0]
       value: 
-      objectReference: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+      objectReference: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: Populater.Contents.Array.data[1]
       value: 
-      objectReference: {fileID: 2299572021521899153, guid: 43e80b782d31dac4384d245df9f34dcd,
+      objectReference: {fileID: 3169642092305287280, guid: a05828ab8602a63449e9b422078fd217,
         type: 3}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: Populater.Contents.Array.data[2]
       value: 
-      objectReference: {fileID: 2869098758643736549, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+      objectReference: {fileID: 2556953724642564633, guid: 69104df12837d1e48bb456dce5301bfa,
         type: 3}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: Populater.Contents.Array.data[3]
       value: 
-      objectReference: {fileID: 7224950701661798677, guid: 5c61c3c9e64efa740accb280f8923222,
+      objectReference: {fileID: 3177982829949495349, guid: 760dc1119d22a8c4ab6fbbf78f8705b0,
         type: 3}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: Populater.Contents.Array.data[4]
       value: 
-      objectReference: {fileID: 671021013365695943, guid: b054a3a3b8b51b74ca3853fa734a304b,
+      objectReference: {fileID: 3419287765834980474, guid: e842d7513d34ec442af969504d96dfd9,
+        type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[5]
+      value: 
+      objectReference: {fileID: 7638872791175960119, guid: 445373074652a00409300b4b8a70dcb7,
         type: 3}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -60,6 +66,11 @@ PrefabInstance:
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: isDimorphic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyPartType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
@@ -87,7 +98,7 @@ PrefabInstance:
         type: 3}
       propertyPath: maleSprite.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 868247c219909d54dadd08b5ceed7287,
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -98,30 +109,35 @@ PrefabInstance:
         type: 3}
       propertyPath: femaleSprite.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 7ae7b9aed601ac9479212ad6f2560a60,
+      objectReference: {fileID: 11400000, guid: ccfebde2cc0de824b80261ac774928d7,
         type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: limbSpriteData.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 868247c219909d54dadd08b5ceed7287,
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
+      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -133,13 +149,44 @@ PrefabInstance:
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
+      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
         type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].Time
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].FailSelf
+      value: you FUCKed THE CUTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].FailOther
+      value: FUCKed THE CUTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].SuccessSelf
+      value: you CUT!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].SuccessOther
+      value: CUTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].RequiredTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c,
+        type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.size
@@ -148,22 +195,22 @@ PrefabInstance:
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[1]
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -184,34 +231,29 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 868247c219909d54dadd08b5ceed7287,
+      objectReference: {fileID: 11400000, guid: de703c1f006061390b50d3b16bb8eda7,
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 868247c219909d54dadd08b5ceed7287,
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 7ae7b9aed601ac9479212ad6f2560a60,
+      objectReference: {fileID: 11400000, guid: ccfebde2cc0de824b80261ac774928d7,
         type: 2}
     - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: initialName
-      value: human head
-      objectReference: {fileID: 0}
-    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
-        type: 3}
-      propertyPath: initialSize
-      value: 2
+      value: chest
       objectReference: {fileID: 0}
     - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: initialDescription
-      value: A decapitated human head.
+      value: It's impolite to stare at a person's chest.
       objectReference: {fileID: 0}
     - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -222,7 +264,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 925145112fb93e64ab9fcce9ec95ddae,
+      objectReference: {fileID: 21300000, guid: 6a1f850ea1c5e4a4689f29055a52d7f6,
         type: 3}
     - target: {fileID: 2733873253844105974, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -237,7 +279,7 @@ PrefabInstance:
     - target: {fileID: 2810631690420259242, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_Name
-      value: HumanHead
+      value: HumanTorso
       objectReference: {fileID: 0}
     - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -303,7 +345,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: f84a1624ec0edd640992da46c6e6adc3,
+      objectReference: {fileID: 11400000, guid: 0e635393f59b294438bd7d20c37e884c,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}
