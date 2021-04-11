@@ -174,7 +174,10 @@ namespace Objects.Machines
 				StopCoroutine(currentProduction);
 				currentProduction = null;
 			}
-			materialStorageLink.Despawn();
+			if (materialStorageLink != null)
+			{
+				materialStorageLink.Despawn();
+			}
 		}
 
 		public void PowerNetworkUpdate(float Voltage) { }
