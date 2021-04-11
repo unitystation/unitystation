@@ -1061,7 +1061,7 @@ namespace Lobby
 		//SAVE & CANCEL BUTTONS:
 		//------------------
 
-		public async void OnApplyBtn()
+		public async Task OnApplyBtn()
 		{
 			StartCoroutine(SaveCurrentCharacterSnaps());
 
