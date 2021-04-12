@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 114176283518884694}
   - component: {fileID: 4821351870195518641}
   m_Layer: 8
-  m_Name: back
+  m_Name: backwear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 61
+  m_SortingOrder: 27
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 114683599938915282}
   - component: {fileID: 2291017642642160610}
   m_Layer: 8
-  m_Name: suit
+  m_Name: outerwear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,7 +225,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 27
+  m_SortingOrder: 26
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 114352699279829420}
   - component: {fileID: 2894397304073737410}
   m_Layer: 8
-  m_Name: feet
+  m_Name: footwear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1311,7 +1311,7 @@ GameObject:
   - component: {fileID: 114186826461219604}
   - component: {fileID: 3929256438670644051}
   m_Layer: 8
-  m_Name: eyes
+  m_Name: eyewear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1432,7 +1432,7 @@ GameObject:
   - component: {fileID: 114292210339441364}
   - component: {fileID: 8590386929440372666}
   m_Layer: 8
-  m_Name: head
+  m_Name: headwear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1491,7 +1491,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 34
+  m_SortingOrder: 32
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1553,7 +1553,7 @@ GameObject:
   - component: {fileID: 114998611308440448}
   - component: {fileID: 5679511707142394592}
   m_Layer: 8
-  m_Name: neck
+  m_Name: neckwear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1612,7 +1612,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 31
+  m_SortingOrder: 30
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1674,7 +1674,7 @@ GameObject:
   - component: {fileID: 114600225155881128}
   - component: {fileID: 7961637454823593106}
   m_Layer: 8
-  m_Name: rightHand
+  m_Name: rightHandItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1733,7 +1733,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 25
+  m_SortingOrder: 33
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1854,7 +1854,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 28
+  m_SortingOrder: 29
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2037,7 +2037,7 @@ GameObject:
   - component: {fileID: 114857622421506280}
   - component: {fileID: 8103884781919646546}
   m_Layer: 8
-  m_Name: leftHand
+  m_Name: leftHandItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2096,7 +2096,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 25
+  m_SortingOrder: 33
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2158,7 +2158,7 @@ GameObject:
   - component: {fileID: 114133756563624140}
   - component: {fileID: 5309190995282078153}
   m_Layer: 8
-  m_Name: mask
+  m_Name: maskwear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2217,7 +2217,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 33
+  m_SortingOrder: 31
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2374,7 +2374,7 @@ GameObject:
   - component: {fileID: 114280887415014694}
   - component: {fileID: 2062846101420785143}
   m_Layer: 8
-  m_Name: ear
+  m_Name: earwear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2495,7 +2495,7 @@ GameObject:
   - component: {fileID: 114686590975304092}
   - component: {fileID: 194670486440265898}
   m_Layer: 8
-  m_Name: hands
+  m_Name: handwear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2554,7 +2554,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 26
+  m_SortingOrder: 25
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8255,7 +8255,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8367,7 +8367,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 29
+  m_SortingOrder: 28
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8583,7 +8583,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 32
+  m_SortingOrder: 34
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
