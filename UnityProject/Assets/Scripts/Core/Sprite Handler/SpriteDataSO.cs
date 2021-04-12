@@ -12,6 +12,8 @@ public class SpriteDataSO : ScriptableObject
 	public bool IsPalette = false;
 	public int setID = -1;
 
+	public string DisplayName;
+
 	[System.Serializable]
 	public class Variant
 	{
