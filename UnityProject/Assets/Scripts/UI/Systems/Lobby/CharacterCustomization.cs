@@ -61,7 +61,7 @@ namespace Lobby
 		public CharacterDir currentDir;
 
 		[SerializeField] private List<Color> availableSkinColors;
-		private CharacterSettings currentCharacter;
+		public CharacterSettings currentCharacter;
 
 		public ColorPicker colorPicker;
 
@@ -681,7 +681,6 @@ namespace Lobby
 			if (GameObjectBody == null) return;
 			if (GameObjectBody.Elements.Count == 0) return;
 
-
 			foreach (var Organ in GameObjectBody.Elements)
 			{
 				var bodyPart = Organ.GetComponent<BodyPart>();
@@ -969,6 +968,7 @@ namespace Lobby
 		private void OnColorChange(Color newColor)
 		{
 			colorChangedEvent.Invoke(newColor);
+			RefreshAllSkinSharedSkinColoredBodyParts();
 		}
 
 		//------------------
@@ -1080,6 +1080,14 @@ namespace Lobby
 			SkinColourChange(CurrentSurfaceColour);
 		}
 
+		public void RefreshAllSkinSharedSkinColoredBodyParts()
+		{
+			foreach (var Customisation in GetComponentsInChildren<BodyPartCustomisationBase>())
+			{
+				Customisation.Refresh();
+			}
+		}
+
 		public void SkinColourChange(Color color)
 		{
 			CurrentSurfaceColour = color;
@@ -1125,6 +1133,14 @@ namespace Lobby
 			}
 
 			RefreshRace();
+
+			foreach (var Race in RaceSOSingleton.Instance.Races)
+			{
+				if (Race.name == currentCharacter.Species)
+				{
+					ThisSetRace = Race;
+				}
+			}
 		}
 
 		private void RefreshRace()

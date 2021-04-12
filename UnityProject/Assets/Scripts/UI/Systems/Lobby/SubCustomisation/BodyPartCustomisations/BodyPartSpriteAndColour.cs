@@ -27,6 +27,18 @@ public class BodyPartSpriteAndColour : BodyPartCustomisationBase
 		}
 	}
 
+	private void Start()
+	{
+		if (characterCustomization.ThisSetRace.Base.BodyPartsShareSameSkinColor == true)
+		{
+			SelectionColourImage.gameObject.SetActive(false);
+		}
+		else
+		{
+			SelectionColourImage.gameObject.SetActive(true);
+		}
+	}
+
 	public override void Deserialise(string InData)
 	{
 		var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
@@ -54,6 +66,8 @@ public class BodyPartSpriteAndColour : BodyPartCustomisationBase
 	public void RequestColourPicker()
 	{
 		characterCustomization.OpenColorPicker(BodyPartColour, ColorChange, 32f);
+		characterCustomization.RefreshAllSkinSharedSkinColoredBodyParts();
+		Refresh();
 	}
 
 	public override void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
@@ -139,15 +153,27 @@ public class BodyPartSpriteAndColour : BodyPartCustomisationBase
 		{
 			Dropdown.value = Dropdown.options.Count - 1;
 		}
+	}
 
-//Refresh();
+	private void CheckSkinToneShare()
+	{
+		if (characterCustomization.ThisSetRace.Base.BodyPartsShareSameSkinColor == true)
+		{
+			ColorUtility.TryParseHtmlString(characterCustomization.currentCharacter.SkinTone, out BodyPartColour);
+			SelectionColourImage.gameObject.SetActive(false);
+		}
+		else
+		{
+			SelectionColourImage.color = BodyPartColour;
+			SelectionColourImage.gameObject.SetActive(true);
+		}
 	}
 
 	public override void Refresh()
 	{
 		//Just the first one for now
 		RelatedRelatedPreviewSprites[0].SpriteHandler.SetColor(BodyPartColour);
-		SelectionColourImage.color = BodyPartColour;
+		CheckSkinToneShare();
 
 		if (Dropdown.value == 0)
 		{
