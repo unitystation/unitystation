@@ -123,7 +123,9 @@ namespace Objects.Engineering
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.TargetObject != gameObject) return false;
-			if (interaction.HandObject != null && (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar) || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))) return false;
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar)) return true;
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
+			if (interaction.HandObject != null) return false;
 
 			return true;
 		}
@@ -134,7 +136,7 @@ namespace Objects.Engineering
 			{
 				ServerToggleInputLevel(interaction);
 			}
-			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
+			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
 				ServerToggleOutputLevel(interaction);
 			}
