@@ -17,8 +17,26 @@ namespace UI.CharacterCreator
 
 		public struct ColourAndSelected
 		{
-			public string color;
-			public int Chosen;
+			color = "#" + ColorUtility.ToHtmlStringRGB(Color);
+			Chosen = InChosen;
+		}
+	}
+
+	private void Start()
+	{
+		if (characterCustomization.ThisSetRace.Base.BodyPartsShareSameSkinColor == true)
+		{
+			SelectionColourImage.gameObject.SetActive(false);
+		}
+		else
+		{
+			SelectionColourImage.gameObject.SetActive(true);
+		}
+	}
+
+	public override void Deserialise(string InData)
+	{
+		var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
 
 			public ColourAndSelected(Color Color, int InChosen)
 			{
@@ -27,7 +45,55 @@ namespace UI.CharacterCreator
 			}
 		}
 
-		public override void Deserialise(string InData)
+		Refresh();
+	}
+
+	public override string Serialise()
+	{
+		var Toreturn = new ColourAndSelected(BodyPartColour, Dropdown.value);
+		return JsonConvert.SerializeObject(Toreturn);
+	}
+
+	public void RequestColourPicker()
+	{
+		characterCustomization.OpenColorPicker(BodyPartColour, ColorChange, 32f);
+		characterCustomization.RefreshAllSkinSharedSkinColoredBodyParts();
+		Refresh();
+	}
+
+	public override void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
+	{
+		base.SetUp(incharacterCustomization, Body_Part, path);
+		// Make a list of all available options which can then be passed to the dropdown box
+		var itemOptions = OptionalSprites.Select(pcd => pcd.name).ToList();
+		itemOptions.Sort();
+
+		// Ensure "None" is at the top of the option lists
+		itemOptions.Insert(0, "None");
+		Dropdown.AddOptions(itemOptions);
+		Dropdown.onValueChanged.AddListener(ItemChange);
+	}
+
+	public override void RandomizeValues()
+	{
+		Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
+		ColorChange(new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), 1f));
+		Refresh();
+	}
+
+	public void ItemChange(int newValue)
+	{
+		Refresh();
+	}
+
+	public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData,
+		LivingHealthMasterBase LivingHealthMasterBase)
+	{
+		var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
+		ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
+		Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
+		OptionalSprites = OptionalSprites.OrderBy(x => x?.name).ToList();
+		if (ColourAnd_Selected.Chosen != 0)
 		{
 			var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
 
@@ -110,21 +176,27 @@ namespace UI.CharacterCreator
 			BodyPartColour = newColor;
 			Refresh();
 		}
+	}
 
-		public void DropdownScrollRight()
+	private void CheckSkinToneShare()
+	{
+		if (characterCustomization.ThisSetRace.Base.BodyPartsShareSameSkinColor == true)
 		{
-			// Check if value should wrap around
-			if (Dropdown.value < Dropdown.options.Count - 1)
-			{
-				Dropdown.value++;
-			}
-			else
-			{
-				Dropdown.value = 0;
-			}
-
-			//Refresh();
+			ColorUtility.TryParseHtmlString(characterCustomization.currentCharacter.SkinTone, out BodyPartColour);
+			SelectionColourImage.gameObject.SetActive(false);
 		}
+		else
+		{
+			SelectionColourImage.color = BodyPartColour;
+			SelectionColourImage.gameObject.SetActive(true);
+		}
+	}
+
+	public override void Refresh()
+	{
+		//Just the first one for now
+		RelatedRelatedPreviewSprites[0].SpriteHandler.SetColor(BodyPartColour);
+		CheckSkinToneShare();
 
 		public void DropdownScrollLeft()
 		{
