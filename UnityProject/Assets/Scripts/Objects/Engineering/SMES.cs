@@ -114,9 +114,9 @@ namespace Objects.Engineering
 		public string Examine(Vector3 worldPos = default)
 		{
 			UpdateMe();
-			return $"The charge indicator shows a {ChargePercent} percent charge. The input level is: "+batterySupplyingModule.InputLevel+"% The ouput level is: "+batterySupplyingModule.OutputLevel+"%" +
+			return $"The charge indicator shows a {ChargePercent} percent charge. The input level is: "+batterySupplyingModule.InputLevel+"% The ouput level is: "+batterySupplyingModule.OutputLevel+"% " +
 			       $"The power input/output is " +
-			       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}.";
+			       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. Use a crowbar to adjust the output level and a wrench to adjust the input level. ";
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -166,6 +166,8 @@ namespace Objects.Engineering
 			//TrySpark();
 			if (!outputEnabled)
 			{
+				var worldPos = registerTile.WorldPositionServer;
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Tick, worldPos, sourceObj: gameObject);
 				if (batterySupplyingModule.InputLevel < 100)
 				{
 					batterySupplyingModule.InputLevel++;
@@ -186,6 +188,8 @@ namespace Objects.Engineering
 		{
 			if (!outputEnabled)
 			{
+				var worldPos = registerTile.WorldPositionServer;
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Tick, worldPos, sourceObj: gameObject);
 				if (batterySupplyingModule.OutputLevel < 100)
 				{
 					batterySupplyingModule.OutputLevel++;
