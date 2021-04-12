@@ -182,7 +182,7 @@ namespace UI.CharacterCreator
 	{
 		if (characterCustomization.ThisSetRace.Base.BodyPartsShareSameSkinColor == true)
 		{
-			ColorUtility.TryParseHtmlString(characterCustomization.currentCharacter.SkinTone, out BodyPartColour);
+			ColorUtility.TryParseHtmlString(characterCustomization.CurrentCharacter.SkinTone, out BodyPartColour);
 			SelectionColourImage.gameObject.SetActive(false);
 		}
 		else
