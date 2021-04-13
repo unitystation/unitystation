@@ -69,8 +69,8 @@ namespace Weapons
 		/// <summary>
 		/// The firing pin currently inside the weapon
 		/// </summary>
-		public GunTrigger FiringPin =>
-			pinSlot.Item != null ? pinSlot.Item.GetComponent<GunTrigger>() : null;
+		public GenericPin FiringPin =>
+			pinSlot.Item != null ? pinSlot.Item.GetComponent<GenericPin>() : null;
 
 		/// <summary>
 		/// The firing pin to initally spawn within the gun
@@ -142,7 +142,7 @@ namespace Weapons
 		/// If suicide shooting should be prevented (for when user inadvertently drags over themselves during a burst)
 		/// </summary>
 		[Tooltip("If suicide shots should be prevented (if the user accidentally mouses over themselves during a shot")]
-		protected bool AllowSuicide;
+		public bool AllowSuicide;
 
 		//TODO connect these with the actual shooting of a projectile
 		/// <summary>
@@ -194,12 +194,6 @@ namespace Weapons
 		public ItemSlot suppressorSlot;
 
 		protected const float PinRemoveTime = 10f;
-
-		// used for clusmy self shooting randomness
-		private System.Random rnd = new System.Random();
-
-		[SyncVar(hook = nameof(SyncPredictionCanFire))]
-		protected bool predictionCanFire;
 
 		/// <summary>
 		/// If true, displays a message whenever a gun is shot
@@ -299,13 +293,11 @@ namespace Weapons
 			{
 				serverHolder = info.ToPlayer.gameObject;
 				shooterRegisterTile = serverHolder.GetComponent<RegisterTile>();
-				UpdatePredictionCanFire(serverHolder);
 			}
 			else
 			{
 				serverHolder = null;
 				shooterRegisterTile = null;
-				SyncPredictionCanFire(predictionCanFire, false);
 			}
 		}
 
@@ -481,10 +473,9 @@ namespace Weapons
 				AllowSuicide = isSuicide;
 			}
 
-			if (predictionCanFire)
+			if (FiringPin != null)
 			{
-				var dir = ApplyRecoil(interaction.TargetVector.normalized);
-				DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, CurrentMagazine.containedBullets[0].name, CurrentMagazine.containedProjectilesFired[0]);
+				FiringPin.ClientBehaviour(interaction);
 			}
 		}
 
@@ -508,50 +499,7 @@ namespace Weapons
 			//enqueue the shot (will be processed in Update)
 			if (FiringPin != null)
 			{
-				TriggerBehaviour shotResult = FiringPin.TriggerPull(interaction.Performer);
-
-				switch (shotResult) {
-
-					case TriggerBehaviour.None:
-						//requirement to fire not met
-						Chat.AddExamineMsg(interaction.Performer, FiringPin.DeniedMessage);
-						break;
-
-					case TriggerBehaviour.NonClumsyShot:
-						// shooting a clusmy weapon as a non-clusmy person
-						ServerShoot(interaction.Performer, interaction.TargetVector.normalized, BodyPartType.Head, true);
-						Chat.AddActionMsgToChat(interaction.Performer,
-						"You somehow shoot yourself in the face! How the hell?!",
-						$"{interaction.Performer.ExpensiveName()} somehow manages to shoot themself in the face!");
-						break;
-
-					case TriggerBehaviour.NormalShot:
-						//just normal Firing
-						ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
-						break;
-
-					case TriggerBehaviour.ClumsyShot:
-						//shooting a non-clusmy weapon as a clusmy person
-						int chance = rnd.Next(0 ,2);
-						if (chance == 0)
-						{
-							ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, true);
-							Chat.AddActionMsgToChat(interaction.Performer,
-							"You fumble up and shoot yourself!",
-							$"{interaction.Performer.ExpensiveName()} fumbles up and shoots themself!");
-						}
-						else
-						{
-							ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
-						}
-						break;
-
-					default:
-						// unexpected behaviour
-						// if this ever runs, somethings gone horribly fucking wrong, good luck.
-						Logger.LogError($"{gameObject.name} returned a unexpected result when calling TriggerPull serverside!", Category.Firearms);
-						break;
-				}
+				FiringPin.ServerBehaviour(interaction);
 			}
 		}
 
@@ -663,7 +611,6 @@ namespace Weapons
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You insert the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.",
 				$"{interaction.Performer.ExpensiveName()} inserts the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.");
-			UpdatePredictionCanFire(serverHolder);
 			Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
 		}
 
@@ -677,8 +624,6 @@ namespace Weapons
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You remove the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}",
 					$"{interaction.Performer.ExpensiveName()} removes the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
-
-				SyncPredictionCanFire(predictionCanFire, false);
 
 				Inventory.ServerDrop(pinSlot);
 			}
@@ -1004,37 +949,11 @@ namespace Weapons
 		}
 
 		/// <summary>
-		/// Syncs the prediction bool
-		/// </summary>
-		protected void SyncPredictionCanFire(bool oldValue, bool newValue)
-		{
-			predictionCanFire = newValue;
-		}
-
-		/// <summary>
-		/// Sets the value of a syncvar so it may be used in clientside prediction
-		/// </summary>
-		/// <param="holder">gameobject of the player holding the weapon</param>
-		[Server]
-		public void UpdatePredictionCanFire(GameObject holder)
-		{
-			JobType job = PlayerList.Instance.Get(holder).Job;
-			if (FiringPin != null && (job == FiringPin.SetRestriction || FiringPin.SetRestriction == JobType.NULL))
-			{
-				SyncPredictionCanFire(predictionCanFire, true);
-			}
-			else
-			{
-				SyncPredictionCanFire(predictionCanFire, false);
-			}
-		}
-
-		/// <summary>
 		/// Applies recoil to calcuate the final direction of the shot
 		/// </summary>
 		/// <param name="target">normalized target vector</param>
 		/// <returns>final position after applying recoil</returns>
-		private Vector2 ApplyRecoil(Vector2 target)
+		public Vector2 ApplyRecoil(Vector2 target)
 		{
 			float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg;
 			float angleVariance = MagSyncedRandomFloat(-CurrentRecoilVariance, CurrentRecoilVariance);
