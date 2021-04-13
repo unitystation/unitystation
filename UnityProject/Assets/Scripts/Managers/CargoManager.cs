@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Items;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using Objects;
-using Items;
+using Items.Cargo.Wrapping;
 
 namespace Systems.Cargo
 {
@@ -16,25 +16,24 @@ namespace Systems.Cargo
 
 		public int Credits;
 		public ShuttleStatus ShuttleStatus = ShuttleStatus.DockedStation;
-		public float CurrentFlyTime = 0f;
+		public float CurrentFlyTime;
 		public string CentcomMessage = "";  // Message that will appear in status tab. Resets on sending shuttle to centcom.
 		public List<CargoCategory> Supplies = new List<CargoCategory>(); // Supplies - all the stuff cargo can order
-		public CargoCategory CurrentCategory;
 		public List<CargoOrderSO> CurrentOrders = new List<CargoOrderSO>(); // Orders - payed orders that will spawn in shuttle on centcom arrival
 		public List<CargoOrderSO> CurrentCart = new List<CargoOrderSO>(); // Cart - current orders, that haven't been payed for/ordered yet
+		public List<CargoBounty> ActiveBounties = new List<CargoBounty>();
 
 		public int cartSizeLimit = 20;
 
 		public CargoUpdateEvent OnCartUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnShuttleUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnCreditsUpdate = new CargoUpdateEvent();
-		public CargoUpdateEvent OnCategoryUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnTimerUpdate = new CargoUpdateEvent();
+		public CargoUpdateEvent OnBountiesUpdate = new CargoUpdateEvent();
 
 		[SerializeField]
-		private CargoData cargoData = null;
+		private CargoData cargoData;
 
-		public CargoData CargoData => cargoData;
 
 		[SerializeField]
 		private float shuttleFlyDuration = 10f;
@@ -85,12 +84,15 @@ namespace Systems.Cargo
 		void OnRoundRestart(Scene oldScene, Scene newScene)
 		{
 			Supplies.Clear();
+			ActiveBounties.Clear();
 			CurrentOrders.Clear();
 			CurrentCart.Clear();
 			ShuttleStatus = ShuttleStatus.DockedStation;
 			Credits = 1000;
 			CurrentFlyTime = 0f;
 			CentcomMessage = "";
+			Supplies = new List<CargoCategory>(cargoData.Categories);
+			ActiveBounties = new List<CargoBounty>(cargoData.CargoBounties);
 		}
 
 		/// <summary>
@@ -150,13 +152,7 @@ namespace Systems.Cargo
 				}
 			}
 
-			OnShuttleUpdate?.Invoke();
-		}
-
-		public void LoadData()
-		{
-			//need a shallow copy so the actual SO list isn't cleared on round restart!
-			Supplies = new List<CargoCategory>(cargoData.Categories);
+			OnShuttleUpdate.Invoke();
 		}
 
 		private IEnumerator Timer(bool launchToStation)
@@ -164,7 +160,7 @@ namespace Systems.Cargo
 			while (CurrentFlyTime > 0f)
 			{
 				CurrentFlyTime -= 1f;
-				OnTimerUpdate?.Invoke();
+				OnTimerUpdate.Invoke();
 				yield return WaitFor.Seconds(1);
 			}
 
@@ -223,11 +219,20 @@ namespace Systems.Cargo
 				ShuttleStatus = ShuttleStatus.DockedStation;
 			}
 
-			OnShuttleUpdate?.Invoke();
+			OnShuttleUpdate.Invoke();
 		}
 
-		public void DestroyItem(ObjectBehaviour item, HashSet<GameObject> alreadySold)
+		public void ProcessCargo(PushPull item, HashSet<GameObject> alreadySold)
 		{
+			var wrappedItem = item.GetComponent<WrappedBase>();
+			if (wrappedItem)
+			{
+				var wrappedContents = wrappedItem.GetOrGenerateContent().GetComponent<PushPull>();
+				ProcessCargo(wrappedContents, alreadySold);
+				DespawnItem(item, alreadySold);
+				return;
+			}
+
 			//already sold this this sales cycle.
 			if (alreadySold.Contains(item.gameObject)) return;
 			var storage = item.GetComponent<InteractableStorage>();
@@ -237,7 +242,7 @@ namespace Systems.Cargo
 				{
 					if (slot.Item)
 					{
-						DestroyItem(slot.Item.GetComponent<ObjectBehaviour>(), alreadySold);
+						ProcessCargo(slot.Item.GetComponent<PushPull>(), alreadySold);
 					}
 				}
 			}
@@ -252,17 +257,17 @@ namespace Systems.Cargo
 			{
 				foreach (var closetItem in closet.ServerHeldItems)
 				{
-					DestroyItem(closetItem, alreadySold);
+					ProcessCargo(closetItem, alreadySold);
 				}
 			}
 
 			// If there is no bounty for the item - we dont destroy it.
 			var credits = Instance.GetSellPrice(item);
 			Credits += credits;
-			OnCreditsUpdate?.Invoke();
+			OnCreditsUpdate.Invoke();
 
 			var attributes = item.gameObject.GetComponent<Attributes>();
-			string exportName = System.String.Empty;
+			string exportName = String.Empty;
 			if (attributes)
 			{
 				if (string.IsNullOrEmpty(attributes.ExportName))
@@ -303,16 +308,72 @@ namespace Systems.Cargo
 			export.Count += count;
 			export.TotalValue += credits;
 
+			var itemAttributes = item.GetComponent<ItemAttributesV2>();
+			if (itemAttributes)
+			{
+				foreach (var itemTrait in itemAttributes.GetTraits())
+				{
+					count = TryCompleteBounty(itemTrait, count);
+					if (count == 0)
+					{
+						break;
+					}
+				}
+			}
+
 			var playerScript = item.GetComponent<PlayerScript>();
 			if (playerScript != null)
 			{
 				playerScript.playerHealth.ServerGibPlayer();
 			}
 
+			DespawnItem(item, alreadySold);
+		}
+
+		private void DespawnItem(PushPull item, HashSet<GameObject> alreadySold)
+		{
 			item.registerTile.UnregisterClient();
 			item.registerTile.UnregisterServer();
 			alreadySold.Add(item.gameObject);
 			Despawn.ServerSingle(item.gameObject);
+		}
+
+
+		private int TryCompleteBounty(ItemTrait itemTrait, int count)
+		{
+			for (var i = ActiveBounties.Count - 1; i >= 0; i--)
+			{
+				var activeBounty = ActiveBounties[i];
+				if (activeBounty.Demands.ContainsKey(itemTrait))
+				{
+					if (activeBounty.Demands[itemTrait] >= count)
+					{
+						activeBounty.Demands[itemTrait] -= count;
+						count = 0;
+						CheckBountyCompletion(activeBounty);
+						break;
+					}
+					count -= activeBounty.Demands[itemTrait];
+					activeBounty.Demands[itemTrait] = 0;
+					CheckBountyCompletion(activeBounty);
+				}
+			}
+
+			return count;
+		}
+
+		private void CheckBountyCompletion(CargoBounty cargoBounty)
+		{
+			foreach (var demand in cargoBounty.Demands)
+			{
+				if (demand.Value > 0)
+				{
+					return;
+				}
+			}
+			ActiveBounties.Remove(cargoBounty);
+			Credits += cargoBounty.Reward;
+			OnBountiesUpdate.Invoke();
 		}
 
 		private void SpawnOrder()
@@ -341,7 +402,7 @@ namespace Systems.Cargo
 			}
 
 			CurrentCart.Add(orderToAdd);
-			OnCartUpdate?.Invoke();
+			OnCartUpdate.Invoke();
 		}
 
 		public void RemoveFromCart(CargoOrderSO orderToRemove)
@@ -352,18 +413,7 @@ namespace Systems.Cargo
 			}
 
 			CurrentCart.Remove(orderToRemove);
-			OnCartUpdate?.Invoke();
-		}
-
-		public void OpenCategory(CargoCategory categoryToOpen)
-		{
-			if (!CustomNetworkManager.Instance._isServer)
-			{
-				return;
-			}
-
-			CurrentCategory = categoryToOpen;
-			OnCategoryUpdate?.Invoke();
+			OnCartUpdate.Invoke();
 		}
 
 		public int TotalCartPrice()
@@ -390,12 +440,11 @@ namespace Systems.Cargo
 				CurrentCart.Clear();
 				Credits -= totalPrice;
 			}
-			OnCreditsUpdate?.Invoke();
-			OnCartUpdate?.Invoke();
-			return;
+			OnCreditsUpdate.Invoke();
+			OnCartUpdate.Invoke();
 		}
 
-		public int GetSellPrice(ObjectBehaviour item)
+		public int GetSellPrice(PushPull item)
 		{
 			if (!CustomNetworkManager.Instance._isServer)
 			{
@@ -418,26 +467,6 @@ namespace Systems.Cargo
 			public int Count;
 			public int TotalValue;
 		}
-	}
-
-	[Serializable]
-	public class CargoOrder
-	{
-		public string OrderName = "Crate with beer and steak";
-		public int CreditsCost = 1000;
-		public GameObject Crate = null;
-		public List<GameObject> Items = new List<GameObject>();
-
-		[ReadOnly]
-		public int TotalCreditExport = 0;
-	}
-
-	[Serializable]
-	public class CargoOrderCategory
-	{
-		public string CategoryName = "";
-		[ReorderableList]
-		public List<CargoOrder> Supplies = new List<CargoOrder>();
 	}
 
 	public class CargoUpdateEvent : UnityEvent { }

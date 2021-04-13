@@ -2,6 +2,11 @@
 ---
 
 
+* 2021/4/13: Humans will no longer have wrong skin tones when switching between species. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6313](https://github.com/unitystation/unitystation/pull/6313)
+* 2021/4/13: Multiple character sheets are now supported. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6313](https://github.com/unitystation/unitystation/pull/6313)
+* 2021/4/13: Added input and output levels to SMES by [jdownie01](https://github.com/jdownie01) in PR #[6360](https://github.com/unitystation/unitystation/pull/6360)
+* 2021/4/12: Fixes dropdown names. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6356](https://github.com/unitystation/unitystation/pull/6356)
+* 2021/4/11: Fixed Autolathes not being destroyed when not connected to a material silo or storage. by [Semuca](https://github.com/Semuca) in PR #[6352](https://github.com/unitystation/unitystation/pull/6352)
 * 2021/4/7: Removes watts examine text on grounding rods by [ThatDan123](https://github.com/ThatDan123) in PR #[6336](https://github.com/unitystation/unitystation/pull/6336)
 * 2021/4/4: Fixed sprayer bottles not having any sounds. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)
 * 2021/4/4: Fixed some sprite overlay rendering issues (back items used to go on top of items, so if you held a sniper rifle, your backpack straps would go through it, also head items rendered on top of back items, so if you weared a sniper rifle on your back, the sniper rifle would go inside your head item, that is fixed now.) by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6326](https://github.com/unitystation/unitystation/pull/6326)

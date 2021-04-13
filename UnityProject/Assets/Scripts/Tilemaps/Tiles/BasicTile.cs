@@ -139,6 +139,9 @@ public abstract class BasicTile : LayerTile
 
 	public AddressableAudioSource SoundOnHit => soundOnHit;
 
+	[SerializeField]
+	public List<AddressableAudioSource> SoundOnDestroy = new List<AddressableAudioSource>();
+
 	public override void RefreshTile(Vector3Int position, ITilemap tilemap)
 	{
 		foreach (Vector3Int p in new BoundsInt(-1, -1, 0, 3, 3, 1).allPositionsWithin)

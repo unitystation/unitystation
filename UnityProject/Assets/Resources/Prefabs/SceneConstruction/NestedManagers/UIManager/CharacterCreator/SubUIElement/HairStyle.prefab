@@ -1127,6 +1127,7 @@ MonoBehaviour:
   spriteOrder:
     Orders: 00000000000000000000000000000000
   spriteHandlerNorder: {fileID: 3087728318779941642}
+  canRandomizeColors: 0
 --- !u!1 &4043889440604183277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,7 +1733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.03137255, g: 0.03137255, b: 0.050980397, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

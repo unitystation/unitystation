@@ -23,6 +23,9 @@ namespace Systems.Cargo
 		[Tooltip("Making some quick maffs, this is what the order content might be worth.")]
 		public int ContentSellPrice = 0;
 
+		[Tooltip("This will only appear on emagged consoles.")]
+		public bool EmagOnly;
+
 		private void OnValidate()
 		{
 			var value = 0;

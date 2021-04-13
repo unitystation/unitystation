@@ -6,16 +6,8 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPage : NetPage
 	{
-		public string DirectoryName = "/.../avaliable_supplies";
-
-		/// <summary>
-		/// Method to init tab
-		/// Called from GUI_Cargo on ServerInit()
-		/// </summary>
-		public virtual void Init()
-		{
-
-		}
+		public string DirectoryName = "/.../available_supplies";
+		public GUI_Cargo cargoGUI;
 
 		/// <summary>
 		/// Method to update tab info on it's opening
@@ -25,5 +17,11 @@ namespace UI.Objects.Cargo
 		{
 
 		}
+
+		public virtual void UpdateTab()
+		{
+
+		}
+
 	}
 }

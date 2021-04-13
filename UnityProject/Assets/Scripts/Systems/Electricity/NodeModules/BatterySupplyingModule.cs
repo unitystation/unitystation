@@ -17,6 +17,8 @@ namespace Systems.Electricity.NodeModules
 		public float StandardChargeNumber; //Basically part of the multiplier of how much it should charge
 		public int MaxChargingDivider;
 		public int ChargingDivider;
+		public int InputLevel = 100;
+		public int OutputLevel = 100;
 		public bool CanCharge;
 		public bool Cansupport;
 		public bool ToggleCanCharge;
@@ -103,7 +105,7 @@ namespace Systems.Electricity.NodeModules
 									{
 										current = MaximumCurrentSupport;
 									}
-									PullingWatts = current * StandardSupplyingVoltage; // Should be the same as NeedToPushVoltage + powerSupply.ActualVoltage
+									PullingWatts = ((current * StandardSupplyingVoltage)*(OutputLevel/100)); // Should be the same as NeedToPushVoltage + powerSupply.ActualVoltage
 								}
 							}
 							else if (PullingWatts > 0)
@@ -149,7 +151,7 @@ namespace Systems.Electricity.NodeModules
 							ChargingWatts = VoltageAtChargePort / ResistanceSourceModule.Resistance * VoltageAtChargePort;
 							if (chargeCapacityTime)
 							{
-								CurrentCapacity += ChargingWatts * (Time.time - ChargLastDeductedTime);
+								CurrentCapacity += (ChargingWatts * (Time.time - ChargLastDeductedTime)*(InputLevel/100));
 							}
 							ChargLastDeductedTime = Time.time;
 
@@ -212,7 +214,7 @@ namespace Systems.Electricity.NodeModules
 							{
 								PullLastDeductedTime = Time.time;
 							}
-							CurrentCapacity -= PullingWatts * (Time.time - PullLastDeductedTime);
+							CurrentCapacity -= (PullingWatts*(OutputLevel/100)) * (Time.time - PullLastDeductedTime);
 							PullLastDeductedTime = Time.time;
 							if (CurrentCapacity <= 0)
 							{
@@ -231,7 +233,7 @@ namespace Systems.Electricity.NodeModules
 							{
 								current = MaximumCurrentSupport;
 							}
-							PullingWatts = current * StandardSupplyingVoltage;
+							PullingWatts = ((current * StandardSupplyingVoltage)*(OutputLevel/100));
 						}
 					}
 					else if (PullingWatts > 0)

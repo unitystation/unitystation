@@ -10,20 +10,23 @@ namespace Objects.Cargo
 {
 	public class CargoConsole : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
-		private bool correctID;
-		public bool CorrectID => correctID;
+		public bool CorrectID;
+		public bool Emagged;
 
-		private GUI_Cargo associatedTab;
+		public GUI_Cargo cargoGUI;
 
 		[SerializeField]
 		private List<JobType> allowedTypes = null;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return DefaultWillInteract.Default(interaction, side) &&
-				   Validations.HasComponent<IDCard>(interaction.HandObject);
-
-
+			if (!DefaultWillInteract.Default(interaction, side))
+				return false;
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Id))
+				return true;
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+				return true;
+			return false;
 		}
 
 		/// <summary>
@@ -32,46 +35,46 @@ namespace Objects.Cargo
 		[Server]
 		public void ResetID()
 		{
-			correctID = false;
+			CorrectID = false;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			CheckID(interaction.HandSlot.Item.GetComponent<IDCard>().JobType, interaction.Performer);
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Id))
+			{
+				CheckID(interaction.HandSlot.Item.GetComponent<IDCard>().JobType, interaction.Performer);
+			}
+			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+			{
+				//"You adjust the supply console's routing and receiver spectrum, unlocking special supplies and contraband.
+				Emagged = true;
+				if (cargoGUI)
+				{
+					cargoGUI.pageCart.UpdateTab();
+				}
+			}
 		}
 
 		[Server]
 		private void CheckID(JobType usedID, GameObject playeref)
 		{
-			// Null checks people, always need them in the weirdest of places
-			if (associatedTab == null) return;
+			if (cargoGUI == null)
+				return;
 			foreach (var aJob in allowedTypes.Where(aJob => usedID == aJob))
 			{
-				correctID = true;
-				associatedTab.UpdateId();
+				CorrectID = true;
+				cargoGUI.pageCart.UpdateTab();
 				break;
 			}
-			// Not "optimized" for readability
-			if (correctID)
+
+			var denyString = "the console denies your ID";
+			if (CorrectID)
 			{
-				Chat.AddActionMsgToChat(playeref, "You swipe your ID through the supply console's ID slot, t" +
-												  "he console accepts your ID",
-					"swiped their ID through the supply console's ID slot");
+				denyString = "the console accepts your ID";
 			}
-			else
-			{
-				Chat.AddActionMsgToChat(playeref, "You swipe your ID through the supply console's ID slot, " +
-												  "the console denies your ID",
-					$"{playeref.ExpensiveName()} swiped their ID through the supply console's ID slot");
+			Chat.AddActionMsgToChat(playeref, $"You swipe your ID through the supply console's ID slot, {denyString}",
+				$"{playeref.ExpensiveName()} swiped their ID through the supply console's ID slot");
 
-			}
-
-		}
-
-
-		public void NetTabRef(GameObject netTab)
-		{
-			associatedTab = netTab.GetComponent<GUI_Cargo>();
 		}
 	}
 }

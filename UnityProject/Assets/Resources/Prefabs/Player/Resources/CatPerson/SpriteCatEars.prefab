@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716b04978ca11484f9415d29517c600e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   baseSpriteHandler: {fileID: 1286611255038373546}
-  damageOverlaySpriteHandler: {fileID: 687716640951515213}
   BodyPartType: 0
   spriteRenderer: {fileID: 5622979681401935431}
   SpriteOrder:
-    Orders: 16000000160000001600000016000000
+    Orders: 14000000140000001400000014000000
+  ClothingHide: 0
   OverlySpriteHandler: {fileID: 8378186601239540787}
 --- !u!1 &7060390259241769481
 GameObject:
@@ -49,7 +51,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4975758331375821151}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4750155657194176705
 SpriteRenderer:
@@ -91,7 +93,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 16
-  m_Sprite: {fileID: 21300000, guid: 4b7b6c3a7031f5c45976f42c955fb37d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 398bcb893296a1f4d94c09e9bfa488e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -116,7 +118,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 2895938890c52ee45a2ad29b4f44736a, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 9013b5f6b05c6f947934343ac3da21cf, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -128,11 +131,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1183852044112758862, guid: 7f846789e62ac004499611e9c1417efa,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1879030153370423799, guid: 7f846789e62ac004499611e9c1417efa,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 602c4d216c88a4849ad812447e0adc69,
+      objectReference: {fileID: 11400000, guid: e2cf3f0cdbe22fd45a4cb13a131538f4,
         type: 2}
     - target: {fileID: 2698320114865596327, guid: 7f846789e62ac004499611e9c1417efa,
         type: 3}
@@ -230,18 +238,6 @@ SpriteRenderer:
 --- !u!114 &1286611255038373546 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1879030153370423799, guid: 7f846789e62ac004499611e9c1417efa,
-    type: 3}
-  m_PrefabInstance: {fileID: 849300055863115613}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &687716640951515213 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 162713712933373712, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   m_PrefabInstance: {fileID: 849300055863115613}
   m_PrefabAsset: {fileID: 0}
