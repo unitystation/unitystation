@@ -93,13 +93,13 @@ namespace Weapons
 		/// <summary>
 		/// Whether the gun uses an internal magazine.
 		/// </summary>
-		[HideIf("SmartGun"), Tooltip("Effects if the gun will use an internal mag")]
+		[HideIf(nameof(SmartGun)), Tooltip("Effects if the gun will use an internal mag")]
 		public bool MagInternal = false;
 
 		/// <summary>
 		/// If the gun should eject it's magazine automatically (external-magazine-specific)
 		/// </summary>
-		[HideIf("MagInternal"), Tooltip("If the gun should eject an empty mag automatically")]
+		[HideIf(nameof(MagInternal)), Tooltip("If the gun should eject an empty mag automatically")]
 		public bool SmartGun = false;
 
 		/// <summary>
@@ -1015,16 +1015,4 @@ namespace Weapons
 		FullyAutomatic = 1,
 		Burst = 2
 	}
-
-	/// <summary>
-	///	//TODO: write a half decent summary
-	/// </summary>
-	public enum TriggerBehaviour
-	{
-		None,
-		NonClumsyShot,
-		NormalShot,
-		ClumsyShot
-	}
-
 }
