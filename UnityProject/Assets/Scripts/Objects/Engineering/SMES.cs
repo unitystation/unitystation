@@ -4,9 +4,6 @@ using Systems.Electricity.NodeModules;
 using Mirror;
 using UnityEngine;
 using ScriptableObjects;
-using System.Linq;
-using Systems.ElectricalArcs;
-using Systems.Explosions;
 
 namespace Objects.Engineering
 {
@@ -114,9 +111,11 @@ namespace Objects.Engineering
 		public string Examine(Vector3 worldPos = default)
 		{
 			UpdateMe();
-			return $"The charge indicator shows a {ChargePercent} percent charge. The input level is: "+batterySupplyingModule.InputLevel+"% The ouput level is: "+batterySupplyingModule.OutputLevel+"% " +
+			return $"The charge indicator shows a {ChargePercent} percent charge. " +
+			       $"The input level is: {batterySupplyingModule.InputLevel} % The output level is: {batterySupplyingModule.OutputLevel} %. " +
 			       $"The power input/output is " +
-			       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. Use a crowbar to adjust the output level and a wrench to adjust the input level. ";
+			       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " + 
+			       "Use a crowbar to adjust the output level and a wrench to adjust the input level.";
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
