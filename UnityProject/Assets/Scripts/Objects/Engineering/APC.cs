@@ -39,11 +39,7 @@ namespace Objects.Engineering
 
 		private int cashOfConnectedDevices;
 		private bool batteryCharging;
-		#region Inspector options
-		private int integrity = 100;
-
-		private int maxIntegrity = 100;
-		#endregion
+		private Integrity integrity;
 		public float Voltage => voltageSync;
 
 		private RegisterObject registerObject;
@@ -72,7 +68,10 @@ namespace Objects.Engineering
 		private void Awake()
 		{
 			var rand = new System.Random();
-			integrity = maxIntegrity-rand.Next(maxIntegrity/5);
+			integrity = GetComponent<Integrity>();
+			integrity.OnApplyDamage.AddListener(OnDamageReceived);
+			integrity.OnWillDestroyServer.AddListener(OnWillDestroyServer);
+
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
 			registerObject = this.GetComponent<RegisterObject>();
@@ -81,6 +80,40 @@ namespace Objects.Engineering
 		private void Start()
 		{
 			CheckListOfDevicesForNulls();
+		}
+
+		private void OnWillDestroyServer(DestructionInfo arg0)
+		{
+			Spawn.ServerPrefab(rackParts, gameObject.TileWorldPosition().To3Int(), transform.parent);
+		}
+		private void OnDamageReceived(DamageInfo damageInfo)
+		{
+			if (integrity.integrity <= (integrity.initialIntegrity *0.10)
+			{
+				overvoltage_critical();
+			}
+			else if (integrity.integrity <= integrity.initialIntegrity * 0.25)
+			{
+				APCPoweredDevice deviceToRemove = null;
+				foreach (APCPoweredDevice Device in connectedDevices)
+				{
+					var rand = new System.Random();
+					if (rand.Next(100) < 10)
+					{
+						deviceToRemove = Device;
+					}
+				}
+
+				if (deviceToRemove != null)
+				{
+					RemoveDevice(deviceToRemove);
+				}
+			}
+			else if (integrity.integrity <= integrity.initialIntegrity * 0.75)
+			{
+
+			}
+
 		}
 
 		private void CheckListOfDevicesForNulls()
@@ -181,35 +214,18 @@ namespace Objects.Engineering
 			float Voltages = Voltage;
 			if (Voltages > 270)
 			{
-				overvoltage_critical();
+				integrity.ApplyDamage(25, AttackType.Melee, DamageType.Brute);
+				Voltages = 0.001f;
 			} else if (Voltages > 219f)
 			{
-				overvoltage();
-				Voltages = 0.001f;
+				integrity.ApplyDamage(5, AttackType.Melee, DamageType.Brute);
 			}
 			float CalculatingResistance = new float();
-
-			APCPoweredDevice deviceToRemove = null;
 
 			foreach (APCPoweredDevice Device in connectedDevices)
 			{
 				Device.PowerNetworkUpdate(Voltages);
-
 				CalculatingResistance += (1 / Device.Resistance);
-				if (integrity <= 50)
-				{
-					//At 50 integrity there's a 5% chance a device gets removed
-					var rand = new System.Random();
-					if (rand.Next(100) < (100-integrity)/10)
-					{
-						deviceToRemove = Device;
-					}
-				}
-			}
-
-			if (deviceToRemove != null)
-			{
-				RemoveDevice(deviceToRemove);
 			}
 
 			resistanceSourceModule.Resistance = (1 / CalculatingResistance);
@@ -230,31 +246,7 @@ namespace Objects.Engineering
 		/// </summary>
 		private void overvoltage()
 		{
-			if (integrity > 0)
-			{
-				integrity--;
-			}
-			else
-			{
-				var rand = new System.Random();
-				if (rand.Next(100) < 50)
-				{
-					overvoltage_critical();
-				}
-				else
-				{
-					State = APCState.Dead;
-				}
-			}
-		}
 
-		/// <summary>
-		/// Repairs the APC
-		/// </summary>
-		public void RepairDevice()
-		{
-			integrity = maxIntegrity;
-			State = APCState.Charging;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
