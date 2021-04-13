@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
@@ -6,11 +8,14 @@ using HealthV2;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using Newtonsoft;
 
 namespace Lobby
 {
 	public class CharacterCustomization : MonoBehaviour
 	{
+		[Header("Character Customizer")]
 		public GameObject SpriteContainer;
 
 		public CustomisationSubPart customisationSubPart;
@@ -65,7 +70,7 @@ namespace Lobby
 
 		public ColorPicker colorPicker;
 
-		private CharacterSettings lastSettings;
+		
 
 		public Action onCloseAction;
 
@@ -94,25 +99,44 @@ namespace Lobby
 
 		public InputField SerialiseData;
 
+		[SerializeField] private GameObject snapCapturer;
+
+		[Header("Character Selector")]
+		[SerializeField] private Text WindowName;
+
+		[SerializeField] private Text SlotsUsed;
+		[SerializeField] private Text CharacterPreviewName;
+		[SerializeField] private Text CharacterPreviewRace;
+		[SerializeField] private Text CharacterPreviewBodyType;
+		[SerializeField] private RawImage CharacterPreviewImg;
+
+		[SerializeField] private GameObject CharacterPreviews;
+		[SerializeField] private GameObject NoCharactersError;
+		[SerializeField] private GameObject NoPreviewError;
+		[SerializeField] private GameObject GoBackButton;
+
+		[SerializeField] private GameObject CharacterSelectorPage;
+		[SerializeField] private GameObject CharacterCreatorPage;
+
+		public List<CharacterSettings> PlayerCharacters = new List<CharacterSettings>();
+
+		private CharacterSettings lastSettings;
+		private int currentCharacterIndex = 0;
+		private bool savingPictures = false;
+
 
 		void OnEnable()
 		{
+			GetSavedCharacters();
+			WindowName.text = "Select your character";
 			LoadSettings(PlayerManager.CurrentCharacterSettings);
-			colorPicker.gameObject.SetActive(false);
-			colorPicker.onValueChanged.AddListener(OnColorChange);
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
 			lastSettings = JsonConvert.DeserializeObject<CharacterSettings>(copyStr);
+			colorPicker.gameObject.SetActive(false);
+			colorPicker.onValueChanged.AddListener(OnColorChange);
 			DisplayErrorText("");
-
-			//torsoSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Torso);
-			//headSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Head);
-			// RarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmRight);
-			// LarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmLeft);
-			// RlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegRight);
-			// LlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegLeft);
-			// RHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandRight);
-			// LHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandLeft);
-			// eyesSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Eyes);
+			RefreshSelectorData();
+			
 		}
 
 		void OnDisable()
@@ -157,6 +181,147 @@ namespace Lobby
 			SurfaceSprite.Clear();
 		}
 
+		private void ShowNoCharacterError()
+		{
+			CharacterPreviews.SetActive(false);
+			NoCharactersError.SetActive(true);
+		}
+
+		private void ShowCharacterCreator()
+		{
+			WindowName.text = "Character Settings";
+			CharacterSelectorPage.SetActive(false);
+			CharacterCreatorPage.SetActive(true);
+			GoBackButton.SetActive(true);
+			Cleanup();
+			LoadSettings(currentCharacter);
+			RefreshAll();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		}
+
+		public void ShowCharacterSelectorPage()
+		{
+			WindowName.text = "Select your character";
+			CharacterSelectorPage.SetActive(true);
+			CharacterCreatorPage.SetActive(false);
+			GoBackButton.SetActive(false);
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		}
+
+		public void CreateCharacter()
+		{
+			CharacterSettings character = new CharacterSettings();
+			PlayerCharacters.Add(character);
+			currentCharacterIndex = PlayerCharacters.Count() - 1;
+			currentCharacter = PlayerCharacters[currentCharacterIndex];
+			ShowCharacterCreator();
+			DoInitChecks();
+			RefreshAll();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		}
+
+		public void EditCharacter()
+		{
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			ShowCharacterCreator();
+			RefreshAll();
+		}
+
+
+		/// <summary>
+		/// Responsible for refreshing all data in the character selector page.
+		/// </summary>
+		private void RefreshSelectorData()
+		{
+			CharacterPreviewName.text = PlayerCharacters[currentCharacterIndex].Name;
+			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
+			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
+			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
+			CheckPreviewImage();
+		}
+
+
+		/// <summary>
+		/// If there is no sprite, show an error.
+		/// If there is a sprite, display it.
+		/// </summary>
+		private void CheckPreviewImage()
+		{
+			string path = Application.persistentDataPath + "/" +
+				$"{PlayerCharacters[currentCharacterIndex].Username}/" + PlayerCharacters[currentCharacterIndex].Name;
+			if (Directory.Exists(path))
+			{
+				CharacterPreviewImg.SetActive(true);
+				NoPreviewError.SetActive(false);
+				Debug.Log(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG");
+				StartCoroutine(GetPreviewImage(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG"));
+			}
+			else
+			{
+				CharacterPreviewImg.SetActive(false);
+				NoPreviewError.SetActive(true);
+			}
+		}
+
+		/// <summary>
+		/// Loads an image from a localpath or from a server.
+		/// </summary>
+		/// <param name="path">The path to the image that will be used as a texture.</param>
+		/// <returns></returns>
+		private IEnumerator<UnityWebRequestAsyncOperation> GetPreviewImage(string path)
+		{
+			using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(path))
+			{
+				yield return uwr.SendWebRequest();
+
+				if (uwr.result != UnityWebRequest.Result.Success)
+				{
+					Debug.Log(uwr.error);
+					CharacterPreviewImg.SetActive(false);
+					NoPreviewError.SetActive(true);
+				}
+				else
+				{
+					CharacterPreviewImg.texture = DownloadHandlerTexture.GetContent(uwr);
+				}
+			}
+		}
+
+		public void ScrollSelectorLeft()
+		{
+			if (currentCharacterIndex != 0)
+			{
+				currentCharacterIndex--;
+				currentCharacter = PlayerCharacters[currentCharacterIndex];
+			}
+			else
+			{
+				currentCharacterIndex = PlayerCharacters.Count() - 1;
+				currentCharacter = PlayerCharacters[currentCharacterIndex];
+			}
+			RefreshSelectorData();
+			RefreshAll();
+			SaveLastCharacterIndex();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		}
+		public void ScrollSelectorRight()
+		{
+			if (currentCharacterIndex < PlayerCharacters.Count() - 1)
+			{
+				currentCharacterIndex++;
+				currentCharacter = PlayerCharacters[currentCharacterIndex];
+			}
+			else
+			{
+				currentCharacterIndex = 0;
+				currentCharacter = PlayerCharacters[currentCharacterIndex];
+			}
+			RefreshSelectorData();
+			RefreshAll();
+			SaveLastCharacterIndex();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		}
+
 		private void LoadSettings(CharacterSettings inCharacterSettings)
 		{
 			currentCharacter = inCharacterSettings;
@@ -197,6 +362,7 @@ namespace Lobby
 			ThisSetRace = SetRace;
 
 			availableSkinColors = SetRace.Base.SkinColours;
+			currentCharacter.SkinTone = inCharacterSettings.SkinTone;
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
 			DoInitChecks();
@@ -745,10 +911,92 @@ namespace Lobby
 			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
-			ServerData.UpdateCharacterProfile(
-				currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
+			// TODO Consider adding await. Otherwise this causes a compile warning.
+			ServerData.UpdateCharacterProfile(currentCharacter);
+			SaveCharacters();
 		}
 
+		/// <summary>
+		/// Takes 4 pictures of the character from all sides and stores them in %AppData%/Locallow/unitystation
+		/// </summary>
+		private IEnumerator<WaitForEndOfFrame> SaveCurrentCharacterSnaps()
+		{
+			savingPictures = true;
+			Util.CaptureUI capture = snapCapturer.GetComponent<Util.CaptureUI>();
+			int dir = 0;
+			capture.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
+			while(dir < 4)
+			{
+				RightRotate();
+				capture.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
+				//Wait for 3 frames to make sure that all sprites have been loaded and layered correctly when rotating.
+				yield return WaitFor.EndOfFrame;
+				yield return WaitFor.EndOfFrame;
+				yield return WaitFor.EndOfFrame;
+				capture.TakeScreenShot();
+				dir++;
+			}
+			savingPictures = false;
+		}
+
+		/// <summary>
+		/// Remembers what was the last character the player chose in the character selector screen.
+		/// </summary>
+		private void SaveLastCharacterIndex()
+		{
+			PlayerPrefs.SetInt("lastCharacter", currentCharacterIndex);
+			PlayerPrefs.Save();
+		}
+
+		/// <summary>
+		/// Save all characters in a json file.
+		/// </summary>
+		private void SaveCharacters()
+		{
+			var settings = new JsonSerializerSettings
+			{
+				PreserveReferencesHandling = PreserveReferencesHandling.All,
+				NullValueHandling = NullValueHandling.Ignore,
+				ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+				Formatting = Formatting.Indented
+			};
+			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
+			string json = JsonConvert.SerializeObject(PlayerCharacters, settings);
+			string path = Application.persistentDataPath + "characters.json";
+			if(File.Exists(path))
+			{
+				File.Delete(path);
+			}
+			File.WriteAllText(path, json);
+		}
+
+		/// <summary>
+		/// Get all characters that are saved in %APPDATA%/Locallow/unitystation/characters.json
+		/// </summary>
+		private void GetSavedCharacters()
+		{
+			PlayerCharacters.Clear(); //Clear all entries so we don't have duplicates when re-opening the character page.
+			string path = Application.persistentDataPath;
+
+			if(File.Exists(path + "characters.json"))
+			{
+				CharacterPreviews.SetActive(true);
+				NoCharactersError.SetActive(false);
+				string json = File.ReadAllText(path + "characters.json");
+				var characters = JsonConvert.DeserializeObject<List<CharacterSettings>>(json);
+
+				foreach (var c in characters)
+				{
+					PlayerCharacters.Add(c);
+				}
+				currentCharacterIndex = PlayerPrefs.GetInt("lastCharacter", currentCharacterIndex);
+				RefreshSelectorData();
+			}
+			else
+			{
+				ShowNoCharacterError();
+			}
+		}
 
 		public void SaveExternalCustomisations()
 		{
@@ -815,6 +1063,17 @@ namespace Lobby
 
 		public void OnApplyBtn()
 		{
+			OnApplyBtnLogic();
+		}
+
+		private async Task OnApplyBtnLogic()
+		{
+			StartCoroutine(SaveCurrentCharacterSnaps());
+
+			DisplayErrorText("Saving..");
+			//A hacky solution to be able to get character snaps before the UI shuts itself and hides/deletes the player. 
+			await Task.Delay(500);
+
 			DisplayErrorText("");
 			try
 			{
@@ -823,11 +1082,22 @@ namespace Lobby
 			catch (InvalidOperationException e)
 			{
 				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
+				SoundManager.Play(SingletonSOSounds.Instance.AccessDenied);
 				DisplayErrorText(e.Message);
 				return;
 			}
 
+
+
+			PlayerCharacters[currentCharacterIndex] = currentCharacter;
+
+			//Ensure that the character skin tone is assigned when saving the character
+			string skintone = currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
+			PlayerCharacters[currentCharacterIndex].SkinTone = skintone;
+
 			SaveData();
+			ShowCharacterSelectorPage();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			gameObject.SetActive(false);
 		}
 
@@ -934,7 +1204,6 @@ namespace Lobby
 		//------------------
 		//AGE:
 		//------------------
-
 		private void RefreshAge()
 		{
 			ageField.text = currentCharacter.Age.ToString();
@@ -994,7 +1263,7 @@ namespace Lobby
 		}
 
 		//------------------
-		//BACKPACK PREFERENCE:
+		//BACKPACK PREFERENCE
 		//------------------
 
 		public void OnBackpackChange()
@@ -1107,7 +1376,6 @@ namespace Lobby
 			currentCharacter.Species = RaceSOSingleton.Instance.Races[SelectedSpecies].name;
 
 			Cleanup();
-			SaveData();
 			var SetRace = RaceSOSingleton.Instance.Races[SelectedSpecies];
 			availableSkinColors = SetRace.Base.SkinColours;
 			SetUpSpeciesBody(SetRace);
@@ -1124,7 +1392,10 @@ namespace Lobby
 				Customisation.Refresh();
 			}
 
+
 			RefreshRace();
+
+			OnSurfaceColourChange();
 		}
 
 		private void RefreshRace()
