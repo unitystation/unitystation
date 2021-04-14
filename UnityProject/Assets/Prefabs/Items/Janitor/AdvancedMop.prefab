@@ -1,0 +1,216 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2431660322773184288
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1001845949158984379, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: useTime
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307908961422809955, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414177069389208483, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2419386692754613975, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_Name
+      value: AdvancedMop
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549766349099832715, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6b1c0477170d5f04d9ef045e8781c5e8,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 88cf7ef22c2232b40b9c87cfb85774db, type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 88cf7ef22c2232b40b9c87cfb85774db,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 88cf7ef22c2232b40b9c87cfb85774db,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 88cf7ef22c2232b40b9c87cfb85774db,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 88cf7ef22c2232b40b9c87cfb85774db,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 3215ee2ced3c4374485e0adf291548a8, type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: bfbbb516d738e744cac1c26e1dcd8197, type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: bfbbb516d738e744cac1c26e1dcd8197,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: bfbbb516d738e744cac1c26e1dcd8197,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: bfbbb516d738e744cac1c26e1dcd8197,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: bfbbb516d738e744cac1c26e1dcd8197,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: a6d27a4dc5e45c74c93e96816bc98f98, type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: throwRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: hitDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: throwDamage
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: initialDescription
+      value: The most advanced tool in a custodian's arsenal, complete with a condenser
+        for self-wetting! Just think of all the viscera you will clean up with this!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: initialName
+      value: advanced mop
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 6b1c0477170d5f04d9ef045e8781c5e8, type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 6b1c0477170d5f04d9ef045e8781c5e8,
+        type: 3}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: ad419e1c911897142a31a87b24f11364,
+        type: 2}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ccea4fa2826f7ea47a5233729e2504f7,
+        type: 2}
+    - target: {fileID: 2845986707419941301, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4125723e6b5230c4084230e12b1ae225,
+        type: 2}
+    - target: {fileID: 8418771792752057680, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ad419e1c911897142a31a87b24f11364,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e632378292aa9a645bf4a8745061e44d, type: 3}

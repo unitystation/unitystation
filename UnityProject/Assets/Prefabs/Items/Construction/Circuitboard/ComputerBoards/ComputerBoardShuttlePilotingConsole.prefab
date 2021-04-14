@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5745398897425548693
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4314726431179529581, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: computerToSpawn
+      value: 
+      objectReference: {fileID: 7020825830201261370, guid: 9fb771d3f7501244bac44e589e8140a3,
+        type: 3}
+    - target: {fileID: 773801843782410774, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: computerToSpawn
+      value: 
+      objectReference: {fileID: 3650686735825012231, guid: 0a56d7747596df141be0aa6803f20980,
+        type: 3}
+    - target: {fileID: 3023408758491105740, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fadc8577b917a5246957e1299ebe1b1d,
+        type: 2}
+    - target: {fileID: 5950392808927779210, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: computerToSpawn
+      value: 
+      objectReference: {fileID: 642832443611212201, guid: 0a56d7747596df141be0aa6803f20980,
+        type: 3}
+    - target: {fileID: 8817709132636593449, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: initialName
+      value: Shuttle Piloting Console (Computer Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984899974262771446, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9a884272958203f41ac9a17c2c344a79,
+        type: 3}
+    - target: {fileID: 8984899974262802564, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_Name
+      value: ComputerBoardShuttlePilotingConsole
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984899974262863145, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984899974262867556, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: initialDescription
+      value: A circuit board for a shuttle piloting console.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984899974262867556, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: initialName
+      value: Shuttle Piloting Console (Computer Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985614780216144459, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_Name
+      value: ComputerBoardShuttlePilotingConsole
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018287352618307583, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098015153725456663, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9a884272958203f41ac9a17c2c344a79,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e7e1f76c9d673354f923f7906532be5b, type: 3}

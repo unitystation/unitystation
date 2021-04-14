@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5784737344957709872
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1048207226637103134, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 1350
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033926282393258473, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c44ee214c8510bf4b8236e8fa6f77731,
+        type: 2}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d,
+        type: 2}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: fa60dedbe4f861e76a46f56f59987729,
+        type: 2}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 8768840950121946380, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialDescription
+      value: Hello, you've reached Arnold's pizza shop. I'm not here now, I'm out
+        killing pepperoni
+      objectReference: {fileID: 0}
+    - target: {fileID: 8768840950121946380, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialName
+      value: Arnold pizza
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055966213179572530, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e99d746a0b3ba9a4a9eee38af8d6fff8,
+        type: 3}
+    - target: {fileID: 9135694018600570842, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9177408974090613358, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_Name
+      value: ArnoldPizza
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 20e558a25e0b41942a7483724b3e4d45, type: 3}

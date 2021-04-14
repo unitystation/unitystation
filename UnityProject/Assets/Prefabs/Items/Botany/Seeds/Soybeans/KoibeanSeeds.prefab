@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1555364760981016414
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2336852896350807683, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into koibean plants.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336852896350807683, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: initialName
+      value: pack of koibean seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 2626236828490791613, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9a98dd410ea5a3240a09ff872214c8f7,
+        type: 3}
+    - target: {fileID: 2775257405307013601, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_Name
+      value: KoibeanSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816865776897029205, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: d4a294e7f388e1f40b5800e6dec1732c,
+        type: 2}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Koibean Plants
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 3319888450145678287, guid: 27f7ef209550d444d982bb38625896cc,
+        type: 3}
+    - target: {fileID: 8342266094634562150, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 00788e286f06918459035c59d50e9c61,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e41afb7979b591443b008859f958eca6, type: 3}

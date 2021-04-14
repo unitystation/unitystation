@@ -24,17 +24,17 @@ public static class EffectsFactory
 		if (fireTile == null)
 		{
 			//Do init stuff
-			fireTile = Resources.Load("FireTile") as GameObject;
-			smallBloodTile = Resources.Load("SmallBloodSplat") as GameObject;
-			mediumBloodTile = Resources.Load("MediumBloodSplat") as GameObject;
-			largeBloodTile = Resources.Load("LargeBloodSplat") as GameObject;
-			largeAshTile = Resources.Load("LargeAsh") as GameObject;
-			smallAshTile = Resources.Load("SmallAsh") as GameObject;
-			waterTile = Resources.Load("WaterSplat") as GameObject;
-			chemTile = Resources.Load("ChemSplat") as GameObject;
-			smallXenoBloodTile = Resources.Load("SmallXenoBloodSplat") as GameObject;
-			medXenoBloodTile = Resources.Load("MedXenoBloodSplat") as GameObject;
-			largeXenoBloodTile = Resources.Load("LargeXenoBloodSplat") as GameObject;
+			fireTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("FireTile");
+			smallBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallBloodSplat");
+			mediumBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MediumBloodSplat");
+			largeBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeBloodSplat");
+			largeAshTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeAsh");
+			smallAshTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallAsh");
+			waterTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("WaterSplat");
+			chemTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("ChemSplat");
+			smallXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallXenoBloodSplat");
+			medXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MedXenoBloodSplat");
+			largeXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeXenoBloodSplat");
 		}
 	}
 
@@ -82,7 +82,7 @@ public static class EffectsFactory
 				break;
 			case BloodSplatType.none:
 						return;
-				
+
 		}
 
 		if (chosenTile != null)

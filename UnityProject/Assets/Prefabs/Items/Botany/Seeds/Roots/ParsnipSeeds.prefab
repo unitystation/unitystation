@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3259405822441580841
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2377644528035259107, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 90f1542ceb923e949ad8c56facf120c2,
+        type: 3}
+    - target: {fileID: 2454147907924021695, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_Name
+      value: ParsnipSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2565599457671015435, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2658100357042388701, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into parsnips.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2658100357042388701, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: initialName
+      value: pack of parsnip seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Parsnips
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 1054701026276555090, guid: b33a479c33469b747be6fe3130c04a01,
+        type: 3}
+    - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: a0d6b8e17278c9542a848f5889bf1254,
+        type: 2}
+    - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a90f1d1a03d588439e8adc828380a93,
+        type: 2}
+    - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 46ff34afb101af34d9892bfacc1df7bb,
+        type: 2}
+    - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 43b1aad0943644346ac14e5e446be546,
+        type: 2}
+    - target: {fileID: 8595398832567020088, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d004b5c016d382e4cb69b156054433aa,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e746d3505715fa14eb99a37456d99398, type: 3}

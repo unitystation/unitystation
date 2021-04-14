@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1470917160989969442
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 52863117fba0f70c8af5b46be6699fa2,
+        type: 2}
+    - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244486289140544064, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4283842792729530356, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_Name
+      value: GorillaCube
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440231365254783126, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: initialDescription
+      value: A Waffle Co. brand gorilla cube. Now with extra molecules!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440231365254783126, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: initialName
+      value: gorilla cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941354007784617075, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d99e653648b8b4e4083d73d7453039d8,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 05e915de5d60b5048859f453c92c198f, type: 3}

@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8148483553490099298
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 50664629942756736, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: dc81d67e37ee9e24b9fa6b8dd4c75789,
+        type: 3}
+    - target: {fileID: 162704264883279580, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_Name
+      value: _JellyDonutBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 276477913924184936, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 337646958669920702, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: initialDescription
+      value: You jelly?
+      objectReference: {fileID: 0}
+    - target: {fileID: 337646958669920702, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: initialName
+      value: jelly donut
+      objectReference: {fileID: 0}
+    - target: {fileID: 1398369218560679540, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1398369218560679540, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1398369218560679540, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: f404090add8a06a26a3739a097558b8f,
+        type: 2}
+    - target: {fileID: 1398369218560679540, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6270160345599159643, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e8865055db5300f4d8a1cb60c8ac6bdb,
+        type: 2}
+    - target: {fileID: 8328638503208064172, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 173
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c8966d5986e801548b806fb2ab2bbf3c, type: 3}

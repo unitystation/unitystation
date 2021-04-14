@@ -66,24 +66,24 @@ namespace Messages.Client
 		private static void detachKey(GameObject headsetGO, ConnectedPlayer player)
 		{
 			Headset headset = headsetGO.GetComponent<Headset>();
-			GameObject encryptionKey =
-				Object.Instantiate(Resources.Load("EncryptionKey", typeof( GameObject )),
-					headsetGO.transform.position,
-					headsetGO.transform.rotation,
-					headsetGO.transform.parent) as GameObject;
-			if ( encryptionKey == null )
+			var encryptionKey =
+				Spawn.ServerPrefab(CustomNetworkManager.Instance.GetSpawnablePrefabFromName("EncryptionKey"),
+					player.Script.WorldPos, player.GameObject.transform.parent);
+
+			if (encryptionKey.Successful == false)
 			{
 				Logger.LogError($"Headset key instantiation for {player.Name} failed, spawn aborted",Category.Chat);
 				return;
 			}
 
-			encryptionKey.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
-//		Logger.Log($"Spawning headset key {encryptionKey} with type {headset.EncryptionKey}");
-
-			//TODO when added interact with dropped headset, add encryption key to empty hand
+			encryptionKey.GameObject.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
 			headset.EncryptionKey = EncryptionKeyType.None;
 
-			Spawn.ServerPrefab(encryptionKey, player.Script.WorldPos, player.GameObject.transform.parent);
+			var emptyHand = player.Script.Equipment.ItemStorage.GetEmptyHandSlot();
+			if (emptyHand != null)
+			{
+				Inventory.ServerAdd(encryptionKey.GameObject, emptyHand);
+			}
 		}
 
 		public static NetMessage Send(GameObject headsetItem, GameObject encryptionkey = null)
