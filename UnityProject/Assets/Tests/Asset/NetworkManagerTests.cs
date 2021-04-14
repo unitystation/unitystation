@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text;
 using Mirror;
 using NUnit.Framework;
 using UnityEditor;
@@ -25,27 +26,34 @@ namespace Tests.Asset
 
 			var rootObjects = openScene.GetRootGameObjects();
 
+			var report = new StringBuilder();
+
 			foreach (var rootObject in rootObjects)
 			{
 				if (rootObject.TryGetComponent<CustomNetworkManager>(out var manager))
 				{
+					var failed = false;
 					var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
 					var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 					foreach (var objectsPath in objectsPaths)
 					{
+						if (objectsPath.Contains("Assets/Prefabs/SceneConstruction/NestedManagers")) continue;
+
 						var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
 						if(asset == null) continue;
 
 						if (asset.TryGetComponent<NetworkIdentity>(out _) && manager.spawnPrefabs.Contains(asset) == false)
 						{
-							Assert.Fail($"{asset} needs to be in the spawnPrefabs list and has been added." +
+							failed = true;
+							report.AppendLine($"{asset} needs to be in the spawnPrefabs list and has been added." +
 							            " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
 						}
 
 						if (manager.allSpawnablePrefabs.Contains(asset) == false)
 						{
-							Assert.Fail($"{asset} needs to be in the allSpawnablePrefabs list and has been added." +
-							            " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
+							failed = true;
+							report.AppendLine($"{asset} needs to be in the allSpawnablePrefabs list and has been added." +
+							                   " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
 						}
 					}
 
@@ -53,6 +61,11 @@ namespace Tests.Asset
 					if (spawnListMonitor.GenerateSpawnList())
 					{
 						PrefabUtility.ApplyPrefabInstance(spawnListMonitor.gameObject, InteractionMode.AutomatedAction);
+					}
+
+					if (failed)
+					{
+						Assert.Fail(report.ToString());
 					}
 
 					return;
