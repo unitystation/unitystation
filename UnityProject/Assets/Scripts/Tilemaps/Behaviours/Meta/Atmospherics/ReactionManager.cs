@@ -36,7 +36,8 @@ namespace Systems.Atmospherics
 		private Matrix matrix;
 
 		private ConcurrentDictionary<Vector3Int, MetaDataNode> hotspots;
-		private UniqueQueue<MetaDataNode> winds;
+		private ThreadSafeList<MetaDataNode> winds;
+		private GenericDelegate<MetaDataNode> windsNodeDelegator;
 
 		private List<Hotspot> hotspotsToAdd;
 		private List<Vector3Int> hotspotsToRemove;
@@ -58,7 +59,8 @@ namespace Systems.Atmospherics
 			matrix = GetComponent<Matrix>();
 
 			hotspots = new ConcurrentDictionary<Vector3Int, MetaDataNode>();
-			winds = new UniqueQueue<MetaDataNode>();
+			winds =  new ThreadSafeList<MetaDataNode>();
+			windsNodeDelegator = ProcessWindNodes;
 
 			hotspotsToRemove = new List<Vector3Int>();
 			hotspotsToAdd = new List<Hotspot>();
@@ -73,58 +75,9 @@ namespace Systems.Atmospherics
 
 		private void Update()
 		{
-			#region wind
-
 			Profiler.BeginSample("Wind");
-
-			for (int i = 0; i < winds.Count; i++)
-			{
-				if (winds.TryDequeue(out var windyNode))
-				{
-					foreach (var pushable in matrix.Get<PushPull>(windyNode.Position, true))
-					{
-						float correctedForce = (windyNode.WindForce * PushMultiplier) / (int)pushable.Pushable.Size;
-						if (correctedForce >= AtmosConstants.MinPushForce)
-						{
-							if (pushable.Pushable.IsTileSnap)
-							{
-								byte pushes = (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10);
-								for (byte j = 0; j < pushes; j++)
-								{
-									//converting push to world coords because winddirection is in local coords
-									pushable.QueuePush((transform.rotation * windyNode.WindDirection.To3Int()).To2Int(),
-										Random.Range((float)(correctedForce * 0.8), correctedForce));
-								}
-							}
-							else
-							{
-								pushable.Pushable.Nudge(new NudgeInfo
-								{
-									OriginPos = pushable.Pushable.ServerPosition,
-									Trajectory = (Vector2)windyNode.WindDirection,
-									SpinMode = SpinMode.None,
-									SpinMultiplier = 1,
-									InitialSpeed = correctedForce,
-								});
-							}
-						}
-					}
-
-					windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
-					if (windyNode.WindForce >= 0.5f * (1f / PushMultiplier))
-					{
-						winds.Enqueue(windyNode);
-					}
-					else
-					{
-						windyNode.WindForce = 0;
-						windyNode.WindDirection = Vector2Int.zero;
-					}
-				}
-			}
-
+			winds.Iterate(windsNodeDelegator);
 			Profiler.EndSample();
-			#endregion
 
 			Profiler.BeginSample("HotspotModify");
 			//perform the actual logic that needs to happen for adding / removing hotspots that have been
@@ -138,7 +91,7 @@ namespace Systems.Atmospherics
 				{
 					addedHotspot.node.Hotspot = addedHotspot;
 					hotspots.TryAdd(addedHotspot.node.Position, addedHotspot.node);
-					tileChangeManager.UpdateTile(
+					tileChangeManager.AddOverlay(
 						new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
 						TileType.Effects, "Fire");
 
@@ -158,9 +111,9 @@ namespace Systems.Atmospherics
 				    affectedNode.HasHotspot)
 				{
 					affectedNode.Hotspot = null;
-					tileChangeManager.RemoveTile(
+					tileChangeManager.RemoveOverlaysOfName(
 						new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
-						LayerType.Effects, false);
+						LayerType.Effects, "Fire");
 					hotspots.TryRemove(removedHotspot, out var value);
 
 					if (!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
@@ -204,6 +157,45 @@ namespace Systems.Atmospherics
 			Profiler.EndSample();
 		}
 
+		private void ProcessWindNodes(MetaDataNode windyNode)
+		{
+			foreach (var pushable in matrix.Get<PushPull>(windyNode.Position, true))
+			{
+				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int)pushable.Pushable.Size;
+				if (correctedForce >= AtmosConstants.MinPushForce)
+				{
+					if (pushable.Pushable.IsTileSnap)
+					{
+						byte pushes = (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10);
+						for (byte j = 0; j < pushes; j++)
+						{
+							//converting push to world coords because winddirection is in local coords
+							pushable.QueuePush((transform.rotation * windyNode.WindDirection.To3Int()).To2Int(),
+								Random.Range((float)(correctedForce * 0.8), correctedForce));
+						}
+					}
+					else
+					{
+						pushable.Pushable.Nudge(new NudgeInfo
+						{
+							OriginPos = pushable.Pushable.ServerPosition,
+							Trajectory = (Vector2)windyNode.WindDirection,
+							SpinMode = SpinMode.None,
+							SpinMultiplier = 1,
+							InitialSpeed = correctedForce,
+						});
+					}
+				}
+			}
+
+			windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
+			if (windyNode.WindForce < 0.5f * (1f / PushMultiplier))
+			{
+				winds.Remove(windyNode);
+				windyNode.WindForce = 0;
+				windyNode.WindDirection = Vector2Int.zero;
+			}
+		}
 
 		public void DoTick()
 		{
@@ -353,13 +345,10 @@ namespace Systems.Atmospherics
 			if (node != MetaDataNode.None && pressureDifference > AtmosConstants.MinWindForce
 										  && windDirection != Vector2Int.zero)
 			{
-				if (winds.Contains(node) == false)
-				{
-					winds.Enqueue(node);
-				}
+				winds.AddIfMissing(node);
 
 				node.WindForce = (node.WindForce * ((RollingAverageN - 1) / RollingAverageN)) +
-								 pressureDifference / RollingAverageN;
+				                 pressureDifference / RollingAverageN;
 				node.WindDirection = windDirection;
 			}
 		}

@@ -18,27 +18,27 @@ MonoBehaviour:
   - RequiredTrait: {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c, type: 2}
     Time: 4
     SuccessChance: 100
-    StartSelf: CUT!
-    StartOther: CUTS
-    SuccessSelf: 'IS CUTS '
-    SuccessOther: 'IS CUTS '
-    FailSelf: 'IS undioen '
-    FailOther: 'IS undioen '
+    StartSelf: you start to use {Using} to cut open {WhoOn}'s {OnPart}
+    StartOther: '{performer} starts to use {Using} to cut open {WhoOn}''s {OnPart}'
+    SuccessSelf: you use {Using} to cut open {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} uses {Using} to cut open {WhoOn}''s {OnPart}'
+    FailSelf: you miss cutts with {Using} cutting into{WhoOn}'s {OnPart}
+    FailOther: '{performer} miss cutts with {Using} cutting into{WhoOn}''s {OnPart}'
   - RequiredTrait: {fileID: 11400000, guid: 1e5559e895a286845ae6c1d616f3f26d, type: 2}
     Time: 1
     SuccessChance: 100
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: 
-    SuccessOther: 
-    FailSelf: 
-    FailOther: 
+    StartSelf: you start to use {Using} to hold open {WhoOn}'s {OnPart}
+    StartOther: '{performer} starts to use {Using} to hold open {WhoOn}''s {OnPart}'
+    SuccessSelf: you use {Using} to hold open {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} uses {Using} to hold open {WhoOn}''s {OnPart}'
+    FailSelf: you misuse {Using} failing to hold open {WhoOn}'s {OnPart}
+    FailOther: '{performer} misuses {Using} failing to hold open {WhoOn}''s {OnPart}'
   - RequiredTrait: {fileID: 11400000, guid: fc51d63cf9b06574ca78a62da76969e5, type: 2}
     Time: 1
     SuccessChance: 100
-    StartSelf: AA
-    StartOther: AAA
-    SuccessSelf: AAAA
-    SuccessOther: AAAAA
-    FailSelf: AAAAAA
-    FailOther: AAAAAAA
+    StartSelf: you start to use {Using} to hold open {WhoOn}'s {OnPart}
+    StartOther: '{performer} starts to use {Using} to clamp {WhoOn}''s {OnPart}'
+    SuccessSelf: you use {Using} to clamp {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} uses {Using} to clamp {WhoOn}''s {OnPart}'
+    FailSelf: you misuse {Using} failing to clamp {WhoOn}'s {OnPart}
+    FailOther: '{performer} misuses {Using} failing to clamp {WhoOn}''s {OnPart}'

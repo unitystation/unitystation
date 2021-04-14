@@ -152,7 +152,6 @@ public class PlayerSprites : MonoBehaviour
 
 	public void SetUpCharacter(CharacterSettings Character)
 	{
-		//TODOH Get race file from character settings
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			InstantiateAndSetUp(RaceBodyparts.Base.Head, bodyParts["Head"].transform);
@@ -201,9 +200,16 @@ public class PlayerSprites : MonoBehaviour
 
 			if (pass)
 			{
-				Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part,
-					customisationStorage.Data.Replace("@£", "\""),
-					livingHealthMasterBase);
+				if(Body_Part.LobbyCustomisation != null)
+				{
+					Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part,
+						customisationStorage.Data.Replace("@£", "\""),
+						livingHealthMasterBase);
+				}
+				else
+				{
+					Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.LobbyCustomisation.characterCustomization}", Category.Character);
+				}
 			}
 		}
 
@@ -279,7 +285,7 @@ public class PlayerSprites : MonoBehaviour
 			var SpriteHandlerNorder =
 				Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
 					.GameObject.GetComponent<SpriteHandlerNorder>();
-
+			SpriteHandlerNorder.transform.localPosition = Vector3.zero;
 			ToClient.Add(SpriteHandlerNorder.GetComponent<NetworkIdentity>().netId);
 			OpenSprites.Add(SpriteHandlerNorder);
 			//SubSetBodyPart

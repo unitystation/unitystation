@@ -43,9 +43,9 @@ namespace CameraEffects
 			glitchEffect.enabled = !glitchEffect.enabled;
 		}
 
-		public void ToggleNightVisionEffectState()
+		public void ToggleNightVisionEffectState(bool state)
 		{
-			nightVisionCamera.enabled = !nightVisionCamera.enabled;
+			nightVisionCamera.enabled = state;
 		}
 
 		private void DoEffectTimeCheck()

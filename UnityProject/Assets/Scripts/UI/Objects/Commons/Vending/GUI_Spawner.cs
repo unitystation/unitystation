@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 using UI.Objects.Shuttles;
 
@@ -63,7 +64,7 @@ public class GUI_Spawner : NetTab
 				PrefabEntryList.AddItem( item );
 			}
 
-			SpawnedObjectList.AddObjects( GUI_ShuttleControl.GetObjectsOf<LivingHealthBehaviour>() );
+			SpawnedObjectList.AddObjects( GUI_ShuttleControl.GetObjectsOf<LivingHealthMasterBase>() );
 
 			//		Done via editor in this example, but can be done via code as well, like this:
 			//		NestedSwitcher.OnPageChange.AddListener( RefreshSubpageLabel );

@@ -94,5 +94,8 @@ public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>
 				isSawn = true;
 			}
 		}
+
+		// Propagates the InventoryApply Interaction to the Gun component for all basic gun InventoryApply interactions.	
+		gunComp.ServerPerformInteraction(interaction);
 	}
 }

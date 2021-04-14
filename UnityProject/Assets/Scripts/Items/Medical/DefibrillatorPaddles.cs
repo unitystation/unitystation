@@ -32,15 +32,23 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 		void Perform()
 		{
 			var LHMB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+			if (LHMB.brain == null || LHMB.brain?.RelatedPart?.Health < -100)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "It appears they're missing their brain or Their brain is too damaged");
+			}
+
 			foreach (var BodyPart in LHMB.ImplantList)
 			{
-				var heart = BodyPart as Heart;
-				if (heart != null)
+				foreach (var bodyPartModification in BodyPart.BodyPartModifications)
 				{
-					heart.HeartAttack = false;
-					heart.CanTriggerHeartAttack = false;
-					heart.CurrentPulse = 0;
+					if (bodyPartModification is Heart heart)
+					{
+						heart.HeartAttack = false;
+						heart.CanTriggerHeartAttack = false;
+						heart.CurrentPulse = 0;
+					}
 				}
+
 			}
 		}
 		var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false, true), Perform);

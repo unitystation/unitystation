@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using AddressableReferences;
+using HealthV2;
 
 namespace Objects.Drawers
 {
@@ -99,7 +100,7 @@ namespace Objects.Drawers
 		private bool Conscious(ObjectBehaviour playerMob)
 		{
 			var playerMind = playerMob.GetComponent<PlayerScript>().mind;
-			var playerMobID = playerMob.GetComponent<LivingHealthBehaviour>().mobID;
+			var playerMobID = playerMob.GetComponent<LivingHealthMasterBase>().mobID;
 
 			// If the mob IDs do not match, player is controlling a new mob, so we don't care about this old mob.
 			if (playerMind.bodyMobID == playerMobID && playerMind.IsOnline()) return true;

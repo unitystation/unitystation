@@ -7193,7 +7193,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a33966df3b5c0e3419717f5abb491626,
+      objectReference: {fileID: 21300000, guid: 50f148f4e4cb8bb4b88f2704dbebbc43,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5d421f0156248b4297eecc918b8758a, type: 3}
@@ -9192,6 +9192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 494181324}
+  metaTileMap: {fileID: 494181327}
 --- !u!483693784 &431249020
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -11837,6 +11838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 9
   matrix: {fileID: 3850318706526197629}
+  metaTileMap: {fileID: 5867621712209650949}
 --- !u!483693784 &588772973
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -13142,6 +13144,86 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 615339051}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &616273157
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8082954268645528609}
+    m_Modifications:
+    - target: {fileID: 5629972850244582220, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: sceneId
+      value: 3086632577
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 212
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.527832
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.2763672
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743668296517273336, guid: 468072fd130877c408f3a1950377560d,
+        type: 3}
+      propertyPath: m_Name
+      value: Defibrillator
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 468072fd130877c408f3a1950377560d, type: 3}
+--- !u!4 &616273158 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5739303098152762252, guid: 468072fd130877c408f3a1950377560d,
+    type: 3}
+  m_PrefabInstance: {fileID: 616273157}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &616310655
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13487,6 +13569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 494181324}
+  metaTileMap: {fileID: 494181327}
 --- !u!483693784 &647568353
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -17604,7 +17687,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4257724d5bf99e344bc5b13191c35a52,
+      objectReference: {fileID: 21300000, guid: 3a0124af49e26ae4ba71e0253dfe2ae7,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4b5330dc21e94b0494056c5ef239d49, type: 3}
@@ -17775,7 +17858,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2726b19616aa3714b8123a3aee2f9b43,
+      objectReference: {fileID: 21300000, guid: 3a0124af49e26ae4ba71e0253dfe2ae7,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4b5330dc21e94b0494056c5ef239d49, type: 3}
@@ -18506,97 +18589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c43d3fd88f44c684f0d47dbaee2bfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &849617332
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 8082954268645528609}
-    m_Modifications:
-    - target: {fileID: 4804641473081509716, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 81ecaf4a86ed1ac468360a759f1ac900,
-        type: 3}
-    - target: {fileID: 8841727291795559178, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: snapToGridOnStart
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842179021260145518, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: sceneId
-      value: 3137285593
-      objectReference: {fileID: 0}
-    - target: {fileID: 8872530386645778138, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_Name
-      value: Defibrillator (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 212
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.527832
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.2763672
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c944786c029ba274492444408eb51008, type: 3}
---- !u!4 &849617333 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8877172387733636014, guid: c944786c029ba274492444408eb51008,
-    type: 3}
-  m_PrefabInstance: {fileID: 849617332}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &850436100
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20320,6 +20312,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sceneId
       value: 4031247740
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862916945457128248, guid: b07ea9f765b04a7ab9767184611d7dfe,
+        type: 3}
+      propertyPath: sceneId
+      value: 1907039236
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b07ea9f765b04a7ab9767184611d7dfe, type: 3}
@@ -24411,6 +24408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 9
   matrix: {fileID: 494181324}
+  metaTileMap: {fileID: 494181327}
 --- !u!114 &1086867219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31600,7 +31598,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4257724d5bf99e344bc5b13191c35a52,
+      objectReference: {fileID: 21300000, guid: 7c6fec4440518ae4680181d6f93269d9,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4b5330dc21e94b0494056c5ef239d49, type: 3}
@@ -31724,7 +31722,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1f98145bcaa7b9947888e1677211ece0,
+      objectReference: {fileID: 21300000, guid: d04e66db37d051241af5586e1bdfff93,
         type: 3}
     - target: {fileID: 8568672687853555390, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
@@ -32852,7 +32850,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3a0124af49e26ae4ba71e0253dfe2ae7,
+      objectReference: {fileID: 21300000, guid: 2726b19616aa3714b8123a3aee2f9b43,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4b5330dc21e94b0494056c5ef239d49, type: 3}
@@ -33328,6 +33326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 494181324}
+  metaTileMap: {fileID: 494181327}
 --- !u!483693784 &1621340543
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -34924,6 +34923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 2
   matrix: {fileID: 494181324}
+  metaTileMap: {fileID: 494181327}
 --- !u!1001 &1683154256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35618,6 +35618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 6
   matrix: {fileID: 494181324}
+  metaTileMap: {fileID: 494181327}
 --- !u!483693784 &1698405380
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -38396,6 +38397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 8
   matrix: {fileID: 494181324}
+  metaTileMap: {fileID: 494181327}
 --- !u!483693784 &1807496969
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -39893,7 +39895,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d04e66db37d051241af5586e1bdfff93,
+      objectReference: {fileID: 21300000, guid: 1f98145bcaa7b9947888e1677211ece0,
         type: 3}
     - target: {fileID: 8568672687853555390, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
@@ -42348,6 +42350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 3
   matrix: {fileID: 494181324}
+  metaTileMap: {fileID: 494181327}
 --- !u!483693784 &1982867963
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -43598,6 +43601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 494181324}
+  metaTileMap: {fileID: 494181327}
 --- !u!483693784 &2022935393
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -55481,6 +55485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 3850318706526197629}
+  metaTileMap: {fileID: 5867621712209650949}
 --- !u!114 &256048327779728502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57940,6 +57945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 3850318706526197629}
+  metaTileMap: {fileID: 5867621712209650949}
 --- !u!114 &3120092567823433614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59339,6 +59345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 3850318706526197629}
+  metaTileMap: {fileID: 5867621712209650949}
 --- !u!1 &5102888698769740669
 GameObject:
   m_ObjectHideFlags: 0
@@ -59412,6 +59419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 2
   matrix: {fileID: 3850318706526197629}
+  metaTileMap: {fileID: 5867621712209650949}
 --- !u!114 &5735407469645832422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59426,6 +59434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 3850318706526197629}
+  metaTileMap: {fileID: 5867621712209650949}
 --- !u!4 &5748139787505685872
 Transform:
   m_ObjectHideFlags: 0
@@ -59524,6 +59533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 6
   matrix: {fileID: 3850318706526197629}
+  metaTileMap: {fileID: 5867621712209650949}
 --- !u!114 &6074778637157027084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66900,6 +66910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 8
   matrix: {fileID: 3850318706526197629}
+  metaTileMap: {fileID: 5867621712209650949}
 --- !u!1839735485 &6670356299484647745
 Tilemap:
   m_ObjectHideFlags: 0
@@ -87008,7 +87019,7 @@ Transform:
   - {fileID: 110976293}
   - {fileID: 1788468033}
   - {fileID: 395820838}
-  - {fileID: 849617333}
+  - {fileID: 616273158}
   - {fileID: 981721531}
   - {fileID: 2082518344}
   - {fileID: 1872341591}
@@ -87223,6 +87234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 3
   matrix: {fileID: 3850318706526197629}
+  metaTileMap: {fileID: 5867621712209650949}
 --- !u!19719996 &8199835675572340647
 TilemapCollider2D:
   m_ObjectHideFlags: 0

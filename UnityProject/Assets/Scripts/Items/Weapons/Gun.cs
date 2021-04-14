@@ -802,7 +802,7 @@ namespace Weapons
 					if (casingPrefabOverride == null)
 					{
 						//no casing override set, use normal casing prefab
-						casingPrefabOverride = Resources.Load("BulletCasing") as GameObject;
+						casingPrefabOverride = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("BulletCasing");
 					}
 					Spawn.ServerPrefab(casingPrefabOverride, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
 				}

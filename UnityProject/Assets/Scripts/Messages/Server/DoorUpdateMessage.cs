@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using Doors;
 using Mirror;
 using UnityEngine;
@@ -23,8 +24,31 @@ namespace Messages.Server
 		{
 			LoadNetworkObject(msg.Door);
 
-			if ( NetworkObject != null ) {
-				NetworkObject.GetComponent<DoorAnimator>()?.PlayAnimation( msg.Type, msg.SkipAnimation );
+			if (NetworkObject != null) {
+
+				//old doors
+				var doorAnimator = NetworkObject.GetComponent<DoorAnimator>();
+				if (doorAnimator != null)
+				{
+					doorAnimator.PlayAnimation(msg.Type, msg.SkipAnimation);
+					return;
+				}
+
+				//new doors
+				var doorMasterController = NetworkObject.GetComponent<DoorMasterController>();
+				if (doorMasterController != null)
+				{
+					var doorAnimatorV2 = doorMasterController.DoorAnimator;
+					doorAnimatorV2.PlayAnimation(msg.Type, msg.SkipAnimation);
+					if (msg.Type == DoorUpdateType.Open)
+					{
+						doorMasterController.BoxCollToggleOff();
+					}
+					else if (msg.Type == DoorUpdateType.Close)
+					{
+						doorMasterController.BoxCollToggleOn();
+					}
+				}
 			}
 		}
 

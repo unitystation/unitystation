@@ -277,8 +277,8 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 	public string Examine(Vector3 pos)
 	{
-		return $"The account linked to the ID belongs to '{registeredName}' and reports a balance of {currencies[(int)CurrencyType.Credits]} cr. " +
-		       $"The mining budget reports a balance of {currencies[(int)CurrencyType.LaborPoints]} points.";
+		return $"The account linked to the ID belongs to '{registeredName}' and reports a balance of {currencies[(int)CurrencyType.Credits]} credits. " +
+		       $"The labor budget reports an allowance of {currencies[(int)CurrencyType.LaborPoints]} points.";
 	}
 }
 

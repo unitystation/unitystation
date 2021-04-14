@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using UnityEngine;
 using Mirror;
 using Objects;
@@ -625,7 +626,7 @@ public partial class CustomNetTransform
 		var targetPosition = Vector3Int.RoundToInt(goal);
 
 		var info = serverState.ActiveThrow;
-		IReadOnlyCollection<LivingHealthBehaviour> creaturesToHit =
+		IReadOnlyCollection<LivingHealthMasterBase> creaturesToHit =
 			Vector3Int.RoundToInt(serverState.ActiveThrow.OriginWorldPos) == targetPosition ?
 				null : LivingCreaturesInPosition(targetPosition);
 
@@ -653,9 +654,9 @@ public partial class CustomNetTransform
 	}
 
 	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere
-	private IReadOnlyCollection<LivingHealthBehaviour> LivingCreaturesInPosition(Vector3Int position)
+	private IReadOnlyCollection<LivingHealthMasterBase> LivingCreaturesInPosition(Vector3Int position)
 	{
-		return MatrixManager.GetAt<LivingHealthBehaviour>(position, isServer: true)?
+		return MatrixManager.GetAt<LivingHealthMasterBase>(position, isServer: true)?
 				.Where(creature =>
 					creature.IsDead == false &&
 					CanHitObject(creature))
@@ -679,7 +680,7 @@ public partial class CustomNetTransform
 	/// <summary>
 	/// Hit for thrown (non-tile-snapped) items
 	/// </summary>
-	private void OnHit(Vector3Int pos, ThrowInfo info, IReadOnlyCollection<LivingHealthBehaviour> hitCreatures)
+	private void OnHit(Vector3Int pos, ThrowInfo info, IReadOnlyCollection<LivingHealthMasterBase> hitCreatures)
 	{
 		if (ItemAttributes == null) return;
 		if (hitCreatures == null || hitCreatures.Count <= 0) return;

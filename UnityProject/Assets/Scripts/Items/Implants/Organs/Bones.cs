@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Bones : BodyPart
+	public class Bones : BodyPartModification
 	{
 		[SerializeField] private float BloodGeneratedByOneNutriment = 1;
 		[SerializeField] private BloodType GeneratesThis;
@@ -13,24 +13,23 @@ namespace HealthV2
 			base.SetUpSystems();
 			if (GeneratesThis == null)
 			{
-				GeneratesThis = healthMaster.CirculatorySystem.BloodType;
+				GeneratesThis = RelatedPart.HealthMaster.CirculatorySystem.BloodType;
 			}
 		}
-		protected override void BloodUpdate()
+		public override void ImplantPeriodicUpdate()
 		{
-			if (BloodStoredMax > BloodContainer.ReagentMixTotal && BloodContainer[Nutriment] > 0 &&
-				healthMaster.GetTotalBlood() < healthMaster.CirculatorySystem.BloodInfo.BLOOD_NORMAL / 1000)
+			if (RelatedPart.BloodStoredMax > RelatedPart.BloodContainer.ReagentMixTotal && RelatedPart.BloodContainer[RelatedPart.Nutriment] > 0 &&
+			    RelatedPart.HealthMaster.GetTotalBlood() < RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_NORMAL / 1000)
 			{
-				float toConsume = NutrimentConsumption;
-				if (NutrimentConsumption > BloodContainer[Nutriment])
+				float toConsume = RelatedPart.ConsumptionNutriment;
+				if (RelatedPart.ConsumptionNutriment > RelatedPart.BloodContainer[RelatedPart.Nutriment])
 				{
-					toConsume = BloodContainer[Nutriment];
+					toConsume = RelatedPart.BloodContainer[RelatedPart.Nutriment];
 				}
 
-				BloodContainer.CurrentReagentMix.Remove(Nutriment, toConsume);
-				BloodContainer.CurrentReagentMix.Add(GeneratesThis, BloodGeneratedByOneNutriment * toConsume);
+				RelatedPart.BloodContainer.CurrentReagentMix.Remove(RelatedPart.Nutriment, toConsume);
+				RelatedPart.BloodContainer.CurrentReagentMix.Add(GeneratesThis, BloodGeneratedByOneNutriment * toConsume);
 			}
-			base.BloodUpdate();
 		}
 	}
 }

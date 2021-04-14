@@ -14,8 +14,8 @@ namespace Systems.MobAIs
 	public class MobMeleeAttack : MobMeleeAction
 	{
 		[SerializeField] private AddressableAudioSource attackSound = null;
-		protected int hitDamage = 30;
-		protected string attackVerb;
+		[SerializeField] protected int hitDamage = 30;
+		[SerializeField] protected string attackVerb;
 		protected BodyPartType defaultTarget;
 
 		protected override void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour)

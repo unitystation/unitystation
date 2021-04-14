@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using HealthV2;
+using UnityEngine;
 
 namespace Systems.MobAIs
 {
@@ -9,7 +10,7 @@ namespace Systems.MobAIs
 	{
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			var npcHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+			var npcHealth = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 
 			return DefaultWillInteract.Default(interaction, side) &&
 				   interaction.HandObject == null &&

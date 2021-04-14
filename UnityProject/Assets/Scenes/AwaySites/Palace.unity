@@ -13169,6 +13169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 9
   matrix: {fileID: 2015811176123256548}
+  metaTileMap: {fileID: 1412712372416074441}
 --- !u!114 &1302309994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16760,7 +16761,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1f98145bcaa7b9947888e1677211ece0,
+      objectReference: {fileID: 21300000, guid: d04e66db37d051241af5586e1bdfff93,
         type: 3}
     - target: {fileID: 7218137578837265514, guid: 48215d170df22564f8730864a0fc91e2,
         type: 3}
@@ -22503,7 +22504,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 2b5ddbd4c543807458f6b40394e15407,
+      objectReference: {fileID: 7564339403847584538, guid: c71b69d16f6a07f47b380cf452b82699,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -24782,7 +24783,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 2b5ddbd4c543807458f6b40394e15407,
+      objectReference: {fileID: 7564339403847584538, guid: c71b69d16f6a07f47b380cf452b82699,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -25205,7 +25206,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 2b5ddbd4c543807458f6b40394e15407,
+      objectReference: {fileID: 7564339403847584538, guid: c71b69d16f6a07f47b380cf452b82699,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -25629,6 +25630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 2015811176123256548}
+  metaTileMap: {fileID: 1412712372416074441}
 --- !u!1001 &1602436475435047232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25742,13 +25744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+  butcherSound: 
 --- !u!114 &1703848291179127778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25891,6 +25887,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1001 &1795072415004442941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26141,6 +26139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 2015811176123256548}
+  metaTileMap: {fileID: 1412712372416074441}
 --- !u!1001 &2246606842250980387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37719,7 +37718,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner flytrap
+      value: MobSpawner VenusHumanTrap
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -37783,7 +37782,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: ef5feb7344fed254c90036bfe5861dd3,
+      objectReference: {fileID: 6804228171281091180, guid: 0e47639aecb611547962ccc2481106db,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -37918,6 +37917,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 2015811176123256548}
+  metaTileMap: {fileID: 1412712372416074441}
 --- !u!1001 &3528142599160238476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38461,7 +38461,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1562085630854840, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_Name
-      value: MobSpawner flytrap (1)
+      value: MobSpawner VenusHumanTrap
       objectReference: {fileID: 0}
     - target: {fileID: 4398944093973122, guid: d86823d595004274c8638eb908e5cf95, type: 3}
       propertyPath: m_RootOrder
@@ -38525,7 +38525,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: ef5feb7344fed254c90036bfe5861dd3,
+      objectReference: {fileID: 6804228171281091180, guid: 0e47639aecb611547962ccc2481106db,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -38796,7 +38796,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 2b5ddbd4c543807458f6b40394e15407,
+      objectReference: {fileID: 7564339403847584538, guid: c71b69d16f6a07f47b380cf452b82699,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -74367,7 +74367,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 2b5ddbd4c543807458f6b40394e15407,
+      objectReference: {fileID: 7564339403847584538, guid: c71b69d16f6a07f47b380cf452b82699,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -74596,6 +74596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 2015811176123256548}
+  metaTileMap: {fileID: 1412712372416074441}
 --- !u!4 &5763543299103753234
 Transform:
   m_ObjectHideFlags: 0
@@ -75310,6 +75311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 2
   matrix: {fileID: 2015811176123256548}
+  metaTileMap: {fileID: 1412712372416074441}
 --- !u!1001 &6099784329480892070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76755,6 +76757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 6
   matrix: {fileID: 2015811176123256548}
+  metaTileMap: {fileID: 1412712372416074441}
 --- !u!1001 &6987543428237200881
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77552,6 +77555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 8
   matrix: {fileID: 2015811176123256548}
+  metaTileMap: {fileID: 1412712372416074441}
 --- !u!1001 &7457249114262495184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77728,7 +77732,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 2b5ddbd4c543807458f6b40394e15407,
+      objectReference: {fileID: 7564339403847584538, guid: c71b69d16f6a07f47b380cf452b82699,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}
@@ -77870,6 +77874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 3
   matrix: {fileID: 2015811176123256548}
+  metaTileMap: {fileID: 1412712372416074441}
 --- !u!1001 &7838536642019110205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91930,7 +91935,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MobToSpawn
       value: 
-      objectReference: {fileID: 4827737755655954553, guid: 2b5ddbd4c543807458f6b40394e15407,
+      objectReference: {fileID: 7564339403847584538, guid: c71b69d16f6a07f47b380cf452b82699,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86823d595004274c8638eb908e5cf95, type: 3}

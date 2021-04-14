@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f67d4c0b7de7545800f4fddbcc58cd, type: 3}
   m_Name: GenericCloseProcedure
   m_EditorClassIdentifier: 
-  ProcedureName: 'Cclose '
+  ProcedureName: Close
   ProcedureSprite: {fileID: 11400000, guid: cd76d4bb75118e5469a50db9670ceb10, type: 2}
   SurgerySteps:
   - RequiredTrait: {fileID: 11400000, guid: 96c07e6a6b942f645abf4ea7f9328eea, type: 2}
-    Time: 0
+    Time: 1
     SuccessChance: 100
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: 
-    SuccessOther: 
-    FailSelf: 
-    FailOther: 
+    StartSelf: you start to use {Using} to seal up {WhoOn}'s {OnPart}
+    StartOther: '{performer} uses {Using} starting to close up {WhoOn}''s {OnPart}'
+    SuccessSelf: you use {Using} to seal up {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} uses {Using} to seal up {WhoOn}''s {OnPart}'
+    FailSelf: you miss place {Using} messing up {WhoOn}'s {OnPart}
+    FailOther: '{performer} miss places {Using} messing up {WhoOn}''s {OnPart}'

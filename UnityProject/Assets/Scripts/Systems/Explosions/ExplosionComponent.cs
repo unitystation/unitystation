@@ -115,16 +115,12 @@ namespace Systems.Explosions
 
 		public IEnumerator TimedFireEffect(Vector3Int position, float time, TileChangeManager tileChangeManager)
 		{
-			// Store the old effect for restoring after fire is gone
-			LayerTile oldEffectLayerTile = tileChangeManager.GetLayerTile(position, LayerType.Effects);
+			//Dont do fire if already fire
+			if(tileChangeManager.HasOverlay(position, TileType.Effects, "Fire")) yield break;
 
-			tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
+			tileChangeManager.AddOverlay(position, TileType.Effects, "Fire");
 			yield return WaitFor.Seconds(time);
-			tileChangeManager.RemoveTile(position, LayerType.Effects);
-
-			// Restore the old effect if any (ex: cracked glass)
-			if (oldEffectLayerTile)
-				tileChangeManager.UpdateTile(position, oldEffectLayerTile);
+			tileChangeManager.RemoveOverlaysOfName(position, LayerType.Effects, "Fire");
 		}
 
 

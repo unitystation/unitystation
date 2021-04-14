@@ -56,6 +56,12 @@ namespace Items.PDA
 		[SerializeField, BoxGroup("Uplink"), Range(0, 60)]
 		private float informUplinkCodeDelay = 10;
 
+		private bool isNukeOps = false;
+		public bool IsNukeOps => isNukeOps;
+
+		[SerializeField]
+		private ItemTrait telecrystalTrait;
+
 		[SerializeField, BoxGroup("Uplink")]
 		private bool debugUplink = false;
 
@@ -77,7 +83,7 @@ namespace Items.PDA
 		public bool IsUplinkCapable { get; private set; } = false;
 		public bool IsUplinkLocked { get; private set; } = true;
 		/// <summary> The count of how many telecrystals this PDA has </summary>
-		public int UplinkTC { get; private set; }
+		public int UplinkTC { get; set; }
 
 		public bool FlashlightOn => flashlight.IsOn;
 
@@ -142,7 +148,7 @@ namespace Items.PDA
 
 			if (debugUplink)
 			{
-				InstallUplink(pickedUpBy, 80);
+				InstallUplink(pickedUpBy, 80, true);
 			}
 		}
 
@@ -266,7 +272,7 @@ namespace Items.PDA
 				return;
 			}
 
-			ServerInsertItem(interaction.UsedObject, interaction.HandSlot);
+			ServerInsertItem(interaction.UsedObject, interaction.HandSlot, interaction.Performer);
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -285,7 +291,7 @@ namespace Items.PDA
 				return;
 			}
 
-			ServerInsertItem(interaction.UsedObject, interaction.FromSlot);
+			ServerInsertItem(interaction.UsedObject, interaction.FromSlot , interaction.Performer);
 		}
 
 		private bool WillInsert(GameObject item, NetworkSide side)
@@ -302,10 +308,15 @@ namespace Items.PDA
 				return true;
 			}
 
+			if (Validations.HasItemTrait(item, telecrystalTrait))
+			{
+				return true;
+			}
+
 			return false;
 		}
 
-		private void ServerInsertItem(GameObject item, ItemSlot fromSlot)
+		private void ServerInsertItem(GameObject item, ItemSlot fromSlot, GameObject player)
 		{
 			if (item.TryGetComponent(out IDCard card))
 			{
@@ -327,6 +338,21 @@ namespace Items.PDA
 
 				Inventory.ServerTransfer(fromSlot, CartridgeSlot);
 			}
+			else if (Validations.HasItemTrait(item, telecrystalTrait))
+			{
+				if (IsUplinkLocked == false)
+				{
+					var quantity = item.GetComponent<Stackable>().Amount;
+					UplinkTC +=  quantity;
+					Despawn.ServerSingle(item);
+
+					var uplinkMessage =
+						$"You press the Telecrystal{(quantity == 1 ? "" : "s")} into the screen of your {this.gameObject.ExpensiveName()}\n" +
+						$"After a moment it disappears, your Telecrystal counter ticks up a second later";
+
+					Chat.AddExamineMsgFromServer(player, uplinkMessage);
+				}
+			}
 		}
 
 		#endregion Interaction
@@ -338,11 +364,13 @@ namespace Items.PDA
 		/// </summary>
 		/// <param name="informPlayer">The player that will be informed the code to the PDA uplink</param>
 		/// <param name="tcCount">The amount of telecrystals to add to the uplink.</param>
-		public void InstallUplink(ConnectedPlayer informPlayer, int tcCount)
+		/// <param name="isNukie">Determines if the uplink can purchase nukeop exclusive items</param>
+		public void InstallUplink(ConnectedPlayer informPlayer, int tcCount, bool isNukie)
 		{
-			UplinkTC += tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
+			UplinkTC = tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
 			UplinkUnlockCode = GenerateUplinkUnlockCode();
 			IsUplinkCapable = true;
+			isNukeOps = isNukie;
 
 			StartCoroutine(DelayInformUplinkCode(informPlayer));
 		}

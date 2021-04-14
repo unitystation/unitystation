@@ -45,9 +45,12 @@ public enum NetTabType
 	ContractOfApprenticeship = 33,
 	ParticleAccelerator = 34,
 	OreRedemptionMachine = 35,
-	MaterialSilo = 36
+	MaterialSilo = 36,
+	SyndicateOpConsole = 37,
 
-	//add your tabs here
+	//add new entres to the bottom
+	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
+	// i.e TabJukeBox
 }
 
 /// Descriptor for unique Net UI Tab

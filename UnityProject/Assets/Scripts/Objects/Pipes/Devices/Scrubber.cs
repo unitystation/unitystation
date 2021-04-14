@@ -18,10 +18,15 @@ namespace Pipes
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
 
+		private GasMix selfSufficientGas;
 		public override void OnSpawnServer(SpawnInfo info)
 		{
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+			if (SelfSufficient)
+			{
+				selfSufficientGas = GasMix.NewGasMix(GasMixes.Air);
+			}
 			base.OnSpawnServer(info);
 		}
 
@@ -65,18 +70,17 @@ namespace Pipes
 			}
 
 			var gasOnNode = metaNode.GasMix;
-			GasMix pipeMix;
 
 			if (SelfSufficient)
 			{
-				pipeMix = GasMix.NewGasMix(GasMixes.Air); //TODO: get some immutable gasmix to avoid GC
+				GasMix.TransferGas(selfSufficientGas, gasOnNode, available);
+				selfSufficientGas.Copy(GasMixes.Air);
 			}
 			else
 			{
-				pipeMix = pipeData.mixAndVolume.GetGasMix();
+				var pipeMix = pipeData.mixAndVolume.GetGasMix();
+				GasMix.TransferGas(pipeMix, gasOnNode, available);
 			}
-
-			GasMix.TransferGas(pipeMix, gasOnNode, available);
 
 			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer, SystemType.AtmosSystem);
 		}

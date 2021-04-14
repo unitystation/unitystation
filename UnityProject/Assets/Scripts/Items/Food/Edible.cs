@@ -32,8 +32,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 	protected ItemAttributesV2 itemAttributes;
 	private Stackable stackable;
 	private RegisterItem item;
-
-	public ReagentContainer FoodContents;
+	protected ReagentContainer FoodContents;
 
 	private string Name => itemAttributes.ArticleName;
 

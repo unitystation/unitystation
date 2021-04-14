@@ -20,6 +20,8 @@ namespace Assets.Scripts.Items.Bureaucracy
 
 		private PhotocopierState photocopierState;
 
+		[SerializeField] private GameObject paperPrefab = null;
+
 		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterObject registerObject;
 
@@ -145,7 +147,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 		[Server]
 		public void ToggleScannerLid()
 		{
-			scanner = scanner.ToggleScannerLid(gameObject);
+			scanner = scanner.ToggleScannerLid(gameObject, paperPrefab);
 			OnGuiRenderRequired();
 		}
 
@@ -163,7 +165,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 		{
 			yield return WaitFor.Seconds(4f);
 			SyncPhotocopierState( PhotocopierState.Idle);
-			printer = printer.Print(scanner.ScannedText, gameObject, photocopierState == PhotocopierState.Idle);
+			printer = printer.Print(scanner.ScannedText, gameObject, photocopierState == PhotocopierState.Idle, paperPrefab);
 			OnGuiRenderRequired();
 		}
 

@@ -55,6 +55,7 @@ namespace UI.CharacterCreator
 				newEntryGO.SetActive(true);
 			}
 			isPopulated = true;
+			antagEntryTemplate.SetActive(false);
 		}
 
 		/// <summary>

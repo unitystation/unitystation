@@ -18,7 +18,7 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 			ScannedText = scannedText;
 		}
 
-		public Scanner ToggleScannerLid(GameObject scannerObj)
+		public Scanner ToggleScannerLid(GameObject scannerObj, GameObject paperPrefab)
 		{
 			if (ScannerOpen)
 			{
@@ -29,8 +29,7 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 				//If we're opening the scanner and it aint empty spawn paper
 				if (!ScannerEmpty)
 				{
-					var prefab = Spawn.GetPrefabByName("Paper");
-					var result = Spawn.ServerPrefab(prefab, SpawnDestination.At(scannerObj));
+					var result = Spawn.ServerPrefab(paperPrefab, SpawnDestination.At(scannerObj));
 					if (!result.Successful)
 						throw new InvalidOperationException("Spawn paper failed!");
 
