@@ -29,12 +29,6 @@ namespace Tests.Asset
 			{
 				if (rootObject.TryGetComponent<CustomNetworkManager>(out var manager))
 				{
-					var spawnListMonitor = manager.GetComponent<SpawnListMonitor>();
-					if (spawnListMonitor.GenerateSpawnList())
-					{
-						PrefabUtility.ApplyPrefabInstance(spawnListMonitor.gameObject, InteractionMode.AutomatedAction);
-					}
-
 					var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
 					var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 					foreach (var objectsPath in objectsPaths)
@@ -44,8 +38,15 @@ namespace Tests.Asset
 
 						if (asset.TryGetComponent<NetworkIdentity>(out _) && manager.spawnPrefabs.Contains(asset) == false)
 						{
-							Assert.Fail($"{asset} needs to be in the spawnable list, press the fill list button on the NetworkManager");
+							Assert.Fail($"{asset} needs to be in the spawnable list and has been added." +
+							            "Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
 						}
+					}
+					
+					var spawnListMonitor = manager.GetComponent<SpawnListMonitor>();
+					if (spawnListMonitor.GenerateSpawnList())
+					{
+						PrefabUtility.ApplyPrefabInstance(spawnListMonitor.gameObject, InteractionMode.AutomatedAction);
 					}
 
 					return;

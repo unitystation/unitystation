@@ -120,6 +120,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public void SetSpawnableList()
 	{
+#if UNITY_EDITOR
 		spawnPrefabs.Clear();
 
 		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
@@ -134,6 +135,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 				spawnPrefabs.Add(asset);
 			}
 		}
+#endif
 	}
 
 	public GameObject GetSpawnablePrefabFromName(string prefabName)
