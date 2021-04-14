@@ -122,13 +122,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		spawnPrefabs.Clear();
 
-		var networkObjects = AssetDatabase.LoadAllAssetsAtPath("Assets/Prefabs");
-		foreach (var netObj in networkObjects)
+		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
+		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+		foreach (var objectsPath in objectsPaths)
 		{
-			Debug.LogError($"{netObj.name}");
-			if (netObj is GameObject gameObj && gameObj.TryGetComponent<NetworkIdentity>(out _))
+			var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
+			if(asset == null) continue;
+
+			if (asset.TryGetComponent<NetworkIdentity>(out _))
 			{
-				spawnPrefabs.Add(gameObj);
+				spawnPrefabs.Add(asset);
 			}
 		}
 	}

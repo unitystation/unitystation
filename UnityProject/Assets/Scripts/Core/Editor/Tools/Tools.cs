@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
@@ -69,7 +70,7 @@ public class Tools : Editor
 	[MenuItem("Networking/Find all network identities without visibility component (Prefab Check)")]
 	private static void FindNetWithoutVisScene()
 	{
-		var allNets = LoadPrefabsContaining<NetworkIdentity>("Prefabs");
+		var allNets = LoadPrefabsContaining<NetworkIdentity>("Assets/Prefabs");
 
 		for (int i = allNets.Count - 1; i > 0; i--)
 		{
@@ -87,7 +88,7 @@ public class Tools : Editor
 	[MenuItem("Networking/Find all asset Ids (Prefab Check)")]
     private static void FindAssetIdsPrefab()
     {
-    	var allNets = LoadPrefabsContaining<NetworkIdentity>("Prefabs");
+    	var allNets = LoadPrefabsContaining<NetworkIdentity>("Assets/Prefabs");
 
         for (int i = allNets.Count - 1; i > 0; i--)
         {
@@ -110,15 +111,14 @@ public class Tools : Editor
 	{
 		List<GameObject> result = new List<GameObject>();
 
-		var allFiles = AssetDatabase.LoadAllAssetsAtPath(path);
-		foreach (var obj in allFiles)
+		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {path});
+		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+		foreach (var objectsPath in objectsPaths)
 		{
-			if (obj is GameObject go)
+			var obj = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
+			if (obj != null && obj.GetComponent<T>() != null)
 			{
-				if (go.GetComponent<T>() != null)
-				{
-					result.Add(go);
-				}
+				result.Add(obj);
 			}
 		}
 		return result;
