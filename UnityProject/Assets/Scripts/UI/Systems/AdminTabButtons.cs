@@ -62,6 +62,7 @@ public class AdminTabButtons : MonoBehaviour
 	public void BtnOpenTileChange()
 	{
 		DisableAllGUI();
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		tileChanger.SetActive(true);
 	}
 

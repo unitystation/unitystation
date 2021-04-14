@@ -4,6 +4,7 @@ using DatabaseAPI;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Systems.AdminTools.DevTools
@@ -44,10 +45,16 @@ namespace UI.Systems.AdminTools.DevTools
 		private int matrixIndex = 0;
 
 		private Image selectedButton;
+		private LightingSystem lightingSystem;
 
 		private ActionType currentAction = ActionType.None;
 
 		public SortedDictionary<int, string> MatrixIds = new SortedDictionary<int, string>();
+
+		private void Awake()
+		{
+			lightingSystem = Camera.main.GetComponent<LightingSystem>();
+		}
 
 		private void OnEnable()
 		{
@@ -57,6 +64,8 @@ namespace UI.Systems.AdminTools.DevTools
 			SetUpCategories();
 
 			modeText.text = currentAction.ToString();
+			lightingSystem.enabled = false;
+			UIManager.IsMouseInteractionDisabled = true;
 		}
 
 		private void OnDisable()
@@ -71,6 +80,9 @@ namespace UI.Systems.AdminTools.DevTools
 			{
 				Destroy(child.gameObject);
 			}
+
+			UIManager.IsMouseInteractionDisabled = false;
+			lightingSystem.enabled = true;
 		}
 
 		/// <summary>
@@ -229,6 +241,12 @@ namespace UI.Systems.AdminTools.DevTools
 			{
 				currentAction = ActionType.None;
 				modeText.text = currentAction.ToString();
+				return;
+			}
+
+			//Ignore click if pointer is hovering over GUI
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
 				return;
 			}
 
