@@ -29,8 +29,12 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
 
-	private List<GameObject> allSpawnablePrefabs = new List<GameObject>();
-	public List<GameObject> AllSpawnablePrefabs => allSpawnablePrefabs;
+	/// <summary>
+	/// List of ALL prefabs in the game which can be spawned, networked or not.
+	/// use spawnPrefabs to get only networked prefabs
+	/// </summary>
+	[HideInInspector]
+	public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
 
 	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
 	private const double minCoolDown = 1f;

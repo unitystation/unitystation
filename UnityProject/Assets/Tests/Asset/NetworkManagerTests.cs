@@ -38,14 +38,14 @@ namespace Tests.Asset
 
 						if (asset.TryGetComponent<NetworkIdentity>(out _) && manager.spawnPrefabs.Contains(asset) == false)
 						{
-							Assert.Fail($"{asset} needs to be in the spawnable list and has been added." +
-							            "Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
+							Assert.Fail($"{asset} needs to be in the spawnPrefabs list and has been added." +
+							            " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
 						}
 
-						if (manager.AllSpawnablePrefabs.Contains(asset) == false)
+						if (manager.allSpawnablePrefabs.Contains(asset) == false)
 						{
-							Assert.Fail($"{asset} needs to be in the all spawnable list and has been added." +
-							            "Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
+							Assert.Fail($"{asset} needs to be in the allSpawnablePrefabs list and has been added." +
+							            " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
 						}
 					}
 
