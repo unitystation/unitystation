@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3400951332683127568
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2928706061312092434, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2999380b1259f6e4aab7a38c8f985185,
+        type: 2}
+    - target: {fileID: 7227399156320994347, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 3e13e554e4a9a77488f9c82a22ec05a5,
+        type: 2}
+    - target: {fileID: 8185164432635749118, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 3e13e554e4a9a77488f9c82a22ec05a5,
+        type: 2}
+    - target: {fileID: 8867410812275604983, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: initialName
+      value: Freezer (Machine Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8968619637580689185, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283486298, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_Name
+      value: MachineBoardFreezer
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283530743, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283551418, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: initialName
+      value: Freezer (Machine Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071029834492727957, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_Name
+      value: MachineBoardFreezer
+      objectReference: {fileID: 0}
+    - target: {fileID: 9156715304704664009, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9a3e95ba1c080e247bba711d5474a1b4,
+        type: 3}
+    - target: {fileID: 9156715304704664009, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 890d160c3b8aa074c844215d24be6881, type: 3}

@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5676603237096856920
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3128879082997224632, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into sweet potato plants.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3128879082997224632, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: initialName
+      value: pack of sweet potato seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3176636284923856494, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3279069433607158746, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_Name
+      value: SweetPotatoSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283716107216258734, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3418352900753836166, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8deed7ab67952e24cafd4fa8cfbaee8a,
+        type: 3}
+    - target: {fileID: 4214720256203874659, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4214720256203874659, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 6566968074743570130, guid: ecb6bbe8004762f4b81979e93ea9b788,
+        type: 3}
+    - target: {fileID: 4214720256203874659, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Sweet Potato Plants
+      objectReference: {fileID: 0}
+    - target: {fileID: 4214720256203874659, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2029c7a777bc51f49afb4b6dce8de572,
+        type: 2}
+    - target: {fileID: 8703073726131617885, guid: 4f7ce98391b8ec54493a831134aa65be,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3876f630c38b2204aa5990e63bf7bf96,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4f7ce98391b8ec54493a831134aa65be, type: 3}

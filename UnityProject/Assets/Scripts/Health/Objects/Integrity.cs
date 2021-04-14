@@ -12,6 +12,7 @@ using Objects;
 using Object = System.Object;
 using Random = UnityEngine.Random;
 using Effects.Overlays;
+using ScriptableObjects;
 
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),
@@ -144,8 +145,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (registerTile != null) return;
 		if (SMALL_BURNING_PREFAB == null)
 		{
-			SMALL_BURNING_PREFAB = Resources.Load<GameObject>("BurningSmall");
-			LARGE_BURNING_PREFAB = Resources.Load<GameObject>("BurningLarge");
+			SMALL_BURNING_PREFAB = CommonPrefabs.Instance.BurningSmall;
+			LARGE_BURNING_PREFAB = CommonPrefabs.Instance.BurningLarge;
 		}
 
 		if (SMALL_ASH == null)

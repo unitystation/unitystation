@@ -13,7 +13,8 @@ public class UI_StorageHandler : MonoBehaviour
 	[SerializeField]
 	private GameObject closeStorageUIButton = null;
 
-	private GameObject inventorySlotPrefab;
+	[SerializeField]
+	private GameObject inventorySlotPrefab = null;
 
 	[Tooltip("GameObject under which all the other player UI slots live (for showing another player's inventory)")]
 	[SerializeField]
@@ -33,7 +34,6 @@ public class UI_StorageHandler : MonoBehaviour
 
 	void Awake()
 	{
-		inventorySlotPrefab = Resources.Load("InventorySlot") as GameObject;
 		otherPlayerSlots = otherPlayerStorage.GetComponentsInChildren<UI_ItemSlot>();
 	}
 

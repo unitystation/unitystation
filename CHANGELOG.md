@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/4/13: Humans will no longer have wrong skin tones when switching between species. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6313](https://github.com/unitystation/unitystation/pull/6313)
+* 2021/4/13: Multiple character sheets are now supported. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6313](https://github.com/unitystation/unitystation/pull/6313)
 * 2021/4/13: Added input and output levels to SMES by [jdownie01](https://github.com/jdownie01) in PR #[6360](https://github.com/unitystation/unitystation/pull/6360)
 * 2021/4/12: Fixes dropdown names. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6356](https://github.com/unitystation/unitystation/pull/6356)
 * 2021/4/11: Fixed Autolathes not being destroyed when not connected to a material silo or storage. by [Semuca](https://github.com/Semuca) in PR #[6352](https://github.com/unitystation/unitystation/pull/6352)

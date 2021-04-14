@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3959904421835429671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6105658861398253683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RelatedPart: {fileID: 0}
+  walkingSpeed: 1.5
+  runningSpeed: 3
+  crawlingSpeed: 0.3
+  armEfficiency: 1
+  legEfficiency: 1
+  canHoldItems: 0
+--- !u!1001 &8339248978158643673
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2810631690420259242, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_Name
+      value: HumanLimb
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5166433732684877445, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 0.3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}
+--- !u!1 &6105658861398253683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2810631690420259242, guid: e241039a7933eb347bd1a9bb67a9078a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8339248978158643673}
+  m_PrefabAsset: {fileID: 0}

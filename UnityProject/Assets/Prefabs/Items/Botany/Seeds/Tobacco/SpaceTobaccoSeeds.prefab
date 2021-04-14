@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6143524802935085896
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2955609080682404905, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 35788a9d341ed5f448ba90c175337387,
+        type: 3}
+    - target: {fileID: 3053914198047544001, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3167608682793627509, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_Name
+      value: SpaceTobaccoSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249349211884781591, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into space tobacco plants.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249349211884781591, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: initialName
+      value: pack of space tobacco seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 5208433431273580862, guid: 5e93d1a52c2e395488ca9a198c3b402e,
+        type: 3}
+    - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Space Tobacco Plants
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 604708578e0de514f87bf3c301b02ca6,
+        type: 2}
+    - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: af6707c6e9363dd408e8f11f856c0315,
+        type: 2}
+    - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 70c5f2e1b4e50dd49b6540dc6c37b8c2,
+        type: 2}
+    - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 87505173646803e4da4f3c9d1011138b,
+        type: 2}
+    - target: {fileID: 9129786451129128178, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b645a4cd11d764741ab939f51871174b,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af4c7dccbd72a7648bc1cf6bc8647285, type: 3}

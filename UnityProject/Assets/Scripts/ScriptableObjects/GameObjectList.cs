@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -26,6 +27,23 @@ namespace ScriptableObjects
 		public GameObject GetRandom()
 		{
 			return GameObjectPrefabs.PickRandom();
+		}
+
+		public GameObject GetFromName(string gameObjectName)
+		{
+			var gameObjectFromList = gameObjects.Where(o => o.name == gameObjectName).ToList();
+
+			if (gameObjectFromList.Any())
+			{
+				if (gameObjectFromList.Count > 1)
+				{
+					Logger.LogError($"There is {gameObjectFromList.Count} prefabs with the name: {gameObjectName}, please rename them");
+				}
+
+				return gameObjectFromList[0];
+			}
+
+			return null;
 		}
 	}
 }

@@ -15,6 +15,12 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	/// <summary>
 	/// Reference to cableCuttingWindow - instead of loading from resources every time, just enable and disable GameObject
 	/// </summary>
+	[SerializeField]
+	private CableCuttingWindow cableCuttingWindowPrefab;
+
+	/// <summary>
+	/// Reference to cableCuttingWindow - instead of loading from resources every time, just enable and disable GameObject
+	/// </summary>
 	private CableCuttingWindow cableCuttingWindow;
 
 	private bool isWindowActive;
@@ -97,8 +103,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 		// else, load window from resources, store reference and initialize
 		else
 		{
-			GameObject windowPrefab = Resources.Load<GameObject>(PATH_TO_WINDOW_PREFAB);
-			cableCuttingWindow = Instantiate(windowPrefab).GetComponentInChildren<CableCuttingWindow>();
+			cableCuttingWindow = Instantiate(cableCuttingWindowPrefab).GetComponentInChildren<CableCuttingWindow>();
 			cableCuttingWindow.InitializeCableCuttingWindow(matrix, cellPosition, mousePosition);
 		}
 
