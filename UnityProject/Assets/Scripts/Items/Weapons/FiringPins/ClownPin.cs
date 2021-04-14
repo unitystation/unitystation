@@ -1,14 +1,19 @@
+using UnityEngine;
+
 namespace Weapons
 {
-	class ClownPin : GenericPin
+	class ClownPin : PinBase
 	{
+
+		[SerializeField]
+		private bool clusmyMisfire;
 
 		public override void ServerBehaviour(AimApply interaction)
 		{
 			JobType job = GetJobServer(interaction.Performer);
 			if (clusmyMisfire && job == JobType.CLOWN)
 			{
-				ClumsyShotServer(interaction);
+				CallShotServer(interaction, IsSuicide(interaction));
 			}
 			else
 			{
@@ -32,11 +37,6 @@ namespace Weapons
 			{
 				CallShotClient(interaction, true);
 			}
-		}
-
-		protected override void ClumsyShotServer(AimApply interaction)
-		{
-			CallShotServer(interaction, IsSuicide(interaction));
 		}
 	}
 }

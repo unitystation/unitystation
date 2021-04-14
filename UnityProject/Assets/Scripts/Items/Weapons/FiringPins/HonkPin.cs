@@ -2,7 +2,7 @@ using Messages.Server.SoundMessages;
 
 namespace Weapons
 {
-	class HonkPin : GenericPin
+	class HonkPin : PinBase
 	{
 
 		public override void ServerBehaviour(AimApply interaction)

@@ -2,8 +2,11 @@ using UnityEngine;
 
 namespace Weapons
 {
-    class IDLockedPin : GenericPin
+    class IDLockedPin : PinBase
     {
+
+		[SerializeField]
+		private bool clusmyMisfire;
 
 		[SerializeField]
 		private JobType setRestriction;
