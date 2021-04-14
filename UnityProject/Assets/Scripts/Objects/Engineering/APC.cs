@@ -5,6 +5,7 @@ using AddressableReferences;
 using Electricity.Inheritance;
 using Systems.Electricity;
 using Systems.Explosions;
+using ScriptableObjects;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
@@ -39,6 +40,7 @@ namespace Objects.Engineering
 
 		private int cashOfConnectedDevices;
 		private bool batteryCharging;
+		private GameObject currentSparkEffect;
 		private Integrity integrity;
 		public float Voltage => voltageSync;
 
@@ -69,6 +71,7 @@ namespace Objects.Engineering
 		{
 			var rand = new System.Random();
 			integrity = GetComponent<Integrity>();
+			integrity.integriy = (integrity.initialIntegrity - ((integrity.initialIntegrity * 0.01) * rand.Next(20)));
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 			integrity.OnWillDestroyServer.AddListener(OnWillDestroyServer);
 
@@ -88,7 +91,7 @@ namespace Objects.Engineering
 		}
 		private void OnDamageReceived(DamageInfo damageInfo)
 		{
-			if (integrity.integrity <= (integrity.initialIntegrity *0.10)
+			if (integrity.integrity <= (integrity.initialIntegrity *0.10))
 			{
 				overvoltage_critical();
 			}
@@ -111,10 +114,31 @@ namespace Objects.Engineering
 			}
 			else if (integrity.integrity <= integrity.initialIntegrity * 0.75)
 			{
-
+				TrySpark();
 			}
 
 		}
+		private void TrySpark()
+		{
+
+			//75% chance to do effect and not already doing an effect
+			if(DMMath.Prob(25) || currentSparkEffect != null) return;
+
+			var worldPos = registerTile.WorldPositionServer;
+
+			var result = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, worldPos, gameObject.transform.parent);
+			if (result.Successful)
+			{
+				currentSparkEffect = result.GameObject;
+
+				//Try start fire if possible
+				var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;
+				reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int());
+
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, worldPos, sourceObj: gameObject);
+			}
+		}
+
 
 		private void CheckListOfDevicesForNulls()
 		{
@@ -214,17 +238,25 @@ namespace Objects.Engineering
 			float Voltages = Voltage;
 			if (Voltages > 270)
 			{
-				integrity.ApplyDamage(25, AttackType.Melee, DamageType.Brute);
+				integrity.ApplyDamage(25, AttackType.Melee, DamageType.Burn);
 				Voltages = 0.001f;
-			} else if (Voltages > 219f)
+			} else if (Voltages > 250)
 			{
-				integrity.ApplyDamage(5, AttackType.Melee, DamageType.Brute);
+				integrity.ApplyDamage(5, AttackType.Melee, DamageType.Burn);
 			}
 			float CalculatingResistance = new float();
 
 			foreach (APCPoweredDevice Device in connectedDevices)
 			{
-				Device.PowerNetworkUpdate(Voltages);
+				if (integrity.integrity < (integrity.initialIntegrity * 0.50))
+				{
+					var rand = new System.Random();
+					Device.PowerNetworkUpdate(Voltages * (rand.Next(200) / 100));
+				}
+				else
+				{
+					Device.PowerNetworkUpdate(Voltages);
+				}
 				CalculatingResistance += (1 / Device.Resistance);
 			}
 
@@ -239,19 +271,9 @@ namespace Objects.Engineering
 			Explosion.StartExplosion(registerObject.LocalPosition, 120, registerObject.Matrix);
 		}
 
-		/// <summary>
-		/// Over-drawing an APC for too long results in a loss of integrity
-		/// if integrity reaches zero due to this then there's a 50% chance it blows up.
-		/// otherwise, it just goes dead.
-		/// </summary>
-		private void overvoltage()
-		{
-
-		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			TabUpdateMessage.Send(interaction.Performer, gameObject, netTabType, TabAction.Open);
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
@@ -261,10 +283,14 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} fixes the APC",
 					() =>
 					{
-						RepairDevice();
+						RestoreIntegrity(20);
 					}
 				);
 				return;
+			}
+			else
+			{
+				TabUpdateMessage.Send(interaction.Performer, gameObject, netTabType, TabAction.Open);
 			}
 		}
 

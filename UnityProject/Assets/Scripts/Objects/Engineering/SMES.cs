@@ -226,8 +226,18 @@ namespace Objects.Engineering
 		{
 
 			//75% chance to do effect and not already doing an effect
-			if(DMMath.Prob(25) || currentSparkEffect != null) return;
-
+			//Otherwise releases toxic fumes
+			if(DMMath.Prob(25) || currentSparkEffect != null) {
+				var gasNode = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPositionServer, false);
+				if(gasNode == null) return;
+				GasMix addMix = GasMix.NewGasMix(GasMixes.EmptyTile);
+				var gasMix = gasNode.GasMix;
+				//adds the equivilent of one dumb fuck breathing out toxic gas for half an hour
+				//Why? Becuase I never took chemistry. - A college student.
+				addMix.AddGas(Gas.Styrene, 0.25));
+				GasMix.TransferGas(gasMix, removeMix, removeMix.Moles);
+			 	return;
+			}
 			var worldPos = registerTile.WorldPositionServer;
 
 			var result = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, worldPos, gameObject.transform.parent);

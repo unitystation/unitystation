@@ -18,6 +18,7 @@ namespace Systems.Atmospherics
 		public static readonly Gas Hydrogen = new Gas("Hydrogen", 30, 44.01f, false, 0.4f, "NONE", -3, 0);
 		public static readonly Gas WaterVapor = new Gas("Water Vapor", 40, 44.01f, true, 0.4f, "WaterVapour", -9, 8);
 		public static readonly Gas BZ = new Gas("BZ", 20, 44.01f, false, 0.4f, "NONE", -3, 8);
+		public static readonly Gas Styrene = new Gas("Styrene", 100, 104.01f, false, 0.4f, "NONE", -3, 8);
 		public static readonly Gas Miasma = new Gas("Miasma", 20, 44.01f, true, 0.4f, "Miasma", -7, 0);
 		public static readonly Gas Nitryl = new Gas("Nitryl", 20, 44.01f, true, 0.4f, "Nitryl", -6, 16);
 		public static readonly Gas Tritium = new Gas("Tritium", 10, 44.01f, true, 0.4f, "Tritium", -3, 1);
