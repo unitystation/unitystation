@@ -10,7 +10,7 @@ namespace Tests.Asset
 	public class NetworkManagerTests
 	{
 		[Test]
-		public void NetworkIdentityTest()
+		public void SpawnableListTest()
 		{
 			var scenesGUIDs = AssetDatabase.FindAssets("OnlineScene t:Scene");
 			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath).ToList();
@@ -41,8 +41,14 @@ namespace Tests.Asset
 							Assert.Fail($"{asset} needs to be in the spawnable list and has been added." +
 							            "Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
 						}
+
+						if (manager.AllSpawnablePrefabs.Contains(asset) == false)
+						{
+							Assert.Fail($"{asset} needs to be in the all spawnable list and has been added." +
+							            "Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
+						}
 					}
-					
+
 					var spawnListMonitor = manager.GetComponent<SpawnListMonitor>();
 					if (spawnListMonitor.GenerateSpawnList())
 					{

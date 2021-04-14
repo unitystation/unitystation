@@ -29,6 +29,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
 
+	private List<GameObject> allSpawnablePrefabs = new List<GameObject>();
+	public List<GameObject> AllSpawnablePrefabs => allSpawnablePrefabs;
+
 	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
 	private const double minCoolDown = 1f;
 
@@ -122,6 +125,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 #if UNITY_EDITOR
 		spawnPrefabs.Clear();
+		allSpawnablePrefabs.Clear();
 
 		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
 		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
@@ -134,13 +138,15 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			{
 				spawnPrefabs.Add(asset);
 			}
+
+			allSpawnablePrefabs.Add(asset);
 		}
 #endif
 	}
 
 	public GameObject GetSpawnablePrefabFromName(string prefabName)
 	{
-		var prefab = spawnPrefabs.Where(o => o.name == prefabName).ToList();
+		var prefab = allSpawnablePrefabs.Where(o => o.name == prefabName).ToList();
 
 		if (prefab.Any())
 		{
