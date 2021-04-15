@@ -364,7 +364,7 @@ namespace Systems.Cargo
 
 		private void CheckBountyCompletion(CargoBounty cargoBounty)
 		{
-			foreach (var demand in cargoBounty.Demands)
+			foreach (var demand in cargoBounty.Demands.m_dict)
 			{
 				if (demand.Value > 0)
 				{

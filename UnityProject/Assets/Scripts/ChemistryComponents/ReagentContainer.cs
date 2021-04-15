@@ -191,7 +191,7 @@ namespace Chemistry.Components
 			// check whitelist reagents
 			if (ReagentWhitelistOn)
 			{
-				if (!addition.All(r => reagentWhitelist.Contains(r.Key)))
+				if (!addition.reagents.m_dict.All(r => reagentWhitelist.Contains(r.Key)))
 				{
 					return new TransferResult
 					{
@@ -324,7 +324,7 @@ namespace Chemistry.Components
 
 		public IEnumerator<KeyValuePair<Chemistry.Reagent, float>> GetEnumerator()
 		{
-			return CurrentReagentMix.GetEnumerator();
+			return (IEnumerator<KeyValuePair<Chemistry.Reagent, float>>)CurrentReagentMix.reagents;
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -452,7 +452,7 @@ namespace Chemistry.Components
 				return;
 			}
 
-			foreach (var reagent in CurrentReagentMix)
+			foreach (var reagent in CurrentReagentMix.reagents.m_dict)
 			{
 				Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} contains {reagent.Value} {reagent.Key}.");
 			}
