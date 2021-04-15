@@ -39,13 +39,19 @@ PrefabInstance:
     - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: Populater.Contents.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: Populater.Contents.Array.data[3]
       value: 
-      objectReference: {fileID: 7627884330611038406, guid: 502b359a296b6db44b8a0e8b3020ecae,
+      objectReference: {fileID: 8365410886487118088, guid: 45119eb22af0c884593e070c8edbdaf5,
+        type: 3}
+    - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[4]
+      value: 
+      objectReference: {fileID: 6442042095491869879, guid: e10f9003b4cb0c74a9fd14df00f8eb55,
         type: 3}
     - target: {fileID: 8743880023469781445, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
@@ -61,7 +67,7 @@ PrefabInstance:
     - target: {fileID: 8910782054479282841, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_Name
-      value: HumanChest Variant
+      value: MothChest
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
