@@ -67,7 +67,7 @@ namespace Objects.Drawers
 			Cremate();
 		}
 
-		#endregion Interaction-RightClick
+		#endregion
 
 		#region Interaction
 
@@ -77,7 +77,7 @@ namespace Objects.Drawers
 			base.ServerPerformInteraction(interaction);
 		}
 
-		#endregion Interaction
+		#endregion
 
 		#region Server Only
 
@@ -111,7 +111,7 @@ namespace Objects.Drawers
 		{
 			foreach (KeyValuePair<ObjectBehaviour, Vector3> item in serverHeldItems)
 			{
-				Despawn.ServerSingle(item.Key.gameObject);
+				_ = Despawn.ServerSingle(item.Key.gameObject);
 			}
 
 			serverHeldItems = new Dictionary<ObjectBehaviour, Vector3>();
@@ -144,7 +144,7 @@ namespace Objects.Drawers
 			{
 				var playerScript = player.GetComponent<PlayerScript>();
 				PlayerSpawn.ServerSpawnGhost(playerScript.mind);
-				Despawn.ServerSingle(player.gameObject);
+				_ = Despawn.ServerSingle(player.gameObject);
 			}
 
 			serverHeldPlayers = new List<ObjectBehaviour>();
@@ -158,6 +158,6 @@ namespace Objects.Drawers
 			UpdateCloseState();
 		}
 
-		#endregion Server Only
+		#endregion
 	}
 }

@@ -1,12 +1,9 @@
 ﻿using System;
-using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Systems.Clothing;
-using Items;
+using UI.CharacterCreator;
 
 namespace HealthV2
 {
@@ -304,8 +301,6 @@ namespace HealthV2
 			Storage.ServerTryRemove(inOrgan);
 		}
 
-
-
 		/// <summary>
 		/// Removes this body part from its host body system
 		/// </summary>
@@ -453,7 +448,7 @@ namespace HealthV2
 
 	#endregion
 
-	[System.Serializable]
+	[Serializable]
 	public class BodyTypesWithOrder
 	{
 		public SpriteOrder SpriteOrder;
@@ -462,19 +457,16 @@ namespace HealthV2
 		public List<ListSpriteDataSO> BodyTypes = new List<ListSpriteDataSO>();
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class ListSpriteDataSO
 	{
 		public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class ListSpriteDataSOWithOrder
 	{
 		public SpriteOrder SpriteOrder;
 		public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
 	}
-
-
 }
-

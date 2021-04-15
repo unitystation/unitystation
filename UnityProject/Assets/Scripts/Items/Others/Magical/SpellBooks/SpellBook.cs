@@ -5,7 +5,7 @@ using Systems.Spells;
 using ScriptableObjects.Systems.Spells;
 using Items.Bureaucracy;
 
-namespace Items.Others.Magical
+namespace Items.Magical
 {
 	/// <summary>
 	/// Allows the player to learn the referenced spell when activated.

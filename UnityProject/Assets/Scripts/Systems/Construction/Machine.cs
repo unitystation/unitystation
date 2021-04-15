@@ -122,7 +122,7 @@ namespace Objects.Machines
 			GameObject frame = frameSpawn.GameObject;
 			frame.GetComponent<MachineFrame>().ServerInitFromComputer(this);
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}

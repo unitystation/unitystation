@@ -64,9 +64,8 @@ namespace Systems.MobAIs
 			simpleAnimal = GetComponent<SimpleAnimal>();
 
 			if(CustomNetworkManager.IsServer == false) return;
-			PlayRandomSound();
+			_ = PlayRandomSound();
 		}
-
 
 		protected override void AIStartServer()
 		{

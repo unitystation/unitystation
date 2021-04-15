@@ -275,7 +275,7 @@ namespace Construction.Conveyors
 		private void DeconstructBelt()
 		{
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private void ChangeDirection()

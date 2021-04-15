@@ -60,7 +60,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public int[] currencies = new int[(int)CurrencyType.Total];
 
 	//The actual list of access allowed set via the server and synced to all clients
-	private SyncListInt accessSyncList = new SyncListInt();
+	private readonly SyncList<int> accessSyncList = new SyncList<int>();
 
 	//To switch the card sprites when the type changes
 	private SpriteRenderer spriteRenderer;

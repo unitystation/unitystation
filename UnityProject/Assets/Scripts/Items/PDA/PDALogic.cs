@@ -95,7 +95,7 @@ namespace Items.PDA
 		private ItemSlot CartridgeSlot = default;
 
 		//The actual list of access allowed set via the server and synced to all clients
-		private readonly SyncListInt accessSyncList = new SyncListInt();
+		private readonly SyncList<int> accessSyncList = new SyncList<int>();
 
 		#region Lifecycle
 
@@ -247,7 +247,7 @@ namespace Items.PDA
 			var player = GetPlayerByParentInventory();
 			if (player == null) return;
 
-			SoundManager.PlayNetworkedForPlayerAtPos(player.GameObject, player.Script.WorldPos, soundName, sourceObj: player.GameObject);
+			_ = SoundManager.PlayNetworkedForPlayerAtPos(player.GameObject, player.Script.WorldPos, soundName, sourceObj: player.GameObject);
 		}
 
 		#endregion Sounds
@@ -344,7 +344,7 @@ namespace Items.PDA
 				{
 					var quantity = item.GetComponent<Stackable>().Amount;
 					UplinkTC +=  quantity;
-					Despawn.ServerSingle(item);
+					_ = Despawn.ServerSingle(item);
 
 					var uplinkMessage =
 						$"You press the Telecrystal{(quantity == 1 ? "" : "s")} into the screen of your {this.gameObject.ExpensiveName()}\n" +
@@ -508,7 +508,7 @@ namespace Items.PDA
 		}
 
 		[Server]
-		public SyncListInt AccessList()
+		public SyncList<int> AccessList()
 		{
 			return accessSyncList;
 		}

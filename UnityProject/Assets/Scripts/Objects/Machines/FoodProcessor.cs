@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Electricity;
-using AddressableReferences;
 using Effects;
 using Items;
 using Machines;
@@ -12,8 +11,7 @@ using Objects.Machines;
 
 namespace Objects.Kitchen
 {
-
-	//Note : needs sounds
+	// TODO: needs sounds
 
 	/// <summary>
 	/// A machine into which players can insert items for cooking. If the item has the Cookable component,
@@ -317,7 +315,7 @@ namespace Objects.Kitchen
 					Spawn.ServerPrefab(itemToSpawn, WorldPosition);
 				}
 
-				Despawn.ServerSingle(item);
+				_ = Despawn.ServerSingle(item);
 			}
 			
 		}

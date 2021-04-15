@@ -38,7 +38,7 @@ namespace Items.Others
 			}
 
 			Spawn.ServerPrefab(chick, gameObject.RegisterTile().WorldPosition);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

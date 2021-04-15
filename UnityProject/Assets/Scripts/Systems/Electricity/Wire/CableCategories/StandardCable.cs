@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Mirror;
 
-public class StandardCable : CableInheritance
+namespace Objects.Electrical
 {
-	public new HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>
+	public class StandardCable : CableInheritance
+	{
+		public new HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>
 	{
 		PowerTypeCategory.StandardCable,
 		PowerTypeCategory.FieldGenerator,
@@ -17,11 +17,12 @@ public class StandardCable : CableInheritance
 		PowerTypeCategory.PowerSink
 	};
 
-	void Awake()
-	{
-		ApplianceType = PowerTypeCategory.StandardCable;
-		CableType = WiringColor.red;
-		wireConnect.InData.CanConnectTo = CanConnectTo;
-		wireConnect.InData.Categorytype = ApplianceType;
+		void Awake()
+		{
+			ApplianceType = PowerTypeCategory.StandardCable;
+			CableType = WiringColor.red;
+			wireConnect.InData.CanConnectTo = CanConnectTo;
+			wireConnect.InData.Categorytype = ApplianceType;
+		}
 	}
 }

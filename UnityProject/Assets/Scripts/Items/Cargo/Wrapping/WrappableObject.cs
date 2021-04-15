@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Objects;
 
 namespace Items.Cargo.Wrapping
 {

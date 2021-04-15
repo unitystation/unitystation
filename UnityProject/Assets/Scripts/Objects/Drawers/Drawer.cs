@@ -8,7 +8,6 @@ using Messages.Server.SoundMessages;
 
 namespace Objects.Drawers
 {	
-
 	/// <summary>
 	/// A generic drawer component designed for multi-tile drawer objects.
 	/// </summary>
@@ -63,7 +62,7 @@ namespace Objects.Drawers
 		protected Dictionary<ObjectBehaviour, Vector3> serverHeldItems = new Dictionary<ObjectBehaviour, Vector3>();
 		protected List<ObjectBehaviour> serverHeldPlayers = new List<ObjectBehaviour>();
 
-		#region Init Methods
+		#region Lifecycle
 
 		protected virtual void Awake()
 		{
@@ -103,7 +102,7 @@ namespace Objects.Drawers
 			UpdateSpriteOrientation();
 		}
 
-		#endregion Init Methods
+		#endregion
 
 		/// <summary>
 		/// If the object is about to despawn, eject its contents (unless already open)
@@ -116,7 +115,7 @@ namespace Objects.Drawers
 
 			EjectItems(true);
 			EjectPlayers(true);
-			Despawn.ServerSingle(tray);
+			_ = Despawn.ServerSingle(tray);
 		}
 
 		#region Sprite

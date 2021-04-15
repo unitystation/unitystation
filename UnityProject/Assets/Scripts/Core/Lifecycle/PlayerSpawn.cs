@@ -78,7 +78,7 @@ public static class PlayerSpawn
 
 		if (oldGhost)
 		{
-			Despawn.ServerSingle(oldGhost.gameObject);
+			_ = Despawn.ServerSingle(oldGhost.gameObject);
 		}
 	}
 
@@ -223,10 +223,9 @@ public static class PlayerSpawn
 
 		if (oldGhost)
 		{
-			Despawn.ServerSingle(oldGhost.gameObject);
+			_ = Despawn.ServerSingle(oldGhost.gameObject);
 		}
 	}
-
 
 	/// <summary>
 	/// Use this when a player rejoins the game and already has a logged-out body in the game.

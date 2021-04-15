@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using AddressableReferences;
 using Messages.Server.SoundMessages;
 
 /// <summary>
@@ -20,6 +19,7 @@ public static class PlayerUtils
 	{
 		return playerObject.layer == 31;
 	}
+
 	public static bool IsOk(GameObject playerObject = null)
 	{
 		var now = DateTime.Now;
@@ -33,24 +33,18 @@ public static class PlayerUtils
 
 	public static void DoReport()
 	{
-		if (!CustomNetworkManager.IsServer)
-		{
-			return;
-		}
+		if (CustomNetworkManager.IsServer == false) return;
 
 		foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 		{
 			var ps = player.Script;
-			if (ps.IsDeadOrGhost)
-			{
-				continue;
-			}
+			if (ps.IsDeadOrGhost) continue;
 
 			if (ps.mind != null &&
 			    ps.mind.occupation != null &&
 			    ps.mind.occupation.JobType == JobType.CLOWN)
 			{
-				//love clown
+				// love clown
 				ps.playerMove.Uncuff();
 
 				ps.playerHealth.ResetDamageAll();
@@ -79,6 +73,6 @@ public static class PlayerUtils
 		}
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.2f,0.5f));
 		ShakeParameters shakeParameters = new ShakeParameters(true, 64, 30);
-		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, audioSourceParameters, true, shakeParameters);
+		_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, audioSourceParameters, true, shakeParameters);
 	}
 }

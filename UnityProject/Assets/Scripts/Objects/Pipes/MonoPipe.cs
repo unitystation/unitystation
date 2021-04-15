@@ -70,7 +70,7 @@ namespace Pipes
 					Item.GameObject.GetComponent<PipeItem>().SetColour(Colour);
 					OnDisassembly(interaction);
 					pipeData.OnDisable();
-					Despawn.ServerSingle(this.gameObject);
+					_ = Despawn.ServerSingle(gameObject);
 					return;
 				}
 			}
@@ -78,15 +78,9 @@ namespace Pipes
 			Interaction(interaction);
 		}
 
-		public virtual void Interaction(HandApply interaction)
-		{
+		public virtual void Interaction(HandApply interaction) { }
 
-		}
-
-		public virtual void OnDisassembly(HandApply interaction)
-		{
-
-		}
+		public virtual void OnDisassembly(HandApply interaction) { }
 
 		#region Editor
 

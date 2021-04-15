@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using System;
 
-namespace Assets.Scripts.Items.Bureaucracy.Internal
+namespace Items.Bureaucracy.Internal
 {
 	public static class ScannerSerializer
 	{

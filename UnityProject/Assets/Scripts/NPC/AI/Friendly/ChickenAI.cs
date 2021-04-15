@@ -73,7 +73,7 @@ namespace Systems.MobAIs
 			{
 				// grow to become a cute chicken
 				Spawn.ServerPrefab(possibleGrownForms.PickRandom(), gameObject.RegisterTile().WorldPosition);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 	}

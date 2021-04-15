@@ -88,7 +88,7 @@ namespace Clothing
 		private IEnumerator Coitus(PlayerHealthV2 player)
 		{
 			yield return WaitFor.Seconds(coitusTime);
-			Pregnancy(player);
+			_ = Pregnancy(player);
 			yield return WaitFor.EndOfFrame;
 		}
 
@@ -112,7 +112,7 @@ namespace Clothing
 			//TODO wait until the object's velocity is 0 instead of a fixed amount of time!
 			yield return WaitFor.Seconds(0.6f);
 			Spawn.ServerPrefab(facehugger, gameObject.transform.position);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 			yield return WaitFor.EndOfFrame;
 		}
 

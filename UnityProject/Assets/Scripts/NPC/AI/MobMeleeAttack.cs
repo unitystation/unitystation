@@ -23,14 +23,14 @@ namespace Systems.MobAIs
 			var ctc = healthBehaviour.connectionToClient;
 			var rtt = healthBehaviour.RTT;
 			var pos = healthBehaviour.GetComponent<RegisterTile>().WorldPositionServer;
-			AttackFleshRoutine(dir, healthBehaviour, null, pos, ctc, rtt);
+			_ = AttackFleshRoutine(dir, healthBehaviour, null, pos, ctc, rtt);
 		}
 		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase healthBehaviour)
 		{
 			var ctc = healthBehaviour.connectionToClient;
 			var rtt = healthBehaviour.RTT;
 			var pos = healthBehaviour.RegisterTile.WorldPositionServer;
-			AttackFleshRoutine(dir, null, healthBehaviour, pos, ctc, rtt);
+			_ = AttackFleshRoutine(dir, null, healthBehaviour, pos, ctc, rtt);
 		}
 
 		//We need to slow the attack down because clients are behind server

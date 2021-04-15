@@ -54,7 +54,7 @@ namespace Objects
 					directional.FaceDirection(initialOrientation);
 				}
 
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 			else
 			{

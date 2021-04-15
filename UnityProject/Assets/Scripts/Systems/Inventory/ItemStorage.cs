@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -334,7 +333,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			if (slot.Item != null)
 			{
-				Despawn.ServerSingle(slot.Item.gameObject);
+				_ = Despawn.ServerSingle(slot.Item.gameObject);
 			}
 		}
 	}
@@ -590,7 +589,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			ServerRemoveObserverPlayer(observerPlayer);
 		}
 	}
-
 
 	/// <summary>
 	/// Checks if the indicated player is an observer of this storage

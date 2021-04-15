@@ -8,9 +8,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using UnityEngine.Profiling;
-using Objects;
-using Object = System.Object;
-using Random = UnityEngine.Random;
 using Effects.Overlays;
 using ScriptableObjects;
 
@@ -339,7 +336,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		registerTile.TileChangeManager.AddOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
 		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject);
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
-		Despawn.ServerSingle(gameObject);
+		_ = Despawn.ServerSingle(gameObject);
 		Profiler.EndSample();
 	}
 
@@ -349,13 +346,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (info.DamageType == DamageType.Brute)
 		{
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got smashed to pieces.", gameObject);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 		//TODO: Other damage types (acid)
 		else
 		{
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got destroyed.", gameObject);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 

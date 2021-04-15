@@ -12,9 +12,6 @@ namespace Objects.Construction
 	{
 		private TileChangeManager tileChangeManager;
 
-		private RegisterObject registerObject;
-		private ObjectBehaviour objectBehaviour;
-
 		private bool strutsUnsecured;
 
 		[Tooltip("Normal girder prefab.")]
@@ -28,9 +25,7 @@ namespace Objects.Construction
 		private void Start()
 		{
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
-			registerObject = GetComponent<RegisterObject>();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-			objectBehaviour = GetComponent<ObjectBehaviour>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -64,7 +59,7 @@ namespace Objects.Construction
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
 			{
-				if (!strutsUnsecured)
+				if (strutsUnsecured == false)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
 						"You start finalizing the reinforced wall...",
@@ -76,7 +71,7 @@ namespace Objects.Construction
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 			{
-				if (!strutsUnsecured)
+				if (strutsUnsecured == false)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start unsecuring the support struts...",
@@ -108,7 +103,7 @@ namespace Objects.Construction
 						{
 							Spawn.ServerPrefab(girder, SpawnDestination.At(gameObject));
 							Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, SpawnDestination.At(gameObject));
-							Despawn.ServerSingle(gameObject);
+							_ = Despawn.ServerSingle(gameObject);
 						});
 				}
 			}
@@ -126,7 +121,7 @@ namespace Objects.Construction
 		{
 			tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), reinforcedWallTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

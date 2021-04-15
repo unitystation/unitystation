@@ -9,6 +9,7 @@ namespace Items.Cargo.Wrapping
 		         "The sprite will change to represent this change when the object is spawned. " +
 		         "Useful for mapping!")]
 		private ContainerTypeSprite typeSprite;
+
 		protected override void UnWrap()
 		{
 			PlayUnwrappingSound();
@@ -20,12 +21,12 @@ namespace Items.Cargo.Wrapping
 					"",
 					$"The {gameObject.ExpensiveName()} finishes unwrapping itself but there is no content! " +
 					$"What is this magic?!");
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
 
 			MakeContentVisible();
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

@@ -123,7 +123,7 @@ namespace Construction.Conveyors
 			SetState(SwitchState.Off);
 			conveyorBelts.Clear();
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion Interaction
