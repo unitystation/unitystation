@@ -765,6 +765,18 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		bool success = Pushable.Push(dir, speed, true, context: gameObject);
 		if (success)
 		{
+			//Moves players buckled to the pushed object
+			if (gameObject.GetComponent<BuckleInteract>() != null)
+			{
+				foreach (var playerMove in MatrixManager.GetAt<PlayerMove>(gameObject, NetworkSide.Server))
+				{
+					if (playerMove.IsBuckled)
+					{
+						playerMove.PlayerScript.PlayerSync.SetPosition(target);
+						break;
+					}
+				}
+			}
 			// Pulling a directional component should change it's orientation to match the one that pulls it
 			Directional directionalComponent;
 			if (TryGetComponent(out directionalComponent))
