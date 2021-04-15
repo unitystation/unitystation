@@ -42,7 +42,7 @@ public class BodyHealthEffect : MetabolismReaction
 		if (CanOverdose)
 		{
 			float TotalIn = 0;
-			foreach (var reagent in ingredients)
+			foreach (var reagent in ingredients.m_dict)
 			{
 				TotalIn += reagentMix[reagent.Key];
 			}

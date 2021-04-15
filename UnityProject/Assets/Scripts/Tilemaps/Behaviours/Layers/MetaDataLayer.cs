@@ -104,7 +104,7 @@ public class MetaDataLayer : MonoBehaviour
 
 		bool didSplat = false;
 
-		foreach (var reagent in reagents)
+		foreach (var reagent in reagents.reagents.m_dict)
 		{
 			if(reagent.Value < 1)
 			{

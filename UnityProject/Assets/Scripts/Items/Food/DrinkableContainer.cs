@@ -97,7 +97,7 @@ public class DrinkableContainer : Consumable
 
 		if ((int) drinkAmount == 0) return;
 
-		foreach (var reagent in container.CurrentReagentMix)
+		foreach (var reagent in container.CurrentReagentMix.reagents.m_dict)
 		{
 			//if its not alcoholic skip
 			if (!AlcoholicDrinksSOScript.Instance.AlcoholicReagents.Contains(reagent.Key)) continue;

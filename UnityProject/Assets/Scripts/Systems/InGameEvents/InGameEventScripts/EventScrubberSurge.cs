@@ -66,11 +66,9 @@ namespace InGameEvents
 			// Check that the scrubber is still fine to reference after this delay.
 			if (scrubber == null || scrubber.registerTile == null) yield break;
 
-			var reagentMix = new ReagentMix()
-			{
-				{ allReagents.PickRandom(), 75f },
-				{ dispersionAgents.PickRandom(), 25f },
-			};
+			var reagentMix = new ReagentMix();
+			reagentMix.reagents.m_dict.Add(allReagents.PickRandom(), 75f);
+			reagentMix.reagents.m_dict.Add(dispersionAgents.PickRandom(), 25f);
 
 			container.Add(reagentMix);
 			container.Spill(scrubber.registerTile.WorldPositionServer, 50f);

@@ -18,19 +18,37 @@ public class MetabolismReaction : Reaction
 			return false;
 		}
 
-		if (!ingredients.All(reagent => reagentMix[reagent.Key] > 0))
+		if (ingredients.m_dict.Count() == 0)
 		{
 			return false;
 		}
 
-		if (!ingredients.Any())
+		var cancelApply = true;
+		foreach (var ingredient in ingredients.m_dict)
+		{
+			if (reagentMix.reagents.m_dict.ContainsKey(ingredient.Key) && reagentMix.reagents.m_dict[ingredient.Key] > 0)
+			{
+				cancelApply = false;
+				break;
+			}
+
+		}
+		if (cancelApply)
 		{
 			return false;
 		}
 
-		var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
+		var reactionAmount = Mathf.Infinity;
+		foreach (var ingredient in ingredients.m_dict)
+		{
+			var asd = reagentMix.reagents.m_dict[ingredient.Key] / ingredient.Value;
+			if (reactionAmount < asd)
+			{
+				reactionAmount = asd;
+			}
+		}
 
-		if (useExactAmounts == true)
+		if (useExactAmounts)
 		{
 			reactionAmount = (float) Math.Floor(reactionAmount);
 			if (reactionAmount == 0)
@@ -39,33 +57,49 @@ public class MetabolismReaction : Reaction
 			}
 		}
 
-
-
-		if (!catalysts.All(catalyst =>
-			reagentMix[catalyst.Key] >= catalyst.Value * reactionAmount))
+		cancelApply = true;
+		foreach (var catalyst in catalysts.m_dict)
+		{
+			if (reagentMix.reagents.m_dict[catalyst.Key] >= catalyst.Value * reactionAmount)
+			{
+				cancelApply = false;
+				break;
+			}
+		}
+		if (cancelApply)
 		{
 			return false;
 		}
 
-		if (inhibitors.Count > 0)
+		if (inhibitors.m_dict.Count > 0)
 		{
-			if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
+			cancelApply = true;
+			foreach (var inhibitor in inhibitors.m_dict)
+			{
+				if (reagentMix.reagents.m_dict[inhibitor.Key] > inhibitor.Value * reactionAmount)
+				{
+					cancelApply = false;
+					break;
+				}
+			}
+			if (cancelApply)
 			{
 				return false;
 			}
 		}
 
 		var BodyPart = sender.GetComponent<BodyPart>();
-
-		if (BodyPart == null) return false;
+		if (BodyPart == null)
+		{
+			return false;
+		}
 
 		BodyPart.MetabolismReactions.Add(this);
 
-
-		return false;
+		return true;
 	}
 
-	public virtual void React(BodyPart sender, ReagentMix reagentMix, float INreactionAmount)
+	public void React(BodyPart sender, ReagentMix reagentMix, float INreactionAmount)
 	{
 
 		if (tempMin != null && reagentMix.Temperature <= tempMin ||
@@ -74,29 +108,29 @@ public class MetabolismReaction : Reaction
 			return;
 		}
 
-		if (!ingredients.All(reagent => reagentMix[reagent.Key] > 0))
+		if (!ingredients.m_dict.All(reagent => reagentMix.reagents.m_dict[reagent.Key] > 0))
 		{
 			return;
 		}
 
-		if (!ingredients.Any())
+		if (!ingredients.m_dict.Any())
 		{
 			return;
 		}
 
-		var OptimalAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
+		var OptimalAmount = ingredients.m_dict.Min(i => reagentMix.reagents.m_dict[i.Key] / i.Value);
 
 		var reactionAmount = Mathf.Min(OptimalAmount, INreactionAmount*ReagentMetabolismMultiplier);
 
-		if (!catalysts.All(catalyst =>
-			reagentMix[catalyst.Key] >= catalyst.Value * reactionAmount))
+		if (!catalysts.m_dict.All(catalyst =>
+			reagentMix.reagents.m_dict[catalyst.Key] >= catalyst.Value * reactionAmount))
 		{
 			return;
 		}
 
-		if (inhibitors.Count > 0)
+		if (inhibitors.m_dict.Count > 0)
 		{
-			if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
+			if (inhibitors.m_dict.All(inhibitor => reagentMix.reagents.m_dict[inhibitor.Key] > inhibitor.Value * reactionAmount))
 			{
 				return;
 			}
@@ -107,12 +141,12 @@ public class MetabolismReaction : Reaction
 
 	public virtual void PossibleReaction(BodyPart sender, ReagentMix reagentMix, float LimitedreactionAmount)
 	{
-		foreach (var ingredient in ingredients)
+		foreach (var ingredient in ingredients.m_dict)
 		{
 			reagentMix.Subtract(ingredient.Key, LimitedreactionAmount * ingredient.Value);
 		}
 
-		foreach (var result in results)
+		foreach (var result in results.m_dict)
 		{
 			var reactionResult = LimitedreactionAmount * result.Value;
 			reagentMix.Add(result.Key, reactionResult);
