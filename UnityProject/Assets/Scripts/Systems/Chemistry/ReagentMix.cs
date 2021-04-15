@@ -435,7 +435,7 @@ namespace Chemistry
 
 		public override string ToString()
 		{
-			return "Temperature > " + Temperature + " reagents > " + "{" + string.Join(",", reagents.m_dict.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";;
+			return "Temperature > " + Temperature + " reagents > " + "{" + string.Join(",", reagents.m_dict.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";
 		}
 	}
 
