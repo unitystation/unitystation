@@ -90,7 +90,7 @@ namespace HealthV2
 		/// </summary>
 		public void GasExchangeFromBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
 		{
-			foreach (var Reagent in toProcess)
+			foreach (var Reagent in toProcess.reagents.m_dict)
 			{
 				blood.Remove(Reagent.Key, Reagent.Value);
 				if (!canBreathAnywhere)
@@ -103,7 +103,7 @@ namespace HealthV2
 		/// </summary>
 		public void GasExchangeToBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
 		{
-			foreach (var Reagent in toProcess)
+			foreach (var Reagent in toProcess.reagents.m_dict)
 			{
 				blood.Add(Reagent.Key, Reagent.Value);
 				if (!canBreathAnywhere)

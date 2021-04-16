@@ -24,5 +24,8 @@ namespace ScriptableObjects
 		public GameObject DiamondSheet;
 
 		public GameObject SparkEffect;
+
+		public GameObject BurningSmall;
+		public GameObject BurningLarge;
 	}
 }

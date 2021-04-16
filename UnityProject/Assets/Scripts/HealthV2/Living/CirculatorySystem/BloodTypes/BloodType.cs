@@ -45,7 +45,7 @@ namespace HealthV2
 		public float GetGasCapacityForeign(ReagentMix reagentMix, Reagent reagent = null)
 		{
 			float toReturn = 0;
-			foreach(var reagen in reagentMix)
+			foreach(var reagen in reagentMix.reagents.m_dict)
 			{
 				var kindOfBlood = reagen.Key as BloodType;
 				if(kindOfBlood != null && kindOfBlood != this)
@@ -58,7 +58,7 @@ namespace HealthV2
 		public float GetSpareGasCapacityForeign(ReagentMix reagentMix, Reagent reagent = null)
 		{
 			float toReturn = 0;
-			foreach(var reagen in reagentMix)
+			foreach(var reagen in reagentMix.reagents.m_dict)
 			{
 				var kindOfBlood = reagen.Key as BloodType;
 				if(kindOfBlood != null && kindOfBlood != this)

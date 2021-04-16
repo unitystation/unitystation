@@ -9,8 +9,10 @@ using UnityEngine.UI;
 
 public class ControlTabs : MonoBehaviour
 {
-	private static GameObject FingerPrefab;
-	private static GameObject TabHeaderPrefab;
+	[SerializeField]
+	private GameObject FingerPrefab;
+	[SerializeField]
+	private GameObject TabHeaderPrefab;
 	public Transform TabStorage;
 	public Transform TabStoragePopOut; //For popout windows
 	public Transform HeaderStorage;
@@ -179,12 +181,6 @@ public class ControlTabs : MonoBehaviour
 			}
 			return netTabs;
 		}
-	}
-
-	void Awake()
-	{
-		FingerPrefab = Resources.Load<GameObject>("PokeFinger");
-		TabHeaderPrefab = Resources.Load<GameObject>("HeaderTab");
 	}
 
 	private void Start()
