@@ -8,12 +8,12 @@ namespace Weapons
 		[SerializeField]
 		private bool clusmyMisfire;
 
-		public override void ServerBehaviour(AimApply interaction)
+		public override void ServerBehaviour(AimApply interaction, bool isSuicide)
 		{
 			JobType job = GetJobServer(interaction.Performer);
 			if (clusmyMisfire && job == JobType.CLOWN)
 			{
-				CallShotServer(interaction, IsSuicide(interaction));
+				CallShotServer(interaction, isSuicide);
 			}
 			else
 			{
@@ -25,13 +25,13 @@ namespace Weapons
 			}
 		}
 
-		public override void ClientBehaviour(AimApply interaction)
+		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
 		{
 			JobType job = GetJobClient();
 
 			if (clusmyMisfire && job == JobType.CLOWN)
 			{
-				CallShotClient(interaction, IsSuicide(interaction));
+				CallShotClient(interaction, isSuicide);
 			}
 			else
 			{

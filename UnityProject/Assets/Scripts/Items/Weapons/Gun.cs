@@ -461,10 +461,21 @@ namespace Weapons
 
 		public virtual void ClientPredictInteraction(AimApply interaction)
 		{
+			//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
+			//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
+			//case 2 - we are firing an automatic and are currently shooting ourselves, need to see if we moused off
+			//	ourselves.
+			var isSuicide = false;
+			if (interaction.MouseButtonState == MouseButtonState.PRESS ||
+					(WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
+			{
+				isSuicide = interaction.IsAimingAtSelf;
+				AllowSuicide = isSuicide;
+			}
 
 			if (FiringPin != null)
 			{
-				FiringPin.ClientBehaviour(interaction);
+				FiringPin.ClientBehaviour(interaction, isSuicide);
 			}
 		}
 
@@ -473,9 +484,21 @@ namespace Weapons
 
 		public virtual void ServerPerformInteraction(AimApply interaction)
 		{
+			//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
+			//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
+			//case 2 - we are firing an automatic and are currently shooting ourselves, need to see if we moused off
+			//	ourselves.
+			var isSuicide = false;
+			if (interaction.MouseButtonState == MouseButtonState.PRESS ||
+					(WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
+			{
+				isSuicide = interaction.IsAimingAtSelf;
+				AllowSuicide = isSuicide;
+			}
+
 			if (FiringPin != null)
 			{
-				FiringPin.ServerBehaviour(interaction);
+				FiringPin.ServerBehaviour(interaction, isSuicide);
 			}
 		}
 

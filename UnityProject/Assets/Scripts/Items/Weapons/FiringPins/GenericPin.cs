@@ -1,4 +1,5 @@
 using UnityEngine;
+
 namespace Weapons
 {
 	public class GenericPin : PinBase
@@ -7,29 +8,25 @@ namespace Weapons
 		[SerializeField]
 		private bool clusmyMisfire;
 
-		public override void ServerBehaviour(AimApply interaction)
+		public override void ServerBehaviour(AimApply interaction, bool isSuicide)
 		{
 			JobType job = GetJobServer(interaction.Performer);
 			if (clusmyMisfire && job == JobType.CLOWN)
 			{
-				ClumsyShotServer(interaction);
+				ClumsyShotServer(interaction, isSuicide);
 			}
 			else
 			{
-				CallShotServer(interaction, IsSuicide(interaction));
+				CallShotServer(interaction, isSuicide);
 			}
 		}
 
-		public override void ClientBehaviour(AimApply interaction)
+		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
 		{
 			JobType job = GetJobClient();
-			if (clusmyMisfire && job == JobType.CLOWN)
+			if ((clusmyMisfire && job == JobType.CLOWN) == false)
 			{
-				return;
-			}
-			else
-			{
-				CallShotClient(interaction, IsSuicide(interaction));
+				CallShotClient(interaction, isSuicide);
 			}
 		}
 	}

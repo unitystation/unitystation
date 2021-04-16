@@ -4,17 +4,15 @@ namespace Weapons
 {
 	public abstract class PinBase: MonoBehaviour
 	{
-
-		private System.Random rnd = new System.Random();
-		private Gun gunComp;
+		protected Gun gunComp;
 
 		private void OnEnable()
 		{
 			gunComp = GetComponent<Gun>();
 		}
 
-		public abstract void ServerBehaviour(AimApply interaction);
-		public abstract void ClientBehaviour(AimApply interaction);
+		public abstract void ServerBehaviour(AimApply interaction, bool isSuicide);
+		public abstract void ClientBehaviour(AimApply interaction, bool isSuicide);
 
 		protected void CallShotServer(AimApply interaction, bool isSuicide)
 		{
@@ -27,18 +25,6 @@ namespace Weapons
 			gunComp.DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, gunComp.CurrentMagazine.containedBullets[0].name, gunComp.CurrentMagazine.containedProjectilesFired[0]);
 		}
 
-		protected bool IsSuicide(AimApply interaction)
-		{
-			var isSuicide = false;
-			if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-				(gunComp.WeaponType != WeaponType.SemiAutomatic && gunComp.AllowSuicide))
-			{
-				isSuicide = interaction.IsAimingAtSelf;
-				gunComp.AllowSuicide = isSuicide;
-			}
-			return isSuicide;
-		}
-
 		protected JobType GetJobServer(GameObject player)
 		{
 			return PlayerList.Instance.Get(player).Job;
@@ -49,11 +35,10 @@ namespace Weapons
 			return PlayerManager.LocalPlayerScript.mind.occupation.JobType; 
 		}
 
-		protected void ClumsyShotServer(AimApply interaction)
+		protected void ClumsyShotServer(AimApply interaction, bool isSuicide)
 		{
 			//shooting a non-clusmy weapon as a clusmy person
-			int chance = rnd.Next(0 ,2);
-			if (chance == 0)
+			if (DMMath.Prob(50))
 			{
 				CallShotServer(interaction, true);
 
@@ -63,7 +48,7 @@ namespace Weapons
 			}
 			else
 			{
-				CallShotServer(interaction, IsSuicide(interaction));
+				CallShotServer(interaction, isSuicide);
 			}
 		}
 	}

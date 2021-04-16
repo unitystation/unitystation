@@ -16,18 +16,18 @@ namespace Weapons
 		[SerializeField]
 		private string deniedMessage;
 
-		public override void ServerBehaviour(AimApply interaction)
+		public override void ServerBehaviour(AimApply interaction, bool isSuicide)
 		{
 			JobType job = GetJobServer(interaction.Performer);
 			if (job == setRestriction || setRestriction == JobType.NULL)
 			{
 				if (clusmyMisfire && job == JobType.CLOWN)
 				{
-					ClumsyShotServer(interaction);
+					ClumsyShotServer(interaction, isSuicide);
 				}
 				else
 				{
-					CallShotServer(interaction, IsSuicide(interaction));				
+					CallShotServer(interaction, isSuicide);				
 				}
 			}
 			else
@@ -36,19 +36,15 @@ namespace Weapons
 			}
         }
 
-		public override void ClientBehaviour(AimApply interaction)
+		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
 		{
 			JobType job = GetJobClient();
 
 			if (job == setRestriction || setRestriction == JobType.NULL)
 			{
-				if (clusmyMisfire && job == JobType.CLOWN)
+				if ((clusmyMisfire && job == JobType.CLOWN) == false)
 				{
-					return;
-				}
-				else
-				{
-					CallShotClient(interaction, IsSuicide(interaction));				
+					CallShotClient(interaction, isSuicide);
 				}
 			}
 		}
