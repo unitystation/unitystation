@@ -280,6 +280,7 @@ namespace Weapons
 			}
 
 			Inventory.ServerAdd(Spawn.ServerPrefab(pinPrefab).GameObject, pinSlot);
+			FiringPin.gunComp = this.GetComponent<Gun>();
 
 			if (suppressorPrefab != null && isSuppressed && isSuppressible)
 			{
@@ -611,6 +612,7 @@ namespace Weapons
 				$"You insert the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.",
 				$"{interaction.Performer.ExpensiveName()} inserts the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.");
 			Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
+			FiringPin.gunComp = this.GetComponent<Gun>();
 		}
 
 		/// <summary>
@@ -623,6 +625,8 @@ namespace Weapons
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You remove the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}",
 					$"{interaction.Performer.ExpensiveName()} removes the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
+
+				FiringPin.gunComp = null;
 
 				Inventory.ServerDrop(pinSlot);
 			}

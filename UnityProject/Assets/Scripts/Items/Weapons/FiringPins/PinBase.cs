@@ -4,12 +4,7 @@ namespace Weapons
 {
 	public abstract class PinBase: MonoBehaviour
 	{
-		protected Gun gunComp;
-
-		private void OnEnable()
-		{
-			gunComp = GetComponent<Gun>();
-		}
+		public Gun gunComp;
 
 		public abstract void ServerBehaviour(AimApply interaction, bool isSuicide);
 		public abstract void ClientBehaviour(AimApply interaction, bool isSuicide);
