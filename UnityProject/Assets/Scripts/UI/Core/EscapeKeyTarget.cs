@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UI;
 
 /// <summary>
 /// This component allows the game object to be disabled with the escape key automatically

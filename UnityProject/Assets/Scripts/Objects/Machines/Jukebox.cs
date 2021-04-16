@@ -16,7 +16,6 @@ namespace Objects
 	/// </summary>
 	public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
-
 		/// <summary>
 		/// How many watts at 240 V the Jukebox uses when not in use
 		/// </summary>
@@ -154,7 +153,7 @@ namespace Objects
 		// Start is called before the first frame update
 		private void Start()
 		{
-			InternalStart();
+			_ = InternalStart();
 		}
 
 		private async Task InternalStart()
@@ -231,13 +230,17 @@ namespace Objects
 			if (currentSongTrackIndex > 0)
 			{
 				if (IsPlaying)
+				{
 					SoundManager.StopNetworked(guid);
-
+				}
+				
 				currentSongTrackIndex--;
 				UpdateGUI();
 
 				if (IsPlaying)
-					Play();
+				{
+					_ = Play();
+				}
 			}
 		}
 
@@ -246,18 +249,22 @@ namespace Objects
 			if (currentSongTrackIndex < musics.Count - 1)
 			{
 				if (IsPlaying)
+				{
 					SoundManager.StopNetworked(guid);
-
+				}
+				
 				currentSongTrackIndex++;
 				UpdateGUI();
 
 				if (IsPlaying)
-					Play();
+				{
+					_ = Play();
+				}
 
 				return true;
 			}
-			else
-				return false;
+
+			return false;
 		}
 
 		public void VolumeChange(float newVolume)
@@ -285,7 +292,7 @@ namespace Objects
 				if (secondLoadAttempt == false)
 				{
 					secondLoadAttempt = true;
-					InternalStart();
+					_ = InternalStart();
 				}
 
 				return;

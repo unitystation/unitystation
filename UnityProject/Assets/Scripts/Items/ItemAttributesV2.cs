@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using AddressableReferences;
+using UnityEngine;
 using Mirror;
 using AddressableReferences;
-using UnityEngine;
 using Systems.Clothing;
 
 namespace Items

@@ -1,86 +1,87 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Strings;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-/// <summary>
-/// Escape shuttle logic
-/// </summary>
-public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
+namespace Objects
 {
-	[SerializeField]
-	private float timeToHack = 20f;
-
-	[SerializeField]
-	private float chanceToFailHack = 25f;
-
-	private bool beenEmagged;
-
-	private RegisterTile registerTile;
-
-	private void Awake()
+	/// <summary>
+	/// Escape shuttle logic
+	/// </summary>
+	public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-		registerTile = GetComponent<RegisterTile>();
-	}
+		[SerializeField]
+		private float timeToHack = 20f;
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		[SerializeField]
+		private float chanceToFailHack = 25f;
 
-		return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag);
-	}
+		private bool beenEmagged;
 
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		TryEmagConsole(interaction);
-	}
+		private RegisterTile registerTile;
 
-	private void TryEmagConsole(HandApply interaction)
-	{
-		if (beenEmagged)
+		private void Awake()
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "The shuttle has already been hacked!");
-			return;
+			registerTile = GetComponent<RegisterTile>();
 		}
 
-		Chat.AddActionMsgToChat(interaction.Performer, $"You attempt to hack the shuttle console, this will take around {timeToHack} seconds",
-			$"{interaction.Performer.ExpensiveName()} starts hacking the shuttle console");
-
-		var cfg = new StandardProgressActionConfig(StandardProgressActionType.Restrain);
-
-		StandardProgressAction.Create(
-			cfg,
-			() => FinishHack(interaction)
-		).ServerStartProgress(ActionTarget.Object(registerTile), timeToHack, interaction.Performer);
-
-	}
-
-	private void FinishHack(HandApply interaction)
-	{
-		if (DMMath.Prob(chanceToFailHack))
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			Chat.AddActionMsgToChat(interaction.Performer, "Your attempt to hack the shuttle console failed",
-				$"{interaction.Performer.ExpensiveName()} failed to hack the shuttle console");
-			return;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag);
 		}
 
-		Chat.AddActionMsgToChat(interaction.Performer, "You hack the shuttle console",
-			$"{interaction.Performer.ExpensiveName()} hacked the shuttle console");
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			TryEmagConsole(interaction);
+		}
 
-		beenEmagged = true;
+		private void TryEmagConsole(HandApply interaction)
+		{
+			if (beenEmagged)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The shuttle has already been hacked!");
+				return;
+			}
 
-		if (GameManager.Instance.ShuttleSent) return;
+			Chat.AddActionMsgToChat(interaction.Performer, $"You attempt to hack the shuttle console, this will take around {timeToHack} seconds",
+				$"{interaction.Performer.ExpensiveName()} starts hacking the shuttle console");
 
-		Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=40><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
-			MatrixManager.MainStationMatrix);
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
-		Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=40><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
-			GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
+			StandardProgressAction.Create(
+				cfg,
+				() => FinishHack(interaction)
+			).ServerStartProgress(ActionTarget.Object(registerTile), timeToHack, interaction.Performer);
 
-		SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
+		}
 
-		GameManager.Instance.ForceSendEscapeShuttleFromStation(10);
+		private void FinishHack(HandApply interaction)
+		{
+			if (DMMath.Prob(chanceToFailHack))
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, "Your attempt to hack the shuttle console failed",
+					$"{interaction.Performer.ExpensiveName()} failed to hack the shuttle console");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(interaction.Performer, "You hack the shuttle console",
+				$"{interaction.Performer.ExpensiveName()} hacked the shuttle console");
+
+			beenEmagged = true;
+
+			if (GameManager.Instance.ShuttleSent) return;
+
+			Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=40><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
+				MatrixManager.MainStationMatrix);
+
+			Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=40><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
+				GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
+
+			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
+
+			GameManager.Instance.ForceSendEscapeShuttleFromStation(10);
+		}
 	}
 }

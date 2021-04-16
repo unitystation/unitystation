@@ -13,7 +13,6 @@ namespace Objects.Construction
 	/// </summary>
 	public class WindowFullTileObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
-
 		private RegisterObject registerObject;
 		private ObjectBehaviour objectBehaviour;
 
@@ -62,7 +61,6 @@ namespace Objects.Construction
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 		}
-
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
 		{
@@ -158,7 +156,7 @@ namespace Objects.Construction
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
 			interactableTiles.TileChangeManager.UpdateTile(cellPos, layerTile);
 			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 		[Server]
 		private void Disassemble(HandApply interaction)
@@ -166,7 +164,7 @@ namespace Objects.Construction
 			Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDissasemle);
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 			SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), audioSourceParameters, sourceObj: gameObject);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

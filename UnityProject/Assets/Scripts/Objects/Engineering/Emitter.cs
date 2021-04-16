@@ -1,10 +1,9 @@
 ﻿using System;
 using AddressableReferences;
-using Core.Directionals;
 using Messages.Server;
 using NaughtyAttributes;
 using UnityEngine;
-using Weapons;
+using Systems.Electricity.NodeModules;
 
 namespace Objects.Engineering
 {
@@ -42,7 +41,7 @@ namespace Objects.Engineering
 		private bool isOn;
 		private bool isLocked;
 
-		//Voltage in wire
+		// Voltage in wire
 		private float voltage;
 
 		#region LifeCycle

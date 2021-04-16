@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems.ElectricalArcs;
 using Systems.Explosions;
-using Systems.Mob;
 using AddressableReferences;
 using HealthV2;
 using Mirror;
 using Objects.Engineering;
-using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
@@ -132,7 +130,7 @@ namespace Objects
 			if (teslaPoints <= 0 && zeroPointDeath)
 			{
 				Chat.AddLocalMsgToChat("The energy ball fizzles out", gameObject);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
 

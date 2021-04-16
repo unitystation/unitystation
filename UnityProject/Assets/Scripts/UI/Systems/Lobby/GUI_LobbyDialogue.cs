@@ -45,13 +45,33 @@ namespace Lobby
 		public Toggle hostServerToggle;
 		public Toggle autoLoginToggle;
 
-		// Lifecycle
-		void Start()
+		#region Lifecycle
+
+		private void Start()
 		{
 			OnHostToggle();
 			// Init Lobby UI
 			InitPlayerName();
 		}
+
+		private void Update()
+		{
+			//login skip only allowed (and only works properly) in offline mode
+			if (Input.GetKeyDown(KeyCode.F6) && GameData.Instance.OfflineMode)
+			{
+				//skip login
+				HideAllPanels();
+				connectionPanel.SetActive(true);
+				dialogueTitle.text = "Connection Panel";
+				//if there aren't char settings, default
+				if (PlayerManager.CurrentCharacterSettings == null)
+				{
+					PlayerManager.CurrentCharacterSettings = new CharacterSettings();
+				}
+			}
+		}
+
+		#endregion
 
 		public void OnClientDisconnect()
 		{
@@ -77,7 +97,7 @@ namespace Lobby
 
 		public void ShowCreationPanel()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			HideAllPanels();
 			createAccountPanel.SetActive(true);
 			dialogueTitle.text = "Create an Account";
@@ -85,29 +105,12 @@ namespace Lobby
 
 		public void ShowCharacterEditor(Action onCloseAction = null)
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			HideAllPanels();
 			LobbyManager.Instance.characterCustomization.gameObject.SetActive(true);
 			if (onCloseAction != null)
 			{
 				LobbyManager.Instance.characterCustomization.onCloseAction = onCloseAction;
-			}
-		}
-
-		private void Update()
-		{
-			//login skip only allowed (and only works properly) in offline mode
-			if (Input.GetKeyDown(KeyCode.F6) && GameData.Instance.OfflineMode)
-			{
-				//skip login
-				HideAllPanels();
-				connectionPanel.SetActive(true);
-				dialogueTitle.text = "Connection Panel";
-				//if there aren't char settings, default
-				if (PlayerManager.CurrentCharacterSettings == null)
-				{
-					PlayerManager.CurrentCharacterSettings = new CharacterSettings();
-				}
 			}
 		}
 
@@ -155,7 +158,7 @@ namespace Lobby
 
 		public void CreationNextButton()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			HideAllPanels();
 			pendingCreationPanel.SetActive(true);
 			nextCreationButton.SetActive(false);
@@ -190,7 +193,7 @@ namespace Lobby
 
 		public void OnLogin()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			PerformLogin();
 		}
 
@@ -218,7 +221,7 @@ namespace Lobby
 
 		public void OnLogout()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			HideAllPanels();
 			ServerData.Auth.SignOut();
 			NetworkClient.Disconnect();
@@ -231,7 +234,7 @@ namespace Lobby
 
 		public void OnExit()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			Application.Quit();
 		}
 
@@ -263,7 +266,7 @@ namespace Lobby
 			resendEmailButton.interactable = false;
 			loggingInText.text =
 				$"A new verification email has been sent to {FirebaseAuth.DefaultInstance.CurrentUser.Email}.";
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
 			FirebaseAuth.DefaultInstance.SignOut();
 		}
@@ -277,7 +280,7 @@ namespace Lobby
 		// Button handlers
 		public void OnStartGame()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 			// Return if no network address is specified
 			if (string.IsNullOrEmpty(serverAddressInput.text))
@@ -313,13 +316,13 @@ namespace Lobby
 
 		public void OnShowInformationPanel()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			ShowInformationPanel();
 		}
 
 		public void OnShowControlInformationPanel()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			ShowControlInformationPanel();
 		}
 
@@ -431,7 +434,7 @@ namespace Lobby
 
 		public void HideAllPanels()
 		{
-			//FIXME
+			// TODO: FIXME
 			//	startGamePanel.SetActive(false);
 			if (accountLoginPanel != null)
 			{

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.Electricity.NodeModules;
 
 namespace Systems.Electricity.Inheritance
 {

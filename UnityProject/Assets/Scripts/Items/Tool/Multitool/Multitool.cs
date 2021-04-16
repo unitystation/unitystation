@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Electricity;
 
-
+// TODO: namespace me
 public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IInteractable<HandActivate>
 {
 	public List<ISetMultitoolMaster> ListBuffer = new List<ISetMultitoolMaster>();
@@ -54,7 +55,6 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 
 		return false;
 	}
-
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
@@ -133,7 +133,6 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		ElectricalPool.PooledFPCList.Add(MetaDataNode);
 		Chat.AddExamineMsgFromServer(interaction.Performer, ToReturn);
 	}
-
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{

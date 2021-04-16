@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
@@ -122,7 +120,7 @@ namespace Systems.Atmospherics
 
 					if (fireObject != null)
 					{
-						Despawn.ServerSingle(fireLightDictionary[affectedNode.Position]);
+						_ = Despawn.ServerSingle(fireLightDictionary[affectedNode.Position]);
 					}
 
 					fireLightDictionary.Remove(affectedNode.Position);

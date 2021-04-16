@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
+using Items;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
@@ -81,7 +82,6 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		return true;
 	}
 
-
 	public void ClientPredictInteraction(PositionalHandApply interaction)
 	{
 		//start clientside melee cooldown so we don't try to spam melee
@@ -90,9 +90,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 	}
 
 	//no rollback logic
-	public void ServerRollbackClient(PositionalHandApply interaction)
-	{
-	}
+	public void ServerRollbackClient(PositionalHandApply interaction) { }
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{

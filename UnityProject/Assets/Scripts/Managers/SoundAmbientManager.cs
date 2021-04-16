@@ -1,13 +1,10 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AddressableReferences;
 using Audio.Containers;
 using Initialisation;
-using UnityEngine.Audio;
-using UnityEngine.Serialization;
 
 namespace Audio.Managers
 {
@@ -36,6 +33,46 @@ namespace Audio.Managers
 
 		[SerializeField] private AudioClipsArray ambientSoundsArray = null;
 
+		#region Initialization
+
+		private void Awake()
+		{
+			SetVolumeWithPlayerPrefs();
+		}
+
+		private void SetVolumeWithPlayerPrefs()
+		{
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey))
+			{
+				SetVolumeForAllAudioSources(PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey));
+			}
+			else
+			{
+				SetVolumeForAllAudioSources(0.2f);
+			}
+		}
+
+		public InitialisationSystems Subsystem { get; }
+
+		public void Initialise()
+		{
+			_ = LoadClips(Instance.ambientSoundsArray.AddressableAudioSource);
+		}
+
+		public async Task LoadClips(List<AddressableAudioSource> audioSources)
+		{
+			foreach (var source in audioSources)
+			{
+				var sound = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { source });
+
+				if (Instance.ambientAudioSources.ContainsKey(sound.AudioSource.clip.name)) continue;
+
+				Instance.ambientAudioSources.Add(sound.AudioSource.clip.name, sound);
+			}
+		}
+
+		#endregion
+
 		public static void PlayAudio(string assetAddress)
 		{
 			var audioSource = new AddressableAudioSource(assetAddress);
@@ -48,7 +85,7 @@ namespace Audio.Managers
 
 			var guid = Guid.NewGuid().ToString();
 			Instance.playingSource.Add(audioSource, guid);
-			SoundManager.Play(audioSource, guid);
+			_ = SoundManager.Play(audioSource, guid);
 		}
 
 		public static void PlayAudio(AddressableAudioSource source)
@@ -66,7 +103,7 @@ namespace Audio.Managers
 
 			var guid = Guid.NewGuid().ToString();
 			Instance.playingSource.Add(source, guid);
-			SoundManager.Play(source, guid);
+			_ = SoundManager.Play(source, guid);
 		}
 
 		public static void StopAudio(string assetAddress)
@@ -112,44 +149,5 @@ namespace Audio.Managers
 			PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, newVolume);
 			PlayerPrefs.Save();
 		}
-
-		#region Initialization
-
-		private void Awake()
-		{
-			SetVolumeWithPlayerPrefs();
-		}
-
-		private void SetVolumeWithPlayerPrefs()
-		{
-			if (PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey))
-			{
-				SetVolumeForAllAudioSources(PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey));
-			}
-			else
-			{
-				SetVolumeForAllAudioSources(0.2f);
-			}
-		}
-
-		public InitialisationSystems Subsystem { get; }
-		public void Initialise()
-		{
-			LoadClips(Instance.ambientSoundsArray.AddressableAudioSource);
-		}
-
-		public async Task LoadClips(List<AddressableAudioSource> audioSources)
-		{
-			foreach (var source in audioSources)
-			{
-				var sound = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{source});
-
-				if(Instance.ambientAudioSources.ContainsKey(sound.AudioSource.clip.name)) continue;
-
-				Instance.ambientAudioSources.Add(sound.AudioSource.clip.name, sound);
-			}
-		}
-
-		#endregion
 	}
 }

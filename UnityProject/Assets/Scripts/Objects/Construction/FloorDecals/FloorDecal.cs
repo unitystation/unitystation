@@ -87,7 +87,7 @@ namespace Objects.Construction
 		{
 			if (Cleanable)
 			{
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 	}

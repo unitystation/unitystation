@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -33,7 +32,6 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// than the latest value received from server.
 	/// </summary>
 	public int ClientAmmoRemains => Math.Min(clientAmmoRemains, serverAmmoRemains);
-
 
 	private double[] RNGContents;
 
@@ -176,7 +174,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 				}
 				if (magType == MagType.Clip && serverAmmoRemains == 0)
 				{
-					Despawn.ServerSingle(gameObject);
+					_ = Despawn.ServerSingle(gameObject);
 				}
 			}
 		}
@@ -251,7 +249,6 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		string message = usedclip.LoadFromClip(clip);
 		Chat.AddExamineMsg(interaction.Performer, message);
 	}
-
 
 	/// <summary>
 	/// Gets an RNG double which is based on the current ammo remaining and this mag's net ID so client

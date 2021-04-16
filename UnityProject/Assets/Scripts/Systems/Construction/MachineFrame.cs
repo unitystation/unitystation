@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Items;
@@ -9,7 +10,7 @@ using Objects.Machines;
 
 namespace Objects.Construction
 {
-	[System.Serializable]
+	[Serializable]
 	public class AllowedTraitList
 	{
 		public AllowedTraitList()
@@ -24,7 +25,7 @@ namespace Objects.Construction
 		public ItemTrait AllowedTrait;
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class SyncListItem : SyncList<AllowedTraitList> { }
 
 	/// <summary>
@@ -237,7 +238,7 @@ namespace Objects.Construction
 					() =>
 					{
 						Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
-						Despawn.ServerSingle(gameObject);
+						_ = Despawn.ServerSingle(gameObject);
 					});
 			}
 		}
@@ -401,7 +402,7 @@ namespace Objects.Construction
 				}
 
 				//Despawn frame
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
 			{

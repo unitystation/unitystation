@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Pipes;
 using ScriptableObjects;
 
 namespace Pipes
@@ -97,7 +96,7 @@ namespace Pipes
 					() =>
 					{
 						Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, gameObject.AssumedWorldPosServer(), count: 25);
-						Despawn.ServerSingle(gameObject);
+						_ = Despawn.ServerSingle(gameObject);
 					});
 			}
 		}

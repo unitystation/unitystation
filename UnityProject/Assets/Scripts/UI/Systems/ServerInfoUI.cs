@@ -8,7 +8,7 @@ using System.IO;
 using Initialisation;
 using Messages.Client;
 using Messages.Server;
-using UnityEngine.UI;
+using UI;
 
 namespace ServerInfo
 {

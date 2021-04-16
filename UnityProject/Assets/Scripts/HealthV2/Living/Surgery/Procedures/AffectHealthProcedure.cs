@@ -28,7 +28,7 @@ namespace HealthV2
 				}
 				else
 				{
-					Despawn.ServerSingle(interaction.UsedObject);
+					_ = Despawn.ServerSingle(interaction.UsedObject);
 				}
 			}
 		}

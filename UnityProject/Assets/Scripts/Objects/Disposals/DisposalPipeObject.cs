@@ -212,7 +212,7 @@ namespace Objects.Disposals
 				Color pipeColor = GetComponentInChildren<SpriteRenderer>().color;
 				registerTile.Matrix.AddUnderFloorTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
 				tileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 			else
 			{

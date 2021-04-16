@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Lobby;
-using Newtonsoft.Json;
 using UI.CharacterCreator;
 
 /// <summary>
@@ -17,7 +15,7 @@ public class CharacterSettings
 
 	// IMPORTANT: these fields use primitive types (int, string... etc) so they can be sent  over the network with
 	// RPCs and Commands without needing to serialise them to JSON!
-	public const int MAX_NAME_LENGTH = 26; //Arbitrary limit, but 26 is the max the current UI can fit
+	public const int MAX_NAME_LENGTH = 26; // Arbitrary limit, but 26 is the max the current UI can fit
 	public string Username;
 	public string Name = "Cuban Pete";
 	public BodyType BodyType = BodyType.Male;
@@ -30,21 +28,16 @@ public class CharacterSettings
 	public List<CustomisationStorage> SerialisedBodyPartCustom;
 	public List<ExternalCustomisation> SerialisedExternalCustom;
 
-
 	public string Species = "Human";
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
 
-
-	[System.Serializable]
+	[Serializable]
 	public class CustomisationClass
 	{
 		public string SelectedName = "None";
 		public string Colour = "#ffffff";
 	}
-
-
-
 
 	public override string ToString()
 	{
@@ -139,6 +132,7 @@ public class CharacterSettings
 				return "they";
 		}
 	}
+
 	/// <summary>
 	/// Returns an object pronoun string (i.e. "him", "her", "them") for the provided gender enum.
 	/// </summary>

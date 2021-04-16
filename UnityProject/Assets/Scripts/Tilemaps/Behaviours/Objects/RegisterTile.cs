@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
-using Objects;
+using Systems.Electricity;
 
 public enum ObjectType
 {
@@ -226,6 +226,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private Pipes.PipeData pipeData;
 	public Pipes.PipeData PipeData => pipeData;
 
+	#region Lifecycle
+
 	protected virtual void Awake()
 	{
 		EnsureInit();
@@ -238,7 +240,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 		fireExposables = GetComponents<IFireExposable>();
 	}
-
 
 	//we have lifecycle methods from lifecycle system, but lots of things currently depend on this register tile
 	//being initialized as early as possible so we still have this in place.
@@ -310,6 +311,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		OnDespawnedServer.Invoke();
 	}
 
+	#endregion
+
 	//This makes it so electrical Stuff can be done on its own thread
 	public void SetElectricalData(ElectricalOIinheritance inElectricalData)
 	{
@@ -324,7 +327,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		pipeData = InPipeData;
 	}
 
-
 	/// <summary>
 	/// Set our parent matrix net ID to this.
 	/// </summary>
@@ -335,7 +337,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LogMatrixDebug("ServerSetNetworkedMatrixNetID");
 		networkedMatrixNetId = newNetworkedMatrixNetID;
 	}
-
 
 	/// <summary>
 	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
@@ -495,7 +496,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	{
 		LocalPositionServer = TransformState.HiddenPos;
 	}
-
 
 	private void OnRotate(MatrixRotationInfo info)
 	{
@@ -805,6 +805,4 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 /// <summary>
 /// Event fired when current matrix is changing. Passes the new matrix.
 /// </summary>
-public class MatrixChangeEvent : UnityEvent<Matrix>
-{
-};
+public class MatrixChangeEvent : UnityEvent<Matrix> { };

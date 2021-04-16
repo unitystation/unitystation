@@ -35,7 +35,7 @@ namespace Effects
 
 			if(CustomNetworkManager.IsServer == false) yield break;
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

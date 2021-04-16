@@ -6,7 +6,6 @@ using Mirror;
 using System.Linq;
 using Gateway;
 using Systems.Scenes;
-using Random=UnityEngine.Random;
 
 namespace Objects.Science
 {
@@ -175,7 +174,7 @@ namespace Objects.Science
 			foreach (ObjectBehaviour player in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true))
 			{
 				Chat.AddLocalMsgToChat(message, travelCoord, gameObject);
-				SoundManager.PlayNetworkedForPlayer(player.gameObject, SingletonSOSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
+				_ = SoundManager.PlayNetworkedForPlayer(player.gameObject, SingletonSOSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, travelCoord);
 				somethingTeleported = true;
 			}

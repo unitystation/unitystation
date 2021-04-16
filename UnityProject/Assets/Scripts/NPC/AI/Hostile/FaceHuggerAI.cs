@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using Clothing;
 using UnityEngine;
-using Doors;
-using Systems.Mob;
-using Random = UnityEngine.Random;
-using AddressableReferences;
-using HealthV2;
-using Messages.Server.SoundMessages;
-using UnityEngine.Serialization;
 
 
 namespace Systems.MobAIs
@@ -86,7 +79,7 @@ namespace Systems.MobAIs
 
 			Inventory.ServerAdd(mask, handSlot, ReplacementStrategy.DropOther);
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		public override void OnSpawnServer(SpawnInfo info)
