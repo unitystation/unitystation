@@ -225,6 +225,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		GasMix gasMix = container.GasMix;
 
 		float plasmaConsumed = 0;
+		float styreneConsumed = 0;
 		bool carbonDioxideInhaled = false;
 		bool gasFiltered = false;
 		float oxygenUsed = HandleBreathingOxygen(gasMix);
@@ -236,6 +237,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		if (gasFiltered == false)
 		{
 			plasmaConsumed = HandleBreathingPlasma(gasMix);
+			styreneConsumed = HandleBreathingStyrene(gasMix);
 			carbonDioxideInhaled = HandleBreathingCarbonDioxide(gasMix);
 		}
 		if (oxygenUsed > 0)
@@ -247,6 +249,12 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		if (plasmaConsumed > 0)
 		{
 			gasMix.RemoveGas(Gas.Plasma, plasmaConsumed);
+			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
+		}
+
+		if (styreneConsumed > 0)
+		{
+			gasMix.RemoveGas(Gas.Styrene, styreneConsumed);
 			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
 		}
 		if (oxygenUsed > 0 || plasmaConsumed > 0 || carbonDioxideInhaled)
@@ -373,6 +381,63 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		return plasmaConsumed;
 	}
 
+	/// <summary>
+	/// For general toxins that can be present in the air
+	/// </summary>
+	/// <param name="gasMix"></param>
+	/// <returns></returns>
+	private float HandleBreathingStyrene(GasMix gasMix)
+	{
+		float styrenePressure = gasMix.GetPressure(Gas.Styrene);
+
+		float styreneConsumed = 0;
+
+		styreneConsumed = gasMix.GetMoles(Gas.Styrene) * AtmosConstants.BREATH_VOLUME;
+		// twice as deadly as plasma
+		if (styrenePressure <= PLASMA_SAFE_MAX/4 && styrenePressure > PLASMA_WARNING_LEVEL/4)
+		{
+			if (DMMath.Prob(90))
+			{
+				return styreneConsumed;
+			}
+
+			// 10% chances of message
+			var theirPronoun = gameObject.Player() != null
+				? gameObject.Player().Script.characterSettings.TheirPronoun(gameObject.Player().Script)
+				: "its";
+			Chat.AddActionMsgToChat(
+				gameObject,
+				plasmaLowYouMessages.PickRandom(),
+				string.Format(
+					plasmaLowOthersMessages.PickRandom(),
+					gameObject.ExpensiveName(),
+					string.Format(plasmaLowOthersMessages.PickRandom(), gameObject.ExpensiveName(), theirPronoun))
+			);
+		}
+		// four times as deadly as plasma
+		else if (styrenePressure > PLASMA_SAFE_MAX/4)
+		{
+			var plasmaDamage = (gasMix.GetMoles(Gas.Plasma) / (PLASMA_SAFE_MAX/4)) * 10;
+			bloodSystem.ToxinLevel = Mathf.Clamp(bloodSystem.ToxinLevel + Mathf.Clamp(plasmaDamage*4, MIN_TOXIN_DMG, MAX_TOXIN_DMG), 0, 200);
+
+			if (DMMath.Prob(90))
+			{
+				return styreneConsumed;
+			}
+
+			// 10% chances of message
+			var theirPronoun = gameObject.Player() != null
+				? gameObject.Player().Script.characterSettings.TheirPronoun(gameObject.Player().Script)
+				: "its";
+			Chat.AddActionMsgToChat(
+				gameObject,
+				plasmaHighYouMessages.PickRandom(),
+				string.Format(plasmaHighOthersMessages.PickRandom(), gameObject.ExpensiveName(), theirPronoun)
+			);
+		}
+		return styreneConsumed;
+	}
+
 	private bool HandleBreathingCarbonDioxide(GasMix gasMix)
 	{
 		float carbonPressure = gasMix.GetPressure(Gas.CarbonDioxide);
@@ -476,13 +541,27 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			}
 			filtered = true;
 		}
-		
+
+		//If you somehow got 10 moles of deadly neurotoxin in the air, good fucking luck
+		if (gasMix.GetMoles(Gas.Styrene) >= 10)
+		{
+			GasMix gasMix2 = gasMix;
+			gasMix2.RemoveGas(Gas.Styrene, 25);
+			float styreneBreathedWithMask = HandleBreathingStyrene(gasMix2);
+			if (styreneBreathedWithMask > 0)
+			{
+				gasMix.RemoveGas(Gas.Styrene, styreneBreathedWithMask);
+				registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
+			}
+			filtered = true;
+		}
+
 		//if there's not enough to cause the plasma or CO2 warnings, skip the breathe messages
-		if((gasMix.GetMoles(Gas.Plasma) < PLASMA_WARNING_LEVEL && gasMix.GetMoles(Gas.Plasma) > 0) || (gasMix.GetMoles(Gas.CarbonDioxide) < CARBON_DIOXIDE_WARNING_LEVEL && gasMix.GetMoles(Gas.CarbonDioxide) > 0))
+		if((gasMix.GetMoles(Gas.Plasma) < PLASMA_WARNING_LEVEL && gasMix.GetMoles(Gas.Plasma) > 0) || (gasMix.GetMoles(Gas.CarbonDioxide) < CARBON_DIOXIDE_WARNING_LEVEL && gasMix.GetMoles(Gas.CarbonDioxide) > 0)|| (gasMix.GetMoles(Gas.Styrene) < (PLASMA_WARNING_LEVEL/4) && gasMix.GetMoles(Gas.Styrene) > 0))
 		{
 			return true;
 		}
-		
+
 		//if somehow both are 0 return false
 		if(gasMix.GetMoles(Gas.Plasma) == 0 && gasMix.GetMoles(Gas.CarbonDioxide) == 0)
 		{

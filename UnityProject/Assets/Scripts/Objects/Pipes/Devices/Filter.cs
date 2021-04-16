@@ -29,6 +29,7 @@ namespace Pipes
 			{"STIM",Gas.Stimulum},
 			{"PLX",Gas.Pluoxium},
 			{"FRE",Gas.Freon},
+			{"STY",Gas.Styrene},
 		};
 
 		//This is only used to set the inital filter values, nothing else
@@ -50,6 +51,7 @@ namespace Pipes
 			STIM,
 			PLX,
 			FRE,
+			STY,
 		}
 
 		[SerializeField]

@@ -29,6 +29,7 @@ namespace Systems.Atmospherics
 			gases[Gas.Tritium] = 0;
 			gases[Gas.HyperNoblium] = 0;
 			gases[Gas.Stimulum] = 0;
+			gases[Gas.Styrene] = 0;
 			gases[Gas.Pluoxium] = 0;
 			gases[Gas.Freon] = 0;
 
@@ -46,6 +47,7 @@ namespace Systems.Atmospherics
 			gases[Gas.WaterVapor] = 0;
 			gases[Gas.BZ] = 0;
 			gases[Gas.Miasma] = 0;
+			gases[Gas.Styrene] = 0;
 			gases[Gas.Nitryl] = 0;
 			gases[Gas.Tritium] = 0;
 			gases[Gas.HyperNoblium] = 0;
@@ -66,6 +68,7 @@ namespace Systems.Atmospherics
 			gases[Gas.Hydrogen] = 0;
 			gases[Gas.WaterVapor] = 0;
 			gases[Gas.BZ] = 0;
+			gases[Gas.Styrene] = 0;
 			gases[Gas.Miasma] = 0;
 			gases[Gas.Nitryl] = 0;
 			gases[Gas.Tritium] = 0;

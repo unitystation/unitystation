@@ -26,6 +26,7 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 	public Reagent Stimulum;
 	public Reagent Pluoxium;
 	public Reagent Freon;
+	public Reagent Styrene;
 
 
 	private static Dictionary<Reagent, Gas> ReagentToGas;
@@ -58,8 +59,10 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 			GasToReagent = new Dictionary<Gas, Reagent>();
 			foreach (var _ReagentToGas in InitialReagentToGas)
 			{
-				ReagentToGas[IntToReagent(_ReagentToGas.Key)] = _ReagentToGas.Value;
-				GasToReagent[_ReagentToGas.Value] = IntToReagent(_ReagentToGas.Key);
+					Debug.Log(IntToReagent(_ReagentToGas.Key));
+					Debug.Log(_ReagentToGas.Key);
+					ReagentToGas[IntToReagent(_ReagentToGas.Key)] = _ReagentToGas.Value;
+					GasToReagent[_ReagentToGas.Value] = IntToReagent(_ReagentToGas.Key);
 			}
 		}
 	}
@@ -94,6 +97,7 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 		{13, Gas.Stimulum},
 		{14, Gas.Pluoxium},
 		{15, Gas.Freon},
+		{16, Gas.Styrene},
 	};
 
 
@@ -132,6 +136,9 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 				return Pluoxium;
 			case 15:
 				return Freon;
+			case 16:
+				Debug.Log("Got Stryrene");
+				return Styrene;
 		}
 		return null;
 	}
@@ -154,6 +161,7 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 		if (Stimulum == ToGET) { return 13; }
 		if (Pluoxium == ToGET) { return 14; }
 		if (Freon == ToGET) { return 15; }
+		if (Styrene == ToGET) { return 16; }
 		return -1;
 	}
 }

@@ -20,6 +20,7 @@ namespace Systems.Atmospherics
 		static Reactions()
 		{
 			reactions.Add(new PlasmaFireReaction());
+			reactions.Add(new StyreneFireReaction());
 		}
 
 		public static void React(GasMix gasMix, Matrix matrix)

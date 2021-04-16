@@ -2,6 +2,8 @@
 using Mirror;
 using UnityEditor;
 using UnityEngine.Serialization;
+using Systems.Atmospherics;
+using ScriptableObjects;
 using Objects.Engineering;
 
 namespace Systems.Electricity
@@ -29,6 +31,8 @@ namespace Systems.Electricity
 		[SerializeField]
 		[Tooltip("This device powers itself and doesn't need an APC")]
 		private bool isSelfPowered = false;
+		private GameObject currentSparkEffect;
+		private RegisterTile registerTile;
 
 		public bool IsSelfPowered => isSelfPowered;
 
@@ -48,8 +52,7 @@ namespace Systems.Electricity
 		[FormerlySerializedAs("Resistance")]
 		private float resistance = 99999999;
 
-		private int integrity = 100;
-		private int maxIntegrity = 100;
+		private Integrity integrity;
 
 		public float Resistance {
 			get => resistance;
@@ -119,13 +122,14 @@ namespace Systems.Electricity
 
 		public void damage(int x)
 		{
-			integrity = integrity-x;
+			integrity.ApplyDamage(x, AttackType.Melee, DamageType.Burn);
 		}
 
 		private void EnsureInit()
 		{
 			var rand = new System.Random();
-			integrity = maxIntegrity-rand.Next(maxIntegrity/5);
+			integrity = GetComponent<Integrity>();
+			registerTile = GetComponent<RegisterTile>();
 			if (Powered != null) return;
 			Powered = GetComponent<IAPCPowered>();
 			if (isSelfPowered)
@@ -169,14 +173,41 @@ namespace Systems.Electricity
 			}
 		}
 
+		private void TrySpark()
+		{
+
+			//25% chance to do effect and not already doing an effect
+			if(DMMath.Prob(75) || currentSparkEffect != null) {
+				return;
+			}
+			var worldPos = registerTile.WorldPositionServer;
+			var gasNode = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPositionServer, false);
+			GasMix addMix = GasMix.NewGasMix(GasMixes.EmptyTile);
+			var gasMix = gasNode.GasMix;
+			addMix.AddGas(Gas.Styrene, 0.25f);
+			GasMix.TransferGas(gasMix, addMix, addMix.Moles);
+			var result = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, worldPos, gameObject.transform.parent);
+			if (result.Successful)
+			{
+				currentSparkEffect = result.GameObject;
+
+				//Try start fire if possible
+				var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;
+				reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int());
+
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, worldPos, sourceObj: gameObject);
+			}
+		}
+
 		public void PowerNetworkUpdate(float voltage) //Could be optimised to not update when voltage is same as previous voltage
 		{
 			//If integrity is low, voltage can vary wildly.
-			if (integrity < maxIntegrity/4)
+			if (integrity.integrity < integrity.initialIntegrity/4)
 			{
 				var rand = new System.Random();
 				voltage = rand.Next((int)voltage * 5);
-			} else if (integrity < maxIntegrity / 2)
+				TrySpark();
+			} else if (integrity.integrity < integrity.initialIntegrity / 2)
 			{
 				var rand = new System.Random();
 				voltage = rand.Next((int)voltage * 2);
@@ -196,7 +227,7 @@ namespace Systems.Electricity
 				else if (voltage > maximumWorkingVoltage)
 				{
 					newState = PowerStates.OverVoltage;
-					integrity--;
+					integrity.ApplyDamage(25, AttackType.Melee, DamageType.Burn);
 				}
 				else if (voltage < minimumWorkingVoltage)
 				{
@@ -206,13 +237,9 @@ namespace Systems.Electricity
 				{
 					newState = PowerStates.On;
 				}
-				if (integrity < 10)
+				if (integrity.integrity < 10)
 				{
-					var rand = new System.Random();
-					if (rand.Next() < 100 - integrity)
-					{
-						newState = PowerStates.Off;
-					}
+					newState = PowerStates.Off;
 				}
 				if (newState == state) return;
 				state = newState;

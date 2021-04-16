@@ -167,6 +167,36 @@ public class Lungs : BodyPartModification
 				//TODO: Add pressureSafeMax check here, for hyperoxia
 			}
 		}
+
+
+		//If Styrene is present past a tenth of a mole you cant breath at all. The toxins shut down your lungs.
+		if (breathGasMix.GetMoles(Gas.Styrene) > 0.10)
+		{
+			if (Random.value < 0.2)
+			{
+				Chat.AddActionMsgToChat(gameObject, "You cough up blood",
+					$"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} coughs up blood");
+				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
+			}
+
+			if (Random.value < 0.2)
+			{
+				var implantList = RelatedPart.HealthMaster.HealthStateController.livingHealthMasterBase.ImplantList;
+				foreach (var Implant in implantList)
+				{
+					foreach (var bodyPartModification in Implant.BodyPartModifications)
+					{
+						if (bodyPartModification is Heart heart && heart.HeartAttack == false)
+						{
+							((Heart) bodyPartModification).HeartAttack = true;
+							break;
+						}
+					}
+				}
+			}
+			return true;
+		}
+
 		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
 
 		// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen

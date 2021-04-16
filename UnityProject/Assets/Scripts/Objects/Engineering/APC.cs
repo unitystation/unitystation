@@ -41,6 +41,8 @@ namespace Objects.Engineering
 		private int cashOfConnectedDevices;
 		private bool batteryCharging;
 		private GameObject currentSparkEffect;
+		private RegisterTile registerTile;
+
 		private Integrity integrity;
 		public float Voltage => voltageSync;
 
@@ -71,10 +73,9 @@ namespace Objects.Engineering
 		{
 			var rand = new System.Random();
 			integrity = GetComponent<Integrity>();
-			integrity.integriy = (integrity.initialIntegrity - ((integrity.initialIntegrity * 0.01) * rand.Next(20)));
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 			integrity.OnWillDestroyServer.AddListener(OnWillDestroyServer);
-
+			registerTile = GetComponent<RegisterTile>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
 			registerObject = this.GetComponent<RegisterObject>();
@@ -87,7 +88,7 @@ namespace Objects.Engineering
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
 		{
-			Spawn.ServerPrefab(rackParts, gameObject.TileWorldPosition().To3Int(), transform.parent);
+			overvoltage_critical();
 		}
 		private void OnDamageReceived(DamageInfo damageInfo)
 		{
@@ -121,8 +122,8 @@ namespace Objects.Engineering
 		private void TrySpark()
 		{
 
-			//75% chance to do effect and not already doing an effect
-			if(DMMath.Prob(25) || currentSparkEffect != null) return;
+			//1% chance to do effect and not already doing an effect
+			if(DMMath.Prob(99) || currentSparkEffect != null) return;
 
 			var worldPos = registerTile.WorldPositionServer;
 
@@ -246,6 +247,32 @@ namespace Objects.Engineering
 			}
 			float CalculatingResistance = new float();
 
+			if (integrity.integrity <= (integrity.initialIntegrity *0.10))
+			{
+				overvoltage_critical();
+			}
+			else if (integrity.integrity <= integrity.initialIntegrity * 0.25)
+			{
+				APCPoweredDevice deviceToRemove = null;
+				foreach (APCPoweredDevice Device in connectedDevices)
+				{
+					var rand = new System.Random();
+					if (rand.Next(100) < 10)
+					{
+						deviceToRemove = Device;
+					}
+				}
+
+				if (deviceToRemove != null)
+				{
+					RemoveDevice(deviceToRemove);
+				}
+			}
+			else if (integrity.integrity <= integrity.initialIntegrity * 0.75)
+			{
+				TrySpark();
+			}
+
 			foreach (APCPoweredDevice Device in connectedDevices)
 			{
 				if (integrity.integrity < (integrity.initialIntegrity * 0.50))
@@ -275,17 +302,8 @@ namespace Objects.Engineering
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
-			{
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
-					$"You begin to fix the APC...",
-					$"{interaction.Performer.ExpensiveName()} starts fix the APC...",
-					$"You fix the APC",
-					$"{interaction.Performer.ExpensiveName()} fixes the APC",
-					() =>
-					{
-						RestoreIntegrity(20);
-					}
-				);
+			{ integrity.RestoreIntegrity(20);
+				TrySpark();
 				return;
 			}
 			else

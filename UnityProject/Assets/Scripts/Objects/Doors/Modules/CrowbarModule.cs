@@ -18,7 +18,6 @@ namespace Doors.Modules
 			}
 
 			master.Apc.damage(10);
-			//TODO: Write way to repair! ~jwd2488
 
 			//allows the jaws of life to pry close doors
 			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,

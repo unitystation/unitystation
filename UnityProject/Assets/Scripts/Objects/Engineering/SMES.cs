@@ -3,6 +3,8 @@ using System.Collections;
 using Systems.Electricity.NodeModules;
 using Mirror;
 using UnityEngine;
+using Systems.Atmospherics;
+
 using ScriptableObjects;
 using System.Linq;
 using Systems.ElectricalArcs;
@@ -150,7 +152,6 @@ namespace Objects.Engineering
 
 		private void ServerToggleOutputMode()
 		{
-			TrySpark();
 			if (outputEnabled)
 			{
 				ServerToggleOutputModeOff();
@@ -225,21 +226,18 @@ namespace Objects.Engineering
 		private void TrySpark()
 		{
 
-			//75% chance to do effect and not already doing an effect
-			//Otherwise releases toxic fumes
-			if(DMMath.Prob(25) || currentSparkEffect != null) {
-				var gasNode = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPositionServer, false);
-				if(gasNode == null) return;
-				GasMix addMix = GasMix.NewGasMix(GasMixes.EmptyTile);
-				var gasMix = gasNode.GasMix;
-				//adds the equivilent of one dumb fuck breathing out toxic gas for half an hour
-				//Why? Becuase I never took chemistry. - A college student.
-				addMix.AddGas(Gas.Styrene, 0.25));
-				GasMix.TransferGas(gasMix, removeMix, removeMix.Moles);
-			 	return;
+			//25% chance to do effect and not already doing an effect
+			if(DMMath.Prob(75) || currentSparkEffect != null) {
+				return;
 			}
 			var worldPos = registerTile.WorldPositionServer;
-
+			var gasNode = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPositionServer, false);
+			GasMix addMix = GasMix.NewGasMix(GasMixes.EmptyTile);
+			var gasMix = gasNode.GasMix;
+			addMix.AddGas(Gas.Styrene, 0.2f);
+			addMix.AddGas(Gas.Hydrogen, 0.1f);
+			addMix.AddGas(Gas.CarbonDioxide, 0.4f);
+			GasMix.TransferGas(gasMix, addMix, addMix.Moles);
 			var result = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, worldPos, gameObject.transform.parent);
 			if (result.Successful)
 			{

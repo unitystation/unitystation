@@ -1,105 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6176799362412192573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 10
---- !u!114 &3242550791702936155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  MaximumMoles: 1846.242
-  ReleasePressure: 101.325
-  Volume: 1
-  Temperature: 293.15
-  Gases:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
---- !u!114 &3744673748159336733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 229b269e3471bff4c9ad9c70bddea31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnCount: 2
-  timeToSalvage: 2
---- !u!114 &4620245307892029763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 931d5444a5bf4c9aa3be62ecbf046740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gasContainer: {fileID: 3242550791702936155}
-  molesAdded: 15000
---- !u!114 &7067097863662868376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ContentsName: Gas
-  UIBGTint: {r: 0.9686275, g: 0.8745099, b: 0.13333334, a: 1}
-  UIInnerPanelTint: {r: 1, g: 0.95294124, b: 0.5176471, a: 1}
-  canisterTier: 0
-  valveIsInitiallyOpen: 0
-  baseSpriteHandler: {fileID: 7811982109262590682}
-  canisterTierOverlay: {fileID: 8321291328493317021}
-  pressureIndicatorOverlay: {fileID: 5292510251321650616}
-  connectorHoseOverlay: {fileID: 9134291535749874632}
-  tankInsertedOverlay: {fileID: 6970499638236400721}
-  openValveOverlay: {fileID: 3794313558254657728}
 --- !u!1 &2770036439668985193
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 12
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -200,10 +100,113 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 97f07cb954e3e6e47a2ed1ea2b508b96, type: 2}
   - {fileID: 11400000, guid: 2aa4e176185f75f4c926728760c8fab3, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
   Sprites: []
+--- !u!114 &-6176799362412192573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 10
+--- !u!114 &3242550791702936155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MaximumMoles: 1846.242
+  ReleasePressure: 101.325
+  Volume: 1
+  Temperature: 293.15
+  Gases:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+--- !u!114 &3744673748159336733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229b269e3471bff4c9ad9c70bddea31e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 2
+  timeToSalvage: 2
+--- !u!114 &4620245307892029763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931d5444a5bf4c9aa3be62ecbf046740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gasContainer: {fileID: 3242550791702936155}
+  molesAdded: 15000
+--- !u!114 &7067097863662868376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ContentsName: Gas
+  UIBGTint: {r: 0.9686275, g: 0.8745099, b: 0.13333334, a: 1}
+  UIInnerPanelTint: {r: 1, g: 0.95294124, b: 0.5176471, a: 1}
+  canisterTier: 0
+  valveIsInitiallyOpen: 0
+  baseSpriteHandler: {fileID: 7811982109262590682}
+  canisterTierOverlay: {fileID: 8321291328493317021}
+  pressureIndicatorOverlay: {fileID: 5292510251321650616}
+  connectorHoseOverlay: {fileID: 9134291535749874632}
+  tankInsertedOverlay: {fileID: 6970499638236400721}
+  openValveOverlay: {fileID: 3794313558254657728}
+  tankValveOpen: 0
 --- !u!1 &4303483376002105739
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +277,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 12
   m_Sprite: {fileID: 21300000, guid: 868c055a3292ef74292bfc9b93091cd7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -309,6 +312,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb2803022da7c7d4f947ad0ef8c30e42, type: 2}
   - {fileID: 11400000, guid: 419196fa4b0786b47b232f1b90ccacef, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 419196fa4b0786b47b232f1b90ccacef, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -383,7 +387,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 13
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -412,6 +416,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 28c54210dc4de3d4eb66c05f314554e1, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -486,7 +491,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 12
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -515,6 +520,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: ca9478d224a5a1740b087437d7052b6d, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -589,7 +595,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -623,6 +629,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 41ca67d7574e27747af6ce62161c708f, type: 2}
   - {fileID: 11400000, guid: a630f4c1c7d07544ca2a375985e00775, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -634,16 +641,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 164567772411035156, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 3289657738632450357, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: fe5b245ddf523454ea1ed7732990318e,
         type: 3}
+    - target: {fileID: 3289657738632450357, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: m_Name
       value: CanisterBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -662,6 +684,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -674,16 +701,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -702,27 +719,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5360118459378231826, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: initialDescription
-      value: A canister for the storage of gas.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5360118459378231826, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
       propertyPath: initialName
       value: canister
       objectReference: {fileID: 0}
-    - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
+    - target: {fileID: 5360118459378231826, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 50
+      propertyPath: initialDescription
+      value: A canister for the storage of gas.
       objectReference: {fileID: 0}
     - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: Armor.Bullet
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
-      propertyPath: Armor.Laser
+      propertyPath: Armor.Acid
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
@@ -737,7 +744,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: Armor.Acid
+      propertyPath: Armor.Laser
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: Armor.Bullet
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
@@ -763,15 +780,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a74c48b29b9c0c14f9919e8aa98be14d,
         type: 2}
+    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -784,25 +806,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ece3554a33a7c7849894088ccea47d78,
         type: 2}
-    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
-      propertyPath: pushTextureOnStartUp
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
---- !u!1 &3330777552754972672 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
-    type: 3}
-  m_PrefabInstance: {fileID: 71571786451086626}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &3327308291878936282 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
-    type: 3}
-  m_PrefabInstance: {fileID: 71571786451086626}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7811982109262590682 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
@@ -815,6 +820,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &3327308291878936282 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+    type: 3}
+  m_PrefabInstance: {fileID: 71571786451086626}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3330777552754972672 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+    type: 3}
+  m_PrefabInstance: {fileID: 71571786451086626}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &583222324059402696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -831,6 +848,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: ca9478d224a5a1740b087437d7052b6d, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []

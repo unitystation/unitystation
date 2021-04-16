@@ -5,6 +5,7 @@ using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Objects.Construction;
+using Systems.Atmospherics;
 using Items;
 using UnityEditor;
 
@@ -25,6 +26,7 @@ namespace Objects.Engineering
 		private ItemSlot itemSlot;
 		private WrenchSecurable securable;
 		private SpriteHandler baseSpriteHandler;
+		private Integrity integrity;
 		private ElectricalNodeControl electricalNodeControl;
 
 		[SerializeField]
@@ -54,6 +56,7 @@ namespace Objects.Engineering
 		{
 			registerTile = GetComponent<RegisterTile>();
 			securable = GetComponent<WrenchSecurable>();
+			integrity = GetComponent<Integrity>();
 			baseSpriteHandler = GetComponentInChildren<SpriteHandler>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 		}
@@ -176,9 +179,26 @@ namespace Objects.Engineering
 
 		void UpdateMe()
 		{
+			var worldPos = registerTile.WorldPositionServer;
+			var gasNode = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPositionServer, false);
+			GasMix addMix = GasMix.NewGasMix(GasMixes.EmptyTile);
+			var gasMix = gasNode.GasMix;
+			if (integrity.integrity <= (integrity.initialIntegrity *0.50))
+			{
+				addMix.AddGas(Gas.Plasma, 0.25f);
+
+			}
 			fuelAmount -= Time.deltaTime * plasmaConsumptionRate;
+			var rand = new System.Random();
+			addMix.AddGas(Gas.Plasma, 0.0001f);
+			addMix.AddGas(Gas.CarbonDioxide, 0.0004f);
+			if (rand.Next(100) < 5)
+			{
+				GasMix.TransferGas(gasMix, addMix, addMix.Moles);
+			}
 			if (fuelAmount <= 0)
 			{
+				integrity.ApplyDamage(40, AttackType.Melee, DamageType.Burn);
 				ConsumeSheet();
 			}
 		}
