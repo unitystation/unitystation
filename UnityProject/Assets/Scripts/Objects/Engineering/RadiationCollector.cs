@@ -137,7 +137,7 @@ namespace Objects.Engineering
 			}
 			else
 			{
-				if (!registerTile.Matrix.MetaTileMap.HasTile(registerTile.WorldPositionServer, LayerType.Base))
+				if (!registerTile.Matrix.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Base))
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "Radiation collector needs to be on a base floor");
 					return;
