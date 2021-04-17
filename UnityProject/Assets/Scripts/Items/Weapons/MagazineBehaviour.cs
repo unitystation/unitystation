@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.Serialization;
 
 namespace Weapons
@@ -35,7 +34,6 @@ namespace Weapons
 		/// than the latest value received from server.
 		/// </summary>
 		public int ClientAmmoRemains => Math.Min(clientAmmoRemains, serverAmmoRemains);
-
 
 		private double[] RNGContents;
 
@@ -172,7 +170,7 @@ namespace Weapons
 					}
 					if (magType == MagType.Clip && serverAmmoRemains == 0)
 					{
-						Despawn.ServerSingle(gameObject);
+						_ = Despawn.ServerSingle(gameObject);
 					}
 				}
 			}
