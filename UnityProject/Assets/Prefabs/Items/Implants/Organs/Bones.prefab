@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a1dcb130a349d408bb67f27beaa113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelatedPart: {fileID: 0}
   BloodGeneratedByOneNutriment: 1
   GeneratesThis: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
 --- !u!1001 &7897882321571350356
@@ -124,7 +123,8 @@ PrefabInstance:
       propertyPath: BodyPartType
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4791504671035111961, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &3177982829949495349 stripped
 GameObject:
