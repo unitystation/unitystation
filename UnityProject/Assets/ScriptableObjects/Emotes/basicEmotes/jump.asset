@@ -17,7 +17,9 @@ MonoBehaviour:
   viewText: jumps!
   youText: 1..2..3.. jump!
   failText: You cannot Jump!
+  critViewText: tries to jump! but fails and just groans in pain.
+  allowEmoteWhileInCrit: 0
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
+  pitchRange: {x: 0.7, y: 1}

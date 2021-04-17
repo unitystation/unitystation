@@ -17,7 +17,9 @@ MonoBehaviour:
   viewText: crosses their arms.
   youText: You cross your arms.
   failText: You cannot do this action because your arms cannot make this motion!
+  critViewText: crosses their arms.
+  allowEmoteWhileInCrit: 1
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
+  pitchRange: {x: 0.7, y: 1}

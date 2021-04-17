@@ -9,9 +9,16 @@ namespace Player.EmoteScripts
 	{
 		public override void Do(GameObject player)
 		{
-			//Hacky way to run a coroutine inside an SO
-			var something = player.GetComponent<PlayerScript>();
-			something.StartCoroutine(PerformDance(player));
+			if(CheckPlayerCritState(player) == true)
+			{
+				//Hacky way to run a coroutine inside an SO
+				var something = player.GetComponent<PlayerScript>();
+				something.StartCoroutine(PerformDance(player));
+			}
+			else
+			{
+				base.Do(player);
+			}
 		}
 
 		private IEnumerator PerformDance(GameObject player)

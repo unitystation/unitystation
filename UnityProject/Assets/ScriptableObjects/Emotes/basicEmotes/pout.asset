@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: pout
   m_EditorClassIdentifier: 
   emoteName: pout
+  requiresHands: 0
   viewText: pouts.
   youText: You pout..
-  emoteDefaultSounds: []
+  failText: You were unable to preform this action!
+  critViewText: screams in pain!
+  allowEmoteWhileInCrit: 1
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  pitchRange: {x: 0.7, y: 1}

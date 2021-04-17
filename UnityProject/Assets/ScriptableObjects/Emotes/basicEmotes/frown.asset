@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: frown
   m_EditorClassIdentifier: 
   emoteName: frown
+  requiresHands: 0
   viewText: frowns.
   youText: You frown.
-  emoteDefaultSounds: []
+  failText: You were unable to preform this action!
+  critViewText: screams in pain!
+  allowEmoteWhileInCrit: 1
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  pitchRange: {x: 0.7, y: 1}

@@ -17,7 +17,9 @@ MonoBehaviour:
   viewText: snaps their fingers!
   youText: snap your fingers
   failText: You cannot snap any fingers!
+  critViewText: screams in pain!
+  allowEmoteWhileInCrit: 1
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
+  pitchRange: {x: 0.7, y: 1}

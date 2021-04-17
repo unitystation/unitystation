@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: shake
   m_EditorClassIdentifier: 
   emoteName: shake
+  requiresHands: 0
   viewText: shakes their head.
   youText: You shake your head.
-  emoteDefaultSounds: []
+  failText: You were unable to preform this action!
+  critViewText: screams in pain!
+  allowEmoteWhileInCrit: 1
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  pitchRange: {x: 0.7, y: 1}
