@@ -74,6 +74,7 @@ public class TileManager : MonoBehaviour, IInitialise
 		else
 		{
 			Destroy(this);
+			return;
 		}
 
 #if UNITY_EDITOR
