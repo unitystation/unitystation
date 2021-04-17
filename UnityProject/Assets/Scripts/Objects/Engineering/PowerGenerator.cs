@@ -10,7 +10,7 @@ using Objects.Construction;
 
 namespace Objects.Engineering
 {
-	public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable
+	public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable, IServerSpawn
 	{
 		[Tooltip("Whether this generator should start running when spawned.")]
 		[SerializeField]
@@ -58,7 +58,7 @@ namespace Objects.Engineering
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 		}
 
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			var itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
