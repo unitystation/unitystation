@@ -25,16 +25,11 @@ namespace Systems.MobAIs
 
 		protected override void Awake()
 		{
-			base.Awake();
-			ResetBehaviours();
-		}
-
-		public override void OnEnable()
-		{
-			base.OnEnable();
 			mobMask = LayerMask.GetMask( "NPC");
 			coneOfSight = GetComponent<ConeOfSight>();
 			mobAttack = GetComponent<MobMeleeAttack>();
+			base.Awake();
+			ResetBehaviours();
 		}
 
 		protected override void ResetBehaviours()

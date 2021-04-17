@@ -115,10 +115,6 @@ namespace Systems.MobAIs
 			Squeak();
 		}
 
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			BeginExploring();
-		}
+
 	}
 }

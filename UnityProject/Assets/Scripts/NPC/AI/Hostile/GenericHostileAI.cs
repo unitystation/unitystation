@@ -54,16 +54,14 @@ namespace Systems.MobAIs
 		protected int fleeChance = 30;
 		protected int attackLastAttackerChance = 80;
 
-		public override void OnEnable()
+		protected override void Awake()
 		{
-			base.OnEnable();
 			hitMask = LayerMask.GetMask( "Players");
 			playersLayer = LayerMask.NameToLayer("Players");
 			mobMeleeAction = GetComponent<MobMeleeAction>();
 			coneOfSight = GetComponent<ConeOfSight>();
 			simpleAnimal = GetComponent<SimpleAnimal>();
-
-			if(CustomNetworkManager.IsServer == false) return;
+			base.Awake();
 		}
 
 		protected override void AIStartServer()

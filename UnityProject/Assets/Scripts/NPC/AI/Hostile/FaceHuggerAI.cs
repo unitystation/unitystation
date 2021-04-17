@@ -14,10 +14,10 @@ namespace Systems.MobAIs
 		//private MobMeleeAction mobMeleeAction;
 		private FaceHugAction faceHugAction;
 
-		public override void OnEnable()
+		protected override void Awake()
 		{
-			base.OnEnable();
 			faceHugAction = gameObject.GetComponent<FaceHugAction>();
+			base.Awake();
 		}
 
 		/// <summary>

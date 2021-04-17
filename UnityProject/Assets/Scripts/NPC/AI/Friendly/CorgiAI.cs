@@ -31,16 +31,11 @@ namespace Systems.MobAIs
 
 		protected override void Awake()
 		{
+			mobMask = LayerMask.GetMask( "NPC");
+			coneOfSight = GetComponent<ConeOfSight>();
 			base.Awake();
 			dogName = mobName.ToLower();
 			ResetBehaviours();
-		}
-
-		public override void OnEnable()
-		{
-			base.OnEnable();
-			mobMask = LayerMask.GetMask( "NPC");
-			coneOfSight = GetComponent<ConeOfSight>();
 		}
 
 		private void SingleBark(GameObject barked = null)

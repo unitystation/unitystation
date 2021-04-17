@@ -16,9 +16,8 @@ namespace Systems.MobAIs
 
 		protected override void Awake()
 		{
-			base.Awake();
 			simpleAnimal = GetComponent<SimpleAnimal>();
-			BeginExploring();
+			base.Awake();
 		}
 
 		protected override void DoRandomAction()
