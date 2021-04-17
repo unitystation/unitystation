@@ -30,7 +30,7 @@ namespace UI.CharacterCreator
 		private IEnumerator Start()
 		{
 			yield return new WaitForEndOfFrame();
-			if (characterCustomization.ThisSetRace.Base.BodyPartsThatShareTheSkinTone.Contains(RelatedBodyPart.name))
+			if (characterCustomization.ThisSetRace.Base.BodyPartsThatShareTheSkinTone.Contains(RelatedBodyPart))
 			{
 				SelectionColourImage.gameObject.SetActive(false);
 			}
@@ -156,7 +156,7 @@ namespace UI.CharacterCreator
 
 		private void CheckSkinToneShare()
 		{
-			if (characterCustomization.ThisSetRace.Base.BodyPartsThatShareTheSkinTone.Contains(RelatedBodyPart.name))
+			if (characterCustomization.ThisSetRace.Base.BodyPartsThatShareTheSkinTone.Contains(RelatedBodyPart))
 			{
 				ColorUtility.TryParseHtmlString(characterCustomization.CurrentCharacter.SkinTone, out BodyPartColour);
 				SelectionColourImage.gameObject.SetActive(false);

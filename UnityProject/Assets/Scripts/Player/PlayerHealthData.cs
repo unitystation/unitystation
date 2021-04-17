@@ -40,7 +40,7 @@ public class RaceHealthData
 
 	public ImplantProcedure RootImplantProcedure;
 
-	public List<string> BodyPartsThatShareTheSkinTone = new List<string>();
+	public List<HealthV2.BodyPart> BodyPartsThatShareTheSkinTone = new List<HealthV2.BodyPart>();
 }
 
 
