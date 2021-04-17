@@ -2,6 +2,9 @@
 ---
 
 
+* 2021/4/17: Adds in a small text to tell new players what their current character sheet is. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6378](https://github.com/unitystation/unitystation/pull/6378)
+* 2021/4/17: You can now exit the character selector without the need of editing a character. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6378](https://github.com/unitystation/unitystation/pull/6378)
+* 2021/4/17: Adds in a way to delete characters by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6378](https://github.com/unitystation/unitystation/pull/6378)
 * 2021/4/17: Added the edible component to the organ base. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6372](https://github.com/unitystation/unitystation/pull/6372)
 * 2021/4/17: Made all current internal organs edible. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6372](https://github.com/unitystation/unitystation/pull/6372)
 * 2021/4/15: Fixed buckled players not behaving properly when attached to pushable objects by [Semuca](https://github.com/Semuca) in PR #[6370](https://github.com/unitystation/unitystation/pull/6370)
