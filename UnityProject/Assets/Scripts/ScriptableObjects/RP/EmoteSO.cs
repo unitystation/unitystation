@@ -60,7 +60,7 @@ namespace ScriptableObjects.RP
 
 		public virtual void Do(GameObject player)
 		{
-			if(allowEmoteWhileCrawling == false && CheckIfPlayerIsCrawling(player))
+			if(allowEmoteWhileCrawling == false && CheckIfPlayerIsCrawling(player) == true)
 			{
 				FailText(player, 0);
 				return;
