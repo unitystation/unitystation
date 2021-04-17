@@ -65,6 +65,7 @@ namespace UI.CharacterCreator
 
 		[SerializeField] private List<Color> availableSkinColors;
 		private CharacterSettings currentCharacter;
+		public CharacterSettings CurrentCharacter { get { return currentCharacter; } private set { new CharacterSettings(); } }
 
 		public ColorPicker colorPicker;
 
@@ -1349,6 +1350,14 @@ namespace UI.CharacterCreator
 			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
 		}
 
+		public void RefreshAllSkinSharedSkinColoredBodyParts()
+		{
+			foreach (var Customisation in GetComponentsInChildren<BodyPartCustomisationBase>())
+			{
+				Customisation.Refresh();
+			}
+		}
+
 		#region Race Preference
 		// This will be a temporal thing until we have proper character traits
 
@@ -1383,6 +1392,14 @@ namespace UI.CharacterCreator
 			RefreshRace();
 
 			OnSurfaceColourChange();
+
+			foreach (var Race in RaceSOSingleton.Instance.Races)
+			{
+				if (Race.name == currentCharacter.Species)
+				{
+					ThisSetRace = Race;
+				}
+			}
 		}
 
 		private void RefreshRace()
