@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/4/17: Added the edible component to the organ base. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6372](https://github.com/unitystation/unitystation/pull/6372)
+* 2021/4/17: Made all current internal organs edible. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6372](https://github.com/unitystation/unitystation/pull/6372)
 * 2021/4/15: Fixed buckled players not behaving properly when attached to pushable objects by [Semuca](https://github.com/Semuca) in PR #[6370](https://github.com/unitystation/unitystation/pull/6370)
 * 2021/4/13: Humans will no longer have wrong skin tones when switching between species. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6313](https://github.com/unitystation/unitystation/pull/6313)
 * 2021/4/13: Multiple character sheets are now supported. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6313](https://github.com/unitystation/unitystation/pull/6313)
