@@ -65,7 +65,7 @@ namespace UI.CharacterCreator
 
 		[SerializeField] private List<Color> availableSkinColors;
 		private CharacterSettings currentCharacter;
-		public CharacterSettings CurrentCharacter { get { return currentCharacter; } private set { new CharacterSettings(); } }
+		public CharacterSettings CurrentCharacter { get { return currentCharacter; } }
 
 		public ColorPicker colorPicker;
 
