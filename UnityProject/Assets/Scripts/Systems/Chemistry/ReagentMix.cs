@@ -402,14 +402,23 @@ namespace Chemistry
 
 		public float Total
 		{
-			get { return Mathf.Clamp( reagents.m_dict.Sum(kvp => kvp.Value), 0, float.MaxValue); }
+			get
+			{
+				float total = 0;
+				foreach (var reagent in reagents.m_dict)
+				{
+					total += reagent.Value;
+				}
+				total = Mathf.Clamp(total, 0, float.MaxValue);
+				return total;
+			}
 		}
 
 		public ReagentMix Clone()
 		{
 			return new ReagentMix(new DictionaryReagentFloat(reagents.m_dict), Temperature);
 		}
-		
+
 		public bool ContentEquals (ReagentMix b)
 		{
 			if (ReferenceEquals(this, null) || ReferenceEquals(b, null))
