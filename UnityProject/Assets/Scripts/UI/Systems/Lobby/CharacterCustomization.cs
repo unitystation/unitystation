@@ -108,6 +108,7 @@ namespace UI.CharacterCreator
 		[SerializeField] private GameObject NoCharactersError;
 		[SerializeField] private GameObject NoPreviewError;
 		[SerializeField] private GameObject GoBackButton;
+		[SerializeField] private TMPro.TextMeshProUGUI GoBackButtonText;
 
 		[SerializeField] private GameObject CharacterSelectorPage;
 		[SerializeField] private GameObject CharacterCreatorPage;
@@ -188,19 +189,19 @@ namespace UI.CharacterCreator
 			WindowName.text = "Character Settings";
 			CharacterSelectorPage.SetActive(false);
 			CharacterCreatorPage.SetActive(true);
-			GoBackButton.SetActive(true);
+			GoBackButtonText.text = "Back";
 			Cleanup();
 			LoadSettings(currentCharacter);
 			RefreshAll();
 			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
-		public void ShowCharacterSelectorPage()
+		private void ShowCharacterSelectorPage()
 		{
 			WindowName.text = "Select your character";
+			GoBackButtonText.text = "Exit";
 			CharacterSelectorPage.SetActive(true);
 			CharacterCreatorPage.SetActive(false);
-			GoBackButton.SetActive(false);
 			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
@@ -221,6 +222,23 @@ namespace UI.CharacterCreator
 			SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			ShowCharacterCreator();
 			RefreshAll();
+		}
+
+		public void HandleExitButton()
+		{
+			if(CharacterCreatorPage.activeSelf == true)
+			{
+				ShowCharacterSelectorPage();
+			}
+			else
+			{
+				gameObject.SetActive(false);
+			}
+		}
+
+		public void DeleteCurrentCharacter()
+		{
+			DeleteCharacterFromCharactersList(currentCharacterIndex);
 		}
 
 		/// <summary>
@@ -983,6 +1001,19 @@ namespace UI.CharacterCreator
 			{
 				ShowNoCharacterError();
 			}
+		}
+
+		private void DeleteCharacterFromCharactersList(int index)
+		{
+			PlayerCharacters.Remove(PlayerCharacters[index]);
+			currentCharacterIndex -= 1;
+			if(currentCharacterIndex == -1)
+			{
+				ShowNoCharacterError();
+				return;
+			}
+			SaveCharacters();
+			RefreshSelectorData();
 		}
 
 		public void SaveExternalCustomisations()
