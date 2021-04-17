@@ -1,6 +1,7 @@
 ﻿using Messages.Server;
 using Mirror;
 using UnityEngine;
+using Systems.Electricity;
 
 namespace Messages.Client
 {

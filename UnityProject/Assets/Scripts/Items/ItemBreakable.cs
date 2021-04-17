@@ -3,46 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
 
-public class ItemBreakable : MonoBehaviour
+namespace Items
 {
-	private Integrity integrity;
-
-	public float damageOnHit;
-
-	public int integrityHealth;
-
-	public GameObject brokenItem;
-
-	[SerializeField] private AddressableAudioSource soundOnBreak = null;
-
-	// Start is called before the first frame update
-	void Awake()
+	public class ItemBreakable : MonoBehaviour
 	{
-		integrity = GetComponent<Integrity>();
+		private Integrity integrity;
 
-		integrity.OnApplyDamage.AddListener(OnDamageReceived);
-	}
+		public float damageOnHit;
 
-	public void AddDamage()
-	{
-		integrity.ApplyDamage(damageOnHit, AttackType.Melee, DamageType.Brute);
-		if (integrity.integrity <= integrityHealth)
+		public int integrityHealth;
+
+		public GameObject brokenItem;
+
+		[SerializeField] private AddressableAudioSource soundOnBreak = null;
+
+		// Start is called before the first frame update
+		void Awake()
 		{
-			ChangeState();
+			integrity = GetComponent<Integrity>();
+
+			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 		}
-	}
-	private void ChangeState()
-	{
-		SoundManager.PlayNetworkedAtPos(soundOnBreak, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
-		Spawn.ServerPrefab(brokenItem, gameObject.AssumedWorldPosServer());
-		Despawn.ServerSingle(gameObject);
-	}
 
-	private void OnDamageReceived(DamageInfo arg0)
-	{
-		if (integrity.integrity <= integrityHealth)
+		public void AddDamage()
 		{
-			ChangeState();
+			integrity.ApplyDamage(damageOnHit, AttackType.Melee, DamageType.Brute);
+			if (integrity.integrity <= integrityHealth)
+			{
+				ChangeState();
+			}
+		}
+
+		private void ChangeState()
+		{
+			SoundManager.PlayNetworkedAtPos(soundOnBreak, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+			Spawn.ServerPrefab(brokenItem, gameObject.AssumedWorldPosServer());
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		private void OnDamageReceived(DamageInfo arg0)
+		{
+			if (integrity.integrity <= integrityHealth)
+			{
+				ChangeState();
+			}
 		}
 	}
 }

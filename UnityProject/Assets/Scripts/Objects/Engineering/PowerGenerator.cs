@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using AddressableReferences;
 using UnityEngine;
 using Mirror;
+using Systems.Electricity;
+using Systems.Electricity.NodeModules;
 using Objects.Construction;
-using Items;
-using UnityEditor;
 
 namespace Objects.Engineering
 {
@@ -69,6 +69,15 @@ namespace Objects.Engineering
 				TryToggleOn();
 			}
 		}
+
+		private void OnDisable()
+		{
+			if (isOn)
+			{
+				ToggleOff();
+			}
+		}
+
 		#endregion Lifecycle
 
 		public void PowerNetworkUpdate() { }
@@ -102,7 +111,7 @@ namespace Objects.Engineering
 			{
 				SoundManager.Stop(runLoopGUID);
 				smokeParticles.Stop();
-				SoundManager.PlayAtPosition(generatorEndSfx, registerTile.WorldPosition, gameObject);
+				_ = SoundManager.PlayAtPosition(generatorEndSfx, registerTile.WorldPosition, gameObject);
 			}
 		}
 
@@ -174,7 +183,7 @@ namespace Objects.Engineering
 
 		#endregion Interaction
 
-		void UpdateMe()
+		private void UpdateMe()
 		{
 			fuelAmount -= Time.deltaTime * plasmaConsumptionRate;
 			if (fuelAmount <= 0)
@@ -194,6 +203,7 @@ namespace Objects.Engineering
 				ToggleOff();
 			}
 		}
+
 		private bool TryToggleOn()
 		{
 			if (fuelAmount > 0 || itemSlot.Item)
@@ -228,14 +238,5 @@ namespace Objects.Engineering
 			baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
 			isOn = false;
 		}
-
-		void OnDisable()
-		{
-			if (isOn)
-			{
-				ToggleOff();
-			}
-		}
-
 	}
 }

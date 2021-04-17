@@ -58,6 +58,8 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
+	#region Lifecycle
+
 	private void Awake()
 	{
 		Init();
@@ -78,7 +80,7 @@ public class SoundManager : MonoBehaviour
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
 	}
 
-		private void OnEnable()
+	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
 	}
@@ -102,6 +104,8 @@ public class SoundManager : MonoBehaviour
 
 		Instance.SoundSpawns.Clear();
 	}
+
+	#endregion
 
 	/// <summary>
 	/// Get a fully loaded addressableAudioSource from the loaded cache.  This ensures that everything is ready to use.
@@ -562,8 +566,7 @@ public class SoundManager : MonoBehaviour
 			}
 		}
 
-		PlayAtPosition(addressableAudioSources, worldPos, soundSpawnToken, polyphonic, isGlobal, netId,
-			audioSourceParameters);
+		_ = PlayAtPosition(addressableAudioSources, worldPos, soundSpawnToken, polyphonic, isGlobal, netId, audioSourceParameters);
 	}
 
 

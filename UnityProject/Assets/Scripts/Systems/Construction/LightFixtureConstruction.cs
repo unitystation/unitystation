@@ -1,14 +1,13 @@
-﻿using Mirror;
-using ScriptableObjects;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using ScriptableObjects;
 
 
 namespace Objects.Construction
 {
-
 	/// <summary>
 	/// Component for construction of light fixtures
 	/// </summary>
@@ -37,7 +36,7 @@ namespace Objects.Construction
 			lightSource = GetComponent<LightSource>();
 		}
 
-		public bool isFullyBuilt()
+		public bool IsFullyBuilt()
 		{
 			return constructionState == State.ready;
 		}
@@ -127,7 +126,7 @@ namespace Objects.Construction
 
 		private void InitialStateInteract(HandApply interaction)
 		{
-			if(Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable))
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable))
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start adding cables to the frame...",
@@ -140,10 +139,10 @@ namespace Objects.Construction
 						ServerSetState(State.wiresAdded);
 					});
 			}
-			else if(Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				Spawn.ServerPrefab(FixtureFrameItemPrefab, transform.position, interaction.Performer.transform.parent, spawnItems: false);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 
@@ -158,7 +157,6 @@ namespace Objects.Construction
 				ServerSetState(State.ready);
 			}
 		}
-
 
 		private void ReadyStateInteract(HandApply interaction)
 		{

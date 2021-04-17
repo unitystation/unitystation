@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Electricity;
 
+// TODO: namespace me
 public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	public GameObject WallMountToSpawn;

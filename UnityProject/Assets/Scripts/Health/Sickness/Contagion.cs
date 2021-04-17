@@ -16,6 +16,11 @@ namespace Health.Sickness
 
 		private RegisterTile registerTile;
 
+		public void Awake()
+		{
+			registerTile = GetComponent<RegisterTile>();
+		}
+
 		public void Start()
 		{
 			spawnedTime = Time.time;
@@ -27,14 +32,8 @@ namespace Health.Sickness
 			// One day, we should hook this with the air scrubbers and general atmos system
 			if (Time.time > spawnedTime + contagionTime)
 			{
-				// Despawns itself
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
-		}
-
-		public void Awake()
-		{
-			registerTile = GetComponent<RegisterTile>();
 		}
 
 		/// <summary>

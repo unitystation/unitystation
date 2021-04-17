@@ -2,6 +2,7 @@
 using UnityEngine;
 using Mirror;
 using System;
+using Items;
 
 namespace Doors
 {

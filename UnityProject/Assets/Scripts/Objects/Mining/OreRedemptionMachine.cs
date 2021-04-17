@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using Items;
 using Objects.Machines;
 
@@ -100,7 +100,7 @@ namespace Objects.Mining
 					var inStackable = ore.GetComponent<Stackable>();
 					laborPoints += inStackable.Amount * materialSheet.laborPoint;
 					materialStorageLink.TryAddSheet(materialSheet.materialTrait, inStackable.Amount);
-					Despawn.ServerSingle(ore);
+					_ = Despawn.ServerSingle(ore);
 				}
 			}
 		}

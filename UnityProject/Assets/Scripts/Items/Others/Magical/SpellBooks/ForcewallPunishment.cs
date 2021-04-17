@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Items.Others.Magical
+namespace Items.Magical
 {
 	// TODO: make the player a statue when petrification is added. 
 

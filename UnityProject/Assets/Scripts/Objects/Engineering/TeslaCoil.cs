@@ -2,6 +2,7 @@
 using Systems.Explosions;
 using Objects.Construction;
 using UnityEngine;
+using Systems.Electricity.NodeModules;
 
 namespace Objects.Engineering
 {

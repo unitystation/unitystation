@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using AddressableReferences;
 using Audio.Containers;
-using Audio.Managers;
-using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -48,6 +46,6 @@ public class AmbientSoundArea : MonoBehaviour
 
 		SoundManager.Stop(guid);
 		guid = Guid.NewGuid().ToString();
-		SoundManager.Play(clipToPlay, guid);
+		_ = SoundManager.Play(clipToPlay, guid);
 	}
 }

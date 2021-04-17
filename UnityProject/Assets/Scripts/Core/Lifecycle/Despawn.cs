@@ -1,14 +1,12 @@
-
 using System.Threading.Tasks;
-using Mirror;
 using UnityEngine;
+using Systems.Electricity;
 
 /// <summary>
 /// Main API for despawning objects. If you ever need to despawn something, look here
 /// </summary>
 public static class Despawn
 {
-
 	/// <summary>
 	/// Despawn the specified game object, syncing to all clients. Should only be called
 	/// on networked objects (i.e. ones which have NetworkIdentity component). Despawning removes an
@@ -63,7 +61,7 @@ public static class Despawn
 		}
 
 		var Electrical = info.GameObject.GetComponent<ElectricalOIinheritance>();
-		//TODO: What's the purpose of this?
+		// TODO: What's the purpose of this?
 		if (Electrical != null)
 		{
 			if (!Electrical.InData.DestroyAuthorised)

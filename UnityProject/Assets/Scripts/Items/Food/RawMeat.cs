@@ -1,26 +1,30 @@
 using UnityEngine;
 
-/// <summary>
-/// Main component for raw meat
-/// </summary>
-public class RawMeat : MonoBehaviour
+namespace Items
 {
-	private Integrity integrity;
-	[SerializeField]
-	private GameObject meatSteakPrefab = null;
-	private RegisterTile registerTile;
-
-	private void Awake()
+	/// <summary>
+	/// Main component for raw meat
+	/// </summary>
+	public class RawMeat : MonoBehaviour
 	{
-		integrity = GetComponent<Integrity>();
-		integrity.OnBurnUpServer += OnBurnUpServer;
-		registerTile = GetComponent<RegisterTile>();
-	}
+		[SerializeField]
+		private GameObject meatSteakPrefab = null;
 
-	private void OnBurnUpServer(DestructionInfo info)
-	{
-		//cook the meat by destroying this meat and spawning a meat steak
-		Spawn.ServerPrefab(meatSteakPrefab, registerTile.WorldPosition, transform.parent);
-		Despawn.ServerSingle(gameObject);
+		private Integrity integrity;
+		private RegisterTile registerTile;
+
+		private void Awake()
+		{
+			integrity = GetComponent<Integrity>();
+			integrity.OnBurnUpServer += OnBurnUpServer;
+			registerTile = GetComponent<RegisterTile>();
+		}
+
+		private void OnBurnUpServer(DestructionInfo info)
+		{
+			//cook the meat by destroying this meat and spawning a meat steak
+			Spawn.ServerPrefab(meatSteakPrefab, registerTile.WorldPosition, transform.parent);
+			_ = Despawn.ServerSingle(gameObject);
+		}
 	}
 }

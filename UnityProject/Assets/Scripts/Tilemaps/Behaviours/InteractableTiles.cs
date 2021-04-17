@@ -5,7 +5,7 @@ using HealthV2;
 using Messages.Client.Interaction;
 using TileManagement;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using Systems.Electricity;
 
 /// <summary>
 /// Main entry point for Tile Interaction system.
@@ -186,9 +186,9 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	public bool Interact(PositionalHandApply interaction)
 	{
-		//translate to the tile interaction system
+		// translate to the tile interaction system
 		Vector3Int localPosition = WorldToCell(interaction.WorldPositionTarget);
-		//pass the interaction down to the basic tile
+		// pass the interaction down to the basic tile
 		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget, true);
 		if (tile is BasicTile basicTile)
 		{

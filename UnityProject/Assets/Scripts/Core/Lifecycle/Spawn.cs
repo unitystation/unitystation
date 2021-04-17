@@ -54,12 +54,10 @@ public static class Spawn
 	{
 		if (objectPool == null)
 		{
-			//Search through our resources and find each prefab that has a CNT component
-			var spawnablePrefabs = Resources.FindObjectsOfTypeAll<GameObject>()
+			//only can spawn objects that are networked
+			var spawnablePrefabs = CustomNetworkManager.Instance.spawnPrefabs
 				.Where(IsPrefab)
-				.OrderBy(go => go.name)
-				//check if they have CNTs (thus are spawnable)
-				.Where(go => go.GetComponent<CustomNetTransform>() != null);
+				.OrderBy(go => go.name);
 
 			foreach (var spawnablePrefab in spawnablePrefabs)
 			{
@@ -85,7 +83,7 @@ public static class Spawn
 		if (!nameToSpawnablePrefab.ContainsKey(prefabName))
 		{
 			//try to load it ourselves
-			var prefab = Resources.Load<GameObject>(prefabName);
+			var prefab = CustomNetworkManager.Instance.GetSpawnablePrefabFromName(prefabName);
 			if (prefab == null)
 			{
 				Logger.LogErrorFormat("Could not find prefab with name {0}, please ensure it is correctly spelled.", Category.ItemSpawn,

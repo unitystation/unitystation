@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using Items;
-using NaughtyAttributes;
+using Items.Cargo.Wrapping;
+using Objects;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using Items.Cargo.Wrapping;
 
 namespace Systems.Cargo
 {
@@ -33,7 +33,6 @@ namespace Systems.Cargo
 
 		[SerializeField]
 		private CargoData cargoData;
-
 
 		[SerializeField]
 		private float shuttleFlyDuration = 10f;
@@ -247,11 +246,11 @@ namespace Systems.Cargo
 				}
 			}
 
-			//note: it seems the held items are also detected in UnloadCargo as being on the matrix but only
-			//when they were spawned or moved onto that cargo shuttle (outside of the crate) prior to being placed into the crate. If they
-			//were instead placed into the crate and then the crate was moved onto the cargo shuttle, they
-			//will only be found with this check and won't be found in UnloadCargo.
-			//TODO: Better logic for ClosetControl updating its held items' parent matrix when crossing matrix with items inside.
+			// note: it seems the held items are also detected in UnloadCargo as being on the matrix but only
+			// when they were spawned or moved onto that cargo shuttle (outside of the crate) prior to being placed into the crate. If they
+			// were instead placed into the crate and then the crate was moved onto the cargo shuttle, they
+			// will only be found with this check and won't be found in UnloadCargo.
+			// TODO: Better logic for ClosetControl updating its held items' parent matrix when crossing matrix with items inside.
 			var closet = item.GetComponent<ClosetControl>();
 			if (closet)
 			{
@@ -335,9 +334,8 @@ namespace Systems.Cargo
 			item.registerTile.UnregisterClient();
 			item.registerTile.UnregisterServer();
 			alreadySold.Add(item.gameObject);
-			Despawn.ServerSingle(item.gameObject);
+			_ = Despawn.ServerSingle(item.gameObject);
 		}
-
 
 		private int TryCompleteBounty(ItemTrait itemTrait, int count)
 		{
@@ -364,7 +362,7 @@ namespace Systems.Cargo
 
 		private void CheckBountyCompletion(CargoBounty cargoBounty)
 		{
-			foreach (var demand in cargoBounty.Demands)
+			foreach (var demand in cargoBounty.Demands.m_dict)
 			{
 				if (demand.Value > 0)
 				{

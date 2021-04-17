@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
+using UI;
 
 /// <summary>
 /// Controls everything to do with player voting
@@ -74,6 +74,7 @@ public class VotingManager : NetworkBehaviour
 	{
 		cooldown = StartCoroutine(StartVoteCooldown(RoundStartCooldownTime));
 	}
+
 	void OnRoundEnded()
 	{
 		if (cooldown != null)

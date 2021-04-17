@@ -151,7 +151,7 @@ namespace Systems.Spells
 						IEnumerator DespawnAfterDelay()
 						{
 							yield return WaitFor.Seconds(SpellData.SummonLifespan);
-							Despawn.ServerSingle(spawnResult.GameObject);
+							_ = Despawn.ServerSingle(spawnResult.GameObject);
 						}
 					}
 				}

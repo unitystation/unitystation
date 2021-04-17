@@ -74,7 +74,7 @@ namespace InGameEvents
 			yield return WaitFor.Seconds(Random.Range(lifeTime.x, lifeTime.y) - growthTime);
 			isGrowing = false;
 			yield return WaitFor.Seconds(growthTime);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

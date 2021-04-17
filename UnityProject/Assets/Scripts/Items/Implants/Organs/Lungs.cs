@@ -105,7 +105,7 @@ public class Lungs : BodyPartModification
 	{
 		// This isn't exactly realistic, should also factor concentration of gases in the gasMix
 		ReagentMix toExhale = new ReagentMix();
-		foreach (var Reagent in blood)
+		foreach (var Reagent in blood.reagents.m_dict)
 		{
 			if (GAS2ReagentSingleton.Instance.DictionaryReagentToGas.ContainsKey(Reagent.Key))
 			{

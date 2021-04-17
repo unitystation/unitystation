@@ -316,7 +316,7 @@ namespace Items.Tool
 			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"There is no more of the {gameObject.ExpensiveName()} left!");
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion

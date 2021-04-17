@@ -8,9 +8,9 @@ using Mirror;
 using UnityEngine;
 using Effects.Overlays;
 using HealthV2;
-using Lobby;
 using Messages.Server;
 using Newtonsoft.Json;
+using UI.CharacterCreator;
 
 /// <summary>
 /// Handle displaying the sprites related to player, which includes underwear and the body.
@@ -42,7 +42,6 @@ public class PlayerSprites : MonoBehaviour
 	private GameObject BodyParts = default;
 
 	#endregion Inspector fields
-
 
 	public LivingHealthMasterBase livingHealthMasterBase;
 
@@ -149,7 +148,6 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
-
 	public void SetUpCharacter(CharacterSettings Character)
 	{
 		if (CustomNetworkManager.Instance._isServer)
@@ -162,7 +160,6 @@ public class PlayerSprites : MonoBehaviour
 			InstantiateAndSetUp(RaceBodyparts.Base.LegRight, bodyParts["RightLeg"].transform);
 		}
 	}
-
 
 	public void SubSetBodyPart(BodyPart Body_Part, string path)
 	{

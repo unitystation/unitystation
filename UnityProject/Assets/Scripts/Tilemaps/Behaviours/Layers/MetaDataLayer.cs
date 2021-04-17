@@ -28,7 +28,7 @@ public class MetaDataLayer : MonoBehaviour
 	{
 		localPosition.z = 0; //Z Positions are always on 0
 
-		if (!nodes.ContainsKey(localPosition))
+		if (nodes.ContainsKey(localPosition) == false)
 		{
 			if (createIfNotExists)
 			{
@@ -73,7 +73,7 @@ public class MetaDataLayer : MonoBehaviour
 		return Get(position, false).IsSlippery;
 	}
 
-	public void MakeSlipperyAt(Vector3Int position, bool canDryUp=true)
+	public void MakeSlipperyAt(Vector3Int position, bool canDryUp = true)
 	{
 		var tile = Get(position, false);
 		if (tile == MetaDataNode.None || tile.IsSpace)
@@ -81,7 +81,7 @@ public class MetaDataLayer : MonoBehaviour
 			return;
 		}
 		tile.IsSlippery = true;
-		if ( canDryUp )
+		if (canDryUp)
 		{
 			if (tile.CurrentDrying != null)
 			{
@@ -97,16 +97,13 @@ public class MetaDataLayer : MonoBehaviour
 	/// </summary>
 	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
-		if (MatrixManager.IsTotallyImpassable(worldPosInt, true))
-		{
-			return;
-		}
+		if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
 
 		bool didSplat = false;
 
-		foreach (var reagent in reagents)
+		foreach (var reagent in reagents.reagents.m_dict)
 		{
-			if(reagent.Value < 1)
+			if (reagent.Value < 1)
 			{
 				continue;
 			}
@@ -130,8 +127,8 @@ public class MetaDataLayer : MonoBehaviour
 					break;
 				case "SpaceLube":
 				{
-					//( ͡° ͜ʖ ͡°)
-					if (!Get(localPosInt).IsSlippery)
+					// ( ͡° ͜ʖ ͡°)
+					if (Get(localPosInt).IsSlippery == false)
 					{
 						EffectsFactory.WaterSplat(worldPosInt);
 						MakeSlipperyAt(localPosInt, false);
@@ -142,7 +139,7 @@ public class MetaDataLayer : MonoBehaviour
 				default:
 				{
 					//for all other things leave a chem splat
-					if (!didSplat)
+					if (didSplat == false)
 					{
 						EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor);
 						didSplat = true;
@@ -168,7 +165,7 @@ public class MetaDataLayer : MonoBehaviour
 		//check for any moppable overlays
 		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, TileChangeManager.OverlayType.Cleanable);
 
-		if (!MatrixManager.IsSpaceAt(worldPosInt, true) && makeSlippery)
+		if (MatrixManager.IsSpaceAt(worldPosInt, true) == false && makeSlippery)
 		{
 			// Create a WaterSplat Decal (visible slippery tile)
 			EffectsFactory.WaterSplat(worldPosInt);
@@ -184,15 +181,14 @@ public class MetaDataLayer : MonoBehaviour
 		tile.IsSlippery = false;
 
 		var floorDecals = matrix.Get<FloorDecal>(tile.Position, isServer: true);
-		foreach ( var decal in floorDecals )
+		foreach (var decal in floorDecals)
 		{
-			if ( decal.CanDryUp )
+			if (decal.CanDryUp)
 			{
-				Despawn.ServerSingle(decal.gameObject);
+				_ = Despawn.ServerSingle(decal.gameObject);
 			}
 		}
 	}
-
 
 	public void UpdateSystemsAt(Vector3Int localPosition, SystemType ToUpDate = SystemType.All)
 	{

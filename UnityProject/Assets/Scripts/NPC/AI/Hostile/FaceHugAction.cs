@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Clothing;
 using UnityEngine;
-using Doors;
-using Systems.Mob;
-using Random = UnityEngine.Random;
 using AddressableReferences;
 using HealthV2;
 using Messages.Server.SoundMessages;
@@ -76,7 +72,7 @@ namespace Systems.MobAIs
 				playerInventory.ItemStorage.GetNamedItemSlot(NamedSlot.mask),
 				ReplacementStrategy.DespawnOther);
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		/// <summary>

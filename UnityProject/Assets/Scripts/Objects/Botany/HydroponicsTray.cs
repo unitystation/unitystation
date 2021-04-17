@@ -59,6 +59,8 @@ namespace Objects.Botany
 		private float tickCount;
 		private float weedLevel;
 
+		#region Lifecycle
+
 		public void Start()
 		{
 			waterNotifier.PushClear();
@@ -97,7 +99,6 @@ namespace Objects.Botany
 			UpdateNutrimentFlag(showNutrimenetFlag, false);
 		}
 
-
 		private void EnsureInit()
 		{
 			if (registerTile != null) return;
@@ -108,6 +109,8 @@ namespace Objects.Botany
 			nutrimentNotifier.PushClear();
 			harvestNotifier.PushClear();
 		}
+
+		#endregion Lifecycle
 
 		/// <summary>
 		/// Server updates plant status and updates clients as needed
@@ -330,7 +333,6 @@ namespace Objects.Botany
 			}
 		}
 
-
 		private void UpdatePlant(string oldPlantSyncString, string newPlantSyncString)
 		{
 			UpdateSprite();
@@ -383,7 +385,6 @@ namespace Objects.Botany
 					break;
 			}
 		}
-
 
 		private void CropDeath()
 		{
@@ -438,7 +439,6 @@ namespace Objects.Botany
 				readyProduce.Add(produceObject);
 			}
 		}
-
 
 		/// <summary>
 		/// Server handles hand interaction with tray
@@ -525,7 +525,7 @@ namespace Objects.Botany
 						$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}.",
 						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}.");
 					reagentContainer.Add(new ReagentMix(nutriment, foodObject.GetPlantData().Potency));
-					Despawn.ServerSingle(interaction.HandObject);
+					_ = Despawn.ServerSingle(interaction.HandObject);
 					return;
 				}
 				else

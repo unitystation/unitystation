@@ -48,14 +48,14 @@ namespace Items
 				if (pool == null)
 				{
 					// didn't spawned anything - just destroy spawner
-					Despawn.ServerSingle(gameObject);
+					_ = Despawn.ServerSingle(gameObject);
 					return;
 				}
 
 				SpawnItems(pool);
 			}
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private void SpawnItems(PoolData poolData)

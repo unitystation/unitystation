@@ -3,12 +3,9 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using DatabaseAPI;
 using Light2D;
 using Mirror;
 using UnityEngine;
-using TMPro;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using EpPathFinding.cs;
@@ -1062,7 +1059,7 @@ namespace Blob
 							break;
 					}
 
-					Despawn.ServerSingle(blob.gameObject);
+					_ = Despawn.ServerSingle(blob.gameObject);
 
 					structure.location = worldPos;
 					SetStrainData(structure);
@@ -1075,7 +1072,7 @@ namespace Blob
 				}
 			}
 
-			//No normal blob at tile
+			// No normal blob at tile
 			Chat.AddExamineMsgFromServer(gameObject, "You need to place a normal blob first");
 		}
 

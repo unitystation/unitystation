@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Mirror;
 using NaughtyAttributes;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using UnityEngine;
 
 namespace HealthV2
@@ -77,7 +75,6 @@ namespace HealthV2
 		[Tooltip("The internal net ids of the body parts contained within this")]
 		public List<uint> InternalNetIDs;
 
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			healthMaster = GetComponentInParent<LivingHealthMasterBase>();
@@ -131,8 +128,6 @@ namespace HealthV2
 					foreach (var SH in SHSs)
 					{
 						SHS.Add(SH);
-
-
 
 						// var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
 						// SpriteHandlerManager.RegisterHandler(Net,SH );
@@ -310,7 +305,6 @@ namespace HealthV2
 		{
 			RemoveSpritesNID(implant);
 		}
-
 
 		/// <summary>
 		/// Adds a specified body part contained within this body part container to the host body system.

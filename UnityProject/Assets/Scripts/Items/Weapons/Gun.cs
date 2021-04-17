@@ -802,7 +802,7 @@ namespace Weapons
 					if (casingPrefabOverride == null)
 					{
 						//no casing override set, use normal casing prefab
-						casingPrefabOverride = Resources.Load("BulletCasing") as GameObject;
+						casingPrefabOverride = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("BulletCasing");
 					}
 					Spawn.ServerPrefab(casingPrefabOverride, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
 				}
@@ -871,11 +871,11 @@ namespace Weapons
 			}
 			if (isSuppressed && SuppressedSoundA != null)
 			{
-				SoundManager.PlayAtPosition(SuppressedSoundA, shooter.transform.position, shooter);
+				_ = SoundManager.PlayAtPosition(SuppressedSoundA, shooter.transform.position, shooter);
 			}
 			else
 			{
-				SoundManager.PlayAtPosition(FiringSoundA, shooter.transform.position, shooter);
+				_ = SoundManager.PlayAtPosition(FiringSoundA, shooter.transform.position, shooter);
 			}
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}

@@ -13,7 +13,7 @@ namespace Messages.Server.AdminTools
 
 		public override void Process(NetMessage msg)
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
 			Chat.AddMentorPrivMsg(msg.Message);
 		}
 

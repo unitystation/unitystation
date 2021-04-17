@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ using DatabaseAPI;
 using IgnoranceTransport;
 using Initialisation;
 using Messages.Server;
+using UnityEditor;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
@@ -26,6 +28,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
+
+	/// <summary>
+	/// List of ALL prefabs in the game which can be spawned, networked or not.
+	/// use spawnPrefabs to get only networked prefabs
+	/// </summary>
+	[HideInInspector]
+	public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
 
 	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
 	private const double minCoolDown = 1f;
@@ -118,13 +127,45 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public void SetSpawnableList()
 	{
+#if UNITY_EDITOR
 		spawnPrefabs.Clear();
+		allSpawnablePrefabs.Clear();
 
-		NetworkIdentity[] networkObjects = Resources.LoadAll<NetworkIdentity>("Prefabs");
-		foreach (NetworkIdentity netObj in networkObjects)
+		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
+		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+		foreach (var objectsPath in objectsPaths)
 		{
-			spawnPrefabs.Add(netObj.gameObject);
+			var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
+			if(asset == null) continue;
+
+			if (asset.TryGetComponent<NetworkIdentity>(out _))
+			{
+				spawnPrefabs.Add(asset);
+			}
+
+			allSpawnablePrefabs.Add(asset);
 		}
+#endif
+	}
+
+	public GameObject GetSpawnablePrefabFromName(string prefabName)
+	{
+		var prefab = allSpawnablePrefabs.Where(o => o.name == prefabName).ToList();
+
+		if (prefab.Any())
+		{
+			if (prefab.Count > 1)
+			{
+				Logger.LogError($"There is {prefab.Count} prefabs with the name: {prefabName}, please rename them");
+			}
+
+			return prefab[0];
+		}
+
+		Logger.LogError($"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
+		                " all prefabs must be in this list if they need to be spawnable");
+
+		return null;
 	}
 
 	private void OnEnable()

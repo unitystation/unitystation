@@ -60,7 +60,7 @@ namespace Objects.Medical
 			Inventory.ServerAdd(folded,
 				interaction.Performer.GetComponent<ItemStorage>().GetActiveHandSlot());
 			// Remove from world
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()

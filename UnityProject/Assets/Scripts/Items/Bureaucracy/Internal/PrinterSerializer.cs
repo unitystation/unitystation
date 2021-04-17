@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using System;
 
-namespace Assets.Scripts.Items.Bureaucracy.Internal
+namespace Items.Bureaucracy.Internal
 {
 	public static class PrinterSerializer
 	{
@@ -17,6 +17,7 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 			int trayCount = reader.Read<int>();
 			int trayCapacity = reader.Read<int>();
 			bool trayOpen = reader.ReadBoolean();
+
 			return new Printer(trayCount, trayCapacity, trayOpen);
 		}
 	}

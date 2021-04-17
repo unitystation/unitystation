@@ -6,6 +6,7 @@ using Systems.Explosions;
 using Systems.Radiation;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using Systems.Electricity;
 
 /// <summary>
 /// Holds all of the metadata associated with an individual tile, such as for atmospherics simulation, damage.
@@ -38,7 +39,6 @@ public class MetaDataNode : IGasMixContainer
 	/// This contains all the pipe data needed On the tile
 	/// </summary>
 	public List<Pipes.PipeNode> PipeData = new List<Pipes.PipeNode>();
-
 
 	/// <summary>
 	/// Local position of this tile in its parent matrix.
@@ -136,7 +136,6 @@ public class MetaDataNode : IGasMixContainer
 
 	public ReactionManager ReactionManager => reactionManager;
 	private ReactionManager reactionManager;
-
 
 	/// <summary>
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)

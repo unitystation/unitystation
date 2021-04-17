@@ -243,7 +243,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (!construction.isFullyBuilt()) return false;
+		if (!construction.IsFullyBuilt()) return false;
 		if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
 		if (interaction.HandObject != null && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer) && !Validations.HasItemTrait(interaction.HandObject, traitRequired)) return false;
 
@@ -308,7 +308,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 				? LightMountState.Emergency : LightMountState.Off);
 		}
 
-		Despawn.ServerSingle(interaction.HandObject);
+		_ = Despawn.ServerSingle(interaction.HandObject);
 	}
 
 	private void TryReplaceBulb(HandApply interaction)

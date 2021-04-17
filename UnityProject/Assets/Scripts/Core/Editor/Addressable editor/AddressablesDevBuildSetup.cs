@@ -29,7 +29,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 		AddressableAssetSettings.BuildPlayerContent();
 
 		var Gamedata = AssetDatabase.LoadAssetAtPath<GameObject>(
-			"Assets/Resources/Prefabs/SceneConstruction/NestedManagers/GameData.prefab");
+			"Assets/Prefabs/SceneConstruction/NestedManagers/GameData.prefab");
 		if (Gamedata.GetComponent<GameData>().DevBuild == false)
 		{
 			return;
