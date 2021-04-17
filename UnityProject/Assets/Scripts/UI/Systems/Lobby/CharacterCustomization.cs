@@ -1226,6 +1226,7 @@ namespace UI.CharacterCreator
 		private void OnColorChange(Color newColor)
 		{
 			colorChangedEvent.Invoke(newColor);
+			RefreshAllSkinSharedSkinColoredBodyParts();
 		}
 
 		#endregion
@@ -1391,8 +1392,6 @@ namespace UI.CharacterCreator
 
 			RefreshRace();
 
-			OnSurfaceColourChange();
-
 			foreach (var Race in RaceSOSingleton.Instance.Races)
 			{
 				if (Race.name == currentCharacter.Species)
@@ -1400,6 +1399,8 @@ namespace UI.CharacterCreator
 					ThisSetRace = Race;
 				}
 			}
+
+			OnSurfaceColourChange();
 		}
 
 		private void RefreshRace()
