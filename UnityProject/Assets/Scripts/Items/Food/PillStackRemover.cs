@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO Needs to be changed over to  medical chemistry Instead
-public class PillStackRemover : Consumable
+namespace Items
 {
-	public float StackPercentageRemove = 50;
-	public override void TryConsume(GameObject feeder, GameObject eater)
+	//TODO Needs to be changed over to  medical chemistry Instead
+	public class PillStackRemover : Consumable
 	{
-		var Health = eater.GetComponent<LivingHealthBehaviour>();
-		Health.RadiationStacks *= StackPercentageRemove/100f;
-		Despawn.ServerSingle(this.gameObject);
+		public float StackPercentageRemove = 50;
+
+		public override void TryConsume(GameObject feeder, GameObject eater)
+		{
+			var health = eater.GetComponent<LivingHealthBehaviour>();
+			health.RadiationStacks *= StackPercentageRemove / 100f;
+			_ = Despawn.ServerSingle(gameObject);
+		}
 	}
 }

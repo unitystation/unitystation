@@ -841,11 +841,11 @@ namespace Weapons
 			}
 			if (isSuppressed && SuppressedSoundA != null)
 			{
-				SoundManager.PlayAtPosition(SuppressedSoundA, shooter.transform.position, shooter);
+				_ = SoundManager.PlayAtPosition(SuppressedSoundA, shooter.transform.position, shooter);
 			}
 			else
 			{
-				SoundManager.PlayAtPosition(FiringSoundA, shooter.transform.position, shooter);
+				_ = SoundManager.PlayAtPosition(FiringSoundA, shooter.transform.position, shooter);
 			}
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}

@@ -35,7 +35,7 @@ namespace Systems.MobAIs
 			yield return WaitFor.Seconds(10);
 			if (QueenCapReached()) yield break;
 			Spawn.ServerPrefab(queenPrefab, gameObject.AssumedWorldPosServer());
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private bool QueenCapReached()

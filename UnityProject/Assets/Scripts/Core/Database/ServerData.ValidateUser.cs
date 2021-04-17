@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
-using Lobby;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -67,11 +66,10 @@ namespace DatabaseAPI
 				{
 					characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
 				}
-				catch (Exception e)
+				catch
 				{
 					characterSettings = new CharacterSettings();
 				}
-
 
 				// Validate and correct settings in case the customization options change
 				settingsValid = true;

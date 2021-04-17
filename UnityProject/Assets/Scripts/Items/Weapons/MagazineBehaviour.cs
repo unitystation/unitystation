@@ -171,7 +171,6 @@ namespace Weapons
 					if (magType == MagType.Clip && serverAmmoRemains == 0)
 					{
 						_ = Despawn.ServerSingle(gameObject);
-					}
 				}
 			}
 

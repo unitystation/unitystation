@@ -58,7 +58,7 @@ namespace Objects
 		private void Disassemble(HandApply interaction)
 		{
 			Spawn.ServerPrefab(resourcesMadeOf, gameObject.WorldPosServer(), count: howMany);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

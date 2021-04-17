@@ -83,7 +83,7 @@ namespace AddressableReferences
 		{
 			if (IsNotValidKey) return;
 			if (IsReadyLoaded) return;
-			LoadAsset();
+			_ = LoadAsset();
 		}
 
 

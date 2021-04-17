@@ -39,6 +39,7 @@ namespace Systems.Electricity.NodeModules
 		public TransformerModule TTransformerModule { get; private set; }
 
 		private float MonitoringResistance = 9999999999;
+
 		private void Awake()
 		{
 			ResistanceSourceModule = GetComponent<ResistanceSourceModule>();
@@ -307,6 +308,5 @@ namespace Systems.Electricity.NodeModules
 			}
 			return VoltageAtSupplyPort < MinimumSupportVoltage &&  VoltageAtChargePort < MinimumSupportVoltage;
 		}
-
 	}
 }

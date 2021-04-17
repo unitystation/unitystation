@@ -2,7 +2,7 @@ using AddressableReferences;
 using Messages.Server.SoundMessages;
 using NPC.Mood;
 using UnityEngine;
-
+using Systems.Electricity;
 
 namespace Systems.MobAIs
 {
@@ -10,7 +10,6 @@ namespace Systems.MobAIs
 	/// AI brain for mice
 	/// used to get hunted by Runtime and squeak also annoy engis by chewing cables
 	/// </summary>
-
 	public class MouseAI : GenericFriendlyAI
 	{
 		[SerializeField, Tooltip("If this mouse get to this mood level, it will start chewing cables")]
@@ -121,6 +120,5 @@ namespace Systems.MobAIs
 			base.OnSpawnMob();
 			BeginExploring();
 		}
-
 	}
 }

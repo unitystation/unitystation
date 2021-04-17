@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Items.Others.Magical
+namespace Items.Magical
 {
 	public class InstantSummonsPunishment : SpellBookPunishment
 	{
@@ -11,7 +11,7 @@ namespace Items.Others.Magical
 					"<color='red'>The book disappears from your hand!</color>",
 					$"<color='red'>The book disappears from {player.Script.visibleName}'s hand!</color>");
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Mirror;
 
 namespace Systems.Spells.Wizard
 {
@@ -67,7 +66,7 @@ namespace Systems.Spells.Wizard
 			{
 				if (obstruction == null) continue;
 
-				Despawn.ServerSingle(obstruction);
+				_ = Despawn.ServerSingle(obstruction);
 			}
 		}
 	}

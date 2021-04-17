@@ -2,10 +2,10 @@
 using UnityEngine;
 using Mirror;
 using System.Collections;
-using  AddressableReferences;
+using AddressableReferences;
 using Messages.Server;
 
-namespace Assets.Scripts.Items.Bureaucracy
+namespace Items.Bureaucracy
 {
 	public class Photocopier : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{

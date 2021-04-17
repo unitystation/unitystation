@@ -2,7 +2,7 @@
 using UnityEngine;
 using Systems.Explosions;
 
-namespace Items.Others.Magical
+namespace Items.Magical
 {
 	/// <summary>
 	/// Creates an explosion centered on the player.

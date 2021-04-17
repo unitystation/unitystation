@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Items.Bureaucracy.Internal
+namespace Items.Bureaucracy.Internal
 {
 	/// <summary>
 	/// An immutable class representing an internal Printer that might be part of copiers, scanners, other office equipment.
@@ -32,10 +32,10 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 
 		public Printer AddPageToTray(GameObject paperObj)
 		{
-			if (!CanAddPageToTray(paperObj))
+			if (CanAddPageToTray(paperObj) == false)
 				throw new InvalidOperationException("Cannot place page in tray");
 
-			Despawn.ServerSingle(paperObj);
+			_ = Despawn.ServerSingle(paperObj);
 			return new Printer(TrayCount + 1, TrayCapacity, TrayOpen);
 		}
 

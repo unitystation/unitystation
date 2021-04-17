@@ -1,6 +1,6 @@
-﻿using DatabaseAPI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UI.CharacterCreator;
 
 namespace Lobby
 {
@@ -13,7 +13,7 @@ namespace Lobby
 
 		public GUI_LobbyDialogue lobbyDialogue;
 
-		void Awake()
+		private void Awake()
 		{
 			if (Instance == null)
 			{
@@ -25,7 +25,7 @@ namespace Lobby
 			}
 		}
 
-		void Start()
+		private void Start()
 		{
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
@@ -44,7 +44,7 @@ namespace Lobby
 			lobbyDialogue.OnClientDisconnect();
 		}
 
-		void DetermineUIScale()
+		private void DetermineUIScale()
 		{
 			if (Application.isMobilePlatform)
 			{

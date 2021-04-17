@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using Newtonsoft;
+using NaughtyAttributes;
 
-namespace Lobby
+namespace UI.CharacterCreator
 {
 	public class CharacterCustomization : MonoBehaviour
 	{
@@ -56,10 +56,8 @@ namespace Lobby
 
 		public PlayerHealthData ThisSetRace = null;
 
-
 		public CharacterSprites torsoSpriteController;
 		public CharacterSprites headSpriteController;
-
 
 		public PlayerTextureData playerTextureData;
 
@@ -70,9 +68,7 @@ namespace Lobby
 
 		public ColorPicker colorPicker;
 
-		
-
-		public Action onCloseAction;
+		public System.Action onCloseAction;
 
 		public BodyPartDropDownOrgans AdditionalOrgan;
 		public BodyPartDropDownReplaceOrgan ReplacementOrgan;
@@ -91,11 +87,9 @@ namespace Lobby
 		public List<CustomisationStorage> bodyPartCustomisationStorage = new List<CustomisationStorage>();
 		public List<ExternalCustomisation> ExternalCustomisationStorage = new List<ExternalCustomisation>();
 
-
 		public List<SpriteHandlerNorder> SurfaceSprite = new List<SpriteHandlerNorder>();
 
 		public int SelectedSpecies = 0;
-
 
 		public InputField SerialiseData;
 
@@ -122,8 +116,8 @@ namespace Lobby
 
 		private CharacterSettings lastSettings;
 		private int currentCharacterIndex = 0;
-		private bool savingPictures = false;
 
+		#region Lifecycle
 
 		void OnEnable()
 		{
@@ -181,6 +175,8 @@ namespace Lobby
 			SurfaceSprite.Clear();
 		}
 
+		#endregion
+
 		private void ShowNoCharacterError()
 		{
 			CharacterPreviews.SetActive(false);
@@ -227,7 +223,6 @@ namespace Lobby
 			RefreshAll();
 		}
 
-
 		/// <summary>
 		/// Responsible for refreshing all data in the character selector page.
 		/// </summary>
@@ -239,7 +234,6 @@ namespace Lobby
 			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
 			CheckPreviewImage();
 		}
-
 
 		/// <summary>
 		/// If there is no sprite, show an error.
@@ -405,7 +399,6 @@ namespace Lobby
 			// }
 		}
 
-
 		public void SetUpBodyPart(BodyPart bodyPart, bool addOrganReplacement = true)
 		{
 			//bodyPart.LimbSpriteData;
@@ -413,12 +406,12 @@ namespace Lobby
 			//OpenBodyCustomisation[bodyPart.name] = new List<GameObject>();
 			ParentDictionary[bodyPart] = new List<BodyPart>();
 
-			//This spawns the eyes.
+			// This spawns the eyes.
 			SetupBodyPartsSprites(bodyPart);
 			if (bodyPart.LobbyCustomisation != null)
 			{
 				var newSprite = Instantiate(bodyPart.LobbyCustomisation, ScrollListBody.transform);
-				newSprite.SetUp(this, bodyPart, ""); //Update path
+				newSprite.SetUp(this, bodyPart, ""); // Update path
 				OpenBodyCustomisation[bodyPart.name] = (newSprite);
 			}
 
@@ -439,9 +432,8 @@ namespace Lobby
 				}
 			}
 
-
-			//Setup sprite//
-			//OpenBodySprites
+			// Setup sprite //
+			// OpenBodySprites
 			if (bodyPart?.Storage?.Populater?.Contents != null)
 			{
 				foreach (var Organ in bodyPart.Storage.Populater.Contents)
@@ -542,7 +534,7 @@ namespace Lobby
 
 		#endregion BodyPartsSprites
 
-		//First time setting up this character etc?
+		// First time setting up this character etc?
 		private void DoInitChecks()
 		{
 			if (string.IsNullOrEmpty(currentCharacter.Username))
@@ -701,10 +693,8 @@ namespace Lobby
 			}
 		}
 
+		#region Dropdown Boxes
 
-		//------------------
-		//DROPDOWN BOXES:
-		//------------------
 		private void PopulateAllDropdowns(PlayerHealthData Race)
 		{
 			//Checks what customisation settings the player's race has avaliable
@@ -726,7 +716,7 @@ namespace Lobby
 				nextDir = 0;
 			}
 
-			currentDir = (CharacterCustomization.CharacterDir) nextDir;
+			currentDir = (CharacterDir) nextDir;
 			SetRotation();
 		}
 
@@ -738,29 +728,29 @@ namespace Lobby
 				nextDir = 3;
 			}
 
-			currentDir = (CharacterCustomization.CharacterDir) nextDir;
+			currentDir = (CharacterDir) nextDir;
 			SetRotation();
 		}
 
 		public void SetRotation()
 		{
 			int referenceOffset = 0;
-			if (currentDir == CharacterCustomization.CharacterDir.down)
+			if (currentDir == CharacterDir.down)
 			{
 				referenceOffset = 0;
 			}
 
-			if (currentDir == CharacterCustomization.CharacterDir.up)
+			if (currentDir == CharacterDir.up)
 			{
 				referenceOffset = 1;
 			}
 
-			if (currentDir == CharacterCustomization.CharacterDir.right)
+			if (currentDir == CharacterDir.right)
 			{
 				referenceOffset = 2;
 			}
 
-			if (currentDir == CharacterCustomization.CharacterDir.left)
+			if (currentDir == CharacterDir.left)
 			{
 				referenceOffset = 3;
 			}
@@ -772,7 +762,7 @@ namespace Lobby
 			int i = 0;
 			foreach (var Sprite in newSprites)
 			{
-				(Sprite as SpriteHandlerNorder).gameObject.transform.SetSiblingIndex(i);
+				Sprite.gameObject.transform.SetSiblingIndex(i);
 				i++;
 			}
 
@@ -841,7 +831,6 @@ namespace Lobby
 			SetDropDownBody(ThisSetRace.Base.LegRight);
 		}
 
-
 		public void SetDropDownBody(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
@@ -854,7 +843,6 @@ namespace Lobby
 				SubSetBodyPart(bodyPart, "");
 			}
 		}
-
 
 		public void SubSetBodyPart(BodyPart bodyPart, string path)
 		{
@@ -887,10 +875,11 @@ namespace Lobby
 			}
 		}
 
-		//------------------
-		//PLAYER ACCOUNTS:
-		//------------------
-		[NaughtyAttributes.Button()]
+		#endregion
+
+		#region Player Accounts
+
+		[Button()]
 		private void SaveData()
 		{
 			ExternalCustomisationStorage.Clear();
@@ -921,7 +910,6 @@ namespace Lobby
 		/// </summary>
 		private IEnumerator<WaitForEndOfFrame> SaveCurrentCharacterSnaps()
 		{
-			savingPictures = true;
 			Util.CaptureUI capture = snapCapturer.GetComponent<Util.CaptureUI>();
 			int dir = 0;
 			capture.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
@@ -936,7 +924,6 @@ namespace Lobby
 				capture.TakeScreenShot();
 				dir++;
 			}
-			savingPictures = false;
 		}
 
 		/// <summary>
@@ -1022,7 +1009,6 @@ namespace Lobby
 			}
 		}
 
-
 		public void SaveCustomisations(CustomisationStorage CustomisationStorage,
 			BodyPartCustomisationBase CustomisationObject)
 		{
@@ -1057,9 +1043,9 @@ namespace Lobby
 			}
 		}
 
-		//------------------
-		//SAVE & CANCEL BUTTONS:
-		//------------------
+		#endregion
+
+		#region Save and Cancel Buttons
 
 		public void OnApplyBtn()
 		{
@@ -1107,14 +1093,15 @@ namespace Lobby
 			gameObject.SetActive(false);
 		}
 
+		#endregion
+
 		private void DisplayErrorText(string message)
 		{
 			errorLabel.text = message;
 		}
 
-		//------------------
-		//NAME:
-		//------------------
+		#region Name
+
 		private void RefreshName()
 		{
 			characterNameField.text = TruncateName(currentCharacter.Name);
@@ -1154,9 +1141,9 @@ namespace Lobby
 			return proposedName;
 		}
 
-		//------------------
-		//GENDER:
-		//------------------
+		#endregion
+
+		#region Gender
 
 		public void OnBodyTypeChange()
 		{
@@ -1201,9 +1188,10 @@ namespace Lobby
 			genderText.text = ThisBodyType.Name;
 		}
 
-		//------------------
-		//AGE:
-		//------------------
+		#endregion
+
+		#region Age
+
 		private void RefreshAge()
 		{
 			ageField.text = currentCharacter.Age.ToString();
@@ -1217,10 +1205,9 @@ namespace Lobby
 			RefreshAge();
 		}
 
+		#endregion
 
-		//------------------
-		//COLOR SELECTOR:
-		//------------------
+		#region Colour Selector
 
 		public void OpenColorPicker(Color currentColor, Action<Color> _colorChangeEvent, float yPos)
 		{
@@ -1240,9 +1227,9 @@ namespace Lobby
 			colorChangedEvent.Invoke(newColor);
 		}
 
-		//------------------
-		//CLOTHING PREFERENCE:
-		//------------------
+		#endregion
+
+		#region Clothing Preference
 
 		public void OnClothingChange()
 		{
@@ -1262,9 +1249,9 @@ namespace Lobby
 			clothingText.text = currentCharacter.ClothingStyle.ToString();
 		}
 
-		//------------------
-		//BACKPACK PREFERENCE
-		//------------------
+		#endregion
+
+		#region Backpack Preference
 
 		public void OnBackpackChange()
 		{
@@ -1284,9 +1271,9 @@ namespace Lobby
 			backpackText.text = currentCharacter.BagStyle.ToString();
 		}
 
-		//------------------
-		//PRONOUN PREFERENCE:
-		//------------------
+		#endregion
+
+		#region Pronoun Preference
 
 		public void OnPronounChange()
 		{
@@ -1305,9 +1292,9 @@ namespace Lobby
 			pronounText.text = currentCharacter.PlayerPronoun.ToString().Replace("_", "/");
 		}
 
-		//------------------
-		//ACCENT PREFERENCE:
-		//------------------
+		#endregion
+
+		#region Accent Preference
 		// This will be a temporal thing until we have proper character traits
 
 		public void OnAccentChange()
@@ -1327,6 +1314,8 @@ namespace Lobby
 		{
 			accentText.text = currentCharacter.Speech.ToString();
 		}
+
+		#endregion
 
 		public void OnSurfaceColourChange()
 		{
@@ -1360,9 +1349,7 @@ namespace Lobby
 			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
 		}
 
-		//------------------
-		//RACE PREFERENCE:
-		//------------------
+		#region Race Preference
 		// This will be a temporal thing until we have proper character traits
 
 		public void OnRaceChange()
@@ -1403,13 +1390,13 @@ namespace Lobby
 			raceText.text = currentCharacter.Species.ToString();
 		}
 
+		#endregion
 
 		public void InputSerialiseData()
 		{
 			SaveData();
 			SerialiseData.text = JsonConvert.SerializeObject(currentCharacter);
 		}
-
 
 		public void LoadSerialisedData()
 		{
@@ -1422,7 +1409,6 @@ namespace Lobby
 				LoadSettings(currentCharacter);
 			}
 		}
-
 
 		public enum CharacterDir
 		{

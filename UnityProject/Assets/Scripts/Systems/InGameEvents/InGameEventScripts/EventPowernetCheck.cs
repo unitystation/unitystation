@@ -2,6 +2,7 @@
 using UnityEngine;
 using Managers;
 using Strings;
+using Systems.Electricity.NodeModules;
 
 namespace InGameEvents
 {

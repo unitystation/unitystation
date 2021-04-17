@@ -4,7 +4,7 @@ using System.Text;
 using Messages.Server;
 using ScriptableObjects.Gun;
 using UnityEngine;
-using Weapons;
+using Systems.Electricity.NodeModules;
 using Weapons.Projectiles.Behaviours;
 
 namespace Objects.Engineering

@@ -952,7 +952,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		//todo: actual gibs
 
 		//never destroy players!
-		Despawn.ServerSingle(gameObject);
+		_ = Despawn.ServerSingle(gameObject);
 	}
 
 	public BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)

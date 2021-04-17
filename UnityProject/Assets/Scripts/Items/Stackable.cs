@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UnityEngine;
-using Objects;
 
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
@@ -170,7 +169,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		SyncAmount(amount, amount - consumed);
 		if (amount <= 0)
 		{
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 		return true;
 	}
@@ -303,7 +302,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 		return false;
 	}
-
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{

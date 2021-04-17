@@ -266,7 +266,7 @@ namespace Objects.Engineering
 				case ReflectorType.Base:
 					SpawnMaterial(CommonPrefabs.Instance.Metal, 4);
 					if (isDestroy) return;
-					Despawn.ServerSingle(gameObject);
+					_ = Despawn.ServerSingle(gameObject);
 					return;
 				case ReflectorType.Box:
 					SpawnMaterial(CommonPrefabs.Instance.DiamondSheet, diamondsNeeded - 1);

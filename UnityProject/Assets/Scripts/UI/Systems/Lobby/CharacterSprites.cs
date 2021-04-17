@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Lobby
+namespace UI.CharacterCreator
 {
 	public class CharacterSprites : MonoBehaviour
 	{
@@ -15,24 +15,25 @@ namespace Lobby
 
 		public Image image;
 
-		void Awake()
+		private void Awake()
 		{
 			sprites = GetComponent<SpriteHandler>();
 			if(!sprites)
 				Logger.LogWarning("SpriteHandler component is missing!", Category.Sprites);
 		}
+
 		private void Start()
 		{
 			UpdateSprite();
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			characterView = GetComponentInParent<CharacterView>();
 			characterView.dirChangeEvent.AddListener(OnDirChange);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
 			characterView.dirChangeEvent.RemoveListener(OnDirChange);
 		}
@@ -72,6 +73,5 @@ namespace Lobby
 			if(sprites != null || TryGetComponent(out sprites))
 				sprites.ChangeSpriteVariant(referenceOffset , NetWork:false);
 		}
-
 	}
 }

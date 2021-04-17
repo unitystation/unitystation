@@ -187,7 +187,7 @@ namespace Objects
 			{
 				Chat.AddLocalMsgToChat("The singularity implodes", gameObject);
 				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, maxRadiation, objectId);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
 
@@ -414,7 +414,7 @@ namespace Objects
 							//End of the world
 							eatenSuperMatter = true;
 							ChangePoints(3250);
-							Despawn.ServerSingle(objectToMove.gameObject);
+							_ = Despawn.ServerSingle(objectToMove.gameObject);
 							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>", gameObject);
 							return;
 						}

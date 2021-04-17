@@ -10,7 +10,6 @@ using Machines;
 using Messages.Server.SoundMessages;
 using Objects.Machines;
 
-
 namespace Objects.Kitchen
 {
 	/// <summary>
@@ -326,7 +325,7 @@ namespace Objects.Kitchen
 							// Swap item for its cooked version, if applicable.
 							if (slotCooked.CookedProduct == null) return;
 
-							Despawn.ServerSingle(slotCooked.gameObject);
+							_ = Despawn.ServerSingle(slotCooked.gameObject);
 							GameObject cookedItem = Spawn.ServerPrefab(slotCooked.CookedProduct).GameObject;
 							Inventory.ServerAdd(cookedItem, slot);
 						}
@@ -422,7 +421,7 @@ namespace Objects.Kitchen
 					}
 				}
 
-				Despawn.ServerSingle(item);
+				_ = Despawn.ServerSingle(item);
 				Inventory.ServerAdd(spawned, slot);
 			}
 

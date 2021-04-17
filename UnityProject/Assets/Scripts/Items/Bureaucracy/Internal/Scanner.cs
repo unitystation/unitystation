@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Items.Bureaucracy.Internal
+namespace Items.Bureaucracy.Internal
 {
 	public class Scanner
 	{
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 				throw new InvalidOperationException("Cannot place document in scanner");
 
 			var paper = paperObj.GetComponent<Paper>();
-			Despawn.ServerSingle(paperObj);
+			_ = Despawn.ServerSingle(paperObj);
 			return new Scanner(ScannerOpen, false, paper.ServerString, ScannedText);
 		}
 

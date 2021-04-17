@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Chemistry.Components;
 using ScriptableObjects;
 
@@ -37,7 +36,7 @@ namespace Pipes
 					$"{interaction.Performer.ExpensiveName()} deconstruct the ReservoirTank.",
 					() =>
 					{
-						Despawn.ServerSingle(gameObject);
+						_ = Despawn.ServerSingle(gameObject);
 					});
 			}
 		}

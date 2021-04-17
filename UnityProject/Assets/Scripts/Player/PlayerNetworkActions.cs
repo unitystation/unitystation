@@ -12,6 +12,7 @@ using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
 using HealthV2;
+using Items;
 using Items.Tool;
 using Messages.Server;
 

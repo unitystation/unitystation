@@ -4,14 +4,9 @@ using Objects.Construction;
 
 public static class EffectsFactory
 {
-
-	private static GameObject fireTile;
-
 	private static GameObject smallBloodTile;
 	private static GameObject mediumBloodTile;
 	private static GameObject largeBloodTile;
-	private static GameObject largeAshTile;
-	private static GameObject smallAshTile;
 	private static GameObject waterTile;
 	private static GameObject chemTile;
 
@@ -21,15 +16,12 @@ public static class EffectsFactory
 
 	private static void EnsureInit()
 	{
-		if (fireTile == null)
+		if (smallBloodTile == null)
 		{
 			//Do init stuff
-			fireTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("FireTile");
 			smallBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallBloodSplat");
 			mediumBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MediumBloodSplat");
 			largeBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeBloodSplat");
-			largeAshTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeAsh");
-			smallAshTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallAsh");
 			waterTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("WaterSplat");
 			chemTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("ChemSplat");
 			smallXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallXenoBloodSplat");

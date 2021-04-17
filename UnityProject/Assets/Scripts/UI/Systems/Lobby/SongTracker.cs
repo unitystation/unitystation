@@ -28,6 +28,8 @@ namespace Audio.Containers
 		/// </summary>
 		public bool PlayingRandomPlayList { get; private set; }
 
+		#region Lifecycle
+
 		private void Awake()
 		{
 			ToggleUI(false);
@@ -62,11 +64,13 @@ namespace Audio.Containers
 			if (currentWaitTime >= timeBetweenSongs)
 			{
 				currentWaitTime = 0f;
-				PlayRandomTrack();
+				_ = PlayRandomTrack();
 			}
 
 			DetermineMuteState();
 		}
+
+		#endregion
 
 		public void StartPlayingRandomPlaylist()
 		{
@@ -154,7 +158,7 @@ namespace Audio.Containers
 
 		public void OnTrackButtonClick()
 		{
-			PlayRandomTrack();
+			_ = PlayRandomTrack();
 		}
 	}
 }

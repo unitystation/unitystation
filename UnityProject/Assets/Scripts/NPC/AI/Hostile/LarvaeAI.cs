@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using WebSocketSharp;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 
@@ -44,7 +43,7 @@ namespace Systems.MobAIs
 			}
 
 			Spawn.ServerPrefab(xenomorph, gameObject.transform.position);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		protected override void OnAttackReceived(GameObject damagedBy = null)

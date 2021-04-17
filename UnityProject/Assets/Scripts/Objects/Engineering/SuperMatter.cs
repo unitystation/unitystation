@@ -328,7 +328,7 @@ namespace Objects.Engineering
 				//Delam state
 				SoundManager.Stop(loopingSoundGuid);
 				loopingSoundGuid = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+				_ = SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(9, 9, 9);
 				pulseSpeed = 1f;
@@ -338,7 +338,7 @@ namespace Objects.Engineering
 				//Normal state
 				SoundManager.Stop(loopingSoundGuid);
 				loopingSoundGuid = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+				_ = SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(3, 3, 3);
 				pulseSpeed = 0.5f;
@@ -889,7 +889,7 @@ namespace Objects.Engineering
 
 			Explosion.StartExplosion(registerTile.LocalPositionServer, 10000, registerTile.Matrix);
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion
@@ -1190,7 +1190,7 @@ namespace Objects.Engineering
 
 						//Destroy Scalpel
 						Chat.AddExamineMsgFromServer(interaction.Performer, $"A tiny piece of the {interaction.HandObject.ExpensiveName()} falls off, rendering it useless!");
-						Despawn.ServerSingle(interaction.HandObject);
+						_ = Despawn.ServerSingle(interaction.HandObject);
 					}
 				);
 
@@ -1201,7 +1201,7 @@ namespace Objects.Engineering
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust as you flinch away from the {gameObject.ExpensiveName()}.",
 				$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
-			Despawn.ServerSingle(interaction.HandObject);
+			_ = Despawn.ServerSingle(interaction.HandObject);
 			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 150, GetInstanceID());
 			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
 			matterPower += 200;

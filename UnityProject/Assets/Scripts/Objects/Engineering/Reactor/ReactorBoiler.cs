@@ -18,12 +18,15 @@ namespace Objects.Engineering
 
 		public ReactorPipe ReactorPipe;
 
-		//public ReactorTurbine reactorTurbine;
 		public List<ReactorGraphiteChamber> Chambers;
-
-		private RegisterObject registerObject;
 		// Start is called before the first frame update
 
+		#region Lifecycle
+
+		public void Awake()
+		{
+			ReactorPipe = GetComponent<ReactorPipe>();
+		}
 
 		private void OnEnable()
 		{
@@ -39,11 +42,16 @@ namespace Objects.Engineering
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 		}
 
-		public void Awake()
+		/// <summary>
+		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+		/// </summary>
+		void IServerDespawn.OnDespawnServer(DespawnInfo info)
 		{
-			ReactorPipe = GetComponent<ReactorPipe>();
-			registerObject = GetComponent<RegisterObject>();
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer,
+				count: 15);
 		}
+
+		#endregion
 
 		public void CycleUpdate()
 		{
@@ -86,21 +94,12 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} starts to deconstruct the ReactorBoiler...",
 					"You deconstruct the ReactorBoiler",
 					$"{interaction.Performer.ExpensiveName()} deconstructs the ReactorBoiler.",
-					() => { Despawn.ServerSingle(gameObject); });
+					() => { _ = Despawn.ServerSingle(gameObject); });
 			}
 		}
+		
+		#region Multitool Interaction
 
-		/// <summary>
-		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
-		/// </summary>
-		void IServerDespawn.OnDespawnServer(DespawnInfo info)
-		{
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer,
-				count: 15);
-		}
-
-
-		//######################################## Multitool interaction ##################################
 		private MultitoolConnectionType conType = MultitoolConnectionType.BoilerTurbine;
 		public MultitoolConnectionType ConType => conType;
 		private bool multiMaster = false;
@@ -109,5 +108,7 @@ namespace Objects.Engineering
 		public void AddSlave(object SlaveObjectThis)
 		{
 		}
+
+		#endregion
 	}
 }

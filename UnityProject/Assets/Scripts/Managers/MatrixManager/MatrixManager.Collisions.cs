@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Systems.Electricity;
+using Systems.Electricity.Inheritance;
+using Systems.Electricity.NodeModules;
 using Systems.Explosions;
 using HealthV2;
 using Random = UnityEngine.Random;
+using Objects.Electrical;
+using Objects.Engineering;
 
 /// <summary>
 /// Collision-related stuff
@@ -399,13 +404,16 @@ public partial class MatrixManager
 
 			foreach ( var wire in matrix.Matrix.Get<CableInheritance>( cellPos, true ) )
 			{
-				if ( Random.value >= 0.5 )
-				{ //Sparks
-					wire.QueueForDemolition( wire );
-					StartCoroutine( DestroyWireWithDelay( wire, (byte)(Random.value * 20f) ) );
-				} else
-				{ //Destruction
-					wire.toDestroy();
+				if (Random.value >= 0.5)
+				{
+					// Sparks
+					wire.QueueForDemolition(wire);
+					StartCoroutine(DestroyWireWithDelay(wire, (byte)(Random.value * 20f)));
+				}
+				else
+				{
+					// Destruction
+					wire.ToDestroy();
 				}
 			}
 		}
@@ -457,7 +465,7 @@ public partial class MatrixManager
 			yield return WaitFor.Seconds( timer );
 			if ( wire != null )
 			{
-				wire.toDestroy();
+				wire.ToDestroy();
 			}
 		}
 	}

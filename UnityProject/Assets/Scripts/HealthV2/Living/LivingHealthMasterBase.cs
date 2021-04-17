@@ -315,7 +315,6 @@ namespace HealthV2
 			ImplantList.Remove(implantBase);
 		}
 
-
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
@@ -534,7 +533,6 @@ namespace HealthV2
 			// Logger.Log("NutrimentLevel >" + NutrimentLevel);
 		}
 
-
 		private void CheckHeartStatus()
 		{
 			bool hasAllHeartAttack = true;
@@ -598,7 +596,6 @@ namespace HealthV2
 
 			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 		}
-
 
 		/// <summary>
 		/// Apply damage to a random body part body of the creature. Server only
@@ -786,7 +783,6 @@ namespace HealthV2
 			return null;
 		}
 
-
 		/// <summary>
 		/// Only does damage to the first layer
 		/// </summary>
@@ -889,7 +885,7 @@ namespace HealthV2
 			//TODO: Reimplement
 
 			//never destroy players!
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		/// ---------------------------

@@ -1,42 +1,44 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
 
-public class ParticleAcceleratorHitSpawner : MonoBehaviour, IOnHitDetect
+namespace Objects.Engineering
 {
-	[SerializeField]
-	private GameObject prefabToSpawn = null;
-
-	private RegisterTile registerTile;
-
-	private float damageTaken;
-
-	[SerializeField]
-	private float radDamageNeedToSpawn = 200f;
-
-	private void Awake()
+	public class ParticleAcceleratorHitSpawner : MonoBehaviour, IOnHitDetect
 	{
-		registerTile = GetComponent<RegisterTile>();
-	}
+		[SerializeField]
+		private GameObject prefabToSpawn = null;
 
-	public void OnHitDetect(OnHitDetectData data)
-	{
-		if(data.DamageData.AttackType != AttackType.Rad) return;
+		private RegisterTile registerTile;
 
-		damageTaken += data.DamageData.Damage;
+		private float damageTaken;
 
-		if (damageTaken >= radDamageNeedToSpawn)
+		[SerializeField]
+		private float radDamageNeedToSpawn = 200f;
+
+		private void Awake()
 		{
-			SpawnPrefab();
+			registerTile = GetComponent<RegisterTile>();
 		}
-	}
 
-	private void SpawnPrefab()
-	{
-		Spawn.ServerPrefab(prefabToSpawn, registerTile.WorldPositionServer, transform.parent.transform);
-		Despawn.ServerSingle(gameObject);
+		public void OnHitDetect(OnHitDetectData data)
+		{
+			if (data.DamageData.AttackType != AttackType.Rad) return;
+
+			damageTaken += data.DamageData.Damage;
+
+			if (damageTaken >= radDamageNeedToSpawn)
+			{
+				SpawnPrefab();
+			}
+		}
+
+		private void SpawnPrefab()
+		{
+			Spawn.ServerPrefab(prefabToSpawn, registerTile.WorldPositionServer, transform.parent.transform);
+			_ = Despawn.ServerSingle(gameObject);
+		}
 	}
 }

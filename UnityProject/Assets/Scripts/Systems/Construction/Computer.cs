@@ -7,7 +7,6 @@ namespace Objects.Construction
 	/// </summary>
 	public class Computer : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-
 		[Tooltip("Frame prefab this computer should deconstruct into.")]
 		[SerializeField]
 		private GameObject framePrefab = null;
@@ -26,6 +25,15 @@ namespace Objects.Construction
 		private float secondsToScrewdrive = 2f;
 
 		private Integrity integrity;
+
+		private void Awake()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+
+			integrity = GetComponent<Integrity>();
+
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -50,15 +58,6 @@ namespace Objects.Construction
 				});
 		}
 
-		private void Awake()
-		{
-			if (!CustomNetworkManager.IsServer) return;
-
-			integrity = GetComponent<Integrity>();
-
-			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
-		}
-
 		public void WhenDestroyed(DestructionInfo info)
 		{
 			//drop all our contents
@@ -74,7 +73,7 @@ namespace Objects.Construction
 			}
 			var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
 			frame.GetComponent<ComputerFrame>().ServerInitFromComputer(this);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}

@@ -162,7 +162,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			return prefab[0];
 		}
 
-		Logger.LogError($"There is no spawnable prefab with the name: {prefabName}, can only find prefabs which have net identities using this method");
+		Logger.LogError($"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
+		                " all prefabs must be in this list if they need to be spawnable");
 
 		return null;
 	}

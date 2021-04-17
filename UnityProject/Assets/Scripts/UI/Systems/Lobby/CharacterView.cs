@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Lobby
+namespace UI.CharacterCreator
 {
 	public class CharacterView : MonoBehaviour
 	{
@@ -30,6 +30,7 @@ namespace Lobby
 			currentDir = (CharacterCustomization.CharacterDir) nextDir;
 			dirChangeEvent.Invoke();
 		}
+
 		public void RightRotate()
 		{
 			int nextDir = (int) currentDir - 1;
@@ -41,12 +42,4 @@ namespace Lobby
 			dirChangeEvent.Invoke();
 		}
 	}
-
-	// public enum CharacterDir
-	// {
-	// 	down,
-	// 	left,
-	// 	up,
-	// 	right
-	// }
 }
