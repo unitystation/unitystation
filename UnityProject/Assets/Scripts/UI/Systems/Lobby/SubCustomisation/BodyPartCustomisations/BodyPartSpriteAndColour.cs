@@ -22,9 +22,10 @@ namespace UI.CharacterCreator
 		}
 	}
 
-	private void Start()
+	private IEnumerator Start()
 	{
-		if (characterCustomization.ThisSetRace.Base.BodyPartsShareSameSkinColor == true)
+		yield return new WaitForEndOfFrame();
+		if (characterCustomization.ThisSetRace.Base.BodyPartsShareSameSkinColor.Contains(RelatedBodyPart.name))
 		{
 			SelectionColourImage.gameObject.SetActive(false);
 		}
@@ -180,7 +181,7 @@ namespace UI.CharacterCreator
 
 	private void CheckSkinToneShare()
 	{
-		if (characterCustomization.ThisSetRace.Base.BodyPartsShareSameSkinColor == true)
+		if (characterCustomization.ThisSetRace.Base.BodyPartsShareSameSkinColor.Contains(RelatedBodyPart.name))
 		{
 			ColorUtility.TryParseHtmlString(characterCustomization.CurrentCharacter.SkinTone, out BodyPartColour);
 			SelectionColourImage.gameObject.SetActive(false);

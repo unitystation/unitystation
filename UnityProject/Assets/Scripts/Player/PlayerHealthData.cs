@@ -40,7 +40,7 @@ public class RaceHealthData
 
 	public ImplantProcedure RootImplantProcedure;
 
-	public bool BodyPartsShareSameSkinColor = false;
+	public List<string> BodyPartsShareSameSkinColor = new List<string>();
 }
 
 
