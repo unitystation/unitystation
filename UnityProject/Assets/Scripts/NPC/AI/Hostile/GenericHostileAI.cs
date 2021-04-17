@@ -64,7 +64,6 @@ namespace Systems.MobAIs
 			simpleAnimal = GetComponent<SimpleAnimal>();
 
 			if(CustomNetworkManager.IsServer == false) return;
-			_ = PlayRandomSound();
 		}
 
 		protected override void AIStartServer()
@@ -332,6 +331,7 @@ namespace Systems.MobAIs
 			{
 				simpleAnimal.SetDeadState(false);
 			}
+			_ = PlayRandomSound();
 		}
 
 		public override void OnDespawnServer(DespawnInfo info)
