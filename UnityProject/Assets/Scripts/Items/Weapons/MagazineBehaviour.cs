@@ -171,10 +171,11 @@ namespace Weapons
 					if (magType == MagType.Clip && serverAmmoRemains == 0)
 					{
 						_ = Despawn.ServerSingle(gameObject);
+					}
 				}
-			}
 
-		Logger.LogTraceFormat("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
+				Logger.LogTraceFormat("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
+			}
 		}
 
 		/// <summary>
