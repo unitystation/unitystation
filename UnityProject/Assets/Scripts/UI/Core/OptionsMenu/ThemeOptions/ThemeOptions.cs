@@ -17,6 +17,12 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Toggle HighlightToggle = null;
 
+		[SerializeField]
+		private Toggle chatHighlightToggle = null;
+
+		[SerializeField]
+		private Toggle mentionSoundToggle = null;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -29,6 +35,8 @@ namespace Unitystation.Options
 			//updates
 			ThemeManager.Instance.LoadAllThemes();
 			HighlightToggle.isOn = Highlight.HighlightEnabled;
+			chatHighlightToggle.isOn = ThemeManager.ChatHighlight;
+			mentionSoundToggle.isOn = ThemeManager.MentionSound;
 		}
 
 		void ConstructChatBubbleOptions()
@@ -59,6 +67,18 @@ namespace Unitystation.Options
 		public void HighlightSetPreference()
 		{
 			Highlight.SetPreference(HighlightToggle.isOn);
+			Refresh();
+		}
+
+		public void ChatHighlightSetPreference()
+		{
+			ThemeManager.Instance.ChatHighlightToggle(chatHighlightToggle.isOn);
+			Refresh();
+		}
+
+		public void MentionSoundSetPreference()
+		{
+			ThemeManager.Instance.MentionSoundToggle(mentionSoundToggle.isOn);
 			Refresh();
 		}
 

@@ -110,16 +110,17 @@ public partial class Chat : MonoBehaviour
 
 		if (channels.HasFlag(ChatChannel.OOC))
 		{
-			chatEvent.speaker = sentByPlayer.Username;
+			chatEvent.speaker = StripTags(sentByPlayer.Username);
 
 			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
 
 			if (isAdmin)
 			{
-				chatEvent.speaker = "<color=red>[Admin]</color> " + chatEvent.speaker;
+				chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
 			}
-			else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId)){
-				chatEvent.speaker = "<color=#6400ff>[Mentor]</color> " + chatEvent.speaker;
+			else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId))
+			{
+				chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
 			}
 
 			if (Instance.OOCMute && !isAdmin) return;
@@ -155,13 +156,15 @@ public partial class Chat : MonoBehaviour
 
 			ChatRelay.Instance.PropagateChatToClients(chatEvent);
 
+			var strippedSpeaker = StripTags(chatEvent.speaker);
+
 			//Sends OOC message to a discord webhook
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, strippedSpeaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
 
 			if (!ServerData.ServerConfig.DiscordWebhookSendOOCToAllChat) return;
 
 			//Send it to All chat
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", chatEvent.speaker);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", strippedSpeaker);
 
 			return;
 		}
