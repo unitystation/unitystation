@@ -201,7 +201,6 @@ public partial class Chat
 		if (stripTags)
 		{
 			message = StripTags(message);
-			speaker = StripTags(speaker);
 		}
 
 		//Check for emote. If found skip chat modifiers, make sure emote is only in Local channel

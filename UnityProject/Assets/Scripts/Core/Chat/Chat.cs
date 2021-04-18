@@ -110,7 +110,7 @@ public partial class Chat : MonoBehaviour
 
 		if (channels.HasFlag(ChatChannel.OOC))
 		{
-			chatEvent.speaker = sentByPlayer.Username;
+			chatEvent.speaker = StripTags(sentByPlayer.Username);
 
 			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
 
@@ -118,7 +118,8 @@ public partial class Chat : MonoBehaviour
 			{
 				chatEvent.speaker = "<color=red>[Admin]</color> " + chatEvent.speaker;
 			}
-			else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId)){
+			else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId))
+			{
 				chatEvent.speaker = "<color=#6400ff>[Mentor]</color> " + chatEvent.speaker;
 			}
 
