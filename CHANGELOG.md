@@ -2,6 +2,11 @@
 ---
 
 
+* 2021/4/18: Added option to turn off chat highlighting and mention sound by [ThatDan123](https://github.com/ThatDan123) in PR #[6392](https://github.com/unitystation/unitystation/pull/6392)
+* 2021/4/18: Added sound to play when character name mentioned in chat by [ThatDan123](https://github.com/ThatDan123) in PR #[6392](https://github.com/unitystation/unitystation/pull/6392)
+* 2021/4/18: Adds bolding and underlining of OOC name or in game name when in chat by [ThatDan123](https://github.com/ThatDan123) in PR #[6392](https://github.com/unitystation/unitystation/pull/6392)
+* 2021/4/18: Fixes discord webhook having <color=red>{name}</color> by [ThatDan123](https://github.com/ThatDan123) in PR #[6392](https://github.com/unitystation/unitystation/pull/6392)
+* 2021/4/18: OOC names will have their tags removed by [ThatDan123](https://github.com/ThatDan123) in PR #[6392](https://github.com/unitystation/unitystation/pull/6392)
 * 2021/4/18: Lizard body parts now have display names. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6379](https://github.com/unitystation/unitystation/pull/6379)
 * 2021/4/18: Lizards' tails will now share colors with their skintones. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6379](https://github.com/unitystation/unitystation/pull/6379)
 * 2021/4/17: Adds in a small text to tell new players what their current character sheet is. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6378](https://github.com/unitystation/unitystation/pull/6378)
