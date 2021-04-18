@@ -14,7 +14,6 @@ namespace Weapons
 
 		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
 		{
-			return;
 		}
 	}
 }
