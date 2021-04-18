@@ -11,7 +11,7 @@ namespace Systems.MobAIs
 	/// </summary>
 	[RequireComponent(typeof(CustomNetTransform))]
 	[RequireComponent(typeof(RegisterObject))]
-	public class MobAgent : Agent
+	public class MobAgent : Agent, IServerLifecycle
 	{
 		protected CustomNetTransform cnt;
 		protected RegisterObject registerObj;
@@ -41,6 +41,7 @@ namespace Systems.MobAIs
 			directional = GetComponent<Directional>();
 			health = GetComponent<LivingHealthBehaviour>();
 			integrity = GetComponent<Integrity>();
+			OriginTile = GetComponent<RegisterTile>();
 			agentParameters.onDemandDecision = true;
 		}
 
@@ -68,21 +69,13 @@ namespace Systems.MobAIs
 			tickWait = 0f;
 		}
 
-		public virtual void Start()
+		public virtual void OnSpawnServer(SpawnInfo info)
 		{
-			//only needed for starting via a map scene through the editor:
-			if (CustomNetworkManager.Instance == null) return;
-
-			if (CustomNetworkManager.Instance._isServer)
-			{
-				UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
-				cnt.OnTileReached().AddListener(OnTileReached);
-				OriginTile = GetComponent<RegisterTile>();
-				startPos = OriginTile.WorldPositionServer;
-				isServer = true;
-				registerObj = GetComponent<RegisterObject>();
-				registerObj.WaitForMatrixInit(StartServerAgent);
-			}
+			UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
+			cnt.OnTileReached().AddListener(OnTileReached);
+			startPos = OriginTile.WorldPositionServer;
+			isServer = true;
+			registerObj.WaitForMatrixInit(StartServerAgent);
 		}
 
 		void StartServerAgent(MatrixInfo info)
@@ -90,14 +83,10 @@ namespace Systems.MobAIs
 			AgentServerStart();
 		}
 
-		public override void OnDisable()
+		public void OnDespawnServer(DespawnInfo info)
 		{
-			base.OnDisable();
-			if (isServer)
-			{
-				cnt.OnTileReached().RemoveListener(OnTileReached);
-				UpdateManager.Remove(CallbackType.UPDATE, ServerUpdateMe);
-			}
+			cnt.OnTileReached().RemoveListener(OnTileReached);
+			UpdateManager.Remove(CallbackType.UPDATE, ServerUpdateMe);
 		}
 
 		protected virtual void OnTileReached(Vector3Int tilePos)

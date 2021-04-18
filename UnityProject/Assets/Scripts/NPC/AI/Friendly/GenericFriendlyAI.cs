@@ -23,7 +23,6 @@ namespace Systems.MobAIs
 		{
 			base.Awake();
 			simpleAnimal = GetComponent<SimpleAnimal>();
-			BeginExploring();
 		}
 
 		protected override void UpdateMe()
@@ -90,6 +89,7 @@ namespace Systems.MobAIs
 			{
 				simpleAnimal.SetDeadState(false);
 			}
+			BeginExploring();
 		}
 
 		protected override void OnAttackReceived(GameObject damagedBy = null)

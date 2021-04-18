@@ -35,7 +35,6 @@ namespace Systems.MobAIs
 		{
 			base.OnSpawnMob();
 			currentLaidEggs = 0;
-			BeginExploring();
 		}
 
 		protected override void DoRandomAction()

@@ -10,7 +10,7 @@ namespace Systems.MobAIs
 	[RequireComponent(typeof(MobFollow))]
 	[RequireComponent(typeof(MobExplore))]
 	[RequireComponent(typeof(MobFlee))]
-	public class MobAI : MonoBehaviour, IServerDespawn
+	public class MobAI : MonoBehaviour, IServerLifecycle
 	{
 		public string mobName;
 		[Tooltip("When the mob is unconscious, how much should the sprite obj " +
@@ -74,29 +74,21 @@ namespace Systems.MobAIs
 			uprightSprites = GetComponent<UprightSprites>();
 		}
 
-		public virtual void OnEnable()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			//only needed for starting via a map scene through the editor:
-			if (CustomNetworkManager.Instance == null) return;
-
-			if (CustomNetworkManager.Instance._isServer)
-			{
-				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-				UpdateManager.Add(PeriodicUpdate, 1f);
-				health.applyDamageEvent += AttackReceivedCoolDown;
-				isServer = true;
-				AIStartServer();
-			}
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Add(PeriodicUpdate, 1f);
+			health.applyDamageEvent += AttackReceivedCoolDown;
+			isServer = true;
+			AIStartServer();
 		}
 
-		public void OnDisable()
+		public virtual void OnDespawnServer(DespawnInfo info)
 		{
-			if (isServer)
-			{
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-				health.applyDamageEvent += AttackReceivedCoolDown;
-			}
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+			health.applyDamageEvent += AttackReceivedCoolDown;
+			ResetBehaviours();
 		}
 
 		/// <summary>
@@ -468,9 +460,5 @@ namespace Systems.MobAIs
 		/// <param name="doLerpAnimation"></param>
 		public virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir) { }
 
-		public virtual void OnDespawnServer(DespawnInfo info)
-		{
-			ResetBehaviours();
-		}
 	}
 }
