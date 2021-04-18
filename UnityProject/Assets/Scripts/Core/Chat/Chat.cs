@@ -116,11 +116,11 @@ public partial class Chat : MonoBehaviour
 
 			if (isAdmin)
 			{
-				chatEvent.speaker = "<color=red>[Admin]</color> " + chatEvent.speaker;
+				chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
 			}
 			else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId))
 			{
-				chatEvent.speaker = "<color=#6400ff>[Mentor]</color> " + chatEvent.speaker;
+				chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
 			}
 
 			if (Instance.OOCMute && !isAdmin) return;
