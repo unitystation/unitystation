@@ -55,5 +55,5 @@ namespace Systems.Electricity
 			EditorGUILayout.EndHorizontal();
 		}
 	}
-#endif
 }
+#endif
