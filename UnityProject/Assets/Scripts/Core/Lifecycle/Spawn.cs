@@ -54,6 +54,7 @@ public static class Spawn
 	{
 		if (objectPool == null)
 		{
+			CustomNetworkManager.Instance.SetSpawnableList();
 			//only can spawn objects that are networked
 			var spawnablePrefabs = CustomNetworkManager.Instance.spawnPrefabs
 				.Where(IsPrefab)
