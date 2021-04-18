@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
@@ -6,9 +7,12 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Core.Chat;
+using DatabaseAPI;
 using Mirror;
 using ScriptableObjects;
 using Tilemaps.Behaviours.Meta;
+using WebSocketSharp;
+using Random = UnityEngine.Random;
 
 public partial class Chat
 {
@@ -171,6 +175,9 @@ public partial class Chat
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
 		ChatModifier modifiers, bool stripTags = true)
 	{
+		//Highlight in game name by bolding and underlining if possible
+		message = HighlightInGameName(message);
+
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
 		{
@@ -201,6 +208,9 @@ public partial class Chat
 		if (stripTags)
 		{
 			message = StripTags(message);
+
+			//Bold names again after tag stripping
+			message = HighlightInGameName(message);
 		}
 
 		//Check for emote. If found skip chat modifiers, make sure emote is only in Local channel
@@ -228,7 +238,11 @@ public partial class Chat
 			{
 				name = "nerd";
 			}
-			message = AddMsgColor(channels, $"[ooc] <b>{speaker}: {message}</b>");
+
+			//highlight OOC name by bolding and underlining if possible
+			message = HighlightName(message, ServerData.Auth.CurrentUser.DisplayName);
+
+			message = AddMsgColor(channels, $"[ooc] <b>{name}: {message}</b>");
 			return message;
 		}
 
@@ -302,6 +316,43 @@ public partial class Chat
 		string output = rx.Replace(input, "");
 
 		return output;
+	}
+
+	private static string HighlightInGameName(string input)
+	{
+		var boldedName = input;
+
+		//Do in game name if possible
+		if (PlayerManager.LocalPlayerScript != null)
+		{
+			foreach (var nameSplit in PlayerManager.LocalPlayerScript.playerName.Split(' '))
+			{
+				boldedName = HighlightName(boldedName, nameSplit);
+			}
+		}
+
+		return boldedName;
+	}
+
+	private static string HighlightName(string input, string name)
+	{
+		if (name.IsNullOrEmpty())
+		{
+			return input;
+		}
+
+		var output = input.Split(' ');
+
+		for (int i = 0; i < output.Count(); i++)
+		{
+			if (Regex.IsMatch(output[i], $@"(?:^|\W){name}(?:$|\W)", RegexOptions.IgnoreCase))
+			{
+				//Bold and underline it
+				output[i] = $"<u><b>{output[i]}</b></u>";
+			}
+		}
+
+		return string.Join(" ", output);
 	}
 
 
