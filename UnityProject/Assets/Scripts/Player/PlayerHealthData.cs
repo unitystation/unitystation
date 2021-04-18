@@ -39,6 +39,8 @@ public class RaceHealthData
 	public BloodType BloodType;
 
 	public ImplantProcedure RootImplantProcedure;
+
+	public List<HealthV2.BodyPart> BodyPartsThatShareTheSkinTone = new List<HealthV2.BodyPart>();
 }
 
 

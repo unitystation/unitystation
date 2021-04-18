@@ -27,6 +27,19 @@ namespace UI.CharacterCreator
 			}
 		}
 
+		private IEnumerator Start()
+		{
+			yield return new WaitForEndOfFrame();
+			if (characterCustomization.ThisSetRace.Base.BodyPartsThatShareTheSkinTone.Contains(RelatedBodyPart))
+			{
+				SelectionColourImage.gameObject.SetActive(false);
+			}
+			else
+			{
+				SelectionColourImage.gameObject.SetActive(true);
+			}
+		}
+
 		public override void Deserialise(string InData)
 		{
 			var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
@@ -141,11 +154,24 @@ namespace UI.CharacterCreator
 			//Refresh();
 		}
 
+		private void CheckSkinToneShare()
+		{
+			if (characterCustomization.ThisSetRace.Base.BodyPartsThatShareTheSkinTone.Contains(RelatedBodyPart))
+			{
+				ColorUtility.TryParseHtmlString(characterCustomization.CurrentCharacter.SkinTone, out BodyPartColour);
+				SelectionColourImage.gameObject.SetActive(false);
+			}
+			else
+			{
+				SelectionColourImage.color = BodyPartColour;
+			}
+		}
+
 		public override void Refresh()
 		{
 			//Just the first one for now
 			RelatedRelatedPreviewSprites[0].SpriteHandler.SetColor(BodyPartColour);
-			SelectionColourImage.color = BodyPartColour;
+			CheckSkinToneShare();
 
 			if (Dropdown.value == 0)
 			{
