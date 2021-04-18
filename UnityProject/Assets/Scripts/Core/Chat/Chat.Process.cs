@@ -11,6 +11,7 @@ using DatabaseAPI;
 using Mirror;
 using ScriptableObjects;
 using Tilemaps.Behaviours.Meta;
+using Unitystation.Options;
 using WebSocketSharp;
 using Random = UnityEngine.Random;
 
@@ -49,6 +50,7 @@ public partial class Chat
 
 	private static GameObject playerGameObject;
 
+	private static bool playedSound;
 
 	/// <summary>
 	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
@@ -175,6 +177,7 @@ public partial class Chat
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
 		ChatModifier modifiers, bool stripTags = true)
 	{
+		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
 		message = HighlightInGameName(message);
 
@@ -320,6 +323,11 @@ public partial class Chat
 
 	private static string HighlightInGameName(string input)
 	{
+		if(ThemeManager.ChatHighlight == false && ThemeManager.MentionSound == false)
+		{
+			return input;
+		}
+
 		var boldedName = input;
 
 		//Do in game name if possible
@@ -336,7 +344,7 @@ public partial class Chat
 
 	private static string HighlightName(string input, string name)
 	{
-		if (name.IsNullOrEmpty())
+		if ((ThemeManager.ChatHighlight == false && ThemeManager.MentionSound == false) || name.IsNullOrEmpty())
 		{
 			return input;
 		}
@@ -349,6 +357,17 @@ public partial class Chat
 			{
 				//Bold and underline it
 				output[i] = $"<u><b>{output[i]}</b></u>";
+
+				if (ThemeManager.MentionSound && playedSound == false)
+				{
+					SoundManager.Play(SingletonSOSounds.Instance.Click01);
+					playedSound = true;
+
+					if (ThemeManager.ChatHighlight == false)
+					{
+						return input;
+					}
+				}
 			}
 		}
 

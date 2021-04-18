@@ -42,6 +42,9 @@ namespace Unitystation.Options
         //Set to true when all the themes have been successfully loaded
         private bool themesLoaded = false;
 
+        public static bool ChatHighlight;
+        public static bool MentionSound;
+
         public InitialisationSystems Subsystem => InitialisationSystems.ThemeManager;
 
         void IInitialise.Initialise()
@@ -54,6 +57,33 @@ namespace Unitystation.Options
 	        }
 
 	        LoadAllThemes();
+
+	        if (PlayerPrefs.HasKey(PlayerPrefKeys.HighlightChat) == false)
+	        {
+		        PlayerPrefs.SetInt(PlayerPrefKeys.HighlightChat, 1);
+	        }
+
+	        if (PlayerPrefs.HasKey(PlayerPrefKeys.MentionSound) == false)
+	        {
+		        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSound, 1);
+	        }
+
+	        ChatHighlight = PlayerPrefs.GetInt(PlayerPrefKeys.HighlightChat) == 1;
+	        MentionSound = PlayerPrefs.GetInt(PlayerPrefKeys.MentionSound) == 1;
+        }
+
+        public void ChatHighlightToggle(bool toggle)
+        {
+	        ChatHighlight = toggle;
+	        PlayerPrefs.SetInt(PlayerPrefKeys.HighlightChat, toggle ? 1 : 0);
+	        PlayerPrefs.Save();
+        }
+
+        public void MentionSoundToggle(bool toggle)
+        {
+	        MentionSound = toggle;
+	        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSound, toggle ? 1 : 0);
+	        PlayerPrefs.Save();
         }
 
         public static void RegisterHandler(ThemeHandler handler)

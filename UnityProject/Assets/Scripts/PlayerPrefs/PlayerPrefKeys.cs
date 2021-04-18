@@ -80,4 +80,14 @@
 	/// 1 = enabled, every VBlank
 	/// <summary>
 	public static string VSyncEnabled = "EnableVSync";
+
+	/// <summary>
+	/// Hightlight character/OOC name when mentioned in chat
+	/// <summary>
+	public static string HighlightChat = "HighlightChat";
+
+	/// <summary>
+	/// Play sound when character name mentioned in chat
+	/// <summary>
+	public static string MentionSound = "MentionSound";
 }
