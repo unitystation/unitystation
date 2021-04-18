@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/4/18: Lizard body parts now have display names. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6379](https://github.com/unitystation/unitystation/pull/6379)
+* 2021/4/18: Lizards' tails will now share colors with their skintones. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6379](https://github.com/unitystation/unitystation/pull/6379)
 * 2021/4/17: Adds in a small text to tell new players what their current character sheet is. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6378](https://github.com/unitystation/unitystation/pull/6378)
 * 2021/4/17: You can now exit the character selector without the need of editing a character. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6378](https://github.com/unitystation/unitystation/pull/6378)
 * 2021/4/17: Adds in a way to delete characters by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6378](https://github.com/unitystation/unitystation/pull/6378)
