@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
-using UnityEngine;
 using Mirror;
 using Systems.Electricity;
 using HealthV2;
@@ -16,7 +15,7 @@ namespace Objects.Medical
 
 		public bool Powered => powered;
 		[SyncVar(hook = nameof(SyncPowered))] private bool powered;
-		// tracks whether we've recieved our first power update from electriciy.
+		// tracks whether we've recieved our first power update from electricity.
 		// allows us to avoid syncing power when it is unchanged
 		private bool powerInit;
 
