@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &4415715572643866652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109032868588680718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fad7d0efbff27f99ef652919cd9cd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clusmyMisfire: 1
+  setRestriction: 36
+  deniedMessage: The weapon displays 'User authentication failed'
 --- !u!1001 &5969244520626711211
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,5 +114,12 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 261427074662299579, guid: 0c0328cbf94ffe648a0903cfc375ab91, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0c0328cbf94ffe648a0903cfc375ab91, type: 3}
+--- !u!1 &109032868588680718 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+    type: 3}
+  m_PrefabInstance: {fileID: 5969244520626711211}
+  m_PrefabAsset: {fileID: 0}

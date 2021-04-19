@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Systems.Electricity;
+using Weapons;
 
 namespace Objects
 {

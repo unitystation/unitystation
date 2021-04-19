@@ -3,53 +3,61 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-/// <summary>
-/// Gun scripts are strange, This is to make it easy to have a charging Ammo clip
-/// </summary>
-[RequireComponent(typeof(Battery))]
-public class ElectricalMagazine : MagazineBehaviour
+namespace Weapons
 {
-	[NonSerialized]
-	public Battery battery;
-
-	[NonSerialized]
-	public int toRemove;
-
-	public void Awake()
+	/// <summary>
+	/// Rechargabe firearm cell
+	/// </summary>
+	[RequireComponent(typeof(Battery))]
+	public class ElectricalMagazine : MagazineBehaviour
 	{
-		magType = MagType.Cell;
-		battery = GetComponent<Battery>();
-	}
+		[NonSerialized]
+		public Battery battery;
 
-	public override void InitLists()
-	{
-		containedProjectilesFired  = new List<int>(1);
-		containedBullets  = new List<GameObject>(1);
-		containedBullets.Add(initalProjectile);
-		containedProjectilesFired.Add(ProjectilesFired);
-	}
+		[NonSerialized]
+		public int toRemove;
 
-	public override void ExpendAmmo(int amount = 1)
-	{
-		if (toRemove > battery.Watts) 
+		public void Awake()
 		{
-			return;
+			magType = MagType.Cell;
+			battery = GetComponent<Battery>();
 		}
-		base.ExpendAmmo(amount);
-		if (CustomNetworkManager.Instance._isServer == false) return;
-		battery.Watts -= toRemove;
-	}
 
-	public void AddCharge()
-	{
-		int Ammo = Mathf.RoundToInt(magazineSize * ((float) battery.Watts / (float) battery.MaxWatts));
-		Ammo = Mathf.Clamp(Ammo, 0, magazineSize);
-		ServerSetAmmoRemains(Ammo);
-	}
+		public override void InitLists()
+		{
+			containedBullets  = new List<GameObject>(1)
+			{
+				initalProjectile
+			};
 
-	public override String Examine(Vector3 pos)
-	{
-		float percent = (battery.Watts * 100 / battery.MaxWatts);
-		return $"It seems to be compatible with energy weapons. The charge indicator displays {Math.Round(percent)} percent.";
+			containedProjectilesFired  = new List<int>(1)
+			{
+				ProjectilesFired
+			};
+		}
+
+		public override void ExpendAmmo(int amount = 1)
+		{
+			if (toRemove > battery.Watts) 
+			{
+				return;
+			}
+			base.ExpendAmmo(amount);
+			if (CustomNetworkManager.Instance._isServer == false) return;
+			battery.Watts -= toRemove;
+		}
+
+		public void AddCharge()
+		{
+			int Ammo = Mathf.RoundToInt(magazineSize * ((float) battery.Watts / (float) battery.MaxWatts));
+			Ammo = Mathf.Clamp(Ammo, 0, magazineSize);
+			ServerSetAmmoRemains(Ammo);
+		}
+
+		public override String Examine(Vector3 pos)
+		{
+			float percent = (battery.Watts * 100 / battery.MaxWatts);
+			return $"It seems to be compatible with energy weapons. The charge indicator displays {Math.Round(percent)} percent.";
+		}
 	}
 }
