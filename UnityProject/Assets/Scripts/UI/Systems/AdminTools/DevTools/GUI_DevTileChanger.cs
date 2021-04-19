@@ -210,10 +210,10 @@ namespace UI.Systems.AdminTools.DevTools
 			matrixDropdown.value = matrixIndex;
 		}
 
-		public void OnMatrixChange(int index)
+		public void OnMatrixChange()
 		{
 			//Sorted dictionary so it should be correct to get index from this dropdown directly
-			matrixIndex = index;
+			matrixIndex = matrixDropdown.value;
 		}
 
 		#endregion
