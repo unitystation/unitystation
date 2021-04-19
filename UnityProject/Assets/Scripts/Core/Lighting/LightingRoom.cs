@@ -6,8 +6,8 @@ namespace Core.Lighting
 {
 	public class LightingRoom : MonoBehaviour
 	{
-		public LightingTileManager tileManager { get; set; }
-		public LightingSourceManager sourceManager { get; set; }
+		public LightingTileManager TileManager { get; set; }
+		public LightingSourceManager SourceManager { get; set; }
 
 		/// <summary>
 		///     x = left
@@ -16,11 +16,13 @@ namespace Core.Lighting
 		///     w = down
 		/// </summary>
 		/// <value>The bounds of the LightTile Group in the room.</value>
-		public Vector4 bounds {
-			get {
-				if (tileManager != null)
+		public Vector4 Bounds
+		{
+			get
+			{
+				if (TileManager != null)
 				{
-					return tileManager.bounds;
+					return TileManager.bounds;
 				}
 				return Vector4.zero;
 			}
@@ -33,10 +35,10 @@ namespace Core.Lighting
 				if (child.gameObject.name == "Tiles")
 				{
 					child.gameObject.SetActive(true);
-					tileManager = child.gameObject.GetComponent<LightingTileManager>();
+					TileManager = child.gameObject.GetComponent<LightingTileManager>();
 				}
 			}
-			sourceManager = GetComponentInChildren<LightingSourceManager>();
+			SourceManager = GetComponentInChildren<LightingSourceManager>();
 		}
 
 		private void Start()
@@ -46,12 +48,12 @@ namespace Core.Lighting
 
 		private void PrintBounds()
 		{
-			Logger.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + bounds, Category.Lighting);
+			Logger.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + Bounds, Category.Lighting);
 		}
 
 		public void LightSwitchOff()
 		{
-			foreach (KeyValuePair<Vector2, LightSource> light in sourceManager.lights)
+			foreach (KeyValuePair<Vector2, LightSource> light in SourceManager.lights)
 			{
 				light.Value.Trigger(false);
 			}
@@ -59,7 +61,7 @@ namespace Core.Lighting
 
 		public void LightSwitchOn()
 		{
-			foreach (KeyValuePair<Vector2, LightSource> light in sourceManager.lights)
+			foreach (KeyValuePair<Vector2, LightSource> light in SourceManager.lights)
 			{
 				light.Value.Trigger(true);
 			}

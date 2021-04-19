@@ -92,18 +92,12 @@ namespace Objects.Lighting
 			if (isServer == false) return;
 			switch (state)
 			{
+				case PowerState.OverVoltage:
 				case PowerState.On:
 					ServerChangeState(true, invokeEvent: false);
 					powerState = state;
 					break;
 				case PowerState.LowVoltage:
-					ServerChangeState(false, invokeEvent: false);
-					powerState = state;
-					break;
-				case PowerState.OverVoltage:
-					ServerChangeState(true, invokeEvent: false);
-					powerState = state;
-					break;
 				default:
 					ServerChangeState(false, invokeEvent: false);
 					powerState = state;

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Mirror;
-using UnityEditor;
 using UnityEngine.Serialization;
 using Objects.Engineering;
 
@@ -161,7 +160,7 @@ namespace Systems.Electricity
 			RelatedAPC.RemoveDevice(this);
 		}
 
-		public void PowerNetworkUpdate(float voltage) //Could be optimised to not update when voltage is same as previous voltage
+		public void PowerNetworkUpdate(float voltage) // Could be optimised to not update when voltage is same as previous voltage
 		{
 			if (AdvancedControlToScript)
 			{
@@ -170,7 +169,7 @@ namespace Systems.Electricity
 			}
 			else
 			{
-				var newState = PowerState.Off;
+				var newState = PowerState.On;
 				if (voltage <= 1)
 				{
 					newState = PowerState.Off;
@@ -182,10 +181,6 @@ namespace Systems.Electricity
 				else if (voltage < minimumWorkingVoltage)
 				{
 					newState = PowerState.LowVoltage;
-				}
-				else
-				{
-					newState = PowerState.On;
 				}
 
 				if (newState == state) return;

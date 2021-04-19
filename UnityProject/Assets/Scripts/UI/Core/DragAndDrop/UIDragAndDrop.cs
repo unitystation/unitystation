@@ -93,10 +93,7 @@ namespace UI
 
 		public void EnteredInteractable()
 		{
-			if (dragDummy.transform.localScale != interactableScale)
-			{
-				dragDummy.transform.localScale = interactableScale;
-			}
+			dragDummy.transform.localScale = interactableScale;
 			if (dragDummy.enabled)
 			{
 				shadow.enabled = true;
