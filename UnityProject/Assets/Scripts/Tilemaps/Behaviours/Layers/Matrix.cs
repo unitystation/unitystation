@@ -23,7 +23,7 @@ public class Matrix : MonoBehaviour
 	public List<TilemapDamage> TilemapsDamage => tilemapsDamage;
 
 	private MetaTileMap metaTileMap;
-	public MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
+	public MetaTileMap MetaTileMap => metaTileMap;
 
 	private TileList serverObjects;
 
@@ -89,6 +89,12 @@ public class Matrix : MonoBehaviour
 
 	private void Awake()
 	{
+		metaTileMap = GetComponent<MetaTileMap>();
+		if (metaTileMap == null)
+		{
+			Logger.LogError($"MetaTileMap was null on {gameObject.name}");
+		}
+
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		reactionManager = GetComponent<ReactionManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
