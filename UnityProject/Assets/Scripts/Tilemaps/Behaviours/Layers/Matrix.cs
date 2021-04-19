@@ -562,6 +562,12 @@ public class Matrix : MonoBehaviour
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color;
+
+		if (metaTileMap == null)
+		{
+			metaTileMap = GetComponent<MetaTileMap>();
+		}
+
 		BoundsInt bounds = MetaTileMap.GetWorldBounds();
 		DebugGizmoUtils.DrawText(gameObject.name, bounds.max, 11, 5);
 		DebugGizmoUtils.DrawRect(bounds);
