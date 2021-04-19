@@ -9,7 +9,6 @@ namespace Player.EmoteScripts
 	{
 		public override void Do(GameObject player)
 		{
-			Debug.Log(CheckPlayerCritState(player));
 			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player) == false)
 			{
 				//Hacky way to run a coroutine inside an SO
