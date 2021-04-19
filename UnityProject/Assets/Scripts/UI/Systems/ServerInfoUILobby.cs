@@ -9,7 +9,7 @@ using System;
 using Initialisation;
 using Messages.Client;
 using Messages.Server;
-using UnityEngine.UI;
+using UI;
 
 namespace ServerInfo
 {
@@ -57,7 +57,7 @@ namespace ServerInfo
         {
 	        var path = Path.Combine(Application.streamingAssetsPath, "config", "serverDescLinks.json");
 
-	        if (!File.Exists(path)) return;
+	        if (File.Exists(path) == false) return;
 
 	        var linkList = JsonUtility.FromJson<ServerInfoLinks>(File.ReadAllText(path));
 
@@ -70,9 +70,9 @@ namespace ServerInfo
 	        ServerDesc.text = newDesc;
 	        serverDiscordID = newDiscordID;
 
-	        if(string.IsNullOrEmpty(newDesc)) return;
+	        if (string.IsNullOrEmpty(newDesc)) return;
 	        ServerInfoUILobbyObject.SetActive(true);
-	        if(string.IsNullOrEmpty(newDiscordID)) return;
+	        if (string.IsNullOrEmpty(newDiscordID)) return;
 	        DiscordButton.SetActive(true);
 	        DiscordButton.GetComponent<OpenURL>().url = "https://discord.gg/" + newDiscordID;
         }

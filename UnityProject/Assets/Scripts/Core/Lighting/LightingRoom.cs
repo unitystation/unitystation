@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Objects.Lighting;
 
-
+namespace Core.Lighting
+{
 	public class LightingRoom : MonoBehaviour
 	{
 		public LightingTileManager tileManager { get; set; }
@@ -14,10 +16,8 @@ using UnityEngine;
 		///     w = down
 		/// </summary>
 		/// <value>The bounds of the LightTile Group in the room.</value>
-		public Vector4 bounds
-		{
-			get
-			{
+		public Vector4 bounds {
+			get {
 				if (tileManager != null)
 				{
 					return tileManager.bounds;
@@ -65,3 +65,4 @@ using UnityEngine;
 			}
 		}
 	}
+}

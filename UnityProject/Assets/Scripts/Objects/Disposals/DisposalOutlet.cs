@@ -46,9 +46,9 @@ namespace Objects.Disposals
 		{
 			foreach (DisposalVirtualContainer container in receivedContainers)
 			{
-				if(container.gameObject == null) continue;
+				if (container.gameObject == null) continue;
 
-				Despawn.ServerSingle(container.gameObject);
+				_ = Despawn.ServerSingle(container.gameObject);
 			}
 		}
 
@@ -160,7 +160,7 @@ namespace Objects.Disposals
 				foreach (DisposalVirtualContainer container in receivedContainers)
 				{
 					container.EjectContentsAndThrow(directional.CurrentDirection.Vector);
-					Despawn.ServerSingle(container.gameObject);
+					_ = Despawn.ServerSingle(container.gameObject);
 				}
 				receivedContainers.Clear();
 

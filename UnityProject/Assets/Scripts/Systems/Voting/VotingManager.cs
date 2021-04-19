@@ -60,14 +60,14 @@ public class VotingManager : NetworkBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStarted);
-		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnded);
+		EventManager.AddHandler(Event.RoundStarted, OnRoundStarted);
+		EventManager.AddHandler(Event.RoundEnded, OnRoundEnded);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStarted);
-		EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnded);
+		EventManager.RemoveHandler(Event.RoundStarted, OnRoundStarted);
+		EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnded);
 	}
 
 	void OnRoundStarted()

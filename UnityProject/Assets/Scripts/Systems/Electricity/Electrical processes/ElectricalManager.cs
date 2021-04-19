@@ -74,14 +74,14 @@ namespace Systems.Electricity
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.RoundStarted, StartSim);
-			EventManager.AddHandler(EVENT.RoundEnded, StopSim);
+			EventManager.AddHandler(Event.RoundStarted, StartSim);
+			EventManager.AddHandler(Event.RoundEnded, StopSim);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.RoundStarted, StartSim);
-			EventManager.RemoveHandler(EVENT.RoundEnded, StopSim);
+			EventManager.RemoveHandler(Event.RoundStarted, StartSim);
+			EventManager.RemoveHandler(Event.RoundEnded, StopSim);
 		}
 
 		public void StartSim()

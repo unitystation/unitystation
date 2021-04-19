@@ -89,6 +89,7 @@ namespace IngameDebugConsole
 
 			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
 			VideoPlayerMessage.Send(VideoType.RestartRound);
+			GameManager.Instance.RoundEndTime = 5f;
 			GameManager.Instance.EndRound();
 		}
 

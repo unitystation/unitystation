@@ -194,7 +194,7 @@ namespace UI.CharacterCreator
 			Cleanup();
 			LoadSettings(currentCharacter);
 			RefreshAll();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		private void ShowCharacterSelectorPage()
@@ -203,7 +203,7 @@ namespace UI.CharacterCreator
 			GoBackButtonText.text = "Exit";
 			CharacterSelectorPage.SetActive(true);
 			CharacterCreatorPage.SetActive(false);
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		public void CreateCharacter()
@@ -215,19 +215,19 @@ namespace UI.CharacterCreator
 			ShowCharacterCreator();
 			DoInitChecks();
 			RefreshAll();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		public void EditCharacter()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			ShowCharacterCreator();
 			RefreshAll();
 		}
 
 		public void HandleExitButton()
 		{
-			if(CharacterCreatorPage.activeSelf == true)
+			if (CharacterCreatorPage.activeSelf == true)
 			{
 				ShowCharacterSelectorPage();
 			}
@@ -315,8 +315,9 @@ namespace UI.CharacterCreator
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
+
 		public void ScrollSelectorRight()
 		{
 			if (currentCharacterIndex < PlayerCharacters.Count() - 1)
@@ -332,7 +333,7 @@ namespace UI.CharacterCreator
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		private void LoadSettings(CharacterSettings inCharacterSettings)
@@ -919,8 +920,7 @@ namespace UI.CharacterCreator
 			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
-			// TODO Consider adding await. Otherwise this causes a compile warning.
-			ServerData.UpdateCharacterProfile(currentCharacter);
+			_ = ServerData.UpdateCharacterProfile(currentCharacter);
 			SaveCharacters();
 		}
 
@@ -1081,7 +1081,7 @@ namespace UI.CharacterCreator
 
 		public void OnApplyBtn()
 		{
-			OnApplyBtnLogic();
+			_ = OnApplyBtnLogic();
 		}
 
 		private async Task OnApplyBtnLogic()
@@ -1100,12 +1100,10 @@ namespace UI.CharacterCreator
 			catch (InvalidOperationException e)
 			{
 				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
-				SoundManager.Play(SingletonSOSounds.Instance.AccessDenied);
+				_ = SoundManager.Play(SingletonSOSounds.Instance.AccessDenied);
 				DisplayErrorText(e.Message);
 				return;
 			}
-
-
 
 			PlayerCharacters[currentCharacterIndex] = currentCharacter;
 
@@ -1115,7 +1113,7 @@ namespace UI.CharacterCreator
 
 			SaveData();
 			ShowCharacterSelectorPage();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			gameObject.SetActive(false);
 		}
 

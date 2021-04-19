@@ -120,7 +120,7 @@ public class HackingProcessDoorSimple : HackingProcessBase
 	{
 		if (serverEndRoundHackingResetSetup) return;
 
-		EventManager.AddHandler(EVENT.PreRoundStarted, ServerResetHackingSeedOnRoundReset);
+		EventManager.AddHandler(Event.PreRoundStarted, ServerResetHackingSeedOnRoundReset);
 		serverEndRoundHackingResetSetup = true;
 	}
 	private static void ServerResetHackingSeedOnRoundReset()

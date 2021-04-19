@@ -5,6 +5,7 @@ using AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
 using Objects.Atmospherics;
+using UI.Core;
 
 namespace UI.Objects.Atmospherics
 {

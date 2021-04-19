@@ -11,7 +11,7 @@ namespace Chemistry
 	/// <summary>
 	/// Main component for chemistry dispenser.
 	/// </summary>
-	public class BoozeDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowered
+	public class BoozeDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
 	{
 		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
 			? itemSlot.ItemObject.GetComponent<ReagentContainer>()
@@ -60,14 +60,17 @@ namespace Chemistry
 			UpdateGUI();
 		}
 
-		//############################## power stuff ########################################
-		public PowerStates ThisState;
+		#region IAPCPowerable
 
-		public void PowerNetworkUpdate(float Voltage) { }
+		public PowerState ThisState;
 
-		public void StateUpdate(PowerStates State)
+		public void PowerNetworkUpdate(float voltage) { }
+
+		public void StateUpdate(PowerState state)
 		{
-			ThisState = State;
+			ThisState = state;
 		}
+
+		#endregion
 	}
 }

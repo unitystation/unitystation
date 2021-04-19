@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Atmospherics;
-using UnityEngine;
+using UI.Core;
 
 namespace UI.Objects.Atmospherics
 {

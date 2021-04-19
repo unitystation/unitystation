@@ -29,13 +29,13 @@ namespace Lobby
 		{
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
-			EventManager.AddHandler(EVENT.LoggedOut, SetOnLogOut);
+			EventManager.AddHandler(Event.LoggedOut, SetOnLogOut);
 			CustomNetworkManager.Instance.OnClientDisconnected.AddListener(OnClientDisconnect);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.LoggedOut, SetOnLogOut);
+			EventManager.RemoveHandler(Event.LoggedOut, SetOnLogOut);
 			CustomNetworkManager.Instance?.OnClientDisconnected?.RemoveListener(OnClientDisconnect);
 		}
 

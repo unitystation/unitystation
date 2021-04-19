@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace Systems.Electricity
 {
-	public interface IAPCPowered
+	public interface IAPCPowerable
 	{
-		void PowerNetworkUpdate(float Voltage);
-		void StateUpdate(PowerStates State);
+		void PowerNetworkUpdate(float voltage);
+
+		void StateUpdate(PowerState state);
 	}
 }

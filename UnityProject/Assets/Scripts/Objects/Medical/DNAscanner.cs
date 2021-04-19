@@ -9,15 +9,15 @@ using HealthV2;
 
 namespace Objects.Medical
 {
-	public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPowered
+	public class DNAScanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPowerable
 	{
 		public LivingHealthMasterBase occupant;
 		public string statusString;
 
 		public bool Powered => powered;
 		[SyncVar(hook = nameof(SyncPowered))] private bool powered;
-		//tracks whether we've recieved our first power update from electriciy.
-		//allows us to avoid  syncing power when it is unchanged
+		// tracks whether we've recieved our first power update from electriciy.
+		// allows us to avoid syncing power when it is unchanged
 		private bool powerInit;
 
 		private enum ScannerState
@@ -29,7 +29,7 @@ namespace Objects.Medical
 			ClosedPoweredWithOccupant
 		}
 
-		public Objects.Engineering.APC RelatedAPC;
+		public Engineering.APC RelatedAPC;
 
 		private CancellationTokenSource cancelOccupiedAnim = new CancellationTokenSource();
 
@@ -89,7 +89,6 @@ namespace Objects.Medical
 
 		protected override void UpdateSpritesOnStatusChange()
 		{
-			//Logger.Log("TTTTTTTTTTTTT" + value.ToString());
 			if (ClosetStatus == ClosetStatus.Open)
 			{
 				cancelOccupiedAnim.Cancel();
@@ -124,12 +123,12 @@ namespace Objects.Medical
 
 		private void SyncPowered(bool oldValue, bool value)
 		{
-			//does nothing if power is unchanged and
-			//we've already init'd
+			// does nothing if power is unchanged and
+			// we've already init'd
 			if (powered == value && powerInit) return;
 
 			powered = value;
-			if (!powered)
+			if (powered == false)
 			{
 				if (IsLocked)
 				{
@@ -139,14 +138,14 @@ namespace Objects.Medical
 			UpdateSpritesOnStatusChange();
 		}
 
-		public void PowerNetworkUpdate(float Voltage)
-		{
-		}
+		#region IAPCPowerable
 
-		public void StateUpdate(PowerStates State)
+		public void PowerNetworkUpdate(float voltage) { }
+
+		public void StateUpdate(PowerState state)
 		{
 			RelatedAPC = GetComponent<APCPoweredDevice>().RelatedAPC;
-			if (State == PowerStates.Off || State == PowerStates.LowVoltage)
+			if (state == PowerState.Off || state == PowerState.LowVoltage)
 			{
 				SyncPowered(powered, false);
 			}
@@ -155,10 +154,12 @@ namespace Objects.Medical
 				SyncPowered(powered, true);
 			}
 
-			if (!powerInit)
+			if (powerInit == false)
 			{
 				powerInit = true;
 			}
 		}
+
+		#endregion
 	}
 }

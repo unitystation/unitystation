@@ -65,7 +65,7 @@ public partial class MatrixManager : MonoBehaviour
 		yield return WaitFor.Seconds(0.1f);
 		IsInitialized = true;
 
-		EventManager.Broadcast(EVENT.MatrixManagerInit);
+		EventManager.Broadcast(Event.MatrixManagerInit);
 	}
 
 	private void Awake()
@@ -1135,12 +1135,11 @@ public partial class MatrixManager : MonoBehaviour
 	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{
-		//Invalid matrix info provided
+		// Invalid matrix info provided
 		if (matrix is null || matrix.Equals(MatrixInfo.Invalid) || worldPos == TransformState.HiddenPos)
 		{
 			return TransformState.HiddenPos;
 		}
-
 
 		if (matrix.MatrixMove == null)
 		{
@@ -1149,21 +1148,8 @@ public partial class MatrixManager : MonoBehaviour
 
 		var state = matrix.MatrixMove.ClientState;
 
-		return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted * (worldPos -
-			matrix.MatrixMove.Pivot -
-			matrix.GetOffset(state))) + matrix.MatrixMove.Pivot;
-
-
-		return (matrix.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
-		        (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
-		       matrix.MatrixMove.Pivot;
-
-
-		//return
-
-		// return (matrix.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
-		// (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
-		// matrix.MatrixMove.Pivot;
+		return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
+				(worldPos - matrix.MatrixMove.Pivot - matrix.GetOffset(state))) + matrix.MatrixMove.Pivot;
 	}
 
 	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)

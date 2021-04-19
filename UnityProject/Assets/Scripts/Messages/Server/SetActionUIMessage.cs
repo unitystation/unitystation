@@ -3,6 +3,7 @@ using Mirror;
 using UnityEngine;
 using Systems.Spells;
 using ScriptableObjects.Systems.Spells;
+using UI.Action;
 
 namespace Messages.Server
 {
@@ -37,19 +38,17 @@ namespace Messages.Server
 				//SpellList singleton index
 				var spellData = SpellList.Instance.FromIndex(msg.spellListIndex);
 
-				if (!UIActionManager.HasActionData(spellData, out action))
+				if (UIActionManager.HasActionData(spellData, out action) == false)
 				{
-					if (msg.ProposedAction == UpdateType.StateChange && msg.showAlert == false)
-					{ //no need to instantiate a spell if server asks to hide one anyway
-						return;
-					}
+					// no need to instantiate a spell if server asks to hide one anyway
+					if (msg.ProposedAction == UpdateType.StateChange && msg.showAlert == false) return;
 
 					action = spellData.AddToPlayer(PlayerManager.LocalPlayerScript);
 				}
 			}
 			else
 			{
-				//Action pre-placed on a networked object
+				// Action pre-placed on a networked object
 				LoadNetworkObject(msg.NetObject);
 				var actions = NetworkObject.GetComponentsInChildren(DeserializeType(msg.ComponentID));
 				if ((actions.Length > msg.ComponentLocation))
@@ -85,7 +84,7 @@ namespace Messages.Server
 			float cooldown = 0,
 			int location = 0)
 		{
-			//SO action singleton ID
+			// SO action singleton ID
 			if (action is UIActionScriptableObject actionFromSO)
 			{
 				NetMessage msg = new NetMessage
@@ -101,7 +100,7 @@ namespace Messages.Server
 				SendTo(recipient, msg);
 				return msg;
 			}
-			//SpellList singleton index
+			// SpellList singleton index
 			else if (action is Spell spellAction)
 			{
 				NetMessage msg = new NetMessage
@@ -118,7 +117,7 @@ namespace Messages.Server
 			}
 			else
 			{
-				//Action pre-placed on a networked object
+				// Action pre-placed on a networked object
 				var netObject = (action as Component).GetComponent<NetworkIdentity>();
 				var type = action.GetType();
 				var foundActions = netObject.GetComponentsInChildren(type);
@@ -162,7 +161,7 @@ namespace Messages.Server
 
 		public static NetMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, bool _showAlert)
 		{
-			return (_Send(recipient, iServerActionGUI, UpdateType.StateChange, _showAlert));
+			return _Send(recipient, iServerActionGUI, UpdateType.StateChange, _showAlert);
 		}
 
 		public static NetMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, float cooldown)
@@ -172,13 +171,13 @@ namespace Messages.Server
 
 		public static NetMessage SetSprite(GameObject recipient, IActionGUI iServerActionGUI, int FrontIconlocation)
 		{
-			return (_Send(recipient, iServerActionGUI, UpdateType.FrontIcon, location: FrontIconlocation));
+			return _Send(recipient, iServerActionGUI, UpdateType.FrontIcon, location: FrontIconlocation);
 		}
 
 		public static NetMessage SetBackgroundSprite(GameObject recipient, IActionGUI iServerActionGUI,
 			int FrontIconlocation)
 		{
-			return (_Send(recipient, iServerActionGUI, UpdateType.BackgroundIcon, location: FrontIconlocation));
+			return _Send(recipient, iServerActionGUI, UpdateType.BackgroundIcon, location: FrontIconlocation);
 		}
 
 		private static ushort SerializeType(Type type)

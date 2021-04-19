@@ -248,12 +248,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LogMatrixDebug("OnEnable");
 		initialized = false;
 		ForceRegister();
-		EventManager.AddHandler(EVENT.MatrixManagerInit, MatrixManagerInit);
+		EventManager.AddHandler(Event.MatrixManagerInit, MatrixManagerInit);
 	}
 
 	private void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.MatrixManagerInit, MatrixManagerInit);
+		EventManager.RemoveHandler(Event.MatrixManagerInit, MatrixManagerInit);
 	}
 
 	public override void OnStartClient()

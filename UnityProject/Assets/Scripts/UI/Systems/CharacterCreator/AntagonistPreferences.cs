@@ -101,7 +101,7 @@ namespace UI.CharacterCreator
 		private void SaveAntagPreferences()
 		{
 			PlayerManager.CurrentCharacterSettings.AntagPreferences = antagPrefs;
-			ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings);
+			_ = ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings);
 		}
 
 		/// <summary>

@@ -37,7 +37,7 @@ namespace Messages.Server.AdminTools
 
 		public static void SendMessage(ConnectedPlayer player, string adminToken)
 		{
-			SendMessageCo(player, adminToken);
+			_ = SendMessageCo(player, adminToken);
 		}
 
 		private static async Task SendMessageCo(ConnectedPlayer player, string adminToken)

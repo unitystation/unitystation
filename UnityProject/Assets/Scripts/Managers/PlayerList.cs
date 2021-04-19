@@ -62,12 +62,12 @@ public partial class PlayerList : NetworkBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.RoundEnded, SetEndOfRoundPlayerCount);
+		EventManager.AddHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.RoundEnded, SetEndOfRoundPlayerCount);
+		EventManager.RemoveHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
 	}
 
 	private void SetEndOfRoundPlayerCount()

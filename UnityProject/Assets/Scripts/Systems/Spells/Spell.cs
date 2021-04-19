@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
+using UI.Action;
 
 namespace Systems.Spells
 {
@@ -265,6 +266,7 @@ namespace Systems.Spells
 		{
 			return SpellData.InvocationMessageSelf;
 		}
+
 		protected virtual string FormatStillRechargingMessage(ConnectedPlayer caster)
 		{
 			return SpellData.StillRechargingMessage;

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Objects.Lighting;
 
-
+namespace Core.Lighting
+{
 	public class LightingSourceManager : MonoBehaviour
 	{
 		private LightingRoom lightingRoomParent;
@@ -28,12 +30,11 @@ using UnityEngine;
 				}
 				else
 				{
-					Logger.LogError("No LightSource component found!",Category.Lighting);
+					Logger.LogError("No LightSource component found!", Category.Lighting);
 				}
 			}
 		}
 
-		public void UpdateRoomBrightness(LightSource theSource)
-		{
-		}
+		public void UpdateRoomBrightness(LightSource theSource) { }
 	}
+}

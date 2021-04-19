@@ -386,13 +386,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	private void OnEnable()
 	{
 		onTileReached.AddListener(Cross);
-		EventManager.AddHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		EventManager.AddHandler(Event.PlayerRejoined, setLocalPlayer);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 	private void OnDisable()
 	{
 		onTileReached.RemoveListener(Cross);
-		EventManager.RemoveHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		EventManager.RemoveHandler(Event.PlayerRejoined, setLocalPlayer);
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 

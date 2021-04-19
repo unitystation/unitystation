@@ -10,16 +10,16 @@ public interface ISetMultitoolBase
 
 public interface ISetMultitoolSlave : ISetMultitoolBase
 {
-	void SetMaster(ISetMultitoolMaster Imaster);
+	void SetMaster(ISetMultitoolMaster iMaster);
 }
 
 public interface ISetMultitoolSlaveMultiMaster : ISetMultitoolBase
 {
-	void SetMasters(List<ISetMultitoolMaster> Imasters);
+	void SetMasters(List<ISetMultitoolMaster> iMasters);
 }
 
 public interface ISetMultitoolMaster : ISetMultitoolBase
 {
 	bool MultiMaster { get; }
-	void AddSlave(object SlaveObject);
+	void AddSlave(object slaveObject);
 }
