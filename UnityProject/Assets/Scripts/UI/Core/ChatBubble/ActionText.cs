@@ -66,6 +66,7 @@ public class ActionText : MonoBehaviour
 
 	public void Update()
 	{
+		transform.rotation = Quaternion.AngleAxis(0, new Vector3(0,0,0));
 		if (DoFade)
 		{
 			timeToFade += Time.deltaTime;
