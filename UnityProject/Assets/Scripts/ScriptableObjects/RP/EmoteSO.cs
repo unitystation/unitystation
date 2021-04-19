@@ -58,21 +58,27 @@ namespace ScriptableObjects.RP
 		[SerializeField]
 		private Vector2 pitchRange = new Vector2(0.7f, 1f);
 
+		protected enum FailType
+		{
+			Normal,
+			Critical
+		}
+
 		public virtual void Do(GameObject player)
 		{
-			if(allowEmoteWhileCrawling == false && CheckIfPlayerIsCrawling(player) == true)
-			{
-				FailText(player, 0);
-				return;
-			}
 			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player) == true)
 			{
-				FailText(player, 1);
+				FailText(player, FailType.Critical);
+				return;
+			}
+			if (allowEmoteWhileCrawling == false && CheckIfPlayerIsCrawling(player) == true)
+			{
+				FailText(player, FailType.Normal);
 				return;
 			}
 			if (requiresHands && CheckHandState(player) == false)
 			{
-				FailText(player, 0);
+				FailText(player, FailType.Normal);
 				return;
 			}
 			else
@@ -86,15 +92,15 @@ namespace ScriptableObjects.RP
 		/// Use this instead of rewriting Chat.AddActionMsgToChat() when adding text to a failed conditon.
 		/// </summary>
 		/// <param name="player">The orignator</param>
-		/// <param name="type">0: failText, 1: critViewText</param>
-		protected void FailText(GameObject player, int type)
+		/// <param name="type">Normal : Displays failText string. Critical: Displays critViewText string.</param>
+		protected void FailText(GameObject player, FailType type)
 		{
 			switch (type)
 			{
-				case 0:
+				case FailType.Normal:
 					Chat.AddActionMsgToChat(player, $"{failText}", $"");
 					break;
-				case 1:
+				case FailType.Critical:
 					Chat.AddActionMsgToChat(player, $"{player.ExpensiveName()} {critViewText}.", $"{player.ExpensiveName()} {critViewText}.");
 					break;
 			}
@@ -157,7 +163,7 @@ namespace ScriptableObjects.RP
 		protected bool CheckPlayerCritState(GameObject player)
 		{
 			var health = player.GetComponent<LivingHealthMasterBase>();
-			if (health == null || health.IsCrit)
+			if (health == null || health.IsCrit == true || health.IsSoftCrit == true)
 			{
 				return true;
 			}

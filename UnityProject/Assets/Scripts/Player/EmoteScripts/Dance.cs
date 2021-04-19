@@ -9,7 +9,8 @@ namespace Player.EmoteScripts
 	{
 		public override void Do(GameObject player)
 		{
-			if(CheckPlayerCritState(player) == true)
+			Debug.Log(CheckPlayerCritState(player));
+			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player) == false)
 			{
 				//Hacky way to run a coroutine inside an SO
 				var something = player.GetComponent<PlayerScript>();
@@ -28,7 +29,7 @@ namespace Player.EmoteScripts
 
 			if (move.allowInput && !move.IsBuckled)
 			{
-				base.Do(player);
+				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
 				directional.FaceDirection(Orientation.Up);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 				directional.FaceDirection(Orientation.Left);
