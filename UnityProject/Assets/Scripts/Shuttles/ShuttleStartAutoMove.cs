@@ -13,12 +13,12 @@ public class ShuttleStartAutoMove : MonoBehaviour
 
 	private void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.RoundStarted, DoAutoMove);
+		EventManager.AddHandler(Event.RoundStarted, DoAutoMove);
 	}
 
 	private void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.RoundStarted, DoAutoMove);
+		EventManager.RemoveHandler(Event.RoundStarted, DoAutoMove);
 	}
 
 	void DoAutoMove()

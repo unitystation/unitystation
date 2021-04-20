@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Messages.Server;
 using Messages.Client;
 using Messages.Client.NewPlayer;
+using UI;
 
 /// <summary>
 /// This is the Viewer object for a joined player.
@@ -46,7 +47,7 @@ public class JoinedViewer : NetworkBehaviour
 			Category.Connections,
 			unverifiedClientId, unverifiedUsername);
 
-		//Register player to player list (logging code exists in PlayerList so no need for extra logging here)
+		// Register player to player list (logging code exists in PlayerList so no need for extra logging here)
 		var unverifiedConnPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
 		{
 			Connection = connectionToClient,
@@ -57,7 +58,7 @@ public class JoinedViewer : NetworkBehaviour
 			UserId = unverifiedUserid
 		});
 
-		//this validates Userid and Token
+		// this validates Userid and Token
 		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(unverifiedClientId, unverifiedUsername,
 			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
 		if (isValidPlayer == false)
@@ -116,10 +117,10 @@ public class JoinedViewer : NetworkBehaviour
 	/// <summary>
 	/// Waits for the client to be an observer of the player before continuing
 	/// </summary>
-	IEnumerator WaitForLoggedOffObserver(GameObject loggedOffPlayer)
+	private IEnumerator WaitForLoggedOffObserver(GameObject loggedOffPlayer)
 	{
 		TargetLocalPlayerRejoinUI(connectionToClient);
-		//TODO When we have scene network culling we will need to allow observers
+		// TODO: When we have scene network culling we will need to allow observers
 		// for the whole specific scene and the body before doing the logic below:
 		var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
 		if (netIdentity == null)
@@ -150,12 +151,10 @@ public class JoinedViewer : NetworkBehaviour
 	/// and tells them what round state the game is on
 	/// </summary>
 	/// <param name="target">this connection</param>
-	/// <param name="serverClientID">client ID server</param>
-	/// <param name="roundState"></param>
 	[TargetRpc]
 	private void TargetLocalPlayerSetupNewPlayer(NetworkConnection target, RoundState roundState)
 	{
-		//clear our UI because we're about to change it based on the round state
+		// clear our UI because we're about to change it based on the round state
 		UIManager.ResetAllUI();
 
 		// Determine what to do depending on the state of the round
@@ -217,7 +216,7 @@ public class JoinedViewer : NetworkBehaviour
 		var nics = NetworkInterface.GetAllNetworkInterfaces();
 		foreach (var n in nics)
 		{
-			if (!string.IsNullOrEmpty(n.GetPhysicalAddress().ToString()))
+			if (string.IsNullOrEmpty(n.GetPhysicalAddress().ToString()) == false)
 			{
 				return n.GetPhysicalAddress().ToString();
 			}

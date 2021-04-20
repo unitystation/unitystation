@@ -505,7 +505,6 @@ public class PlayerSprites : MonoBehaviour
 
 			ThisCharacter = characterSettings;
 
-			PlayerHealthData SetRace = null;
 			foreach (var Race in RaceSOSingleton.Instance.Races)
 			{
 				if (Race.name == ThisCharacter.Species)
@@ -513,7 +512,6 @@ public class PlayerSprites : MonoBehaviour
 					RaceBodyparts = Race;
 				}
 			}
-
 
 			SetUpCharacter(characterSettings);
 			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);

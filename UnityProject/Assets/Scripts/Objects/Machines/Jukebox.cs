@@ -14,7 +14,7 @@ namespace Objects
 	/// <summary>
 	/// A machine that plays music choosen by it's user's tastes in a cool place like a lounge or a bar.
 	/// </summary>
-	public class Jukebox : NetworkBehaviour, IAPCPowered
+	public class Jukebox : NetworkBehaviour, IAPCPowerable
 	{
 		/// <summary>
 		/// How many watts at 240 V the Jukebox uses when not in use
@@ -62,14 +62,12 @@ namespace Objects
 
 		private List<AddressableAudioSource> musics;
 
-		private SpriteRenderer spriteRenderer;
-
 		private string guid = "";
 
 		/// <summary>
 		/// The current state of the jukebox powered/overpowered/underpowered/no power
 		/// </summary>
-		private PowerStates CurrentState;
+		private PowerState CurrentState;
 
 		/// <summary>
 		/// The current state of the jukebox powered/overpowered/underpowered/no power
@@ -112,45 +110,21 @@ namespace Objects
 			}
 		}
 
-		public void PowerNetworkUpdate(float Voltage)
+		#region Lifecycle
+
+		private void Awake()
 		{
-			// Nothing really.  Only the state matters.  (See StateUpdate).
+			APCConnectionHandler = GetComponent<APCPoweredDevice>();
+			power = GetComponent<APCPoweredDevice>();
+			registerTile = GetComponent<RegisterTile>();
+			integrity = GetComponent<Integrity>();
+			integrity.OnApplyDamage.AddListener(OnDamageReceived);
+
+			audioSourceParameters = new AudioSourceParameters(volume: Volume, spatialBlend: 1, spread: Spread,
+				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance, mixerType: MixerType.Muffled,
+				volumeRolloffType: VolumeRolloffType.EaseInAndOut);
 		}
 
-		public void StateUpdate(PowerStates State)
-		{
-			CurrentState = State;
-			if (spriteHandler == null)
-			{
-				spriteHandler = GetComponentInChildren<SpriteHandler>();
-			}
-
-			if (APCConnectionHandler == null)
-			{
-				APCConnectionHandler = GetComponentInChildren<APCPoweredDevice>();
-			}
-
-			// For a future iteration, allow the jukebox to be connected to the power grid.
-			/*
-			if (State <= PowerStates.On)
-			{
-				Stop();
-				TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Jukebox, TabAction.Close);
-			}
-			*/
-
-			// StateUpdate might happen before start
-			if (IsPlaying)
-			{
-				APCConnectionHandler.Wattusage = InUseWattUsage;
-			}
-			else
-			{
-				APCConnectionHandler.Wattusage = StandByWattUsage;
-			}
-		}
-
-		// Start is called before the first frame update
 		private void Start()
 		{
 			_ = InternalStart();
@@ -164,26 +138,14 @@ namespace Objects
 
 			foreach (var audioSource in adminMusic.AddressableAudioSource)
 			{
-				var song = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioSource});
+				var song = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { audioSource });
 				musics.Add(song);
 			}
 
 			UpdateGUI();
 		}
 
-		private void Awake()
-		{
-			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-			APCConnectionHandler = GetComponent<APCPoweredDevice>();
-			power = GetComponent<APCPoweredDevice>();
-			registerTile = GetComponent<RegisterTile>();
-			integrity = GetComponent<Integrity>();
-			integrity.OnApplyDamage.AddListener(OnDamageReceived);
-			
-			audioSourceParameters =	new AudioSourceParameters(volume: Volume, spatialBlend: 1, spread: Spread, 
-				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance,mixerType: MixerType.Muffled, 
-				volumeRolloffType: VolumeRolloffType.EaseInAndOut);
-		}
+		#endregion
 
 		private void Update()
 		{
@@ -192,7 +154,7 @@ namespace Objects
 			if (IsPlaying && Time.time > startPlayTime + musics[currentSongTrackIndex].AudioSource.clip.length)
 			{
 				// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
-				if (!NextSong())
+				if (NextSong() == false)
 					Stop();
 			}
 		}
@@ -307,5 +269,40 @@ namespace Objects
 			// Update all UI currently opened.
 			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Jukebox, TabAction.Update, valuesToSend.ToArray());
 		}
+
+		#region IAPCPowerable
+
+		public void PowerNetworkUpdate(float voltage)
+		{
+			// Nothing really.  Only the state matters.  (See StateUpdate).
+		}
+
+		public void StateUpdate(PowerState State)
+		{
+			CurrentState = State;
+			if (spriteHandler == null)
+			{
+				spriteHandler = GetComponentInChildren<SpriteHandler>();
+			}
+
+			if (APCConnectionHandler == null)
+			{
+				APCConnectionHandler = GetComponentInChildren<APCPoweredDevice>();
+			}
+
+			// For a future iteration, allow the jukebox to be connected to the power grid.
+			/*
+			if (State <= PowerStates.On)
+			{
+				Stop();
+				TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Jukebox, TabAction.Close);
+			}
+			*/
+
+			// StateUpdate might happen before start
+			APCConnectionHandler.Wattusage = IsPlaying? InUseWattUsage : StandByWattUsage;
+		}
+
+		#endregion
 	}
 }

@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using Systems.Electricity;
+using Weapons;
 
 namespace Objects
 {
-	public class Charger : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowered
+	public class Charger : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
 	{
 		private ItemStorage itemStorage;
 		private ItemSlot ChargingSlot;
@@ -140,18 +141,15 @@ namespace Objects
 			spriteHandler.ChangeSprite((int)newState);
 		}
 
-		public void PowerNetworkUpdate(float Voltage)
+		public void PowerNetworkUpdate(float voltage)
 		{
 			if (battery != null)
 			{
-				ChargingWatts = Mathf.RoundToInt((Voltage / battery.InternalResistance) * Voltage);
+				ChargingWatts = Mathf.RoundToInt((voltage / battery.InternalResistance) * voltage);
 				_APCPoweredDevice.Resistance = battery.InternalResistance;
 			}
 		}
 
-		public void StateUpdate(PowerStates State)
-		{
-
-		}
+		public void StateUpdate(PowerState state) { }
 	}
 }

@@ -85,7 +85,10 @@ public static class Inventory
 	public static bool ServerDespawn(GameObject objectInSlot)
 	{
 		var pu = objectInSlot.GetComponent<Pickupable>();
-		if (pu == null || pu.ItemSlot == null) Despawn.ServerSingle(objectInSlot);
+		if (pu == null || pu.ItemSlot == null)
+		{
+			_ = Despawn.ServerSingle(objectInSlot);
+		}
 		return ServerDespawn(pu.ItemSlot);
 	}
 

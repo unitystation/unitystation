@@ -100,9 +100,9 @@ public class InputFieldFocus : InputField
 
 	private void OnGUI()
 	{
-		if ( Event.current.keyCode == ExitButton )
+		if (UnityEngine.Event.current.keyCode == ExitButton)
 		{
-			OnDeselect(new BaseEventData( EventSystem.current ));
+			OnDeselect(new BaseEventData(EventSystem.current ));
 		}
 	}
 }

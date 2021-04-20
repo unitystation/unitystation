@@ -2,6 +2,7 @@
 using UnityEngine;
 using Managers;
 using Strings;
+using Objects.Lighting;
 
 namespace InGameEvents
 {

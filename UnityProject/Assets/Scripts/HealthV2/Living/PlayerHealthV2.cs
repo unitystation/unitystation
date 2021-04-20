@@ -204,7 +204,7 @@ namespace HealthV2
 					Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
 				}
 
-				TriggerEventMessage.SendTo(gameObject, EVENT.PlayerDied);
+				TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);
 			}
 		}
 

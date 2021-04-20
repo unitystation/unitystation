@@ -355,7 +355,7 @@ public partial class Chat
 		{
 			if (Regex.IsMatch(output[i], $@"(?:^|\W){name}(?:$|\W)", RegexOptions.IgnoreCase))
 			{
-				//Bold and underline it
+				// Bold and underline it
 				output[i] = $"<u><b>{output[i]}</b></u>";
 
 				if (ThemeManager.MentionSound && playedSound == false)
@@ -375,7 +375,7 @@ public partial class Chat
 	}
 
 
-//TODO move all these methods to a proper SpeechModifier SO
+// TODO move all these methods to a proper SpeechModifier SO
 	private static string Hiss(Match m)
 	{
 		string x = m.ToString();

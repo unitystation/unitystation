@@ -87,13 +87,13 @@ namespace DiscordWebhook
 		void OnEnable()
 		{
 			Application.logMessageReceived += HandleLog;
-			EventManager.AddHandler(EVENT.PreRoundStarted, ResetHashSet);
+			EventManager.AddHandler(Event.PreRoundStarted, ResetHashSet);
 		}
 
 		void OnDisable()
 		{
 			Application.logMessageReceived -= HandleLog;
-			EventManager.RemoveHandler(EVENT.PreRoundStarted, ResetHashSet);
+			EventManager.RemoveHandler(Event.PreRoundStarted, ResetHashSet);
 		}
 
 		void ResetHashSet()

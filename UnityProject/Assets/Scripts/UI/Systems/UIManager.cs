@@ -13,6 +13,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UI.Core.Windows;
 using UI.Windows;
+using UI;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -515,7 +516,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public static void LinkUISlots(ItemStorageLinkOrigin itemStorageLinkOrigin)
 	{
-		//link the UI slots to this player
+		// link the UI slots to this player
 		foreach (var uiSlot in Instance.GetComponentsInChildren<UI_ItemSlot>(true))
 		{
 			if (uiSlot.ItemStorageLinkOrigin == itemStorageLinkOrigin)

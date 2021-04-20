@@ -49,7 +49,7 @@ namespace UI
 
 		public void VoteYes()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
 				PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(true);
@@ -85,7 +85,7 @@ namespace UI
 			ToggleButtons(false);
 		}
 
-		void ToggleButtons(bool isOn)
+		private void ToggleButtons(bool isOn)
 		{
 			if (buttonPresses < 10) return;
 

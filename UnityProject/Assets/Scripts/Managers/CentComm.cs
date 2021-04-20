@@ -66,12 +66,12 @@ namespace Managers
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
+			EventManager.AddHandler(Event.RoundStarted, OnRoundStart);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
+			EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
 		}
 
 		private void OnRoundStart()

@@ -11,6 +11,7 @@ using Objects.Wallmounts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UI.Core.RightClick;
+using UI;
 
 /// <summary>
 /// Main logic for managing right click behavior.
@@ -38,7 +39,7 @@ public class RightClickManager : MonoBehaviour
 	/// saved reference to lighting sytem, for checking FOV occlusion
 	private LightingSystem lightingSystem;
 
-	//cached methods attributed with RightClickMethod
+	// cached methods attributed with RightClickMethod
 	private static List<RightClickAttributedComponent> attributedTypes = new List<RightClickAttributedComponent>();
 	private List<RaycastResult> raycastResults = new List<RaycastResult>();
 
@@ -70,7 +71,7 @@ public class RightClickManager : MonoBehaviour
 
 	private void Awake()
 	{
-		//cache all known usages of the RightClickMethod annotation
+		// cache all known usages of the RightClickMethod annotation
 		if (attributedTypes.Count == 0)
 		{
 			new Task(GetRightClickAttributedMethods).Start();

@@ -95,15 +95,15 @@ namespace Systems.Atmospherics
 
 		void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.PostRoundStarted, OnPostRoundStart);
-			EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+			EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
+			EventManager.AddHandler(Event.RoundEnded, OnRoundEnd);
 			SceneManager.activeSceneChanged += OnSceneChange;
 		}
 
 		void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.PostRoundStarted, OnPostRoundStart);
-			EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+			EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
+			EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnd);
 			SceneManager.activeSceneChanged -= OnSceneChange;
 		}
 

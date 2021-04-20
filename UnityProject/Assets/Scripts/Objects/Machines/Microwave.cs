@@ -18,7 +18,7 @@ namespace Objects.Kitchen
 	/// Otherwise, any food item that doesn't have the cookable component will be cooked using
 	/// the legacy way, of converting to cooked when the microwave's timer finishes.
 	/// </summary>
-	public class Microwave : NetworkBehaviour, IAPCPowered
+	public class Microwave : NetworkBehaviour, IAPCPowerable
 	{
 		private const int MAX_TIMER_TIME = 60; // Seconds
 		private const float DIRTY_CHANCE_PER_FINISH = 10; // Percent
@@ -134,7 +134,7 @@ namespace Objects.Kitchen
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		#endregion Lifecycle
+		#endregion
 
 		/// <summary>
 		/// Reduce the microwave's timer, add that time to food cooking.
@@ -153,8 +153,6 @@ namespace Objects.Kitchen
 
 			CheckCooked();
 		}
-
-
 
 		/// <summary>
 		/// The micro-laser's tier affects the speed in which the microwave counts down and the speed
@@ -207,17 +205,7 @@ namespace Objects.Kitchen
 			currentState.AddTime(seconds);
 		}
 
-		/// <summary>
-		/// Part of interface IAPCPowered. Sets the microwave's state according to the given power state.
-		/// </summary>
-		/// <param name="state">The power state to set the microwave's state with.</param>
-		public void StateUpdate(PowerStates state)
-		{
-			EnsureInit(); // This method could be called before the component's Awake().
-			currentState.PowerStateUpdate(state);
-		}
-
-		#endregion Requests
+		#endregion
 
 		private void TransferToMicrowaveAndClose(ItemSlot fromSlot)
 		{
@@ -427,12 +415,23 @@ namespace Objects.Kitchen
 
 		}
 
-		#endregion LegacyCode
+		#endregion
 
-		public void PowerNetworkUpdate(float Voltage)
+		#region IAPCPowerable
+
+		/// <summary>
+		/// Part of interface IAPCPowerable. Sets the microwave's state according to the given power state.
+		/// </summary>
+		/// <param name="state">The power state to set the microwave's state with.</param>
+		public void StateUpdate(PowerState state)
 		{
-			return;
+			EnsureInit(); // This method could be called before the component's Awake().
+			currentState.PowerStateUpdate(state);
 		}
+
+		public void PowerNetworkUpdate(float voltage) { }
+
+		#endregion
 
 		#region MicrowaveStates
 
@@ -444,7 +443,7 @@ namespace Objects.Kitchen
 			public abstract void ToggleActive();
 			public abstract void DoorInteraction(ItemSlot fromSlot);
 			public abstract void AddTime(int seconds);
-			public abstract void PowerStateUpdate(PowerStates state);
+			public abstract void PowerStateUpdate(PowerState state);
 		}
 
 		private class MicrowaveIdle : MicrowaveState
@@ -476,9 +475,9 @@ namespace Objects.Kitchen
 				microwave.AddTime(seconds);
 			}
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.Off || state == PowerStates.LowVoltage)
+				if (state == PowerState.Off || state == PowerState.LowVoltage)
 				{
 					microwave.SetState(new MicrowaveUnpowered(microwave));
 				}
@@ -529,9 +528,9 @@ namespace Objects.Kitchen
 				microwave.AddTime(seconds);
 			}
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.Off || state == PowerStates.LowVoltage)
+				if (state == PowerState.Off || state == PowerState.LowVoltage)
 				{
 					microwave.SetState(new MicrowaveUnpoweredOpen(microwave));
 				}
@@ -565,9 +564,9 @@ namespace Objects.Kitchen
 				microwave.AddTime(seconds);
 			}
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.Off || state == PowerStates.LowVoltage)
+				if (state == PowerState.Off || state == PowerState.LowVoltage)
 				{
 					microwave.SetState(new MicrowaveUnpowered(microwave));
 				}
@@ -596,9 +595,9 @@ namespace Objects.Kitchen
 
 			public override void AddTime(int seconds) { }
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.On || state == PowerStates.OverVoltage)
+				if (state == PowerState.On || state == PowerState.OverVoltage)
 				{
 					microwave.SetState(new MicrowaveIdle(microwave));
 				}
@@ -646,9 +645,9 @@ namespace Objects.Kitchen
 
 			public override void AddTime(int seconds) { }
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.On || state == PowerStates.OverVoltage)
+				if (state == PowerState.On || state == PowerState.OverVoltage)
 				{
 					microwave.SetState(new MicrowaveOpen(microwave));
 				}
@@ -678,7 +677,7 @@ namespace Objects.Kitchen
 
 			public override void AddTime(int seconds) { }
 
-			public override void PowerStateUpdate(PowerStates state) { }
+			public override void PowerStateUpdate(PowerState state) { }
 		}
 
 		private class MicrowaveBrokenOpen : MicrowaveState
@@ -722,9 +721,9 @@ namespace Objects.Kitchen
 
 			public override void AddTime(int seconds) { }
 
-			public override void PowerStateUpdate(PowerStates state) { }
+			public override void PowerStateUpdate(PowerState state) { }
 		}
 
-		#endregion MicrowaveStates
+		#endregion
 	}
 }

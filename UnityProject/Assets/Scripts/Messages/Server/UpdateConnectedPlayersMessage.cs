@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mirror;
+using UI;
 
 namespace Messages.Server
 {
@@ -15,11 +16,7 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			//Logger.Log("Processed " + ToString());
-			if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null)
-			{
-				return;
-			}
+			if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null) return;
 
 			if (msg.Players != null)
 			{

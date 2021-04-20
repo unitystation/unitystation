@@ -51,7 +51,7 @@ namespace Objects.Disposals
 		{
 			if (virtualContainer != null)
 			{
-				Despawn.ServerSingle(virtualContainer.gameObject);
+				_ = Despawn.ServerSingle(virtualContainer.gameObject);
 			}
 		}
 

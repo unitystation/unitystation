@@ -16,11 +16,11 @@ namespace Objects.Medical
 	{
 		private List<CloningRecord> cloningRecords = new List<CloningRecord>();
 
-		private DNAscanner scanner;
+		private DNAScanner scanner;
 		/// <summary>
 		/// Scanner this is attached to. Null if none found.
 		/// </summary>
-		public DNAscanner Scanner => scanner;
+		public DNAScanner Scanner => scanner;
 
 		private CloningPod cloningPod;
 		/// <summary>
@@ -41,7 +41,6 @@ namespace Objects.Medical
 			registerTile = GetComponent<RegisterTile>();
 		}
 
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			scanner = null;
@@ -49,7 +48,7 @@ namespace Objects.Medical
 			consoleGUI = null;
 			//TODO: Support persistance of this info somewhere, such as to a circuit board.
 			//scan for adjacent dna scanner and cloning pod
-			scanner = MatrixManager.GetAdjacent<DNAscanner>(registerTile.WorldPositionServer, true).FirstOrDefault();
+			scanner = MatrixManager.GetAdjacent<DNAScanner>(registerTile.WorldPositionServer, true).FirstOrDefault();
 			cloningPod = MatrixManager.GetAdjacent<CloningPod>(registerTile.WorldPositionServer, true).FirstOrDefault();
 
 			if (cloningPod)

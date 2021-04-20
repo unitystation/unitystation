@@ -1,10 +1,9 @@
-using System;
+using Messages.Server;
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
-using Messages.Server;
+using UI;
 using UnityEngine;
-using Mirror;
-using Objects;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -20,10 +19,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	private CustomNetTransform customNetTransform;
 	public CustomNetTransform CustomNetTransform => customNetTransform;
-	private ObjectBehaviour objectBehaviour;
-	private RegisterTile registerTile;
 
-	//controls whether this can currently be picked up.
+	// controls whether this can currently be picked up.
 	[SyncVar]
 	private bool canPickup = true;
 
@@ -42,11 +39,11 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	public UI_ItemSlot LocalUISlot => itemSlot != null ? ItemSlot.LocalUISlot : null;
 
+	#region Lifecycle
+
 	private void Awake()
 	{
-		this.customNetTransform = GetComponent<CustomNetTransform>();
-		this.objectBehaviour = GetComponent<ObjectBehaviour>();
-		this.registerTile = GetComponent<RegisterTile>();
+		customNetTransform = GetComponent<CustomNetTransform>();
 	}
 
 	// make sure to call this in subclasses
@@ -63,6 +60,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			Inventory.ServerDespawn(itemSlot);
 		}
 	}
+
+	#endregion
 
 	public virtual void OnInventoryMoveServer(InventoryMove info)
 	{
@@ -110,16 +109,16 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		return equipment.GetClothingItem(infoToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)) != null;
 	}
 
-
 	/// <summary>
 	/// Server-side method, sets whether this object can be picked up.
 	/// </summary>
-	/// <param name="canPickup"></param>
 	[Server]
 	public void ServerSetCanPickup(bool canPickup)
 	{
 		this.canPickup = canPickup;
 	}
+
+	#region Interaction
 
 	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -151,10 +150,10 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
-		StartCoroutine(serverPreformInteractionLogic(interaction));
+		StartCoroutine(ServerPerformInteractionLogic(interaction));
 	}
 
-	private IEnumerator serverPreformInteractionLogic(HandApply interaction)
+	private IEnumerator ServerPerformInteractionLogic(HandApply interaction)
 	{
 		//we validated, but object may only be in extended range
 		var cnt = GetComponent<CustomNetTransform>();
@@ -207,6 +206,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			}
 		}
 	}
+
+	#endregion
 
 	private void PickupAnim(GameObject interactor)
 	{
@@ -275,12 +276,10 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// Internal lifecycle system use only.
 	/// Change the slot this pickupable thinks it is in. Null to make it be in no slot.
 	/// </summary>
-	/// <param name="toSlot"></param>
 	public void _SetItemSlot(ItemSlot toSlot)
 	{
 		this.itemSlot = toSlot;
 	}
-
 
 	/// <summary>
 	/// If this is currently in an item slot linked to the local UI, refreshes that local UI slot to display

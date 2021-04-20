@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-
+namespace UI
+{
 	public class ControlClothing : TooltipMonoBehaviour
 	{
 		public GameObject retractableGroup;
@@ -22,7 +22,7 @@ using UnityEngine.EventSystems;
 		private void Start()
 		{
 			isOpen = false;
-			if ( retractableGroup )
+			if (retractableGroup)
 			{
 				equipImgs = retractableGroup.GetComponentsInChildren<Image>();
 				itemSlots = retractableGroup.GetComponentsInChildren<UI_ItemSlot>();
@@ -32,16 +32,9 @@ using UnityEngine.EventSystems;
 
 		public void RolloutEquipmentMenu()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
-			if (isOpen)
-			{
-				ToggleEquipMenu(false);
-			}
-			else
-			{
-				ToggleEquipMenu(true);
-			}
+			ToggleEquipMenu(isOpen == false);
 		}
 
 		private void ToggleEquipMenu(bool isOn)
@@ -49,11 +42,11 @@ using UnityEngine.EventSystems;
 			isOpen = isOn;
 			openButtonImage.SetActive(!isOn);
 			closeButtonImage.SetActive(isOn);
-			//TODO: This needs to hide the slots better
+			// TODO: This needs to hide the slots better
 			if (isOn)
 			{
-				//Adjusting the alpha to hide the slots as the enabled state is handled
-				//by other components. Raycast target is also adjusted based on on or off
+				// Adjusting the alpha to hide the slots as the enabled state is handled
+				// by other components. Raycast target is also adjusted based on on or off
 				for (int i = 0; i < equipImgs.Length; i++)
 				{
 					Color tempCol = equipImgs[i].color;
@@ -76,9 +69,10 @@ using UnityEngine.EventSystems;
 			{
 				itemSlot.SetHidden(!isOpen);
 			}
-			if ( hideOnRetract != null )
+			if (hideOnRetract != null)
 			{
-				hideOnRetract.SetActive( !isOn && UIManager.UseGamePad );
+				hideOnRetract.SetActive(isOn == false && UIManager.UseGamePad);
 			}
 		}
 	}
+}

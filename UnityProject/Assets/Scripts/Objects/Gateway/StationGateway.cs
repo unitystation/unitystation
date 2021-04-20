@@ -12,13 +12,13 @@ namespace Objects
 	/// <summary>
 	/// For Gateways inheritable class
 	/// </summary>
-	public class StationGateway : NetworkBehaviour, IAPCPowered
+	public class StationGateway : NetworkBehaviour, IAPCPowerable
 	{
 		[SerializeField]
 		private SpriteRenderer[] Sprites = null;
 		//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
 
-		private PowerStates CurrentState = PowerStates.On;
+		private PowerState CurrentState = PowerState.On;
 		private float OnWatts = 1000;
 		private float OffWatts = 0.1f;
 		private APCPoweredDevice PoweredDevice;
@@ -42,13 +42,13 @@ namespace Objects
 			? selectedWorld.OverrideCoord
 			: selectedWorld.registerTile.WorldPosition;
 
-		private bool HasPower = true;// Not used atm
+		private bool HasPower = true; // Not used atm
 
 		private bool IsConnected;
 
 		protected bool SpawnedMobs = false;
 
-		private int RandomCountBegining = 300; //Defaults to between 5 and 20 mins gate will open.
+		private int RandomCountBegining = 300; // Defaults to between 5 and 20 mins gate will open.
 		private int RandomCountEnd = 1200;
 
 		protected RegisterTile registerTile;
@@ -74,11 +74,63 @@ namespace Objects
 		[SyncVar(hook = nameof(SyncState))]
 		private bool isOn = false;
 
+		#region Lifecycle
+
+		private void OnEnable()
+		{
+			PoweredDevice = GetComponent<APCPoweredDevice>();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public override void OnStartServer()
+		{
+			SetOffline();
+
+			registerTile = GetComponent<RegisterTile>();
+			Position = registerTile.WorldPosition;
+			SubSceneManager.RegisterStationGateway(this);
+			ServerChangeState(false);
+			bool loadNormally = true;
+			if (Application.isEditor)
+			{
+#if UNITY_EDITOR
+				if (EditorPrefs.HasKey("prevEditorScene"))
+				{
+					if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
+					{
+						if (SubSceneManager.Instance.awayWorldList.AwayWorlds.Contains(
+							EditorPrefs.GetString("prevEditorScene")))
+						{
+							loadNormally = false;
+							// This will ensure that the gateway is ready in 30 seconds
+							// if you are working on an awaysite in the editor
+							WaitTimeBeforeActivation = 30f;
+						}
+					}
+				}
+#endif
+			}
+
+			if (loadNormally)
+			{
+				WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
+			}
+
+			Invoke(nameof(ConnectToWorld), WaitTimeBeforeActivation);
+		}
+
+		#endregion
+
 		private void SyncState(bool oldVar, bool newVar)
 		{
 			isOn = newVar;
-			//do your thing
-			//all clients will be updated with this
+			// do your thing
+			// all clients will be updated with this
 		}
 
 		[Server]
@@ -91,7 +143,7 @@ namespace Objects
 		{
 			if (isServer)
 			{
-				if (!APCPoweredDevice.IsOn(CurrentState)) return;
+				if (APCPoweredDevice.IsOn(CurrentState) == false) return;
 
 				timeElapsedServer += Time.deltaTime;
 				if (timeElapsedServer > DetectionTime && isOn)
@@ -126,56 +178,8 @@ namespace Objects
 			}
 		}
 
-		private void OnEnable()
-		{
-			PoweredDevice = this.GetComponent<APCPoweredDevice>();
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
-
-		public override void OnStartServer()
-		{
-			SetOffline();
-
-			registerTile = GetComponent<RegisterTile>();
-			Position = registerTile.WorldPosition;
-			SubSceneManager.RegisterStationGateway(this);
-			ServerChangeState(false);
-			bool loadNormally = true;
-			if (Application.isEditor)
-			{
-#if UNITY_EDITOR
-				if (EditorPrefs.HasKey("prevEditorScene"))
-				{
-					if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
-					{
-						if (SubSceneManager.Instance.awayWorldList.AwayWorlds.Contains(
-							EditorPrefs.GetString("prevEditorScene")))
-						{
-							loadNormally = false;
-							//This will ensure that the gateway is ready in 30 seconds
-							//if you are working on an awaysite in the editor
-							WaitTimeBeforeActivation = 30f;
-						}
-					}
-				}
-#endif
-			}
-
-			if (loadNormally)
-			{
-				WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
-			}
-
-			Invoke(nameof(ConnectToWorld), WaitTimeBeforeActivation);
-		}
-
 		[Server]
-		void ConnectToWorld()
+		private void ConnectToWorld()
 		{
 			var randomWorld = SubSceneManager.RequestRandomAwayWorldLink(this);
 
@@ -208,10 +212,10 @@ namespace Objects
 		[Server]
 		public virtual void DetectPlayer()
 		{
-			//detect players positioned on the portal bit of the gateway
+			// detect players positioned on the portal bit of the gateway
 			var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
 
-			if (!SpawnedMobs && selectedWorld != null && playersFound.Count() > 0)
+			if (SpawnedMobs == false && selectedWorld != null && playersFound.Count() > 0)
 			{
 				selectedWorld.SetUp(this);
 				Logger.Log("Gateway Spawned Mobs", Category.Machines);
@@ -226,7 +230,7 @@ namespace Objects
 			{
 				var coord = new Vector2(Position.x, Position.y);
 				Chat.AddLocalMsgToChat(Message, coord, gameObject);
-				_ = SoundManager.PlayNetworkedForPlayer(player.gameObject,SingletonSOSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
+				_ = SoundManager.PlayNetworkedForPlayer(player.gameObject,SingletonSOSounds.Instance.StealthOff); // very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, TeleportTargetCoord);
 			}
 
@@ -267,26 +271,27 @@ namespace Objects
 			}
 		}
 
-		public void PowerNetworkUpdate(float Voltage)
-		{
-		}
+		#region IAPCPowerable
 
-		public void StateUpdate(PowerStates State)
+		public void PowerNetworkUpdate(float voltage) { }
+
+		public void StateUpdate(PowerState state)
 		{
-			if (CurrentState != State)
+			if (CurrentState == state) return;
+
+			CurrentState = state;
+			if (state == PowerState.Off)
 			{
-				CurrentState = State;
-				if (State == PowerStates.Off)
-				{
-					PoweredDevice.Wattusage = OffWatts;
-					SetPowerOff();
-				}
-				else
-				{
-					PoweredDevice.Wattusage = OnWatts;
-					SetOnline();
-				}
+				PoweredDevice.Wattusage = OffWatts;
+				SetPowerOff();
+			}
+			else
+			{
+				PoweredDevice.Wattusage = OnWatts;
+				SetOnline();
 			}
 		}
+
+		#endregion
 	}
 }

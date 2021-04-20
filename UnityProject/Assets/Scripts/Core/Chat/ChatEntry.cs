@@ -45,8 +45,8 @@ public class ChatEntry : MonoBehaviour
 	void OnEnable()
 	{
 		stackCircle = stackTimesObj.GetComponent<Image>();
-		EventManager.AddHandler(EVENT.ChatFocused, OnChatFocused);
-		EventManager.AddHandler(EVENT.ChatUnfocused, OnChatUnfocused);
+		EventManager.AddHandler(Event.ChatFocused, OnChatFocused);
+		EventManager.AddHandler(Event.ChatUnfocused, OnChatUnfocused);
 		ChatUI.Instance.scrollBarEvent += OnScrollInteract;
 		ChatUI.Instance.checkPositionEvent += CheckPosition;
 		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
@@ -60,8 +60,8 @@ public class ChatEntry : MonoBehaviour
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.ChatFocused, OnChatFocused);
-		EventManager.RemoveHandler(EVENT.ChatUnfocused, OnChatUnfocused);
+		EventManager.RemoveHandler(Event.ChatFocused, OnChatFocused);
+		EventManager.RemoveHandler(Event.ChatUnfocused, OnChatUnfocused);
 		if (ChatUI.Instance != null)
 		{
 			ChatUI.Instance.scrollBarEvent -= OnScrollInteract;

@@ -56,7 +56,7 @@ namespace Objects.Disposals
 
 		private void DespawnBrokenPipe()
 		{
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion Construction
