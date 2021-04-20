@@ -44,7 +44,7 @@ namespace Messages.Client.DevSpawner
 				Vector2Int worldPos = NetworkObject.transform.position.To2Int();
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
 					$"{admin.Player().Username} destroyed a {NetworkObject} at {worldPos}", msg.AdminId);
-				Despawn.ServerSingle(NetworkObject);
+				_ = Despawn.ServerSingle(NetworkObject);
 			}
 		}
 

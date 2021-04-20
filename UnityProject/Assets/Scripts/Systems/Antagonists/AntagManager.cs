@@ -58,13 +58,13 @@ namespace Antagonists
 		void OnEnable()
 		{
 			SceneManager.activeSceneChanged += OnSceneChange;
-			EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+			EventManager.AddHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
 		void OnDisable()
 		{
 			SceneManager.activeSceneChanged -= OnSceneChange;
-			EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+			EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
 		void OnSceneChange(Scene oldScene, Scene newScene)

@@ -16,10 +16,10 @@ public class StatsTab : MonoBehaviour
 	{
 		Invoke("SetScrollToTop",0.1f);
 
-		EventManager.AddHandler(EVENT.PreRoundStarted, OnPreRoundStarted);
-		EventManager.AddHandler(EVENT.MatrixManagerInit, OnMapInit);
-		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStarted);
-		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnded);
+		EventManager.AddHandler(Event.PreRoundStarted, OnPreRoundStarted);
+		EventManager.AddHandler(Event.MatrixManagerInit, OnMapInit);
+		EventManager.AddHandler(Event.RoundStarted, OnRoundStarted);
+		EventManager.AddHandler(Event.RoundEnded, OnRoundEnded);
 	}
 
 	private void OnPreRoundStarted()

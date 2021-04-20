@@ -6,7 +6,7 @@ using Mirror;
 using Antagonists;
 using Systems.Spells;
 using HealthV2;
-using Object = UnityEngine.Object;
+using UI.Action;
 using ScriptableObjects.Systems.Spells;
 
 /// <summary>
@@ -24,7 +24,7 @@ public class Mind
 	public int bodyMobID;
 	public FloorSounds StepSound;
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
-	//Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
+	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 	public bool IsSpectator => occupation == null || body == null;
 
 	public bool ghostLocked;
@@ -43,10 +43,10 @@ public class Mind
 		set => SetProperty("vowOfSilence", value);
 	}
 
-	//use Create to create a mind.
+	// use Create to create a mind.
 	private Mind()
 	{
-		//add spell to the UI bar as soon as they're added to the spell list
+		// add spell to the UI bar as soon as they're added to the spell list
 		spells.CollectionChanged += (sender, e) =>
 		{
 			if (e == null)
@@ -93,7 +93,7 @@ public class Mind
 		var playerScript = player.GetComponent<PlayerScript>();
 		var mind = new Mind { };
 		playerScript.mind = mind;
-		//Forces you into ghosting, the IsGhosting field should make it so it never points to Body
+		// Forces you into ghosting, the IsGhosting field should make it so it never points to Body
 		mind.Ghosting(player);
 	}
 
@@ -167,7 +167,7 @@ public class Mind
 	public CloneableStatus GetCloneableStatus(int recordMobID)
 	{
 		if (bodyMobID != recordMobID)
-		{  //an old record might still exist even after several body swaps
+		{  // an old record might still exist even after several body swaps
 			return CloneableStatus.OldRecord;
 		}
 		if (DenyCloning)
@@ -175,15 +175,15 @@ public class Mind
 			return CloneableStatus.DenyingCloning;
 		}
 		var currentMob = GetCurrentMob();
-		if (!IsGhosting)
+		if (IsGhosting == false)
 		{
 			var livingHealthBehaviour = currentMob.GetComponent<LivingHealthMasterBase>();
-			if (!livingHealthBehaviour.IsDead)
+			if (livingHealthBehaviour.IsDead == false)
 			{
 				return CloneableStatus.StillAlive;
 			}
 		}
-		if (!IsOnline())
+		if (IsOnline() == false)
 		{
 			return CloneableStatus.Offline;
 		}
@@ -202,7 +202,7 @@ public class Mind
 	/// </summary>
 	public void ShowObjectives()
 	{
-		if (!IsAntag) return;
+		if (IsAntag == false) return;
 
 		Chat.AddExamineMsgFromServer(GetCurrentMob(), Antag.GetObjectivesForPlayer());
 	}

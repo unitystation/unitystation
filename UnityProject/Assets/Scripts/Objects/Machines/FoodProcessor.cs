@@ -19,7 +19,7 @@ namespace Objects.Kitchen
 	/// Otherwise, any food item that doesn't have the cookable component will be cooked using
 	/// the legacy way, of converting to cooked when the processor's timer finishes.
 	/// </summary>
-	public class FoodProcessor : NetworkBehaviour, IAPCPowered, IServerSpawn
+	public class FoodProcessor : NetworkBehaviour, IAPCPowerable, IServerSpawn
 	{
 		private const int TIME_PER_ITEM = 4;
 
@@ -134,8 +134,6 @@ namespace Objects.Kitchen
 			}
 		}
 
-		
-
 		private void SetState(ProcessorState newState)
 		{
 			currentState = newState;
@@ -167,32 +165,13 @@ namespace Objects.Kitchen
 			currentState.AddItem(fromSlot);
 		}
 
-		/// <summary>
-		/// Part of interface IAPCPowered. Sets the processor's state according to the given power state.
-		/// </summary>
-		/// <param name="state">The power state to set the processor's state with.</param>
-		public void StateUpdate(PowerStates state)
-		{
-			EnsureInit(); // This method could be called before the component's Awake().
-			if (isServer) // Since state changes affect animations (and call an Rpc animation function), only server can do this.
-			{
-				if (currentState == null)
-				{
-					SetState(new ProcessorUnpowered(this));
-				}
-				currentState.PowerStateUpdate(state);
-			}
-
-			
-		}
-
 		#endregion Requests
 		
 		private void AddItem(ItemSlot fromSlot)
 		{
 			if (fromSlot == null || fromSlot.IsEmpty || fromSlot.ItemObject.GetComponent<Processable>() == null) return;
 
-			//If there's a stackable component, add one at a time.
+			// If there's a stackable component, add one at a time.
 			Stackable stack = fromSlot.ItemObject.GetComponent<Stackable>();
 			if (stack == null || stack.Amount == 1)
 			{
@@ -202,8 +181,6 @@ namespace Objects.Kitchen
 				var item = stack.ServerRemoveOne();
 				Inventory.ServerAdd(item, storage.GetNextFreeIndexedSlot());
 			}
-			
-
 		}
 
 		private void EjectContents()
@@ -320,8 +297,31 @@ namespace Objects.Kitchen
 			
 		}
 
+		#region IAPCPowerable
+
 		// Processor functionality doesn't care for voltage.
-		public void PowerNetworkUpdate(float Voltage) { }
+		public void PowerNetworkUpdate(float voltage) { }
+
+		/// <summary>
+		/// Part of interface IAPCPowerable. Sets the processor's state according to the given power state.
+		/// </summary>
+		/// <param name="state">The power state to set the processor's state with.</param>
+		public void StateUpdate(PowerState state)
+		{
+			EnsureInit(); // This method could be called before the component's Awake().
+			if (isServer) // Since state changes affect animations (and call an Rpc animation function), only server can do this.
+			{
+				if (currentState == null)
+				{
+					SetState(new ProcessorUnpowered(this));
+				}
+				currentState.PowerStateUpdate(state);
+			}
+
+
+		}
+
+		#endregion
 
 		#region ProcessorStates
 
@@ -333,7 +333,7 @@ namespace Objects.Kitchen
 			public abstract void ToggleActive();
 			public abstract void AddItem(ItemSlot fromSlot);
 			public abstract void EjectContents();
-			public abstract void PowerStateUpdate(PowerStates state);
+			public abstract void PowerStateUpdate(PowerState state);
 		}
 
 		private class ProcessorIdle : ProcessorState
@@ -365,9 +365,9 @@ namespace Objects.Kitchen
 				processor.EjectContents();
 			}
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.Off || state == PowerStates.LowVoltage)
+				if (state == PowerState.Off || state == PowerState.LowVoltage)
 				{
 					processor.SetState(new ProcessorUnpowered(processor));
 					processor.EjectContents();
@@ -397,9 +397,9 @@ namespace Objects.Kitchen
 				processor.SetState(new ProcessorIdle(processor));
 			}
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.Off || state == PowerStates.LowVoltage)
+				if (state == PowerState.Off || state == PowerState.LowVoltage)
 				{
 					processor.SetState(new ProcessorUnpowered(processor));
 					processor.EjectContents();
@@ -430,17 +430,15 @@ namespace Objects.Kitchen
 				processor.EjectContents();
 			}
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.On || state == PowerStates.OverVoltage)
+				if (state == PowerState.On || state == PowerState.OverVoltage)
 				{
 					processor.SetState(new ProcessorIdle(processor));
 				}
 			}
 		}
 
-
-
-		#endregion ProcessorStates
+		#endregion
 	}
 }

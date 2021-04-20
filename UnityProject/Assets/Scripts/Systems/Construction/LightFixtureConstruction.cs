@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using Objects.Lighting;
 
 
 namespace Objects.Construction

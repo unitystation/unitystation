@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Weapons;
 using Objects.Wallmounts;
+using UI;
+using UI.Action;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -14,7 +16,6 @@ using Objects.Wallmounts;
 public class MouseInputController : MonoBehaviour
 {
 	private const float MAX_AGE = 2f;
-
 
 	[Tooltip("When mouse button is pressed down and held for longer than this duration, we will" +
 	         " not perform a click on mouse up.")]
@@ -266,7 +267,7 @@ public class MouseInputController : MonoBehaviour
 		if (includeAimApply) CheckAimApply(MouseButtonState.PRESS);
 	}
 
-	//return the Gun component if there is a loaded gun in active hand, otherwise null.
+	// return the Gun component if there is a loaded gun in active hand, otherwise null.
 	private Gun GetLoadedGunInActiveHand()
 	{
 		if (UIManager.Instance == null || UIManager.Hands == null || UIManager.Hands.CurrentSlot == null) return null;
@@ -331,7 +332,7 @@ public class MouseInputController : MonoBehaviour
 	private bool CheckClick()
 	{
 		ChangeDirection();
-		//currently there is nothing for ghosts to interact with, they only can change facing
+		// currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return false;
@@ -349,13 +350,13 @@ public class MouseInputController : MonoBehaviour
 			var handApplyTargets =
 				MouseUtils.GetOrderedObjectsUnderMouse();
 
-			//go through the stack of objects and call any interaction components we find
+			// go through the stack of objects and call any interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
 				if (CheckHandApply(applyTarget)) return true;
 			}
 
-			//check empty space positional hand apply
+			// check empty space positional hand apply
 			var posHandApply = PositionalHandApply.ByLocalPlayer(MatrixManager
 				.AtPoint(
 					(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -

@@ -1,9 +1,12 @@
 using Mirror;
 using UnityEngine;
+using UI;
 
 namespace Messages.Server
 {
-	///   Tells client to apply PlayerState (update his position, flight direction etc) to the given player
+	/// <summary>
+	///Tells client to apply PlayerState (update his position, flight direction etc) to the given player
+	/// </summary>
 	public class PlayerMoveMessage : ServerMessage<PlayerMoveMessage.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
@@ -18,7 +21,7 @@ namespace Messages.Server
 			}
 		}
 
-		///To be run on client
+		/// To be run on client
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.SubjectPlayer);
@@ -39,7 +42,6 @@ namespace Messages.Server
 					playerSync.RollbackPrediction();
 				}
 				if (msg.State.MoveNumber == 0 ) {
-					//Logger.Log( "Zero step rollback" );
 					playerSync.ClearQueueClient();
 					playerSync.RollbackPrediction();
 				}
@@ -64,7 +66,7 @@ namespace Messages.Server
 		{
 			if (PlayerUtils.IsGhost(subjectPlayer))
 			{
-				//Send ghost positions only to ghosts
+				// Send ghost positions only to ghosts
 				foreach (var connectedPlayer in PlayerList.Instance.InGamePlayers)
 				{
 					if (PlayerUtils.IsGhost(connectedPlayer.GameObject))

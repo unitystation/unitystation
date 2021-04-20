@@ -16,7 +16,6 @@ public class Tools : Editor
 		public Connection wireEndA = Connection.East;
 		public Connection wireEndB = Connection.East;
 		public PowerTypeCategory wireType = PowerTypeCategory.Transformer;
-
 	}
 
 	[MenuItem("Tools/Refresh Directionals")]

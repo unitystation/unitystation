@@ -49,9 +49,7 @@ namespace UI.Systems.Ghost
 			TeleportWindow.GenerateButtons(TeleportUtils.GetMobDestinations());
 		}
 
-		public void Orbit()
-		{
-		}
+		public void Orbit() { }
 
 		public void ReenterCorpse()
 		{
@@ -96,14 +94,7 @@ namespace UI.Systems.Ghost
 
 		private void DetermineGhostHearText()
 		{
-			if (Chat.Instance.GhostHearAll)
-			{
-				ghostHearText.text = "HEAR\r\n \r\nLOCAL";
-			}
-			else
-			{
-				ghostHearText.text = "HEAR\r\n \r\nALL";
-			}
+			ghostHearText.text = Chat.Instance.GhostHearAll ? "HEAR\r\n \r\nLOCAL" : "HEAR\r\n \r\nALL";
 		}
 
 		private IEnumerator GhostRoleNotify(GhostRoleData role)
@@ -111,7 +102,7 @@ namespace UI.Systems.Ghost
 			roleBtnAnimating = true;
 
 			Chat.AddExamineMsgToClient($"<size=48>Ghost role <b>{role.Name}</b> is available!</size>");
-			SoundManager.Play(SingletonSOSounds.Instance.Notice2);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Notice2);
 			ghostRoleAnimator.TriggerAnimation();
 
 			yield return WaitFor.Seconds(5);
@@ -122,7 +113,7 @@ namespace UI.Systems.Ghost
 
 		public void AdminGhostInventoryDrop()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
 				AdminCommandsManager.Instance.CmdAdminGhostDropItem(ServerData.UserID, PlayerList.Instance.AdminToken);
@@ -131,7 +122,7 @@ namespace UI.Systems.Ghost
 
 		public void AdminGhostInvSmash()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
 				AdminCommandsManager.Instance.CmdAdminGhostSmashItem(ServerData.UserID, PlayerList.Instance.AdminToken);

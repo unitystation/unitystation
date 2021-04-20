@@ -155,13 +155,13 @@ public class ChatUI : MonoBehaviour
 		// Make sure the window and channel panel start disabled
 		chatInputWindow.SetActive(false);
 		//channelPanel.gameObject.SetActive(false);
-		EventManager.AddHandler(EVENT.UpdateChatChannels, OnUpdateChatChannels);
+		EventManager.AddHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 		chatFilter = GetComponent<ChatFilter>();
 	}
 
 	private void OnDestroy()
 	{
-		EventManager.RemoveHandler(EVENT.UpdateChatChannels, OnUpdateChatChannels);
+		EventManager.RemoveHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 	}
 
 	private void Update()
@@ -398,7 +398,7 @@ public class ChatUI : MonoBehaviour
 		}
 		// Otherwise use the previously selected channels again
 
-		EventManager.Broadcast(EVENT.ChatFocused);
+		EventManager.Broadcast(Event.ChatFocused);
 		chatInputWindow.SetActive(true);
 		background.SetActive(true);
 		UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
@@ -413,7 +413,7 @@ public class ChatUI : MonoBehaviour
 		StartCoroutine(WindowCoolDown());
 		UIManager.IsInputFocus = false;
 		chatInputWindow.SetActive(false);
-		EventManager.Broadcast(EVENT.ChatUnfocused);
+		EventManager.Broadcast(Event.ChatUnfocused);
 		background.SetActive(false);
 		UIManager.PreventChatInput = false;
 

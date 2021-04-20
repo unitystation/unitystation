@@ -91,7 +91,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			EventManager.AddHandler(EVENT.RoundStarted, ResetStaticCounters);
+			EventManager.AddHandler(Event.RoundStarted, ResetStaticCounters);
 			resetHandlerAdded = true;
 		}
 

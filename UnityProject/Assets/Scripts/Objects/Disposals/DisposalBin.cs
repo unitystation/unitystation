@@ -115,7 +115,7 @@ namespace Objects.Disposals
 		{
 			if (virtualContainer != null)
 			{
-				Despawn.ServerSingle(virtualContainer.gameObject);
+				_ = Despawn.ServerSingle(virtualContainer.gameObject);
 			}
 		}
 
@@ -399,7 +399,7 @@ namespace Objects.Disposals
 			if (BinFlushing) return;
 			if (virtualContainer == null) return;
 
-			Despawn.ServerSingle(virtualContainer.gameObject);
+			_ = Despawn.ServerSingle(virtualContainer.gameObject);
 			virtualContainer = null;
 		}
 

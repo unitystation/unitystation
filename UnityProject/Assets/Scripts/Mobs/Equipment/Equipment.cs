@@ -73,8 +73,8 @@ public class Equipment : NetworkBehaviour
 	private void InitInternals()
 	{
 		IsInternalsEnabled = false;
-		EventManager.AddHandler(EVENT.EnableInternals, OnInternalsEnabled);
-		EventManager.AddHandler(EVENT.DisableInternals, OnInternalsDisabled);
+		EventManager.AddHandler(Event.EnableInternals, OnInternalsEnabled);
+		EventManager.AddHandler(Event.DisableInternals, OnInternalsDisabled);
 	}
 
 	/// <summary>
@@ -82,8 +82,8 @@ public class Equipment : NetworkBehaviour
 	/// </summary>
 	private void UnregisisterInternals()
 	{
-		EventManager.RemoveHandler(EVENT.EnableInternals, OnInternalsEnabled);
-		EventManager.RemoveHandler(EVENT.DisableInternals, OnInternalsDisabled);
+		EventManager.RemoveHandler(Event.EnableInternals, OnInternalsEnabled);
+		EventManager.RemoveHandler(Event.DisableInternals, OnInternalsDisabled);
 	}
 
 	public void OnInternalsEnabled()

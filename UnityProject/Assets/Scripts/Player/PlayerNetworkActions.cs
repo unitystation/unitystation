@@ -15,6 +15,7 @@ using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
+using UI.Items;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -233,7 +234,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot);
 	}
-
 
 	/// <summary>
 	/// Request to drop alls item from ItemStorage, send an item slot net id of
@@ -494,7 +494,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		GetComponent<LivingHealthMasterBase>().ApplyDamageAll(gameObject, 1000, AttackType.Internal, DamageType.Brute);
 	}
 
-	//Respawn action for Deathmatch v 0.1.3
+	// Respawn action for Deathmatch v 0.1.3
 
 	[Command]
 	public void CmdRespawnPlayer(string adminID, string adminToken)
@@ -567,7 +567,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
 	}
 
-
 	[Command]
 	public void CmdToggleAllowCloning()
 	{
@@ -609,7 +608,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	///
 	[Command]
-	public void CmdGhostCheck() //specific check for if you want value returned
+	public void CmdGhostCheck() // specific check for if you want value returned
 	{
 		GhostEnterBody();
 	}
@@ -777,9 +776,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	//admin only commands
-
-	#region Admin
+	#region Admin-only
 
 	[Command]
 	public void CmdAGhost(string adminId, string adminToken)

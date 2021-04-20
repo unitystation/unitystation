@@ -9,6 +9,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Systems.Electricity.NodeModules;
+using Objects.Lighting;
 
 namespace Objects.Engineering
 {
@@ -78,7 +79,7 @@ namespace Objects.Engineering
 		private void CheckListOfDevicesForNulls()
 		{
 			if (connectedDevices.Count == 0) return;
-			for (int i = connectedDevices.Count -1; i >= 0; i--)
+			for (int i = connectedDevices.Count - 1; i >= 0; i--)
 			{
 				if (connectedDevices[i] != null)
 				{

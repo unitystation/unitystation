@@ -6,9 +6,9 @@ using Mirror;
 using UnityEngine;
 using Systems.Electricity;
 
-namespace Lighting
+namespace Objects.Lighting
 {
-	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowered, ISetMultitoolMaster
+	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, ISetMultitoolMaster
 	{
 		public List<LightSource> listOfLights;
 
@@ -28,27 +28,28 @@ namespace Lighting
 		[SerializeField]
 		private SpriteRenderer spriteRenderer = null;
 
-		private PowerStates powerState = PowerStates.On;
+		private PowerState powerState = PowerState.On;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
-		public MultitoolConnectionType ConType  => conType;
-
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object SlaveObject)
-		{
-		}
+		#region Lifecycle
 
 		private void Awake()
 		{
 			foreach (var lightSource in listOfLights)
 			{
-				if(lightSource != null)
+				if (lightSource != null)
+				{
 					lightSource.SubscribeToSwitchEvent(this);
+				}
 			}
 		}
+
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			SyncState(isOn, isOn);
+		}
+
+		#endregion
 
 		private void SyncState(bool oldState, bool newState)
 		{
@@ -60,7 +61,7 @@ namespace Lighting
 		public void ServerChangeState(bool newState, bool invokeEvent = true)
 		{
 			isOn = newState;
-			if (!invokeEvent) return;
+			if (invokeEvent == false) return;
 			SwitchTriggerEvent?.Invoke(isOn);
 		}
 
@@ -76,50 +77,35 @@ namespace Lighting
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			StartCoroutine(SwitchCoolDown());
-			if (powerState == PowerStates.Off || powerState == PowerStates.LowVoltage) return;
+			if (powerState == PowerState.Off || powerState == PowerState.LowVoltage) return;
 			ServerChangeState(!isOn);
 		}
 
 		#endregion
 
-		#region IAPCPowered
+		#region IAPCPowerable
 
-		public void PowerNetworkUpdate(float Voltage)
+		public void PowerNetworkUpdate(float voltage) { }
+
+		public void StateUpdate(PowerState state)
 		{
-
-		}
-
-		public void StateUpdate(PowerStates State)
-		{
-			if (!isServer) return;
-			switch (State)
+			if (isServer == false) return;
+			switch (state)
 			{
-				case PowerStates.On:
-					ServerChangeState(true,invokeEvent:false);
-					powerState = State;
+				case PowerState.OverVoltage:
+				case PowerState.On:
+					ServerChangeState(true, invokeEvent: false);
+					powerState = state;
 					break;
-				case PowerStates.LowVoltage:
-					ServerChangeState(false,invokeEvent:false);
-					powerState = State;
-					break;
-				case PowerStates.OverVoltage:
-					ServerChangeState(true,invokeEvent:false);
-					powerState = State;
-					break;
+				case PowerState.LowVoltage:
 				default:
-					ServerChangeState(false,invokeEvent:false);
-					powerState = State;
+					ServerChangeState(false, invokeEvent: false);
+					powerState = state;
 					break;
 			}
 		}
 
 		#endregion
-
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
-			SyncState(isOn, isOn);
-		}
 
 		private IEnumerator SwitchCoolDown()
 		{
@@ -128,20 +114,32 @@ namespace Lighting
 			isInCoolDown = false;
 		}
 
+		#region ISetMultitoolMaster
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
+		public MultitoolConnectionType ConType => conType;
+
+		private bool multiMaster = true;
+		public bool MultiMaster => multiMaster;
+
+		public void AddSlave(object slaveObject) { }
+
+		#endregion
+
 		#region Editor
 
-		void OnDrawGizmosSelected()
+		private void OnDrawGizmosSelected()
 		{
 			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
+			if (sprite == null) return;
 
-			//Highlighting all controlled lightSources
+			// Highlighting all controlled lightSources
 			Gizmos.color = new Color(1, 1, 0, 1);
 			for (int i = 0; i < listOfLights.Count; i++)
 			{
 				var lightSource = listOfLights[i];
-				if(lightSource == null) continue;
+				if (lightSource == null) continue;
 				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
 				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
 			}
@@ -177,6 +175,5 @@ namespace Lighting
 		}
 
 		#endregion
-
 	}
 }

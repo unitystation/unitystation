@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
+using UI;
 
 public enum NetTabType
 {
@@ -48,12 +49,14 @@ public enum NetTabType
 	MaterialSilo = 36,
 	SyndicateOpConsole = 37,
 
-	//add new entres to the bottom
+	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox
 }
 
+/// <summary>
 /// Descriptor for unique Net UI Tab
+/// </summary>
 public class NetTab : Tab
 {
 	[SerializeField]
@@ -80,7 +83,7 @@ public class NetTab : Tab
 
 	public Dictionary<string, NetUIElementBase> CachedElements { get; } = new Dictionary<string, NetUIElementBase>();
 
-	//for server
+	// for server
 	public HashSet<ConnectedPlayer> Peepers { get; } = new HashSet<ConnectedPlayer>();
 
 	public bool IsUnobserved => Peepers.Count == 0;
@@ -105,7 +108,10 @@ public class NetTab : Tab
 
 	private void AfterInitElements()
 	{
-		foreach (var element in CachedElements.Values.ToArray()) element.AfterInit();
+		foreach (var element in CachedElements.Values.ToArray())
+		{
+			element.AfterInit();
+		}
 	}
 
 	/// <summary>
@@ -113,7 +119,7 @@ public class NetTab : Tab
 	/// </summary>
 	protected virtual void InitServer() { }
 
-	//for server
+	// for server
 	public void AddPlayer(GameObject player)
 	{
 		var newPeeper = PlayerList.Instance.Get(player);
@@ -135,12 +141,13 @@ public class NetTab : Tab
 
 	private void InitElements(bool serverFirstTime = false)
 	{
-		//Init and add new elements to cache
+		// Init and add new elements to cache
 		var elements = Elements;
 		foreach (var element in elements)
 		{
-			if (serverFirstTime && element is NetPageSwitcher switcher && !switcher.StartInitialized)
-			{ //First time we make sure all pages are enabled in order to be scanned
+			if (serverFirstTime && element is NetPageSwitcher switcher && switcher.StartInitialized == false)
+			{
+				// First time we make sure all pages are enabled in order to be scanned
 				switcher.Init();
 				InitElements(true);
 				return;
@@ -151,7 +158,7 @@ public class NetTab : Tab
 
 			if (CachedElements.ContainsKey(element.name))
 			{
-				//Someone called InitElements in Init()
+				// Someone called InitElements in Init()
 				Logger.LogError($"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI);
 				return;
 			}
@@ -160,28 +167,31 @@ public class NetTab : Tab
 		}
 
 		var toRemove = new List<string>();
-		//Mark non-existent elements for removal
+		// Mark non-existent elements for removal
 		foreach (var pair in CachedElements)
-			if (!elements.Contains(pair.Value)) toRemove.Add(pair.Key);
+		{
+			if (elements.Contains(pair.Value) == false)
+			{
+				toRemove.Add(pair.Key);
+			}
+		}
 
-		//Remove obsolete elements from cache
+		// Remove obsolete elements from cache
 		foreach (var removed in toRemove) CachedElements.Remove(removed);
 	}
 
-	/// Import values.
-	///
 	[CanBeNull]
 	public NetUIElementBase ImportValues(ElementValue[] values)
 	{
 		var nonLists = new List<ElementValue>();
 
-		//set DynamicList values first (so that corresponding subelements would get created)
+		// set DynamicList values first (so that corresponding subelements would get created)
 		var shouldRescan = ImportContainer(values, nonLists);
 
-		//rescan elements in case of dynamic list changes
+		// rescan elements in case of dynamic list changes
 		if (shouldRescan) RescanElements();
 
-		//set the rest of the values
+		// set the rest of the values
 		return ImportNonContainer(nonLists);
 	}
 
@@ -196,7 +206,7 @@ public class NetTab : Tab
 				(element is NetUIDynamicList || element is NetPageSwitcher))
 			{
 				var listContentsChanged = element.ValueObject != elementValue.Value;
-				if (!listContentsChanged) continue;
+				if (listContentsChanged == false) continue;
 
 				element.BinaryValue = elementValue.Value;
 				shouldRescan = true;
@@ -240,7 +250,7 @@ public class NetTab : Tab
 		{
 			bool canApply = Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
 
-			if (!peeper.Script || !canApply)
+			if (peeper.Script == false || canApply == false)
 			{
 				TabUpdateMessage.Send(peeper.GameObject, Provider, Type, TabAction.Close);
 			}
@@ -258,5 +268,5 @@ public class NetTab : Tab
 	}
 }
 
-[System.Serializable]
+[Serializable]
 public class ConnectedPlayerEvent : UnityEvent<ConnectedPlayer> { }

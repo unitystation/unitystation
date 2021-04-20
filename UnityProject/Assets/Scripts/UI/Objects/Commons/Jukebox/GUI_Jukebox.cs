@@ -42,9 +42,13 @@ namespace UI.Objects
 		public void PlayOrStop()
 		{
 			if (jukeboxController.IsPlaying)
+			{
 				jukeboxController.Stop();
+			}
 			else
-				jukeboxController.Play();
+			{
+				_ = jukeboxController.Play();
+			}
 		}
 
 		public void PreviousSong()

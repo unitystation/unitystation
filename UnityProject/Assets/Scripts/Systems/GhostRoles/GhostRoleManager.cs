@@ -53,12 +53,12 @@ namespace Systems.GhostRoles
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.PreRoundStarted, OnRoundRestart);
+			EventManager.AddHandler(Event.PreRoundStarted, OnRoundRestart);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.PreRoundStarted, OnRoundRestart);
+			EventManager.RemoveHandler(Event.PreRoundStarted, OnRoundRestart);
 		}
 
 		private void OnRoundRestart()
