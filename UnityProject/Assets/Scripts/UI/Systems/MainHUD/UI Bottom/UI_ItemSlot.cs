@@ -256,41 +256,32 @@ namespace UI
 		{
 			PlayerScript lps = PlayerManager.LocalPlayerScript;
 			if (lps == false) return;
-
-			image.ClearAll();
-			if (amountText)
-			{
-				amountText.enabled = false;
-			}
-			if (placeholderImage)
-			{
-				placeholderImage.color = Color.white;
-			}
-
-			if (MoreInventoryImage)
-			{
-				HasSubInventory.itemStorage = null;
-				MoreInventoryImage.enabled = false;
-			}
+			ClearImage();
 		}
 
 		public void Reset()
+		{
+			ClearImage();
+			ControlTabs.CheckTabClose();
+		}
+
+		private void ClearImage()
 		{
 			image.ClearAll();
 			if (amountText)
 			{
 				amountText.enabled = false;
 			}
-			if (placeholderImage)
+			if (placeholderImage && hidden == false)
 			{
 				placeholderImage.color = Color.white;
 			}
+
 			if (MoreInventoryImage)
 			{
 				HasSubInventory.itemStorage = null;
 				MoreInventoryImage.enabled = false;
 			}
-			ControlTabs.CheckTabClose();
 		}
 
 		/// <summary>
