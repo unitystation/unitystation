@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/4/21: Added standing up text by [Semuca](https://github.com/Semuca) in PR #[6395](https://github.com/unitystation/unitystation/pull/6395)
+* 2021/4/21: Fixed UI icons staying open by [Semuca](https://github.com/Semuca) in PR #[6395](https://github.com/unitystation/unitystation/pull/6395)
 * 2021/4/21: Small UI optimisation by [DTraitor](https://github.com/DTraitor) in PR #[6391](https://github.com/unitystation/unitystation/pull/6391)
 * 2021/4/21: Fixed admin and mentor chat by [DTraitor](https://github.com/DTraitor) in PR #[6391](https://github.com/unitystation/unitystation/pull/6391)
 * 2021/4/21: Fixed health doll selection by [DTraitor](https://github.com/DTraitor) in PR #[6391](https://github.com/unitystation/unitystation/pull/6391)
