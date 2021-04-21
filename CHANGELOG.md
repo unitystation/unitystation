@@ -2,6 +2,9 @@
 ---
 
 
+* 2021/4/21: Small UI optimisation by [DTraitor](https://github.com/DTraitor) in PR #[6391](https://github.com/unitystation/unitystation/pull/6391)
+* 2021/4/21: Fixed admin and mentor chat by [DTraitor](https://github.com/DTraitor) in PR #[6391](https://github.com/unitystation/unitystation/pull/6391)
+* 2021/4/21: Fixed health doll selection by [DTraitor](https://github.com/DTraitor) in PR #[6391](https://github.com/unitystation/unitystation/pull/6391)
 * 2021/4/18: Added option to turn off chat highlighting and mention sound by [ThatDan123](https://github.com/ThatDan123) in PR #[6392](https://github.com/unitystation/unitystation/pull/6392)
 * 2021/4/18: Added sound to play when character name mentioned in chat by [ThatDan123](https://github.com/ThatDan123) in PR #[6392](https://github.com/unitystation/unitystation/pull/6392)
 * 2021/4/18: Adds bolding and underlining of OOC name or in game name when in chat by [ThatDan123](https://github.com/ThatDan123) in PR #[6392](https://github.com/unitystation/unitystation/pull/6392)
