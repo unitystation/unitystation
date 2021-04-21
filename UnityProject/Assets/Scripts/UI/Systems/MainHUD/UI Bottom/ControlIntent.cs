@@ -22,7 +22,8 @@ namespace UI
 		[SerializeField] private GameObject runWalkBorder = default;
 		[SerializeField] private GameObject helpWindow = default;
 		[Header("Message settings")]
-		[SerializeField] private string restMessage = "You try to lie down.";
+		[SerializeField] private string startRestMessage = "You try to lie down.";
+		[SerializeField] private string endRestMessage = "You try to stand up.";
 		[SerializeField] private string startRunningMessage = "You start running";
 		[SerializeField] private string startWalkingMessage = "You start walking";
 
@@ -55,7 +56,7 @@ namespace UI
 			Logger.Log("OnClickRest", Category.UserInput);
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			clientResting = !clientResting;
-			Chat.AddExamineMsgToClient(restMessage);
+			Chat.AddExamineMsgToClient(clientResting ? startRestMessage : endRestMessage);
 			RequestRest.Send(clientResting);
 			// TODO: trigger rest intent
 		}
