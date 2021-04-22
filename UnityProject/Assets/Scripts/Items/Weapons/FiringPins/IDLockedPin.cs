@@ -1,34 +1,46 @@
+using System;
 using UnityEngine;
 
 namespace Weapons
 {
+	[RequireComponent(typeof(AccessRestrictions))]
     class IDLockedPin : PinBase
     {
 
 		[SerializeField]
 		private bool clusmyMisfire;
 
-		[SerializeField]
-		private JobType setRestriction;
-
-		public JobType SetRestriction => setRestriction;
+		private AccessRestrictions accessRestrictions;
+		public AccessRestrictions AccessRestrictions {
+			get {
+				if (accessRestrictions == false)
+				{
+					accessRestrictions = GetComponent<AccessRestrictions>();
+				}
+				return accessRestrictions;
+			}
+		}
 
 		[SerializeField]
 		private string deniedMessage;
 
 		public override void ServerBehaviour(AimApply interaction, bool isSuicide)
 		{
-			JobType job = GetJobServer(interaction.Performer);
-			if (job == setRestriction || setRestriction == JobType.NULL)
+			if (AccessRestrictions.CheckAccess(interaction.Performer))
 			{
-				if (clusmyMisfire && job == JobType.CLOWN)
-				{
-					ClumsyShotServer(interaction, isSuicide);
-				}
-				else
-				{
-					CallShotServer(interaction, isSuicide);				
-				}
+				//TODO Commented out as client doesnt sync job, after mind rework see if job is now sync'd
+				// JobType job = GetJobServer(interaction.Performer);
+				//
+				// if (clusmyMisfire && job == JobType.CLOWN)
+				// {
+				// 	ClumsyShotServer(interaction, isSuicide);
+				// }
+				// else
+				// {
+				// 	CallShotServer(interaction, isSuicide);
+				// }
+
+				CallShotServer(interaction, isSuicide);
 			}
 			else
 			{
@@ -38,14 +50,18 @@ namespace Weapons
 
 		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
 		{
-			JobType job = GetJobClient();
 
-			if (job == setRestriction || setRestriction == JobType.NULL)
+			if (AccessRestrictions.CheckAccess(interaction.Performer))
 			{
-				if ((clusmyMisfire && job == JobType.CLOWN) == false)
-				{
-					CallShotClient(interaction, isSuicide);
-				}
+				//TODO Commented out as client doesnt sync job, after mind rework see if job is now sync'd
+				// JobType job = GetJobClient();
+				//
+				// if ((clusmyMisfire && job == JobType.CLOWN) == false)
+				// {
+				// 	CallShotClient(interaction, isSuicide);
+				// }
+
+				CallShotClient(interaction, isSuicide);
 			}
 		}
     }
