@@ -4,6 +4,7 @@ namespace Weapons
 {
 	public abstract class PinBase: MonoBehaviour
 	{
+		[HideInInspector]
 		public Gun gunComp;
 
 		public abstract void ServerBehaviour(AimApply interaction, bool isSuicide);
@@ -15,7 +16,7 @@ namespace Weapons
 		}
 
 		protected void CallShotClient(AimApply interaction, bool isSuicide)
-		{	
+		{
 			var dir = gunComp.ApplyRecoil(interaction.TargetVector.normalized);
 			gunComp.DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide, gunComp.CurrentMagazine.containedBullets[0].name, gunComp.CurrentMagazine.containedProjectilesFired[0]);
 		}
@@ -27,7 +28,8 @@ namespace Weapons
 
 		protected JobType GetJobClient()
 		{
-			return PlayerManager.LocalPlayerScript.mind.occupation.JobType; 
+			//TODO Client doesnt sync job, after mind rework see if job is now sync'd
+			return PlayerManager.LocalPlayerScript.mind.occupation.JobType;
 		}
 
 		protected void ClumsyShotServer(AimApply interaction, bool isSuicide)

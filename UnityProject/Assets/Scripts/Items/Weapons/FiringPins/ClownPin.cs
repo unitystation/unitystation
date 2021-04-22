@@ -27,16 +27,19 @@ namespace Weapons
 
 		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
 		{
-			JobType job = GetJobClient();
+			//TODO Commented out as client doesnt sync job, after mind rework see if job is now sync'd
+			// JobType job = GetJobClient();
+			//
+			// if (clusmyMisfire && job == JobType.CLOWN)
+			// {
+			// 	CallShotClient(interaction, isSuicide);
+			// }
+			// else
+			// {
+			// 	CallShotClient(interaction, true);
+			// }
 
-			if (clusmyMisfire && job == JobType.CLOWN)
-			{
-				CallShotClient(interaction, isSuicide);
-			}
-			else
-			{
-				CallShotClient(interaction, true);
-			}
+			CallShotClient(interaction, true);
 		}
 	}
 }
