@@ -117,6 +117,7 @@ namespace Systems.Atmospherics
 
 		void OnRoundEnd()
 		{
+			GasReactions.ResetReactionList();
 			AtmosThread.ClearAllNodes();
 			inGameNewPipes.Clear();
 			StopSimulation();
