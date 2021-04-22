@@ -97,7 +97,7 @@ public class Hands : MonoBehaviour
 			rightHandImage.sprite = unusedHandSprite;
 			leftHandImage.sprite = usedHandSprite;
 		}
-			
+
 		// If player was using both hands - flip images back
 		if (UsingBothHands)
 		{
@@ -169,7 +169,7 @@ public class Hands : MonoBehaviour
 	public bool SwapItem(UI_ItemSlot itemSlot)
 	{
 		if (IsValidPlayer() == false) return false;
-		if (CurrentSlot != itemSlot) return false;
+		if (CurrentSlot == itemSlot) return false;
 
 		if (CurrentSlot.Item == null)
 		{
