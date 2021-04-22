@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/4/22: Fixes oxygen to plasma event carrying over after round restart by [ThatDan123](https://github.com/ThatDan123) in PR #[6404](https://github.com/unitystation/unitystation/pull/6404)
 * 2021/4/21: Added standing up text by [Semuca](https://github.com/Semuca) in PR #[6395](https://github.com/unitystation/unitystation/pull/6395)
 * 2021/4/21: Fixed UI icons staying open by [Semuca](https://github.com/Semuca) in PR #[6395](https://github.com/unitystation/unitystation/pull/6395)
 * 2021/4/21: Small UI optimisation by [DTraitor](https://github.com/DTraitor) in PR #[6391](https://github.com/unitystation/unitystation/pull/6391)
