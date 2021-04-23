@@ -31,6 +31,7 @@ public class ProfileManager : MonoBehaviour
 
 	public static bool runningProfile;
 	public static bool runningMemoryProfile;
+	private int profileRunCount = 0;
 
 	public void StartProfile(int frameCount)
 	{
@@ -80,12 +81,20 @@ public class ProfileManager : MonoBehaviour
 		UpdateManager.Instance.Profile = true;
 
 		Directory.CreateDirectory("Profiles");
-		MemoryProfiler.TakeSnapshot("Profiles/Memory" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"), MemoryProfileEnd, CaptureFlags.ManagedObjects);
+
+		profileRunCount++;
+		MemoryProfiler.TakeSnapshot("Profiles/MemoryManaged" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".snap", MemoryProfileEnd, CaptureFlags.ManagedObjects);
+		profileRunCount++;
+		MemoryProfiler.TakeSnapshot("Profiles/MemoryNative" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")+ ".snap", MemoryProfileEnd, CaptureFlags.NativeObjects);
 	}
 
 	private void MemoryProfileEnd(string t, bool b)
 	{
-		runningMemoryProfile = false;
-		UpdateManager.Instance.Profile = false;
+		profileRunCount--;
+		if (profileRunCount == 0)
+		{
+			runningMemoryProfile = false;
+			UpdateManager.Instance.Profile = false;
+		}
 	}
 }
