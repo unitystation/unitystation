@@ -47,6 +47,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	public PlayerScript PlayerScript => playerScript;
 	private Directional playerDirectional;
 	private UprightSprites uprightSprites;
+	[SerializeField] private Util.NetworkedLeanTween networkedLean;
 
 	/// <summary>
 	/// Returns whether this player is blocking other players from occupying the space, using the
@@ -176,11 +177,11 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		this.isLayingDown = isDown;
 		if (isDown)
 		{
+			networkedLean.RpcRotateGameObject(new Vector3(0, 0, -90), 0.15f);
 			//uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
-				LeanTween.rotate(spriteRenderer.gameObject, new Vector3(0, 0, -90), 0.15f);
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
 			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.CrawlSpeed;
@@ -189,11 +190,11 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		}
 		else
 		{
+			networkedLean.RpcRotateGameObject(new Vector3(0, 0, 0), 0.19f);
 			//uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
-				LeanTween.rotate(spriteRenderer.gameObject, new Vector3(0, 0, 0), 0.19f);
 				spriteRenderer.sortingLayerName = "Players";
 			}
 			playerDirectional.LockDirection = false;
