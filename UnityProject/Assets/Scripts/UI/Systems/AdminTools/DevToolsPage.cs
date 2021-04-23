@@ -15,6 +15,11 @@ namespace AdminTools
 			AdminCommandsManager.Instance.CmdStartProfile(ServerData.UserID, PlayerList.Instance.AdminToken, (int) framesSlider.value);
 		}
 
+		public void StartMemoryProfile()
+		{
+			AdminCommandsManager.Instance.CmdStartMemoryProfile(ServerData.UserID, PlayerList.Instance.AdminToken);
+		}
+
 		public void ChangeInputField()
 		{
 			if (int.TryParse(framesInput.text, out var value))
