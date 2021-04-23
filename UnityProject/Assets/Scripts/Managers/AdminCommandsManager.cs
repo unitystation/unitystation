@@ -405,11 +405,11 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdStartMemoryProfile(string adminId, string adminToken)
+		public void CmdStartMemoryProfile(string adminId, string adminToken, bool full)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
 
-			ProfileManager.Instance.RunMemoryProfile();
+			ProfileManager.Instance.RunMemoryProfile(full);
 		}
 
 		#endregion

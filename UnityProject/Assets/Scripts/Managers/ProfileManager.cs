@@ -31,7 +31,6 @@ public class ProfileManager : MonoBehaviour
 
 	public static bool runningProfile;
 	public static bool runningMemoryProfile;
-	private int profileRunCount = 0;
 
 	public void StartProfile(int frameCount)
 	{
@@ -73,7 +72,7 @@ public class ProfileManager : MonoBehaviour
 		}
 	}
 
-	public void RunMemoryProfile()
+	public void RunMemoryProfile(bool full = true)
 	{
 		if (runningMemoryProfile || runningProfile) return;
 		runningMemoryProfile = true;
@@ -82,19 +81,23 @@ public class ProfileManager : MonoBehaviour
 
 		Directory.CreateDirectory("Profiles");
 
-		profileRunCount++;
-		MemoryProfiler.TakeSnapshot("Profiles/MemoryManaged" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".snap", MemoryProfileEnd, CaptureFlags.ManagedObjects);
-		profileRunCount++;
-		MemoryProfiler.TakeSnapshot("Profiles/MemoryNative" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")+ ".snap", MemoryProfileEnd, CaptureFlags.NativeObjects);
+		if (full)
+		{
+			MemoryProfiler.TakeSnapshot($"Profiles/FullMemoryProfile{DateTime.Now:yyyy-MM-dd HH-mm-ss}.snap", MemoryProfileEnd,
+				CaptureFlags.ManagedObjects | CaptureFlags.NativeAllocations | CaptureFlags.NativeObjects |
+				CaptureFlags.NativeAllocationSites |  CaptureFlags.NativeStackTraces);
+
+			return;
+		}
+
+		MemoryProfiler.TakeSnapshot($"Profiles/ManagedMemoryProfile{DateTime.Now:yyyy-MM-dd HH-mm-ss}.snap", MemoryProfileEnd,
+			CaptureFlags.ManagedObjects | CaptureFlags.NativeAllocations | CaptureFlags.NativeAllocationSites
+			|  CaptureFlags.NativeStackTraces);
 	}
 
 	private void MemoryProfileEnd(string t, bool b)
 	{
-		profileRunCount--;
-		if (profileRunCount == 0)
-		{
-			runningMemoryProfile = false;
-			UpdateManager.Instance.Profile = false;
-		}
+		runningMemoryProfile = false;
+		UpdateManager.Instance.Profile = false;
 	}
 }
