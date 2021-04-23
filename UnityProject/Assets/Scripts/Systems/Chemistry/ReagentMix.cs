@@ -330,23 +330,47 @@ namespace Chemistry
 			}
 		}
 
-
-
-		/// <summary>
-		/// Transfer part of reagent mix
-		/// </summary>
-		/// <returns>Transfered reagent mix</returns>
-		public ReagentMix TransferTo(ReagentMix toTransfer, float amount)
+		[HideInInspector]
+		public List<Reagent> reagentKeys = new List<Reagent>();
+		public void TransferTo(ReagentMix target, float amount)
 		{
-			var toTransferMix = this.Clone();
+			var total = Total;
 
-			// can't allow to transfer more than Total
-			var toTransferAmount = Math.Min(amount, Total);
-			toTransferMix.Max(toTransferAmount, out _);
+			//temperature change
+			var targetTotal = target.Total;
+			if (targetTotal == 0)
+			{
+				target.temperature = temperature;
+			}
+			else
+			{
+				target.temperature = (target.temperature * targetTotal + temperature * amount) / (targetTotal + amount);
+			}
 
-			Subtract(toTransferMix);
-			toTransfer.Add(toTransferMix);
-			return toTransferMix;
+			//reagent transfer
+			if (amount < total)
+			{
+				var multiplier = amount / total;
+				reagentKeys.Clear();
+				foreach (var key in reagents.m_dict.Keys)
+				{
+					reagentKeys.Add(key);
+				}
+				foreach (var reagent in reagentKeys)
+				{
+					var reagentAmount = reagents.m_dict[reagent] * multiplier;
+					reagents.m_dict[reagent] -= reagentAmount;
+					target.Add(reagent, reagentAmount);
+				}
+			}
+			else
+			{
+				foreach (var reagent in reagents.m_dict)
+				{
+					target.Add(reagent.Key, reagent.Value);
+				}
+				reagents.m_dict.Clear();
+			}
 		}
 
 		public ReagentMix Take(float amount)
