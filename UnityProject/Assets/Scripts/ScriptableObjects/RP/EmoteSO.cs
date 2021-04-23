@@ -76,16 +76,14 @@ namespace ScriptableObjects.RP
 				FailText(player, FailType.Normal);
 				return;
 			}
-			if (requiresHands && CheckHandState(player) == false)
+			else if (requiresHands && CheckHandState(player) == false)
 			{
 				FailText(player, FailType.Normal);
 				return;
 			}
-			else
-			{
-				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
-				PlayAudio(defaultSounds, player);
-			}
+
+			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
+			PlayAudio(defaultSounds, player);
 		}
 
 		/// <summary>
