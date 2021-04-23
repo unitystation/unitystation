@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/4/23: Adds the unity memory profiler package by [ThatDan123](https://github.com/ThatDan123) in PR #[6407](https://github.com/unitystation/unitystation/pull/6407)
 * 2021/4/22: Fixed guns not firing due to client side validation error by [ThatDan123](https://github.com/ThatDan123) in PR #[6403](https://github.com/unitystation/unitystation/pull/6403)
 * 2021/4/22: Fixes oxygen to plasma event carrying over after round restart by [ThatDan123](https://github.com/ThatDan123) in PR #[6404](https://github.com/unitystation/unitystation/pull/6404)
 * 2021/4/21: Added standing up text by [Semuca](https://github.com/Semuca) in PR #[6395](https://github.com/unitystation/unitystation/pull/6395)
