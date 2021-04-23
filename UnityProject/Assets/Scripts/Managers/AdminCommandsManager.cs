@@ -393,7 +393,7 @@ namespace AdminCommands
 		public void CmdDeleteProfile(string adminId, string adminToken, string profileName)
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
-			if (ProfileManager.runningProfile) return;
+			if (ProfileManager.runningProfile || ProfileManager.runningMemoryProfile) return;
 
 			string path = Directory.GetCurrentDirectory() + "/Profiles/" + profileName;
 			if (File.Exists(path))
@@ -403,6 +403,18 @@ namespace AdminCommands
 
 			ProfileMessage.SendToApplicable();
 		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdStartMemoryProfile(string adminId, string adminToken, bool full)
+		{
+			if (IsAdmin(adminId, adminToken) == false) return;
+
+			ProfileManager.Instance.RunMemoryProfile(full);
+		}
+
+		#endregion
+
+		#region Inventory
 
 		[Command(requiresAuthority = false)]
 		public void CmdAdminGhostDropItem(string adminId, string adminToken)
