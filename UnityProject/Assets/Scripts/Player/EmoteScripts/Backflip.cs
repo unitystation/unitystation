@@ -8,14 +8,16 @@ namespace Player.EmoteScripts
 	{
 		public override void Do(GameObject player)
 		{
-			var manager = player.GetComponent<PlayerEffectsManager>();
-			if(manager == null)
+			if (CheckPlayerCritState(player) == false && CheckIfPlayerIsCrawling(player) == false)
 			{
-				Logger.LogError("[EmoteSO/Backflip] - Could not find a rotate effect on the player!");
-				return;
+				var manager = player.GetComponent<PlayerEffectsManager>();
+				manager.RotatePlayer(1, 0.2f, 180, false);
+				base.Do(player);
 			}
-			manager.RotatePlayer(1, 0.2f, 180, false);
-			base.Do(player);
+			else
+			{
+				base.Do(player);
+			}
 		}
 	}
 }

@@ -19,6 +19,14 @@ namespace ScriptableObjects.RP
 		[SerializeField]
 		protected bool requiresHands = false;
 
+		[Tooltip("Disallow or change emote behavior if the player is in critical condition.")]
+		[SerializeField]
+		protected bool allowEmoteWhileInCrit = true;
+
+		[Tooltip("Disallow or change emote behavior if the player is crawling on the ground.")]
+		[SerializeField]
+		protected bool allowEmoteWhileCrawling = true;
+
 		[Tooltip("The emote text viewed by others around you.")]
 		[SerializeField]
 		protected string viewText = "did something!";
@@ -30,6 +38,9 @@ namespace ScriptableObjects.RP
 		[Tooltip("If the emote has a special requirment and fails to meet it.")]
 		[SerializeField]
 		protected string failText = "You were unable to preform this action!";
+
+		[SerializeField, Tooltip("Emote view text when the character is in critical condition.")]
+		protected string critViewText = "screams in pain!";
 
 		[Tooltip("A list of sounds that can be played when this emote happens.")]
 		[SerializeField]
@@ -47,16 +58,49 @@ namespace ScriptableObjects.RP
 		[SerializeField]
 		private Vector2 pitchRange = new Vector2(0.7f, 1f);
 
+		protected enum FailType
+		{
+			Normal,
+			Critical
+		}
+
 		public virtual void Do(GameObject player)
 		{
-			if(requiresHands && CheckHandState(player) == false)
+			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player) == true)
 			{
-				Chat.AddActionMsgToChat(player, $"{failText}", $"");
+				FailText(player, FailType.Critical);
+				return;
 			}
-			else
+			if (allowEmoteWhileCrawling == false && CheckIfPlayerIsCrawling(player) == true)
 			{
-				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
-				PlayAudio(defaultSounds, player);
+				FailText(player, FailType.Normal);
+				return;
+			}
+			else if (requiresHands && CheckHandState(player) == false)
+			{
+				FailText(player, FailType.Normal);
+				return;
+			}
+
+			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
+			PlayAudio(defaultSounds, player);
+		}
+
+		/// <summary>
+		/// Use this instead of rewriting Chat.AddActionMsgToChat() when adding text to a failed conditon.
+		/// </summary>
+		/// <param name="player">The orignator</param>
+		/// <param name="type">Normal : Displays failText string. Critical: Displays critViewText string.</param>
+		protected void FailText(GameObject player, FailType type)
+		{
+			switch (type)
+			{
+				case FailType.Normal:
+					Chat.AddActionMsgToChat(player, $"{failText}", $"");
+					break;
+				case FailType.Critical:
+					Chat.AddActionMsgToChat(player, $"{player.ExpensiveName()} {critViewText}.", $"{player.ExpensiveName()} {critViewText}.");
+					break;
 			}
 		}
 
@@ -107,6 +151,29 @@ namespace ScriptableObjects.RP
 		protected bool CheckHandState(GameObject player)
 		{
 			return !player.GetComponent<PlayerScript>().playerMove.IsCuffed && Validations.HasBothHands(player);
+		}
+
+		/// <summary>
+		/// Checks if the player is in critical condition or not
+		/// </summary>
+		/// <param name="player">The player that you want to check their health.</param>
+		/// <returns>True if crit, false otherwise.</returns>
+		protected bool CheckPlayerCritState(GameObject player)
+		{
+			var health = player.GetComponent<LivingHealthMasterBase>();
+			if (health == null || health.IsCrit == true || health.IsSoftCrit == true)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		protected bool CheckIfPlayerIsCrawling(GameObject player)
+		{
+			return player.GetComponent<RegisterPlayer>().IsLayingDown;
 		}
 	}
 }

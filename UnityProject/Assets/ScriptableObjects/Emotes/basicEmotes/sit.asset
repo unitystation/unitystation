@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: sit
   m_EditorClassIdentifier: 
   emoteName: sit
+  requiresHands: 0
   viewText: sits down.
   youText: You sit down.
-  emoteDefaultSounds: []
+  failText: You were unable to preform this action!
+  critViewText: screams in pain!
+  allowEmoteWhileInCrit: 1
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  pitchRange: {x: 0.7, y: 1}

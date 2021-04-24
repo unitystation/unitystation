@@ -6,9 +6,6 @@ namespace ScriptableObjects.RP
 	[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/GenderedEmote")]
 	public class GenderedEmote : EmoteSO
 	{
-		[SerializeField]
-		private string critViewText = "screams in pain!";
-
 		private string viewTextFinal;
 
 		public override void Do(GameObject player)
@@ -20,14 +17,9 @@ namespace ScriptableObjects.RP
 
 		private void HealthCheck(GameObject player)
 		{
-			var health = player.GetComponent<LivingHealthMasterBase>();
+			bool playerCondition = CheckPlayerCritState(player);
 
-			if (health == null || health.IsDead)
-			{
-				return;
-			}
-
-			viewTextFinal = health.IsCrit ? critViewText : viewText;
+			viewTextFinal = playerCondition ? critViewText : viewText;
 		}
 	}
 }

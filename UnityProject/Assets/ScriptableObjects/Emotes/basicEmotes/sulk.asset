@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: sulk
   m_EditorClassIdentifier: 
   emoteName: sulk
+  requiresHands: 0
   viewText: sulks down sadly..
   youText: You're sulking.
-  emoteDefaultSounds: []
+  failText: You were unable to preform this action!
+  critViewText: screams in pain!
+  allowEmoteWhileInCrit: 1
+  defaultSounds: []
+  maleSounds: []
+  femaleSounds: []
+  pitchRange: {x: 0.7, y: 1}
