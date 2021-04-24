@@ -712,7 +712,6 @@ namespace Objects
 		private void CheckPlayerCrawlState(ObjectBehaviour player)
 		{
 			var regPlayer = player.GetComponent<RegisterPlayer>();
-			Debug.Log(regPlayer.IsLayingDown);
 			if (regPlayer.IsLayingDown == true)
 			{
 				regPlayer.HandleGetupAnimation(false);
