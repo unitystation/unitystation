@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/4/24: Fixed a bug where camera effects stay on even after respawning. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6411](https://github.com/unitystation/unitystation/pull/6411)
 * 2021/4/24: ActionText will no longer get rotated. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
 * 2021/4/24: Critical condition texts are no longer exclusive to gendered emotes, all emotes use them now. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
 * 2021/4/24: You will no longer be able to do some emotes like backflips while crawling. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
