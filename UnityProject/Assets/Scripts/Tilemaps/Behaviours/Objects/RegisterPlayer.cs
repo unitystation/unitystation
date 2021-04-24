@@ -177,7 +177,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		this.isLayingDown = isDown;
 		if (isDown)
 		{
-			networkedLean.RpcRotateGameObject(new Vector3(0, 0, -90), 0.15f);
+			HandleGetupAnimation(false);
 			//uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
@@ -190,7 +190,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		}
 		else
 		{
-			networkedLean.RpcRotateGameObject(new Vector3(0, 0, 0), 0.19f);
+			HandleGetupAnimation(true);
 			//uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
@@ -199,6 +199,18 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			}
 			playerDirectional.LockDirection = false;
 			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.RunSpeed;
+		}
+	}
+
+	public void HandleGetupAnimation(bool getUp)
+	{
+		if (getUp == false && networkedLean.Target.rotation.z > -90)
+		{
+			networkedLean.RpcRotateGameObject(new Vector3(0, 0, -90), 0.15f);
+		}
+		else if (getUp == true && networkedLean.Target.rotation.z < 90)
+		{
+			networkedLean.RpcRotateGameObject(new Vector3(0, 0, 0), 0.19f);
 		}
 	}
 
