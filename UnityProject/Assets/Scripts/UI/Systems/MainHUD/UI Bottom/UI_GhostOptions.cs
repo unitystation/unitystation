@@ -71,7 +71,7 @@ namespace UI.Systems.Ghost
 		public void Respawn()
 		{
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer(ServerData.UserID, PlayerList.Instance.AdminToken);
-			PlayerManager.LocalPlayerScript.gameObject.GetComponent<CameraEffects.CameraEffectControlScript>().EnsureAllEffectsAreDisabled();
+			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().EnsureAllEffectsAreDisabled();
 		}
 
 		public void ToggleAllowCloning()
