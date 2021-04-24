@@ -2,6 +2,10 @@
 ---
 
 
+* 2021/4/24: ActionText will no longer get rotated. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
+* 2021/4/24: Critical condition texts are no longer exclusive to gendered emotes, all emotes use them now. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
+* 2021/4/24: You will no longer be able to do some emotes like backflips while crawling. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
+* 2021/4/24: Fixed an issue where players become upside down when surrendering. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
 * 2021/4/23: Adds the unity memory profiler package by [ThatDan123](https://github.com/ThatDan123) in PR #[6407](https://github.com/unitystation/unitystation/pull/6407)
 * 2021/4/22: Fixed guns not firing due to client side validation error by [ThatDan123](https://github.com/ThatDan123) in PR #[6403](https://github.com/unitystation/unitystation/pull/6403)
 * 2021/4/22: Fixes oxygen to plasma event carrying over after round restart by [ThatDan123](https://github.com/ThatDan123) in PR #[6404](https://github.com/unitystation/unitystation/pull/6404)
