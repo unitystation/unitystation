@@ -69,5 +69,12 @@ namespace CameraEffects
 		{
 			LeanTween.scale(minimalVisibilitySprite, newSize, time);
 		}
+
+		public void EnsureAllEffectsAreDisabled()
+		{
+			drunkCamera.enabled = false;
+			glitchEffect.enabled = false;
+			nightVisionCamera.enabled = false;
+		}
 	}
 }
