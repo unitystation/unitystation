@@ -175,9 +175,9 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	{
 		EnsureInit();
 		this.isLayingDown = isDown;
+		HandleGetupAnimation(isDown);
 		if (isDown)
 		{
-			HandleGetupAnimation(false);
 			//uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
@@ -190,7 +190,6 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		}
 		else
 		{
-			HandleGetupAnimation(true);
 			//uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
 			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
