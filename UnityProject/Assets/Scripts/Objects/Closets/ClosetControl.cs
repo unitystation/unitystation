@@ -713,13 +713,6 @@ namespace Objects
 		{
 			var regPlayer = player.GetComponent<RegisterPlayer>();
 			regPlayer.HandleGetupAnimation(!regPlayer.IsLayingDown)
-			{
-				regPlayer.HandleGetupAnimation(false);
-			}
-			else
-			{
-				regPlayer.HandleGetupAnimation(true);
-			}
 		}
 
 		/// <summary>
