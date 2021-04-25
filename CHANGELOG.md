@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/4/25: Getup and laying down animations won't trigger if the player's sprites are already rotated. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6410](https://github.com/unitystation/unitystation/pull/6410)
+* 2021/4/25: Fixed a bug where players appear standing up while crawling after getting out of lockers by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6410](https://github.com/unitystation/unitystation/pull/6410)
 * 2021/4/25: Fixes a bug that broke the character creator when creating new characters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6413](https://github.com/unitystation/unitystation/pull/6413)
 * 2021/4/24: Fixed a bug where camera effects stay on even after respawning. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6411](https://github.com/unitystation/unitystation/pull/6411)
 * 2021/4/24: ActionText will no longer get rotated. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
