@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/4/25: Disables damage message on Singularity, field generator, and tesla ball by [ThatDan123](https://github.com/ThatDan123) in PR #[6412](https://github.com/unitystation/unitystation/pull/6412)
 * 2021/4/25: Getup and laying down animations won't trigger if the player's sprites are already rotated. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6410](https://github.com/unitystation/unitystation/pull/6410)
 * 2021/4/25: Fixed a bug where players appear standing up while crawling after getting out of lockers by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6410](https://github.com/unitystation/unitystation/pull/6410)
 * 2021/4/25: Fixes a bug that broke the character creator when creating new characters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6413](https://github.com/unitystation/unitystation/pull/6413)
