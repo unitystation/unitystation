@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/4/25: Fixes a bug that broke the character creator when creating new characters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6413](https://github.com/unitystation/unitystation/pull/6413)
 * 2021/4/24: Fixed a bug where camera effects stay on even after respawning. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6411](https://github.com/unitystation/unitystation/pull/6411)
 * 2021/4/24: ActionText will no longer get rotated. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
 * 2021/4/24: Critical condition texts are no longer exclusive to gendered emotes, all emotes use them now. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6387](https://github.com/unitystation/unitystation/pull/6387)
