@@ -709,6 +709,12 @@ namespace Objects
 			serverHeldItems.Clear();
 		}
 
+		private void CheckPlayerCrawlState(ObjectBehaviour player)
+		{
+			var regPlayer = player.GetComponent<RegisterPlayer>();
+			regPlayer.HandleGetupAnimation(!regPlayer.IsLayingDown);
+		}
+
 		/// <summary>
 		/// Adds all items currently sitting on this closet into the closet
 		/// </summary>
@@ -748,6 +754,7 @@ namespace Objects
 				player.parentContainer = null;
 				//Stop tracking closet
 				FollowCameraMessage.Send(player.gameObject, player.gameObject);
+				CheckPlayerCrawlState(player);
 			}
 			serverHeldPlayers = new List<ObjectBehaviour>();
 		}
