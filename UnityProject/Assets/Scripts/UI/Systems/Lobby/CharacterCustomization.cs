@@ -212,6 +212,8 @@ namespace UI.CharacterCreator
 			PlayerCharacters.Add(character);
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
 			currentCharacter = PlayerCharacters[currentCharacterIndex];
+			currentCharacter.Species = Race.Human.ToString();
+			OnRaceChange();
 			ShowCharacterCreator();
 			DoInitChecks();
 			RefreshAll();
@@ -1421,6 +1423,13 @@ namespace UI.CharacterCreator
 
 			RefreshRace();
 
+			OnSurfaceColourChange();
+		}
+
+		private void RefreshRace()
+		{
+			raceText.text = currentCharacter.Species.ToString();
+
 			foreach (var Race in RaceSOSingleton.Instance.Races)
 			{
 				if (Race.name == currentCharacter.Species)
@@ -1428,13 +1437,6 @@ namespace UI.CharacterCreator
 					ThisSetRace = Race;
 				}
 			}
-
-			OnSurfaceColourChange();
-		}
-
-		private void RefreshRace()
-		{
-			raceText.text = currentCharacter.Species.ToString();
 		}
 
 		#endregion
