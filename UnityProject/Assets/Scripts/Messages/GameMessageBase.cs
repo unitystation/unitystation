@@ -40,7 +40,7 @@ namespace Messages
 				NetworkObject = NetworkIdentity.spawned[id].gameObject;
 				return true;
 			}
-
+			NetworkObject = null;
 			return false;
 		}
 
