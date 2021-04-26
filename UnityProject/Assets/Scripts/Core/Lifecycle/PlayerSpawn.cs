@@ -235,6 +235,22 @@ public static class PlayerSpawn
 	/// <param name="body">to transfer into</param>
 	public static void ServerRejoinPlayer(JoinedViewer viewer, GameObject body)
 	{
+		RpcAwaitPlayerLoading(viewer, body);
+	}
+
+	[TargetRpc]
+	public static void RpcAwaitPlayerLoading(JoinedViewer viewer, GameObject body)
+	{
+		while(TileManager.TilesToLoad > TileManager.TilesLoaded)
+		{
+			Logger.Log($"Loading tiles.. {TileManager.TilesToLoad} / {TileManager.TilesLoaded} loaded.");
+		}
+		CmdPlayerFinishedLoading(viewer, body);
+	}
+
+	[Command]
+	public static void CmdPlayerFinishedLoading(JoinedViewer viewer, GameObject body)
+	{
 		var ps = body.GetComponent<PlayerScript>();
 		var mind = ps.mind;
 		var occupation = mind.occupation;
